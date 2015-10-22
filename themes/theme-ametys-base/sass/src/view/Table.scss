@@ -60,7 +60,7 @@
         }        
         .#{$prefix}column-header-sort-ASC,
         .#{$prefix}column-header-sort-DESC {
-            @include background-gradient($active-color-light, $grid-header-sorted-background-gradient);
+            @include background-gradient(mix($active-color-light, $grid-header-background-color, 20%), $grid-header-sorted-background-gradient);
         }
         .#{$prefix}column-header.#{$prefix}column-header-focus {
             .#{$prefix}column-header-inner:after {

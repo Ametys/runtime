@@ -13,7 +13,9 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
-@import url('ChangePassword.css');
-@import url('Field.css');
-@import url('Richtext.css');
+ 
+Ext.define('Ametys.theme.ametysbase.grid.plugin.Multisort', {
+    override: 'Ametys.grid.plugin.Multisort',
+    
+    closeItemButtonWidth: 12
+});

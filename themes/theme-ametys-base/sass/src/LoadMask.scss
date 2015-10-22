@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-.a-mask-outofdate {
+.ametys-mask-unloading {
     border: 1px solid $base-color;
     
     .#{$prefix}mask-msg-text {
@@ -41,7 +41,7 @@
     $active-color-light: nth($ametys-tool-tab-colors-light, $i);
     
     .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-#{$index*10} {
-        .a-mask-outofdate
+        .ametys-mask-unloading
         {
             background-color: $active-color-light;
             border-color: $active-color;

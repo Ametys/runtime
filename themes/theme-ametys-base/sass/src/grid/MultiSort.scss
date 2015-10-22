@@ -1,0 +1,133 @@
+/*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+/**
+ * Toggle button
+ */
+.a-grid-multisort-toolbar-toggle-container {
+    position: absolute;
+    z-index: 1;
+    right: 0;
+}
+
+@for $i from 1 through length($ametys-tool-tab-colors) {
+    $index: $i - 1;
+
+    $active-color-dark: nth($ametys-tool-tab-colors-dark, $i);
+    $active-color: nth($ametys-tool-tab-colors, $i);
+    $active-color-light: nth($ametys-tool-tab-colors-light, $i);
+    
+    // We use a place older that will be extended (instead of directly call the include) 
+    // to avoid that the & operator goes before the parent selector
+    %ametys-grid-plugin-multisort-toggle-#{$i} {
+        @include extjs-button-small-ui(
+            $ui: 'ametys-grid-multisort-toggle',
+            
+            $padding: 0,
+            $icon-size: $ametys-grid-plugin-multisort-toggle-background-image-size,
+            
+            $border-width: $ametys-grid-plugin-multisort-toggle-border-width,
+            $border-color: $ametys-grid-plugin-multisort-toggle-border-color,
+            
+            $background-color: $ametys-grid-plugin-multisort-toggle-background-color,
+            $background-color-pressed: $active-color-light,
+            $background-color-over: $active-color-light
+        );
+    }
+        
+    .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-#{$index*10} {
+        @extend %ametys-grid-plugin-multisort-toggle-#{$i};
+    }
+}    
+
+.a-grid-multisort-toolbar-toggle-img {
+    background-image: theme-background-image($ametys-grid-plugin-multisort-toggle-background-image-untoggled);
+    
+    .#{$prefix}btn-pressed & {
+        background-image: theme-background-image($ametys-grid-plugin-multisort-toggle-background-image-toggled);
+    }
+}
+
+/**
+ * Toolbar
+ */
+@include extjs-toolbar-ui(
+    $ui: 'ametys-grid-multisort',
+    
+    $background-color: $ametys-grid-plugin-multisort-toolbar-background-color,
+    $border-color: $ametys-grid-plugin-multisort-toolbar-border-color
+);
+
+// ITEM
+.a-grid-multisort-toolbar-items-container {
+    border: 1px solid $ametys-grid-plugin-multisort-toolbar-item-border-color;
+    background-color: $ametys-grid-plugin-multisort-toolbar-item-background-color;
+    cursor: default;
+}
+
+// ITEM SORT BUTTON
+@include extjs-button-small-ui(
+    $ui: 'ametys-grid-multisort-toolbar-item-sort',
+    
+    $padding: 0,
+    $icon-size: $ametys-grid-plugin-multisort-toolbar-item-sort-background-image-size,
+    
+    $background-color: transparent,
+    $background-color-over: transparent !important,
+    $background-color-pressed: transparent !important,
+    $border-width: 0
+); 
+.a-grid-multisort-toolbar-item-sort-img {
+    background-image: theme-background-image($ametys-grid-plugin-multisort-toolbar-item-sort-background-image-asc);
+    background-position: 0 0;
+
+    .#{$prefix}btn-over & {
+        background-position: -$ametys-grid-plugin-multisort-toolbar-item-sort-background-image-size 0;
+    }
+    
+    .#{$prefix}btn-pressed & {
+        background-image: theme-background-image($ametys-grid-plugin-multisort-toolbar-item-sort-background-image-desc);
+    }
+}
+
+// ITEM TEXT
+
+// ITEM REMOVE BUTTON
+@include extjs-button-small-ui(
+    $ui: 'ametys-grid-multisort-toolbar-item-remove',
+    
+    $padding: 0,
+    $icon-size: $ametys-grid-plugin-multisort-toolbar-item-close-background-image-size,
+    
+    $background-color: transparent,
+    $background-color-over: transparent !important,
+    $background-color-pressed: transparent !important,
+    $border-width: 0
+);            
+
+.a-grid-multisort-toolbar-item-remove-img {
+    background-image: theme-background-image($ametys-grid-plugin-multisort-toolbar-item-close-background-image);
+    background-position: 0 0;
+    
+    .#{$prefix}btn-pressed & {
+        background-position: -2*$ametys-grid-plugin-multisort-toolbar-item-close-background-image-size 0;
+    }
+    .#{$prefix}btn-over & {
+        background-position: -$ametys-grid-plugin-multisort-toolbar-item-close-background-image-size 0;
+    }
+}
+
+

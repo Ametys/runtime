@@ -38,8 +38,7 @@ $ametys-color-error: dynamic(#FFFFFF);
 $ametys-background-color-error: dynamic(#CC0000);
 $ametys-color-hint: dynamic(#404040);
 $ametys-background-color-hint: dynamic(#fcf0c0);
-
-/* 
+/*
 $ametys-rainbow:         dynamic(#C1C1C1 #C1C1C1 #C1C1C1 #C1C1C1 #C1C1C1 #C1C1C1 #C1C1C1);
 $ametys-rainbow-light:   dynamic(#E1E1E1 #E1E1E1 #E1E1E1 #E1E1E1 #E1E1E1 #E1E1E1 #E1E1E1);
 $ametys-rainbow-dark:    dynamic(#A1A1A1 #A1A1A1 #A1A1A1 #A1A1A1 #A1A1A1 #A1A1A1 #A1A1A1);
@@ -142,6 +141,8 @@ $ametys-form-field-warning-background-image-height: 16px;
 
 @import 'tools/messagetracker';
 @import 'tools/requesttracker';
+
+@import 'grid/MultiSort';
 
 @import 'window/ErrorDialog';
 @import 'window/TimeoutDialog';

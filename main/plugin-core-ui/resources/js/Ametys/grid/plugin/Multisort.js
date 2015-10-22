@@ -47,6 +47,12 @@ Ext.define('Ametys.grid.plugin.Multisort',
    	 * @private
    	 * @property {Ext.button.Button} _toggleButton The toggle button displayed in the columns header
    	 */
+    
+    /**
+     * @private
+     * @property {Number} closeItemButtonWidth The width used by buttons to close items
+     */
+    closeItemButtonWidth: null,
            	
     setCmp: function(gridConfig) 
     {
@@ -209,11 +215,13 @@ Ext.define('Ametys.grid.plugin.Multisort',
         });
         
         // add the toolbar with the 2 plugins
-        gridConfig.dockedItems = gridConfig.dockedItems == null ? [] : (Ext.isArray(gridConfig.dockedItems) ? gridConfig.dockedItems : [gridConfig.dockedItems]);
+        gridConfig.dockedItems = Ext.Array.from(gridConfig.dockedItems);
         gridConfig.dockedItems.push({
-        	cls: 'multisort-toolbar',
+        	ui: 'ametys-grid-multisort',
         	xtype: 'toolbar',
+            itemId: 'grid-multisort',
         	hidden: true,
+            border: gridConfig.border,
         	items  : [
 	            {
 	                xtype: 'tbtext',
@@ -246,58 +254,46 @@ Ext.define('Ametys.grid.plugin.Multisort',
         		scope: this,
         		single: true,
         		fn: function(grid, eOpts) {
-        			var cmpId = grid.headerCt.getId()+'-'+Ext.id();
+        			var cmpId = grid.headerCt.getId() + '-' + Ext.id();
 
-        			grid.syncHorizontalScroll = Ext.Function.createInterceptor(grid.syncHorizontalScroll, function(target, setBody) {
-        				var me = this,
-        					left = target.scrollLeft;
-        	            
-        				setBody = setBody === true;
-	        	        // so that we don't set this on vertical scrolls
-        				if (me.rendered && (setBody || left !== me.scrollLeft)) 
-	        	        {
-	        	            // Only set the body position if we're reacting to a refresh, otherwise
-	        	            // we just need to set the header.
-	        	            Ext.get(cmpId).dom.style.right = -left + "px";
-	        	        }
-        			}, grid);
+                    function onScrollMove(x, y) 
+                    {
+                        if (this.rendered) 
+                        {
+                            Ext.get(cmpId).dom.style.right = -x + "px";
+                        }
+                    }
+        			grid.view.onScrollMove = grid.view.onScrollMove ? Ext.Function.createInterceptor(grid.view.onScrollMove, onScrollMove, grid) : onScrollMove;
         			
         			grid.headerCt.getEl().insertFirst({
-        												id: cmpId,
-        											    tag: 'div', 
-        												cls: "tbar-btn-hide-show-container"
-													  });
+					   id: cmpId,
+				       tag: 'div', 
+					   cls: "a-grid-multisort-toolbar-toggle-container"
+				    });
         		
         			this._toggleButton = new Ext.button.Button({
         				renderTo: cmpId,
+                        
+                        iconCls: "a-grid-multisort-toolbar-toggle-img",
         				tooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_MULTISORT_SHOW_TOOLBAR_BUTTON_TOOLTIP'/>",
-	        			cls: 'tbar-btn-hide-show',
-        				handler: function(btn) {
-							var tbar = me.getCmp().getDockedItems('toolbar[dock="top"]')[0];
-							tbar.setVisible(!tbar.isVisible());
-							
-							if (tbar.isVisible())
-							{
-								btn.addCls ('hide');
-								btn.removeCls ('show');
-								this.setTooltip("<i18n:text i18n:key='PLUGINS_CORE_UI_MULTISORT_HIDE_TOOLBAR_BUTTON_TOOLTIP'/>");
-							}
-							else
-							{
-								btn.addCls ('show');
-								btn.removeCls ('hide');
-								this.setTooltip("<i18n:text i18n:key='PLUGINS_CORE_UI_MULTISORT_SHOW_TOOLBAR_BUTTON_TOOLTIP'/>");
-							}
+                        
+	        			ui: 'ametys-grid-multisort-toggle',
+                        
+                        width: '100%',
+                        height: '100%',
+                        
+                        enableToggle: true,
+        				toggleHandler: function(btn, state) {
+							me.getCmp().getDockedItems('toolbar[dock="top"]')[0].setVisible(state);
+    						btn.setTooltip(state ? "<i18n:text i18n:key='PLUGINS_CORE_UI_MULTISORT_HIDE_TOOLBAR_BUTTON_TOOLTIP'/>" : "<i18n:text i18n:key='PLUGINS_CORE_UI_MULTISORT_SHOW_TOOLBAR_BUTTON_TOOLTIP'/>");
 	        			}
         			});
 
         			// on resize event to get the proper height of the header container
     				grid.headerCt.on('resize', function(headerContainer) 
 					{
-    					Ext.get(cmpId).setHeight(headerContainer.getHeight());
+    					Ext.get(cmpId).setHeight(headerContainer.el.getHeight(true));
 					    Ext.get(cmpId).setWidth(Ext.getScrollbarSize().width);
-				    }, {
-				    	single: true
 				    });
     				
     				// initialize the multisort toolbar
@@ -354,30 +350,39 @@ Ext.define('Ametys.grid.plugin.Multisort',
         	config = config || {};
     	
         var deleteButtonConfig = ({
+    		xtype: 'button',
+            ui: 'ametys-grid-multisort-toolbar-item-remove',
+            iconCls: 'a-grid-multisort-toolbar-item-remove-img',
+            width: this.closeItemButtonWidth,
+            
         	listeners: {
         		click: function(button, e) {
         			me.destroyContainer(containerId);
         		}
-        	},
-        	cls: 'button-delete',
-    		xtype: 'button'
+        	}
+
         });
         
         var sortButtonConfig = ({
+            xtype: 'button',
+            ui: 'ametys-grid-multisort-toolbar-item-sort',
+            iconCls: 'a-grid-multisort-toolbar-item-sort-img',
+            enableToggle: true,
+            
+            reorderable: true,
+            sortData: config.sortData,
+            pressed: config && config.sortData && config.sortData.direction == "DESC",
+            
             listeners: {
                 click: function(button, e) {
                     me.changeSortDirection(button, false);
                 }
-            },
-            sortData: config.sortData,
-            cls: 'button-sort-' + config.sortData.direction.toLowerCase(),
-            reorderable: true,
-            xtype: 'button'
+            }
         });
         
         var textConfig = Ext.create('Ext.Component', {
         	html : config.text,
-        	cls: 'toolbar-item-text'
+        	cls: 'a-grid-multisort-toolbar-item-text'
         });
 
         return new Ext.container.Container({
@@ -388,7 +393,7 @@ Ext.define('Ametys.grid.plugin.Multisort',
     	        		right: 3
     	        	}
         	    },
-        	    cls: 'toolbar-item-container',
+        	    cls: 'a-grid-multisort-toolbar-items-container',
         	    items: [sortButtonConfig, textConfig, deleteButtonConfig]
         	});
     },
@@ -414,16 +419,7 @@ Ext.define('Ametys.grid.plugin.Multisort',
         		sortData.direction = Ext.String.toggle(sortData.direction, "ASC", "DESC");
     		}
         		
-        	if (!changePrimaryCriteria && button.hasCls('button-sort-asc'))
-        	{
-            	button.removeCls('button-sort-asc');
-            	button.addCls('button-sort-desc');
-        	}
-            else
-        	{
-            	button.removeCls('button-sort-desc');
-            	button.addCls('button-sort-asc');
-        	}
+            button.toggle(sortData.direction != "ASC");
         	
     	    this.getCmp().getStore().clearFilter();
     	    
