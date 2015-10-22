@@ -633,6 +633,8 @@
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_MESSAGETRACKER_DESCRIPTION">Tool able to monitor bus messages</message>
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_LOGGER_LABEL">Logs</message>
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_LOGGER_DESCRIPTION">Tool able to monitor application logs</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_SOURCEEDIT_LABEL">Edit source code</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_SOURCEEDIT_DESCRIPTION">Edit HTML source code in Ametys inline editor</message>
            
     <!--+
         | MESSAGES TRACKER
@@ -737,6 +739,12 @@
     <message key="PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_CATEGORY">Category</message>
     <message key="PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_MESSAGE">Message</message>
     <message key="PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_DETAILS">Details</message>
+    
+    <!--+
+         | SOURCE EDIT
+         + -->
+    <message key="PLUGINS_CORE_UI_EDITION_SOURCEEDIT_LABEL">Edit source code</message>
+    <message key="PLUGINS_CORE_UI_EDITION_SOURCEEDIT_DESCRIPTION">Edit HTML source code of rich editble areas</message>
     
     <!-- +
 		 | HELP

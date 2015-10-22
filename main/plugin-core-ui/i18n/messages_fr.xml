@@ -633,6 +633,8 @@
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_MESSAGETRACKER_DESCRIPTION">Accès à l'outil du suivi des messages du bus</message>
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_LOGGER_LABEL">Journaux</message>
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_LOGGER_DESCRIPTION">Accès à l'outil d'affichage des journaux de l'application</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_SOURCEEDIT_LABEL">Modifier le code source</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_SOURCEEDIT_DESCRIPTION">Modifier le code source HTML du contenu</message>
     
    <!--+
        | MESSAGES TRACKER
@@ -737,6 +739,12 @@
     <message key="PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_CATEGORY">Catégorie</message>
     <message key="PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_MESSAGE">Message</message>
     <message key="PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_DETAILS">Détails</message>
+    
+    <!--+
+         | SOURCE EDIT
+         + -->
+    <message key="PLUGINS_CORE_UI_EDITION_SOURCEEDIT_LABEL">Modifier le code source</message>
+    <message key="PLUGINS_CORE_UI_EDITION_SOURCEEDIT_DESCRIPTION">Ce bouton permet de modifier le code source d'un éditeur en ligne riche</message>
     
     <!-- +
 		 | HELP
