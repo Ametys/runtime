@@ -802,6 +802,205 @@
         </extensions>
     </feature> 
     
+    <!-- +  
+         |  LOG    
+         + -->     
+    <feature name="userinterface.log">
+        <extensions>
+        	<extension point="org.ametys.core.right.RightsExtensionPoint"
+                       id="core.dev.rights.log">
+                <right id="CORE_Rights_Logger">
+                    <label>PLUGINS_CORE_RIGHT_RIGHTS_DEV_LOGGER_LABEL</label>
+                    <description>PLUGINS_CORE_RIGHT_RIGHTS_DEV_LOGGER_DESCRIPTION</description>
+                    <category>PLUGINS_CORE_RIGHTS_DEV_CATEGORY</category>
+                </right>
+            </extension>
+            <extension id="org.ametys.runtime.userinterface.LogControlMenu"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.SimpleMenu">
+                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController"/>
+                <menu-items>
+                    <item ref="org.ametys.runtime.userinterface.LogControl" primaryItem="true"/>
+                    <item ref="org.ametys.runtime.userinterface.LogControl.toDebug"/>
+                    <item ref="org.ametys.runtime.userinterface.LogControl.toInfo"/>
+                    <item ref="org.ametys.runtime.userinterface.LogControl.toWarn"/>
+                    <item ref="org.ametys.runtime.userinterface.LogControl.toError"/>
+                    <item ref="org.ametys.runtime.userinterface.LogControl.clear"/>
+                </menu-items>
+                <right context-prefix="/contributor">CORE_Rights_Logger</right>
+            </extension>
+            <extension id="org.ametys.runtime.userinterface.LogControl"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
+                    <opentool-role>uitool-log</opentool-role>
+                    
+                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_DESCRIPTION</description>
+                    <help>org.ametys.runtime.log.control</help>      
+                    
+                    <icon-small file="true">img/logs/logs_16.png</icon-small>
+                    <icon-medium file="true">img/logs/logs_32.png</icon-medium>
+                    <icon-large file="true">img/logs/logs_48.png</icon-large>
+                </class>   
+                <right context-prefix="/contributor">CORE_Rights_Logger</right>
+            </extension>
+            <extension id="org.ametys.runtime.userinterface.LogControl.clear"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.coreui.system.log.LogTool.removeAll</action>
+
+                    <tool-role>uitool-log</tool-role>
+                    <tool-enable-on-status>active</tool-enable-on-status>
+                    <tool-description-inactive i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_CLEAR_DESCRIPTION2</tool-description-inactive>
+
+                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_CLEAR_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_CLEAR_DESCRIPTION</description>
+                    <description-footer i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_CLEAR_FOOTER</description-footer>
+                    <icon-small file="true">img/logs/remove_16.png</icon-small>
+                    <icon-medium file="true">img/logs/remove_32.png</icon-medium>
+                    <icon-large file="true">img/logs/remove_48.png</icon-large>
+                </class>                       
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/system/log/LogTool.js</file>
+                </scripts>
+                <right context-prefix="/contributor">CORE_Rights_Logger</right>
+            </extension>
+            <extension id="org.ametys.runtime.userinterface.LogControl.toDebug"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.coreui.system.log.LogTool.setRootLogLevel</action>
+                    <initialize>Ametys.plugins.coreui.system.log.LogTool.getRootLogLevel</initialize>
+
+                    <log-level>0</log-level>
+                    <toggle-enabled>true</toggle-enabled>
+                    <untoggle>org.ametys.runtime.userinterface.LogControl.toInfo,org.ametys.runtime.userinterface.LogControl.toWarn,org.ametys.runtime.userinterface.LogControl.toError</untoggle>
+                    
+                    <tool-role>uitool-log</tool-role>
+                    <tool-enable-on-status>active</tool-enable-on-status>
+                    <tool-description-inactive i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETDEBUG_DESCRIPTION2</tool-description-inactive>
+
+                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETDEBUG_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETDEBUG_DESCRIPTION</description>
+                    <description-footer i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETDEBUG_FOOTER</description-footer>
+                    <icon-small file="true">img/logs/level_debug_16.png</icon-small>
+                    <icon-medium file="true">img/logs/level_debug_32.png</icon-medium>
+                    <icon-large file="true">img/logs/level_debug_48.png</icon-large>
+                </class>                       
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/system/log/LogTool.js</file>
+                </scripts>
+                <right context-prefix="/contributor">CORE_Rights_Logger</right>
+            </extension>
+            <extension id="org.ametys.runtime.userinterface.LogControl.toInfo"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.coreui.system.log.LogTool.setRootLogLevel</action>
+                    <initialize>Ametys.plugins.coreui.system.log.LogTool.getRootLogLevel</initialize>
+
+                    <log-level>1</log-level>
+                    <toggle-enabled>true</toggle-enabled>
+                    <untoggle>org.ametys.runtime.userinterface.LogControl.toDebug,org.ametys.runtime.userinterface.LogControl.toWarn,org.ametys.runtime.userinterface.LogControl.toError</untoggle>
+
+                    <tool-role>uitool-log</tool-role>
+                    <tool-enable-on-status>active</tool-enable-on-status>
+                    <tool-description-inactive i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETINFO_DESCRIPTION2</tool-description-inactive>
+
+                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETINFO_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETINFO_DESCRIPTION</description>
+                    <description-footer i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETINFO_FOOTER</description-footer>
+                    <icon-small file="true">img/logs/level_info_16.png</icon-small>
+                    <icon-medium file="true">img/logs/level_info_32.png</icon-medium>
+                    <icon-large file="true">img/logs/level_info_48.png</icon-large>
+                </class>                       
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/system/log/LogTool.js</file>
+                </scripts>
+                <right context-prefix="/contributor">CORE_Rights_Logger</right>
+            </extension>
+            <extension id="org.ametys.runtime.userinterface.LogControl.toWarn"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.coreui.system.log.LogTool.setRootLogLevel</action>
+                    <initialize>Ametys.plugins.coreui.system.log.LogTool.getRootLogLevel</initialize>
+
+                    <log-level>2</log-level>
+                    <toggle-enabled>true</toggle-enabled>
+                    <untoggle>org.ametys.runtime.userinterface.LogControl.toDebug,org.ametys.runtime.userinterface.LogControl.toInfo,org.ametys.runtime.userinterface.LogControl.toError</untoggle>
+
+                    <tool-role>uitool-log</tool-role>
+                    <tool-enable-on-status>active</tool-enable-on-status>
+                    <tool-description-inactive i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETWARN_DESCRIPTION2</tool-description-inactive>
+
+                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETWARN_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETWARN_DESCRIPTION</description>
+                    <description-footer i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETWARN_FOOTER</description-footer>
+                    <icon-small file="true">img/logs/level_warn_16.png</icon-small>
+                    <icon-medium file="true">img/logs/level_warn_32.png</icon-medium>
+                    <icon-large file="true">img/logs/level_warn_48.png</icon-large>
+                </class>                       
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/system/log/LogTool.js</file>
+                </scripts>
+                <right context-prefix="/contributor">CORE_Rights_Logger</right>
+            </extension>
+            <extension id="org.ametys.runtime.userinterface.LogControl.toError"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.coreui.system.log.LogTool.setRootLogLevel</action>
+                    <initialize>Ametys.plugins.coreui.system.log.LogTool.getRootLogLevel</initialize>
+
+                    <log-level>3</log-level>
+                    <toggle-enabled>true</toggle-enabled>
+                    <untoggle>org.ametys.runtime.userinterface.LogControl.toDebug,org.ametys.runtime.userinterface.LogControl.toInfo,org.ametys.runtime.userinterface.LogControl.toWarn</untoggle>
+
+                    <tool-role>uitool-log</tool-role>
+                    <tool-enable-on-status>active</tool-enable-on-status>
+                    <tool-description-inactive i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETERROR_DESCRIPTION2</tool-description-inactive>
+
+                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETERROR_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETERROR_DESCRIPTION</description>
+                    <description-footer i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETERROR_FOOTER</description-footer>
+                    <icon-small file="true">img/logs/level_error_16.png</icon-small>
+                    <icon-medium file="true">img/logs/level_error_32.png</icon-medium>
+                    <icon-large file="true">img/logs/level_error_48.png</icon-large>
+                </class>                       
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/system/log/LogTool.js</file>
+                </scripts>
+                <right context-prefix="/contributor">CORE_Rights_Logger</right>
+            </extension>
+            <extension id="org.ametys.runtime.userinterface.LogFactory"
+                       point="org.ametys.core.ui.UIToolsFactoriesManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.tool.factory.UniqueToolFactory">
+                    <role>uitool-log</role>
+                    <toolClass>Ametys.plugins.coreui.system.log.LogTool</toolClass>
+                    
+                    <title i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_LABEL</title>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_DESCRIPTION</description>
+                    <description-footer i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_FOOTER</description-footer>
+                    <icon-small file="true">img/logs/logs_16.png</icon-small>
+                    <icon-medium file="true">img/logs/logs_32.png</icon-medium>
+                    <icon-large file="true">img/logs/logs_48.png</icon-large>
+                    
+                    <default-location>b</default-location>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/system/log/LogTool.js</file>
+                </scripts>
+                <css>
+                    <file>css/log.css</file>
+                </css>
+            </extension>
+        </extensions>
+    </feature>
+    
     <feature name="staticimports.navhistory">
         <extensions>
             <extension id="org.ametys.navhistory.HistoryDAO"

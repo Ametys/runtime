@@ -631,6 +631,8 @@
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_REQUESTTRACKER_DESCRIPTION">Accès à l'outil du suivi des requêtes serveurs</message>
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_MESSAGETRACKER_LABEL">Message du bus</message>
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_MESSAGETRACKER_DESCRIPTION">Accès à l'outil du suivi des messages du bus</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_LOGGER_LABEL">Journaux</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_LOGGER_DESCRIPTION">Accès à l'outil d'affichage des journaux de l'application</message>
     
    <!--+
        | MESSAGES TRACKER
@@ -697,6 +699,44 @@
     <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_URL">Url</message>
     <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_PARAMETERS">Paramètres</message>
     <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_RESPONSE">Réponse</message>
+    
+    <!--+
+         | LOG
+         + -->
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_LABEL">Journaux applicatif</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_DESCRIPTION">Voir les journaux applicatif affichant les événements</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_FOOTER">Voir l'aide pour plus de détails</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_CLEAR_LABEL">Effacer les événements affichés</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_CLEAR_DESCRIPTION">Cliquez sur ce bouton pour effacer les événements du journal actuellement visible dans la vue de suivi.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_CLEAR_DESCRIPTION2">Ce bouton est désactivé car la fenêtre du journal des événements n'est actuellement pas ouverte</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_CLEAR_FOOTER">Voir l'aide pour plus de détails</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETDEBUG_LABEL">Tracer les événements 'debug'</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETDEBUG_DESCRIPTION">Cliquez sur ce bouton pour tracer les événements de debogage à partir de maintenant.&lt;br/&gt;&lt;br/&gt;Attention, les traces 'debug' sont très nombreuses.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETDEBUG_DESCRIPTION2">Ce bouton est désactivé car la fenêtre du journal des événements n'est actuellement pas ouverte</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETDEBUG_FOOTER">Voir l'aide pour plus de détails</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETINFO_LABEL">Tracer les événements 'info'</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETINFO_DESCRIPTION">Cliquez sur ce bouton pour tracer les événements d'information à partir de maintenant.&lt;br/&gt;&lt;br/&gt;Attention, les traces 'info' sont nombreuses.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETINFO_DESCRIPTION2">Ce bouton est désactivé car la fenêtre du journal des événements n'est actuellement pas ouverte</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETINFO_FOOTER">Voir l'aide pour plus de détails</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETWARN_LABEL">Tracer les événements 'warn'</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETWARN_DESCRIPTION">Cliquez sur ce bouton pour tracer les événements d'avertissements à partir de maintenant.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETWARN_DESCRIPTION2">Ce bouton est désactivé car la fenêtre du journal des événements n'est actuellement pas ouverte</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETWARN_FOOTER">Voir l'aide pour plus de détails</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETERROR_LABEL">Tracer les événements 'error'</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETERROR_DESCRIPTION">Cliquez sur ce bouton pour tracer les événements d'erreurs à partir de maintenant.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETERROR_DESCRIPTION2">Ce bouton est désactivé car la fenêtre du journal des événements n'est actuellement pas ouverte</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETERROR_FOOTER">Voir l'aide pour plus de détails</message>
+
+    <message key="PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_DATE">Date</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_LEVEL">Niveau</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_LEVEL_0">Debug</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_LEVEL_1">Info</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_LEVEL_2">Warn</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_LEVEL_3">Error</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_LEVEL_4">Fatal</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_CATEGORY">Catégorie</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_MESSAGE">Message</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_DETAILS">Détails</message>
     
     <!-- +
 		 | HELP

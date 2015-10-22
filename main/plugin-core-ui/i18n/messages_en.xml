@@ -631,6 +631,8 @@
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_REQUESTTRACKER_DESCRIPTION">Tool able to monitor server requests</message>
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_MESSAGETRACKER_LABEL">Bus messages</message>
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_MESSAGETRACKER_DESCRIPTION">Tool able to monitor bus messages</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_LOGGER_LABEL">Logs</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_LOGGER_DESCRIPTION">Tool able to monitor application logs</message>
            
     <!--+
         | MESSAGES TRACKER
@@ -697,6 +699,44 @@
     <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_URL">Url</message>
     <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_PARAMETERS">Parameters</message>
     <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_RESPONSE">Response</message>
+    
+    <!--+
+         | LOG
+         + -->
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_LABEL">Application logs</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_DESCRIPTION">See the application logs displaying technical events</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_FOOTER">See help for details</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_CLEAR_LABEL">Clear events</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_CLEAR_DESCRIPTION">Click here to clear events in the log view.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_CLEAR_DESCRIPTION2">This button is inactive because the log view is not opened</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_CLEAR_FOOTER">See help for details</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETDEBUG_LABEL">Logs 'debug' events</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETDEBUG_DESCRIPTION">Click here to log 'debug' events by now.&lt;br/&gt;&lt;br/&gt;Beware that 'debug' traces are really heavy.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETDEBUG_DESCRIPTION2">This button is inactive because the log view is not opened</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETDEBUG_FOOTER">See help for details</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETINFO_LABEL">Logs 'info' events</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETINFO_DESCRIPTION">Click here to log 'info' events by now.&lt;br/&gt;&lt;br/&gt;Beware that 'info' traces are heavy.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETINFO_DESCRIPTION2">This button is inactive because the log view is not opened</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETINFO_FOOTER">See help for details</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETWARN_LABEL">Logs 'warn' events</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETWARN_DESCRIPTION">Click here to log 'warn' events by now.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETWARN_DESCRIPTION2">This button is inactive because the log view is not opened</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETWARN_FOOTER">See help for details</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETERROR_LABEL">Logs 'error' events</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETERROR_DESCRIPTION">Click here to log 'error' events by now.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETERROR_DESCRIPTION2">This button is inactive because the log view is not opened</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOG_SETERROR_FOOTER">See help for details</message>
+
+    <message key="PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_DATE">Date</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_LEVEL">Level</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_LEVEL_0">Debug</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_LEVEL_1">Info</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_LEVEL_2">Warn</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_LEVEL_3">Error</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_LEVEL_4">Fatal</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_CATEGORY">Category</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_MESSAGE">Message</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_DETAILS">Details</message>
     
     <!-- +
 		 | HELP
