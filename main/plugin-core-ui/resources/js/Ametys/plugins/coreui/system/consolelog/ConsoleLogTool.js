@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Anyware Services
+ *  Copyright 2015 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
  * This tool does display the logs of Ametys.log.Logger.
  * @private
  */
-Ext.define("Ametys.plugins.coreui.system.log.LogTool",
+Ext.define("Ametys.plugins.coreui.system.consolelog.ConsoleLogTool",
 	{
 		extend: "Ametys.tool.Tool",
 		
@@ -60,26 +60,6 @@ Ext.define("Ametys.plugins.coreui.system.log.LogTool",
 			},
 			
 			/**
-			 * Renderer for the level column
-			 * @param {Number} value The level
-			 * @param {Object} metadata A collection of metadata about the current cell; can be used or modified by the renderer. Recognized properties are: tdCls, tdAttr, and style
-			 * @private
-			 */
-			levelRenderer: function(value, metadata)
-			{
-				metadata.tdCls = "error-level-icon error-level-" + value;
-				switch (value)
-				{
-					case Ametys.log.Logger.Entry.LEVEL_DEBUG: return "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_LEVEL_0'/>";
-					case Ametys.log.Logger.Entry.LEVEL_INFO: return "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_LEVEL_1'/>";
-					case Ametys.log.Logger.Entry.LEVEL_WARN: return "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_LEVEL_2'/>";
-					case Ametys.log.Logger.Entry.LEVEL_ERROR: return "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_LEVEL_3'/>";
-					default:
-					case Ametys.log.Logger.Entry.LEVEL_FATAL: return "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_LEVEL_4'/>";
-				}
-			},
-			
-			/**
 			 * Renderer for the other columns
 			 * @param {Number} value The level
 			 * @param {Object} metadata A collection of metadata about the current cell; can be used or modified by the renderer. Recognized properties are: tdCls, tdAttr, and style
@@ -88,7 +68,7 @@ Ext.define("Ametys.plugins.coreui.system.log.LogTool",
 			 */
 			allRenderer: function(value, metadata, record)
 			{
-				metadata.tdCls = "error-level-" + record.get('level');
+				metadata.tdCls = "msg-level-" + record.get('level');
 				return value;
 			},	
 			
@@ -106,11 +86,33 @@ Ext.define("Ametys.plugins.coreui.system.log.LogTool",
 			 */
 			dateRenderer: function(value, metadata, record)
 			{
-				metadata.tdCls = "error-level-" + record.get('level');
-				return Ametys.plugins.coreui.system.log.LogTool._dateRenderer.apply(Ametys.plugins.coreui.system.log.LogTool, arguments);
+				metadata.tdCls = "msg-level-" + record.get('level');
+				return Ametys.plugins.coreui.system.consolelog.ConsoleLogTool._dateRenderer.apply(Ametys.plugins.coreui.system.consolelog.ConsoleLogTool, arguments);
 			}		
 		},
 		
+        /**
+         * Renderer for the level column
+         * @param {Number} value The level
+         * @param {Object} metadata A collection of metadata about the current cell; can be used or modified by the renderer. Recognized properties are: tdCls, tdAttr, and style
+         * @private
+         */
+        levelRenderer: function(value, metadata)
+        {
+            var imgSrc = Ametys.CONTEXT_PATH + this.getInitialConfig("icon-level-" + value);
+            
+            metadata.tdCls = "msg-level-" + value;
+            switch (value)
+            {
+                case Ametys.log.Logger.Entry.LEVEL_DEBUG: return "<img src=\"" + imgSrc + "\"/><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_LEVEL_0'/>";
+                case Ametys.log.Logger.Entry.LEVEL_INFO: return "<img src=\"" + imgSrc + "\"/><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_LEVEL_1'/>";
+                case Ametys.log.Logger.Entry.LEVEL_WARN: return "<img src=\"" + imgSrc + "\"/><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_LEVEL_2'/>";
+                case Ametys.log.Logger.Entry.LEVEL_ERROR: return "<img src=\"" + imgSrc + "\"/><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_LEVEL_3'/>";
+                default:
+                case Ametys.log.Logger.Entry.LEVEL_FATAL: return "<img src=\"" + imgSrc + "\"/><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_LEVEL_4'/>";
+            }
+        },
+            
 		/**
 		 * @property {Ext.grid.Panel} grid The grid panel displaying the logs
 		 * @private
@@ -123,39 +125,19 @@ Ext.define("Ametys.plugins.coreui.system.log.LogTool",
 				stateId: this.self.getName() + "$grid",
 				store: Ametys.log.LoggerFactory.getStore(),
 				autoScroll: true,
-				cls: 'log-tool',
+				cls: 'uitool-consolelog',
 			    columns: [
-			        {stateId: 'grid-date', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_DATE'/>", width: 120, sortable: true, renderer: Ametys.plugins.coreui.system.log.LogTool.dateRenderer, dataIndex: 'date'},
-			        {stateId: 'grid-level', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_LEVEL'/>", width: 60, sortable: true, renderer: Ametys.plugins.coreui.system.log.LogTool.levelRenderer, dataIndex: 'level', hideable: false},
-			        {stateId: 'grid-category', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_CATEGORY'/>", width: 200, sortable: true, renderer: Ametys.plugins.coreui.system.log.LogTool.allRenderer, dataIndex: 'category'},
-			        {stateId: 'grid-message', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_MESSAGE'/>", flex: 0.5, sortable: true, renderer: Ametys.plugins.coreui.system.log.LogTool.allRenderer, dataIndex: 'message', hideable: false},
-			        {stateId: 'grid-details', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_LOGTOOL_COL_DETAILS'/>", flex: 1, sortable: true, renderer: Ametys.plugins.coreui.system.log.LogTool.allRenderer, dataIndex: 'details'}
+			        {stateId: 'grid-date', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_DATE'/>", width: 120, sortable: true, renderer: Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.dateRenderer, dataIndex: 'date'},
+			        {stateId: 'grid-level', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_LEVEL'/>", width: 80, sortable: true, renderer: Ext.bind(this.levelRenderer, this), dataIndex: 'level', hideable: false},
+			        {stateId: 'grid-category', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_CATEGORY'/>", width: 200, sortable: true, renderer: Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.allRenderer, dataIndex: 'category'},
+			        {stateId: 'grid-message', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_MESSAGE'/>", flex: 0.5, sortable: true, renderer: Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.allRenderer, dataIndex: 'message', hideable: false},
+			        {stateId: 'grid-details', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_DETAILS'/>", flex: 1, sortable: true, renderer: Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.allRenderer, dataIndex: 'details'}
 			    ]
 			});
 
 			return this.grid;
 		},
 		
-		setParams: function(params)
-		{
-		    var role = this.getFactory().getRole();
-		    var toolParams = this.getParams();
-		    
-	    	// Register the tool on the history tool
-		    Ametys.navhistory.HistoryDAO.addEntry({
-		        id: this.getId(),
-		        label: this.getTitle(),
-		        description: this.getDescription(),
-		        iconSmall: this.getSmallIcon(),
-		        iconMedium: this.getMediumIcon(),
-		        iconLarge: this.getLargeIcon(),
-		        type: Ametys.navhistory.HistoryDAO.TOOL_TYPE,
-		        action: Ext.bind(Ametys.tool.ToolsManager.openTool, Ametys.tool.ToolsManager, [role, toolParams], false)
-		    });
-		    
-		    this.callParent(arguments);
-		},
-
 		getMBSelectionInteraction: function() 
 		{
 		    return Ametys.tool.Tool.MB_TYPE_NOSELECTION;

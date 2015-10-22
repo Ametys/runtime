@@ -14,28 +14,16 @@
  *  limitations under the License.
  */
 
-@import 'fluent/Ribbon';
-@import 'fluent/TabPanel';
-@import 'fluent/Panel';
-@import 'fluent/Toast';
-@import 'fluent/Button';
-@import 'fluent/Toolbar';
-@import 'fluent/Field';
-@import 'fluent/MenuPanel';
-
-@import 'misc/Badge';
-@import 'misc/JSON';
-
-@import 'tool/Layout';
-@import 'tool/Misc';
-@import 'tool/ZonedTabsDD';
-
-@import 'tools/consolelogs';
-@import 'tools/messagetracker';
-@import 'tools/requesttracker';
-
-@import 'grid/MultiSort';
-
-@import 'form/field/Code';
-
-@import 'window/ErrorDialog';
+.uitool-consolelog {
+    .msg-level-0 { color: $ametys-tools-consolelogs-level-0-color; }
+    .msg-level-1 { color: $ametys-tools-consolelogs-level-1-color; }
+    .msg-level-2 { color: $ametys-tools-consolelogs-level-2-color; }
+    .msg-level-3 { color: $ametys-tools-consolelogs-level-3-color; }
+    .msg-level-4 { color: $ametys-tools-consolelogs-level-4-color; }
+    
+    .#{$prefix}grid-cell img {
+        margin-right: $font-size / 3;
+        vertical-align: middle;
+    }
+}
+ 

@@ -661,9 +661,9 @@
                     <default-description i18n="true">PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_DESCRIPTION</default-description>
                     <help>org.ametys.runtime.requesttracker</help>
                     
-                    <icon-small file="true">img/requests/requests_16.png</icon-small>
-                    <icon-medium file="true">img/requests/requests_32.png</icon-medium>
-                    <icon-large file="true">img/requests/requests_48.png</icon-large>
+                    <icon-small file="true">img/uitool-requeststracker/requests_16.png</icon-small>
+                    <icon-medium file="true">img/uitool-requeststracker/requests_32.png</icon-medium>
+                    <icon-large file="true">img/uitool-requeststracker/requests_48.png</icon-large>
                 </class> 
                 <right context-prefix="/contributor">CORE_Rights_RequestTracker</right>                  
             </extension>
@@ -680,9 +680,9 @@
                     <label i18n="true">PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_CLEAR_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_CLEAR_DESCRIPTION</description>
                     <description-footer i18n="true">PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_CLEAR_FOOTER</description-footer>
-                    <icon-small file="true">img/requests/delete_16.gif</icon-small>
-                    <icon-medium file="true">img/requests/delete_16.gif</icon-medium>
-                    <icon-large file="true">img/requests/delete_16.gif</icon-large>
+                    <icon-small file="true">img/uitool-requeststracker/delete_16.gif</icon-small>
+                    <icon-medium file="true">img/uitool-requeststracker/delete_16.gif</icon-medium>
+                    <icon-large file="true">img/uitool-requeststracker/delete_16.gif</icon-large>
                 </class>
                 <scripts>
                     <file>js/Ametys/plugins/coreui/system/requesttracker/RequestTrackerTool.js</file>
@@ -701,9 +701,9 @@
                     <title i18n="true">PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_LABEL</title>
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_DESCRIPTION</description>
                     <help>org.ametys.runtime.requesttracker</help>
-                    <icon-small file="true">img/requests/requests_16.png</icon-small>
-                    <icon-medium file="true">img/requests/requests_32.png</icon-medium>
-                    <icon-large file="true">img/requests/requests_48.png</icon-large>
+                    <icon-small file="true">img/uitool-requeststracker/requests_16.png</icon-small>
+                    <icon-medium file="true">img/uitool-requeststracker/requests_32.png</icon-medium>
+                    <icon-large file="true">img/uitool-requeststracker/requests_48.png</icon-large>
                     
                     <default-location>b</default-location>
                 </class>               
@@ -750,9 +750,9 @@
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_DESCRIPTION</description>
                     <help>org.ametys.runtime.messagetracker</help>
                     
-                    <icon-small file="true">img/messages/messages_16.png</icon-small>
-                    <icon-medium file="true">img/messages/messages_32.png</icon-medium>
-                    <icon-large file="true">img/messages/messages_48.png</icon-large>
+                    <icon-small file="true">img/uitool-messagestracker/messages_16.png</icon-small>
+                    <icon-medium file="true">img/uitool-messagestracker/messages_32.png</icon-medium>
+                    <icon-large file="true">img/uitool-messagestracker/messages_48.png</icon-large>
                 </class>   
                 <right context-prefix="/contributor">CORE_Rights_MessageTracker</right>                 
             </extension>
@@ -768,9 +768,9 @@
 
                     <label i18n="true">PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_CLEAR_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_CLEAR_DESCRIPTION</description>
-                    <icon-small file="true">img/messages/delete_16.gif</icon-small>
-                    <icon-medium file="true">img/messages/delete_16.gif</icon-medium>
-                    <icon-large file="true">img/messages/delete_16.gif</icon-large>
+                    <icon-small file="true">img/uitool-messagestracker/delete_16.gif</icon-small>
+                    <icon-medium file="true">img/uitool-messagestracker/delete_16.gif</icon-medium>
+                    <icon-large file="true">img/uitool-messagestracker/delete_16.gif</icon-large>
                 </class>                       
                 <scripts>
                     <file>js/Ametys/plugins/coreui/system/messagetracker/MessageTrackerTool.js</file>
@@ -788,9 +788,9 @@
                     <title i18n="true">PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_LABEL</title>
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_DESCRIPTION</description>
                     <help>org.ametys.runtime.messagetracker</help>
-                    <icon-small file="true">img/messages/messages_16.png</icon-small>
-                    <icon-medium file="true">img/messages/messages_32.png</icon-medium>
-                    <icon-large file="true">img/messages/messages_48.png</icon-large>
+                    <icon-small file="true">img/uitool-messagestracker/messages_16.png</icon-small>
+                    <icon-medium file="true">img/uitool-messagestracker/messages_32.png</icon-medium>
+                    <icon-large file="true">img/uitool-messagestracker/messages_48.png</icon-large>
                     
                     <default-location>b</default-location>
                 </class>
@@ -833,15 +833,15 @@
                        point="org.ametys.core.ui.RibbonControlsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
-                    <opentool-role>uitool-log</opentool-role>
+                    <opentool-role>uitool-consolelog</opentool-role>
                     
-                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_LABEL</label>
-                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_DESCRIPTION</description>
+                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_DESCRIPTION</description>
                     <help>org.ametys.runtime.log.control</help>      
                     
-                    <icon-small file="true">img/logs/logs_16.png</icon-small>
-                    <icon-medium file="true">img/logs/logs_32.png</icon-medium>
-                    <icon-large file="true">img/logs/logs_48.png</icon-large>
+                    <icon-small file="true">img/uitool-consolelog/logs_16.png</icon-small>
+                    <icon-medium file="true">img/uitool-consolelog/logs_32.png</icon-medium>
+                    <icon-large file="true">img/uitool-consolelog/logs_48.png</icon-large>
                 </class>   
                 <right context-prefix="/contributor">CORE_Rights_Logger</right>
             </extension>
@@ -849,21 +849,20 @@
                        point="org.ametys.core.ui.RibbonControlsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.ui.ButtonController">
-                    <action>Ametys.plugins.coreui.system.log.LogTool.removeAll</action>
+                    <action>Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.removeAll</action>
 
-                    <tool-role>uitool-log</tool-role>
+                    <tool-role>uitool-consolelog</tool-role>
                     <tool-enable-on-status>active</tool-enable-on-status>
-                    <tool-description-inactive i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_CLEAR_DESCRIPTION2</tool-description-inactive>
+                    <tool-description-inactive i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_CLEAR_DESCRIPTION2</tool-description-inactive>
 
-                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_CLEAR_LABEL</label>
-                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_CLEAR_DESCRIPTION</description>
-                    <description-footer i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_CLEAR_FOOTER</description-footer>
-                    <icon-small file="true">img/logs/remove_16.png</icon-small>
-                    <icon-medium file="true">img/logs/remove_32.png</icon-medium>
-                    <icon-large file="true">img/logs/remove_48.png</icon-large>
+                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_CLEAR_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_CLEAR_DESCRIPTION</description>
+                    <icon-small file="true">img/uitool-consolelog/remove_16.png</icon-small>
+                    <icon-medium file="true">img/uitool-consolelog/remove_32.png</icon-medium>
+                    <icon-large file="true">img/uitool-consolelog/remove_48.png</icon-large>
                 </class>                       
                 <scripts>
-                    <file>js/Ametys/plugins/coreui/system/log/LogTool.js</file>
+                    <file>js/Ametys/plugins/coreui/system/consolelog/ConsoleLogTool.js</file>
                 </scripts>
                 <right context-prefix="/contributor">CORE_Rights_Logger</right>
             </extension>
@@ -871,26 +870,25 @@
                        point="org.ametys.core.ui.RibbonControlsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.ui.ButtonController">
-                    <action>Ametys.plugins.coreui.system.log.LogTool.setRootLogLevel</action>
-                    <initialize>Ametys.plugins.coreui.system.log.LogTool.getRootLogLevel</initialize>
+                    <action>Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.setRootLogLevel</action>
+                    <initialize>Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.getRootLogLevel</initialize>
 
                     <log-level>0</log-level>
                     <toggle-enabled>true</toggle-enabled>
                     <untoggle>org.ametys.runtime.userinterface.LogControl.toInfo,org.ametys.runtime.userinterface.LogControl.toWarn,org.ametys.runtime.userinterface.LogControl.toError</untoggle>
                     
-                    <tool-role>uitool-log</tool-role>
+                    <tool-role>uitool-consolelog</tool-role>
                     <tool-enable-on-status>active</tool-enable-on-status>
-                    <tool-description-inactive i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETDEBUG_DESCRIPTION2</tool-description-inactive>
+                    <tool-description-inactive i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_SETDEBUG_DESCRIPTION2</tool-description-inactive>
 
-                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETDEBUG_LABEL</label>
-                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETDEBUG_DESCRIPTION</description>
-                    <description-footer i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETDEBUG_FOOTER</description-footer>
-                    <icon-small file="true">img/logs/level_debug_16.png</icon-small>
-                    <icon-medium file="true">img/logs/level_debug_32.png</icon-medium>
-                    <icon-large file="true">img/logs/level_debug_48.png</icon-large>
+                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_SETDEBUG_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_SETDEBUG_DESCRIPTION</description>
+                    <icon-small file="true">img/uitool-consolelog/level_debug_16.png</icon-small>
+                    <icon-medium file="true">img/uitool-consolelog/level_debug_32.png</icon-medium>
+                    <icon-large file="true">img/uitool-consolelog/level_debug_48.png</icon-large>
                 </class>                       
                 <scripts>
-                    <file>js/Ametys/plugins/coreui/system/log/LogTool.js</file>
+                    <file>js/Ametys/plugins/coreui/system/consolelog/ConsoleLogTool.js</file>
                 </scripts>
                 <right context-prefix="/contributor">CORE_Rights_Logger</right>
             </extension>
@@ -898,26 +896,25 @@
                        point="org.ametys.core.ui.RibbonControlsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.ui.ButtonController">
-                    <action>Ametys.plugins.coreui.system.log.LogTool.setRootLogLevel</action>
-                    <initialize>Ametys.plugins.coreui.system.log.LogTool.getRootLogLevel</initialize>
+                    <action>Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.setRootLogLevel</action>
+                    <initialize>Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.getRootLogLevel</initialize>
 
                     <log-level>1</log-level>
                     <toggle-enabled>true</toggle-enabled>
                     <untoggle>org.ametys.runtime.userinterface.LogControl.toDebug,org.ametys.runtime.userinterface.LogControl.toWarn,org.ametys.runtime.userinterface.LogControl.toError</untoggle>
 
-                    <tool-role>uitool-log</tool-role>
+                    <tool-role>uitool-consolelog</tool-role>
                     <tool-enable-on-status>active</tool-enable-on-status>
-                    <tool-description-inactive i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETINFO_DESCRIPTION2</tool-description-inactive>
+                    <tool-description-inactive i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_SETINFO_DESCRIPTION2</tool-description-inactive>
 
-                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETINFO_LABEL</label>
-                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETINFO_DESCRIPTION</description>
-                    <description-footer i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETINFO_FOOTER</description-footer>
-                    <icon-small file="true">img/logs/level_info_16.png</icon-small>
-                    <icon-medium file="true">img/logs/level_info_32.png</icon-medium>
-                    <icon-large file="true">img/logs/level_info_48.png</icon-large>
+                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_SETINFO_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_SETINFO_DESCRIPTION</description>
+                    <icon-small file="true">img/uitool-consolelog/level_info_16.png</icon-small>
+                    <icon-medium file="true">img/uitool-consolelog/level_info_32.png</icon-medium>
+                    <icon-large file="true">img/uitool-consolelog/level_info_48.png</icon-large>
                 </class>                       
                 <scripts>
-                    <file>js/Ametys/plugins/coreui/system/log/LogTool.js</file>
+                    <file>js/Ametys/plugins/coreui/system/consolelog/ConsoleLogTool.js</file>
                 </scripts>
                 <right context-prefix="/contributor">CORE_Rights_Logger</right>
             </extension>
@@ -925,26 +922,25 @@
                        point="org.ametys.core.ui.RibbonControlsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.ui.ButtonController">
-                    <action>Ametys.plugins.coreui.system.log.LogTool.setRootLogLevel</action>
-                    <initialize>Ametys.plugins.coreui.system.log.LogTool.getRootLogLevel</initialize>
+                    <action>Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.setRootLogLevel</action>
+                    <initialize>Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.getRootLogLevel</initialize>
 
                     <log-level>2</log-level>
                     <toggle-enabled>true</toggle-enabled>
                     <untoggle>org.ametys.runtime.userinterface.LogControl.toDebug,org.ametys.runtime.userinterface.LogControl.toInfo,org.ametys.runtime.userinterface.LogControl.toError</untoggle>
 
-                    <tool-role>uitool-log</tool-role>
+                    <tool-role>uitool-consolelog</tool-role>
                     <tool-enable-on-status>active</tool-enable-on-status>
-                    <tool-description-inactive i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETWARN_DESCRIPTION2</tool-description-inactive>
+                    <tool-description-inactive i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_SETWARN_DESCRIPTION2</tool-description-inactive>
 
-                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETWARN_LABEL</label>
-                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETWARN_DESCRIPTION</description>
-                    <description-footer i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETWARN_FOOTER</description-footer>
-                    <icon-small file="true">img/logs/level_warn_16.png</icon-small>
-                    <icon-medium file="true">img/logs/level_warn_32.png</icon-medium>
-                    <icon-large file="true">img/logs/level_warn_48.png</icon-large>
+                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_SETWARN_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_SETWARN_DESCRIPTION</description>
+                    <icon-small file="true">img/uitool-consolelog/level_warn_16.png</icon-small>
+                    <icon-medium file="true">img/uitool-consolelog/level_warn_32.png</icon-medium>
+                    <icon-large file="true">img/uitool-consolelog/level_warn_48.png</icon-large>
                 </class>                       
                 <scripts>
-                    <file>js/Ametys/plugins/coreui/system/log/LogTool.js</file>
+                    <file>js/Ametys/plugins/coreui/system/consolelog/ConsoleLogTool.js</file>
                 </scripts>
                 <right context-prefix="/contributor">CORE_Rights_Logger</right>
             </extension>
@@ -952,26 +948,25 @@
                        point="org.ametys.core.ui.RibbonControlsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.ui.ButtonController">
-                    <action>Ametys.plugins.coreui.system.log.LogTool.setRootLogLevel</action>
-                    <initialize>Ametys.plugins.coreui.system.log.LogTool.getRootLogLevel</initialize>
+                    <action>Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.setRootLogLevel</action>
+                    <initialize>Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.getRootLogLevel</initialize>
 
                     <log-level>3</log-level>
                     <toggle-enabled>true</toggle-enabled>
                     <untoggle>org.ametys.runtime.userinterface.LogControl.toDebug,org.ametys.runtime.userinterface.LogControl.toInfo,org.ametys.runtime.userinterface.LogControl.toWarn</untoggle>
 
-                    <tool-role>uitool-log</tool-role>
+                    <tool-role>uitool-consolelog</tool-role>
                     <tool-enable-on-status>active</tool-enable-on-status>
-                    <tool-description-inactive i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETERROR_DESCRIPTION2</tool-description-inactive>
+                    <tool-description-inactive i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_SETERROR_DESCRIPTION2</tool-description-inactive>
 
-                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETERROR_LABEL</label>
-                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETERROR_DESCRIPTION</description>
-                    <description-footer i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_SETERROR_FOOTER</description-footer>
-                    <icon-small file="true">img/logs/level_error_16.png</icon-small>
-                    <icon-medium file="true">img/logs/level_error_32.png</icon-medium>
-                    <icon-large file="true">img/logs/level_error_48.png</icon-large>
+                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_SETERROR_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_SETERROR_DESCRIPTION</description>
+                    <icon-small file="true">img/uitool-consolelog/level_error_16.png</icon-small>
+                    <icon-medium file="true">img/uitool-consolelog/level_error_32.png</icon-medium>
+                    <icon-large file="true">img/uitool-consolelog/level_error_48.png</icon-large>
                 </class>                       
                 <scripts>
-                    <file>js/Ametys/plugins/coreui/system/log/LogTool.js</file>
+                    <file>js/Ametys/plugins/coreui/system/consolelog/ConsoleLogTool.js</file>
                 </scripts>
                 <right context-prefix="/contributor">CORE_Rights_Logger</right>
             </extension>
@@ -979,24 +974,26 @@
                        point="org.ametys.core.ui.UIToolsFactoriesManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.tool.factory.UniqueToolFactory">
-                    <role>uitool-log</role>
-                    <toolClass>Ametys.plugins.coreui.system.log.LogTool</toolClass>
+                    <role>uitool-consolelog</role>
+                    <toolClass>Ametys.plugins.coreui.system.consolelog.ConsoleLogTool</toolClass>
                     
-                    <title i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_LABEL</title>
-                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_DESCRIPTION</description>
-                    <description-footer i18n="true">PLUGINS_CORE_UI_TOOLS_LOG_FOOTER</description-footer>
-                    <icon-small file="true">img/logs/logs_16.png</icon-small>
-                    <icon-medium file="true">img/logs/logs_32.png</icon-medium>
-                    <icon-large file="true">img/logs/logs_48.png</icon-large>
+                    <title i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_LABEL</title>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_DESCRIPTION</description>
+                    <icon-small file="true">img/uitool-consolelog/logs_16.png</icon-small>
+                    <icon-medium file="true">img/uitool-consolelog/logs_32.png</icon-medium>
+                    <icon-large file="true">img/uitool-consolelog/logs_48.png</icon-large>
+                    
+                    <icon-level-0 file="true">img/uitool-consolelog/level_debug_16.png</icon-level-0>
+                    <icon-level-1 file="true">img/uitool-consolelog/level_info_16.png</icon-level-1>
+                    <icon-level-2 file="true">img/uitool-consolelog/level_warn_16.png</icon-level-2>
+                    <icon-level-3 file="true">img/uitool-consolelog/level_error_16.png</icon-level-3>
+                    <icon-level-4 file="true">img/uitool-consolelog/level_fatal_16.png</icon-level-4>
                     
                     <default-location>b</default-location>
                 </class>
                 <scripts>
-                    <file>js/Ametys/plugins/coreui/system/log/LogTool.js</file>
+                    <file>js/Ametys/plugins/coreui/system/consolelog/ConsoleLogTool.js</file>
                 </scripts>
-                <css>
-                    <file>css/log.css</file>
-                </css>
             </extension>
         </extensions>
     </feature>

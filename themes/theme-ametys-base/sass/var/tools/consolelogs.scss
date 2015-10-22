@@ -14,28 +14,9 @@
  *  limitations under the License.
  */
 
-@import 'fluent/Ribbon';
-@import 'fluent/TabPanel';
-@import 'fluent/Panel';
-@import 'fluent/Toast';
-@import 'fluent/Button';
-@import 'fluent/Toolbar';
-@import 'fluent/Field';
-@import 'fluent/MenuPanel';
-
-@import 'misc/Badge';
-@import 'misc/JSON';
-
-@import 'tool/Layout';
-@import 'tool/Misc';
-@import 'tool/ZonedTabsDD';
-
-@import 'tools/consolelogs';
-@import 'tools/messagetracker';
-@import 'tools/requesttracker';
-
-@import 'grid/MultiSort';
-
-@import 'form/field/Code';
-
-@import 'window/ErrorDialog';
+$ametys-tools-consolelogs-level-0-color: $ametys-background-color-debug;
+$ametys-tools-consolelogs-level-1-color: $ametys-background-color-info;
+$ametys-tools-consolelogs-level-2-color: $ametys-background-color-warn;
+$ametys-tools-consolelogs-level-3-color: $ametys-background-color-error;
+$ametys-tools-consolelogs-level-4-color: $ametys-background-color-error;
+ 
