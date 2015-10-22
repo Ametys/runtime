@@ -44,7 +44,6 @@
             
             $background-color: $ametys-grid-plugin-multisort-toggle-background-color,
             $background-color-pressed: mix($active-color-light, $grid-header-background-color, 20%),
-            $background-color-pressed-over: mix($active-color-light, $grid-header-background-color, 20%),
             $background-color-over: $active-color-light
         );
     }
