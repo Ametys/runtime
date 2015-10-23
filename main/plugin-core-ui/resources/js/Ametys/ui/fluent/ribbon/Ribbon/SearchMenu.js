@@ -119,7 +119,7 @@ Ext.define(
             }
             
             this._menu = Ext.create("Ext.menu.Menu", {
-                defaultAlign: "tl-bl",
+                defaultAlign: "tr-br",
                 items: config.items
             })
             delete config.items;
@@ -129,6 +129,16 @@ Ext.define(
             this.on('click', this._reopenLastSearchIfAvailable, this, { element: 'inputEl' });
             this.on('change', Ext.Function.createBuffered(this._searchNow, this.searchAfterTime, this));
             this.on('specialkey', this._onSpecialKey);
+            this.on('render', this._setMinWidthMenu, this);
+        },
+        
+        /**
+         * @private
+         * Set the minimum width of the menu to the value of the search menu width
+         */
+        _setMinWidthMenu: function()
+        {
+        	this._menu.setMinWidth(this.getWidth());
         },
         
         /**
@@ -177,7 +187,7 @@ Ext.define(
             
             if (this.allowSearch)
             {
-                // Update the search metnu item
+                // Update the search menu items
                 var value = this.getValue();
                 if (value.length > 22)
                 {
