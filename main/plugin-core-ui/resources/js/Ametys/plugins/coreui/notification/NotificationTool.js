@@ -134,7 +134,6 @@ Ext.define('Ametys.plugins.coreui.notification.NotificationTool', {
 	_getNotificationPanels: function()
 	{
 		var panels = [];
-		var me = this;
 	
 		this._store.getData().each(function(notification, index) {
 			var panel = Ext.create('Ext.panel.Panel', this._getNotificationPanelConfig(notification));
@@ -143,7 +142,6 @@ Ext.define('Ametys.plugins.coreui.notification.NotificationTool', {
 		
 		return panels;
 	},
-	
 	
 	/**
 	 * Get the configuration object for a notification
@@ -242,7 +240,7 @@ Ext.define('Ametys.plugins.coreui.notification.NotificationTool', {
 	
     /**
      * @private
-     * Fires when a notification record has been updated.
+     * Listener function invoked a notification record has been updated.
      * @param {Ext.data.Store} store the store
      * @param {Ext.data.Model} record The Model instance that was updated
      * @param {String} operation The update operation being performed. Value may be one of:
