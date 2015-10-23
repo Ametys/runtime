@@ -631,8 +631,8 @@
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_REQUESTTRACKER_DESCRIPTION">Tool able to monitor server requests</message>
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_MESSAGETRACKER_LABEL">Bus messages</message>
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_MESSAGETRACKER_DESCRIPTION">Tool able to monitor bus messages</message>
-    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_LOGGER_LABEL">Logs</message>
-    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_LOGGER_DESCRIPTION">Tool able to monitor application logs</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_CONSOLELOG_LABEL">Logs</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_CONSOLELOG_DESCRIPTION">Tool able to monitor application logs</message>
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_SOURCEEDIT_LABEL">Edit source code</message>
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_SOURCEEDIT_DESCRIPTION">Edit HTML source code in Ametys inline editor</message>
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_DEBUGMODE_LABEL">Debug mode</message>

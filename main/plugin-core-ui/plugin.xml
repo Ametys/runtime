@@ -805,31 +805,31 @@
     <!-- +  
          |  LOG    
          + -->     
-    <feature name="userinterface.log" safe="true">
+    <feature name="userinterface.console-log" safe="true">
         <extensions>
         	<extension point="org.ametys.core.right.RightsExtensionPoint"
-                       id="core.dev.rights.log">
-                <right id="CORE_Rights_Logger">
-                    <label>PLUGINS_CORE_RIGHT_RIGHTS_DEV_LOGGER_LABEL</label>
-                    <description>PLUGINS_CORE_RIGHT_RIGHTS_DEV_LOGGER_DESCRIPTION</description>
+                       id="core.dev.rights.consolelog">
+                <right id="CORE_Rights_ConsoleLog">
+                    <label>PLUGINS_CORE_RIGHT_RIGHTS_DEV_CONSOLELOG_LABEL</label>
+                    <description>PLUGINS_CORE_RIGHT_RIGHTS_DEV_CONSOLELOG_DESCRIPTION</description>
                     <category>PLUGINS_CORE_RIGHTS_DEV_CATEGORY</category>
                 </right>
             </extension>
-            <extension id="org.ametys.runtime.userinterface.LogControlMenu"
+            <extension id="org.ametys.runtime.userinterface.ConsoleLogControlMenu"
                        point="org.ametys.core.ui.RibbonControlsManager"
                        class="org.ametys.core.ui.SimpleMenu">
                 <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController"/>
                 <menu-items>
-                    <item ref="org.ametys.runtime.userinterface.LogControl" primaryItem="true"/>
-                    <item ref="org.ametys.runtime.userinterface.LogControl.toDebug"/>
-                    <item ref="org.ametys.runtime.userinterface.LogControl.toInfo"/>
-                    <item ref="org.ametys.runtime.userinterface.LogControl.toWarn"/>
-                    <item ref="org.ametys.runtime.userinterface.LogControl.toError"/>
-                    <item ref="org.ametys.runtime.userinterface.LogControl.clear"/>
+                    <item ref="org.ametys.runtime.userinterface.ConsoleLogControl" primaryItem="true"/>
+                    <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toDebug"/>
+                    <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toInfo"/>
+                    <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toWarn"/>
+                    <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toError"/>
+                    <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.clear"/>
                 </menu-items>
-                <right context-prefix="/contributor">CORE_Rights_Logger</right>
+                <right context-prefix="/contributor">CORE_Rights_ConsoleLog</right>
             </extension>
-            <extension id="org.ametys.runtime.userinterface.LogControl"
+            <extension id="org.ametys.runtime.userinterface.ConsoleLogControl"
                        point="org.ametys.core.ui.RibbonControlsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
@@ -837,15 +837,15 @@
                     
                     <label i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_DESCRIPTION</description>
-                    <help>org.ametys.runtime.log.control</help>      
+                    <help>org.ametys.runtime.consolelog</help>      
                     
                     <icon-small file="true">img/uitool-consolelog/logs_16.png</icon-small>
                     <icon-medium file="true">img/uitool-consolelog/logs_32.png</icon-medium>
                     <icon-large file="true">img/uitool-consolelog/logs_48.png</icon-large>
                 </class>   
-                <right context-prefix="/contributor">CORE_Rights_Logger</right>
+                <right context-prefix="/contributor">CORE_Rights_ConsoleLog</right>
             </extension>
-            <extension id="org.ametys.runtime.userinterface.LogControl.clear"
+            <extension id="org.ametys.runtime.userinterface.ConsoleLogControl.clear"
                        point="org.ametys.core.ui.RibbonControlsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.ui.ButtonController">
@@ -864,9 +864,9 @@
                 <scripts>
                     <file>js/Ametys/plugins/coreui/system/consolelog/ConsoleLogTool.js</file>
                 </scripts>
-                <right context-prefix="/contributor">CORE_Rights_Logger</right>
+                <right context-prefix="/contributor">CORE_Rights_ConsoleLog</right>
             </extension>
-            <extension id="org.ametys.runtime.userinterface.LogControl.toDebug"
+            <extension id="org.ametys.runtime.userinterface.ConsoleLogControl.toDebug"
                        point="org.ametys.core.ui.RibbonControlsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.ui.ButtonController">
@@ -875,7 +875,7 @@
 
                     <log-level>0</log-level>
                     <toggle-enabled>true</toggle-enabled>
-                    <untoggle>org.ametys.runtime.userinterface.LogControl.toInfo,org.ametys.runtime.userinterface.LogControl.toWarn,org.ametys.runtime.userinterface.LogControl.toError</untoggle>
+                    <untoggle>org.ametys.runtime.userinterface.ConsoleLogControl.toInfo,org.ametys.runtime.userinterface.ConsoleLogControl.toWarn,org.ametys.runtime.userinterface.ConsoleLogControl.toError</untoggle>
                     
                     <tool-role>uitool-consolelog</tool-role>
                     <tool-enable-on-status>active</tool-enable-on-status>
@@ -890,9 +890,9 @@
                 <scripts>
                     <file>js/Ametys/plugins/coreui/system/consolelog/ConsoleLogTool.js</file>
                 </scripts>
-                <right context-prefix="/contributor">CORE_Rights_Logger</right>
+                <right context-prefix="/contributor">CORE_Rights_ConsoleLog</right>
             </extension>
-            <extension id="org.ametys.runtime.userinterface.LogControl.toInfo"
+            <extension id="org.ametys.runtime.userinterface.ConsoleLogControl.toInfo"
                        point="org.ametys.core.ui.RibbonControlsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.ui.ButtonController">
@@ -901,7 +901,7 @@
 
                     <log-level>1</log-level>
                     <toggle-enabled>true</toggle-enabled>
-                    <untoggle>org.ametys.runtime.userinterface.LogControl.toDebug,org.ametys.runtime.userinterface.LogControl.toWarn,org.ametys.runtime.userinterface.LogControl.toError</untoggle>
+                    <untoggle>org.ametys.runtime.userinterface.ConsoleLogControl.toDebug,org.ametys.runtime.userinterface.ConsoleLogControl.toWarn,org.ametys.runtime.userinterface.ConsoleLogControl.toError</untoggle>
 
                     <tool-role>uitool-consolelog</tool-role>
                     <tool-enable-on-status>active</tool-enable-on-status>
@@ -916,9 +916,9 @@
                 <scripts>
                     <file>js/Ametys/plugins/coreui/system/consolelog/ConsoleLogTool.js</file>
                 </scripts>
-                <right context-prefix="/contributor">CORE_Rights_Logger</right>
+                <right context-prefix="/contributor">CORE_Rights_ConsoleLog</right>
             </extension>
-            <extension id="org.ametys.runtime.userinterface.LogControl.toWarn"
+            <extension id="org.ametys.runtime.userinterface.ConsoleLogControl.toWarn"
                        point="org.ametys.core.ui.RibbonControlsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.ui.ButtonController">
@@ -927,7 +927,7 @@
 
                     <log-level>2</log-level>
                     <toggle-enabled>true</toggle-enabled>
-                    <untoggle>org.ametys.runtime.userinterface.LogControl.toDebug,org.ametys.runtime.userinterface.LogControl.toInfo,org.ametys.runtime.userinterface.LogControl.toError</untoggle>
+                    <untoggle>org.ametys.runtime.userinterface.ConsoleLogControl.toDebug,org.ametys.runtime.userinterface.ConsoleLogControl.toInfo,org.ametys.runtime.userinterface.ConsoleLogControl.toError</untoggle>
 
                     <tool-role>uitool-consolelog</tool-role>
                     <tool-enable-on-status>active</tool-enable-on-status>
@@ -942,9 +942,9 @@
                 <scripts>
                     <file>js/Ametys/plugins/coreui/system/consolelog/ConsoleLogTool.js</file>
                 </scripts>
-                <right context-prefix="/contributor">CORE_Rights_Logger</right>
+                <right context-prefix="/contributor">CORE_Rights_ConsoleLog</right>
             </extension>
-            <extension id="org.ametys.runtime.userinterface.LogControl.toError"
+            <extension id="org.ametys.runtime.userinterface.ConsoleLogControl.toError"
                        point="org.ametys.core.ui.RibbonControlsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.ui.ButtonController">
@@ -953,7 +953,7 @@
 
                     <log-level>3</log-level>
                     <toggle-enabled>true</toggle-enabled>
-                    <untoggle>org.ametys.runtime.userinterface.LogControl.toDebug,org.ametys.runtime.userinterface.LogControl.toInfo,org.ametys.runtime.userinterface.LogControl.toWarn</untoggle>
+                    <untoggle>org.ametys.runtime.userinterface.ConsoleLogControl.toDebug,org.ametys.runtime.userinterface.ConsoleLogControl.toInfo,org.ametys.runtime.userinterface.ConsoleLogControl.toWarn</untoggle>
 
                     <tool-role>uitool-consolelog</tool-role>
                     <tool-enable-on-status>active</tool-enable-on-status>
@@ -968,9 +968,9 @@
                 <scripts>
                     <file>js/Ametys/plugins/coreui/system/consolelog/ConsoleLogTool.js</file>
                 </scripts>
-                <right context-prefix="/contributor">CORE_Rights_Logger</right>
+                <right context-prefix="/contributor">CORE_Rights_ConsoleLog</right>
             </extension>
-            <extension id="org.ametys.runtime.userinterface.LogFactory"
+            <extension id="org.ametys.runtime.userinterface.ConsoleLogFactory"
                        point="org.ametys.core.ui.UIToolsFactoriesManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.tool.factory.UniqueToolFactory">

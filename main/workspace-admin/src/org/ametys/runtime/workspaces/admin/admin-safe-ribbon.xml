@@ -64,7 +64,7 @@
                     <medium>
                         <control id="org.ametys.runtime.userinterface.MessageTrackerControlMenu"/>
                         <control id="org.ametys.runtime.userinterface.RequestTrackerControlMenu"/>
-                        <control id="org.ametys.runtime.userinterface.LogControlMenu"/>
+                        <control id="org.ametys.runtime.userinterface.ConsoleLogControlMenu"/>
                         <control id="org.ametys.runtime.userinterface.debug.UI"/>
                     </medium>
                     <small/>

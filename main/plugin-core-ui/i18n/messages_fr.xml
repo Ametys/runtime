@@ -631,8 +631,8 @@
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_REQUESTTRACKER_DESCRIPTION">Accès à l'outil du suivi des requêtes serveurs</message>
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_MESSAGETRACKER_LABEL">Message du bus</message>
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_MESSAGETRACKER_DESCRIPTION">Accès à l'outil du suivi des messages du bus</message>
-    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_LOGGER_LABEL">Journaux</message>
-    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_LOGGER_DESCRIPTION">Accès à l'outil d'affichage des journaux de l'application</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_CONSOLELOG_LABEL">Journaux</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_CONSOLELOG_DESCRIPTION">Accès à l'outil d'affichage des journaux de l'application</message>
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_SOURCEEDIT_LABEL">Modifier le code source</message>
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_SOURCEEDIT_DESCRIPTION">Modifier le code source HTML du contenu</message>
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_DEBUGMODE_LABEL">Mode debug</message>
