@@ -38,6 +38,11 @@ Ext.define('Ametys.plugins.coreui.notification.NotificationTool', {
 	
 	/**
 	 * @private
+	 * @property {Ext.container.Container} _notificationsContainer the container for the notifications
+	 */
+	
+	/**
+	 * @private
 	 * @property {Ext.Button} _deleteAllButton the button allowing the deletion of all notifications
 	 */
 	
