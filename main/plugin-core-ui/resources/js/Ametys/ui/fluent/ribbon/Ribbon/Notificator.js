@@ -50,7 +50,8 @@ Ext.define("Ametys.ui.fluent.ribbon.Ribbon.Notificator", {
                 autoSync: true,
                 proxy: {
                     type: 'memory'
-                }
+                },
+                sorters: [{ property: 'creationDate', direction: 'DESC' }]
             }, config.store));
         }
         
@@ -134,6 +135,9 @@ Ext.define("Ametys.ui.fluent.ribbon.Ribbon.Notificator", {
      */
     notify: function(config)
     {
+    	// add the creation date
+    	Ext.apply(config, {id: Ext.id(), creationDate: Ext.Date.format(new Date(), Ext.Date.patterns.ISO8601DateTime)});
+    	
         var newNotification = this.getStore().add(config)[0];
         
         Ext.create("Ametys.ui.fluent.ribbon.Ribbon.Notificator.Toast", {

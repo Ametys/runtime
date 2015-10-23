@@ -1063,6 +1063,46 @@
     	</extensions>
     </feature>
     
+    <!-- +  
+         |  NOTIFICATIONS    
+         + -->  
+    <feature name="userinterface.notifications">
+        <extensions>
+            <extension id="org.ametys.coreui.tool.Notifications"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
+                    <opentool-role>uitool-notification</opentool-role>
+                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DESCRIPTION</description>
+                    <icon-small file="true">img/notification/notification_16.png</icon-small>
+                    <icon-medium file="true">img/notification/notification_32.png</icon-medium>
+                    <icon-large file="true">img/notification/notification_48.png</icon-large>
+                </class>
+            </extension>
+
+            <extension id="org.ametys.coreui.tool.NotificationsFactory"
+                       point="org.ametys.core.ui.UIToolsFactoriesManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.tool.factory.UniqueToolFactory">
+                    <role>uitool-notification</role>
+                    <toolClass>Ametys.plugins.coreui.notification.NotificationTool</toolClass>
+                    
+                    <title i18n="true">PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_LABEL</title>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DESCRIPTION</description>
+                    <icon-small file="true">img/notification/notification_16.png</icon-small>
+                    <icon-medium file="true">img/notification/notification_32.png</icon-medium>
+                    <icon-large file="true">img/notification/notification_48.png</icon-large>
+                    <default-location>r</default-location>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/notification/NotificationTool.js</file>
+                </scripts>
+            </extension>
+        </extensions>   
+    </feature>
+         
+    
     <feature name="staticimports.navhistory">
         <extensions>
             <extension id="org.ametys.navhistory.HistoryDAO"

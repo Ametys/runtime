@@ -761,4 +761,14 @@
 	<message key="PLUGINS_CORE_UI_TOOLS_HELP_OPEN_NEW_WINDOW">Cliquez ici pour ouvrir la page d'aide dans une nouvelle fenêtre</message>
 	<message key="PLUGINS_CORE_UI_TOOLS_HELP_ERROR_URL_PROVIDER">Erreur lors de l'affichage d'une page d'aide.</message>
 
+    <!-- +
+         | NOTIFICATIONS
+         + -->
+    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_LABEL">Notifications</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DESCRIPTION">Outil listant les notifications émises.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_NO_NOTIFICATIONS">Pas de notifications.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DELETE_TOOLTIP">Supprimer cette notification</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DELETE_ALL_TOOLTIP">Supprimer toutes les notifications</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DELETE_ALL_LABEL">Tout supprimer</message>
+
 </catalogue>

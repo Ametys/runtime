@@ -15,7 +15,7 @@
  */
 
 /**
- * This tool display the Ametys documentation inside an Iframe.
+ * This tool displays the Ametys documentation inside an Iframe.
  * It also allows the user to open the documentation in a new tab.
  * @private
  */

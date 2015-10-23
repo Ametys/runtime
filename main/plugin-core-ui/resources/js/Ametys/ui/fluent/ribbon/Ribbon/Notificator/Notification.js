@@ -24,16 +24,19 @@
  * 
  * Other fields:
  * 
- * * {Boolean} displayed Is the notification currenlty visible on a toast
+ * * {Boolean} displayed Is the notification currently visible on a toast
  * * {Boolean} read Was the notification already read?
  */
 Ext.define("Ametys.ui.fluent.ribbon.Ribbon.Notificator.Notification", {
     extend: 'Ext.data.Model',
     
     fields: [
+     	{name: 'id', type: 'string'},
         {name: 'title',  type: 'string'},
         {name: 'description',  type: 'string'},
         {name: 'type',  type: 'string', defaultValue: 'info'},
+        {name: 'icon', type: 'string'}, // if no icon specified, the default icon for the selected type will be used
+        {name: 'creationDate', type: 'date', dateFormat: Ext.Date.patterns.ISO8601DateTime},
         {name: 'displayed', type: 'boolean'},
         {name: 'read', type: 'boolean', defaultValue: false}
     ]
