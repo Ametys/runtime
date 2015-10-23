@@ -110,7 +110,7 @@ Ext.define('Ametys.plugins.coreui.help.HelpTool', {
 	createPanel: function ()
 	{
 		this._openWindowBtn = new Ext.button.Button({
-			icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/help/new-window_16.png',
+			icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/uitool-help/new-window_16.png',
 			tooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_HELP_OPEN_NEW_WINDOW'/>",
 			cls: 'tbar-btn-open-window',
 			handler: this._openNewWindow,
