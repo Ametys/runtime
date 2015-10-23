@@ -14,19 +14,17 @@
  *  limitations under the License.
  */
  
-.uitool-messagestracker {
-    .callstack .filename {
-        color: $ametys-tools-messagetracker-filename-color;
-        text-decoration: none;
-    }
-    .callstack .filename:hover {
-        text-decoration: underline;
-    }
-    .callstack .line {
-        color: $ametys-tools-messagetracker-line-color;
-        font-style: italic;
-    }
-    .callstack .method {
-        color: $ametys-tools-messagetracker-method-color;
-    }
+.callstack .filename {
+    color: $ametys-stacktrace-filename-color;
+    text-decoration: none;
+}
+.callstack .filename:hover {
+    text-decoration: underline;
+}
+.callstack .line {
+    color: $ametys-stacktrace-line-color;
+    font-style: italic;
+}
+.callstack .method {
+    color: $ametys-stacktrace-method-color;
 }

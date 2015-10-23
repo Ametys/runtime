@@ -25,13 +25,13 @@
 
 @import 'misc/Badge';
 @import 'misc/JSON';
+@import 'misc/Stacktrace';
 
 @import 'tool/Layout';
 @import 'tool/Misc';
 @import 'tool/ZonedTabsDD';
 
 @import 'tools/consolelogs';
-@import 'tools/messagetracker';
 @import 'tools/requesttracker';
 
 @import 'grid/MultiSort';

@@ -88,7 +88,20 @@ Ext.define("Ametys.plugins.coreui.system.consolelog.ConsoleLogTool",
 			{
 				metadata.tdCls = "msg-level-" + record.get('level');
 				return Ametys.plugins.coreui.system.consolelog.ConsoleLogTool._dateRenderer.apply(Ametys.plugins.coreui.system.consolelog.ConsoleLogTool, arguments);
-			}		
+			},
+            
+            /**
+             * @private
+             * Renderer for the stacktrace with color
+             * @param {Number} value The level
+             * @param {Object} metadata A collection of metadata about the current cell; can be used or modified by the renderer. Recognized properties are: tdCls, tdAttr, and style
+             * @param {Ext.data.Model} record The record for the current row
+             */
+            stacktraceRendered: function(value, metadata, record)
+            {
+                metadata.tdCls = "msg-level-" + record.get('level');
+                return Ext.String.stacktraceToHTML(value);                
+            }
 		},
 		
         /**
@@ -131,7 +144,8 @@ Ext.define("Ametys.plugins.coreui.system.consolelog.ConsoleLogTool",
 			        {stateId: 'grid-level', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_LEVEL'/>", width: 80, sortable: true, renderer: Ext.bind(this.levelRenderer, this), dataIndex: 'level', hideable: false},
 			        {stateId: 'grid-category', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_CATEGORY'/>", width: 200, sortable: true, renderer: Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.allRenderer, dataIndex: 'category'},
 			        {stateId: 'grid-message', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_MESSAGE'/>", flex: 0.5, sortable: true, renderer: Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.allRenderer, dataIndex: 'message', hideable: false},
-			        {stateId: 'grid-details', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_DETAILS'/>", flex: 1, sortable: true, renderer: Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.allRenderer, dataIndex: 'details'}
+			        {stateId: 'grid-details', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_DETAILS'/>", flex: 1, sortable: true, renderer: Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.allRenderer, dataIndex: 'details'},
+                    {stateId: 'grid-stacktrace', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_STACKTRACE'/>", flex: 1, hidden: true, renderer: Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.stacktraceRendered, dataIndex: 'stacktrace'}
 			    ]
 			});
 

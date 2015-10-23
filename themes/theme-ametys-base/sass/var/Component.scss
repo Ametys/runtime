@@ -135,12 +135,12 @@ $ametys-form-field-warning-background-image-height: 16px;
 @import 'fluent/MenuPanel';
 
 @import 'misc/Badge';
+@import 'misc/Stacktrace';
 
 @import 'tool/Layout';
 @import 'tool/Misc';
 
 @import 'tools/consolelogs';
-@import 'tools/messagetracker';
 @import 'tools/requesttracker';
 
 @import 'grid/MultiSort';

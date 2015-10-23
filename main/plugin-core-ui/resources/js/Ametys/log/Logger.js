@@ -157,6 +157,27 @@ Ext.define(
 		{
 			this._log(message, Ametys.log.Logger.Entry.LEVEL_FATAL);
 		},
+        
+        /**
+         * Get the current call stack as a string
+         * @return {String} The current call stack
+         * @private
+         */
+        _getStackTrace: function()
+        {
+            try
+            {
+                throw new Error("get trace");
+            }
+            catch (e)
+            {
+                var stack = e.stack;
+                stack = stack.substring(stack.indexOf("\n") + 1); // Remove _getStackTrace
+                stack = stack.substring(stack.indexOf("\n") + 1); // Remove _log
+                stack = stack.substring(stack.indexOf("\n") + 1); // Remove log caller
+                return stack;
+            }
+        },
 		
 		/**
 		 * Create a log, trace it and store it
@@ -172,6 +193,7 @@ Ext.define(
 			{
 				return;
 			}
+            
 
 			// convert string message to an object
 			if (Ext.isString(message))
@@ -183,7 +205,8 @@ Ext.define(
 			Ext.apply(message, {
 				level: level, 
 				date: new Date(),
-				category: this._category
+				category: this._category,
+                stacktrace: this._getStackTrace()
 			});
 			
 			// creates the log entry

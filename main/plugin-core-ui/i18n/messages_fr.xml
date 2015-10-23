@@ -654,7 +654,7 @@
     <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_FIREDATE">Date d'envoi</message>
     <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_TYPE">Type</message>
     <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_TARGET">Cible</message>
-    <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_CALLSTACK">Pile d'appel de création</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_CALLSTACK">Pile d'appels de création</message>
     <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_NOTARGET">&amp;lt;pas de cible&amp;gt;</message>
     
     <!--+
@@ -735,6 +735,7 @@
     <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_CATEGORY">Catégorie</message>
     <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_MESSAGE">Message</message>
     <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_DETAILS">Détails</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_STACKTRACE">Pile d'appels</message>
     
     <!--+
          | SOURCE EDIT

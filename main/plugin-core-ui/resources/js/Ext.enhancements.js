@@ -1757,9 +1757,7 @@
 
 (function()
 {
-    Ext.define("Ametys.JSON", {
-        override: 'Ext.JSON',
-        
+    Ext.override(Ext.JSON, {
         /**
          * @member Ext.JSON
          * @ametys
@@ -1939,6 +1937,51 @@
             {
                 return value;
             }
+        }
+    });    
+})();
+
+(function()
+{
+    Ext.override(Ext.String, {
+        /**
+         * Convert the stacktrace of an exception to a readable HTML string.
+         * @param {String/Error} stack The exception or the exception stacktrace.
+         * @return {String} A HTML string 
+         */
+        stacktraceToHTML: function(stack)
+        {
+            if (!Ext.isString(stack))
+            {
+                stack = stack.stack;
+            }
+            
+            var stack2 = stack.replace(/\r?\n/g, "<br/>");
+            
+            var linesToRemove = 5; // remove useless stack due to extjs creation process
+            if (stack2.substring(0,5) == "Error")
+            {
+                linesToRemove++;
+            }
+            
+            for (var i = 0; i < linesToRemove; i ++)
+            {
+                stack2 = stack2.substring(stack2.indexOf("<br/>") + 5);
+            }
+            
+            var stack3 = "";
+            Ext.each(stack2.split('<br/>'), function(node, index) 
+                    {
+                        // Firefox
+                        node = node.replace(/^([^@]*)@(.*):([0-9])*$/, "<span class='method'>$1</span>@<a class='filename' href='$2' target='_blank' title='$2 ($3)'>$2</a>:<span class='line'>$3</span>");
+                
+                        // IE - Chrome
+                        node = node.replace(/^.*at (.*) \((.*):([0-9]*):([0-9]*)\).*$/, "at <span class='method'>$1</span> (<a class='filename' href='$2' target='_blank' title='$2 ($3:$4)'>$2</a>:<span class='line'>$3</span>:<span class='line'>$4</span>)");
+                        
+                        stack3 += node + "<br/>"
+                    }
+            );
+            return "<div class='callstack'>" + stack3.substring(0, stack3.length - 5) + "</div>"; // remove last <br/>
         }
     });    
 })();

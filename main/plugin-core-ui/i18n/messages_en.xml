@@ -735,12 +735,13 @@
     <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_CATEGORY">Category</message>
     <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_MESSAGE">Message</message>
     <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_DETAILS">Details</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_STACKTRACE">Call stack</message>
     
     <!--+
          | SOURCE EDIT
          + -->
     <message key="PLUGINS_CORE_UI_EDITION_SOURCEEDIT_LABEL">Edit source code</message>
-    <message key="PLUGINS_CORE_UI_EDITION_SOURCEEDIT_DESCRIPTION">Edit HTML source code of rich editble areas</message>
+    <message key="PLUGINS_CORE_UI_EDITION_SOURCEEDIT_DESCRIPTION">Edit HTML source code of rich editable areas</message>
     
     <!--+
         | DEBUG MODE

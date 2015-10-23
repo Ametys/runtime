@@ -43,7 +43,8 @@ Ext.define(
 		   { name: 'category', type: 'string'},    
 		   { name: 'date', type: 'date'},    
 		   { name: 'message', type: 'string'},   
-		   { name: 'details', type: 'auto'} // String or Error    
+		   { name: 'details', type: 'auto'}, // String or Error
+           { name: 'stacktrace', type: 'string' }
 		],
 		
 		statics: 

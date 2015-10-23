@@ -109,7 +109,7 @@ Ext.define("Ametys.plugins.coreui.system.messagetracker.MessageTrackerTool",
                     fireDate: new Date(),
                     type: "<span style='font-weight: bold'>" + message.getType() + "</span>" + (parametersAsString ? ("<br/>" + parametersAsString) : ''),
                     target: this._targetsToString(message.getTargets()),
-                    callstack: "<div class='callstack'>" + this._stackToString(message.getCallStack()) + "</div>"
+                    callstack: Ext.String.stacktraceToHTML(message.getCallStack())
                 });
                 store.addSorted(record);
 
@@ -126,41 +126,6 @@ Ext.define("Ametys.plugins.coreui.system.messagetracker.MessageTrackerTool",
                     details: e
                 });
             };
-        },
-        
-        /**
-         * Converts a stack as string as a readable html string
-         * @param {String} stack The stack to convert. Cannot be null.
-         * @private
-         */
-        _stackToString: function(stack)
-        {
-            var stack2 = stack.replace(/\r?\n/g, "<br/>");
-            
-            var linesToRemove = 5; // remove useless stack due to extjs creation process
-            if (stack2.substring(0,5) == "Error")
-            {
-                linesToRemove++;
-            }
-            
-            for (var i = 0; i < linesToRemove; i ++)
-            {
-                stack2 = stack2.substring(stack2.indexOf("<br/>") + 5);
-            }
-            
-            var stack3 = "";
-            Ext.each(stack2.split('<br/>'), function(node, index) 
-                    {
-                        // Firefox
-                        node = node.replace(/^([^@]*)@(.*):([0-9])*$/, "<span class='method'>$1</span>@<a class='filename' href='$2' target='_blank' title='$2 ($3)'>$2</a>:<span class='line'>$3</span>");
-                
-                        // IE - Chrome
-                        node = node.replace(/^.*at (.*) \((.*):([0-9]*):([0-9]*)\).*$/, "at <span class='method'>$1</span> (<a class='filename' href='$2' target='_blank' title='$2 ($3:$4)'>$2</a>:<span class='line'>$3</span>:<span class='line'>$4</span>)");
-                        
-                        stack3 += node + "<br/>"
-                    }
-            );
-            return stack3.substring(0, stack3.length - 5); // remove last <br/>
         },
         
         /**
