@@ -14,13 +14,24 @@
  *  limitations under the License.
  */
  
+
+// This rule is before the menu, so values are less important than hover values 
+.#{$prefix}menu-ribbon-menu {
+    .#{$prefix}menu-item-checked {
+        background-color: $ametys-ribbon-button-background-color-pressed;
+        .#{$prefix}menu-item-text-ribbon-menu {
+            color: $ametys-ribbon-button-color-pressed;
+        }
+    }   
+}
  
 @include extjs-menu-ui(
     $ui: 'ribbon-menu',
     
     $ui-text-color: $ametys-ribbon-menu-color,
+    $ui-item-active-text-color: $ametys-ribbon-button-color-over,
     $ui-background-color: $ametys-ribbon-menu-background-color,
-    $ui-item-active-background-color: $ametys-ribbon-highlight-color
+    $ui-item-active-background-color: $ametys-ribbon-button-background-color-over
 );
  
 @include extjs-panel-ui(
@@ -36,4 +47,3 @@
     
     $ui-padding: 1px 1px 0 1px
 );
- 
