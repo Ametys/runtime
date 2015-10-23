@@ -53,7 +53,6 @@ Ext.define('Ametys.plugins.coreui.notification.NotificationTool', {
 	
 	createPanel: function()
 	{
-		var me = this;
 		// Get the store
 		this._store = Ext.getCmp('ribbon').getNotificator().getStore();
 		
