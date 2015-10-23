@@ -184,12 +184,16 @@
                     
                                /** Controls creation */<xsl:text/>
                                var control;
-                                var searchMenuItems = [];          
                     <xsl:for-each select="ribbon/controls/control">
                                control = Ext.create("<xsl:value-of select="action/@class"/>", Ext.apply(<xsl:value-of select="action"/>, {id: "<xsl:value-of select="@id"/>", pluginName: "<xsl:value-of select="@plugin"/>"}));
                                Ametys.ribbon.RibbonManager.registerElement(control);
                                
-                               // try { searchMenuItems.push(control.addMenuItemUI()); } catch (e) { }       
+                    </xsl:for-each>
+
+                                /** Searchmenu items creation */                    
+                                var searchMenuItems = [];          
+                    <xsl:for-each select="ribbon/controls/control">
+                               // try { searchMenuItems.push(Ametys.ribbon.RibbonManager.getElement("<xsl:value-of select="@id"/>").addMenuItemUI()); } catch (e) { }       
                     </xsl:for-each>
 
                             var ribbonItems = [];         
@@ -305,18 +309,18 @@
                                 id: 'ribbon',
                                 
                                 mainButton: {
-			                        xtype: 'button',
-			                        text: 'Ametys',
-			                        /*tooltip: {
-			                             title: "", 
-			                             image: "", 
-			                             text: "", 
-			                             inribbon: true
-			                        },*/
-			                        menu: menuItems.length == 0 ? null : {
-			                             items: menuItems
-			                        }
-			                    },
+                                    xtype: 'button',
+                                    text: 'Ametys',
+                                    /*tooltip: {
+                                         title: "", 
+                                         image: "", 
+                                         text: "", 
+                                         inribbon: true
+                                    },*/
+                                    menu: menuItems.length == 0 ? null : {
+                                         items: menuItems
+                                    }
+                                },
                                 
                                 <xsl:text/>items: ribbonItems,<xsl:text/>
                                 
@@ -327,8 +331,8 @@
                                         text: "<i18n:text i18n:key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TEXT_{safe-mode}" i18n:catalogue="plugin.core-ui"/>",
                                         <xsl:choose>
                                             <xsl:when test="safe-mode = 'CONFIG_INCOMPLETE'">
-		                                        closable: true,
-		                                        type: "info"
+                                                closable: true,
+                                                type: "info"
                                             </xsl:when>
                                             <xsl:otherwise>
                                                 closable: false,
@@ -345,15 +349,14 @@
                                     tooltip:{ inribbon: true, text: "A little bit of help?" }
                                 },
                                 notification: {
-			                          tooltip:{ inribbon: true, text: "A descriptive text" },
-			                          handler: function() {  }
-			                    },
-			                    searchMenu: {
-			                        allowSearch: true,
-			                        items: searchMenuItems
-			                    },
-                                */
-			                    			                    
+                                      tooltip:{ inribbon: true, text: "A descriptive text" },
+                                      handler: function() {  }
+                                },
+                                searchMenu: {
+                                    allowSearch: true,
+                                    items: searchMenuItems
+                                },*/
+                                                                
                                 <xsl:if test="user">
                                 user: {
                                     fullName: "<xsl:value-of select="user/firstname"/>&#160;<xsl:value-of select="user/lastname"/>",
@@ -542,4 +545,19 @@
     <xsl:template name="ui-extension-after-static-load">
         <!-- Keep empty. Here for inheritance purpose. -->
     </xsl:template>
+    
+    
+    
+<!--     <xsl:template name="theme-scripts"> -->
+<!--         <script absolute="true">/~cmd/extensions/sencha-fashion/fashion/fashion.js</script> -->
+<!--         <script absolute="true">/~cmd/extensions/sencha-fashion/sass-compiler.js</script> -->
+        
+<!--         <script absolute="true">/ext/build/classic/theme-neptune/theme-neptune-debug.js</script> -->
+<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/Ribbon/ContextualTabGroup.js</script> -->
+<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/GroupScale.js</script> -->
+<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/TabPanel.js</script> -->
+<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/tool/layout/ZonedTabsToolsLayout/ZoneTabsToolsPanel.js</script> -->
+<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/grid/plugin/Multisort.js</script> -->
+<!--     </xsl:template> -->
+<!--     <xsl:template name="theme-styles"/>      -->
 </xsl:stylesheet>
