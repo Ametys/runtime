@@ -160,25 +160,19 @@ Ext.define('Ametys.plugins.coreui.help.HelpTool', {
 	 */
 	_createNoHelpPanel: function()
 	{
-		var button = Ext.create("Ext.Button", {
-	    	flex: 1,
-	    	textAlign: 'left',
-	    	text:"<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_HELP_INFO_NOT_FOUND'/>",
-	    	handler: this._showDefaultUrl,
-	    	scope: this
-	    });
-	    
-	    this._noHelpPanel = Ext.create("Ext.container.Container", {
-	    	cls: 'no-help-btn',
-	    	hidden: true,
-	    	dock: 'top',
-			layout: {
-				type: 'hbox',
-				pack: 'start',
-				align: 'stretch'
-			},
-	    	items : button
-	    });
+	    this._noHelpPanel = Ext.create("Ext.Button", {
+            ui: 'tool-topclickablemessage',
+            textAlign: 'left',
+            text:"<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_HELP_INFO_NOT_FOUND'/>",
+            tooltip: {
+                title: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_HELP_INFO_NOT_FOUND_TOOLTIP_TITLE'/>",
+                image: Ametys.getPluginResourcesPrefix('core-ui') + "/img/uitool-help/help_48.png",
+                text: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_HELP_INFO_NOT_FOUND_TOOLTIP_DESCRIPTION'/>",
+                inribbon: false
+            },
+            handler: this._showDefaultUrl,
+            scope: this
+        });
 	    
 	    return this._noHelpPanel;
 	},

@@ -757,6 +757,8 @@
 	<message key="PLUGINS_CORE_UI_TOOLS_HELP_LABEL">Aide</message>
 	<message key="PLUGINS_CORE_UI_TOOLS_HELP_DESCRIPTION">Outil affichant l'aide en ligne</message>
 	<message key="PLUGINS_CORE_UI_TOOLS_HELP_INFO_NOT_FOUND">Aucune page d'aide n'a été trouvée. Veuillez cliquer ici pour ouvrir la page racine de l'aide.</message>
+	<message key="PLUGINS_CORE_UI_TOOLS_HELP_INFO_NOT_FOUND_TOOLTIP_TITLE">Pas d'aide disponible</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_HELP_INFO_NOT_FOUND_TOOLTIP_DESCRIPTION">Il n'y a pas de page d'aide existante associée à la fonctionnalité consultée.&lt;br/&gt;&lt;br/&gt;Vous pouvez cliquer sur ce bouton pour revenir à la page racine de l'aide en ligne, et utiliser le moteur de recherche pour trouver de l'aide sur la fonctionnalité.</message>
 	<message key="PLUGINS_CORE_UI_TOOLS_HELP_INFO_OPEN_ROOT_HELP">Cliquez ici pour visualiser la page racine de l'aide</message>
 	<message key="PLUGINS_CORE_UI_TOOLS_HELP_OPEN_NEW_WINDOW">Cliquez ici pour ouvrir la page d'aide dans une nouvelle fenêtre</message>
 	<message key="PLUGINS_CORE_UI_TOOLS_HELP_ERROR_URL_PROVIDER">Erreur lors de l'affichage d'une page d'aide.</message>

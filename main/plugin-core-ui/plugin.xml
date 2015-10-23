@@ -591,9 +591,9 @@
 					<opentool-role>uitool-help</opentool-role>
 					<label i18n="true">PLUGINS_CORE_UI_TOOLS_HELP_LABEL</label>
 					<description i18n="true">PLUGINS_CORE_UI_TOOLS_HELP_DESCRIPTION</description>
-					<icon-small file="true">img/help/help_16.png</icon-small>
-					<icon-medium file="true">img/help/help_32.png</icon-medium>
-					<icon-large file="true">img/help/help_48.png</icon-large>
+					<icon-small file="true">img/uitool-help/help_16.png</icon-small>
+					<icon-medium file="true">img/uitool-help/help_32.png</icon-medium>
+					<icon-large file="true">img/uitool-help/help_48.png</icon-large>
 				</class>
 			</extension>
 
@@ -606,17 +606,14 @@
 					
 					<title i18n="true">PLUGINS_CORE_UI_TOOLS_HELP_LABEL</title>
 					<description i18n="true">PLUGINS_CORE_UI_TOOLS_HELP_DESCRIPTION</description>
-					<icon-small file="true">img/help/help_16.png</icon-small>
-					<icon-medium file="true">img/help/help_32.png</icon-medium>
-					<icon-large file="true">img/help/help_48.png</icon-large>
+					<icon-small file="true">img/uitool-help/help_16.png</icon-small>
+					<icon-medium file="true">img/uitool-help/help_32.png</icon-medium>
+					<icon-large file="true">img/uitool-help/help_48.png</icon-large>
 					<default-location>r</default-location>
 				</class>
 				<scripts>
 					<file>js/Ametys/plugins/coreui/help/HelpTool.js</file>
 				</scripts>
-				<css>
-					<file>css/helptool.css</file>
-				</css>
 			</extension>
 		</extensions>
 		

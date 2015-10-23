@@ -614,7 +614,7 @@ Ext.define("Ametys.tool.Tool",
             this._oodPanel = Ext.create("Ext.Button", {
                 dock: 'top',
         
-                ui: 'tool-outofdate',
+                ui: 'tool-topclickablemessage',
                 textAlign: 'left',
                 hidden: true,
                 text:"<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_LABEL'/>",

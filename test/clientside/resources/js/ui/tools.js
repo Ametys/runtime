@@ -354,7 +354,7 @@ function createOodPanel(id)
     var button = Ext.create("Ext.Button", {
         dock: 'top',
 
-        ui: 'tool-outofdate',
+        ui: 'tool-topclickablemessage',
         textAlign: 'left',
         text:"Data are not up to date. Click here to refresh this tool.",
         tooltip: {

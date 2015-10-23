@@ -18,21 +18,21 @@
  * Out of date tool
  */
 @include extjs-button-small-ui(
-    $ui: 'tool-outofdate',
+    $ui: 'tool-topclickablemessage',
     
     $inner-border-width: 0 0 1px 0,
     
-    $color: $ametys-tool-outofdate-color,
-    $inner-border-color: $ametys-tool-outofdate-border-color, 
-    $background-color: mix($ametys-tool-tab-gray-light, $ametys-tool-outofdate-background-color, 50%),
-    $font-size: $ametys-tool-outofdate-font-size,
-    $font-weight: $ametys-tool-outofdate-font-weight,
+    $color: $ametys-tool-topclickablemessage-color,
+    $inner-border-color: $ametys-tool-topclickablemessage-border-color, 
+    $background-color: mix($ametys-tool-tab-gray-light, $ametys-tool-topclickablemessage-background-color, 50%),
+    $font-size: $ametys-tool-topclickablemessage-font-size,
+    $font-weight: $ametys-tool-topclickablemessage-font-weight,
     
-    $inner-border-color-over: $ametys-tool-outofdate-border-color 
+    $inner-border-color-over: $ametys-tool-topclickablemessage-border-color 
 );
 
-.a-tool-layout-zoned-focused .#{$prefix}btn-tool-outofdate-small {
-    background-color: $ametys-tool-outofdate-background-color;
+.a-tool-layout-zoned-focused .#{$prefix}btn-tool-topclickablemessage-small {
+    background-color: $ametys-tool-topclickablemessage-background-color;
 }
 
 /**
