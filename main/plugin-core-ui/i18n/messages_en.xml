@@ -204,7 +204,7 @@
     <!-- +
          | Tooltip.js
          + -->
-    <message key="PLUGINS_CORE_UI_MSG_TOOLTIP_FOOTER_TEXT">Use F1 key to get more help</message>
+    <message key="PLUGINS_CORE_UI_MSG_TOOLTIP_FOOTER_TEXT">Know more</message>
     
     <!-- +
          | MessageBus.js
