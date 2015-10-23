@@ -36,11 +36,11 @@ Ext.define(
 		{
 			if (this._elements[element.getId()] != null && this.getLogger().isWarnEnabled())
 			{
-				this.getLogger().warn("Replacing ribbon element '" + this._elements[element.getId()] + "' with a new one");
+				this.getLogger().warn("Replacing ribbon element '" + element.getId() + "' with a new one");
 			}
 			else if (this.getLogger().isDebugEnabled())
 			{
-				this.getLogger().debug("Adding ribbon element '" + this._elements[element.getId()] + "'");
+				this.getLogger().debug("Adding ribbon element '" + element.getId() + "'");
 			}
 			
 			this._elements[element.getId()] = element;
