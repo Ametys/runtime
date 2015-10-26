@@ -77,10 +77,6 @@ Ext.define(
         searchMenuMaxResults: 10,
         
         /**
-         * @property {Ext.Template} searchMenuHelpItem The template creating using #cfg-searchMenuHelpItem
-         * @private
-         */
-        /**
          * @private
          * @property {Ext.menu.Menu} _menu The menu instance for search results.
          */
@@ -105,6 +101,7 @@ Ext.define(
             
             config.items = Ext.Array.from(config.items);
             
+            this.searchMenuHelpItem = this.searchMenuHelpItem.replace("[", "{").replace("]", "}");
             this.searchMenuHelpItem = Ext.create("Ext.Template", this.searchMenuHelpItem);
 
             if (config.allowSearch)

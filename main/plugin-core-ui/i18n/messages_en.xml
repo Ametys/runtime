@@ -40,7 +40,7 @@
     
     <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_MESSAGE_CLOSE_DESCRIPTION">Close this message</message>
     <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_PLACEHOLDER">Tell me what you want to do...</message>
-    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_SEARCHITEM_LABEL">See help for \"{text}\"</message>
+    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_SEARCHITEM_LABEL">See help for \"[text]\"</message>
     
     <!-- +
          | Login screen
