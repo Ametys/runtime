@@ -103,8 +103,8 @@
 	    						listview.startEditing(cell[0],cell[1]);
 	    						
 							    // Force the input selection
-							    var ed = listview.getColumnModel().getCellEditor(0, cell[0]);
-							    ed.field.focus (true);
+							    var ed = listview.getColumnModel().getCellEditor(0);
+							    ed.field.focus (true, 10);
 	    					}
 							
 		                    function menu_remove ()
