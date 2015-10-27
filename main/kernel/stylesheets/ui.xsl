@@ -139,6 +139,11 @@
         <xsl:param name="accept-ff-38.0">false</xsl:param>
         <xsl:param name="accept-ff-39.0">false</xsl:param>
         <xsl:param name="accept-ff-40.0">false</xsl:param>
+        <xsl:param name="accept-ff-41.0">false</xsl:param>
+        <xsl:param name="accept-ff-42.0">false</xsl:param>
+        <xsl:param name="accept-ff-43.0">false</xsl:param>
+        <xsl:param name="accept-ff-44.0">false</xsl:param>
+        <xsl:param name="accept-ff-45.0">false</xsl:param>
         <xsl:param name="accept-sa-3">false</xsl:param>
         <xsl:param name="accept-sa-4">false</xsl:param>
         <xsl:param name="accept-sa-5.0">false</xsl:param>
@@ -190,6 +195,11 @@
         <xsl:param name="accept-ch-42">false</xsl:param>
         <xsl:param name="accept-ch-43">false</xsl:param>
         <xsl:param name="accept-ch-44">false</xsl:param>
+        <xsl:param name="accept-ch-45">false</xsl:param>
+        <xsl:param name="accept-ch-46">false</xsl:param>
+        <xsl:param name="accept-ch-47">false</xsl:param>
+        <xsl:param name="accept-ch-48">false</xsl:param>
+        <xsl:param name="accept-ch-49">false</xsl:param>
         <xsl:param name="debug-mode">false</xsl:param>
         <xsl:param name="load-cb"/>
         <xsl:param name="use-css-component">true</xsl:param>
@@ -292,6 +302,11 @@
                         <xsl:if test="$accept-ff-38.0 = 'true'">(userAgent.indexOf("firefox/38.0") >= 0) ||</xsl:if>
                         <xsl:if test="$accept-ff-39.0 = 'true'">(userAgent.indexOf("firefox/39.0") >= 0) ||</xsl:if>
                         <xsl:if test="$accept-ff-40.0 = 'true'">(userAgent.indexOf("firefox/40.0") >= 0) ||</xsl:if>
+                        <xsl:if test="$accept-ff-41.0 = 'true'">(userAgent.indexOf("firefox/41.0") >= 0) ||</xsl:if>
+                        <xsl:if test="$accept-ff-42.0 = 'true'">(userAgent.indexOf("firefox/42.0") >= 0) ||</xsl:if>
+                        <xsl:if test="$accept-ff-43.0 = 'true'">(userAgent.indexOf("firefox/43.0") >= 0) ||</xsl:if>
+                        <xsl:if test="$accept-ff-44.0 = 'true'">(userAgent.indexOf("firefox/44.0") >= 0) ||</xsl:if>
+                        <xsl:if test="$accept-ff-45.0 = 'true'">(userAgent.indexOf("firefox/45.0") >= 0) ||</xsl:if>
 	                     
 	                    <xsl:if test="$accept-sa-3   = 'true'">(userAgent.indexOf("safari/") >= 0 &amp;&amp; userAgent.indexOf("version/3.") >= 0) ||</xsl:if>
 	                    <xsl:if test="$accept-sa-4   = 'true'">(userAgent.indexOf("safari/") >= 0 &amp;&amp; userAgent.indexOf("version/4.") >= 0) ||</xsl:if>
@@ -346,6 +361,11 @@
                         <xsl:if test="$accept-ch-42  = 'true'">(userAgent.indexOf("chrome/42.") >= 0) ||</xsl:if>
                         <xsl:if test="$accept-ch-43  = 'true'">(userAgent.indexOf("chrome/43.") >= 0) ||</xsl:if>
                         <xsl:if test="$accept-ch-44  = 'true'">(userAgent.indexOf("chrome/44.") >= 0) ||</xsl:if>
+                        <xsl:if test="$accept-ch-45  = 'true'">(userAgent.indexOf("chrome/45.") >= 0) ||</xsl:if>
+                        <xsl:if test="$accept-ch-46  = 'true'">(userAgent.indexOf("chrome/46.") >= 0) ||</xsl:if>
+                        <xsl:if test="$accept-ch-47  = 'true'">(userAgent.indexOf("chrome/47.") >= 0) ||</xsl:if>
+                        <xsl:if test="$accept-ch-48  = 'true'">(userAgent.indexOf("chrome/48.") >= 0) ||</xsl:if>
+                        <xsl:if test="$accept-ch-49  = 'true'">(userAgent.indexOf("chrome/49.") >= 0) ||</xsl:if>
 	                    <xsl:text>1 == 0))</xsl:text>
 	                {
 	            		<!-- Check the cookie for forcing non supported navigators -->
