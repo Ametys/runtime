@@ -15,8 +15,23 @@
  */
 
 $tip-border-radius: 0;
+$tip-error-inner-border-width: dynamic(1px);
+$tip-error-inner-border-color: $ametys-background-color-error;
 $tip-background-color: dynamic(mix(#FFFFFF, $ametys-ribbon-highlight-color, 95%));
+
 $ametys-tooltip-border-color: dynamic(mix(#FFFFFF, $ametys-ribbon-highlight-color, 70%));
 $ametys-tooltip-imageborder-color: dynamic(mix(#FFFFFF, $ametys-ribbon-highlight-color, 85%));
 $ametys-tooltip-help-color: dynamic(mix(#FFFFFF, $ametys-ribbon-highlight-color, 30%));
 $ametys-tooltip-margin-size: $tip-body-font-size / 12 * 8;
+
+$ametys-field-warning-tip-border-color: $tip-error-border-color;
+$ametys-field-warning-tip-border-width: $tip-error-border-width;
+$ametys-field-warning-tip-border-radius: $tip-error-border-radius;
+$ametys-field-warning-tip-background-color: $tip-error-background-color;
+$ametys-field-warning-tip-body-padding: $tip-error-body-padding;
+$ametys-field-warning-tip-body-color: $tip-error-body-color;
+$ametys-field-warning-tip-body-font-size: $tip-error-body-font-size;
+$ametys-field-warning-tip-body-font-weight: $tip-error-body-font-weight;
+$ametys-field-warning-tip-body-link-color: $tip-error-body-link-color;
+$ametys-field-warning-tip-inner-border-color: $ametys-field-warning-color;
+$ametys-field-warning-tip-inner-border-width: $tip-error-inner-border-width;

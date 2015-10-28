@@ -127,7 +127,7 @@ Ext.define('Ametys.form.widget.GeoCode', {
 		this.items = [ this.latitudeLongitudeField, this._mapPopupButton, this._deleteButton ];			
 
 		this.layout = 'hbox';
-		this.cls = [Ametys.form.AbstractField.BASE_FIELD_CLS, this.emptyCls];
+		this.cls = this.emptyCls;
 		
 		this.callParent(arguments);
 	},	

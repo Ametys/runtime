@@ -59,6 +59,48 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
     
     layout: 'hbox',
 
+    statics: {
+        /**
+         * @private
+         * @cfg {String} GLOBAL_ERRORS_FIELD_CLS
+         * The CSS class to use when the field is invalid with at least a global error.
+         */
+        GLOBAL_ERRORS_FIELD_CLS: 'a-form-invalid-global',
+        /**
+         * @private
+         * @cfg {String} BASE_FIELD_CLS
+         * The CSS class to use when the field contains no visible input field but a readable text.
+         */
+        BASE_FIELD_CLS: 'a-form-abstract-field-wrapper'
+    },
+    
+    /**
+     * 
+     * @property {Boolean} _hasGlobalErrors Current fields errors is the sum of errors of local fields and global errors. When true this property sepcify that there are global errors. E.g. If this field is mandatory but none of its sub fields are. 
+     */
+    _hasGlobalErrors: false,
+
+    getDefaultCls: function()
+    {
+        return Ametys.form.AbstractFieldsWrapper.BASE_FIELD_CLS;
+    },
+    
+    getErrors: function (value)
+    {
+        var errors = this.callParent(arguments);
+        
+        this._hasGlobalErrors = Ext.isArray(errors) && errors.length > 0; 
+        
+        return errors;
+    },
+    
+    toggleInvalidCls: function(hasError) 
+    {
+        this.callParent(arguments);
+        this.el[hasError && this._hasGlobalErrors ? 'addCls' : 'removeCls'](this.warningCls);
+    },  
+
+    
     /**
      * @inheritdoc
      * Listener on new fields, to set the property {@link Ext.form.field.Field#isFormField} and relay some events
@@ -86,7 +128,7 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
     onRender: function()
     {
     	this.callParent(arguments);
-        // this.onLabelableRender();
+
         this.renderActiveError();
 	},
 	

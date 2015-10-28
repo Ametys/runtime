@@ -77,3 +77,37 @@
     background-position: 0 -320px;
     vertical-align: top;
 }
+
+/**
+ * WARNING TIPS
+ */
+@include extjs-tip-ui(
+    $ui: 'form-warning',
+    $ui-border-color: $ametys-field-warning-tip-border-color,
+    $ui-border-width: $ametys-field-warning-tip-border-width,
+    $ui-border-radius: $ametys-field-warning-tip-border-radius,
+    $ui-background-color: $ametys-field-warning-tip-background-color,
+    $ui-body-padding: $ametys-field-warning-tip-body-padding,
+    $ui-body-color: $ametys-field-warning-tip-body-color,
+    $ui-body-font-size: $ametys-field-warning-tip-body-font-size,
+    $ui-body-font-weight: $ametys-field-warning-tip-body-font-weight,
+    $ui-body-link-color: $ametys-field-warning-tip-body-link-color,
+    $ui-inner-border-color: $ametys-field-warning-tip-inner-border-color,
+    $ui-inner-border-width: $ametys-field-warning-tip-inner-border-width
+);
+
+.#{$prefix}tip-body-form-invalid,
+.#{$prefix}tip-body-form-warning {
+    background-position: (left($tip-error-body-padding) - $ametys-form-field-warning-background-image-width)/2 top($tip-error-body-padding);
+}
+.#{$prefix}tip-body-form-warning {
+    background-image: theme-background-image($ametys-form-field-warning-background-image);
+    background-repeat: no-repeat;
+    li {
+        margin-bottom: 4px;
+        &.last {
+            margin-bottom: 0;
+        }
+    }
+}
+    

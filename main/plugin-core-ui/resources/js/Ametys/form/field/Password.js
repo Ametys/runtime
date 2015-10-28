@@ -193,7 +193,7 @@ Ext.define('Ametys.form.field.Password', {
     	
     	Ext.applyIf(buttonConfig, {
     		tooltip: '',
-            cls: 'ametys-password-btn',
+            ui: 'light',
     		width: Ametys.form.field.Password.SET_CLEAR_PASSWORD_BUTTON_WIDTH,
     		height: Ametys.form.field.Password.SET_CLEAR_PASSWORD_BUTTON_HEIGHT,
     		handler: Ext.bind(this._setToMode, this, [null], false),

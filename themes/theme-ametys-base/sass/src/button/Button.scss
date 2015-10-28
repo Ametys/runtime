@@ -13,24 +13,12 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+@include buttons-color(
+    $ui: 'light',
+    $background-color: transparent, $background-color-over: transparent, $background-color-focus: transparent, $background-color-pressed: transparent, $background-color-focus-over: transparent, $background-color-focus-pressed: transparent, $background-color-disabled: transparent
+);    
 
 .a-tool-layout-zoned-notfocused { 
-    /*$button-default-background-color: dynamic($base-color);
-    $button-default-background-color-over: dynamic(button-default-background-color-over($button-default-background-color));
-    $button-default-background-color-focus: dynamic(button-default-background-color-focus($button-default-background-color));
-    $button-default-background-color-pressed: dynamic(button-default-background-color-pressed($button-default-background-color));
-    $button-default-background-color-focus-over: dynamic($button-default-background-color-over);
-    $button-default-background-color-focus-pressed: dynamic($button-default-background-color-pressed);
-    $button-default-background-color-disabled: dynamic(button-default-background-color-disabled($button-default-background-color));
-    
-    $button-default-border-color: dynamic($button-default-base-color);
-    $button-default-border-color-over: dynamic(button-default-border-color-over($button-default-border-color));
-    $button-default-border-color-focus: dynamic(button-default-border-color-focus($button-default-border-color));
-    $button-default-border-color-pressed: dynamic(button-default-border-color-pressed($button-default-border-color));
-    $button-default-border-color-focus-over: dynamic($button-default-border-color-over);
-    $button-default-border-color-focus-pressed: dynamic($button-default-border-color-pressed);
-    $button-default-border-color-disabled: dynamic(button-default-border-color-disabled($button-default-border-color));*/
-    
     $color: $button-default-color;
     $color-over: $button-default-color-over;
     $color-focus: $button-default-color-focus;
@@ -60,6 +48,14 @@
         $color-pressed: $color-pressed, $color-focus-over: $color-focus-over, $color-focus-pressed: $color-focus-pressed, $color-disabled: $color-disabled, 
         $border-color: $border-color, $border-color-over: $border-color-over, $border-color-focus: $border-color-focus, $border-color-pressed: $border-color-pressed, $border-color-focus-over: $border-color-focus-over, $border-color-focus-pressed: $border-color-focus-pressed, $border-color-disabled: $border-color-disabled,
         $background-color: $background-color, $background-color-over: $background-color-over, $background-color-focus: $background-color-focus, $background-color-pressed: $background-color-pressed, $background-color-focus-over: $background-color-focus-over, $background-color-focus-pressed: $background-color-focus-pressed, $background-color-disabled: $background-color-disabled
+    );    
+        
+    @include buttons-color(
+        $ui: 'light',
+        $color: $color, $color-over: $color-over, $color-focus: $color-focus, 
+        $color-pressed: $color-pressed, $color-focus-over: $color-focus-over, $color-focus-pressed: $color-focus-pressed, $color-disabled: $color-disabled, 
+        $border-color: transparent, $border-color-over: transparent, $border-color-focus: transparent, $border-color-pressed: transparent, $border-color-focus-over: transparent, $border-color-focus-pressed: transparent, $border-color-disabled: transparent,
+        $background-color: transparent, $background-color-over: transparent, $background-color-focus: transparent, $background-color-pressed: transparent, $background-color-focus-over: transparent, $background-color-focus-pressed: transparent, $background-color-disabled: transparent
     );    
 }
 
@@ -102,6 +98,14 @@
                 $border-color: $border-color, $border-color-over: $border-color-over, $border-color-focus: $border-color-focus, $border-color-pressed: $border-color-pressed, $border-color-focus-over: $border-color-focus-over, $border-color-focus-pressed: $border-color-focus-pressed, $border-color-disabled: $border-color-disabled,
                 $background-color: $background-color, $background-color-over: $background-color-over, $background-color-focus: $background-color-focus, $background-color-pressed: $background-color-pressed, $background-color-focus-over: $background-color-focus-over, $background-color-focus-pressed: $background-color-focus-pressed, $background-color-disabled: $background-color-disabled
             );
+
+            @include buttons-color(
+                $ui: 'light',
+                $color: $color, $color-over: $color-over, $color-focus: $color-focus, 
+                $color-pressed: $color-pressed, $color-focus-over: $color-focus-over, $color-focus-pressed: $color-focus-pressed, $color-disabled: $color-disabled, 
+                $border-color: transparent, $border-color-over: transparent, $border-color-focus: transparent, $border-color-pressed: transparent, $border-color-focus-over: transparent, $border-color-focus-pressed: transparent, $border-color-disabled: transparent,
+                $background-color: transparent, $background-color-over: transparent, $background-color-focus: transparent, $background-color-pressed: transparent, $background-color-focus-over: transparent, $background-color-focus-pressed: transparent, $background-color-disabled: transparent
+            );    
         }
     }
 }

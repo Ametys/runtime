@@ -14,12 +14,6 @@
  *  limitations under the License.
  */
  
-.ametys-comments div
-{
-	height: 20px;
-	width: 20px;
-}
-
 #ext-quicktips-tip ul.ametys-tooltip-comment > li div.comment-text
 {
 	padding-left: 15px;
@@ -30,50 +24,6 @@ td.x-form-error-msg-wrapper
 	vertical-align: top;
 	padding-top: 4px;
 	
-}
-
-.x-tip-form-warning:after {
-    content: "x-slicer:corners:url(images/tip/tip-form-invalid-corners.gif), sides:url(images/tip/tip-form-invalid-sides.gif)";
-    display: none;
-}
-.x-tip-form-warning {
-    border-color: #F6B51A;
-    box-shadow: 0 1px 0 0 #F6B51A inset, 0 -1px 0 0 #F6B51A inset, -1px 0 0 0 #F6B51A inset, 1px 0 0 0 #F6B51A inset;
-}
-
-.x-tip-form-warning {
-    background-color: #FFFFFF;
-    border-radius: 5px 5px 5px 5px;
-    border-style: solid;
-    border-width: 1px;
-    padding: 4px;
-}
-
-.x-tip-body-form-warning {
-    color: #444444;
-    font-size: 11px;
-    font-weight: normal;
-    padding: 3px 3px 3px 22px;
-    background: url('../../../themes/theme-ametys-base/images/form/field/warning.png') no-repeat scroll 1px 1px rgba(0, 0, 0, 0);
-}
-
-.x-tip-body-form-warning li {
-    margin-bottom: 4px;
-}
-
-.x-field.ametys.x-form-warning .x-form-text,
-.x-form-item.ametys.x-form-warning .x-form-text
-{
-	border-color: #F6B51A;
-}
-
-.x-field.ametys textarea.x-form-warning-field,
-.x-field.ametys input.x-form-warning-field,
-.x-form-item.ametys textarea.x-form-warning-field,
-.x-form-item.ametys input.x-form-warning-field
-{
-	background-image: none;
-	border-color: #F6B51A;
 }
 
 .x-boundlist.ametys-boundlist .x-boundlist-item {

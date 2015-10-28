@@ -262,7 +262,7 @@ Ext.define('Ametys.form.widget.File', {
         });
         this.displayField = Ext.create('Ext.Component', textConfig);
         
-        this.cls = [Ametys.form.AbstractField.BASE_FIELD_CLS, this.emptyCls];
+        this.cls = this.emptyCls;
         this.layout = 'hbox';
         this.items = [
             this.img,

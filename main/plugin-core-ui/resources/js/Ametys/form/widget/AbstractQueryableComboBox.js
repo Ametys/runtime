@@ -234,6 +234,11 @@ Ext.define('Ametys.form.widget.AbstractQueryableComboBox', {
     	return this.combobox.getValue();
     },
     
+    getErrors: function (value) 
+    {
+        return Ext.Array.merge(this.callParent(arguments), this.combobox.getErrors(value));
+    },    
+    
     /**
      * @inheritdoc
      */

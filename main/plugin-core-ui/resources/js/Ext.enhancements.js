@@ -477,26 +477,35 @@
         renderActiveWarning: function() 
         {
             var me = this,
-                activeWarn = me.getActiveWarning(),
-                hasWarn = !!activeWarn;
-
-            if (activeWarn !== me.lastActiveWarn) {
-                me.fireEvent('warningchange', me, activeWarn);
-                me.lastActiveWarn = activeWarn;
+                activeWarning = me.getActiveWarning(),
+                hasWarning = !!activeWarning;
+    
+            if (activeWarning !== me.lastActiveWarn) {
+                me.lastActiveWarn = activeWarning;
+                me.fireEvent('warningchange', me, activeWarning);
             }
-            
-            if (me.rendered && !me.isDestroyed && !me.preventMark) 
+    
+            if (me.rendered && !me.destroyed && !me.preventMark) 
             {
-                // Add/remove invalid class
-                me.el[hasWarn ? 'addCls' : 'removeCls'](me.warningCls);
-
+                me.toggleWarningCls(hasWarning);
+                
                 if (this.warningWrapEl) 
                 {
-                    this.warningWrapEl.dom.style.display = hasWarn ? '' : 'none';
-                    this.warningWrapEl.dom.setAttribute("data-warnqtip", activeWarn);
+                    this.warningWrapEl.dom.style.display = hasWarning ? '' : 'none';
+                    this.warningWrapEl.dom.setAttribute("data-warnqtip", activeWarning);
                 }
-            }
+            }            
         },
+        
+        /**
+         * @private
+         * Add/remove invalid class(es)
+         * @param {Boolean} hasWarning Has a warning
+         */
+        toggleWarningCls: function(hasWarning) 
+        {
+            this.el[hasWarning ? 'addCls' : 'removeCls'](this.warningCls);
+        },        
         
         /**
          * @member Ext.form.Labelable
@@ -510,12 +519,13 @@
         hideActiveWarning: function ()
         {
             var me = this,
-                activeWarn = me.getActiveWarning(),
-                hasWarn = !!activeWarn;
+                activeWarning = me.getActiveWarning(),
+                hasWarning = !!activeWarning;
             
-            if (hasWarn && me.rendered && !me.isDestroyed && !me.preventMark) 
+            if (hasWarning && me.rendered && !me.isDestroyed && !me.preventMark) 
             {
-                me.el.removeCls (me.warningCls);
+                me.toggleWarningCls(false);
+
                 if (this.warningWrapEl) 
                 {
                     this.warningWrapEl.dom.style.display = 'none';
@@ -575,6 +585,30 @@
     }));
     Ext.override(Ext.form.field.Base, Ext.clone(ametysLabelable));
     Ext.override(Ext.form.FieldContainer, Ext.clone(ametysLabelable));
+    
+    Ext.override(Ext.form.field.Text, {
+
+        /** 
+         * @private
+         * @property {String} triggerWrapWarningCls The css classname to set on trigger wrapper if warning
+         */
+        triggerWrapWarningCls: Ext.baseCSSPrefix + 'form-trigger-wrap-warning',
+        /** 
+         * @private
+         * @property {String} inputWrapWarningCls The css classname to set on input wrapper if warning
+         */
+        inputWrapWarningCls: Ext.baseCSSPrefix + 'form-text-wrap-warning',
+    
+        toggleWarningCls: function(hasWarning) 
+        {
+            var method = hasWarning ? 'addCls' : 'removeCls';
+    
+            this.callParent();
+    
+            this.triggerWrap[method](this.triggerWrapWarningCls);
+            this.inputWrap[method](this.inputWrapWarningCls);
+        }, 
+    });
      
     Ext.define("Ametys.form.field.Field", {
         override: "Ext.form.field.Field",
@@ -658,14 +692,16 @@
         renderActiveWarning: function() 
         {
             var me = this,
-                hasWarn = !!me.getActiveWarning();
-            
+                hasWarning = me.hasActiveWarning(),
+                warningCls = me.warningCls + '-field';
+    
             if (me.inputEl) {
                 // Add/remove invalid class
-                me.inputEl[hasWarn ? 'addCls' : 'removeCls'](me.warningCls + '-field');
+                me.inputEl[hasWarning ? 'addCls' : 'removeCls']([
+                    warningCls, warningCls + '-' + me.ui
+                ]);
             }
-            
-            me.mixins.labelable.renderActiveWarning.call(me);
+            me.mixins.labelable.renderActiveWarning.call(me);            
         },
         
         markInvalid: function ()

@@ -38,12 +38,19 @@
 }
 
 .ametys-warning {
-	width: 20px; 
+	width: $ametys-form-field-warning-background-image-width + horizontal($form-warning-icon-side-margin); 
 	min-height: $form-field-height; 
 	background-image: theme-background-image($ametys-form-field-warning-background-image); 
 	background-repeat: no-repeat; 
 	background-position: center round(($form-field-height/2 - $ametys-form-field-warning-background-image-height/2));
     display: table-cell;
+}
+.#{$prefix}form-error-wrap-side {
+    vertical-align: top;
+    
+    .#{$prefix}form-invalid-icon-default {
+        margin-top: round(($form-field-height/2 - $ametys-form-field-warning-background-image-height/2));
+    }
 }
 
 .a-form-readable-text {
@@ -63,14 +70,20 @@
 	font-style: italic;
 } 
 
-.a-form-abstract-field.x-form-invalid .x-form-item-body {
-	border: $form-field-border-width solid;
-	border-color: $form-field-border-color-error;
+.a-form-abstract-field.x-form-warning .x-form-item-body,
+.a-form-abstract-field-wrapper.x-form-warning .x-form-item-body {
+    @include box-shadow($form-field-border-color-warn 0 -$form-field-border-width 0px 0, 
+                        $form-field-border-color-warn 0 $form-field-border-width 0px 0, 
+                        $form-field-border-color-warn $form-field-border-width 0 0px 0, 
+                        $form-field-border-color-warn -$form-field-border-width 0 0px 0);
 }
 
-.a-form-abstract-field.x-form-warning .x-form-item-body {
-	border: $form-field-border-width solid;
-	border-color: $form-field-border-color-warn;
+.a-form-abstract-field.x-form-invalid .x-form-item-body,
+.a-form-abstract-field-wrapper.x-form-invalid.a-form-invalid-global .x-form-item-body {
+    @include box-shadow($form-field-border-color-error 0 -$form-field-border-width 0px 0, 
+                        $form-field-border-color-error 0 $form-field-border-width 0px 0, 
+                        $form-field-border-color-error $form-field-border-width 0 0px 0, 
+                        $form-field-border-color-error -$form-field-border-width 0 0px 0);    
 }
 
 .a-form-abstract-field .x-btn {

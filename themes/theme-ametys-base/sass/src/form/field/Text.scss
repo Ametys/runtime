@@ -13,6 +13,30 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+
+.#{$prefix}form-trigger-wrap-default {
+    @if not $form-text-field-classic-border {
+        &.#{$prefix}form-trigger-wrap-warning {
+            border-color: $ametys-field-warning-color;
+            
+            &.#{$prefix}form-trigger-wrap-invalid {
+                border-color: $form-text-field-invalid-border-color;
+            }
+        }
+    }
+}
+
+@if $form-text-field-classic-border {
+    .#{$prefix}form-text-wrap-default {
+        &.#{$prefix}form-text-wrap-warning {
+            border-color: $ametys-field-warning-color;
+            
+            &.#{$prefix}form-trigger-wrap-invalid {
+                border-color: $form-text-field-invalid-border-color;
+            }
+        }
+    }
+}
  
 .a-tool-layout-zoned-focused {
     @for $i from 1 through length($ametys-tool-tab-colors) {
@@ -23,11 +47,21 @@
         $active-color-light: nth($ametys-tool-tab-colors-light, $i);
         
         &.a-tool-layout-zoned-panel-#{$index*10} {
-            @include extjs-text-field-ui(
-                $ui: 'default',
-                
-                $ui-focus-border-color: $active-color
-            );
+            .#{$prefix}form-trigger-wrap-default {
+                @if not $form-text-field-classic-border {
+                    &.#{$prefix}form-trigger-wrap-focus {
+                        border-color: $active-color;
+                    }
+                }
+            }
+        
+            @if $form-text-field-classic-border {
+                .#{$prefix}form-text-wrap-default {
+                    &.#{$prefix}form-text-wrap-focus {
+                        border-color: $active-color;
+                    }
+                }
+            }
         }
     }
 }

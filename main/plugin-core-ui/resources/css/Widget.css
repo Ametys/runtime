@@ -47,8 +47,6 @@
 }
 
 .ametys.x-form-item .x-tagfield ul.x-tagfield-list .x-tagfield-item {
-	background-color: #eaeaea;
-	border-color: #aeaeae;
 	margin-right: 3px;
 	float: left;
 }
@@ -76,16 +74,6 @@
 
 .ametys.x-form-item .x-trigger-cell {
 	background: none;
-}
-
-.ametys.x-form-item:not(.x-item-disabled) .x-tagfield-list .x-tagfield-item:hover {
-    background-color: #c9c9c9 !important;
-    border-color: #8c8c8c !important;
-}
-
-.ametys.x-form-item:not(.x-item-disabled) .x-tagfield-list .x-tagfield-item.selected {
-    background-color: #a6a6a6 !important;
-    border-color: #696969 !important;
 }
 
 .ametys.x-form-item .x-tab-close-btn.x-tagfield-item-close {
@@ -123,10 +111,6 @@
 
 /** @end tagfield */
 
-.ametys .ametys-password-btn {
-    background-image: none;
-    background-color: transparent;
-}
 
 
 

@@ -25,12 +25,13 @@ Ext.define('Ametys.form.AbstractField', {
     mixins: {field: 'Ext.form.field.Field'},
     
     statics: {
-    	/**
+        /**
          * @cfg {String} READABLE_TEXT_CLS
          * The CSS class to use for a component/container/panel used to display a readable value.
          */
-    	READABLE_TEXT_CLS: 'a-form-readable-text',
+        READABLE_TEXT_CLS: 'a-form-readable-text',
         /**
+         * @private
          * @cfg {String} BASE_FIELD_CLS
          * The CSS class to use when the field contains no visible input field but a readable text.
          */
@@ -77,13 +78,32 @@ Ext.define('Ametys.form.AbstractField', {
      */
     preventMark: false,
     
+    constructor: function(config)
+    {
+        config = config || {};
+        config.cls = Ext.Array.from(config.cls);
+        config.cls.push(this.getDefaultCls());
+        
+        this.callParent(arguments);
+    },
+    
+    /**
+     * @protected
+     * Get the name of a CSS class that will be added during creation to the field
+     * @return {String} A CSS classname
+     */
+    getDefaultCls: function()
+    {
+        return Ametys.form.AbstractField.BASE_FIELD_CLS;
+    },
+    
     /**
      * @inheritdoc
      */
     initComponent: function ()
     {
-    	this.callParent();
-    	this.initField();
+        this.callParent();
+        this.initField();
     },
     
     /**
@@ -93,7 +113,7 @@ Ext.define('Ametys.form.AbstractField', {
      */
     onDirtyChange: function(isDirty) 
     {
-    	this[isDirty ? 'addCls' : 'removeCls'](this.dirtyCls);
+        this[isDirty ? 'addCls' : 'removeCls'](this.dirtyCls);
     },
     
     /**
@@ -114,26 +134,26 @@ Ext.define('Ametys.form.AbstractField', {
     
     isValid: function() 
     {
-    	var me = this,
+        var me = this,
         disabled = me.disabled,
         validate = me.forceValidation || !disabled;
         
-    	return validate ? me.validateValue(me.getValue()) : disabled;
+        return validate ? me.validateValue(me.getValue()) : disabled;
     },
     
     setValue: function (value) 
-	{	
-    	this.mixins.field.setValue.apply(this, arguments);
-    	
-		if (Ext.isEmpty(value) || (Ext.isObject(value) && Ext.Object.isEmpty(value)))
-		{
-			this.addCls(this.emptyCls);
-		}
-		else
-		{
-			this.removeCls(this.emptyCls)
-		}
-	},
+    {   
+        this.mixins.field.setValue.apply(this, arguments);
+        
+        if (Ext.isEmpty(value) || (Ext.isObject(value) && Ext.Object.isEmpty(value)))
+        {
+            this.addCls(this.emptyCls);
+        }
+        else
+        {
+            this.removeCls(this.emptyCls)
+        }
+    },
     
     /**
      * <strong>Override this method to add specific validation.</strong><br/>
@@ -144,16 +164,16 @@ Ext.define('Ametys.form.AbstractField', {
      */
     getErrors: function (value)
     {
-    	value = value || this.getValue();
-    	
-    	var errors = [];
-    	
-    	if (!this.allowBlank && (!value || (Ext.isArray(value) && value.length == 0)))
-    	{
-    		errors.push(this.blankText);
-    	}
-    	
-    	return errors;
+        value = value || this.getValue();
+        
+        var errors = [];
+        
+        if (!this.allowBlank && (!value || (Ext.isArray(value) && value.length == 0)))
+        {
+            errors.push(this.blankText);
+        }
+        
+        return errors;
     },
     
     /**
@@ -194,10 +214,10 @@ Ext.define('Ametys.form.AbstractField', {
             oldMsg = me.getActiveError();
         
         if (me.hasActiveWarning())
-    	{
-    		// Hide active warning message(s) if exist
-        	me.hideActiveWarning();
-    	}
+        {
+            // Hide active warning message(s) if exist
+            me.hideActiveWarning();
+        }
         
         me.setActiveErrors(Ext.Array.from(errors));
         if (oldMsg !== me.getActiveError()) 
@@ -208,7 +228,7 @@ Ext.define('Ametys.form.AbstractField', {
     
     clearInvalid: function() 
     {
-    	// Clear the message and fire the 'valid' event
+        // Clear the message and fire the 'valid' event
         var me = this,
             hadError = me.hasActiveError();
         
@@ -219,29 +239,29 @@ Ext.define('Ametys.form.AbstractField', {
         }
         
         if (me.hasActiveWarning())
-    	{
-    		// Display active warning message(s) if exist
-        	me.renderActiveWarning();
-    	}
+        {
+            // Display active warning message(s) if exist
+            me.renderActiveWarning();
+        }
     },
     
     markWarning: function (warns)
-	{
-	    this.setActiveWarnings(Ext.Array.from(warns));
-	    
-	    if (this.hasActiveError())
-    	{
-	    	// Hide active warning message(s)
-    		this.hideActiveWarning();
-    	}
-	    
-	    this.updateLayout();
-	},
-	
-	clearWarning: function() 
-	{
-		this.unsetActiveWarnings();
-		this.updateLayout();
-	}
+    {
+        this.setActiveWarnings(Ext.Array.from(warns));
+        
+        if (this.hasActiveError())
+        {
+            // Hide active warning message(s)
+            this.hideActiveWarning();
+        }
+        
+        this.updateLayout();
+    },
+    
+    clearWarning: function() 
+    {
+        this.unsetActiveWarnings();
+        this.updateLayout();
+    }
     
 });
