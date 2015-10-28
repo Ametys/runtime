@@ -151,6 +151,8 @@ Ext.define(
 				controlId: this.getId(),
 				
 				checked: this._toggleEnabled ? this._pressed : null,
+				
+				hideOnClick: this.getInitialConfig("hide-on-click") || !this._toggleEnabled,
 						
 				menu: menu
 			}, this.getInitialConfig('ui-config') || {}));

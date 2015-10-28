@@ -873,6 +873,7 @@
                     <log-level>0</log-level>
                     <toggle-enabled>true</toggle-enabled>
                     <untoggle>org.ametys.runtime.userinterface.ConsoleLogControl.toInfo,org.ametys.runtime.userinterface.ConsoleLogControl.toWarn,org.ametys.runtime.userinterface.ConsoleLogControl.toError</untoggle>
+                    <hide-on-click>true</hide-on-click>
                     
                     <tool-role>uitool-consolelog</tool-role>
                     <tool-enable-on-status>active</tool-enable-on-status>
@@ -899,6 +900,7 @@
                     <log-level>1</log-level>
                     <toggle-enabled>true</toggle-enabled>
                     <untoggle>org.ametys.runtime.userinterface.ConsoleLogControl.toDebug,org.ametys.runtime.userinterface.ConsoleLogControl.toWarn,org.ametys.runtime.userinterface.ConsoleLogControl.toError</untoggle>
+                    <hide-on-click>true</hide-on-click>
 
                     <tool-role>uitool-consolelog</tool-role>
                     <tool-enable-on-status>active</tool-enable-on-status>
@@ -925,6 +927,7 @@
                     <log-level>2</log-level>
                     <toggle-enabled>true</toggle-enabled>
                     <untoggle>org.ametys.runtime.userinterface.ConsoleLogControl.toDebug,org.ametys.runtime.userinterface.ConsoleLogControl.toInfo,org.ametys.runtime.userinterface.ConsoleLogControl.toError</untoggle>
+                    <hide-on-click>true</hide-on-click>
 
                     <tool-role>uitool-consolelog</tool-role>
                     <tool-enable-on-status>active</tool-enable-on-status>
@@ -951,6 +954,7 @@
                     <log-level>3</log-level>
                     <toggle-enabled>true</toggle-enabled>
                     <untoggle>org.ametys.runtime.userinterface.ConsoleLogControl.toDebug,org.ametys.runtime.userinterface.ConsoleLogControl.toInfo,org.ametys.runtime.userinterface.ConsoleLogControl.toWarn</untoggle>
+                    <hide-on-click>true</hide-on-click>
 
                     <tool-role>uitool-consolelog</tool-role>
                     <tool-enable-on-status>active</tool-enable-on-status>
