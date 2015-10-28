@@ -20,7 +20,7 @@
     <target name="launch">
         <!-- prepare application -->
         <copy file="${ametys-work-dir}/testapp/app.json.template" tofile="${ametys-work-dir}/testapp/app.json" />
-        <replaceregexp file="${ametys-work-dir}/testapp/app.json.template"
+        <replaceregexp file="${ametys-work-dir}/testapp/app.json"
             match="&quot;theme&quot;: &quot;MARKER&quot;,"
             replace="&quot;theme&quot;: &quot;${name}&quot;,"
             byline="true"/>
