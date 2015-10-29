@@ -325,7 +325,7 @@
 	
 	<!--  RegExp -->
 	<message key="PLUGINS_CORE_REGEXP_INVALID_MAIL">L'adresse saisie n'est pas une adresse mail valide</message>
-	<message key="PLUGINS_CORE_REGEXP_INVALID_URL">L'url est invalide. Elle doit commencée par http:// ou https://</message>
+	<message key="PLUGINS_CORE_REGEXP_INVALID_URL">L'url est invalide. Elle doit commencer par http:// ou https://</message>
 	<message key="PLUGINS_CORE_REGEXP_INVALID_PATH">Le path est invalide. Il ne doit se finir par '/'.</message>
     
 </catalogue>
