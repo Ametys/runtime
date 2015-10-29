@@ -98,6 +98,14 @@
             
 			<script>/plugins/core-ui/resources/js/Ext.fixes.js</script>
             <script>/plugins/core-ui/resources/js/Ext.enhancements.js</script>
+            
+            <script>/plugins/core-ui/resources/js/lunr/lunr.min.js</script>
+	        <script>/plugins/core-ui/resources/js/lunr/lunr-ametys.js</script>
+	        <script>/plugins/core-ui/resources/js/lunr/lunr-ametys-<xsl:value-of select="$language-code"/>.js</script>
+	        <xsl:if test="$language-code != 'en'">
+		        <script>/plugins/core-ui/resources/js/lunr/lunr.stemmer.support.min.js</script>
+				<script>/plugins/core-ui/resources/js/lunr/lunr.<xsl:value-of select="$language-code"/>.min.js</script>
+			</xsl:if>
 
 			<xsl:call-template name="ametys-scripts"/>
 	    </xsl:variable>

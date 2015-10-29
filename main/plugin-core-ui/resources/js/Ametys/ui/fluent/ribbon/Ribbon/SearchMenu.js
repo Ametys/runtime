@@ -74,7 +74,14 @@ Ext.define(
          * @private
          * @property {Number} searchMenuMaxResults The max number of results displayed
          */
-        searchMenuMaxResults: 10,
+        searchMenuMaxResults: 15,
+        
+        /**
+         * @readonly
+         * @private
+         * @property {Number} searchMenuMaxDisabledResults The max number of results which are disabled controllers displayed
+         */
+        searchMenuMaxDisabledResults: 5,
         
         /**
          * @private
@@ -88,6 +95,11 @@ Ext.define(
          */
         searchAfterTime: 300,
         
+        /**
+         * @private
+         * @property {Array} _lastResults The results of the last search by lunr.
+         */
+        
         constructor: function(config) 
         {
             var me = this;
@@ -100,6 +112,20 @@ Ext.define(
             config.emptyText = config.emptyText || this.searchMenuDefaultText;
             
             config.items = Ext.Array.from(config.items);
+            config.items.push({
+            	id: "enabledControllersGroup",
+            	text: "<b>Boutons disponibles</b>",
+            	hideOnClick: false,
+            	focusable: false
+            }, {
+            	xtype: 'menuseparator',
+            	id: 'groupsSeparator'
+            }, {
+            	id: "disabledControllersGroup",
+            	text: "<b>Boutons indisponibles</b>",
+            	hideOnClick: false,
+            	focusable: false
+            });
             
             this.searchMenuHelpItem = this.searchMenuHelpItem.replace("[", "{").replace("]", "}");
             this.searchMenuHelpItem = Ext.create("Ext.Template", this.searchMenuHelpItem);
@@ -109,6 +135,7 @@ Ext.define(
                 this.allowSearch = true;
                 config.items.push("-");
                 config.items.push({
+                	id: 'openHelpButton',
                     handler: this._openHelp,
                     scope: this
                 });
@@ -127,6 +154,17 @@ Ext.define(
             this.on('change', Ext.Function.createBuffered(this._searchNow, this.searchAfterTime, this));
             this.on('specialkey', this._onSpecialKey);
             this.on('render', this._setMinWidthMenu, this);
+//            this._menu.on('resize', function(menu, width, height, oldWidth, oldHeight, opts) {
+//            	if (oldWidth != width)
+//            	{
+//	            	console.info("-------------------------------");
+//	            	console.info("old width: " + oldWidth);
+//	            	console.info("width: " + width);
+//	            	console.info("first item width: " + this._menu.items.last().getWidth());
+//	            	console.info("-------------------------------");
+//	            	// FIXME sometimes the width of the menu items are smaller than the menu width
+//            	}
+//            }, this);
         },
         
         /**
@@ -169,7 +207,6 @@ Ext.define(
         _searchNow: function()
         {
             var me = this;
-            var menuItemsToAvoid = 0;
             
             if (!this.getValue())
             {
@@ -190,58 +227,75 @@ Ext.define(
                 {
                     value = value.substring(0, 20) + "…";
                 }
-                this._menu.items.last().setText(this.searchMenuHelpItem.apply({ text: value }));
-                
-                menuItemsToAvoid = 2;
+                this._menu.items.getByKey("openHelpButton").setText(this.searchMenuHelpItem.apply({ text: value }));
             }
             
-            // Browse all items to compute score and hide them all
-            var visibleItems = [];
-            for (var i = 0; i < this._menu.items.getCount() - menuItemsToAvoid; i++)
-            {
-                var menuItem = this._menu.items.get(i); 
-                
-                var score = this._computeScore(this.getValue(), menuItem.text, menuItem.keywords);
-                menuItem.hide();
-                if (score > 0)
-                {
-                    visibleItems.push({ score: score, item: menuItem });
-                }
-            }
+            // Search with lunr.js the relevant controllers ids
+            var foundControllers = lunr.controllersIndex.search(this.getValue());
+            this._lastResults = foundControllers;
             
-            // Now order
-            Ext.Array.sort(visibleItems, function(a, b) { 
-                if (a.score < b.score) 
-                {
-                    return -1;
-                }
-                else if (a.score > b.score) 
-                {
-                   return 1;
-                }
-                else if (a.item.text < b.item.text)
-                {
-                    return 1;
-                }
-                else if (a.item.text > b.item.text)
-                {
-                    return -1;
-                }
-                else
-                { 
-                   return 0; 
-                }
+            this._displayResults(foundControllers);
+        },
+        
+        /**
+         * @private
+         * Display the results of the query
+         * @param {Array} controllers The controllers found by lunr
+         */
+        _displayResults: function(controllers)
+        {
+        	var me = this;
+        	
+        	// Browse all items for hiding them
+            this._menu.items.each(function(item) {
+            	if (item.getId() != "openHelpButton" && Ext.ClassManager.getName(item) != "Ext.menu.Separator")
+            	{
+            		item.hide();
+            	}
             });
+        	
+        	// Retrieve the controllers and put the top 'searchMenumaxResults' results in arrays
+            var enableItems = [],
+            	disableItems = [];
+            Ext.each(controllers, function(controller, index) {
+            	if (enableItems.length + disableItems.length >= this.searchMenuMaxResults) {return false;}
+            	
+            	var menuItem = this._menu.items.getByKey( controller.ref );
+            	if (!menuItem.isDisabled())
+            	{
+            		enableItems.push(menuItem);
+            	}
+            	else if (menuItem.isDisabled() && disableItems.length < this.searchMenuMaxDisabledResults)
+            	{
+	            	disableItems.push(menuItem);
+            	}
+            }, this);
             
-            // Finally order and set visible the better N items only
-            Ext.Array.each(Ext.Array.erase(visibleItems, 0, Math.max(0, visibleItems.length - this.searchMenuMaxResults)), function (item) {
-                me._menu.insert(0, item.item);
-                item.item.show();
+            // Finally reverse the lists, put the items at the top and show them
+            Ext.Array.forEach(disableItems.reverse(), function (item) {
+            	me._menu.insert(0, item);
+                item.show();
             });
+            var disableGroup = me._menu.items.getByKey('disabledControllersGroup');
+            me._menu.insert(0, disableGroup);
+            disableGroup.setVisible(disableItems.length > 0);
             
+            var separator = me._menu.items.getByKey('groupsSeparator');
+            me._menu.insert(0, separator);
+            separator.setVisible(disableItems.length > 0 && enableItems.length > 0);
+            
+            Ext.Array.forEach(enableItems.reverse(), function (item) {
+            	me._menu.insert(0, item);
+                item.show();
+            });
+            var enableGroup = me._menu.items.getByKey('enabledControllersGroup');
+            me._menu.insert(0, enableGroup);
+            enableGroup.setVisible(enableItems.length > 0);
+            
+            // Show the open help button separator (the item just before the last one)
             if (this.allowSearch)
             {
-                this._menu.items.get(this._menu.items.getCount() - menuItemsToAvoid).setVisible(visibleItems.length > 0);
+                this._menu.items.get(this._menu.items.getCount() - 2).setVisible(controllers.length > 0);
             }
             
             this._menu.showBy(this);
@@ -335,67 +389,10 @@ Ext.define(
          */
         _reopenLastSearchIfAvailable: function()
         {
-            if (this.getValue())
+            if (this.getValue() && this._lastResults)
             {
-                this._menu.showBy(this);
+            	this._displayResults(this._lastResults);
             }
-        },
-        
-        /**
-         * @private
-         * Compute a score based on searchTerm is near from title and keywords
-         * @param {String} searchTerm The term to search. Will also search with split words.
-         * @param {String} title The title (high scoring words)
-         * @param {String/String[]} keywords (low scoring words)
-         * @return {Number} The score. 0 means not found, and a positive number means found.
-         */
-        _computeScore: function(searchTerm, title, keywords)
-        {
-            var me = this;
-            
-            if (!searchTerm)
-            {
-                return -1;
-            }
-            
-            searchTerm = Ext.String.deemphasize((searchTerm || "").trim().replace(/\s+/g, ' ')).toLowerCase().split(" ");
-            title = Ext.String.deemphasize((title || "").trim().replace(/\s+/g, ' ')).toLowerCase().split(" ");
-            keywords = Ext.String.deemphasize(Ext.Array.from(keywords).join(" ").trim().replace(/\s+/g, ' ')).toLowerCase().split(" ");
-            
-            var score = 0;
-            
-            Ext.Array.each(searchTerm, function(st) {
-                Ext.Array.each(title, function(t) {
-                    score += me._coincidence(st, t) * 10;
-                });
-                Ext.Array.each(keywords, function(k) {
-                    score += me._coincidence(st, k);
-                });
-            });
-            
-            return score;
-        },
-        
-        /**
-         * @private
-         * Compute if the searchTerm is part of a word
-         * @param {String} searchTerm The term to seach. If the term is an array of term, will return the medium score.
-         * @param {String} word The word to search in
-         * @return {Number} A score between 0 and 1.
-         */
-        _coincidence: function(searchTerm, word)
-        {
-            var score;
-            var index = word.indexOf(searchTerm);
-            if (index == -1)
-            {
-                score = 0;
-            }
-            else
-            {
-                score = (searchTerm.length / word.length) * ((word.length - index) / word.length);
-            }
-            return score;
         }
     }
 );

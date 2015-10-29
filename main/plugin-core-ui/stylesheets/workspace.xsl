@@ -192,9 +192,41 @@
 
                                 /** Searchmenu items creation */                    
                                 var searchMenuItems = [];          
+                                
+                                // create the lunr index
+								var index = lunr(function(){
+									var lang = Ametys.getAppParameter("user").locale;
+									if (lang != 'en')
+									{
+										// use the language
+										var lunrUse = "lunr." + lang;
+		    							this.use(eval(lunrUse));
+		    						}
+    
+								    this.field('title', {boost: 1});
+								    this.field('keywords', {boost: 100});
+								    this.field('description', {boost: 10});
+								    // the id
+								    this.ref('id');
+								    
+								    this.pipeline.add(lunr.elision);
+								    this.pipeline.add(lunr.deemphasize);
+								});
+								
                     <xsl:for-each select="ribbon/controls/control">
-                               // try { searchMenuItems.push(Ametys.ribbon.RibbonManager.getElement("<xsl:value-of select="@id"/>").addMenuItemUI()); } catch (e) { }       
+                               /*try { 
+                               		var control = Ametys.ribbon.RibbonManager.getElement("<xsl:value-of select="@id"/>");
+                               		var menuItem = control.addMenuItemUI();
+                               		searchMenuItems.push(menuItem);
+                               		index.add({
+									    id: menuItem.id,
+									    title: control.getInitialConfig('label'),
+									    keywords: control.getInitialConfig('keywords') || "",
+									    description: control._description,
+									});
+                               	} catch (e) { }   */    
                     </xsl:for-each>
+                    		lunr.controllersIndex = index;
 
                             var ribbonItems = [];         
 
