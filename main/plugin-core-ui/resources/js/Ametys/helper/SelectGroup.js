@@ -145,7 +145,7 @@ Ext.define('Ametys.helper.SelectGroup', {
 			value: "",
 			 
 			enableKeyEvents: true,
-			listeners: {'keyup': Ext.bind(this._reload, this)},
+			listeners: {'keyup': Ext.bind(this._reload, this)}
 		});
 		
 		var model = Ext.define('Ametys.helper.SelectGroup.Group', {
@@ -232,7 +232,7 @@ Ext.define('Ametys.helper.SelectGroup', {
 	{
 		operation.setParams( operation.getParams() || {} );
 		operation.setParams( Ext.apply(operation.getParams(), {
-			criteria: this._searchField.getValue(),
+			criteria: this._searchField.getValue()
 		}));
 	},
 	
