@@ -148,7 +148,7 @@ Ext.define('Ametys.helper.SelectUser', {
 			 value: "",
 			 
 			 enableKeyEvents: true,
-			 listeners: {'keyup': Ext.bind(this._reload, this)},
+			 listeners: {'keyup': Ext.bind(this._reload, this)}
 		});
 		
 		var model = Ext.define('Ametys.helper.SelectUser.Users', {
@@ -245,7 +245,7 @@ Ext.define('Ametys.helper.SelectUser', {
 	{
 		operation.setParams( operation.getParams() || {} );
 		operation.setParams( Ext.apply(operation.getParams(), {
-			criteria: this._searchField.getValue(),
+			criteria: this._searchField.getValue()
 		}));
 	},
 	
