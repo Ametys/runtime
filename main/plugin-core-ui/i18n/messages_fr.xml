@@ -191,7 +191,6 @@
     <message key="PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_LABEL">Les données affichées ne sont plus à jour. Cliquez ici pour rafraîchir l'outil.</message>
     <message key="PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_TITLE">Affichage obsolète</message>
     <message key="PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_DESCRIPTION">Les données qui sont actuellement affichées dans cet écran ne sont plus à jour.&lt;br/&gt;&lt;br/&gt;En cliquant sur le bandeau jaune vous allez lancer un rafraîchissement de la vue.&lt;br/&gt;&lt;br/&gt;&lt;span style='font-style: italic'&gt;Ce rafraîchissement n'est pas fait automatiquement pour des raisons de performances.&lt;/span&gt;</message>
-    <message key="PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_FOOTER">Voir l'aide pour plus de détails</message>
     <message key="PLUGINS_CORE_UI_MSG_TOOLS_CLOSE_TAB">Fermer l'onglet</message>
     <message key="PLUGINS_CORE_UI_MSG_TOOLS_CLOSE_OTHERS">Fermer les autres onglets</message>
     <message key="PLUGINS_CORE_UI_MSG_TOOLS_CLOSE_ALL">Fermer tous les onglets</message>
@@ -643,11 +642,9 @@
        + -->
     <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_LABEL">Suivi des messages du bus</message>
     <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_DESCRIPTION">Voir les messages du bus</message>
-    <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_FOOTER">Voir l'aide pour plus de détails</message>
     <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_CLEAR_LABEL">Effacer les messages affichés</message>
     <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_CLEAR_DESCRIPTION">Cliquez sur ce bouton pour effacer les messages du bus actuellement visible dans la vue de suivi.</message>
     <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_CLEAR_DESCRIPTION2">Ce bouton est désactivé car la fenêtre de suivi des messages du bus n'est actuellement pas ouverte</message>
-    <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_CLEAR_FOOTER">Voir l'aide pour plus de détails</message>
     
     <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_ID">N°</message>
     <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_CREATIONDATE">Date de creation</message>
@@ -662,11 +659,9 @@
         + -->
     <message key="PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_LABEL">Suivi des requêtes serveur</message>
     <message key="PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_DESCRIPTION">Voir les messages envoyés au serveur</message>
-    <message key="PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_FOOTER">Voir l'aide pour plus de détails</message>
     <message key="PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_CLEAR_LABEL">Effacer les requêtes affichées</message>
     <message key="PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_CLEAR_DESCRIPTION">Cliquez sur ce bouton pour effacer les messages de requêtes serveur actuellement visible dans la vue de suivi.</message>
     <message key="PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_CLEAR_DESCRIPTION2">Ce bouton est désactivé car la fenêtre de suivi des requêtes du bus n'est actuellement pas ouverte</message>
-    <message key="PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_CLEAR_FOOTER">Voir l'aide pour plus de détails</message>
     <message key="PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_MESSAGE">Selectionnez une requête dans la partie gauche pour afficher son détail.</message>
     
     <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_ID">N°</message>
@@ -748,7 +743,6 @@
        + -->
     <message key="PLUGINS_CORE_UI_TOOLS_DEBUG_UI_LABEL">IHM en mode debug</message>
     <message key="PLUGINS_CORE_UI_TOOLS_DEBUG_UI_DESCRIPTION">Passer l'ihm en mode debug : cette action recharge l'application en/sans minifier les CSS et les JS.</message>
-    <message key="PLUGINS_CORE_UI_TOOLS_DEBUG_UI_FOOTER">Voir l'aide pour plus de détails</message>
     <message key="PLUGINS_CORE_UI_TOOLS_DEBUG_UI_CONFIRM_TITLE">Rechargement nécessaire</message>
     <message key="PLUGINS_CORE_UI_TOOLS_DEBUG_UI_CONFIRM_TEXT">Attention ! La modification de ce paramètre nécessite de recharger l'application. Voulez-vous continuer quand même ?</message>
     

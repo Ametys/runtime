@@ -676,7 +676,8 @@
                     
                     <label i18n="true">PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_CLEAR_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_CLEAR_DESCRIPTION</description>
-                    <description-footer i18n="true">PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_CLEAR_FOOTER</description-footer>
+                    <help>org.ametys.runtime.requesttracker</help>
+                    
                     <icon-small file="true">img/uitool-requeststracker/delete_16.gif</icon-small>
                     <icon-medium file="true">img/uitool-requeststracker/delete_16.gif</icon-medium>
                     <icon-large file="true">img/uitool-requeststracker/delete_16.gif</icon-large>
