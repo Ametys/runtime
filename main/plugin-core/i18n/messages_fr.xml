@@ -78,7 +78,6 @@
 	<message key="PLUGINS_CORE_UITOOL_USERS_SEARCH_EMPTY_TEXT">Nom ou identifiant</message>
     <message key="PLUGINS_CORE_UITOOL_USERS_SEARCH_LIMIT_HELPTEXT">Attention ! La recherche ne renvoie que les 100 premiers résultats.</message>
 	<message key="PLUGINS_CORE_UITOOL_USERS_COL_NAME">Nom</message>
-	<message key="PLUGINS_CORE_UITOOL_USERS_COL_ID">Identifiant</message>
 	<message key="PLUGINS_CORE_UITOOL_USERS_COL_EMAIL">Email</message>
     <!-- Action -->
     <message key="PLUGINS_CORE_USERS_ADD_LABEL">Nouvel utilisateur</message>
@@ -99,10 +98,6 @@
     <message key="PLUGINS_CORE_USERS_DIALOG_OK">Ok</message>
     <message key="PLUGINS_CORE_USERS_DIALOG_CANCEL">Annuler</message>
     <message key="PLUGINS_CORE_USERS_DIALOG_INVALID_FIELD">Ce champ est invalide</message>
-    <message key="PLUGINS_CORE_USERS_DIALOG_LOGIN_ERROR">L'identifiant doit comporter entre 3 et 16 caractères.</message>
-    <message key="PLUGINS_CORE_USERS_DIALOG_EMAIL_ERROR">L'email est incorrect.</message>
-    <message key="PLUGINS_CORE_USERS_DIALOG_LASTNAME_ERROR">Le nom ne peut être vide.</message>
-    <message key="PLUGINS_CORE_USERS_DIALOG_PASSWORD_ERROR">Le mot de passe ne peut être vide.</message>
     
     <message key="PLUGINS_CORE_USERS_SEARCH_BUTTON">Rechercher</message>
     <message key="PLUGINS_CORE_USERS_SEARCHING">Recherche</message>

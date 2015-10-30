@@ -103,9 +103,6 @@
     <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_MEMBER_DESCRIPTION">Attribute containing the group members list</message>
     <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_LABEL">Search scope</message>
     <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_DESCRIPTION">Define the search scope used in the LDAP directory</message>
-    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_ENUM_OBJECT">Object</message>
-    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_ENUM_ONE">One level</message>
-    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_ENUM_SUB">Sub tree</message>
     
     <!-- AUTHENTICATION -->
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION">Authentication</message>

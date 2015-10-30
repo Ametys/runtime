@@ -94,9 +94,7 @@
     <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_NAME_sa">Apple Safari</message>
     <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_NAME_op">Opera</message>
     <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC">Consult the user manual of your application to know the recommended browsers.</message>
-    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_LINK">Documentation</message>
     
-    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_UNKNOWN">Unknown</message>
     <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ALL">All versions</message>
     <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_LOWER">Versions {0} and lower</message>
     <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ABOVE">Versions {0} and above</message>
@@ -269,7 +267,6 @@
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_DELETE_CONFIRM_TITLE">Deletion</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_DELETE_CONFIRM_MSG">Are you sure you want to delete with comment ?</message>
 
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_INVALID_FIELD_TEXT">This field is mandatory.</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD">The field</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER">The parameter checker</message>
     
@@ -372,34 +369,27 @@
 	<!-- +
          | Widgets
          + --> 
-	<message key="PLUGINS_CORE_UI_WIDGET_PASSWORD_KEEPOLD">Retain old password</message>
-	<message key="PLUGINS_CORE_UI_WIDGET_PASSWORD_HINT">Change password</message>
-	<message key="PLUGINS_CORE_UI_WIDGET_PASSWORD_ERROR">The same password has to be entered twice.\nPlease enter the new password in both boxes.</message>
-
     <message key="PLUGINS_CORE_UI_FORM_FIELD_STRINGTIME_INVALID_TEXT">The current input is not a valid hour.</message>
     
 	<!-- SELECT USER -->
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CAPTION">Select a user</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_OK">Ok</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CANCEL">Cancel</message>
-	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_ERROR_LISTING">An error occurred while listing users.</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_FIND">Search</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_WARN100">Only the first 100 users are displayed</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_ERROR_EMPTY">Please select a user, in order to proceed.</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_NORESULT">Sorry, your search produced no results</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSERS_DIALOG_CAPTION">Select users</message>
-	<message key="PLUGINS_CORE_UI_USERS_SELECTUSERS_BTN_ADDUSER">Add</message>
-	<message key="PLUGINS_CORE_UI_USERS_SELECTUSERS_BTN_DELETEUSERS">Delete</message>
 	
 	<!-- SELECT GROUP -->
 	<message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CAPTION">Select a group</message>
 	<message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_OK">Ok</message>
 	<message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CANCEL">Cancel</message>
-	<message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_ERROR_LISTING">An error occurred during the listing of the groups.</message>
 	<message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_FIND">Search</message>
 	<message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_WARN100">Only the first 100 groups are displayed</message>
 	<message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_ERROR_EMPTY">Please select a group in order to proceed.</message>
 	<message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_NORESULT">Sorry, no results matched your search</message>
+	<message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUPS_DIALOG_CAPTION">Select groups</message>
 
 	<!-- PROFILES TREE -->
 	<message key="PLUGINS_CORE_UI_PROFILES_TREE_FILTER_BY_NAME">Filter by user(s) or group(s) ...</message>
@@ -449,8 +439,6 @@
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_BTN_RESTORE_DEFAULTS">Restore defaults</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_BTN_OK">Ok</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_BTN_CANCEL">Cancel</message>
-    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_SAVE">Save ...</message>
-    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_SAVE_INVALIDFIELDS">One or many fields are not valid.&lt;br/&gt;Please provide correct inputs : </message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_ERROR">An error occurred: unable to display user preferences.</message>
     
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_GROUP_10_DISPLAY">Display</message>
@@ -536,10 +524,6 @@
     <message key="PLUGINS_CORE_UI_WIDGET_QUERYABLE_COMBOBOX_NO_RESULT">The search didn't return any result</message>
     <message key="PLUGINS_CORE_UI_WIDGET_QUERYABLE_COMBOBOX_LOADING">Searching...</message>
     
-    <message key="PLUGINS_CORE_UI_WIDGET_USER_NO_USER">Select a user from the list below</message>
-    
-    <message key="PLUGINS_CORE_UI_WIDGET_RICH_TEXT_TOC_ERROR">Some text is present on the same line as a table of contents.</message>
-    
     <message key="PLUGINS_CORE_UI_WIDGET_GEOCODE_SHOW_MAP_BUTTON_TOOLTIP">Locate on the map</message>
     <message key="PLUGINS_CORE_UI_WIDGET_GEOCODE_DELETE_BUTTON">Delete</message>
     <message key="PLUGINS_CORE_UI_WIDGET_GEOCODE_DELETE_CONFIRM_TITLE">Delete coordinates</message>
@@ -595,7 +579,6 @@
     <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH_LABEL">Search</message>
     <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH">Search</message>
     <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_HELP_MSG_1">Enter an address in the search field below to position the marker then move it to the exact desired position.</message>
-    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_BOTTOM_TEXT">Please note that the marker position may not match the search field if you have positioned the marker manually.</message>
     <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH_NOT_FOUND">Unable to find: </message>
     <message key="LOAD_GOOGLE_MAPS_ERROR">Processing error</message>
     <message key="LOAD_GOOGLE_MAPS_ERROR_DESC">Failed to load Google Maps API</message>
@@ -754,7 +737,6 @@
 	<message key="PLUGINS_CORE_UI_TOOLS_HELP_INFO_NOT_FOUND">No help page was found. Please click here button to open the home page of the online help.</message>
     <message key="PLUGINS_CORE_UI_TOOLS_HELP_INFO_NOT_FOUND_TOOLTIP_TITLE">No help available</message>
     <message key="PLUGINS_CORE_UI_TOOLS_HELP_INFO_NOT_FOUND_TOOLTIP_DESCRIPTION">There is no help associated to the current feature.&lt;br/&gt;&lt;br/&gt;You can click on this button to go back the online help home page, and use the search engine to find  help on this feature.</message>
-	<message key="PLUGINS_CORE_UI_TOOLS_HELP_INFO_OPEN_ROOT_HELP">Click here to visualize the root page of the help</message>
 	<message key="PLUGINS_CORE_UI_TOOLS_HELP_OPEN_NEW_WINDOW">Click here to open the page in a new window</message>
 	<message key="PLUGINS_CORE_UI_TOOLS_HELP_ERROR_URL_PROVIDER">Error while trying to display an help page.</message>
     

@@ -79,7 +79,6 @@
 	<message key="PLUGINS_CORE_UITOOL_USERS_SEARCH_EMPTY_TEXT">Name or login</message>
     <message key="PLUGINS_CORE_UITOOL_USERS_SEARCH_LIMIT_HELPTEXT">Be careful : searches only return the 100 first results.</message>
 	<message key="PLUGINS_CORE_UITOOL_USERS_COL_NAME">Name</message>
-	<message key="PLUGINS_CORE_UITOOL_USERS_COL_ID">Login</message>
 	<message key="PLUGINS_CORE_UITOOL_USERS_COL_EMAIL">Email</message>
     <!-- Action -->
     <message key="PLUGINS_CORE_USERS_ADD_LABEL">New user</message>
@@ -100,10 +99,6 @@
     <message key="PLUGINS_CORE_USERS_DIALOG_OK">Ok</message>
     <message key="PLUGINS_CORE_USERS_DIALOG_CANCEL">Cancel</message>
     <message key="PLUGINS_CORE_USERS_DIALOG_INVALID_FIELD">This field is invalid.&lt;br/&gt;See help for details.</message>
-    <message key="PLUGINS_CORE_USERS_DIALOG_LOGIN_ERROR">The login ID must contains at least 3 characters and at most 16.</message>
-    <message key="PLUGINS_CORE_USERS_DIALOG_EMAIL_ERROR">Invalid email</message>
-    <message key="PLUGINS_CORE_USERS_DIALOG_LASTNAME_ERROR">The last name cannot be empty.</message>
-    <message key="PLUGINS_CORE_USERS_DIALOG_PASSWORD_ERROR">The password can not be empty.</message>
     
     <message key="PLUGINS_CORE_USERS_SEARCH_BUTTON">Search</message>
     <message key="PLUGINS_CORE_USERS_SEARCHING">Search</message>

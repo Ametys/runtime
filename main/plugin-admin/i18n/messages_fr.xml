@@ -16,75 +16,21 @@
    -->
 <catalogue xml:lang="fr">
 
-    <!-- ADMINISTRATOR PASSWORD -->
-    <message key="PLUGINS_ADMIN_PASSWORD_LABEL">Mot de passe</message>
-    <message key="PLUGINS_ADMIN_PASSWORD_DESCRIPTION">Modifier le mot de passe du compte 'admin'</message>
-    <message key="PLUGINS_ADMIN_PASSWORD_DIALOG_CAPTION">Modifier le mot de passe...</message>
-    <message key="PLUGINS_ADMIN_PASSWORD_DIALOG_OK">Ok</message>
-    <message key="PLUGINS_ADMIN_PASSWORD_DIALOG_CANCEL">Annuler</message>
-    <message key="PLUGINS_ADMIN_PASSWORD_OLD">Ancien mot de passe</message>
-    <message key="PLUGINS_ADMIN_PASSWORD_NEW">Nouveau mot de passe</message>
-    <message key="PLUGINS_ADMIN_PASSWORD_CONFIRM">Confirmez le nouveau mot de passe</message>
-    <message key="PLUGINS_ADMIN_PASSWORD_CHANGE_ERROR_MANDATORY">Ce champ est obligatoire</message>
-    <message key="PLUGINS_ADMIN_PASSWORD_CHANGE_OK">Le mot de passe a été changé.\nVeillez à communiquer ce nouveau mot de passe à tous les administrateurs systèmes.</message>
-    <message key="PLUGINS_ADMIN_PASSWORD_CHANGE_ERROR_WRONG_EMPTY">Les 3 champs doivent avoir une valeur.</message>
-    <message key="PLUGINS_ADMIN_PASSWORD_CHANGE_ERROR_WRONG_CONFIRM">La confirmation du nouveau mot de passe est incorrecte.</message>
-    <message key="PLUGINS_ADMIN_PASSWORD_CHANGE_ERROR">Une erreur a empêché la modification du mot de passe.\nVérifiez que l'ancien mot de passe est correct.</message>
-    <message key="PLUGINS_ADMIN_PASSWORD_CHANGE_ERROR_FATAL">Une erreur est survenue sur le serveur. Le mot de passe n'a pas été changé.</message>
-    
     <!-- ADMINISTRATOR CONFIG -->
     <message key="PLUGINS_ADMIN_CONFIG_LABEL">Configuration</message>
-    <message key="PLUGINS_ADMIN_CONFIG_MENU">Sommaire</message>
     <message key="PLUGINS_ADMIN_CONFIG_DESCRIPTION">Réglage des paramètres de configuration</message>
-    <message key="PLUGINS_ADMIN_CONFIG_TITLE">Configuration</message>
     <message key="PLUGINS_ADMIN_CONFIG_LOADING_ERROR">Une erreur est survenue et les paramètres de configuration n'ont pas pu être chargés</message>
     <message key="PLUGINS_ADMIN_CONFIG_HANDLE">Gestion</message>
     <message key="PLUGINS_ADMIN_CONFIG_HANDLE_SAVE">Sauver et redémarrer</message>
     <message key="PLUGINS_ADMIN_CONFIG_HANDLE_SAVE_DESC">Enregistre les valeurs du formulaire et rédemarre l'application.</message>
-    <message key="PLUGINS_ADMIN_CONFIG_HANDLE_QUIT">Quitter sans sauver</message>
-    <message key="PLUGINS_ADMIN_CONFIG_HELP">Aide</message>    
-    <message key="PLUGINS_ADMIN_CONFIG_HELP_TEXT">Cet écran vous permet de modifier la configuration système de l'application.&lt;br/&gt;&lt;br/&gt;Naviguez en utilisant les onglets et modifiez les valeurs des paramètres.&lt;br/&gt;&lt;br/&gt;Lorsque vous enregistrez les modifications, l'application sera redémarrée automatiquement pour prendre les modifications en compte.</message>
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_OK">La configuration a été sauvée correctement</message>
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_WAIT_MSG">Sauvegarde en cours.&lt;br/&gt;Veuillez patienter ...</message>
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_FATALERROR">Le serveur ne répond pas ou une erreur grave est survenue lors de la sauvegarde.\nConsultez les journaux de l'application et du moteur de servlet pour plus de détails.</message>
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_ERROR">Une erreur est survenue sur le serveur et les paramètres n'ont pas été sauvegardés.\n\nLe message d'erreur interne est :\n</message>
-    <message key="PLUGINS_ADMIN_CONFIG_INVALID_REGEXP">La saisie ne respecte pas le format attendu :</message>
     <message key="PLUGINS_ADMIN_CONFIG_DIRTY_CLOSE_MBOX_LABEL">Fermer sans enregistrer</message>
     <message key="PLUGINS_ADMIN_CONFIG_DIRTY_CLOSE_MBOX_TEXT">Attention !&lt;br/&gt;Si vous continuez toutes vos modifications seront perdues !&lt;br/&gt;Souhaitez-vous abandonner vos modifications ?</message>
-    <message key="DATE_FIELD_FORMAT">d/m/Y</message>
     
-    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECK_ERROR">Erreur lors de la vérification des paramètres</message>
-    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECK_ERROR_TEXT">vérifications(s) a (ont) échoué.&lt;br/&gt;Appuyez sur 'Détails' pour en savoir plus ou consultez les journaux de l'application.</message>
-    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECK_UI_REF_CATEGORY">Sur la catégorie</message>
-    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECK_UI_REF_GROUP">Sur le groupe</message>
-    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECK_UI_REF_PARAMETER">Sur le paramètre</message>
-    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_STATUS">Statut : </message>
-    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_STATUS_SUCCESS">Succès</message>
-    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_STATUS_FAILURE">Echec</message>
-    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_STATUS_NOT_TESTED">Non testé</message>
-    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_STATUS_DEACTIVATED">Désactivé</message>
-    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_STATUS_WARNING">Cette vérification dépend d'un ou plusieurs paramètres qui ont été modifiés. Il est conseillé d'effectuer ce test pour vérifier les nouvelles valeurs.</message>
-    <message key="PLUGINS_ADMIN_CONFIG_TEST_RESULTS_TITLE">Résultat des vérifications</message>
-    <message key="PLUGINS_ADMIN_CONFIG_TEST_RESULTS_TEXT">Les vérifications permettent de vérifier les paramètres de configuration. Voici le bilan :</message>
-    <message key="PLUGINS_ADMIN_CONFIG_TEST_RESULTS_SUCCESSES">Succès</message>
-    <message key="PLUGINS_ADMIN_CONFIG_TEST_RESULTS_FAILURES">Echec(s)</message>
-    <message key="PLUGINS_ADMIN_CONFIG_TEST_RESULTS_NOT_TESTED">Non testé(s)</message>
-    <message key="PLUGINS_ADMIN_CONFIG_RUN_ALL_TESTS">Lancer tous les tests</message>
-    <message key="PLUGINS_ADMIN_CONFIG_RUN_MISSED_TESTS">Lancer les tests manqués</message>
-    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_TOOLTIP_TESTED_PARAMS">Paramètre(s) utilisé(s) : </message>
-    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_TOOLTIP_MESSAGE">Message :</message>
-    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_TOOLTIP_MESSAGE2">Dernier message d'erreur:</message>
-    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_TOOLTIP_DEACTIVATED_MESSAGE">Cette vérification est désactivée car tous les paramètres qu'elle utilise sont désactivés ou au moins un des paramètres utilisés est invalide.</message>
-    <message key="PLUGINS_ADMIN_CONFIG_SERVER_CALL_ERROR_TITLE">Erreur serveur</message>
-    <message key="PLUGINS_ADMIN_CONFIG_SERVER_CALL_ERROR_TEXT">Une erreur est survenue côté serveur. Le résultat des vérifications est réinitialisé.</message>
-    <message key="PLUGINS_ADMIN_CONFIG_INVALID_FIELD_TEXT">Ce champ est obligatoire.</message>
-    <message key="PLUGINS_ADMIN_CONFIG_WARNING_TEXT_BEGINNING">La vérification '</message>
-    <message key="PLUGINS_ADMIN_CONFIG_WARNING_TEXT_END">' a échoué. Vérifiez la valeur de ce paramètre.</message>
-    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_LABEL_PREFIX">Vérifier</message>
-    
-    <message key="PLUGINS_ADMIN_ERROR_DIALOG_TITLE">Erreur</message>
     <message key="PLUGINS_ADMIN_SAVE_DIALOG_TITLE">Sauvegarde</message>
-    
     
     <!-- ADMINISTRATOR JVMSTATUS -->
     <message key="PLUGINS_ADMIN_TOOL_JVMSTATUS_LABEL">Général</message>
@@ -168,7 +114,6 @@
     
     <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYEXTENSIONPOINT_LABEL">Plugins par point d'extension</message>
     <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYEXTENSIONPOINT_DESC">Ouvre un outil permettant de visualiser les plugins par point d'extension sous forme d'un arbre. Permet d'activer/désactiver des plugins.</message>
-    <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYEXTENSIONPOINT_ROOT_TEXT">Plugins</message>
     
     <message key="PLUGINS_ADMIN_TOOL_WORKSPACES_LABEL">Workspaces</message>
     <message key="PLUGINS_ADMIN_TOOL_WORKSPACES_DESC">Ouvre un outil permettant de visualiser les workspaces sous forme d'un arbre.</message>
@@ -193,9 +138,6 @@
     <message key="PLUGINS_ADMIN_PLUGINS_NO_PLUGINS">Aucun plugin n'est enregistré</message>
     <message key="PLUGINS_ADMIN_PLUGINS_EXTENSION_POINTS">Points d'extension</message>
     <message key="PLUGINS_ADMIN_PLUGINS_NO_EXTENSION">Aucun point d'extension n'est enregistré</message>
-    <message key="PLUGINS_ADMIN_PLUGINS_PLUGIN_VIEW">Plugins par fichiers</message>
-    <message key="PLUGINS_ADMIN_PLUGINS_EXTENSION_POINT_VIEW">Plugins par point d'extensions</message>
-    <message key="PLUGINS_ADMIN_PLUGINS_WORKSPACE_VIEW">Workspaces</message>
     <message key="PLUGINS_ADMIN_PLUGINS_NO_WORKSPACE">Aucun workspace n'est enregistré</message>
     <message key="PLUGINS_ADMIN_PLUGINS_WORKSPACE_DEFAULT">(Workspace par défaut)</message>
     <message key="PLUGINS_ADMIN_PLUGINS_INACTIVE">(ERREUR il n'y a pas de raison que cette feature soit inactive)</message>
@@ -213,12 +155,10 @@
     <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_BEWARE_TITLE">Application des changements</message>
     <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_BEWARE_TEXT">Attention! Les changements de configuration peuvent empêcher votre serveur de démarrer.&lt;br/&gt;Le fichier suivant va être modifié 'WEB-INF/param/runtime.xml'. En cas de problèmes vous pouvez restaurer la copie de sauvegarde 'WEB-INF/param/runtime.bak'.&lt;br/&gt;&lt;br/&gt;Modifier ce fichier implique de redémarrer le serveur (cela sera fait automatiquement quand vous appliquerez vos modifications).</message>
     <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_DONE">Les changements ont été effectués et le serveur est en train de redémarrer. Fermer cette boite de dialogue pour recharger cette page.</message>
-    <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_ERROR">Les changements n'ont pas été effectués.</message>
     
     <!-- ADMINISTRATOR LOGS VIEW -->
-    <message key="PLUGINS_ADMIN_TOOL_LOGS_LABEL">Visualisation</message>
+    <message key="PLUGINS_ADMIN_TOOL_LOGS_LABEL">Journaux</message>
     <message key="PLUGINS_ADMIN_TOOL_LOGS_DESC">Visualiser les journaux de l'application</message>
-    <message key="PLUGINS_ADMIN_LOGS_TITLE">Journaux</message>
     <message key="PLUGINS_ADMIN_LOGS_COL_CATEGORY">Journaux</message>
     <message key="PLUGINS_ADMIN_LOGS_COL_NAME">Fichier</message>
     <message key="PLUGINS_ADMIN_LOGS_COL_DATE">Date</message>
@@ -289,11 +229,4 @@
     <message key="PLUGINS_ADMIN_SYSTEM_ERROR_SAVE">Une erreur est survenue sur le serveur. Les modifications n'ont pas été enregistrées.</message>
     <message key="PLUGINS_ADMIN_SYSTEM_CONFIRM_DIALOG_TITLE">Remplacer le message existant</message>
     <message key="PLUGINS_ADMIN_SYSTEM_CONFIRM_DIALOG_TEXT">Une annonnce existe déjà dans cette langue, voulez-vous le remplacer ?</message>
-    
-    <!-- ADMINISTRATOR SUPER USER -->
-    <message key="PLUGINS_ADMIN_SUPERUSER_LABEL">Super utilisateur</message>
-    <message key="PLUGINS_ADMIN_SUPERUSER_DESCRIPTION">Définir un ou des gestionnaire(s) : utilisateurs ayant tous les droits</message>
-    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_ERROR">Une erreur est survenue : l'affectation a échoué.</message>
-    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_TITLE">Super utilisateur</message>
-    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_SUCCESS">L'affectation a été effectuée</message>
 </catalogue>

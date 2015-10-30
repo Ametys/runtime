@@ -72,6 +72,7 @@
     <message key="PLUGINS_CORE_UI_SAFE_MODE_TITLE">Mode sans échec</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_TEXT">L'application a été démarrée en mode sans échec suite à un problème d'initialisation.<br/><br/>Dans ce mode, vous avez uniquement accès à certains outils d'aministration afin de réparer le problème.<br/><br/>Vous pouvez commencer par consulter les journaux applicatifs et vérifier la configuration.</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_LINK">Administrer l'application</message>
+    
     <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TITLE_CONFIG_INCOMPLETE">Information</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TEXT_CONFIG_INCOMPLETE">La configuration de l'application est incomplète ou incorrecte. Utilisez l'outil de configuration pour la compléter.</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TITLE_WRONG_DEFINITIONS">Attention</message>
@@ -94,9 +95,7 @@
     <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_NAME_sa">Apple Safari</message>
     <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_NAME_op">Opera</message>
     <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC">Consultez le manuel utilisateur pour connaître les navigateurs recommandés.</message>
-    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_LINK">Documentation</message>
     
-    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_UNKNOWN">Inconnu</message>
     <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ALL">Toutes versions</message>
     <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_LOWER">Versions {0} et inférieures</message>
     <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ABOVE">Versions {0} et supérieures</message>
@@ -269,7 +268,6 @@
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_DELETE_CONFIRM_TITLE">Suppression</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_DELETE_CONFIRM_MSG">Etes-vous sûrs de vouloir supprimer ce commentaire ?</message>
     
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_INVALID_FIELD_TEXT">Ce champ est obligatoire.</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD">Le champ</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER">La vérification</message>
     
@@ -372,34 +370,27 @@
     <!-- +
          | Widgets
          + --> 
-    <message key="PLUGINS_CORE_UI_WIDGET_PASSWORD_KEEPOLD">Conserver l'ancien mot de passe</message>
-    <message key="PLUGINS_CORE_UI_WIDGET_PASSWORD_HINT">Changer le mot de passe</message>
-    <message key="PLUGINS_CORE_UI_WIDGET_PASSWORD_ERROR">Vous devez saisir 2 fois le même mot de passe.\nVeuillez saisir à nouveau le mot de passe en 2 exemplaires</message>
-
     <message key="PLUGINS_CORE_UI_FORM_FIELD_STRINGTIME_INVALID_TEXT">La saisie actuelle n'est pas une heure valide.</message>
     
     <!-- SELECT USER -->
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CAPTION">Sélectionner un utilisateur</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_OK">Ok</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CANCEL">Annuler</message>
-	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_ERROR_LISTING">Une erreur est survenue lors de la récupération de la liste des utilisateurs.</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_FIND">Chercher</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_WARN100">Au maximum 100 utilisateurs sont listés</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_ERROR_EMPTY">Vous devez sélectionner au moins un utilisateur dans la liste avant de continuer.</message>
     <message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_NORESULT">La recherche n'a renvoyé aucun résultat</message>
     <message key="PLUGINS_CORE_UI_USERS_SELECTUSERS_DIALOG_CAPTION">Sélectionner des utilisateurs</message>
-    <message key="PLUGINS_CORE_UI_USERS_SELECTUSERS_BTN_ADDUSER">Ajouter</message>
-    <message key="PLUGINS_CORE_UI_USERS_SELECTUSERS_BTN_DELETEUSERS">Supprimer</message>
     
     <!-- SELECT GROUP -->
     <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CAPTION">Sélectionner un groupe</message>
     <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_OK">Ok</message>
     <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CANCEL">Annuler</message>
-    <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_ERROR_LISTING">Une erreur est survenue lors de la récupération de la liste des groupes.</message>
     <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_FIND">Chercher</message>
     <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_WARN100">Au maximum 100 groupes sont listés</message>
     <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_ERROR_EMPTY">Vous devez sélectionner au moins un groupe dans la liste avant de continuer.</message>
     <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_NORESULT">La recherche n'a renvoyé aucun résultat</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUPS_DIALOG_CAPTION">Sélectionner des groupes</message>
     
     <!-- PROFILES TREE -->
     <message key="PLUGINS_CORE_UI_PROFILES_TREE_FILTER_BY_NAME">Filtrer par utilisateur(s) ou groupe(s) ...</message>
@@ -449,8 +440,6 @@
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_BTN_RESTORE_DEFAULTS">Restaurer les valeurs par défaut</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_BTN_OK">Ok</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_BTN_CANCEL">Annuler</message>
-    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_SAVE">Sauvegarde ...</message>
-    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_SAVE_INVALIDFIELDS">Un ou plusieurs champs du formulaire sont invalides.&lt;br/&gt;Veuillez les corriger pour pouvoir continuer : </message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_ERROR">Une erreur est survenue: impossible de récupérer les préférences utilisateurs</message>
     
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_GROUP_10_DISPLAY">Affichage</message>
@@ -536,10 +525,6 @@
     <message key="PLUGINS_CORE_UI_WIDGET_QUERYABLE_COMBOBOX_NO_RESULT">La recherche n'a renvoyé aucun résultat</message>
     <message key="PLUGINS_CORE_UI_WIDGET_QUERYABLE_COMBOBOX_LOADING">Recherche en cours...</message>
     
-    <message key="PLUGINS_CORE_UI_WIDGET_USER_NO_USER">Sélectionnez un utilisateur dans la liste ci-dessous</message>
-    
-    <message key="PLUGINS_CORE_UI_WIDGET_RICH_TEXT_TOC_ERROR">Du texte est présent sur la même ligne qu'une table des matières.</message>
-    
     <message key="PLUGINS_CORE_UI_WIDGET_GEOCODE_SHOW_MAP_BUTTON_TOOLTIP">Situer sur la carte</message>
     <message key="PLUGINS_CORE_UI_WIDGET_GEOCODE_DELETE_BUTTON">Supprimer</message>
     <message key="PLUGINS_CORE_UI_WIDGET_GEOCODE_DELETE_CONFIRM_TITLE">Supprimer les coordonnées</message>
@@ -595,7 +580,6 @@
     <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH_LABEL">Recherche</message>
     <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH">Rechercher</message>
     <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_HELP_MSG_1">Saisissez une adresse dans le champ de recherche ci-dessous pour positionner le marqueur, puis déplacez le à la position exacte souhaitée.</message>
-    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_BOTTOM_TEXT">Attention, la position du marqueur peut ne pas correspondre au champ de recherche si vous avez positionné le curseur manuellement.</message>
     <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH_NOT_FOUND">Impossible de trouver: </message>
     <message key="LOAD_GOOGLE_MAPS_ERROR">Erreur de traitement</message>
     <message key="LOAD_GOOGLE_MAPS_ERROR_DESC">Echec lors du chargement des API Google Maps</message>
@@ -754,7 +738,6 @@
 	<message key="PLUGINS_CORE_UI_TOOLS_HELP_INFO_NOT_FOUND">Aucune page d'aide n'a été trouvée. Veuillez cliquer ici pour ouvrir la page racine de l'aide.</message>
 	<message key="PLUGINS_CORE_UI_TOOLS_HELP_INFO_NOT_FOUND_TOOLTIP_TITLE">Pas d'aide disponible</message>
     <message key="PLUGINS_CORE_UI_TOOLS_HELP_INFO_NOT_FOUND_TOOLTIP_DESCRIPTION">Il n'y a pas de page d'aide existante associée à la fonctionnalité consultée.&lt;br/&gt;&lt;br/&gt;Vous pouvez cliquer sur ce bouton pour revenir à la page racine de l'aide en ligne, et utiliser le moteur de recherche pour trouver de l'aide sur la fonctionnalité.</message>
-	<message key="PLUGINS_CORE_UI_TOOLS_HELP_INFO_OPEN_ROOT_HELP">Cliquez ici pour visualiser la page racine de l'aide</message>
 	<message key="PLUGINS_CORE_UI_TOOLS_HELP_OPEN_NEW_WINDOW">Cliquez ici pour ouvrir la page d'aide dans une nouvelle fenêtre</message>
 	<message key="PLUGINS_CORE_UI_TOOLS_HELP_ERROR_URL_PROVIDER">Erreur lors de l'affichage d'une page d'aide.</message>
 
