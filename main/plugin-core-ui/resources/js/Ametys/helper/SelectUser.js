@@ -187,7 +187,7 @@ Ext.define('Ametys.helper.SelectUser', {
 		});	
 		
 		this._box = Ext.create('Ametys.window.DialogBox', {
-			title :"<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CAPTION'/>",
+			title : this.allowMultiselection ? "<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSERS_DIALOG_CAPTION'/>" : "<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CAPTION'/>",
 			icon: Ametys.getPluginResourcesPrefix('core') + '/img/users/user_16.png',
 			
 			layout: {
@@ -294,7 +294,7 @@ Ext.define('Ametys.helper.SelectUser', {
 		if (selection.length == 0)
 		{
 			Ametys.Msg.show({
-				   title: "<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CAPTION'/>",
+				   title: this.allowMultiselection ? "<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSERS_DIALOG_CAPTION'/>" : "<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CAPTION'/>",
 				   msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_ERROR_EMPTY'/>",
 				   buttons: Ext.Msg.OK,
 				   icon: Ext.MessageBox.INFO

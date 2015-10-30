@@ -175,7 +175,7 @@ Ext.define('Ametys.helper.SelectGroup', {
 		});	
 		
 		this._box = Ext.create('Ametys.window.DialogBox', {
-			title :"<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CAPTION'/>",
+			title : this.allowMultiselection ? "<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_SELECTGROUPS_DIALOG_CAPTION'/>" : "<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CAPTION'/>",
 			layout: {
 			    type: 'vbox',
 			    align : 'stretch',
@@ -246,7 +246,7 @@ Ext.define('Ametys.helper.SelectGroup', {
 		if (records.length == 0)
 		{
 			Ametys.Msg.show({
-			   title: "<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CAPTION'/>",
+			   title: this.allowMultiselection ? "<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_SELECTGROUPS_DIALOG_CAPTION'/>" : "<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CAPTION'/>",
 			   msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_NORESULT'/>",
 			   buttons: Ext.Msg.OK,
 			   icon: Ext.MessageBox.INFO
@@ -281,7 +281,7 @@ Ext.define('Ametys.helper.SelectGroup', {
 		if (selection.length == 0)
 		{
 			Ametys.Msg.show({
-				   title: "<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CAPTION'/>",
+				   title: this.allowMultiselection ? "<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_SELECTGROUPS_DIALOG_CAPTION'/>" : "<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CAPTION'/>",
 				   msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_ERROR_EMPTY'/>",
 				   buttons: Ext.Msg.OK,
 				   icon: Ext.MessageBox.INFO
