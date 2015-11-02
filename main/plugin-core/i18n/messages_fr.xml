@@ -250,10 +250,10 @@
     
     <!-- PROFILES ACTIONS -->
 	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_LABEL">Affecter à un utilisateur</message>
-    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_DESCRIPTION">Ajoute une nouvelle affectation au profil sélectionné sur le context courant</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_DESCRIPTION">Ajoute une nouvelle affectation au profil sélectionné sur le contexte courant</message>
     <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_ERROR">Une erreur est survenue : la nouvelle affectation n'a pu être prise en compte.</message>
     <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDGROUP_LABEL">Affecter à un groupe</message>
-    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDGROUP_DESCRIPTION">Ajoute une nouvelle affectation au profil sélectionné sur le context courant</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDGROUP_DESCRIPTION">Ajoute une nouvelle affectation au profil sélectionné sur le contexte courant</message>
     <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDGROUP_ERROR">Une erreur est survenue : la nouvelle affectation n'a pu être prise en compte.</message>
     <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_LABEL">Supprimer l'affectation</message>
     <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_DESCRIPTION">Supprimer l'affectation sur le profil sélectionné</message>
