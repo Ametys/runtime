@@ -93,8 +93,11 @@ $ametys-ribbon-contextualgroup-colors-dark: $ametys-rainbow-dark;
 /**
  * Tools layout
  */
-$ametys-tool-base-color: dynamic($ametys-ribbon-base-color);
+/** @var {color} The base color of tools layout back */
+$ametys-tool-base-color: dynamic(#FFFFFF);
+/** @var {number} The base font-size of tools layout */
 $ametys-tool-font-size: dynamic($font-size); 
+/** @var {color} The base color of tools layout front */
 $ametys-tool-color: dynamic(#7F7F7F);
 
 $ametys-tool-tab-gray: #E1E1E1;

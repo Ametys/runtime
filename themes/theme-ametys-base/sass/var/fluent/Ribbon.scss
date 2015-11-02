@@ -56,6 +56,9 @@ $ametys-ribbon-message-title-font-size: $font-size;
 $ametys-ribbon-message-title-font-weight: normal;
 $ametys-ribbon-message-title-text-transform: uppercase;
 
+/** @var {number} The background color of the ribbon top is used after the ribbon to have a wrap effect. This value is the width of this border. */
+$ametys-ribbon-message-border-width: $ametys-ribbon-message-font-size / 12;
+
 $ametys-ribbon-contextualgroup-font-size: $ametys-ribbon-header-font-size;
 $ametys-ribbon-contextualgroup-font-weight: $ametys-ribbon-header-font-weight;
 $ametys-ribbon-contextualgroup-text-transform: none;

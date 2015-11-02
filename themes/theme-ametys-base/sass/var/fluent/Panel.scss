@@ -22,7 +22,10 @@ $ametys-ribbon-group-separator-color: $ametys-ribbon-base-dark-color;
 $ametys-ribbon-group-separator-size: $ametys-ribbon-group-font-size / 3;
 $ametys-ribbon-group-height: $ametys-ribbon-group-font-size*5.75;
 
-$ametys-ribbon-group-header-color: $ametys-ribbon-main-color;
+/** @var {color} The color of the title of a group of a tab of the ribbon */
+$ametys-ribbon-group-header-color: $ametys-ribbon-main-text-color;
+/** @var {number} The font-size of the title of a group of a tab of the ribbon */
 $ametys-ribbon-group-header-font-size: dynamic($ametys-ribbon-group-font-size*0.9);
+/** @var {string} The font-weight of the title of a group of a tab of the ribbon */
 $ametys-ribbon-group-header-font-weight: normal;
  

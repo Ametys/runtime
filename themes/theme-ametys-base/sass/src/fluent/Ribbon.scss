@@ -125,7 +125,7 @@
  * Info message
  */
 .#{$prefix}container-ribbon-messagecontainer {
-    padding-bottom: $ametys-ribbon-message-font-size / 4;
+    padding-bottom: $ametys-ribbon-message-border-width;
     background-color: $ametys-ribbon-base-color;
 }
 .#{$prefix}container-ribbon-message {

@@ -16,6 +16,7 @@
 
 .#{$prefix}container-tool-layout {
     background-color: $ametys-tool-base-color;
+    padding: $ametys-tool-layout-padding;
 }
 
 @include extjs-tab-panel-ui(

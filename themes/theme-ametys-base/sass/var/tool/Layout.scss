@@ -18,6 +18,8 @@ $ametys-tool-background-color: $ametys-tool-base-color;
 $ametys-tool-tab-color: $ametys-tool-color;
 $ametys-tool-tab-font-size: $ametys-tool-font-size;
 
+$ametys-tool-layout-padding: $ametys-tool-tab-font-size/12; 
+
 $ametys-tool-border-width: dynamic(1px);
 $ametys-tool-border-top-width: dynamic($font-size/3 - $ametys-tool-border-width);
 $ametys-tool-inner-border-width: dynamic($font-size/3 - $ametys-tool-border-width);
