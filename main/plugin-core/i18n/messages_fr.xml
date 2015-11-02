@@ -258,9 +258,7 @@
     <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_LABEL">Supprimer l'affectation</message>
     <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_DESCRIPTION">Supprimer l'affectation sur le profil sélectionné</message>
     <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_CONFIRM">Etes-vous sûr de vouloir supprimer cette ou ces affectation(s) ?</message>
-    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_SUCCESS">L'affectation a bien été supprimée</message>
     <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_ERROR">Une erreur est survenue lors de la suppression.</message>	
-	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ERROR_TITLE">Une erreur est survenue</message>
     
     <!-- RIGHTS -->
     <message key="PLUGINS_CORE_RIGHTS_HANDLE_LABEL">Assignation des profils</message>

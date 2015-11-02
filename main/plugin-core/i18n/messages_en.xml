@@ -260,9 +260,7 @@
 	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_LABEL">Delete assignment</message>
 	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_DESCRIPTION">Deletete profile assignement</message>
 	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_CONFIRM">Do you really want to remove this or these assignment(s) ?</message>
-	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_SUCCESS">Assignment removed</message>
 	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_ERROR">An error occured during removing.</message>
-	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ERROR_TITLE">An error occured</message>
 
 	<!-- RIGHTS -->
 	<message key="PLUGINS_CORE_RIGHTS_HANDLE_LABEL">Profiles assignment</message>
