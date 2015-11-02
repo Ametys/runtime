@@ -19,8 +19,11 @@
     xmlns:i18n="http://apache.org/cocoon/i18n/2.1"
     xmlns:exslt="http://exslt.org/common"
     xmlns:ametys="org.ametys.core.util.AmetysXSLTHelper">
-	
+    
 	<xsl:import href="kernel-browsers.xsl"/>
+	
+    <xsl:variable name="theme">ametys-base</xsl:variable>
+    <xsl:variable name="uxtheme">neptune</xsl:variable>
 	
     <!-- +
          | Load and initialize all scripts for UI
@@ -54,8 +57,6 @@
 		  		  'failure-redirection': "/_admin/public/browser-unsupported.html"
 		     }
 		</xsl:param>
-		<xsl:param name="theme">ametys-base</xsl:param>
-        <xsl:param name="uxtheme">neptune</xsl:param>
         <xsl:param name="load-cb"/>
         
 		<xsl:variable name="context-path" select="ametys:uriPrefix(false())"/>
@@ -90,7 +91,6 @@
             <script>/plugins/extjs6/resources/classic/locale/locale-<xsl:value-of select="$language-code"/><xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
             
             <xsl:call-template name="theme-scripts">
-                <xsl:with-param name="theme"><xsl:value-of select="$theme"/></xsl:with-param>
                 <xsl:with-param name="debug-mode"><xsl:value-of select="$debug-mode"/></xsl:with-param>
             </xsl:call-template>
             
@@ -112,8 +112,6 @@
 	    
 		<xsl:variable name="css">
             <xsl:call-template name="theme-styles">
-                <xsl:with-param name="theme" select="$theme"/>
-                <xsl:with-param name="uxtheme" select="$uxtheme"/>
                 <xsl:with-param name="rtl" select="$rtl"/>
                 <xsl:with-param name="debug-mode" select="$debug-mode"/>
             </xsl:call-template>
@@ -129,7 +127,6 @@
     </xsl:template>
     
     <xsl:template name="theme-scripts">
-        <xsl:param name="theme"/>
         <xsl:param name="debug-mode"/>
         
         <script>/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/><xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
@@ -259,8 +256,6 @@
     </xsl:template>
     
     <xsl:template name="theme-styles">
-        <xsl:param name="theme"/>
-        <xsl:param name="uxtheme"/>
         <xsl:param name="rtl"/>
         <xsl:param name="debug-mode"/>
         
