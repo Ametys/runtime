@@ -64,6 +64,20 @@
             </groups>
         </tab>
         
+        <tab label="plugin.core:RIBBON_TABS_TAB_RIGHTS_HANDLE_LABEL">
+            <groups>
+                <group label="plugin.core:RIBBON_TABS_TAB_USERS_GROUPS_GROUP_USERS_LABEL" icon="">
+                    <large />
+                    <medium>
+                        <control id="org.ametys.core.Users" />
+                        <control id="org.ametys.core.Groups" />
+                        <control id="org.ametys.core.Profiles"/>
+                    </medium>
+                    <small />
+                </group>
+            </groups>
+        </tab>
+        
         <tab label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_DEVELOPPER_LABEL">
             <groups>
                 <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_DEVELOPPER_GROUPS_GROUP_TOOLS" icon="">
@@ -71,6 +85,98 @@
                     <medium>
                         <control id="org.ametys.runtime.userinterface.MessageTrackerControlMenu"/>
                         <control id="org.ametys.runtime.userinterface.RequestTrackerControlMenu"/>
+                    </medium>
+                    <small/>
+                </group>
+            </groups>
+        </tab>
+        
+        <!-- Contextual tabs for users -->
+        <tab id="org.ametys.core.rights.UserTab" label="plugin.core:RIBBON_TABS_TAB_USERS_LABEL" contextualColor="2" contextualLabel="plugin.core:RIBBON_TABS_TAB_USERS_LABEL">
+            <groups>
+                <group label="plugin.core:RIBBON_TABS_TAB_USERS_GROUPS_GROUP_ACTION_LABEL" icon="">
+                    <large/>
+                    <medium>
+                        <control id="org.ametys.core.users.Add"/>
+                        <control id="org.ametys.core.users.Edit"/>
+                        <control id="org.ametys.core.users.Delete"/>
+                        <control id="org.ametys.core.users.Rights"/>
+                        <control id="org.ametys.core.users.Impersonate"/>
+                    </medium>
+                    <small/>
+                </group>
+            </groups>
+        </tab>
+        
+        <!-- Contextual tabs for groups -->
+        <tab id="org.ametys.core.rights.GroupTab" label="plugin.core:RIBBON_TABS_TAB_GROUPS_LABEL" contextualColor="3" contextualLabel="plugin.core:RIBBON_TABS_TAB_GROUPS_GROUP_LABEL">
+            <groups>
+                <group label="plugin.core:RIBBON_TABS_TAB_GROUPS_GROUPS_GROUP_ACTION_LABEL" icon="">
+                    <large/>
+                    <medium>
+                        <control id="org.ametys.core.groups.Add"/>
+                        <control id="org.ametys.core.groups.Edit"/>
+                        <control id="org.ametys.core.groups.Delete"/>
+                    </medium>
+                    <small>
+                        <control id="org.ametys.core.groups.Add"/>
+                        <layout size="small">
+                            <control id="org.ametys.core.groups.Edit"/>
+                            <control id="org.ametys.core.groups.Delete"/>
+                        </layout>
+                    </small>
+                </group>
+                <group label="plugin.core:RIBBON_TABS_TAB_GROUPS_GROUPS_GROUP_USER_LABEL" icon="">
+                    <large/>
+                    <medium>
+                        <control id="org.ametys.core.groups.AddUsers"/>
+                        <control id="org.ametys.core.groups.RemoveUsers"/>
+                    </medium>
+                    <small/>
+                </group>
+            </groups>
+        </tab>
+        
+        <!-- Contextual tabs for profiles -->
+        <tab id="org.ametys.core.rights.ProfileTab" label="plugin.core:RIBBON_TABS_TAB_PROFILES_LABEL" contextualColor="4" contextualLabel="plugin.core:RIBBON_TABS_TAB_PROFILES_GROUP_LABEL">
+            <groups>
+                <group label="plugin.core:RIBBON_TABS_TAB_PROFILES_GROUPS_GROUP_ACTION_LABEL" icon="">
+                    <large>
+                        <control id="org.ametys.core.profiles.Add"/>
+                        <control id="org.ametys.core.profiles.Edit"/>
+                        <control id="org.ametys.core.profiles.Delete"/>
+                    </large>
+                    <medium>
+                        <control id="org.ametys.core.profiles.Add"/>
+                        <layout size="small">
+                            <control id="org.ametys.core.profiles.Edit"/>
+                            <control id="org.ametys.core.profiles.Delete"/>
+                        </layout>
+                    </medium>
+                    <small>
+                        <control id="org.ametys.core.profiles.Add"/>
+                        <layout size="very-small">
+                            <control id="org.ametys.core.profiles.Edit"/>
+                            <control id="org.ametys.core.profiles.Delete"/>
+                        </layout>
+                    </small>
+                </group>
+                <group label="plugin.core:RIBBON_TABS_TAB_PROFILES_GROUPS_GROUP_PROFILE_LABEL" icon="">
+                    <large/>
+                    <medium>
+                        <control id="org.ametys.core.profiles.SwitchMode"/>
+                        <control id="org.ametys.core.profiles.SaveRights"/>
+                        <control id="org.ametys.core.profiles.Discard"/>
+                    </medium>
+                    <small/>
+                </group>
+                <group label="plugin.core:RIBBON_TABS_TAB_PROFILES_GROUPS_GROUP_RIGHTS_LABEL" icon="">
+                    <large/>
+                    <medium>
+                        <layout size="small">
+                            <control id="org.ametys.core.profiles.SelectAll"/>
+                            <control id="org.ametys.core.profiles.UnselectAll"/>
+                        </layout>
                     </medium>
                     <small/>
                 </group>
