@@ -997,8 +997,11 @@
                        class="org.ametys.plugins.core.right.profile.ProfileBasedClientSideElement">
                 <class name="Ametys.ribbon.element.ui.ButtonController">
                     <action>Ametys.plugins.core.profiles.ProfilesActions.add</action>
+                    
                     <label i18n="true">PLUGINS_CORE_PROFILES_ADD_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_PROFILES_ADD_DESCRIPTION</description>
+                    <no-right-description>PLUGINS_CORE_PROFILES_DESCRIPTION_NO_RIGHT</no-right-description>
+                    
                     <icon-small file="true">img/profiles/add_16.gif</icon-small>
                     <icon-medium file="true">img/profiles/add_32.gif</icon-medium>
                     <icon-large file="true">img/profiles/add_50.gif</icon-large>
@@ -1020,6 +1023,8 @@
                     
                     <label i18n="true">PLUGINS_CORE_PROFILES_RENAME_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_PROFILES_RENAME_DESCRIPTION</description>
+                    <no-selection-description i18n="true">PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
+                    
                     <icon-small file="true">img/profiles/rename_16.gif</icon-small>
                     <icon-medium file="true">img/profiles/rename_32.gif</icon-medium>
                     <icon-large file="true">img/profiles/rename_50.gif</icon-large>
@@ -1041,6 +1046,8 @@
                     
                     <label i18n="true">PLUGINS_CORE_PROFILES_DELETE_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_PROFILES_DELETE_DESCRIPTION</description>
+                    <no-selection-description i18n="true">PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
+                    
                     <icon-small file="true">img/profiles/delete_16.gif</icon-small>
                     <icon-medium file="true">img/profiles/delete_32.gif</icon-medium>
                     <icon-large file="true">img/profiles/delete_50.gif</icon-large>
@@ -1065,6 +1072,8 @@
                                         
                     <label i18n="true">PLUGINS_CORE_PROFILES_SWITCH_TO_EDITION</label>
                     <description i18n="true">PLUGINS_CORE_PROFILES_SWITCH_TO_EDITION_DESCRIPTION</description>
+                    <no-selection-description i18n="true">PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
+                    
                     <icon-small file="true">img/profiles/edit_16.png</icon-small>
                     <icon-medium file="true">img/profiles/edit_32.png</icon-medium>
                     <icon-large file="true">img/profiles/edit_48.png</icon-large>
@@ -1093,6 +1102,8 @@
                     
                     <label i18n="true">PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS</label>
                     <description i18n="true">PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS_DESCRIPTION</description>
+                    <no-selection-description i18n="true">PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
+                    
                     <icon-small file="true">img/profiles/save_16.png</icon-small>
                     <icon-medium file="true">img/profiles/save_32.png</icon-medium>
                     <icon-large file="true">img/profiles/save_48.png</icon-large>
@@ -1120,6 +1131,8 @@
                     
                     <label i18n="true">PLUGINS_CORE_PROFILES_DONT_SAVE_MODIFICATIONS</label>
                     <description i18n="true">PLUGINS_CORE_PROFILES_DONT_SAVE_MODIFICATIONS_DESCRIPTION</description>
+                    <no-selection-description i18n="true">PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
+                    
                     <icon-small file="true">img/profiles/unsave_16.png</icon-small>
                     <icon-medium file="true">img/profiles/unsave_32.png</icon-medium>
                     <icon-large file="true">img/profiles/unsave_48.png</icon-large>
@@ -1143,6 +1156,8 @@
                                         
                     <label i18n="true">PLUGINS_CORE_PROFILES_SELECT_ALL</label>
                     <description i18n="true">PLUGINS_CORE_PROFILES_SELECT_ALL_DESCRIPTION</description>
+                    <no-selection-description i18n="true">PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
+                    
                     <icon-small file="true">img/profiles/select_16.png</icon-small>
                     <icon-medium file="true">img/profiles/select_32.png</icon-medium>
                     <icon-large file="true">img/profiles/select_48.png</icon-large>
@@ -1168,6 +1183,8 @@
                     
                     <label i18n="true">PLUGINS_CORE_PROFILES_UNSELECT_ALL</label>
                     <description i18n="true">PLUGINS_CORE_PROFILES_UNSELECT_ALL_DESCRIPTION</description>
+                    <no-selection-description i18n="true">PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
+                    
                     <icon-small file="true">img/profiles/unselect_16.png</icon-small>
                     <icon-medium file="true">img/profiles/unselect_32.png</icon-medium>
                     <icon-large file="true">img/profiles/unselect_48.png</icon-large>
