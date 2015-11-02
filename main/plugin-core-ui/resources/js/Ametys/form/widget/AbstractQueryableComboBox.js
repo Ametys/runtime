@@ -143,7 +143,6 @@ Ext.define('Ametys.form.widget.AbstractQueryableComboBox', {
             emptyText: this.emptyText,
             
             listConfig: {
-            	cls: 'ametys-boundlist',
             	loadMask: true,
             	loadingText: this.loadingText,
             	emptyText: '<span class="x-tagfield-noresult-text">' + this.noResultText + '<span>'

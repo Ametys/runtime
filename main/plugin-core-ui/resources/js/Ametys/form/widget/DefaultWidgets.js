@@ -125,11 +125,7 @@ Ext.define('Ametys.form.widget.ComboBox', {
 	        valueField: config.valueField || 'value',
 	        displayField: config.displayField || 'text',
 	        
-	        multiSelect: config.multiple,
-	        
-	        listConfig: {
-	    		cls: 'ametys-boundlist'
-	    	}
+	        multiSelect: config.multiple
 		});
 		
 		this.callParent(arguments);

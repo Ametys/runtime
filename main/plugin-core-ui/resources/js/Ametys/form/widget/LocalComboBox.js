@@ -61,7 +61,6 @@ Ext.define('Ametys.form.widget.LocalComboBox', {
             multiSelect: config.multiple,
             
             listConfig: {
-            	cls: 'ametys-boundlist',
             	loadingText: this.loadingText,
             	emptyText: '<span class="x-tagfield-noresult-text">' + this.noResultText + '<span>'
             }

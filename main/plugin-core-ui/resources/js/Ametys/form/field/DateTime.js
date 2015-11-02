@@ -45,10 +45,7 @@ Ext.define('Ametys.form.field.DateTime', {
     	this.items = [
     	      Ext.create('Ext.form.field.Date', Ext.applyIf(this.dateConfig || {}, {flex: 0.7})), 
     	      Ext.create('Ext.form.field.Time', Ext.applyIf(this.timeConfig|| {}, {
-    	    	  flex: 0.3,
-    	    	  listConfig: {
-    	    			cls: 'ametys-boundlist'
-    	    	  }
+    	    	  flex: 0.3
     	      }))
     	];
     	

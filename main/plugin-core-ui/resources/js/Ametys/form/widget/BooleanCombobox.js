@@ -51,10 +51,7 @@ Ext.define('Ametys.form.widget.BooleanCombobox', {
                [null, config.emptyLabel || "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_EMPTY_LABEL' />"],
                [true, config.trueLabel || "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_TRUE_LABEL' />"],
                [false, config.falseLabel || "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_FALSE_LABEL' />"],
-            ],
-			listConfig: {
-				cls: 'ametys-boundlist'
-			}
+            ]
 		});
 		
 		this.callParent(arguments);
