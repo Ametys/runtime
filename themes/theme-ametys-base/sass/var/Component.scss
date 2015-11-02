@@ -50,11 +50,15 @@ $ametys-rainbow-dark:   dynamic(#8a1111 #d97c38 #987715 #118a11 #00308c #a1407a 
 /**
  * Ribbon
  */
+/** @var {color} Ribbon background color */
 $ametys-ribbon-base-color: dynamic(#FFFFFF);
 $ametys-ribbon-base-light-color: lighten($ametys-ribbon-base-color, 50%);
 $ametys-ribbon-base-dark-color: darken($ametys-ribbon-base-color, 12%); 
+/** @var {color} Ribbon tab label color */
 $ametys-ribbon-main-color: dynamic(#7F7F7F);
+/** @var {color} Ribbon controller's label  color */
 $ametys-ribbon-main-text-color: dynamic(#7F7F7F);
+/** @var {color} Ribbon tab background color */
 $ametys-ribbon-tab-color: dynamic(#F1F1F1);
 $ametys-ribbon-highlight-color: dynamic(#2a579a);
 
