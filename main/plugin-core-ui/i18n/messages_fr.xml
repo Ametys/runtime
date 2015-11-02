@@ -593,7 +593,7 @@
     <!-- +
          | SaveHelper#promptBeforeQuit
          + -->
-    <message key="PLUGINS_CORE_UI_HELPER_SAVE_BEFORE_QUIT_TITLE">Sauvegarde...</message>
+    <message key="PLUGINS_CORE_UI_HELPER_SAVE_BEFORE_QUIT_TITLE">Sauvegarde</message>
     <message key="PLUGINS_CORE_UI_HELPER_SAVE_BEFORE_QUIT_MESSAGE">Souhaiter-vous enregistrer vos modifications avant de fermer ?</message>
     <message key="PLUGINS_CORE_UI_HELPER_SAVE_BEFORE_QUIT_SAVE_BTN_LABEL">Enregistrer</message>
     <message key="PLUGINS_CORE_UI_HELPER_SAVE_BEFORE_QUIT_DONT_SAVE_BTN_LABEL">Ne pas enregistrer</message>
