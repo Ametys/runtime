@@ -739,15 +739,19 @@
     <message key="PLUGINS_CORE_UI_TOOLS_HELP_INFO_NOT_FOUND_TOOLTIP_DESCRIPTION">There is no help associated to the current feature.&lt;br/&gt;&lt;br/&gt;You can click on this button to go back the online help home page, and use the search engine to find  help on this feature.</message>
 	<message key="PLUGINS_CORE_UI_TOOLS_HELP_OPEN_NEW_WINDOW">Click here to open the page in a new window</message>
 	<message key="PLUGINS_CORE_UI_TOOLS_HELP_ERROR_URL_PROVIDER">Error while trying to display an help page.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_HELP_RIBBON_TIP_TITLE">Help</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_HELP_RIBBON_TIP_DESCRIPTION">By clicking on this button, you will open the online help home page</message>
     
     <!-- +
          | NOTIFICATIONS  
          + -->
     <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_LABEL">Notifications</message>
-    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DESCRIPTION">Tool listing the issued notifications.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DESCRIPTION">Tool listing the issued notifications</message>
     <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DELETE_TOOLTIP">Delete this notification</message>
-    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_NO_NOTIFICATIONS">No notifications.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_NO_NOTIFICATIONS">No notifications</message>
     <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DELETE_ALL_TOOLTIP">Delete all notifications</message>
     <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DELETE_ALL_LABEL">Delete all</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_RIBBON_TIP_TITLE">Notifications</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_RIBBON_TIP_DESCRIPTION">Open the notification tool.&lt;br/&gt;&lt;br/&gt;A figure on the ribbon icon displays the number of unread message. The color indicates the most serious message type among these unread messages: red for error, yellow for warning, and blue for simple information.</message>
     
 </catalogue>
