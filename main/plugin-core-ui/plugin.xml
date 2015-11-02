@@ -1092,9 +1092,9 @@
                     
                     <title i18n="true">PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_LABEL</title>
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DESCRIPTION</description>
-                    <icon-small file="true">img/notification/notification_16.png</icon-small>
-                    <icon-medium file="true">img/notification/notification_32.png</icon-medium>
-                    <icon-large file="true">img/notification/notification_48.png</icon-large>
+                    <icon-small file="true">img/uitool-notification/notification_16.png</icon-small>
+                    <icon-medium file="true">img/uitool-notification/notification_32.png</icon-medium>
+                    <icon-large file="true">img/uitool-notification/notification_48.png</icon-large>
                     <default-location>r</default-location>
                 </class>
                 <scripts>
