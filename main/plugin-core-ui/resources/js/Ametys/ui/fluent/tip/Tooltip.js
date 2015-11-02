@@ -219,7 +219,12 @@ Ext.define(
                 newX = target.getLeft() - 5;
                 
                 var rootOfTarget = target;
-                newY = target.parent("body > *").getBottom();
+                var parent = target.parent("body > *[id^=viewport] > *[id^=viewport] > *");
+                if (!parent)
+                {
+                    parent = target.parent("body > *");
+                }
+                newY = parent.getBottom();
                 
                 newX = Math.max(newX, 3);
                 newX = Math.min(newX, Ext.getBody().getRight() - this.getWidth());
