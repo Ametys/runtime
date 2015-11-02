@@ -99,12 +99,6 @@
     <message key="PLUGINS_CORE_USERS_DIALOG_CANCEL">Annuler</message>
     <message key="PLUGINS_CORE_USERS_DIALOG_INVALID_FIELD">Ce champ est invalide</message>
     
-    <message key="PLUGINS_CORE_USERS_SEARCH_BUTTON">Rechercher</message>
-    <message key="PLUGINS_CORE_USERS_SEARCHING">Recherche</message>
-    <message key="PLUGINS_CORE_USERS_SEARCHING_ERROR">Une erreur est survenue sur le serveur lors de la recherche.</message>
-    <message key="PLUGINS_CORE_USERS_SEARCHING_NORESULT">La recherche n'a renvoyé aucun résultat</message>
-    <message key="PLUGINS_CORE_USERS_SEARCH_NO_RESULT">La recherche n'a renvoyé aucun résultat.</message>
-    
     <!-- +
          | USER RIGHTS
          + -->
@@ -160,13 +154,6 @@
     <message key="PLUGINS_CORE_UITOOL_GROUPS_LABEL">Groupes d'utilisateurs</message>
     <message key="PLUGINS_CORE_UITOOL_GROUPS_DESCRIPTION">Liste des groupes et de leurs utilisateurs</message>
     <message key="PLUGINS_CORE_UITOOL_GROUPS_USERSGROUP">Utilisateurs du groupe</message>
-    <message key="PLUGINS_CORE_UITOOL_GROUPS_NO_RESULT">Aucun résultat</message>
-    <message key="PLUGINS_CORE_UITOOL_GROUPS_USERS_RESULT_1">Utilisateur(s) </message>
-    <message key="PLUGINS_CORE_UITOOL_GROUPS_USERS_RESULT_2"> - </message>
-    <message key="PLUGINS_CORE_UITOOL_GROUPS_USERS_RESULT_3"> sur </message>
-    <message key="PLUGINS_CORE_UITOOL_GROUPS_GROUPS_RESULT_1">Groupe(s) </message>
-    <message key="PLUGINS_CORE_UITOOL_GROUPS_GROUPS_RESULT_2"> - </message>
-    <message key="PLUGINS_CORE_UITOOL_GROUPS_GROUPS_RESULT_3"> sur </message>
     <!-- Actions -->
     <message key="PLUGINS_CORE_GROUPS_ADD_LABEL">Nouveau groupe</message>
     <message key="PLUGINS_CORE_GROUPS_ADD_DESCRIPTION">Crée un nouveau groupe</message>
@@ -211,8 +198,6 @@
     <!-- Tool -->
     <message key="PLUGINS_CORE_UITOOL_PROFILES_LABEL">Profils de droits</message>
     <message key="PLUGINS_CORE_UITOOL_PROFILES_DESCRIPTION">Gestion des profils de droits.&lt;br/&gt;Un profil est un ensemble de droits. Chaque utilisateur possède un profil qui permet de connaître la liste de ses droits.</message>
-    <message key="PLUGINS_CORE_UITOOL_PROFILES_SELECT_ALL">Sélectionner tout</message>
-    <message key="PLUGINS_CORE_UITOOL_PROFILES_UNSELECT_ALL">Désélectionner tout</message>
     <message key="PLUGINS_CORE_UITOOL_PROFILES_CATEGORY_SELECT_ALL">Sélectionner tous les droits de la catégorie</message>
     <message key="PLUGINS_CORE_UITOOL_PROFILES_CATEGORY_UNSELECT_ALL">Désélectionner tous les droits de la catégorie</message>
     <!-- Actions -->
@@ -231,15 +216,12 @@
     <message key="PLUGINS_CORE_PROFILES_UNKNOWN_PROFILE_ERROR">Le profil n'existe plus. Il est conseillé de fermer puis de réouvrir l'outil.</message>
     <message key="PLUGINS_CORE_PROFILES_SWITCH_TO_EDITION">Mode édition</message>
     <message key="PLUGINS_CORE_PROFILES_SWITCH_TO_EDITION_DESCRIPTION">Passe en mode d'édition des droits (ajout ou suppression) du profil sélectionné</message>
-    <message key="PLUGINS_CORE_PROFILES_SWITCH_TO_VIEW">Mode visualisation</message>
-    <message key="PLUGINS_CORE_PROFILES_SWITCH_TO_VIEW_DESCRIPTION">Passe en mode visualisation des droits du profil</message>
     <message key="PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS">Sauvegarder</message>
     <message key="PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS_DESCRIPTION">Sauvegarder les modifications effectuées sur ce profil.</message>
     <message key="PLUGINS_CORE_PROFILES_DONT_SAVE_MODIFICATIONS">Annuler</message>
     <message key="PLUGINS_CORE_PROFILES_DONT_SAVE_MODIFICATIONS_DESCRIPTION">Annuler les modifications en cours du profil.</message>
     <message key="PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS_ERROR">Une erreur est survenue lors de la sauvegarde des droits du profil.</message>
     
-    <message key="PLUGINS_CORE_PROFILES_RIGHTS_CONFIRM_TITLE">Sauvegarde</message>
     <message key="PLUGINS_CORE_PROFILES_RIGHTS_CONFIRM_DESCRIPTION">Vous avez fait des modifications dans les droits attribués. Souhaitez-vous les sauvegarder ?</message>
     
     <message key="PLUGINS_CORE_PROFILES_SELECT_ALL">Sélectionner tout</message>
@@ -281,36 +263,9 @@
 	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ERROR_TITLE">Une erreur est survenue</message>
     
     <!-- RIGHTS -->
-    <message key="PLUGINS_CORE_RIGHTS_LABEL">Assignation</message>
-    <message key="PLUGINS_CORE_RIGHTS_DESCRIPTION">Assignation de profils aux utilisateurs</message>
-    <message key="PLUGINS_CORE_RIGHTS_LABELLONG">Assignation des profils</message>
     <message key="PLUGINS_CORE_RIGHTS_HANDLE_LABEL">Assignation des profils</message>
     <message key="PLUGINS_CORE_RIGHTS_HANDLE_DESCRIPTION">Accès à l'écran de gestion des assignations de profils</message>
-    <message key="PLUGINS_CORE_RIGHTS_ACT_CATEGORY">Affectations</message>
-    <message key="PLUGINS_CORE_RIGHTS_ACT_ADDUSER">Affecter à un utilisateur</message>
-    <message key="PLUGINS_CORE_RIGHTS_ACT_ADDGROUP">Affecter à un groupe</message>
-    <message key="PLUGINS_CORE_RIGHTS_ACT_REMOVE">Supprimer l'affectation</message>
-    <message key="PLUGINS_CORE_RIGHTS_ACT_REMOVE_CONFIRM">Etes-vous sûr de vouloir supprimer cette ou ces affectations ?</message>
-    <message key="PLUGINS_CORE_RIGHTS_ACT_REMOVE_ERROR">Une erreur est survenue lors de la suppression.</message>
-    <message key="PLUGINS_CORE_RIGHTS_HANDLE_QUIT">Quitter</message>
-    <message key="PLUGINS_CORE_RIGHTS_PROFIL_CATEGORY">Profils</message>
-    <message key="PLUGINS_CORE_RIGHTS_ACT_GETUSERSANDGROUPS_ERROR">Une erreur est survenue. Impossible d'obtenir la liste des utilisateurs et des groupes ayant des profils pour ce contexte.</message>
-    <message key="PLUGINS_CORE_RIGHTS_ACT_VALIDATE">Valider les modifications</message>
-    <message key="PLUGINS_CORE_RIGHTS_ACT_VALID_CONFIRM">Vous avez modifié les profils. Souhaitez-vous sauvegarder ?</message>
-    <message key="PLUGINS_CORE_RIGHTS_ACT_VALID_ERROR">Une erreur est survenue lors de la sauvegarde. Certaines modifications n'ont pas pu être prises en compte.</message>
-    <message key="PLUGINS_CORE_RIGHTS_USERGROUP_LABEL">Utilisateurs / Groupes</message>
-    <message key="PLUGINS_CORE_RIGHTS_ASSIGN_LEFTCOLUMN">Profils non affectés</message>
-    <message key="PLUGINS_CORE_RIGHTS_ASSIGN_RIGHTCOLUMN">Profils affectés</message>
-    <message key="PLUGINS_CORE_RIGHTS_DBL_LIST_REWIND">Tout passer à gauche</message>
-    <message key="PLUGINS_CORE_RIGHTS_DBL_LIST_PREV">Passer la sélection à gauche</message>
-    <message key="PLUGINS_CORE_RIGHTS_DBL_LIST_NEXT">Passer la sélection à droite</message>
-    <message key="PLUGINS_CORE_RIGHTS_DBL_LIST_FORWARD">Tout passer à droite</message>
     
-    <message key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_LABEL">Application</message>
-    <message key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_DESCRIPTION">Affecte les profils au niveau applicatif</message>
-    <message key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_HELP_AFFECT">Pour assigner des droits, ajoutez un utilisateur ou un groupe en cliquant sur les liens ci-dessus, ou sélectionnez directement un groupe ou un utilisateur dans la liste de droite.</message>
-    <message key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_HELP_PROFIL">Choisissez le ou les profils à appliquer à l'utilisateur ou au groupe sélectionné.&lt;br/&gt;Cliquer sur le lien 'Valider les modifications' pour sauvegarder la nouvelle affectation.</message>
-	
     <!-- SUPER USER -->
     <message key="PLUGINS_CORE_SUPERUSER_LABEL">Affecter un gestionnaire</message>
     <message key="PLUGINS_CORE_SUPERUSER_DESCRIPTION">Affecte un gestionnaire</message>

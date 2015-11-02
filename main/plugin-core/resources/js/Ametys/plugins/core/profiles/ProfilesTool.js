@@ -475,7 +475,7 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 			        	xtype: 'button',
 			        	itemId: 'category-select-all',
 			        	icon: Ametys.getPluginResourcesPrefix('core') + '/img/profiles/select_16.png',
-			        	tooltip: '<i18n:text i18n:key="PLUGINS_CORE_UITOOL_PROFILES_SELECT_ALL"/>',
+			        	tooltip: '<i18n:text i18n:key="PLUGINS_CORE_UITOOL_PROFILES_CATEGORY_SELECT_ALL"/>',
 			        	border: false,
                         handler: function() {me.selectAll(categoryId)},
                         listeners: 
@@ -495,7 +495,7 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 			        	xtype: 'button',
 			        	itemId: 'category-unselect-all',
 			        	icon: Ametys.getPluginResourcesPrefix('core') + '/img/profiles/unselect_16.png',
-			        	tooltip: '<i18n:text i18n:key="PLUGINS_CORE_UITOOL_PROFILES_UNSELECT_ALL"/>',
+			        	tooltip: '<i18n:text i18n:key="PLUGINS_CORE_UITOOL_PROFILES_CATEGORY_UNSELECT_ALL"/>',
 			        	border: false,
 			        	handler: function() {me.unselectAll(categoryId)},
 			        	listeners: 

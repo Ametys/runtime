@@ -99,12 +99,6 @@
     <message key="PLUGINS_CORE_USERS_DIALOG_OK">Ok</message>
     <message key="PLUGINS_CORE_USERS_DIALOG_CANCEL">Cancel</message>
     <message key="PLUGINS_CORE_USERS_DIALOG_INVALID_FIELD">This field is invalid.&lt;br/&gt;See help for details.</message>
-    
-    <message key="PLUGINS_CORE_USERS_SEARCH_BUTTON">Search</message>
-    <message key="PLUGINS_CORE_USERS_SEARCHING">Search</message>
-    <message key="PLUGINS_CORE_USERS_SEARCHING_ERROR">Search has failed.</message>
-    <message key="PLUGINS_CORE_USERS_SEARCHING_NORESULT">The search returns no results</message>
-    <message key="PLUGINS_CORE_USERS_SEARCH_NO_RESULT">The search returns no results</message>
 
     <!-- +
          | USER RIGHTS
@@ -162,13 +156,6 @@
     <message key="PLUGINS_CORE_UITOOL_GROUPS_LABEL">User groups</message>
     <message key="PLUGINS_CORE_UITOOL_GROUPS_DESCRIPTION">User groups</message>
     <message key="PLUGINS_CORE_UITOOL_GROUPS_USERSGROUP">Group users</message>
-    <message key="PLUGINS_CORE_UITOOL_GROUPS_NO_RESULT">No result</message>
-    <message key="PLUGINS_CORE_UITOOL_GROUPS_USERS_RESULT_1">User(s) </message>
-    <message key="PLUGINS_CORE_UITOOL_GROUPS_USERS_RESULT_2"> - </message>
-    <message key="PLUGINS_CORE_UITOOL_GROUPS_USERS_RESULT_3"> on </message>
-    <message key="PLUGINS_CORE_UITOOL_GROUPS_GROUPS_RESULT_1">Group(s) </message>
-    <message key="PLUGINS_CORE_UITOOL_GROUPS_GROUPS_RESULT_2"> - </message>
-    <message key="PLUGINS_CORE_UITOOL_GROUPS_GROUPS_RESULT_3"> on </message>
     <!-- Actions -->
     <message key="PLUGINS_CORE_GROUPS_ADD_LABEL">Create group</message>
     <message key="PLUGINS_CORE_GROUPS_ADD_DESCRIPTION">Create a new group</message>
@@ -213,8 +200,6 @@
     <!-- Tool -->
     <message key="PLUGINS_CORE_UITOOL_PROFILES_LABEL">Rights profiles</message>
     <message key="PLUGINS_CORE_UITOOL_PROFILES_DESCRIPTION">Rights profiles administration.&lt;br/&gt;A profile consists of a set of rights. Each user is assigned a profile which grants particular rights.</message>
-    <message key="PLUGINS_CORE_UITOOL_PROFILES_SELECT_ALL">Select all</message>
-    <message key="PLUGINS_CORE_UITOOL_PROFILES_UNSELECT_ALL">Unselect all</message>
     <message key="PLUGINS_CORE_UITOOL_PROFILES_CATEGORY_SELECT_ALL">Select all the rights of the category</message>
     <message key="PLUGINS_CORE_UITOOL_PROFILES_CATEGORY_UNSELECT_ALL">Unselect all the rights of the category</message>
     <!-- Actions -->
@@ -233,15 +218,12 @@
     <message key="PLUGINS_CORE_PROFILES_UNKNOWN_PROFILE_ERROR">The profile is no longer available. It is advise to close then re-open the groups tool.</message>
     <message key="PLUGINS_CORE_PROFILES_SWITCH_TO_EDITION">Edition view</message>
     <message key="PLUGINS_CORE_PROFILES_SWITCH_TO_EDITION_DESCRIPTION">Switches to editing mode to edit rights (addition or deletion) of the selected profile</message>
-    <message key="PLUGINS_CORE_PROFILES_SWITCH_TO_VIEW">Overview</message>
-    <message key="PLUGINS_CORE_PROFILES_SWITCH_TO_VIEW_DESCRIPTION">Switches to view mode of the profile's rights</message>
     <message key="PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS">Save</message>
     <message key="PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS_DESCRIPTION">Save changes on profile</message>
     <message key="PLUGINS_CORE_PROFILES_DONT_SAVE_MODIFICATIONS">Discard changes</message>
     <message key="PLUGINS_CORE_PROFILES_DONT_SAVE_MODIFICATIONS_DESCRIPTION">Discard the current changes of the profile.</message>
     <message key="PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS_ERROR">An error occurred while saving the profile's rights.</message>
     
-    <message key="PLUGINS_CORE_PROFILES_RIGHTS_CONFIRM_TITLE">Save</message>
     <message key="PLUGINS_CORE_PROFILES_RIGHTS_CONFIRM_DESCRIPTION">The attributed rights have been modified. Do you wish to save those changes ?</message>
     
     <message key="PLUGINS_CORE_PROFILES_SELECT_ALL">Select all</message>
@@ -283,35 +265,8 @@
 	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ERROR_TITLE">An error occured</message>
 
 	<!-- RIGHTS -->
-	<message key="PLUGINS_CORE_RIGHTS_LABEL">Assignment</message>
-	<message key="PLUGINS_CORE_RIGHTS_DESCRIPTION">Assign user profiles</message>
-	<message key="PLUGINS_CORE_RIGHTS_LABELLONG">Profiles assignment</message>
 	<message key="PLUGINS_CORE_RIGHTS_HANDLE_LABEL">Profiles assignment</message>
 	<message key="PLUGINS_CORE_RIGHTS_HANDLE_DESCRIPTION">Window for profile assignment administration</message>
-	<message key="PLUGINS_CORE_RIGHTS_ACT_CATEGORY">Assignments</message>
-	<message key="PLUGINS_CORE_RIGHTS_ACT_ADDUSER">Assign to a user</message>
-	<message key="PLUGINS_CORE_RIGHTS_ACT_ADDGROUP">Assign to a group</message>
-	<message key="PLUGINS_CORE_RIGHTS_ACT_REMOVE">Delete assignment</message>
-	<message key="PLUGINS_CORE_RIGHTS_ACT_REMOVE_CONFIRM">Do you really want to delete these assigments?</message>
-	<message key="PLUGINS_CORE_RIGHTS_ACT_REMOVE_ERROR">An error occured while the delete process.</message>
-	<message key="PLUGINS_CORE_RIGHTS_HANDLE_QUIT">Quit</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFIL_CATEGORY">Profiles</message>
-	<message key="PLUGINS_CORE_RIGHTS_ACT_GETUSERSANDGROUPS_ERROR">An error occured. The users/groups and their profiles could not be listed.</message>
-	<message key="PLUGINS_CORE_RIGHTS_ACT_VALIDATE">Confirm changes</message>
-	<message key="PLUGINS_CORE_RIGHTS_ACT_VALID_CONFIRM">You have made changes. Do you want to save these? </message>
-	<message key="PLUGINS_CORE_RIGHTS_ACT_VALID_ERROR">An error occured while the saving process. The changes may have been lost. Refresh the page and try again.</message>
-	<message key="PLUGINS_CORE_RIGHTS_USERGROUP_LABEL">Users/Groups</message>
-	<message key="PLUGINS_CORE_RIGHTS_ASSIGN_LEFTCOLUMN">Unassigned profiles</message>
-	<message key="PLUGINS_CORE_RIGHTS_ASSIGN_RIGHTCOLUMN">Assigned profiles</message>
-	<message key="PLUGINS_CORE_RIGHTS_DBL_LIST_REWIND">Remove all</message>
-	<message key="PLUGINS_CORE_RIGHTS_DBL_LIST_PREV">Remove selection</message>
-	<message key="PLUGINS_CORE_RIGHTS_DBL_LIST_NEXT">Add selection</message>
-	<message key="PLUGINS_CORE_RIGHTS_DBL_LIST_FORWARD">Add all</message>
-
-	<message key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_LABEL">Application</message>
-	<message key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_DESCRIPTION">Assign profiles at the application level</message>
-	<message key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_HELP_AFFECT">In order to assign profiles, a user/group can be selected from the list.</message>
-	<message key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_HELP_PROFIL">Select profiles that you want to assign to users/groups.&lt;br/&gt;Click on the link 'Confirm changes' to save the assignments.</message>
 
     <!-- SUPER USER -->
     <message key="PLUGINS_CORE_SUPERUSER_LABEL">Assign super user</message>
