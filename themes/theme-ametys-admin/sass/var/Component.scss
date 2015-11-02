@@ -1,0 +1,31 @@
+/*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+/**
+ * Ribbon
+ */
+/** @var {color} Ribbon background color */
+$ametys-ribbon-base-color: dynamic(#180030);
+$ametys-ribbon-base-light-color: lighten($ametys-ribbon-base-color, 50%);
+$ametys-ribbon-base-dark-color: darken($ametys-ribbon-base-color, 12%); 
+/** @var {color} Ribbon tab label color */
+$ametys-ribbon-main-color: dynamic(#F0F0F0);
+/** @var {color} Ribbon controller's label  color */
+$ametys-ribbon-main-text-color: dynamic(#262626);
+/** @var {color} Ribbon tab background color */
+$ametys-ribbon-tab-color: dynamic(#B2B2B2);
+/** @var {color} Focused ribbon tab label color */ /* FIXME : also home tab background color ?*/
+$ametys-ribbon-highlight-color: dynamic(#969696);
