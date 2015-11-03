@@ -18,7 +18,7 @@
     /**
      * The name of the package.
      */
-    "name": "theme-ametys-admin",
+    "name": "theme-ametys-admin-site",
 
     /**
      * Alternate names for this package.

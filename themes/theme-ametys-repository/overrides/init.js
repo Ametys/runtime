@@ -14,5 +14,5 @@
  *  limitations under the License.
  */
  
-Ext.namespace('Ext.theme.is')['ametys-admin'] = true;
-Ext.theme.name = 'ametys-admin';
+Ext.namespace('Ext.theme.is')['ametys-repository'] = true;
+Ext.theme.name = 'ametys-repository';
