@@ -56,11 +56,14 @@
         <ametys:i18n-check directory="${application-template-dir}/WEB-INF/i18n" catalogue="application"/>
     </target>
     
-    <property name="check-i18n.usedkeys">
-        PLUGINS_ADMIN_PLUGINS_INACTIVE_SINGLE,
-        PLUGINS_ADMIN_PLUGINS_INACTIVE_EXCLUDED,
-        PLUGINS_ADMIN_PLUGINS_INACTIVE_DEPENDENCY,
-        PLUGINS_ADMIN_PLUGINS_INACTIVE_PASSIVE
+    <property name="check-i18n.excludedkeys">
+        RIBBON_TABS_TAB_\\w+,
+        RIBBON_ADMINISTRATION_TABS_TAB_\\w+,
+        PLUGINS_CORE_UI_SAFE_MODE_BANNER_TITLE_\\w+,
+        PLUGINS_CORE_UI_SAFE_MODE_BANNER_TEXT_\\w+,
+        PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_NAME_\\w+,
+        PLUGINS_CORE_RIGHTS_ASSIGNMENT_\\w+,
+        PLUGINS_ADMIN_PLUGINS_INACTIVE_.\\w+
     </property>
 
     <patternset id="check.additional.licenses">
