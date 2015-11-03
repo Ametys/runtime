@@ -14,29 +14,8 @@
  *  limitations under the License.
  */
 
-@import 'fluent/Ribbon';
-@import 'fluent/TabPanel';
-@import 'fluent/Panel';
-@import 'fluent/Toast';
-@import 'fluent/Button';
-@import 'fluent/Toolbar';
-@import 'fluent/Field';
-@import 'fluent/MenuPanel';
-
-@import 'misc/Badge';
-@import 'misc/JSON';
-@import 'misc/Stacktrace';
-
-@import 'tool/Layout';
-@import 'tool/Misc';
-@import 'tool/ZonedTabsDD';
-
-@import 'tools/consolelogs';
-@import 'tools/requesttracker';
-@import 'tools/help';
-
-@import 'grid/MultiSort';
-
-@import 'form/field/Code';
-
-@import 'window/ErrorDialog';
+.uitool-help .tbar-btn-open-window-container {
+    position: absolute;
+    right: 0;
+    z-index: 1;
+}

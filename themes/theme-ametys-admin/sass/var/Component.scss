@@ -48,7 +48,7 @@ $ametys-ribbon-tabpanel-mainbutton-color-focus: $ametys-ribbon-tabpanel-mainbutt
 $ametys-ribbon-tabpanel-color: $ametys-ribbon-main-color;
 // 7 / 8
 $ametys-ribbon-tabpanel-active-color: $ametys-ribbon-highlight-color;
-$ametys-ribbon-tabpanel-active-background-color: $ametys-ribbon-tab-color;
+$ametys-ribbon-tabpanel-active-background-color: #b2b2b2;
 $ametys-ribbon-tabpanel-active-border-color: darken($ametys-ribbon-tabpanel-active-background-color, 6%);
 // 9 / 10 
 $ametys-ribbon-tabpanel-over-color: mix($ametys-ribbon-tabpanel-color, $ametys-ribbon-tabpanel-active-color, 50%);

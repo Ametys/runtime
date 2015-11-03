@@ -130,7 +130,7 @@ Ext.define('Ametys.plugins.coreui.help.HelpTool', {
 		
 		return Ext.create('Ext.panel.Panel', {
 			border: false,
-			cls: 'help-tool',
+			cls: 'uitool-help',
 			dockedItems: [noHelpPanel],
 			layout: 'fit',
 			
