@@ -22,21 +22,30 @@ $color: dynamic(#000000);
 $base-color: dynamic(#C5C5C5);
 $font-size: dynamic(12px);
 
-$css-shadow-border-radius: 0;
-$panel-header-glyph-opacity: 1;
+$css-shadow-border-radius: dynamic(0);
 
 /**
  * General
  */
+/** @var {color} The color to write on information of 'debug' level background */
 $ametys-color-debug: dynamic(#FFFFFF);
+/** @var {color} The color of information of 'debug' level */
 $ametys-background-color-debug: dynamic(#101010);
+/** @var {color} The color to write on information of 'info' level background */
 $ametys-color-info: dynamic(#FFFFFF);
+/** @var {color} The color of information of 'info' level */
 $ametys-background-color-info: dynamic(#3892d4);
+/** @var {color} The color to write on information of 'warn' level background */
 $ametys-color-warn: dynamic(#FFFFFF);
+/** @var {color} The color of information of 'warn' level */
 $ametys-background-color-warn: dynamic(#FFAE01);
+/** @var {color} The color to write on information of 'error' level background */
 $ametys-color-error: dynamic(#FFFFFF);
+/** @var {color} The color of information of 'error' level */
 $ametys-background-color-error: dynamic(#CC0000);
+/** @var {color} The color to write on information of 'hint' level background */
 $ametys-color-hint: dynamic(#404040);
+/** @var {color} The color of information of 'hint' level */
 $ametys-background-color-hint: dynamic(#fcf0c0);
 /*
 $ametys-rainbow:         dynamic(#C1C1C1 #C1C1C1 #C1C1C1 #C1C1C1 #C1C1C1 #C1C1C1 #C1C1C1);
@@ -50,16 +59,19 @@ $ametys-rainbow-dark:   dynamic(#8a1111 #d97c38 #987715 #118a11 #00308c #a1407a 
 /**
  * Ribbon
  */
-/** @var {color} Ribbon background color */
+/** @var {color} Ribbon main background color declined for other colors */
 $ametys-ribbon-base-color: dynamic(#FFFFFF);
+/** @var {color} A light version of $ametys-ribbon-base-color */
 $ametys-ribbon-base-light-color: lighten($ametys-ribbon-base-color, 50%);
+/** @var {color} A dark version of $ametys-ribbon-base-color */
 $ametys-ribbon-base-dark-color: darken($ametys-ribbon-base-color, 12%); 
-/** @var {color} Ribbon tab label color */
+/** @var {color} Ribbon main color declined for other colors */
 $ametys-ribbon-main-color: dynamic(#7F7F7F);
 /** @var {color} Ribbon controller's label  color */
 $ametys-ribbon-main-text-color: dynamic(#7F7F7F);
 /** @var {color} Ribbon tab background color */
 $ametys-ribbon-tab-color: dynamic(#F1F1F1);
+/** @var {color} Ribbon main active color declined for other colors */
 $ametys-ribbon-highlight-color: dynamic(#2a579a);
 
 $ametys-ribbon-font-size: $font-size;

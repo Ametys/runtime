@@ -14,10 +14,13 @@
  *  limitations under the License.
  */
 
+/** @var {color} Background color of the ribbon header */
 $ametys-ribbon-header-background-color: $ametys-ribbon-base-color;
 $ametys-ribbon-header-font-size: dynamic($ametys-ribbon-font-size);
 $ametys-ribbon-header-height: $ametys-ribbon-header-font-size*2.34;
+/** @var {color} Text color of the ribbon title */
 $ametys-ribbon-header-color: $ametys-ribbon-main-color;
+/** @var {color} Text color of the ribbon application title */
 $ametys-ribbon-header-highlight-color: lighten($ametys-ribbon-highlight-color, 40%);
 $ametys-ribbon-header-font-weight: normal;
 $ametys-ribbon-header-border-height: $ametys-ribbon-header-font-size/4;
@@ -44,8 +47,8 @@ $ametys-ribbon-header-textfield-width: dynamic(21*$ametys-ribbon-header-textfiel
 
 $ametys-ribbon-header-textfield-border-color: $ametys-ribbon-base-dark-color;
 $ametys-ribbon-header-textfield-outline-color: lighten($ametys-ribbon-highlight-color, 40%);
-
-$ametys-ribbon-header-textfield-background-color: $ametys-ribbon-header-background-color;
+/** @var {color} Background color of the text field in the ribbon header */
+$ametys-ribbon-header-textfield-background-color: lighten($ametys-ribbon-header-background-color, 20%);
 
 $ametys-ribbon-message-color: $ametys-color-hint;
 $ametys-ribbon-message-background-color: $ametys-background-color-hint;

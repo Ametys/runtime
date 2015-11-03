@@ -17,15 +17,51 @@
 /**
  * Ribbon
  */
-/** @var {color} Ribbon background color */
+
+/* 
 $ametys-ribbon-base-color: dynamic(#180030);
-$ametys-ribbon-base-light-color: lighten($ametys-ribbon-base-color, 50%);
-$ametys-ribbon-base-dark-color: darken($ametys-ribbon-base-color, 12%); 
-/** @var {color} Ribbon tab label color */
 $ametys-ribbon-main-color: dynamic(#F0F0F0);
-/** @var {color} Ribbon controller's label  color */
 $ametys-ribbon-main-text-color: dynamic(#262626);
-/** @var {color} Ribbon tab background color */
-$ametys-ribbon-tab-color: dynamic(#B2B2B2);
-/** @var {color} Focused ribbon tab label color */ /* FIXME : also home tab background color ?*/
 $ametys-ribbon-highlight-color: dynamic(#969696);
+$ametys-ribbon-tab-color: dynamic(#B2B2B2);
+*/ 
+ 
+// 1
+$ametys-ribbon-header-background-color: $ametys-ribbon-base-color;
+$ametys-ribbon-tabpanel-background-color: $ametys-ribbon-base-color;
+// 2
+$ametys-ribbon-header-highlight-color: lighten($ametys-ribbon-highlight-color, 40%);
+// 3
+$ametys-ribbon-header-color: dynamic($ametys-ribbon-main-color);
+// 4
+$ametys-ribbon-tabpanel-mainbutton-background-color: $ametys-ribbon-highlight-color;
+$ametys-ribbon-tabpanel-mainbutton-background-color-over: lighten($ametys-ribbon-tabpanel-mainbutton-background-color, 10%);;
+$ametys-ribbon-tabpanel-mainbutton-background-color-pressed: darken($ametys-ribbon-tabpanel-mainbutton-background-color, 5%);;
+$ametys-ribbon-tabpanel-mainbutton-background-color-focus: $ametys-ribbon-tabpanel-mainbutton-background-color;
+// 5
+$ametys-ribbon-tabpanel-mainbutton-color: lighten($ametys-ribbon-tabpanel-background-color, 20%);
+$ametys-ribbon-tabpanel-mainbutton-color-over: $ametys-ribbon-tabpanel-mainbutton-color;
+$ametys-ribbon-tabpanel-mainbutton-color-pressed: $ametys-ribbon-tabpanel-mainbutton-color;
+$ametys-ribbon-tabpanel-mainbutton-color-focus: $ametys-ribbon-tabpanel-mainbutton-color;
+// 6
+$ametys-ribbon-tabpanel-color: $ametys-ribbon-main-color;
+// 7 / 8
+$ametys-ribbon-tabpanel-active-color: $ametys-ribbon-highlight-color;
+$ametys-ribbon-tabpanel-active-background-color: $ametys-ribbon-tab-color;
+$ametys-ribbon-tabpanel-active-border-color: darken($ametys-ribbon-tabpanel-active-background-color, 6%);
+// 9 / 10 
+$ametys-ribbon-tabpanel-over-color: mix($ametys-ribbon-tabpanel-color, $ametys-ribbon-tabpanel-active-color, 50%);
+$ametys-ribbon-tabpanel-over-background-color: mix($ametys-ribbon-tabpanel-background-color, $ametys-ribbon-tabpanel-active-background-color, 50%);
+$ametys-ribbon-tabpanel-over-border-color:  mix($ametys-ribbon-tabpanel-background-color, $ametys-ribbon-tabpanel-active-border-color, 50%);
+// 11
+$ametys-ribbon-button-color: $ametys-ribbon-main-text-color;
+$ametys-ribbon-button-color-over: darken($ametys-ribbon-header-button-color, 60%);
+$ametys-ribbon-button-color-pressed: darken($ametys-ribbon-header-button-color, 80%);
+$ametys-ribbon-button-color-focus: mix($ametys-ribbon-header-button-color, $ametys-ribbon-header-button-color, 90%);
+// 12
+$ametys-ribbon-button-background-color: $ametys-ribbon-tab-color;
+$ametys-ribbon-button-background-color-over: $ametys-ribbon-header-button-outline-color;
+$ametys-ribbon-button-background-color-pressed: darken($ametys-ribbon-button-background-color-over, 10%);
+$ametys-ribbon-button-background-color-focus: $ametys-ribbon-tab-color;
+// 13
+$ametys-ribbon-group-header-color: $ametys-ribbon-main-text-color;

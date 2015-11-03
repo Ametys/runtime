@@ -30,16 +30,24 @@ $ametys-ribbon-tabpanel-over-color: mix($ametys-ribbon-tabpanel-color, $ametys-r
 $ametys-ribbon-tabpanel-over-background-color: mix($ametys-ribbon-tabpanel-background-color, $ametys-ribbon-tabpanel-active-background-color, 50%);
 $ametys-ribbon-tabpanel-over-border-color:  mix($ametys-ribbon-tabpanel-background-color, $ametys-ribbon-tabpanel-active-border-color, 50%);
 
+/** @var {color} The text color og the main menu button in the ribbon */
 $ametys-ribbon-tabpanel-mainbutton-color: lighten($ametys-ribbon-tabpanel-background-color, 20%);
+/** @var {color} The text color og the main menu button in the ribbon when the mouse is over */
 $ametys-ribbon-tabpanel-mainbutton-color-over: $ametys-ribbon-tabpanel-mainbutton-color;
+/** @var {color} The text color og the main menu button in the ribbon when the button is pressed */
 $ametys-ribbon-tabpanel-mainbutton-color-pressed: $ametys-ribbon-tabpanel-mainbutton-color;
+/** @var {color} The text color og the main menu button in the ribbon when the button has the focus */
 $ametys-ribbon-tabpanel-mainbutton-color-focus: $ametys-ribbon-tabpanel-mainbutton-color;
 $ametys-ribbon-tabpanel-mainbutton-outline-color: $ametys-ribbon-tabpanel-highlight-color;
 $ametys-ribbon-tabpanel-mainbutton-font-size: $ametys-ribbon-font-size;
 $ametys-ribbon-tabpanel-mainbutton-font-weight: normal;
+/** @var {color} The background color of the main menu button in the ribbon */
 $ametys-ribbon-tabpanel-mainbutton-background-color: $ametys-ribbon-highlight-color;
+/** @var {color} The background color of the main menu button in the ribbon when the mouse is over */
 $ametys-ribbon-tabpanel-mainbutton-background-color-over: lighten($ametys-ribbon-tabpanel-mainbutton-background-color, 10%);;
+/** @var {color} The background color of the main menu button in the ribbon when the button is pressed */
 $ametys-ribbon-tabpanel-mainbutton-background-color-pressed: darken($ametys-ribbon-tabpanel-mainbutton-background-color, 5%);;
+/** @var {color} The background color of the main menu button in the ribbon when the button has the focus */
 $ametys-ribbon-tabpanel-mainbutton-background-color-focus: $ametys-ribbon-tabpanel-mainbutton-background-color;
 
 $ametys-ribbon-tabpanel-linkbutton-color: $ametys-ribbon-tabpanel-color;
