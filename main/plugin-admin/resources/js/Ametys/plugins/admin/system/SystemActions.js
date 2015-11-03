@@ -230,7 +230,6 @@ Ext.define('Ametys.plugins.admin.system.SystemActions', {
 			
 			layout :'fit',
 			width: 450,
-			height: 205,
 			
 			items : [ this._form ],
 			
