@@ -19,7 +19,7 @@
 
     <target name="launch">
         <!-- prepare application -->
-        <copy file="${ametys-work-dir}/testapp/app.json.template" tofile="${ametys-work-dir}/testapp/app.json" />
+        <copy file="${ametys-work-dir}/testapp/app.json.template" tofile="${ametys-work-dir}/testapp/app.json" overwrite="true"/>
         <replaceregexp file="${ametys-work-dir}/testapp/app.json"
             match="&quot;theme&quot;: &quot;MARKER&quot;,"
             replace="&quot;theme&quot;: &quot;${name}&quot;,"
@@ -33,10 +33,12 @@
             <arg value="sencha"/>
             <arg value="app"/>
             <arg value="watch"/>
+            <arg value="classic"/>
         </exec>
         <exec executable="sencha" dir="${ametys-work-dir}/testapp" osfamily="unix">
             <arg value="app"/>
             <arg value="watch"/>
+            <arg value="classic"/>
         </exec>
     </target>
         
