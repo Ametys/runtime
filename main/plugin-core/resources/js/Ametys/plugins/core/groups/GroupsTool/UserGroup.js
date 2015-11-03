@@ -24,6 +24,22 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool.UserGroup', {
 	idProperty: 'login',
 	fields: [
 		{name: 'login'},
-		{name: 'name', mapping: 'fullname', sortType: Ext.data.SortTypes.asNonAccentedUCString}
+        {name: 'lastname', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+        {name: 'firstname', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+        {name: 'sortablename', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+        {
+            name: 'displayName',
+            sortType: Ext.data.SortTypes.asNonAccentedUCString,
+            depends: ['sortablename', 'login'],
+            calculate: function (data)
+            {
+                if (data.sortablename != data.login)
+                {
+                    return data.sortablename + ' (' + data.login + ')';
+                }
+                
+                return data.login;
+            }
+        }
 	]
 });

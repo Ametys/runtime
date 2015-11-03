@@ -88,7 +88,7 @@ Ext.define('Ametys.plugins.core.users.UsersTool', {
 			scrollable: true,
 			
 			columns: [
-				{header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_USERS_COL_NAME' i18n:catalogue='plugin.core'/>", width: 250, sortable: true, dataIndex: 'fullname', renderer: this._renderFullName, hideable: false},
+				{header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_USERS_COL_NAME' i18n:catalogue='plugin.core'/>", width: 250, sortable: true, dataIndex: 'displayName', renderer: this._renderDisplayName, hideable: false},
 				{header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_USERS_COL_EMAIL' i18n:catalogue='plugin.core'/>", width: 350, sortable: true, dataIndex: 'email'}
 			],
 			
@@ -138,7 +138,7 @@ Ext.define('Ametys.plugins.core.users.UsersTool', {
 	 * @param {Ext.data.Model} record The record
 	 * @return {String} The html value to render.
 	 */
-	_renderFullName: function(value, metaData, record)
+	_renderDisplayName: function(value, metaData, record)
 	{
 		return '<img src="' + Ametys.getPluginResourcesPrefix('core') + '/img/users/user_16.png' + '" style="float: left; margin-right: 3px"/>' + value;
 	},
@@ -173,7 +173,7 @@ Ext.define('Ametys.plugins.core.users.UsersTool', {
 			
 			remoteSort: false,
 			sortOnLoad: true,
-			sorters: [{property: 'lastname', direction:'ASC'}],
+			sorters: [{property: 'displayName', direction:'ASC'}],
 			
 			listeners: {
 				beforeload: {fn: this._onBeforeLoad, scope: this}
@@ -390,6 +390,8 @@ Ext.define('Ametys.plugins.core.users.UsersTool', {
 			record.set('lastname', user.lastname);
 			record.set('firstname', user.firstname);
 			record.set('email', user.email);
+			record.set('fullname', user.fullname);
+			record.set('sortablename', user.sortablename);
 			record.endEdit();
 			
 			// commit changes (record is not marked as dirty anymore)

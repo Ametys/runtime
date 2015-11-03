@@ -147,8 +147,9 @@ Ext.define('Ametys.plugins.core.users.UserRightsTool', {
 	 * Callback function called after #refresh to update the user'rights panel
 	 * @param {Object[]} response The server's response structured as following:
 	 * @param {Object[]} response.user the user object
-	 * @param {String} response.user.name the user's fullname
 	 * @param {String} response.user.login the user's login
+	 * @param {String} response.user.fullname the user's fullname
+	 * @param {String} response.user.sortablename the user's sortablename, to be displayed in lists
 	 * @param {Object[]} response.profiles the user's profiles. Can be null.
 	 * @param {Object[]} response.profiles.profile a profile of the user
 	 * @param {String} response.profiles.profile.id the id of the user's profile
@@ -233,7 +234,7 @@ Ext.define('Ametys.plugins.core.users.UserRightsTool', {
 		});
 		
 		var login = user.login;
-		var fullname = user.name;
+		var fullname = user.fullname;
 		
 		this.getContentPanel().items.get(1).down("*[dock='top']").update(this._contextByProfileHintTpl.applyTemplate({'fullname': fullname, 'login': login}));
 		this.getContentPanel().getLayout().setActiveItem(1);
@@ -282,7 +283,7 @@ Ext.define('Ametys.plugins.core.users.UserRightsTool', {
 		});
 		
 		var login = user.login;
-		var fullname = user.name;
+		var fullname = user.fullname;
 		
 		this.getContentPanel().items.get(1).down("*[dock='top']").update(this._rightsByContextHintTpl.applyTemplate({'fullname': fullname, 'login': login}));
 		this.getContentPanel().getLayout().setActiveItem(1);

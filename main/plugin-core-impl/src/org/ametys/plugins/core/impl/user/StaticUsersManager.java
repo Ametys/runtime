@@ -29,11 +29,11 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.AttributesImpl;
 
 import org.ametys.core.authentication.Credentials;
 import org.ametys.core.user.CredentialsAwareUsersManager;
 import org.ametys.core.user.User;
+import org.ametys.plugins.core.user.UserHelper;
 
 /**
  * This implementation only use predefined users 
@@ -59,15 +59,16 @@ public class StaticUsersManager implements Configurable, Component, CredentialsA
                     throw new ConfigurationException(message, configuration);
                 }
                 
-                String fullname = userConfiguration.getChild("fullname").getValue(id);
+                String lastName = userConfiguration.getChild("lastName").getValue(id);
+                String firstName = userConfiguration.getChild("firstName").getValue(null);
                 
-                User user = new User(id, fullname, "");
+                User user = new User(id, lastName, firstName, null);
                 _users.put(id, user);
             }
         }
         else
         {
-            User user = new User("anonymous", "Anonymous user", "");
+            User user = new User("anonymous", "Anonymous", "user", null);
             _users.put("anonymous", user);
         }
     }
@@ -85,44 +86,20 @@ public class StaticUsersManager implements Configurable, Component, CredentialsA
     }
     
     @Override
+    public List<User> getUsers(int count, int offset, Map<String, Object> parameters)
+    {
+        return new ArrayList<>(getUsers());
+    }
+    
+    @Override
+    @Deprecated
     public List<Map<String, Object>> users2JSON(int count, int offset, Map parameters)
     {
-        List<Map<String, Object>> users = new ArrayList<>();
-        
-        for (User user : _users.values())
-        {
-            users.add(user2JSON(user.getName()));
-        }
-        
-        return users;
-    }
-
-    @Override
-    public void toSAX(ContentHandler handler, int count, int offset, Map parameters) throws SAXException
-    {
-        XMLUtils.startElement(handler, "users");
-
-        for (User user : _users.values())
-        {
-            AttributesImpl attr = new AttributesImpl();
-            attr.addAttribute("", "login", "login", "CDATA", user.getName());
-            XMLUtils.startElement(handler, "user", attr);
-    
-            String lastName = user.getFullName();
-            XMLUtils.createElement(handler, "lastname", lastName != null ? lastName : "");
-    
-            String email = user.getEmail();
-            XMLUtils.createElement(handler, "email", email != null ? email : "");
-    
-            XMLUtils.endElement(handler, "user");
-        }
-        
-        XMLUtils.createElement(handler, "total", Integer.toString(_users.size()));
-
-        XMLUtils.endElement(handler, "users");
+        return UserHelper.users2MapList(_users.values());
     }
     
     @Override
+    @Deprecated
     public Map<String, Object> user2JSON(String login)
     {
         User user = _users.get(login);
@@ -132,16 +109,27 @@ public class StaticUsersManager implements Configurable, Component, CredentialsA
             return null;
         }
         
-        Map<String, Object> userInfos = new HashMap<>();
-        
-        userInfos.put("login", user.getName());
-        userInfos.put("lastname", user.getFullName());
-        userInfos.put("email", user.getEmail());
-
-        return userInfos;
+        return UserHelper.user2Map(user);
     }
     
     @Override
+    @Deprecated
+    public void toSAX(ContentHandler handler, int count, int offset, Map parameters) throws SAXException
+    {
+        XMLUtils.startElement(handler, "users");
+
+        for (User user : _users.values())
+        {
+            UserHelper.saxUser(user, handler);
+        }
+        
+        XMLUtils.createElement(handler, "total", Integer.toString(_users.size()));
+
+        XMLUtils.endElement(handler, "users");
+    }
+    
+    @Override
+    @Deprecated
     public void saxUser(String login, ContentHandler handler) throws SAXException
     {
         User user = _users.get(login);
@@ -151,17 +139,7 @@ public class StaticUsersManager implements Configurable, Component, CredentialsA
             return;
         }
         
-        AttributesImpl attr = new AttributesImpl();
-        attr.addAttribute("", "login", "login", "CDATA", user.getName());
-        XMLUtils.startElement(handler, "user", attr);
-
-        String lastName = user.getFullName();
-        XMLUtils.createElement(handler, "lastname", lastName != null ? lastName : "");
-
-        String email = user.getEmail();
-        XMLUtils.createElement(handler, "email", email != null ? email : "");
-
-        XMLUtils.endElement(handler, "user");
+        UserHelper.saxUser(user, handler);
     }
     
     public boolean checkCredentials(Credentials credentials)

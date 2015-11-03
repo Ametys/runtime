@@ -20,8 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.ComparisonFailure;
-
 import org.ametys.core.user.CredentialsAwareUsersManager;
 import org.ametys.core.user.InvalidModificationException;
 import org.ametys.core.user.ModifiableUsersManager;
@@ -147,16 +145,19 @@ public abstract class AbstractModifiableJdbcUsersTestCase extends AbstractJDBCUs
         user = _usersManager.getUser("test");
         assertNotNull(user);
         assertEquals(user.getName(), "test");
+        assertEquals(user.getLastName(), "TEST");
+        assertEquals(user.getFirstName(), "Test");
         assertEquals(user.getFullName(), "Test TEST");
-        if (user.getEmail() != null && !user.getEmail().equals(""))
-        {
-            throw new ComparisonFailure(null, "null or ''", user.getEmail());
-        }
+        assertEquals(user.getSortableName(), "TEST Test");
+        assertEquals(user.getEmail(), "");
 
         user = _usersManager.getUser("test2");
         assertNotNull(user);
         assertEquals(user.getName(), "test2");
+        assertEquals(user.getLastName(), "TEST2");
+        assertEquals(user.getFirstName(), "Test2");
         assertEquals(user.getFullName(), "Test2 TEST2");
+        assertEquals(user.getSortableName(), "TEST2 Test2");
         assertEquals(user.getEmail(), "test2@test.te");
 
         try
@@ -283,7 +284,10 @@ public abstract class AbstractModifiableJdbcUsersTestCase extends AbstractJDBCUs
         user = _usersManager.getUser("test");
         assertNotNull(user);
         assertEquals(user.getName(), "test");
+        assertEquals(user.getLastName(), "TESTMODIFIED");
+        assertEquals(user.getFirstName(), "Testmodified");
         assertEquals(user.getFullName(), "Testmodified TESTMODIFIED");
+        assertEquals(user.getSortableName(), "TESTMODIFIED Testmodified");
         assertEquals(user.getEmail(), "testModified@test.te");
 
         // partial modification
@@ -296,7 +300,10 @@ public abstract class AbstractModifiableJdbcUsersTestCase extends AbstractJDBCUs
         user = _usersManager.getUser("test");
         assertNotNull(user);
         assertEquals(user.getName(), "test");
+        assertEquals(user.getLastName(), "TESTMODIFIED");
+        assertEquals(user.getFirstName(), "Testmodifiedtwice");
         assertEquals(user.getFullName(), "Testmodifiedtwice TESTMODIFIED");
+        assertEquals(user.getSortableName(), "TESTMODIFIED Testmodifiedtwice");
         assertEquals(user.getEmail(), "testModified@test.te");
     }
     
@@ -404,7 +411,10 @@ public abstract class AbstractModifiableJdbcUsersTestCase extends AbstractJDBCUs
         User user = _usersManager.getUser("test2");
         assertNotNull(user);
         assertEquals(user.getName(), "test2");
+        assertEquals(user.getLastName(), "TEST2");
+        assertEquals(user.getFirstName(), "Test2");
         assertEquals(user.getFullName(), "Test2 TEST2");
+        assertEquals(user.getSortableName(), "TEST2 Test2");
         assertEquals(user.getEmail(), "email@email.ma");
     }
     

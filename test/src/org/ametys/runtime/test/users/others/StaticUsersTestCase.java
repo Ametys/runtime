@@ -78,7 +78,10 @@ public class StaticUsersTestCase extends AbstractRuntimeTestCase
         user = usersManager.getUser("anonymous");
         assertNotNull(user);
         assertEquals(user.getName(), "anonymous");
-        assertEquals(user.getFullName(), "Anonymous user");
+        assertEquals(user.getLastName(), "Anonymous");
+        assertEquals(user.getFirstName(), "user");
+        assertEquals(user.getFullName(), "user Anonymous");
+        assertEquals(user.getSortableName(), "Anonymous user");
         assertEquals(user.getEmail(), "");
         
         // ALL USERS
@@ -108,9 +111,11 @@ public class StaticUsersTestCase extends AbstractRuntimeTestCase
         assertEquals(2.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users/*)"));
         assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users/user)"));
         assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users/user/@*)"));
-        assertEquals(2.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users/user/*)"));
+        assertEquals(5.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users/user/*)"));
         assertEquals("anonymous", xpath.evaluateAsString(handler.getDocument(), "/users/user/@login"));
-        assertEquals("Anonymous user", xpath.evaluateAsString(handler.getDocument(), "/users/user/lastname"));
+        assertEquals("Anonymous", xpath.evaluateAsString(handler.getDocument(), "/users/user/lastname"));
+        assertEquals("user", xpath.evaluateAsString(handler.getDocument(), "/users/user/firstname"));
+        assertEquals("user Anonymous", xpath.evaluateAsString(handler.getDocument(), "/users/user/fullname"));
         assertEquals("", xpath.evaluateAsString(handler.getDocument(), "/users/user/email"));
         assertEquals("1", xpath.evaluateAsString(handler.getDocument(), "/users/total"));
     }

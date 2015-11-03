@@ -44,6 +44,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.xml.XMLUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -153,6 +154,74 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
         // d'utilisateurs, éventuellement vide
         return users;
     }
+    
+    @Override
+    public List<User> getUsers(int count, int offset, Map<String, Object> parameters)
+    {
+        String pattern = (String) parameters.get("pattern");
+        if (StringUtils.isEmpty(pattern))
+        {
+            pattern = null;
+        }
+        
+        if (count != 0)
+        {
+            Map<String, Map<String, Object>> entries = new LinkedHashMap<>();
+            return _internalGetUsers(entries, count, offset >= 0 ? offset : 0, pattern, 0);
+        }
+        return new ArrayList<>();
+    }
+    
+    /**
+     * Get the user list.
+     * @param entries Where to store entries
+     * @param count The maximum number of users to sax. Cannot be 0. Can be -1 to all.
+     * @param offset The results to ignore
+     * @param pattern The pattern to match.
+     * @param possibleErrors This number will be added to count to set the max of the request, but count results will still be returned. The difference stands for errors.
+     * @return the final offset
+     */
+    protected List<User> _internalGetUsers(Map<String, Map<String, Object>> entries, int count, int offset, String pattern, int possibleErrors)
+    {
+        LdapContext context = null;
+        NamingEnumeration<SearchResult> results = null;
+
+        try
+        {
+            // Connexion au serveur ldap
+            context = new InitialLdapContext(_getContextEnv(), null);
+            if (_serverSideSorting)
+            {
+                context.setRequestControls(_getSortControls());
+            }
+
+            Map filter = _getPatternFilter(pattern);
+
+            // Effectuer la recherche
+            results = context.search(_usersRelativeDN, 
+                                    (String) filter.get("filter"), 
+                                    (Object[]) filter.get("params"), 
+                                    _getSearchConstraint(count == -1 ? 0 : (count + offset + possibleErrors)));
+
+            // Sax results
+            return _users(entries, count, offset, pattern, results, possibleErrors);
+        }
+        catch (IllegalArgumentException e)
+        {
+            getLogger().error("Error missing at least one attribute or value", e);
+            return new ArrayList<>();
+        }
+        catch (NamingException e)
+        {
+            getLogger().error("Error during the communication with ldap server", e);
+            return new ArrayList<>();
+        }
+        finally
+        {
+            // Fermer les ressources de connexion
+            _cleanup(context, results);
+        }
+    }
 
     @Override
     public User getUser(String login)
@@ -252,20 +321,16 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
      */
     protected User _createUser (Map<String, Object> attributes)
     {
-        // Récupérer le nom complet
-        StringBuffer fullname = new StringBuffer();
+        String login = (String) attributes.get(_usersLoginAttribute);
+        String lastName = (String) attributes.get(_usersLastnameAttribute);
+        String firstName = _usersFirstnameAttribute != null ? (String) attributes.get(_usersFirstnameAttribute) : null;
+        String email = (String) attributes.get(_usersEmailAttribute);
 
-        if (_usersFirstnameAttribute != null)
-        {
-            fullname.append(attributes.get(_usersFirstnameAttribute) + " ");
-        }
-
-        fullname.append(attributes.get(_usersLastnameAttribute));
-
-        return new User((String) attributes.get(_usersLoginAttribute), fullname.toString(), (String) attributes.get(_usersEmailAttribute));
+        return new User(login, lastName, firstName, email);
     }
     
     @Override
+    @Deprecated
     public Map<String, Object> user2JSON(String login)
     {
         DirContext context = null;
@@ -402,6 +467,8 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
         XMLUtils.endElement(handler, "users");
     }
     
+    @Override
+    @Deprecated
     public List<Map<String, Object>> users2JSON(int count, int offset, Map parameters)
     {
         String pattern = (String) parameters.get("pattern");
@@ -487,6 +554,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
         }
     }
     
+    @Deprecated
     private List<Map<String, Object>> _json(Map<String, Map<String, Object>> entries, int count, int offset, String pattern, NamingEnumeration<SearchResult> results, int possibleErrors)
     {
         int nbResults = 0;
@@ -537,6 +605,61 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
             for (Map<String, Object> attributes : entries.values())
             {
                 users.add(_entry2Json(attributes));
+            }
+            return users;
+        }
+    }
+    
+    private List<User> _users(Map<String, Map<String, Object>> entries, int count, int offset, String pattern, NamingEnumeration<SearchResult> results, int possibleErrors)
+    {
+        int nbResults = 0;
+        
+        boolean hasMoreElement = results.hasMoreElements();
+        
+        // First loop on the items to ignore (before the offset)
+        while (nbResults < offset && hasMoreElement)
+        {
+            nbResults++;
+            
+            // FIXME we should check that this element has really attributes to count it as an real offset
+            results.nextElement();
+
+            hasMoreElement = results.hasMoreElements();
+        }
+        
+        // Second loop to work
+        while ((count == -1 || entries.size() < count) && hasMoreElement)
+        {
+            nbResults++;
+            
+            // Passer à l'entrée suivante
+            SearchResult result = results.nextElement();
+            Map<String, Object> attrs = _getAttributes(result);
+            if (attrs != null)
+            {
+                entries.put((String) attrs.get(_usersLoginAttribute), attrs);
+            }
+
+            hasMoreElement = results.hasMoreElements();
+        }
+
+
+        // If we have less results than expected
+        // can be due to errors (null attributes)
+        // can be due to max results is less than wanted results
+        if (entries.size() < count && nbResults == count + offset + possibleErrors)
+        {
+            double nbErrors = count + possibleErrors - entries.size();
+            double askedResultsSize = possibleErrors + count;
+            int newPossibleErrors = Math.max(possibleErrors + count - entries.size(), (int) Math.ceil((nbErrors / askedResultsSize + 1) * nbErrors));
+            return _internalGetUsers(entries, count, offset, pattern, newPossibleErrors);
+        }
+        else
+        {
+            List<User> users = new ArrayList<>();
+            for (Map<String, Object> attributes : entries.values())
+            {
+                users.add(_entry2User(attributes));
             }
             return users;
         }
@@ -606,6 +729,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
      * @param possibleErrors This number will be added to count to set the max of the request, but count results will still be returned. The difference stands for errors.
      * @return the final offset
      */
+    @Deprecated
     protected List<Map<String, Object>> _internalUsers2JSON (Map<String, Map<String, Object>> entries, int count, int offset, String pattern, int possibleErrors)
     {
         LdapContext context = null;
@@ -761,37 +885,6 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
     }
     
     /**
-     * Get the JSON representation of a user ldap entry
-     * @param attributes The ldap attributes of the entry to sax.
-     * @return the JSON representation
-     */
-    protected Map<String, Object> _entry2Json(Map<String, Object> attributes)
-    {
-        Map<String, Object> user = new HashMap<>();
-        
-        if (attributes == null)
-        {
-            return user;
-        }
-
-        user.put("login", attributes.get(_usersLoginAttribute));
-        
-        if (_usersFirstnameAttribute != null)
-        {
-            String firstName = (String) attributes.get(_usersFirstnameAttribute);
-            user.put("firstname", firstName);
-        }
-
-        String lastName = (String) attributes.get(_usersLastnameAttribute);
-        user.put("lastname", lastName);
-
-        String email = (String) attributes.get(_usersEmailAttribute);
-        user.put("email", email);
-
-        return user;
-    }
-
-    /**
      * Sax an ldap entry.
      * 
      * @param handler The content handler to sax in.
@@ -827,6 +920,64 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
         handler.endElement("", "user", "user");
 
         return true;
+    }
+    
+    /**
+     * Get the JSON representation of a user ldap entry
+     * @param attributes The ldap attributes of the entry to sax.
+     * @return the JSON representation
+     */
+    @Deprecated
+    protected Map<String, Object> _entry2Json(Map<String, Object> attributes)
+    {
+        Map<String, Object> user = new HashMap<>();
+        
+        if (attributes == null)
+        {
+            return user;
+        }
+
+        user.put("login", attributes.get(_usersLoginAttribute));
+        
+        if (_usersFirstnameAttribute != null)
+        {
+            String firstName = (String) attributes.get(_usersFirstnameAttribute);
+            user.put("firstname", firstName);
+        }
+
+        String lastName = (String) attributes.get(_usersLastnameAttribute);
+        user.put("lastname", lastName);
+
+        String email = (String) attributes.get(_usersEmailAttribute);
+        user.put("email", email);
+
+        return user;
+    }
+    
+    /**
+     * Get the User corresponding to an user ldap entry
+     * @param attributes The ldap attributes of the entry to sax.
+     * @return the JSON representation
+     */
+    protected User _entry2User(Map<String, Object> attributes)
+    {
+        if (attributes == null)
+        {
+            return null;
+        }
+        
+        String login = (String) attributes.get(_usersLoginAttribute);
+        String lastName = (String) attributes.get(_usersLastnameAttribute);
+        
+        String firstName = null;
+        if (_usersFirstnameAttribute != null)
+        {
+            firstName = (String) attributes.get(_usersFirstnameAttribute);
+        }
+        
+        String email = (String) attributes.get(_usersEmailAttribute);
+
+        return new User(login, lastName, firstName, email);
     }
 
     /**

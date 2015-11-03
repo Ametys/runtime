@@ -38,6 +38,7 @@ import org.ametys.core.group.Group;
 import org.ametys.core.group.GroupsManager;
 import org.ametys.core.user.User;
 import org.ametys.core.user.UsersManager;
+import org.ametys.plugins.core.user.UserHelper;
 
 /**
  * Get the users of a group
@@ -93,10 +94,7 @@ public class UsersGroupAction extends ServiceableAction
                     
                     if (index >= begin)
                     {
-                        Map<String, Object> userInfos = new HashMap<>();
-                        userInfos.put("login", user.getName());
-                        userInfos.put("fullname", user.getFullName());
-                        users.add(userInfos);
+                        users.add(UserHelper.user2Map(user));
                         
                     }
                     index++;
@@ -129,14 +127,6 @@ public class UsersGroupAction extends ServiceableAction
     {
         List<User> users = new ArrayList<>();
         
-        Collections.sort(users, new Comparator<User>()
-        {
-            public int compare(User u1, User u2) 
-            {
-                return u1.getFullName().toLowerCase().compareTo(u2.getFullName().toLowerCase());
-            }
-        });
-        
         Set<String> logins = group.getUsers();
         for (String login : logins)
         {
@@ -146,6 +136,15 @@ public class UsersGroupAction extends ServiceableAction
                 users.add(user);
             }
         }
+        
+        Collections.sort(users, new Comparator<User>()
+        {
+            public int compare(User u1, User u2) 
+            {
+                int compare = u1.getLastName().toLowerCase().compareTo(u2.getLastName().toLowerCase());
+                return compare != 0 ? compare : u1.getFirstName().toLowerCase().compareTo(u2.getFirstName().toLowerCase()); 
+            }
+        });
         
         return users;
     }

@@ -27,13 +27,20 @@ Ext.define("Ametys.plugins.core.users.UsersTool.User", {
 		{name: 'lastname', sortType: Ext.data.SortTypes.asNonAccentedUCString},
 		{name: 'firstname', sortType: Ext.data.SortTypes.asNonAccentedUCString},
 		{name: 'email'},
+		{name: 'fullname', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+		{name: 'sortablename', sortType: Ext.data.SortTypes.asNonAccentedUCString},
 		{
-			name: 'fullname',
+			name: 'displayName',
 			sortType: Ext.data.SortTypes.asNonAccentedUCString,
-			depends: ['id', 'login', 'lastname', 'firstname'],
+			depends: ['sortablename', 'login'],
 			calculate: function (data)
 			{
-				return [data.lastname, data.firstname || '', '(' + data.id + ')'].join(' ');
+				if (data.sortablename != data.login)
+				{
+				    return data.sortablename + ' (' + data.login + ')';
+				}
+				
+				return data.login;
 			}
 		}
 	]

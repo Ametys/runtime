@@ -52,8 +52,10 @@ import org.ametys.core.ui.UIToolsFactoriesManager;
 import org.ametys.core.ui.widgets.ClientSideWidget;
 import org.ametys.core.ui.widgets.WidgetsManager;
 import org.ametys.core.user.CurrentUserProvider;
+import org.ametys.core.user.User;
 import org.ametys.core.user.UsersManager;
 import org.ametys.core.util.JSONUtils;
+import org.ametys.plugins.core.user.UserHelper;
 
 /**
  * Generates the uitools factories definition using the component associated 
@@ -137,7 +139,8 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
             String login = _currentUserProvider.getUser();
             if (StringUtils.isNotBlank(login))
             {
-                _usersManager.saxUser(login, contentHandler);
+                User user = _usersManager.getUser(login);
+                UserHelper.saxUser(user, contentHandler);
             }
         }
         

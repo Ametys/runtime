@@ -32,6 +32,8 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel.NodeEntry', {
 	 	},
 		{
 			name: 'text', 
+			sortType: Ext.data.SortTypes.asNonAccentedUCString,
+			depends: ['name', 'type', 'sortablename', 'login'],
 			calculate: function (data) 
             {
                 if (data && data.type == 'profile')
@@ -40,7 +42,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel.NodeEntry', {
 				}
 				else if (data && data.type == 'user')
 				{
-					return data.name + ' (' + data.login + ')';
+					return data.sortablename + ' (' + data.login + ')';
 				}
 				else
 				{
@@ -50,6 +52,23 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel.NodeEntry', {
 			}
 		},
 		{name: 'name', mapping: '@name'},
+		{name: 'sortablename', mapping: '@sortablename'}, // only for users
+		{
+            name: 'displayName', // only for users
+            sortType: Ext.data.SortTypes.asNonAccentedUCString,
+            depends: ['name', 'type', 'login'],
+            calculate: function (data) 
+            {
+                if (data && data.type == 'user')
+                {
+                    return data.name + ' (' + data.login + ')';
+                }
+                else
+                {
+                    return data.name;
+                }
+            }
+        },
 		{name: 'login', mapping:'@login'},
 		{name: 'groupId', mapping:'@groupId'},
 		{

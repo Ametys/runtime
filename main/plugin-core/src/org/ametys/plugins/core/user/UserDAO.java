@@ -99,7 +99,7 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
     public Map<String, Object> getUser (String login, String userManagerRole) throws ServiceException
     {
         UsersManager users = (UsersManager) _smanager.lookup(StringUtils.isEmpty(userManagerRole) ? UsersManager.ROLE : userManagerRole);
-        return users.user2JSON(login);
+        return UserHelper.user2Map(users.getUser(login));
     }
     
     /**
@@ -147,7 +147,7 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
             }
 
             users.add(untypedValues);
-            return users.user2JSON(login);
+            return UserHelper.user2Map(users.getUser(login));
         }
         catch (InvalidModificationException e)
         {
@@ -216,7 +216,7 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
             }
 
             users.update(untypedValues);
-            return users.user2JSON(login);
+            return UserHelper.user2Map(users.getUser(login));
         }
         catch (InvalidModificationException e)
         {

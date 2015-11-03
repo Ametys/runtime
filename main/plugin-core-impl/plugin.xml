@@ -667,7 +667,8 @@
                        class="org.ametys.plugins.core.impl.user.StaticUsersManager"
                        logger="org.ametys.plugins.core.impl.users.static">
                 <user id="anonymous">
-                    <fullname>Anonymous user</fullname>
+                    <lastName>Anonymous</lastName>
+                    <firstName>user</firstName>
                 </user>
             </component>
         </components>

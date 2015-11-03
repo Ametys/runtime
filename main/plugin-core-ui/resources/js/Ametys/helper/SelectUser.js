@@ -155,18 +155,26 @@ Ext.define('Ametys.helper.SelectUser', {
 		    extend: 'Ext.data.Model',
 		    fields: [
 		        {name: 'id', mapping: 'login'},
-				{name: 'login'},
-				{name: 'lastname', sortType: Ext.data.SortTypes.asNonAccentedUCString},
-				{name: 'firstname', sortType: Ext.data.SortTypes.asNonAccentedUCString},
-				{
-					name: 'fullname',
-					sortType: Ext.data.SortTypes.asNonAccentedUCString,
-					depends: ['id', 'login', 'lastname', 'firstname'],
-					calculate: function (data)
-					{
-						return [data.lastname, data.firstname || '', '(' + data.id + ')'].join(' ');
-					}
-				}
+		        {name: 'login'},
+		        {name: 'lastname', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+		        {name: 'firstname', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+		        {name: 'email'},
+		        {name: 'fullname', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+		        {name: 'sortablename', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+		        {
+		            name: 'displayName',
+		            sortType: Ext.data.SortTypes.asNonAccentedUCString,
+		            depends: ['sortablename', 'login'],
+		            calculate: function (data)
+		            {
+		                if (data.sortablename != data.login)
+		                {
+		                    return data.sortablename + ' (' + data.login + ')';
+		                }
+		                
+		                return data.login;
+		            }
+		        }
 		    ]
 		});
 
@@ -176,14 +184,17 @@ Ext.define('Ametys.helper.SelectUser', {
 	        listeners: {
 	        	'beforeload': Ext.bind(this._onBeforeLoad, this),
 	        	'load': Ext.bind(this._onLoad, this)
-	        }
+	        },
+            remoteSort: false,
+            sortOnLoad: true,
+            sorters: [{property: 'displayName', direction:'ASC'}]
 		});
 		
 		this._userList = Ext.create('Ext.grid.Panel', {
 			flex: 1,
 			store : store,
 			hideHeaders : true,
-			columns: [{header: "Label", width : 240, menuDisabled : true, sortable: true, dataIndex: 'fullname'}]
+			columns: [{header: "Label", width : 240, menuDisabled : true, sortable: true, dataIndex: 'displayName'}]
 		});	
 		
 		this._box = Ext.create('Ametys.window.DialogBox', {

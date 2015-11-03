@@ -29,7 +29,7 @@ Ext.define('Ametys.form.widget.User', {
 	usersManagerRole: null,
 	
 	valueField: 'login',
-	displayField: 'fullname',
+	displayField: 'displayName',
 	
     getStore: function()
     {
@@ -41,9 +41,23 @@ Ext.define('Ametys.form.widget.User', {
 	    		         {name: 'firstname', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
 	    		         {name: 'lastname', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
 	    		         {name: 'login', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
-	    		         {name: 'fullname', convert: function (v, record) {
-	    		        	 return record.get('lastname') + ' ' + record.get('firstname') + ' (' + record.get('login') + ')';
-	    		         }, type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString}
+	    		         {name: 'fullname', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+	    		         {name: 'sortablename', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+	    		         {
+	    		             name: 'displayName',
+	    		             type: 'string',
+	    		             sortType: Ext.data.SortTypes.asNonAccentedUCString,
+	    		             depends: ['sortablename', 'login'],
+	    		             calculate: function (data)
+	    		             {
+	    		                 if (data.sortablename != data.login)
+	    		                 {
+	    		                     return data.sortablename + ' (' + data.login + ')';
+	    		                 }
+	    		                 
+	    		                 return data.login;
+	    		             }
+	    		         }
 	    		],
 	
 	    		idProperty: 'login'
@@ -64,7 +78,7 @@ Ext.define('Ametys.form.widget.User', {
             
             pageSize: this.maxResult,
             sortOnLoad: true,
-            sorters: [{property: 'fullname', direction:'ASC'}],
+            sorters: [{property: 'displayName', direction:'ASC'}],
             
             listeners: {
                 beforeload: {fn: this._onStoreBeforeLoad, scope: this}
@@ -93,7 +107,7 @@ Ext.define('Ametys.form.widget.User', {
     {
     	var tpl = [];
     	tpl.push('<img  width="16" height="16" src="' + Ametys.getPluginResourcesPrefix('core') + '/img/users/user_16.png"/>');
-    	tpl.push('{' + this.displayField + '}');
+    	tpl.push('{fullname}');
     	return tpl;
     }
 });

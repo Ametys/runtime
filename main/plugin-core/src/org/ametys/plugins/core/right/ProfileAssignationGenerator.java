@@ -24,9 +24,9 @@ import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.generation.ServiceableGenerator;
+import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.AttributesImpl;
 
 import org.ametys.core.group.Group;
 import org.ametys.core.right.RightsManager;
@@ -63,7 +63,7 @@ public class ProfileAssignationGenerator extends ServiceableGenerator
         
         Profile profile = _rightsManager.getProfile(profileID);
         AttributesImpl attr = new AttributesImpl();
-        attr.addAttribute("", "id", "id", "CDATA", profile.getId());
+        attr.addCDATAAttribute("id", profile.getId());
         XMLUtils.createElement(contentHandler, "profile", attr, profile.getName());
         XMLUtils.createElement(contentHandler, "context", context);
         
@@ -86,7 +86,7 @@ public class ProfileAssignationGenerator extends ServiceableGenerator
         for (User user : users)
         {
             AttributesImpl attr = new AttributesImpl();
-            attr.addAttribute("", "login", "login", "CDATA", user.getName());
+            attr.addCDATAAttribute("login", user.getName());
             XMLUtils.createElement(contentHandler, "user", attr, user.getFullName());
         }
         
@@ -100,7 +100,7 @@ public class ProfileAssignationGenerator extends ServiceableGenerator
         for (Group group : groups)
         {
             AttributesImpl attr = new AttributesImpl();
-            attr.addAttribute("", "id", "id", "CDATA", group.getId());
+            attr.addCDATAAttribute("id", group.getId());
             XMLUtils.createElement(contentHandler, "group", attr, group.getLabel());
         }
         

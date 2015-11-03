@@ -96,7 +96,10 @@ public abstract class AbstractJdbcUnmodifiableUsersTestCase extends AbstractJDBC
         user = _usersManager.getUser("test");
         assertNotNull(user);
         assertEquals(user.getName(), "test");
-        assertEquals(user.getFullName(), "Test TEST");
+        assertEquals(user.getLastName(), "TEST"); 
+        assertEquals(user.getFirstName(), "Test"); 
+        assertEquals(user.getFullName(), "Test TEST"); 
+        assertEquals(user.getSortableName(), "TEST Test"); 
         assertEquals(user.getEmail(), "test@test.te");
 
         // Get users

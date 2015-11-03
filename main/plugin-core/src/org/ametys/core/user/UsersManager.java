@@ -35,7 +35,16 @@ public interface UsersManager
      * @return list of users as Collection of <code>User</code>s, empty if a problem occurs.
      */
     public Collection<User> getUsers();
-
+    
+    /**
+     * Get a list of users given the parameters
+     * @param count The limit of users to retrieve
+     * @param offset The number of result to ignore before starting to collect users. 
+     * @param parameters A map of additional parameters, see implementation.
+     * @return The list of retrieved {@link User}
+     */
+    public List<User> getUsers(int count, int offset, Map<String, Object> parameters);
+    
     /**
      * Get a particular user by his login.
      * @param login Login of the user to get. Cannot be null.
@@ -48,7 +57,18 @@ public interface UsersManager
      * @param login the login of the user. Cannot be null.
      * @return User's information as a JSON object or null if the user login does not exist.
      */
+    @Deprecated
     public Map<String, Object> user2JSON(String login);
+    
+    /**
+     * Get the user list.
+     * @param count The maximum number of users to sax. (-1 to sax all)
+     * @param offset The offset to start with, first is 0.
+     * @param parameters Parameters for saxing user list differently, see implementation.
+     * @return The users' information
+     */
+    @Deprecated
+    public List<Map<String, Object>> users2JSON(int count, int offset, Map parameters);
     
     /**
      * Sax a particular user
@@ -69,13 +89,4 @@ public interface UsersManager
      */
     @Deprecated
     public void toSAX(ContentHandler handler, int count, int offset, Map parameters) throws SAXException;
-    
-    /**
-     * Get the user list.
-     * @param count The maximum number of users to sax. (-1 to sax all)
-     * @param offset The offset to start with, first is 0.
-     * @param parameters Parameters for saxing user list differently, see implementation.
-     * @return The users' information
-     */
-    public List<Map<String, Object>> users2JSON (int count, int offset, Map parameters);
 }

@@ -106,7 +106,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
   		]);
   		
   		this._userTooltipTpl = Ext.create ('Ext.Template', [
-  				"<b>{text}</b><br/>",
+  				"<b>{displayName}</b><br/>",
   				"<u><i18n:text i18n:key='PLUGINS_CORE_UI_PROFILES_TREE_CONTEXT_TOOLTIP'/></u> : ",
   				"{context}"
   		]);

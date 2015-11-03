@@ -37,6 +37,7 @@ import org.ametys.core.user.User;
 import org.ametys.core.user.UsersManager;
 import org.ametys.plugins.core.impl.right.profile.DefaultProfileBasedRightsManager;
 import org.ametys.plugins.core.impl.right.profile.ProfileBasedRightsManager;
+import org.ametys.plugins.core.user.UserHelper;
 
 /**
  * Component for users client interaction
@@ -75,8 +76,7 @@ public class UsersClientInteraction extends AbstractLogEnabled implements Servic
         }
         
         Map<String, Object> userInfo = new HashMap<>();
-        userInfo.put("name", user.getFullName());
-        userInfo.put("login", login);
+        userInfo.putAll(UserHelper.user2Map(user));
 
         if (_rightsManager instanceof DefaultProfileBasedRightsManager)
         {

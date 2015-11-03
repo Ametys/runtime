@@ -24,10 +24,10 @@ import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.generation.ServiceableGenerator;
+import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.commons.lang.StringUtils;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.AttributesImpl;
 
 import org.ametys.core.group.Group;
 import org.ametys.core.right.HierarchicalRightsHelper;
@@ -173,26 +173,27 @@ public class ProfilesByContextGenerator extends ServiceableGenerator
     
     private void _addProfileAttributes(Profile profile, AttributesImpl attrs)
     {
-        attrs.addAttribute("", "profileId", "profileId", "CDATA", profile.getId());
-        attrs.addAttribute("", "name", "name", "CDATA", profile.getName());
-        attrs.addAttribute("", "type", "type", "CDATA", "profile");
+        attrs.addCDATAAttribute("profileId", profile.getId());
+        attrs.addCDATAAttribute("name", profile.getName());
+        attrs.addCDATAAttribute("type", "profile");
     }
     
     private void _addUserAttributes (AttributesImpl attrs, User user, String context, boolean inherit)
     {
-        attrs.addAttribute("", "login", "login", "CDATA", user.getName());
-        attrs.addAttribute("", "name", "name", "CDATA", user.getFullName());
-        attrs.addAttribute("", "context", "context", "CDATA", context);
-        attrs.addAttribute("", "inherit", "inherit", "CDATA", String.valueOf(inherit));
-        attrs.addAttribute("", "type", "type", "CDATA", "user");
+        attrs.addCDATAAttribute("login", user.getName());
+        attrs.addCDATAAttribute("name", user.getFullName());
+        attrs.addCDATAAttribute("sortablename", user.getSortableName());
+        attrs.addCDATAAttribute("context", context);
+        attrs.addCDATAAttribute("inherit", String.valueOf(inherit));
+        attrs.addCDATAAttribute("type", "user");
     }
     
     private void _addGroupAttributes(AttributesImpl attrs, Group group, String context, boolean inherit)
     {
-        attrs.addAttribute("", "groupId", "groupId", "CDATA", "group-" + group.getId());
-        attrs.addAttribute("", "name", "name", "CDATA", group.getLabel());
-        attrs.addAttribute("", "context", "context", "CDATA", context);
-        attrs.addAttribute("", "inherit", "inherit", "CDATA", String.valueOf(inherit));
-        attrs.addAttribute("", "type", "type", "CDATA", "group");
+        attrs.addCDATAAttribute("groupId", "group-" + group.getId());
+        attrs.addCDATAAttribute("name", group.getLabel());
+        attrs.addCDATAAttribute("context", context);
+        attrs.addCDATAAttribute("inherit", String.valueOf(inherit));
+        attrs.addCDATAAttribute("type", "group");
     }
 }

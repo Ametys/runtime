@@ -15,6 +15,7 @@
  */
 package org.ametys.plugins.core.impl.user.mixed;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -145,6 +146,17 @@ public class CredentialsAwareLdapAndJdbcUsersManager extends CredentialsAwareLda
     }
     
     @Override
+    public List<User> getUsers(int count, int offset, Map<String, Object> parameters)
+    {
+        List<User> users = new ArrayList<>();
+        
+        users.addAll(super.getUsers(count, offset, parameters));
+        users.addAll(_fallbackUsersManager.getUsers(count, offset, parameters));
+        
+        return users;
+    }
+    
+    @Override
     public User getUser(String login)
     {
         User user = super.getUser(login);
@@ -171,6 +183,7 @@ public class CredentialsAwareLdapAndJdbcUsersManager extends CredentialsAwareLda
     }
     
     @Override
+    @Deprecated
     public Map<String, Object> user2JSON(String login)
     {
         Map<String, Object> user = super.user2JSON(login);
@@ -182,6 +195,7 @@ public class CredentialsAwareLdapAndJdbcUsersManager extends CredentialsAwareLda
     }
     
     @Override
+    @Deprecated
     public void toSAX(ContentHandler handler, int count, int offset, Map parameters) throws SAXException
     {
         XMLUtils.startElement(handler, "users");
@@ -202,6 +216,7 @@ public class CredentialsAwareLdapAndJdbcUsersManager extends CredentialsAwareLda
     }
     
     @Override
+    @Deprecated
     public List<Map<String, Object>> users2JSON(int count, int offset, Map parameters)
     {
         List<Map<String, Object>> users = super.users2JSON(count, offset, parameters);

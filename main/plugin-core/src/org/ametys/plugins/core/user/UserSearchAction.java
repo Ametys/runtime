@@ -66,7 +66,7 @@ public class UserSearchAction extends ServiceableAction
                 List<String> logins = (List<String>) jsParameters.get("login");
                 for (String login : logins)
                 {
-                    users.add(usersManager.user2JSON(login));
+                    users.add(UserHelper.user2Map(usersManager.getUser(login)));
                 }
             }
             else
@@ -79,7 +79,7 @@ public class UserSearchAction extends ServiceableAction
 
                 int offset = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
                 
-                users.addAll(usersManager.users2JSON(count, offset, _getSearchParameters(source)));
+                users.addAll(UserHelper.users2MapList(usersManager.getUsers(count, offset, _getSearchParameters(source))));
             }
         }
         catch (ServiceException e)
@@ -106,9 +106,9 @@ public class UserSearchAction extends ServiceableAction
      * @param source The search pattern
      * @return the search parameters
      */
-    protected Map<String, String> _getSearchParameters (String source)
+    protected Map<String, Object> _getSearchParameters(String source)
     {
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("pattern", source);
         return params;
     }

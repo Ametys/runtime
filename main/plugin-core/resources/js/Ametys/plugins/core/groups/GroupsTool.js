@@ -129,7 +129,7 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool', {
 				mode: 'MULTI'
 			},
 			
-			columns: [{header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_GROUPS_USERSGROUP'/>", width: 350, dataIndex: 'name', renderer: this._renderUserName, hideable: false}],
+			columns: [{header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_GROUPS_USERSGROUP'/>", width: 350, dataIndex: 'displayName', renderer: this._renderUserName, hideable: false, sortable: true}],
 			
 			listeners: {
 				selectionchange: {fn: this._onUserSelectionChange, scope: this}
@@ -168,7 +168,7 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool', {
 	 */
 	_renderUserName: function(value, metaData, record)
 	{
-		return '<img src="' + Ametys.getPluginResourcesPrefix('core') + '/img/users/user_16.png' + '" style="float: left; margin-right: 3px"/>' + record.get('name') + ' (' + record.get('login') + ')';
+		return '<img src="' + Ametys.getPluginResourcesPrefix('core') + '/img/users/user_16.png' + '" style="float: left; margin-right: 3px"/>' + value;
 	},
 	
 	/**
@@ -242,7 +242,7 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool', {
 			},
 			
 			sortOnLoad: true,
-			sorters: [{property: 'name', direction:'ASC'}],
+			sorters: [{property: 'displayName', direction:'ASC'}],
 			
 			listeners: {
 				beforeload: {fn: this._onBeforeLoadUsers, scope: this}

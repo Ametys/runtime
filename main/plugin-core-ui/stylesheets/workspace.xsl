@@ -160,7 +160,7 @@
                         login: "<xsl:value-of select="user/@login"/>",
                         firstname: "<xsl:value-of select="user/firstname"/>",
                         lastname: "<xsl:value-of select="user/lastname"/>",
-                        fullname: "<xsl:value-of select="user/firstname"/><xsl:text> </xsl:text><xsl:value-of select="user/lastname"/>" ,
+                        fullname: "<xsl:value-of select="user/fullname"/>",
                         email:  "<xsl:value-of select="user/email"/>",
                         locale: Ametys.LANGUAGE_CODE
                     });
@@ -391,7 +391,7 @@
                                                                 
                                 <xsl:if test="user">
                                 user: {
-                                    fullName: "<xsl:value-of select="user/firstname"/>&#160;<xsl:value-of select="user/lastname"/>",
+                                    fullName: "<xsl:value-of select="user/fullname"/>",
                                     login: "<xsl:value-of select="user/@login"/>",
                                     email: "<xsl:value-of select="user/email"/>"
                                     <xsl:if test="string-length(user/email) > 1">,

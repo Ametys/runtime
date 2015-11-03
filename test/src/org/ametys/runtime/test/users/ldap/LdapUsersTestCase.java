@@ -91,7 +91,10 @@ public class LdapUsersTestCase extends AbstractRuntimeTestCase
         user = _usersManager.getUser("user1");
         assertNotNull(user);
         assertEquals(user.getName(), "user1");
+        assertEquals(user.getLastName(), "USER1");
+        assertEquals(user.getFirstName(), "User1");
         assertEquals(user.getFullName(), "User1 USER1");
+        assertEquals(user.getSortableName(), "USER1 User1");
         assertEquals(user.getEmail(), "user1@ametys.org");
 
         // Get users
