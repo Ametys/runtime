@@ -126,7 +126,7 @@
  */
 .#{$prefix}container-ribbon-messagecontainer {
     padding-bottom: $ametys-ribbon-message-border-width;
-    background-color: $ametys-ribbon-base-color;
+    background-color: $ametys-ribbon-tabpanel-background-color;
 }
 .#{$prefix}container-ribbon-message {
     color: $ametys-ribbon-message-color;
