@@ -507,7 +507,10 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 
 			var zoneTabsToolsPanel = tool.ownerCt;
 			
-            this._onToolDeactivated(tool);
+            if (zoneTabsToolsPanel.getActiveTab() == tool)
+            {
+                this._onToolDeactivated(tool);
+            }
             
 			var wasFocused = this.getFocusedTool() == tool; 
 			if (wasFocused)
