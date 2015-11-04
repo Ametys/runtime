@@ -41,7 +41,7 @@ Ext.define(
 			 * @readonly
 			 * @property {Number} DEFAULT_LABEL_HEIGHT The default height for input label.
 			 */
-			DEFAULT_LABEL_HEIGHT: 23,
+			DEFAULT_LABEL_HEIGHT: 25,
 			
 			/**
 			 * @readonly
@@ -137,8 +137,8 @@ Ext.define(
 		{
 			this.callParent(arguments);
 
-            // Have to be done before initialize, so "initialize" function have access to it
-            this.createDataStore()
+            // Has to be done before initialize, so "initialize" function has access to it
+            this.createDataStore();
             
 			// Initialize input properties
 			this._initialize();
@@ -175,7 +175,7 @@ Ext.define(
 		    	name: this.getInitialConfig('name'),
 		    	value: this.getInitialConfig('value') || '',
 		    	
-		    	height: this._getInputHeight (size, labelOnTop), 
+		    	height: this._getInputHeight(size, labelOnTop), 
 		    	width: width,
 		    	
 		    	emptyText: this.getInitialConfig('empty-text'),
