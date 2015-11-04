@@ -79,7 +79,7 @@ public final class UserHelper
      * SAX an user
      * @param user The user
      * @param handler The content handler
-     * @throws SAXException
+     * @throws SAXException If a SAX error occurs
      */
     public static void saxUser(User user, ContentHandler handler) throws SAXException
     {

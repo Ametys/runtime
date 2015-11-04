@@ -345,7 +345,7 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
      * @param rs The result set
      * @param login The user login
      * @return The retrieved user or null if not found
-     * @throws SQLException 
+     * @throws SQLException If an SQL Exception occurs
      */
     protected User _getUserProcessResultSet(ResultSet rs, String login) throws SQLException
     {
