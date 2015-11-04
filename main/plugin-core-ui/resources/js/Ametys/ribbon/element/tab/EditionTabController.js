@@ -132,7 +132,7 @@ Ext.define(
 					{
 						var show = true;
 						var nodeTarget = this._matchingTargets[i].getSubtarget('node');
-						var node = tinyMCE.activeEditor.dom.getParent(nodeTarget.getParameters()['object'], this._selectionNodeType);
+						var node = tinyMCE.activeEditor.dom.getParent(this._getNode(nodeTarget.getParameters()['object']), this._selectionNodeType);
 						
 						while (node != null)
 						{
@@ -172,6 +172,17 @@ Ext.define(
 					this.hide();
 				}
 			}
+		},
+	
+		/**
+		 * @protected
+		 * Get the node on which check attributes
+		 * @param {HTMLElement} node the selected element
+		 * @return {HTMLElement} the element used to process the selection 
+		 */
+		_getNode: function(node)
+		{
+			return node;
 		}
 	}
 );
