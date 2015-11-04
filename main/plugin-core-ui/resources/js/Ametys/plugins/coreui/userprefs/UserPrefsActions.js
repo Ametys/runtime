@@ -148,7 +148,7 @@ Ext.define('Ametys.plugins.coreui.userprefs.UserPrefsActions', {
 		
 		this._box = Ext.create('Ametys.window.DialogBox', {
 			title :"<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_LABEL'/>",
-			icon : Ametys.getPluginResourcesPrefix('core') + "/img/userprefs/userprefs_16.png",
+			icon : Ametys.getPluginResourcesPrefix('core-ui') + "/img/userprefs/userprefs_16.png",
 			
 			width : 600,
 			maxHeight: 500,
