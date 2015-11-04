@@ -176,23 +176,15 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			var panels = [
 				this._panelHierarchy['t'] = Ext.create(panelClass, { location: 't', toolsLayout: this, minHeight: this.self.__REGION_MINSIZE.height }),
                 {
-                    xtype: 'container',
-                    flex: 3,
-                    split: true,
-                    layout: {
-                        type: 'hbox',
-                        align: 'stretch'
-                    },
+                    xtype: 'zoned-container',
+                    stateful: true,
+                    stateId: Ametys.ui.tool.layout.ZonedTabsToolsLayout.Container.getName() + "$",
                     items: [
         				this._panelHierarchy['l'] = Ext.create(panelClass, { location: 'l', toolsLayout: this, minWidth: this.self.__REGION_MINSIZE.width }),
                         {
-                            xtype: 'container',
-                            flex: 3,
-                            split: true,
-                            layout: {
-                                type: 'hbox',
-                                align: 'stretch'
-                            },
+                            xtype: 'zoned-container',
+                            stateful: true,
+                            stateId: Ametys.ui.tool.layout.ZonedTabsToolsLayout.Container.getName() + "$c",
                             items: [
         				        this._panelHierarchy['cl'] = Ext.create(panelClass, { location: 'cl', toolsLayout: this }),
         				        this._panelHierarchy['cr'] = Ext.create(panelClass, { location: 'cr', toolsLayout: this })

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Anyware Services
+ *  Copyright 2015 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -21,6 +21,8 @@
 Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel", 
 	{
 		extend: "Ext.tab.Panel",
+        
+        xtype: 'zonetabpanel',
 		
         /**
          * @cfg {String} ui=tool-layoutzone @inheritdoc
@@ -94,39 +96,36 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 			this._location = config.location;
 			this._toolsLayout = config.toolsLayout;
             
-            config.flex = 1;
-			
-			
 			config.stateful = true;
 			config.stateId = this.self.getName() + "$" + this._location;
             
 			this.callParent(arguments);
 
-			/*if (!this._isMainArea())
-			{
-				this.on('resize', this._onResize, this);
-			}*/
-			
+            this.on('beforeshow', this._onShow, this);
 			this.on('unfloat', this._onUnfloat, this);
             this.on('afterrender', this._onAfterRender, this);
 		},
-		
-		/**
-		 * Listener on resize to keep flex value correct
-		 * @private
-		 */
-		/*_onResize: function()
-		{
-			var centerRegion = this._toolsLayout._panelHierarchy['cl'].ownerCt
-			if (this._location == 'l' || this._location == 'r')
-			{
-				this.flex = this.getWidth() / Math.max(centerRegion.getWidth(), this.self.__REGION_MINSIZE.width); 
-			}
-			else
-			{
-				this.flex = this.getHeight() / Math.max(centerRegion.getHeight(), this.self.__REGION_MINSIZE.height); 
-			}
-		},*/
+        
+        /**
+         * @private
+         * Listener on show
+         * @param {Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel} me This component
+         */
+        _onShow: function(me)
+        {
+            if (!this.flex)
+            {
+                var brother;
+                if (brother = this.nextSibling("zoned-container") || this.previousSibling("zoned-container"))
+                {
+                    this.flex = brother.flex / 3;
+                }
+                else if (brother = this.nextSibling("zonetabpanel") || this.previousSibling("zonetabpanel"))
+                {
+                    this.flex = brother.flex || 1;
+                }
+            }
+        },
 		
 		getState: function()
 		{

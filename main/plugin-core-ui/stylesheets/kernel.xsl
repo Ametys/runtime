@@ -206,6 +206,7 @@
         <script>/plugins/core-ui/resources/js/Ametys/ui/tool/ToolsLayout.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/ui/tool/layout/ZonedTabsToolsLayout.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/ui/tool/layout/ZonedTabsToolsLayout/ZoneTabsToolsPanel.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ui/tool/layout/ZonedTabsToolsLayout/Container.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/ui/tool/layout/ZonedTabsToolsLayout/ZonedTabsDD.js</script>
         
         <script>/plugins/core-ui/resources/js/Ametys/message/Message.js</script>
