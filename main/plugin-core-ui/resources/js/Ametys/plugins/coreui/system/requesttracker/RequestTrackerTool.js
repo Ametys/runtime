@@ -143,6 +143,8 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 			
 			this.rightPanel = Ext.create("Ext.Component", {
 				layout: 'fit',
+                stateful: true,
+                stateId: this.self.getName() + "$rightPanel",
 				scrollable: true,
                 minWidth: 100,
                 split: true,
@@ -168,8 +170,6 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
                     align: 'stretch'
                 },
                 cls: 'uitool-requesttracker',
-				stateful: true,
-				stateId: this.self.getName() + "$mainPanel",
 				items: [ this.leftPanel, this.rightPanel ]
 			});
 		},
