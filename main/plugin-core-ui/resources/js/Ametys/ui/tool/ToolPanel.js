@@ -48,7 +48,22 @@ Ext.define("Ametys.ui.tool.ToolPanel", {
          * @readonly
          * @property {Number} TOOLTYPE_30 Constant for a kind of tool #cfg-type.
          */
-        TOOLTYPE_30: 30
+        TOOLTYPE_30: 30,
+        /**
+         * @readonly
+         * @property {Number} TOOLTYPE_40 Constant for a kind of tool #cfg-type.
+         */
+        TOOLTYPE_40: 40,
+        /**
+         * @readonly
+         * @property {Number} TOOLTYPE_50 Constant for a kind of tool #cfg-type.
+         */
+        TOOLTYPE_50: 50,
+        /**
+         * @readonly
+         * @property {Number} TOOLTYPE_60 Constant for a kind of tool #cfg-type.
+         */
+        TOOLTYPE_60: 60
     },
         
     config: {

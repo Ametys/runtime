@@ -53,7 +53,25 @@ Ext.define("Ametys.ui.tool.ToolsLayout",
              * @property {Number} TOOLTYPE_30 Stands for the underlying values of tools type like {@link Ametys.tool.Tool#TYPE_DEFAULT}
              * These constants are handled by the implementation to render tools differently. See the tools type to see meaningful constants.
              */
-            TOOLTYPE_30: 30
+            TOOLTYPE_30: 30,
+            /**
+             * @readonly
+             * @property {Number} TOOLTYPE_40 Stands for the underlying values of tools type like {@link Ametys.tool.Tool#TYPE_DEFAULT}
+             * These constants are handled by the implementation to render tools differently. See the tools type to see meaningful constants.
+             */
+            TOOLTYPE_40: 40,
+            /**
+             * @readonly
+             * @property {Number} TOOLTYPE_50 Stands for the underlying values of tools type like {@link Ametys.tool.Tool#TYPE_DEFAULT}
+             * These constants are handled by the implementation to render tools differently. See the tools type to see meaningful constants.
+             */
+            TOOLTYPE_50: 50,
+            /**
+             * @readonly
+             * @property {Number} TOOLTYPE_60 Stands for the underlying values of tools type like {@link Ametys.tool.Tool#TYPE_DEFAULT}
+             * These constants are handled by the implementation to render tools differently. See the tools type to see meaningful constants.
+             */
+            TOOLTYPE_60: 60
         },
         
         /**
@@ -61,6 +79,11 @@ Ext.define("Ametys.ui.tool.ToolsLayout",
          * Set to false, when you want to add initial tool and then call #setAsInitialized 
          */
         initialized: true,
+        
+        /**
+         * @cfg {Function} titleChangedCallback This function is called each time that the focused tool title is modified
+         * @cfg {String} titleChangedCallback.title The current title. Can be empty or null.
+         */
         
 		/**
 		 * Create the layout instance

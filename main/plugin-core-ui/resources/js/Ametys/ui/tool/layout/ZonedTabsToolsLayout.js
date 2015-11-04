@@ -319,6 +319,11 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			{
 				tool.fireEvent("toolfocus", tool);
 			}
+            
+            if (Ext.isFunction(this.titleChangedCallback))
+            {
+                this.titleChangedCallback(tool.getTitle());
+            }
 		},
 		
 		/**
@@ -366,6 +371,11 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			{
                 tool.fireEvent("toolblur", tool);
 			}
+            
+            if (Ext.isFunction(this.titleChangedCallback))
+            {
+                this.titleChangedCallback(null);
+            }
 		},
 		
 		onToolInfoChanged: function(tool)
@@ -389,6 +399,11 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			});
 			
 			zoneTabsToolsPanel._updateCollapsePlaceHolder();
+            
+            if (Ametys.tool.ToolsManager.getTool(tool.uiTool).hasFocus() && Ext.isFunction(this.titleChangedCallback))
+            {
+                this.titleChangedCallback(tool.getTitle());
+            }
 		},
 		
 		addTool: function(tool, location)
