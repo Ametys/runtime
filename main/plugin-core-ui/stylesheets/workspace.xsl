@@ -377,12 +377,22 @@
                                 
                                 /*
                                 help: {
-                                    handler: function() { alert('help'); },
-                                    tooltip:{ inribbon: true, text: "A little bit of help?" }
+                                    tooltip:{ 
+                                        inribbon: true, 
+                                        title: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_HELP_RIBBON_TIP_TITLE' i18n:catalogue='plugin.core-ui'/>", 
+                                        text: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_HELP_RIBBON_TIP_DESCRIPTION' i18n:catalogue='plugin.core-ui'/>",
+                                        image: Ametys.getPluginResourcesPrefix("core-ui") + "/img/uitool-help/help_48.png"
+                                    },
+                                    handler: function() { Ametys.tool.ToolsManager.openTool('uitool-help'); }
                                 },
                                 notification: {
-                                      tooltip:{ inribbon: true, text: "A descriptive text" },
-                                      handler: function() {  }
+                                    tooltip:{ 
+                                        inribbon: true, 
+                                        title: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_RIBBON_TIP_TITLE' i18n:catalogue='plugin.core-ui'/>", 
+                                        text: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_RIBBON_TIP_DESCRIPTION' i18n:catalogue='plugin.core-ui'/>",
+                                        image: Ametys.getPluginResourcesPrefix("core-ui") + "/img/uitool-notification/notification_48.png"
+                                    },
+                                    handler: function() { Ametys.tool.ToolsManager.openTool('uitool-notification'); }
                                 },
                                 searchMenu: {
                                     allowSearch: true,
