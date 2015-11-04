@@ -107,7 +107,7 @@
                 <xsl:if test="$image-alt-i18n"><xsl:attribute name="i18n:attr">alt</xsl:attribute></xsl:if>
             </img>
             
-            <div class="image-captcha-help"><i18n:text i18n:key="PLUGINS_CMS_CONTENT_CAPTCHA_REFRESH_NOSCRIPT" i18n:catalogue="plugin.cms"/></div>
+            <div class="image-captcha-help"><i18n:text i18n:key="PLUGINS_CORE_CAPTCHA_REFRESH_NOSCRIPT" i18n:catalogue="plugin.core"/></div>
         </noscript>
         
         <script type="text/javascript">
@@ -115,7 +115,7 @@
             document.write("&lt;input type=\"text\" name=\"<xsl:value-of select='$value-name'/>\" id=\"<xsl:value-of select="$value-id"/>\" style=\"<xsl:value-of select="$value-style"/>\" class=\"<xsl:value-of select="$value-class"/>\"/ autocomplete=\"off\"&gt;")
             document.write("&lt;img style=\"<xsl:value-of select="$image-style"/>\" class=\"<xsl:value-of select="$image-class"/>\" alt=\"<xsl:choose><xsl:when test="$image-alt-i18n"><i18n:text i18n:key="{$image-alt}"><xsl:if test="$image-alt-catalogue != ''"><xsl:attribute name="i18n:catalogue"><xsl:value-of select="$image-alt-catalogue"/></xsl:attribute></xsl:if></i18n:text></xsl:when><xsl:otherwise><xsl:value-of select="$image-alt"/></xsl:otherwise></xsl:choose>\" id=\"<xsl:value-of select="$image-id"/>\" src=\"\"/&gt;");
             <xsl:if test="$allow-refresh = true()">
-                document.write("&lt;button type=\"button\" title=\"<i18n:text i18n:key="PLUGINS_CMS_CONTENT_CAPTCHA_REFRESH_ALT" i18n:catalogue="plugin.cms"/>\" class=\"captcha-refresh-btn\" onclick=\"<xsl:value-of select="$js-funcname-torefresh"/>(false); return false;\"&gt;&lt;span&gt;<i18n:text i18n:key="PLUGINS_CMS_CONTENT_CAPTCHA_REFRESH" i18n:catalogue="plugin.cms"/>&lt;/span&gt;&lt;/button&gt;");
+                document.write("&lt;button type=\"button\" title=\"<i18n:text i18n:key="PLUGINS_CORE_CAPTCHA_REFRESH_ALT" i18n:catalogue="plugin.core"/>\" class=\"captcha-refresh-btn\" onclick=\"<xsl:value-of select="$js-funcname-torefresh"/>(false); return false;\"&gt;&lt;span&gt;<i18n:text i18n:key="PLUGINS_CORE_CAPTCHA_REFRESH" i18n:catalogue="plugin.core"/>&lt;/span&gt;&lt;/button&gt;");
             </xsl:if>
             
             function <xsl:value-of select="$js-funcname-torefresh"/>(focusNow)

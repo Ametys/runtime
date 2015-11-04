@@ -275,5 +275,12 @@
 	<message key="PLUGINS_CORE_REGEXP_INVALID_MAIL">L'adresse saisie n'est pas une adresse mail valide</message>
 	<message key="PLUGINS_CORE_REGEXP_INVALID_URL">L'url est invalide. Elle doit commencer par http:// ou https://</message>
 	<message key="PLUGINS_CORE_REGEXP_INVALID_PATH">Le path est invalide. Il ne doit se finir par '/'.</message>
+	
+	<!-- +
+         | CAPTCHA
+         + -->
+    <message key="PLUGINS_CORE_CAPTCHA_REFRESH_ALT">Cliquez ici pour rafraîchir l'image de vérification</message>
+    <message key="PLUGINS_CORE_CAPTCHA_REFRESH">Rafraichir l'image</message>
+    <message key="PLUGINS_CORE_CAPTCHA_REFRESH_NOSCRIPT">Si l'image n'est pas suffisament claire, vous pouvez rafraichir la page.</message>
     
 </catalogue>
