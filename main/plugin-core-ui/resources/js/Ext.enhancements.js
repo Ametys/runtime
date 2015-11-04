@@ -103,6 +103,20 @@
     });
 })();
 
+(function() {
+    // Override component to save flex value
+    Ext.override(Ext.Component, {
+        getState: function()
+        {
+            var state = this.callParent(arguments);
+            
+            state = this.addPropertyToState(state, 'flex');
+            
+            return state;
+        }
+    })
+})();
+
 /*
  * Supports for ametysDescription ametysComment on fields and fields containers.
  */
