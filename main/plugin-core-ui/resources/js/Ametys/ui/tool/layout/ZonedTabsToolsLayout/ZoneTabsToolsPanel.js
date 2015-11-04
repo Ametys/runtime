@@ -131,8 +131,6 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 		{
 			var state = this.callParent(arguments);
 			
-			state = this.addPropertyToState(state, 'flex');
-			
 			if (!this._isMainArea())
 			{
 				state = this.addPropertyToState(state, 'collapsed', (this.getCollapsed() != false) || Boolean(this.floatedFromCollapse));
