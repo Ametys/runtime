@@ -25,15 +25,6 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.Container",
         layout: {
             type: 'hbox',
             align: 'stretch'
-        },
-        
-        getState: function()
-        {
-            var state = this.callParent(arguments);
-            
-            state = this.addPropertyToState(state, 'flex');
-            
-            return state;
         }
     }
 );
