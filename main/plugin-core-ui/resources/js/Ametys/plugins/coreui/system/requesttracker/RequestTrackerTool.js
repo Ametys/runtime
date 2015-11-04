@@ -509,6 +509,11 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 			try
 			{
 				var record = this.store.query("id", sendOptions.observerId).getAt(0);
+                if (record == null)
+                {
+                    // Let's ignore this request arrival, because we were not listening when it started 
+                    return;
+                }
 				record.set("duration", (new Date().getTime() - record.get("date").getTime()) / 1000.0);
 				record.set("response", response);
 				switch (responseType)
