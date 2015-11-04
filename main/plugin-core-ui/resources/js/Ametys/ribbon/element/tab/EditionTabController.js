@@ -176,7 +176,7 @@ Ext.define(
 	
 		/**
 		 * @protected
-		 * Get the node on which check attributes
+		 * Get the node to work with in order to process the new selection
 		 * @param {HTMLElement} node the selected element
 		 * @return {HTMLElement} the element used to process the selection 
 		 */
