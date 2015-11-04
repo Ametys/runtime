@@ -53,8 +53,8 @@ Ext.define("Ametys.tool.Tool",
 			 * @readonly
 			 * @property {Number} TYPE_DEFAULT Stands for a tool type {@link #getType}. This is the default tool type.
 			 */
-			TYPE_DEFAULT: Ametys.ui.tool.ToolsLayout.TOOLTYPE_0,
-			// Declares other constants from other files. The associated values should be one of the handles by Ametys.ui.tool.ToolsLayout
+			TYPE_DEFAULT: Ametys.ui.tool.ToolPanel.TOOLTYPE_0,
+			// Declares other constants from other files. The associated values should be one of the handles by Ametys.ui.tool.ToolPanel
 			
 			/**
 			 * @protected

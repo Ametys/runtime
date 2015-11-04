@@ -187,7 +187,6 @@
                     <xsl:for-each select="ribbon/controls/control">
                                control = Ext.create("<xsl:value-of select="action/@class"/>", Ext.apply(<xsl:value-of select="action"/>, {id: "<xsl:value-of select="@id"/>", pluginName: "<xsl:value-of select="@plugin"/>"}));
                                Ametys.ribbon.RibbonManager.registerElement(control);
-                               
                     </xsl:for-each>
 
                                 /** Searchmenu items creation */                    
@@ -214,7 +213,7 @@
 								});
 								
                     <xsl:for-each select="ribbon/controls/control">
-                               /*try { 
+                               try { 
                                		var control = Ametys.ribbon.RibbonManager.getElement("<xsl:value-of select="@id"/>");
                                		var menuItem = control.addMenuItemUI();
                                		searchMenuItems.push(menuItem);
@@ -224,7 +223,7 @@
 									    keywords: control.getInitialConfig('keywords') || "",
 									    description: control._description,
 									});
-                               	} catch (e) { }   */    
+                               	} catch (e) { /* some controls cannot be used into a menu */ }   
                     </xsl:for-each>
                     		lunr.controllersIndex = index;
 
@@ -375,7 +374,6 @@
                                 </xsl:if>
                                 ],
                                 
-                                /*
                                 help: {
                                     tooltip:{ 
                                         inribbon: true, 
@@ -397,7 +395,7 @@
                                 searchMenu: {
                                     allowSearch: true,
                                     items: searchMenuItems
-                                },*/
+                                },
                                                                 
                                 <xsl:if test="user">
                                 user: {
@@ -576,7 +574,12 @@
     
     <xsl:template name="ui-apptools-load-toolsmanager">
             <script type="text/javascript">
-                Ametys.tool.ToolsManager.setToolsLayout("Ametys.ui.tool.layout.ZonedTabsToolsLayout", { initialized: false });
+                Ametys.tool.ToolsManager.setToolsLayout("Ametys.ui.tool.layout.ZonedTabsToolsLayout", { 
+                    initialized: false,
+                    titleChangedCallback: function(title) {
+                        Ext.getCmp("ribbon").setTitle(title);
+                    } 
+                });
             </script>
     </xsl:template>
 
