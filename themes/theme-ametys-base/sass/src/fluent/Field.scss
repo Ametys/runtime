@@ -18,7 +18,7 @@
     $ui: 'ribbon-component',
     
     $ui-height: $ametys-ribbon-button-height-small,
-    $ui-textarea-body-height: 3*$ametys-ribbon-button-height-small - 2px,
+    $ui-textarea-body-height: 2*$ametys-ribbon-button-height-small - 2px - 2px,// 2px for border top and bottom and 2px for too high label
     $ui-background-color: $ametys-ribbon-field-background-color,
     $ui-border-color: $ametys-ribbon-field-border-color,
     $ui-focus-border-color: $ametys-ribbon-field-outline-color,
@@ -56,12 +56,15 @@
 .#{$prefix}field-ribbon-component {
     margin: 0 ($ametys-ribbon-label-font-size / 6);
 }
+.#{$prefix}form-item-ribbon-component.#{$prefix}form-type-text.#{$prefix}form-item-no-label textarea {
+    min-height: 3*$ametys-ribbon-button-height-small - 2px; // 2px for border top and bottom
+}
 
 @include extjs-label-ui(
     $ui: 'ribbon-component',
     
     $ui-height: $ametys-ribbon-button-height-small,
-
+    
     $ui-font-color: $ametys-ribbon-label-color,
     $ui-font-size: $ametys-ribbon-label-font-size,
     $ui-line-height: $ametys-ribbon-field-line-height

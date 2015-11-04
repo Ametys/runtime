@@ -149,7 +149,9 @@ var tabComponents = {
             		        	store: [['id1', 'Titre 1'], ['id2', 'Titre 2'], ['id3', 'Titre 3'], ['id4', 'Paragraphe']],
             		        	value: 'id4',
             		        	mode: 'local',
-            		        	width: 50,
+                                labelWidth: 40,
+                                fieldLabel: 'Label',
+            		        	width: 80,
             		        	triggerAction: 'all',
             		        	disableKeyFilter: true,
             		        	editable: false
@@ -257,8 +259,12 @@ var tabComponents = {
 				 		xtype: 'textarea',
                         fieldLabel: 'Enter text here',
                         labelAlign: 'top',
-				 		width: 260
+				 		width: 130
 				 	},
+                    {
+                        xtype: 'textarea',
+                        width: 130
+                    },
 				 	{
 						align: 'top',
 						columns: 1,
