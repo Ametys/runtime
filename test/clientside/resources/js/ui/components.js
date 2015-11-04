@@ -255,7 +255,8 @@ var tabComponents = {
 				[
 				 	{
 				 		xtype: 'textarea',
-				 		height: 66,
+                        fieldLabel: 'Enter text here',
+                        labelAlign: 'top',
 				 		width: 260
 				 	},
 				 	{
