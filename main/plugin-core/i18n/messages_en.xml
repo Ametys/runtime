@@ -99,6 +99,9 @@
     <message key="PLUGINS_CORE_USERS_DIALOG_OK">Ok</message>
     <message key="PLUGINS_CORE_USERS_DIALOG_CANCEL">Cancel</message>
     <message key="PLUGINS_CORE_USERS_DIALOG_INVALID_FIELD">This field is invalid.&lt;br/&gt;See help for details.</message>
+    <!-- Relations -->
+    <message key="PLUGINS_CORE_RELATIONS_ADD_USER_LABEL">Add</message>
+    <message key="PLUGINS_CORE_RELATIONS_ADD_USER_DESCRIPTION">Add the selected user in a group.</message>
 
     <!-- +
          | USER RIGHTS

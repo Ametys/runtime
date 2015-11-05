@@ -76,6 +76,26 @@ Ext.define('Ametys.plugins.core.users.UsersTool', {
 		return Ametys.tool.Tool.MB_TYPE_ACTIVE;
 	},
 	
+	setParams: function(params)
+	{
+		this.callParent(arguments);
+		this.search();
+		
+		// Register the tool on the history tool
+		var role = this.getFactory().getRole();
+	    var toolParams = this.getParams();
+		Ametys.navhistory.HistoryDAO.addEntry({
+			id: this.getId(),
+			label: this.getTitle(),
+			description: this.getDescription(),
+			iconSmall: this.getSmallIcon(),
+			iconMedium: this.getMediumIcon(),
+			iconLarge: this.getLargeIcon(),
+			type: Ametys.navhistory.HistoryDAO.TOOL_TYPE,
+			action: Ext.bind(Ametys.tool.ToolsManager.openTool, Ametys.tool.ToolsManager, [role, toolParams], false)
+        });
+	},
+	
 	createPanel: function()
 	{
 		this._store = this.createUserStore();
@@ -124,32 +144,38 @@ Ext.define('Ametys.plugins.core.users.UsersTool', {
 			
 			listeners: {
 				selectionchange: {fn: this._onSelectionChange, scope: this}
-			}
+			},
+			
+            viewConfig: {
+                plugins: {
+                    ptype: 'ametysgridviewdragdrop',
+                    dragTextField: 'id',
+                    setAmetysDragInfos: Ext.bind(this.getDragInfo, this),
+                    setAmetysDropZoneInfos: Ext.emptyFn 
+                }
+            }
 		});
 		
 		return this._grid;
 	},
 	
-	/**
-	 * @private
-	 * Renderer for user's full name
-	 * @param {Object} value The data value
-	 * @param {Object} metaData A collection of data about the current cell
-	 * @param {Ext.data.Model} record The record
-	 * @return {String} The html value to render.
-	 */
-	_renderDisplayName: function(value, metaData, record)
+	sendCurrentSelection: function()
 	{
-		return '<img src="' + Ametys.getPluginResourcesPrefix('core') + '/img/users/user_16.png' + '" style="float: left; margin-right: 3px"/>' + value;
-	},
-	
-	/**
-	 * Get the user store
-	 * @return {Ext.data.Store} The user store
-	 */
-	getStore: function ()
-	{
-		return this._store;
+		var selection = this._grid.getSelectionModel().getSelection();
+		var targets = [];
+		
+		var me = this;
+		Ext.Array.forEach(selection, function(record) {
+			targets.push({
+				type: me._userTargetType,
+				parameters: {id: record.getId()}
+			})
+		});
+		
+		Ext.create('Ametys.message.Message', {
+			type: Ametys.message.Message.SELECTION_CHANGED,
+			targets: targets
+		});
 	},
 	
 	/**
@@ -199,23 +225,41 @@ Ext.define('Ametys.plugins.core.users.UsersTool', {
 		};
 	},
 	
-	sendCurrentSelection: function()
+    /**
+     * @private
+     * Add the 'source' of the drag.
+     * @param {Object} item The default drag data that will be transmitted. You have to add a 'source' item in it: 
+     * @param {Ametys.relation.RelationPoint} item.source The source (in the relation way) of the drag operation. 
+     */
+    getDragInfo: function(item)
+    {
+        var targets = [];
+        
+        Ext.Array.each(item.records, function(record) {
+        	targets.push({
+        		type: this._userTargetType,
+        		parameters: {
+        			id: record.id
+        		}
+        	});
+        }, this);
+    
+        if (targets.length > 0)
+        {
+            item.source = {
+                relationTypes: [Ametys.relation.Relation.REFERENCE], 
+                targets: targets
+            };
+        }
+    },
+   
+	/**
+	 * Get the user store
+	 * @return {Ext.data.Store} The user store
+	 */
+	getStore: function ()
 	{
-		var selection = this._grid.getSelectionModel().getSelection();
-		var targets = [];
-		
-		var me = this;
-		Ext.Array.forEach(selection, function(record) {
-			targets.push({
-				type: me._userTargetType,
-				parameters: {id: record.getId()}
-			})
-		});
-		
-		Ext.create('Ametys.message.Message', {
-			type: Ametys.message.Message.SELECTION_CHANGED,
-			targets: targets
-		});
+		return this._store;
 	},
 	
 	/**
@@ -252,24 +296,17 @@ Ext.define('Ametys.plugins.core.users.UsersTool', {
 		return this._searchField ? this._searchField.getValue() : '';
 	},
 
-	setParams: function(params)
+	/**
+	 * @private
+	 * Renderer for user's full name
+	 * @param {Object} value The data value
+	 * @param {Object} metaData A collection of data about the current cell
+	 * @param {Ext.data.Model} record The record
+	 * @return {String} The html value to render.
+	 */
+	_renderDisplayName: function(value, metaData, record)
 	{
-		this.callParent(arguments);
-		this.search();
-		
-		// Register the tool on the history tool
-		var role = this.getFactory().getRole();
-	    var toolParams = this.getParams();
-		Ametys.navhistory.HistoryDAO.addEntry({
-			id: this.getId(),
-			label: this.getTitle(),
-			description: this.getDescription(),
-			iconSmall: this.getSmallIcon(),
-			iconMedium: this.getMediumIcon(),
-			iconLarge: this.getLargeIcon(),
-			type: Ametys.navhistory.HistoryDAO.TOOL_TYPE,
-			action: Ext.bind(Ametys.tool.ToolsManager.openTool, Ametys.tool.ToolsManager, [role, toolParams], false)
-        });
+		return '<img src="' + Ametys.getPluginResourcesPrefix('core') + '/img/users/user_16.png' + '" style="float: left; margin-right: 3px"/>' + value;
 	},
 	
 	/**

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright 2014 Anyware Services
+   Copyright 2015 Anyware Services
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -98,6 +98,9 @@
     <message key="PLUGINS_CORE_USERS_DIALOG_OK">Ok</message>
     <message key="PLUGINS_CORE_USERS_DIALOG_CANCEL">Annuler</message>
     <message key="PLUGINS_CORE_USERS_DIALOG_INVALID_FIELD">Ce champ est invalide</message>
+    <!-- Relations -->
+    <message key="PLUGINS_CORE_RELATIONS_ADD_USER_LABEL">Ajouter</message>
+    <message key="PLUGINS_CORE_RELATIONS_ADD_USER_DESCRIPTION">Ajoute l'utilisateur sélectionné dans un groupe.</message>
     
     <!-- +
          | USER RIGHTS

@@ -335,6 +335,7 @@ Ext.define("Ametys.message.GroupMessageTarget", {
           * @readonly
           * @property {String} GROUP The target type is a group. The expected parameters are:
           * @property {String} GROUP.id The id of group
+          * 
           */
          GROUP: "group"
      }

@@ -112,7 +112,15 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool', {
 			
 			listeners: {
 				selectionchange: {fn: this._onGroupSelectionChange, scope: this}
-			}
+			},
+			
+            viewConfig: {
+                plugins: {
+                    ptype: 'ametysgridviewdragdrop',
+                    setAmetysDragInfos: Ext.emptyFn,
+                    setAmetysDropZoneInfos: Ext.bind(this.getDropInfo, this) 
+                }
+            }
 		});
 		
 		var userStore = this._createUserStore();
@@ -145,30 +153,42 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool', {
 		});
 	},
 	
-	/**
-	 * @private
-	 * Function to render the name of a group
-	 * @param {Object} value The data value
-	 * @param {Object} metaData A collection of data about the current cell
-	 * @param {Ext.data.Model} record The record
-	 * @return {String} The html value to render.
-	 */
-	_renderGroupName: function(value, metaData, record)
+	sendCurrentSelection: function()
 	{
-		return '<img src="' + Ametys.getPluginResourcesPrefix('core') + '/img/groups/group_16.png' + '" style="float: left; margin-right: 3px"/>' + record.get('label') + ' (' + record.get('id') + ')';
-	},
-	
-	/**
-	 * @private
-	 * Function to render the name of an user
-	 * @param {Object} value The data value
-	 * @param {Object} metaData A collection of data about the current cell
-	 * @param {Ext.data.Model} record The record
-	 * @return {String} The html value to render.
-	 */
-	_renderUserName: function(value, metaData, record)
-	{
-		return '<img src="' + Ametys.getPluginResourcesPrefix('core') + '/img/users/user_16.png' + '" style="float: left; margin-right: 3px"/>' + value;
+		var targets = [];
+		
+		var users = this._userGrid.getSelectionModel().getSelection();
+		var userTargets = [];
+		
+		var me = this;
+		Ext.Array.forEach(users, function(user) {
+			userTarget = Ext.create('Ametys.message.MessageTarget', {
+				type: me._userTargetType,
+				parameters: {id: user.getId()}
+			});
+			
+			userTargets.push(userTarget);
+		});
+		
+		
+		var group = this._groupGrid.getSelectionModel().getSelection()[0];
+		if (group)
+		{
+			var groupTarget = {
+				type: this._groupTargetType,
+				parameters: {
+					id: group.getId()
+				},
+				subtargets: userTargets
+			};
+			
+			targets.push(groupTarget);
+		}
+		
+		Ext.create('Ametys.message.Message', {
+			type: Ametys.message.Message.SELECTION_CHANGED,
+			targets: targets
+		});
 	},
 	
 	/**
@@ -275,6 +295,57 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool', {
 	},
 	
 	/**
+	 * @private
+	 * Create the target of the drop operation relation.
+	 * @param {Ext.data.Model[]} groups The target group of the drop operation.
+	 * @param {Object} item The default drag data that will be transmitted. You have to add a 'target' item in it: 
+	 * @param {Object} item.target The target (in the relation way) of the drop operation. A Ametys.relation.RelationPoint config. 
+	 */	
+	getDropInfo: function(groups, item)
+	{
+		if (groups.length > 0)
+		{
+			var me = this;
+			
+			item.target = {
+				relationTypes: [Ametys.relation.Relation.REFERENCE], 
+				targets: {
+					type: me._groupTargetType,
+					parameters: { 
+						id: groups[0].id
+					}
+				}
+			};
+		}
+	},
+	
+	/**
+	 * @private
+	 * Function to render the name of a group
+	 * @param {Object} value The data value
+	 * @param {Object} metaData A collection of data about the current cell
+	 * @param {Ext.data.Model} record The record
+	 * @return {String} The html value to render.
+	 */
+	_renderGroupName: function(value, metaData, record)
+	{
+		return '<img src="' + Ametys.getPluginResourcesPrefix('core') + '/img/groups/group_16.png' + '" style="float: left; margin-right: 3px"/>' + record.get('label') + ' (' + record.get('id') + ')';
+	},
+	
+	/**
+	 * @private
+	 * Function to render the name of an user
+	 * @param {Object} value The data value
+	 * @param {Object} metaData A collection of data about the current cell
+	 * @param {Ext.data.Model} record The record
+	 * @return {String} The html value to render.
+	 */
+	_renderUserName: function(value, metaData, record)
+	{
+		return '<img src="' + Ametys.getPluginResourcesPrefix('core') + '/img/users/user_16.png' + '" style="float: left; margin-right: 3px"/>' + value;
+	},
+	
+	/**
 	 * Function called before loading the user store
 	 * @param {Ext.data.Store} store The store
 	 * @param {Ext.data.operation.Operation} operation The object that will be passed to the Proxy to load the store
@@ -333,44 +404,6 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool', {
 	_onUserSelectionChange: function(model, selected, eOpts)
 	{
 		this.sendCurrentSelection();
-	},
-	
-	sendCurrentSelection: function()
-	{
-		var targets = [];
-		
-		var users = this._userGrid.getSelectionModel().getSelection();
-		var userTargets = [];
-		
-		var me = this;
-		Ext.Array.forEach(users, function(user) {
-			userTarget = Ext.create('Ametys.message.MessageTarget', {
-				type: me._userTargetType,
-				parameters: {id: user.getId()}
-			});
-			
-			userTargets.push(userTarget);
-		});
-		
-		
-		var group = this._groupGrid.getSelectionModel().getSelection()[0];
-		if (group)
-		{
-			var groupTarget = {
-				type: this._groupTargetType,
-				parameters: {
-					id: group.getId()
-				},
-				subtargets: userTargets
-			};
-			
-			targets.push(groupTarget);
-		}
-		
-		Ext.create('Ametys.message.Message', {
-			type: Ametys.message.Message.SELECTION_CHANGED,
-			targets: targets
-		});
 	},
 	
 	/**

@@ -745,6 +745,21 @@
                     <file>css/userrights.css</file>
                 </css>
             </extension>
+            
+            <extension id="org.ametys.core.relations.addusers"
+                   point="org.ametys.core.ui.RelationsManager"
+                   class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.plugins.core.relations.UserGroupRelationHandler">
+                    <label i18n="true">PLUGINS_CORE_RELATIONS_ADD_USER_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_RELATIONS_ADD_USER_DESCRIPTION</description>
+                    <icon-small file="true">img/users/add_16.png</icon-small>
+                    <icon-medium file="true">img/users/add_32.png</icon-medium>
+                    <icon-large file="true">img/users/add_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/relations/UserGroupRelationHandler.js</file>
+                </scripts>
+            </extension>
         </extensions>
     </feature>
     
