@@ -61,7 +61,7 @@
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">
                         <![CDATA[
-                            Declaration of extension points (single or multiple)
+                            Declaration of extension points
                         ]]>
                     </xsd:documentation>
                 </xsd:annotation>
@@ -231,8 +231,8 @@
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">
                         <![CDATA[
-                            Declaration of a multiple extension point.<br/>
-                            A multiple extension point is a component that can "host" several extensions, declared in different plugins and features.
+                            Declaration of an extension point.<br/>
+                            An extension point is a component that can "host" several extensions, declared in different plugins and features.
                         ]]>
                     </xsd:documentation>
                 </xsd:annotation>
@@ -301,8 +301,7 @@
                     <xsd:documentation xml:lang="en">
                         <![CDATA[
                             Declaration of an extension.<br/>
-                            It may be an implementation of a single extension point (and will so be disabled if it is not the choosen implementation).<br/>
-                            It may be an extension to a multiple extension point (and will so become available for any component).
+                            It is an extension to an extension point (and will become available for any component).
                         ]]>
                     </xsd:documentation>
                 </xsd:annotation>
@@ -356,7 +355,7 @@
                 <xsd:documentation xml:lang="en">
                     <![CDATA[
                         If this extension defines a class as an avalon component, this attribute may be used as the category af the associated logger.<br/>
-                        This behaviour is automatic for extension to single extension point, and depends on the implementation of the extension point for multiple extension points.
+                        This behaviour depends on the implementation of the extension point.
                     ]]>
                 </xsd:documentation>
             </xsd:annotation>            

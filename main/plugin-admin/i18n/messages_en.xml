@@ -145,16 +145,28 @@
     <message key="PLUGINS_ADMIN_PLUGINS_INACTIVE_EXCLUDED">(excluded)</message>
     <message key="PLUGINS_ADMIN_PLUGINS_INACTIVE_DEPENDENCY">(depends on an unavailable feature)</message>
     <message key="PLUGINS_ADMIN_PLUGINS_INACTIVE_PASSIVE">(unnecessary passive feature)</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_INACTIVE_DEACTIVATED">(disabled by another feature)</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_INACTIVE_COMPONENT">(disabled due to not choosen component)</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_INACTIVE_INVALID_POINT">(disabled due to wrong referenced extension point)</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_INACTIVE_NOT_SAFE">(disabled by the safe mode)</message>
     <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_ALERT_TEXT">The change will be effective only when you confirm all the changes.&lt;br/&gt;To do so, please click on the 'Changes' action.&lt;br/&gt;&lt;br/&gt;No graphical element of the plugins tree will be modified until you validate your changes.</message>
     <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_ALERT_TITLE">Change...</message>
     <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_CONFIRM_TITLE">Changes...</message>
     <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_CONFIRM_TEXT_START">You have the following waiting change(s):&lt;br/&gt;&lt;br/&gt;</message>
     <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_CONFIRM_TEXT_END">&lt;br/&gt;Do you want to apply them now?</message>
-    <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_SEP">Single extensions points</message>
-    <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_EP">Multiple extensions points</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_CMP">Components</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_EP">Extensions points</message>
     <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_BEWARE_TITLE">Apply changes</message>
     <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_BEWARE_TEXT">Be careful! The configuration changes can prevent your server from starting.&lt;br/&gt;The following file will be modified 'WEB-INF/param/runtime.xml'. If you have problems you can restore the backup copy 'WEB-INF/param/runtime.bak'.&lt;br/&gt;&lt;br/&gt;Changing this file will cause the server to restart (this will automatically be done when you apply your modifications).</message>
     <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_DONE">Changes were applied and the server is restarting.Close this dialog box to reload the page.</message>
+    
+    <message key="PLUGINS_ADMIN_PLUGINS_FILTER">Filter (3 characters minimum)</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_FILTER_INVALID">The search filter must contain at least 3 characters</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_FILTER_NO_MATCH">No node matched the search term.</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_FILTER_NO_MATCH_ACTION">&lt;br/&gt;Click to clear the search filter.</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_CLEAR_FILTER">Clear filtre</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_EXPAND_ALL">Expand all</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_COLLAPSE_ALL">Collapse all</message>
 
     <!-- ADMINISTRATOR LOGS VIEW -->
     <message key="PLUGINS_ADMIN_TOOL_LOGS_LABEL">Logs</message>

@@ -23,11 +23,11 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsDAO', {
 	
 	/**
 	 * @private
-	 * @property {Object} _SEP Map<String, String>
-	 * This association of single extension point name and extension to choose.
+	 * @property {Object} _CMP Map<String, String>
+	 * This association of component role name and component to choose.
 	 * This association records the changes wanted until there are saved
 	 */
-	_SEP: {},
+	_CMP: {},
 	/**
 	 * @private
 	 * @property {Object} _EP Map<String, boolean>
@@ -41,18 +41,18 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsDAO', {
 	 */
 	reset: function()
 	{
-		this._SEP = {}; 
+		this._CMP = {}; 
 		this._EP = {};			
 	},
 	
 	/**
-	 * Select a single extension point
-	 * @param {String} role the single extension point's role
-	 * @param {String} id the id of the single extension point
+	 * Select a component
+	 * @param {String} role the component's role
+	 * @param {String} id the id of the component
 	 */
-	selectSingleExtensionPoint: function (role, id)
+	selectComponent: function (role, id)
 	{
-		this._SEP[role] = id;
+		this._CMP[role] = id;
 	},
 	
 	/**
@@ -74,12 +74,12 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsDAO', {
 	},
 	
 	/**
-	 * Get the list of modified single extension points
-	 * @return {Object} The modified single extension points
+	 * Get the list of modified components
+	 * @return {Object} The modified components
 	 */
-	getModifiedSingleExtensionPoints: function ()
+	getModifiedComponents: function ()
 	{
-		return this._SEP;
+		return this._CMP;
 	},
 	
 	/**
@@ -97,6 +97,6 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsDAO', {
      */
 	hasPendingChanges: function ()
 	{
-		return !Ext.Object.isEmpty(this._EP) || !Ext.Object.isEmpty(this._SEP);
+		return !Ext.Object.isEmpty(this._EP) || !Ext.Object.isEmpty(this._CMP);
 	}
 });

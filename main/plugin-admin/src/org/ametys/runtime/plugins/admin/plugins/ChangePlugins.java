@@ -40,7 +40,7 @@ public class ChangePlugins extends AbstractAction implements ThreadSafe
         
         // map of extension ids, true means to activate and false to deactivate
         Map<String, Boolean> extensionPoints = (Map<String, Boolean>) jsParameters.get("EP");
-        Map<String, String> singleExtensionPoints = (Map<String, String>) jsParameters.get("SEP");
+        Map<String, String> components = (Map<String, String>) jsParameters.get("CMP");
 
         if (getLogger().isDebugEnabled())
         {
@@ -50,9 +50,9 @@ public class ChangePlugins extends AbstractAction implements ThreadSafe
             {
                 getLogger().debug("EP " + extensionPoint + " " + extensionPoints.get(extensionPoint));
             }
-            for (String extensionPoint : singleExtensionPoints.keySet())
+            for (String component : components.keySet())
             {
-                getLogger().debug("SEP " + extensionPoint + " " + singleExtensionPoints.get(extensionPoint));
+                getLogger().debug("CMP " + component + " " + components.get(component));
             }
             
             getLogger().debug("Applying preceding changes");

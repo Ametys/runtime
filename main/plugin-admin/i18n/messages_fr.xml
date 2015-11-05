@@ -145,16 +145,28 @@
     <message key="PLUGINS_ADMIN_PLUGINS_INACTIVE_EXCLUDED">(désactivé)</message>
     <message key="PLUGINS_ADMIN_PLUGINS_INACTIVE_DEPENDENCY">(dépend d'une feature indisponible)</message>
     <message key="PLUGINS_ADMIN_PLUGINS_INACTIVE_PASSIVE">(feature passive non nécessaire)</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_INACTIVE_DEACTIVATED">(désactivé par une autre feature)</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_INACTIVE_COMPONENT">(désactivé car le composant n'est pas sélectionné)</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_INACTIVE_INVALID_POINT">(désactivé car référence le mauvais point d'extension)</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_INACTIVE_NOT_SAFE">(désactivé par le safe mode)</message>
     <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_ALERT_TEXT">Le changement ne sera effectif que lorsque vous aurez confirmé tous vos changements.&lt;br/&gt;Pour cela, cliquez sur l'action 'Changements'.&lt;br/&gt;&lt;br/&gt;Aucun élément graphique des arbres de plugins ne sera modifié tant que vos changements ne seront pas validés.</message>
     <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_ALERT_TITLE">Changement...</message>
     <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_CONFIRM_TITLE">Changements...</message>
     <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_CONFIRM_TEXT_START">Vous avez le(s) changement(s) suivant(s) en attente :&lt;br/&gt;&lt;br/&gt;</message>
     <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_CONFIRM_TEXT_END">&lt;br/&gt;Souhaitez-vous les appliquer maintenant ?</message>
-    <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_SEP">Points d'extensions simples</message>
-    <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_EP">Points d'extensions multiples</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_CMP">Composants</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_EP">Points d'extensions</message>
     <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_BEWARE_TITLE">Application des changements</message>
     <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_BEWARE_TEXT">Attention! Les changements de configuration peuvent empêcher votre serveur de démarrer.&lt;br/&gt;Le fichier suivant va être modifié 'WEB-INF/param/runtime.xml'. En cas de problèmes vous pouvez restaurer la copie de sauvegarde 'WEB-INF/param/runtime.bak'.&lt;br/&gt;&lt;br/&gt;Modifier ce fichier implique de redémarrer le serveur (cela sera fait automatiquement quand vous appliquerez vos modifications).</message>
     <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_DONE">Les changements ont été effectués et le serveur est en train de redémarrer. Fermer cette boite de dialogue pour recharger cette page.</message>
+    
+    <message key="PLUGINS_ADMIN_PLUGINS_FILTER">Filtre (3 caractères minimum)</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_FILTER_INVALID">Le filtre de recherche doit contenir au moins 3 caractères</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_FILTER_NO_MATCH">Aucun noeud ne correspond au terme recherché.</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_FILTER_NO_MATCH_ACTION">&lt;br/&gt;Cliquez ici pour effacer le filtre de recherche.</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_CLEAR_FILTER">Effacer le filtre</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_EXPAND_ALL">Ouvrir tous les noeuds</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_COLLAPSE_ALL">Fermer tout</message>
     
     <!-- ADMINISTRATOR LOGS VIEW -->
     <message key="PLUGINS_ADMIN_TOOL_LOGS_LABEL">Journaux</message>

@@ -28,22 +28,22 @@
 		<xsl:copy-of select="."/>
 	</xsl:template>
 	
-	<!-- For adding missing extensions -->
-	<xsl:template match="/CMS/runtime/extensions"> 
+	<!-- For adding missing components -->
+	<xsl:template match="/CMS/runtime/components"> 
 		<xsl:copy>
 			<xsl:copy-of select="@*"></xsl:copy-of>
 		
 			<xsl:apply-templates/>
 			
-			<xsl:for-each select="/CMS/transformations/extensions/*">
-				<xsl:variable name="epName" select="name()"/>
+			<xsl:for-each select="/CMS/transformations/components/*">
+				<xsl:variable name="cmpName" select="name()"/>
 
 				<xsl:choose>
-					<xsl:when test="/CMS/runtime/extensions/*[name() = $epName]">
+					<xsl:when test="/CMS/runtime/components/*[name() = $cmpName]">
 						<!-- nothing -->	
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:element name="{$epName}">
+						<xsl:element name="{$cmpName}">
 							<xsl:value-of select="."/>
 						</xsl:element>
 					</xsl:otherwise>
@@ -52,15 +52,15 @@
 		</xsl:copy>
 	</xsl:template>
 	
-	<!-- For changing existing extensions -->
-	<xsl:template match="/CMS/runtime/extensions/*">
-		<xsl:variable name="epName" select="name()"/>
+	<!-- For changing existing components -->
+	<xsl:template match="/CMS/runtime/components/*">
+		<xsl:variable name="cmpName" select="name()"/>
 
 		<xsl:choose>	
-			<xsl:when test="/CMS/transformations/extensions/*[name() = $epName]">
+			<xsl:when test="/CMS/transformations/components/*[name() = $cmpName]">
 				<xsl:copy>
 					<xsl:copy-of select="@*"></xsl:copy-of>
-					<xsl:for-each select="/CMS/transformations/extensions/*[name() = $epName]">
+					<xsl:for-each select="/CMS/transformations/components/*[name() = $cmpName]">
 						<xsl:value-of select="."/>
 					</xsl:for-each>
 				</xsl:copy>			 
@@ -75,12 +75,12 @@
 		</xsl:choose>
 	</xsl:template>
 	
-	<!-- ReActivate -->
+	<!-- ReActivate extensions -->
 	<xsl:template match="/CMS/runtime/plugins/exclude/feature[. = /CMS/transformations/features/feature[. = 'true']/@name]">
 		<!-- Nothing -->
 	</xsl:template>
 	
-	<!-- Deactivate -->
+	<!-- Deactivate extensions -->
 	<xsl:template match="/CMS/runtime/plugins/exclude">
 		<xsl:copy>
 			<xsl:copy-of select="@*"></xsl:copy-of>

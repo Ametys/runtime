@@ -47,15 +47,15 @@
                            </xsl:when>
                            <xsl:otherwise>
                                {
-                                   icon: "<xsl:value-of select="$resourcesPath"/>/img/plugins/extension-point.png",
-                                   text: "<i18n:text i18n:key="PLUGINS_ADMIN_PLUGINS_CHANGES_SEP"/>",
-                                   leaf: <xsl:value-of select="count(root/list/extension-points/single-extension-point)"/> == 0,
+                                   icon: "<xsl:value-of select="$resourcesPath"/>/img/plugins/composant.png",
+                                   text: "<i18n:text i18n:key="PLUGINS_ADMIN_PLUGINS_CHANGES_CMP"/>",
+                                   leaf: <xsl:value-of select="count(root/list/components/component)"/> == 0,
                                    children: [
-                                       <xsl:for-each select="root/list/extension-points/single-extension-point">
+                                       <xsl:for-each select="root/list/components/component">
                                            <xsl:sort select="@id"/>
                                            
                                            <xsl:if test="position() != 1">,</xsl:if> 
-                                           <xsl:call-template name="tree-extensionpoint"/>
+                                           <xsl:call-template name="tree-child"/>
                                        </xsl:for-each>
                                    ]
                                }
@@ -69,7 +69,7 @@
                                            <xsl:sort select="@id"/>
                                            
                                            <xsl:if test="position() != 1">,</xsl:if> 
-                                           <xsl:call-template name="tree-extensionpoint"/>
+                                           <xsl:call-template name="tree-child"/>
                                        </xsl:for-each>
                                    ]
                                }
@@ -81,15 +81,15 @@
         </plugins-by-extension-point>
     </xsl:template>
     
-    <xsl:template name="tree-extensionpoint">
+    <xsl:template name="tree-child">
         <xsl:variable name="name" select="@id"/>
         {
-            icon: "<xsl:value-of select="$resourcesPath"/>/img/plugins/extension-point<xsl:if test="local-name() != 'single-extension-point'">-multiple</xsl:if>.png",
+            icon: "<xsl:value-of select="$resourcesPath"/>/img/plugins/<xsl:choose><xsl:when test="local-name() = 'component'">composant</xsl:when><xsl:otherwise>extension-point-multiple</xsl:otherwise></xsl:choose>.png",
             text: "<xsl:value-of select="@id" />",
-            isMultiple: "<xsl:value-of select="local-name() != 'single-extension-point'"/>",
-            type: "extension-point",
-            pluginName: "<xsl:value-of select="/root/list/plugins/plugin[feature/extensionPoint[@name = $name]]/@name"/>",
-            extensionPointName: "<xsl:value-of select="@id" />",
+            isMultiple: "<xsl:value-of select="local-name() != 'component'"/>",
+            type: <xsl:choose><xsl:when test="local-name() = 'component'">"component-role"</xsl:when><xsl:otherwise>"extension-point"</xsl:otherwise></xsl:choose>,
+            pluginName: "<xsl:value-of select="/root/list/plugins/plugin[feature/extensionPoint[@name = $name] or feature/component[@role = $name]]/@name"/>",
+            name: "<xsl:value-of select="@id" />",
 
             <xsl:choose>
                 <xsl:when test="count(/root/plugins/plugin:plugin/plugin:feature/plugin:extensions/plugin:extension[@point = $name]) != 0">
@@ -113,6 +113,29 @@
                         </xsl:for-each>
                     ]
                 </xsl:when>
+                <xsl:when test="count(/root/plugins/plugin:plugin/plugin:feature/plugin:components/plugin:component[@role = $name]) != 0">
+                    leaf: false,
+                    children: [
+                        <xsl:for-each select="/root/plugins/plugin:plugin/plugin:feature/plugin:components/plugin:component[@role = $name]">
+                            <xsl:sort select="@role" />
+                            
+                            <xsl:if test="position() != 1">,</xsl:if>
+                            <xsl:variable name="id" select="@id"/>
+                            <xsl:variable name="pluginName" select="../../../@name"/>
+                            <xsl:variable name="featureName" select="../../@name"/>
+                            <xsl:choose>
+                                <xsl:when test="/root/list/plugins/plugin[@name = $pluginName]/feature[@name = $featureName]/component[. = $id]">
+                                    <xsl:for-each select="/root/list/plugins/plugin[@name = $pluginName]/feature[@name = $featureName]/component[. = $id]">
+                                        <xsl:call-template name="tree-component"/>
+                                    </xsl:for-each>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:call-template name="tree-inactive-component"/>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </xsl:for-each>
+                    ]
+                </xsl:when>
                 <xsl:otherwise>
                     leaf: true
                 </xsl:otherwise>
@@ -121,6 +144,8 @@
     </xsl:template>
 
     <xsl:template name="tree-extension">
+        <xsl:if test="position() != 1">,</xsl:if>
+    
         {
             icon: "<xsl:value-of select="$resourcesPath"/>/img/plugins/extension.png",
             text: "<xsl:value-of select="." />",
@@ -185,6 +210,37 @@
                     ]
                 }
             ]
+        }
+    </xsl:template>
+    
+    <xsl:template name="tree-component">
+        <xsl:if test="position() != 1">,</xsl:if>
+    
+        {
+            icon: "<xsl:value-of select="$resourcesPath"/>/img/plugins/composant.png",
+            text: "<xsl:value-of select="." />",
+            leaf: true,
+            type: "component",
+            pluginName: "<xsl:value-of select="../../@name"/>",
+            featureName: "<xsl:value-of select="../@name"/>",
+            componentId: "<xsl:value-of select="." />"
+        }
+    </xsl:template>
+
+    <xsl:template name="tree-inactive-component">
+        <xsl:variable name="pluginName" select="../../../@name"/>
+        <xsl:variable name="featureName" select="../../@name"/>
+        <xsl:variable name="cause" select="/root/list/plugins/plugin[@name = $pluginName]/feature[@name = $featureName]/@cause"/>
+        {
+            icon: "<xsl:value-of select="$resourcesPath"/>/img/plugins/composant-inactive.png",
+            text: "<xsl:value-of select="@id" /> &lt;span style='font-style: italic; color: #7f7f7f'&gt;<i18n:text i18n:key="PLUGINS_ADMIN_PLUGINS_INACTIVE_{$cause}"/>&lt;/span&gt;",
+            leaf: true,
+            type: "component",
+            pluginName: "<xsl:value-of select="$pluginName"/>",
+            featureName: "<xsl:value-of select="$featureName"/>",
+            componentId: "<xsl:value-of select="@id" />",
+            active: false,
+            cause: "<xsl:value-of select="$cause"/>"
         }
     </xsl:template>
 </xsl:stylesheet>

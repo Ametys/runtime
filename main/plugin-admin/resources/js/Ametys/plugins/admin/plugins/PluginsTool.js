@@ -59,7 +59,7 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsTool', {
 	setDirty: function (dirty)
 	{
 		this.callParent(arguments);
-		this._tree.getDockedItems()[0].setVisible(dirty);
+		this._tree.getDockedItems()[2].setVisible(dirty);
 	},
 		
 	getMBSelectionInteraction: function() 
@@ -124,6 +124,17 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsTool', {
 			border: false,
 			
 			dockedItems: [
+				  this._getFilterToolbarConfig(),
+				  {
+					  dock: 'top',
+					  xtype: 'button',
+					  hidden: true,
+					  itemId: 'no-result',
+					  cls: 'hint',
+					  text: "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_FILTER_NO_MATCH'/>" + "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_FILTER_NO_MATCH_ACTION'/>",
+					  scope: this,
+					  handler: this._clearSearchFilter
+				  },
 	              {
 	            	  xtype: 'component',
 	            	  cls: 'hint',
@@ -137,6 +148,151 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsTool', {
 				'selectionchange': Ext.bind(this._onSelect, this)
 			}
 		});
+	},
+	
+	/**
+	 * @private
+	 * Get the filter toolbar config
+	 * @return {Object} The filter toolbar config
+	 */
+	_getFilterToolbarConfig: function()
+	{
+		return {
+			dock: 'top',
+			xtype: 'toolbar',
+			layout: 'column',
+			border: false,
+			defaultType: 'button',
+			items: [{
+						// Filter input
+						xtype: 'textfield',
+						cls: 'ametys',
+						columnWidth: 1,
+						itemId: 'plugins-filter-input',
+						emptyText: "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_FILTER'/>",
+						enableKeyEvents: true,
+						minLength: 3,
+						minLengthText: "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_FILTER_INVALID'/>",
+						msgTarget: 'qtip',
+						listeners: {keyup: { fn: this._onKeyUp, scope: this, delay: 500}}
+					}, 
+					{
+						// Clear filter
+						width: 20,
+						tooltip: "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_CLEAR_FILTER'/>",
+						handler: Ext.bind (this._clearSearchFilter, this),
+						icon: Ametys.getPluginResourcesPrefix('admin') + '/img/plugins/clear.gif',
+						cls: 'x-btn-text-icon',
+						style: {
+							marginRight: '20px'
+						}
+					}, 
+					{
+						// Expand all
+						width: 20,
+						tooltip: "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_EXPAND_ALL'/>",
+						handler: Ext.bind (this._expandAll, this, [], false),
+						icon: Ametys.getPluginResourcesPrefix('admin') + '/img/plugins/expand-all.gif',
+						cls: 'x-btn-text-icon'
+					},
+					{
+						// Collapse all
+						width: 20,
+						tooltip: "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_COLLAPSE_ALL'/>",
+						handler: Ext.bind (this._collapseAll, this, [], false),
+						icon: Ametys.getPluginResourcesPrefix('admin') + '/img/plugins/collapse-all.gif',
+						cls: 'x-btn-text-icon'
+					}
+			]
+		};
+	},
+	
+    /**
+     * @private
+     * Listen on 'keyup' event
+     * Filters the tree nodes by entered text.
+     * @param {Ext.form.field.Text} field This text field
+     */
+	_onKeyUp: function(field)
+    {
+	    this._filterField = field;
+	    this._tree.getStore().clearFilter();
+        var val = Ext.String.escapeRegex(field.getRawValue());
+        
+        if (val.length > 2)
+        {
+            this._regexFilter = new RegExp(val, 'i');
+            
+            this._tree.getStore().filter({
+                filterFn: Ext.bind(this._filterByTextAndChildren, this)
+            });
+        }
+        else
+        {
+            this._regexFilter = null;
+        }
+        
+        this._tree.getDockedItems()[1].setVisible(!this._tree.getStore().getCount());
+    },
+    
+    /**
+     * @private
+     * Filter function that check if a node in the tree should be visible or not.
+     * @param {Ext.data.Model} record The record to check.
+     * @return {boolean} True if the record should be visible.
+     */
+    _filterByTextAndChildren: function (record)
+    {
+        var isVisible = this._regexFilter == null || this._regexFilter.test(record.data.text);
+        if (!isVisible)
+        {
+            // if the record does not match, we check if any child is visible. If at least one is, this record should not be hidden.
+            // This is efficient because the data is in the store, and is not loaded in the view.
+            for (var i = 0; !isVisible && i < record.childNodes.length; i++) {
+                isVisible = this._filterByTextAndChildren(record.childNodes[i]);
+            }
+        }
+        
+        if (isVisible)
+        {
+            this._tree.expandNode(record);
+        }
+        
+        return isVisible; 
+    },
+    
+	/**
+     * @private
+     * Handler for the clear search
+     */
+	_clearSearchFilter: function ()
+	{
+		if (this._filterField)
+		{
+			this._filterField.reset();
+		}
+		
+		this._regexFilter = null;
+		this._tree.getStore().clearFilter();
+		this._tree.getDockedItems()[1].setVisible(false);
+	},
+	
+	/**
+     * @private
+     * Handler for the expand amm button
+     */
+	_expandAll: function ()
+	{
+		this._tree.expandAll();	
+	},
+	
+	/**
+	 * @private
+	 * Handler for the collapse all button
+	 */
+	_collapseAll: function ()
+	{
+		this._tree.collapseAll();	
 	},
 
 	/**
@@ -197,13 +353,14 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsTool', {
 								active: nodeData.active,
 								activeFeature: activeFeature, // if true the "deactivate" action is enabled
 								inactiveFeature: inactiveFeature, // if true the "activate" action is enabled
-								selectable: nodeData.type == 'extension' && selectedNode.parentNode.data.isMultiple == "false", 
+								selectable: nodeData.type == 'component', // if true the "select" action is enabled
 								pluginName: nodeData.pluginName, 
 								featureName: nodeData.featureName,
 								componentName: nodeData.componentName,
-								extensionPointName: nodeData.extensionPointName,
-								parentExtensionPointName: selectedNode.parentNode != null ? selectedNode.parentNode.data.extensionPointName : "", // for the "select" action
-								extensionId: nodeData.extensionId
+								extensionPointName: nodeData.name,
+								parentName: selectedNode.parentNode != null ? selectedNode.parentNode.data.name : "", // for the "select" action
+								extensionId: nodeData.extensionId,
+								componentId: nodeData.componentId
 							}
 			});
 			

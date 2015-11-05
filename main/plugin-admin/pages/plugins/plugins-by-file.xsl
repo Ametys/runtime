@@ -143,12 +143,23 @@
     <xsl:template name="tree-component">
         {
             'icon': "<xsl:value-of select="$resourcesPath"/>/img/plugins/composant.png",
-            'text': "<xsl:value-of select="." />",
-            'type': "component",
+            'text': "<xsl:value-of select="@role" />",
+            'type': "component-role",
             'pluginName': "<xsl:value-of select="../../@name"/>",
             'featureName': "<xsl:value-of select="../@name"/>",
-            'componentName': "<xsl:value-of select="." />",
-            'leaf': true
+            'componentName': "<xsl:value-of select="@role" />",
+            'leaf': false,
+            'children': [
+                {
+                    'icon': "<xsl:value-of select="$resourcesPath"/>/img/plugins/composant.png",
+                    'text': "<xsl:value-of select="." />",
+                    'type': "component",
+                    'pluginName': "<xsl:value-of select="../../../@name"/>",
+                    'featureName': "<xsl:value-of select="../../@name"/>",
+                    'componentId': "<xsl:value-of select="." />",
+                    'leaf': true
+                }
+            ]
         }
     </xsl:template>
         
@@ -156,20 +167,31 @@
         {
             'icon': "<xsl:value-of select="$resourcesPath"/>/img/plugins/composant-inactive.png",
             'text': "<xsl:value-of select="@role" />",
-            'type': "component",
+            'type': "component-role",
             'pluginName': "<xsl:value-of select="../../../@name"/>",
             'featureName': "<xsl:value-of select="../../@name"/>",
             'componentName': "<xsl:value-of select="@role" />",
-            'leaf': true
+            'leaf': false,
+            'children': [
+                {
+                    'icon': "<xsl:value-of select="$resourcesPath"/>/img/plugins/composant-inactive.png",
+                    'text': "<xsl:value-of select="@id" />",
+                    'type': "component",
+                    'pluginName': "<xsl:value-of select="../../../@name"/>",
+                    'featureName': "<xsl:value-of select="../../@name"/>",
+                    'componentId': "<xsl:value-of select="@id" />",
+                    'leaf': true
+                }
+            ]
         }
     </xsl:template>
     
     <xsl:template name="tree-extensionpoint">
         <xsl:variable name="name" select="@name"/>
         {
-            'icon': "<xsl:value-of select="$resourcesPath"/>/img/plugins/extension-point<xsl:if test="/root/list/extension-points/extension-point[@id = $name]">-multiple</xsl:if>.png",
+            'icon': "<xsl:value-of select="$resourcesPath"/>/img/plugins/extension-point-multiple.png",
             'text': "<xsl:value-of select="$name" />",
-            'isMultiple': "<xsl:value-of select="count(/root/list/extension-points/extension-point[@id = $name]) != 0"/>",
+            'isMultiple': true,
             'type': "extension-point",
             'pluginName': "<xsl:value-of select="../../@name"/>",
             'extensionPointName': "<xsl:value-of select="$name" />",
@@ -196,9 +218,9 @@
     <xsl:template name="tree-inactive-extensionpoint">
         <xsl:variable name="name" select="@point"/>
         {
-            'icon': "<xsl:value-of select="$resourcesPath"/>/img/plugins/extension-point<xsl:if test="/root/list/extension-points/extension-point[@id = $name]">-multiple</xsl:if>.png",
+            'icon': "<xsl:value-of select="$resourcesPath"/>/img/plugins/extension-point-multiple.png",
             'text': "<xsl:value-of select="$name" />",
-            'isMultiple': "<xsl:value-of select="count(/root/list/extension-points/extension-point[@id = $name]) != 0"/>",
+            'isMultiple': true,
             'type': "extension-point",
             'pluginName': "<xsl:value-of select="../../../@name"/>",
             'extensionPointName': "<xsl:value-of select="$name" />",

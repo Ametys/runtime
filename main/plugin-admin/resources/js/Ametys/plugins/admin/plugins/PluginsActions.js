@@ -47,7 +47,11 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsActions', {
 				case 'component': 
 					zoom = targetParameters.pluginName + "_features.html%23feature_" + targetParameters.featureName + "_component_" + targetParameters.componentName;
 					break;
-					
+						
+				case 'component-role': 
+					zoom = targetParameters.pluginName + "_features.html%23feature_" + targetParameters.featureName + "_component_" + targetParameters.componentName;
+					break;
+							
 				case 'extension-point': 
 					zoom = targetParameters.pluginName + "_extensions.html%23extension_point_" + targetParameters.extensionPointName;
 					break;
@@ -110,7 +114,7 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsActions', {
 		{
 			var targetParameters = target.getParameters();
 			
-			Ametys.plugins.admin.plugins.PluginsDAO.selectSingleExtensionPoint(targetParameters.parentExtensionPointName, targetParameters.extensionId);
+			Ametys.plugins.admin.plugins.PluginsDAO.selectComponent(targetParameters.parentName, targetParameters.componentId);
 			
 			Ext.MessageBox.alert("<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_CHANGES_ALERT_TITLE'/>", "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_CHANGES_ALERT_TEXT'/>");
 			this._sendModifyingMessage(targetParameters.pluginName);
@@ -167,12 +171,12 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsActions', {
 				"<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_CHANGES_BEWARE_TEXT'/>",
 				Ext.bind(function ()
 				{
-					var sepchanges = "";
+					var cmpchanges = "";
 					
-					var sep = Ametys.plugins.admin.plugins.PluginsDAO.getModifiedSingleExtensionPoints();
-					for (var i in sep)
+					var cmp = Ametys.plugins.admin.plugins.PluginsDAO.getModifiedComponents();
+					for (var i in cmp)
 					{
-						sepchanges += i + " : " + sep[i] + "<br/>";
+						cmpchanges += i + " : " + cmp[i] + "<br/>";
 					}
 					var epchanges = "";
 					var ep = Ametys.plugins.admin.plugins.PluginsDAO.getModifiedExtensionPoints();
@@ -182,10 +186,10 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsActions', {
 					}
 					
 					var changes = "";
-					if (sepchanges != "")
+					if (cmpchanges != "")
 					{
-						changes += "<b><i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_CHANGES_SEP'/></b><br/>"
-								   + sepchanges;
+						changes += "<b><i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_CHANGES_CMP'/></b><br/>"
+								   + cmpchanges;
 					}
 					if (epchanges != "")
 					{
@@ -208,7 +212,7 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsActions', {
 	_saveChangesNow: function(pluginName)
 	{
 		var params = {};
-		params.SEP = Ametys.plugins.admin.plugins.PluginsDAO.getModifiedSingleExtensionPoints();
+		params.CMP = Ametys.plugins.admin.plugins.PluginsDAO.getModifiedComponents();
 		params.EP = Ametys.plugins.admin.plugins.PluginsDAO.getModifiedExtensionPoints();
 		
 		Ametys.data.ServerComm.send({

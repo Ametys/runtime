@@ -46,6 +46,9 @@ public class PluginsGenerator extends AbstractGenerator
         // Extension points
         _saxExtensionPoints();
         
+        // Components
+        _saxComponents();
+        
         XMLUtils.endElement(contentHandler, "list");
         contentHandler.endDocument();
     }
@@ -91,9 +94,13 @@ public class PluginsGenerator extends AbstractGenerator
                     }
     
                     // Get components
-                    for (String component : feature.getComponentsIds().keySet())
+                    Map<String, String> componentsIds = feature.getComponentsIds();
+                    for (String componentRole : componentsIds.keySet())
                     {
-                        XMLUtils.createElement(contentHandler, "component", component);
+                        String component = componentsIds.get(componentRole);
+                        AttributesImpl cmpAttrs = new AttributesImpl();
+                        cmpAttrs.addCDATAAttribute("role", componentRole);
+                        XMLUtils.createElement(contentHandler, "component", cmpAttrs, component);
                     }
     
                     XMLUtils.endElement(contentHandler, "feature");
@@ -128,5 +135,19 @@ public class PluginsGenerator extends AbstractGenerator
         }
         
         XMLUtils.endElement(contentHandler, "extension-points");
+    }
+    
+    private void _saxComponents() throws SAXException
+    {
+        XMLUtils.startElement(contentHandler, "components");
+        
+        for (String componentRole : PluginsManager.getInstance().getComponents())
+        {
+            AttributesImpl cmpAttrs = new AttributesImpl();
+            cmpAttrs.addCDATAAttribute("id", componentRole);
+            XMLUtils.createElement(contentHandler, "component", cmpAttrs);
+        }
+        
+        XMLUtils.endElement(contentHandler, "components");
     }
 }
