@@ -686,8 +686,8 @@
     <!--+
          | LOG
          + -->
-    <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOG_LABEL">Journaux applicatif</message>
-    <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOG_DESCRIPTION">Voir les journaux applicatif affichant les événements</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOG_LABEL">Journaux applicatifs</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOG_DESCRIPTION">Voir les journaux applicatifs affichant les événements</message>
     <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOG_CLEAR_LABEL">Effacer les événements affichés</message>
     <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOG_CLEAR_DESCRIPTION">Cliquez sur ce bouton pour effacer les événements du journal actuellement visible dans la vue de suivi.</message>
     <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOG_CLEAR_DESCRIPTION2">Ce bouton est désactivé car la fenêtre du journal des événements n'est actuellement pas ouverte</message>
