@@ -52,9 +52,6 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool', {
 	 * @private
 	 */
 	
-	/**
-	 * @inheritdoc
-	 */
 	getMBSelectionInteraction: function() 
 	{
 		return Ametys.tool.Tool.MB_TYPE_ACTIVE;
