@@ -39,8 +39,9 @@
     <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_FAIL_AFTERLOAD_ACTION">Click here to try again to connect to the application.</message>
     
     <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_MESSAGE_CLOSE_DESCRIPTION">Close this message</message>
-    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_PLACEHOLDER">Tell me what you want to do...</message>
+    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_PLACEHOLDER">Search a feature...</message>
     <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_SEARCHITEM_LABEL">See help for \"[text]\"</message>
+    
     
     <!-- +
          | Login screen
@@ -739,8 +740,6 @@
     <message key="PLUGINS_CORE_UI_TOOLS_HELP_INFO_NOT_FOUND_TOOLTIP_DESCRIPTION">There is no help associated to the current feature.&lt;br/&gt;&lt;br/&gt;You can click on this button to go back the online help home page, and use the search engine to find  help on this feature.</message>
 	<message key="PLUGINS_CORE_UI_TOOLS_HELP_OPEN_NEW_WINDOW">Click here to open the page in a new window</message>
 	<message key="PLUGINS_CORE_UI_TOOLS_HELP_ERROR_URL_PROVIDER">Error while trying to display an help page.</message>
-    <message key="PLUGINS_CORE_UI_TOOLS_HELP_RIBBON_TIP_TITLE">Help</message>
-    <message key="PLUGINS_CORE_UI_TOOLS_HELP_RIBBON_TIP_DESCRIPTION">By clicking on this button, you will open the online help home page</message>
     
     <!-- +
          | NOTIFICATIONS  
