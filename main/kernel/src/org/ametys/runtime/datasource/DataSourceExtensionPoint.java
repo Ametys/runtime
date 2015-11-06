@@ -24,12 +24,13 @@ import javax.sql.DataSource;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.commons.dbcp.ConnectionFactory;
-import org.apache.commons.dbcp.DriverManagerConnectionFactory;
-import org.apache.commons.dbcp.PoolableConnectionFactory;
-import org.apache.commons.dbcp.PoolingDataSource;
-import org.apache.commons.pool.ObjectPool;
-import org.apache.commons.pool.impl.GenericObjectPool;
+import org.apache.commons.dbcp2.ConnectionFactory;
+import org.apache.commons.dbcp2.DriverManagerConnectionFactory;
+import org.apache.commons.dbcp2.PoolableConnection;
+import org.apache.commons.dbcp2.PoolableConnectionFactory;
+import org.apache.commons.dbcp2.PoolingDataSource;
+import org.apache.commons.pool2.ObjectPool;
+import org.apache.commons.pool2.impl.GenericObjectPool;
 
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.plugin.AbstractExtensionPoint;
@@ -44,9 +45,8 @@ public class DataSourceExtensionPoint extends AbstractExtensionPoint<DataSource>
     
     private static final String __CONFIG_ATTRIBUTE_NAME = "runtime-config-parameter";
     
-    private Map<String, ObjectPool> _pools = new HashMap<String, ObjectPool>();
+    private Map<String, ObjectPool> _pools = new HashMap<>();
 
-    @SuppressWarnings("unused")
     public void addExtension(String pluginName, String featureName, Configuration configuration) throws ConfigurationException
     {
         String id = configuration.getAttribute("id");
@@ -65,8 +65,11 @@ public class DataSourceExtensionPoint extends AbstractExtensionPoint<DataSource>
             throw new ConfigurationException("Specified driver class does not exist: " + driver, e);
         }
         
-        GenericObjectPool connectionPool = new GenericObjectPool();
-        connectionPool.setMaxActive(-1);
+        ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(url, user, pass);
+        PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(connectionFactory, null);
+        
+        GenericObjectPool<PoolableConnection> connectionPool = new GenericObjectPool<>(poolableConnectionFactory);
+        connectionPool.setMaxTotal(-1);
         connectionPool.setMaxIdle(10);
         connectionPool.setMinIdle(2);
         connectionPool.setTestOnBorrow(true);
@@ -74,9 +77,12 @@ public class DataSourceExtensionPoint extends AbstractExtensionPoint<DataSource>
         connectionPool.setTestWhileIdle(true);
         connectionPool.setTimeBetweenEvictionRunsMillis(1000 * 60 * 30);
         
-        ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(url, user, pass);
-        new PoolableConnectionFactory(connectionFactory, connectionPool, null, _getValidationQuery(driver), false, true);
-        PoolingDataSource dataSource = new PoolingDataSource(connectionPool);
+        poolableConnectionFactory.setPool(connectionPool);
+        poolableConnectionFactory.setValidationQuery(_getValidationQuery(driver));
+        poolableConnectionFactory.setDefaultAutoCommit(true);
+        poolableConnectionFactory.setDefaultReadOnly(false);
+                 
+        PoolingDataSource<PoolableConnection> dataSource = new PoolingDataSource<>(connectionPool);
         
         _pools.put(id, connectionPool);
         _extensions.put(id, dataSource);

@@ -45,7 +45,7 @@
         <property name="dest-clover" value="${dest-doc}/clover"/>
         <property name="dest-javadoc" value="${dest-doc}/api"/>
         <property name="dest-javadoc-test" value="${dest-doc}/api-test"/>
-    	<property name="class-vm-target" value="1.6"/>
+    	<property name="class-vm-target" value="1.7"/>
     	
     	<basename file="${basedir}" property="svn-branch"/>
     	
