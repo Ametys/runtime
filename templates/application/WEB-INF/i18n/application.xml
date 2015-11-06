@@ -16,9 +16,4 @@
    -->
 <catalogue xml:lang="en">
     <message key="APPLICATION_PRODUCT_LABEL">My application name</message>
-
-    <!-- Administration category -->
-    <message key="WORKSPACE_ADMIN_SECTION_SYSTEM_LABEL">System Administration</message>
-    <message key="WORKSPACE_ADMIN_SECTION_APPLICATION_LABEL">Application</message>
-    <message key="WORKSPACE_ADMIN_SECTION_USERSMANAGEMENT_LABEL">Users and rights management</message>
 </catalogue>

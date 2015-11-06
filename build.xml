@@ -57,6 +57,7 @@
     </target>
     
     <property name="check-i18n.excludedkeys">
+    	APPLICATION_PRODUCT_LABEL,
     	RIBBON_TABS_TAB_\w+,
     	RIBBON_ADMINISTRATION_TABS_TAB_\w+,
         PLUGINS_CORE_UI_SAFE_MODE_BANNER_TITLE_\w+,

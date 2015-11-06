@@ -16,10 +16,4 @@
    -->
 <catalogue xml:lang="fr">
     <message key="APPLICATION_PRODUCT_LABEL">Ametys @APPVERSION@</message>
-
-    <!-- Administration category -->
-    <message key="WORKSPACE_ADMIN_SECTION_SYSTEM_LABEL">Administration système</message>
-    <message key="WORKSPACE_ADMIN_SECTION_APPLICATION_LABEL">Application</message>
-    <message key="WORKSPACE_ADMIN_SECTION_USERSMANAGEMENT_LABEL">Gestion des utilisateurs et des droits</message>
-
 </catalogue>
