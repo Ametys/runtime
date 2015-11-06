@@ -54,8 +54,16 @@ $ametys-ribbon-tabpanel-mainbutton-background-color-focus: dynamic($ametys-ribbo
 $ametys-ribbon-tabpanel-mainbutton-bottom-border-color: dynamic($ametys-ribbon-tabpanel-active-border-color);
 
 $ametys-ribbon-tabpanel-linkbutton-color: $ametys-ribbon-tabpanel-color;
+$ametys-ribbon-tabpanel-linkbutton-color-over: dynamic($ametys-ribbon-tabpanel-highlight-color);
+$ametys-ribbon-tabpanel-linkbutton-color-pressed: dynamic($ametys-ribbon-tabpanel-linkbutton-color-over);
+$ametys-ribbon-tabpanel-linkbutton-color-focus: dynamic($ametys-ribbon-tabpanel-linkbutton-color);
 $ametys-ribbon-tabpanel-linkbutton-background-color: $ametys-ribbon-tabpanel-background-color;
+$ametys-ribbon-tabpanel-linkbutton-background-color-over: dynamic($ametys-ribbon-tabpanel-linkbutton-background-color);
+$ametys-ribbon-tabpanel-linkbutton-background-color-pressed: dynamic($ametys-ribbon-tabpanel-linkbutton-background-color-over);
+$ametys-ribbon-tabpanel-linkbutton-background-color-focus: dynamic($ametys-ribbon-tabpanel-linkbutton-background-color);
 $ametys-ribbon-tabpanel-linkbutton-outline-color: $ametys-ribbon-tabpanel-highlight-color;
+$ametys-ribbon-tabpanel-linkbutton-textdecoration: dynamic(none);
+$ametys-ribbon-tabpanel-linkbutton-textdecoration-over: dynamic(underline);
 
 $ametys-ribbon-tabpanel-usercard-color: dynamic($ametys-ribbon-button-color);
 $ametys-ribbon-tabpanel-usercard-font-size: $ametys-ribbon-tabpanel-font-size;

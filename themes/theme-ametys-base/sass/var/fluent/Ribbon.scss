@@ -33,8 +33,8 @@ $ametys-ribbon-header-button-outline-color: transparent;
 $ametys-ribbon-header-button-font-size: $ametys-ribbon-font-size;
 $ametys-ribbon-header-button-font-weight: normal;
 $ametys-ribbon-header-button-background-color: transparent;
-$ametys-ribbon-header-button-background-color-over: $ametys-ribbon-highlight-color;
-$ametys-ribbon-header-button-background-color-pressed: darken($ametys-ribbon-highlight-color, 25%);
+$ametys-ribbon-header-button-background-color-over: dynamic($ametys-ribbon-highlight-color);
+$ametys-ribbon-header-button-background-color-pressed: darken($ametys-ribbon-header-button-background-color-over, 25%);
 $ametys-ribbon-header-button-background-color-focus: transparent;
 $ametys-ribbon-header-button-height: $ametys-ribbon-header-height;
 $ametys-ribbon-header-button-padding: $ametys-ribbon-header-font-size/4 $ametys-ribbon-header-font-size/2;
@@ -43,6 +43,7 @@ $ametys-ribbon-header-button-padding: $ametys-ribbon-header-font-size/4 $ametys-
 $ametys-ribbon-header-textfield-color: dynamic($ametys-ribbon-main-color);
 /** @var {color} Background color of the text field in the ribbon header */
 $ametys-ribbon-header-textfield-background-color: dynamic(lighten($ametys-ribbon-header-background-color, 20%));
+$ametys-ribbon-header-textfield-background-color-over: dynamic($ametys-ribbon-header-textfield-background-color); 
 /** @var {color} Placeholder text color of the text field in the ribbon header */
 $ametys-ribbon-header-textfield-placeholder-color: mix($ametys-ribbon-header-textfield-color, $ametys-ribbon-header-textfield-background-color, 80%);
 $ametys-ribbon-header-textfield-font-size: dynamic($ametys-ribbon-font-size * 0.9);

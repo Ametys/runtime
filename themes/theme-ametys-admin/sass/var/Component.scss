@@ -15,21 +15,27 @@
  */
 
 /**
+ * General
+ */
+// $ametys-rainbow:        dynamic(#d21216 #ff9d00 #f2cb1d #49a349 #0043cc #c9599c #935ed3); 
+$ametys-rainbow-light:  dynamic(#cfcfcf #cfcfcf #cfcfcf #cfcfcf #cfcfcf #cfcfcf #cfcfcf); 
+// $ametys-rainbow-dark:   dynamic(#8a1111 #d97c38 #987715 #118a11 #00308c #a1407a #884ecf); 
+
+/**
  * Ribbon
  */  
-
 $ametys-ribbon-base-color: #302030;
 $ametys-ribbon-main-color: #F0F0F0;
 $ametys-ribbon-main-text-color: #302030;
 $ametys-ribbon-tab-color: #F1F1F1;
-$ametys-ribbon-highlight-color: #88A5BD;
+$ametys-ribbon-highlight-color: #8b438d;
 
 $ametys-ribbon-tool-background-image: dynamic('tools/ribbon-tool-sprites');
 
-$ametys-ribbon-header-textfield-outline-color: $ametys-ribbon-main-color;
+$ametys-ribbon-header-highlight-color: #BE74BD;//mix($ametys-ribbon-highlight-color, $ametys-ribbon-main-color, 80%);
 
 $ametys-ribbon-tabpanel-mainbutton-background-color: $ametys-ribbon-base-color;
-$ametys-ribbon-tabpanel-mainbutton-background-color-over: #8b438d;
+$ametys-ribbon-tabpanel-mainbutton-background-color-over: $ametys-ribbon-highlight-color;
 $ametys-ribbon-tabpanel-mainbutton-background-color-pressed: mix($ametys-ribbon-tabpanel-mainbutton-background-color, $ametys-ribbon-tabpanel-mainbutton-background-color-over, 50%);
 
 $ametys-ribbon-tabpanel-mainbutton-color: $ametys-ribbon-main-color;
@@ -43,13 +49,17 @@ $ametys-ribbon-tabpanel-active-color: $ametys-ribbon-main-text-color;
 $ametys-ribbon-tabpanel-active-border-color: $ametys-ribbon-tabpanel-active-background-color;
 
 $ametys-ribbon-tabpanel-over-color: #FFFFFF;
-$ametys-ribbon-tabpanel-over-background-color: $ametys-ribbon-tabpanel-mainbutton-background-color-over;
-$ametys-ribbon-tabpanel-over-border-color: $ametys-ribbon-tabpanel-mainbutton-background-color-over;
+$ametys-ribbon-tabpanel-over-background-color: $ametys-ribbon-highlight-color;
+$ametys-ribbon-tabpanel-over-border-color: $ametys-ribbon-highlight-color;
 
 $ametys-ribbon-button-background-color-over: #C9C9C9;
 $ametys-ribbon-button-background-color-pressed: #C5C5C5;
 
 $ametys-ribbon-header-textfield-background-color: $ametys-ribbon-base-color;
-$ametys-ribbon-header-textfield-border-color: $ametys-ribbon-header-textfield-background-color; 
+$ametys-ribbon-header-textfield-background-color-over: $ametys-ribbon-highlight-color;
+$ametys-ribbon-header-textfield-border-color: $ametys-ribbon-header-textfield-background-color;
+$ametys-ribbon-header-textfield-outline-color: $ametys-ribbon-highlight-color; 
 
+$ametys-ribbon-tabpanel-linkbutton-color-over: $ametys-ribbon-header-highlight-color;
+$ametys-ribbon-tabpanel-linkbutton-textdecoration-over: none;
 $ametys-ribbon-tabpanel-usercard-color: $ametys-ribbon-base-color;

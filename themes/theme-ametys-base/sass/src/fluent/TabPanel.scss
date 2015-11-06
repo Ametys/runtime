@@ -168,23 +168,24 @@
     $color: $ametys-ribbon-tabpanel-linkbutton-color,
     $background-color: $ametys-ribbon-tabpanel-linkbutton-background-color,
     
-    $color-over: $ametys-ribbon-tabpanel-linkbutton-color,
-    $background-color-over: $ametys-ribbon-tabpanel-linkbutton-background-color,
+    $color-over: $ametys-ribbon-tabpanel-linkbutton-color-over,
+    $background-color-over: $ametys-ribbon-tabpanel-linkbutton-background-color-over,
     
-    $color-pressed: $ametys-ribbon-tabpanel-linkbutton-color,
-    $background-color-pressed: $ametys-ribbon-tabpanel-linkbutton-background-color,
+    $color-pressed: $ametys-ribbon-tabpanel-linkbutton-color-pressed,
+    $background-color-pressed: $ametys-ribbon-tabpanel-linkbutton-background-color-pressed,
     
-    $color-focus: $ametys-ribbon-tabpanel-linkbutton-color,
-    $background-color-focus: $ametys-ribbon-tabpanel-linkbutton-background-color
+    $color-focus: $ametys-ribbon-tabpanel-linkbutton-color-focus,
+    $background-color-focus: $ametys-ribbon-tabpanel-linkbutton-background-color-focus
 );
+
 .#{$prefix}btn-over .#{$prefix}btn-inner-ribbon-tabpanel-linkbutton-small
 {
-    text-decoration: underline;
+    text-decoration: $ametys-ribbon-tabpanel-linkbutton-textdecoration-over;
 }
 
 .#{$prefix}btn-over.#{$prefix}btn-menu-active .#{$prefix}btn-inner-ribbon-tabpanel-linkbutton-small
 {
-    text-decoration: none;
+    text-decoration: $ametys-ribbon-tabpanel-linkbutton-textdecoration;
 }
 
 .#{$prefix}btn-icon-el-ribbon-tabpanel-linkbutton-small
