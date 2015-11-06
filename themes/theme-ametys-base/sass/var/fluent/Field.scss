@@ -14,12 +14,12 @@
  *  limitations under the License.
  */
 
-$ametys-ribbon-label-color: $ametys-ribbon-main-color;
+$ametys-ribbon-label-color: $ametys-ribbon-main-text-color;
 $ametys-ribbon-label-font-size: dynamic($ametys-ribbon-font-size);
  
-$ametys-ribbon-field-color: $ametys-ribbon-main-color;
-$ametys-ribbon-field-background-color: $ametys-ribbon-base-light-color;
-$ametys-ribbon-field-border-color: $ametys-ribbon-base-dark-color;
+$ametys-ribbon-field-color: $ametys-ribbon-main-text-color;
+$ametys-ribbon-field-background-color: lighten($ametys-ribbon-tab-color, 10%);
+$ametys-ribbon-field-border-color: darken($ametys-ribbon-tabpanel-active-background-color, 10%);
 $ametys-ribbon-field-outline-color: $ametys-ribbon-highlight-color;
 $ametys-ribbon-field-font-size: dynamic($ametys-ribbon-font-size);
 $ametys-ribbon-field-line-height: $ametys-ribbon-field-font-size/12*16; 
