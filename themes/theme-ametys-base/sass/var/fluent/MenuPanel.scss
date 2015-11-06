@@ -14,8 +14,10 @@
  *  limitations under the License.
  */
  
-$ametys-ribbon-menu-color: $ametys-ribbon-main-color;
-$ametys-ribbon-menu-background-color: $ametys-ribbon-base-light-color;
+$ametys-ribbon-menu-color: dynamic($ametys-ribbon-button-color);
+$ametys-ribbon-menu-background-color: dynamic($ametys-ribbon-button-background-color);
+$ametys-ribbon-menu-active-color: dynamic($ametys-ribbon-button-color-over);
+$ametys-ribbon-menu-active-background-color: dynamic($ametys-ribbon-button-background-color-over);
  
 $ametys-ribbon-menupanel-header-background-color: $ametys-ribbon-tab-color;
 $ametys-ribbon-menupanel-header-color: $ametys-ribbon-main-color;

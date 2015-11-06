@@ -21,7 +21,7 @@ $ametys-ribbon-header-height: $ametys-ribbon-header-font-size*2.34;
 /** @var {color} Text color of the ribbon title */
 $ametys-ribbon-header-color: $ametys-ribbon-main-color;
 /** @var {color} Text color of the ribbon application title */
-$ametys-ribbon-header-highlight-color: lighten($ametys-ribbon-highlight-color, 40%);
+$ametys-ribbon-header-highlight-color: $ametys-ribbon-highlight-color;
 $ametys-ribbon-header-font-weight: normal;
 $ametys-ribbon-header-border-height: $ametys-ribbon-header-font-size/4;
 
@@ -29,30 +29,30 @@ $ametys-ribbon-header-button-color: $ametys-ribbon-main-color;
 $ametys-ribbon-header-button-color-over: darken($ametys-ribbon-header-button-color, 60%);
 $ametys-ribbon-header-button-color-pressed: darken($ametys-ribbon-header-button-color, 80%);
 $ametys-ribbon-header-button-color-focus: mix($ametys-ribbon-header-button-color, $ametys-ribbon-header-button-color, 90%);
-$ametys-ribbon-header-button-outline-color: lighten($ametys-ribbon-highlight-color, 40%);
+$ametys-ribbon-header-button-outline-color: transparent;
 $ametys-ribbon-header-button-font-size: $ametys-ribbon-font-size;
 $ametys-ribbon-header-button-font-weight: normal;
 $ametys-ribbon-header-button-background-color: transparent;
-$ametys-ribbon-header-button-background-color-over: $ametys-ribbon-header-button-outline-color;
-$ametys-ribbon-header-button-background-color-pressed: darken($ametys-ribbon-header-button-outline-color, 25%);
+$ametys-ribbon-header-button-background-color-over: $ametys-ribbon-highlight-color;
+$ametys-ribbon-header-button-background-color-pressed: darken($ametys-ribbon-highlight-color, 25%);
 $ametys-ribbon-header-button-background-color-focus: transparent;
 $ametys-ribbon-header-button-height: $ametys-ribbon-header-height;
 $ametys-ribbon-header-button-padding: $ametys-ribbon-header-font-size/4 $ametys-ribbon-header-font-size/2;
 
-$ametys-ribbon-header-textfield-color: $ametys-ribbon-main-color;
-$ametys-ribbon-header-textfield-placeholder-color: lighten($ametys-ribbon-header-textfield-color, 20%);
-
-$ametys-ribbon-header-textfield-font-size: dynamic($ametys-ribbon-font-size * 0.9);
-$ametys-ribbon-header-textfield-width: dynamic(21*$ametys-ribbon-header-textfield-font-size);
-
-$ametys-ribbon-header-textfield-border-color: $ametys-ribbon-base-dark-color;
-$ametys-ribbon-header-textfield-outline-color: lighten($ametys-ribbon-highlight-color, 40%);
+/** @var {color} Text color of the text field in the ribbon header */
+$ametys-ribbon-header-textfield-color: dynamic($ametys-ribbon-main-color);
 /** @var {color} Background color of the text field in the ribbon header */
-$ametys-ribbon-header-textfield-background-color: lighten($ametys-ribbon-header-background-color, 20%);
+$ametys-ribbon-header-textfield-background-color: dynamic(lighten($ametys-ribbon-header-background-color, 20%));
+/** @var {color} Placeholder text color of the text field in the ribbon header */
+$ametys-ribbon-header-textfield-placeholder-color: mix($ametys-ribbon-header-textfield-color, $ametys-ribbon-header-textfield-background-color, 80%);
+$ametys-ribbon-header-textfield-font-size: dynamic($ametys-ribbon-font-size * 0.9);
+$ametys-ribbon-header-textfield-width: dynamic(16.25*$ametys-ribbon-header-textfield-font-size);
+$ametys-ribbon-header-textfield-border-color: $ametys-ribbon-base-dark-color;
+$ametys-ribbon-header-textfield-outline-color: $ametys-ribbon-highlight-color;
 
 $ametys-ribbon-message-color: $ametys-color-hint;
 $ametys-ribbon-message-background-color: $ametys-background-color-hint;
-$ametys-ribbon-message-border-color: darken($ametys-ribbon-tab-color, 6%);
+$ametys-ribbon-message-border-color: darken($ametys-background-color-hint, 6%);
 $ametys-ribbon-message-font-size: $font-size;
 $ametys-ribbon-message-font-weight: normal;
 $ametys-ribbon-message-title-font-size: $font-size;
@@ -60,7 +60,7 @@ $ametys-ribbon-message-title-font-weight: normal;
 $ametys-ribbon-message-title-text-transform: uppercase;
 
 /** @var {number} The background color of the ribbon top is used after the ribbon to have a wrap effect. This value is the width of this border. */
-$ametys-ribbon-message-border-width: $ametys-ribbon-message-font-size / 12;
+$ametys-ribbon-message-border-width: 1px;
 
 $ametys-ribbon-contextualgroup-font-size: $ametys-ribbon-header-font-size;
 $ametys-ribbon-contextualgroup-font-weight: $ametys-ribbon-header-font-weight;

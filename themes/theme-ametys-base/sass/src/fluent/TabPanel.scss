@@ -85,7 +85,7 @@
     $ui-header-inner-border-width: 0 0 1px 0,
     
     $ui-body-border-width: 0 0 1px 0 !important,
-    $ui-body-border-color: $ametys-ribbon-tabpanel-active-border-color
+    $ui-body-border-color: $ametys-ribbon-tabpanel-bottom-border-color
 );
 
 /**
@@ -94,7 +94,8 @@
 @include extjs-button-small-ui(
     $ui: 'ribbon-tabpanel-mainbutton',
     
-    $border-width: 0,
+    $border-width: 0 0 1px 0,
+    $inner-border-width: 0,
     
     $body-outline-color-focus: $ametys-ribbon-tabpanel-mainbutton-outline-color,
     $inner-border-color-focus: $ametys-ribbon-tabpanel-mainbutton-outline-color,
@@ -114,21 +115,28 @@
     $font-weight-focus-pressed: $ametys-ribbon-tabpanel-mainbutton-font-weight,
     $font-weight-disabled: $ametys-ribbon-tabpanel-mainbutton-font-weight,    
     
-    $padding: $ametys-ribbon-tabpanel-mainbutton-font-size*5/12 $ametys-ribbon-tabpanel-mainbutton-font-size*8/12 $ametys-ribbon-tabpanel-mainbutton-font-size*3/12 $ametys-ribbon-tabpanel-mainbutton-font-size*7/12,
-
+    $padding: $ametys-ribbon-tabpanel-mainbutton-font-size*4/12 $ametys-ribbon-tabpanel-mainbutton-font-size*8/12 $ametys-ribbon-tabpanel-mainbutton-font-size*3/12 $ametys-ribbon-tabpanel-mainbutton-font-size*7/12,
             
     $color: $ametys-ribbon-tabpanel-mainbutton-color,
     $background-color: $ametys-ribbon-tabpanel-mainbutton-background-color,
+    $border-color: $ametys-ribbon-tabpanel-mainbutton-bottom-border-color,
     
     $color-over: $ametys-ribbon-tabpanel-mainbutton-color-over,
     $background-color-over: $ametys-ribbon-tabpanel-mainbutton-background-color-over,
+    $border-color-over: $ametys-ribbon-tabpanel-mainbutton-bottom-border-color,
     
     $color-pressed: $ametys-ribbon-tabpanel-mainbutton-color-pressed,
     $background-color-pressed: $ametys-ribbon-tabpanel-mainbutton-background-color-pressed,
+    $border-color-pressed: $ametys-ribbon-tabpanel-mainbutton-bottom-border-color,
     
     $color-focus: $ametys-ribbon-tabpanel-mainbutton-color-focus,
-    $background-color-focus: $ametys-ribbon-tabpanel-mainbutton-background-color-focus    
+    $background-color-focus: $ametys-ribbon-tabpanel-mainbutton-background-color-focus,
+    $border-color-focus: $ametys-ribbon-tabpanel-mainbutton-bottom-border-color   
 );
+
+.a-mainbutton {
+    background-image: theme-background-image($ametys-ribbon-mainbutton-icon);
+}
 
 /**
  * Link Button
@@ -137,6 +145,7 @@
     $ui: 'ribbon-tabpanel-linkbutton',
     
     $border-width: 0,
+    $inner-border-width: 0,
     
     $body-outline-color-focus: $ametys-ribbon-tabpanel-linkbutton-outline-color,
     $inner-border-color-focus: $ametys-ribbon-tabpanel-linkbutton-outline-color,
@@ -181,6 +190,18 @@
 .#{$prefix}btn-icon-el-ribbon-tabpanel-linkbutton-small
 {
     border-radius: 8px;
+}
+
+/**
+ * Tools
+ */
+.#{$prefix}panel-header-ribbon-tabpanel {
+     .#{$prefix}tool-img {
+        background-image: theme-background-image($ametys-ribbon-tool-background-image);
+    }
+    .#{$prefix}tool-focus {
+        outline-color: $ametys-ribbon-header-button-outline-color;
+    }
 }
 
 /**

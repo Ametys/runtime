@@ -29,9 +29,9 @@
     $ui: 'ribbon-menu',
     
     $ui-text-color: $ametys-ribbon-menu-color,
-    $ui-item-active-text-color: $ametys-ribbon-button-color-over,
+    $ui-item-active-text-color: $ametys-ribbon-menu-active-color,
     $ui-background-color: $ametys-ribbon-menu-background-color,
-    $ui-item-active-background-color: $ametys-ribbon-button-background-color-over
+    $ui-item-active-background-color: $ametys-ribbon-menu-active-background-color
 );
  
 @include extjs-panel-ui(

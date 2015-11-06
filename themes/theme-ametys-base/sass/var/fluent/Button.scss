@@ -17,12 +17,13 @@
 /** @var {color} Text color for buttons in the ribbon */
 $ametys-ribbon-button-color: $ametys-ribbon-main-text-color;
 /** @var {color} Text color for buttons in the ribbon when the mouse is over */
-$ametys-ribbon-button-color-over: darken($ametys-ribbon-header-button-color, 60%);
+$ametys-ribbon-button-color-over: darken($ametys-ribbon-button-color, 60%);
 /** @var {color} Text color for buttons in the ribbon when the button is pressed */
-$ametys-ribbon-button-color-pressed: darken($ametys-ribbon-header-button-color, 80%);
+$ametys-ribbon-button-color-pressed: darken($ametys-ribbon-button-color, 80%);
 /** @var {color} Text color for buttons in the ribbon when the button has the focus */
-$ametys-ribbon-button-color-focus: mix($ametys-ribbon-header-button-color, $ametys-ribbon-header-button-color, 90%);
-$ametys-ribbon-button-outline-color: lighten($ametys-ribbon-highlight-color, 40%);
+$ametys-ribbon-button-color-focus: darken($ametys-ribbon-button-color, 20%);
+/** @var {color} Border color for buttons in the ribbon when the button has the focus */
+$ametys-ribbon-button-outline-color: $ametys-ribbon-group-separator-color;
 $ametys-ribbon-button-font-size: $ametys-ribbon-font-size;
 $ametys-ribbon-button-font-weight: normal;
 $ametys-ribbon-button-line-height: $ametys-ribbon-button-font-size*4/3;

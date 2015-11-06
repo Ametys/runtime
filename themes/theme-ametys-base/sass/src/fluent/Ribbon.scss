@@ -106,28 +106,25 @@
 
 .#{$prefix}form-text-wrap-ribbon-header-text {
     @include placeholder {
-        color: lighten($ametys-ribbon-header-textfield-color, 20%);
+        color: $ametys-ribbon-header-textfield-placeholder-color;
     }
 }
 
 /**
  * Tools
  */
-.#{$prefix}panel-header-ribbon .#{$prefix}tool-img,
-.#{$prefix}panel-header-ribbon-tabpanel .#{$prefix}tool-img {
-    background-image: theme-background-image($ametys-ribbon-tool-background-image);
-}
-.#{$prefix}panel-header-ribbon .#{$prefix}tool-focus {
-    outline-color: $ametys-ribbon-header-button-outline-color;
+.#{$prefix}panel-header-ribbon {
+     .#{$prefix}tool-img {
+        background-image: theme-background-image($ametys-ribbon-tool-background-image);
+    }
+    .#{$prefix}tool-focus {
+        outline-color: $ametys-ribbon-header-button-outline-color;
+    }
 }
 
 /**
  * Info message
  */
-.#{$prefix}container-ribbon-messagecontainer {
-    padding-bottom: $ametys-ribbon-message-border-width;
-    background-color: $ametys-ribbon-tabpanel-background-color;
-}
 .#{$prefix}container-ribbon-message {
     color: $ametys-ribbon-message-color;
     background-color: $ametys-ribbon-message-background-color;
@@ -135,8 +132,12 @@
     line-height: $ametys-ribbon-message-font-size * 2;
     font-weight: $ametys-ribbon-message-font-weight;
     
-    border-bottom: 1px solid $ametys-ribbon-message-border-color !important; 
+    border-bottom: $ametys-ribbon-message-border-width solid $ametys-ribbon-message-border-color !important; 
     padding: 0 right($panel-header-padding) 0 left($panel-header-padding);
+    
+    &:first-child {
+        border-top: $ametys-ribbon-message-border-width solid $ametys-ribbon-message-border-color !important; 
+    }
     
     .#{$prefix}tool-img {
         background-image: theme-background-image($ametys-ribbon-message-tool-background-image);
