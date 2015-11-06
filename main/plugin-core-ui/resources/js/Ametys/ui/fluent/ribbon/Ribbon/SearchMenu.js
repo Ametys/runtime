@@ -144,6 +144,7 @@ Ext.define(
             
             this._menu = Ext.create("Ext.menu.Menu", {
                 defaultAlign: "tr-br",
+                ui: 'ribbon-menu',
                 items: config.items
             })
             delete config.items;
@@ -154,17 +155,6 @@ Ext.define(
             this.on('change', Ext.Function.createBuffered(this._searchNow, this.searchAfterTime, this));
             this.on('specialkey', this._onSpecialKey);
             this.on('render', this._setMinWidthMenu, this);
-//            this._menu.on('resize', function(menu, width, height, oldWidth, oldHeight, opts) {
-//            	if (oldWidth != width)
-//            	{
-//	            	console.info("-------------------------------");
-//	            	console.info("old width: " + oldWidth);
-//	            	console.info("width: " + width);
-//	            	console.info("first item width: " + this._menu.items.last().getWidth());
-//	            	console.info("-------------------------------");
-//	            	// FIXME sometimes the width of the menu items are smaller than the menu width
-//            	}
-//            }, this);
         },
         
         /**

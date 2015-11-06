@@ -145,6 +145,7 @@ Ext.define(
                 config.user.ui = 'ribbon-tabpanel-linkbutton';
                 config.user.menuAlign = 'tr-br?';
                 config.user.menu = config.user.menu || {};
+                config.user.menu.ui = 'ribbon-menu';
                 //config.user.menu.ui = config.user.menu.ui || 'ribbon-menu';
                 config.user.menu.items = config.user.menu.items || [];
                 config.user.menu.items = Ext.Array.insert(config.user.menu.items, 0, [{
