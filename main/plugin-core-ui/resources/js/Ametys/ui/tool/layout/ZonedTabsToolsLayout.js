@@ -268,7 +268,6 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			
 			// Launch the listener
             tool.fireEvent("tooldeactivate", tool);
-
 		},
 
 		/**
@@ -490,12 +489,12 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			}
 			
 			// moves the panel
-			var zonedTabsToolPanel = this._panelHierarchy[location];
+			var zoneTabsToolPanel = this._panelHierarchy[location];
 			
 			this._addToolToUI(tool, location);
 			
 			// activates the tool in its new location
-			zonedTabsToolPanel.setActiveTab(tool);
+			zoneTabsToolPanel.setActiveTab(tool);
 
 			// fix a bug from extjs
 			// when the old location replaces this tab by a new activated tab, the hidden status is incorrect and the tool invisible in the new tab (when this new tab was empty)
@@ -510,6 +509,12 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			{
 				this.focusTool(tool);
 			}
+            else
+            {
+                // Graphically set the focus
+                zoneTabsToolPanel.addCls(this.focusCls);
+                zoneTabsToolPanel.removeCls(this.nofocusCls);
+            }
 			
 			Ext.resumeLayouts(true);
             
