@@ -21,7 +21,7 @@ function onreadyfunction() {
                             { icon:'resources/img/editpaste_16.gif' } 
                         ] 
                     },
-                    title: 'Accueil (fr/index.html)',
+                    title: 'Startup',
                     applicationTitle: 'Ametys Demo (www)',
                     
                     message: [{
@@ -107,7 +107,11 @@ function onreadyfunction() {
                 });
                 
     
-    layout = Ext.create("Ametys.ui.tool.layout.ZonedTabsToolsLayout");
+    layout = Ext.create("Ametys.ui.tool.layout.ZonedTabsToolsLayout", {
+            titleChangedCallback: function(title) {
+                ribbon.setTitle(title);
+            }     
+    });
     
 	Ext.application({
 		requires : ['Ext.container.Viewport'],

@@ -33,14 +33,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
              * @private
              * @readonly
              */         
-            __REGION_MINSIZE: {width: 100, height: 100},
-            
-            /**
-             * @property {Number} __ASIDE_FLEX The flex value for non central zones
-             * @private
-             * @readonly
-             */
-            __ASIDE_FLEX: 0.3
+            __REGION_MINSIZE: {width: 100, height: 100}
         },
         
         /** @cfg {String} focusCls A css classname added to the zone, when one of its tools has the focus */
@@ -399,7 +392,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			
 			zoneTabsToolsPanel._updateCollapsePlaceHolder();
             
-            if (Ametys.tool.ToolsManager.getTool(tool.uiTool).hasFocus() && Ext.isFunction(this.titleChangedCallback))
+            if (tool.ownerCt.hasCls(this.focusCls) && tool.ownerCt.getActiveTab() == tool && Ext.isFunction(this.titleChangedCallback))
             {
                 this.titleChangedCallback(tool.getTitle());
             }
