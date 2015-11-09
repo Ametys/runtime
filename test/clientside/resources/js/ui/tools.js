@@ -15,6 +15,14 @@
  */
 var monindex = 1;
 
+var type = 0;
+function getType()
+{
+    var oType = type;
+    type = (type + 1) % 7;
+    return oType * 10;
+}
+
 function openTool1()
 {
     var tool = Ext.create("Ametys.ui.tool.ToolPanel", {
@@ -23,7 +31,7 @@ function openTool1()
         smallIcon: '/test/resources/img/editpaste_16.gif',
         mediumIcon: '/test/resources/img/editpaste_32.gif',
         largeIcon: '/test/resources/img/editpaste_48.gif',
-        type: Math.round(Math.random() * 6) * 10,
+        type: getType(),
         
         items: {
             xtype: 'panel',
@@ -76,7 +84,7 @@ function openTool2()
         smallIcon: '/test/resources/img/editpaste_16.gif',
         mediumIcon: '/test/resources/img/editpaste_32.gif',
         largeIcon: '/test/resources/img/editpaste_48.gif',
-        type: Math.round(Math.random() * 6) * 10,
+        type: getType(),
         id: id,
         dockedItems: [ createOodPanel(id) ],
         layout: 'fit',
@@ -127,7 +135,7 @@ function openTool3()
         smallIcon: '/test/resources/img/editpaste_16.gif',
         mediumIcon: '/test/resources/img/editpaste_32.gif',
         largeIcon: '/test/resources/img/editpaste_48.gif',
-        type: Math.round(Math.random() * 6) * 10,
+        type: getType(),
         scrollable: true,
         closable: true,
         layout: 'absolute',
@@ -148,7 +156,7 @@ function openTool4()
         mediumIcon: '/test/resources/img/editpaste_32.gif',
         largeIcon: '/test/resources/img/editpaste_48.gif',
         closable: true,
-        type: Math.round(Math.random() * 6) * 10,
+        type: getType(),
         items: [ 
             {
                 xtype: 'button',
@@ -321,7 +329,7 @@ function openTool5()
         mediumIcon: '/test/resources/img/editpaste_32.gif',
         largeIcon: '/test/resources/img/editpaste_48.gif',
         closable: true,
-        type: Math.round(Math.random() * 6) * 10,
+        type: getType(),
         html: "<b>je suis le contenu du Tool 5</b><br/>Pensez à me drag'n'droper dans une autre zone et à me ramener ici ensuite pour tester"
     });
     
@@ -340,7 +348,7 @@ function openTool6()
         mediumIcon: '/test/resources/img/editpaste_32.gif',
         largeIcon: '/test/resources/img/editpaste_48.gif',
         closable: true,
-        type: Math.round(Math.random() * 6) * 10,
+        type: getType(),
         html: "<b>je suis le contenu du Tool 6</b>"
     });
     
