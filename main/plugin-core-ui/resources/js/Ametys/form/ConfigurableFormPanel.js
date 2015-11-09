@@ -161,10 +161,16 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 
     /** @cfg {Object} tabsLayout The layout to use in the tabs. Default to { type: 'anchor' }. */
     
-    /** @cfg {Object} additionalWidgetsConf Additional configuration for every widget that will be created by this form. Each key of this object is the widget configuration name to add, and each corresponding value is the configuration name that will be read from the input configuration stream. */ 
+    /** @cfg {Object} additionalWidgetsConfFromParams Additional configuration for every widget that will be created by this form. Each key of this object is the widget configuration name to add, and each corresponding value is the configuration name that will be read from the input configuration stream. */ 
     /**
-     * @property {Object} _additionnalWidgetsConf See #cfg-additionnalWidgetsConf.
+     * @property {Object} _additionalWidgetsConfFromParams See #cfg-additionalWidgetsConfFromParams.
      */
+    
+    /** @cfg {Object} additionalWidgetsConf Additional configuration for every widget that will be created by this form. Each key of this object is the widget configuration name to add, and each corresponding value is the value of widget configuration. */ 
+    /**
+     * @property {Object} _additionalWidgetsConf See #cfg-additionalWidgetsConf.
+     */
+    
     
     scrollable: true,
     layout: {
@@ -245,7 +251,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         config.bodyPadding = config.bodyPadding != null ?  config.bodyPadding : Ametys.form.ConfigurableFormPanel.PADDING_GENERAL;
         config.items = this._getFormContainerCfg(config);
         
-        this._additionnalWidgetsConf = config.additionnalWidgetsConf || {};
+        this._additionalWidgetsConf = config.additionalWidgetsConf || {};
+        this._additionalWidgetsConfFromParams = config.additionalWidgetsConfFromParams || {};
         
         this.callParent(arguments);
         
@@ -284,6 +291,15 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         return this._formReady;
     },
     
+    /**
+     * Set an additional configuration for every widget that will be created by the form.
+     * @param {String} name The name of additional configuration parameter
+     * @param {Object} value The value of additional configuration parameter
+     */
+    setAdditionalWidgetsConf: function (name, value)
+    {
+    	this._additionalWidgetsConf[name] = value;
+    },
     
     /**
      * @private
@@ -1585,7 +1601,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * 
      * The string **widget** specify the widget to use. This is optional to use the default widget for the given type, multiple and enumeration values.
      * The widgets are selected using the js class {@link Ametys.form.WidgetManager} and the extension point org.ametys.runtime.ui.widgets.WidgetsManager.
-     * Note that you can transmit additionnal configuration to all widgets using #cfg-additionnalWidgetsConf 
+     * Note that you can transmit additional configuration to all widgets using #cfg-additionalWidgetsConfFromParams 
      * 
      * The optional object **widget-params** will be transmitted to the widget configuration : values depends on the widget you did select.
      * 
@@ -1830,8 +1846,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                     };
 
                     // Add configured configuration
-                    Ext.Object.each(this._additionnalWidgetsConf, function(key, value, object) {
+                    Ext.Object.each(this._additionalWidgetsConfFromParams, function(key, value, object) {
                         widgetCfg[key] = fieldData[value];
+                    });
+                    Ext.Object.each(this._additionalWidgetsConf, function(key, value, object) {
+                        widgetCfg[key] = value;
                     });
                     
                     if (fieldData.validation)
@@ -2119,8 +2138,12 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                     };
                     
                     // Add configured configuration
-                    Ext.Object.each(this._additionnalWidgetsConf, function(key, value, object) {
+                    Ext.Object.each(this._additionalWidgetsConfFromParams, function(key, value, object) {
                         widgetCfg[key] = Ext.dom.Query.selectValue('> ' + value, nodes[i]);
+                    });
+                    
+                    Ext.Object.each(this._additionalWidgetsConf, function(key, value, object) {
+                        widgetCfg[key] = value;
                     });
 
                     

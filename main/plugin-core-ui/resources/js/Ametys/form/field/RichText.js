@@ -60,6 +60,10 @@ Ext.define('Ametys.form.field.RichText', {
      */
     
     /**
+     * @cfg {Number} wysiwygWidth=0 if greater than 0, the width of input will be fixed to this value.
+     */
+    
+    /**
      * @private
      * @property {Number} _updateEvery Time in ms between an event on the editor and the time the counter is updating (to prevent too many updates). This will vary in the life time of the editor: a big content will auto increase this value
      */
@@ -103,9 +107,9 @@ Ext.define('Ametys.form.field.RichText', {
 	 * @private
 	 */
 	/**
-	 * @property {Object} _editorDiffSize The differential of size between the whold field and the editor inside
-	 * @property {Number} _editorDiffSize.width The width in pixel of diffence between the whole field width and the editor width
-	 * @property {Number} _editorDiffSize.height The width in pixel of diffence between the whole field width and the editor height
+	 * @property {Object} _editorDiffSize The differential of size between the whole field and the editor inside
+	 * @property {Number} _editorDiffSize.width The width in pixel of difference between the whole field width and the editor width
+	 * @property {Number} _editorDiffSize.height The width in pixel of difference between the whole field width and the editor height
 	 * @private
 	 */
 	
@@ -153,6 +157,12 @@ Ext.define('Ametys.form.field.RichText', {
     	
     	var withBBar = config.warning || config.charCounter;
     	var tinyMinHeight = config.minHeight - (withBBar ? 23 : 0);
+    	
+    	if (Ext.isNumber(config.wysiwygWidth) && config.wysiwygWidth > 0)
+    	{
+    		config.width = config.wysiwygWidth; // fix width
+    		config.resizable = 'vertical'; // allows only vertical resize
+    	}
     	
     	config.liquidLayout = false; // allows the textarea to call the template method afterComponentLayout
     	
