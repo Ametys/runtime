@@ -26,4 +26,4 @@ Ext.override(Ametys.tool.Tool, {
     }
 });
 
-Ametys.tool.Tool.TYPES[Ametys.tool.Tool.TYPE_ADMIN] = { ui: Ametys.ui.tool.ToolPanel.TOOLTYPE_0 };
+Ametys.tool.Tool.TYPES[Ametys.tool.Tool.TYPE_ADMIN] = { ui: Ametys.ui.tool.ToolPanel.TOOLTYPE_0, priority: 95 };
