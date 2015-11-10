@@ -108,9 +108,15 @@
     @include placeholder {
         color: $ametys-ribbon-header-textfield-placeholder-color;
     }
+    
+    .#{$prefix}field-focus & {
+        @include placeholder {
+            color: $ametys-ribbon-header-textfield-placeholder-color-focus;
+        }
+    }
 }
 .#{$prefix}field-focus .#{$prefix}form-text-ribbon-header-text {
-    background-color: $ametys-ribbon-header-textfield-background-color-over;
+    background-color: $ametys-ribbon-header-textfield-background-color-focus;
 }
 
 /**
