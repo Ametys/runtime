@@ -17,7 +17,7 @@
 $tip-border-radius: 0;
 $tip-error-inner-border-width: dynamic(1px);
 $tip-error-inner-border-color: $ametys-background-color-error;
-$tip-background-color: dynamic(mix(#FFFFFF, $ametys-ribbon-highlight-color, 95%));
+$tip-background-color: dynamic(mix(#FFFFFF, $ametys-highlight-color, 95%));
 
 $ametys-tooltip-border-color: dynamic(mix(#FFFFFF, $ametys-ribbon-highlight-color, 70%));
 $ametys-tooltip-imageborder-color: dynamic(mix(#FFFFFF, $ametys-ribbon-highlight-color, 85%));

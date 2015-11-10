@@ -28,5 +28,5 @@ $button-toolbar-background-gradient-over: dynamic(null);
 $button-toolbar-background-gradient-pressed: dynamic(null);
 $button-toolbar-background-gradient-disabled: dynamic(null);
 
-$button-default-base-color: dynamic($ametys-ribbon-highlight-color);
-$button-default-border-color: dynamic(darken($ametys-ribbon-highlight-color, 14%));
+$button-default-base-color: dynamic($ametys-highlight-color);
+$button-default-border-color: dynamic(darken($ametys-highlight-color, 14%));

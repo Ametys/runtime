@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-$window-base-color: dynamic($ametys-ribbon-highlight-color);
+$window-base-color: dynamic($ametys-highlight-color);
  
 $ametys-window-text-color: lighten($color, 20%);
 $ametys-window-text-background-color: dynamic(transparent);
@@ -22,9 +22,9 @@ $ametys-window-text-background-color: dynamic(transparent);
 $ametys-window-text-warning-color: dynamic($ametys-background-color-warn);
 $ametys-window-text-warning-background-color: dynamic($ametys-color-warn);
 
-$ametys-window-link-color: dynamic($ametys-ribbon-highlight-color);
+$ametys-window-link-color: dynamic($ametys-highlight-color);
 $ametys-window-link-color-over: dynamic($ametys-ribbon-tabpanel-mainbutton-background-color-over);
-$ametys-window-link-color-visited: dynamic($ametys-ribbon-highlight-color);
+$ametys-window-link-color-visited: dynamic($ametys-highlight-color);
 $ametys-window-link-text-decoration: dynamic(underline);
 $ametys-window-link-text-decoration-visited: dynamic(underline);
 $ametys-window-link-text-decoration-over: dynamic(underline);

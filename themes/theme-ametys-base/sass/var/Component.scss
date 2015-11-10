@@ -48,6 +48,7 @@ $ametys-color-hint: dynamic(#404040);
 /** @var {color} The color of information of 'hint' level */
 $ametys-background-color-hint: dynamic(#fcf0c0);
 
+$ametys-highlight-color: dynamic(#2a579a);
 $ametys-rainbow:        dynamic(#d21216 #ff9d00 #f2cb1d #49a349 #0043cc #c9599c #935ed3); 
 $ametys-rainbow-light:  dynamic(#fa9c9c #fff8ed #fffbe6 #e6f3e6 #e5eeff #fcf0f7 #f6f1fc); 
 $ametys-rainbow-dark:   dynamic(#8a1111 #d97c38 #987715 #118a11 #00308c #a1407a #884ecf); 
@@ -68,7 +69,7 @@ $ametys-ribbon-main-text-color: dynamic(#7F7F7F);
 /** @var {color} Ribbon tab background color */
 $ametys-ribbon-tab-color: dynamic(#F1F1F1);
 /** @var {color} Ribbon main active color declined for other colors */
-$ametys-ribbon-highlight-color: dynamic(#2a579a);
+$ametys-ribbon-highlight-color: dynamic($ametys-highlight-color);
 
 $ametys-ribbon-font-size: $font-size;
 

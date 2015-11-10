@@ -16,5 +16,5 @@
 
 $loadmask-msg-border-radius: 0;
 $loadmask-msg-border-width: dynamic(1px);
-$loadmask-msg-background-color: dynamic(mix(#FFFFFF, $ametys-ribbon-highlight-color, 80%));
-$loadmask-msg-border-color: dynamic(mix(#FFFFFF, $ametys-ribbon-highlight-color, 50%));
+$loadmask-msg-background-color: dynamic(mix(#FFFFFF, $ametys-highlight-color, 80%));
+$loadmask-msg-border-color: dynamic(mix(#FFFFFF, $ametys-highlight-color, 50%));
