@@ -155,6 +155,11 @@ Ext.define("Ametys.plugins.coreui.system.consolelog.ConsoleLogTool",
 		getMBSelectionInteraction: function() 
 		{
 		    return Ametys.tool.Tool.MB_TYPE_NOSELECTION;
-		}
+		},
+        
+        getType: function()
+        {
+            return Ametys.tool.Tool.TYPE_DEVELOPER;
+        }
 	}
 );

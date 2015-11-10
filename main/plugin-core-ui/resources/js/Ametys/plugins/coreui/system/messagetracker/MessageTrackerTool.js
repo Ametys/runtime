@@ -90,6 +90,11 @@ Ext.define("Ametys.plugins.coreui.system.messagetracker.MessageTrackerTool",
         {
             return Ametys.tool.Tool.MB_TYPE_NOSELECTION;
         },
+                
+        getType: function()
+        {
+            return Ametys.tool.Tool.TYPE_DEVELOPER;
+        },
         
         /**
          * The listener on all bus messages

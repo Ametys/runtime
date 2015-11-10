@@ -51,10 +51,28 @@ Ext.define("Ametys.tool.Tool",
 		{
 			/**
 			 * @readonly
-			 * @property {Number} TYPE_DEFAULT Stands for a tool type {@link #getType}. This is the default tool type.
+			 * @property {String} TYPE_DEFAULT Stands for a tool type {@link #getType}. This is the default tool type.
 			 */
-			TYPE_DEFAULT: Ametys.ui.tool.ToolPanel.TOOLTYPE_0,
+			TYPE_DEFAULT: "default",
 			// Declares other constants from other files. The associated values should be one of the handles by Ametys.ui.tool.ToolPanel
+            /**
+             * @readonly
+             * @property {String} TYPE_DEVELOPER Stands for a tool type {@link #getType}. This is the type for 'developer' tools.
+             */
+            TYPE_DEVELOPER: "developer",
+            
+            /**
+             * @readonly
+             * @property {Object} TYPES Association of type key and informations
+             * @property {String} TYPES.key The key should be declared as a TYPE_* constant
+             * @property {Object} TYPES.value The information for the key type
+             * @property {Number} TYPES.value.ui The UI to use for this type. Should be a constant of Ametys.ui.tool.ToolPanel TOOLTYPE_*
+             * @property {Number} TYPES.value.priority A value to order tools in the same zone. Low value on the left. Use a value between 1 and 99.
+             */
+            TYPES: {
+                "default": { ui: Ametys.ui.tool.ToolPanel.TOOLTYPE_0, priority: 0 },
+                "developer": { ui: Ametys.ui.tool.ToolPanel.TOOLTYPE_20, priority: 99 }
+            },
 			
 			/**
 			 * @protected
@@ -537,7 +555,7 @@ Ext.define("Ametys.tool.Tool",
 			var oodPanel = this._createOutOfPanel();
 			this._contentPanel = this.createPanel();
 			this._contentPanel.region = "center";
-			
+            
 			this._wrapper = Ext.create("Ametys.ui.tool.ToolPanel", {
 				layout: 'fit',
 				border: false,
@@ -553,7 +571,7 @@ Ext.define("Ametys.tool.Tool",
                 largeIcon: this.getLargeIcon(),
                 helpId: this.getToolHelpId(),
                 dirtyState: this.isDirty(),
-				type: this.getType(),
+				type: (Ametys.tool.Tool.TYPES[this.getType() || Ametys.tool.Tool.TYPE_DEFAULT] || { ui: Ametys.ui.tool.ToolPanel.TOOLTYPE_0 }).ui,
                 
 				dockedItems: [oodPanel],
 				items : [this._contentPanel],

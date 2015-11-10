@@ -25,6 +25,18 @@
                          safe="true"/>
     </extension-points>
     
+    <feature name="staticimports.misc" safe="true">
+        <extensions>
+            <extension id="org.ametys.runtime.plugins.admin.Misc"
+                       point="org.ametys.core.ui.StaticFileImportsManager"
+                       class="org.ametys.core.ui.StaticFileImportsClientSideElement">
+                <scripts>
+                    <file>js/Ametys/plugins/admin/Constants.js</file>
+                </scripts>
+            </extension>
+        </extensions>
+    </feature>
+    
     <!-- +
          |  WELCOME ANNOUNCEMENTS
          + --> 

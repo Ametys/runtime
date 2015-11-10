@@ -202,7 +202,12 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 		{
 		    return Ametys.tool.Tool.MB_TYPE_NOSELECTION;
 		},
-		
+		        
+        getType: function()
+        {
+            return Ametys.tool.Tool.TYPE_DEVELOPER;
+        },
+        
 		/**
 		 * Listener on the main grid panel, when selecting a record
 		 * @param {Ext.selection.RowModel} selModel The selection mode

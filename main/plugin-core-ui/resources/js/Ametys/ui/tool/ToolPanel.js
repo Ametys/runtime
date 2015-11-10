@@ -63,7 +63,13 @@ Ext.define("Ametys.ui.tool.ToolPanel", {
          * @readonly
          * @property {Number} TOOLTYPE_60 Constant for a kind of tool #cfg-type.
          */
-        TOOLTYPE_60: 60
+        TOOLTYPE_60: 60,
+        
+        /**
+         * @readonly
+         * @property {Number[]} SUPPORTED_TYPES The list of supported types. The first one will be the default type, if #cfg-type use an unsupported value.
+         */
+        SUPPORTED_TYPES: [0, 10, 20, 30, 40, 50, 60]
     },
         
     config: {
@@ -87,16 +93,6 @@ Ext.define("Ametys.ui.tool.ToolPanel", {
     /** 
      * @cfg {Number} type=TOOLTYPE_0 The type of tool. Have to be one of the TOOLTUPE_ constants. A tool type may have a different rendering look and also an adapted policy (tools of same kind can be grouped together automatically) 
      */
-    type: 0,
-    
-    /**
-     * Get the type of the tool
-     * @return {Number} The type value configured at #cfg-type.
-     */
-    getType: function()
-    {
-        return this.type;
-    },
     
     /**
      * @event toolopen Fired when the tool is opened.
@@ -138,9 +134,23 @@ Ext.define("Ametys.ui.tool.ToolPanel", {
         // Let's avoid to call info changing too often
         this._infoChanging = Ext.Function.createBuffered(this._infoChanging, 10);
         
+        if (!Ext.Array.contains(Ametys.ui.tool.ToolPanel.SUPPORTED_TYPES, config.type))
+        {
+            config.type = Ametys.ui.tool.ToolPanel.SUPPORTED_TYPES[0];
+        }
+        
         this.callParent(arguments);
     },
 
+    /**
+     * Get the type of the tool
+     * @return {Number} The type value configured at #cfg-type.
+     */
+    getType: function()
+    {
+        return this.type;
+    },
+    
     /**
      * Set the title of the panel and updates the tool layout
      * @param {String} title The new wanted title
