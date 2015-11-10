@@ -68,6 +68,7 @@
          | CREATE SENCHA THEMES
          + -->
     <target name="create-sencha-themes">
+        <echo>Handling themes</echo>
         <for-each target="create-sencha-theme" absolutepathproperty="location" localnameproperty="name">
             <dirset dir="${ametys-themes-dir}">
                 <include name="theme-*"/>
@@ -75,28 +76,29 @@
         </for-each>
     </target>
     <target name="create-sencha-theme">
-        <condition property="sencha-already-theme">
+        <echo>Handling theme ${name}</echo>
+        <condition property="sencha-already-theme-${name}">
             <resourceexists>
                  <file file="${ametys-work-dir}/packages/local/${name}/package.json"/>
             </resourceexists>
         </condition>
         <antcall target="create-sencha-theme-effectively"/>
         
-        <condition property="sencha-already-theme-launcher">
+        <condition property="sencha-already-theme-launcher-${name}">
             <resourceexists>
                  <file file="${ametys-themes-dir}/launch-${name}.xml"/>
             </resourceexists>
         </condition>
         <antcall target="create-sencha-theme-launcher"/>
 
-        <condition property="sencha-already-theme-builder">
+        <condition property="sencha-already-theme-builder-${name}">
             <resourceexists>
                  <file file="${ametys-themes-dir}/build-${name}.xml"/>
             </resourceexists>
         </condition>
         <antcall target="create-sencha-theme-builder"/>
     </target>
-    <target name="create-sencha-theme-effectively" unless="sencha-already-theme">
+    <target name="create-sencha-theme-effectively" unless="sencha-already-theme-${name}">
         <echo>Creating sencha theme "${name}"</echo>
         <exec executable="sencha" dir="${ametys-work-dir}/testapp">
             <arg value="generate"/>
@@ -122,7 +124,7 @@
         </antcall>
     </target>
     
-    <target name="create-sencha-theme-launcher" unless="sencha-already-theme-launcher">
+    <target name="create-sencha-theme-launcher" unless="sencha-already-theme-launcher-${name}">
         <echo file="${ametys-themes-dir}/launch-${name}.xml">
             &lt;project name="launch-${name}" default="launch-${name}"&gt;
                 &lt;target name="launch-${name}"&gt;
@@ -134,7 +136,7 @@
          </echo>
     </target>
             
-    <target name="create-sencha-theme-builder" unless="sencha-already-theme-builder">
+    <target name="create-sencha-theme-builder" unless="sencha-already-theme-builder-${name}">
         <echo file="${ametys-themes-dir}/build-${name}.xml">
             &lt;project name="build-${name}" default="build-${name}"&gt;
                 &lt;target name="build-${name}"&gt;
