@@ -66,12 +66,14 @@ function onreadyfunction() {
                         xtype: 'button',
                         text: 'Ametys',
                         tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true},
-                        items:
-                        [
-                            {
-                                text: 'TEST'
-                            }
-                        ]
+                        menu: {
+                            ui: 'ribbon-menu',
+                            items: [
+                                {
+                                    text: 'TEST'
+                                }
+                            ]
+                        }
                     },
                     user: {
                         fullName: 'Raphaël Franchet',
