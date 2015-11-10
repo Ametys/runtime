@@ -472,14 +472,8 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			}
 			
 			
+            this._onToolBlurred(this.getFocusedTool());
             this._onToolDeactivated(tool);
-            
-			// blur the tool (and its old tools panel)
-			var isToolFocus = this.getFocusedTool() == tool;
-			if (isToolFocus)
-			{
-				this._onToolBlurred(tool, true);
-			}
 			
 			// moves the panel
 			var zoneTabsToolPanel = this._panelHierarchy[location];
@@ -498,16 +492,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
             // activate the tool ?
             
 			// focus the tool
-			if (!isToolFocus)
-			{
-				this.focusTool(tool);
-			}
-            else
-            {
-                // Graphically set the focus
-                zoneTabsToolPanel.addCls(this.focusCls);
-                zoneTabsToolPanel.removeCls(this.nofocusCls);
-            }
+			this.focusTool(tool);
 			
 			Ext.resumeLayouts(true);
             
