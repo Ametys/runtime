@@ -32,6 +32,8 @@
     $ui-strip-height: top($ametys-tool-inner-border-width) + $ametys-tool-border-width,
     $ui-bar-background-color: $ametys-tool-background-color,
 
+    $ui-tab-padding: $ametys-tool-tab-padding,
+
     $ui-tab-outline-width-focus: transparent,
     $ui-tab-inner-border-color-focus: transparent,
     $ui-tab-inner-border-color-focus-over: transparent,
@@ -41,6 +43,18 @@
     $ui-tab-closable-icon-width: $ametys-tool-tab-close-icon-size,
     $ui-tab-closable-icon-height: $ametys-tool-tab-close-icon-size           
 );
+
+// Fix because right padding is too large by default
+.#{$prefix}tab-closable.#{$prefix}tab-tool-layoutzone .#{$prefix}tab-button {
+    padding-right: $ametys-tool-tab-close-icon-size + $tab-closable-icon-spacing - right($tab-padding);
+}
+@if $include-rtl {
+    .#{$prefix}rtl.#{$prefix}tab-closable.#{$prefix}tab-tool-layoutzone .#{$prefix}tab-button {
+        padding-right: 0px;
+        padding-left: $ametys-tool-tab-close-icon-size + $tab-closable-icon-spacing - right($tab-padding);
+    }
+}
+
 
 // As there is a bug in extjs https://www.sencha.com/forum/showthread.php?305990-6.0.1-Issue-in-theme-neutral-Scss-mixin-extjs-tab-ui&p=1118297#post1118297
 // We have to define size our selves
@@ -56,6 +70,11 @@
         background-position: -2*$ametys-tool-tab-close-icon-size -$ametys-tool-tab-close-icon-size;
     }
 }
+
+// Hide close tool on non active tool
+.#{$prefix}tab-tool-layoutzone .#{$prefix}tab-close-btn { @include opacity(0); }
+.#{$prefix}tab-tool-layoutzone.#{$prefix}tab-over .#{$prefix}tab-close-btn { @include opacity(0.5); }
+.#{$prefix}tab-tool-layoutzone.#{$prefix}tab-active .#{$prefix}tab-close-btn { @include opacity(1); }
 
 .#{$prefix}tab-tool-layoutzone > div {
     overflow: hidden;
@@ -125,17 +144,17 @@
         @include ametys-tab-color(
             $index: $i - 1, 
             
-            $active-color: mix($ametys-tool-tab-gray-dark, nth($ametys-tool-tab-colors-dark, $i), 95%),
-            $active-border-color: mix($ametys-tool-tab-gray, nth($ametys-tool-tab-colors, $i), 95%), 
-            $active-background-color: mix($ametys-tool-tab-gray-light, nth($ametys-tool-tab-colors-light, $i), 95%),
+            $active-color: $ametys-tool-tab-gray-dark,
+            $active-border-color: $ametys-tool-tab-gray-light, 
+            $active-background-color: $ametys-tool-tab-gray-light, 
             
-            $normal-color: $ametys-tool-tab-color, 
+            $normal-color: $ametys-tool-tab-gray-dark,
             $normal-border-color: $ametys-tool-background-color, 
             $normal-background-color: $ametys-tool-background-color,
             
-            $over-color: mix($ametys-tool-tab-color, nth($ametys-tool-tab-colors-dark, $i), 70%), 
-            $over-border-color: mix($ametys-tool-background-color, nth($ametys-tool-tab-colors, $i), 70%), 
-            $over-background-color: mix($ametys-tool-background-color, nth($ametys-tool-tab-colors-light, $i), 70%),
+            $over-color: nth($ametys-tool-tab-colors-dark, $i),
+            $over-border-color: nth($ametys-tool-tab-colors-light, $i),
+            $over-background-color: nth($ametys-tool-tab-colors-light, $i)
         );
     } 
 }
@@ -147,17 +166,17 @@
         @include ametys-tab-color(
             $index: $i - 1, 
             
-            $active-color: nth($ametys-tool-tab-colors-dark, $i),
+            $active-color: nth($ametys-tool-tab-colors-light, $i),
             $active-border-color: nth($ametys-tool-tab-colors, $i), 
-            $active-background-color: nth($ametys-tool-tab-colors-light, $i),
+            $active-background-color: nth($ametys-tool-tab-colors, $i),
             
-            $normal-color: $ametys-tool-tab-color, 
+            $normal-color: $ametys-tool-tab-gray-dark,
             $normal-border-color: $ametys-tool-background-color, 
             $normal-background-color: $ametys-tool-background-color,
             
-            $over-color: mix($ametys-tool-tab-color, nth($ametys-tool-tab-colors-dark, $i), 70%), 
-            $over-border-color: mix($ametys-tool-background-color, nth($ametys-tool-tab-colors, $i), 70%), 
-            $over-background-color: mix($ametys-tool-background-color, nth($ametys-tool-tab-colors-light, $i), 70%),
+            $over-color: nth($ametys-tool-tab-colors-dark, $i),
+            $over-border-color: nth($ametys-tool-tab-colors-light, $i),
+            $over-background-color: nth($ametys-tool-tab-colors-light, $i),
         );
     } 
 }

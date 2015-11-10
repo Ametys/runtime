@@ -22,7 +22,7 @@ Ext.define('Ametys.theme.ametysbase.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabs
     tabBar: {
         defaults:{
             // Will try to fill all available space.
-            flex:1,
+            // flex:1,
             minWidth: 36,
             maxWidth: 250,
             textAlign: 'left'

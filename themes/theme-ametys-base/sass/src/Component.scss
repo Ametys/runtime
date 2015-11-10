@@ -45,7 +45,7 @@
  * Fonts
  */
 $font-family: dynamic('Open Sans', 'Helvetica Neue', helvetica, arial, verdana, sans-serif);
-$ametys-font-path: get-resource-path('fonts', 'shared');
+$ametys-font-path: get-resource-path('fonts');
 @font-face {
     font-family: 'Open Sans';
     src: url('#{$ametys-font-path}/OpenSans-Light.ttf');

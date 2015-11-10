@@ -16,14 +16,14 @@
 
 $ametys-tool-background-color: $ametys-tool-base-color;
 $ametys-tool-tab-color: $ametys-tool-color;
-$ametys-tool-tab-font-size: $ametys-tool-font-size;
+$ametys-tool-tab-font-size: $ametys-tool-font-size/12*13;
 
 $ametys-tool-layout-padding: $ametys-tool-tab-font-size/12; 
 
 $ametys-tool-border-width: dynamic(1px);
-$ametys-tool-border-top-width: dynamic($font-size/3 - $ametys-tool-border-width);
+$ametys-tool-border-top-width: dynamic(1px);//dynamic($font-size/3 - $ametys-tool-border-width);
 $ametys-tool-inner-border-width: dynamic($font-size/3 - $ametys-tool-border-width);
 
-$ametys-tool-tab-focus: 50%;
+$ametys-tool-tab-padding: dynamic(7px 8px 6px);
 
 $ametys-tool-tab-normal-font-weight: normal;
