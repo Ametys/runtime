@@ -48,7 +48,7 @@ $ametys-ribbon-tabpanel-mainbutton-background-color: $ametys-ribbon-highlight-co
 /** @var {color} The background color of the main menu button in the ribbon when the mouse is over */
 $ametys-ribbon-tabpanel-mainbutton-background-color-over: lighten($ametys-ribbon-tabpanel-mainbutton-background-color, 10%);;
 /** @var {color} The background color of the main menu button in the ribbon when the button is pressed */
-$ametys-ribbon-tabpanel-mainbutton-background-color-pressed: darken($ametys-ribbon-tabpanel-mainbutton-background-color, 5%);;
+$ametys-ribbon-tabpanel-mainbutton-background-color-pressed: darken($ametys-ribbon-tabpanel-mainbutton-background-color-over, 5%);;
 /** @var {color} The background color of the main menu button in the ribbon when the button has the focus */
 $ametys-ribbon-tabpanel-mainbutton-background-color-focus: dynamic($ametys-ribbon-tabpanel-mainbutton-background-color);
 $ametys-ribbon-tabpanel-mainbutton-bottom-border-color: dynamic($ametys-ribbon-tabpanel-active-border-color);
