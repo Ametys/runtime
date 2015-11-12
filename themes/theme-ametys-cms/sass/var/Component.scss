@@ -21,20 +21,20 @@ $ametys-rainbow:       dynamic(#960018 #ff9d00 #f2cb1d #2b822a #00016e #bb2581 #
 $ametys-rainbow-light: dynamic(#feeced #fff8ed #fffbe6 #e6f3e6 #e5eeff #fcf0f7 #f6f1fc);
 $ametys-rainbow-dark:  dynamic(#8a1111 #d97c38 #987715 #118a11 #00308c #a1407a #884ecf); 
 
-$ametys-highlight-color: #960018;
+$ametys-highlight-color: #804080;
 
 /**
  * Ribbon
  */  
-$ametys-ribbon-base-color: #960018;
+$ametys-ribbon-base-color: #804080;
 $ametys-ribbon-main-color: #F0F0F0;
 $ametys-ribbon-main-text-color: #302030;
 $ametys-ribbon-tab-color: #F1F1F1;
-$ametys-ribbon-highlight-color: #638f91;
+$ametys-ribbon-highlight-color: #B060B0;
 
 $ametys-ribbon-tool-background-image: dynamic('tools/ribbon-tool-sprites');
 
-$ametys-ribbon-header-highlight-color: #b4e8f6;
+$ametys-ribbon-header-highlight-color: #90d9f5;
 
 $ametys-ribbon-tabpanel-mainbutton-background-color: $ametys-ribbon-base-color;
 $ametys-ribbon-tabpanel-mainbutton-background-color-over: $ametys-ribbon-highlight-color;
