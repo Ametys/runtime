@@ -14,27 +14,29 @@
  *  limitations under the License.
  */
 
-.ametys-description {
+%ametys-enhancer {
 	width: 20px; 
 	min-height: $form-field-height; 
-	background-image: theme-background-image($ametys-form-field-description-background-image); 
+	display: table-cell;
+	
 	background-repeat: no-repeat; 
 	background-position: center round(($form-field-height/2 - $ametys-form-field-description-background-image-height/2));
-	display: table-cell;
 }
 
-.ametys-comment {
-	width: 20px; 
-	min-height: $form-field-height; 
+.ametys-description {
+    @extend %ametys-enhancer;
+    
+    background-image: theme-background-image($ametys-form-field-description-background-image); 
+}
+
+.ametys-comments {
+    @extend %ametys-enhancer;
+    
 	background-image: theme-background-image($ametys-form-field-comment-background-image); 
-	background-repeat: no-repeat; 
-	background-position: center round(($form-field-height/2 - $ametys-form-field-comment-background-image-height/2));
-	display: table-cell;
-}
-
-.ametys-comment.ametys-comment-empty {
-	background-image: theme-background-image($ametys-form-field-nocomment-background-image); 
-	background-position: center round(($form-field-height/2 - $ametys-form-field-nocomment-background-image-height/2));
+	
+    &.ametys-comments-empty {
+    	background-image: theme-background-image($ametys-form-field-nocomment-background-image); 
+    }
 }
 
 .ametys-warning {

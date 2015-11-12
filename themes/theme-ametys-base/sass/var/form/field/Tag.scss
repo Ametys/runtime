@@ -15,3 +15,12 @@
  */
  
 $tag-field-item-border-radius: dynamic(0);
+$tag-field-padding: dynamic(1px 0 0 2px);
+$tag-field-item-margin: dynamic(0 3px 1px 0);
+$tag-field-item-height: dynamic(20px);
+
+$ametys-tag-field-icon-spacing: dynamic(3px);
+$ametys-tag-field-link-color: dynamic($ametys-highlight-color);
+$ametys-tag-field-link-color-over: dynamic($ametys-ribbon-tabpanel-mainbutton-background-color-over);
+$ametys-tag-field-link-text-decoration: dynamic(underline);
+$ametys-tag-field-link-text-decoration-over: dynamic(underline);

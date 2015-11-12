@@ -14,6 +14,52 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+
+.#{$prefix}tagfield ul.#{$prefix}tagfield-list {
+    &.#{$prefix}tagfield-singleselect {
+        white-space: normal;
+    }
+    
+    .#{$prefix}tagfield-item 
+        img {
+            margin-right: $ametys-tag-field-icon-spacing; 
+            vertical-align: text-top;
+        }
+        
+        .clickable {
+            color: $ametys-tag-field-link-color;
+            text-decoration: $ametys-tag-field-link-text-decoration;
+        }
+        .clickable:hover {
+            cursor: pointer;
+            color: $ametys-tag-field-link-color-over;
+            text-decoration: $ametys-tag-field-link-text-decoration-over;
+        }
+    }    
+    .#{$prefix}tagfield-item-close {
+        @include opacity(0.1);
+        
+        &:hover {
+            @include opacity(1);
+        }
+        
+        .#{$prefix}tagfield-item-selected & {
+            @include opacity(0.5);
+            
+            &:hover {
+                @include opacity(1);
+            }
+        }
+
+        .#{$prefix}field-focus & {
+            @include opacity(0.5);
+            
+            &:hover {
+                @include opacity(1);
+            }
+        }
+    }
+    
  
 .a-tool-layout-zoned-focused {
     @for $i from 1 through length($ametys-tool-tab-colors) {
@@ -24,13 +70,37 @@
         $active-color-light: nth($ametys-tool-tab-colors-light, $i);
         
         &.a-tool-layout-zoned-panel-#{$index*10} {
-            @include extjs-tag-field-ui(
-                $ui: 'default',
+            .#{$prefix}field-focus {
+                .#{$prefix}tagfield ul.#{$prefix}tagfield-list {
+                    .#{$prefix}tagfield-item-selected {
+                        &.#{$prefix}tagfield-item .clickable {
+                            color: mix($ametys-tag-field-link-color, lighten($active-color-light, 30%), 50%);
+                        }
+                        &.#{$prefix}tagfield-item .clickable:hover {
+                            color: mix($ametys-tag-field-link-color-over, lighten($active-color-light, 30%), 50%);
+                        }
+                    }
+                }
                 
-                $ui-item-selected-color: lighten($active-color-light, 30%),
-                $ui-item-selected-background-color: $active-color,
-                $ui-item-selected-border-color: $active-color-dark
-            );
+                @include extjs-tag-field-ui(
+                    $ui: 'default',
+                    
+                    $ui-item-color: darken($active-color-dark, 30%),
+                    $ui-item-background-color: $active-color-light,
+                    $ui-item-border-color: $active-color-light,
+
+                    $ui-item-selected-color: lighten($active-color-light, 30%),
+                    $ui-item-selected-background-color: $active-color,
+                    $ui-item-selected-border-color: $active-color-dark
+                );
+            } 
         }
     }
+}
+
+.#{$prefix}tagfield-noresult-text {
+    color: #404040;
+    font-style: italic;
+    line-height: $font-size / 12 * 18;
+    padding-left: $font-size / 12 * 5;
 }

@@ -22,9 +22,12 @@ $ametys-window-text-background-color: dynamic(transparent);
 $ametys-window-text-warning-color: dynamic($ametys-background-color-warn);
 $ametys-window-text-warning-background-color: dynamic($ametys-color-warn);
 
+$ametys-window-text-error-color: dynamic($ametys-background-color-error);
+$ametys-window-text-error-background-color: dynamic($ametys-color-error);
+
 $ametys-window-link-color: dynamic($ametys-highlight-color);
 $ametys-window-link-color-over: dynamic($ametys-ribbon-tabpanel-mainbutton-background-color-over);
 $ametys-window-link-color-visited: dynamic($ametys-highlight-color);
 $ametys-window-link-text-decoration: dynamic(underline);
-$ametys-window-link-text-decoration-visited: dynamic(underline);
 $ametys-window-link-text-decoration-over: dynamic(underline);
+$ametys-window-link-text-decoration-visited: dynamic(underline);
