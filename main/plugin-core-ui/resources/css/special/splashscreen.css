@@ -28,7 +28,7 @@
     width: 16em;
     height: 16em;
     padding-top: 2em;
-    border: 1px solid #7d3d92;
+    border: 1px solid #804080;
     background-color: #CCCCCC;
     background-color: rgba(255, 255, 255, 0.8);
 }
@@ -45,7 +45,7 @@
 .ametys-common.error .splashscreen:after {
     content: "\f071";
     
-    color: #7d3d92;
+    color: #804080;
     
     font-family: 'FontAwesome';
     font-size: 7em;
@@ -61,7 +61,7 @@
 }
 
 .ametys-common .la-ball-spin-clockwise {
-    color: #7d3d92 !important;
+    color: #804080 !important;
     margin: 0 auto;
 }
 

@@ -35,7 +35,7 @@ div.wrapin {
 div.connection, div.intro {
     background-color: #CCCCCC;
     background-color: rgba(255, 255, 255, 0.8);
-    border: 1px solid #7d3d92;
+    border: 1px solid #804080;
     
     margin: 0 auto;
     
@@ -97,8 +97,8 @@ div.intro .links a {
     vertical-align: middle;
     font-size: 2em;
     text-decoration: none;
-    background-color: #7d3d92;
-    border: 1px solid #7d3d92;
+    background-color: #804080;
+    border: 1px solid #804080;
 }
 div.intro .links :first-child {
     margin-left: 0;
@@ -330,8 +330,8 @@ div.connection div.forgotten a {
 div.connection .formbased button {
     clear: both;
     
-    background-color: #7d3d92;
-    border: 1px solid #7d3d92;
+    background-color: #804080;
+    border: 1px solid #804080;
 }
 
 div.connection .formbased button:after {

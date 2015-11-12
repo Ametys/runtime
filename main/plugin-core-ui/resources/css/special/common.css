@@ -153,7 +153,7 @@ html.ametys-common  {
     
     background-color: #CCCCCC;
     background-color: rgba(255, 255, 255, 0.8);
-    border: 1px solid #7d3d92;
+    border: 1px solid #804080;
     
     font-size: 0.8em;
     text-align: left;
@@ -181,12 +181,12 @@ html.ametys-common  {
     margin-top: 0.75em;
 }
 .ametys-common .la-ball-pulse {
-    color: #7d3d92 !important;
+    color: #804080 !important;
     margin-left: auto;
 }
 .ametys-common p.additionnal a {
-    background-color: #7d3d92;
-    border: 1px solid #7d3d92; 
+    background-color: #804080;
+    border: 1px solid #804080; 
     color: #F0F0F0;
     text-decoration: none;
     text-shadow: none;
@@ -219,8 +219,8 @@ html.ametys-common  {
     border-color: #9d57b3;
 }
 .ametys-common p.additionnal a.toggled:hover {
-    background-color: #7d3d92;
-    border-color: #7d3d92; 
+    background-color: #804080;
+    border-color: #804080; 
 }
 
 .ametys-common p.additionnal a:active,
