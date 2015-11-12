@@ -1,0 +1,68 @@
+/*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+/**
+ * General
+ */
+$ametys-rainbow:       dynamic(#960018 #ff9d00 #f2cb1d #2b822a #00016e #bb2581 #611ac0); 
+$ametys-rainbow-light: dynamic(#feeced #fff8ed #fffbe6 #e6f3e6 #e5eeff #fcf0f7 #f6f1fc);
+$ametys-rainbow-dark:  dynamic(#8a1111 #d97c38 #987715 #118a11 #00308c #a1407a #884ecf); 
+
+$ametys-highlight-color: #960018;
+
+/**
+ * Ribbon
+ */  
+$ametys-ribbon-base-color: #960018;
+$ametys-ribbon-main-color: #F0F0F0;
+$ametys-ribbon-main-text-color: #302030;
+$ametys-ribbon-tab-color: #F1F1F1;
+$ametys-ribbon-highlight-color: #638f91;
+
+$ametys-ribbon-tool-background-image: dynamic('tools/ribbon-tool-sprites');
+
+$ametys-ribbon-header-highlight-color: #b4e8f6;
+
+$ametys-ribbon-tabpanel-mainbutton-background-color: $ametys-ribbon-base-color;
+$ametys-ribbon-tabpanel-mainbutton-background-color-over: $ametys-ribbon-highlight-color;
+
+$ametys-ribbon-tabpanel-mainbutton-color: $ametys-ribbon-main-color;
+$ametys-ribbon-tabpanel-mainbutton-color-over: #FFFFFF;
+$ametys-ribbon-tabpanel-mainbutton-color-pressed: #FFFFFF;
+$ametys-ribbon-tabpanel-mainbutton-color-focus: #FFFFFF;
+
+$ametys-ribbon-tabpanel-color: $ametys-ribbon-main-color;
+
+$ametys-ribbon-tabpanel-active-color: $ametys-ribbon-main-text-color;
+$ametys-ribbon-tabpanel-active-border-color: $ametys-ribbon-tabpanel-active-background-color;
+
+$ametys-ribbon-tabpanel-over-color: #FFFFFF;
+$ametys-ribbon-tabpanel-over-background-color: $ametys-ribbon-highlight-color;
+$ametys-ribbon-tabpanel-over-border-color: $ametys-ribbon-highlight-color;
+
+$ametys-ribbon-button-background-color-over: #C9C9C9;
+$ametys-ribbon-button-background-color-pressed: #C5C5C5;
+
+$ametys-ribbon-header-textfield-background-color: $ametys-ribbon-base-color;
+$ametys-ribbon-header-textfield-background-color-focus: $ametys-ribbon-highlight-color;
+$ametys-ribbon-header-textfield-border-color: $ametys-ribbon-header-textfield-background-color;
+$ametys-ribbon-header-textfield-outline-color: $ametys-ribbon-highlight-color; 
+
+$ametys-ribbon-tabpanel-linkbutton-color-over: $ametys-ribbon-header-highlight-color;
+$ametys-ribbon-tabpanel-linkbutton-textdecoration-over: none;
+$ametys-ribbon-tabpanel-usercard-color: $ametys-ribbon-main-text-color;
+
+$ametys-ribbon-contextualgroup-colors: #e1393c #ff9d00 #f2cb1d #2b822a #00016e #bb2581 #611ac0;
