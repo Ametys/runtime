@@ -34,7 +34,7 @@
         @include extjs-toolbar-ui(
             $ui: 'default',
             
-            $background-color: lighten($active-color, 25%),
+            $background-color: $active-color-light,
             $border-color: lighten($active-color, 10%)
        	);
 	}
