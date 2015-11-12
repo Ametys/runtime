@@ -47,10 +47,8 @@ public class DataSourceExtensionPoint extends AbstractExtensionPoint<DataSource>
     private Map<String, ObjectPool> _pools = new HashMap<>();
 
     @SuppressWarnings("unused")
-    public void addExtension(String pluginName, String featureName, Configuration configuration) throws ConfigurationException
+    public void addExtension(String id, String pluginName, String featureName, Configuration configuration) throws ConfigurationException
     {
-        String id = configuration.getAttribute("id");
-        
         String driver = _getValue(configuration.getChild("driver"));
         String url = _getValue(configuration.getChild("dburl"));
         String user = _getValue(configuration.getChild("user"));

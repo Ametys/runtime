@@ -31,11 +31,10 @@ public class TestExtensionPoint implements ExtensionPoint<Object>
 {
     Map<String, Object> _objects = new HashMap<>();
     
-    public void addExtension(String pluginName, String featureName, Configuration configuration) throws ConfigurationException
+    public void addExtension(String id, String pluginName, String featureName, Configuration configuration) throws ConfigurationException
     {
         try
         {
-            String id = configuration.getAttribute("id");
             Object object = Class.forName(configuration.getAttribute("class")).newInstance();
             _objects.put(id, object);
         }

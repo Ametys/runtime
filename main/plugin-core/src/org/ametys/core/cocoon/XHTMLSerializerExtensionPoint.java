@@ -44,9 +44,8 @@ public class XHTMLSerializerExtensionPoint extends AbstractExtensionPoint<String
     }
     
     @Override
-    public void addExtension(String pluginName, String featureName, Configuration configuration) throws ConfigurationException
+    public void addExtension(String id, String pluginName, String featureName, Configuration configuration) throws ConfigurationException
     {
-        String id = configuration.getAttribute("id");
         String namespace = configuration.getChild("namespace-allowed").getValue("");
         _extensions.put(id, namespace);
         

@@ -26,7 +26,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
  * Abstract implementation of an extension point.<br>
- * Contains only helper methods. Tha actual job has to be done in the {@link #addExtension(String, String, org.apache.avalon.framework.configuration.Configuration)}
+ * Contains only helper methods. Tha actual job has to be done in the {@link #addExtension(String, String, String, org.apache.avalon.framework.configuration.Configuration)}
  * @param <T> the type of the managed extensions
  */
 public abstract class AbstractExtensionPoint<T> extends AbstractLogEnabled implements ExtensionPoint<T>, Initializable, Component

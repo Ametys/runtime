@@ -75,11 +75,8 @@ public abstract class AbstractComponentExtensionPoint<T> extends AbstractLogEnab
 
     @SuppressWarnings("unchecked")
     @Override
-    public void addExtension(String pluginName, String featureName, Configuration configuration) throws ConfigurationException
+    public void addExtension(String id, String pluginName, String featureName, Configuration configuration) throws ConfigurationException
     {
-        // Check extension id
-        String id = configuration.getAttribute("id");
-        
         if (getLogger().isDebugEnabled())
         {
             getLogger().debug("Configuring extension '" + id + "' in plugin '" + pluginName + "' id '" + featureName + "'.");

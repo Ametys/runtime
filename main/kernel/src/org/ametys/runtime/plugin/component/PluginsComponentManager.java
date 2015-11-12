@@ -212,7 +212,7 @@ public class PluginsComponentManager extends ThreadSafeComponentManager<Object> 
             
             for (ExtensionDefinition extension : _extensions)
             {
-                extPoint.addExtension(extension.getPluginName(), extension.getFeatureName(), extension.getConfiguration());
+                extPoint.addExtension(extension.getId(), extension.getPluginName(), extension.getFeatureName(), extension.getConfiguration());
             }
             
             getLogger().debug("Initializing extensions for point {}", _role);

@@ -53,10 +53,8 @@ public class SitemapConfigurationExtensionPoint extends AbstractLogEnabled imple
     private Map<String, Collection<Configuration>> _sitemapConfigurations = new HashMap<>();
     private Map<String, Configuration[]> _extensions = new HashMap<>();
     
-    public void addExtension(String pluginName, String featureName, Configuration configuration) throws ConfigurationException
+    public void addExtension(String id, String pluginName, String featureName, Configuration configuration) throws ConfigurationException
     {
-        String id = configuration.getAttribute("id");
-
         Configuration[] configurations = configuration.getChildren();
         
         _extensions.put(id, configurations);

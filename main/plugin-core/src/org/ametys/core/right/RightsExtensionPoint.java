@@ -54,7 +54,7 @@ public class RightsExtensionPoint extends AbstractLogEnabled implements Extensio
         return _rights.containsKey(id);
     }
 
-    public void addExtension(String pluginName, String pluginId, Configuration configuration) throws ConfigurationException
+    public void addExtension(String id, String pluginName, String pluginId, Configuration configuration) throws ConfigurationException
     {
         if (getLogger().isDebugEnabled())
         {

@@ -35,12 +35,13 @@ public interface ExtensionPoint<T>
     /**
      * Add an extension to this point. Each implementation knows the meaning of
      * the given configuration.
+     * @param id the unique identifier of the extension.
      * @param pluginName Unique identifier for the plugin hosting the extension
      * @param featureName Unique feature identifier (unique for a given pluginName)
      * @param configuration the information about the extension to be added
      * @throws ConfigurationException when a configuration problem occurs
      */
-    public void addExtension(String pluginName, String featureName, Configuration configuration) throws ConfigurationException;
+    public void addExtension(String id, String pluginName, String featureName, Configuration configuration) throws ConfigurationException;
     
     /**
      * Finalize the initialization of the extensions.<br>
