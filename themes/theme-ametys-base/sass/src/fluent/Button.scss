@@ -128,7 +128,7 @@
         margin-left: ($ametys-ribbon-button-padding-large - 1px); 
     }
     .#{$prefix}btn-inner-#{$ui}-large {
-        padding: $ametys-ribbon-button-texticonalignadjust-large ($ametys-ribbon-button-padding-large - 1px) 0 ($ametys-ribbon-button-padding-large - 1px); 
+        padding: ($ametys-ribbon-button-texticonalignadjust-large - 1px) ($ametys-ribbon-button-padding-large - 1px) 1px ($ametys-ribbon-button-padding-large - 1px); 
         height: 2*$ametys-ribbon-button-line-height;
     }
     .#{$prefix}btn-inner-#{$ui}-large .arrow {
