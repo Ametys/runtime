@@ -83,6 +83,15 @@ public interface RightsManager
     public Set<String> getGrantedUsers(String right, String context) throws RightsException;
     
     /**
+     * Get the list of users that have at least one right in a particular context.
+     * The implementations have to prefix the given context by the application rights' context prefix except if null.
+     * @param context The context to test the right.<br>May be null, in which case the returned Set contains all granted users, whatever the context.
+     * @return The list of users granted that have at least one right as a Set of String (login).
+     * @throws RightsException if an error occurs.
+     */
+    public Set<String> getGrantedUsers(String context) throws RightsException;
+    
+    /**
      * Get the list of a user's rights in a particular context.
      * The user's rights and the rights of the user's groups are returned.
      * The implementations have to prefix the given context by the application rights' context prefix except if null.
