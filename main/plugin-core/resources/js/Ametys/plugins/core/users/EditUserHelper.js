@@ -211,6 +211,7 @@ Ext.define('Ametys.plugins.core.users.EditUserHelper', {
 	 */
 	_getUserCb: function (user)
 	{
+	    user.password = "PASSWORD" ;
 		this._form.setValues({values: user, comments: {}, repeaters: []});
 		this._form.getForm().findField('login').disable();
 		

@@ -176,16 +176,9 @@ Ext.define('Ametys.form.field.Password', {
     
     initComponent: function() 
     {
-    	// Password field
-    	var passwordConfig = this.passwordConfig || {};
-    		passwordConfig.inputType = 'password';
-    		passwordConfig.flex = 1;
-
-		var propertiesToCopy = ['allowBlank', 'blankText', 'emptyText', 'invalidText', 'maskRe', 'maxLength', 'maxLengthText', 'minLength', 'minLengthText', 'regex', 'regexText', 'selectOnFocus', 'size', 'stripCharsRe'];
-    	this._copyPropIfDefined(passwordConfig, propertiesToCopy, this.initialConfig);
-    	
-    	this._field = Ext.create('Ext.form.field.Text', passwordConfig);
-    	
+        // password
+        this._initPasswordField();
+        
     	this._mode = Ametys.form.field.Password.MODE_NOPASSWORD;
     	
     	// Change password button 
@@ -202,13 +195,51 @@ Ext.define('Ametys.form.field.Password', {
     	});
     	this._button = Ext.create('Ext.button.Button', buttonConfig);
     	
-    	this.items = [this._field, this._button];
+    	this.items = this._getItems();
     	
     	this.msgTarget = 'side';
     	
     	this.on('afterrender', this._adaptRenderToMode, this);
     	
         this.callParent(arguments);
+        
+        window.abc =this;
+    },
+    
+    /**
+     * @protected
+     * Initialize the password field. This function in called from {@link #initComponent} 
+     */
+    _initPasswordField: function()
+    {
+        // Password field
+        var passwordConfig = this.passwordConfig || {};
+            passwordConfig.inputType = 'password';
+            passwordConfig.flex = 1;
+
+        var propertiesToCopy = this._getConfigPropertiesToCopy();
+        this._copyPropIfDefined(passwordConfig, propertiesToCopy, this.initialConfig);
+        
+        this._field = Ext.create('Ext.form.field.Text', passwordConfig);
+    },
+    
+    /**
+     * @protected
+     * Retrieves the name of the configuration properties to copy to the underlying field 
+     * @return {String[]} The name of the properties
+     */
+    _getConfigPropertiesToCopy: function()
+    {
+        return ['allowBlank', 'blankText', 'emptyText', 'invalidText', 'maskRe', 'maxLength', 'maxLengthText', 'minLength', 'minLengthText', 'regex', 'regexText', 'selectOnFocus', 'size', 'stripCharsRe'];
+    },
+    
+    /**
+     * @protected
+     * Returns the items of the component. This function in called from {@link #initComponent}
+     */
+    _getItems: function()
+    {
+        return [this._field, this._button];
     },
     
     getErrors: function (value) 
@@ -218,12 +249,7 @@ Ext.define('Ametys.form.field.Password', {
     	{
     		errors.push(this.blankText);
     	}
-
-    	if (this._mode == Ametys.form.field.Password.MODE_SEEPASSWORD)
-    	{
-    		return errors;
-    	}
-
+    	
     	return errors;
     },
     
@@ -249,6 +275,7 @@ Ext.define('Ametys.form.field.Password', {
 		this._setToMode((value == undefined || value == '') ? Ametys.form.field.Password.MODE_NOPASSWORD : Ametys.form.field.Password.MODE_SEEPASSWORD);
     		
 		this._field.setValue(value);
+		this._onFieldSetValue(value);
     	
     	this.callParent(arguments);
     },
@@ -296,10 +323,12 @@ Ext.define('Ametys.form.field.Password', {
     	if (mode == Ametys.form.field.Password.MODE_SEEPASSWORD)
     	{
     		this._field.setValue(this._previousValue);
+    		this._onFieldSetValue(this._previousValue);
     	}
         else if (mode == Ametys.form.field.Password.MODE_CHANGEPASSWORD)
         {
-            this._field.setValue("");
+            this._field.setValue('');
+            this._onFieldSetValue('');
         }
 
     	this._adaptRenderToMode();
@@ -320,6 +349,8 @@ Ext.define('Ametys.form.field.Password', {
     	if (this._mode == Ametys.form.field.Password.MODE_NOPASSWORD)
 		{
     		this._field.setDisabled(this.disabled);
+    		this._onFieldSetDisabled(this.disabled);
+    		
     		this._button.hide();
 		}
     	else
@@ -327,6 +358,8 @@ Ext.define('Ametys.form.field.Password', {
     		if (this._mode == Ametys.form.field.Password.MODE_SEEPASSWORD)
 			{
 				this._field.disable();
+				this._onFieldSetDisabled(true);
+				
 				this._button.setTooltip(Ametys.form.field.Password.CHANGE_PASSWORD_TEXT);
 				this._button.setIcon(Ametys.form.field.Password.CHANGE_PASSWORD_ICON_PATH);
 			}
@@ -334,12 +367,35 @@ Ext.define('Ametys.form.field.Password', {
 			{
     			// The user is modifying the value
     			this._field.enable();
+    			this._onFieldSetDisabled(false);
+    			
                 this._field.focus();
+                
 				this._button.setTooltip(Ametys.form.field.Password.RESET_PASSWORD_TEXT);
 				this._button.setIcon(Ametys.form.field.Password.RESET_PASSWORD_ICON_PATH);
 			}
 
     		this._button.show();
 		}
+    },
+    
+    /**
+     * @protected
+     * Internal hook on field set value to add specific process in inherited classes
+     * @param {String} The value set
+     */
+    _onFieldSetValue: function(value)
+    {
+        // nothing
+    },
+    
+    /**
+     * @protected
+     * Internal hook on field set disabled to add specific process in inherited classes
+     * @param {boolean} True is disabled
+     */
+    _onFieldSetDisabled: function(disabled)
+    {
+        // nothing
     }
 });
