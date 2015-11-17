@@ -51,6 +51,43 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
     }
     
     @Override
+    public Set<String> getGrantedUsers(String context) throws RightsException
+    {
+        try
+        {
+            if (context == null)
+            {
+                return super.getGrantedUsers(context);
+            }
+            else
+            {
+                Set<String> users = new HashSet<String>();
+    
+                Set<String> convertedContexts = getAliasContext(context);
+                for (String convertContext : convertedContexts)
+                {
+                    String transiantContext = convertContext;
+                    
+                    while (transiantContext != null)
+                    {
+                        Set<String> addUsers = internalGetGrantedUsers(transiantContext);
+                        users.addAll(addUsers);
+                        
+                        transiantContext = HierarchicalRightsHelper.getParentContext(transiantContext);
+                    }
+                }
+                
+                return users;
+            }
+        }
+        catch (SQLException ex)
+        {
+            getLogger().error("Error in sql query", ex);
+            throw new RightsException("Error in sql query", ex);
+        }
+    }
+    
+    @Override
     public Set<String> getGrantedUsers(String right, String context) throws RightsException
     {
         try

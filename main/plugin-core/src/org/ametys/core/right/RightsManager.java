@@ -18,6 +18,8 @@ package org.ametys.core.right;
 import java.util.Map;
 import java.util.Set;
 
+import org.ametys.runtime.right.RightsException;
+
 /**
  * Abstraction for testing a right associated with a resource and an user from a single source.
  * The implementations of {@link RightsManager} have to prefix all the given contexts by application the rights' context prefix except if null.
@@ -81,6 +83,15 @@ public interface RightsManager
      * @throws RightsException if an error occurs.
      */
     public Set<String> getGrantedUsers(String right, String context) throws RightsException;
+    
+    /**
+     * Get the list of users that have at least one right in a particular context.
+     * The implementations have to prefix the given context by the application rights' context prefix except if null.
+     * @param context The context to test the right.<br>May be null, in which case the returned Set contains all granted users, whatever the context.
+     * @return The list of users granted that have at least one right as a Set of String (login).
+     * @throws RightsException if an error occurs.
+     */
+    public Set<String> getGrantedUsers(String context) throws RightsException;
     
     /**
      * Get the list of a user's rights in a particular context.

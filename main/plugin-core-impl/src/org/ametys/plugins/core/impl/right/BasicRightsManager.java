@@ -42,12 +42,14 @@ public class BasicRightsManager implements RightsManager, Serviceable, ThreadSaf
     private UsersManager _users;
     private RightsExtensionPoint _rightsExtensionPoint;
     
+    @Override
     public void service(ServiceManager manager) throws ServiceException
     {
         _users = (UsersManager) manager.lookup(UsersManager.ROLE);
         _rightsExtensionPoint = (RightsExtensionPoint) manager.lookup(RightsExtensionPoint.ROLE);
     }
     
+    @Override
     public Set<String> getGrantedUsers(String right, String context) throws RightsException
     {
         Set<String> usersLogin = new HashSet<>();
@@ -60,7 +62,22 @@ public class BasicRightsManager implements RightsManager, Serviceable, ThreadSaf
         
         return usersLogin;
     }
+    
+    @Override
+    public Set<String> getGrantedUsers(String context) throws RightsException
+    {
+        Set<String> usersLogin = new HashSet<String>();
 
+        Collection<User> users = _users.getUsers();
+        for (User user : users)
+        {
+            usersLogin.add(user.getName());
+        }
+
+        return usersLogin;
+    }
+    
+    @Override
     public Set<String> getUserRights(String login, String context)
     {
         return _rightsExtensionPoint.getExtensionsIds();
@@ -74,6 +91,7 @@ public class BasicRightsManager implements RightsManager, Serviceable, ThreadSaf
         return rights;
     }
     
+    @Override
     public RightResult hasRight(String userLogin, String right, String context) throws RightsException
     {
         return RightsManager.RightResult.RIGHT_OK;

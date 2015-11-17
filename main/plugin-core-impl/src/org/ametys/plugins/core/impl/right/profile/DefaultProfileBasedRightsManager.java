@@ -306,7 +306,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             throw new RightsException("Error in sql query", ex);
         }
     }
-
+    
     /**
      * Get the list of users that have the given right on the given context.
      * @param right The name of the right to use. Cannot be null.
@@ -326,6 +326,47 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         return logins;
     }
 
+    @Override
+    public Set<String> getGrantedUsers(String context) throws RightsException
+    {
+        try
+        {
+            Set<String> users = new HashSet<String>();
+            
+            Set<String> convertedContexts = getAliasContext(context);
+            for (String convertContext : convertedContexts)
+            {
+                Set<String> addUsers = internalGetGrantedUsers(convertContext);
+                users.addAll(addUsers);
+            }
+            
+            return users;
+        }
+        catch (SQLException ex)
+        {
+            getLogger().error("Error in sql query", ex);
+            throw new RightsException("Error in sql query", ex);
+        }
+    }
+    
+    /**
+     * Get the list of users that have at least one right on the given context.
+     * @param context The context to test the right.<br>May be null, in which case the returned Set contains all granted users, whatever the context.
+     * @return The list of users granted that have a least one right as a Set of String (login).
+     * @throws SQLException if an error occurs retrieving the rights from the database.
+     */
+    protected Set<String> internalGetGrantedUsers(String context) throws SQLException
+    {
+        String lcContext = getFullContext (context);
+
+        Set<String> logins = new HashSet<String>();
+        
+        logins.addAll(getGrantedUsersOnly(lcContext));
+        logins.addAll(getGrantedGroupsOnly(lcContext));
+        
+        return logins;
+    }
+    
     @Override
     public Set<String> getUserRights(String login, String context) throws RightsException
     {
@@ -1716,6 +1757,55 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             ConnectionHelper.cleanup(connection);
         }
     }
+    
+    private Set<String> getGrantedUsersOnly(String context) throws SQLException
+    {
+        Set<String> logins = new HashSet<String>();
+        
+        Connection connection = ConnectionHelper.getConnection(_poolName);
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try
+        {
+            // On regarde d'abord parmi les droits affectés directement aux
+            // utilisateurs
+            StringBuilder sql = new StringBuilder("SELECT DISTINCT UR.Login " + "FROM " + _tableProfileRights + " PR, " + _tableUserRights + " UR WHERE UR.Profile_Id = PR.Profile_Id ");
+
+            if (context != null)
+            {
+                sql.append("AND LOWER(UR.Context) ");
+                sql.append(_getCondition(context));
+                sql.append(" ?");
+            }
+
+            stmt = connection.prepareStatement(sql.toString());
+
+            if (context != null)
+            {
+                // LIKE query
+                stmt.setString(1, context.replace('*', '%'));
+            }
+
+            // Logger la requête
+            getLogger().info(sql.toString() + "\n[" + (context != null ? "," + context : "") + "]");
+
+            rs = stmt.executeQuery();
+
+            while (rs.next())
+            {
+                logins.add(rs.getString(1));
+            }
+
+            return logins;
+        }
+        finally
+        {
+            ConnectionHelper.cleanup(rs);
+            ConnectionHelper.cleanup(stmt);
+            ConnectionHelper.cleanup(connection);
+        }
+    }
 
     private Set<String> getUsersOnlyRights(String login, String context) throws SQLException
     {
@@ -2081,6 +2171,68 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             {
                 String groupId = rs.getString(1);
 
+                Group group = _groupsManager.getGroup(groupId);
+                if (group != null)
+                {
+                    for (String login : group.getUsers())
+                    {
+                        logins.add(login);
+                    }
+                }
+                else if (getLogger().isWarnEnabled())
+                {
+                    getLogger().warn("The group '" + groupId + "' is referenced in profile tables, but cannot be retrieve by GroupsManager. The database may be inconsistant.");
+                }
+            }
+
+            return logins;
+        }
+        finally
+        {
+            ConnectionHelper.cleanup(rs);
+            ConnectionHelper.cleanup(stmt);
+            ConnectionHelper.cleanup(connection);
+        }
+    }
+    
+    private Set<String> getGrantedGroupsOnly(String context) throws SQLException
+    {
+        Set<String> logins = new HashSet<String>();
+
+        Connection connection = ConnectionHelper.getConnection(_poolName);
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try
+        {
+            // Puis parmi les droits affectés aux groups auxquels appartient
+            // l'utilisateur
+            StringBuilder sql = new StringBuilder("SELECT DISTINCT GR.Group_Id " + "FROM " + _tableProfileRights + " PR, " + _tableGroupRights + " GR WHERE GR.Profile_Id = PR.Profile_Id ");
+
+            if (context != null)
+            {
+                sql.append("AND LOWER(GR.Context) ");
+                sql.append(_getCondition(context));
+                sql.append(" ?");
+            }
+
+            stmt = connection.prepareStatement(sql.toString());
+
+            if (context != null)
+            {
+                // LIKE query
+                stmt.setString(1, context.replace('*', '%'));
+            }
+
+            // Logger la requête
+            getLogger().info(sql.toString() + "\n[" + (context != null ? "," + context : "") + "]");
+
+            // boucle sur les group id retrouvés
+            rs = stmt.executeQuery();
+            while (rs.next())
+            {
+                String groupId = rs.getString(1);
+                
                 Group group = _groupsManager.getGroup(groupId);
                 if (group != null)
                 {
@@ -2675,7 +2827,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             statement.executeUpdate();
             ConnectionHelper.cleanup(statement);
 
-            //FIXME Write query working with all database
+            // FIXME Write query working with all database
             if (dbType == DatabaseType.DATABASE_MYSQL)
             {
                 statement = connection.prepareStatement("SELECT Id FROM " + _tableProfile + " WHERE Id = last_insert_id()");
