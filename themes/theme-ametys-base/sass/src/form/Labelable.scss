@@ -18,3 +18,12 @@
     margin-bottom: $form-item-margin-bottom;
     margin-right: $form-item-margin-bottom*2;
 }
+
+.#{$prefix}form-item-label-top-wrapper {
+    display: table-caption;
+}
+
+.#{$prefix}form-item-label-default {
+    vertical-align: top;
+}
+

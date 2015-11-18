@@ -92,6 +92,7 @@
 @include extjs-text-field-ui(
     $ui: 'ribbon-header-text',
     
+    $ui-padding: $ametys-ribbon-header-textfield-padding,
     $ui-height: $ametys-ribbon-header-height - 2*$ametys-ribbon-header-border-height,
     $ui-font-size: $ametys-ribbon-header-textfield-font-size,
     $ui-body-width: $ametys-ribbon-header-textfield-width,

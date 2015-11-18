@@ -17,6 +17,8 @@
 @include extjs-text-field-ui(
     $ui: 'ribbon-component',
     
+    $ui-padding: $ametys-ribbon-field-padding,
+    
     $ui-height: $ametys-ribbon-button-height-small,
     $ui-textarea-body-height: 2*$ametys-ribbon-button-height-small - 2px - 2px,// 2px for border top and bottom and 2px for too high label
     $ui-background-color: $ametys-ribbon-field-background-color,

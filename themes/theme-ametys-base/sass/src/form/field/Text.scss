@@ -37,7 +37,47 @@
         }
     }
 }
- 
+
+/**
+ * CHAR Counter
+ */
+.#{$prefix}field .char-counter-wrapper {
+    border-width: $form-field-border-width; 
+    border-color: $form-field-border-color;
+    border-style: none solid solid solid;
+    
+    background-color: ;
+}
+
+.#{$prefix}field .char-counter 
+{
+    padding-left: 5px; 
+    padding-right: 5px; 
+    
+    border-right: 1px solid $ametys-field-charcounter-color; 
+    color: $ametys-field-charcounter-color; 
+    
+    font-size: $ametys-field-charcounter-font-size;
+    font-family: $font-family;
+}
+
+.#{$prefix}field .char-count-counting
+{
+    color: $ametys-field-charcounter-color-computing;
+}
+
+.#{$prefix}field .char-count-maxexceed
+{
+    color: $ametys-field-charcounter-color-error;
+}
+.#{$prefix}field .char-count-maxexceed.char-count-counting
+{
+    color: mix($ametys-field-charcounter-color-error, $ametys-field-charcounter-color-computing, 50%);
+}
+
+/**
+ * Field colors
+ */
 .a-tool-layout-zoned-focused {
     @for $i from 1 through length($ametys-tool-tab-colors) {
         $index: $i - 1;
@@ -47,6 +87,10 @@
         $active-color-light: nth($ametys-tool-tab-colors-light, $i);
         
         &.a-tool-layout-zoned-panel-#{$index*10} {
+            .#{$prefix}field.#{$prefix}field-focus .char-counter-wrapper {
+                border-color: $active-color;
+            }
+        
             .#{$prefix}form-trigger-wrap-default {
                 @if not $form-text-field-classic-border {
                     &.#{$prefix}form-trigger-wrap-focus {

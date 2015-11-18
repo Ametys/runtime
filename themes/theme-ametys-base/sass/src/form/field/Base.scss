@@ -14,28 +14,57 @@
  *  limitations under the License.
  */
 
-%ametys-enhancer {
-	width: 20px; 
-	min-height: $form-field-height; 
-	display: table-cell;
-	
-	background-repeat: no-repeat; 
-	background-position: center round(($form-field-height/2 - $ametys-form-field-description-background-image-height/2));
-}
-
 .ametys-description {
-    @extend %ametys-enhancer;
+    width: $ametys-form-field-description-background-image-width + horizontal($form-description-icon-side-margin); 
+    min-height: $form-field-height; 
+    display: table-cell;
     
+    background-repeat: no-repeat; 
+    background-position: center round(($form-field-height/2 - $ametys-form-field-description-background-image-height/2));
     background-image: theme-background-image($ametys-form-field-description-background-image); 
+    
+    div {
+        width: 100%;
+        height: $form-field-height; 
+    }
 }
 
 .ametys-comments {
-    @extend %ametys-enhancer;
+    width: $ametys-form-field-comment-background-image-width + horizontal($form-comments-icon-side-margin); 
+    min-height: $form-field-height; 
+    display: table-cell;
     
-	background-image: theme-background-image($ametys-form-field-comment-background-image); 
-	
+    background-repeat: no-repeat; 
+    background-position: center round(($form-field-height/2 - $ametys-form-field-comment-background-image-height/2));
+    background-image: theme-background-image($ametys-form-field-comment-background-image); 
     &.ametys-comments-empty {
     	background-image: theme-background-image($ametys-form-field-nocomment-background-image); 
+    }
+    
+    div {
+        width: 100%;
+        height: $form-field-height; 
+        cursor: pointer;
+    }
+}
+ul.ametys-tooltip-comment > li div.author-date
+{
+    white-space: nowrap;
+}
+ul.ametys-tooltip-comment > li div.comment-text
+{
+    padding-left: 15px;
+}
+
+.#{$prefix}form-item-label-top-wrapper {
+    .#{$prefix}form-item-label-default {
+        display: inline-block;
+    }
+    
+    .ametys-description, .ametys-comments {
+        background-position-y: $form-field-height - $ametys-form-field-comment-background-image-height - 5px;
+        display: inline-block;
+        float: right;
     }
 }
 
@@ -46,6 +75,11 @@
 	background-repeat: no-repeat; 
 	background-position: center round(($form-field-height/2 - $ametys-form-field-warning-background-image-height/2));
     display: table-cell;
+    
+    div {
+        width: 100%;
+        height: $form-field-height; 
+    }    
 }
 .#{$prefix}form-error-wrap-side {
     vertical-align: top;
@@ -56,18 +90,18 @@
 }
 
 .a-form-readable-text {
-	padding-top: round(($form-field-height - $font-size)/3);
+	padding: round(($form-field-height - $font-size)/3) 2px 0 5px;
 	overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
 .#{$prefix}form-empty .a-form-readable-text {
-	color: lighten($color, 35%);
+	color: lighten($form-field-color, 35%);
 }
 
 .ametys-field-hint {
-	color: lighten($color, 40%); 
+	color: lighten($form-field-color, 40%); 
 	font-size: $font-size*0.9;
 	font-style: italic;
 } 
