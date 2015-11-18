@@ -55,7 +55,12 @@ Ext.define(
 		
 		/**
 		 * @property {Boolean/Object} _refreshing=false An object determining the refresh state or false if not refreshing
-		 * @property {Boolean} _refreshing.disabled The _disabled member before the refreshing startss 
+		 * @property {Boolean} _refreshing.disabled The _disabled member before the refreshing starts
+		 */
+		
+		/**
+		 * @property {String[]} _referencedControllerIds The ids of the other controllers referenced by this controller (such as the menu or gallery items)
+		 * @private
 		 */
 		
 		/**
@@ -68,6 +73,8 @@ Ext.define(
 			this._toggleEnabled = this.getInitialConfig("toggle-enabled") == true || this.getInitialConfig("toggle-enabled") == 'true';
 			this._pressed = this.getInitialConfig("toggle-state") == true || this.getInitialConfig("toggle-state") == 'true';
 			this._refreshing = false;
+			
+			this._referencedControllerIds = [];
 
 			this._initialize(config);
 		},
@@ -239,13 +246,23 @@ Ext.define(
 							if (elmt != null)
 							{
 								gpItems.push(elmt.addGalleryItemUI());
+								if (!Ext.Array.contains(this._referencedControllerIds, elmt.getId()))
+								{
+									this._referencedControllerIds.push(elmt.getId());
+								}
+								
 							}
 						}
 						else if (items[j].className)
 						{
 							var elmt = Ext.create(items[j].className, Ext.applyIf(items[j].config, {id: this.getId() + '.group-.' + i + '-item' + j, pluginName: this.getPluginName()}));
 							Ametys.ribbon.RibbonManager.registerElement(elmt);		
-							gpItems.push(elmt.addGalleryItemUI());   
+							gpItems.push(elmt.addGalleryItemUI());  
+							
+							if (!Ext.Array.contains(this._referencedControllerIds, elmt.getId()))
+							{
+								this._referencedControllerIds.push(elmt.getId());
+							}
 						}
 					}
 					
@@ -330,6 +347,10 @@ Ext.define(
 					if (elmt != null)
 					{
 						menuItems.push(elmt.addMenuItemUI());
+						if (!Ext.Array.contains(this._referencedControllerIds, elmt.getId()))
+						{
+							this._referencedControllerIds.push(elmt.getId());
+						}
 					}
 				}
 			}
@@ -361,6 +382,15 @@ Ext.define(
 								 || element instanceof Ext.menu.Item; 
 				element.setTooltip(me._getTooltip(!isNotInRibbon));
 			});			
+		},
+		
+		/**
+		 * Get the ids of others controllers referenced by this controller (such as the menu or gallery items)
+		 * @return {String[]} the ids of others controllers
+		 */
+		getReferencedControllerIds: function ()
+		{
+			return this._referencedControllerIds;
 		},
 		
 		/**
@@ -492,7 +522,7 @@ Ext.define(
 				this._refreshing.disabled = false;
 			}
 		},
-        
+		
         /**
          * Called to prepare options for a #serverCall 
          * @param {Object} options See #serverCall for default options. This implementation additionnal have the following properties
