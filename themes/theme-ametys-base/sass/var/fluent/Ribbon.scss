@@ -51,6 +51,7 @@ $ametys-ribbon-header-textfield-font-size: dynamic($ametys-ribbon-font-size * 0.
 $ametys-ribbon-header-textfield-width: dynamic(16.25*$ametys-ribbon-header-textfield-font-size);
 $ametys-ribbon-header-textfield-border-color: $ametys-ribbon-base-dark-color;
 $ametys-ribbon-header-textfield-outline-color: $ametys-ribbon-highlight-color;
+$ametys-ribbon-header-textfield-padding: dynamic(3px 6px 2px);
 
 $ametys-ribbon-message-color: $ametys-color-hint;
 $ametys-ribbon-message-background-color: $ametys-background-color-hint;
