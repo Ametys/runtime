@@ -43,7 +43,7 @@ Ext.define('Ametys.plugins.core.groups.EditGroupHelper', {
 	 * @param {String} groupsManagerRole the role of groups manager. If null the default groups manager will be used.
 	 * @param {String} [groupMessageTargetType=group] the type of group message target
 	 * @param {Function} [callback] the callback function. Parameters are:
-	 * @param {Object} login callback.group The group's properties
+	 * @param {Object} callback.group The group's properties
 	 */
 	add: function (groupsManagerRole, groupMessageTargetType, callback)
 	{
@@ -61,7 +61,7 @@ Ext.define('Ametys.plugins.core.groups.EditGroupHelper', {
 	 * @param {String} groupsManagerRole the role of groups manager. If null default manager will be used.
 	 * @param {String} [groupMessageTargetType=group] the type of group message target
 	 * @param {Function} [callback] the callback function. Parameters are:
-	 * @param {Object} login callback.group The group's properties
+	 * @param {Object} callback.group The group's properties
 	 */
 	edit: function (id, groupsManagerRole, groupMessageTargetType, callback)
 	{

@@ -139,7 +139,7 @@ Ext.define('Ametys.form.widget.ComboBox', {
 	
     /**
      * Get the store configuration
-     * @param {Object} The current configuration object
+     * @param {Object} config The current configuration object
      * @return {Object} The store configuration
      */
     getStoreCfg: function(config)

@@ -131,7 +131,7 @@ Ext.define('Ametys.form.field.ChangePassword', {
     /**
      * @protected
      * Internal hook on field set disabled to add specific process in inherited classes
-     * @param {boolean} True is disabled
+     * @param {Boolean} disabled True is disabled
      */
     _onFieldSetDisabled: function(disabled)
     {

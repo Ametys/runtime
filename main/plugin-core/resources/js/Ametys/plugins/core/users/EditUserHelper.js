@@ -43,7 +43,7 @@ Ext.define('Ametys.plugins.core.users.EditUserHelper', {
 	 * @param {String} usersManagerRole the role of users manager. If null the default users manager will be used.
 	 * @param {String} [userMessageTargetType=user] the type of user message target
 	 * @param {Function} [callback] the callback function. Parameters are:
-	 * @param {Object} login callback.user The user's properties
+	 * @param {Object} callback.user The user's properties
 	 */
 	add: function (usersManagerRole, userMessageTargetType, callback)
 	{
@@ -61,7 +61,7 @@ Ext.define('Ametys.plugins.core.users.EditUserHelper', {
 	 * @param {String} usersManagerRole the role of users manager. If null default manager will be used.
 	 * @param {String} [userMessageTargetType=user] the type of user message target
 	 * @param {Function} [callback] the callback function. Parameters are:
-	 * @param {Object} login callback.user The user's properties
+	 * @param {Object} callback.user The user's properties
 	 */
 	edit: function (login, usersManagerRole, userMessageTargetType, callback)
 	{

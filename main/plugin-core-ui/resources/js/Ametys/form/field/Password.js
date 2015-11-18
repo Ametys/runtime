@@ -382,7 +382,7 @@ Ext.define('Ametys.form.field.Password', {
     /**
      * @protected
      * Internal hook on field set value to add specific process in inherited classes
-     * @param {String} The value set
+     * @param {String} value The value set
      */
     _onFieldSetValue: function(value)
     {
@@ -392,7 +392,7 @@ Ext.define('Ametys.form.field.Password', {
     /**
      * @protected
      * Internal hook on field set disabled to add specific process in inherited classes
-     * @param {boolean} True is disabled
+     * @param {Boolean} disabled True is disabled
      */
     _onFieldSetDisabled: function(disabled)
     {

@@ -40,7 +40,7 @@ Ext.define('Ametys.form.SaveHelper.SaveBeforeQuitDialog', {
 	/**
 	 * Show the dialog box
 	 * @param {String} title The dialog box's title. Can be null to use a generic title
-	 * @param {String} message The dialog box's explanatory message
+	 * @param {String} msg The dialog box's explanatory message
 	 * @param {String} icon the path of the icon to display in the dialog box
 	 * @param {Function} callback the callback function
      * @param {Boolean} callback.save true means the user want to save. false the user does not want to save. null the user does not want to save nor quit.

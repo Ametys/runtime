@@ -650,9 +650,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     /**
      * @private
      * Function invoked when a new tab is selected
-     * @param {Ext.tab.Panel} the tab panel
-     * @param {Ext.Component} the newly activated item
-     * @param {Ext.Component} the previously active item
+     * @param {Ext.tab.Panel} tabPanel the tab panel
+     * @param {Ext.Component} newCard the newly activated item
+     * @param {Ext.Component} oldCard the previously active item
      */
     _onTabChange: function(tabPanel, newCard, oldCard)
     {
@@ -1956,7 +1956,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     /**
      * @private
      * This function creates and add form elements from a XML definition
-     * @param {HTMLElement} metadataNode The XML definition of the form fields.
+     * @param {HTMLElement} data The XML definition of the form fields.
      * @param {String} prefix The input prefix to concatenate to input name
      * @param {Ext.Element} [ct=this] The container where to add the repeater
      * @param {Number} [offset=0] The field offset.

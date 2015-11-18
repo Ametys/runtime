@@ -181,7 +181,7 @@ Ext.define('Ametys.plugins.coreui.notification.NotificationTool', {
 	/**
 	 * @private
 	 * Delete the notification
-	 * @param {Ext.data.Record} the notification to delete
+	 * @param {Ext.data.Record} record the notification to delete
 	 */
 	_deleteNotification: function(record)
 	{
@@ -244,7 +244,6 @@ Ext.define('Ametys.plugins.coreui.notification.NotificationTool', {
      * @param {Ext.data.Store} store the store
      * @param {Ext.data.Model} record The Model instance that was updated
      * @param {String} operation The update operation being performed. Value may be one of:
-     *
      *     Ext.data.Model.EDIT
      *     Ext.data.Model.REJECT
      *     Ext.data.Model.COMMIT
@@ -252,7 +251,7 @@ Ext.define('Ametys.plugins.coreui.notification.NotificationTool', {
      * @param {Object} details An object describing the change. See the
      * {@link Ext.util.Collection#event-itemchange itemchange event} of the store's backing collection
      */
-	_notificationUpdated: function(store, record, operation, modifedFieldNames, details)
+	_notificationUpdated: function(store, record, operation, modifiedFieldNames, details)
 	{
 		var modifiedPanel = this._notificationsContainer.getComponent(record.get('id'));
 		

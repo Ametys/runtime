@@ -34,7 +34,7 @@ Ext.define('Ametys.plugins.core.profiles.EditProfileHelper', {
 	 * Open dialog box to create a new profile
 	 * @param {String} context The context. Can be null.
 	 * @param {Function} [callback] the callback function. Parameters are:
-	 * @param {Object}  callback.profile The profile's properties
+	 * @param {Object} callback.profile The profile's properties
 	 */
 	add: function (context, callback)
 	{
@@ -48,9 +48,8 @@ Ext.define('Ametys.plugins.core.profiles.EditProfileHelper', {
 	/**
 	 * Open dialog box to to edit profile's information
 	 * @param {String} id the id of profile to edit
-	 * @param {String} context The context. Can be null.
 	 * @param {Function} [callback] the callback function. Parameters are:
-	 * @param {Object} login callback.profile The profile's properties
+	 * @param {Object} callback.profile The profile's properties
 	 */
 	edit: function (id, callback)
 	{

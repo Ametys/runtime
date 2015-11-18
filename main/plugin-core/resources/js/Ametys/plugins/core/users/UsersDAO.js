@@ -267,10 +267,10 @@ Ext.define(
 		/**
 		 * @private
 		 * Callback function called after a user was created
-		 * @param {Object} response The server's response
-		 * @param {String} response.error if the user was not found
-		 * @param {String} response.name the name of the user
-		 * @param {String} response.login the login of the user		 		 
+		 * @param {Object} user The server's response
+		 * @param {String} user.error if the user was not found
+		 * @param {String} user.name the name of the user
+		 * @param {String} user.login the login of the user		 		 
 		 * @param {Object} args The callback arguments
 		 * @param {Object[]} params The callback parameters (server-side and client-side)
 		 */
