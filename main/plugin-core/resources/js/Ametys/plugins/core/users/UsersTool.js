@@ -79,6 +79,9 @@ Ext.define('Ametys.plugins.core.users.UsersTool', {
 	setParams: function(params)
 	{
 		this.callParent(arguments);
+		
+		this._initialSelectedUsers = params.selectedUsers || [];
+		
 		this.search();
 		
 		// Register the tool on the history tool
@@ -202,7 +205,8 @@ Ext.define('Ametys.plugins.core.users.UsersTool', {
 			sorters: [{property: 'displayName', direction:'ASC'}],
 			
 			listeners: {
-				beforeload: {fn: this._onBeforeLoad, scope: this}
+				beforeload: {fn: this._onBeforeLoad, scope: this},
+				load: {fn: this._onLoad, scope: this}
 			}
 			
 		}, this.getStoreConfig());
@@ -326,6 +330,34 @@ Ext.define('Ametys.plugins.core.users.UsersTool', {
 		}));
 	},
 	
+	/**
+	 * @private
+	 * Listener invoked after loading users
+	 * @param {Ext.data.Store} store the store
+	 * @param {Ext.data.Record[]} records the records of the store
+	 */
+	_onLoad: function(store, records)
+	{
+    	if (this._initialSelectedUsers.length > 0)
+    	{
+    		var records = [];
+    		var sm = this._grid.getSelectionModel();
+    		var store = this._grid.getStore();
+    		
+    		Ext.Array.each (this._initialSelectedUsers, function (login) {
+    			var index = store.find("id", login); 
+                if (index != -1)
+                {
+                	records.push(store.getAt(index));
+                }
+    		});
+    		
+    		sm.select(records);
+    		
+    		this._initialSelectedUsers = []; // reset
+    	}
+    },
+    
 	/**
 	 * Fires a event of selection on message bus, from the selected contents in the grid.
      * @param {Ext.selection.Model} model The selection model

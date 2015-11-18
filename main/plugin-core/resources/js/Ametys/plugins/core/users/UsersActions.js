@@ -29,8 +29,26 @@ Ext.define('Ametys.plugins.core.users.UsersActions', {
 	{
 		var usersManagerRole = controller.getInitialConfig('users-manager-role');
 		var userTargetType = controller.getInitialConfig('message-target-type') || Ametys.message.MessageTarget.USER;
+		var userToolRole = controller.getInitialConfig('users-tool-role');
 		
-		Ametys.plugins.core.users.EditUserHelper.add(usersManagerRole, userTargetType)
+		Ametys.plugins.core.users.EditUserHelper.add(usersManagerRole, userTargetType, Ext.bind (this._addCb, this, [userToolRole], 1));
+	},
+	
+	/**
+	 * Callback function invoked after user creation
+	 * @param {Object} user The created user
+	 * @param {String} userToolRole The role of users tool
+	 */
+	_addCb: function (user, userToolRole)
+	{
+		if (userToolRole)
+		{
+			var tool = Ametys.tool.ToolsManager.getTool(userToolRole);
+	    	if (tool == null)
+	    	{
+	    		Ametys.tool.ToolsManager.openTool(userToolRole, {selectedUsers: [user.login]});
+	    	}
+		}
 	},
 	
 	/**

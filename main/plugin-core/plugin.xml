@@ -622,6 +622,7 @@
                        class="org.ametys.plugins.core.user.ModifiableUsersClientSideElement">
                 <class name="Ametys.ribbon.element.ui.ButtonController">
                     <action>Ametys.plugins.core.users.UsersActions.add</action>
+                    <users-tool-role>uitool-users</users-tool-role>
                     <label i18n="true">PLUGINS_CORE_USERS_ADD_LABEL</label>
                     <default-description i18n="true">PLUGINS_CORE_USERS_ADD_DESCRIPTION</default-description>
                     <icon-small file="true">img/users/add_16.png</icon-small>
