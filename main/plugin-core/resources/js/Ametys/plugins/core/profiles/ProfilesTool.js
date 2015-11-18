@@ -120,6 +120,8 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
     setParams: function (params)
     {
 		this.callParent(arguments);
+		this._initialSelectedProfiles = params.selectedProfiles || [];
+		
 		this.refresh();
 		
 		var role = this.getFactory().getRole();
@@ -135,8 +137,6 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 			type: Ametys.navhistory.HistoryDAO.TOOL_TYPE,
 			action: Ext.bind(Ametys.tool.ToolsManager.openTool, Ametys.tool.ToolsManager, [role, toolParams], false)
         });
-        
-        this.callParent(arguments); 
     },
 	
 	createPanel: function()
@@ -283,12 +283,38 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 			
 			sortOnLoad: true,
 			sorters: [{property: 'label', direction:'ASC'}]
-			
 		}, this.getProfileStoreConfig());
 		
 		return Ext.create('Ext.data.Store', storeConfig);
 	},
 	
+	/**
+	 * @private
+	 * Listener invoked when the profiles store is loaded
+	 * @param {Ext.data.Store} store the profiles store
+	 * @param {Ext.data.Record[]} records the records of the store
+	 */
+	_onProfileStoreLoaded: function(store, records)
+	{
+    	if (this._initialSelectedProfiles.length > 0)
+    	{
+    		var records = [];
+    		var sm = this._profilesGrid.getSelectionModel();
+    		var store = this._profilesGrid.getStore();
+    		
+    		Ext.Array.each (this._initialSelectedProfiles, function (id) {
+    			var index = store.find("id", id); 
+                if (index != -1)
+                {
+                	records.push(store.getAt(index));
+                }
+    		});
+    		
+    		sm.select(records);
+    		
+    		this._initialSelectedProfiles = []; // reset
+    	}
+    },
 	
 	/**
 	 * @private
@@ -333,7 +359,11 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 				extraParams: {
 					limit: null // No pagination
 				}
-			}
+			},
+			
+			listeners: {
+				load: {fn: this._onProfileStoreLoaded, scope: this}
+			} 
 		};
 	},
 	

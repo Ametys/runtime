@@ -28,7 +28,20 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesActions', {
 	add: function (controller)
 	{
 		var context = controller.getInitialConfig('context');
-		Ametys.plugins.core.profiles.EditProfileHelper.add(context);
+		Ametys.plugins.core.profiles.EditProfileHelper.add(context, Ext.bind(this._addCb, this));
+	},
+	
+	/**
+	 * Callback function invoked after profile creation
+	 * @param {Object} profile The created profile
+	 */
+	_addCb: function (profile)
+	{
+		var tool = Ametys.tool.ToolsManager.getTool('uitool-profiles');
+    	if (tool == null)
+    	{
+    		Ametys.tool.ToolsManager.openTool('uitool-profiles', {selectedProfiles: [profile.id]});
+    	}
 	},
 	
 	/**
