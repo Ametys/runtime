@@ -15,6 +15,7 @@
  */
  
 $ametys-ribbon-menu-color: dynamic($ametys-ribbon-button-color);
+$ametys-ribbon-menu-emphase-color: dynamic(lighter($ametys-ribbon-button-color, 5%));
 $ametys-ribbon-menu-background-color: dynamic($ametys-ribbon-button-background-color);
 $ametys-ribbon-menu-active-color: dynamic($ametys-ribbon-button-color-over);
 $ametys-ribbon-menu-active-background-color: dynamic($ametys-ribbon-button-background-color-over);
@@ -24,4 +25,5 @@ $ametys-ribbon-menupanel-header-color: $ametys-ribbon-main-color;
 $ametys-ribbon-menupanel-header-font-size: $ametys-ribbon-font-size;
 $ametys-ribbon-menupanel-header-font-weight: bold;
 $ametys-ribbon-menupanel-header-padding: 5px;
+
  

@@ -212,10 +212,13 @@
 								    this.pipeline.add(lunr.deemphasize);
 								});
 								
-                    <xsl:for-each select="ribbon/controls/control">
+                    <xsl:for-each select="ribbon/tabs/tab/groups/group/medium//control">
+                            <xsl:variable name="id" select="@id"/>
                                try { 
                                		var control = Ametys.ribbon.RibbonManager.getElement("<xsl:value-of select="@id"/>");
+                                    var tabLabel = "<xsl:value-of select="/Ametys/workspace/ribbon/tabs/tab[groups/group/medium//control/@id = $id]/@label"/>";
                                		var menuItem = control.addMenuItemUI();
+                                    menuItem.text = '&lt;span class="a-ribbon-searchmenu-item-category"&gt;' + tabLabel + '&lt;/span&gt;' + menuItem.text;
                                		searchMenuItems.push(menuItem);
                                		index.add({
 									    id: menuItem.id,

@@ -47,3 +47,13 @@
     
     $ui-padding: 1px 1px 0 1px
 );
+
+.a-ribbon-searchmenu-item-category {
+    font-size: $menu-item-font-size * .9;
+    color: $ametys-ribbon-menu-emphase-color;
+}
+
+.a-ribbon-searchmenu-item-category:after {
+    content: " > ";
+    font-size: $menu-item-font-size;
+}
