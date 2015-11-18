@@ -15,4 +15,13 @@
  */
  
 $ametys-field-warning-color: $ametys-background-color-warn;
+
+$ametys-field-charcounter-font-size: $font-size * 0.8;
+$ametys-field-charcounter-color: lighten($form-field-color, 2%);
+$ametys-field-charcounter-color-computing: $form-field-empty-color;
+$ametys-field-charcounter-color-error: $ametys-background-color-error;
+$ametys-field-charcounter-background-color: #CFCFCF;
+
 $form-warning-icon-side-margin: $form-error-icon-side-margin;
+$form-description-icon-side-margin: $form-error-icon-side-margin;
+$form-comments-icon-side-margin: $form-error-icon-side-margin;
