@@ -18,8 +18,6 @@ package org.ametys.core.right;
 import java.util.Map;
 import java.util.Set;
 
-import org.ametys.runtime.right.RightsException;
-
 /**
  * Abstraction for testing a right associated with a resource and an user from a single source.
  * The implementations of {@link RightsManager} have to prefix all the given contexts by application the rights' context prefix except if null.
