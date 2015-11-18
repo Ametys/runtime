@@ -15,14 +15,16 @@
  */
 @include buttons-color(
     $ui: 'light',
+    $border-color: transparent, $border-color-over: transparent, $border-color-focus: transparent, $border-color-pressed: transparent, $border-color-focus-over: transparent, $border-color-focus-pressed: transparent, $border-color-disabled: transparent,
     $background-color: transparent, $background-color-focus: transparent, $background-color-disabled: transparent
 );    
 @include buttons-color(
     $ui: 'lighter',
+    $border-color: transparent, $border-color-over: transparent, $border-color-focus: transparent, $border-color-pressed: transparent, $border-color-focus-over: transparent, $border-color-focus-pressed: transparent, $border-color-disabled: transparent,
     $background-color: transparent, $background-color-over: transparent, $background-color-focus: transparent, $background-color-pressed: transparent, $background-color-focus-over: transparent, $background-color-focus-pressed: transparent, $background-color-disabled: transparent
 );    
-
-.a-tool-layout-zoned-notfocused { 
+/* FIXME For the moment, no color in tools */
+.a-tool-layout-zoned-notfocused, .a-tool-layout-zoned-focused {
     $color: $button-default-color;
     $color-over: $button-default-color-over;
     $color-focus: $button-default-color-focus;
@@ -69,7 +71,7 @@
         $background-color: transparent, $background-color-over: transparent, $background-color-focus: transparent, $background-color-pressed: transparent, $background-color-focus-over: transparent, $background-color-focus-pressed: transparent, $background-color-disabled: transparent
     );    
 }
-
+/*
 .a-tool-layout-zoned-focused {
     @for $i from 1 through length($ametys-tool-tab-colors) {
         $index: $i - 1;
@@ -128,3 +130,4 @@
         }
     }
 }
+*/

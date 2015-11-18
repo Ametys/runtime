@@ -98,6 +98,7 @@ ul.ametys-tooltip-comment > li div.comment-text
 
 .#{$prefix}form-empty .a-form-readable-text {
 	color: lighten($form-field-color, 35%);
+	font-style: italic;
 }
 
 .ametys-field-hint {
