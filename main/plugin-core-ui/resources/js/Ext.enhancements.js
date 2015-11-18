@@ -172,14 +172,27 @@
     
     
     var ametysLabelable =  {
-        afterOutterBodyEl: [  '<tpl if="renderWarning">',
-                            '<div id="{id}-warningWrapEl" data-ref="warningWrapEl" class="ametys-warning" style="display: none"><div style="width: 20px;"></div></div>',
-                        '</tpl>',
-                        '<tpl if="ametysDescription">',
-                            '<div id="{id}-descWrapEl" data-ref="descWrapEl" class="ametys-description" data-qtip="{ametysDescription}"><div style="width: 20px;"></div></div>',
-                        '</tpl>',
+        beforeLabelTpl: Ext.create("Ext.XTemplate", '<tpl if="topLabel &amp;&amp; fieldLabel"><div class="x-form-item-label-wrapper x-form-item-label-top-wrapper"></tpl>'),
+        afterLabelTpl: Ext.create("Ext.XTemplate", ['<tpl if="topLabel &amp;&amp; fieldLabel">',
                         '<tpl if="showAmetysComments == true">',
-                            '<div id="{id}-commentWrapEl" data-ref="commentWrapEl" class="ametys-comments ametys-comments-empty" data-qtip=""><div style="width: 20px;"></div></div>',
+                            '<div id="{id}-commentWrapEl" data-ref="commentWrapEl" class="ametys-comments ametys-comments-empty" data-qtip=""><div></div></div>',
+                        '</tpl>',        
+                        '<tpl if="ametysDescription">',
+                            '<div id="{id}-descWrapEl" data-ref="descWrapEl" class="ametys-description" data-qtip="{ametysDescription}"><div></div></div>',
+                        '</tpl>',
+            '</div></tpl>'
+        ]),
+        
+        afterOutterBodyEl: [  '<tpl if="renderWarning">',
+                            '<div id="{id}-warningWrapEl" data-ref="warningWrapEl" class="ametys-warning" style="display: none"><div></div></div>',
+                        '</tpl>',
+                        '<tpl if="!topLabel">',
+                            '<tpl if="ametysDescription">',
+                                '<div id="{id}-descWrapEl" data-ref="descWrapEl" class="ametys-description" data-qtip="{ametysDescription}"><div></div></div>',
+                            '</tpl>',
+                            '<tpl if="showAmetysComments == true">',
+                                '<div id="{id}-commentWrapEl" data-ref="commentWrapEl" class="ametys-comments ametys-comments-empty" data-qtip=""><div></div></div>',
+                            '</tpl>',
                         '</tpl>'
         ],    
         
@@ -217,6 +230,7 @@
             data.ametysDescription = this.ametysDescription;
             data.showAmetysComments = this.showAmetysComments;
             data.renderWarning = true;
+            data.topLabel = (this.labelAlign === 'top');
             
             return this.callParent(arguments);
         },
@@ -752,13 +766,15 @@
         publishInnerWidth: function (ownerContext, width) {
             var owner = this.owner;
             
-            if (owner.descWrapEl)
+            if (owner.labelAlign !== 'top' && owner.descWrapEl)
             {
+                // When label is not at top, description will reduce the space for field
                 width -= owner.descWrapEl.getWidth();
             }
             
-            if (owner.commentWrapEl)
+            if (owner.labelAlign !== 'top' && owner.commentWrapEl)
             {
+                // When label is not at top, comment will reduce the space for field
                 width -= owner.commentWrapEl.getWidth();
             }
             
