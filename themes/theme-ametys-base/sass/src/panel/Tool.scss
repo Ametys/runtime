@@ -32,3 +32,39 @@
         }
     }
 }
+
+.#{$prefix}tool-moveup {
+    @if $enable-font-icons and ($tool-toggle-up-glyph != null) {
+        @include font-icon($tool-toggle-up-glyph);
+        background: none;
+    } @else {
+        background-position: 0 ($tool-size * -25);
+    }
+}
+@if $tool-include-hover-icons {
+    .#{$prefix}tool-over {
+        @if (not $enable-font-icons) or ($tool-close-glyph == null) {
+            .#{$prefix}tool-moveup {
+                background-position: -$tool-size ($tool-size * -25);
+            }
+        }
+    }
+}
+
+.#{$prefix}tool-movedown {
+    @if $enable-font-icons and ($tool-toggle-down-glyph != null) {
+        @include font-icon($tool-toggle-down-glyph);
+        background: none;
+    } @else {
+        background-position: 0 ($tool-size * -26);
+    }
+}
+@if $tool-include-hover-icons {
+    .#{$prefix}tool-over {
+        @if (not $enable-font-icons) or ($tool-close-glyph == null) {
+            .#{$prefix}tool-movedown {
+                background-position: -$tool-size ($tool-size * -26);
+            }
+        }
+    }
+}

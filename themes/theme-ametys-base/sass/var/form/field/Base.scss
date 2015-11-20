@@ -17,6 +17,9 @@
 $form-field-border-color-error: dynamic($ametys-background-color-error);
 $form-field-border-color-warn: dynamic($ametys-background-color-warn);
 
+$form-field-tooltip-color-error: dynamic($ametys-background-color-error);
+$form-field-tooltip-color-warn: dynamic($ametys-background-color-warn);
+
 /*$form-field-font-size: $font-size / 12 * 14;
 $form-label-font-size: $form-field-font-size;
 $form-field-padding: dynamic(($form-field-font-size) $form-field-font-size ($form-field-font-size));

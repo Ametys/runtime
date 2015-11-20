@@ -1,0 +1,74 @@
+/*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+ 
+.a-configurable-form-panel {
+    .error.not-startup {
+        .#{$prefix}panel-header-title, .#{$prefix}tab-inner {
+            background-image: theme-background-image($form-error-icon-background-image);
+            background-position: left;
+            background-repeat: no-repeat;
+            padding-left: ($form-error-icon-width + 4px);
+        }
+    }
+
+    .warning.not-startup {
+        .#{$prefix}panel-header-title, .#{$prefix}tab-inner {
+            background-image: theme-background-image($ametys-form-field-warning-background-image); 
+            background-position: left;
+            background-repeat: no-repeat;
+            padding-left: ($ametys-form-field-warning-background-image-width + 4px);
+        }
+    }
+    
+    .a-repeater .#{$prefix}tool-error {
+        background-image: theme-background-image($form-error-icon-background-image);
+    } 
+    
+    .a-repeater.a-repeater-invalid .a-repeater-item {
+        > .#{$prefix}panel-header, > .#{$prefix}panel-body {
+            border-color: $form-field-border-color-error !important;
+        }
+    }
+}
+
+.a-configurable-form-panel-tooltip {
+    .a-configurable-form-panel-tooltip-status {
+        ul.error, ul.warn, ul.comment {
+            padding-left: 30px;
+            margin: 3px 0 6px 0;
+        }
+        
+        .a-configurable-form-panel-tooltip-status-error-label {
+            color: $form-field-tooltip-color-error;
+            font-weight: bold;
+        }
+        
+        .a-configurable-form-panel-tooltip-status-warn-label {
+            color: $form-field-tooltip-color-warn;
+            font-weight: bold;
+        }        
+        
+        .a-configurable-form-panel-tooltip-status-comment-label {
+            font-weight: bold;
+        }
+    }
+}
+
+.a-repeater-invalid-tooltip {
+    background-image: theme-background-image($form-error-icon-background-image);
+    background-repeat: no-repeat;
+    padding-left: ($ametys-form-field-warning-background-image-width + 4px);
+}
