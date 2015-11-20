@@ -113,7 +113,14 @@ org.ametys.administration.Config.addInputField = function (ct, type, name, value
     
 	if (enumeration != null)
 	{
-	    field = org.ametys.administration.Config._createTextField (name, value, label, description, enumeration, mandatory == 'true', null);
+		if (widget != '')
+		{
+			 field = org.ametys.administration.Config._createWidgetField(widget, name, value, label, description, enumeration, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText);
+		}
+		else
+		{
+			field = org.ametys.administration.Config._createTextField (name, value, label, description, enumeration, mandatory == 'true', null);
+		}
 	}
 	else
 	{
@@ -137,7 +144,7 @@ org.ametys.administration.Config.addInputField = function (ct, type, name, value
 			default:
 				if (widget != '')
 				{
-					 field = org.ametys.administration.Config._createWidgetField(widget, name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText);
+					 field = org.ametys.administration.Config._createWidgetField(widget, name, value, label, description, null, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText);
 				}
 				else
 				{
@@ -369,6 +376,45 @@ org.ametys.administration.Config._createBooleanField = function (name, value, la
 	});
 }
 
+/** ------------------ MultiSelect Widget ---------------------- */
+org.ametys.administration.widget.MultiSelectWidget = function(config, enumeratedValues) 
+{
+	config.width = 250;
+	
+	if (!config.height)
+	{
+		if (enumeratedValues.length &lt;= 3)
+		{
+			config.height = 65;
+		}
+		else if (enumeratedValues.length &lt;= 4)
+		{
+			config.height = 85;
+		}
+		else
+		{
+			config.height = 102; // default height
+		}
+	}
+	
+	config.valueField = 'value';
+	config.displayField = 'displayText';
+	config.mode = 'local';
+	
+	// The store
+	config.store = new Ext.data.ArrayStore ({
+		id: 0,
+		fields: ['value', 'displayText'],
+		data: enumeratedValues
+	})
+	
+	org.ametys.administration.widget.MultiSelectWidget.superclass.constructor.call (this, config);
+}
+Ext.extend(org.ametys.administration.widget.MultiSelectWidget, org.ametys.form.MultiSelectField, {
+	xtype: 'multiselect'
+});
+org.ametys.administration.Config.registerWidget ('multiselect', 'org.ametys.administration.widget.MultiSelectWidget');
+
 org.ametys.administration.Config._createTextField = function (name, value, label, description, enumeration, mandatory, regexp, invalidText)
 {
 	if (enumeration != null)
@@ -437,7 +483,7 @@ org.ametys.administration.Config._createTextField = function (name, value, label
 	}
 }
 
-org.ametys.administration.Config._createWidgetField = function (widgetId, name, value, label, description, mandatory, regexp, invalidText)
+org.ametys.administration.Config._createWidgetField = function (widgetId, name, value, label, description, enumeration, mandatory, regexp, invalidText)
 {
 	var widgetCfg = {
 			name: name,
@@ -472,7 +518,7 @@ org.ametys.administration.Config._createWidgetField = function (widgetId, name, 
 	};
 	
 	var widgetClass = org.ametys.administration.Config._widgets[widgetId];
-	return eval('new ' + widgetClass + '(widgetCfg)');
+	return eval('new ' + widgetClass + '(widgetCfg, enumeration)');
 }
 
 /**
