@@ -22,7 +22,8 @@ import java.util.Set;
 
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
+
+import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 
 /**
  * Abstract implementation of an extension point.<br>

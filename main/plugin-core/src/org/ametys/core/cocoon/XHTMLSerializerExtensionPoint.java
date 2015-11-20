@@ -21,7 +21,6 @@ import java.util.Set;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.logger.Logger;
 
 import org.ametys.runtime.plugin.AbstractExtensionPoint;
 
@@ -33,15 +32,7 @@ public class XHTMLSerializerExtensionPoint extends AbstractExtensionPoint<String
     /** The avalon role */
     public static final String ROLE = XHTMLSerializerExtensionPoint.class.getName(); 
     
-    private Logger _logger;
-    
     private Set<String> _allowedNamespaces;
-    
-    @Override
-    public void enableLogging(Logger logger)
-    {
-        _logger = logger;
-    }
     
     @Override
     public void addExtension(String id, String pluginName, String featureName, Configuration configuration) throws ConfigurationException
@@ -49,9 +40,9 @@ public class XHTMLSerializerExtensionPoint extends AbstractExtensionPoint<String
         String namespace = configuration.getChild("namespace-allowed").getValue("");
         _extensions.put(id, namespace);
         
-        if (_logger.isDebugEnabled())
+        if (getLogger().isDebugEnabled())
         {
-            _logger.debug("Adding namespace '" + namespace + "' from '" + pluginName + "/" + featureName + "/" + id + "'.");
+            getLogger().debug("Adding namespace '" + namespace + "' from '" + pluginName + "/" + featureName + "/" + id + "'.");
         }
     }
 
