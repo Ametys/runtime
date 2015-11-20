@@ -59,7 +59,7 @@ Open source web application framework based on Apache Cocoon.
     <dependency org="org.apache.commons" name="commons-compress" rev="1.9" transitive="false" conf="common_dependencies->default"/>
     <dependency org="org.apache.commons" name="commons-lang3" rev="3.4" conf="common_dependencies->default"/>
 	
-    <dependency org="org.apache.ibatis" name="ibatis-sqlmap" rev="2.3.0" conf="common_dependencies->default"/>
+    <dependency org="org.mybatis" name="mybatis" rev="3.3.0" conf="common_dependencies->default"/>
     <dependency org="org.codehaus.jackson" name="jackson-mapper-asl" rev="1.9.13" conf="common_dependencies->default"/>
     <dependency org="net.coobird" name="thumbnailator" rev="0.4.8" conf="common_dependencies->default"/>
     <dependency org="javax.mail" name="mail" rev="1.4.7" conf="common_dependencies->default"/>
