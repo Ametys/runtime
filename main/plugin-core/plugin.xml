@@ -293,9 +293,6 @@
                          class="org.ametys.runtime.cocoon.SitemapConfigurationExtensionPoint"
                          safe="true"/>
 
-        <extension-point id="org.ametys.core.sqlmap.SqlMapExtensionPoint"
-                         class="org.ametys.core.sqlmap.SqlMapExtensionPoint"/>
-
         <extension-point id="org.ametys.core.cocoon.XHTMLSerializerExtensionPoint"
                          class="org.ametys.core.cocoon.XHTMLSerializerExtensionPoint"
                          safe="true"/>
