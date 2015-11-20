@@ -19,6 +19,12 @@ $button-medium-border-radius: dynamic(0);
 $button-large-border-radius: dynamic(0);
 $button-grid-cell-border-radius: dynamic(0);
 
+$button-small-font-weight: normal;  
+$button-medium-font-weight: normal;  
+$button-large-font-weight: normal;  
+
+$button-default-color: $ametys-tool-tab-gray-superdark;  
+
 $button-default-background-gradient: dynamic(null);
 $button-default-background-gradient-over: dynamic(null);
 $button-default-background-gradient-pressed: dynamic(null);
