@@ -1,3 +1,9 @@
+Runtime - Version 2.7.3 (November 20, 2015)
+
+Bug:
+  RUNTIME-1289 : Mistakes on the message on the plugin management screen
+
+-------------------------------------------------------------
 RUNTIME - Version 2.7.2 (September 28, 2015)
 
 Bug:
