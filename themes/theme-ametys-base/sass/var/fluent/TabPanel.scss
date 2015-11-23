@@ -18,14 +18,14 @@ $ametys-ribbon-tabpanel-font-size: dynamic($ametys-ribbon-font-size);
 $ametys-ribbon-tabpanel-font-weight: normal;
 $ametys-ribbon-tabpanel-height: $ametys-ribbon-tabpanel-font-size*2;
 
+$ametys-ribbon-tabpanel-active-color: $ametys-ribbon-highlight-color;
+$ametys-ribbon-tabpanel-active-background-color: $ametys-ribbon-tab-color;
+$ametys-ribbon-tabpanel-active-border-color: $ametys-ribbon-tabpanel-bottom-border-color;
+
 $ametys-ribbon-tabpanel-highlight-color: $ametys-ribbon-highlight-color;
 $ametys-ribbon-tabpanel-color: $ametys-ribbon-main-color;
 $ametys-ribbon-tabpanel-background-color: $ametys-ribbon-base-color;
 $ametys-ribbon-tabpanel-bottom-border-color: darken($ametys-ribbon-tabpanel-active-background-color, 6%);
-
-$ametys-ribbon-tabpanel-active-color: $ametys-ribbon-highlight-color;
-$ametys-ribbon-tabpanel-active-background-color: $ametys-ribbon-tab-color;
-$ametys-ribbon-tabpanel-active-border-color: $ametys-ribbon-tabpanel-bottom-border-color;
 
 $ametys-ribbon-tabpanel-over-color: mix($ametys-ribbon-tabpanel-color, $ametys-ribbon-tabpanel-active-color, 50%);
 $ametys-ribbon-tabpanel-over-background-color: mix($ametys-ribbon-tabpanel-background-color, $ametys-ribbon-tabpanel-active-background-color, 50%);
