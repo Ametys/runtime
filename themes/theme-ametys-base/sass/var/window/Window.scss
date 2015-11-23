@@ -19,6 +19,9 @@ $window-base-color: dynamic($ametys-highlight-color);
 $ametys-window-text-color: lighten($color, 20%);
 $ametys-window-text-background-color: dynamic(transparent);
 
+$ametys-window-text-color-light: lighten($color, 35%);
+$ametys-window-text-background-color-light: dynamic(transparent);
+
 $ametys-window-text-warning-color: dynamic($ametys-background-color-warn);
 $ametys-window-text-warning-background-color: dynamic($ametys-color-warn);
 

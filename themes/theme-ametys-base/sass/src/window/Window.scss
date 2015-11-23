@@ -37,6 +37,10 @@
     color: $ametys-window-text-color;
     background-color: $ametys-window-text-background-color;
 }
+.#{$prefix}window .a-text-light {
+    color: $ametys-window-text-color-light;
+    background-color: $ametys-window-text-background-color-light;
+}
 .#{$prefix}window .a-text-warning {
 	color: $ametys-window-text-warning-color;
 	background-color: $ametys-window-text-warning-background-color;
