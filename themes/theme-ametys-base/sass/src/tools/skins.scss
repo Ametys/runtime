@@ -1,0 +1,103 @@
+/*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+.uitool-skins {
+	.skin-item {
+		display: inline-block;
+		vertical-align: top;
+		padding: $ametys-tool-font-size/3;
+		margin: $ametys-tool-font-size/1.25;
+		margin-left: 0px;
+		border: 1px solid #FFFFFF;
+		font-size: $ametys-tool-font-size;
+		line-height: $ametys-tool-font-size*1.25;
+		width: $ametys-tool-font-size/12 * 270;
+		height: ($ametys-tool-font-size*1.25*5) /* line-heightx4 */ + ($ametys-tool-font-size/3*2) /* y-padding */ + 2 /* border */;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	
+	.skin-item.x-view-item-focused {
+		outline: none !important;
+	}
+	
+	.skin-item .text {
+		display: inline-block;
+		vertical-align: top;
+		width: ($ametys-tool-font-size/12 * 270) - ($ametys-tool-font-size/3*2) /* x-padding */ - 2 /* border */ - 48 /* image width */ - ($ametys-tool-tab-font-size/2) /* image margin */;
+	}
+	
+	.skin-item img {
+		display: inline-block;
+		margin-right: $ametys-tool-tab-font-size/2; 
+		vertical-align: top;
+	}
+	
+	.skin-item .title {
+		font-weight: bold;
+	}
+	
+	.filter.x-btn {
+		color: $ametys-color-warn;
+		background-color: $ametys-background-color-warn;
+		border: none;
+	}
+}
+
+.a-tool-layout-zoned-notfocused .uitool-skins { 
+	.skin-item {
+      	background-color: lighten($ametys-tool-tab-gray-light, 5%);
+      	border-color: $ametys-tool-tab-gray-light;
+    }
+       
+   	.skin-item.x-item-selected {
+		background-color: $ametys-tool-tab-gray-light;
+		border-color: $ametys-tool-tab-gray;
+	}
+		
+	.skin-item.x-view-over {
+		background-color: $ametys-tool-tab-gray-light;
+		border-color: $ametys-tool-tab-gray;
+	}
+}
+
+@for $i from 1 through length($ametys-tool-tab-colors) {
+    $index: $i - 1;
+
+    $active-color-dark: nth($ametys-tool-tab-colors-dark, $i);
+    $active-color: nth($ametys-tool-tab-colors, $i);
+    $active-color-light: nth($ametys-tool-tab-colors-light, $i);
+    
+    .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-#{$index*10} .uitool-skins {
+
+		.skin-item {
+        	background-color: lighten($active-color-light, 20%);
+        	border-color: lighten($active-color-light, 10%);
+        }
+	        
+        .skin-item.x-item-selected {
+			background-color: lighten($active-color, 35%);
+			border-color: lighten($active-color, 25%);
+		}
+			
+		.skin-item.x-view-over {
+			background-color: lighten($active-color, 40%);
+			border-color: lighten($active-color, 30%);
+		}
+    }
+}    
+
+ 
