@@ -99,6 +99,7 @@ Ext.define(
              * @param {String} config.text The main text of the tooltip. Can contains html tags
              * @param {String} [config.helpId] The optionnal help identifier that is linked to an url to be displayed in the help too.
              * @param {Number} [config.dismissDelay=20000] The time before the tooltip automatically disapear is the mouse stay over the element
+             * @param {HTMLElement/Ext.dom.Element/String} [config.target] The target element or string id to monitor for mouseover events to trigger showing this ToolTip.
              * @param {Boolean} [config.inribbon=true] Is the tooltip applying for a component of the ribbon? Default to true. It does matter to vertically align the tooltip to the ribbon.
              * @return {Object} A configuration for tooltip
              */
@@ -122,6 +123,7 @@ Ext.define(
                         title: config.title,
                         text: this.tipTemplate.apply(config),
                             
+                        target: config.target,
                         showDelay: 900,
                         dismissDelay: config.dismissDelay ? config.dismissDelay : 20000,
                         helpId: config.helpId, // can be undefined
