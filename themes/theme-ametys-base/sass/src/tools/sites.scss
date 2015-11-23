@@ -13,3 +13,14 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+
+.sitetype-item {
+	max-width: 120px;
+	min-width: 80px;
+	height: $font-size*1.25*2 /* line-height x 2 */ + 48 /* image height */ +  $font-size/3*2 /* y-padding */ + 2 /* border */;
+	text-align: center;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+

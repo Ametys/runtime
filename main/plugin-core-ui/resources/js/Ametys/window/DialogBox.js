@@ -57,7 +57,7 @@ Ext.define(
 		cls: 'ametys-dialogbox',
 		
 		/**
-		 * @cfg {Boolean} staticHeight=false Set to 'true' to freeze the dialog height after first rendering. This option is useful for wizard to avoid that the dialog box changes its size during navigation. When using this option, do not set #cfg-height, but consider using #cfg-minHeight and #cfg-maxHeight.
+		 * @cfg {Boolean} freezeHeight=false Set to 'true' to freeze the dialog height after first rendering. This option is useful for wizard to avoid that the dialog box changes its size during navigation. When using this option, do not set #cfg-height, but consider using #cfg-minHeight and #cfg-maxHeight.
 		 */
 		freezeHeight: false,
 		
