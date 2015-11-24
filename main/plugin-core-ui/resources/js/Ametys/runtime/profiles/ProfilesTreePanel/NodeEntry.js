@@ -82,15 +82,17 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel.NodeEntry', {
 		{name: 'inherit', mapping: '@inherit', type: 'boolean'},
 		{
 			name: 'cls', 
-			mapping: '@inherit', 
-			convert: function (v, record) {
-				return record && record.get('inherit') ? 'inherit' : '';
+			depends: ['text', 'inherit'],
+			calculate: function(data) {
+				console.info(data.text + " : " + data.inherit);
+				return data.inherit ? 'grayed' : '';
 			}
 		},
 		{
-			name: 'iconCls', 
+			name: 'icon', 
+			depends: ['type'],
 			calculate: function(data) {
-				return data ? 'tree-icon-' + data.type : '';
+				return Ametys.getPluginResourcesPrefix('core-ui') + '/img/profiles/' + data.type + '_16.png'
 			}
 		},
 		{

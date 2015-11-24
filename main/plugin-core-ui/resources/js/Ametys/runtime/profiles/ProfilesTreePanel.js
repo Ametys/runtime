@@ -179,33 +179,44 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 	_getDockedItems: function ()
 	{
 		return [{
-			xtype: 'toolbar',
-			cls: 'profile-toolbar',
 			dock: 'top',
+			xtype: 'component',
+			ui: 'tool-hintmessage',
+			itemId: 'context-helper-text'
+		},{
+			dock: 'top',
+			xtype: 'toolbar',
+            layout: { 
+                type: 'hbox',
+                align: 'stretch'
+            },
+			border: false,
+			defaultType: 'button',
 			items: [
 				{
-					// Search input field
+					// Filter input
 					xtype: 'textfield',
 					name: 'textfield',
-					width: 250,
+					cls: 'ametys',
+					flex: 1,
+                    maxWidth: 400,
+                    minLength: 3,
+                    minLengthText: "<i18n:text i18n:key='PLUGINS_CORE_UI_PROFILES_TREE_FILTER_INVALID'/>",
 					emptyText: "<i18n:text i18n:key='PLUGINS_CORE_UI_PROFILES_TREE_FILTER_BY_NAME'/>",
-					hideLabel: true,
-					enableKeyEvents: true,
-					listeners: {
-						keyup: Ext.bind (this._onKeyUp, this)
-					}
+					listeners: {change: Ext.Function.createBuffered(this._filter, 500, this)},
 				},
-				' ',
-				'-', 
+				{
+                    xtype: 'tbspacer',
+                    flex: 0.0001
+                },
 				{
 					// See inheritance
 					tooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_PROFILES_TREE_BTN_INHERITANCE_TOOLTIP'/>",
 					enableToggle: true,
 					toggleHandler: Ext.bind (this._seeInheritance, this),
 					pressed: true,
-					scope: this,
 					icon: Ametys.getPluginResourcesPrefix('core') + '/img/profiles/actions/inheritance_16.gif',
-					cls: 'x-btn-text-icon'
+					ui: 'light'
 				}, 
 				{
 					// Up to parent context
@@ -213,33 +224,23 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 					tooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_PROFILES_TREE_BTN_UPTOCONTEXT_TOOLTIP'/>",
 					handler: Ext.bind (this._upToContext, this),
 					disabled : true,
-					scope: this,
 					icon: Ametys.getPluginResourcesPrefix('core') + '/img/profiles/actions/up_16.png',
-					cls: 'x-btn-text-icon'
+					ui: 'light'
 				},
 				'-', 
 				{
 					// Expand tool
 					tooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_PROFILES_TREE_BTN_EXPAND_TOOTIP'/>",
 					handler: Ext.bind (this._expandAll, this),
-					scope: this,
 					icon: Ametys.getPluginResourcesPrefix('core') + '/img/profiles/actions/expand-all.gif',
-					cls: 'x-btn-text-icon'
+					ui: 'light'
 				}, 
 				{
 					// Collapse tool
 					tooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_PROFILES_TREE_BTN_COLLAPSE_TOOTIP'/>",
 					handler: Ext.bind (this._collapseAll, this),
-					scope: this,
 					icon: Ametys.getPluginResourcesPrefix('core') + '/img/profiles/actions/collapse-all.gif',
-					cls: 'x-btn-text-icon'
-				},
-				'-',
-				{
-					// Hint for context
-					xtype: 'component',
-					cls: 'hint',
-					id: 'context-helper-text'
+					ui: 'light'
 				}
 			]
 		}]
@@ -346,6 +347,8 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 		}
 		
 		operation.setParams( Ext.apply(operation.getParams(), this._loadParams) );
+		
+		console.info('load with context ' + this._context);
 	},
 	
 	/**
@@ -468,7 +471,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 	 */
 	updateContextHelperText: function(text)
 	{
-		var hintPanel = this.getDockedItems('toolbar[dock="top"]')[0].child('#context-helper-text');
+		var hintPanel = this.getDockedItems('#context-helper-text')[0];
 		if (hintPanel)
 		{
 			hintPanel.update(text);
@@ -599,7 +602,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 	 * Filters the tree nodes by entered text.
 	 * @param {Ext.form.field.Text} field This text field
 	 */
-	_onKeyUp: function(field)
+	_filter: function(field)
 	{
 		var val = Ext.String.escapeRegex(field.getRawValue());
 		
