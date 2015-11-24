@@ -1,0 +1,143 @@
+/*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+ 
+.uitool-admin-jvmstatus, .uitool-admin-monitoring {
+    .#{$prefix}panel {
+        margin: 10px;
+        
+        .#{$prefix}panel-body {
+            padding: 10px;
+        }
+    }
+}
+
+.uitool-admin-jvmstatus {
+    .label 
+    {
+        font-weight: bold;
+        float: left;
+        width: $font-size * 12;
+        
+        &.help {
+            padding-right: $font-size + $ametys-form-field-description-background-image-width;
+            background-image: theme-background-image($ametys-form-field-description-background-image);
+            background-position: ($font-size * (12 - 1) - $ametys-form-field-description-background-image-width) center;
+            background-repeat: no-repeat;
+        }
+    }
+    
+    button {
+        background-color: transparent;
+        border-width: 0;
+        vertical-align: top;
+        cursor: pointer;
+        width: 32px + $font-size;
+        height: 32px + $font-size;
+        margin-left: 10px;
+        
+        img {
+            vertical-align: middle;
+        }
+    }
+    
+    .legend 
+    {
+        text-align: right;
+        width: $font-size * 12 + 320px;
+        
+        div 
+        {
+            width: 10px;
+            height: 10px;
+            vertical-align: baseline;
+            display: inline-block;
+            margin-left: 10px;
+            margin-right: 2px;
+        }
+    }
+    
+    #totalMemImg, #freeMemImg, #maxMemImg {
+        display: inline-block;
+        height: $font-size * 2.2;
+        margin-top: 10px;
+    }
+    #totalMem2Img, #freeMem2Img, #maxMem2Img {
+        display: inline-block;
+        height: $font-size * 1.1;
+    }
+    
+    #totalMemImg, #totalMem2Img, #totalMemImg-legend {
+        background-color: #9f1c74;
+    }
+    #freeMemImg, #freeMem2Img, #freeMemImg-legend {
+        background-color: #19558d;
+    }
+    #maxMemImg, #maxMem2Img, #maxMemImg-legend {
+        background-color: #E5E5E5;
+    }
+}
+
+.uitool-admin-monitoring {
+    .monitoring {
+        text-align: center;
+        vertical-align: top;
+    }
+    
+    .monitoring img {
+        vertical-align: top;
+        width: 491px;
+        height: 273px;
+    }
+    
+    .monitoring button {
+        background-color: #ffffff; 
+        border: 2px solid #dcdcdc; 
+        width: 30px; 
+        height: 273px;
+    }
+}
+
+.a-tool-layout-zoned-notfocused {
+    .uitool-admin-jvmstatus, .uitool-admin-monitoring {
+        .label {
+            color: $ametys-tool-tab-gray-dark;
+        }
+    
+        button.over {
+            background-color: $ametys-tool-tab-gray-dark;
+        }
+    }    
+}
+
+@for $i from 1 through length($ametys-tool-tab-colors) {
+    $index: $i - 1;
+
+    $active-color-dark: nth($ametys-tool-tab-colors-dark, $i);
+    $active-color: nth($ametys-tool-tab-colors, $i);
+    $active-color-light: nth($ametys-tool-tab-colors-light, $i);
+    
+    .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-#{$index*10} { 
+        .uitool-admin-jvmstatus, .uitool-admin-monitoring {
+            .label {
+                color: $active-color-dark;
+            }
+            
+            button.over {
+                background-color: $active-color-dark;
+            }
+        }
+    }
+}
