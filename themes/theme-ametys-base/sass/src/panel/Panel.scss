@@ -14,7 +14,29 @@
  *  limitations under the License.
  */
 
-%colored-as-panel-body, .#{$prefix}container-panel, .#{$prefix}component-panel  {
+.#{$prefix}container.a-panel-spacing, .#{$prefix}container.a-panel-text, .#{$prefix}container.a-panel-text-empty,
+.#{$prefix}component.a-panel-spacing, .#{$prefix}component.a-panel-text, .#{$prefix}component.a-panel-text-empty,
+.#{$prefix}panel.a-panel-spacing .#{$prefix}panel-body, .#{$prefix}panel.a-panel-text .#{$prefix}panel-body, .#{$prefix}panel.a-panel-text-empty .#{$prefix}panel-body
+{
+	padding: $panel-body-font-size;
+}
+
+.#{$prefix}container.a-panel-text, .#{$prefix}container.a-panel-text-empty,
+.#{$prefix}component.a-panel-text, .#{$prefix}component.a-panel-text-empty,
+.#{$prefix}panel.a-panel-text .#{$prefix}panel-body, .#{$prefix}panel.a-panel-text-empty .#{$prefix}panel-body
+{
+	line-height: $panel-body-font-size*1.5;
+}
+
+.#{$prefix}container.a-panel-text-empty,
+.#{$prefix}component.a-panel-text-empty,
+.#{$prefix}panel.a-panel-text-empty .#{$prefix}panel-body
+{
+	color: lighten($panel-body-color, 35%);
+}
+
+
+.#{$prefix}container-panel, .#{$prefix}component-panel {
     border-color: $panel-border-color;
     border-style: solid;
     background-color: $panel-body-background-color;  
@@ -69,55 +91,6 @@
 		$ui-header-color: $panel-light-header-color,
     	$ui-header-background-color: transparent
     );   
-    
-    @include extjs-panel-ui(
-        $ui: 'text-light',
-
-		$ui-border-color: $panel-light-border-color,
-        $ui-body-border-color: $panel-light-body-border-color,
-        $ui-header-border-color: $panel-light-header-border-color,
-        $ui-header-font-family: $panel-light-header-font-family,
-        $ui-header-font-size: $panel-light-header-font-size,
-        $ui-header-font-weight: $panel-light-header-font-weight,
-        $ui-header-text-transform: $panel-light-header-text-transform,
-        $ui-header-glyph-color: $panel-light-header-glyph-color,
-        $ui-tool-background-image: $panel-light-tool-background-image,
-        $ui-tool-glyph-color: $panel-light-tool-glyph-color,
-        $ui-tool-focus-outline-color: $panel-light-tool-focus-outline-color,
-	        
-		$ui-header-color: $panel-light-header-color,
-    	$ui-header-background-color: transparent
-    );  
-    
-    @include extjs-panel-ui(
-        $ui: 'text-light-framed',
-
-		$ui-border-color: $panel-light-frame-border-color,
-        $ui-border-width: $panel-frame-border-width,
-        $ui-border-radius: $panel-frame-border-radius,
-        $ui-padding: $panel-frame-padding,
-
-        $ui-header-font-family: $panel-light-header-font-family,
-        $ui-header-font-size: $panel-light-header-font-size,
-        $ui-header-font-weight: $panel-light-header-font-weight,
-        $ui-header-text-transform: $panel-light-header-text-transform,
-
-        $ui-header-border-color: $panel-light-frame-border-color,
-        $ui-header-border-width: $panel-frame-header-border-width,
-        $ui-header-padding: $panel-frame-header-padding,
-        $ui-header-glyph-color: $panel-light-header-glyph-color,
-
-        $ui-tool-background-image: $panel-light-tool-background-image,
-        $ui-tool-glyph-color: $panel-light-tool-glyph-color,
-        $ui-tool-focus-outline-color: $panel-light-tool-focus-outline-color,
-
-        $ui-body-border-width: $panel-frame-body-border-width,
-        $ui-body-border-color: $panel-light-body-border-color,
-        $ui-body-background-color: $panel-frame-background-color,
-        
-		$ui-header-color: $panel-light-header-color,
-    	$ui-header-background-color: transparent
-    );           
 }
 
 @for $i from 1 through length($ametys-tool-tab-colors) {
@@ -129,7 +102,7 @@
     
     .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-#{$index*10} {
         // Other component stuff
-        %colored-as-panel-body, .#{$prefix}container-panel, .#{$prefix}component-panel {
+        .#{$prefix}container-panel, .#{$prefix}component-panel, .#{$prefix}container-panel-text, .#{$prefix}component-panel-text, .#{$prefix}container-panel-text-empty, .#{$prefix}component-panel-text-empty {
             border-color: $active-color;
             border-style: solid;
             background-color: lighten($active-color-light, 30%);  
@@ -215,67 +188,6 @@
             $ui-header-color: $active-color,
         	$ui-header-background-color: transparent
         );
-        
-        @include extjs-panel-ui(
-            $ui: 'text-light',
-    
-    		$ui-border-color: $panel-light-border-color,
-	        $ui-body-border-color: $panel-light-body-border-color,
-	        $ui-header-border-color: $panel-light-header-border-color,
-	        $ui-header-font-family: $panel-light-header-font-family,
-	        $ui-header-font-size: $panel-light-header-font-size,
-	        $ui-header-font-weight: $panel-light-header-font-weight,
-	        $ui-header-text-transform: $panel-light-header-text-transform,
-	        $ui-header-glyph-color: $panel-light-header-glyph-color,
-	        $ui-tool-background-image: $panel-light-tool-background-image,
-	        $ui-tool-glyph-color: $panel-light-tool-glyph-color,
-	        $ui-tool-focus-outline-color: $panel-light-tool-focus-outline-color,
-	        
-            $ui-header-color: $active-color,
-        	$ui-header-background-color: transparent
-        );  
-        
-        @include extjs-panel-ui(
-            $ui: 'text-light-framed',
-    		
-    		$ui-border-color: $panel-light-frame-border-color,
-	        $ui-border-width: $panel-frame-border-width,
-	        $ui-border-radius: $panel-frame-border-radius,
-	        $ui-padding: $panel-frame-padding,
-	
-	        $ui-header-font-family: $panel-light-header-font-family,
-	        $ui-header-font-size: $panel-light-header-font-size,
-	        $ui-header-font-weight: $panel-light-header-font-weight,
-	        $ui-header-text-transform: $panel-light-header-text-transform,
-	
-	        $ui-header-border-color: $panel-light-frame-border-color,
-	        $ui-header-border-width: $panel-frame-header-border-width,
-	        $ui-header-padding: $panel-frame-header-padding,
-	        $ui-header-glyph-color: $panel-light-header-glyph-color,
-	
-	        $ui-tool-background-image: $panel-light-tool-background-image,
-	        $ui-tool-glyph-color: $panel-light-tool-glyph-color,
-	        $ui-tool-focus-outline-color: $panel-light-tool-focus-outline-color,
-	
-	        $ui-body-border-width: $panel-frame-body-border-width,
-	        $ui-body-border-color: $panel-light-body-border-color,
-	        $ui-body-background-color: $panel-frame-background-color,
-	        
-            $ui-header-color: $active-color,
-        	$ui-header-background-color: transparent
-        );   
     }
 }        
 
-.#{$prefix}panel-body-text {
-	padding: $panel-body-font-size;
-	line-height: $panel-body-font-size*1.5;
-}  
-.#{$prefix}panel-body-text-light {
-	padding: $panel-body-font-size;
-	line-height: $panel-body-font-size*1.5;
-} 
-.#{$prefix}panel-body-text-light-framed {
-	padding: $panel-body-font-size;
-	line-height: $panel-body-font-size*1.5;
-}    

@@ -13,17 +13,6 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
- 
-.uitool-admin-jvmstatus, .uitool-admin-monitoring {
-    .#{$prefix}panel {
-        margin: 10px;
-        
-        .#{$prefix}panel-body {
-            padding: 10px;
-        }
-    }
-}
-
 .uitool-admin-jvmstatus {
     .label 
     {

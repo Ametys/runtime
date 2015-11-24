@@ -15,11 +15,6 @@
  */
 
 .uitool-requesttracker {
-    .message-details {
-    	font-family: $ametys-tools-requesttracker-details-font-family;
-    	font-size: $ametys-tools-requesttracker-details-font-size;
-    }
-    
     code.request-tracker {
     	color: $ametys-tools-requesttracker-details-code-color;
     	white-space: nowrap;
