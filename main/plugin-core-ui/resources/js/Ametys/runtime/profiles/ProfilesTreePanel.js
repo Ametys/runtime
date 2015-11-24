@@ -596,7 +596,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 	
 	/**
 	 * @private
-	 * Listen on 'keyup' event
+	 * Listen on 'change' event
 	 * Filters the tree nodes by entered text.
 	 * @param {Ext.form.field.Text} field This text field
 	 */

@@ -14,10 +14,14 @@
  *  limitations under the License.
  */
 
-.#{$prefix}grid-cell-treecolumn.grayed .#{$prefix}tree-node-text {
-	color: darken($ametys-tool-tab-gray-dark, 10%);
+.#{$prefix}grid-cell-treecolumn.disabled .#{$prefix}tree-checkbox,
+.#{$prefix}grid-cell-treecolumn.disabled .#{$prefix}tree-node-text {
+	opacity: 0.5;
+	filter: alpha(opacity=50);
 }
 
-.x-grid-item-selected .#{$prefix}grid-cell-treecolumn.grayed .#{$prefix}tree-node-text {
-	color: $ametys-tool-tab-gray-superdark;
+.#{$prefix}grid-item-selected .#{$prefix}grid-cell-treecolumn.disabled .#{$prefix}tree-checkbox,
+.#{$prefix}grid-item-selected .#{$prefix}grid-cell-treecolumn.disabled .#{$prefix}tree-node-text {
+	opacity: 0.8;
+	filter: alpha(opacity=80);
 }

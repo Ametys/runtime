@@ -147,8 +147,7 @@ Ext.define('Ametys.helper.SelectUser', {
 			 
 			 value: "",
 			 
-			 enableKeyEvents: true,
-			 listeners: {'keyup': Ext.bind(this._reload, this)}
+			 listeners: {change: Ext.Function.createBuffered(this.loadUsers, 500, this)}
 		});
 		
 		var model = Ext.define('Ametys.helper.SelectUser.Users', {
@@ -241,7 +240,6 @@ Ext.define('Ametys.helper.SelectUser', {
 	 */
 	loadUsers: function ()
 	{
-		this._reloadTimer = null;
 		this._userList.getStore().load();
 	},
 	
@@ -276,21 +274,6 @@ Ext.define('Ametys.helper.SelectUser', {
 			   icon: Ext.MessageBox.INFO
 			});
 		}
-	},
-	
-	/**
-	 * This method is called to apply the current filter but in a delayed time.
-	 * This is a listener method on filter modification.
-	 * Every modification will not be directly applyed. Consecutive modifications (separated by less than 500 ms) will be applyed at once.
-	 * @private
-	 */
-	_reload: function (field, newValue, oldValue)
-	{
-		if (this._reloadTimer != null)
-		{
-			window.clearTimeout(this._reloadTimer);
-		}
-		this._reloadTimer = window.setTimeout(Ext.bind(this.loadUsers, this), 500);
 	},
 	
 	/**

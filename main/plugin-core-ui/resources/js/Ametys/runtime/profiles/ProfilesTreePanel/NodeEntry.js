@@ -84,7 +84,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel.NodeEntry', {
 			name: 'cls', 
 			depends: ['text', 'inherit'],
 			calculate: function(data) {
-				return data.inherit ? 'grayed' : '';
+				return data.inherit ? 'disabled' : '';
 			}
 		},
 		{
