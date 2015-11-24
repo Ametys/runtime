@@ -161,7 +161,7 @@ Ext.define('Ametys.plugins.coreui.help.HelpTool', {
 	_createNoHelpPanel: function()
 	{
 	    this._noHelpPanel = Ext.create("Ext.Button", {
-            ui: 'tool-topclickablemessage',
+            ui: 'tool-hintmessage',
             textAlign: 'left',
             text:"<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_HELP_INFO_NOT_FOUND'/>",
             tooltip: {
