@@ -93,7 +93,12 @@ Ext.define(
          * @private
          * @property {Number} searchAfterTime Time in millisecond to wait after last change to launch a search
          */
-        searchAfterTime: 300,
+        searchAfterTime: 500,
+        
+        /**
+         * @property {Number} codeStep The current step for "the code"
+         */
+        codeStep: 0, 
         
         /**
          * @private
@@ -212,10 +217,55 @@ Ext.define(
          */
         _onSpecialKey: function(input, event)
         {
-            if (event.getKey() == event.DOWN) 
+            if (event.getKey() == event.UP)
             {
-                this._reopenLastSearchIfAvailable();
-                this._menu.focus();
+                if (this.codeStep == 0 || this.codeStep == 1)
+                {
+                    this.codeStep++;
+                }
+                else
+                {
+                    this.codeStep = 0;
+                }
+            }
+            else if (event.getKey() == event.LEFT)
+            {
+                if (this.codeStep == 4 || this.codeStep == 6)
+                {
+                    this.codeStep++;
+                }
+                else
+                {
+                    this.codeStep = 0;
+                }
+            }
+            else if (event.getKey() == event.RIGHT)
+            {
+                if (this.codeStep == 5 || this.codeStep == 7)
+                {
+                    this.codeStep++;
+                }
+                else
+                {
+                    this.codeStep = 0;
+                }
+            }
+            else if (event.getKey() == event.DOWN) 
+            {
+                if (this.codeStep == 2 || this.codeStep == 3)
+                {
+                    this.codeStep++;
+                }
+                else
+                {
+                    this.codeStep = 0;
+                    this._reopenLastSearchIfAvailable();
+                    this._menu.focus();
+                }
+            }
+            else
+            {
+                this.codeStep = 0;
             }
         },
         
@@ -233,9 +283,12 @@ Ext.define(
                 return;
             }
             
-            if (this.getValue().toLowerCase().indexOf('show companions') == 0) 
+            if (this.getValue().toLowerCase() == 'ba' && this.codeStep == 8) 
             {
+                this.codeStep = 0;
                 this._loadCompanions();
+                this.reset();
+                return;
             }
             
             if (this.allowSearch)
@@ -328,6 +381,28 @@ Ext.define(
         {
             var me = this;
             
+            function loadAgentRnd()
+            {
+                if (!me._companions)
+                {
+                    me._companions = ['Bonzi', 'Clippy', 'F1', 'Genie', 'Genius', 'Links', 'Merlin', 'Peedy', 'Rocky', 'Rover'];
+                }
+                var index = Math.floor(Math.random() * me._companions.length);
+                
+                clippy.load(me._companions[index], function (agent) {
+                    if (!me._agents)
+                    {
+                        me._agents = [];
+                    }
+                    
+                    me._agents.push(agent);
+                    
+                    agent.show() 
+                });
+                
+                Ext.Array.removeAt(me._companions, index);
+            }
+            
             if (!this._companionsInitialization)
             {
                 /**
@@ -345,61 +420,14 @@ Ext.define(
                     me._companionsInitialization = 'loaded';
                     clippy.BASE_PATH = '//clippy.js.s3.amazonaws.com/Agents/';
                     
-                    function load(item)
-                    {
-                        item.disable();
-                        clippy.load(item.text, function (agent) { 
-                            var animationItems = [];
-                            var animations = agent.animations();
-                            for (var i = 0; i < animations.length; i++)
-                            {
-                                animationItems.push({
-                                    text: animations[i],
-                                    handler: function() {
-                                        this.ownerCt.ownerCmp.ownerCt.ownerCmp.agent.play(this.text);
-                                    }
-                                });
-                            }
-
-                            var menu = item.ownerCt; 
-                            var newItem = menu.insert(menu.items.indexOf(item), {
-                                text: item.text,
-                                menu: {
-                                    items: [
-                                        { text: 'show', handler: function() { this.ownerCt.ownerCmp.agent.show(); } },
-                                        { text: 'animate', handler: function() { this.ownerCt.ownerCmp.agent.animate(); }, menu: { items: animationItems } },
-                                        { text: 'say something', handler: function() { this.ownerCt.ownerCmp.agent.speak("Something... yes, it is very interesting."); } },
-                                        { text: 'hide', handler: function() { this.ownerCt.ownerCmp.agent.hide(); } }
-                                    ]
-                                } 
-                            });
-                            menu.remove(item);
-                            
-                            newItem.agent = agent;
-                            
-                            agent.show() 
-                        });
-                    }
-                    
-                    me._menu.insert(0, {
-                        text: "Companions",
-                        menu: { 
-                            items: [
-                                { text: 'Bonzi', handler: load },
-                                { text: 'Clippy', handler: load },
-                                { text: 'F1', handler: load },
-                                { text: 'Genie', handler: load },
-                                { text: 'Genius', handler: load },
-                                { text: 'Links', handler: load },
-                                { text: 'Merlin', handler: load },
-                                { text: 'Peedy', handler: load },
-                                { text: 'Rocky', handler: load },
-                                { text: 'Rover', handler: load }
-                            ]
-                        }
-                    });
+                    loadAgentRnd();
                 });
             }
+            else if (this._companionsInitialization == 'loaded')
+            {
+                loadAgentRnd();
+            }
+             
         },
         
         /**
