@@ -31,6 +31,30 @@
          $border-color: $base-color
     );
 }
+
+.#{$prefix}toolbar-item.a-toolbar-text {
+	color: $ametys-tool-tab-gray-superdark;
+    line-height: $form-field-height;
+	white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+@for $i from 1 through length($ametys-tool-tab-colors) {
+    $index: $i - 1;
+
+    $active-color-dark: nth($ametys-tool-tab-colors-dark, $i);
+    $active-color: nth($ametys-tool-tab-colors, $i);
+    $active-color-light: nth($ametys-tool-tab-colors-light, $i);
+    
+    .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-#{$index*10} {
+        // Other component stuff
+        .#{$prefix}toolbar-item.a-toolbar-text {
+			color: $active-color-dark
+		}
+    }
+}
+
 /*
 @for $i from 1 through length($ametys-tool-tab-colors) {
     $index: $i - 1;
