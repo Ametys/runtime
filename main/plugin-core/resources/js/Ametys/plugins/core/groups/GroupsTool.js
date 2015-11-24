@@ -97,15 +97,22 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool', {
 	{
 		var groupStore = this._createGroupStore();
 		this._groupGrid = Ext.create('Ext.grid.Panel', {
-			border: true,
 			scrollable: true,
-			border: true,
-			minWidth: 250,
-			split: true,
-			flex: 0.4,
 			
+			stateful: true,
+			stateId: this.self.getName() + "$grid",
+			
+			style: {
+                borderRightStyle: 'solid',  
+                borderRightWidth: '1px'  
+            },
+			
+			minWidth: 200,
+			maxWidth: 400,
+			flex: 0.4,
+            
 			store: groupStore,
-			columns: [{header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_GROUPS_LABEL' i18n:catalogue='plugin.core'/>", width: 330, dataIndex: 'label', renderer: this._renderGroupName, hideable: false}],
+			columns: [{flex: 1, header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_GROUPS_LABEL' i18n:catalogue='plugin.core'/>", width: 330, dataIndex: 'label', renderer: this._renderGroupName, hideable: false}],
 			
 			listeners: {
 				selectionchange: {fn: this._onGroupSelectionChange, scope: this}
@@ -122,19 +129,22 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool', {
 		
 		var userStore = this._createUserStore();
 		this._userGrid = Ext.create('Ext.grid.Panel', {
-			border: true,
 			scrollable: true,
-			border: true,
+			
+			flex: 1,
+			minWidth: 350,
+			style: {
+                borderLeftStyle: 'solid',  
+                borderLeftWidth: '1px'  
+            },
 			split: true,
-			flex: 0.6,
-			minWidth: 250,
 			
 			store: userStore,
 			selModel: {
 				mode: 'MULTI'
 			},
 			
-			columns: [{header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_GROUPS_USERSGROUP'/>", width: 350, dataIndex: 'displayName', renderer: this._renderUserName, hideable: false, sortable: true}],
+			columns: [{flex: 1, header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_GROUPS_USERSGROUP'/>", width: 350, dataIndex: 'displayName', renderer: this._renderUserName, hideable: false, sortable: true}],
 			
 			listeners: {
 				selectionchange: {fn: this._onUserSelectionChange, scope: this}
@@ -142,10 +152,12 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool', {
 		});
 		
 		return Ext.create('Ext.panel.Panel', {
-			layout: { 
-                type: 'hbox',
-                align: 'stretch'
-            },
+			layout: {
+				type: 'hbox',
+				pack: 'start',
+				align: 'stretch'
+			},
+			scrollable: 'horizontal',
 			items: [this._groupGrid, this._userGrid]
 		});
 	},

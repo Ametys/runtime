@@ -82,7 +82,7 @@ Ext.define('Ametys.plugins.core.users.UsersTool', {
 		
 		this._initialSelectedUsers = params.selectedUsers || [];
 		
-		this.search();
+		this._search();
 		
 		// Register the tool on the history tool
 		var role = this.getFactory().getRole();
@@ -104,15 +104,12 @@ Ext.define('Ametys.plugins.core.users.UsersTool', {
 		this._store = this.createUserStore();
 		
 		this._grid = Ext.create("Ext.grid.Panel", {
-			border: false,
-			cls: 'mask-below-menu',
-			
 			store: this._store,
 			scrollable: true,
 			
 			columns: [
 				{header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_USERS_COL_NAME' i18n:catalogue='plugin.core'/>", width: 250, sortable: true, dataIndex: 'displayName', renderer: this._renderDisplayName, hideable: false},
-				{header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_USERS_COL_EMAIL' i18n:catalogue='plugin.core'/>", width: 350, sortable: true, dataIndex: 'email'}
+				{header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_USERS_COL_EMAIL' i18n:catalogue='plugin.core'/>", flex: 1, sortable: true, dataIndex: 'email'}
 			],
 			
 			selModel : {
@@ -120,27 +117,30 @@ Ext.define('Ametys.plugins.core.users.UsersTool', {
 			},
 			
 			dockedItems: [
-				// Search field
 				{
 					xtype: 'toolbar',
-					cls: 'users-toolbar',
+					layout: { 
+		                type: 'hbox',
+		                align: 'stretch'
+		            },
 					dock: 'top',
 					items: [{
+						// Search input
 						xtype: 'textfield',
 						cls: 'ametys',
+						maxWidth: 400,
+						flex: 1,
 						emptyText: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_USERS_SEARCH_EMPTY_TEXT'/>",
-						hideLabel: true,
-						width: 200,
-						enableKeyEvents: true,
-						listeners: {
-							keyup: { fn: this._onKeyUp, scope: this}
-						}
+						listeners: {change: Ext.Function.createBuffered(this._search, 500, this)},
+						style: {
+                            marginRight: '0px'
+                        }
 					},
-					'',
+					' ',
 					{
 						html: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_USERS_SEARCH_LIMIT_HELPTEXT'/>",
 						xtype: 'component',
-						cls: 'hint'
+						cls: 'a-toolbar-text'
 					}]
 				}
 			],
@@ -267,25 +267,10 @@ Ext.define('Ametys.plugins.core.users.UsersTool', {
 	},
 	
 	/**
-	 * Reload store after research
-	 * @param {Ext.form.field.Text} field The search text field
-	 * @private
-	 */
-	_onKeyUp: function (field)
-	{
-		if (this._sendTask)
-		{
-			window.clearTimeout(this._sendTask);
-		}
-		this._sendTask = window.setTimeout(Ext.bind(this.search, this), 500);
-	},
-
-	/**
 	 * Load the user store
 	 */
-	search: function()
+	_search: function()
 	{
-		this._sendTask = null;
 		this._store.load();
 	},
 	
