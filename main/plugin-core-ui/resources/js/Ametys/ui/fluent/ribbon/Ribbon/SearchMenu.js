@@ -145,6 +145,10 @@ Ext.define(
             this._menu = Ext.create("Ext.menu.Menu", {
                 defaultAlign: "tr-br",
                 ui: 'ribbon-menu',
+                listeners: {
+                    'close': this._onMenuClose,
+                    scope: this
+                },
                 items: config.items
             })
             delete config.items;
@@ -155,6 +159,7 @@ Ext.define(
             this.on('change', Ext.Function.createBuffered(this._searchNow, this.searchAfterTime, this));
             this.on('specialkey', this._onSpecialKey);
             this.on('render', this._setMinWidthMenu, this);
+            this.on('blur', this._onBlur, this);
         },
         
         /**
@@ -164,6 +169,30 @@ Ext.define(
         _setMinWidthMenu: function()
         {
         	this._menu.setMinWidth(this.getWidth());
+        },
+        
+        /**
+         * @private
+         * On blur we should remove value if menu is closed
+         */
+        _onBlur: function() 
+        {
+            if (!this._menu.isVisible())
+            {
+                this.reset();
+            }
+        },
+        
+        /**
+         * @private
+         * When the menu is closed
+         */
+        _onMenuClose: function()
+        {
+            if (!this.hasFocus)
+            {
+                this.reset();
+            }
         },
         
         /**
