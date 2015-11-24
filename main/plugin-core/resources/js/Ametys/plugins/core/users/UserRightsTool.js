@@ -97,12 +97,10 @@ Ext.define('Ametys.plugins.core.users.UserRightsTool', {
 			border: false,
 			layout: 'card',
 			activeItem: 0,
-			cls : 'user-rights-tool',
 			
 			items: [{
 				xtype: 'component',
 				itemId: 'empty-panel',
-				cls: 'user-rights-empty-panel',
 				html: ''
 			}, {
 				xtype: 'panel',
@@ -110,7 +108,7 @@ Ext.define('Ametys.plugins.core.users.UserRightsTool', {
 				border: false,
 				dockedItems: {
 					dock: 'top',
-					cls: 'info',
+					ui: 'tool-hintmessage',
 					xtype: 'component',
 					html: ''
 				}
@@ -208,7 +206,6 @@ Ext.define('Ametys.plugins.core.users.UserRightsTool', {
 			Ext.Array.each (contexts, function (context) {
 				items.push({
 					xtype: 'component',
-					cls: 'context',
 					html: context
 				})
 			});
@@ -216,14 +213,19 @@ Ext.define('Ametys.plugins.core.users.UserRightsTool', {
 			var profilePanel = Ext.create ('Ext.Panel', {
 				id: me._id + '-profile-' + profile.id,
 				title: '<img src="' + Ametys.getPluginResourcesPrefix('core') + '/img/profiles/profile_16.png' + '" style="float:left; margin-right:5px;"' + '"/>' + profile.label,
-				cls: 'fieldset',
 				border: false,
-				
+				ui: 'text-light',
+				header: {
+					titlePosition: 1
+				},
 				collapsible: true,
 				titleCollapse: true,
-				hideCollapseTool: true,
 				
 				items: items,
+				
+				bodyStyle: {
+					paddingLeft: '20px'
+				},
 				
 				listeners: {
 					'afterrender': Ext.bind (me._setProfileTooltip, me, [profile.id])
@@ -262,19 +264,19 @@ Ext.define('Ametys.plugins.core.users.UserRightsTool', {
 			Ext.Array.each (rights.rights, function (right) {
 				items.push({
 					xtype: 'component',
-					cls: 'right',
 					html: right.label
 				});
 			});
 			
 			var contextPanel = Ext.create ('Ext.Panel', {
 				title: context,
-				cls: 'fieldset',
+				ui: 'text-light',
+				header: {
+					titlePosition: 1
+				},
 				border: false,
-				
 				collapsible: true,
 				titleCollapse: true,
-				hideCollapseTool: true,
 				
 				items: items
 			});
