@@ -100,7 +100,8 @@ Ext.define('Ametys.plugins.core.users.UserRightsTool', {
 			
 			items: [{
 				xtype: 'component',
-				itemId: 'empty-panel',
+				cls: 'a-panel-text-empty',
+				border: false,
 				html: ''
 			}, {
 				xtype: 'panel',
@@ -214,7 +215,8 @@ Ext.define('Ametys.plugins.core.users.UserRightsTool', {
 				id: me._id + '-profile-' + profile.id,
 				title: '<img src="' + Ametys.getPluginResourcesPrefix('core') + '/img/profiles/profile_16.png' + '" style="float:left; margin-right:5px;"' + '"/>' + profile.label,
 				border: false,
-				ui: 'text-light',
+				ui: 'light',
+				cls: 'a-panel-text',
 				header: {
 					titlePosition: 1
 				},
@@ -270,7 +272,8 @@ Ext.define('Ametys.plugins.core.users.UserRightsTool', {
 			
 			var contextPanel = Ext.create ('Ext.Panel', {
 				title: context,
-				ui: 'text-light',
+				ui: 'light',
+				cls: 'a-panel-text',
 				header: {
 					titlePosition: 1
 				},

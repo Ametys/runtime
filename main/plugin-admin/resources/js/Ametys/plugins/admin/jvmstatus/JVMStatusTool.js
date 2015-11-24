@@ -107,7 +107,7 @@ Ext.define('Ametys.plugins.admin.jvmstatus.JVMStatusTool', {
 		this._jvmStatusPanel = Ext.create('Ext.Container', {
 									border: false,
 									scrollable: true,
-									cls: 'uitool-admin-jvmstatus',
+									cls: ['uitool-admin-jvmstatus', 'a-panel-spacing'],
 									
 									defaults: {
 										collapsible: true,
@@ -122,22 +122,26 @@ Ext.define('Ametys.plugins.admin.jvmstatus.JVMStatusTool', {
 									
 									items: [{
     										xtype: 'panel',
+    										cls: 'a-panel-text',
     										itemId: 'system',
     										title : "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_SYS'/>",
     										html: ''
     									},
     									{
     										xtype: 'panel',
+    										cls: 'a-panel-text',
     										itemId: 'jvm',
     										title : "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_JVM'/>",
     										html: ''
     									},{
     										xtype: 'panel',
+    										cls: 'a-panel-text',
     										itemId: 'memory',
     										title : "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM'/>",
     										html: ''
     									},{
     										xtype: 'panel',
+    										cls: 'a-panel-text',
     										itemId: 'server',
     										title : "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE'/>",
     										html: ''

@@ -173,21 +173,16 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
             
 			flex: 1,
 			minWidth: 350,
-            border: true,
+            border: '0 0 0 1',
 			split: true,
 			layout: 'card',
 			activeItem: 0,
-
-            style: {
-                borderLeftStyle: 'solid',  
-                borderLeftWidth: '1px'  
-            },
 
 			store: rightsStore,
             items: [
             	{
             		xtype: 'component',
-                    ui: 'panel-text',
+                    cls: 'a-panel-text-empty',
             		itemId: 'no-selection',
 					scrollable: true,
 					border: false,

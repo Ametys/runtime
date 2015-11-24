@@ -40,7 +40,8 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
 		this._monitoringPanel = Ext.create('Ext.Container', {
 									border: false,
 									scrollable: true,
-									cls: 'uitool-admin-monitoring'
+									cls: ['uitool-admin-monitoring', 'a-panel-spacing'],
+									ui: 'panel-text'
 								});
 		
 		return this._monitoringPanel;
@@ -90,9 +91,11 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
 			var label = response.samples.sampleList[i].label;
 			var description = response.samples.sampleList[i].description;
 			
-		    items.push(new Ext.panel.Panel({
+		    items.push({
+		    	xtype: 'panel',
+		    	cls: 'a-panel-text',
+
 		    	title : label,
-		    		
 		    	border: false,
 		    	
 				collapsible: true,
@@ -108,7 +111,7 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
 		    		+ '    <button style="border-right-style: none;" id="btn-' + id + '-right"  onclick="Ametys.plugins.admin.jvmstatus.MonitoringTool.prototype._nextImg(\'' + id + '\', +1,\'' + response.samples.periods + '\'); return false;">&gt;&gt;</button>'
 		    		+ '<br/><a target="_blank" href="' + Ametys.getPluginDirectPrefix("admin") + '/jvmstatus/monitoring/' + id + '.xml"><i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_MONITORING_EXPORT"/></a>'
 		    	    + '</div>'
-		    }));
+		    });
 		}
 		
 		this._monitoringPanel.add(items);
