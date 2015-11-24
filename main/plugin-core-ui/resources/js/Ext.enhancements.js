@@ -635,7 +635,7 @@
     
             this.triggerWrap[method](this.triggerWrapWarningCls);
             this.inputWrap[method](this.inputWrapWarningCls);
-        }, 
+        } 
     });
      
     Ext.define("Ametys.form.field.Field", {
@@ -2050,4 +2050,11 @@
             return "<div class='callstack'>" + stack3.substring(0, stack3.length - 5) + "</div>"; // remove last <br/>
         }
     });    
+})();
+
+(function()
+{
+    Ext.override(Ext.tree.View, {
+    	toggleOnDblClick: false
+    });
 })();
