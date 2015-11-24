@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-%colored-as-panel-body {
+%colored-as-panel-body, .#{$prefix}container-panel {
     border-color: $panel-border-color;
     background-color: $panel-body-background-color;  
 }
@@ -44,7 +44,7 @@
     
     .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-#{$index*10} {
         // Other component stuff
-        %colored-as-panel-body {
+        %colored-as-panel-body, .#{$prefix}container-panel {
             border-color: $active-color;
             background-color: lighten($active-color-light, 30%);  
         }
