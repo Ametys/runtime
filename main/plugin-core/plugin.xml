@@ -739,9 +739,6 @@
                 <scripts>
                     <file>js/Ametys/plugins/core/users/UserRightsTool.js</file>
                 </scripts>
-                <css>
-                    <file>css/userrights.css</file>
-                </css>
             </extension>
             
             <extension id="org.ametys.core.relations.addusers"
