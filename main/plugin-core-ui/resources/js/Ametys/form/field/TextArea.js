@@ -21,6 +21,22 @@
  	extend: 'Ext.form.field.TextArea',
  	alias: ['widget.ametystextarea'],
     
+    /**
+     * @private
+     * @property {String} charCounterCls The css classname for the counter
+     */
+    charCounterCls: 'char-counter',
+    /**
+     * @private
+     * @property {String} charCounterWrapperCls The css classname for the div wrapping the char counter
+     */
+    charCounterWrapperCls: 'char-counter-wrapper',
+    /**
+     * @private
+     * @property {String} charCounterMaxExceededCls The css classname when the max number of characters was exceeded
+     */
+    charCounterMaxExceededCls: 'char-count-maxexceed',
+    
  	constructor: function(config)
  	{
         // The layout is made in CSS only and me need to override the counter and the wraper with a div so CSS calculations are fine (display: table-cell does not seems to be a good parent).
@@ -28,12 +44,12 @@
         config.afterBodyEl = "</div>";
         
  		config.afterSubTpl = config.afterSubTpl || Ext.create('Ext.XTemplate', [
- 			'<div id="{id}-counter" style="padding: 2px; font-size: 0.8em; background-color: #CCCCCC; clear: both;">',
-	 			'<div style="padding-left: 5px; padding-right: 5px; color: #222222;">',
+ 			'<div id="{id}-counter-wrapper" class="' + this.charCounterWrapperCls + '">',
+	 			'<span id="{id}-counter" class="' + this.charCounterCls + '">',
 	 				'<i18n:text i18n:key="PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_1"/> ',
 	 				'<span id="{id}-counter-val">0</span>',
 	 				(config.maxLength == null ? '' : (' <i18n:text i18n:key="PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_2"/> ' + config.maxLength)),
-	 			'</div>',
+	 			'</span>',
  			'</div>'
  		]);
         
@@ -65,13 +81,13 @@
         {
             if (count > this.maxLength)
             {
-                counter.style.color = "#ff0000";
+                Ext.get(counter).addCls(this.charCounterMaxExceededCls);
             }
             else
             {
-                counter.style.color = "";
+                Ext.get(counter).removeCls(this.charCounterMaxExceededCls);
             }
         }
-    }
- 	
+    } 	
  });
+ 

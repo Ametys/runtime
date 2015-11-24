@@ -202,9 +202,6 @@
 
                     <file>js/Ametys/helper/ChooseColor.js</file>
                 </scripts>
-                <css>
-                    <file>css/Widget.css</file>
-                </css>
             </extension>
         </extensions>
     </feature>

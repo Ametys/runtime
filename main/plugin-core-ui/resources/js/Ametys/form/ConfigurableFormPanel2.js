@@ -84,31 +84,31 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * string. It renders each message as an item in an unordered list.
      */
     tabErrorFieldsTpl: [
-        '<div class="a-configurable-form-panel-tooltip-status">',
+        '<div class="ametys-tab-tooltip-status">',
         '<tpl if="errors && errors.length">',
             '<tpl if="errors.length == 1">',
-                "<span class=\"a-configurable-form-panel-tooltip-error-label\"><i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_ERROR_FIELD'/></span>",
+                "<span class=\"ametys-tab-tooltip-error-label\"><i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_ERROR_FIELD'/></span>",
             '</tpl>',
             '<tpl if="errors.length != 1">',
-                "<span class=\"a-configurable-form-panel-tooltip-error-label\">{errors.length}<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_ERROR_FIELDS'/></span>",
+                "<span class=\"ametys-tab-tooltip-error-label\">{errors.length}<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_ERROR_FIELDS'/></span>",
             '</tpl>',
             '<ul class="error"><tpl for="errors"><li>{.}</li></tpl></ul>',
         '</tpl>',
         '<tpl if="warns && warns.length">',
             '<tpl if="warns.length == 1">',
-                "<span class=\"a-configurable-form-panel-tooltip-warn-label\"><i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_WARN_FIELD'/></span>",
+                "<span class=\"ametys-tab-tooltip-warn-label\"><i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_WARN_FIELD'/></span>",
             '</tpl>',
             '<tpl if="warns.length != 1">',
-                "<span class=\"a-configurable-form-panel-tooltip-warn-label\">{warns.length}<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_WARN_FIELDS'/></span>",
+                "<span class=\"ametys-tab-tooltip-warn-label\">{warns.length}<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_WARN_FIELDS'/></span>",
             '</tpl>',
             '<ul class="warn"><tpl for="warns"><li>{.}</li></tpl></ul>',
         '</tpl>',
         '<tpl if="comments && comments.length">',
             '<tpl if="comments.length == 1">',
-                "<span class=\"a-configurable-form-panel-tooltip-comment-label\"><i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_COMMENT_FIELD'/></span>",
+                "<span class=\"ametys-tab-tooltip-comment-label\"><i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_COMMENT_FIELD'/></span>",
             '</tpl>',
             '<tpl if="comments.length != 1">',
-                "<span class=\"a-configurable-form-panel-tooltip-comment-label\">{comments.length}<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_COMMENT_FIELDS'/></span>",
+                "<span class=\"ametys-tab-tooltip-comment-label\">{comments.length}<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_COMMENT_FIELDS'/></span>",
             '</tpl>',
             '<ul class="comment"><tpl for="comments"><li>{.}</li></tpl></ul>',
         '</tpl>',
@@ -188,6 +188,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     },
     
     border: false,
+    componentCls: 'ametys-form-panel',
     
     /**
      * @private
@@ -254,11 +255,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 
     constructor: function (config)
     {
-        config = config || {};
-        
-        config.cls = Ext.Array.from(config.cls);
-        config.cls.push("a-configurable-form-panel");
-        
     	this.defaultFieldConfig = config.defaultFieldConfig || {};
     	
         config.bodyPadding = config.bodyPadding != null ?  config.bodyPadding : Ametys.form.ConfigurableFormPanel.PADDING_GENERAL;
@@ -582,7 +578,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                 margin: '5 0 0 0',
                 layout: this.initialConfig.tabsLayout || { type: 'anchor' },
             	
-                border: false,
+                border: true,
                 
                 dockedItems: [{
                     dock: 'top',
@@ -692,6 +688,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         {
             var fieldset = Ext.create('Ext.panel.Panel', {
                 title: label,
+                headerCls: headerCls,
                 
                 bodyPadding: Ametys.form.ConfigurableFormPanel.PADDING_TAB + ' ' + Ametys.form.ConfigurableFormPanel.PADDING_TAB + ' 0 ' + Ametys.form.ConfigurableFormPanel.PADDING_TAB,
                 margin: '0 0 5 0',
@@ -700,15 +697,19 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                 
                 collapsible: true,
                 titleCollapse: true,
+                hideCollapseTool: true,
                 
-                header: {
-                    titlePosition: 1,
-                    cls: headerCls
-                },
-                
-                border: true,
+                border: false,
                 shadow: false,
-                cls: 'ametys-form-tab-inline-item'
+                cls: 'ametys-form-tab-inline-item',
+                
+                listeners: {
+                    'afterrender': function () {
+                        if (this.headerCls) {
+                            this.header.addCls(this.headerCls);
+                        }
+                    }
+                }
             });
             
             ct.add(fieldset);
@@ -719,18 +720,23 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         {
             var tabitem = Ext.create('Ext.panel.Panel', {
                 title: label,
+                headerCls: headerCls,
                 
                 cls: 'ametys-form-tab-item',
                 layout: this.initialConfig.itemsLayout || { type: 'anchor' },
                 
                 padding: Ametys.form.ConfigurableFormPanel.PADDING_TAB + ' ' + Ametys.form.ConfigurableFormPanel.PADDING_TAB + ' 0 ' + Ametys.form.ConfigurableFormPanel.PADDING_TAB,
                 
-                header: {
-                    cls: headerCls
-                },
-
                 border: false,
-                scrollable: false
+                scrollable: false,
+                
+                listeners: {
+                    'afterrender': function () {
+                        if (this.headerCls) {
+                            this.tab.addCls(this.headerCls);
+                        }
+                    }
+                }
             });
             ct.add(tabitem);
             
@@ -848,7 +854,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                 this._tabPanels[i].items.each (function (item) {
                     
                     var header = item.tab ? item.tab : item.getHeader();
-                    if (header != null && header.isHeader)
+                    if (header != null)
                     {
                         header.addCls(['empty']);
                     }
@@ -890,7 +896,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     _updateTabStatus: function(panel)
     {
         // The header is the tab when in tab mode or the header in linear mode. 
-        var header = panel.tab ? panel.tab : (panel.getHeader().isHeader ? panel.getHeader() : null);
+        var header = panel.tab ? panel.tab : panel.getHeader();
         
         if (header != null)
         {
@@ -1023,7 +1029,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                 target: header.getEl().id,
                 title: title,
                 text: text,
-                cls: ['x-fluent-tooltip', 'a-configurable-form-panel-tooltip'],
+                cls: 'x-fluent-tooltip ametys-tab-tooltip',
                 width: 350,
                 dismissDelay: 0
             });
@@ -1179,7 +1185,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             }
 
             var header = card.tab ? card.tab : card.getHeader();
-            if (header != null && header.isHeader)
+            if (header != null)
             {
                 header.removeCls(['empty']);
             }

@@ -145,46 +145,45 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 		var rightsStore = this._createRightsStore();
 		
 		this._profilesGrid = Ext.create('Ext.grid.Panel', {
-			border: true,
 			scrollable: true,
 			
 			stateful: true,
 			stateId: this.self.getName() + "$grid",
+            
+            style: {
+                borderRightStyle: 'solid',  
+                borderRightWidth: '1px'  
+            },
 			
 			minWidth: 100,
 			maxWidth: 400,
 			flex: 0.3,
-			split: true,
 			
 			store: profileStore,
 			columns: [{flex: 1, header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_PROFILES_LABEL' i18n:catalogue='plugin.core'/>", dataIndex: 'label', renderer: this._renderProfilName, hideable: false}],
 			
 			listeners: {
-				beforeselect: {fn: this._onBeforeSelectProfile, scope: this}
+				beforeselect: {fn: this._onBeforeSelectProfile, scope: this},
+                selectionchange: {fn: this._onSelectProfile, scope: this}
 			}
 		});
 		
-		this._rightsPanel = Ext.create('Ext.Panel', {
+		this._rightsPanel = Ext.create('Ext.container.Container', {
+            ui: 'panel',
+            
 			flex: 1,
-			border: true,
 			minWidth: 350,
+            border: true,
 			split: true,
-			layout: 'card',
-			cls: 'profile-rights-tool',
-			activeItem: 0,
-			
+			scrollable: true,
+
+            style: {
+                borderLeftStyle: 'solid',  
+                borderLeftWidth: '1px'  
+            },
+
 			store: rightsStore,
-			items: [{
-				itemId: 'card-view',
-				scrollable: 'vertical',
-				border: false,
-				items: []
-			}, {
-				itemId: 'card-edit',
-				scrollable: true,
-				border: false,
-				items: []
-			}]
+            items: []
 		});
 		
 		return Ext.create('Ext.container.Container', {
@@ -193,6 +192,7 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 				pack: 'start',
 				align: 'stretch'
 			},
+            cls: 'uitool-profiles',
 			scrollable: 'horizontal',
 			items: [this._profilesGrid, this._rightsPanel]
 		});
@@ -427,6 +427,21 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 		this.sendCurrentSelection();
 		this._updateCardPanels(selection.get('rights') || []);
 	},
+    
+    /**
+     * @private
+     * Listener when the selection has changed
+     * @param {Ext.selection.Model} model The selection model
+     * @param {Ext.data.Model[]} selection The selected record
+     */
+    _onSelectProfile: function(model, selection)
+    {
+        if (selection.length == 0)
+        {
+            this._rightsPanel.removeCls("profile-edit");
+            this._rightsPanel.removeCls("profile-view");
+        }
+    },
 	
 	/**
 	 * @private
@@ -473,36 +488,33 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 	{
 		var me = this;
 		
-		var cardViewPanel = this._rightsPanel.getComponent('card-view');
-		var cardEditPanel = this._rightsPanel.getComponent('card-edit');
-		
 		Ext.suspendLayouts();
 		
 		Ext.Object.each(this._rightsByCategory, function(categoryId) {
 
 			var categoryRights = this._rightsByCategory[categoryId];
 			
-			// Common configuration
-			var categoryPanelCfg = {
-				itemId: categoryId,
-					
-				title : categoryRights[0].get('category'),
-	            layout: 'column',
-	            cls: 'ametys-fieldset',
- 				
-				collapsible: true,
-	            titleCollapse: true,
-	            hideCollapseTool: true,
-	            
-	            border: false
-			};
-			
-			var categoryViewPanel = Ext.create('Ext.panel.Panel', categoryPanelCfg);
-			var categoryEditPanel = Ext.create('Ext.panel.Panel', Ext.applyIf(
-			{
+			var categoryEditPanel = Ext.create('Ext.panel.Panel', {
+                itemId: categoryId,
+                    
+                title : categoryRights[0].get('category'),
+                layout: 'column',
+                
+                ui: 'light',
+                
+                collapsible: true,
+                titleCollapse: true,
+                header: {
+                    titlePosition: 1  
+                },
+                
+                border: false,
+                
 				tools: [
 			        {
 			        	xtype: 'button',
+                        ui: 'light',
+                        padding: '0 3px',
 			        	itemId: 'category-select-all',
 			        	icon: Ametys.getPluginResourcesPrefix('core') + '/img/profiles/select_16.png',
 			        	tooltip: '<i18n:text i18n:key="PLUGINS_CORE_UITOOL_PROFILES_CATEGORY_SELECT_ALL"/>',
@@ -523,6 +535,8 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 			        },
 			        {
 			        	xtype: 'button',
+                        ui: 'light',
+                        padding: '0 3px',
 			        	itemId: 'category-unselect-all',
 			        	icon: Ametys.getPluginResourcesPrefix('core') + '/img/profiles/unselect_16.png',
 			        	tooltip: '<i18n:text i18n:key="PLUGINS_CORE_UITOOL_PROFILES_CATEGORY_UNSELECT_ALL"/>',
@@ -541,7 +555,7 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 						}
 			        }
 		        ]
-			}, categoryPanelCfg));
+			});
 			
 			Ext.Array.each(categoryRights, function(right) {
 				
@@ -549,86 +563,22 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 				    rightLabel = right.get('label'),
 				    rightDescription = right.get('description');
 				
-  				// common configuration
-				var rightContainerConfig = 
-				{
-					columnWidth: 0.33,
-					padding: 5,
-					
-					cls: 'right-element',
-					
-					layout: {
-						type: 'hbox',
-						align: 'middle'
-					}
-				};
-				
-				// Visualization container for a right
-				var viewRightContainer = Ext.create('Ext.Container', 
-					Ext.applyIf(
-					{
-						itemId: rightId + '-view',
-						
-						items: [
-				        {
-					        xtype: 'component',
-					        cls: 'ametys-description',
-					        width: 20,
-					        
-					        margin: '-1 0 0 0',
-
-							listeners: {
-								render: function() {
-									this.getEl().set({'data-qtip': rightDescription, 'data-qtitle': rightLabel});
-								}
-							}
-				        }]
-					
-					}, rightContainerConfig)
-				);
-				
-				// add the text
-				viewRightContainer.add({
-					xtype: 'component',
-					html: rightLabel
-				});
-
 				// Edition container for a right
-				var editRightContainer = Ext.create('Ext.form.field.Checkbox', 
-					Ext.applyIf(
-					{
+				var editRightContainer = Ext.create('Ext.form.field.Checkbox', {
 						itemId: rightId + '-edit',
+    					columnWidth: 0.33,
+                        padding: '0 0 0 5px',
 						
 						boxLabel: rightLabel, // text for the component that will be created
-						disabled: true,
-						
-						listeners: {
-							change: Ext.bind(me._onEditRightFieldChange, me),
-							render: function() 
-							{
-								this.getEl().insertFirst({
-									cls: 'ametys-description',
-							        width: 20,
-							        
-							        margin: '-1 0 0 0',
-									'data-qtitle': rightLabel,
-									'data-qtip': rightDescription
-								});
-							}
-						}
-					}, rightContainerConfig)
-				);
+						readOnly  : true,
+                        
+                        ametysDescription: rightDescription
+				});
 				
-				categoryViewPanel.add(viewRightContainer);
 				categoryEditPanel.add(editRightContainer);
 			});
 			
-			cardViewPanel.add(categoryViewPanel);
-			cardEditPanel.add(categoryEditPanel);
-			
-			// The category panels are initially hidden for visualization mode
-			categoryViewPanel.hide();
-
+			this._rightsPanel.add(categoryEditPanel);
 		}, this);
 		
 		Ext.resumeLayouts(true);
@@ -661,15 +611,12 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 		
 		// Keep a copy of the rights before the tool is dirty
 		var categoriesToShow = [];
-		var cardViewPanel = this._rightsPanel.getComponent('card-view');
-		var cardEditPanel = this._rightsPanel.getComponent('card-edit');
 		
 		Ext.Object.each(this._rightsByCategory, function(categoryId) {
 			
 			var rights = this._rightsByCategory[categoryId];
 			
-			var categoryViewPanel = cardViewPanel.getComponent(categoryId);
-			var categoryEditPanel = cardEditPanel.getComponent(categoryId);
+			var categoryEditPanel = this._rightsPanel.getComponent(categoryId);
 			
 			Ext.Array.each(rights, function (right)
 			{
@@ -684,10 +631,6 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 				editRightContainer.enable();
 				editRightContainer.resumeEvents();
 				
-				// Update view screen
-				var viewRightContainer = categoryViewPanel.getComponent(rightId + '-view');
-				viewRightContainer.setVisible(hasRight);
-				
 				// Update categories
 				if (Ext.Array.contains(profileRightsIds, rightId) && !Ext.Array.contains(categoriesToShow, categoryId))
 				{
@@ -698,11 +641,6 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 			categoryEditPanel.show();
 		}, this);
 
-		// Update category panels for visualization mode
-		Ext.Object.each(this._rightsByCategory, function(categoryId) {
-			cardViewPanel.getComponent(categoryId).setVisible(Ext.Array.contains(categoriesToShow, categoryId));
-		}, this);
-		
 		this._rights = this._getRights();
 		
 		Ext.resumeLayouts(true);
@@ -717,7 +655,8 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 		if (mode == 'edit')
 		{
 			// Go to edition mode
-			this._rightsPanel.getLayout().setActiveItem(1);
+            this._rightsPanel.removeCls("profile-view");
+            this._rightsPanel.addCls("profile-edit")
 			this.sendCurrentSelection();
 		}
 		else
@@ -738,7 +677,8 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 						if (doSave)
 						{
 							me.saveCurrentChanges(function() {
-								me._rightsPanel.getLayout().setActiveItem(0);
+                                me._rightsPanel.removeCls("profile-edit");
+                                me._rightsPanel.addCls("profile-view")
 								me.sendCurrentSelection();
 							});
 						}
@@ -746,7 +686,8 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 						{
 							me.setDirty(false);
 							me._updateCardPanels(me._rights);
-							me._rightsPanel.getLayout().setActiveItem(0);
+                            me._rightsPanel.removeCls("profile-edit");
+                            me._rightsPanel.addCls("profile-view")
 							me.sendCurrentSelection();
 						}
 					}
@@ -757,7 +698,8 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 			else
 			{
 				// Go to view mode
-				this._rightsPanel.getLayout().setActiveItem(0);
+                this._rightsPanel.removeCls("profile-edit");
+                this._rightsPanel.addCls("profile-view")
 				this.sendCurrentSelection();
 			}
 		}
@@ -772,10 +714,9 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 		var rights = [];
 		
 		// Gather the selected rights
-		var cardEditPanel = this._rightsPanel.getComponent('card-edit');
 		Ext.Object.each(this._rightsByCategory, function(categoryId) 
 		{
-			var categoryEditPanel = cardEditPanel.getComponent(categoryId);
+			var categoryEditPanel = this._rightsPanel.getComponent(categoryId);
 			
 			var categoryRights = this._rightsByCategory[categoryId];
 			Ext.Array.each(categoryRights, function (right)
@@ -823,18 +764,16 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 	 */
 	selectAll: function(categoryId, value)
 	{
-		var cardEditPanel = this._rightsPanel.getComponent('card-edit');
-		
 		value = value == null ? true : value;
 		if (categoryId != null)
 		{
-			var categoryEditPanel = cardEditPanel.getComponent(categoryId);
+			var categoryEditPanel = this._rightsPanel.getComponent(categoryId);
 			
 			categoryEditPanel.items.each (function (item, index) {item.setValue(value)});
 		}
 		else
 		{
-			cardEditPanel.items.each(function(item, index) {
+			this._rightsPanel.items.each(function(item, index) {
 				item.items.each(function(item, index) {
 					item.setValue(value);
 				});
@@ -857,7 +796,7 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 	 */
 	getMode: function ()
 	{
-		return this._rightsPanel.getLayout().getActiveItem().getItemId() == 'card-view' ? 'view' : 'edit';
+        return this._rightsPanel.hasCls("profile-view") ? 'view' : 'edit';
 	},
 	
 	/**

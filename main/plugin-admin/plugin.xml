@@ -272,9 +272,6 @@
                     <file>js/Ametys/plugins/admin/plugins/PluginsDAO.js</file>
                     <file>js/Ametys/plugins/admin/plugins/PluginsActions.js</file>
                 </scripts>
-                <css>
-                    <file>css/plugins.css</file>
-                </css>
                 <default-location>cl</default-location>
             </extension>
             
@@ -321,9 +318,6 @@
                     <file>js/Ametys/plugins/admin/plugins/PluginsDAO.js</file>
                     <file>js/Ametys/plugins/admin/plugins/PluginsActions.js</file>
                 </scripts>
-                <css>
-                    <file>css/plugins.css</file>
-                </css>
                 <default-location>cl</default-location>
             </extension>
             
@@ -889,9 +883,6 @@
                 <scripts>
                     <file>js/Ametys/plugins/admin/jvmstatus/JVMStatusTool.js</file>
                 </scripts>
-                <css>
-                    <file>css/jvmstatus.css</file>
-                </css>
             </extension>
             
             <extension id="org.ametys.plugins.admin.SystemProperties"  
@@ -934,9 +925,6 @@
                 <scripts>
                     <file>js/Ametys/plugins/admin/jvmstatus/SystemPropertiesTool.js</file>
                 </scripts>
-                <css>
-                    <file>css/jvmstatus.css</file>
-                </css>
             </extension>
             
             <extension id="org.ametys.plugins.admin.Monitoring"  
@@ -977,9 +965,6 @@
                 <scripts>
                     <file>js/Ametys/plugins/admin/jvmstatus/MonitoringTool.js</file>
                 </scripts>
-                <css>
-                    <file>css/jvmstatus.css</file>
-                </css>
             </extension>
         </extensions>
     </feature>

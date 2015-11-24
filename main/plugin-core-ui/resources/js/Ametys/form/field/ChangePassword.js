@@ -36,8 +36,7 @@ Ext.define('Ametys.form.field.ChangePassword', {
     // FIXME css rule is defined but modificationBodyCls is not used.
     
     layout: {
-        type: 'hbox',
-        align: 'stretch'
+        type: 'hbox'
     },
     
     /**

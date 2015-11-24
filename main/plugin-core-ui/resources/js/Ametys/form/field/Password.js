@@ -59,35 +59,7 @@ Ext.define('Ametys.form.field.Password', {
          * @property {String} 
          * the tooltip of the button for resetting the password
          */
-        CHANGE_PASSWORD_TEXT: "<i18n:text i18n:key='PLUGINS_CORE_UI_PASSWORD_CHANGE'/>",
-        /**
-         * @protected
-         * @readonly
-         * @property {String} 
-         * the icon path for changing the password
-         */
-        CHANGE_PASSWORD_ICON_PATH: Ametys.getPluginResourcesPrefix('core-ui') + '/img/Ametys/theme/gray/password-edit.png',
-        /**
-         * @protected
-         * @readonly
-         * @property {String} 
-         * the icon path for resetting the password
-         */
-        RESET_PASSWORD_ICON_PATH: Ametys.getPluginResourcesPrefix('core-ui') + '/img/Ametys/theme/gray/password-reset.png',
-        /**
-         * @protected
-         * @readonly
-         * @property {Number} 
-         * the width of the button
-         */
-        SET_CLEAR_PASSWORD_BUTTON_WIDTH: 20,
-        /**
-         * @protected
-         * @readonly
-         * @property {Number} 
-         * the height of the button
-         */
-        SET_CLEAR_PASSWORD_BUTTON_HEIGHT: 20
+        CHANGE_PASSWORD_TEXT: "<i18n:text i18n:key='PLUGINS_CORE_UI_PASSWORD_CHANGE'/>"
     },
     
     /**
@@ -187,8 +159,6 @@ Ext.define('Ametys.form.field.Password', {
     	Ext.applyIf(buttonConfig, {
     		tooltip: '',
             ui: 'lighter',
-    		width: Ametys.form.field.Password.SET_CLEAR_PASSWORD_BUTTON_WIDTH,
-    		height: Ametys.form.field.Password.SET_CLEAR_PASSWORD_BUTTON_HEIGHT,
     		handler: Ext.bind(this._setToMode, this, [null], false),
     		margin: '1 0 0 0',
     		border: false
@@ -361,7 +331,7 @@ Ext.define('Ametys.form.field.Password', {
 				this._onFieldSetDisabled(true);
 				
 				this._button.setTooltip(Ametys.form.field.Password.CHANGE_PASSWORD_TEXT);
-				this._button.setIcon(Ametys.form.field.Password.CHANGE_PASSWORD_ICON_PATH);
+				this._button.setIconCls("a-field-password-change");
 			}
     		else
 			{
@@ -372,7 +342,7 @@ Ext.define('Ametys.form.field.Password', {
                 this._field.focus();
                 
 				this._button.setTooltip(Ametys.form.field.Password.RESET_PASSWORD_TEXT);
-				this._button.setIcon(Ametys.form.field.Password.RESET_PASSWORD_ICON_PATH);
+				this._button.setIconCls("a-field-password-reset");
 			}
 
     		this._button.show();

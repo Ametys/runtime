@@ -24,29 +24,6 @@
  */
 Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 	
-	statics: {
-		/**
-		 * @property {Number} AMETYS_DESCRIPTION_WIDTH The width for Ametys descriptions
-		 * @private
-		 * @readonly 
-		 */
-		AMETYS_DESCRIPTION_WIDTH: 20,
-		
-		/**
-		 * @property {Number} PARAM_CHECKER_STATUS_CMP_WIDTH The width for components reflecting the parameter checkers' status
-		 * @private
-		 * @readonly 
-		 */
-		PARAM_CHECKER_STATUS_CMP_WIDTH: 20,
-		
-		/**
-		 * @property {Number} PARAM_CHECKER_STATUS_CMP_HEIGHT The height for components reflecting the parameter checkers' status
-		 * @private
-		 * @readonly 
-		 */
-		PARAM_CHECKER_STATUS_CMP_HEIGHT: 20
-	},
-	
 	/**
 	 * @property {Ametys.form.ConfigurableFormPanel} _form the configurable form panel
 	 * @private
@@ -257,8 +234,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 			icon: Ametys.CONTEXT_PATH + paramChecker.smallIconPath,
 			cls: 'param-checker-button',
 			
-			flex: 1,
-			minWidth: Ametys.form.ConfigurableFormPanel.LABEL_WIDTH - offset + Ametys.form.ConfigurableFormPanel.FIELD_MINWIDTH,
+			width: Ametys.form.ConfigurableFormPanel.LABEL_WIDTH - offset + Ametys.form.ConfigurableFormPanel.FIELD_MINWIDTH,
 
 			border: false,
             tooltip: '',
@@ -286,46 +262,36 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 		
 		var items = [];
 		
-		// Spacer to take the label space
-		items.push({
-			xtype: 'tbspacer', 
-			width: Ametys.form.ConfigurableFormPanel.LABEL_WIDTH - offset + Ametys.form.ConfigurableFormPanel.LABEL_PADDING
-		});
+        items.push({
+            xtype: 'tbspacer',
+            
+            flex: 1
+        })
 		
 		// the button itself
 		items.push(testButton);
 		paramChecker.setButtonId(testButton.getId());
 		
-		var helpBoxId = Ext.id();
-		paramChecker.setHelpBoxId(helpBoxId);
-		
+        // component initially hidden that will reflect the status of the check
 		var paramCheckerStatusCmpId = Ext.id();
 		paramChecker.setStatusCmpId(paramCheckerStatusCmpId);
-		
-		// component initially hidden that will reflect the status of the check
-		items.push({
-			xtype: 'component',
-			id: paramCheckerStatusCmpId,
-			
-			height: Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO.PARAM_CHECKER_STATUS_CMP_WIDTH,
-			width: Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO.PARAM_CHECKER_STATUS_CMP_WIDTH,
-			
-			hidden: true,
-			cls: 'param-checker-status'
-		});
-		
+        items.push({
+            xtype: 'component',
+            id: paramCheckerStatusCmpId,
+            
+            hidden: true,
+            cls: 'param-checker-status'
+        });
+        
 		// the description
+		var helpBoxId = Ext.id();
+		paramChecker.setHelpBoxId(helpBoxId);
 		items.push({
 			xtype: 'component', 
 
 			id: helpBoxId,
 			cls: "ametys-description",
 		    
-			baseCls: '', 
-		    
-			width: Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO.AMETYS_DESCRIPTION_WIDTH,
-			padding: "3 0 0 5",
-
 			listeners: {
 				'render': function() {
 					this.getEl().set({"data-qtip": me._generateHelpBoxTip(paramChecker)});
@@ -339,7 +305,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 				align: 'stretch',
 				pack: 'start'
 			},
-			style: 'margin-right:' + Math.max(60 - roffset, 0) + 'px',
+			style: 'margin-right:' + Math.max(this._form.maxNestedLevel * Ametys.form.ConfigurableFormPanel.OFFSET_FIELDSET - roffset, 0) + 'px',
 			cls: 'param-checker-container',
 			items: items
 		});

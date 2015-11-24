@@ -107,13 +107,14 @@ Ext.define('Ametys.plugins.admin.jvmstatus.JVMStatusTool', {
 		this._jvmStatusPanel = Ext.create('Ext.Container', {
 									border: false,
 									scrollable: true,
-									cls: 'jvmstatus-tool',
+									cls: 'uitool-admin-jvmstatus',
 									
 									defaults: {
-										cls: 'jvmstatus-fd',
 										collapsible: true,
 										titleCollapse: true,
-										hideCollapseTool: true,
+                                        header: {
+                                            titlePosition: 1
+                                        },
 										
 										border: false,
 										shadow: false
@@ -280,9 +281,9 @@ Ext.define('Ametys.plugins.admin.jvmstatus.JVMStatusTool', {
 
 	    var v1 = Math.round(usedMem/maxMem * 280);
 	    var v2 = Math.round((commitedMem - usedMem)/maxMem * 280);
-	    document.getElementById("totalMemImg").width = v1;
-	    document.getElementById("freeMemImg").width = v2;
-	    document.getElementById("maxMemImg").width = 280 - v1 - v2;
+	    document.getElementById("totalMemImg").style.width = v1 + "px";
+	    document.getElementById("freeMemImg").style.width = v2 + "px";
+	    document.getElementById("maxMemImg").style.width = 280 - v1 - v2 + "px";
 	    
 	    // non HEAP MEMORY
 	    commitedMem = response['non-heap-memory-commited'];
@@ -302,9 +303,9 @@ Ext.define('Ametys.plugins.admin.jvmstatus.JVMStatusTool', {
 
 	    var v1 = Math.round(usedMem/maxMem * 280);
 	    var v2 = Math.round((commitedMem - usedMem)/maxMem * 280);
-	    document.getElementById("totalMem2Img").width = v1;
-	    document.getElementById("freeMem2Img").width = v2;
-	    document.getElementById("maxMem2Img").width = 280 - v1 - v2;
+	    document.getElementById("totalMem2Img").style.width = v1 + "px";
+	    document.getElementById("freeMem2Img").style.width = v2 + "px";
+	    document.getElementById("maxMem2Img").style.width = 280 - v1 - v2 + "px";
 	    
 	    // ACTIVE SESSION
 	    var sessions = response.activeSessions;

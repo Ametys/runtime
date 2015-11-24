@@ -13,6 +13,64 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+
+.ametys-tool-collapsed
+{
+    padding: 2px;
+} 
+.ametys-tool-collapsed .x-tool-none
+{
+    background-image: none;
+    width: 16px;
+    height: 16px;
+}
+
+
+.ametys-tool-collapsed.x-vertical .x-tool
+{
+    padding-left: 2px;
+    background-position: -20px top;
+    height: 18px !important;
+}
+.ametys-tool-collapsed.x-vertical .x-tool-first
+{
+    background-position: 0 top;
+    height: 3px !important;
+}
+.ametys-tool-collapsed.x-vertical .x-tool-last
+{
+    background-position: -40px bottom;
+    height: 3px !important;
+}
+
+.ametys-tool-collapsed.x-horizontal .x-tool
+{
+    padding-top: 2px;
+    background-position: left -20px;
+    width: 18px !important;
+}
+.ametys-tool-collapsed.x-horizontal .x-tool-first
+{
+    background-position: left 0;
+    width: 3px !important;
+}
+.ametys-tool-collapsed.x-horizontal .x-tool-last
+{
+    background-position: left -40px;
+    width: 3px !important;
+}
+
+
+
+
+
  
-@import url('common/all.css');
-@import url('theme/ametys/all.css');
+.ametys-tool-collapsed.x-vertical .x-tool
+{ 
+    background-image: url('../../../../../../img/tools/ametys/collapsed-toolbar-bg-v.png');
+}
+
+.ametys-tool-collapsed.x-horizontal .x-tool
+{ 
+    background-image: url('../../../../../../img/tools/ametys/collapsed-toolbar-bg-h.png');
+}

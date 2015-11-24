@@ -128,13 +128,15 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsTool', {
 				  {
 					  dock: 'top',
 					  xtype: 'button',
+                      ui: 'tool-topclickablemessage',
 					  hidden: true,
 					  itemId: 'no-result',
-					  cls: 'hint',
 					  text: "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_FILTER_NO_MATCH'/>" + "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_FILTER_NO_MATCH_ACTION'/>",
 					  scope: this,
 					  handler: this._clearSearchFilter
 				  },
+                  
+                  
 	              {
 	            	  xtype: 'component',
 	            	  cls: 'hint',
@@ -160,14 +162,18 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsTool', {
 		return {
 			dock: 'top',
 			xtype: 'toolbar',
-			layout: 'column',
+            layout: { 
+                type: 'hbox',
+                align: 'stretch'
+            },
 			border: false,
 			defaultType: 'button',
 			items: [{
 						// Filter input
 						xtype: 'textfield',
 						cls: 'ametys',
-						columnWidth: 1,
+						flex: 1,
+                        maxWidth: 400,
 						itemId: 'plugins-filter-input',
 						emptyText: "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_FILTER'/>",
 						enableKeyEvents: true,
@@ -178,30 +184,31 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsTool', {
 					}, 
 					{
 						// Clear filter
-						width: 20,
 						tooltip: "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_CLEAR_FILTER'/>",
 						handler: Ext.bind (this._clearSearchFilter, this),
 						icon: Ametys.getPluginResourcesPrefix('admin') + '/img/plugins/clear.gif',
-						cls: 'x-btn-text-icon',
+						ui: 'light',
 						style: {
 							marginRight: '20px'
 						}
 					}, 
-					{
+                    {
+                        xtype: 'tbspacer',
+                        flex: 0.0001
+                    },
+                    {
 						// Expand all
-						width: 20,
 						tooltip: "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_EXPAND_ALL'/>",
 						handler: Ext.bind (this._expandAll, this, [], false),
 						icon: Ametys.getPluginResourcesPrefix('admin') + '/img/plugins/expand-all.gif',
-						cls: 'x-btn-text-icon'
+                        ui: 'light'
 					},
 					{
 						// Collapse all
-						width: 20,
 						tooltip: "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_COLLAPSE_ALL'/>",
 						handler: Ext.bind (this._collapseAll, this, [], false),
 						icon: Ametys.getPluginResourcesPrefix('admin') + '/img/plugins/collapse-all.gif',
-						cls: 'x-btn-text-icon'
+                        ui: 'light'
 					}
 			]
 		};

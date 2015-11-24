@@ -40,7 +40,7 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
 		this._monitoringPanel = Ext.create('Ext.Container', {
 									border: false,
 									scrollable: true,
-									cls: 'monitoring-tool'
+									cls: 'uitool-admin-monitoring'
 								});
 		
 		return this._monitoringPanel;
@@ -97,7 +97,10 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
 		    	
 				collapsible: true,
 				titleCollapse: true,
-				hideCollapseTool: true,
+                
+                header: {
+                    titlePosition: 1
+                },
 				
 		    	html: '<div class="monitoring">'
 		    		+ '    <button style="border-left-style: none;" id="btn-' + id + '-left" onclick="Ametys.plugins.admin.jvmstatus.MonitoringTool.prototype._nextImg(\'' + id + '\', -1,\'' + response.samples.periods + '\'); return false;">&lt;&lt;</button>'

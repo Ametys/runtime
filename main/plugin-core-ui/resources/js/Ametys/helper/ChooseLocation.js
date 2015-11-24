@@ -161,8 +161,8 @@ Ext.define('Ametys.helper.ChooseLocation', {
 						},
 						{
 							xtype: 'component',
-							cls: 'a-text',
-							id: 'geo-search-textfield-error',
+							cls: 'a-text-error',
+							itemId: 'geo-search-textfield-error',
 							html: me._searchErrorMsg || ''
 						},
 						this._gmapPanel,

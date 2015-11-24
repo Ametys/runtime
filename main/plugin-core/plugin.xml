@@ -992,9 +992,6 @@
                     <file>js/Ametys/plugins/core/profiles/ProfilesTool/Profile.js</file>
                     <file>js/Ametys/plugins/core/profiles/ProfilesTool/Right.js</file>
                 </scripts>
-                <css>
-                    <file>css/profiles.css</file>
-                </css>
             </extension>
             
             <extension id="org.ametys.core.rights.ProfileTab"

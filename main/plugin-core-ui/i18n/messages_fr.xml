@@ -147,8 +147,8 @@
     <message key="PLUGINS_CORE_UI_DATETIME_LONGTIME">H:i:sP</message>
     <message key="PLUGINS_CORE_UI_DATETIME_SHORTDATETIME">d/m/y H:i:s</message>
     <message key="PLUGINS_CORE_UI_DATETIME_FRIENDLYDATETIME">d/m/Y \\à H:i</message>
-    <message key="PLUGINS_CORE_UI_DATETIME_LONGDATETIME">d/m/Y H:i:sP</message>
-    <message key="PLUGINS_CORE_UI_DATETIME_FULLDATETIME">l j F Y \\à H:i:s T</message>
+    <message key="PLUGINS_CORE_UI_DATETIME_LONGDATETIME">d/m/Y H:i:s P</message>
+    <message key="PLUGINS_CORE_UI_DATETIME_FULLDATETIME">l j F Y \\à H:i:s P</message>
     
     <!-- +
          | ServerComm.js

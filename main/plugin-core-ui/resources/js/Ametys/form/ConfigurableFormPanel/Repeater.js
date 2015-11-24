@@ -78,11 +78,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
     /**
      * @cfg {Number} nestingLevel The nesting level of the repeater.
      */
-    
+
     /**
      * @cfg {String} invalidCls The CSS class to use when marking the repeater invalid.
      */
-    invalidCls: 'repeater-invalid',
+    invalidCls: 'a-repeater-invalid',
     
     /**
      * @cfg {String/String[]/Ext.XTemplate} activeErrorsTpl The template used to format the Array of error messages.
@@ -103,6 +103,15 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
      */
 	isRepeater : true,
     
+    constructor: function(config)
+    {
+        config = config || {};
+        config.header = config.header || {};
+        config.header.titlePosition = config.header.titlePosition || 1; 
+        
+        this.callParent(arguments);  
+    },
+    
     initComponent: function()
     {
         Ext.applyIf(this, {
@@ -113,16 +122,18 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
         });
 
         Ext.apply(this, {
+            ui: 'light',
             border: false,
             shadow: false,
             isRepeater: true,
             
-            cls: 'ametys-repeater ametys-repeater-level-' + this.nestingLevel + (this.nestingLevel % 2 == 0 ? ' even' : ' odd'),
+            cls: 'a-repeater a-repeater-level-' + this.nestingLevel + (this.nestingLevel % 2 == 0 ? ' even' : ' odd'),
             
             margin: this.nestingLevel > 1 ? ('0 0 5 ' + Ametys.form.ConfigurableFormPanel.Repeater.NESTED_OFFSET) : '0 0 5 0',
             
             header: {
-            	title: this.label + ' (0)'
+            	title: this.label + ' (0)',
+                style: "border-width: 1px !important"
             },
             
             items: [{
@@ -205,13 +216,18 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
     		
     		index: pos,   // Index in the item panels list, 0-based.
     		
+            ui: 'light',
     		titleCollapse: true,
-    		hideCollapseTool: true,
+    		hideCollapseTool: false,
     		collapsible: true,
+            header: {
+                titlePosition: 1
+            },
+            border: true,
     		
             collapsed: opt.collapsed !== false,  // Render the items collapsed by default
     		
-    	    cls: 'ametys-repeater-item ametys-repeater-item-level-' + this.nestingLevel + (this.nestingLevel % 2 == 0 ? ' even' : ' odd'),
+    	    cls: 'a-repeater-item a-repeater-item-level-' + this.nestingLevel + (this.nestingLevel % 2 == 0 ? ' even' : ' odd'),
     	    
     	    // The tools
     	    tools: [
@@ -517,12 +533,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
     		
     		var activeError = tpl.apply({
                 errors: errors,
-                listCls: Ext.plainListCls + ' ametys-repeater-invalid-tooltip'
+                listCls: Ext.plainListCls + ' a-repeater-invalid-tooltip'
             });
     		
-            // Add/remove invalid class
-            me.el[hasError ? 'addCls' : 'removeCls'](me.invalidCls);
-
             if (me.getItemCount() > 0)
             {
             	me.getItems().each(function(panel, index, length) {
@@ -715,17 +728,17 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
             // The panel is rendered: tools is an object, items can be accessed by their name.
         	if (panel.tools.up)
         	{
-        		panel.tools.up.setVisible(index > 0);
-        		panel.tools.down.setVisible(index < (length-1));
+        		panel.tools.moveup.setVisible(index > 0);
+        		panel.tools.movedown.setVisible(index < (length-1));
         		panel.tools.plus.setVisible(me.maxSize == null || length < me.maxSize);
-        		panel.tools.close.setVisible(me.minSize == null || length > me.minSize);
+        		panel.tools.minus.setVisible(me.minSize == null || length > me.minSize);
         	}
         	else   // The panel is not rendered yet: tools is a configuration array.
         	{
-        		panel.tools[0].hidden = index == 0; // up
-        		panel.tools[1].hidden = index == length-1; // down
-        		panel.tools[2].hidden = me.maxSize != null && length >= me.maxSize; // plus
-        		panel.tools[3].hidden = me.minSize != null && length <= me.minSize // delete
+        		panel.tools[1].hidden = index == 0; // up
+        		panel.tools[2].hidden = index == length-1; // down
+        		panel.tools[3].hidden = me.maxSize != null && length >= me.maxSize; // plus
+        		panel.tools[4].hidden = me.minSize != null && length <= me.minSize // delete
         	}
         });
     },
@@ -1034,7 +1047,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
     _deleteTool: function(label)
     {
     	return {
-    	    type: 'close',
+    	    type: 'minus',
     		qtip: label, 
     		handler: function(event, toolEl, header, tool) {
     		    // header.ownerCt returns the item panel.
@@ -1051,7 +1064,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
     _downTool: function()
     {
     	return {
-    	    type: 'down',
+    	    type: 'movedown',
     		qtip: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_MOVE_DOWN'/>", 
     		handler: this._down,
             scope: this
@@ -1065,7 +1078,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
     _upTool: function()
     {
     	return {
-    	    type: 'up',
+    	    type: 'moveup',
     		qtip: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_MOVE_UP'/>", 
     		handler: this._up,
     		scope: this

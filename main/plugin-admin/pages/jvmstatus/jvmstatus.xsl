@@ -75,13 +75,10 @@
 	         </div>
 	           
 	         <div id="memory">
-	             <div class="label"><i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_HEAP"/></div>
-	             <img class="help" id="mem-heap-help-img" src="{$resources-uri}/img/jvmstatus/help.gif"/>
-	             <img src="{$resources-uri}/img/jvmstatus/bar-mem-left.png" width="14px" height="34px"/>
-	             <img id="totalMemImg" style="background: url({$resources-uri}/img/jvmstatus/bar-mem-used.png) repeat-x 0px 0px" src="{$resources-uri}/img/jvmstatus/s.gif" width="0px" height="34px"/>
-	             <img id="freeMemImg" style="background: url({$resources-uri}/img/jvmstatus/bar-mem-free.png) top left repeat-x;" src="{$resources-uri}/img/jvmstatus/s.gif" width="0px" height="34px"/>
-	             <img id="maxMemImg" style="background: url({$resources-uri}/img/jvmstatus/bar-mem-available.png) top left repeat-x;" src="{$resources-uri}/img/jvmstatus/s.gif" width="280px" height="34px"/>
-	             <img src="{$resources-uri}/img/jvmstatus/bar-mem-right.png" width="14px" height="34px"/>
+	             <div class="label help" id="mem-heap-help-img"><i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_HEAP"/></div>
+                 <div id="totalMemImg"><xsl:comment/></div>
+                 <div id="freeMemImg"><xsl:comment/></div>
+                 <div id="maxMemImg"><xsl:comment/></div>
 	             
 	             <button id="btn-gc" onclick="Ametys.plugins.admin.jvmstatus.JVMStatusTool.garbageCollect();" title="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_FREENOW" i18n:attr="title" onmouseover="Ext.get('btn-gc').addCls('over');" onmouseout="Ext.get('btn-gc').removeCls('over');">
 	                 <img src="{$resources-uri}/img/jvmstatus/recycle.png"/>
@@ -89,45 +86,39 @@
 	             
 	             <br/>
 	             
-	             <div style="float: left; text-align: right; width: 184px">0&#160;<i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_UNIT"/></div>
+	             <div style="float: left; text-align: right; width: 170px">0&#160;<i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_UNIT"/></div>
 	             <div style="float: left; text-align: right; width: 136px"><span id="middleMem"></span>&#160;<i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_UNIT"/></div>
 	             <div style="float: left; text-align: right; width: 124px"><span id="maxiMem"></span>&#160;&#160;<i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_UNIT"/></div>
 	             
 	             <br/><br/>
 	             
-	             <div class="label"><i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_NHEAP"/></div>
-	             <img class="help" id="mem-nheap-help-img" src="{$resources-uri}/img/jvmstatus/help.gif"/>
-	             <img src="{$resources-uri}/img/jvmstatus/bar-left.png" width="14px" height="28px"/>
-	             <img id="totalMem2Img" style="background: url({$resources-uri}/img/jvmstatus/bar-used.png) repeat-x 0px 0px" src="{$resources-uri}/img/jvmstatus/s.gif" width="0px" height="28px"/>
-	             <img id="freeMem2Img" style="background: url({$resources-uri}/img/jvmstatus/bar-free.png) repeat-x 0px 0px" src="{$resources-uri}/img/jvmstatus/s.gif" width="0px" height="28px"/>
-	             <img id="maxMem2Img" style="background: url({$resources-uri}/img/jvmstatus/bar-available.png) repeat-x 0px 0px" src="{$resources-uri}/img/jvmstatus/s.gif" width="280px" height="28px"/>
-	             <img src="{$resources-uri}/img/jvmstatus/bar-right.png" width="14px" height="28px"/>
+	             <div class="label help" id="mem-nheap-help-img"><i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_NHEAP"/></div>
+	             <div id="totalMem2Img"><xsl:comment/></div>
+	             <div id="freeMem2Img"><xsl:comment/></div>
+	             <div id="maxMem2Img"><xsl:comment/></div>
 	             <br/>    
-	             <div style="float: left; text-align: right; width: 184px">0&#160;<i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_UNIT"/></div>
+	             <div style="float: left; text-align: right; width: 170px">0&#160;<i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_UNIT"/></div>
 	             <div style="float: left; text-align: right; width: 136px"><span id="middleMem2"></span>&#160;<i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_UNIT"/></div>
 	             <div style="float: left; text-align: right; width: 124px"><span id="maxiMem2"></span>&#160;&#160;<i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_UNIT"/></div>
 	             
 	             <br/><br/>
 	             <div class="legend">
-	                 <img src="{$resources-uri}/img/jvmstatus/legend-used.gif"/><i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_USED_SUFFIX"/>
-	                 <img src="{$resources-uri}/img/jvmstatus/legend-free.gif"/><i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_FREE_SUFFIX"/>
-	                 <img src="{$resources-uri}/img/jvmstatus/legend-available.gif"/><i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_AVAILABLE_SUFFIX"/>
+	                 <div id="totalMemImg-legend"><xsl:comment/></div><i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_USED_SUFFIX"/>
+	                 <div id="freeMemImg-legend"><xsl:comment/></div><i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_FREE_SUFFIX"/>
+	                 <div id="maxMemImg-legend"><xsl:comment/></div><i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_AVAILABLE_SUFFIX"/>
 	             </div>
 	         </div>
 	         
 	         <div id="server">
-	             <div class="label"><i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_SESSION"/></div>
-	             <img id="handle-session-help-img" src="{$resources-uri}/img/jvmstatus/help.gif" class="help" />                                       
+	             <div class="label help" id="handle-session-help-img"><i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_SESSION"/></div>
 	             <span id="activeSession">-</span>  
 	             <br/>
 	             
-	             <div class="label"><i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_REQUEST"/></div>
-	             <img id="handle-request-help-img" src="{$resources-uri}/img/jvmstatus/help.gif" class="help" />
+	             <div class="label help" id="handle-request-help-img"><i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_REQUEST"/></div>
 	             <span id="activeRequest">-</span>
 	             <br/>
 	             
-	             <div class="label"><i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_THREAD"/></div>
-	             <img id="handle-thread-help-img" src="{$resources-uri}/img/jvmstatus/help.gif" class="help" />
+	             <div class="label help" id="handle-thread-help-img"><i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_THREAD"/></div>
 	             <span id="activeThread">-</span>&#160;<span id="deadlockThread"></span>
 	         </div>
 	     </div>
