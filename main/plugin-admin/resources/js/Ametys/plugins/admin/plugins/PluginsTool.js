@@ -135,8 +135,6 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsTool', {
 					  scope: this,
 					  handler: this._clearSearchFilter
 				  },
-                  
-                  
 	              {
 	            	  xtype: 'component',
 	            	  cls: 'hint',
@@ -176,21 +174,20 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsTool', {
                         maxWidth: 400,
 						itemId: 'plugins-filter-input',
 						emptyText: "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_FILTER'/>",
-						enableKeyEvents: true,
 						minLength: 3,
 						minLengthText: "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_FILTER_INVALID'/>",
 						msgTarget: 'qtip',
-						listeners: {keyup: { fn: this._onKeyUp, scope: this, delay: 500}}
+						listeners: {change: Ext.Function.createBuffered(this._filter, 500, this)},
+						style: {
+                            marginRight: '0px'
+                        }
 					}, 
 					{
 						// Clear filter
 						tooltip: "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_CLEAR_FILTER'/>",
 						handler: Ext.bind (this._clearSearchFilter, this),
 						icon: Ametys.getPluginResourcesPrefix('admin') + '/img/plugins/clear.gif',
-						ui: 'light',
-						style: {
-							marginRight: '20px'
-						}
+						ui: 'light'
 					}, 
                     {
                         xtype: 'tbspacer',
@@ -216,11 +213,10 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsTool', {
 	
     /**
      * @private
-     * Listen on 'keyup' event
      * Filters the tree nodes by entered text.
      * @param {Ext.form.field.Text} field This text field
      */
-	_onKeyUp: function(field)
+	_filter: function(field)
     {
 	    this._filterField = field;
 	    this._tree.getStore().clearFilter();
@@ -282,6 +278,13 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsTool', {
 		this._regexFilter = null;
 		this._tree.getStore().clearFilter();
 		this._tree.getDockedItems()[1].setVisible(false);
+		
+		var selection = this._tree.getSelectionModel().getSelection()[0];
+		if (selection)
+		{
+			this._tree.ensureVisible(selection.getPath());
+		}
+		
 	},
 	
 	/**
