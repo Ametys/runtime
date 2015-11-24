@@ -226,6 +226,8 @@
     <message key="PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS_ERROR">Une erreur est survenue lors de la sauvegarde des droits du profil.</message>
     
     <message key="PLUGINS_CORE_PROFILES_RIGHTS_CONFIRM_DESCRIPTION">Vous avez fait des modifications dans les droits attribués. Souhaitez-vous les sauvegarder ?</message>
+    <message key="PLUGINS_CORE_PROFILES_UNSELECTED">Selectionnez ou créez un profil avant de pouvoir voir ou modifier les droits qui le compose</message>
+    <message key="PLUGINS_CORE_PROFILES_EMPTY">Ce profile ne dispose d'aucun droits</message>
     
     <message key="PLUGINS_CORE_PROFILES_SELECT_ALL">Sélectionner tout</message>
     <message key="PLUGINS_CORE_PROFILES_SELECT_ALL_DESCRIPTION">Sélectionne tous les droits</message>

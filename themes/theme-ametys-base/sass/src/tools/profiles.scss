@@ -15,7 +15,9 @@
  */
  
 .uitool-profiles {
-    .#{$prefix}panel .#{$prefix}title-text {
-        
+    .profile-view {
+        .#{$prefix}btn, .#{$prefix}form-checkbox {
+            visibility: hidden;
+        }
     }
 }

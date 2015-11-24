@@ -228,6 +228,8 @@
     <message key="PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS_ERROR">An error occurred while saving the profile's rights.</message>
     
     <message key="PLUGINS_CORE_PROFILES_RIGHTS_CONFIRM_DESCRIPTION">The attributed rights have been modified. Do you wish to save those changes ?</message>
+    <message key="PLUGINS_CORE_PROFILES_UNSELECTED">Select or create a profile before you can see or edit its rights</message>
+    <message key="PLUGINS_CORE_PROFILES_EMPTY">This profile has no right</message>
     
     <message key="PLUGINS_CORE_PROFILES_SELECT_ALL">Select all</message>
     <message key="PLUGINS_CORE_PROFILES_SELECT_ALL_DESCRIPTION">Select all rights</message>
