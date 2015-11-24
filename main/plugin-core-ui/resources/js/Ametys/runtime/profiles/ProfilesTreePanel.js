@@ -347,8 +347,6 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 		}
 		
 		operation.setParams( Ext.apply(operation.getParams(), this._loadParams) );
-		
-		console.info('load with context ' + this._context);
 	},
 	
 	/**
