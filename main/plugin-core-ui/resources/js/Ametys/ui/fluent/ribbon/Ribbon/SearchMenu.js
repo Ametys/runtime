@@ -380,27 +380,68 @@ Ext.define(
         _loadCompanions: function(msg)
         {
             var me = this;
+            if (!me._agents)
+            {
+                me._agents = {};
+                me._currentAgent = null;
+                me._companions = ['Bonzi', 'Clippy', 'F1', 'Genie', 'Genius', 'Links', 'Merlin', 'Peedy', 'Rocky', 'Rover'];
+                
+                Ext.override(Ametys.ui.fluent.ribbon.Ribbon.Notificator, {
+                    notify: function(config)
+                    {
+                        this.callParent(arguments);
+                        
+                        if (me._currentAgent)
+                        {
+                            var text = config.isModel ? 
+                                (config.get('title')) : 
+                                (config.title);
+                            me._currentAgent.speak(text);
+                        }
+                    }
+                });
+                
+                Ext.override(Ametys.ui.fluent.ribbon.Ribbon.Notificator.Toast, {
+                    show: function()
+                    {
+                        if (!me._currentAgent)
+                        {
+                            this.callParent(arguments);
+                        }                        
+                        else
+                        {
+                            Ext.destroy(this);
+                        }
+                    }
+                });
+            }
             
             function loadAgentRnd()
             {
-                if (!me._companions)
+                if (me._currentAgent != null)
                 {
-                    me._companions = ['Bonzi', 'Clippy', 'F1', 'Genie', 'Genius', 'Links', 'Merlin', 'Peedy', 'Rocky', 'Rover'];
+                    me._currentAgent.hide();
+                    me._currentAgent = null;
+                    return;
                 }
+                
                 var index = Math.floor(Math.random() * me._companions.length);
                 
-                clippy.load(me._companions[index], function (agent) {
-                    if (!me._agents)
-                    {
-                        me._agents = [];
-                    }
-                    
-                    me._agents.push(agent);
-                    
-                    agent.show() 
-                });
                 
-                Ext.Array.removeAt(me._companions, index);
+                if (me._agents[me._companions[index]])
+                {
+                    me._agents[me._companions[index]].show();
+                    me._currentAgent =  me._agents[me._companions[index]];
+                }
+                else
+                {
+                    clippy.load(me._companions[index], function (agent) {
+                        me._agents[me._companions[index]] = agent;
+                        
+                        agent.show() 
+                        me._currentAgent = agent;
+                    });
+                }
             }
             
             if (!this._companionsInitialization)
