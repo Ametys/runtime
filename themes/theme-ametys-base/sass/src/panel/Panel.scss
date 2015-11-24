@@ -16,14 +16,14 @@
 
 .#{$prefix}container.a-panel-spacing, .#{$prefix}container.a-panel-text, .#{$prefix}container.a-panel-text-empty,
 .#{$prefix}component.a-panel-spacing, .#{$prefix}component.a-panel-text, .#{$prefix}component.a-panel-text-empty,
-.#{$prefix}panel.a-panel-spacing .#{$prefix}panel-body, .#{$prefix}panel.a-panel-text .#{$prefix}panel-body, .#{$prefix}panel.a-panel-text-empty .#{$prefix}panel-body
+.#{$prefix}panel.a-panel-spacing > .#{$prefix}panel-body, .#{$prefix}panel.a-panel-text > .#{$prefix}panel-body, .#{$prefix}panel.a-panel-text-empty > .#{$prefix}panel-body
 {
 	padding: $panel-body-font-size;
 }
 
 .#{$prefix}container.a-panel-text, .#{$prefix}container.a-panel-text-empty,
 .#{$prefix}component.a-panel-text, .#{$prefix}component.a-panel-text-empty,
-.#{$prefix}panel.a-panel-text .#{$prefix}panel-body, .#{$prefix}panel.a-panel-text-empty .#{$prefix}panel-body
+.#{$prefix}panel.a-panel-text > .#{$prefix}panel-body, .#{$prefix}panel.a-panel-text-empty > .#{$prefix}panel-body
 {
 	line-height: $panel-body-font-size*1.5;
 }
