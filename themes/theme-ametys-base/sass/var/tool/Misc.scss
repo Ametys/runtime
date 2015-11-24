@@ -14,11 +14,11 @@
  *  limitations under the License.
  */
 
-$ametys-tool-topclickablemessage-color: $ametys-color-hint;
-$ametys-tool-topclickablemessage-border-color: darken($ametys-ribbon-tab-color, 6%);
-$ametys-tool-topclickablemessage-background-color: $ametys-background-color-hint;
-$ametys-tool-topclickablemessage-font-size: $font-size;
-$ametys-tool-topclickablemessage-font-weight: normal;
+$ametys-tool-hintmessage-color: $ametys-color-hint;
+$ametys-tool-hintmessage-border-color: darken($ametys-ribbon-tab-color, 6%);
+$ametys-tool-hintmessage-background-color: $ametys-background-color-hint;
+$ametys-tool-hintmessage-font-size: $font-size;
+$ametys-tool-hintmessage-font-weight: normal;
 
 $ametys-tool-link-color: dynamic($ametys-highlight-color);
 $ametys-tool-link-color-over: dynamic($ametys-ribbon-tabpanel-mainbutton-background-color-over);

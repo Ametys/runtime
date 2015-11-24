@@ -18,21 +18,31 @@
  * Out of date tool
  */
 @include extjs-button-small-ui(
-    $ui: 'tool-topclickablemessage',
+    $ui: 'tool-hintmessage',
     
     $inner-border-width: 0 0 1px 0,
     
-    $color: $ametys-tool-topclickablemessage-color,
-    $inner-border-color: $ametys-tool-topclickablemessage-border-color, 
-    $background-color: mix($ametys-tool-tab-gray-light, $ametys-tool-topclickablemessage-background-color, 50%),
-    $font-size: $ametys-tool-topclickablemessage-font-size,
-    $font-weight: $ametys-tool-topclickablemessage-font-weight,
+    $color: $ametys-tool-hintmessage-color,
+    $inner-border-color: $ametys-tool-hintmessage-border-color, 
+    $background-color: mix($ametys-tool-tab-gray-light, $ametys-tool-hintmessage-background-color, 50%),
+    $font-size: $ametys-tool-hintmessage-font-size,
+    $font-weight: $ametys-tool-hintmessage-font-weight,
     
-    $inner-border-color-over: $ametys-tool-topclickablemessage-border-color 
+    $inner-border-color-over: $ametys-tool-hintmessage-border-color 
 );
 
-.a-tool-layout-zoned-focused .#{$prefix}btn-tool-topclickablemessage-small {
-    background-color: $ametys-tool-topclickablemessage-background-color;
+.a-tool-layout-zoned-focused .#{$prefix}btn-tool-hintmessage-small {
+    background-color: $ametys-tool-hintmessage-background-color;
+}
+
+.#{$prefix}component-tool-hintmessage {
+	background-color: $ametys-tool-hintmessage-background-color;
+    background-color: mix($ametys-tool-tab-gray-light, $ametys-tool-hintmessage-background-color, 50%);
+    font-size: $ametys-tool-hintmessage-font-size;
+    font-weight: $ametys-tool-hintmessage-font-weight;
+    border-width: 0 0 1px 0;
+    border-color: $ametys-tool-hintmessage-border-color;
+    padding: $ametys-tool-hintmessage-font-size/12 * 4;
 }
 
 /**
