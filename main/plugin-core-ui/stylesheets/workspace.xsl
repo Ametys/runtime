@@ -344,8 +344,7 @@
                                 
                                 mainButton: {
                                     xtype: 'button',
-                                    iconCls: 'a-mainbutton',
-                                    arrowVisible: false,
+                                    text: 'Ametys',
                                     /*tooltip: {
                                          title: "", 
                                          image: "", 
@@ -353,7 +352,6 @@
                                          inribbon: true
                                     },*/
                                     menu: menuItems.length == 0 ? null : {
-                                         ui: 'ribbon-menu',
                                          items: menuItems
                                     }
                                 },
@@ -382,9 +380,11 @@
                                 help: {
                                     tooltip:{ 
                                         inribbon: true, 
-                                        text: "<i18n:text i18n:key='PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_PLACEHOLDER' i18n:catalogue='plugin.core-ui'/>",
+                                        title: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_HELP_RIBBON_TIP_TITLE' i18n:catalogue='plugin.core-ui'/>", 
+                                        text: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_HELP_RIBBON_TIP_DESCRIPTION' i18n:catalogue='plugin.core-ui'/>",
+                                        image: Ametys.getPluginResourcesPrefix("core-ui") + "/img/uitool-help/help_48.png"
                                     },
-                                    handler: function() { this.previousSibling().focus(); }
+                                    handler: function() { Ametys.tool.ToolsManager.openTool('uitool-help'); }
                                 },
                                 notification: {
                                     tooltip:{ 
@@ -596,16 +596,16 @@
     
     
     
-    <xsl:template name="theme-scripts">
-        <script absolute="true">/~cmd/extensions/sencha-fashion/fashion/fashion.js</script>
-        <script absolute="true">/~cmd/extensions/sencha-fashion/sass-compiler.js</script>
+<!--     <xsl:template name="theme-scripts"> -->
+<!--         <script absolute="true">/~cmd/extensions/sencha-fashion/fashion/fashion.js</script> -->
+<!--         <script absolute="true">/~cmd/extensions/sencha-fashion/sass-compiler.js</script> -->
         
-        <script absolute="true">/ext/build/classic/theme-neptune/theme-neptune-debug.js</script>
-        <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/Ribbon/ContextualTabGroup.js</script>
-        <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/GroupScale.js</script>
-        <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/TabPanel.js</script>
-        <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/tool/layout/ZonedTabsToolsLayout/ZoneTabsToolsPanel.js</script>
-        <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/grid/plugin/Multisort.js</script>
-    </xsl:template>
-    <xsl:template name="theme-styles"/>     
+<!--         <script absolute="true">/ext/build/classic/theme-neptune/theme-neptune-debug.js</script> -->
+<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/Ribbon/ContextualTabGroup.js</script> -->
+<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/GroupScale.js</script> -->
+<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/TabPanel.js</script> -->
+<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/tool/layout/ZonedTabsToolsLayout/ZoneTabsToolsPanel.js</script> -->
+<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/grid/plugin/Multisort.js</script> -->
+<!--     </xsl:template> -->
+<!--     <xsl:template name="theme-styles"/>      -->
 </xsl:stylesheet>
