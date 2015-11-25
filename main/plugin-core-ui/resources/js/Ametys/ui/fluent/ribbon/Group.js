@@ -137,7 +137,7 @@ Ext.define(
             if (config.dialogBoxLauncher)
             {
                 defaultConfig.tools.push({
-                    type: 'gear',
+                    type: 'openlinkto',
                     handler: Ext.bind(this._onDialogBoxLauncherClickSendEvent, this)
                 });
             }                

@@ -13,7 +13,9 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
+//        @include opacity($tool-opacity);
+//            @include opacity($tool-opacity-over);
+//            @include opacity($tool-opacity-pressed);
 .ametys-description {
     width: $ametys-form-field-description-background-image-width + horizontal($form-description-icon-side-margin); 
     min-height: $form-field-height; 
@@ -22,6 +24,11 @@
     background-repeat: no-repeat; 
     background-position: center round(($form-field-height/2 - $ametys-form-field-description-background-image-height/2));
     background-image: theme-background-image($ametys-form-field-description-background-image); 
+    @include opacity($tool-opacity);
+    
+    &:hover {
+        @include opacity($tool-opacity-over);
+    }
     
     div {
         width: 100%;
@@ -41,6 +48,12 @@
     	background-image: theme-background-image($ametys-form-field-nocomment-background-image); 
     }
     
+    @include opacity($tool-opacity);
+    
+    &:hover {
+        @include opacity($tool-opacity-over);
+    }
+
     div {
         width: 100%;
         height: $form-field-height; 

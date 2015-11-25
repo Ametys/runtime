@@ -19,3 +19,11 @@
  * Glyph for the "notification" tool icon when {@link Global_CSS#$enable-font-icons} is `true`.
  */
 $tool-notification-glyph: dynamic($fa-var-bell $tool-glyph-font-size $font-icon-font-family);
+/**
+ * @var {string/list}
+ * Glyph for the "open link to" tool icon when {@link Global_CSS#$enable-font-icons} is `true`.
+ */
+$tool-openlinkto-glyph: dynamic($fa-var-bell $tool-glyph-font-size $font-icon-font-family); // FIXME find the font awesome corresponding variable
+
+$ametys-panel-tool-small-background-image: dynamic('tools/small-tool-sprites-dark');
+$ametys-panel-tool-medium-background-image: dynamic('tools/medium-tool-sprites-dark');

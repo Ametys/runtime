@@ -25,9 +25,28 @@
 
 @if $tool-include-hover-icons {
     .#{$prefix}tool-over {
-        @if (not $enable-font-icons) or ($tool-close-glyph == null) {
+        @if (not $enable-font-icons) or ($tool-notification-glyph == null) {
             .#{$prefix}tool-notification {
                 background-position: -$tool-size ($tool-size * -24);
+            }
+        }
+    }
+}
+
+.#{$prefix}tool-openlinkto {
+    @if $enable-font-icons and ($tool-openlinkto-glyph != null) {
+        @include font-icon($tool-openlinkto-glyph);
+        background: none;
+    } @else {
+        background-position: 0 ($tool-size * -25);
+    }
+}
+
+@if $tool-include-hover-icons {
+    .#{$prefix}tool-over {
+        @if (not $enable-font-icons) or ($tool-openlinkto-glyph == null) {
+            .#{$prefix}tool-openlinkto {
+                background-position: -$tool-size ($tool-size * -25);
             }
         }
     }
@@ -38,14 +57,14 @@
         @include font-icon($tool-toggle-up-glyph);
         background: none;
     } @else {
-        background-position: 0 ($tool-size * -25);
+        background-position: 0 ($tool-size * -26);
     }
 }
 @if $tool-include-hover-icons {
     .#{$prefix}tool-over {
-        @if (not $enable-font-icons) or ($tool-close-glyph == null) {
+        @if (not $enable-font-icons) or ($tool-toggle-up-glyph == null) {
             .#{$prefix}tool-moveup {
-                background-position: -$tool-size ($tool-size * -25);
+                background-position: -$tool-size ($tool-size * -26);
             }
         }
     }
@@ -56,14 +75,14 @@
         @include font-icon($tool-toggle-down-glyph);
         background: none;
     } @else {
-        background-position: 0 ($tool-size * -26);
+        background-position: 0 ($tool-size * -27);
     }
 }
 @if $tool-include-hover-icons {
     .#{$prefix}tool-over {
-        @if (not $enable-font-icons) or ($tool-close-glyph == null) {
+        @if (not $enable-font-icons) or ($tool-toggle-down-glyph == null) {
             .#{$prefix}tool-movedown {
-                background-position: -$tool-size ($tool-size * -26);
+                background-position: -$tool-size ($tool-size * -27);
             }
         }
     }

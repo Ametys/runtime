@@ -42,7 +42,8 @@
     $ui-tool-background-image: $panel-light-tool-background-image,
     $ui-tool-glyph-color: $panel-light-tool-glyph-color,
     $ui-tool-focus-outline-color: $panel-light-tool-focus-outline-color,
-        
+    
+    $ui-tool-background-image: $ametys-panel-tool-medium-background-image,    
     $ui-header-color: $panel-light-header-color,
     $ui-header-background-color: transparent
 );  
@@ -73,6 +74,7 @@
     $ui-body-border-color: $panel-light-body-border-color,
     $ui-body-background-color: $panel-frame-background-color,
         
+    $ui-tool-background-image: $ametys-panel-tool-medium-background-image,
     $ui-header-color: $panel-light-header-color,
     $ui-header-background-color: transparent
 );   
@@ -136,7 +138,8 @@
         $ui-tool-glyph-color: $panel-light-tool-glyph-color,
         $ui-tool-focus-outline-color: $panel-light-tool-focus-outline-color,
 	        
-		$ui-header-color: $panel-light-header-color,
+        $ui-tool-background-image: $ametys-panel-tool-medium-background-image,
+    	$ui-header-color: $panel-light-header-color,
     	$ui-header-background-color: transparent
     );  
     
@@ -166,7 +169,8 @@
         $ui-body-border-color: $panel-light-body-border-color,
         $ui-body-background-color: $panel-frame-background-color,
 	        
-		$ui-header-color: $panel-light-header-color,
+        $ui-tool-background-image: $ametys-panel-tool-medium-background-image,
+        $ui-header-color: $panel-light-header-color,
     	$ui-header-background-color: transparent
     );   
 }
@@ -236,6 +240,7 @@
 	        $ui-tool-glyph-color: $panel-light-tool-glyph-color,
 	        $ui-tool-focus-outline-color: $panel-light-tool-focus-outline-color,
         
+            $ui-tool-background-image: $ametys-panel-tool-medium-background-image,
             $ui-header-color: $active-color,
         	$ui-header-background-color: transparent
         );  
@@ -266,6 +271,7 @@
 	        $ui-body-border-color: $panel-light-body-border-color,
 	        $ui-body-background-color: $panel-frame-background-color,
         
+            $ui-tool-background-image: $ametys-panel-tool-medium-background-image,
             $ui-header-color: $active-color,
         	$ui-header-background-color: transparent
         );
