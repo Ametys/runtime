@@ -145,7 +145,12 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
 
     /**
-     * @property {Ext.form.Panel[]} _tabPanels The tab panels.
+     * @property {Ext.panel.Panel/Ext.tab.Panel} _tabPanel The main panel or tabpanel depeding on policy.
+     * @private
+     */
+
+    /**
+     * @property {Ext.panel.Panel[]} _tabPanels The tab panels.
      * @private
      */
     
@@ -253,11 +258,40 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 
     constructor: function (config)
     {
+        var me = this;
+        
         config = config || {};
         
         config.cls = Ext.Array.from(config.cls);
         config.cls.push("a-configurable-form-panel");
         config.cls.push("a-panel-spacing");
+        
+        config.dockedItems = Ext.Array.from(config.dockedItems);
+        config.dockedItems.push({
+            itemId: 'inline-toolbar',
+            dock: 'top',
+            
+            xtype: 'toolbar',
+            style: {
+                borderWidth: '0 0 1px 0 !important'
+            },
+            hidden: true,
+
+            items:[
+                {
+                    text: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_COLLAPSE_ALL'/>",
+                    handler: function (btn) { 
+                        me._expandOrCollapseAllInlineTab(me._tabPanel, btn, true)
+                    }
+                },
+                {
+                    text: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_EXPAND_ALL'/>",
+                    handler: function (btn) { 
+                        me._expandOrCollapseAllInlineTab(me._tabPanel, btn, false)
+                    }
+                }
+            ]
+        });
         
     	this.defaultFieldConfig = config.defaultFieldConfig || {};
     	
@@ -529,7 +563,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
     _expandOrCollapseAllInlineTab: function (tabpanel, btn, collapse)
     {
-        tabpanel.mask("<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_WAIT_MSG'/>");
+        this.mask("<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_WAIT_MSG'/>");
         
         Ext.Function.defer(this._doExpandOrCollapseAllInlineTab, 100, this, [tabpanel, btn, collapse]);
     },
@@ -561,7 +595,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         finally 
         {
             this.resumeLayouts(true);
-            tabpanel.unmask();
+            this.unmask();
         }
     },
     
@@ -585,28 +619,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                 border: false
             });
             
-            this.addDocked([{
-                dock: 'top',
-                xtype: 'toolbar',
-                style: {
-                    borderWidth: '0 0 1px 0 !important'
-                },
-
-                items:[
-                    {
-                        text: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_COLLAPSE_ALL'/>",
-                        handler: function (btn) { 
-                            me._expandOrCollapseAllInlineTab(tabPanel, btn, true)
-                        }
-                    },
-                    {
-                        text: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_EXPAND_ALL'/>",
-                        handler: function (btn) { 
-                            me._expandOrCollapseAllInlineTab(tabPanel, btn, false)
-                        }
-                    }
-                ]
-            }]);
+            this.getDockedComponent('inline-toolbar').show();
         }
         else
         {
@@ -628,11 +641,14 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                     'tabchange': {fn: this._onTabChange, scope: this}
                 }
             });
+            
+            this.getDockedComponent('inline-toolbar').hide();
         }
         
         this._getFormContainer().add(tabPanel);
         this._tabPanels.push(tabPanel);
         
+        this._tabPanel = tabPanel; 
         return tabPanel;
     },
     
