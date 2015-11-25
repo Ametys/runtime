@@ -25,13 +25,13 @@
 );    
 /* FIXME For the moment, no color in tools */
 .a-tool-layout-zoned-notfocused {
-    $color: $button-default-color;
-    $color-over: $button-default-color-over;
-    $color-focus: $button-default-color-focus;
-    $color-pressed: $button-default-color-pressed;
-    $color-focus-over: $button-default-color-focus-over;
-    $color-focus-pressed: $button-default-color-focus-pressed;
-    $color-disabled: $button-default-color-disabled;
+    $color: $ametys-tool-tab-gray-superdark; // $button-default-color;
+    $color-over: $ametys-tool-tab-gray-superdark; // $button-default-color-over;
+    $color-focus: $ametys-tool-tab-gray-superdark; // $button-default-color-focus;
+    $color-pressed: $ametys-tool-tab-gray-superdark; // $button-default-color-pressed;
+    $color-focus-over: $ametys-tool-tab-gray-superdark; // $button-default-color-focus-over;
+    $color-focus-pressed: $ametys-tool-tab-gray-superdark; // $button-default-color-focus-pressed;
+    $color-disabled: $ametys-tool-tab-gray-superdark; // $button-default-color-disabled;
 
     $border-color: $base-dark-color;
     $border-color-over: button-default-border-color-over($border-color);
