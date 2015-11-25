@@ -27,12 +27,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     
     statics: {
         /**
-         * @property {Number/String} PADDING_GENERAL The main padding
-         * @private
-         * @readonly 
-         */
-        PADDING_GENERAL: 5,
-        /**
          * @property {Number} HORIZONTAL_PADDING_FIELDSET The left and right padding for fieldset
          * @private
          * @readonly 
@@ -122,6 +116,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     /**
      * @cfg {boolean} withTitleOnLabels=false True to wrap field's labels within a span with title as such <span title="My label">My label</span>. Useful if labels could be cut by CSS style.
      */
+    
+    /**
+     * @cfg {Boolean/Function} autoFocus=true When form is ready and rendered, the first field will be focused. If it is a function, it should return a boolean.
+     */
+    autoFocus: true,
     
      /**
       * @cfg {String} fieldNamePrefix='' The prefix to all submitted fields (should end with '.' if non empty)
@@ -258,10 +257,10 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         
         config.cls = Ext.Array.from(config.cls);
         config.cls.push("a-configurable-form-panel");
+        config.cls.push("a-panel-spacing");
         
     	this.defaultFieldConfig = config.defaultFieldConfig || {};
     	
-        config.bodyPadding = config.bodyPadding != null ?  config.bodyPadding : Ametys.form.ConfigurableFormPanel.PADDING_GENERAL;
         config.items = this._getFormContainerCfg(config);
         
         this._additionalWidgetsConf = config.additionalWidgetsConf || {};
@@ -293,6 +292,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         this._fieldNamePrefix = config["fieldNamePrefix"] || '';
         
         this.showAmetysComments = config.showAmetysComments === true;
+        
+        this.on('afterrender', this._setFocusIfReady, this);
     },
     
     /**
@@ -579,36 +580,30 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         {
             tabPanel = Ext.create('Ext.panel.Panel', {
                 cls: 'ametys-form-tab-inline',
-                margin: '5 0 0 0',
                 layout: this.initialConfig.tabsLayout || { type: 'anchor' },
             	
-                border: false,
-                
-                dockedItems: [{
-                    dock: 'top',
-                    xtype: 'toolbar',
-                    cls: 'ametys-form-tab-inline-toolbar',
-                    items:[
-                        '->',
-                        {
-                            text: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_COLLAPSE_ALL'/>",
-                            handler: function (btn) { 
-                                me._expandOrCollapseAllInlineTab(tabPanel, btn, true)
-                            }
-                        },
-                        '|',
-                        {
-                            text: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_EXPAND_ALL'/>",
-                            handler: function (btn) { 
-                                me._expandOrCollapseAllInlineTab(tabPanel, btn, false)
-                            }
-                        }
-                    ]
-                }],
-                listeners: {
-                	'afterrender': {fn: this._setFocusIfReady, scope: this}
-                }
+                border: false
             });
+            
+            this.addDocked([{
+                dock: 'top',
+                xtype: 'toolbar',
+                cls: 'ametys-form-tab-inline-toolbar',
+                items:[
+                    {
+                        text: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_COLLAPSE_ALL'/>",
+                        handler: function (btn) { 
+                            me._expandOrCollapseAllInlineTab(tabPanel, btn, true)
+                        }
+                    },
+                    {
+                        text: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_EXPAND_ALL'/>",
+                        handler: function (btn) { 
+                            me._expandOrCollapseAllInlineTab(tabPanel, btn, false)
+                        }
+                    }
+                ]
+            }]);
         }
         else
         {
@@ -627,7 +622,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                             tabpanel.setActiveTab(panel);
                         }
                     },
-                    'afterrender': {fn: this._setFocusIfReady, scope: this},
                     'tabchange': {fn: this._onTabChange, scope: this}
                 }
             });
@@ -650,7 +644,26 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     		// Focus first field of the form
     		if (this._fields[0] != null)
     		{
-    			this.getField(this._fields[0]).focus();
+                var me = this;
+                
+                var field = this.getField(this._fields[0]);
+                
+                function focusIfAutoFocus()
+                {
+                    if (Ext.isFunction(me.autoFocus) ? me.autoFocus() : me.autoFocus)
+                    {
+                         field.focus();
+                    }
+                }
+                
+                if (field.rendered)
+                {
+                    focusIfAutoFocus();
+                }
+                else
+                {
+                    field.on('render', focusIfAutoFocus, null, { single: true });
+                }
     		}
     		
 	    	this.on({

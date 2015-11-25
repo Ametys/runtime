@@ -21,13 +21,6 @@ Ext.define('Ametys.form.SaveHelper', {
     singleton: true,
     
     /**
-     * @property {Number} LAUNCH_TESTS_SAVE_MBOX_HEIGHT The height of the "launch tests and save" message box
-     * @private
-     * @readonly 
-     */
-    LAUNCH_TESTS_SAVE_MBOX_HEIGHT: 130,
-    
-    /**
      * Get the form from message targets
      * @param {Ametys.message.MessageTarget[]} targets the message targets
      * @return the form is found, null otherwise
@@ -110,8 +103,7 @@ Ext.define('Ametys.form.SaveHelper', {
                 title: "<i18n:text i18n:key='PLUGINS_CORE_UI_SAVE_TESTS_NOK_MBOX_TITLE'/>", 
                 msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_SAVE_TESTS_NOK_MBOX_MSG'/>",
                 buttons: Ext.Msg.YESNOCANCEL,
-                icon: Ext.Msg.ERROR,
-                height: me.LAUNCH_TESTS_SAVE_MBOX_HEIGHT,
+                icon: Ext.Msg.WARNING,
                 fn: function(answer)
                 {
                     if (answer == 'yes')

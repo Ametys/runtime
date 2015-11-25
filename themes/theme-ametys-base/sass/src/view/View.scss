@@ -92,19 +92,19 @@
         	font-size: $ametys-tool-font-size;
 			line-height: $ametys-tool-font-size*1.25;
         	
-        	&.x-view-over {
-				background-color: lighten($active-color, 40%);
-				border-color: lighten($active-color, 30%);
-			}
+            &.x-view-over {
+                background-color: $ametys-tool-tab-gray-light;
+                border-color: $ametys-tool-tab-gray;
+            }
 			
 	        &.x-item-selected {
-				background-color: lighten($active-color, 35%);
-				border-color: lighten($active-color, 25%);
+				background-color: $active-color-light;
+				border-color: lighten($active-color, 20%);
 			}
 			
 			&.x-item-selected.x-view-over {
-				background-color: lighten($active-color, 35%);
-				border-color: lighten($active-color, 25%);
+                background-color: $active-color-light;
+                border-color: lighten($active-color, 20%);
 			}
 			
         }

@@ -23,18 +23,18 @@
     
     .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-#{$index*10} {
         .#{$prefix}grid-item-over {
-            background-color: $active-color-light;
+            background-color: $grid-row-cell-over-background-color;
         }
         .#{$prefix}grid-item-selected {
-            background-color: mix($active-color-light, $active-color, 50%);
+            background-color: $active-color-light;
         }
         
         .#{$prefix}grid-with-row-lines {
             .#{$prefix}grid-item.#{$prefix}grid-item-over {
-                border-color: mix($active-color-light, $active-color, 50%);
+                border-color: $grid-row-cell-over-background-color;
             }        
             .#{$prefix}grid-item-over + .#{$prefix}grid-item {
-                border-top-color: mix($active-color-light, $active-color, 50%);
+                border-top-color: $grid-row-cell-over-background-color;
             }
                         
             .#{$prefix}grid-item.#{$prefix}grid-item-selected {

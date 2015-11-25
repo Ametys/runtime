@@ -102,7 +102,7 @@ Ext.define('Ametys.plugins.admin.tool.SystemTool', {
 			store : store,
 			
 		    columns: [
-		        {stateId: 'grid-lang', header: "<i18n:text i18n:key='PLUGINS_ADMIN_SYSTEM_COL_LANG'/>", menuDisabled : true, sortable: true, width: 80, dataIndex: 'language' },
+		        {stateId: 'grid-lang', header: "<i18n:text i18n:key='PLUGINS_ADMIN_SYSTEM_COL_LANG'/>", menuDisabled : true, sortable: true, width: 100, dataIndex: 'language' },
 		        {stateId: 'grid-message', header: "<i18n:text i18n:key='PLUGINS_ADMIN_SYSTEM_COL_MESSAGE'/>", menuDisabled : true, sortable: true, flex: 1, dataIndex: 'message' }
 		    ],
 		    

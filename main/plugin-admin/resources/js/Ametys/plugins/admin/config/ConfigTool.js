@@ -35,8 +35,11 @@ Ext.define('Ametys.plugins.admin.config.ConfigTool', {
 	createPanel: function ()
 	{
 		this._formPanel = Ext.create('Ametys.form.ConfigurableFormPanel', {
-			cls: 'config',
+			cls: 'uitool-admin-config',
 			'tab-policy-mode': 'inline',
+            
+            autoFocus: Ext.bind(this.hasFocus, this),
+            
 			listeners: {
 				'fieldchange': Ext.bind(this.setDirty, this, [true], false),
 				'inputfocus': Ext.bind(this.sendCurrentSelection, this)

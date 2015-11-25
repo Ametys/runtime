@@ -15,20 +15,12 @@
  */
 
 /* FIXME For the moment, no color in tools */
-.a-tool-layout-zoned-notfocused { 
+.a-tool-layout-zoned-notfocused, .a-tool-layout-zoned-focused { 
 	@include extjs-toolbar-ui(
          $ui: 'default',
          
          $background-color: $ametys-tool-tab-gray-light,
          $border-color: $ametys-tool-tab-gray
-    );
-}
-.a-tool-layout-zoned-focused { 
-    @include extjs-toolbar-ui(
-         $ui: 'default',
-         
-         $background-color: $base-light-color,
-         $border-color: $base-color
     );
 }
 
