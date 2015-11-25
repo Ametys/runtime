@@ -527,6 +527,7 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
                 layout: 'column',
                 
                 ui: 'light',
+                cls: 'a-panel-spacing',
                 
                 collapsible: true,
                 titleCollapse: true,

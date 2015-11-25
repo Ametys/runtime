@@ -35,11 +35,25 @@
 	color: lighten($panel-body-color, 35%);
 }
 
-
 .#{$prefix}container-panel, .#{$prefix}component-panel {
     border-color: $panel-border-color;
     border-style: solid;
     background-color: $panel-body-background-color;  
+}
+
+/** Collapse/expand tools are replace by a radio checkbox */
+.#{$prefix}panel.a-radio-panel .#{$prefix}panel-header .#{$prefix}tool-collapse-top {
+	background-image: theme-background-image($form-radio-background-image);
+	background-position: 0 -$form-checkbox-size;
+	width: $form-checkbox-size;
+	height: $form-checkbox-size;
+}
+
+.#{$prefix}panel.a-radio-panel .#{$prefix}panel-header .#{$prefix}tool-expand-bottom {
+	background-image: theme-background-image($form-radio-background-image);
+	background-position: 0 0;
+	width: $form-checkbox-size;
+	height: $form-checkbox-size;
 }
 
 .a-tool-layout-zoned-notfocused { 

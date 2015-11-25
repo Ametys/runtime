@@ -19,10 +19,11 @@
 	vertical-align: top;
 	border: 1px solid #FFFFFF;
 	padding: $font-size/3;
-	margin: $font-size/1.25;
+	margin: $font-size/1.5;
 	margin-left: 0px;
 	font-size: $font-size;
 	line-height: $font-size*1.25;
+	overflow: hidden;
 	
 	&.x-view-item-focused {
 		outline: none !important;
