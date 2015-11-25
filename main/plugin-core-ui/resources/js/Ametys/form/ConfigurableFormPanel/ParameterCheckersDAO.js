@@ -236,7 +236,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 			
 			width: Ametys.form.ConfigurableFormPanel.LABEL_WIDTH - offset + Ametys.form.ConfigurableFormPanel.FIELD_MINWIDTH,
 
-			border: false,
+			border: true,
             tooltip: '',
             
             paramChecker: paramChecker,

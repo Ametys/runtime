@@ -588,7 +588,10 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             this.addDocked([{
                 dock: 'top',
                 xtype: 'toolbar',
-                cls: 'ametys-form-tab-inline-toolbar',
+                style: {
+                    borderWidth: '0 0 1px 0 !important'
+                },
+
                 items:[
                     {
                         text: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_COLLAPSE_ALL'/>",
