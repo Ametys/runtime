@@ -231,6 +231,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
     	    
     	    // The tools
     	    tools: [
+                // collapse tool (automatically added)
                 this._upTool(),
                 this._downTool(),
                 this._addTool(this.addLabel),
@@ -726,7 +727,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
         me.getItems().each(function(panel, index, length) {
         	
             // The panel is rendered: tools is an object, items can be accessed by their name.
-        	if (panel.tools.up)
+        	if (panel.tools.moveup)
         	{
         		panel.tools.moveup.setVisible(index > 0);
         		panel.tools.movedown.setVisible(index < (length-1));
