@@ -49,7 +49,6 @@
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_JVM_TIME">Démarrage</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM">Utilisation de la mémoire</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_HEAP">Principale</message>
-    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_NHEAP">Interne</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_USED_SUFFIX">Utilisée</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_FREE_SUFFIX">Libre</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_AVAILABLE_SUFFIX">Disponible</message>
@@ -59,7 +58,6 @@
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_UNIT">Mo</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_FREENOW">Libérer de la mémoire</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_MEMORY_HINT_HEAP">La mémoire principale est la mémoire du tas (HEAP) qui se paramètre avec les options -Xms et -Xmx. Par exemple -Xms128m -Xmx512m. En passant la souris au-dessus de la barre de mémoire, un message vous affichera les valeurs exactes de la mémoire.</message>
-    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_MEMORY_HINT_NHEAP">La mémoire interne de java est la mémoire hors tas (non HEAP) qui se paramètre avec l'option -XX:MaxPermSize. Par exemple -XX:MaxPermSize=128m. En passant la souris au-dessus de la barre de mémoire, un message vous affichera les valeurs exactes de la mémoire.</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE">Traitements du serveur</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_SESSION">Sessions ouvertes</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_SESSION_HELP">Le nombre indiqué ici comptabilise les sessions du moteur de servlet ouvertes et qui n'ont pas encore expiré.&lt;br/&gt;Par exemple, les sessions des utilisateurs et celles des administrateurs sont confondues</message>

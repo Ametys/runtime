@@ -209,10 +209,6 @@ Ext.define('Ametys.plugins.admin.jvmstatus.JVMStatusTool', {
 	        html: "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_MEMORY_HINT_HEAP'/>"
 	    });
 	    Ext.create ('Ext.ToolTip', {
-	        target: 'mem-nheap-help-img',
-	        html: "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_MEMORY_HINT_NHEAP'/>"
-	    });
-	    Ext.create ('Ext.ToolTip', {
 	        target: 'handle-session-help-img',
 	        html: "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_SESSION_HELP'/>"
 	    });
@@ -288,28 +284,6 @@ Ext.define('Ametys.plugins.admin.jvmstatus.JVMStatusTool', {
 	    document.getElementById("totalMemImg").style.width = v1 + "px";
 	    document.getElementById("freeMemImg").style.width = v2 + "px";
 	    document.getElementById("maxMemImg").style.width = 280 - v1 - v2 + "px";
-	    
-	    // non HEAP MEMORY
-	    commitedMem = response['non-heap-memory-commited'];
-	    usedMem = response['non-heap-memory-used'];
-	    maxMem = response['non-heap-memory-max'];
-	    
-	    var tip  = "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_USED'/> : " + Math.round(usedMem / (1024*1024) * 10) / 10 + " <i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_UNIT'/>"
-	            + "\n<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_FREE'/> : " + Math.round((commitedMem - usedMem) / (1024*1024) * 10) / 10 + " <i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_UNIT'/>"
-	            + "\n<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_AVAILABLE'/> : " + Math.round((maxMem-commitedMem) / (1024*1024) * 10) / 10  + " <i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_UNIT'/>";
-	    
-	    document.getElementById("totalMem2Img").title = tip;
-	    document.getElementById("freeMem2Img").title = tip;
-	    document.getElementById("maxMem2Img").title = tip;
-
-	    document.getElementById("middleMem2").innerHTML = Math.round((maxMem/2) / (1024*1024));
-	    document.getElementById("maxiMem2").innerHTML = Math.round((maxMem) / (1024*1024));
-
-	    var v1 = Math.round(usedMem/maxMem * 280);
-	    var v2 = Math.round((commitedMem - usedMem)/maxMem * 280);
-	    document.getElementById("totalMem2Img").style.width = v1 + "px";
-	    document.getElementById("freeMem2Img").style.width = v2 + "px";
-	    document.getElementById("maxMem2Img").style.width = 280 - v1 - v2 + "px";
 	    
 	    // ACTIVE SESSION
 	    var sessions = response.activeSessions;

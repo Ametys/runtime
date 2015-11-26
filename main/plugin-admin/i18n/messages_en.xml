@@ -49,7 +49,6 @@
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_JVM_TIME">Startup</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM">Memory usage</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_HEAP">Main</message>
-    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_NHEAP">Internal</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_USED_SUFFIX">Used</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_FREE_SUFFIX">Free</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_AVAILABLE_SUFFIX">Available</message>
@@ -59,7 +58,6 @@
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_UNIT">Mo</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_FREENOW">Free memory</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_MEMORY_HINT_HEAP">Main memory is heap memory parameterized with -Xms and -Xmx options. For example -Xms128m -Xmx512m. When rolling over the memory bar with the mouse, a message will show the exact values of the memory.</message>
-    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_MEMORY_HINT_NHEAP">Internal memory is the non-heap memory parameterized with -XX:MaxPermSize. For example -XX:MaxPermSize=128m. When rolling over the memory bar with the mouse, a message will show the exact values of the memory.</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE">Server processing</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_SESSION">Open sessions</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_SESSION_HELP">The given number indicates all servlet engine open sessions. No distinction is made, for example, between user and administrator sessions.</message>

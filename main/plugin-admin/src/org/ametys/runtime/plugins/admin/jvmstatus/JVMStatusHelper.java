@@ -116,14 +116,6 @@ public class JVMStatusHelper extends AbstractLogEnabled implements Component, Se
         result.put("heap-memory-used", mBean.getHeapMemoryUsage().getUsed());
         result.put("heap-memory-commited", mBean.getHeapMemoryUsage().getCommitted());
         
-        long nonHeapUsed = mBean.getNonHeapMemoryUsage().getUsed();
-        long nonHeapCommited = mBean.getNonHeapMemoryUsage().getCommitted();
-        long nonHeapMax = Math.max(mBean.getNonHeapMemoryUsage().getMax(), nonHeapCommited);
-
-        result.put("non-heap-memory-max", nonHeapMax);
-        result.put("non-heap-memory-used", nonHeapUsed);
-        result.put("non-heap-memory-commited", nonHeapCommited);
-        
         result.put("startTime", ParameterHelper.valueToString(new Date(rBean.getStartTime())));
         
         return result;

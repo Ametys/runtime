@@ -91,17 +91,6 @@
 	             <div style="float: left; text-align: right; width: 124px"><span id="maxiMem"></span>&#160;&#160;<i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_UNIT"/></div>
 	             
 	             <br/><br/>
-	             
-	             <div class="label help" id="mem-nheap-help-img"><i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_NHEAP"/></div>
-	             <div id="totalMem2Img"><xsl:comment/></div>
-	             <div id="freeMem2Img"><xsl:comment/></div>
-	             <div id="maxMem2Img"><xsl:comment/></div>
-	             <br/>    
-	             <div style="float: left; text-align: right; width: 170px">0&#160;<i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_UNIT"/></div>
-	             <div style="float: left; text-align: right; width: 136px"><span id="middleMem2"></span>&#160;<i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_UNIT"/></div>
-	             <div style="float: left; text-align: right; width: 124px"><span id="maxiMem2"></span>&#160;&#160;<i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_UNIT"/></div>
-	             
-	             <br/><br/>
 	             <div class="legend">
 	                 <div id="totalMemImg-legend"><xsl:comment/></div><i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_USED_SUFFIX"/>
 	                 <div id="freeMemImg-legend"><xsl:comment/></div><i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_FREE_SUFFIX"/>
