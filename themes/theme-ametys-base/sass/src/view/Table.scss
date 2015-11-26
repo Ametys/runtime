@@ -14,6 +14,23 @@
  *  limitations under the License.
  */
 
+.a-visible-focus {
+    .#{$prefix}grid-item-focused {
+        .#{$prefix}grid-cell-inner:before {
+            border-color: dynamic(#808080);
+        }   
+    }
+}  
+
+// Special effect on first cell
+.#{$prefix}grid-item-selected .#{$prefix}grid-cell:FIRST-CHILD {
+    border-left: $ametys-special-border solid $grid-row-cell-selected-border-color;
+    .#{$prefix}grid-cell-inner {
+        padding-left: (left($grid-cell-inner-padding) - $ametys-special-border);
+    }
+}
+
+
 @for $i from 1 through length($ametys-tool-tab-colors) {
     $index: $i - 1;
 
@@ -26,18 +43,19 @@
             background-color: $grid-row-cell-over-background-color;
         }
         .#{$prefix}grid-item-selected {
-            background-color: $active-color-light;
+            background-color: mix($active-color-light, $active-color, 75%);
         }
         
         .#{$prefix}grid-with-row-lines {
             .#{$prefix}grid-item.#{$prefix}grid-item-over {
-                border-color: $grid-row-cell-over-background-color;
+                border-color: $grid-row-cell-over-border-color;
             }        
             .#{$prefix}grid-item-over + .#{$prefix}grid-item {
-                border-top-color: $grid-row-cell-over-background-color;
+                border-top-color: $grid-row-cell-over-border-color;
             }
                         
-            .#{$prefix}grid-item.#{$prefix}grid-item-selected {
+            .#{$prefix}grid-item.#{$prefix}grid-item-selected,
+            .#{$prefix}grid-item-selected .#{$prefix}grid-cell:FIRST-CHILD {
                 border-color: $active-color;
             }
             .#{$prefix}grid-item-selected + .#{$prefix}grid-item {
@@ -45,13 +63,15 @@
             }
         }
         
-        .#{$prefix}grid-item-focused {
-            .#{$prefix}grid-cell-inner:before {
-                border-color: $active-color-dark;
-            }   
-        }         
+        .a-visible-focus {
+            .#{$prefix}grid-item-focused {
+                .#{$prefix}grid-cell-inner:before {
+                    border-color: $active-color;
+                }   
+            }
+        }                
                     
-        // Grid stuff
+        // Grid headers
         .#{$prefix}grid-body.#{$prefix}panel-body {
             @extend .#{$prefix}grid-body;
         }
