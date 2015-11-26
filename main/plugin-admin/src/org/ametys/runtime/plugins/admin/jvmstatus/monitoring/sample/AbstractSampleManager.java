@@ -34,7 +34,7 @@ import org.rrd4j.core.Util;
 import org.rrd4j.graph.RrdGraphConstants;
 import org.rrd4j.graph.RrdGraphDef;
 
-import org.ametys.core.util.I18nizableText;
+import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.plugin.component.PluginAware;
 import org.ametys.runtime.plugins.admin.jvmstatus.monitoring.MonitoringConstants;
 import org.ametys.runtime.plugins.admin.jvmstatus.monitoring.SampleManager;

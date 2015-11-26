@@ -29,7 +29,6 @@ import org.ametys.core.right.HierarchicalRightsHelper;
 import org.ametys.core.right.HierarchicalRightsManager;
 import org.ametys.core.right.RightsException;
 
-
 /**
  * This right manager looks for right in content and in parent context 
  */
@@ -61,7 +60,7 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
             }
             else
             {
-                Set<String> users = new HashSet<String>();
+                Set<String> users = new HashSet<>();
     
                 Set<String> convertedContexts = getAliasContext(context);
                 for (String convertContext : convertedContexts)

@@ -32,8 +32,8 @@ import org.ametys.core.right.RightsExtensionPoint;
 import org.ametys.core.right.RightsManager;
 import org.ametys.core.right.profile.Profile;
 import org.ametys.core.ui.Callable;
-import org.ametys.core.util.I18nizableText;
 import org.ametys.plugins.core.impl.right.profile.ProfileBasedRightsManager;
+import org.ametys.runtime.i18n.I18nizableText;
 
 /**
  * Component for profiles client interaction

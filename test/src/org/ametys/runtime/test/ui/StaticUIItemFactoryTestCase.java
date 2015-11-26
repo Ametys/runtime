@@ -17,8 +17,8 @@ package org.ametys.runtime.test.ui;
 
 import org.ametys.core.ui.ClientSideElement;
 import org.ametys.core.ui.StaticClientSideElement;
-import org.ametys.core.util.I18nizableText;
 import org.ametys.plugins.core.ui.item.DesktopManager;
+import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.Init;
 

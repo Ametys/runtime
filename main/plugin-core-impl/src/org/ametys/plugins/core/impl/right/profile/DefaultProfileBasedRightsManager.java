@@ -69,7 +69,7 @@ import org.ametys.core.user.ModifiableUsersManager;
 import org.ametys.core.user.User;
 import org.ametys.core.user.UserListener;
 import org.ametys.core.user.UsersManager;
-import org.ametys.core.util.I18nizableText;
+import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.request.RequestListener;
 import org.ametys.runtime.request.RequestListenerManager;
 
@@ -331,7 +331,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         try
         {
-            Set<String> users = new HashSet<String>();
+            Set<String> users = new HashSet<>();
             
             Set<String> convertedContexts = getAliasContext(context);
             for (String convertContext : convertedContexts)
@@ -359,7 +359,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         String lcContext = getFullContext (context);
 
-        Set<String> logins = new HashSet<String>();
+        Set<String> logins = new HashSet<>();
         
         logins.addAll(getGrantedUsersOnly(lcContext));
         logins.addAll(getGrantedGroupsOnly(lcContext));
@@ -1760,7 +1760,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     
     private Set<String> getGrantedUsersOnly(String context) throws SQLException
     {
-        Set<String> logins = new HashSet<String>();
+        Set<String> logins = new HashSet<>();
         
         Connection connection = ConnectionHelper.getConnection(_poolName);
         PreparedStatement stmt = null;
@@ -2197,7 +2197,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     
     private Set<String> getGrantedGroupsOnly(String context) throws SQLException
     {
-        Set<String> logins = new HashSet<String>();
+        Set<String> logins = new HashSet<>();
 
         Connection connection = ConnectionHelper.getConnection(_poolName);
         PreparedStatement stmt = null;

@@ -18,7 +18,7 @@ package org.ametys.runtime.parameter;
 
 import java.util.Map;
 
-import org.ametys.core.util.I18nizableText;
+import org.ametys.runtime.i18n.I18nizableText;
 
 /**
  * A parameter is defined with the following properties:

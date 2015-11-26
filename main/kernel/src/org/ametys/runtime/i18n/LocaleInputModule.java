@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.ametys.runtime.cocoon;
+package org.ametys.runtime.i18n;
 
 import java.util.Iterator;
 import java.util.Locale;

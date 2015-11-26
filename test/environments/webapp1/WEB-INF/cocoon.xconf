@@ -124,9 +124,9 @@
       | Each source factory adds a special uri schemes to the system.
       +-->
   <source-factories>
-    <component-instance class="org.ametys.runtime.cocoon.source.KernelSourceFactory" name="kernel"/>
-    <component-instance class="org.ametys.runtime.cocoon.source.ResourceSourceFactory" name="resource"/>
-    <component-instance class="org.ametys.runtime.cocoon.source.ZipSourceFactory" name="zip"/>
+    <component-instance class="org.ametys.core.cocoon.source.KernelSourceFactory" name="kernel"/>
+    <component-instance class="org.ametys.core.cocoon.source.ResourceSourceFactory" name="resource"/>
+    <component-instance class="org.ametys.core.cocoon.source.ZipSourceFactory" name="zip"/>
     <component-instance class="org.ametys.runtime.plugin.PluginSourceFactory" name="plugin"/>
     <component-instance class="org.ametys.runtime.workspace.WorkspaceSourceFactory" name="workspace"/>
     

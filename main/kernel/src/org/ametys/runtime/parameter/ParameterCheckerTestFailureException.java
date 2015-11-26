@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.ametys.core.parameter.checker;
+package org.ametys.runtime.parameter;
 
 /**
  * Class handling the parameter checkers' test failures.

@@ -33,8 +33,8 @@ import org.apache.excalibur.source.SourceResolver;
 import org.apache.excalibur.source.TraversableSource;
 import org.apache.excalibur.source.impl.FileSource;
 
-import org.ametys.core.parameter.checker.ParameterCheckerTestFailureException;
 import org.ametys.runtime.parameter.ParameterChecker;
+import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
 
 /**
  * Checks if the specified repository exists and optionally if the user has the writing rights

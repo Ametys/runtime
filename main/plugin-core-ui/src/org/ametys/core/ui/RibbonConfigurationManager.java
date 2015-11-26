@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
-import org.ametys.core.util.I18nizableText;
+import org.ametys.runtime.i18n.I18nizableText;
 
 /**
  * This class handles the ribbon configuration needed for client side display.

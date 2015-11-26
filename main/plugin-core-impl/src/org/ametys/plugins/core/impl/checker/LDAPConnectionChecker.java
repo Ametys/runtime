@@ -28,8 +28,8 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
-import org.ametys.core.parameter.checker.ParameterCheckerTestFailureException;
 import org.ametys.runtime.parameter.ParameterChecker;
+import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
 
 /**
  * Checks if the connection to the LDAP is possible and then verifies the DN. 

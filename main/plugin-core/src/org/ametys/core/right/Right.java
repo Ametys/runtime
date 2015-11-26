@@ -23,7 +23,7 @@ import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
-import org.ametys.core.util.I18nizableText;
+import org.ametys.runtime.i18n.I18nizableText;
 
 /**
  * A right in a runtime application.<br>

@@ -41,6 +41,7 @@ import org.apache.cocoon.xml.SaxBuffer.Characters;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.plugin.PluginsManager;
 import org.ametys.runtime.workspace.WorkspaceManager;
 

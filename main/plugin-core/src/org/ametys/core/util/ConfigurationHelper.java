@@ -25,6 +25,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.slf4j.Logger;
 
 import org.ametys.runtime.config.Config;
+import org.ametys.runtime.i18n.I18nizableText;
 
 /**
  * Helper class providing methods to deal with common {@link Configuration} tasks.

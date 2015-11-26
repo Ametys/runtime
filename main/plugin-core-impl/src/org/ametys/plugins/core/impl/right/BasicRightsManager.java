@@ -66,7 +66,7 @@ public class BasicRightsManager implements RightsManager, Serviceable, ThreadSaf
     @Override
     public Set<String> getGrantedUsers(String context) throws RightsException
     {
-        Set<String> usersLogin = new HashSet<String>();
+        Set<String> usersLogin = new HashSet<>();
 
         Collection<User> users = _users.getUsers();
         for (User user : users)

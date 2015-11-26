@@ -28,7 +28,7 @@ import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
 import org.apache.cocoon.util.StringUtils;
 
-import org.ametys.runtime.cocoon.ActionResultGenerator;
+import org.ametys.core.cocoon.ActionResultGenerator;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.config.ConfigManager;
 import org.ametys.runtime.config.ConfigParameter;

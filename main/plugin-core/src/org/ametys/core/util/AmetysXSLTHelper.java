@@ -38,6 +38,7 @@ import org.ametys.core.util.dom.MapElement;
 import org.ametys.core.version.Version;
 import org.ametys.core.version.VersionsHandler;
 import org.ametys.runtime.config.Config;
+import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.ParameterHelper;
 import org.ametys.runtime.workspace.WorkspaceMatcher;
 

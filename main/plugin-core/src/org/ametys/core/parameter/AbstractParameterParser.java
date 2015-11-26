@@ -25,7 +25,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.commons.lang3.StringUtils;
 
 import org.ametys.core.util.ConfigurationHelper;
-import org.ametys.core.util.I18nizableText;
+import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.Enumerator;
 import org.ametys.runtime.parameter.Parameter;
 import org.ametys.runtime.parameter.Validator;

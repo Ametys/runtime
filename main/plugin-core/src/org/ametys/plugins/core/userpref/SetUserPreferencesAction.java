@@ -40,8 +40,8 @@ import org.ametys.core.userpref.UserPreferencesErrors;
 import org.ametys.core.userpref.UserPreferencesException;
 import org.ametys.core.userpref.UserPreferencesExtensionPoint;
 import org.ametys.core.userpref.UserPreferencesManager;
-import org.ametys.core.util.I18nizableText;
 import org.ametys.core.util.cocoon.AbstractCurrentUserProviderServiceableAction;
+import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.ParameterHelper;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
 

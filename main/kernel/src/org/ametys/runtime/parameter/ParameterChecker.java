@@ -17,9 +17,6 @@ package org.ametys.runtime.parameter;
 
 import java.util.Map;
 
-import org.ametys.core.parameter.checker.ParameterCheckerTestFailureException;
-import org.ametys.core.ui.Callable;
-
 /**
  * Interface for the parameter checker
  */
@@ -30,6 +27,5 @@ public interface ParameterChecker
      * @param parameters the parameters
      * @throws ParameterCheckerTestFailureException if the test failed
      */
-    @Callable
     public void check(Map<String, String> parameters) throws ParameterCheckerTestFailureException;
 }

@@ -19,14 +19,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
 import org.apache.avalon.framework.service.ServiceManager;
 
 import org.ametys.core.util.I18nUtils;
-import org.ametys.core.util.I18nizableText;
+import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.Init;
+
+import junit.framework.TestCase;
 
 /**
  * {@link TestCase} for programmatically translating i18n keys.

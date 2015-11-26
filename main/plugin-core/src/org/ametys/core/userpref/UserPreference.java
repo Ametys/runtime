@@ -15,7 +15,7 @@
  */
 package org.ametys.core.userpref;
 
-import org.ametys.core.util.I18nizableText;
+import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.Parameter;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
 

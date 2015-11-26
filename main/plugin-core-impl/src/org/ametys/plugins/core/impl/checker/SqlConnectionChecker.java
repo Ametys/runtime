@@ -26,8 +26,8 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 import org.ametys.core.datasource.ConnectionHelper;
-import org.ametys.core.parameter.checker.ParameterCheckerTestFailureException;
 import org.ametys.runtime.parameter.ParameterChecker;
+import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
 
 /**
  * Checks the SQL connection with the data written in the configuration panel

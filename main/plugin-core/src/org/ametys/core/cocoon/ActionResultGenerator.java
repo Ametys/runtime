@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package org.ametys.runtime.cocoon;
+package org.ametys.core.cocoon;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -30,7 +30,7 @@ import org.apache.cocoon.xml.XMLUtils;
 import org.apache.commons.lang.StringUtils;
 import org.xml.sax.SAXException;
 
-import org.ametys.core.util.I18nizableText;
+import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.Errors;
 
 /**

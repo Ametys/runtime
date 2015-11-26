@@ -30,8 +30,8 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.cocoon.util.StringUtils;
 import org.apache.commons.lang.ArrayUtils;
 
-import org.ametys.core.parameter.checker.ParameterCheckerTestFailureException;
 import org.ametys.runtime.parameter.ParameterChecker;
+import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
 
 /**
  * Checks if the url written is correct and if it allows to establish a connection with the given configuration. 

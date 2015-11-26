@@ -221,9 +221,9 @@
             <include name="**/cocoon.xconf"/>
             
             <replacefilter token="org.ametys.runtime.util.cocoon.LocaleInputModule" value="org.ametys.runtime.cocoon.LocaleInputModule"/>
-            <replacefilter token="org.ametys.runtime.util.cocoon.source.KernelSourceFactory" value="org.ametys.runtime.cocoon.source.KernelSourceFactory"/>
-            <replacefilter token="org.ametys.runtime.util.cocoon.source.ResourceSourceFactory" value="org.ametys.runtime.cocoon.source.ResourceSourceFactory"/>
-            <replacefilter token="org.ametys.runtime.util.cocoon.source.ZipSourceFactory" value="org.ametys.runtime.cocoon.source.ZipSourceFactory"/>
+            <replacefilter token="org.ametys.runtime.util.cocoon.source.KernelSourceFactory" value="org.ametys.core.cocoon.source.KernelSourceFactory"/>
+            <replacefilter token="org.ametys.runtime.util.cocoon.source.ResourceSourceFactory" value="org.ametys.core.cocoon.source.ResourceSourceFactory"/>
+            <replacefilter token="org.ametys.runtime.util.cocoon.source.ZipSourceFactory" value="org.ametys.core.cocoon.source.ZipSourceFactory"/>
         </replace>
         
         <echo message="Upgrade web.xml"/>

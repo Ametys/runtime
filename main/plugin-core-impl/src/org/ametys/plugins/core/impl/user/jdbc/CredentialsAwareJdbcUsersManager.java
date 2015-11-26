@@ -28,8 +28,8 @@ import org.ametys.core.authentication.Credentials;
 import org.ametys.core.datasource.ConnectionHelper;
 import org.ametys.core.parameter.DefaultValidator;
 import org.ametys.core.user.CredentialsAwareUsersManager;
-import org.ametys.core.util.I18nizableText;
 import org.ametys.core.util.StringUtils;
+import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
 
 

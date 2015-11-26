@@ -22,9 +22,9 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 
-import org.ametys.core.parameter.checker.ParameterCheckerTestFailureException;
 import org.ametys.core.util.mail.SendMailHelper;
 import org.ametys.runtime.parameter.ParameterChecker;
+import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
 
 /**
  * Tests the connection to the mail box and sends an e-mail to the system administrator.

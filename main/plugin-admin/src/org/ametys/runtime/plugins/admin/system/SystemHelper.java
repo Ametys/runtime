@@ -49,7 +49,7 @@ import org.xml.sax.helpers.AttributesImpl;
 
 import org.ametys.core.ui.Callable;
 import org.ametys.core.util.I18nUtils;
-import org.ametys.core.util.I18nizableText;
+import org.ametys.runtime.i18n.I18nizableText;
 
 /**
  * Helper for manipulating system announcement 

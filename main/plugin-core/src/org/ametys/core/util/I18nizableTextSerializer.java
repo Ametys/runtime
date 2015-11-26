@@ -28,6 +28,8 @@ import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.SerializerProvider;
 import org.codehaus.jackson.map.ser.std.SerializerBase;
 
+import org.ametys.runtime.i18n.I18nizableText;
+
 /**
  * Serializer for {@link I18nizableText} objects.
  * Returns the translated message for JSON value.
