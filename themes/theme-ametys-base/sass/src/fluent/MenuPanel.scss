@@ -45,6 +45,12 @@
     $ui-header-font-weight: $ametys-ribbon-menupanel-header-font-weight,
     $ui-header-padding: $ametys-ribbon-menupanel-header-padding,
     
+    // add a pixel separator between body and header
+    $ui-body-border-width: 1px 0 0 0 !important,
+    $ui-body-border-color: $ametys-ribbon-menu-background-color, 
+    
+    $ui-body-background-color: $ametys-ribbon-menu-background-color,
+    
     $ui-padding: 1px 1px 0 1px
 );
 

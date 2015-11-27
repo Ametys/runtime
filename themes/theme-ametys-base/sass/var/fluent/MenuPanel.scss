@@ -20,10 +20,10 @@ $ametys-ribbon-menu-background-color: dynamic($ametys-ribbon-button-background-c
 $ametys-ribbon-menu-active-color: dynamic($ametys-ribbon-button-color-over);
 $ametys-ribbon-menu-active-background-color: dynamic($ametys-ribbon-button-background-color-over);
  
-$ametys-ribbon-menupanel-header-background-color: $ametys-ribbon-tab-color;
-$ametys-ribbon-menupanel-header-color: $ametys-ribbon-main-color;
+$ametys-ribbon-menupanel-header-background-color: dynamic(darken($ametys-ribbon-menu-background-color, 8));
+$ametys-ribbon-menupanel-header-color: mix($ametys-tool-tab-gray-dark, $ametys-tool-tab-gray-superdark, 25%);
 $ametys-ribbon-menupanel-header-font-size: $ametys-ribbon-font-size;
 $ametys-ribbon-menupanel-header-font-weight: bold;
-$ametys-ribbon-menupanel-header-padding: 5px;
+$ametys-ribbon-menupanel-header-padding: 3px;
 
  
