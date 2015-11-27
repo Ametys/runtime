@@ -135,6 +135,13 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
     
     /**
+     * @cfg {String} testURL The url to use to run the verifications. see {@link Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO#check}
+     */
+    /**
+     * @private
+     * @property {String} _testURL See #cfg-testURL.
+     */
+    /**
      * @property {String} _tabPolicy The current display tab policy name.
      * @private
      */
@@ -145,7 +152,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
 
     /**
-     * @property {Ext.panel.Panel/Ext.tab.Panel} _tabPanel The main panel or tabpanel depeding on policy.
+     * @property {Ext.panel.Panel/Ext.tab.Panel} _tabPanel The main panel or tabpanel depending on policy.
      * @private
      */
 
@@ -299,6 +306,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         
         this._additionalWidgetsConf = config.additionalWidgetsConf || {};
         this._additionalWidgetsConfFromParams = config.additionalWidgetsConfFromParams || {};
+        this._testURL = config.testURL;
         
         this.callParent(arguments);
         
@@ -475,6 +483,15 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     getFieldNamePrefix: function ()
     {
         return this._fieldNamePrefix;
+    },
+    
+    /**
+     * Get the url used to run the checks on parameters
+     * @return {String} The url
+     */
+    getTestURL: function ()
+    {
+        return this._testURL;
     },
     
     /**
@@ -1749,6 +1766,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             
             var tabs = [];
             
+            var me = this;
             for (var name in data)
             {
                 var type = data[name].type ? data[name].type.toLowerCase() : null;
@@ -1962,7 +1980,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                         }
                         
                         Ext.Array.each(paramCheckers, function(paramChecker){
-                            me._paramCheckersDAO.addParameterChecker(fieldset, paramChecker, offset, roffset);
+                            me._paramCheckersDAO.addParameterChecker(paramChecker, offset, roffset);
                         });
                     }
                 }

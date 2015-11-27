@@ -37,7 +37,8 @@ Ext.define('Ametys.plugins.admin.config.ConfigTool', {
 		this._formPanel = Ext.create('Ametys.form.ConfigurableFormPanel', {
 			cls: 'uitool-admin-config',
 			'tab-policy-mode': 'inline',
-            
+			testURL: Ametys.getPluginDirectPrefix('admin') + '/config/test',
+			
             autoFocus: Ext.bind(this.hasFocus, this),
             
 			listeners: {
