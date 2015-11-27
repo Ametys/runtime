@@ -17,6 +17,7 @@ package org.ametys.runtime.test;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,7 +76,6 @@ public class CocoonWrapper
         _workDir = workDir;
     }
 
-    @SuppressWarnings("deprecation")
     void initialize() throws Exception
     {
         Hierarchy hierarchy = Hierarchy.getDefaultHierarchy();
@@ -94,7 +94,7 @@ public class CocoonWrapper
             LogKitLoggerManager logManager = new LogKitLoggerManager(hierarchy);
             logManager.enableLogging(_logger);
 
-            File conf = new File(_contextDir, "WEB-INF/cocoon.xconf");
+            URL configFile = getClass().getResource("/org/ametys/runtime/cocoon/cocoon.xconf");
 
             _cliContext = new CommandLineContext(_contextDir);
             _cliContext.enableLogging(_logger);
@@ -107,7 +107,7 @@ public class CocoonWrapper
             appContext.put(Constants.CONTEXT_CLASSPATH, "unknown");
             appContext.put(Constants.CONTEXT_UPLOAD_DIR, _contextDir + "upload-dir");
             appContext.put(Constants.CONTEXT_CACHE_DIR, cacheDir);
-            appContext.put(Constants.CONTEXT_CONFIG_URL, conf.toURL());
+            appContext.put(Constants.CONTEXT_CONFIG_URL, configFile);
             appContext.put(Constants.CONTEXT_DEFAULT_ENCODING, "ISO-8859-1");
 
             _cocoon = new Cocoon();
