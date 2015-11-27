@@ -15,7 +15,7 @@
  */
 
 /**
- * This tool lists the issued notifications. It allows the unit deletion and the deletion of all notifications. 
+ * This tool lists the issued notifications in a timeline. It allows to filter notifications by type.
  * @private
  */
 Ext.define('Ametys.plugins.coreui.notification.NotificationTool', {
@@ -23,27 +23,12 @@ Ext.define('Ametys.plugins.coreui.notification.NotificationTool', {
 	
 	/**
 	 * @private
-	 * @property {Ext.data.Store} _store the notifications' store
+	 * @property {Ametys.plugins.coreui.timeline.Timeline} _timeline the timeline of activities feed
 	 */
 	
 	/**
 	 * @private
 	 * @property {Object} _storeListeners the listeners of the tool attached to the notificator's store
-	 */
-	
-	/**
-	 * @private
-	 * @property {Ext.container.Container} _container the main container of the tool
-	 */
-	
-	/**
-	 * @private
-	 * @property {Ext.container.Container} _notificationsContainer the container for the notifications
-	 */
-	
-	/**
-	 * @private
-	 * @property {Ext.Button} _deleteAllButton the button allowing the deletion of all notifications
 	 */
 	
 	getMBSelectionInteraction: function() 
@@ -53,250 +38,279 @@ Ext.define('Ametys.plugins.coreui.notification.NotificationTool', {
 	
 	createPanel: function()
 	{
-		// Get the store
-		this._store = Ext.getCmp('ribbon').getNotificator().getStore();
-		
-		var notificationPanels = this._getNotificationPanels();
-		
-		this._notificationsContainer = Ext.create('Ext.container.Container', {
-			flex: 1, // set height, height '100%' => layout run failed
-			width: '100%',
+		this._timeline = Ext.create('Ametys.timeline.Timeline', {
 			scrollable: true,
-        	items: notificationPanels
+			
+			dockedItems: this._getToolBarConfig()
 		});
 		
-		this._deleteAllButton = Ext.create('Ext.Button', {
-		   text: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DELETE_ALL_LABEL'/>",
-    	   tooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DELETE_ALL_TOOLTIP'/>",
-    	   handler: Ext.bind(this._deleteAllNotifications, this),
-    	   disabled: true
-		});
-		
-		this._container = Ext.create('Ext.container.Container', {
-			
-			layout: 'vbox',
-			
+		return this._timeline;
+	},
+	
+	/**
+	 * @private
+	 * Get the store of notifications
+	 * @return {Ext.data.Store} the store of notifications
+	 */
+	_getNotificationStore: function ()
+	{
+		return Ext.getCmp('ribbon').getNotificator().getStore();
+	},
+	
+	/**
+	 * @private
+	 * Get the store of navigation history
+	 * @return {Ext.data.Store} the store of navigation history
+	 */
+	_getNavigationHistoryStore: function ()
+	{
+		return Ametys.navhistory.HistoryDAO.getStore();
+	},
+	
+	/**
+	 * @private
+	 * Get configuration for toolbar
+	 * @return {Object} the config object
+	 */
+	_getToolBarConfig: function ()
+	{
+		return [{
+			dock: 'top',
+			xtype: 'toolbar',
+            layout: { 
+                type: 'hbox',
+                align: 'stretch'
+            },
+			border: false,
+			defaultType: 'button',
+			defaults: {
+				ui: 'light',
+				enableToggle: true
+			},
 			items: [
-		        {
-	        	    xtype: 'toolbar',
-	        	    width: '100%',
-				    dock: 'top',
-				    items: [
-						'->',
-						this._deleteAllButton
-					]
-		        },
-		        this._notificationsContainer
-	        ]
-		});
-		
-		if (notificationPanels.length == 0)
-		{
-			this._notificationsContainer.update("<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_NO_NOTIFICATIONS'/>");
-		}
-		else
-		{
-			this._deleteAllButton.enable();
-		}
-		
-		return this._container;
+					{
+						text: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_INFO_LABEL'/>",
+						tooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_INFO_DESC'/>",
+						filterName: 'info',
+						pressed: true,
+						toggleHandler: Ext.bind (this._filter, ['info'], true)
+					},
+					{
+						text: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_WARN_LABEL'/>",
+						tooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_WARN_DESC'/>",
+						pressed: true,
+						filterName: 'warn',
+						toggleHandler: Ext.bind (this._filter, this, ['warn'], true)
+					},
+					{
+						text: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_ERROR_LABEL'/>",
+						tooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_ERROR_DESC'/>",
+						pressed: true,
+						filterName: 'error',
+						toggleHandler: Ext.bind (this._filter, this, ['error'], true)
+					},
+					{
+						text: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_NAVHISTORY_LABEL'/>",
+						tooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_NAVHISTORY_DESC'/>",
+						pressed: true,
+						filterName: 'navhistory',
+						toggleHandler: Ext.bind (this._filter, this, ['navhistory'], true)
+					},
+                    {
+                        xtype: 'tbspacer',
+                        flex: 0.0001
+                    },
+					{
+                    	text: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DELETE_LABEL'/>",
+						tooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DELETE_DESC'/>",
+						handler: this._deleteAll,
+						scope: this,
+						hidden: true,
+						enableToggle: false,
+						toggleGroup: null
+					}
+			]
+		},{
+			dock: 'top',
+			ui: 'tool-hintmessage',
+			itemId: 'no-notification-hint',
+			xtype: 'component',
+			hidden: true,
+			html: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_NO_NOTIFICATIONS'/>"
+		}];
 	},
 	
 	setParams: function(params)
 	{
-		this._storeListeners = this._store.on({
-			add: Ext.bind(this._notificationAdded, this),
-			remove: Ext.bind(this._notificationRemoved, this),
-			update: Ext.bind(this._notificationUpdated, this),
+		this.callParent(arguments);
+		
+		var data = [];
+		
+		this._loadNotifications(data);
+		this._loadNavigationHistory(data);
+		
+		this._timeline.getStore().loadData(data);
+		
+		if (data.length == 0)
+		{
+			this._timeline.getComponent('no-notification-hint').show();
+		}
+		else
+		{
+			this._timeline.getComponent('no-notification-hint').hide();
+		}
+		
+		// Register listeners on notificator store
+		this._storeListeners = this._getNotificationStore().on({
+			add: Ext.bind(this._onNotificationAdded, this),
 			destroyable: true,
 			scope: this
 		});
-		
-		this.callParent(arguments);
-	},
-	
-	close: function(manual)
-	{
-		Ext.destroy(this._storeListeners);
-		this.callParent(arguments);
-	},
-	
-	destroy: function()
-	{
-		Ext.destroy(this._storeListeners);
-		this.callParent(arguments);
 	},
 	
 	/**
 	 * @private
-	 * Compute the list of notification panels sorted by descending date from the store
+	 * Filter the timeline 
+	 * @param {Ext.Button} The filter button
+	 * @param {Boolean} state the button's state
+	 * @param {String} type The type of item to filter
 	 */
-	_getNotificationPanels: function()
-	{
-		var panels = [];
-	
-		this._store.getData().each(function(notification, index) {
-			var panel = Ext.create('Ext.panel.Panel', this._getNotificationPanelConfig(notification));
-			panels.push(panel);
-		}, this);
-		
-		return panels;
-	},
-	
-	/**
-	 * Get the configuration object for a notification
-	 * @param {Ext.data.Record} notification the notification record
-	 */
-	_getNotificationPanelConfig: function(notification)
+	_filter: function (btn, state, type)
 	{
 		var me = this;
+		this._activeTypes = [];
 		
-		return {
-			
-			title: notification.get('title'),
-			html: notification.get('description'),
-			
-			width: '100%',
-			
-			itemId: notification.get('id'),
-			
-			// FIXME 
-			cls: notification.get('read') ? 'notification-read' : 'notification-unread',
-			
-            listeners: {
-				click: Ext.bind(this._setReadIfNot, this, [notification], false),
-				scope: this,
-				element: 'el', // bind the click listener handler on the dom of the panel after the component is rendered
-				single: true
-            }, 
-                
-			tools: [{
-				type: 'close',
-				tooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DELETE_TOOLTIP'/>",
-				handler: Ext.bind(me._deleteNotification, me, [notification], false)
-			}]
-		};
+		this._timeline.child("*[dock='top']").items.each (function (item) {
+			if (item.filterName && item.pressed)
+			{
+				me._activeTypes.push(item.filterName);
+			}
+		});
+		
+		// this._timeline.getStore().clearFilter();
+		this._timeline.getStore().filterBy(this._filterByType, this);
 	},
 	
 	/**
 	 * @private
-	 * Delete the notification
-	 * @param {Ext.data.Record} record the notification to delete
+	 * The filter function to filter records by active types
+	 * @param {Ext.data.Model} record The timeline record
 	 */
-	_deleteNotification: function(record)
+	_filterByType: function (record)
 	{
-		this._store.remove(record);
-		this._store.commitChanges();
+		return Ext.Array.contains (this._activeTypes, record.get('type'));
 	},
 	
 	/**
 	 * @private
-	 * Delete all the notifications
+	 * Clear the timeline
 	 */
-	_deleteAllNotifications: function()
+	_deleteAll: function ()
 	{
-		this._store.getData().each(function(record) {
-			this._store.remove(record);
-		}, this);
-		
-		this._store.commitChanges();
-		
-		this._deleteAllButton.disable();
+		this._timeline.getStore().removeAll();
+		this._timeline.getComponent('no-notification-hint').show();
 	},
 	
 	/**
 	 * @private
-	 * Set the record as read if it wasn't the case already
-	 * @param {Ext.data.Record} record the notification's record 
+	 * Load the notifications in timeline
+	 * @param {Object} data the timeline records
 	 */
-	_setReadIfNot: function(record)
+	_loadNotifications: function (data)
 	{
-		if (!record.get('read'))
-		{
+		var me = this;
+		var readRecords = [];
+		
+		this._getNotificationStore().getData().each (function(record, index, length) {
+			data.push(me._convertNotification2Timeline(record));
 			record.set('read', true);
 			record.commit();
+		});
+	},
+	
+	/**
+	 * @private
+	 * Load the navigation history events in timeline
+	 * @param {Object} data the timeline records
+	 */
+	_loadNavigationHistory: function (data)
+	{
+		var me = this;
+		this._getNavigationHistoryStore().getData().each (function(record, index, length) {
+			data.push(me._convertNavHistory2Timeline(record));
+		});
+	},
+	
+	/**
+	 * @private
+	 * Convert a notification record to a timeline record
+	 * @param {Ext.data.Model} record the notification
+	 * @return {Object} the configuration of a timeline record
+	 */
+	_convertNotification2Timeline: function (record)
+	{
+		return {
+			id: this.getId() + '-' + record.getId(),
+			type: record.get('type') || 'info',
+			date: record.get('creationDate'),
+			username: Ametys.getAppParameter('user').fullname,
+			profileImg: Ametys.CONTEXT_PATH + '/plugins/core-ui/resources/img/userprofile/profile_1.png',
+			icon: Ametys.CONTEXT_PATH + record.get('icon'),
+			text: '<strong>' + Ametys.getAppParameter('user').fullname + '</strong><br/>' + record.get('description'),
+			topText: '',
+			comment: ''
 		}
 	},
 	
 	/**
 	 * @private
-	 * Listener function invoked whenever records have been added to the store.
-	 * Adds the panel to the main panel at the appropriate position
-     * @param {Ext.data.Store} store The store.
-     * @param {Ext.data.Model[]} records The records that were added.
+	 * Convert a notification record to a timeline record
+	 * @param {Ext.data.Model} record the notification
+	 * @return {Object} the configuration of a timeline record
+	 */
+	_convertNavHistory2Timeline: function (record)
+	{
+		return {
+			id: this.getId() + '-' + record.getId(),
+			type: 'navhistory',
+			date: record.get('date'),
+			username: Ametys.getAppParameter('user').fullname,
+			profileImg: Ametys.CONTEXT_PATH + '/plugins/core-ui/resources/img/userprofile/profile_1.png',
+			icon: record.get('iconMedium'),
+			action: record.get('action'),
+			text: '<strong>' + Ametys.getAppParameter('user').fullname + '</strong><br/>' + record.get('label'),
+			topText: record.get('type'),
+			comment: ''
+		}
+	},
+	
+	/**
+	 * @private
+	 * Listener function invoked whenever a new notification has been created
+	 * Add the notification in timeline
+     * @param {Ext.data.Store} store The notification store.
+     * @param {Ametys.ui.fluent.ribbon.Ribbon.Notificator.Notification"[]} records The added notifications.
      * @param {Number} index The index at which the records were inserted.
 	 */
-	_notificationAdded: function(store, records, index)
+	_onNotificationAdded: function (store, records, index)
 	{
-		var newPanel = Ext.create('Ext.panel.Panel', this._getNotificationPanelConfig(records[0]));
+		var me = this;
+		var items = [];
 		
-		// Always insert new notifications on top
-		this._notificationsContainer.insert(0, newPanel);
+		Ext.Array.each (records, function (record) {
+			items.push(me._convertNotification2Timeline(record));
+			record.set('read', true);
+			record.commit();
+		});
 		
-		// Remove 'No notifications' text and enable the 'delete all' button
-		this._deleteAllButton.enable();
-		this._notificationsContainer.update('');
+		this._timeline.getStore().add(items);
+		this._timeline.getComponent('no-notification-hint').hide();
 	},
 	
-    /**
-     * @private
-     * Listener function invoked a notification record has been updated.
-     * @param {Ext.data.Store} store the store
-     * @param {Ext.data.Model} record The Model instance that was updated
-     * @param {String} operation The update operation being performed. Value may be one of:
-     *     Ext.data.Model.EDIT
-     *     Ext.data.Model.REJECT
-     *     Ext.data.Model.COMMIT
-     * @param {String[]} modifiedFieldNames Array of field names changed during edit.
-     * @param {Object} details An object describing the change. See the
-     * {@link Ext.util.Collection#event-itemchange itemchange event} of the store's backing collection
-     */
-	_notificationUpdated: function(store, record, operation, modifiedFieldNames, details)
+	onClose: function(hadFocus)
 	{
-		var modifiedPanel = this._notificationsContainer.getComponent(record.get('id'));
-		
-		if (!record.get('read'))
-		{
-			this._notificationsContainer.removeCls('notification-unread');
-			this._notificationsContainer.addCls('notification-read');
-		}
-	},
-	
-    /**
-     * @private
-     * Listener function invoked whenever one or more records have been removed from the store.
-     * @param {Ext.data.Store} store The Store object
-     * @param {Ext.data.Model[]} records The records that were removed
-     * @param {Number} index The index at which the records were removed.
-     */
-	_notificationRemoved: function(store, records, index)
-	{
-		Ext.Array.each(records, function(record) {
-			this._notificationsContainer.remove(this._notificationsContainer.getComponent(record.get('id')));
-		}, this);
-		
-		if (this._notificationsContainer.items.length == 0)
-		{
-			this._deleteAllButton.disable();
-			this._notificationsContainer.update("<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_NO_NOTIFICATIONS'/>");
-		}
+		Ext.destroy(this._storeListeners);
+		this.callParent(arguments);
 	}
 });
 
-/**
- * Create an alias in order to ease the issuing of notifications
- */
-Ext.override(Ametys, {
-
-   /**
-    * @member Ametys
-    * @method notify 
-    * @since Ametys Runtime 4.0
-    * @ametys
-    * Simple alias for #Ametys.ui.fluent.ribbon.Ribbon.Notificator.notify.
-    */
-	notify: function(config)
-	{
-		Ext.getCmp('ribbon').getNotificator().notify(config);
-	}
-});
