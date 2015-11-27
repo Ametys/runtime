@@ -115,25 +115,29 @@ var tools3Items = [
     },
     {
         xtype: 'tabpanel',
-        ui: 'alternative',
+        
         x: 1120,
         y: 10,
-        frame: true,
+        plain: true,
         height: 150,
         width: 200,
         activeTab: 0,
         items: [
             {
                 xtype: 'panel',
-                title: 'Tab 1'
+                title: 'Tab 1',
+                border: true,
+                html: 'text'
             },
             {
                 xtype: 'panel',
+                border: true,
                 title: 'Tab 2'
             },
             {
                 xtype: 'panel',
                 title: 'Tab 3',
+                border: true,
                 tabConfig: {
                     xtype: 'tab',
                     disabled: true
@@ -143,24 +147,30 @@ var tools3Items = [
     },
     {
         xtype: 'tabpanel',
-        x: 1330,
+        
+        x: 1340,
         y: 10,
+        plain: true,
+        border: true,
         height: 150,
         width: 200,
         activeTab: 0,
-        plain: true,
         items: [
             {
                 xtype: 'panel',
-                title: 'Tab 1'
+                title: 'Tab 1',
+                border: true,
+                html: 'text'
             },
             {
                 xtype: 'panel',
+                border: true,
                 title: 'Tab 2'
             },
             {
                 xtype: 'panel',
                 title: 'Tab 3',
+                border: true,
                 tabConfig: {
                     xtype: 'tab',
                     disabled: true
