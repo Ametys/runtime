@@ -274,6 +274,9 @@
 
   <!-- Xpath Processor: -->
   <xpath-processor class="org.apache.excalibur.xml.xpath.XPathProcessorImpl" logger="core.xpath-processor"/>
+  
+  <component class="org.apache.excalibur.xml.dom.DefaultDOMHandlerFactory" 
+             role="org.apache.excalibur.xml.dom.DOMHandlerFactory"/>
 
   <!-- The XMLizers converts different mime-types to XML -->
   <xmlizer>
