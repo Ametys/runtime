@@ -679,7 +679,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
         
         // Server call
         Ext.Ajax.request({
-            url: Ametys.getPluginDirectPrefix("admin") + "/config/test", 
+        	url: this._form.getTestURL(),  
             params: params, 
             callback: Ext.bind(this._checkCb, this, [paramCheckers, callback, displayErrors], true)
         }); 
