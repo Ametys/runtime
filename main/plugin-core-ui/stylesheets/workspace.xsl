@@ -193,42 +193,42 @@
                                 var searchMenuItems = [];          
                                 
                                 // create the lunr index
-								var index = lunr(function(){
-									var lang = Ametys.getAppParameter("user").locale;
-									if (lang != 'en')
-									{
-										// use the language
-										var lunrUse = "lunr." + lang;
-		    							this.use(eval(lunrUse));
-		    						}
+                                var index = lunr(function(){
+                                    var lang = Ametys.getAppParameter("user").locale;
+                                    if (lang != 'en')
+                                    {
+                                        // use the language
+                                        var lunrUse = "lunr." + lang;
+                                        this.use(eval(lunrUse));
+                                    }
     
-								    this.field('title', {boost: 1});
-								    this.field('keywords', {boost: 100});
-								    this.field('description', {boost: 10});
-								    // the id
-								    this.ref('id');
-								    
-								    this.pipeline.add(lunr.elision);
-								    this.pipeline.add(lunr.deemphasize);
-								});
-								
+                                    this.field('title', {boost: 1});
+                                    this.field('keywords', {boost: 100});
+                                    this.field('description', {boost: 10});
+                                    // the id
+                                    this.ref('id');
+                                    
+                                    this.pipeline.add(lunr.elision);
+                                    this.pipeline.add(lunr.deemphasize);
+                                });
+                                
                     <xsl:for-each select="ribbon/tabs/tab/groups/group/medium//control">
                             <xsl:variable name="id" select="@id"/>
                                try { 
-                               		var control = Ametys.ribbon.RibbonManager.getElement("<xsl:value-of select="@id"/>");
+                                    var control = Ametys.ribbon.RibbonManager.getElement("<xsl:value-of select="@id"/>");
                                     var tabLabel = "<xsl:value-of select="/Ametys/workspace/ribbon/tabs/tab[groups/group/medium//control/@id = $id]/@label"/>";
-                               		var menuItem = control.addMenuItemUI();
+                                    var menuItem = control.addMenuItemUI();
                                     menuItem.text = '&lt;span class="a-ribbon-searchmenu-item-category"&gt;' + tabLabel + '&lt;/span&gt;' + menuItem.text;
-                               		searchMenuItems.push(menuItem);
-                               		index.add({
-									    id: menuItem.id,
-									    title: control.getInitialConfig('label'),
-									    keywords: control.getInitialConfig('keywords') || "",
-									    description: control._description,
-									});
-                               	} catch (e) { /* some controls cannot be used into a menu */ }   
+                                    searchMenuItems.push(menuItem);
+                                    index.add({
+                                        id: menuItem.id,
+                                        title: control.getInitialConfig('label'),
+                                        keywords: control.getInitialConfig('keywords') || "",
+                                        description: control._description,
+                                    });
+                                } catch (e) { /* some controls cannot be used into a menu */ }   
                     </xsl:for-each>
-                    		lunr.controllersIndex = index;
+                            lunr.controllersIndex = index;
 
                             var ribbonItems = [];         
 
@@ -344,7 +344,8 @@
                                 
                                 mainButton: {
                                     xtype: 'button',
-                                    text: 'Ametys',
+                                    iconCls: 'a-mainbutton',
+                                    arrowVisible: false,
                                     /*tooltip: {
                                          title: "", 
                                          image: "", 
@@ -352,6 +353,7 @@
                                          inribbon: true
                                     },*/
                                     menu: menuItems.length == 0 ? null : {
+                                         ui: 'ribbon-menu',
                                          items: menuItems
                                     }
                                 },
@@ -380,11 +382,9 @@
                                 help: {
                                     tooltip:{ 
                                         inribbon: true, 
-                                        title: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_HELP_RIBBON_TIP_TITLE' i18n:catalogue='plugin.core-ui'/>", 
-                                        text: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_HELP_RIBBON_TIP_DESCRIPTION' i18n:catalogue='plugin.core-ui'/>",
-                                        image: Ametys.getPluginResourcesPrefix("core-ui") + "/img/uitool-help/help_48.png"
+                                        text: "<i18n:text i18n:key='PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_PLACEHOLDER' i18n:catalogue='plugin.core-ui'/>",
                                     },
-                                    handler: function() { Ametys.tool.ToolsManager.openTool('uitool-help'); }
+                                    handler: function() { this.previousSibling().focus(); }
                                 },
                                 notification: {
                                     tooltip:{ 
