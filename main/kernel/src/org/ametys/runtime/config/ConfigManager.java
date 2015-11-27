@@ -20,16 +20,12 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
 import java.util.regex.Pattern;
 
 import javax.xml.transform.OutputKeys;
@@ -44,18 +40,14 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.cocoon.ProcessingException;
-import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
-import org.ametys.core.util.I18nUtils;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.Enumerator;
 import org.ametys.runtime.parameter.Errors;
@@ -84,8 +76,6 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     // Avalon stuff
     private ServiceManager _manager;
     private Context _context;
-
-    private I18nUtils _i18nUtils;
     
     // Used parameters
     private Collection<String> _usedParamsName;
@@ -104,9 +94,6 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     
     // The parameters classified by categories and groups
     private Map<I18nizableText, ParameterCategory> _categorizedParameters;
-    
-    // The parameters classified by categories sorted alphabetically and groups
-    private Map<I18nizableText, ParameterCategory> _sortedCategories;
     
     // Determines if the extension point is initialized
     private boolean _isInitialized;
@@ -172,7 +159,6 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         _params = new LinkedHashMap<>();
         _declaredParameterCheckers = new LinkedHashMap<>();
         _parameterCheckers = new LinkedHashMap<>();
-        _sortedCategories = new TreeMap<> ();
         
         _validatorManager = new ThreadSafeComponentManager<>();
         _validatorManager.setLogger(LoggerFactory.getLogger("runtime.plugin.threadsafecomponent"));
@@ -646,6 +632,53 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         }
         return array;
     }
+    
+    /**
+     * Returns typed config values.
+     * @return typed config values.
+     */
+    public Map<String, Object> getValues()
+    {
+        Map<String, Object> result = new HashMap<>();
+        
+        // Get configuration parameters
+        Map<String, String> untypedValues;
+        try
+        {
+            untypedValues = Config.read();
+        }
+        catch (Exception e)
+        {
+            if (_logger.isWarnEnabled())
+            {
+                _logger.warn("Config values are unreadable. Using default values", e);
+            }
+            
+            untypedValues = new HashMap<>();
+        }
+
+        for (String parameterId : _params.keySet())
+        {
+            ConfigParameter param = _params.get(parameterId);
+            Object value = _getValue (parameterId, param.getType(), untypedValues);
+            
+            if (value != null)
+            {
+                result.put(parameterId, value);
+            }
+        }
+        
+        return result;
+    }
+    
+    /**
+     * Returns all {@link ConfigParameter} grouped by categories and groups.
+     * @return all {@link ConfigParameter}.
+     */
+    public Map<I18nizableText, ParameterCategory> getCategories()
+    {
+        return _categorizedParameters;
+    }
 
     /**
      * Gets the config parameter by its id
@@ -667,6 +700,15 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     }
     
     /**
+     * Returns all {@link ParameterCheckerDescriptor}s.
+     * @return all {@link ParameterCheckerDescriptor}s.
+     */
+    public Map<String, ParameterCheckerDescriptor> getParameterCheckers()
+    {
+        return _parameterCheckers;
+    }
+    
+    /**
      * Gets the parameter checker with its id
      * @param id the id of the parameter checker to get
      * @return the associated parameter checker descriptor
@@ -674,34 +716,6 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     public ParameterCheckerDescriptor getParameterChecker(String id)
     {
         return _parameterCheckers.get(id);
-    }
-    
-    /**
-     * SAX the configuration parameters and values into a content handler
-     * @param handler Handler for sax events
-     * @throws SAXException if an error occurred
-     * @throws ProcessingException if an error occurred
-     */
-    public void toSAX(ContentHandler handler) throws SAXException, ProcessingException
-    {
-        XMLUtils.startElement(handler, "configuration");
-        _saxConfiguration(handler);
-        XMLUtils.endElement(handler, "configuration");
-        
-        XMLUtils.startElement(handler, "configuration-values");
-        _saxValues(handler);
-        XMLUtils.endElement(handler, "configuration-values");
-    }
-
-    /**
-     * SAX the configuration parameters and values into a content handler
-     * @param handler Handler for sax events
-     * @throws SAXException if an error occurred
-     * @throws ProcessingException if an error occurred
-     */
-    public void toSAXOld(ContentHandler handler) throws SAXException, ProcessingException //FIXME TO REMOVE
-    {
-        _saxParametersOLD(handler);
     }
     
     private Map<I18nizableText, ParameterCategory> _categorizeParameters(Map<String, ConfigParameter> params, Map<String, ParameterCheckerDescriptor> paramCheckers)
@@ -786,290 +800,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         return categories;
     }
 
-    private  void _saxConfiguration(ContentHandler contentHandler) throws SAXException, ProcessingException
-    {
-        /* Sort categories alphabetically.
-         * We sort each time we sax the configuration in case the language changes 
-         */
-        _sortCategories();
-        
-        for (I18nizableText categoryKey : _sortedCategories.keySet())
-        {
-            AttributesImpl tabAttrs = new AttributesImpl();
-            tabAttrs.addCDATAAttribute("role", "tabs");
-            XMLUtils.startElement(contentHandler, "fieldsets", tabAttrs);
-            
-            categoryKey.toSAX(contentHandler, "label");
-            
-            ParameterCategory category = _categorizedParameters.get(categoryKey);
-            
-            // Category checkers
-            Set<ParameterCheckerDescriptor> paramCheckersCategories = category.getParamCheckers();
-            if (paramCheckersCategories != null)
-            {
-                for (ParameterCheckerDescriptor paramChecker : paramCheckersCategories)
-                {
-                    paramChecker.toSAX(contentHandler);
-                }
-            }
-            
-            XMLUtils.startElement(contentHandler, "elements");
 
-            for (I18nizableText groupKey : category.getGroups().keySet())
-            {
-                ParameterGroup group = category.getGroups().get(groupKey);
-
-                AttributesImpl fieldsetAttrs = new AttributesImpl();
-                fieldsetAttrs.addCDATAAttribute("role", "fieldset");
-                XMLUtils.startElement(contentHandler, "fieldsets", fieldsetAttrs);
-
-                groupKey.toSAX(contentHandler, "label");
-
-                // Group checkers
-                Set<ParameterCheckerDescriptor> paramCheckersGroups = group.getParamCheckers();
-                if (paramCheckersGroups != null)
-                {
-                    for (ParameterCheckerDescriptor paramChecker : paramCheckersGroups)
-                    {
-                        paramChecker.toSAX(contentHandler);
-                    }
-                }
-                
-                // Group switch
-                String switchId = null;
-                if (group.getSwitch() != null)
-                {
-                    switchId = group.getSwitch();
-                    ConfigParameter switcher = get(switchId);
-
-                    XMLUtils.startElement(contentHandler, "switcher");
-                    XMLUtils.createElement(contentHandler, "id", switchId); 
-                    switcher.getLabel().toSAX(contentHandler, "label");
-                    XMLUtils.createElement(contentHandler, "default-value", ParameterHelper.valueToString(switcher.getDefaultValue()));
-                    XMLUtils.endElement(contentHandler, "switcher");
-                }
-                
-                XMLUtils.startElement(contentHandler, "elements");
-                for (ConfigParameter param : group.getParams(false))
-                {
-                    String paramId = param.getId();
-                    
-                    XMLUtils.startElement(contentHandler, paramId);   
-                    
-                    ParameterHelper.toSAXParameterInternal(contentHandler, param, null);
-                    
-                    // Disable condition
-                    if (param.getDisableConditions() != null)
-                    {
-                        XMLUtils.createElement(contentHandler, "disable-conditions", param.disableConditionsToJSON());
-                    }
-                    
-                    // Sax parameter checkers attached to a single parameter
-                    for (String paramCheckerId : _parameterCheckers.keySet())
-                    {
-                        ParameterCheckerDescriptor paramChecker = _parameterCheckers.get(paramCheckerId);
-                        String uiRefParamId = paramChecker.getUiRefParamId();
-                        if (uiRefParamId != null && uiRefParamId.equals(paramId))
-                        {
-                            paramChecker.toSAX(contentHandler);
-                        }
-                    }
-                    
-                    XMLUtils.endElement(contentHandler, paramId); 
-                }
-                XMLUtils.endElement(contentHandler, "elements");
-
-                XMLUtils.endElement(contentHandler, "fieldsets");
-            }
-            
-            XMLUtils.endElement(contentHandler, "elements");
-            XMLUtils.endElement(contentHandler, "fieldsets");
-        }
-    }
-
-    private void _sortCategories()
-    {
-        TreeMap<I18nizableText, ParameterCategory> sortedCategories = new TreeMap<>(new I18nizableTextComparator(_getI8nUtils()));
-        sortedCategories.putAll(_categorizedParameters);
-
-        _sortedCategories = sortedCategories;
-    }
-
-    private I18nUtils _getI8nUtils()
-    {
-        if (_i18nUtils == null)
-        {
-            try
-            {
-                _i18nUtils = (I18nUtils) _manager.lookup(I18nUtils.ROLE);
-            }
-            catch (Exception e)
-            {
-                throw new RuntimeException("Unable to lookup the i18n utils component", e);
-            }
-        }
-        
-        return _i18nUtils;
-    }
-
-    private  void _saxValues(ContentHandler contentHandler) throws SAXException
-    {
-        // Get configuration parameters
-        Map<String, String> untypedValues;
-        try
-        {
-            untypedValues = Config.read();
-        }
-        catch (Exception e)
-        {
-            if (_logger.isWarnEnabled())
-            {
-                _logger.warn("Config values are unreadable. Proposing default values", e);
-            }
-            
-            untypedValues = new HashMap<>();
-        }
-
-        XMLUtils.startElement(contentHandler, "values");
-        for (String parameterId : _params.keySet())
-        {
-            ConfigParameter param = _params.get(parameterId);
-            Object value = _getValue (parameterId, param.getType(), untypedValues);
-            
-            if (value != null)
-            {
-                XMLUtils.createElement(contentHandler, parameterId, ParameterHelper.valueToString(value)); 
-            }
-        }
-        XMLUtils.endElement(contentHandler, "values");
-    }
-    
-    private void _saxParametersOLD(ContentHandler handler) throws SAXException, ProcessingException // FIXME remove
-    {
-        // Get configuration parameters
-        Map<String, String> untypedValues;
-        try
-        {
-            untypedValues = Config.read();
-        }
-        catch (Exception e)
-        {
-            if (_logger.isWarnEnabled())
-            {
-                _logger.warn("Config values are unreadable. Proposing default values", e);
-            }
-            
-            untypedValues = new HashMap<>();
-        }
-
-        // SAX classified parameters
-        XMLUtils.startElement(handler, "categories");
-
-        for (I18nizableText categoryKey : _categorizedParameters.keySet())
-        {
-            ParameterCategory category = _categorizedParameters.get(categoryKey);
-
-            XMLUtils.startElement(handler, "category");
-            categoryKey.toSAX(handler, "label");
-
-            Set<ParameterCheckerDescriptor> paramCheckersCategories = category.getParamCheckers();
-            if (paramCheckersCategories != null)
-            {
-                for (ParameterCheckerDescriptor paramChecker : paramCheckersCategories)
-                {
-                    _saxParameterCheckerOLD(handler, paramChecker);
-                }
-            }
-            
-            XMLUtils.startElement(handler, "groups");
-
-            for (I18nizableText groupKey : category.getGroups().keySet())
-            {
-                ParameterGroup group = category.getGroups().get(groupKey);
-
-                XMLUtils.startElement(handler, "group");
-                groupKey.toSAX(handler, "label");
-
-                if (group.getSwitch() != null)
-                {
-                    XMLUtils.createElement(handler, "group-switch", group.getSwitch());
-                }
-                
-                Set<ParameterCheckerDescriptor> paramCheckersGroups = group.getParamCheckers();
-                if (paramCheckersGroups != null)
-                {
-                    for (ParameterCheckerDescriptor paramChecker : paramCheckersGroups)
-                    {
-                        _saxParameterCheckerOLD(handler, paramChecker);
-                    }
-                }
-                
-                XMLUtils.startElement(handler, "parameters");
-                for (ConfigParameter param : group.getParams(true))
-                {
-                    String paramId = param.getId();
-                    Object value = _getValue (param.getId(), param.getType(), untypedValues);
-
-                    AttributesImpl parameterAttr = new AttributesImpl();
-                    parameterAttr.addAttribute("", "plugin", "plugin", "CDATA", param.getPluginName());
-                    XMLUtils.startElement(handler, paramId, parameterAttr);
-                    
-                    ParameterHelper.toSAXParameterInternal(handler, param, value);
-                    if (param.getDisableConditions() != null)
-                    {
-                        XMLUtils.createElement(handler, "disable-conditions", param.disableConditionsToJSON());
-                    }
-                    
-                    // Sax parameter checkers attached to a single parameter
-                    for (String paramCheckerId : _parameterCheckers.keySet())
-                    {
-                        ParameterCheckerDescriptor paramChecker = _parameterCheckers.get(paramCheckerId);
-                        String uiRefParamId = paramChecker.getUiRefParamId();
-                        if (uiRefParamId != null && uiRefParamId.equals(paramId))
-                        {
-                            _saxParameterCheckerOLD(handler, paramChecker);
-                        }
-                    }
-                    
-                    XMLUtils.endElement(handler, param.getId());
-                }
-                XMLUtils.endElement(handler, "parameters");
-                
-                XMLUtils.endElement(handler, "group");
-            }
-
-            XMLUtils.endElement(handler, "groups");
-
-            XMLUtils.endElement(handler, "category");
-        }
-
-        XMLUtils.endElement(handler, "categories");
-    }
-
-    private void _saxParameterCheckerOLD(ContentHandler handler, ParameterCheckerDescriptor paramChecker) throws SAXException // FIXME remove
-    {
-        I18nizableText uiRefGroup = paramChecker.getUiRefGroup();
-        I18nizableText uiRefCategory = paramChecker.getUiRefCategory();
-        int order = paramChecker.getUiRefOrder();       
-        
-        XMLUtils.startElement(handler, "param-checker");
-        XMLUtils.valueOf(handler, paramChecker.toJsonOLD());
-        paramChecker.getLabel().toSAX(handler, "label");
-        paramChecker.getDescription().toSAX(handler, "description");
-      
-        XMLUtils.createElement(handler, "order", Integer.toString(order));
-        if (uiRefGroup != null)
-        {
-            uiRefGroup.toSAX(handler, "group");
-        }
-        
-        if (uiRefCategory != null)
-        {
-            uiRefCategory.toSAX(handler, "category");
-        }
-        XMLUtils.endElement(handler, "param-checker");
-    }
-    
     private Object _getValue (String paramID, ParameterType type, Map<String, String> untypedValues)
     {
         final String unverifiedUntypedValue = untypedValues.get(paramID);
@@ -1095,7 +826,6 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         
         return typedValue;
     }
-
 
     /**
      * Update the configuration file with the given values<br>
@@ -1242,147 +972,5 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
 
         XMLUtils.endElement(handler, "config");
         handler.endDocument();
-    }
-    
-    /**
-     * Sort I18nizableText with their translation
-     */
-    class I18nizableTextComparator implements Comparator<I18nizableText>
-    {
-        private I18nUtils _i18nUtil; // i18Util instead of i18nUtils to avoid "hiding" warning
-
-        public I18nizableTextComparator(I18nUtils i18nUtils)
-        {
-            _i18nUtil = i18nUtils;
-        }
-
-        @Override
-        public int compare(I18nizableText t1, I18nizableText t2)
-        {
-            return _i18nUtil.translate(t1).compareTo(_i18nUtil.translate(t2));
-        }
-    }
-
-    /**
-     * 
-     * Represents a category of parameters
-     */
-    class ParameterCategory
-    {
-        private Map<I18nizableText, ParameterGroup> _groups;
-        private Set<ParameterCheckerDescriptor> _paramCheckers;
-       
-        ParameterCategory ()
-        {
-            _groups = new HashMap<>();
-            _paramCheckers = new HashSet<>();
-        }
-        
-        void addParamChecker(ParameterCheckerDescriptor paramChecker)
-        {
-            _paramCheckers.add(paramChecker);
-        }
-
-        Map<I18nizableText, ParameterGroup> getGroups()
-        {
-            return _groups;
-        }
-        
-        void setGroups(Map<I18nizableText, ParameterGroup> groups)
-        {
-            this._groups = groups;
-        }
-        
-        Set<ParameterCheckerDescriptor> getParamCheckers()
-        {
-            return _paramCheckers;
-        }
-        
-        void setParamCheckers(Set<ParameterCheckerDescriptor> paramCheckers)
-        {
-            this._paramCheckers = paramCheckers;
-        }
-    }
-
-    /**
-     * Represent a group of parameters
-     */
-    class ParameterGroup
-    {
-        private final Set<ConfigParameter> _groupParams;
-        private String _switcher;
-        private final I18nizableText _groupLabel;
-        private final Set<ParameterCheckerDescriptor> _paramCheckers;
-        
-        /**
-         * Create a group
-         * @param groupLabel The label of the group
-         */
-        ParameterGroup (I18nizableText groupLabel)
-        {
-            _groupLabel = groupLabel;
-            _groupParams = new TreeSet<>();
-            _switcher = null;
-            _paramCheckers = new HashSet<>();
-        }
-        
-        void addParam(ConfigParameter param)
-        {
-            _groupParams.add(param);
-            
-            if (param.isGroupSwitch())
-            {
-                if (_switcher == null)
-                {
-                    _switcher = param.getId();
-                    if (param.getType() != ParameterType.BOOLEAN)
-                    {
-                        throw new RuntimeException("The group '" + _groupLabel.toString() + "' has a switch '" + _switcher + "' that is not valid because it is not a boolean.");
-                    }
-                }
-                else
-                {
-                    throw new RuntimeException("At least two group-switches have been defined for the configuration group '" + _groupLabel.toString() + "'. These parameters are '" + _switcher + "' and '" + param.getId() + "'.");
-                }
-            }
-        }
-        
-        void addParamChecker(ParameterCheckerDescriptor paramChecker)
-        {
-            _paramCheckers.add(paramChecker);
-        }
-        
-        Set<ParameterCheckerDescriptor> getParamCheckers()
-        {
-            return _paramCheckers;
-        }
-        
-        I18nizableText getLabel()
-        {
-            return _groupLabel;
-        }
-        
-        Set<ConfigParameter> getParams(boolean withSwitch)
-        {
-            if (withSwitch)
-            {
-                return new TreeSet<>(_groupParams);
-            }
-            else
-            {
-                Set<ConfigParameter> groupParams = new TreeSet<>(_groupParams);
-                if (_switcher != null)
-                {
-                    groupParams.remove(get(_switcher));
-                }
-                
-                return groupParams;
-            }
-        }
-        
-        String getSwitch()
-        {
-            return _switcher;
-        }
     }
 }
