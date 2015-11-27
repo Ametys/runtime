@@ -57,12 +57,10 @@ Ext.define("Ametys.ui.fluent.ribbon.Ribbon.Notificator.Toast", {
         this.notification = config.notification;
         
         this.notification.set('displayed', true);
-        this.notification.set('read', false);
         this.notification.commit();
 
         config.title = config.title || this.notification.get('title');
         config.html = config.html || this.notification.get('description');
-        config.icon = config.icon || this.notification.get('icon');
         config.width = config.width || this.toastWidth;
         
         if (this.notification.get('type') == 'error' || this.notification.get('type') == 'warn')
