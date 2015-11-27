@@ -741,16 +741,28 @@
 	<message key="PLUGINS_CORE_UI_TOOLS_HELP_OPEN_NEW_WINDOW">Cliquez ici pour ouvrir la page d'aide dans une nouvelle fenêtre</message>
 	<message key="PLUGINS_CORE_UI_TOOLS_HELP_ERROR_URL_PROVIDER">Erreur lors de l'affichage d'une page d'aide.</message>
 
+    <!-- Timeline.js -->
+    <message key="PLUGINS_CORE_UI_TIMELINE_TODAY">Aujourd'hui</message>
+    
     <!-- +
          | NOTIFICATIONS
          + -->
     <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_LABEL">Notifications</message>
-    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DESCRIPTION">Outil listant les notifications émises</message>
-    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_NO_NOTIFICATIONS">Pas de notifications</message>
-    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DELETE_TOOLTIP">Supprimer cette notification</message>
-    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DELETE_ALL_TOOLTIP">Supprimer toutes les notifications</message>
-    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DELETE_ALL_LABEL">Tout supprimer</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DESCRIPTION">Liste des notifications émises</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_NO_NOTIFICATIONS">Aucune notification</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DELETE_LABEL">Supprimer</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DELETE_DESC">Supprimer toutes les notifications</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_ALL_LABEL">Tous</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_ALL_DESC">Voir tous les notifications</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_INFO_LABEL">Infos</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_INFO_DESC">Cliquez ici pour filter les informations</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_ERROR_LABEL">Erreurs</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_ERROR_DESC">Cliquez ici pour filter les erreurs</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_WARN_LABEL">Alertes</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_WARN_DESC">Cliquez ici pour filtrer les alertes</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_NAVHISTORY_LABEL">Historique</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_NAVHISTORY_DESC">Cliquez ici pour filtrer l'événements de l'historique de navigation</message>
     <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_RIBBON_TIP_TITLE">Notifications</message>
-    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_RIBBON_TIP_DESCRIPTION">Ouvrir l'outil des notifications.&lt;br/&gt;&lt;br/&gt;Un chiffre apparaissant sur l'icône du ruban indique le nombre de message non lus. La couleur indique le type de message le plus grave parmi ces messages non lus : rouge pour erreur, orange pour avertissement et bleu pour simple information.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_RIBBON_TIP_DESCRIPTION">Ouvrir l'outil des notifications.&lt;br/&gt;&lt;br/&gt;Le chiffre indique le nombre de message non lus. La couleur indique le type de message le plus grave parmi ces messages non lus : rouge pour erreur, orange pour avertissement et bleu pour simple information.</message>
 
 </catalogue>
