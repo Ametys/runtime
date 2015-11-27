@@ -23,8 +23,6 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.MutableConfiguration;
 
-import org.ametys.runtime.config.ConfigManager;
-
 /**
  * Entry point in the sitemap build process to dynamically insert the components brought by the SitemapConfigurationExtensionPoint
  */
@@ -33,15 +31,9 @@ public class SitemapLanguage extends org.apache.cocoon.components.treeprocessor.
     @Override
     protected ComponentManager createComponentManager(Configuration tree) throws Exception
     {
-        if (!ConfigManager.getInstance().isComplete())
-        {
-            // Pas initialisé, on n'essaie pas de charger quoi que ce soit
-            return super.createComponentManager(tree);
-        }
-        
         if (processor.getWrappingProcessor() != processor.getRootProcessor())
         {
-            // On n'est pas dans la sitemap racine, on ne fait rien
+            // Not in the root sitemap, does nothing
             return super.createComponentManager(tree);
         }
         
