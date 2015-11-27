@@ -15,4 +15,10 @@
  */
  
 $tab-border-radius: dynamic(0);
+$tab-inner-border-width-focus: dynamic(0px);
 $tab-font-weight: normal;
+$tab-border-width: 3px 1px 0 1px;
+
+$tabbar-strip-height: 1px;
+$tabbar-strip-border-width: 1px 0 0 0;
+$tabbar-strip-border-color: $tab-border-color-active;
