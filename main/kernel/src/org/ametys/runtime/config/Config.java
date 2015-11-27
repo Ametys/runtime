@@ -25,9 +25,9 @@ import javax.xml.parsers.SAXParserFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.ametys.core.util.MapHandler;
 import org.ametys.runtime.parameter.ParameterHelper;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
+import org.ametys.runtime.util.MapHandler;
 
 
 /**

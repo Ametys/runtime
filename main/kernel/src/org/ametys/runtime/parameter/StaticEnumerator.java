@@ -13,13 +13,12 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.ametys.core.parameter;
+package org.ametys.runtime.parameter;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.ametys.runtime.i18n.I18nizableText;
-import org.ametys.runtime.parameter.Enumerator;
 
 
 /**

@@ -28,10 +28,10 @@ import javax.xml.parsers.SAXParserFactory;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
 
-import org.ametys.core.util.MapHandler;
 import org.ametys.core.version.Version;
 import org.ametys.core.version.VersionsHandler;
 import org.ametys.runtime.servlet.RuntimeConfig;
+import org.ametys.runtime.util.MapHandler;
 
 
 /**

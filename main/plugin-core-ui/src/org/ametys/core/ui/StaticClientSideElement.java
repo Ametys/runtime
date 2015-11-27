@@ -33,9 +33,9 @@ import org.ametys.core.right.RightsContextPrefixExtensionPoint;
 import org.ametys.core.right.RightsManager;
 import org.ametys.core.right.RightsManager.RightResult;
 import org.ametys.core.user.CurrentUserProvider;
-import org.ametys.core.util.ConfigurationHelper;
 import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 import org.ametys.runtime.plugin.component.PluginAware;
+import org.ametys.runtime.util.ConfigurationHelper;
 
 /**
  * This implementation creates an element from a static configuration

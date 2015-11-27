@@ -25,9 +25,9 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.commons.lang3.StringUtils;
 
-import org.ametys.core.util.ConfigurationHelper;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
+import org.ametys.runtime.util.ConfigurationHelper;
 
 /**
  * Parses parameter checked from XML configurations. 

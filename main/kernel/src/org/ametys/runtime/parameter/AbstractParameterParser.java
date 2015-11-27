@@ -24,11 +24,9 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.commons.lang3.StringUtils;
 
-import org.ametys.core.parameter.DefaultValidator;
-import org.ametys.core.parameter.StaticEnumerator;
-import org.ametys.core.util.ConfigurationHelper;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
+import org.ametys.runtime.util.ConfigurationHelper;
 
 /**
  * {@link Parameter} parser from an XML configuration.

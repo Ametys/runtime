@@ -25,8 +25,8 @@ import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
-import org.ametys.core.parameter.DefaultValidator;
 import org.ametys.runtime.i18n.I18nizableText;
+import org.ametys.runtime.parameter.DefaultValidator;
 import org.ametys.runtime.parameter.Errors;
 
 /**
