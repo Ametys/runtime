@@ -22,7 +22,7 @@
     
 	<xsl:import href="kernel-browsers.xsl"/>
 	
-    <xsl:variable name="theme">ametys-admin</xsl:variable>
+    <xsl:variable name="theme">ametys-base</xsl:variable>
     <xsl:variable name="uxtheme">neptune</xsl:variable>
 	
     <!-- +
