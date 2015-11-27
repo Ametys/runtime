@@ -19,12 +19,5 @@
 
     <xsl:import href="plugin:core-ui://stylesheets/workspace.xsl"/>
 
-    <xsl:template name="ui-extension-load">
-	    <!-- CSS -->
-<!-- 	    <link rel="stylesheet" type="text/css" href="{$workspace-resources}/css/workspace.css" /> -->
-	    
-	    <!-- JS -->
-<!-- 	    <script type="text/javascript" src="{$workspace-resources}/js/workspace.js" /> -->
-    </xsl:template>
-    
+    <xsl:variable name="theme">ametys-admin</xsl:variable>
 </xsl:stylesheet>
