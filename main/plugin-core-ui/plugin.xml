@@ -1095,6 +1095,7 @@
                     <default-location>r</default-location>
                 </class>
                 <scripts>
+                    <file>js/Ametys/timeline/Timeline.js</file>
                     <file>js/Ametys/plugins/coreui/notification/NotificationTool.js</file>
                 </scripts>
             </extension>
