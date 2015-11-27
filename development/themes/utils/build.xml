@@ -35,6 +35,7 @@
         
         <!-- ensure consistent end-of-line style to avoir "svn commit" issue -->
         <fixcrlf srcdir="${ametys-runtime-dir}/main/plugin-core-ui/resources/themes/${name}" includes="**/*.css" eol="lf" eof="remove" />
+        <fixcrlf srcdir="${ametys-runtime-dir}/main/plugin-core-ui/resources/themes/${name}" includes="**/*.js" eol="lf" eof="remove" />
         
         <!-- remove inlined licenses -->
         <replaceregexp flags="gm">
