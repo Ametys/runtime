@@ -19,7 +19,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.service.ServiceManager;
 
-import org.ametys.core.parameter.AbstractParameterParser;
+import org.ametys.runtime.parameter.AbstractParameterParser;
 import org.ametys.runtime.parameter.Enumerator;
 import org.ametys.runtime.parameter.ParameterHelper;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;

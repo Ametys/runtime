@@ -31,9 +31,9 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 
-import org.ametys.core.parameter.AbstractParameterParser;
 import org.ametys.core.userpref.UserPreference;
 import org.ametys.core.userpref.UserPreferenceProvider;
+import org.ametys.runtime.parameter.AbstractParameterParser;
 import org.ametys.runtime.parameter.Enumerator;
 import org.ametys.runtime.parameter.ParameterHelper;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;

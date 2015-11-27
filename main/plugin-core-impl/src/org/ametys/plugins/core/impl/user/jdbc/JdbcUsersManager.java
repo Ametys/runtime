@@ -49,12 +49,12 @@ import org.xml.sax.SAXException;
 
 import org.ametys.core.datasource.ConnectionHelper;
 import org.ametys.core.datasource.ConnectionHelper.DatabaseType;
-import org.ametys.core.parameter.AbstractParameterParser;
 import org.ametys.core.parameter.DefaultValidator;
 import org.ametys.core.user.User;
 import org.ametys.core.user.UsersManager;
 import org.ametys.core.util.CachingComponent;
 import org.ametys.runtime.i18n.I18nizableText;
+import org.ametys.runtime.parameter.AbstractParameterParser;
 import org.ametys.runtime.parameter.Enumerator;
 import org.ametys.runtime.parameter.ParameterHelper;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
