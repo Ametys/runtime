@@ -1,0 +1,240 @@
+/*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+ 
+.a-timeline .x-grid-cell-inner {
+    padding: 0;
+}
+
+.a-timeline .timeline-items-wrap .#{$prefix}grid-item-focused .#{$prefix}grid-cell-inner::before {
+    border: medium none;
+}
+
+.a-timeline .#{$prefix}grid-with-row-lines .#{$prefix}grid-item, 
+.a-timeline .#{$prefix}grid-with-row-lines .#{$prefix}grid-item.#{$prefix}grid-item-over, 
+.a-timeline .#{$prefix}grid-with-row-lines .#{$prefix}grid-item.#{$prefix}grid-item-selected, 
+.a-timeline .#{$prefix}grid-with-row-lines .#{$prefix}grid-item.#{$prefix}grid-item-focused {
+    background: #fff none repeat scroll 0 0 !important;
+    border: 0 none !important;
+    border-width: 0px !important;
+}
+
+.a-timeline .#{$prefix}group-hd-container::before,
+.a-timeline .timeline-item::before {
+    background: $ametys-timeline-border-color none repeat scroll 0 0;
+    content: "";
+    height: 100%;
+    left: $ametys-timeline-font-size*1.2 + 50px;
+    position: absolute;
+    width: 3px;
+}
+
+.a-timeline .timeline-item {
+	margin: 0 $ametys-timeline-font-size*1.2;
+}
+
+.a-timeline .#{$prefix}grid-item:first-child {
+	margin-top: $ametys-timeline-font-size*2/3;
+}
+
+.a-timeline .timeline-item .profile-img-wrap {
+    background: #fff none repeat scroll 0 0;
+    float: left;
+    padding: 5px 0;
+    position: relative;
+    text-align: center;
+    width: 100px;
+    color: $ametys-timeline-color;
+    font-size: 0.9em;
+}
+.a-timeline .timeline-item .profile-img-wrap img {
+    border-radius: 50%;
+    height: 46px;
+    width: 46px;
+}
+.a-timeline .timeline-item .contents-wrap {
+    border: 1px solid $ametys-timeline-border-color;
+    margin: 0 0 15px 110px;
+    padding: 10px 10px 7px 15px;
+    position: relative;
+    white-space: normal;
+    min-height: 70px;
+}
+
+.a-timeline .timeline-item.warn .contents-wrap {
+	border-color: $ametys-timeline-border-color-warn;
+}
+
+.a-timeline .timeline-item.warn .contents-wrap::before {
+	border-right-color: $ametys-timeline-border-color-warn;
+}
+
+.a-timeline .timeline-item .contents-wrap::before, .a-timeline .timeline-item .contents-wrap::after {
+    content: "";
+    display: block;
+    height: 0;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 0;
+}
+.a-timeline .timeline-item .contents-wrap::before {
+    border-bottom: 9px solid transparent;
+    border-right: 9px solid $ametys-timeline-border-color;
+    border-top: 9px solid transparent;
+    margin: 15px 0 0 -9px;
+}
+.a-timeline .timeline-item.error .contents-wrap::before {
+	border-right-color: $ametys-timeline-border-color-error;
+}
+.a-timeline .timeline-item.error .contents-wrap {
+	border-color: $ametys-timeline-border-color-error;
+}
+
+.a-timeline .timeline-item .contents-wrap::after {
+    border-bottom: 9px solid transparent;
+    border-right: 9px solid #fff;
+    border-top: 9px solid transparent;
+    margin: 15px 0 0 -8px;
+}
+
+.a-timeline .#{$prefix}grid-group-hd {
+	background: #fff none repeat scroll 0 0;
+	border: 0 none;
+	padding: 0;
+}
+
+.a-timeline .#{$prefix}grid-group-hd .timeline-day {
+    background: #fff none repeat scroll 0 0;
+    border: 2px solid $ametys-timeline-border-color;
+    color: $ametys-timeline-border-color;
+    font-size: $ametys-timeline-font-size*1.2;
+    padding: $ametys-timeline-font-size*1.2/3;
+    position: relative;
+    text-align: center;
+    width: 100px;
+    font-weight: normal;
+    margin: 0 $ametys-timeline-font-size*1.2 $ametys-timeline-font-size*1.3;
+}
+
+.a-timeline .timeline-items-wrap {
+    background: #fff none repeat scroll 0 0;
+    padding: $ametys-timeline-font-size*1.3;
+}
+.a-timeline .timeline-items-wrap .x-panel-body {
+    display: block !important;
+}
+
+.a-timeline .timeline-item .comment {
+    border-left: 5px solid $ametys-timeline-border-color;
+    padding: 10px 20px 10px 35px;
+    color: $ametys-timeline-comment-color;
+    text-indent: -30px;
+}
+
+.a-timeline .timeline-item .comment span {
+    color:  $ametys-timeline-color-lighter;
+    font-size: $ametys-timeline-font-size*2;
+    margin-right: 8px;
+    text-indent:-15px;
+    font-style:italic;
+}
+
+.a-timeline .timeline-item .top {
+	text-align: right;
+	color: $ametys-timeline-color-light;
+	padding-bottom: $ametys-timeline-font-size/4;
+}
+
+.a-timeline .timeline-item .icon {
+	text-align: right;
+}
+
+.a-timeline .timeline-item .text {
+	padding-bottom: $ametys-timeline-font-size/4;
+	line-height: $ametys-timeline-font-size*1.5;
+}
+
+.a-timeline .timeline-item .text strong {
+    color: $ametys-timeline-color;
+}
+.a-timeline .timeline-item.warn .text strong {
+    color: $ametys-timeline-color-warn;
+}
+.a-timeline .timeline-item.error .text strong {
+    color: $ametys-timeline-color-error;
+}
+
+@for $i from 1 through length($ametys-tool-tab-colors) {
+    $index: $i - 1;
+
+    $active-color-dark: nth($ametys-tool-tab-colors-dark, $i);
+    $active-color: nth($ametys-tool-tab-colors, $i);
+    $active-color-light: nth($ametys-tool-tab-colors-light, $i);
+    
+    .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-#{$index*10} {
+        .a-timeline .timeline-item .contents-wrap::before {
+		    border-right-color: $active-color;
+		}
+		
+		.a-timeline .#{$prefix}grid-group-hd .timeline-day,
+		.a-timeline .timeline-item .contents-wrap {
+    		border-color: $active-color;
+		}
+		
+		.a-timeline .#{$prefix}group-hd-container::before,
+		.a-timeline .timeline-item::before {
+    		background-color: $active-color;
+		}
+		
+		.a-timeline .timeline-item .text strong,
+		.a-timeline .#{$prefix}grid-group-hd .timeline-day,
+		.a-timeline .timeline-item .profile-img-wrap {
+			color: $active-color;
+		}
+		
+		.a-timeline .timeline-item.warn .contents-wrap {
+			border-color: $ametys-timeline-border-color-warn;
+		}
+		
+		.a-timeline .timeline-item.warn .contents-wrap::before {
+			border-right-color: $ametys-timeline-border-color-warn;
+		}
+
+		.a-timeline .timeline-item.error .contents-wrap::before {
+			border-right-color: $ametys-timeline-border-color-error;
+		}
+		.a-timeline .timeline-item.error .contents-wrap {
+			border-color: $ametys-timeline-border-color-error;
+		}
+		
+		.a-timeline .timeline-item.warn .text strong {
+		    color: $ametys-timeline-color-warn;
+		}
+		.a-timeline .timeline-item.error .text strong {
+		    color: $ametys-timeline-color-error;
+		}
+		
+		.a-timeline .timeline-item.warn .a {
+		    color: $active-color;
+		    text-decoration: none;
+		}
+		
+		.a-timeline .timeline-item.warn .a:hover {
+		    text-decoration: underline;
+		}
+    }
+}
+
