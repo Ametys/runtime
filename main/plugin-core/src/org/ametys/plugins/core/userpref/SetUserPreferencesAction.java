@@ -136,7 +136,7 @@ public class SetUserPreferencesAction extends AbstractCurrentUserProviderService
         UserPreferencesErrors errors = new UserPreferencesErrors();
         
         // Override the old values with the new ones, but keep old values when new preferences are not in the request.
-        values.putAll(_getValues(request, contextVars, preferenceIds, errors));
+        values.putAll(_getValues(request, contextVars, username, preferenceIds, errors));
         
         // Validate the user preferences, filling in potential errors.
         _userPrefEP.validatePreferences(contextVars, values, errors);
@@ -158,11 +158,12 @@ public class SetUserPreferencesAction extends AbstractCurrentUserProviderService
      * Get the preferences values from the request.
      * @param request the request.
      * @param contextVars The context vars
+     * @param username the user name.
      * @param preferenceIds a collection of the IDs of preferences to set.
      * @param errors the errors object to fill in.
      * @return the user preferences values as a Map.
      */
-    protected Map<String, String> _getValues(Request request, Map<String, String> contextVars, Collection<String> preferenceIds, UserPreferencesErrors errors)
+    protected Map<String, String> _getValues(Request request, Map<String, String> contextVars, String username, Collection<String> preferenceIds, UserPreferencesErrors errors)
     {
         Map<String, String> preferences = new HashMap<>();
         

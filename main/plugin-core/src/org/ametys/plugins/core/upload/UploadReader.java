@@ -57,7 +57,7 @@ public class UploadReader extends ServiceableReader
     private int _maxHeight;
     
     private boolean _readForDownload;
-    private Collection<String> _allowedFormats = Arrays.asList(new String[]{"png", "gif", "jpg", "jpeg"});
+    private final Collection<String> _allowedFormats = Arrays.asList("png", "gif", "jpg", "jpeg");
 
     @Override
     public void service(ServiceManager serviceManager) throws ServiceException

@@ -42,6 +42,8 @@
     <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_PLACEHOLDER">Rechercher une fonctionnalité...</message>
     <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_SEARCHITEM_LABEL">Obtenir de l'aide sur \"[text]\"</message>
     
+    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_TABPANEL_EDIT_PROFILE_IMAGE">Modifier votre image de profil</message>
+    
     <!-- +
          | Login screen
          + -->
@@ -147,7 +149,7 @@
     <message key="PLUGINS_CORE_UI_DATETIME_LONGTIME">H:i:sP</message>
     <message key="PLUGINS_CORE_UI_DATETIME_SHORTDATETIME">d/m/y H:i:s</message>
     <message key="PLUGINS_CORE_UI_DATETIME_FRIENDLYDATETIME">d/m/Y \\à H:i</message>
-    <message key="PLUGINS_CORE_UI_DATETIME_LONGDATETIME">d/m/Y H:i:s P</message>
+    <message key="PLUGINS_CORE_UI_DATETIME_LONGDATETIME">d/m/Y H:i:sP</message>
     <message key="PLUGINS_CORE_UI_DATETIME_FULLDATETIME">l j F Y \\à H:i:s P</message>
     
     <!-- +
@@ -457,6 +459,9 @@
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_FORM_TAB_POLICY_DESC">Choisissez le mode d'affichage des formulaires:&lt;br/&gt;- &lt;b&gt;Formulaire avec onglets&lt;/b&gt;: regroupement des champs du formulaire par onglets &lt;br/&gt;- &lt;b&gt;Formulaire linéarisé:&lt;/b&gt; disposition des champs du formulaire les uns à la suite des autres</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_FORM_TAB_POLICY_DEFAULT">Formulaire avec onglets</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_FORM_TAB_POLICY_INLINE">Formulaire linéarisé</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_GROUP_30_PROFILE">Profil utilisateur</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE">Image de profil</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_DESC">Image ou photo de profil à afficher</message>
     
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_LABEL">Réinitialiser l'espace de travail</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_DESCRIPTION">Réinitialise votre espace de travail avec les paramètres par défaut (outils ouverts, taille des zones...) et recharge l'application.</message>
@@ -464,6 +469,34 @@
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_PROMPT_DESC">Voulez-vous réinitialiser votre espace de travail maintenant ?&lt;br/&gt;&lt;br/&gt;Tous les outils actuellement ouverts seront refermés : pensez à sauvegarder votre travail avant de cliquer sur OK.</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_FAILURE_TITLE">Impossible de réinitialiser</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_FAILURE_DESC">Une erreur inattendue est survenue et a empéché la réinitialisation de l'espace de travail.</message>
+    
+    <!-- +
+         | USER_PREFERENCES_PROFILE
+         + -->
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_TITLE">Profil utilisateur</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_INTRO">Sélectionnez une image de profil parmi les images proposées ou en ajoutant une image personnelle.</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_OK">Ok</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_CANCEL">Annuler</message>
+    
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FIELD_DESC">Choix de votre image de profil.</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_UPLOAD_TITLE">Insérer une image locale ...</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_UPLOAD_HINT">Sélectionnez une image sur votre disque dur, puis cliquez sur 'Ok'.</message>
+         
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_SAVE_FAILURE_TITLE">Erreur lors de la sauvegarde</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_SAVE_FAILURE_DESC">Une erreur inattendue est survenue: les préférences n'ont pas été sauvegardées.</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_SAVE_SUCCESS_TITLE">Sauvegarde effectuée</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_SAVE_SUCCESS_DESC">Les préférences de profil ont bien été sauvegardées.</message>
+    
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_PREFIX">Source</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_LOCALIMAGE">Provient de la banque d'images locale</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_GRAVATAR">Fournie par Gravatar</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_USERSMANAGER">Fournie par la base de gestion des utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_INITIALS">Générée à partir des initiales de l'utilisateur</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_UPLOAD">Ajoutée manuellement par l'utilisateur</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_USERPREF">Image de profil actuelle</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_DEFAULT">Image par défaut</message>
+    
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_UPLOADIMAGE">Cliquez ici pour ajouter une image locale</message>
     
     <!-- +
          | WIDGETS

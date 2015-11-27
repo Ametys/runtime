@@ -193,42 +193,42 @@
                                 var searchMenuItems = [];          
                                 
                                 // create the lunr index
-                                var index = lunr(function(){
-                                    var lang = Ametys.getAppParameter("user").locale;
-                                    if (lang != 'en')
-                                    {
-                                        // use the language
-                                        var lunrUse = "lunr." + lang;
-                                        this.use(eval(lunrUse));
-                                    }
+								var index = lunr(function(){
+									var lang = Ametys.getAppParameter("user").locale;
+									if (lang != 'en')
+									{
+										// use the language
+										var lunrUse = "lunr." + lang;
+		    							this.use(eval(lunrUse));
+		    						}
     
-                                    this.field('title', {boost: 1});
-                                    this.field('keywords', {boost: 100});
-                                    this.field('description', {boost: 10});
-                                    // the id
-                                    this.ref('id');
-                                    
-                                    this.pipeline.add(lunr.elision);
-                                    this.pipeline.add(lunr.deemphasize);
-                                });
-                                
+								    this.field('title', {boost: 1});
+								    this.field('keywords', {boost: 100});
+								    this.field('description', {boost: 10});
+								    // the id
+								    this.ref('id');
+								    
+								    this.pipeline.add(lunr.elision);
+								    this.pipeline.add(lunr.deemphasize);
+								});
+								
                     <xsl:for-each select="ribbon/tabs/tab/groups/group/medium//control">
                             <xsl:variable name="id" select="@id"/>
                                try { 
-                                    var control = Ametys.ribbon.RibbonManager.getElement("<xsl:value-of select="@id"/>");
+                               		var control = Ametys.ribbon.RibbonManager.getElement("<xsl:value-of select="@id"/>");
                                     var tabLabel = "<xsl:value-of select="/Ametys/workspace/ribbon/tabs/tab[groups/group/medium//control/@id = $id]/@label"/>";
-                                    var menuItem = control.addMenuItemUI();
+                               		var menuItem = control.addMenuItemUI();
                                     menuItem.text = '&lt;span class="a-ribbon-searchmenu-item-category"&gt;' + tabLabel + '&lt;/span&gt;' + menuItem.text;
-                                    searchMenuItems.push(menuItem);
-                                    index.add({
-                                        id: menuItem.id,
-                                        title: control.getInitialConfig('label'),
-                                        keywords: control.getInitialConfig('keywords') || "",
-                                        description: control._description,
-                                    });
-                                } catch (e) { /* some controls cannot be used into a menu */ }   
+                               		searchMenuItems.push(menuItem);
+                               		index.add({
+									    id: menuItem.id,
+									    title: control.getInitialConfig('label'),
+									    keywords: control.getInitialConfig('keywords') || "",
+									    description: control._description,
+									});
+                               	} catch (e) { /* some controls cannot be used into a menu */ }   
                     </xsl:for-each>
-                            lunr.controllersIndex = index;
+                    		lunr.controllersIndex = index;
 
                             var ribbonItems = [];         
 
@@ -399,18 +399,25 @@
                                     allowSearch: true,
                                     items: searchMenuItems
                                 },
-                                                                
+                                
                                 <xsl:if test="user">
                                 user: {
                                     fullName: "<xsl:value-of select="user/fullname"/>",
                                     login: "<xsl:value-of select="user/@login"/>",
-                                    email: "<xsl:value-of select="user/email"/>"
+                                    email: "<xsl:value-of select="user/email"/>",
+                                    menu: { 
+                                        items: [{
+                                            text: "<i18n:text i18n:key='PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_TABPANEL_EDIT_PROFILE_IMAGE' i18n:catalogue='plugin.core-ui'/>",
+                                            icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/user-profiles/edit-profile.png',
+                                            handler: Ametys.userprefs.UserProfileDialog.open,
+                                            scope: Ametys.userprefs.UserProfileDialog
+                                        }]
+                                    }
                                     <xsl:if test="string-length(user/email) > 1">,
-                                        <xsl:variable name="gravatarHash" select="digest:md5Hex(user/email)"/>
-                                        smallPhoto: "http://www.gravatar.com/avatar/<xsl:value-of select="$gravatarHash"/>?s=16&amp;d=blank",
-                                        mediumPhoto: "http://www.gravatar.com/avatar/<xsl:value-of select="$gravatarHash"/>?s=32&amp;d=mm",
-                                        largePhoto: "http://www.gravatar.com/avatar/<xsl:value-of select="$gravatarHash"/>?s=48&amp;d=mm",
-                                        extraLargePhoto: "http://www.gravatar.com/avatar/<xsl:value-of select="$gravatarHash"/>?s=64&amp;d=mm"
+                                        smallPhoto: Ametys.getPluginDirectPrefix('core-ui') + '/current-user/image?size=16',
+                                        mediumPhoto: Ametys.getPluginDirectPrefix('core-ui') + '/current-user/image?size=32',
+                                        largePhoto: Ametys.getPluginDirectPrefix('core-ui') + '/current-user/image?size=48',
+                                        extraLargePhoto: Ametys.getPluginDirectPrefix('core-ui') + '/current-user/image?size=64'
                                     </xsl:if>
                                 }
                                 </xsl:if>

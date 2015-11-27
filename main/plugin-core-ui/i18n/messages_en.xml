@@ -42,6 +42,7 @@
     <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_PLACEHOLDER">Search a feature...</message>
     <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_SEARCHITEM_LABEL">See help for \"[text]\"</message>
     
+    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_TABPANEL_EDIT_PROFILE_IMAGE">Edit your profile image</message>
     
     <!-- +
          | Login screen
@@ -457,6 +458,9 @@
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_FORM_TAB_POLICY_DESC">Select the display mode of forms:&lt;br/&gt;- &lt;b&gt;Form with tabs&lt;/b&gt;: grouping of form fields by tabs &lt;br/&gt;- &lt;b&gt;Linearized form:&lt;/b&gt; form fields one after the other on same page</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_FORM_TAB_POLICY_DEFAULT">Form with tabs</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_FORM_TAB_POLICY_INLINE">Linear form</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_GROUP_30_PROFILE">User profile</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE">Profile image</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_DESC">Profile image or photo to display</message>
    
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_LABEL">Reset your workspace</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_DESCRIPTION">Reset your workspace with default parameters (opened tools, zones sizes...) and reload the application</message>
@@ -464,6 +468,34 @@
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_PROMPT_DESC">Do you want to reset your workspace now?&lt;br/&gt;&lt;br/&gt;All currently opened tools will be close: please save your pending changed before clicking on OK.</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_FAILURE_TITLE">Workspace not reset</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_FAILURE_DESC">An unexpected error prevent the workspace to be reset.</message>
+    
+    <!-- +
+         | USER_PREFERENCES_PROFILE
+         + -->
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_TITLE">User profile</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_INTRO">Select a profile image among the set of suggested images or by adding a personal image.</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_OK">Ok</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_CANCEL">Cancel</message>
+    
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FIELD_DESC">Profile image choice.</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_UPLOAD_TITLE">Insert local picture ...</message>    
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_UPLOAD_HINT">Select picture on your drive, then click 'Ok'.</message>
+         
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_SAVE_FAILURE_TITLE">Error during the saving operation</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_SAVE_FAILURE_DESC">An unexpected error occurred: the preferences could not been saved.</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_SAVE_SUCCESS_TITLE">Save performed</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_SAVE_SUCCESS_DESC">The profile preferences have beeen saved with success.</message>
+
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_PREFIX">Source</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_LOCALIMAGE">From the local image bank</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_GRAVATAR">From Gravatar</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_USERSMANAGER">From user management base</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_INITIALS">Generated from user's initials</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_UPLOAD">Manual user upload</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_USERPREF">Current profile image</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_DEFAULT">Default image</message>
+    
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_UPLOADIMAGE">Click here to add a local image</message>
     
     <!-- +
          | WIDGETS

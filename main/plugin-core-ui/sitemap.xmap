@@ -27,7 +27,13 @@
         
         <map:actions>
             <map:action name="client-call" src="org.ametys.core.ui.ExecuteClientCallsAction"/>
+            <map:action name="user-profile-image-list" src="org.ametys.plugins.core.ui.user.GetUserProfileImagesAction"/>
+            <map:action name="save-userprofile" src="org.ametys.plugins.core.ui.user.SetUserProfileAction" />
         </map:actions>
+        
+        <map:readers>
+            <map:reader name="user-profile-image" src="org.ametys.plugins.core.ui.user.ProfileImageReader" logger="org.ametys.plugins.core.ui.user"/>
+        </map:readers>
         
     </map:components>
     
@@ -55,8 +61,67 @@
                 <map:match pattern="system-announcement/view.xml">
                     <map:generate type="system-announcement" label="content"/>
                     <map:serialize type="xml"/>
-                </map:match>     
+                </map:match>
+                
+                <!-- +
+                     | User images
+                     + -->
+                <map:match pattern="images/user-profile/list.json">
+                    <map:act type="user-profile-image-list">
+                        <map:read type="json"/>
+                    </map:act>
+                </map:match>
+                
+                <map:match pattern="current-user/image">
+                    <map:read type="user-profile-image">
+                        <map:parameter name="download" value="{request-param:download}"/>
+                        <map:parameter name="size" value="{request-param:size}"/>
+                        <map:parameter name="maxSize" value="{request-param:maxSize}"/>
+                    </map:read>
+                </map:match>
+                
+                <map:match pattern="user/*/image">
+                    <map:read type="user-profile-image">
+                        <map:parameter name="login" value="{1}"/>
+                        <map:parameter name="download" value="{request-param:download}"/>
+                        <map:parameter name="size" value="{request-param:size}"/>
+                        <map:parameter name="maxSize" value="{request-param:maxSize}"/>
+                    </map:read>
+                </map:match>
+                
+                <map:match pattern="current-user/source/*/image">
+                    <map:read type="user-profile-image">
+                        <map:parameter name="image-source" value="{1}"/>
+                        <map:parameter name="download" value="{request-param:download}"/>
+                        <map:parameter name="size" value="{request-param:size}"/>
+                        <map:parameter name="maxSize" value="{request-param:maxSize}"/>
+                    </map:read>
+                </map:match>
+                
+                <map:match pattern="user/*/source/*/image">
+                    <map:read type="user-profile-image">
+                        <map:parameter name="login" value="{1}"/>
+                        <map:parameter name="image-source" value="{2}"/>
+                        <map:parameter name="download" value="{request-param:download}"/>
+                        <map:parameter name="size" value="{request-param:size}"/>
+                        <map:parameter name="maxSize" value="{request-param:maxSize}"/>
+                    </map:read>
+                </map:match>
+                
+                <map:match pattern="user-profile/save.xml">
+                    <map:act type="save-userprofile">
+                        <map:aggregate element="xml">
+                            <map:part src="cocoon://_plugins/core/userprefs/values.xml?prefContext={request-param:prefContext}"/>
+                            <map:part src="cocoon://_plugins/core/userprefs/errors.xml"/>
+                        </map:aggregate>
+                        <map:transform type="i18n">
+                            <map:parameter name="locale" value="{locale:locale}"/>
+                            <map:parameter name="plugin" value="{request-attr:pluginName}"/>
+                        </map:transform>
+                        <map:serialize type="xml"/>
+                    </map:act>
+                </map:match>
             </map:pipeline>
-        
+            
         </map:pipelines>
 </map:sitemap>

@@ -1202,7 +1202,6 @@
                      </enumeration>
                      <default-value>default</default-value>
                  </param>
-                 
             </extension>
             
             <extension id="org.ametys.plugins.core.userprefs.ResetWorkspace"
@@ -1242,6 +1241,39 @@
          </extension>
          
        </extensions>
+    </feature>
+    
+    <feature name="core.user.profile" safe="true">
+        <components>
+            <component class="org.ametys.plugins.core.ui.user.ProfileImageProvider"
+                       id="org.ametys.plugins.core.ui.user.ProfileImageProvider" 
+                       role="org.ametys.plugins.core.ui.user.ProfileImageProvider"/>
+        </components>
+        
+        <extensions>
+            <extension point="org.ametys.core.userpref.UserPreferencesExtensionPoint"
+                       id="runtime.user.profile.prefs"
+                       class="org.ametys.plugins.core.impl.userpref.StaticUserPreferenceProvider">
+                 <param id="profile-image" type="string"  private="true">
+                    <label i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_WORKSPACE</label>
+                    <description i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_WORKSPACE_DESC</description>
+                    <group i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_GROUP_10_DISPLAY</group>
+                 </param>
+            </extension>
+            
+            <extension id="org.ametys.plugins.core.user.profile.Edit"
+                       point="org.ametys.core.ui.StaticFileImportsManager"
+                       class="org.ametys.core.ui.StaticFileImportsClientSideElement">
+                <scripts>
+                    <file>js/Ametys/userprefs/UserProfileDialog.js</file>
+                    <file>js/Ametys/userprefs/UserProfileDialog/ProfileImageModel.js</file>
+                    <file>js/Ametys/userprefs/UserProfileDialog/ProfileImageField.js</file>
+                </scripts>
+                <css>
+                    <file>css/user-profiles.css</file>
+                </css>
+            </extension>
+        </extensions>
     </feature>
     
     <feature name="configurableformpanel.checks" safe="true">
