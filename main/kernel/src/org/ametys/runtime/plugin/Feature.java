@@ -16,15 +16,18 @@
 package org.ametys.runtime.plugin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.commons.lang3.StringUtils;
 
-import org.ametys.core.util.StringUtils;
 import org.ametys.runtime.config.ConfigParameterInfo;
 
 /**
@@ -190,35 +193,53 @@ public class Feature
     
     private void _configureDependencies()
     {
-        Collection<String> dependencies = StringUtils.stringToCollection(_configuration.getAttribute("depends", null));
-        for (String dependency : dependencies)
+        String depends = _configuration.getAttribute("depends", null);
+        
+        if (depends != null)
         {
-            String dependingFeatureId = dependency;
+            List<String> dependencies = Arrays.stream(StringUtils.split(depends, ','))
+                                              .map(String::trim)
+                                              .filter(StringUtils::isNotEmpty)
+                                              .collect(Collectors.toList());
             
-            int i = dependency.indexOf('/');
-            if (i == -1)
+            for (String dependency : dependencies)
             {
-                dependingFeatureId = _pluginName + PluginsManager.FEATURE_ID_SEPARATOR + dependency;
+                String dependingFeatureId = dependency;
+                
+                int i = dependency.indexOf('/');
+                if (i == -1)
+                {
+                    dependingFeatureId = _pluginName + PluginsManager.FEATURE_ID_SEPARATOR + dependency;
+                }
+                
+                _dependencies.add(dependingFeatureId);
             }
-            
-            _dependencies.add(dependingFeatureId);
         }
     }
     
     private void _configureDeactivations()
     {
-        Collection<String> deactivations = StringUtils.stringToCollection(_configuration.getAttribute("deactivates", null));
-        for (String deactivation : deactivations)
+        String deactivates = _configuration.getAttribute("deactivates", null);
+        
+        if (deactivates != null)
         {
-            String deactivatedFeatureId = deactivation;
-            
-            int i = deactivation.indexOf('/');
-            if (i == -1)
+            List<String> deactivations = Arrays.stream(StringUtils.split(deactivates, ','))
+                                               .map(String::trim)
+                                               .filter(StringUtils::isNotEmpty)
+                                               .collect(Collectors.toList());
+
+            for (String deactivation : deactivations)
             {
-                deactivatedFeatureId = _pluginName + PluginsManager.FEATURE_ID_SEPARATOR + deactivation;
+                String deactivatedFeatureId = deactivation;
+                
+                int i = deactivation.indexOf('/');
+                if (i == -1)
+                {
+                    deactivatedFeatureId = _pluginName + PluginsManager.FEATURE_ID_SEPARATOR + deactivation;
+                }
+                
+                _deactivations.add(deactivatedFeatureId);
             }
-            
-            _deactivations.add(deactivatedFeatureId);
         }
     }
     
