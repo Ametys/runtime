@@ -1269,9 +1269,6 @@
                     <file>js/Ametys/userprefs/UserProfileDialog/ProfileImageModel.js</file>
                     <file>js/Ametys/userprefs/UserProfileDialog/ProfileImageField.js</file>
                 </scripts>
-                <css>
-                    <file>css/user-profiles.css</file>
-                </css>
             </extension>
         </extensions>
     </feature>

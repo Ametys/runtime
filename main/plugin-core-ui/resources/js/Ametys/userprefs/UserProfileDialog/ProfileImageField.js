@@ -34,7 +34,7 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
             selModel: {
                 mode: 'SINGLE'
             },
-            cls: 'a-profile-images-view',
+            
             overItemCls: 'x-view-over',
             ui: 'view',
             
