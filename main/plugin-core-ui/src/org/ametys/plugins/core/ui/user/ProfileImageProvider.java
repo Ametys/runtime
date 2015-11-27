@@ -26,22 +26,24 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.Properties;
 
 import javax.imageio.ImageIO;
 
 import org.apache.avalon.framework.component.Component;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+import org.apache.cocoon.util.HashUtil;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.FilenameUtils;
@@ -51,6 +53,7 @@ import org.apache.excalibur.source.SourceResolver;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.message.BasicNameValuePair;
+import org.xml.sax.SAXException;
 
 import org.ametys.core.upload.Upload;
 import org.ametys.core.upload.UploadManager;
@@ -109,11 +112,11 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
     /** Name of the default image */
     protected static final String __DEFAULT_FILE_NAME = "default.png";
     
-    /** Number of different initials background */
-    protected static final int __NB_INITIALS_BACKGROUND = 6;
-    
     /** The map of paths to avatar images, keys are id */
     protected static Map<String, String> __avatarPaths;
+    
+    /** Ordered list of paths to available backgrounds for 'initials' images */
+    protected static List<String> __initialsBgPaths;
     
     /** Source resolver */
     protected SourceResolver _sourceResolver;
@@ -678,21 +681,6 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
     }
     
     /**
-     * Get the map containing the relative path for each local image.
-     * Create the map if not existing yet.
-     * @return Map where keys are ids and values are the relative paths
-     */
-    protected Map<String, String> _getLocalImagePaths()
-    {
-        if (__avatarPaths == null)
-        {
-            _initializeLocaLImagePaths();
-        }
-        
-        return __avatarPaths;
-    }
-    
-    /**
      * Get the list of local image identifiers
      * @return Ordered list of identifiers
      */
@@ -702,11 +690,28 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
     }
     
     /**
+     * Get the map containing the relative path for each local image.
+     * Create the map if not existing yet.
+     * @return Map where keys are ids and values are the relative paths
+     */
+    protected Map<String, String> _getLocalImagePaths()
+    {
+        if (__avatarPaths == null)
+        {
+            _initializeLocalImagePaths();
+        }
+        
+        return __avatarPaths;
+    }
+    
+    /**
      * Initializes the map of local image paths
      */
-    private void _initializeLocaLImagePaths()
+    private void _initializeLocalImagePaths()
     {
-        String location = "plugin:core-ui://resources/img/" + __USER_PROFILES_DIR_PATH + "/" + __AVATAR_DIR_NAME + "/" + __AVATAR_DIR_NAME + ".properties";
+        __avatarPaths = new LinkedHashMap<>(); // use insertion order
+        
+        String location = "plugin:core-ui://resources/img/" + __USER_PROFILES_DIR_PATH + "/" + __AVATAR_DIR_NAME + "/" + __AVATAR_DIR_NAME + ".xml";
         Source source = null;
         try
         {
@@ -714,19 +719,14 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
             
             try (InputStream is = source.getInputStream())
             {
-                Properties properties = new Properties();
-                properties.load(is);
-                
-                __avatarPaths = new LinkedHashMap<>(); // use insertion order
-                // FIXME properties are not ordered
-                for (Enumeration<?> keys = properties.propertyNames(); keys.hasMoreElements();)
+                Configuration cfg = new DefaultConfigurationBuilder().build(is);
+                for (Configuration imageCfg : cfg.getChildren("image"))
                 {
-                    String key = (String) keys.nextElement();
-                    __avatarPaths.put(key, properties.getProperty(key));
+                    __avatarPaths.put(imageCfg.getAttribute("id"), imageCfg.getValue());
                 }
             }
         }
-        catch (IOException e)
+        catch (IOException | ConfigurationException | SAXException e)
         {
             getLogger().error("Unable to retrieve the map of local image paths", e);
         }
@@ -738,7 +738,6 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
             }
         }
     }
-    
     
     /**
      * Test if the initials image is available for a given user
@@ -839,26 +838,6 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
         return null;
     }
     
-    private InputStream _addImageBackground(String login, InputStream is) throws IOException
-    {
-        BufferedImage image = ImageIO.read(is);
-        Source bgSource = _getInitialsBackgroundSource(login);
-        BufferedImage background = null;
-        
-        try (InputStream backgroundIs = bgSource.getInputStream())
-        {
-            background = ImageIO.read(backgroundIs);
-            Graphics backgroundGraphics = background.getGraphics();
-            backgroundGraphics.drawImage(image, 0, 0, null);
-        }
-        
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream())
-        {
-            ImageIO.write(background, "png", baos);
-            return new ByteArrayInputStream(baos.toByteArray());
-        }
-    }
-
     /**
      * Get the source of the initials image
      * @param initial The initial
@@ -872,6 +851,41 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
     }
     
     /**
+     * Add a background to an initials image
+     * @param login The login used to determine which background will be used (based on a hash representation of the login)
+     * @param is The inputstream of the image
+     * @return The inputstream of the final image with the background
+     * @throws IOException If any sort of IO error occurs during the process 
+     */
+    protected InputStream _addImageBackground(String login, InputStream is) throws IOException
+    {
+        BufferedImage image = ImageIO.read(is);
+        Source bgSource = null;
+        try
+        {
+            bgSource = _getInitialsBackgroundSource(login);
+            BufferedImage background = null;
+            
+            try (InputStream backgroundIs = bgSource.getInputStream())
+            {
+                background = ImageIO.read(backgroundIs);
+                Graphics backgroundGraphics = background.getGraphics();
+                backgroundGraphics.drawImage(image, 0, 0, null);
+            }
+            
+            try (ByteArrayOutputStream baos = new ByteArrayOutputStream())
+            {
+                ImageIO.write(background, "png", baos);
+                return new ByteArrayInputStream(baos.toByteArray());
+            }
+        }
+        finally
+        {
+            _sourceResolver.release(bgSource);
+        }
+    }
+    
+    /**
      * Get the background image for the initials source.
      * The chosen background depend on the user login 
      * @param login The user login.
@@ -881,17 +895,64 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
     protected Source _getInitialsBackgroundSource(String login) throws IOException
     {
         // Hashing the login then choose a background given the available ones.
-        int hash = login.hashCode();
+        long hash = Math.abs(HashUtil.hash(login));
         
-        // hash modulo number of available background using binary operator
-        // x % y <=> x & (y-1) but faster.
-        int bg = hash & (__NB_INITIALS_BACKGROUND - 1);
+        // Perform a modulo on the hash given number of available background 
+        // using binary operator for efficiency: x % y <=> x & (y-1)
+        _initializeInitialsBackgroundPaths();
+        long nbBackground = __initialsBgPaths.size();
+        if (nbBackground == 0)
+        {
+            throw new IOException("No backgrounds available.");
+        }
         
-        // file = bg00.png, bg01.png, bg02.png, ...
-        String filename = "bg" + StringUtils.leftPad(Integer.toString(bg), 2, '0') + ".png";
+        int indexBackground = (int) (hash & (nbBackground - 1));
         
-        String location = "plugin:core-ui://resources/img/" + __USER_PROFILES_DIR_PATH + "/" + __INITIALS_DIR_NAME + "/" + filename;
+        // Get file from list
+        String path = __initialsBgPaths.get(indexBackground);
+        
+        String location = "plugin:core-ui://resources/img/" + __USER_PROFILES_DIR_PATH + "/" + __INITIALS_DIR_NAME + "/" + path;
         return _sourceResolver.resolveURI(location);
+    }
+    
+    /**
+     * Initializes the list of background paths for initials images
+     */
+    private void _initializeInitialsBackgroundPaths()
+    {
+        if (__initialsBgPaths == null)
+        {
+            __initialsBgPaths = new LinkedList<>();
+            
+            String location = "plugin:core-ui://resources/img/" + __USER_PROFILES_DIR_PATH + "/" + __INITIALS_DIR_NAME + "/" + __INITIALS_DIR_NAME + ".xml";
+            Source source = null;
+            
+            try
+            {
+                source = _sourceResolver.resolveURI(location);
+                
+                try (InputStream is = source.getInputStream())
+                {
+                    Configuration cfg = new DefaultConfigurationBuilder().build(is);
+                    
+                    for (Configuration backgroundCfg : cfg.getChildren("background"))
+                    {
+                        __initialsBgPaths.add(backgroundCfg.getValue());
+                    }
+                }
+            }
+            catch (IOException | ConfigurationException | SAXException e)
+            {
+                getLogger().error("Unable to retrieve the list of available backgrounds for initials images", e);
+            }
+            finally
+            {
+                if (source != null)
+                {
+                    _sourceResolver.release(source);
+                }
+            }
+        }
     }
     
     /**
