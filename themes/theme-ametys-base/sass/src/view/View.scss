@@ -14,38 +14,48 @@
  *  limitations under the License.
  */
 
+.#{$prefix}component-view {
+    padding: $font-size/3;
+    border-style: solid;
+    
+    > * {
+    	display: inline-block;
+    	vertical-align: top;
+    	border: 1px solid #FFFFFF;
+    	padding: $font-size/3;
+    	margin: $font-size/3;
+    	font-size: $font-size;
+    	line-height: $font-size*1.25;
+    	overflow: hidden;
+    	cursor: default;
+    	
+    	&.x-view-item-focused {
+    		outline: none !important;
+    	}
+    }
+}
+
 .#{$prefix}component-view > * {
-	display: inline-block;
-	vertical-align: top;
-	border: 1px solid #FFFFFF;
-	padding: $font-size/3;
-	margin: $font-size/1.5;
-	margin-left: 0px;
-	font-size: $font-size;
-	line-height: $font-size*1.25;
-	overflow: hidden;
-	
-	&.x-view-item-focused {
-		outline: none !important;
-	}
+    background-color: lighten($ametys-tool-tab-gray-light, 3);
+    border-color: $ametys-tool-tab-gray-light;
+    
+    font-size: $ametys-tool-font-size;
+    line-height: $ametys-tool-font-size*1.25;
+    
+    &.x-view-over {
+        background-color: $ametys-tool-tab-gray-light;
+        border-color: $ametys-tool-tab-gray;
+    }
+    
+    &.x-item-selected, &.x-item-selected.x-view-over {
+        background-color: mix($ametys-tool-tab-gray-light, $ametys-tool-tab-gray, 75%);
+        border-color: $ametys-tool-tab-gray;
+    }
 }
 
 .#{$prefix}window { 
 	.#{$prefix}component-view > * {
-      	background-color: lighten($window-base-color, 60%);
-		border-color: lighten($window-base-color, 50%);
-      	
-		&.x-view-over {
-			background-color: lighten($window-base-color, 50%);
-			border-color: lighten($window-base-color, 40%);
-		}
-		
-		&.x-item-selected {
-			background-color: lighten($window-base-color, 40%);
-			border-color: lighten($window-base-color, 30%);
-		}
-		
-		&.x-item-selected.x-view-over {
+		&.x-item-selected, &.x-item-selected.x-view-over {
 			background-color: lighten($window-base-color, 40%);
 			border-color: lighten($window-base-color, 30%);
 		}
@@ -54,26 +64,10 @@
 
 .a-tool-layout-zoned-notfocused { 
 	.#{$prefix}component-view > * {
-      	background-color: lighten($ametys-tool-tab-gray-light, 5%);
-      	border-color: $ametys-tool-tab-gray-light;
-      	font-size: $ametys-tool-font-size;
-		line-height: $ametys-tool-font-size*1.25;
-      	
-      	&.x-view-over {
-			background-color: $ametys-tool-tab-gray-light;
+      	&.x-item-selected, &.x-item-selected.x-view-over {
+			background-color: mix($ametys-tool-tab-gray-light, $ametys-tool-tab-gray, 75%);
 			border-color: $ametys-tool-tab-gray;
 		}
-		
-      	&.x-item-selected {
-			background-color: $ametys-tool-tab-gray-light;
-			border-color: $ametys-tool-tab-gray;
-		}
-			
-		&.x-item-selected.x-view-over {
-			background-color: $ametys-tool-tab-gray-light;
-			border-color: $ametys-tool-tab-gray;
-		}
-		
     }
 }
 
@@ -88,26 +82,10 @@
     .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-#{$index*10} {
 
 		.#{$prefix}component-view > * {
-        	background-color: lighten($active-color-light, 20%);
-        	border-color: lighten($active-color-light, 10%);
-        	font-size: $ametys-tool-font-size;
-			line-height: $ametys-tool-font-size*1.25;
-        	
-            &.x-view-over {
-                background-color: $ametys-tool-tab-gray-light;
-                border-color: $ametys-tool-tab-gray;
-            }
-			
-	        &.x-item-selected {
-				background-color: $active-color-light;
-				border-color: lighten($active-color, 20%);
+	        &.x-item-selected, &.x-item-selected.x-view-over {
+				background-color: mix($active-color-light, $active-color, 75%);
+				border-color: $active-color;
 			}
-			
-			&.x-item-selected.x-view-over {
-                background-color: $active-color-light;
-                border-color: lighten($active-color, 20%);
-			}
-			
         }
     }
 }    
