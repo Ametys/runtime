@@ -299,18 +299,18 @@ Ext.define('Ametys.userprefs.UserPrefsDAO', {
 	}
 });
 
-Ext.define("Ametys.message.UserPrefsMessageTarget",
-        {
-            override: "Ametys.message.MessageTarget",
-            
-            statics: 
-            {
-                /**
-                 * @member Ametys.message.MessageTarget
-                 * @readonly
-                 * @property {String} USER_PREFS The target type is user preferences. 
-                 */
-                USER_PREFS: "userPrefs"
-            }
-        }
-);
+Ext.define("Ametys.message.UserPrefsMessageTarget", {
+    override: "Ametys.message.MessageTarget",
+    
+    statics: 
+    {
+        /**
+         * @member Ametys.message.MessageTarget
+         * @readonly
+         * @property {String} USER_PREFS The target type is user preferences. The expected parameters are:
+         * @property {String} USER_PREFS.context The user preference context
+         */
+        USER_PREFS: "userPrefs"
+    }
+});
+

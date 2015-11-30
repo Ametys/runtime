@@ -223,6 +223,18 @@ Ext.define('Ametys.userprefs.UserProfileDialog', {
             });
             
             this._box.close();
+            
+            // User pref modified message
+            Ext.create('Ametys.message.Message', {
+                type: Ametys.message.Message.MODIFIED,
+                
+                targets: {
+                    type: Ametys.message.MessageTarget.USER_PREFS,
+                    parameters: {
+                        context: Ametys.userprefs.UserProfileDialog.USERPREF_CONTEXT
+                    }
+                }
+            });
         }
         else if (errors)
         {

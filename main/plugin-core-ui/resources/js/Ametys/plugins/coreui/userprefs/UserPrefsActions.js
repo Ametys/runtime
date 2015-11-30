@@ -230,16 +230,18 @@ Ext.define('Ametys.plugins.coreui.userprefs.UserPrefsActions', {
     	}
     	else
     	{
-    		this._box.close();
+    	    this._box.close();
     		
-    		Ext.create('Ametys.message.Message', {
-	            type: Ametys.message.Message.MODIFIED,
-	            
-	            targets: {
-	                type: Ametys.message.MessageTarget.USER_PREFS,
-	                parameters: {}
-	            }
-	        });
+            Ext.create('Ametys.message.Message', {
+                type: Ametys.message.Message.MODIFIED,
+                
+                targets: {
+                    type: Ametys.message.MessageTarget.USER_PREFS,
+                    parameters: {
+                        context: Ametys.userprefs.UserPrefsDAO.getDefaultPrefContext()
+                    }
+                }
+            });
     	}
 	}
 });
