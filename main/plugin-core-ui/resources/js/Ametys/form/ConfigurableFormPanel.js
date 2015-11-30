@@ -308,6 +308,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         this._additionalWidgetsConfFromParams = config.additionalWidgetsConfFromParams || {};
         this._testURL = config.testURL;
         
+        config.autoFocus = false; 
+        
         this.callParent(arguments);
         
         this._fields = [];  
