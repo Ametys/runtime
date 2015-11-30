@@ -124,7 +124,7 @@ Ext.define('Ametys.navhistory.HistoryDAO', {
 			date: new Date(),  
 			description: config.description || '',
 			iconSmall: config.iconSmall,
-			iconSmall: config.iconSmall,
+			iconMedium: config.iconMedium,
 			iconLarge: config.iconLarge,
 			type: config.type || '',
 			action: config.action || Ext.emptyFn

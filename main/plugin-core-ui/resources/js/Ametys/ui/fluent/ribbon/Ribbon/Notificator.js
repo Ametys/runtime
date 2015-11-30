@@ -130,13 +130,32 @@ Ext.define("Ametys.ui.fluent.ribbon.Ribbon.Notificator", {
     },
     
     /**
+     * Execute the action attached to this record
+     * @param {String} recordId The id of record
+     * @param {Number} index The action of index
+     */
+    executeAction: function (recordId, index)
+    {
+    	var record = this.getStore().getById(recordId);
+    	if (record != null)
+    	{
+    		var action = record.get('action');
+    		action();
+    	}
+    },
+    
+    /**
      * Notify a new message.
      * @param {Object/Ametys.ui.fluent.ribbon.Ribbon.Notificator.Notification} config The new notification
      */
     notify: function(config)
     {
     	// add the creation date
-    	Ext.apply(config, {id: Ext.id(), creationDate: Ext.Date.format(new Date(), Ext.Date.patterns.ISO8601DateTime)});
+    	Ext.apply(config, {
+    			id: Ext.id(), 
+    			creationDate: Ext.Date.format(new Date(), Ext.Date.patterns.ISO8601DateTime),
+    			actionFunction: "Ext.getCmp('" + this.getId() + "').executeAction"
+    	});
     	
         var newNotification = this.getStore().add(config)[0];
         
@@ -149,7 +168,7 @@ Ext.define("Ametys.ui.fluent.ribbon.Ribbon.Notificator", {
              anchor: this.ownerCt.ownerCt.floatParent.nextSibling()
         }).show();
     },
-
+    
     /**
      * Get the internal notification store
      * @return {Ext.data.Store} The store of Ametys.ui.fluent.ribbon.Ribbon.Notificator.Notification 
@@ -158,4 +177,22 @@ Ext.define("Ametys.ui.fluent.ribbon.Ribbon.Notificator", {
     {
         return this._store;
     }
+});
+
+/**
+ * Create an alias in order to ease the issuing of notifications
+ */
+Ext.override(Ametys, {
+
+   /**
+    * @member Ametys
+    * @method notify 
+    * @since Ametys Runtime 4.0
+    * @ametys
+    * Simple alias for #Ametys.ui.fluent.ribbon.Ribbon.Notificator.notify.
+    */
+	notify: function(config)
+	{
+		Ext.getCmp('ribbon').getNotificator().notify(config);
+	}
 });
