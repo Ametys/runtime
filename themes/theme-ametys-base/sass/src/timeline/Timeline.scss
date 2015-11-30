@@ -49,11 +49,11 @@
 	margin-top: $ametys-timeline-font-size*2/3;
 }
 
-.a-timeline .#{$prefix}grid-item-selected .#{$prefix}grid-cell:first-child {
+.a-timeline .#{$prefix}grid-view .#{$prefix}grid-item-selected .#{$prefix}grid-cell:first-child {
 	border-left-width: 0px;
 }
 
-.a-timeline .#{$prefix}grid-item-selected .#{$prefix}grid-cell:first-child .x-grid-cell-inner {
+.a-timeline .#{$prefix}grid-view .#{$prefix}grid-item-selected .#{$prefix}grid-cell:first-child .x-grid-cell-inner {
     padding-left: 0px;
 }
 
