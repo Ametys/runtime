@@ -103,7 +103,7 @@ Ext.define('Ametys.userprefs.UserProfileDialog', {
             items : [{
                 xtype: 'component',
                 cls: 'a-text',
-                html: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_INTRO'/>",
+                html: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_INTRO'/>"
             }, this._createProfileImageField()],
                         
             closeAction: 'hide',
