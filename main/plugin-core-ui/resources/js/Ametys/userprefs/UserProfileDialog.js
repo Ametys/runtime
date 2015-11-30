@@ -91,7 +91,7 @@ Ext.define('Ametys.userprefs.UserProfileDialog', {
         // Create dialogbox
         this._box = Ext.create('Ametys.window.DialogBox', {
             title: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_TITLE'/>",
-            icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/user-profiles/edit-profile.png', // FIXME better icon
+            icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/user-profiles/edit-profile_16.png',
             
             width: 700,
             
