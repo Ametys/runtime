@@ -15,7 +15,7 @@
  */
  
 $ametys-ribbon-menu-color: dynamic($ametys-ribbon-button-color);
-$ametys-ribbon-menu-emphase-color: dynamic(lighter($ametys-ribbon-button-color, 5%));
+$ametys-ribbon-menu-emphase-color: dynamic(mix($ametys-ribbon-button-color, $ametys-ribbon-button-background-color, 70%));
 $ametys-ribbon-menu-background-color: dynamic($ametys-ribbon-button-background-color);
 $ametys-ribbon-menu-active-color: dynamic($ametys-ribbon-button-color-over);
 $ametys-ribbon-menu-active-background-color: dynamic($ametys-ribbon-button-background-color-over);
