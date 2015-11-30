@@ -212,20 +212,19 @@ Ext.define(
 
             var tip = this;
             
+            
             if (tip.activeTarget.ribbon)
             {
                 var target = Ext.get(tip.activeTarget.target);
                 var newX, newY;
                 
-                // required position
-                newX = target.getLeft() - 5;
-                
-                var rootOfTarget = target;
                 var parent = target.parent("body > *[id^=viewport] > *[id^=viewport] > *");
                 if (!parent)
                 {
                     parent = target.parent("body > *");
                 }
+                
+                newX = target.getLeft() - 5;
                 newY = parent.getBottom();
                 
                 newX = Math.max(newX, 3);
@@ -237,6 +236,30 @@ Ext.define(
                 if (currentXY[0] != newX || currentXY[1] != newY)
                 {
                     tip.setPagePosition(newX, newY);
+                }
+            }
+            else
+            {
+                var target = Ext.get(tip.activeTarget.target);
+                var newX, newY;
+                
+                // required position
+                var parentMenu;
+                if (target && (parentMenu = target.parent(".x-menu")))
+                {
+                    newX = parentMenu.getRight() + 2;
+                    newY = target.getTop() - 2;
+                    
+                    if (newX + this.getWidth() > Ext.getBody().getRight())
+                    {
+                        newX = parentMenu.getLeft() - 2 - this.getWidth();
+                    }
+                
+                    var currentXY = tip.getPosition();
+                    if (currentXY[0] != newX || currentXY[1] != newY)
+                    {
+                        tip.setPagePosition(newX, newY);
+                    }
                 }
             }
         }
