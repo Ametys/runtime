@@ -63,6 +63,8 @@ Ext.define(
 		
 		constructor: function(config)
 		{
+			config.defaultFocus = undefined; // FIXME CMS-6883 Force default focus to undefined to avoid dialog position issue :(
+			
 			this.callParent(arguments);
 			this.on('beforeshow', this._onBeforeShow, this);
 			this.on('afterrender', this._onRenderListener, this);
@@ -78,15 +80,20 @@ Ext.define(
 			}
 		},
 		
-		_onResize: function ()
+		_onResize: function (window, width, height)
 		{
+			var oldHeight = this.getHeight();
+			
 			if (this.freezeHeight)
 			{
 				// Freeze the dialog's height
-				var height = this.getHeight();
-				this.setHeight(height);
+				this.setHeight(this.getHeight());
 			}
-			this.center(); // auto center on resize
+			
+			if (oldHeight != height)
+			{
+				// this.center(); // auto center on resize
+			}
 		},
 	
 		/**
