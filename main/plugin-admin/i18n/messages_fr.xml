@@ -23,7 +23,7 @@
     <message key="PLUGINS_ADMIN_CONFIG_HANDLE">Gestion</message>
     <message key="PLUGINS_ADMIN_CONFIG_HANDLE_SAVE">Sauver et redémarrer</message>
     <message key="PLUGINS_ADMIN_CONFIG_HANDLE_SAVE_DESC">Enregistre les valeurs du formulaire et rédemarre l'application.</message>
-    <message key="PLUGINS_ADMIN_CONFIG_SAVE_OK">La configuration a été sauvée correctement</message>
+    <message key="PLUGINS_ADMIN_CONFIG_SAVE_OK">La configuration a été sauvée correctement.</message>
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_WAIT_MSG">Sauvegarde en cours.&lt;br/&gt;Veuillez patienter ...</message>
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_FATALERROR">Le serveur ne répond pas ou une erreur grave est survenue lors de la sauvegarde.\nConsultez les journaux de l'application et du moteur de servlet pour plus de détails.</message>
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_ERROR">Une erreur est survenue sur le serveur et les paramètres n'ont pas été sauvegardés.\n\nLe message d'erreur interne est :\n</message>

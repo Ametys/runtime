@@ -250,6 +250,13 @@ Ext.define(
 						parameters: {id: group.id}
 					}
 				});
+				
+				Ametys.notify({
+			        type: 'info',
+			        title: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_ADD_LABEL'/>",
+			        icon: '/plugins/core/resources/img/groups/group_32.png',
+			        description: Ext.String.format("<i18n:translate><i18n:text i18n:key='PLUGINS_CORE_GROUPS_ADD_NOTIFY'/><i18n:param name='label'>{0}</i18n:param></i18n:translate>", group.label)
+			    });
 			}
 		},
 		

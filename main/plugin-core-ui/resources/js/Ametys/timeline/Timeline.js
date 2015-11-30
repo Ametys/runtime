@@ -42,6 +42,7 @@ Ext.define('Ametys.timeline.Timeline', {
 	                  			'<tpl if="comment && comment != \'\'">',
 	                  				'<div class="comment"><span class="x-fa fa-quote-left"></span>{comment}</div>',
 	                  			'</tpl>',
+	                  			'<div class="bg-image" style="background-image:url(\'{icon}\')"></div>',
 	                  		'</div>',
 	                  	'</div>'],	
 	 
@@ -53,7 +54,8 @@ Ext.define('Ametys.timeline.Timeline', {
 	
 	constructor: function (config)
 	{
-		config.store = Ext.create('Ametys.timeline.Timeline.TimelineStore', {});
+		config.store = Ext.create('Ametys.timeline.Timeline.TimelineStore', {
+		});
 
 		config.columns = [{
 	        xtype: "gridcolumn",

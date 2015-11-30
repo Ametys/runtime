@@ -140,7 +140,10 @@ Ext.define("Ametys.ui.fluent.ribbon.Ribbon.Notificator", {
     	if (record != null)
     	{
     		var action = record.get('action');
-    		action();
+    		if (Ext.isFunction(action))
+    		{
+    			action();
+    		}
     	}
     },
     

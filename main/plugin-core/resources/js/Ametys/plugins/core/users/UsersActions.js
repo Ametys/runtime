@@ -41,6 +41,13 @@ Ext.define('Ametys.plugins.core.users.UsersActions', {
 	 */
 	_addCb: function (user, userToolRole)
 	{
+		Ametys.notify({
+	        type: 'info',
+	        title: "<i18n:text i18n:key='PLUGINS_CORE_USERS_NOTIFY_CREATION'/>",
+	        icon: '/plugins/core/resources/img/users/user_32.png',
+	        description: Ext.String.format("<i18n:translate><i18n:text i18n:key='PLUGINS_CORE_USERS_NOTIFY_CREATION_DESC'/><i18n:param name='fullname'>{0}</i18n:param></i18n:translate>", user.fullname)
+	    });
+		
 		if (userToolRole)
 		{
 			var tool = Ametys.tool.ToolsManager.getTool(userToolRole);

@@ -40,11 +40,38 @@ Ext.define("Ametys.navhistory.HistoryDAO.HistoryEntry", {
 		{name: 'label', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
 		{name: 'date'},
 		{name: 'description', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+		{name: 'actionFunction',  type: 'string'},
+        {
+        	name: 'description',  
+        	type: 'string',
+        	convert: function (initialDesc, record)
+        	{
+        		var d = '';
+        		
+        		var cursor = 0;
+        		var count = 0;
+        		var index = initialDesc.indexOf("<a>", index);
+        		while (index != -1)
+        		{
+        			d += initialDesc.substring (cursor, index);
+        			d += "<a href=\"#\" onclick=\""+ record.data.actionFunction+ "('" + record.data.id + "', " + count + ")\">";
+        			
+        			cursor = index + 3;
+        			index = initialDesc.indexOf("<a>", index + 3);
+        			count++;
+        		}
+        		
+        		d += initialDesc.substring (cursor);
+        		
+        		return d;
+        	}
+        },
 		{name: 'iconSmall'},
 		{name: 'iconMedium'},
 		{name: 'iconLarge'},
 		{name: 'type'},
-		{name: 'action'}
+		{name: 'action'},
+		{name: 'actionFunction'}
     ]
 });
 
@@ -98,6 +125,24 @@ Ext.define('Ametys.navhistory.HistoryDAO', {
 	},
 	
 	/**
+     * Execute the action attached to this record
+     * @param {String} recordId The id of record
+     * @param {Number} index The action of index
+     */
+	executeEntryAction: function (recordId, index)
+    {
+    	var record = this.getStore().getById(recordId);
+    	if (record != null)
+    	{
+    		var action = record.get('action');
+    		if (Ext.isFunction(action))
+    		{
+    			action();
+    		}
+    	}
+    },
+	
+	/**
 	 * Add an entry into the history store
 	 * @param {String} config The configuration object of the entry. Has the following parameters:
 	 * @param {String} config.id (required) The unique identifier of the event in the history. If the entry of this id already exist, it will be replaced.
@@ -127,7 +172,8 @@ Ext.define('Ametys.navhistory.HistoryDAO', {
 			iconMedium: config.iconMedium,
 			iconLarge: config.iconLarge,
 			type: config.type || '',
-			action: config.action || Ext.emptyFn
+			action: config.action || Ext.emptyFn,
+			actionFunction: "Ametys.navhistory.HistoryDAO.executeEntryAction"
 		});
 	},
 	
