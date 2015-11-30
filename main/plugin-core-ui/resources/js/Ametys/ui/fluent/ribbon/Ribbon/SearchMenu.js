@@ -119,7 +119,7 @@ Ext.define(
             config.items = Ext.Array.from(config.items);
             config.items.push({
             	id: "enabledControllersGroup",
-            	text: "<b>Boutons disponibles</b>",
+            	text: "<b><i18n:text i18n:key='PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_ITEMS_AVAILABLE'/></b>",
             	hideOnClick: false,
             	focusable: false
             }, {
@@ -127,7 +127,7 @@ Ext.define(
             	id: 'groupsSeparator'
             }, {
             	id: "disabledControllersGroup",
-            	text: "<b>Boutons indisponibles</b>",
+            	text: "<b><i18n:text i18n:key='PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_ITEMS_UNAVAILABLE'/></b>",
             	hideOnClick: false,
             	focusable: false
             });
