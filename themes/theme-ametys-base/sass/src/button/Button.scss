@@ -79,15 +79,15 @@
         $active-color: nth($ametys-tool-tab-colors, $i);
         $active-color-light: nth($ametys-tool-tab-colors-light, $i);
     
-        $color: $active-color-dark;
-        $color-over: $active-color-dark;
-        $color-focus: $active-color-dark;
-        $color-pressed: $active-color-dark;
-        $color-focus-over: $active-color-dark;
-        $color-focus-pressed: $active-color-dark;
-        $color-disabled: $active-color-dark;
+        $color: $ametys-tool-tab-gray-superdark; // $button-default-color;
+        $color-over: $ametys-tool-tab-gray-superdark; // $button-default-color-over;
+        $color-focus: $ametys-tool-tab-gray-superdark; // $button-default-color-focus;
+        $color-pressed: $ametys-tool-tab-gray-superdark; // $button-default-color-pressed;
+        $color-focus-over: $ametys-tool-tab-gray-superdark; // $button-default-color-focus-over;
+        $color-focus-pressed: $ametys-tool-tab-gray-superdark; // $button-default-color-focus-pressed;
+        $color-disabled: $ametys-tool-tab-gray-superdark; // $button-default-color-disabled;
     
-        $border-color: $base-dark-color;
+        $border-color: $active-color;
         $border-color-over: button-default-border-color-over($border-color);
         $border-color-focus: button-default-border-color-focus($border-color);
         $border-color-pressed: button-default-border-color-pressed($border-color);
