@@ -53,7 +53,7 @@ Ext.define('Ametys.timeline.Timeline', {
 	
 	constructor: function (config)
 	{
-		config.store = Ext.create('Ametys.plugins.coreui.timeline.Timeline.TimelineStore', {});
+		config.store = Ext.create('Ametys.timeline.Timeline.TimelineStore', {});
 
 		config.columns = [{
 	        xtype: "gridcolumn",
