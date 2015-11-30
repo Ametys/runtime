@@ -150,6 +150,7 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
                 split: true,
                 border: true,
                 flex: 0.6,
+                ui: 'panel',
                 cls: 'a-panel-text',
 				defaultHtml: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_MESSAGE'/>",
 				html: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_MESSAGE'/>"
