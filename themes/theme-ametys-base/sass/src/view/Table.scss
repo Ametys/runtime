@@ -22,8 +22,8 @@
     }
 }  
 
-// Special effect on first cell
-.#{$prefix}grid-item-selected .#{$prefix}grid-cell:FIRST-CHILD {
+// Special effect on first cell of grids
+.#{$prefix}grid-view .#{$prefix}grid-item-selected .#{$prefix}grid-cell:FIRST-CHILD {
     border-left: $ametys-special-border solid $grid-row-cell-selected-border-color;
     .#{$prefix}grid-cell-inner {
         padding-left: (left($grid-cell-inner-padding) - $ametys-special-border);
