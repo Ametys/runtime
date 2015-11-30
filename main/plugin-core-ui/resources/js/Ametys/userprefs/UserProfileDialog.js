@@ -40,6 +40,10 @@ Ext.define('Ametys.userprefs.UserProfileDialog', {
     _initialized: false,
     
     /**
+     * @property
+     * @private {Boolean} _userProfileDialogInitialized True if the dialog box is initialized
+     */
+    /**
      * @property {Ametys.window.DialogBox} _box The dialog box
      * @private
      */
@@ -61,52 +65,95 @@ Ext.define('Ametys.userprefs.UserProfileDialog', {
         this._cbFn = callback || Ext.emptyFn;
         this._cbScope = scope || null;
         
-        this._createDialogBox();
+        if (!this._initializeUserProfileDialog())
+        {
+            return;
+        }
         
+        this._setValues();
         this._box.show();
     },
     
     /**
-     * Creates the dialog box
+     * Create and initialize the dialog box
      * @private
      */
-    _createDialogBox: function ()
+    _initializeUserProfileDialog: function ()
     {
-        if (!this._initialized)
+        if (this._initialized)
         {
-            this._box = Ext.create('Ametys.window.DialogBox', {
-                title: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_TITLE'/>",
-                icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/user-profiles/edit-profile.png', // FIXME better icon
-                
-                width: 700,
-                
-                layout: 'anchor',
-                defaults: {
-                    anchor: '100%'
-                },
-                
-                items : [{
-                    xtype: 'component',
-                    cls: 'a-text',
-                    html: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_INTRO'/>",
-                }, this._createProfileImageField()],
-                            
-                closeAction: 'destroy',
-                buttons : [{
-                        text: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_OK'/>",
-                        handler : Ext.bind(this._ok, this)
-                    }, {
-                        text: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_CANCEL'/>",
-                        handler: Ext.bind(function() {this._box.close();}, this)
-                    } 
-                ]
-            });
+            return true;
+        }
+        
+        // Load profile user prefs
+        Ametys.userprefs.UserPrefsDAO.load(Ext.bind(this._loadUserProfilePrefsCb, this), Ametys.userprefs.UserProfileDialog.USERPREF_CONTEXT);
+        
+        // Create dialogbox
+        this._box = Ext.create('Ametys.window.DialogBox', {
+            title: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_TITLE'/>",
+            icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/user-profiles/edit-profile.png', // FIXME better icon
+            
+            width: 700,
+            
+            layout: 'anchor',
+            defaults: {
+                anchor: '100%'
+            },
+            
+            items : [{
+                xtype: 'component',
+                cls: 'a-text',
+                html: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_INTRO'/>",
+            }, this._createProfileImageField()],
+                        
+            closeAction: 'hide',
+            buttons : [{
+                    text: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_OK'/>",
+                    handler : Ext.bind(this._ok, this)
+                }, {
+                    text: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_CANCEL'/>",
+                    handler: Ext.bind(function() {this._box.close();}, this)
+                } 
+            ]
+        });
+        
+        this._initialized = true;
+        return true;
+    },
+    
+    /**
+     * Load profile user prefs callback
+     * @private
+     */
+    _loadUserProfilePrefsCb: function(success)
+    {
+        if (success)
+        {
+            this._setValues();
+        }
+    },
+    
+    /**
+     * Set the prefs values into the box
+     * @private
+     */
+    _setValues: function()
+    {
+        // Set value for image field
+        var value = Ametys.userprefs.UserPrefsDAO.getValue(Ametys.userprefs.UserProfileDialog.USERPREF_PROFILE_IMAGE, Ametys.userprefs.UserProfileDialog.USERPREF_CONTEXT);
+        
+        // Value might be null if cache not already prepared (see {@link Ametys.userprefs.UserPrefsDAO})
+        if (value)
+        {
+            imageField = this._box.down('#image-field');
+            imageField.setValue(value);
         }
     },
     
     /**
      * Create the profile image field, which display the available images to the user
      * @return {Ametys.userprefs.UserProfileDialog.ProfileImageField} The profile image field
+     * @private
      */
     _createProfileImageField: function()
     {
@@ -135,41 +182,25 @@ Ext.define('Ametys.userprefs.UserProfileDialog', {
             return;
         }
         
-        var value = imageField.getValue();
+        var value = imageField.getValue(),
+            userPrefs = {};
         
-        if (value.source == 'userpref') 
+        userPrefs[Ametys.userprefs.UserProfileDialog.USERPREF_PROFILE_IMAGE] = Ext.JSON.encode(value);
+        
+        Ametys.userprefs.UserPrefsDAO.saveValues(
+            userPrefs,
+            Ext.bind(this._saveProfileCb, this),
+            Ametys.userprefs.UserProfileDialog.USERPREF_CONTEXT,
+            null, // default priority
+            null, // no cancel code
+            'core-ui', // plugin
+            'user-profile/save.xml' // url
+        );
+        
+        // User callback
+        if (Ext.isFunction(this._cbFn))
         {
-            // if userpref, the value has not changed, nothing to do
-            
-            // User callback
-            if (Ext.isFunction(this._cbFn))
-            {
-                this._cbFn.call(this._cbScope);
-            }
-            
-            this._box.close();
-        }
-        else
-        {
-            var userPrefs = {};
-            
-            userPrefs[Ametys.userprefs.UserProfileDialog.USERPREF_PROFILE_IMAGE] = Ext.JSON.encode(value);
-            
-            Ametys.userprefs.UserPrefsDAO.saveValues(
-                userPrefs,
-                Ext.bind(this._saveProfileCb, this),
-                Ametys.userprefs.UserProfileDialog.USERPREF_CONTEXT,
-                null, // default priority
-                null, // no cancel code
-                'core-ui', // plugin
-                'user-profile/save.xml' // url
-            );
-            
-            // User callback
-            if (Ext.isFunction(this._cbFn))
-            {
-                this._cbFn.call(this._cbScope);
-            }
+            this._cbFn.call(this._cbScope);
         }
     },
     
@@ -177,6 +208,7 @@ Ext.define('Ametys.userprefs.UserProfileDialog', {
      * Callback called once the profile userprefs have been saved
      * @param {Boolean} callback.success Has the save operation been successful
      * @param {Object} callback.errors The key is the preference name, and the value an error message. Can be empty event is success is false on server exception: in that cas the user is already notified.
+     * @private
      */
     _saveProfileCb: function(success, errors)
     {

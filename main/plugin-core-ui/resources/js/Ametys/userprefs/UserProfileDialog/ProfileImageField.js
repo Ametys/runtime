@@ -63,7 +63,7 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
             proxy: {
                 type: 'ametys',
                 plugin: 'core-ui',
-                url: 'images/user-profile/list.json',
+                url: 'user-profile/images/list.json',
                 reader: {
                     type: 'json',
                     rootProperty: 'images'
@@ -109,6 +109,39 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
         }
     },
     
+    setValue: function(value)
+    {
+        // retrieves the value object
+        value = value || null;
+        if (value)
+        {
+            if (Ext.isString(value))
+            {
+                value = Ext.JSON.decode(value);
+            }
+            
+            // value should be an object at this point
+            if (!Ext.isObject(value))
+            {
+                value = null;
+            }
+        }
+        
+        var store = this._imagesView.getStore();
+        if (!store.isLoaded())
+        {
+            this._valueToSet = value;
+        }
+        else
+        {
+            var index = this._findByValue(value);
+            if (index >= 0)
+            {
+                this._imagesView.getSelectionModel().select(index);
+            }
+        }
+    },
+    
     /**
      * Handler called when the store has loaded
      * @param {Ext.data.Store} this
@@ -119,11 +152,16 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
     {
         if (successful)
         {
-            // Select the userpref record
-            var userPrefRecord = this._getUserPrefRecord();
-            if (userPrefRecord)
+            // Set value if needed
+            if (this._valueToSet)
             {
-                this._imagesView.getSelectionModel().select([userPrefRecord]);
+                var index = this._findByValue(this._valueToSet);
+                if (index >= 0)
+                {
+                    this._imagesView.getSelectionModel().select(index);
+                }
+                
+                this._valueToSet = null;
             }
             
             // Insert the upload icon
@@ -136,23 +174,22 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
     },
     
     /**
-     * Retrieves the userpref record.
-     * @return {Ametys.userprefs.UserProfileDialog.ProfileImageModel} The userpref record or null
+     * Retrieves the index of a record corresponding to a value object
+     * @return {Object} The value corresponding to a record (key are source and parameters)
      */
-    _getUserPrefRecord: function()
+    _findByValue: function(value)
     {
-        var store = this._imagesView.getStore(),
-            userPrefRecord;
+        var store = this._imagesView.getStore();
         
-        store.findBy(function(record) {
-            if (record.get('source') == 'userpref')
+        return store.findBy(function(record) {
+            if (record.get('source') == value.source)
             {
-                userPrefRecord = record;
-                return true;
+                var recordParams = record.get('parameters') || {},
+                    valueParams = value.parameters || {};
+                
+                return Ext.Object.equals(recordParams, valueParams);
             }
         });
-        
-        return userPrefRecord;
     },
     
     /**

@@ -380,15 +380,14 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
     /**
      * Test if the gravatar image exists
      * @param login The user login
-     * @param size The requested size
      * @return True if the image exists
      */
-    public boolean hasGravatarImage(String login, Integer size)
+    public boolean hasGravatarImage(String login)
     {
         Source httpSource = null;
         try
         {
-            httpSource = _getGravatarImageSource(login, size);
+            httpSource = _getGravatarImageSource(login, null);
             return httpSource != null && httpSource.exists();
         }
         catch (IOException e)

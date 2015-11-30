@@ -55,36 +55,48 @@ public class GetUserProfileImagesAction extends ServiceableAction
         super.service(sm);
         _serverCommHelper = (ServerCommHelper) sm.lookup(ServerCommHelper.ROLE);
         _currentUserProvider = (CurrentUserProvider) sm.lookup(CurrentUserProvider.ROLE);
-        _profileImageProvider = (ProfileImageProvider) sm.lookup(ProfileImageProvider.ROLE);
     }
     
     @Override
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
+        // Delayed initialized to ensure safe mode do not fail to load
+        if (_profileImageProvider == null)
+        {
+            try
+            {
+                _profileImageProvider = (ProfileImageProvider) manager.lookup(ProfileImageProvider.ROLE);
+            }
+            catch (ServiceException e)
+            {
+                throw new RuntimeException("Lazy initialization failed.", e);
+            }
+        }
+        
         Map<String, Object> jsParameters = _serverCommHelper.getJsParameters();
 
         String login = StringUtils.defaultIfEmpty((String) jsParameters.get("login"), _currentUserProvider.getUser());
         
-        List<Map<String, Object>> images = new ArrayList<>();
+        Map<String, Object> result = new HashMap<>();
         
-        // Stored in userpref
-        Map<String, Object> rawUserPrefImage = _addUserPrefImage(images, login);
+        List<Map<String, Object>> images = new ArrayList<>();
+        result.put("images", images);
+        
+        // Uploaded image
+        _addUploadedImage(images, login);
         
         // Gravatar
-        _addGravatarImage(images, login, rawUserPrefImage);
+        _addGravatarImage(images, login);
         
         // Initials
-        _addInitialsImage(images, login, rawUserPrefImage);
+        _addInitialsImage(images, login);
         
         // Local images
-        _addLocalImages(images, login, rawUserPrefImage);
+        _addLocalImages(images, login);
         
         // Default
-        _addDefaultImage(images, rawUserPrefImage);
+        _addDefaultImage(images);
         
-        Map<String, Object> result = new HashMap<>();
-        result.put("images", images);
-
         Request request = ObjectModelHelper.getRequest(objectModel);
         request.setAttribute(JSonReader.OBJECT_TO_READ, result);
         
@@ -92,39 +104,35 @@ public class GetUserProfileImagesAction extends ServiceableAction
     }
     
     /**
-     * Add the userpref image
+     * Add the uploaded image from the userpref
      * @param images The image list accumulator
      * @param login The user login
-     * @return The map stored in the user pref
      */
-    protected Map<String, Object> _addUserPrefImage(List<Map<String, Object>> images, String login)
+    protected void _addUploadedImage(List<Map<String, Object>> images, String login)
     {
         Map<String, Object> rawUserPrefImage = _profileImageProvider.hasUserPrefImage(login);
         
-        if (rawUserPrefImage != null)
+        // Only add user uploaded image here
+        String uploadSource = ProfileImageSource.UPLOAD.name().toLowerCase();
+        if (rawUserPrefImage != null && uploadSource.equals(rawUserPrefImage.get("source")))
         {
             Map<String, Object> image = new HashMap<>();
-            image.put("source", ProfileImageSource.USERPREF.name().toLowerCase());
-            image.put("userPrefSource", rawUserPrefImage.get("source"));
+            image.put("source", uploadSource);
             
             images.add(image);
         }
-        
-        return rawUserPrefImage;
-    }
-
+    } 
+    
     /**
      * Add the gravatar image to the list if existing
      * @param images The image list accumulator
      * @param login The user login
-     * @param rawUserPrefImage The map stored in the user pref
      */
-    protected void _addGravatarImage(List<Map<String, Object>> images, String login, Map<String, Object> rawUserPrefImage)
+    protected void _addGravatarImage(List<Map<String, Object>> images, String login)
     {
         String gravatarSource = ProfileImageSource.GRAVATAR.name().toLowerCase();
         
-        // Add only if not already the user preference and the gravatar image exists
-        if (!gravatarSource.equals(rawUserPrefImage.get("source")) && _profileImageProvider.hasGravatarImage(login, null))
+        if (_profileImageProvider.hasGravatarImage(login))
         {
             Map<String, Object> image = new HashMap<>();
             image.put("source", gravatarSource);
@@ -137,14 +145,12 @@ public class GetUserProfileImagesAction extends ServiceableAction
      * Add the image with initials to the list
      * @param images The image list accumulator
      * @param login The user login
-     * @param rawUserPrefImage The map stored in the user pref
      */
-    protected void _addInitialsImage(List<Map<String, Object>> images, String login, Map<String, Object> rawUserPrefImage)
+    protected void _addInitialsImage(List<Map<String, Object>> images, String login)
     {
         String initialsSource = ProfileImageSource.INITIALS.name().toLowerCase();
         
-        // Add only if not already the user preference and the initials image exists
-        if (!initialsSource.equals(rawUserPrefImage.get("source")) && _profileImageProvider.hasInitialsImage(login))
+        if (_profileImageProvider.hasInitialsImage(login))
         {
             Map<String, Object> image = new HashMap<>();
             image.put("source", initialsSource);
@@ -158,20 +164,15 @@ public class GetUserProfileImagesAction extends ServiceableAction
      * Add the local images to the list
      * @param images The image list accumulator
      * @param login The user login
-     * @param rawUserPrefImage The map stored in the user pref
      */
-    protected void _addLocalImages(List<Map<String, Object>> images, String login, Map<String, Object> rawUserPrefImage)
+    protected void _addLocalImages(List<Map<String, Object>> images, String login)
     {
         List<String> localImageIds = _profileImageProvider.getLocalImageIds();
         String localImageSource = ProfileImageSource.LOCALIMAGE.name().toLowerCase();
         
-        boolean userPrefIsLocalImage = localImageSource.equals(rawUserPrefImage.get("source"));
-        String userPrefIdParam = _extractIdParam(rawUserPrefImage);
-        
         for (String id : localImageIds)
         {
-            // Add only if not already the user preference and the local image exists
-            if (!(userPrefIsLocalImage && id.equals(userPrefIdParam)) && _profileImageProvider.hasLocalImage(id))
+            if (_profileImageProvider.hasLocalImage(id))
             {
                 Map<String, Object> image = new HashMap<>();
                 image.put("source", localImageSource);
@@ -188,34 +189,17 @@ public class GetUserProfileImagesAction extends ServiceableAction
     }
     
     /**
-     * Extract the id for the raw user pref image map
-     * @param rawUserPrefImage The raw user pref image map
-     * @return The id parameter or null
-     */
-    protected String _extractIdParam(Map<String, Object> rawUserPrefImage)
-    {
-        @SuppressWarnings("unchecked")
-        Map<String, Object> params = (Map<String, Object>) rawUserPrefImage.get("parameters");
-        return params != null ? (String) params.get("id") : null;
-    }
-
-    /**
      * Add the default image
      * @param images The image list accumulator
-     * @param rawUserPrefImage The map stored in the user pref
      */
-    protected void _addDefaultImage(List<Map<String, Object>> images, Map<String, Object> rawUserPrefImage)
+    protected void _addDefaultImage(List<Map<String, Object>> images)
     {
         String defaultSource = ProfileImageSource.DEFAULT.name().toLowerCase();
         
-        // Add only if not already the user preference
-        if (!defaultSource.equals(rawUserPrefImage.get("source")))
-        {
-            Map<String, Object> image = new HashMap<>();
-            image.put("source", defaultSource);
-            
-            images.add(image);
-        }
+        Map<String, Object> image = new HashMap<>();
+        image.put("source", defaultSource);
+        
+        images.add(image);
     }
 }
 

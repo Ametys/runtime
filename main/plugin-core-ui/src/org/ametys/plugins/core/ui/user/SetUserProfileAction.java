@@ -59,13 +59,25 @@ public class SetUserProfileAction extends SetUserPreferencesAction
     {
         super.service(smanager);
         _jsonUtils = (JSONUtils) smanager.lookup(JSONUtils.ROLE);
-        _profileImageProvider = (ProfileImageProvider) smanager.lookup(ProfileImageProvider.ROLE);
-        _uploadManager = (UploadManager) smanager.lookup(UploadManager.ROLE);
     }
     
     @Override
     protected Map<String, String> _getValues(Request request, Map<String, String> contextVars, String username, Collection<String> preferenceIds, UserPreferencesErrors errors)
     {
+        // Delayed initialized to ensure safe mode do not fail to load
+        if (_profileImageProvider == null)
+        {
+            try
+            {
+                _uploadManager = (UploadManager) manager.lookup(UploadManager.ROLE);
+                _profileImageProvider = (ProfileImageProvider) manager.lookup(ProfileImageProvider.ROLE);
+            }
+            catch (ServiceException e)
+            {
+                throw new RuntimeException("Lazy initialization failed.", e);
+            }
+        }
+        
         Map<String, String> preferences = super._getValues(request, contextVars, username, preferenceIds, errors);
         
         String userPrefImageJson = preferences.get(ProfileImageProvider.USERPREF_PROFILE_IMAGE);

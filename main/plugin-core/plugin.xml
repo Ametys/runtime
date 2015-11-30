@@ -303,7 +303,7 @@
         </extension-point>
     </extension-points>
     
-    <feature name="util.servercommhelper">
+    <feature name="util.servercommhelper" safe="true">
     	<components>
     		<component role="org.ametys.core.util.ServerCommHelper"
     				   id="org.ametys.core.util.ServerCommHelper"

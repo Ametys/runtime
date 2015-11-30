@@ -61,12 +61,24 @@ public class ProfileImageReader extends ServiceableReader
     {
         super.service(serviceManager);
         _currentUserProvider = (CurrentUserProvider) serviceManager.lookup(CurrentUserProvider.ROLE);
-        _profileImageProvider = (ProfileImageProvider) serviceManager.lookup(ProfileImageProvider.ROLE);
     }
     
     @Override
     public void generate() throws IOException, SAXException, ProcessingException
     {
+        // Delayed initialized to ensure safe mode do not fail to load
+        if (_profileImageProvider == null)
+        {
+            try
+            {
+                _profileImageProvider = (ProfileImageProvider) manager.lookup(ProfileImageProvider.ROLE);
+            }
+            catch (ServiceException e)
+            {
+                throw new RuntimeException("Lazy initialization failed.", e);
+            }
+        }
+        
         Request request = ObjectModelHelper.getRequest(objectModel);
         Response response = ObjectModelHelper.getResponse(objectModel);
         
