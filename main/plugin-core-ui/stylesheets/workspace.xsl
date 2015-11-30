@@ -408,7 +408,6 @@
                                     menu: { 
                                         items: [{
                                             text: "<i18n:text i18n:key='PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_TABPANEL_EDIT_PROFILE_IMAGE' i18n:catalogue='plugin.core-ui'/>",
-                                            icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/user-profiles/edit-profile.png',
                                             handler: Ametys.userprefs.UserProfileDialog.open,
                                             scope: Ametys.userprefs.UserProfileDialog
                                         }]
