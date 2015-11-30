@@ -58,7 +58,6 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
     _getImageStoreCfg: function()
     {
         return Ext.create('Ext.data.Store', {
-            autoLoad: true,
             model: 'Ametys.userprefs.UserProfileDialog.ProfileImageModel',
             proxy: {
                 type: 'ametys',
@@ -75,12 +74,21 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
         });
     },
     
+    /**
+     * Public function used to request a load of the store
+     * @param {Object} loadArgs arguments to be passed to the load function of the image store
+     */
+    loadStore: function(loadArgs)
+    {
+        this._imagesView.getStore().load(loadArgs || {});
+    },
+    
     _getViewTpl: function()
     {
         return new Ext.XTemplate(
             '<tpl for=".">',
                 '<div class="profile-image{[values.source == "upload-image" ? " unselectable" : ""]}">',
-                    '<img src="{viewUrl}" data-qtip="{description}">',
+                    '<img src="{viewUrl}" data-qtip="{description}" style="width:64px; height:64px;">',
                 '</div>',
             '</tpl>'
         );
@@ -182,7 +190,14 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
         var store = this._imagesView.getStore();
         
         return store.findBy(function(record) {
-            if (record.get('source') == value.source)
+            var source = record.get('source');
+            
+            if (source == 'userpref' && value.source == 'base64')
+            {
+                return true; // special case when value is stored in the userpref
+            }
+            
+            if (source == value.source)
             {
                 var recordParams = record.get('parameters') || {},
                     valueParams = value.parameters || {};

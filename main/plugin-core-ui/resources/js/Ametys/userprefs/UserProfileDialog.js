@@ -55,6 +55,9 @@ Ext.define('Ametys.userprefs.UserProfileDialog', {
      * @property {Object} _cbScope Callback scope
      * @private
      */
+    /**
+     * @property {Boolean} _valuesSet indicates if values have been set or not
+     */
     
     /**
      * Open the dialog box
@@ -62,6 +65,8 @@ Ext.define('Ametys.userprefs.UserProfileDialog', {
      */
     open: function (callback, scope)
     {
+        this._valuesSet = false;
+        
         this._cbFn = callback || Ext.emptyFn;
         this._cbScope = scope || null;
         
@@ -70,7 +75,11 @@ Ext.define('Ametys.userprefs.UserProfileDialog', {
             return;
         }
         
-        this._setValues();
+        this._box.down('#image-field').loadStore({
+            callback: this._setValues,
+            scope: this
+        });
+        
         this._box.show();
     },
     
@@ -145,6 +154,11 @@ Ext.define('Ametys.userprefs.UserProfileDialog', {
      */
     _setValues: function()
     {
+        if (this._valuesSet)
+        {
+            return;
+        }
+        
         // Set value for image field
         var value = Ametys.userprefs.UserPrefsDAO.getValue(Ametys.userprefs.UserProfileDialog.USERPREF_PROFILE_IMAGE, Ametys.userprefs.UserProfileDialog.USERPREF_CONTEXT);
         
@@ -153,6 +167,8 @@ Ext.define('Ametys.userprefs.UserProfileDialog', {
         {
             imageField = this._box.down('#image-field');
             imageField.setValue(value);
+            
+            this._valuesSet = true;
         }
     },
     
