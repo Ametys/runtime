@@ -41,6 +41,8 @@
     <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_MESSAGE_CLOSE_DESCRIPTION">Fermer ce message</message>
     <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_PLACEHOLDER">Rechercher une fonctionnalité...</message>
     <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_SEARCHITEM_LABEL">Obtenir de l'aide sur \"[text]\"</message>
+    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_ITEMS_AVAILABLE">Fonctionnalités</message>
+    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_ITEMS_UNAVAILABLE">Fonctionnalités indisponibles</message>
     
     <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_TABPANEL_EDIT_PROFILE_IMAGE">Modifier votre image de profil</message>
     
