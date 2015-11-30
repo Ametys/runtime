@@ -104,8 +104,14 @@ Ext.define('Ametys.userprefs.UserProfileDialog', {
                 xtype: 'component',
                 cls: 'a-text',
                 html: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_INTRO'/>"
-            }, this._createProfileImageField()],
-                        
+            }, 
+            this._createProfileImageField(),
+            {
+                xtype: 'component',
+                cls: 'a-text-light',
+                html: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_HINT'/>",
+            }],
+            
             closeAction: 'hide',
             buttons : [{
                     text: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_OK'/>",
@@ -215,11 +221,10 @@ Ext.define('Ametys.userprefs.UserProfileDialog', {
         // Handling errors.
         if (success)
         {
-            Ametys.Msg.show({
+            Ametys.notify({
+                type: 'info',
                 title: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_SAVE_SUCCESS_TITLE'/>",
-                msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_SAVE_SUCCESS_DESC'/>",
-                buttons: Ext.Msg.OK,
-                icon: Ext.MessageBox.INFO
+                description: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_SAVE_SUCCESS_DESC'/>"
             });
             
             this._box.close();

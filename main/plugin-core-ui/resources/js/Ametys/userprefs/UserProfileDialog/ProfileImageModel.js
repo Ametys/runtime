@@ -34,9 +34,7 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageModel', {
                     return Ametys.getPluginResourcesPrefix('core-ui') + '/img/user-profiles/upload-image.png';
                 }
                 
-                var addedParams = {
-                    size: 64
-                };
+                var addedParams = {};
                 
                 // No cache on the userpref image to force to ensure updated preview
                 if (data.source == 'userpref')
@@ -46,7 +44,7 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageModel', {
                 
                 var qs = Ext.Object.toQueryString(Ext.merge(addedParams, data.parameters || {}));
                     
-                return Ametys.getPluginDirectPrefix('core-ui') + '/current-user/source/' + data.source + '/image?' + qs;
+                return Ametys.getPluginDirectPrefix('core-ui') + '/current-user/source/' + data.source + '/image/size/64' + (qs ? ('?' + qs) : '');
             }
         },
         {name: 'description', type: 'string', calculate: function(data)

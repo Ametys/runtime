@@ -82,8 +82,8 @@ public class GetUserProfileImagesAction extends ServiceableAction
         List<Map<String, Object>> images = new ArrayList<>();
         result.put("images", images);
         
-        // Uploaded image
-        _addUploadedImage(images, login);
+        // Stored image (from upload)
+        _addStoredImage(images, login);
         
         // Gravatar
         _addGravatarImage(images, login);
@@ -104,20 +104,20 @@ public class GetUserProfileImagesAction extends ServiceableAction
     }
     
     /**
-     * Add the uploaded image from the userpref
+     * Add the stored image from the userpref (uploaded image are stored in the userpref)
      * @param images The image list accumulator
      * @param login The user login
      */
-    protected void _addUploadedImage(List<Map<String, Object>> images, String login)
+    protected void _addStoredImage(List<Map<String, Object>> images, String login)
     {
         Map<String, Object> rawUserPrefImage = _profileImageProvider.hasUserPrefImage(login);
         
-        // Only add user uploaded image here
-        String uploadSource = ProfileImageSource.UPLOAD.name().toLowerCase();
-        if (rawUserPrefImage != null && uploadSource.equals(rawUserPrefImage.get("source")))
+        // Only add image physically stored in userprefs (ie. coming from an upload)
+        String base64Source = ProfileImageSource.BASE64.name().toLowerCase();
+        if (rawUserPrefImage != null && base64Source.equals(rawUserPrefImage.get("source")))
         {
             Map<String, Object> image = new HashMap<>();
-            image.put("source", uploadSource);
+            image.put("source", ProfileImageSource.USERPREF.name().toLowerCase());
             
             images.add(image);
         }

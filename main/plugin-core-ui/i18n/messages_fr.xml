@@ -477,6 +477,7 @@
          + -->
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_TITLE">Profil utilisateur</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_INTRO">Sélectionnez une image de profil parmi les images proposées ou en ajoutant une image personnelle.</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_HINT">Toute modification ne sera visible qu'après le rechargement de votre application.</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_OK">Ok</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_CANCEL">Annuler</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_ERROR">Une erreur est survenue: impossible de récupérer les préférences du profil utilisateur</message>

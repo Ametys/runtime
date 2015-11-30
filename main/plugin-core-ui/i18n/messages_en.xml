@@ -476,6 +476,7 @@
          + -->
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_TITLE">User profile</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_INTRO">Select a profile image among the set of suggested images or by adding a personal image.</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_HINT">A reload of the application is required for the changes to take effect.</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_OK">Ok</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_CANCEL">Cancel</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_ERROR">An error occurred: unable to display the user profile preferences.</message>
