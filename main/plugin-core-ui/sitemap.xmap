@@ -72,7 +72,7 @@
                     </map:act>
                 </map:match>
                 
-                <map:match pattern="current-user/image/size/*">
+                <map:match pattern="current-user/image_*">
                     <map:read type="user-profile-image">
                         <map:parameter name="download" value="{request-param:download}"/>
                         <map:parameter name="size" value="{1}"/>
@@ -80,7 +80,7 @@
                     </map:read>
                 </map:match>
                 
-                <map:match pattern="user/*/image/size/*">
+                <map:match pattern="user/*/image_*">
                     <map:read type="user-profile-image">
                         <map:parameter name="login" value="{1}"/>
                         <map:parameter name="size" value="{2}"/>
@@ -89,7 +89,7 @@
                     </map:read>
                 </map:match>
                 
-                <map:match pattern="current-user/source/*/image/size/*">
+                <map:match pattern="current-user/source/*/image_*">
                     <map:read type="user-profile-image">
                         <map:parameter name="image-source" value="{1}"/>
                         <map:parameter name="size" value="{2}"/>
@@ -98,7 +98,7 @@
                     </map:read>
                 </map:match>
                 
-                <map:match pattern="user/*/source/*/image/size/*">
+                <map:match pattern="user/*/source/*/image_*">
                     <map:read type="user-profile-image">
                         <map:parameter name="login" value="{1}"/>
                         <map:parameter name="image-source" value="{2}"/>
