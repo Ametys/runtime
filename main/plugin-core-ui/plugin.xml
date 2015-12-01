@@ -578,7 +578,7 @@
     </feature>
     
     <!-- HELP TOOL -->
-	<feature name="userinterface.help">
+	<feature name="userinterface.help" safe="true">
 		<extensions>
 			
 			<extension 	id="org.ametys.coreui.Help"

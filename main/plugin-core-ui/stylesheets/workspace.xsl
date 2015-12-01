@@ -386,6 +386,7 @@
                                     },
                                     handler: function() { this.previousSibling().focus(); }
                                 },
+                                <xsl:if test="string(safe-mode) = ''">
                                 notification: {
                                     tooltip:{ 
                                         inribbon: true, 
@@ -395,6 +396,7 @@
                                     },
                                     handler: function() { Ametys.tool.ToolsManager.openTool('uitool-notification'); }
                                 },
+                                </xsl:if>
                                 searchMenu: {
                                     allowSearch: true,
                                     items: searchMenuItems
