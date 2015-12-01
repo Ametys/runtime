@@ -24,7 +24,7 @@
     $background-color: transparent, $background-color-over: transparent, $background-color-focus: transparent, $background-color-pressed: transparent, $background-color-focus-over: transparent, $background-color-focus-pressed: transparent, $background-color-disabled: transparent
 );    
 
-.a-tool-layout-zoned-notfocused {
+.a-tool-layout-zoned-notfocused, .a-tool-layout-zoned-focused {
     $color: $ametys-tool-tab-gray-superdark; 
     $color-over: $ametys-tool-tab-gray-superdark; 
     $color-focus: $ametys-tool-tab-gray-superdark; 
@@ -68,6 +68,7 @@
         $background-color: transparent, $background-color-over: transparent, $background-color-focus: transparent, $background-color-pressed: transparent, $background-color-focus-over: transparent, $background-color-focus-pressed: transparent, $background-color-disabled: transparent
     );    
 }
+/*
 .a-tool-layout-zoned-focused {
     @for $i from 1 through length($ametys-tool-tab-colors) {
         $index: $i - 1;
@@ -122,3 +123,4 @@
         }    
     }
 }
+*/
