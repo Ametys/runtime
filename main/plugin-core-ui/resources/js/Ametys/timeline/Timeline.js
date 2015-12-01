@@ -64,7 +64,17 @@ Ext.define('Ametys.timeline.Timeline', {
 	    }]
 		
 		config.features = [{
-	        groupHeaderTpl: ['<div class="timeline-day">{name}</div>'],
+	        groupHeaderTpl: [
+	                         '<div class="timeline-day">{name:this.formatName}</div>',
+	                         {
+	                        	 formatName: function(date) {
+	                            	 var formattedDate = Ext.Date.format(new Date(date), "<i18n:text i18n:key='PLUGINS_CORE_UI_TIMELINE_DATE_FORMAT'/>");
+	                            	 var today = Ext.Date.format(new Date(), "<i18n:text i18n:key='PLUGINS_CORE_UI_TIMELINE_DATE_FORMAT'/>");
+	                            	 
+	                            	 return formattedDate == today ? "<i18n:text i18n:key='PLUGINS_CORE_UI_TIMELINE_TODAY'/>" : formattedDate;
+	                             }
+	                         }
+	        ],
 	        ftype: 'grouping',
 	        collapsible: false
 	    }];
@@ -101,10 +111,14 @@ Ext.define('Ametys.timeline.Timeline.TimelineItem', {
                { name: 'date', type: 'date'},
 		       {
 		    		name: 'day',
+		    		type: 'date',
 		    		depends: ['date'],
 		    		calculate: function (data)
 		    		{
-		    			var formattedDate = Ext.Date.format(data.date, 'd/m/y');
+		    			// Remove hours/minutes
+		    			var formattedDate = Ext.Date.format(data.date, "<i18n:text i18n:key='PLUGINS_CORE_UI_TIMELINE_DATE_FORMAT'/>");
+		    			return Ext.Date.parse(formattedDate, "<i18n:text i18n:key='PLUGINS_CORE_UI_TIMELINE_DATE_FORMAT'/>");
+		    			
 		    			var today = Ext.Date.format(new Date(), 'd/m/y');
 		    			return formattedDate == today ? "<i18n:text i18n:key='PLUGINS_CORE_UI_TIMELINE_TODAY'/>" : Ext.Date.format(data.date, 'd/m/y');
 		    		}
@@ -114,7 +128,7 @@ Ext.define('Ametys.timeline.Timeline.TimelineItem', {
 			   		depends: ['date'],
 			   		calculate: function (data)
 			   		{
-			   			return Ext.Date.format(data.date, 'H\\hi');
+			   			return Ext.Date.format(data.date, "<i18n:text i18n:key='PLUGINS_CORE_UI_TIMELINE_HOUR_FORMAT'/>");
 			   		}
 		      },
 		      'text',
