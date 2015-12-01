@@ -45,6 +45,7 @@
 	margin: 0 $ametys-timeline-font-size*1.2;
 }
 
+
 .a-timeline .#{$prefix}grid-item:first-child {
 	margin-top: $ametys-timeline-font-size*2/3;
 }
@@ -122,7 +123,7 @@
 .a-timeline .timeline-item .contents-wrap .bg-image {
   background-repeat: no-repeat;
   background-position: right bottom;
-  opacity: 0.6;
+  opacity: 0.25;
   top: 0;
   left: 0;
   bottom: 8px;
@@ -140,9 +141,10 @@
 .a-timeline .#{$prefix}grid-group-hd .timeline-day {
     background: #fff none repeat scroll 0 0;
     border: 2px solid $ametys-timeline-border-color;
+    border-radius: 3px;
     color: $ametys-timeline-border-color;
-    font-size: $ametys-timeline-font-size*1.2;
-    padding: $ametys-timeline-font-size*1.2/3;
+    font-size: $ametys-timeline-font-size*1.1;
+    padding: $ametys-timeline-font-size*1.2/4;
     position: relative;
     text-align: center;
     width: 100px;
@@ -215,12 +217,7 @@
     $active-color-light: nth($ametys-tool-tab-colors-light, $i);
     
     .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-#{$index*10} {
-        .a-timeline .timeline-item .contents-wrap::before {
-		    border-right-color: $active-color;
-		}
-		
-		.a-timeline .#{$prefix}grid-group-hd .timeline-day,
-		.a-timeline .timeline-item .contents-wrap {
+		.a-timeline .#{$prefix}grid-group-hd .timeline-day {
     		border-color: $active-color;
 		}
 		
@@ -267,4 +264,6 @@
 		
     }
 }
+
+
 
