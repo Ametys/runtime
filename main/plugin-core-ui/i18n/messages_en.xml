@@ -779,6 +779,8 @@
     
     <!-- Timeline.js -->
     <message key="PLUGINS_CORE_UI_TIMELINE_TODAY">Today</message>
+    <message key="PLUGINS_CORE_UI_TIMELINE_DATE_FORMAT">m/d/y</message>
+    <message key="PLUGINS_CORE_UI_TIMELINE_HOUR_FORMAT">H:i a</message>
     
     <!-- +
          | NOTIFICATIONS  
