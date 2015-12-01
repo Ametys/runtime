@@ -413,10 +413,10 @@
                                         }]
                                     }
                                     <xsl:if test="string-length(user/email) > 1">,
-                                        smallPhoto: Ametys.getPluginDirectPrefix('core-ui') + '/current-user/image/size/16',
-                                        mediumPhoto: Ametys.getPluginDirectPrefix('core-ui') + '/current-user/image/size/32',
-                                        largePhoto: Ametys.getPluginDirectPrefix('core-ui') + '/current-user/image/size/48',
-                                        extraLargePhoto: Ametys.getPluginDirectPrefix('core-ui') + '/current-user/image/size/64'
+                                        smallPhoto: Ametys.getPluginDirectPrefix('core-ui') + '/current-user/image_16',
+                                        mediumPhoto: Ametys.getPluginDirectPrefix('core-ui') + '/current-user/image_32',
+                                        largePhoto: Ametys.getPluginDirectPrefix('core-ui') + '/current-user/image_48',
+                                        extraLargePhoto: Ametys.getPluginDirectPrefix('core-ui') + '/current-user/image_64'
                                     </xsl:if>
                                 }
                                 </xsl:if>

@@ -82,19 +82,26 @@ public class ProfileImageReader extends ServiceableReader
         Request request = ObjectModelHelper.getRequest(objectModel);
         Response response = ObjectModelHelper.getResponse(objectModel);
         
-        String login =  StringUtils.defaultIfEmpty(parameters.getParameter("login", null), _currentUserProvider.getUser());
         String imageSourceStr = StringUtils.defaultString(parameters.getParameter("image-source", null));
-        boolean download = parameters.getParameterAsBoolean("download", false);
-        
-        // parameters for image resizing, size of the sides of the image (square)
-        int size = parameters.getParameterAsInteger("size", 0);
-        int maxSize = parameters.getParameterAsInteger("maxSize", 0);
         
         ProfileImageSource profileImageSource = _profileImageProvider.getProfileImageSource(imageSourceStr);
         if (profileImageSource == null)
         {
             profileImageSource = ProfileImageSource.USERPREF; // default
         }
+        
+        String login =  parameters.getParameter("login", StringUtils.EMPTY);
+        // Default to current user is login not provided, except for the default source for which a login is not needed.
+        if (!ProfileImageSource.DEFAULT.equals(profileImageSource) && StringUtils.isEmpty(login))
+        {
+            login =  _currentUserProvider.getUser();
+        }
+        
+        boolean download = parameters.getParameterAsBoolean("download", false);
+        
+        // parameters for image resizing, size of the sides of the image (square)
+        int size = parameters.getParameterAsInteger("size", 0);
+        int maxSize = parameters.getParameterAsInteger("maxSize", 0);
         
         // Get parameters for source
         Map<String, Object> sourceParams = _extractSourceParameters(request, login, profileImageSource);

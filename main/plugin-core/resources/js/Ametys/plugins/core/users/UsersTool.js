@@ -94,7 +94,7 @@ Ext.define('Ametys.plugins.core.users.UsersTool', {
 			scrollable: true,
 			
 			columns: [
-				{header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_USERS_COL_NAME' i18n:catalogue='plugin.core'/>", width: 250, sortable: true, dataIndex: 'displayName', renderer: this._renderDisplayName, hideable: false},
+				{header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_USERS_COL_NAME' i18n:catalogue='plugin.core'/>", width: 250, sortable: true, dataIndex: 'displayName', renderer: Ext.bind(this._renderDisplayName, this), hideable: false},
 				{header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_USERS_COL_EMAIL' i18n:catalogue='plugin.core'/>", flex: 1, sortable: true, dataIndex: 'email'}
 			],
 			
@@ -281,7 +281,14 @@ Ext.define('Ametys.plugins.core.users.UsersTool', {
 	 */
 	_renderDisplayName: function(value, metaData, record)
 	{
-		return '<img src="' + Ametys.getPluginResourcesPrefix('core') + '/img/users/user_16.png' + '" style="float: left; margin-right: 3px"/>' + value;
+        if (this._userTargetType == Ametys.message.MessageTarget.USER)
+        {
+            return '<img src="' + Ametys.getPluginDirectPrefix('core-ui') + '/user/' + record.get('login') + '/image_16" style="float: left; margin-right: 3px; width: 16px; height: 16px;"/>' + value;
+        }
+        else
+        {
+            return '<img src="' + Ametys.getPluginDirectPrefix('core-ui') + '/user/default-image_16" style="float: left; margin-right: 3px; width: 16px; height: 16px;"/>' + value;
+        }
 	},
 	
 	/**

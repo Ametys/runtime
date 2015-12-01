@@ -124,7 +124,7 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool', {
 				mode: 'MULTI'
 			},
 			
-			columns: [{flex: 1, header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_GROUPS_USERSGROUP'/>", width: 350, dataIndex: 'displayName', renderer: this._renderUserName, hideable: false, sortable: true}],
+			columns: [{flex: 1, header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_GROUPS_USERSGROUP'/>", width: 350, dataIndex: 'displayName', renderer: Ext.bind(this._renderUserName, this), hideable: false, sortable: true}],
 			
 			listeners: {
 				selectionchange: {fn: this._onUserSelectionChange, scope: this}
@@ -331,7 +331,14 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool', {
 	 */
 	_renderUserName: function(value, metaData, record)
 	{
-		return '<img src="' + Ametys.getPluginResourcesPrefix('core') + '/img/users/user_16.png' + '" style="float: left; margin-right: 3px"/>' + value;
+	    if (this._userTargetType == Ametys.message.MessageTarget.USER)
+        {
+	        return '<img src="' + Ametys.getPluginDirectPrefix('core-ui') + '/user/' + record.get('login') + '/image_16" style="float: left; margin-right: 3px; width: 16px; height: 16px;"/>' + value;
+        }
+	    else
+        {
+	        return '<img src="' + Ametys.getPluginDirectPrefix('core-ui') + '/user/default-image_16" style="float: left; margin-right: 3px; width: 16px; height: 16px;"/>' + value;
+        }
 	},
 	
 	/**

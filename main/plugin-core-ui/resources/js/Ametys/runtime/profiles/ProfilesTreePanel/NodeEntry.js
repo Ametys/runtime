@@ -89,9 +89,16 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel.NodeEntry', {
 		},
 		{
 			name: 'icon', 
-			depends: ['type'],
+			depends: ['type', 'login'],
 			calculate: function(data) {
-				return Ametys.getPluginResourcesPrefix('core-ui') + '/img/profiles/' + data.type + '_16.png'
+				if (data && data.type == 'user')
+		        {
+		            return Ametys.getPluginDirectPrefix('core-ui') + '/user/' + data.login + '/image_16';
+		        }
+		        else
+		        {
+		            return Ametys.getPluginResourcesPrefix('core-ui') + '/img/profiles/' + data.type + '_16.png';
+		        }
 			}
 		},
 		{

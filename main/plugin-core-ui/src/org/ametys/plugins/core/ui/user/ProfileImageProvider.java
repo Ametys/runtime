@@ -460,9 +460,9 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
         String email = user.getEmail();
         if (StringUtils.isEmpty(email))
         {
-            if (getLogger().isWarnEnabled())
+            if (getLogger().isInfoEnabled())
             {
-                getLogger().warn(String.format("Unable to get gravatar image for user '%s' - an email is mandatory", login));
+                getLogger().info(String.format("Unable to get gravatar image for user '%s' - an email is mandatory", login));
             }
             return null;
         }

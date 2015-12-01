@@ -107,6 +107,14 @@
                     </map:read>
                 </map:match>
                 
+                <map:match pattern="user/default-image_*">
+                    <map:read type="user-profile-image">
+                        <map:parameter name="image-source" value="default"/>
+                        <map:parameter name="size" value="{1}"/>
+                        <map:parameter name="download" value="{request-param:download}"/>
+                    </map:read>
+                </map:match>
+                
                 <map:match pattern="user-profile/save.xml">
                     <map:act type="save-userprofile">
                         <map:aggregate element="xml">

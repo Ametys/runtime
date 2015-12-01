@@ -193,7 +193,7 @@ Ext.define('Ametys.helper.SelectUser', {
 			flex: 1,
 			store : store,
 			hideHeaders : true,
-			columns: [{header: "Label", width : 240, menuDisabled : true, sortable: true, dataIndex: 'displayName'}]
+			columns: [{header: "Label", width : 240, menuDisabled : true, sortable: true, dataIndex: 'displayName', renderer: Ext.bind(this._renderDisplayName, this)}]
 		});	
 		
 		this._box = Ext.create('Ametys.window.DialogBox', {
@@ -315,5 +315,25 @@ Ext.define('Ametys.helper.SelectUser', {
 	{
 		this._box.hide();
 		this.cancelCallback();
-	}
+	},
+	
+    /**
+     * @private
+     * Renderer for user name
+     * @param {Object} value The data value
+     * @param {Object} metaData A collection of data about the current cell
+     * @param {Ext.data.Model} record The record
+     * @return {String} The html value to render.
+     */
+    _renderDisplayName: function(value, metaData, record)
+    {
+        if (!this.usersManagerRole || this.usersManagerRole == 'org.ametys.core.user.UsersManager.ROLE')
+        {
+            return '<img src="' + Ametys.getPluginDirectPrefix('core-ui') + '/user/' + record.get('login') + '/image_16" style="float: left; margin-right: 3px; width: 16px; height: 16px;"/>' + value;
+        }
+        else
+        {
+            return '<img src="' + Ametys.getPluginDirectPrefix('core-ui') + '/user/default-image_16" style="float: left; margin-right: 3px; width: 16px; height: 16px;"/>' + value;
+        }
+    }
 });

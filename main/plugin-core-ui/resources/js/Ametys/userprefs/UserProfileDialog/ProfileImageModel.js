@@ -44,7 +44,7 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageModel', {
                 
                 var qs = Ext.Object.toQueryString(Ext.merge(addedParams, data.parameters || {}));
                     
-                return Ametys.getPluginDirectPrefix('core-ui') + '/current-user/source/' + data.source + '/image/size/64' + (qs ? ('?' + qs) : '');
+                return Ametys.getPluginDirectPrefix('core-ui') + '/current-user/source/' + data.source + '/image_64' + (qs ? ('?' + qs) : '');
             }
         },
         {name: 'description', type: 'string', calculate: function(data)

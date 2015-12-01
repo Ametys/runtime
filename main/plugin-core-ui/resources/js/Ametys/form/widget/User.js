@@ -106,7 +106,15 @@ Ext.define('Ametys.form.widget.User', {
     getLabelTpl: function ()
     {
     	var tpl = [];
-    	tpl.push('<img  width="16" height="16" src="' + Ametys.getPluginResourcesPrefix('core') + '/img/users/user_16.png"/>');
+        if (!this.usersManagerRole || this.usersManagerRole == 'org.ametys.core.user.UsersManager.ROLE')
+        {
+            tpl.push('<img src="' + Ametys.getPluginDirectPrefix('core-ui') + '/user/{login}/image_16" style="float: left; margin-right: 3px; width: 16px; height: 16px;"/>');
+        }
+        else
+        {
+            tpl.push('<img src="' + Ametys.getPluginDirectPrefix('core-ui') + '/user/default-image_16" style="float: left; margin-right: 3px; width: 16px; height: 16px;"/>');
+        }
+        
     	tpl.push('{fullname}');
     	return tpl;
     }
