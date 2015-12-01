@@ -896,8 +896,7 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
         // Hashing the login then choose a background given the available ones.
         long hash = Math.abs(HashUtil.hash(login));
         
-        // Perform a modulo on the hash given number of available background 
-        // using binary operator for efficiency: x % y <=> x & (y-1)
+        // Perform a modulo on the hash given number of available background
         _initializeInitialsBackgroundPaths();
         long nbBackground = __initialsBgPaths.size();
         if (nbBackground == 0)
@@ -905,7 +904,7 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
             throw new IOException("No backgrounds available.");
         }
         
-        int indexBackground = (int) (hash & (nbBackground - 1));
+        int indexBackground = (int) (hash % nbBackground);
         
         // Get file from list
         String path = __initialsBgPaths.get(indexBackground);
