@@ -909,6 +909,10 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 				store.remove(profile);
 			}
 		}, this);
+		
+		// no current profile selected anymore + no dirty state
+		this._currentProfileId = null;
+		this.setDirty(false);
 	},
 	
 	/**
