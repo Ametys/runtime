@@ -28,15 +28,15 @@ import org.ametys.runtime.parameter.Enumerator;
  */
 public class ScopeEnumerator implements Enumerator
 {
-    private static final String __CORE_CATALOGUE = "plugin.core";
+    private static final String __CORE_IMPL_CATALOGUE = "plugin.core-impl";
     private static final Map<Object, I18nizableText> __SCOPES;
     
     static
     {
         __SCOPES = new LinkedHashMap<>(3);
-        __SCOPES.put("object", new I18nizableText(__CORE_CATALOGUE, "PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_ENUM_OBJECT"));
-        __SCOPES.put("one", new I18nizableText(__CORE_CATALOGUE, "PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_ENUM_ONE"));
-        __SCOPES.put("sub", new I18nizableText(__CORE_CATALOGUE, "PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_ENUM_SUB"));
+        __SCOPES.put("object", new I18nizableText(__CORE_IMPL_CATALOGUE, "PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_ENUM_OBJECT"));
+        __SCOPES.put("one", new I18nizableText(__CORE_IMPL_CATALOGUE, "PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_ENUM_ONE"));
+        __SCOPES.put("sub", new I18nizableText(__CORE_IMPL_CATALOGUE, "PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_ENUM_SUB"));
     }
     
     /**
