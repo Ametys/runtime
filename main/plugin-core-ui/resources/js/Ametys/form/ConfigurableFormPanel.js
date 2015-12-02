@@ -3292,7 +3292,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             if (disableCondition != null && !field.disabled)
             {
                 me._disableField(field);
-                me._addDisableConditionsListeners(typeof field.disableCondition === 'string' ? JSON.parse(disableCondition) : disableCondition, field);
+                me._addDisableConditionsListeners(typeof disableCondition === 'string' ? JSON.parse(disableCondition) : disableCondition, field);
             }
         }, this);
     },
