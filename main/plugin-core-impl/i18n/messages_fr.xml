@@ -36,9 +36,10 @@
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_PASSWORD_LABEL">Mot de passe</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_PASSWORD_DESCRIPTION">Mot de passe associé au nom d'utilisateur à utiliser lors de la connexion au serveur de base de données</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP">Annuaire LDAP</message>
-    <message key="PLUGINS_CORE_SQL_CONNECTION_CHECKER_LABEL">Connexion à la base noyau</message>
-    <message key="PLUGINS_CORE_SQL_CONNECTION_CHECKER_DESC">Ce test vérifie que les informations rentrées permettent bien d'établir une connexion avec la base de données noyau</message>
     
+    <message key="PLUGINS_CORE_SQL_CONNECTION_CHECKER_LABEL">Vérifier la connexion à la base noyau</message>
+    <message key="PLUGINS_CORE_SQL_CONNECTION_CHECKER_DESC">Ce test vérifie que les informations rentrées permettent bien d'établir une connexion avec la base de données noyau</message>
+
     <!-- DATASOURCE LDAP -->
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE">Serveur</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEURL_LABEL">Adresse</message>
@@ -64,6 +65,9 @@
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_ENUM_SIMPLE">Simple</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_SSL_LABEL">Connexion sécurisée</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_SSL_DESCRIPTION">Activer cette option pour utiliser le protocole ldaps au lieu de ldap</message>
+    
+    <message key="PLUGINS_CORE_LDAP_DN_CONNECTION_CHECKER_LABEL">Connexion à l'annuaire LDAP</message>
+    <message key="PLUGINS_CORE_LDAP_DN_CONNECTION_CHECKER_DESC">Ce test vérifie que les informations rentrées permettent bien d'établir une connexion à l'annuaire LDAP.</message>
     
     <!-- USER LDAP -->
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS">Utilisateurs</message>
@@ -126,4 +130,7 @@
     <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_URL_DESCRIPTION">URL du serveur CAS</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_AUTHORIZEDPROXY_LABEL">Chaîne de proxies</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_AUTHORIZEDPROXY_DESCRIPTION">Chaîne de serveurs proxy autorisée par CAS</message>
+    
+    <message key="PLUGINS_CORE_CAS_SERVER_CHECKER_LABEL">Vérifier l'url du serveur CAS</message>
+    <message key="PLUGINS_CORE_CAS_SERVER_CHECKER_DESC">Ce test vérifie que le l'url spécifiée est valide en essayant d'établir une connexion.</message>    
 </catalogue>

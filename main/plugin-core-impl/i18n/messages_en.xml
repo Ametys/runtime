@@ -36,7 +36,8 @@
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_PASSWORD_LABEL">Password</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_PASSWORD_DESCRIPTION">Password associated with the user name for connecting to the database</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP">LDAP directory</message>
-    <message key="PLUGINS_CORE_SQL_CONNECTION_CHECKER_LABEL">Connection to the kernel database</message>
+    
+    <message key="PLUGINS_CORE_SQL_CONNECTION_CHECKER_LABEL">Check the connection to the kernel database</message>
     <message key="PLUGINS_CORE_SQL_CONNECTION_CHECKER_DESC">This test checks if the given information allows the connection to the SQL kernel database.</message>
     
     <!-- DATASOURCE LDAP -->
@@ -65,6 +66,9 @@
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_SSL_LABEL">Secured connection</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_SSL_DESCRIPTION">Select to use the secure LDAP (ldaps)</message>
     
+    <message key="PLUGINS_CORE_LDAP_DN_CONNECTION_CHECKER_LABEL">Check the connection to the LDAP repository</message>
+    <message key="PLUGINS_CORE_LDAP_DN_CONNECTION_CHECKER_DESC">This test checks if the provided information allow to establish a connection to the LDAP repository</message>
+
     <!-- USER LDAP -->
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS">Users</message>
     <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_PEOPLEDN_LABEL">DN for people</message>
@@ -126,5 +130,8 @@
     <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_URL_DESCRIPTION">CAS server Url</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_AUTHORIZEDPROXY_LABEL">Proxy chain</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_AUTHORIZEDPROXY_DESCRIPTION">CAS server authorized proxy chain</message>
+        
+    <message key="PLUGINS_CORE_CAS_SERVER_CHECKER_LABEL">Check the CAS server URL</message>
+    <message key="PLUGINS_CORE_CAS_SERVER_CHECKER_DESC">This test checks if the provided url allows to establish a connection to the CAS server.</message>    
     
 </catalogue>

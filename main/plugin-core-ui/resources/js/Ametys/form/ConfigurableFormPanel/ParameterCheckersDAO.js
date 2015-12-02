@@ -228,7 +228,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 		return Ext.create('Ext.button.Button', {
 			id: Ext.id(),
 			
-			text: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TEXT_PREFIX'/>" + " \"" + paramChecker.label + "\"",
+			text: paramChecker.label,
 			textAlign: 'left',
 			
 			icon: Ametys.CONTEXT_PATH + paramChecker.smallIconPath,
