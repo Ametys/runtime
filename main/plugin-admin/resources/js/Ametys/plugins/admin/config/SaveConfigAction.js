@@ -86,13 +86,6 @@ Ext.define('Ametys.plugins.admin.config.SaveConfigAction', {
         var error = Ext.dom.Query.selectValue("* > error", result);
         if (!Ext.isEmpty(error))
         {
-        	Ametys.notify({
-    	        type: 'error',
-    	        title: "<i18n:text i18n:key='PLUGINS_ADMIN_SAVE_DIALOG_TITLE'/>",
-    	        icon: Ametys.getPluginResourcesPrefix('admin') + '/img/config/config_32.png',
-    	        description: "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_SAVE_ERROR'/>"
-    	    });
-        	
         	Ametys.log.ErrorDialog.display({
                 title: "<i18n:text i18n:key='PLUGINS_ADMIN_SAVE_DIALOG_TITLE'/>", 
                 text: "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_SAVE_ERROR'/>",
@@ -102,11 +95,13 @@ Ext.define('Ametys.plugins.admin.config.SaveConfigAction', {
             return;
         }
         
-        Ametys.notify({
-	        type: 'info',
+        // Success
+        Ametys.Msg.show ({
 	        title: "<i18n:text i18n:key='PLUGINS_ADMIN_SAVE_DIALOG_TITLE'/>",
-	        icon: Ametys.getPluginResourcesPrefix('admin') + '/img/config/config_32.png',
-	        description: "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_SAVE_OK'/>"
+            msg: "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_SAVE_OK'/>",
+            buttons: Ext.Msg.OK,
+            icon: Ext.MessageBox.INFO,
+            fn: Ametys.reload
 	    });
         
     }
