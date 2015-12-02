@@ -52,3 +52,9 @@
         }
     }
 }
+
+// Avoid mask nested effect
+.x-masked .x-masked .x-mask {
+    display:none;
+}
+
