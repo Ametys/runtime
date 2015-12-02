@@ -3286,13 +3286,15 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         
         // Disable conditions listeners
         this.getForm().getFields().each(function(field) {
+        	
+        	var disableCondition = field.disableCondition;
             // fields that are initially disabled can never be enabled See #cfg-helpBoxId
-            if (field.disableCondition != null && !field.disabled)
+            if (disableCondition != null && !field.disabled)
             {
                 me._disableField(field);
-                me._addDisableConditionsListeners(JSON.parse(field.disableCondition), field);
+                me._addDisableConditionsListeners(typeof field.disableCondition === 'string' ? JSON.parse(disableCondition) : disableCondition, field);
             }
-        });
+        }, this);
     },
     
     /**
@@ -3337,7 +3339,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
     _disableField: function(field)
     {   
-        var disable = this._evaluateDisableCondition(JSON.parse(field.disableCondition));
+        var disable = this._evaluateDisableCondition(typeof field.disableCondition === 'string' ? JSON.parse(field.disableCondition) : field.disableCondition);
         field.setDisabled(disable);
     },
     
