@@ -1065,7 +1065,7 @@
     <!-- +  
          |  NOTIFICATIONS    
          + -->  
-    <feature name="userinterface.notifications">
+    <feature name="userinterface.notifications" safe="true">
         <extensions>
             <extension id="org.ametys.coreui.tool.Notifications"
                        point="org.ametys.core.ui.RibbonControlsManager"
@@ -1103,7 +1103,7 @@
     </feature>
          
     
-    <feature name="staticimports.navhistory">
+    <feature name="staticimports.navhistory" safe="true">
         <extensions>
             <extension id="org.ametys.navhistory.HistoryDAO"
                        point="org.ametys.core.ui.StaticFileImportsManager"
