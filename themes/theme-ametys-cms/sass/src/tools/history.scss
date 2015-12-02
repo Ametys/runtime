@@ -1,0 +1,109 @@
+/*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+ 
+.uitool-history {
+	.a-timeline {
+		.timeline-item .contents-wrap {
+	    	margin: 0 40px 15px 110px;
+		}	
+	
+		.#{$prefix}group-hd-container::after,
+		.timeline-item::after {
+		    background: $ametys-timeline-color-dark none repeat scroll 0 0;
+		    content: "";
+		    top: 0;
+		    bottom: 0;
+		    right: $ametys-timeline-font-size*1.2 + 30/2;
+		    position: absolute;
+		    width: 6px;
+		}
+		
+		.timeline-item.last::after {
+			bottom: 15px;
+		}
+		
+		.#{$prefix}grid-view .#{$prefix}grid-item .#{$prefix}group-hd-container {
+			position: relative;
+		}
+		
+		.#{$prefix}grid-view .#{$prefix}grid-item .#{$prefix}group-hd-container::after,
+		.#{$prefix}grid-view .#{$prefix}grid-item:first-child .#{$prefix}group-hd-container::after {
+			background-color: #fff;
+		}
+		
+		.timeline-item .version-wrap {
+			background: #fff none repeat scroll 0 0;
+			width: 36px;
+			float:right;
+			position: relative;
+			z-index:1;
+		}
+		
+		.timeline-item .version-wrap .version {
+			color: #FFFFFF;
+			background: $ametys-timeline-color-dark none repeat scroll 0 0;
+			border: 2px solid $ametys-timeline-color-dark;
+			text-align: center;
+			padding: $ametys-timeline-font-size*1.2/3;
+			font-size:$ametys-timeline-font-size*1.2;
+		}
+		
+		.timeline-item.current .version-wrap .version {
+			background: #fff none repeat scroll 0 0;
+			color: $ametys-timeline-color-dark;
+		}
+		
+		
+		.timeline-item.valid::after,
+		.timeline-item.live::after,
+		.timeline-item.valid .version-wrap .version,
+		.timeline-item.live .version-wrap .version {
+			background: #458a22 none repeat scroll 0 0;
+			border-color: #458a22;
+		}
+		
+		.timeline-item.current .version-wrap .version,
+		.timeline-item.current .version-wrap .version {
+			background-color: #fff;
+			border-color: $ametys-timeline-color-dark;
+		}
+		
+		.timeline-item.current.live .version-wrap .version,
+		.timeline-item.current.live .version-wrap .version,
+		.timeline-item.current.valid .version-wrap .version,
+		.timeline-item.current.valid .version-wrap .version {
+			border-color: #458a22;
+		}
+		
+		.timeline-item .version-wrap .version a {
+			color: #FFFFFF;
+			text-decoration: none;
+		}
+		
+		.timeline-item .version-wrap .version::before  {
+			background: #fff none repeat scroll 0 0;
+			height: 2px;
+		}
+		
+		.timeline-item .version-wrap::before  {
+			background: #fff none repeat scroll 0 0;
+			height: 2px;
+			content: "";
+		}
+	}
+}
+
+
