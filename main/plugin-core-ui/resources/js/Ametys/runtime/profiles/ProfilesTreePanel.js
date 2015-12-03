@@ -203,7 +203,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
                     minLength: 3,
                     minLengthText: "<i18n:text i18n:key='PLUGINS_CORE_UI_PROFILES_TREE_FILTER_INVALID'/>",
 					emptyText: "<i18n:text i18n:key='PLUGINS_CORE_UI_PROFILES_TREE_FILTER_BY_NAME'/>",
-					listeners: {change: Ext.Function.createBuffered(this._filter, 500, this)},
+					listeners: {change: Ext.Function.createBuffered(this._filter, 500, this)}
 				},
 				{
                     xtype: 'tbspacer',
