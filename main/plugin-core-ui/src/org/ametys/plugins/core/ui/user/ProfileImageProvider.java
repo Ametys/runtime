@@ -695,11 +695,7 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
      */
     protected Map<String, String> _getLocalImagePaths()
     {
-        if (__avatarPaths == null)
-        {
-            _initializeLocalImagePaths();
-        }
-        
+        _initializeLocalImagePaths();
         return __avatarPaths;
     }
     
@@ -708,32 +704,38 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
      */
     private void _initializeLocalImagePaths()
     {
-        __avatarPaths = new LinkedHashMap<>(); // use insertion order
-        
-        String location = "plugin:core-ui://resources/img/" + __USER_PROFILES_DIR_PATH + "/" + __AVATAR_DIR_NAME + "/" + __AVATAR_DIR_NAME + ".xml";
-        Source source = null;
-        try
+        synchronized (ProfileImageProvider.class)
         {
-            source = _sourceResolver.resolveURI(location);
-            
-            try (InputStream is = source.getInputStream())
+            if (__avatarPaths == null)
             {
-                Configuration cfg = new DefaultConfigurationBuilder().build(is);
-                for (Configuration imageCfg : cfg.getChildren("image"))
+                __avatarPaths = new LinkedHashMap<>(); // use insertion order
+                
+                String location = "plugin:core-ui://resources/img/" + __USER_PROFILES_DIR_PATH + "/" + __AVATAR_DIR_NAME + "/" + __AVATAR_DIR_NAME + ".xml";
+                Source source = null;
+                try
                 {
-                    __avatarPaths.put(imageCfg.getAttribute("id"), imageCfg.getValue());
+                    source = _sourceResolver.resolveURI(location);
+                    
+                    try (InputStream is = source.getInputStream())
+                    {
+                        Configuration cfg = new DefaultConfigurationBuilder().build(is);
+                        for (Configuration imageCfg : cfg.getChildren("image"))
+                        {
+                            __avatarPaths.put(imageCfg.getAttribute("id"), imageCfg.getValue());
+                        }
+                    }
                 }
-            }
-        }
-        catch (IOException | ConfigurationException | SAXException e)
-        {
-            getLogger().error("Unable to retrieve the map of local image paths", e);
-        }
-        finally
-        {
-            if (source != null)
-            {
-                _sourceResolver.release(source);
+                catch (IOException | ConfigurationException | SAXException e)
+                {
+                    getLogger().error("Unable to retrieve the map of local image paths", e);
+                }
+                finally
+                {
+                    if (source != null)
+                    {
+                        _sourceResolver.release(source);
+                    }
+                }
             }
         }
     }
@@ -811,7 +813,10 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
                                 String.format("Unable to add the background image to the initials image for user '%s' with fullname '%s'. Only the initial image will be used.",
                                         login, user.getFullName()), e);
                         
+                        
                         // Return image without background
+                        _sourceResolver.release(imgSource);
+                        imgSource = _getInitialsImageSource(initial);
                         return new UserProfileImage(imgSource.getInputStream(), filename, null);
                     }
                 }
@@ -918,36 +923,39 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
      */
     private void _initializeInitialsBackgroundPaths()
     {
-        if (__initialsBgPaths == null)
+        synchronized (ProfileImageProvider.class)
         {
-            __initialsBgPaths = new LinkedList<>();
-            
-            String location = "plugin:core-ui://resources/img/" + __USER_PROFILES_DIR_PATH + "/" + __INITIALS_DIR_NAME + "/" + __INITIALS_DIR_NAME + ".xml";
-            Source source = null;
-            
-            try
+            if (__initialsBgPaths == null)
             {
-                source = _sourceResolver.resolveURI(location);
+                __initialsBgPaths = new LinkedList<>();
                 
-                try (InputStream is = source.getInputStream())
+                String location = "plugin:core-ui://resources/img/" + __USER_PROFILES_DIR_PATH + "/" + __INITIALS_DIR_NAME + "/" + __INITIALS_DIR_NAME + ".xml";
+                Source source = null;
+                
+                try
                 {
-                    Configuration cfg = new DefaultConfigurationBuilder().build(is);
+                    source = _sourceResolver.resolveURI(location);
                     
-                    for (Configuration backgroundCfg : cfg.getChildren("background"))
+                    try (InputStream is = source.getInputStream())
                     {
-                        __initialsBgPaths.add(backgroundCfg.getValue());
+                        Configuration cfg = new DefaultConfigurationBuilder().build(is);
+                        
+                        for (Configuration backgroundCfg : cfg.getChildren("background"))
+                        {
+                            __initialsBgPaths.add(backgroundCfg.getValue());
+                        }
                     }
                 }
-            }
-            catch (IOException | ConfigurationException | SAXException e)
-            {
-                getLogger().error("Unable to retrieve the list of available backgrounds for initials images", e);
-            }
-            finally
-            {
-                if (source != null)
+                catch (IOException | ConfigurationException | SAXException e)
                 {
-                    _sourceResolver.release(source);
+                    getLogger().error("Unable to retrieve the list of available backgrounds for initials images", e);
+                }
+                finally
+                {
+                    if (source != null)
+                    {
+                        _sourceResolver.release(source);
+                    }
                 }
             }
         }
