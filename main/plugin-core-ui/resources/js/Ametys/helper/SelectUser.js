@@ -329,11 +329,11 @@ Ext.define('Ametys.helper.SelectUser', {
     {
         if (!this.usersManagerRole || this.usersManagerRole == 'org.ametys.core.user.UsersManager.ROLE')
         {
-            return '<img src="' + Ametys.getPluginDirectPrefix('core-ui') + '/user/' + record.get('login') + '/image_16" style="float: left; margin-right: 3px; width: 16px; height: 16px;"/>' + value;
+            return '<img src="' + Ametys.getPluginDirectPrefix('core-ui') + '/user/' + record.get('login') + '/image_16" class="a-grid-icon a-grid-icon-user"/>' + value;
         }
         else
         {
-            return '<img src="' + Ametys.getPluginDirectPrefix('core-ui') + '/user/default-image_16" style="float: left; margin-right: 3px; width: 16px; height: 16px;"/>' + value;
+            return '<img src="' + Ametys.getPluginDirectPrefix('core-ui') + '/user/default-image_16" class="a-grid-icon a-grid-icon-user"/>' + value;
         }
     }
 });
