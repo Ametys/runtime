@@ -78,11 +78,19 @@ Ext.define('Ametys.form.AbstractField', {
      */
     preventMark: false,
     
+    validateOnBlur: true,
+    
     constructor: function(config)
     {
         config = config || {};
         config.cls = Ext.Array.from(config.cls);
         config.cls.push(this.getDefaultCls());
+        
+        config.listeners = config.listeners || {};
+        config.listeners.blur = {
+            fn: this._onBlur,
+            scope: this
+        }
         
         this.callParent(arguments);
     },
@@ -104,6 +112,19 @@ Ext.define('Ametys.form.AbstractField', {
     {
         this.callParent();
         this.initField();
+    },
+    
+    /**
+     * @protected
+     * On blur listener.
+     * Currently used to validate the field
+     */
+    _onBlur: function()
+    {
+        if (this.validateOnBlur)
+        {
+            this.validate();
+        }
     },
     
     /**

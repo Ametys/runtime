@@ -58,7 +58,7 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
     extend:'Ametys.form.AbstractField',
     
     layout: 'hbox',
-
+    
     statics: {
         /**
          * @private
@@ -96,10 +96,12 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
     
     toggleInvalidCls: function(hasError) 
     {
-        this.callParent(arguments);
-        this.el[hasError && this._hasGlobalErrors ? 'addCls' : 'removeCls'](this.warningCls);
-    },  
-
+        // Do not call parent, to not show invalid cls on inner field.
+        // this.callParent(arguments);
+        
+        // On the global error cls must be added on the wrapper
+        this.el[hasError && this._hasGlobalErrors ? 'addCls' : 'removeCls'](Ametys.form.AbstractFieldsWrapper.GLOBAL_ERRORS_FIELD_CLS);
+    },
     
     /**
      * @inheritdoc
@@ -107,28 +109,42 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
      */
     onAdd: function (newComponent)
     {
-    	this.callParent(arguments);
-    	
-    	if (newComponent.isFormField)
-    	{
-    		newComponent.isFormField = false;
-    		newComponent.on('change', this.checkChange, this);
-    		newComponent.on('specialkey', this._checkSpecialKey, this);
-    		
-    		newComponent.on('focus', function (fd, e) { this.fireEvent ('focus', this, e)}, this);
-    		newComponent.on('blur', function (fd, e) { this.fireEvent ('blur', this, e)}, this);
-    	}
-    	else if (newComponent.isButton)
-		{
-    		newComponent.on('focus', function (fd, e) { this.fireEvent ('focus', this, e)}, this);
-    		newComponent.on('blur', function (fd, e) { this.fireEvent ('blur', this, e)}, this);
-		}
+        this.callParent(arguments);
+        
+        var formFields = [];
+        
+        if (newComponent.isFormField)
+        {
+            formFields.push(newComponent);
+        }
+        else if (newComponent.isContainer)
+        {
+            // deeper form field
+            formFields = formFields.concat(newComponent.query('component[isFormField]'));
+        }
+        else if (newComponent.isButton)
+        {
+            newComponent.on('focus', function (fd, e) { this.fireEvent ('focus', this, e)}, this);
+            newComponent.on('blur', function (fd, e) { this.fireEvent ('blur', this, e)}, this);
+        }
+        
+        Ext.Array.forEach(formFields, function(field)
+        {
+            field.isFormField = false;
+            field.isWrappedFormField = true; // internally mark the field to be able to still retrieves it later.
+            
+            field.on('change', this.checkChange, this);
+            field.on('specialkey', this._checkSpecialKey, this);
+            
+            field.on('focus', function (fd, e) { this.fireEvent ('focus', this, e)}, this);
+            field.on('blur', function (fd, e) { this.fireEvent ('blur', this, e)}, this);
+            
+        }, this /* scope */);
     },
     
     onRender: function()
     {
-    	this.callParent(arguments);
-
+        this.callParent(arguments);
         this.renderActiveError();
 	},
 	
@@ -147,13 +163,15 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
 		{
 			var direction = e.shiftKey ? -1 : +1;
 			
-			var index = this.items.indexOf(item);
+			var formFields = this.query('component[isWrappedFormField],button');
+			var index = formFields.indexOf(item);
+			
 			var itemToFocus;
 			do 
 			{
 				index += direction;
-				itemToFocus = this.items.getAt(index);
-				if (this._isFocusable(itemToFocus) && itemToFocus.isFormField === false)
+				itemToFocus = formFields[index];
+				if (itemToFocus != null && this._isFocusable(itemToFocus) && itemToFocus.isFormField === false)
 				{
 					e.stopEvent()
 					itemToFocus.focus();
@@ -168,7 +186,7 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
          * @event specialkey
 		 * Fires when any key related to navigation (arrows, tab, enter, esc, etc.) is pressed. To handle other keys see Ext.util.KeyMap. You can check Ext.event.Event.getKey to determine which key was pressed
          * @param {Ametys.form.AbstractFieldsWrapper} this
-         * @param {Ext.event.Event} e The event object         
+         * @param {Ext.event.Event} e The event object
          */
     	this.fireEvent('specialkey', this, e);
 	},
@@ -193,34 +211,35 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
 	
     isFileUpload: function() 
     {
-    	this.items.each(function (item) {
-    		if (item.isFileUpload)
-    		{
-    			var val = item.isFileUpload();
-    			if (val)
-    			{
-    				return val;
-    			}
-    		}
+        var isFileUpload = false;
+        
+        Ext.Array.each(this.query('component[isWrappedFormField]'), function (item) {
+			if (Ext.isFunction(item.isFileUpload) && item.isFileUpload())
+			{
+			    isFileUpload = true;
+			    return false; // stop iteration
+			}
     	});
     	
-    	return false;
+    	return isFileUpload;
     },
     
     extractFileInput : function() 
     {
-    	this.items.each(function (item) {
-    		if (item.extractFileInput)
-    		{
-    			var val = item.extractFileInput();
-    			if (val)
-    			{
-    				return val;
-    			}
-    		}
-    	});
-    	
-    	return null;
+        var val = null;
+        
+        Ext.Array.each(this.query('component[isWrappedFormField]'), function (item) {
+            if (Ext.isFunction(item.extractFileInput))
+            {
+                val = item.extractFileInput();
+                if (val)
+                {
+                    return false; // stop iteration
+                }
+            }
+        });
+        
+        return val;
     },
     
     /**
@@ -230,14 +249,14 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
      */
     onDirtyChange: function(isDirty) 
     {
-    	this.callParent(arguments);
-    	
-    	this.items.each(function (item) {
-    		if (item.onDirtyChange)
-    		{
-    			item.onDirtyChange(isDirty);
-    		}
-    	});
+        this.callParent(arguments);
+        
+        Ext.Array.each(this.query('component[isWrappedFormField]'), function (item) {
+            if (Ext.isFunction(item.onDirtyChange))
+            {
+                item.onDirtyChange();
+            }
+        });
     },
     
     /**
@@ -247,17 +266,17 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
      */
     clearInvalid: function() 
     {
-    	this.callParent(arguments);
-
-    	var args = arguments;
-    	
-    	// local clear
-    	this.items.each(function (item) {
-    		if (item.clearInvalid)
-    		{
-    			item.clearInvalid(args);
-    		}
-    	});
+        this.callParent(arguments);
+        
+        var args = arguments;
+        
+        // local clear
+        Ext.Array.each(this.query('component[isWrappedFormField]'), function (item) {
+            if (Ext.isFunction(item.clearInvalid))
+            {
+                item.clearInvalid(args);
+            }
+        });
     },
     
     enable: function()
@@ -290,30 +309,48 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
     
     cancelFocus: function()
     {
-		for (var i = 0; i < this.items.getCount(); i++)
-		{
-			var item = this.items.getAt(i);
-			if (this._isFocusable(item), true)
-			{
-				return item.cancelFocus.apply(item, arguments);
-			}
-		}
-    	
-    	return this.callParent(arguments);
+		var args = arguments,
+		    canceled = false,
+		    retValue;
+		
+        Ext.Array.each(this.query('component[isWrappedFormField],button'), function (item) {
+            if (this._isFocusable(item), true)
+            {
+                retValue = item.cancelFocus.apply(item, args);
+                canceled = true;
+                return false; // stop iteration
+            }
+        }, this /* scope */);
+        
+        if (!canceled)
+        {
+            retValue = this.callParent(arguments);
+        }
+        
+        return retValue;
     },
     
     focus: function()
     {
-		for (var i = 0; i < this.items.getCount(); i++)
-		{
-			var item = this.items.getAt(i);
-			if (this._isFocusable(item))
-			{
-				return item.focus.apply(item, arguments);
-			}
-		}
-    	
-    	return this.callParent(arguments);
+        var args = arguments,
+            focused = false,
+            retValue;
+    
+        Ext.Array.each(this.query('component[isWrappedFormField],button'), function (item) {
+            if (this._isFocusable(item))
+            {
+                retValue = item.focus.apply(item, args);
+                focused = true;
+                return false; // stop iteration
+            }
+        }, this /* scope */);
+        
+        if (!focused)
+        {
+            retValue = this.callParent(arguments);
+        }
+        
+        return retValue;
     },
     
     /**
