@@ -277,7 +277,6 @@
     <!-- +
          | ParameterCheckersDAO.js
          + -->
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TEXT_PREFIX">Verify</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_SERVER_CALL_ERROR_TITLE">Server error</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_SERVER_CALL_ERROR_TEXT">An error has occurred on the server. Parameter verifications are now reset.</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TOOLTIP_TESTED_PARAMS">Used parameter(s): </message>

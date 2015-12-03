@@ -278,7 +278,6 @@
     <!-- +
          | ParameterCheckersDAO.js
          + -->
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TEXT_PREFIX">Vérifier</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_SERVER_CALL_ERROR_TITLE">Erreur serveur</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_SERVER_CALL_ERROR_TEXT">Une erreur est survenue côté serveur. Le résultat des vérifications est réinitialisé.</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TOOLTIP_TESTED_PARAMS">Paramètre(s) utilisé(s) : </message>
