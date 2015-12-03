@@ -1,0 +1,224 @@
+/*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+ 
+.uitool-history {
+	&.a-timeline {
+	
+		.version {
+			background: #fff none repeat scroll 0 0;
+			color: $ametys-timeline-color-dark;
+			position: absolute;
+			transform: rotate(-90deg);
+			font-size:$ametys-timeline-font-size*1.2;
+			padding: 0 $ametys-timeline-font-size*1.2/3;
+			z-index: 1;
+			right: 0;
+			top: 0;
+			
+			&.valid {
+				color: #45b222;
+				a {
+					color: #45b222;
+				}
+			}
+			
+			&.live {
+				color: #128ce8;
+				a {
+					color: #128ce8;
+				}
+			}
+			
+			a {
+				color: $ametys-timeline-color-dark;
+				text-decoration: none;
+			}
+		}
+		
+		.step-wrap {
+			text-align: right;
+			
+			&:before {
+				background: $ametys-timeline-border-color none repeat scroll 0 0;
+			    content: "";
+			    height: 100%;
+			    left: $ametys-timeline-font-size*1.2 + 50px;
+			    position: absolute;
+			    width: 3px;
+			}
+		
+			.step {
+				margin-right: 54px;
+				display: inline-block;
+				padding: $ametys-timeline-font-size/3 $ametys-timeline-font-size/2;
+				background: $ametys-timeline-color-dark none repeat scroll 0 0;
+				color: #fff;
+			}
+		}
+			
+		.timeline-item {
+			&.last:after {
+				bottom: 15px;
+			}
+			
+			&:after {
+			    background: $ametys-timeline-color-dark none repeat scroll 0 0;
+			    content: "";
+			    top: 0;
+			    bottom: 0;
+			    right: $ametys-timeline-font-size*1.2 + 30/2;
+			    position: absolute;
+			    width: 3px;
+			}
+			
+			.contents-wrap {
+	    		margin: 0 40px 15px 110px;
+			}	
+			
+			.version-line {
+				background: #fff none repeat scroll 0 0;
+				width: 36px;
+				float:right;
+				position: relative;
+				z-index:1;
+				
+				&:before  {
+					background: #fff none repeat scroll 0 0;
+					height: 2px;
+				}
+				
+				.version {
+					color: $ametys-timeline-color-dark;
+					background: #fff none repeat scroll 0 0;
+					text-align: center;
+					padding: $ametys-timeline-font-size*1.2/3;
+					font-size:$ametys-timeline-font-size*1.2;
+					
+					&:before  {
+						background: #fff none repeat scroll 0 0;
+						height: 2px;
+					}
+				
+					a {
+						color: $ametys-timeline-color-dark;
+						text-decoration: none;
+					}
+				}
+			}
+			
+			&.current {
+				.version-line .version {
+					background: #fff none repeat scroll 0 0;
+					color: $ametys-timeline-color-dark;
+				}
+				
+				&.valid .version-line .version {
+					border-color: #45b222;
+				}
+				
+				&.live .version-line .version {
+					border-color: #45b222;
+				}
+		
+			}
+			
+			&.valid {
+				&:after {
+					background: #45b222 none repeat scroll 0 0;
+					border-color: #45b222;
+				} 
+				
+				.version-line .version {
+					background: #45b222;
+				}
+			}
+			
+			&.live {
+				&:after {
+					background: #128ce8 none repeat scroll 0 0;
+					border-color: #128ce8;
+				} 
+				
+				.version-line .version {
+					color: #128ce8;
+				}
+			}
+		}
+	
+		.#{$prefix}grid-view .#{$prefix}grid-item  {
+		
+			&:first-child {
+				.#{$prefix}group-hd-container {
+					&:after {
+						background-color: #fff;
+					}
+				}
+			}
+			
+			.#{$prefix}group-hd-container {
+				position: relative;
+				
+				&:after {
+					background: $ametys-timeline-color-dark none repeat scroll 0 0;
+					/*background: #fff none repeat scroll 0 0;*/
+				    content: "";
+				    top: 0;
+				    bottom: 0;
+				    right: $ametys-timeline-font-size*1.2 + 30/2;
+				    position: absolute;
+				    width: 3px;
+				}
+				
+				&.hd-live:after {
+					background-color: #128ce8;
+				}
+				&.hd-valid:after {
+					background-color: #45b222;
+				}
+				
+				&.hd-blank:after {
+					background-color: #fff;
+				}
+			
+			}
+		}
+	}
+}
+
+@for $i from 1 through length($ametys-tool-tab-colors) {
+    $index: $i - 1;
+
+    $active-color-dark: nth($ametys-tool-tab-colors-dark, $i);
+    $active-color: nth($ametys-tool-tab-colors, $i);
+    $active-color-light: nth($ametys-tool-tab-colors-light, $i);
+    
+    .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-#{$index*10} {
+		
+		.uitool-history.a-timeline {
+			.step-wrap {
+				&:before {
+					background-color: $active-color;
+				}
+				.step {
+					background-color: $active-color;
+				}
+			}
+			
+		}
+	}
+}
+
+
