@@ -120,16 +120,16 @@ ul.ametys-tooltip-comment > li div.comment-text
 	font-style: italic;
 } 
 
-.a-form-abstract-field.x-form-warning .x-form-item-body,
-.a-form-abstract-field-wrapper.x-form-warning .x-form-item-body {
+.a-form-abstract-field.x-form-warning > .x-form-item-body,
+.a-form-abstract-field-wrapper.x-form-warning > .x-form-item-body {
     @include box-shadow($form-field-border-color-warn 0 -$form-field-border-width 0px 0, 
                         $form-field-border-color-warn 0 $form-field-border-width 0px 0, 
                         $form-field-border-color-warn $form-field-border-width 0 0px 0, 
                         $form-field-border-color-warn -$form-field-border-width 0 0px 0);
 }
 
-.a-form-abstract-field.x-form-invalid .x-form-item-body,
-.a-form-abstract-field-wrapper.a-form-invalid-global .x-form-item-body {
+.a-form-abstract-field.x-form-invalid > .x-form-item-body,
+.a-form-abstract-field-wrapper.a-form-invalid-global > .x-form-item-body {
     @include box-shadow($form-field-border-color-error 0 -$form-field-border-width 0px 0, 
                         $form-field-border-color-error 0 $form-field-border-width 0px 0, 
                         $form-field-border-color-error $form-field-border-width 0 0px 0, 
