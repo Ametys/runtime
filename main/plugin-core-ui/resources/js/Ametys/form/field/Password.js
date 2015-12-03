@@ -172,8 +172,6 @@ Ext.define('Ametys.form.field.Password', {
     	this.on('afterrender', this._adaptRenderToMode, this);
     	
         this.callParent(arguments);
-        
-        window.abc =this;
     },
     
     /**
@@ -192,7 +190,7 @@ Ext.define('Ametys.form.field.Password', {
         
         this._field = Ext.create('Ext.form.field.Text', passwordConfig);
     },
-    
+       
     /**
      * @protected
      * Retrieves the name of the configuration properties to copy to the underlying field 
@@ -200,7 +198,7 @@ Ext.define('Ametys.form.field.Password', {
      */
     _getConfigPropertiesToCopy: function()
     {
-        return ['allowBlank', 'blankText', 'emptyText', 'invalidText', 'maskRe', 'maxLength', 'maxLengthText', 'minLength', 'minLengthText', 'regex', 'regexText', 'selectOnFocus', 'size', 'stripCharsRe'];
+        return ['emptyText', 'invalidText', 'maskRe', 'maxLength', 'maxLengthText', 'minLength', 'minLengthText', 'regex', 'regexText', 'selectOnFocus', 'size', 'stripCharsRe'];
     },
     
     /**
@@ -214,13 +212,7 @@ Ext.define('Ametys.form.field.Password', {
     
     getErrors: function (value) 
     {
-    	var errors = [];
-    	if (!this.allowBlank && !this._field.getValue())
-    	{
-    		errors.push(this.blankText);
-    	}
-    	
-    	return errors;
+        return Ext.Array.merge(this.callParent(arguments), this._field.getErrors(value));
     },
     
     getValue: function()

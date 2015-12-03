@@ -47,7 +47,6 @@ Ext.define('Ametys.form.field.ChangePassword', {
     {
         // Password
         this.passwordConfig = this.passwordConfig || {};
-        // this.passwordConfig.width = '100%';
         this.passwordConfig.cls = 'ametys-changepassword-initial';
         
         this.callParent();
@@ -56,7 +55,6 @@ Ext.define('Ametys.form.field.ChangePassword', {
         var confirmConfig = this.confirmConfig || this.passwordConfig || {};
             confirmConfig.inputType = 'password';
             confirmConfig.cls = 'ametys-changepassword-confirmation';
-//            confirmConfig.width = '100%';
             confirmConfig.flex = 1;
             
         var propertiesToCopy = this._getConfigPropertiesToCopy();
@@ -87,21 +85,21 @@ Ext.define('Ametys.form.field.ChangePassword', {
             ];
     },
     
-    getErrors: function (value)
+    getErrors: function (value) 
     {
-    	var errors = this.callParent(arguments);
-    	
-    	if (this._mode == Ametys.form.field.Password.MODE_SEEPASSWORD)
-    	{
-    		return errors;
-    	}
-    	
-    	if (value === undefined || this._field.getValue() != this._confirmField.getValue())
-    	{
-    		errors.push("<i18n:text key='PLUGINS_CORE_UI_CHANGEPASSWORD_VALIDATOR'/>");
-    	}
-
-    	return errors;
+        var errors = [];
+        
+        if (this._mode != Ametys.form.field.Password.MODE_SEEPASSWORD)
+        {
+            if  (value === undefined || this._field.getValue() != this._confirmField.getValue())
+            {
+                errors.push("<i18n:text key='PLUGINS_CORE_UI_CHANGEPASSWORD_VALIDATOR'/>");
+            }
+            
+            errors = Ext.Array.merge(errors, this._confirmField.getErrors(value));
+        }
+        
+        return Ext.Array.merge(this.callParent(arguments), errors);
     },
     
     getValue: function()
