@@ -101,6 +101,12 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel.NodeEntry', {
 		        }
 			}
 		},
+        {
+            name: 'cls', 
+            calculate: function(data) {
+                return data.type == 'user' ? 'a-tree-icon-user' : '';
+            }
+        },
 		{
 			name: 'leaf', 
 			calculate: function(data) {
