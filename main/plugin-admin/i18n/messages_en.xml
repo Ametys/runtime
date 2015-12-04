@@ -194,9 +194,9 @@
     <message key="PLUGINS_ADMIN_LOGS_DELETE_ERROR">An error occurred on the server. One or more files have not been deleted.&lt;br/&gt;&lt;br/&gt;These files may be currently in use or have already been deleted.</message>
     
     <!-- ADMINISTRATOR LOGS LEVEL -->
-    <message key="PLUGINS_ADMIN_TOOL_LOGS_LEVEL_LABEL">Configuration</message>
+    <message key="PLUGINS_ADMIN_TOOL_LOGS_LEVEL_LABEL">Logs configuration</message>
     <message key="PLUGINS_ADMIN_TOOL_LOGS_LEVEL_DESC">This tool allows you to modify for the runtime the log level category by category.&lt;br/&gt;To modify permanently the log level you can configure the 'WEB-INF\\log4j.xml' file.</message>    
-    <message key="PLUGINS_ADMIN_TOOL_LOGS_LEVEL_SERVER_ERROR">Une erreur est survenue : les modifications n'ont peut-être pas été prises en compte.</message>
+    <message key="PLUGINS_ADMIN_TOOL_LOGS_LEVEL_SERVER_ERROR">An error occurred: modifications may have not been applied.</message>
     <message key="PLUGINS_ADMIN_LOGS_LEVEL_DEBUG_LABEL">Change to DEBUG</message>  
     <message key="PLUGINS_ADMIN_LOGS_LEVEL_DEBUG_DESC">Change the log level of the selected category to DEBUG mode.</message>
     <message key="PLUGINS_ADMIN_LOGS_LEVEL_INFO_LABEL">Change to INFO</message>  

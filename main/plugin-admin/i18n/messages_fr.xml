@@ -194,7 +194,7 @@
     <message key="PLUGINS_ADMIN_LOGS_DELETE_ERROR">Une erreur est survenue sur le serveur. Un ou plusieurs fichiers n'ont pas été supprimés.&lt;br/&gt;&lt;br/&gt;Ces fichiers sont peut-être en cours d'utilisation ou ont déjà été supprimés.</message>
     
     <!-- ADMINISTRATOR LOGS LEVEL -->
-    <message key="PLUGINS_ADMIN_TOOL_LOGS_LEVEL_LABEL">Configuration</message>
+    <message key="PLUGINS_ADMIN_TOOL_LOGS_LEVEL_LABEL">Configuration des journaux</message>
     <message key="PLUGINS_ADMIN_TOOL_LOGS_LEVEL_DESC">Cet outil permet de configurer les niveaux de logs catégorie par catégorie.&lt;br/&gt;Pour modifier de manière permanente le niveau de logs, configurez le fichier WEB-INF\\log4j.xml.</message>    
     <message key="PLUGINS_ADMIN_TOOL_LOGS_LEVEL_SERVER_ERROR">Une erreur est survenue : les modifications n'ont peut-être pas été prises en compte.</message>
     <message key="PLUGINS_ADMIN_LOGS_LEVEL_DEBUG_LABEL">Passer en DEBUG</message>  
