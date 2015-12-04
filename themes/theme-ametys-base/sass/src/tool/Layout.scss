@@ -77,6 +77,32 @@
 .#{$prefix}tab-tool-layoutzone.#{$prefix}tab-over .#{$prefix}tab-close-btn { @include opacity(0.5); }
 .#{$prefix}tab-tool-layoutzone.#{$prefix}tab-active .#{$prefix}tab-close-btn { @include opacity(1); }
 
+.#{$prefix}tab-tool-layoutzone .#{$prefix}tab-icon-el-tool-layoutzone {
+	&[class^="flaticon-"]:before, &[class*=" flaticon-"]:before {
+	   	margin-left: 0px;
+	   	color:#e1e1e1;
+	   	position: absolute;
+	   	font-size: 16px;
+	  	line-height:16px;
+	   	top:0;
+	   	left:0;
+	   	height: 100%;
+	}
+   	
+	&[class^="flaticon-decorator-"]:after, &[class*=" flaticon-decorator-"]:after {
+	  	margin-left: 0px;
+	  	position: absolute;
+	  	right:-2px;
+	  	bottom:-2px;
+	  	color:#FFFFFF;
+	  	font-size: 10px;
+	  	line-height:10px;
+	  	text-shadow: 2px 2px #666;
+	}
+}
+
+
+
 .#{$prefix}tab-tool-layoutzone > div {
     overflow: hidden;
 }

@@ -18,15 +18,21 @@
 	&.a-timeline {
 	
 		.version {
-			background: #fff none repeat scroll 0 0;
 			color: $ametys-timeline-color-dark;
 			position: absolute;
-			transform: rotate(-90deg);
 			font-size:$ametys-timeline-font-size*1.2;
-			padding: 0 $ametys-timeline-font-size*1.2/3;
 			z-index: 1;
-			right: 0;
-			top: 0;
+			top:0;
+			right:0;
+			text-align: center;
+			background-color: #fff;
+			padding: 0 $ametys-timeline-font-size*1.2/3;
+			
+			&.rotate {
+				transform: rotate(-90deg);
+				-ms-transform: rotate(-90deg); 
+    			-webkit-transform: rotate(-90deg); 
+			}
 			
 			&.valid {
 				color: #45b222;
@@ -49,7 +55,8 @@
 		}
 		
 		.step-wrap {
-			text-align: right;
+			text-align: center;
+			margin: 0 ($ametys-timeline-font-size*1.2+40px) 0 ($ametys-timeline-font-size*1.2+110px);
 			
 			&:before {
 				background: $ametys-timeline-border-color none repeat scroll 0 0;
@@ -59,19 +66,33 @@
 			    position: absolute;
 			    width: 3px;
 			}
+			
+			&.last:after {
+				background: #fff none repeat scroll 0 0;
+				content: "";
+				position: absolute;
+				right: 0;
+				width: 50px;
+				height: $ametys-timeline-font-size*1.2 + $ametys-timeline-font-size/3 + $ametys-timeline-font-size/2; /* line height + padding */
+				z-index:1;
+			}
+			
+			&.last.current:after {
+				background-color: transparent;
+			}
 		
 			.step {
-				margin-right: 54px;
 				display: inline-block;
-				padding: $ametys-timeline-font-size/3 $ametys-timeline-font-size/2;
-				background: $ametys-timeline-color-dark none repeat scroll 0 0;
-				color: #fff;
+				line-height:$ametys-timeline-font-size*1.2;
+				padding: $ametys-timeline-font-size/3 0 $ametys-timeline-font-size/2 0;
+				background: #fff none repeat scroll 0 0;
+				color: $ametys-timeline-color-dark;
 			}
 		}
 			
 		.timeline-item {
-			&.last:after {
-				bottom: 15px;
+			&.first:after {
+				bottom: 5px;
 			}
 			
 			&:after {
@@ -79,13 +100,14 @@
 			    content: "";
 			    top: 0;
 			    bottom: 0;
-			    right: $ametys-timeline-font-size*1.2 + 30/2;
+			    right: 25px;
 			    position: absolute;
 			    width: 3px;
 			}
 			
 			.contents-wrap {
-	    		margin: 0 40px 15px 110px;
+	    		margin: 0 40px 5px 110px;
+	    		min-height:90px;
 			}	
 			
 			.version-line {
@@ -177,7 +199,7 @@
 				    content: "";
 				    top: 0;
 				    bottom: 0;
-				    right: $ametys-timeline-font-size*1.2 + 30/2;
+				    right: 25px;
 				    position: absolute;
 				    width: 3px;
 				}
@@ -210,9 +232,6 @@
 		.uitool-history.a-timeline {
 			.step-wrap {
 				&:before {
-					background-color: $active-color;
-				}
-				.step {
 					background-color: $active-color;
 				}
 			}

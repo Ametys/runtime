@@ -145,7 +145,51 @@
         display: none;
     }
     
+    .#{$prefix}btn-wrap-#{$ui}-large > .#{$prefix}btn-button-#{$ui}-large {
+    	display: inline-block;
+    }
     
+    .#{$prefix}btn-button-#{$ui}-large > .#{$prefix}btn-icon-el-#{$ui}-large {
+    	position: relative;
+    	display: inline-block;
+    }
+    
+    .#{$prefix}btn-icon-el-#{$ui}-large {
+    	&[class^="flaticon-"]:before, &[class*=" flaticon-"]:before {
+	    	margin-left: 0px;
+	    	color:#515151;
+	    	font-size: 32px;
+    	}
+    	
+    	&[class^="flaticon-decorator-"]:after, &[class*=" flaticon-decorator-"]:after {
+	    	margin-left: 0px;
+	    	position: absolute;
+	    	right:-2px;
+	    	bottom:-2px;
+	    	color:#818181;
+	    	font-size: 18px;
+	    	line-height:18px;
+	    	text-shadow: 2px 2px #eeeeee;
+    	}
+    }
+    
+    .#{$prefix}btn-icon-el-#{$ui}-small {
+    	&[class^="flaticon-"]:before, &[class*=" flaticon-"]:before {
+	    	margin-left: 0px;
+	    	color:#616161;
+	    	font-size: 16px;
+    	}
+    	
+    	&[class^="flaticon-decorator-"]:after, &[class*=" flaticon-decorator-"]:after {
+	    	margin-left: 0px;
+	    	position: absolute;
+	    	right:-1px;
+	    	bottom:-1px;
+	    	color:#818181;
+	    	line-height:10px;
+	    	font-size: 10px;
+    	}
+    }
     
     /* over menu */
     .#{$prefix}btn-over.a-fluent-control-button-split {
