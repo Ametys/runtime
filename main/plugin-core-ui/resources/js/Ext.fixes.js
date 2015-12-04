@@ -230,4 +230,34 @@
 	        }
 	    }
 	});
+    
+    
+    Ext.override(Ext.layout.container.Box, {
+        // Fix for https://www.sencha.com/forum/showthread.php?307214-BoxLayout-and-split-configuration&p=1122342#post1122342
+        onAdd: function (item, index) {
+            var me = this,
+                // Buttons will gain a split param
+                split = me.enableSplitters && item.split && !item.isButton;
+    
+            me.callSuper(arguments);
+    
+            if (split) {
+                if (item.split === true) {
+                    split = {
+                        collapseTarget: 'next'
+                    };
+                } else if (Ext.isString(item.split)) {
+                    split = {
+                        collapseTarget: item.split === 'before' ? 'next' : 'prev'
+                    };
+                } else {
+                    split = Ext.apply({
+                        collapseTarget: item.split.side === 'before' ? 'next' : 'prev'
+                    }, item.split);
+                }
+    
+                me.insertSplitter(item, index, !!item.hidden, split);
+            }
+        }    
+    });
 })();
