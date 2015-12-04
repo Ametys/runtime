@@ -584,6 +584,7 @@
                     <label i18n="true">PLUGINS_CORE_UITOOL_USERS_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UITOOL_USERS_DESCRIPTION</description>
                     <help>org.ametys.core.users</help>
+                    <icon-glyph>flaticon-users81</icon-glyph>
                     <icon-small file="true">img/users/user_16.png</icon-small>
                     <icon-medium file="true">img/users/user_32.png</icon-medium>
                     <icon-large file="true">img/users/user_48.png</icon-large>
@@ -601,6 +602,7 @@
                     <title i18n="true">PLUGINS_CORE_UITOOL_USERS_LABEL</title>
                     <description i18n="true">PLUGINS_CORE_UITOOL_USERS_DESCRIPTION</description>
                     <help>org.ametys.core.users</help>
+                    <icon-glyph>flaticon-users81</icon-glyph>
                     <icon-small file="true">img/users/user_16.png</icon-small>
                     <icon-medium file="true">img/users/user_32.png</icon-medium>
                     <icon-large file="true">img/users/user_48.png</icon-large>
@@ -629,6 +631,9 @@
                     <users-tool-role>uitool-users</users-tool-role>
                     <label i18n="true">PLUGINS_CORE_USERS_ADD_LABEL</label>
                     <default-description i18n="true">PLUGINS_CORE_USERS_ADD_DESCRIPTION</default-description>
+                    
+                    <icon-glyph>flaticon-users81</icon-glyph>
+                    <icon-decorator>flaticon-decorator-add64</icon-decorator>
                     <icon-small file="true">img/users/add_16.png</icon-small>
                     <icon-medium file="true">img/users/add_32.png</icon-medium>
                     <icon-large file="true">img/users/add_48.png</icon-large>
@@ -650,6 +655,9 @@
                     
                     <label i18n="true">PLUGINS_CORE_USERS_EDIT_LABEL</label>
                     <default-description i18n="true">PLUGINS_CORE_USERS_EDIT_DESCRIPTION</default-description>
+                    
+                    <icon-glyph>flaticon-users81</icon-glyph>
+                    <icon-decorator>flaticon-decorator-edit45</icon-decorator>
                     <icon-small file="true">img/users/modify_16.png</icon-small>
                     <icon-medium file="true">img/users/modify_32.png</icon-medium>
                     <icon-large file="true">img/users/modify_48.png</icon-large>
@@ -671,6 +679,9 @@
 
                     <label i18n="true">PLUGINS_CORE_USERS_DELETE_LABEL</label>
                     <default-description i18n="true">PLUGINS_CORE_USERS_DELETE_DESCRIPTION</default-description>
+                    
+                    <icon-glyph>flaticon-users81</icon-glyph>
+                    <icon-decorator>flaticon-decorator-remove11</icon-decorator>
                     <icon-small file="true">img/users/delete_16.png</icon-small>
                     <icon-medium file="true">img/users/delete_32.png</icon-medium>
                     <icon-large file="true">img/users/delete_48.png</icon-large>
@@ -694,6 +705,8 @@
                     <selection-description-nomatch i18n="true">PLUGINS_CORE_UITOOL_USER_RIGHTS_EMPTY</selection-description-nomatch>
                     <selection-description-multiselectionforbidden i18n="true">PLUGINS_CORE_UITOOL_USER_RIGHTS_MULTI_FORBIDDEN</selection-description-multiselectionforbidden>
                     <help>org.ametys.core.users.rights</help>
+                    
+                    <icon-glyph>flaticon-id17</icon-glyph>
                     <icon-small file="true">img/users/rights_16.png</icon-small>
                     <icon-medium file="true">img/users/rights_32.png</icon-medium>
                     <icon-large file="true">img/users/rights_48.png</icon-large>
@@ -738,6 +751,7 @@
                     <selection-description-nomatch i18n="true">PLUGINS_CORE_UITOOL_USER_RIGHTS_EMPTY</selection-description-nomatch>
                     <selection-description-multiselectionforbidden i18n="true">PLUGINS_CORE_UITOOL_USER_RIGHTS_MULTI_FORBIDDEN</selection-description-multiselectionforbidden>
                     <help>org.ametys.core.users.rights</help>
+                    <icon-glyph>flaticon-id17</icon-glyph>
                     <icon-small file="true">img/users/rights_16.png</icon-small>
                     <icon-medium file="true">img/users/rights_32.png</icon-medium>
                     <icon-large file="true">img/users/rights_48.png</icon-large>
@@ -791,6 +805,7 @@
                     <label i18n="true">PLUGINS_CORE_UITOOL_GROUPS_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UITOOL_GROUPS_DESCRIPTION</description>
                     <help>org.ametys.core.groups</help>
+                    <icon-glyph>flaticon-multiple25</icon-glyph>
                     <icon-small file="true">img/groups/group_16.png</icon-small>
                     <icon-medium file="true">img/groups/group_32.png</icon-medium>
                     <icon-large file="true">img/groups/group_50.png</icon-large>
@@ -808,6 +823,7 @@
                     <title i18n="true">PLUGINS_CORE_UITOOL_GROUPS_LABEL</title>
                     <description i18n="true">PLUGINS_CORE_UITOOL_GROUPS_DESCRIPTION</description>
                     <help>org.ametys.core.groups</help>
+                    <icon-glyph>flaticon-multiple25</icon-glyph>
                     <icon-small file="true">img/groups/group_16.png</icon-small>
                     <icon-medium file="true">img/groups/group_32.png</icon-medium>
                     <icon-large file="true">img/groups/group_50.png</icon-large>
@@ -836,6 +852,9 @@
                     <action>Ametys.plugins.core.groups.GroupsActions.add</action>
                     <label i18n="true">PLUGINS_CORE_GROUPS_ADD_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_GROUPS_ADD_DESCRIPTION</description>
+                    
+                    <icon-glyph>flaticon-multiple25</icon-glyph>
+                    <icon-decorator>flaticon-decorator-add64</icon-decorator>
                     <icon-small file="true">img/groups/add_16.png</icon-small>
                     <icon-medium file="true">img/groups/add_32.png</icon-medium>
                     <icon-large file="true">img/groups/add_50.png</icon-large>
@@ -857,6 +876,9 @@
                     
                     <label i18n="true">PLUGINS_CORE_GROUPS_RENAME_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_GROUPS_RENAME_DESCRIPTION</description>
+                    
+                    <icon-glyph>flaticon-multiple25</icon-glyph>
+                    <icon-decorator>flaticon-decorator-edit45</icon-decorator>
                     <icon-small file="true">img/groups/rename_16.png</icon-small>
                     <icon-medium file="true">img/groups/rename_32.png</icon-medium>
                     <icon-large file="true">img/groups/rename_50.png</icon-large>
@@ -878,6 +900,9 @@
                     
                     <label i18n="true">PLUGINS_CORE_GROUPS_DELETE_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_GROUPS_DELETE_DESCRIPTION</description>
+                    
+                    <icon-glyph>flaticon-multiple25</icon-glyph>
+                    <icon-decorator>flaticon-decorator-remove11</icon-decorator>
                     <icon-small file="true">img/groups/delete_16.png</icon-small>
                     <icon-medium file="true">img/groups/delete_32.png</icon-medium>
                     <icon-large file="true">img/groups/delete_50.png</icon-large>
@@ -968,6 +993,7 @@
                     <label i18n="true">PLUGINS_CORE_UITOOL_PROFILES_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UITOOL_PROFILES_DESCRIPTION</description>
                     <help>org.ametys.core.rights.profiles</help>
+                    <icon-glyph>flaticon-identification63</icon-glyph>
                     <icon-small file="true">img/profiles/profile_16.gif</icon-small>
                     <icon-medium file="true">img/profiles/profile_32.gif</icon-medium>
                     <icon-large file="true">img/profiles/profile_50.gif</icon-large>
@@ -985,6 +1011,7 @@
                     <title i18n="true">PLUGINS_CORE_UITOOL_PROFILES_LABEL</title>
                     <description i18n="true">PLUGINS_CORE_UITOOL_PROFILES_DESCRIPTION</description>
                     <help>org.ametys.core.rights.profiles</help>
+                    <icon-glyph>flaticon-identification63</icon-glyph>
                     <icon-small file="true">img/profiles/profile_16.gif</icon-small>
                     <icon-medium file="true">img/profiles/profile_32.gif</icon-medium>
                     <icon-large file="true">img/profiles/profile_50.gif</icon-large>
@@ -1227,7 +1254,7 @@
                     
                     <label i18n="true">PLUGINS_CORE_SUPERUSER_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_SUPERUSER_DESCRIPTION</description>
-                    
+                    <icon-glyph>flaticon-tie6</icon-glyph>                    
                     <icon-small file="true">img/superuser/super_user_16.png</icon-small>
                     <icon-medium file="true">img/superuser/super_user_32.png</icon-medium>
                     <icon-large file="true">img/superuser/super_user_48.png</icon-large>

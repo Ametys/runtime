@@ -378,11 +378,21 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			var tabEl = zoneTabsToolsPanel.getTabBar().items.get(index);
 			
 			tabEl.setText((tool.getDirtyState() ? "* " : "") + tool.getTitle());
-			tabEl.setIcon(Ametys.CONTEXT_PATH + tool.getMediumIcon());
+			
+			if (tool.getGlyphIcon() != null)
+			{
+				tabEl.setIconCls(tool.getGlyphIcon() + (tool.getIconDecorator() != null ? ' ' + tool.getIconDecorator() : ''));
+			}
+			else
+			{
+				tabEl.setIcon(Ametys.CONTEXT_PATH + tool.getMediumIcon());
+			}
 			
 			tabEl.setTooltip({
 				title: tool.getTitle(),
-				image: tool.getLargeIcon() || tool.getMediumIcon() || tool.getSmallIcon() ? (Ametys.CONTEXT_PATH + (tool.getLargeIcon() || tool.getMediumIcon() || tool.getSmallIcon())) : null,
+				glyphIcon: tool.getGlyphIcon(),
+				iconDecorator: tool.getIconDecorator(),
+				image: !tool.getGlyphIcon() && (tool.getLargeIcon() || tool.getMediumIcon() || tool.getSmallIcon()) ? (Ametys.CONTEXT_PATH + (tool.getLargeIcon() || tool.getMediumIcon() || tool.getSmallIcon())) : null,
 				imageWidth: tool.getLargeIcon() ? 48 : (tool.getMediumIcon() ? 32 : 16),
 				imageHeight: tool.getLargeIcon() ? 48 : (tool.getMediumIcon() ? 32 : 16),
 				text: tool.getDescription(),

@@ -117,6 +117,8 @@
             </xsl:call-template>
             
             <css>/plugins/codemirror/resources/css/codemirror.css</css>
+            <css>/plugins/core-ui/resources/css/Ametys/ui/icons/flaticon.css</css>
+            <css>/plugins/core-ui/resources/css/Ametys/ui/icons/flaticon-decorator.css</css>
 		</xsl:variable>
 
 		<xsl:call-template name="kernel-load">

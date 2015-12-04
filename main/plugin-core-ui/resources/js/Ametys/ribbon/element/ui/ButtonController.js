@@ -117,7 +117,8 @@ Ext.define(
 					text: this.getInitialConfig("label"),
 					scale: size,
 					colspan: colspan,
-					icon: Ametys.CONTEXT_PATH + (size == 'large' ? this._iconMedium : this._iconSmall),
+					iconCls: this._iconGlyph + (this._iconDecorator ? ' ' + this._iconDecorator : ''),
+					icon: this._iconGlyph ? null : Ametys.CONTEXT_PATH + (size == 'large' ? this._iconMedium : this._iconSmall),
 					tooltip: this._getTooltip(),
 					
 					handler: hasActionFn && !this._toggleEnabled ? Ext.bind(menuItemHandler.onPress, menuItemHandler) : null,
@@ -147,7 +148,8 @@ Ext.define(
 			
 			var element = Ext.create(this._toggleEnabled ? "Ext.menu.CheckItem" : "Ext.menu.Item", Ext.apply({
 				text: this.getInitialConfig("label"),
-				icon: this._iconSmall ? Ametys.CONTEXT_PATH + this._iconSmall : null,
+				iconCls: this._iconGlyph + (this._iconDecorator ? ' ' + this._iconDecorator : ''),
+				icon: !this._iconGlyph && this._iconSmall ? Ametys.CONTEXT_PATH + this._iconSmall : null,
 				tooltip: this._getTooltip(false),
 				showCheckbox: false,
 				
@@ -177,7 +179,10 @@ Ext.define(
 			var element = Ext.create("Ametys.ui.fluent.ribbon.controls.Button", Ext.apply({
 		        text: this.getInitialConfig("label"),
 		        tooltip: this._getTooltip(false),
-		        icon: Ametys.CONTEXT_PATH + this._iconMedium,
+		        
+		        iconCls: this._iconGlyph + (this._iconDecorator ? ' ' + this._iconDecorator : ''),
+				icon: this._iconGlyph && this._iconMedium ? null : Ametys.CONTEXT_PATH + this._iconMedium,
+						
 		        scale: 'large',
 		        
 		        handler: this._toggleEnabled ? null : Ext.bind(this.onPress, this),
@@ -366,7 +371,7 @@ Ext.define(
 		{
 			var me = this;
 			this.getUIControls().each(function (element) {
-				if (element instanceof Ext.button.Button)
+				if (!me._iconGlyph && element instanceof Ext.button.Button)
 				{
 					if (element.scale == 'large')
 					{
@@ -376,6 +381,10 @@ Ext.define(
 					{
 						element.setIcon(Ametys.CONTEXT_PATH + me._iconSmall);
 					}
+				}
+				else if (me._iconGlyph)
+				{
+					element.setIconCls(me._iconGlyph + (me._iconDecorator ? ' ' + me._iconDecorator : ''))
 				}
 				
 				var isNotInRibbon = element.ownerCt instanceof Ametys.ui.fluent.ribbon.controls.gallery.MenuPanel 

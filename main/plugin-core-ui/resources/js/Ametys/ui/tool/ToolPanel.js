@@ -81,6 +81,10 @@ Ext.define("Ametys.ui.tool.ToolPanel", {
         /** @cfg {Boolean}  dirtyState=false The dirty state of the tool. Are they any running modifications? */
         dirtyState: false,
         
+        /** @cfg {String} glyphIcon The CSS class of glyph to use as the icon. This is an alternative to the set of icons: #cfg-smallIcon, #cfg-mediumIcon, #cfg-largeIcon.*/
+        glyphIcon: null,
+        /** @cfg {String} iconDecorator The CSS class to use as decorator above the main icon.*/
+        iconDecorator: null,
         /** @cfg {String} smallIcon The path to the small icon. Size depends on theme but is usually a 16x16 icon. */
         smallIcon: null,
         /** @cfg {String} mediumIcon The path to the small icon. Size depends on theme but is usually a 32x32 icon. */
@@ -180,6 +184,26 @@ Ext.define("Ametys.ui.tool.ToolPanel", {
     setDirtyState: function(dirtyState)
     {
         this.callParent(arguments);
+        this._infoChanging();
+    },
+    
+    /**
+     * Set the glyph icon of the panel and updates the tool layout
+     * @param {String} glyph The new wanted glyph
+     */   
+    setGlyphIcon: function (glyph)
+    {
+    	this.callParent(arguments);
+        this._infoChanging();
+    },
+    
+    /**
+     * Set the decorator icon of the panel and updates the tool layout
+     * @param {String} decorator The new wanted decorator
+     */   
+    setIconDecorator: function (decorator)
+    {
+    	this.callParent(arguments);
         this._infoChanging();
     },
     

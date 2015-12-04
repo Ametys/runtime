@@ -57,6 +57,20 @@ Ext.define(
 		 * @private
 		 */
 		/**
+		 * @cfg {String} icon-glyph The CSS class for glyph to use as the icon. This is an alternative to the set of icons.
+		 */
+		/**
+		 * @property {String} _iconGlyph See #cfg-icon-glyph
+		 * @private
+		 */
+		/**
+		 * @cfg {String} icon-decorator The CSS class to use as decorator above the main icon.
+		 */
+		/**
+		 * @property {String} _iconDecorator See #cfg-icon-decorator
+		 * @private
+		 */
+		/**
 		 * @cfg {String} icon-small The path to the icon of the button in size 16x16 pixels. Used for button in small size (and tooltip if no bigger image is available).
 		 */
 		/**
@@ -308,6 +322,8 @@ Ext.define(
 
 			this._description = this.getInitialConfig("description") || this.getInitialConfig("default-description") || '';
 			this._helpId = this.getInitialConfig("help") || undefined;
+			this._iconGlyph = this.getInitialConfig("icon-glyph");
+			this._iconDecorator = this.getInitialConfig("icon-decorator");
 			this._iconSmall = this.getInitialConfig("icon-small");
 			this._iconMedium = this.getInitialConfig("icon-medium");
 			this._iconLarge = this.getInitialConfig("icon-large");
@@ -560,7 +576,9 @@ Ext.define(
 			var icon = this._iconLarge || this._iconMedium || this._iconSmall;
 			return {
 				title: this.getInitialConfig("label"),
-				image: icon ? Ametys.CONTEXT_PATH + icon : null,
+				glyphIcon: this._iconGlyph,
+				iconDecorator: this._iconDecorator,
+				image: !this._iconGlyph && icon ? Ametys.CONTEXT_PATH + icon : null,
 				imageWidth: this._iconLarge ? 48 : (this._iconMedium ? 32 : 16),
 				imageHeight: this._iconLarge ? 48 : (this._iconMedium ? 32 : 16),
 				text: this._description + (this._additionalDescription ? ('<br/><br/>' + this._additionalDescription) : ''),
@@ -617,6 +635,26 @@ Ext.define(
 			this._iconMedium = medium;
 			this._iconLarge = large;
 			
+			this._updateUI();
+		},
+		
+		/**
+		 * Set the glyph class for main icon
+		 * @param {String} glyph The CSS class of glyph
+		 */
+		setGlyphIcon: function(glyphIcon)
+		{
+			this._iconGlyph = glyphIcon;
+			this._updateUI();
+		},
+		
+		/**
+		 * Set the glyph class for decorator
+		 * @param {String} decorator The CSS class of decorator
+		 */
+		setIconDecorator: function(decorator)
+		{
+			this._iconDecorator = decorator;
 			this._updateUI();
 		},
 		

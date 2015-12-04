@@ -70,7 +70,7 @@ Ext.define("Ametys.tool.Tool",
              * @property {Number} TYPES.value.priority A value to order tools in the same zone. Low value on the left. Use a value between 1 and 99.
              */
             TYPES: {
-                "default": { ui: Ametys.ui.tool.ToolPanel.TOOLTYPE_0, priority: 0 },
+                "default": { ui: Ametys.ui.tool.ToolPanel.TOOLTYPE_40, priority: 0 },
                 "developer": { ui: Ametys.ui.tool.ToolPanel.TOOLTYPE_20, priority: 99 }
             },
 			
@@ -160,6 +160,20 @@ Ext.define("Ametys.tool.Tool",
 		 */
 		
 		/**
+		 * @cfg {String} icon-glyph The CSS class for glyph to use as the icon. This is an alternative to the set of icons: #cfg-icon-small, #cfg-icon-medium, #cfg-icon-large
+		 */
+		/**
+		 * @property {String} _iconGlyph See #cfg-icon-glyph
+		 * @private
+		 */
+		/**
+		 * @cfg {String} icon-decorator The CSS class to use as decorator above the main icon.
+		 */
+		/**
+		 * @property {String} _iconDecorator See #cfg-icon-decorator
+		 * @private
+		 */
+		/**
 		 * @cfg {String} icon-small (require) The path to the icon of the tool in size 16x16 pixels. Used for panel (and tooltip if no bigger image is available).
 		 */
 		/**
@@ -248,6 +262,9 @@ Ext.define("Ametys.tool.Tool",
 			this._title = config.title;
 			this._description = config['description'] || config['default-description'];
 			this._toolHelpId = config['help'] || undefined;
+			
+			this._iconGlyph = config["icon-glyph"];
+			this._iconDecorator = config["icon-decorator"];
 			
 			this._iconSmall = config["icon-small"];
 			this._iconMedium = config["icon-medium"];
@@ -395,6 +412,48 @@ Ext.define("Ametys.tool.Tool",
             }
         },        
 
+        /**
+		 * Get the icon #cfg-icon-glyph.
+		 * @returns {String} The CSS class for glyph icon
+		 */
+        getGlyphIcon: function()
+		{
+			return this._iconGlyph;
+		},
+        /**
+         * Set the #cfg-iconGlyph 
+         * @param {String} iconGlyph The new glyph icon
+         */
+		setGlyphIcon: function(iconGlyph)
+        {
+            this._iconGlyph = iconGlyph;
+            if (this.getWrapper()) 
+            {
+            	this.getWrapper().setGlyphIcon(this.getGlyphIcon());
+            }
+        },
+        
+        /**
+		 * Get the icon #cfg-icon-decorator.
+		 * @returns {String} The CSS class for decorator icon
+		 */
+        getIconDecorator: function()
+		{
+			return this._iconDecorator;
+		},
+        /**
+         * Set the #cfg-iconGlyph 
+         * @param {String} decorator The new decorator
+         */
+		setIconDecorator: function(decorator)
+        {
+            this._iconDecorator = decorator;
+            if (this.getWrapper()) 
+            {
+            	this.getWrapper().setIconDecorator(this.getIconDecorator());
+            }
+        },
+        
 		/**
 		 * Get the icon #cfg-icon-small.
 		 * @returns {String} The icon path (relative to the workspace)
@@ -566,6 +625,8 @@ Ext.define("Ametys.tool.Tool",
                 
                 title: this.getTitle(),
                 description: this.getDescription(),
+                glyphIcon: this.getGlyphIcon(),
+                iconDecorator: this.getIconDecorator(),
                 smallIcon: this.getSmallIcon(),
                 mediumIcon: this.getMediumIcon(),
                 largeIcon: this.getLargeIcon(),

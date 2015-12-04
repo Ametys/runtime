@@ -588,6 +588,8 @@
 					<opentool-role>uitool-help</opentool-role>
 					<label i18n="true">PLUGINS_CORE_UI_TOOLS_HELP_LABEL</label>
 					<description i18n="true">PLUGINS_CORE_UI_TOOLS_HELP_DESCRIPTION</description>
+                    
+                    <icon-glyph>flaticon-question13</icon-glyph>
 					<icon-small file="true">img/uitool-help/help_16.png</icon-small>
 					<icon-medium file="true">img/uitool-help/help_32.png</icon-medium>
 					<icon-large file="true">img/uitool-help/help_48.png</icon-large>
@@ -603,6 +605,8 @@
 					
 					<title i18n="true">PLUGINS_CORE_UI_TOOLS_HELP_LABEL</title>
 					<description i18n="true">PLUGINS_CORE_UI_TOOLS_HELP_DESCRIPTION</description>
+                    
+                    <icon-glyph>flaticon-question13</icon-glyph>
 					<icon-small file="true">img/uitool-help/help_16.png</icon-small>
 					<icon-medium file="true">img/uitool-help/help_32.png</icon-medium>
 					<icon-large file="true">img/uitool-help/help_48.png</icon-large>
@@ -655,6 +659,7 @@
                     <default-description i18n="true">PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_DESCRIPTION</default-description>
                     <help>org.ametys.runtime.requesttracker</help>
                     
+                    <icon-glyph>flaticon-server19</icon-glyph>
                     <icon-small file="true">img/uitool-requeststracker/requests_16.png</icon-small>
                     <icon-medium file="true">img/uitool-requeststracker/requests_32.png</icon-medium>
                     <icon-large file="true">img/uitool-requeststracker/requests_48.png</icon-large>
@@ -696,6 +701,7 @@
                     <title i18n="true">PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_LABEL</title>
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_DESCRIPTION</description>
                     <help>org.ametys.runtime.requesttracker</help>
+                    <icon-glyph>flaticon-server19</icon-glyph>
                     <icon-small file="true">img/uitool-requeststracker/requests_16.png</icon-small>
                     <icon-medium file="true">img/uitool-requeststracker/requests_32.png</icon-medium>
                     <icon-large file="true">img/uitool-requeststracker/requests_48.png</icon-large>
@@ -745,6 +751,7 @@
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_DESCRIPTION</description>
                     <help>org.ametys.runtime.messagetracker</help>
                     
+                    <icon-glyph>flaticon-server</icon-glyph>
                     <icon-small file="true">img/uitool-messagestracker/messages_16.png</icon-small>
                     <icon-medium file="true">img/uitool-messagestracker/messages_32.png</icon-medium>
                     <icon-large file="true">img/uitool-messagestracker/messages_48.png</icon-large>
@@ -763,6 +770,7 @@
 
                     <label i18n="true">PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_CLEAR_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_CLEAR_DESCRIPTION</description>
+                    <icon-glyph>flaticon-server</icon-glyph>
                     <icon-small file="true">img/uitool-messagestracker/delete_16.gif</icon-small>
                     <icon-medium file="true">img/uitool-messagestracker/delete_16.gif</icon-medium>
                     <icon-large file="true">img/uitool-messagestracker/delete_16.gif</icon-large>
@@ -834,6 +842,7 @@
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_DESCRIPTION</description>
                     <help>org.ametys.runtime.consolelog</help>      
                     
+                    <icon-glyph>flaticon-log</icon-glyph>
                     <icon-small file="true">img/uitool-consolelog/logs_16.png</icon-small>
                     <icon-medium file="true">img/uitool-consolelog/logs_32.png</icon-medium>
                     <icon-large file="true">img/uitool-consolelog/logs_48.png</icon-large>
@@ -1014,6 +1023,7 @@
 					<action>Ametys.plugins.coreui.system.editor.SourceCodeAction.edit</action>
 					<label i18n="true">PLUGINS_CORE_UI_EDITION_SOURCEEDIT_LABEL</label>
 					<description i18n="true">PLUGINS_CORE_UI_EDITION_SOURCEEDIT_DESCRIPTION</description>
+                    <icon-glyph>flaticon-computing10</icon-glyph>
 					<icon-small file="true">img/editor/source_16.png</icon-small>
 					<icon-medium file="true">img/editor/source_32.png</icon-medium>
 					<icon-large file="true">img/editor/source_32.png</icon-large>
@@ -1050,6 +1060,7 @@
 					<description i18n="true">PLUGINS_CORE_UI_TOOLS_DEBUG_UI_DESCRIPTION</description>
 					<help>org.ametys.runtime.debug.ui</help>
                     
+                    <icon-glyph>flaticon-bugs3</icon-glyph>
 					<icon-small file="true">img/debug/ui-debug-16.png</icon-small>
 					<icon-medium file="true">img/debug/ui-debug-32.png</icon-medium>
 					<icon-large file="true">img/debug/ui-debug-48.png</icon-large>
@@ -1074,6 +1085,8 @@
                     <opentool-role>uitool-notification</opentool-role>
                     <label i18n="true">PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DESCRIPTION</description>
+                    
+                    <icon-glyph>flaticon-alert9</icon-glyph>
                     <icon-small file="true">img/uitool-notification/notification_16.png</icon-small>
                     <icon-medium file="true">img/uitool-notification/notification_32.png</icon-medium>
                     <icon-large file="true">img/uitool-notification/notification_48.png</icon-large>
@@ -1089,6 +1102,7 @@
                     
                     <title i18n="true">PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_LABEL</title>
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DESCRIPTION</description>
+                    <icon-glyph>flaticon-alert9</icon-glyph>
                     <icon-small file="true">img/uitool-notification/notification_16.png</icon-small>
                     <icon-medium file="true">img/uitool-notification/notification_32.png</icon-medium>
                     <icon-large file="true">img/uitool-notification/notification_48.png</icon-large>

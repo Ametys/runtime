@@ -33,7 +33,15 @@ Ext.define(
     {
         extend: "Ext.tip.QuickTip",
         alias: 'widget.ametys.quicktip',
-
+        
+        /**
+         * @cfg {String} [glyphIcon] The CSS class for glyph to use as the icon. This is an alternative to the set of icons.
+         */
+        
+        /**
+         * @cfg {String} [iconDecorator] The CSS class to use as decorator above the main icon.
+         */
+        
         statics: {
             
             /**
@@ -69,7 +77,9 @@ Ext.define(
              * @private
              */
             tipTemplate: Ext.create('Ext.XTemplate',
-                '<tpl if="image">',
+            	'<tpl if="glyphIcon">',
+            	'<div class="{tipCls}-wrapper {tipCls}-withglyph">',
+                '<tpl elseif="image">',
                 '<div class="{tipCls}-wrapper {tipCls}-withimage">',
                 '<tpl else>',
                 '<div class="{tipCls}-wrapper">',
@@ -77,6 +87,9 @@ Ext.define(
                     '<div class="{tipCls}-text">',
                         '<tpl if="image">',
                             '<span class="{tipCls}-img" style="height: {imageHeight + 2}px; width: {imageWidth + 2}px; background-image: url(\'{image}\'); display: inline-block;"></span>',
+                        '</tpl>',
+                        '<tpl if="glyphIcon">',
+                        	'<span class="{tipCls}-glyph {glyphIcon} size-{imageHeight} {iconDecorator} " style="font-size: {imageHeight}px; line-height: {imageHeight}px; height: {imageHeight + 2}px; width: {imageWidth + 2}px; display: inline-block;"></span>',
                         '</tpl>',
                         '{text}',
                     '</div>',
@@ -128,7 +141,7 @@ Ext.define(
                         dismissDelay: config.dismissDelay ? config.dismissDelay : 20000,
                         helpId: config.helpId, // can be undefined
                         
-                        width: config.width ? config.width : (config.image ? this.imagedTooltipWidth : this.tooltipWidth),
+                        width: config.width ? config.width : (config.image || config.glyphIcon ? this.imagedTooltipWidth : this.tooltipWidth),
                                 
                         ribbon: config.inribbon == false ? false : true
                     };

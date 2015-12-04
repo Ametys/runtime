@@ -71,6 +71,7 @@
                     <announcement-on-description i18n="true">PLUGINS_ADMIN_SYSTEM_DESCRIPTION_ON</announcement-on-description>
                     <announcement-off-description i18n="true">PLUGINS_ADMIN_SYSTEM_DESCRIPTION_OFF</announcement-off-description>
                     
+                    <icon-glyph>flaticon-megaphone19</icon-glyph>
                     <icon-small file="true">img/system/announcement_16.png</icon-small>
                     <icon-medium file="true">img/system/announcement_32.png</icon-medium>
                     <icon-large file="true">img/system/announcement_48.png</icon-large>
@@ -99,6 +100,7 @@
                     <title i18n="true">PLUGINS_ADMIN_SYSTEM_LABEL</title>
                     <description i18n="true">PLUGINS_ADMIN_SYSTEM_DESCRIPTION</description>
                     
+                    <icon-glyph>flaticon-megaphone19</icon-glyph>
                     <icon-small file="true">img/system/announcement_16.png</icon-small>
                     <icon-medium file="true">img/system/announcement_32.png</icon-medium>
                     <icon-large file="true">img/system/announcement_48.png</icon-large>
@@ -119,6 +121,8 @@
                     <label i18n="true">PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_ADD_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_ADD_DESC</description>
 
+                    <icon-glyph>flaticon-megaphone19</icon-glyph>
+                    <icon-decorator>flaticon-add202</icon-decorator>
                     <icon-small file="true">img/system/add_announcement_16.png</icon-small>
                     <icon-medium file="true">img/system/add_announcement_32.png</icon-medium>
                     <icon-large file="true">img/system/add_announcement_48.png</icon-large>
@@ -139,6 +143,8 @@
                     <label i18n="true">PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_EDIT_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_EDIT_DESC</description>
 
+                    <icon-glyph>flaticon-megaphone19</icon-glyph>
+                    <icon-decorator>flaticon-edit45</icon-decorator>
                     <icon-small file="true">img/system/edit_announcement_16.png</icon-small>
                     <icon-medium file="true">img/system/edit_announcement_32.png</icon-medium>
                     <icon-large file="true">img/system/edit_announcement_48.png</icon-large>
@@ -163,6 +169,8 @@
                     <label i18n="true">PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DELETE_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DELETE_DESC</description>
 
+                    <icon-glyph>flaticon-megaphone19</icon-glyph>
+                    <icon-decorator>flaticon-delete30</icon-decorator>
                     <icon-small file="true">img/system/delete_announcement_16.png</icon-small>
                     <icon-medium file="true">img/system/delete_announcement_32.png</icon-medium>
                     <icon-large file="true">img/system/delete_announcement_48.png</icon-large>
@@ -242,6 +250,7 @@
                     <label i18n="true">PLUGINS_ADMIN_TOOL_PLUGINSBYFILE_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_PLUGINSBYFILE_DESC</description>
                     
+                    <icon-glyph>flaticon-puzzle-piece1</icon-glyph>
                     <icon-small file="true">img/plugins/plugins_16.png</icon-small>
                     <icon-medium file="true">img/plugins/plugins_32.png</icon-medium>
                     <icon-large file="true">img/plugins/plugins_48.png</icon-large>
@@ -263,6 +272,7 @@
                     <title i18n="true">PLUGINS_ADMIN_TOOL_PLUGINSBYFILE_LABEL</title>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_PLUGINSBYFILE_DESC</description>
                     
+                    <icon-glyph>flaticon-puzzle-piece1</icon-glyph>
                     <icon-small file="true">img/plugins/plugins_16.png</icon-small>
                     <icon-medium file="true">img/plugins/plugins_32.png</icon-medium>
                     <icon-large file="true">img/plugins/plugins_48.png</icon-large>
@@ -287,6 +297,7 @@
                     <label i18n="true">PLUGINS_ADMIN_TOOL_PLUGINSBYEXTENSIONPOINT_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_PLUGINSBYEXTENSIONPOINT_DESC</description>
                     
+                    <icon-glyph>flaticon-puzzle-piece1</icon-glyph>
                     <icon-small file="true">img/plugins/plugins_ep_16.png</icon-small>
                     <icon-medium file="true">img/plugins/plugins_ep_32.png</icon-medium>
                     <icon-large file="true">img/plugins/plugins_ep_48.png</icon-large>
@@ -309,6 +320,7 @@
                     <title i18n="true">PLUGINS_ADMIN_TOOL_PLUGINSBYEXTENSIONPOINT_LABEL</title>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_PLUGINSBYEXTENSIONPOINT_DESC</description>
                     
+                    <icon-glyph>flaticon-puzzle-piece1</icon-glyph>
                     <icon-small file="true">img/plugins/plugins_ep_16.png</icon-small>
                     <icon-medium file="true">img/plugins/plugins_ep_32.png</icon-medium>
                     <icon-large file="true">img/plugins/plugins_ep_48.png</icon-large>
@@ -333,6 +345,7 @@
                     <label i18n="true">PLUGINS_ADMIN_TOOL_WORKSPACES_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_WORKSPACES_DESC</description>
                     
+                    <icon-glyph>flaticon-puzzle-piece1</icon-glyph>
                     <icon-small file="true">img/plugins/workspaces_16.png</icon-small>
                     <icon-medium file="true">img/plugins/workspaces_32.png</icon-medium>
                     <icon-large file="true">img/plugins/workspaces_48.png</icon-large>
@@ -356,6 +369,7 @@
                     <title i18n="true">PLUGINS_ADMIN_TOOL_WORKSPACES_LABEL</title>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_WORKSPACES_DESC</description>
                     
+                    <icon-glyph>flaticon-abecedary4</icon-glyph>
                     <icon-small file="true">img/plugins/workspaces_16.png</icon-small>
                     <icon-medium file="true">img/plugins/workspaces_32.png</icon-medium>
                     <icon-large file="true">img/plugins/workspaces_48.png</icon-large>
@@ -377,6 +391,7 @@
                     <label i18n="true">PLUGINS_ADMIN_PLUGINS_DOCUMENTATION_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_PLUGINS_DOCUMENTATION_DESC</description>
 
+                    <icon-glyph>flaticon-question13</icon-glyph>
                     <icon-small file="true">img/plugins/documentation_16.png</icon-small>
                     <icon-medium file="true">img/plugins/documentation_32.png</icon-medium>
                     <icon-large file="true">img/plugins/documentation_48.png</icon-large>
@@ -473,6 +488,7 @@
                     <label i18n="true">PLUGINS_ADMIN_PLUGINS_SAVE_CHANGES_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_PLUGINS_SAVE_CHANGES_DESC</description>
 
+                    <icon-glyph>flaticon-save29</icon-glyph>
                     <icon-small file="true">img/plugins/save_16.png</icon-small>
                     <icon-medium file="true">img/plugins/save_32.png</icon-medium>
                     <icon-large file="true">img/plugins/save_48.png</icon-large>
@@ -542,6 +558,7 @@
                     <label i18n="true">PLUGINS_ADMIN_TOOL_LOGS_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_LOGS_DESC</description>
                     
+                    <icon-glyph>flaticon-log1</icon-glyph>
                     <icon-small file="true">img/logs/logs_16.png</icon-small>
                     <icon-medium file="true">img/logs/logs_32.png</icon-medium>
                     <icon-large file="true">img/logs/logs_48.png</icon-large>
@@ -562,6 +579,7 @@
                     <title i18n="true">PLUGINS_ADMIN_TOOL_LOGS_LABEL</title>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_LOGS_DESC</description>
                     
+                    <icon-glyph>flaticon-log1</icon-glyph>
                     <icon-small file="true">img/logs/logs_16.png</icon-small>
                     <icon-medium file="true">img/logs/logs_32.png</icon-medium>
                     <icon-large file="true">img/logs/logs_48.png</icon-large>
@@ -585,6 +603,7 @@
                     <label i18n="true">PLUGINS_ADMIN_TOOL_LOGS_LEVEL_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_LOGS_LEVEL_DESC</description>
                     
+                    <icon-glyph>flaticon-log1</icon-glyph>
                     <icon-small file="true">img/logs/loglevel_16.png</icon-small>
                     <icon-medium file="true">img/logs/loglevel_32.png</icon-medium>
                     <icon-large file="true">img/logs/loglevel_48.png</icon-large>
@@ -605,6 +624,7 @@
                     <title i18n="true">PLUGINS_ADMIN_TOOL_LOGS_LEVEL_LABEL</title>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_LOGS_LEVEL_DESC</description>
                     
+                    <icon-glyph>flaticon-log1</icon-glyph>
                     <icon-small file="true">img/logs/loglevel_16.png</icon-small>
                     <icon-medium file="true">img/logs/loglevel_32.png</icon-medium>
                     <icon-large file="true">img/logs/loglevel_48.png</icon-large>
@@ -646,6 +666,7 @@
                     <label i18n="true">PLUGINS_ADMIN_LOGS_DOWNLOAD_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_LOGS_DOWNLOAD_DESC</description>
 
+                    <icon-glyph>flaticon-zip14</icon-glyph>
                     <icon-small file="true">img/logs/download_16.png</icon-small>
                     <icon-medium file="true">img/logs/download_32.png</icon-medium>
                     <icon-large file="true">img/logs/download_48.png</icon-large>
@@ -683,6 +704,7 @@
                     <label i18n="true">PLUGINS_ADMIN_LOGS_PURGE_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_LOGS_PURGE_DESC</description>
 
+                    <icon-glyph>laticon-rubbish7</icon-glyph>
                     <icon-small file="true">img/logs/clean_16.png</icon-small>
                     <icon-medium file="true">img/logs/clean_32.png</icon-medium>
                     <icon-large file="true">img/logs/clean_48.png</icon-large>
@@ -855,6 +877,7 @@
                     <label i18n="true">PLUGINS_ADMIN_TOOL_JVMSTATUS_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_JVMSTATUS_DESC</description>
                     
+                    <icon-glyph>flaticon-computer247</icon-glyph>
                     <icon-small file="true">img/jvmstatus/jvmstatus_16.png</icon-small>
                     <icon-medium file="true">img/jvmstatus/jvmstatus_32.png</icon-medium>
                     <icon-large file="true">img/jvmstatus/jvmstatus_48.png</icon-large>
@@ -874,6 +897,7 @@
                     <title i18n="true">PLUGINS_ADMIN_TOOL_JVMSTATUS_LABEL</title>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_JVMSTATUS_DESC</description>
                     
+                    <icon-glyph>flaticon-computer247</icon-glyph>
                     <icon-small file="true">img/jvmstatus/jvmstatus_16.png</icon-small>
                     <icon-medium file="true">img/jvmstatus/jvmstatus_32.png</icon-medium>
                     <icon-large file="true">img/jvmstatus/jvmstatus_48.png</icon-large>
@@ -897,6 +921,7 @@
                     <label i18n="true">PLUGINS_ADMIN_TOOL_SYSTEMPROPERTIES_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_SYSTEMPROPERTIES_DESC</description>
                     
+                    <icon-glyph>flaticon-cpu6</icon-glyph>
                     <icon-small file="true">img/jvmstatus/properties_16.png</icon-small>
                     <icon-medium file="true">img/jvmstatus/properties_32.png</icon-medium>
                     <icon-large file="true">img/jvmstatus/properties_48.png</icon-large>
@@ -916,6 +941,7 @@
                     <title i18n="true">PLUGINS_ADMIN_TOOL_SYSTEMPROPERTIES_FACTORY_LABEL</title>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_SYSTEMPROPERTIES_DESC</description>
                     
+                    <icon-glyph>flaticon-cpu6</icon-glyph>
                     <icon-small file="true">img/jvmstatus/properties_16.png</icon-small>
                     <icon-medium file="true">img/jvmstatus/properties_32.png</icon-medium>
                     <icon-large file="true">img/jvmstatus/properties_48.png</icon-large>
@@ -939,6 +965,7 @@
                     <label i18n="true">PLUGINS_ADMIN_TOOL_MONITORING_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_MONITORING_DESC</description>
                     
+                    <icon-glyph>flaticon-medical-equipment</icon-glyph>
                     <icon-small file="true">img/jvmstatus/monitoring_16.png</icon-small>
                     <icon-medium file="true">img/jvmstatus/monitoring_32.png</icon-medium>
                     <icon-large file="true">img/jvmstatus/monitoring_48.png</icon-large>
@@ -958,6 +985,7 @@
                     <title i18n="true">PLUGINS_ADMIN_TOOL_MONITORING_LABEL</title>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_MONITORING_DESC</description>
                     
+                    <icon-glyph>flaticon-medical-equipment</icon-glyph>
                     <icon-small file="true">img/jvmstatus/monitoring_16.png</icon-small>
                     <icon-medium file="true">img/jvmstatus/monitoring_32.png</icon-medium>
                     <icon-large file="true">img/jvmstatus/monitoring_48.png</icon-large>
@@ -995,6 +1023,7 @@
                     <label i18n="true">PLUGINS_ADMIN_CONFIG_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_CONFIG_DESCRIPTION</description>
                     
+                    <icon-glyph>flaticon-hammer2</icon-glyph>
                     <icon-small file="true">img/config/config_16.png</icon-small>
                     <icon-medium file="true">img/config/config_32.png</icon-medium>
                     <icon-large file="true">img/config/config_48.png</icon-large>
@@ -1011,6 +1040,7 @@
                     <title i18n="true">PLUGINS_ADMIN_CONFIG_LABEL</title>
                     <description i18n="true">PLUGINS_ADMIN_CONFIG_DESCRIPTION</description>
                     
+                    <icon-glyph>flaticon-hammer2</icon-glyph>
                     <icon-small file="true">img/config/config_16.png</icon-small>
                     <icon-medium file="true">img/config/config_32.png</icon-medium>
                     <icon-large file="true">img/config/config_48.png</icon-large>
@@ -1033,6 +1063,7 @@
                     <label i18n="true">PLUGINS_ADMIN_CONFIG_HANDLE_SAVE</label>
                     <description i18n="true">PLUGINS_ADMIN_CONFIG_HANDLE_SAVE_DESC</description>
                     
+                    <icon-glyph>flaticon-save29</icon-glyph>
                     <icon-small file="true">img/config/save_16.png</icon-small>
                     <icon-medium file="true">img/config/save_32.png</icon-medium>
                     <icon-large file="true">img/config/save_48.png</icon-large>
