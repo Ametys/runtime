@@ -51,7 +51,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 		
 		deferredRender: false,
 		
-		split: true,
+		split: { ui: 'tool-layout' },
         
 		/**
 		 * @property {Ext.menu.Menu} _contextMenu The menu to show on right click on the tabs
@@ -98,6 +98,19 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
             
 			config.stateful = true;
 			config.stateId = this.self.getName() + "$" + this._location;
+            
+            
+            config.tabBarHeaderPosition = 0;
+            config.tabBar = config.tabBar || {};
+            config.tabBar.flex = 1;
+            config.header = { 
+                titlePosition: 1
+            };
+            config.title = {
+                text: '',
+                hidden: true,
+                flex: 0
+            };
             
 			this.callParent(arguments);
 

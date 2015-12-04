@@ -378,7 +378,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			var tabEl = zoneTabsToolsPanel.getTabBar().items.get(index);
 			
 			tabEl.setText((tool.getDirtyState() ? "* " : "") + tool.getTitle());
-			tabEl.setIcon(Ametys.CONTEXT_PATH + tool.getSmallIcon());
+			tabEl.setIcon(Ametys.CONTEXT_PATH + tool.getMediumIcon());
 			
 			tabEl.setTooltip({
 				title: tool.getTitle(),

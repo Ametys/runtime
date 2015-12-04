@@ -20,8 +20,9 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.Container",
         xtype: "zoned-container",
         
         flex: 1,
+        ui: 'tool-container',
         
-        split: true,
+        split: { ui: 'tool-layout' },
         layout: {
             type: 'hbox',
             align: 'stretch'
