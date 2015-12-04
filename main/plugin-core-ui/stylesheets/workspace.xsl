@@ -602,7 +602,7 @@
     
     
     
-    <xsl:template name="theme-scripts">
+    <!--xsl:template name="theme-scripts">
         <script absolute="true">/~cmd/extensions/sencha-fashion/fashion/fashion.js</script>
         <script absolute="true">/~cmd/extensions/sencha-fashion/sass-compiler.js</script>
         
@@ -613,5 +613,5 @@
         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/tool/layout/ZonedTabsToolsLayout/ZoneTabsToolsPanel.js</script>
         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/grid/plugin/Multisort.js</script>
     </xsl:template>
-    <xsl:template name="theme-styles"/>     
+    <xsl:template name="theme-styles"/-->     
 </xsl:stylesheet>
