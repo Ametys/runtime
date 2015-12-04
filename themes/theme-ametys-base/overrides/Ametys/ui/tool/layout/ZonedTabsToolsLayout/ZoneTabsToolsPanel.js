@@ -21,11 +21,14 @@ Ext.define('Ametys.theme.ametysbase.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabs
     
     tabBar: {
         defaults:{
-            // Will try to fill all available space.
-            // flex:1,
-            minWidth: 36,
-            maxWidth: 250,
-            textAlign: 'left'
+            flex: 1,
+            minWidth: 56,
+            textAlign: 'left',
+            
+            listeners: {
+                'afterrender': function(button) { this.setMaxWidth(70 + Ext.create("Ext.util.TextMetrics", button.btnInnerEl).getWidth(button.text)); },
+                'textchange': function(button) { this.setMaxWidth(70 + Ext.create("Ext.util.TextMetrics", button.btnInnerEl).getWidth(button.text)); }
+            }
         }
     }
 });
