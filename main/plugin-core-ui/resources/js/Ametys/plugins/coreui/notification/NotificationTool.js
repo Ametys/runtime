@@ -262,7 +262,7 @@ Ext.define('Ametys.plugins.coreui.notification.NotificationTool', {
 			type: record.get('type') || 'info',
 			date: record.get('creationDate'),
 			username: Ametys.getAppParameter('user').fullname,
-			profileImg: Ametys.CONTEXT_PATH + '/plugins/core-ui/current-user/image_32',
+			profileImg: Ametys.CONTEXT_PATH + '/plugins/core-ui/current-user/image_46',
 			icon: Ametys.CONTEXT_PATH + record.get('icon'),
 			text: '<strong>' + Ametys.getAppParameter('user').fullname + '</strong><br/>' + record.get('description'),
 			topText: '',
