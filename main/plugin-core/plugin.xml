@@ -790,6 +790,8 @@
                     <selection-description-multiselectionforbidden i18n="true">PLUGINS_CORE_USERS_IMPERSONATE_MULTI_FORBIDDEN</selection-description-multiselectionforbidden>
 
                     <help>org.ametys.core.users.rights</help>
+                    
+                    <icon-glyph>flaticon-carnival23</icon-glyph>
                     <icon-small file="true">img/users/impersonate_16.png</icon-small>
                     <icon-medium file="true">img/users/impersonate_32.png</icon-medium>
                     <icon-large file="true">img/users/impersonate_48.png</icon-large>
@@ -985,6 +987,9 @@
 
                     <label i18n="true">PLUGINS_CORE_GROUPS_ADDUSERS_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_GROUPS_ADDUSERS_DESCRIPTION</description>
+                    
+                    <icon-glyph>flaticon-black302</icon-glyph>
+                    <icon-decorator>flaticon-decorator-add64</icon-decorator>
                     <icon-small file="true">img/users/add_16.png</icon-small>
                     <icon-medium file="true">img/users/add_32.png</icon-medium>
                     <icon-large file="true">img/users/add_48.png</icon-large>
@@ -1006,6 +1011,9 @@
                     
                     <label i18n="true">PLUGINS_CORE_GROUPS_REMOVEUSERS_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_GROUPS_REMOVEUSERS_DESCRIPTION</description>
+                    
+                    <icon-glyph>flaticon-black302</icon-glyph>
+                    <icon-decorator>flaticon-decorator-remove11</icon-decorator>
                     <icon-small file="true">img/users/delete_16.png</icon-small>
                     <icon-medium file="true">img/users/delete_32.png</icon-medium>
                     <icon-large file="true">img/users/delete_48.png</icon-large>

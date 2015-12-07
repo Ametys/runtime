@@ -680,6 +680,7 @@
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_CLEAR_DESCRIPTION</description>
                     <help>org.ametys.runtime.requesttracker</help>
                     
+                    <icon-glyph>flaticon-garbage11</icon-glyph>
                     <icon-small file="true">img/uitool-requeststracker/delete_16.gif</icon-small>
                     <icon-medium file="true">img/uitool-requeststracker/delete_16.gif</icon-medium>
                     <icon-large file="true">img/uitool-requeststracker/delete_16.gif</icon-large>
@@ -770,7 +771,7 @@
 
                     <label i18n="true">PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_CLEAR_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_CLEAR_DESCRIPTION</description>
-                    <icon-glyph>flaticon-server</icon-glyph>
+                    <icon-glyph>flaticon-garbage11</icon-glyph>
                     <icon-small file="true">img/uitool-messagestracker/delete_16.gif</icon-small>
                     <icon-medium file="true">img/uitool-messagestracker/delete_16.gif</icon-medium>
                     <icon-large file="true">img/uitool-messagestracker/delete_16.gif</icon-large>
@@ -842,7 +843,7 @@
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_DESCRIPTION</description>
                     <help>org.ametys.runtime.consolelog</help>      
                     
-                    <icon-glyph>flaticon-log</icon-glyph>
+                    <icon-glyph>flaticon-log1</icon-glyph>
                     <icon-small file="true">img/uitool-consolelog/logs_16.png</icon-small>
                     <icon-medium file="true">img/uitool-consolelog/logs_32.png</icon-medium>
                     <icon-large file="true">img/uitool-consolelog/logs_48.png</icon-large>
@@ -861,6 +862,8 @@
 
                     <label i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_CLEAR_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_CLEAR_DESCRIPTION</description>
+                    
+                    <icon-glyph>flaticon-garbage11</icon-glyph>
                     <icon-small file="true">img/uitool-consolelog/remove_16.png</icon-small>
                     <icon-medium file="true">img/uitool-consolelog/remove_32.png</icon-medium>
                     <icon-large file="true">img/uitool-consolelog/remove_48.png</icon-large>
