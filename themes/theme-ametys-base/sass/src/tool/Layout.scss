@@ -15,23 +15,29 @@
  */
 
 .#{$prefix}container-tool-layout {
-    background-color: $ametys-tool-base-color;
+    background-color: $ametys-tool-background-color;
     padding: $ametys-tool-layout-padding;
+    
+    .#{$prefix}container-tool-container {
+        background-color: $ametys-tool-conrtainer-background-color;
+    }
 }
 
 @include extjs-tab-panel-ui(
     $ui: 'tool-layoutzone',
     
-    $ui-tab-border-width: $ametys-tool-border-top-width $ametys-tool-border-width 0 $ametys-tool-border-width,
+    $ui-tab-border-width: $ametys-tool-tab-border-width,
     $ui-tab-border-radius: 0,
     
     $ui-tab-font-size: $ametys-tool-tab-font-size,
     $ui-tab-line-height: $ametys-tool-tab-line-height,
     $ui-tab-font-weight: $ametys-tool-tab-normal-font-weight,
     
-    $ui-strip-border-width: $ametys-tool-border-width $ametys-tool-border-width 0 $ametys-tool-border-width,
-    $ui-strip-height: top($ametys-tool-inner-border-width) + $ametys-tool-border-width,
-    $ui-bar-background-color: $ametys-tool-background-color,
+    $ui-tab-icon-width: $ametys-tool-tab-icon-width,
+    $ui-tab-icon-height: $ametys-tool-tab-icon-height,
+    
+    $ui-strip-border-width: top($ametys-tool-border-width) right($ametys-tool-border-width) 0 left($ametys-tool-border-width),
+    $ui-strip-height: top($ametys-tool-border-width),
 
     $ui-tab-padding: $ametys-tool-tab-padding,
 
@@ -110,6 +116,8 @@
 @include extjs-panel-ui(
     $ui: 'tool-layoutzone',
     
+    $ui-header-padding: top($panel-header-padding) 0 bottom($panel-header-padding) 0,
+    
     $ui-border-radius: 0,
     $ui-border-width: 0 right($ametys-tool-border-width) bottom($ametys-tool-border-width) left($ametys-tool-border-width)        
 );
@@ -117,79 +125,127 @@
 @include extjs-panel-ui(
     $ui: 'ametys-tool-panel',
     
-    $ui-border-width: 0 right($ametys-tool-inner-border-width) bottom($ametys-tool-inner-border-width) left($ametys-tool-inner-border-width)
+    $ui-border-width: 0
 );
 
+/**
+ * TAB BARS AND SUB PANEL
+ */
 @for $i from 1 through length($ametys-tool-tab-colors) {
     $index: $i - 1;
-    
-    .a-tool-layout-zoned-panel-#{$index*10}.#{$prefix}panel-tool-layoutzone {
+        
+    .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-#{$index*10} {
             @include tab-color(
                 $ui: 'tool-layoutzone',
-                
-                $tab-color-active: $ametys-tool-tab-gray-dark,
-                $tab-border-color-active: $ametys-tool-tab-gray-light,
-                $tab-background-color-active: $ametys-tool-tab-gray-light,
     
-                $tab-color: $ametys-tool-tab-gray-dark,
-                $tab-border-color: $ametys-tool-background-color, 
-                $tab-background-color: $ametys-tool-background-color, 
-    
-                $tab-color-over: nth($ametys-tool-tab-colors-dark, $i),
-                $tab-border-color-over: nth($ametys-tool-tab-colors-light, $i),
-                $tab-background-color-over: nth($ametys-tool-tab-colors-light, $i),
+                $strip-border-color: $ametys-tool-tab-border-color,
+                $strip-background-color: $ametys-tool-tab-border-color,
                 
-                $strip-border-color: $ametys-tool-tab-gray-light,       // active border color
-                $strip-background-color: $ametys-tool-tab-gray-light    // active background color
+                $bar-border-color: $ametys-tool-tab-background-color,
+                $bar-background-color: $ametys-tool-tab-background-color 
             );
             
             // bottom part of the tab            
             .#{$prefix}panel-tool-layoutzone-outer-border-rbl {
-                border-color: $ametys-tool-tab-gray-light !important;   // active border color
+                border-color: $ametys-tool-tab-border-color !important;   // active border color
             }
-            // For docked items and inner bottom part of tab
-            .#{$prefix}panel-body-ametys-tool-panel,
-            .#{$prefix}panel-ametys-tool-panel > .x-docked {
-                border-color: $ametys-tool-tab-gray-light !important;   // active background color
+    }
+        
+    .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-#{$index*10} {
+            @include tab-color(
+                $ui: 'tool-layoutzone',
+    
+                $strip-border-color: $ametys-tool-tab-border-color-focus,
+                $strip-background-color: $ametys-tool-tab-border-color-focus,
+                
+                $bar-border-color: $ametys-tool-tab-background-color-focus,
+                $bar-background-color: $ametys-tool-tab-background-color-focus 
+            );
+
+            // bottom part of the tab            
+            .#{$prefix}panel-tool-layoutzone-outer-border-rbl {
+                border-color: $ametys-tool-tab-border-color-focus !important;  // active border color
             }
+    } 
+}
+
+/**
+ * TABS BUTTONS
+ */
+@for $i from 1 through length($ametys-tool-tab-colors) {
+    $index: $i - 1;
+        .ametys-tab-color-#{$index*10}.#{$prefix}tab-active:after {
+            content: "";
+            position: absolute;
+            z-index: 12;
+            width: 0;
+            height: 0;
+            border-bottom: 3px solid $ametys-tool-tab-gray;
+            border-left: 3px solid transparent;
+            border-right: 3px solid transparent;
+            left: 50%;
+        }
+    
+    .a-tool-layout-zoned-notfocused .ametys-tab-color-#{$index*10} {
+        @include tab-button-color(
+            $ui: 'tool-layoutzone',
             
+            $tab-color-active: $ametys-tool-tab-gray-dark,
+            $tab-border-color-active: $ametys-tool-tab-gray,
+            $tab-background-color-active: darken($ametys-tool-tab-background-color, 2),
+            
+            $tab-color: $ametys-tool-tab-gray-dark,
+            $tab-border-color: $ametys-tool-tab-background-color, 
+            $tab-background-color: $ametys-tool-tab-background-color, 
+
+            $tab-color-over: nth($ametys-tool-tab-colors-dark, $i),
+            $tab-border-color-over: nth($ametys-tool-tab-colors, $i),
+            $tab-background-color-over: nth($ametys-tool-tab-colors-light, $i),
+
+            $tab-color-over-active: nth($ametys-tool-tab-colors-dark, $i),
+            $tab-border-color-over-active: nth($ametys-tool-tab-colors, $i),
+            $tab-background-color-over-active: nth($ametys-tool-tab-colors-light, $i)
+        );
+    }        
+        
+    .a-tool-layout-zoned-focused .ametys-tab-color-#{$index*10} {
+        &.#{$prefix}tab-active:after {
+            border-bottom-color: nth($ametys-tool-tab-colors, $i);
+        }
+            
+        @include tab-button-color(
+            $ui: 'tool-layoutzone',
+                
+            $tab-color-active: nth($ametys-tool-tab-colors-dark, $i),
+            $tab-border-color-active: nth($ametys-tool-tab-colors, $i), 
+            $tab-background-color-active: nth($ametys-tool-tab-colors-light, $i),
+                        
+            $tab-color: $ametys-tool-tab-gray-dark,
+            $tab-border-color: $ametys-tool-tab-background-color-focus, 
+            $tab-background-color: $ametys-tool-tab-background-color-focus, 
+
+            $tab-color-over: nth($ametys-tool-tab-colors-dark, $i),
+            $tab-border-color-over: nth($ametys-tool-tab-colors, $i),
+            $tab-background-color-over: nth($ametys-tool-tab-colors-light, $i)
+        );
     }
 }
 
-@for $i from 1 through length($ametys-tool-tab-colors) {
-    $index: $i - 1;
+.a-tool-layout-zoned-notfocused, .a-tool-layout-zoned-focused {
+    .#{$prefix}tab-icon-el-tool-layoutzone {
+        @include opacity(0.5);
+    }
     
-    .a-tool-layout-zoned-panel-#{$index*10}.a-tool-layout-zoned-focused {
-            @include tab-color(
-                $ui: 'tool-layoutzone',
-                
-                $tab-color-active: nth($ametys-tool-tab-colors-light, $i),
-                $tab-border-color-active: nth($ametys-tool-tab-colors, $i), 
-                $tab-background-color-active: nth($ametys-tool-tab-colors, $i),
-    
-                $tab-color: $ametys-tool-tab-gray-dark,
-                $tab-border-color: $ametys-tool-background-color, 
-                $tab-background-color: $ametys-tool-background-color, 
-    
-                $tab-color-over: nth($ametys-tool-tab-colors-dark, $i),
-                $tab-border-color-over: nth($ametys-tool-tab-colors-light, $i),
-                $tab-background-color-over: nth($ametys-tool-tab-colors-light, $i),
-                
-                $strip-border-color: nth($ametys-tool-tab-colors, $i),      // active border color
-                $strip-background-color: nth($ametys-tool-tab-colors, $i)   // active background color              
-            );
-
-            // bottom part of the tab            
-            .#{$prefix}panel-tool-layoutzone-outer-border-rbl {
-                border-color: nth($ametys-tool-tab-colors, $i) !important;  // active border color
-            }
-            // For docked items and inner bottom part of tab
-            .#{$prefix}panel-body-ametys-tool-panel,
-            .#{$prefix}panel-ametys-tool-panel > .x-docked {
-                border-color: nth($ametys-tool-tab-colors, $i) !important;  // active background color
-            }
+    .#{$prefix}tab-over {
+        .#{$prefix}tab-icon-el-tool-layoutzone {
+            @include opacity(1);
+        }
     }
 } 
+
+.a-tool-layout-zoned-focused .#{$prefix}tab-active .#{$prefix}tab-icon-el-tool-layoutzone {
+    @include opacity(1);
+}
 
 /**
  * Contextual menu

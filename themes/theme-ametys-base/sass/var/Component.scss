@@ -106,6 +106,16 @@ $ametys-ribbon-contextualgroup-colors-dark: $ametys-rainbow-dark;
  */
 /** @var {color} The base color of tools layout back */
 $ametys-tool-base-color: dynamic(#FFFFFF);
+/** @var {color} The background color for tab bars when not focused */
+$ametys-tool-base-background-color: dynamic(#fcfcfc);
+/** @var {color} The background color for tab bars when focused */
+$ametys-tool-base-background-color-focus: dynamic(#f5f5f5);
+/** @var {color} The border color for tools when not focused */
+$ametys-tool-base-border-color: dynamic(#dedede);
+/** @var {color} The border color for tools when focused */
+$ametys-tool-base-border-color-focus: dynamic(#d7d7d7);
+
+
 /** @var {number} The base font-size of tools layout */
 $ametys-tool-font-size: dynamic($font-size); 
 /** @var {color} The base color of tools layout front */

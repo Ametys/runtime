@@ -22,14 +22,25 @@
     }
 }  
 
-// Special effect on first cell of grids
-.#{$prefix}grid-view .#{$prefix}grid-item-selected .#{$prefix}grid-cell:FIRST-CHILD {
-    border-left: $ametys-special-border solid $grid-row-cell-selected-border-color;
-    .#{$prefix}grid-cell-inner {
-        padding-left: (left($grid-cell-inner-padding) - $ametys-special-border);
-    }
+.#{$prefix}grid-header-ct {
+    border-width: 0;
+    background-color: $panel-body-background-color;
 }
 
+.#{$prefix}column-header {
+    border-right-width: 0; 
+    background-color: $panel-body-background-color;
+    
+    .#{$prefix}column-header-inner {
+        border-bottom: 2px solid $grid-header-background-color;
+    }
+}
+.#{$prefix}column-header-sort-ASC,
+.#{$prefix}column-header-sort-DESC {
+    .#{$prefix}column-header-inner {
+        border-bottom-color: $ametys-tool-tab-gray;
+    }
+}
 
 @for $i from 1 through length($ametys-tool-tab-colors) {
     $index: $i - 1;
@@ -43,7 +54,7 @@
             background-color: $grid-row-cell-over-background-color;
         }
         .#{$prefix}grid-item-selected {
-            background-color: mix($active-color-light, $active-color, 75%);
+            background-color: $active-color-light;
         }
         
         .#{$prefix}grid-with-row-lines {
@@ -54,13 +65,13 @@
                 border-top-color: $grid-row-cell-over-border-color;
             }
                         
-            .#{$prefix}grid-item.#{$prefix}grid-item-selected,
+            /*.#{$prefix}grid-item.#{$prefix}grid-item-selected,
             .#{$prefix}grid-item-selected .#{$prefix}grid-cell:FIRST-CHILD {
                 border-color: $active-color;
             }
             .#{$prefix}grid-item-selected + .#{$prefix}grid-item {
                 border-top-color: $active-color;
-            }
+            }*/
         }
         
         .a-visible-focus {
@@ -80,7 +91,9 @@
         }        
         .#{$prefix}column-header-sort-ASC,
         .#{$prefix}column-header-sort-DESC {
-            @include background-gradient(mix($active-color-light, $grid-header-background-color, 20%), $grid-header-sorted-background-gradient);
+            .#{$prefix}column-header-inner {
+                border-bottom-color: $active-color;
+            }
         }
         .#{$prefix}column-header.#{$prefix}column-header-focus {
             .#{$prefix}column-header-inner:after {

@@ -19,8 +19,8 @@
 	@include extjs-toolbar-ui(
          $ui: 'default',
          
-         $background-color: $ametys-tool-tab-gray-light,
-         $border-color: $ametys-tool-tab-gray
+         $background-color: #FFFFFF,//$ametys-tool-tab-gray-light,
+         $border-color: $ametys-tool-tab-gray-light
     );
 }
 

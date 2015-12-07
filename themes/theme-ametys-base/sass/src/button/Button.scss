@@ -41,7 +41,7 @@
     $border-color-focus-pressed: $border-color-pressed;
     $border-color-disabled: button-default-border-color-disabled($border-color);
 
-    $background-color: $base-highlight-color;
+    $background-color: #FFF;//$base-highlight-color;
     $background-color-over: button-default-background-color-over($background-color);
     $background-color-focus: button-default-background-color-focus($background-color);
     $background-color-pressed: button-default-background-color-pressed($background-color);

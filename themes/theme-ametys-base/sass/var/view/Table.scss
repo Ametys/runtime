@@ -13,19 +13,23 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+
+$grid-header-background-color: transparent;
  
 $grid-row-cell-focus-border-style: dynamic(dashed);
 $grid-row-cell-focus-border-inset: dynamic(1px);
 $grid-row-cell-focus-border-color: transparent; // by default we do not want to see focus
 
 $grid-row-cell-background-color: #FFFFFF;
-$grid-row-cell-alt-background-color: $ametys-tool-tab-gray-light;
+$grid-row-cell-alt-background-color: $grid-row-cell-background-color;
 $grid-row-cell-border-color: darken($grid-row-cell-alt-background-color, 5);
 
-$grid-row-cell-over-background-color: darken($ametys-tool-tab-gray-light, 5);
+$grid-row-cell-over-background-color: $ametys-tool-tab-gray-light;
 $grid-row-cell-over-border-color: darken($grid-row-cell-over-background-color, 5);
 
-$grid-row-cell-selected-background-color: $ametys-tool-tab-gray;
+$grid-row-cell-selected-background-color: $ametys-tool-tab-gray-light;
 $grid-row-cell-selected-border-color: $ametys-tool-tab-gray-dark;
+
+$grid-row-cell-line-height: 16px;
 
 $ametys-special-border: dynamic(3px);

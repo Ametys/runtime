@@ -108,6 +108,7 @@
         $tab-background-color-focus: $tab-background-color,
         $tab-background-color-over: $tab-background-color,
         $tab-background-color-active: $tab-background-color,
+        $tab-background-color-over-active: $tab-background-color-active,
         $tab-background-color-focus-over: $tab-background-color-over,
         $tab-background-color-focus-active: $tab-background-color-active,
         $tab-background-color-disabled: $tab-background-color,
@@ -116,6 +117,7 @@
         $tab-border-color-focus: $tab-border-color,
         $tab-border-color-over: $tab-border-color,
         $tab-border-color-active: $tab-border-color,
+        $tab-border-color-over-active: $tab-border-color-active,
         $tab-border-color-focus-over: $tab-border-color-over,
         $tab-border-color-focus-active: $tab-border-color-active,
         $tab-border-color-disabled: $tab-border-color,
@@ -124,6 +126,7 @@
         $tab-color-focus: $tab-color,
         $tab-color-over: $tab-color,
         $tab-color-active: $tab-color,
+        $tab-color-over-active: $tab-color-active,
         $tab-color-focus-over: $tab-color-over,
         $tab-color-focus-active: $tab-color-active,
         $tab-color-disabled: $tab-color,
@@ -132,6 +135,7 @@
         $tab-plain-background-color-focus: $tab-plain-background-color, 
         $tab-plain-background-color-over: $tab-plain-background-color, 
         $tab-plain-background-color-active: $tab-plain-background-color, 
+        $tab-plain-background-color-over-active: $tab-plain-background-color-active, 
         $tab-plain-background-color-focus-over: $tab-plain-background-color-over,
         $tab-plain-background-color-focus-active: $tab-plain-background-color-active,
         $tab-plain-background-color-disabled: $tab-plain-background-color,
@@ -140,6 +144,7 @@
         $tab-plain-border-color-focus: $tab-plain-border-color,
         $tab-plain-border-color-over: $tab-plain-border-color,
         $tab-plain-border-color-active: $tab-plain-border-color,
+        $tab-plain-border-color-over-active: $tab-plain-border-color-active, 
         $tab-plain-border-color-focus-over: $tab-plain-border-color-over,
         $tab-plain-border-color-focus-active: $tab-plain-border-color-active,
         $tab-plain-border-color-disabled: $tab-plain-border-color,
@@ -148,6 +153,7 @@
         $tab-plain-color-focus: $tab-plain-color,
         $tab-plain-color-over: $tab-plain-color,
         $tab-plain-color-active: $tab-plain-color,
+        $tab-plain-color-over-active: $tab-plain-color-active, 
         $tab-plain-color-focus-over: $tab-plain-color-over,
         $tab-plain-color-focus-active: $tab-plain-color-active,
         $tab-plain-color-disabled: $tab-plain-color,
@@ -163,124 +169,74 @@
         background-color: $bar-background-color;
         border-color: $bar-border-color;
         
-        .#{$prefix}tab.#{$prefix}tab-#{$ui} {
-            background-color: $tab-background-color;
-            border-color: $tab-border-color;
-            
-            .#{$prefix}tab-inner-#{$ui} {
-                color: $tab-color;
-            }
-            
-            &.#{$prefix}tab-focus {
-                background-color: $tab-background-color-focus;
-                border-color: $tab-border-color-focus;
+        .#{$prefix}tab {
+            @include tab-button-color(
+                $ui: $ui,
                 
-                .#{$prefix}tab-inner-#{$ui} {
-                    color: $tab-color-focus;
-                }
-            }
-            &.#{$prefix}tab-over {
-                background-color: $tab-background-color-over;
-                border-color: $tab-border-color-over;
+                $tab-background-color: $tab-background-color,
+                $tab-background-color-focus: $tab-background-color-focus,
+                $tab-background-color-over: $tab-background-color-over,
+                $tab-background-color-active: $tab-background-color-active,
+                $tab-background-color-over-active: $tab-background-color-over-active,
+                $tab-background-color-focus-over: $tab-background-color-focus-over,
+                $tab-background-color-focus-active: $tab-background-color-focus-active,
+                $tab-background-color-disabled: $tab-background-color-disabled,
                 
-                .#{$prefix}tab-inner-#{$ui} {
-                    color: $tab-color-over;
-                }
-            }            
-            &.#{$prefix}tab-over.#{$prefix}tab-focus {
-                background-color: $tab-background-color-focus-over;
-                border-color: $tab-border-color-focus-over;
-                
-                .#{$prefix}tab-inner-#{$ui} {
-                    color: $tab-color-focus-over;
-                }
-            }
-            &.#{$prefix}tab-active {
-                background-color: $tab-background-color-active;
-                border-color: $tab-border-color-active;
-                
-                .#{$prefix}tab-inner-#{$ui} {
-                    color: $tab-color-active;
-                }
-            }
-            &.#{$prefix}tab-active.#{$prefix}tab-focus {
-                background-color: $tab-background-color-focus-active;
-                border-color: $tab-border-color-focus-active;
-                
-                .#{$prefix}tab-inner-#{$ui} {
-                    color: $tab-color-focus-active;
-                }
-            }
-            &.#{$prefix}tab-disabled {
-                background-color: $tab-background-color-disabled;
-                border-color: $tab-border-color-disabled;
-                
-                .#{$prefix}tab-inner-#{$ui} {
-                    color: $tab-color-disabled;
-                }
-            }
+                $tab-border-color: $tab-border-color,
+                $tab-border-color-focus: $tab-border-color-focus,
+                $tab-border-color-over: $tab-border-color-over,
+                $tab-border-color-active: $tab-border-color-active,
+                $tab-border-color-over-active: $tab-border-color-over-active,
+                $tab-border-color-focus-over: $tab-border-color-focus-over,
+                $tab-border-color-focus-active: $tab-border-color-focus-active,
+                $tab-border-color-disabled: $tab-border-color-disabled,
+        
+                $tab-color: $tab-color,
+                $tab-color-focus: $tab-color-focus,
+                $tab-color-over: $tab-color-over,
+                $tab-color-active: $tab-color-active,
+                $tab-color-over-active: $tab-color-over-active,
+                $tab-color-focus-over: $tab-color-focus-over,
+                $tab-color-focus-active: $tab-color-focus-active,
+                $tab-color-disabled: $tab-color-disabled
+            );
         }
         
         
         &.#{$prefix}tab-bar-plain {
             background-color: transparent;
         
-            .#{$prefix}tab.#{$prefix}tab-#{$ui} {
-                background-color: $tab-plain-background-color;
-                border-color: $tab-plain-border-color;
-                
-                .#{$prefix}tab-inner-#{$ui} {
-                    color: $tab-plain-color;
-                }
-                
-                &.#{$prefix}tab-focus {
-                    background-color: $tab-plain-background-color-focus;
-                    border-color: $tab-plain-border-color-focus;
+            .#{$prefix}tab {
+                @include tab-button-color(
+                    $ui: $ui,
                     
-                    .#{$prefix}tab-inner-#{$ui} {
-                        color: $tab-plain-color-focus;
-                    }
-                }
-                &.#{$prefix}tab-over {
-                    background-color: $tab-plain-background-color-over;
-                    border-color: $tab-plain-border-color-over;
+                    $tab-background-color: $tab-background-color,
+                    $tab-background-color-focus: $tab-plain-background-color-focus,
+                    $tab-background-color-over: $tab-plain-background-color-over,
+                    $tab-background-color-active: $tab-plain-background-color-active,
+                    $tab-background-color-over-active: $tab-plain-background-color-over-active,
+                    $tab-background-color-focus-over: $tab-plain-background-color-focus-over,
+                    $tab-background-color-focus-active: $tab-plain-background-color-focus-active,
+                    $tab-background-color-disabled: $tab-plain-background-color-disabled,
                     
-                    .#{$prefix}tab-inner-#{$ui} {
-                        color: $tab-plain-color-over;
-                    }
-                }            
-                &.#{$prefix}tab-over.#{$prefix}tab-focus {
-                    background-color: $tab-plain-background-color-focus-over;
-                    border-color: $tab-plain-border-color-focus-over;
-                    
-                    .#{$prefix}tab-inner-#{$ui} {
-                        color: $tab-plain-color-focus-over;
-                    }
-                }
-                &.#{$prefix}tab-active {
-                    background-color: $tab-plain-background-color-active;
-                    border-color: $tab-plain-border-color-active;
-                    
-                    .#{$prefix}tab-inner-#{$ui} {
-                        color: $tab-plain-color-active;
-                    }
-                }
-                &.#{$prefix}tab-active.#{$prefix}tab-focus {
-                    background-color: $tab-plain-background-color-focus-active;
-                    border-color: $tab-plain-border-color-focus-active;
-                    
-                    .#{$prefix}tab-inner-#{$ui} {
-                        color: $tab-plain-color-focus-active;
-                    }
-                }
-                &.#{$prefix}tab-disabled {
-                    background-color: $tab-plain-background-color-disabled;
-                    border-color: $tab-plain-border-color-disabled;
-                    
-                    .#{$prefix}tab-inner-#{$ui} {
-                        color: $tab-plain-color-disabled;
-                    }
-                }
+                    $tab-border-color: $tab-plain-border-color,
+                    $tab-border-color-focus: $tab-plain-border-color-focus,
+                    $tab-border-color-over: $tab-plain-border-color-over,
+                    $tab-border-color-active: $tab-plain-border-color-active,
+                    $tab-border-color-over-active: $tab-plain-border-color-over-active,
+                    $tab-border-color-focus-over: $tab-plain-border-color-focus-over,
+                    $tab-border-color-focus-active: $tab-plain-border-color-focus-active,
+                    $tab-border-color-disabled: $tab-plain-border-color-disabled,
+            
+                    $tab-color: $tab-plain-color,
+                    $tab-color-focus: $tab-plain-color-focus,
+                    $tab-color-over: $tab-plain-color-over,
+                    $tab-color-active: $tab-plain-color-active,
+                    $tab-color-over-active: $tab-plain-color-over-active,
+                    $tab-color-focus-over: $tab-plain-color-focus-over,
+                    $tab-color-focus-active: $tab-plain-color-focus-active,
+                    $tab-color-disabled: $tab-plain-color-disabled
+                );   
             }
             
             & + .#{$prefix}noborder-trbl {
@@ -298,6 +254,104 @@
         .#{$prefix}tab-bar-strip-#{$ui} {
             border-color: $strip-border-color;
             background-color: $strip-background-color;
+        }
+    }
+}
+
+@mixin tab-button-color(
+        $ui: 'default',
+        
+        $tab-background-color,
+        $tab-background-color-focus: $tab-background-color,
+        $tab-background-color-over: $tab-background-color,
+        $tab-background-color-active: $tab-background-color,
+        $tab-background-color-over-active: $tab-background-color-active,
+        $tab-background-color-focus-over: $tab-background-color-over,
+        $tab-background-color-focus-active: $tab-background-color-active,
+        $tab-background-color-disabled: $tab-background-color,
+        
+        $tab-border-color,
+        $tab-border-color-focus: $tab-border-color,
+        $tab-border-color-over: $tab-border-color,
+        $tab-border-color-active: $tab-border-color,
+        $tab-border-color-over-active: $tab-border-color-active,
+        $tab-border-color-focus-over: $tab-border-color-over,
+        $tab-border-color-focus-active: $tab-border-color-active,
+        $tab-border-color-disabled: $tab-border-color,
+
+        $tab-color,
+        $tab-color-focus: $tab-color,
+        $tab-color-over: $tab-color,
+        $tab-color-active: $tab-color,
+        $tab-color-over-active: $tab-color-active,
+        $tab-color-focus-over: $tab-color-over,
+        $tab-color-focus-active: $tab-color-active,
+        $tab-color-disabled: $tab-color
+    )
+{
+    &.#{$prefix}tab-#{$ui} {
+        background-color: $tab-background-color;
+        border-color: $tab-border-color;
+        
+        .#{$prefix}tab-inner-#{$ui} {
+            color: $tab-color;
+        }
+        
+        &.#{$prefix}tab-focus {
+            background-color: $tab-background-color-focus;
+            border-color: $tab-border-color-focus;
+            
+            .#{$prefix}tab-inner-#{$ui} {
+                color: $tab-color-focus;
+            }
+        }
+        &.#{$prefix}tab-over {
+            background-color: $tab-background-color-over;
+            border-color: $tab-border-color-over;
+            
+            .#{$prefix}tab-inner-#{$ui} {
+                color: $tab-color-over;
+            }
+        }            
+        &.#{$prefix}tab-over.#{$prefix}tab-focus {
+            background-color: $tab-background-color-focus-over;
+            border-color: $tab-border-color-focus-over;
+            
+            .#{$prefix}tab-inner-#{$ui} {
+                color: $tab-color-focus-over;
+            }
+        }
+        &.#{$prefix}tab-active {
+            background-color: $tab-background-color-active;
+            border-color: $tab-border-color-active;
+            
+            .#{$prefix}tab-inner-#{$ui} {
+                color: $tab-color-active;
+            }
+        }
+        &.#{$prefix}tab-active.#{$prefix}tab-focus {
+            background-color: $tab-background-color-focus-active;
+            border-color: $tab-border-color-focus-active;
+            
+            .#{$prefix}tab-inner-#{$ui} {
+                color: $tab-color-focus-active;
+            }
+        }
+        &.#{$prefix}tab-active.#{$prefix}tab-over {
+            background-color: $tab-background-color-over-active;
+            border-color: $tab-border-color-over-active;
+            
+            .#{$prefix}tab-inner-#{$ui} {
+                color: $tab-color-over-active;
+            }
+        }
+        &.#{$prefix}tab-disabled {
+            background-color: $tab-background-color-disabled;
+            border-color: $tab-border-color-disabled;
+            
+            .#{$prefix}tab-inner-#{$ui} {
+                color: $tab-color-disabled;
+            }
         }
     }
 }

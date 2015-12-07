@@ -14,17 +14,24 @@
  *  limitations under the License.
  */
 
-$ametys-tool-background-color: $ametys-tool-base-color;
+$ametys-tool-background-color: $ametys-ribbon-base-color;
+$ametys-tool-conrtainer-background-color: $ametys-tool-base-color;
+$ametys-tool-layout-padding: 2px 1px 1px 1px;
+ 
 $ametys-tool-tab-color: $ametys-tool-color;
-$ametys-tool-tab-font-size: $ametys-tool-font-size/12*14;
-$ametys-tool-tab-line-height: $ametys-tool-tab-font-size/14*18; 
-
-$ametys-tool-layout-padding: 8px 1px 1px 1px; 
+$ametys-tool-tab-font-size: $ametys-tool-font-size/12*16;
+$ametys-tool-tab-line-height: $ametys-tool-tab-font-size/16*24;
+$ametys-tool-tab-background-color: $ametys-tool-base-background-color;  
+$ametys-tool-tab-background-color-focus: $ametys-tool-base-background-color-focus;  
+$ametys-tool-tab-border-color: $ametys-tool-base-border-color;  
+$ametys-tool-tab-border-color-focus: $ametys-tool-base-border-color-focus;  
+$ametys-tool-tab-border-width: dynamic(0 0 3px 0);
+$ametys-tool-tab-padding: dynamic(3px 12px);
+$ametys-tool-tab-normal-font-weight: normal;
+$ametys-tool-tab-icon-width: 32px;
+$ametys-tool-tab-icon-height: 32px;
 
 $ametys-tool-border-width: dynamic(1px);
-$ametys-tool-border-top-width: dynamic(1px);//dynamic($font-size/3 - $ametys-tool-border-width);
-$ametys-tool-inner-border-width: dynamic($font-size/3 - $ametys-tool-border-width);
+$ametys-tool-inner-border-width: dynamic($font-size/3);
 
-$ametys-tool-tab-padding: dynamic(7px 8px 6px);
 
-$ametys-tool-tab-normal-font-weight: normal;
