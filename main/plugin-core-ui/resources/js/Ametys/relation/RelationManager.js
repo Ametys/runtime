@@ -184,7 +184,7 @@ Ext.define("Ametys.relation.RelationManager",
 						// Let's see if its compatible with the possible relations
 						var compatible = null;
 						Ext.Array.every(possibleRelations[choosenHandler], function(item, index, array) {
-							if (item.type == relationType)
+							if (item.getType() == relationType)
 							{
 								compatible = index;
 								return false;
