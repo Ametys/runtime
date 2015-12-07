@@ -84,9 +84,8 @@
 .#{$prefix}tab-tool-layoutzone.#{$prefix}tab-active .#{$prefix}tab-close-btn { @include opacity(1); }
 
 .#{$prefix}tab-tool-layoutzone .#{$prefix}tab-icon-el-tool-layoutzone {
-	&[class^="flaticon-"]:before, &[class*=" flaticon-"]:before {
+	&:before {
 	   	margin-left: 0px;
-	   	color:#e1e1e1;
 	   	position: absolute;
 	   	font-size: 32px;
 	  	line-height: 32px;
@@ -95,12 +94,11 @@
 	   	height: 100%;
 	}
    	
-	&[class^="flaticon-decorator-"]:after, &[class*=" flaticon-decorator-"]:after {
+	&:after {
 	  	margin-left: 0px;
 	  	position: absolute;
 	  	right:-2px;
 	  	bottom:-2px;
-	  	color:#FFFFFF;
 	  	font-size: 18px;
 	  	line-height: 18px;
 	  	text-shadow: 2px 2px #666;

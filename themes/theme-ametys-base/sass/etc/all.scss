@@ -334,6 +334,8 @@
         $tab-glyph-color-disabled: $tab-glyph-color
     )
 {
+    $glyph-decorator-lighten: 2;
+
     &.#{$prefix}tab-#{$ui} {
         background-color: $tab-background-color;
         border-color: $tab-border-color;
@@ -341,8 +343,14 @@
         .#{$prefix}tab-inner-#{$ui} {
             color: $tab-color;
         }
-        .#{$prefix}x-tab-icon-el-#{$ui} {
+        .#{$prefix}tab-icon-el-#{$ui} {
             color: $tab-glyph-color;
+            
+            @if $tab-glyph-color != null { 
+                &:after {
+                    color: lighten($tab-glyph-color, $glyph-decorator-lighten);
+                }
+            }
         }
         
         &.#{$prefix}tab-focus {
@@ -352,8 +360,14 @@
             .#{$prefix}tab-inner-#{$ui} {
                 color: $tab-color-focus;
             }
-            .#{$prefix}x-tab-icon-el-#{$ui} {
+            .#{$prefix}tab-icon-el-#{$ui} {
                 color: $tab-glyph-color-focus;
+            
+                @if $tab-glyph-color-focus != null { 
+                    &:after {
+                        color: lighten($tab-glyph-color-focus, $glyph-decorator-lighten);
+                    }
+                }
             }
         }
         &.#{$prefix}tab-over {
@@ -363,8 +377,14 @@
             .#{$prefix}tab-inner-#{$ui} {
                 color: $tab-color-over;
             }
-            .#{$prefix}x-tab-icon-el-#{$ui} {
+            .#{$prefix}tab-icon-el-#{$ui} {
                 color: $tab-glyph-color-over;
+            
+                @if $tab-glyph-color-over != null { 
+                    &:after {
+                        color: lighten($tab-glyph-color-over, $glyph-decorator-lighten);
+                    }
+                }
             }
         }            
         &.#{$prefix}tab-over.#{$prefix}tab-focus {
@@ -374,8 +394,14 @@
             .#{$prefix}tab-inner-#{$ui} {
                 color: $tab-color-focus-over;
             }
-            .#{$prefix}x-tab-icon-el-#{$ui} {
+            .#{$prefix}tab-icon-el-#{$ui} {
                 color: $tab-glyph-color-focus-over;
+            
+                @if $tab-glyph-color-focus-over != null { 
+                    &:after {
+                        color: lighten($tab-glyph-color-focus-over, $glyph-decorator-lighten);
+                    }
+                }
             }
         }
         &.#{$prefix}tab-active {
@@ -385,8 +411,14 @@
             .#{$prefix}tab-inner-#{$ui} {
                 color: $tab-color-active;
             }
-            .#{$prefix}x-tab-icon-el-#{$ui} {
+            .#{$prefix}tab-icon-el-#{$ui} {
                 color: $tab-glyph-color-active;
+            
+                @if $tab-glyph-color-active != null { 
+                    &:after {
+                        color: lighten($tab-glyph-color-active, $glyph-decorator-lighten);
+                    }
+                }
             }
         }
         &.#{$prefix}tab-active.#{$prefix}tab-focus {
@@ -396,8 +428,14 @@
             .#{$prefix}tab-inner-#{$ui} {
                 color: $tab-color-focus-active;
             }
-            .#{$prefix}x-tab-icon-el-#{$ui} {
+            .#{$prefix}tab-icon-el-#{$ui} {
                 color: $tab-glyph-color-focus-active;
+            
+                @if $tab-glyph-color-focus-active != null { 
+                    &:after {
+                        color: lighten($tab-glyph-color-focus-active, $glyph-decorator-lighten);
+                    }
+                }
             }
         }
         &.#{$prefix}tab-active.#{$prefix}tab-over {
@@ -407,8 +445,14 @@
             .#{$prefix}tab-inner-#{$ui} {
                 color: $tab-color-over-active;
             }
-            .#{$prefix}x-tab-icon-el-#{$ui} {
+            .#{$prefix}tab-icon-el-#{$ui} {
                 color: $tab-glyph-color-over-active;
+            
+                @if $tab-glyph-color-over-active != null { 
+                    &:after {
+                        color: lighten($tab-glyph-color-over-active, $glyph-decorator-lighten);
+                    }
+                }
             }
         }
         &.#{$prefix}tab-disabled {
@@ -418,8 +462,14 @@
             .#{$prefix}tab-inner-#{$ui} {
                 color: $tab-color-disabled;
             }
-            .#{$prefix}x-tab-icon-el-#{$ui} {
+            .#{$prefix}tab-icon-el-#{$ui} {
                 color: $tab-glyph-color-disabled;
+            
+                @if $tab-glyph-color-disabled != null { 
+                    &:after {
+                        color: lighten($tab-glyph-color-disabled, $glyph-decorator-lighten);
+                    }
+                }
             }
         }
     }
