@@ -124,7 +124,7 @@
 
 .a-tool-layout-zoned-notfocused { 
     .#{$prefix}panel-ametys-tool-panel {
-        @include opacity(0.5);
+        @include opacity(0.75);
     }
     
 	@include extjs-panel-ui(
