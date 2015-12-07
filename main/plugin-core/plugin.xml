@@ -190,6 +190,49 @@
             <order>5</order>
         </param>
         
+        <!-- +
+             | CAPTCHA
+             + -->
+             
+        <param type="string" id="runtime.captcha.type">
+            <!-- This parameter contains the type of captcha in use. Default to "jcaptcha". -->
+            <label i18n="true">PLUGINS_CORE_CAPTCHA_CONFIG_TYPE_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_CAPTCHA_CONFIG_TYPE_DESCRIPTION</description>
+            <enumeration>
+                <entry>
+                    <label i18n="true">PLUGINS_CORE_CAPTCHA_CONFIG_TYPE_JCAPTCHA</label>
+                    <value>jcaptcha</value>
+                </entry>
+                <entry>
+                    <label i18n="true">PLUGINS_CORE_CAPTCHA_CONFIG_TYPE_RECAPTCHA</label>
+                    <value>recaptcha</value>
+                </entry>
+            </enumeration>
+            <default-value>jcaptcha</default-value>
+            <category i18n="true">PLUGINS_CORE_CAPTCHA_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_CAPTCHA_CONFIG_GROUP</group>
+            <order>1</order>
+        </param>
+       
+        <param type="string" id="runtime.captcha.recaptcha.publickey">
+            <!-- This parameter contains the recaptcha public key. -->
+            <label i18n="true">PLUGINS_CORE_CAPTCHA_CONFIG_PUBLIC_KEY</label>
+            <description i18n="true">PLUGINS_CORE_CAPTCHA_CONFIG_PUBLIC_KEY_DESCRIPTION</description>
+            <category i18n="true">PLUGINS_CORE_CAPTCHA_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_CAPTCHA_CONFIG_GROUP</group>
+            <order>2</order>
+        </param>
+        
+        <param type="string" id="runtime.captcha.recaptcha.secretkey">
+            <!-- This parameter contains the recaptcha secret key. -->
+            <label i18n="true">PLUGINS_CORE_CAPTCHA_CONFIG_SECRET_KEY</label>
+            <description i18n="true">PLUGINS_CORE_CAPTCHA_CONFIG_SECRET_KEY_DESCRIPTION</description>
+            <category i18n="true">PLUGINS_CORE_CAPTCHA_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_CAPTCHA_CONFIG_GROUP</group>
+            <order>3</order>
+        </param>
+        
+        
        <param-checker id="mail-connection-checker" class="org.ametys.plugins.core.impl.checker.MailConnectionChecker">
             <label i18n="true">PLUGINS_CORE_MAIL_CONNECTION_CHECKER_LABEL</label>
             <description i18n="true">PLUGINS_CORE_MAIL_CONNECTION_CHECKER_DESC</description>
@@ -255,6 +298,7 @@
                 <param-ref id="runtime.upload.dir"/>
             </linked-params>
         </param-checker>
+        
     </config>
     
     <extension-points>
@@ -515,6 +559,24 @@
             <param-ref id="smtp.mail.from"/>
             <param-ref id="smtp.mail.sysadminto"/>
         </config>
+    </feature>
+    
+        
+    <feature name="runtime.captcha">
+        <!-- 
+            This feature provides configuration parameters for the captcha type and keys.
+         -->
+        <config>
+            <param-ref id="runtime.captcha.type"/>
+            <param-ref id="runtime.captcha.recaptcha.secretkey"/>
+            <param-ref id="runtime.captcha.recaptcha.publickey"/>
+        </config>
+        
+        <components>
+            <component id="org.ametys.core.captcha.CaptchaHelper"
+                       role="org.ametys.core.captcha.CaptchaHelper"
+                       class="org.ametys.core.captcha.CaptchaHelper"/>
+            </components>
     </feature>
         
     <feature name="core.user.preferences.manager" safe="true">

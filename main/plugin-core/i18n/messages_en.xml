@@ -289,5 +289,16 @@
     <message key="PLUGINS_CORE_CAPTCHA_REFRESH_ALT">Click here to refresh captcha</message>
     <message key="PLUGINS_CORE_CAPTCHA_REFRESH">Refresh image</message>
     <message key="PLUGINS_CORE_CAPTCHA_REFRESH_NOSCRIPT">If the image is not clear enough, you can refresh the page.</message>
+   
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_CATEGORY">Captcha</message>
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_GROUP">Captcha</message>
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_TYPE_LABEL">Captcha type</message>
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_TYPE_DESCRIPTION">Choose the type of captcha to use through the application.</message>
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_TYPE_JCAPTCHA">Internal Ametys captcha</message>
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_TYPE_RECAPTCHA">reCaptcha by Google</message>
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_PUBLIC_KEY">Site key reCaptcha</message>
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_PUBLIC_KEY_DESCRIPTION">If you use reCaptcha, you must specify the site key provided by Google.</message>
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_SECRET_KEY">Secret key reCaptcha</message>
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_SECRET_KEY_DESCRIPTION">If you use reCaptcha, you must specify the secret key provided by Google.</message>
     
 </catalogue>

@@ -284,6 +284,17 @@
 	<!-- +
          | CAPTCHA
          + -->
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_CATEGORY">Captcha</message>
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_GROUP">Captcha</message>
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_TYPE_LABEL">Type de captcha</message>
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_TYPE_DESCRIPTION">Sélectionnez le type de captcha à utiliser dans Ametys</message>
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_TYPE_JCAPTCHA">Captcha interne Ametys</message>
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_TYPE_RECAPTCHA">reCaptcha de Google</message>
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_PUBLIC_KEY">Clé du site reCaptcha</message>
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_PUBLIC_KEY_DESCRIPTION">Si vous utilisez reCaptcha, indiquez la clé du site fournie par Google.</message>
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_SECRET_KEY">Clé secrète reCaptcha</message>
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_SECRET_KEY_DESCRIPTION">Si vous utilisez reCaptcha, indiquez la clé secrète fournie par Google.</message>
+
     <message key="PLUGINS_CORE_CAPTCHA_REFRESH_ALT">Cliquez ici pour rafraîchir l'image de vérification</message>
     <message key="PLUGINS_CORE_CAPTCHA_REFRESH">Rafraichir l'image</message>
     <message key="PLUGINS_CORE_CAPTCHA_REFRESH_NOSCRIPT">Si l'image n'est pas suffisament claire, vous pouvez rafraichir la page.</message>

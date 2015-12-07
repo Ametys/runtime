@@ -72,10 +72,8 @@
 	                            </tr>
 	                        </table>                            
 	                        
-	                        <xsl:if test="useCaptcha = 'true'">
+	                        <xsl:if test="/LoginForm/useCaptcha = 'true'">
 	                            <div class="input">
-	                                <label for="Captcha"><i18n:text i18n:key="WORKSPACE_CMS_LOGIN_CAPTCHA" i18n:catalogue="workspace.cms"/></label>
-	                                
 	                                <xsl:call-template name="captcha">
 	                                    <xsl:with-param name="key-name" select="'CaptchaKey'"/>
 	                        
