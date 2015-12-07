@@ -130,6 +130,15 @@
         $tab-color-focus-over: $tab-color-over,
         $tab-color-focus-active: $tab-color-active,
         $tab-color-disabled: $tab-color,
+                
+        $tab-glyph-color,
+        $tab-glyph-color-focus: $tab-glyph-color,
+        $tab-glyph-color-over: $tab-glyph-color,
+        $tab-glyph-color-active: $tab-glyph-color,
+        $tab-glyph-color-over-active: $tab-glyph-color-active, 
+        $tab-glyph-color-focus-over: $tab-glyph-color-over,
+        $tab-glyph-color-focus-active: $tab-glyph-color-active,
+        $tab-glyph-color-disabled: $tab-glyph-color,
         
         $tab-plain-background-color,
         $tab-plain-background-color-focus: $tab-plain-background-color, 
@@ -157,6 +166,15 @@
         $tab-plain-color-focus-over: $tab-plain-color-over,
         $tab-plain-color-focus-active: $tab-plain-color-active,
         $tab-plain-color-disabled: $tab-plain-color,
+        
+        $tab-plain-glyph-color,
+        $tab-plain-glyph-color-focus: $tab-glyph-color,
+        $tab-plain-glyph-color-over: $tab-glyph-color,
+        $tab-plain-glyph-color-active: $tab-glyph-color,
+        $tab-plain-glyph-color-over-active: $tab-glyph-color-active, 
+        $tab-plain-glyph-color-focus-over: $tab-glyph-color-over,
+        $tab-plain-glyph-color-focus-active: $tab-glyph-color-active,
+        $tab-plain-glyph-color-disabled: $tab-glyph-color,
         
         $strip-border-color,
         $strip-background-color,
@@ -198,7 +216,16 @@
                 $tab-color-over-active: $tab-color-over-active,
                 $tab-color-focus-over: $tab-color-focus-over,
                 $tab-color-focus-active: $tab-color-focus-active,
-                $tab-color-disabled: $tab-color-disabled
+                $tab-color-disabled: $tab-color-disabled,
+                
+                $tab-glyph-color: $tab-glyph-color, 
+                $tab-glyph-color-focus: $tab-glyph-color-focus, 
+                $tab-glyph-color-over: $tab-glyph-color-over, 
+                $tab-glyph-color-active: $tab-glyph-color-active, 
+                $tab-glyph-color-over-active: $tab-glyph-color-over-active, 
+                $tab-glyph-color-focus-over: $tab-plain-glyph-color-focus-over, 
+                $tab-glyph-color-focus-active: $tab-glyph-color-focus-active, 
+                $tab-glyph-color-disabled: $tab-glyph-color-disabled 
             );
         }
         
@@ -235,7 +262,16 @@
                     $tab-color-over-active: $tab-plain-color-over-active,
                     $tab-color-focus-over: $tab-plain-color-focus-over,
                     $tab-color-focus-active: $tab-plain-color-focus-active,
-                    $tab-color-disabled: $tab-plain-color-disabled
+                    $tab-color-disabled: $tab-plain-color-disabled,
+                
+                    $tab-glyph-color: $tab-plain-glyph-color, 
+                    $tab-glyph-color-focus: $tab-plain-glyph-color-focus, 
+                    $tab-glyph-color-over: $tab-plain-glyph-color-over, 
+                    $tab-glyph-color-active: $tab-plain-glyph-color-active, 
+                    $tab-glyph-color-over-active: $tab-plain-glyph-color-over-active, 
+                    $tab-glyph-color-focus-over: $tab-plain-glyph-color-focus-over, 
+                    $tab-glyph-color-focus-active: $tab-plain-glyph-color-focus-active, 
+                    $tab-glyph-color-disabled: $tab-plain-glyph-color-disabled
                 );   
             }
             
@@ -286,7 +322,16 @@
         $tab-color-over-active: $tab-color-active,
         $tab-color-focus-over: $tab-color-over,
         $tab-color-focus-active: $tab-color-active,
-        $tab-color-disabled: $tab-color
+        $tab-color-disabled: $tab-color,
+
+        $tab-glyph-color, 
+        $tab-glyph-color-focus: $tab-glyph-color, 
+        $tab-glyph-color-over: $tab-glyph-color, 
+        $tab-glyph-color-active: $tab-glyph-color, 
+        $tab-glyph-color-over-active: $tab-glyph-color-active, 
+        $tab-glyph-color-focus-over: $tab-glyph-color-over, 
+        $tab-glyph-color-focus-active: $tab-glyph-color-active, 
+        $tab-glyph-color-disabled: $tab-glyph-color
     )
 {
     &.#{$prefix}tab-#{$ui} {
@@ -296,6 +341,9 @@
         .#{$prefix}tab-inner-#{$ui} {
             color: $tab-color;
         }
+        .#{$prefix}x-tab-icon-el-#{$ui} {
+            color: $tab-glyph-color;
+        }
         
         &.#{$prefix}tab-focus {
             background-color: $tab-background-color-focus;
@@ -303,6 +351,9 @@
             
             .#{$prefix}tab-inner-#{$ui} {
                 color: $tab-color-focus;
+            }
+            .#{$prefix}x-tab-icon-el-#{$ui} {
+                color: $tab-glyph-color-focus;
             }
         }
         &.#{$prefix}tab-over {
@@ -312,6 +363,9 @@
             .#{$prefix}tab-inner-#{$ui} {
                 color: $tab-color-over;
             }
+            .#{$prefix}x-tab-icon-el-#{$ui} {
+                color: $tab-glyph-color-over;
+            }
         }            
         &.#{$prefix}tab-over.#{$prefix}tab-focus {
             background-color: $tab-background-color-focus-over;
@@ -319,6 +373,9 @@
             
             .#{$prefix}tab-inner-#{$ui} {
                 color: $tab-color-focus-over;
+            }
+            .#{$prefix}x-tab-icon-el-#{$ui} {
+                color: $tab-glyph-color-focus-over;
             }
         }
         &.#{$prefix}tab-active {
@@ -328,6 +385,9 @@
             .#{$prefix}tab-inner-#{$ui} {
                 color: $tab-color-active;
             }
+            .#{$prefix}x-tab-icon-el-#{$ui} {
+                color: $tab-glyph-color-active;
+            }
         }
         &.#{$prefix}tab-active.#{$prefix}tab-focus {
             background-color: $tab-background-color-focus-active;
@@ -335,6 +395,9 @@
             
             .#{$prefix}tab-inner-#{$ui} {
                 color: $tab-color-focus-active;
+            }
+            .#{$prefix}x-tab-icon-el-#{$ui} {
+                color: $tab-glyph-color-focus-active;
             }
         }
         &.#{$prefix}tab-active.#{$prefix}tab-over {
@@ -344,6 +407,9 @@
             .#{$prefix}tab-inner-#{$ui} {
                 color: $tab-color-over-active;
             }
+            .#{$prefix}x-tab-icon-el-#{$ui} {
+                color: $tab-glyph-color-over-active;
+            }
         }
         &.#{$prefix}tab-disabled {
             background-color: $tab-background-color-disabled;
@@ -351,6 +417,9 @@
             
             .#{$prefix}tab-inner-#{$ui} {
                 color: $tab-color-disabled;
+            }
+            .#{$prefix}x-tab-icon-el-#{$ui} {
+                color: $tab-glyph-color-disabled;
             }
         }
     }

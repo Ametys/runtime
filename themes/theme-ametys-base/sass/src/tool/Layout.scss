@@ -88,8 +88,8 @@
 	   	margin-left: 0px;
 	   	color:#e1e1e1;
 	   	position: absolute;
-	   	font-size: 16px;
-	  	line-height:16px;
+	   	font-size: 32px;
+	  	line-height: 32px;
 	   	top:0;
 	   	left:0;
 	   	height: 100%;
@@ -101,8 +101,8 @@
 	  	right:-2px;
 	  	bottom:-2px;
 	  	color:#FFFFFF;
-	  	font-size: 10px;
-	  	line-height:10px;
+	  	font-size: 18px;
+	  	line-height: 18px;
 	  	text-shadow: 2px 2px #666;
 	}
 }
@@ -193,18 +193,22 @@
             $tab-color-active: $ametys-tool-tab-gray-dark,
             $tab-border-color-active: $ametys-tool-tab-gray,
             $tab-background-color-active: darken($ametys-tool-tab-background-color, 2),
+            $tab-glyph-color-active: $ametys-tool-tab-gray-dark,
             
             $tab-color: $ametys-tool-tab-gray-dark,
             $tab-border-color: $ametys-tool-tab-background-color, 
             $tab-background-color: $ametys-tool-tab-background-color, 
+            $tab-glyph-color: $ametys-tool-tab-gray-dark,
 
             $tab-color-over: nth($ametys-tool-tab-colors-dark, $i),
             $tab-border-color-over: nth($ametys-tool-tab-colors, $i),
             $tab-background-color-over: nth($ametys-tool-tab-colors-light, $i),
+            $tab-glyph-color-over: nth($ametys-tool-tab-colors-dark, $i),
 
             $tab-color-over-active: nth($ametys-tool-tab-colors-dark, $i),
             $tab-border-color-over-active: nth($ametys-tool-tab-colors, $i),
-            $tab-background-color-over-active: nth($ametys-tool-tab-colors-light, $i)
+            $tab-background-color-over-active: nth($ametys-tool-tab-colors-light, $i),
+            $tab-glyph-color-over-active: nth($ametys-tool-tab-colors-dark, $i)
         );
     }        
         
@@ -219,14 +223,17 @@
             $tab-color-active: nth($ametys-tool-tab-colors-dark, $i),
             $tab-border-color-active: nth($ametys-tool-tab-colors, $i), 
             $tab-background-color-active: nth($ametys-tool-tab-colors-light, $i),
+            $tab-glyph-color-active: nth($ametys-tool-tab-colors-dark, $i),
                         
             $tab-color: $ametys-tool-tab-gray-dark,
             $tab-border-color: $ametys-tool-tab-background-color-focus, 
             $tab-background-color: $ametys-tool-tab-background-color-focus, 
+            $tab-glyph-color: $ametys-tool-tab-gray-dark,
 
             $tab-color-over: nth($ametys-tool-tab-colors-dark, $i),
             $tab-border-color-over: nth($ametys-tool-tab-colors, $i),
-            $tab-background-color-over: nth($ametys-tool-tab-colors-light, $i)
+            $tab-background-color-over: nth($ametys-tool-tab-colors-light, $i),
+            $tab-glyph-color-over: nth($ametys-tool-tab-colors-dark, $i)
         );
     }
 }
