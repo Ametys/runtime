@@ -488,7 +488,7 @@
                     <label i18n="true">PLUGINS_ADMIN_PLUGINS_SAVE_CHANGES_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_PLUGINS_SAVE_CHANGES_DESC</description>
 
-                    <icon-glyph>flaticon-save29</icon-glyph>
+                    <icon-glyph>flaticon-save31</icon-glyph>
                     <icon-small file="true">img/plugins/save_16.png</icon-small>
                     <icon-medium file="true">img/plugins/save_32.png</icon-medium>
                     <icon-large file="true">img/plugins/save_48.png</icon-large>
@@ -1063,7 +1063,7 @@
                     <label i18n="true">PLUGINS_ADMIN_CONFIG_HANDLE_SAVE</label>
                     <description i18n="true">PLUGINS_ADMIN_CONFIG_HANDLE_SAVE_DESC</description>
                     
-                    <icon-glyph>flaticon-save29</icon-glyph>
+                    <icon-glyph>flaticon-save31</icon-glyph>
                     <icon-small file="true">img/config/save_16.png</icon-small>
                     <icon-medium file="true">img/config/save_32.png</icon-medium>
                     <icon-large file="true">img/config/save_48.png</icon-large>

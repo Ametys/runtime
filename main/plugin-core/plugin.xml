@@ -646,7 +646,7 @@
                     <label i18n="true">PLUGINS_CORE_UITOOL_USERS_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UITOOL_USERS_DESCRIPTION</description>
                     <help>org.ametys.core.users</help>
-                    <icon-glyph>flaticon-users81</icon-glyph>
+                    <icon-glyph>flaticon-black302</icon-glyph>
                     <icon-small file="true">img/users/user_16.png</icon-small>
                     <icon-medium file="true">img/users/user_32.png</icon-medium>
                     <icon-large file="true">img/users/user_48.png</icon-large>
@@ -664,7 +664,7 @@
                     <title i18n="true">PLUGINS_CORE_UITOOL_USERS_LABEL</title>
                     <description i18n="true">PLUGINS_CORE_UITOOL_USERS_DESCRIPTION</description>
                     <help>org.ametys.core.users</help>
-                    <icon-glyph>flaticon-users81</icon-glyph>
+                    <icon-glyph>flaticon-black302</icon-glyph>
                     <icon-small file="true">img/users/user_16.png</icon-small>
                     <icon-medium file="true">img/users/user_32.png</icon-medium>
                     <icon-large file="true">img/users/user_48.png</icon-large>
@@ -694,7 +694,7 @@
                     <label i18n="true">PLUGINS_CORE_USERS_ADD_LABEL</label>
                     <default-description i18n="true">PLUGINS_CORE_USERS_ADD_DESCRIPTION</default-description>
                     
-                    <icon-glyph>flaticon-users81</icon-glyph>
+                    <icon-glyph>flaticon-black302</icon-glyph>
                     <icon-decorator>flaticon-decorator-add64</icon-decorator>
                     <icon-small file="true">img/users/add_16.png</icon-small>
                     <icon-medium file="true">img/users/add_32.png</icon-medium>
@@ -718,7 +718,7 @@
                     <label i18n="true">PLUGINS_CORE_USERS_EDIT_LABEL</label>
                     <default-description i18n="true">PLUGINS_CORE_USERS_EDIT_DESCRIPTION</default-description>
                     
-                    <icon-glyph>flaticon-users81</icon-glyph>
+                    <icon-glyph>flaticon-black302</icon-glyph>
                     <icon-decorator>flaticon-decorator-edit45</icon-decorator>
                     <icon-small file="true">img/users/modify_16.png</icon-small>
                     <icon-medium file="true">img/users/modify_32.png</icon-medium>
@@ -742,7 +742,7 @@
                     <label i18n="true">PLUGINS_CORE_USERS_DELETE_LABEL</label>
                     <default-description i18n="true">PLUGINS_CORE_USERS_DELETE_DESCRIPTION</default-description>
                     
-                    <icon-glyph>flaticon-users81</icon-glyph>
+                    <icon-glyph>flaticon-black302</icon-glyph>
                     <icon-decorator>flaticon-decorator-remove11</icon-decorator>
                     <icon-small file="true">img/users/delete_16.png</icon-small>
                     <icon-medium file="true">img/users/delete_32.png</icon-medium>
