@@ -334,7 +334,7 @@
         $tab-glyph-color-disabled: $tab-glyph-color
     )
 {
-    $glyph-decorator-lighten: 2;
+    $glyph-decorator-lighten: 20;
 
     &.#{$prefix}tab-#{$ui} {
         background-color: $tab-background-color;
