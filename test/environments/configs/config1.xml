@@ -39,4 +39,7 @@
 <smtp.mail.sysadminto>ametys@ametys.org</smtp.mail.sysadminto>
 <param2>param2</param2>
 <param4>4</param4>
+<runtime.captcha.type>jcaptcha</runtime.captcha.type>
+<runtime.captcha.recaptcha.publickey/>
+<runtime.captcha.recaptcha.secretkey/>
 </config>

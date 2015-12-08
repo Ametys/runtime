@@ -29,4 +29,7 @@
 <runtime.debug.ui>0</runtime.debug.ui>
 <runtime.cache.xslt>false</runtime.cache.xslt>
 <runtime.log.abnormal.time>false</runtime.log.abnormal.time>
+<runtime.captcha.type>jcaptcha</runtime.captcha.type>
+<runtime.captcha.recaptcha.publickey/>
+<runtime.captcha.recaptcha.secretkey/>
 </config>

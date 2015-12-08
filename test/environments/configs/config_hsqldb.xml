@@ -33,4 +33,7 @@
     <smtp.mail.password></smtp.mail.password>
     <smtp.mail.from>test@ametys.org</smtp.mail.from>
     <smtp.mail.sysadminto>ametys@ametys.org</smtp.mail.sysadminto>
+    <runtime.captcha.type>jcaptcha</runtime.captcha.type>
+    <runtime.captcha.recaptcha.publickey/>
+    <runtime.captcha.recaptcha.secretkey/>
 </config>
