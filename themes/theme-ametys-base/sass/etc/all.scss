@@ -294,6 +294,10 @@
     }
 }
 
+@function ametys-glyph-decorator($color) {
+    @return mix($color, #FFF, 80);
+}
+
 @mixin tab-button-color(
         $ui: 'default',
         
@@ -334,8 +338,6 @@
         $tab-glyph-color-disabled: $tab-glyph-color
     )
 {
-    $glyph-decorator-lighten: 20;
-
     &.#{$prefix}tab-#{$ui} {
         background-color: $tab-background-color;
         border-color: $tab-border-color;
@@ -348,7 +350,7 @@
             
             @if $tab-glyph-color != null { 
                 &:after {
-                    color: lighten($tab-glyph-color, $glyph-decorator-lighten);
+                    color: ametys-glyph-decorator($tab-glyph-color);
                 }
             }
         }
@@ -365,7 +367,7 @@
             
                 @if $tab-glyph-color-focus != null { 
                     &:after {
-                        color: lighten($tab-glyph-color-focus, $glyph-decorator-lighten);
+                        color: ametys-glyph-decorator($tab-glyph-color-focus);
                     }
                 }
             }
@@ -382,7 +384,7 @@
             
                 @if $tab-glyph-color-over != null { 
                     &:after {
-                        color: lighten($tab-glyph-color-over, $glyph-decorator-lighten);
+                        color: ametys-glyph-decorator($tab-glyph-color-over);
                     }
                 }
             }
@@ -399,7 +401,7 @@
             
                 @if $tab-glyph-color-focus-over != null { 
                     &:after {
-                        color: lighten($tab-glyph-color-focus-over, $glyph-decorator-lighten);
+                        color: ametys-glyph-decorator($tab-glyph-color-focus-over);
                     }
                 }
             }
@@ -416,7 +418,7 @@
             
                 @if $tab-glyph-color-active != null { 
                     &:after {
-                        color: lighten($tab-glyph-color-active, $glyph-decorator-lighten);
+                        color: ametys-glyph-decorator($tab-glyph-color-active);
                     }
                 }
             }
@@ -433,7 +435,7 @@
             
                 @if $tab-glyph-color-focus-active != null { 
                     &:after {
-                        color: lighten($tab-glyph-color-focus-active, $glyph-decorator-lighten);
+                        color: ametys-glyph-decorator($tab-glyph-color-focus-active);
                     }
                 }
             }
@@ -450,7 +452,7 @@
             
                 @if $tab-glyph-color-over-active != null { 
                     &:after {
-                        color: lighten($tab-glyph-color-over-active, $glyph-decorator-lighten);
+                        color: ametys-glyph-decorator($tab-glyph-color-over-active);
                     }
                 }
             }
@@ -467,7 +469,7 @@
             
                 @if $tab-glyph-color-disabled != null { 
                     &:after {
-                        color: lighten($tab-glyph-color-disabled, $glyph-decorator-lighten);
+                        color: ametys-glyph-decorator($tab-glyph-color-disabled);
                     }
                 }
             }
