@@ -188,15 +188,15 @@
         @include tab-button-color(
             $ui: 'tool-layoutzone',
             
-            $tab-color-active: $ametys-tool-tab-gray-dark,
-            $tab-border-color-active: $ametys-tool-tab-gray,
-            $tab-background-color-active: darken($ametys-tool-tab-background-color, 2),
-            $tab-glyph-color-active: $ametys-tool-tab-gray-dark,
+            $tab-color-active: darken($ametys-tool-tab-gray-dark, 10),
+            $tab-border-color-active: darken($ametys-tool-tab-gray, 10),
+            $tab-background-color-active: darken($ametys-tool-tab-background-color, 3),
+            $tab-glyph-color-active: darken($ametys-tool-tab-gray-dark, 10),
             
-            $tab-color: $ametys-tool-tab-gray-dark,
+            $tab-color: lighten($ametys-tool-tab-gray-dark, 5),
             $tab-border-color: $ametys-tool-tab-background-color, 
             $tab-background-color: $ametys-tool-tab-background-color, 
-            $tab-glyph-color: $ametys-tool-tab-gray-dark,
+            $tab-glyph-color: lighten($ametys-tool-tab-gray-dark, 5),
 
             $tab-color-over: nth($ametys-tool-tab-colors-dark, $i),
             $tab-border-color-over: nth($ametys-tool-tab-colors, $i),
