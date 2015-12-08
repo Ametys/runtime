@@ -1063,7 +1063,7 @@
                     <label i18n="true">PLUGINS_CORE_UITOOL_PROFILES_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UITOOL_PROFILES_DESCRIPTION</description>
                     <help>org.ametys.core.rights.profiles</help>
-                    <icon-glyph>flaticon-identification63</icon-glyph>
+                    <icon-glyph>flaticon-id16</icon-glyph>
                     <icon-small file="true">img/profiles/profile_16.gif</icon-small>
                     <icon-medium file="true">img/profiles/profile_32.gif</icon-medium>
                     <icon-large file="true">img/profiles/profile_50.gif</icon-large>
@@ -1081,7 +1081,7 @@
                     <title i18n="true">PLUGINS_CORE_UITOOL_PROFILES_LABEL</title>
                     <description i18n="true">PLUGINS_CORE_UITOOL_PROFILES_DESCRIPTION</description>
                     <help>org.ametys.core.rights.profiles</help>
-                    <icon-glyph>flaticon-identification63</icon-glyph>
+                    <icon-glyph>flaticon-id16</icon-glyph>
                     <icon-small file="true">img/profiles/profile_16.gif</icon-small>
                     <icon-medium file="true">img/profiles/profile_32.gif</icon-medium>
                     <icon-large file="true">img/profiles/profile_50.gif</icon-large>
@@ -1269,6 +1269,7 @@
                     <description i18n="true">PLUGINS_CORE_PROFILES_SELECT_ALL_DESCRIPTION</description>
                     <no-selection-description i18n="true">PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
                     
+                    <icon-glyph>flaticon-check51</icon-glyph>
                     <icon-small file="true">img/profiles/select_16.png</icon-small>
                     <icon-medium file="true">img/profiles/select_32.png</icon-medium>
                     <icon-large file="true">img/profiles/select_48.png</icon-large>
@@ -1296,6 +1297,7 @@
                     <description i18n="true">PLUGINS_CORE_PROFILES_UNSELECT_ALL_DESCRIPTION</description>
                     <no-selection-description i18n="true">PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
                     
+                    <icon-glyph>flaticon-blank32</icon-glyph>
                     <icon-small file="true">img/profiles/unselect_16.png</icon-small>
                     <icon-medium file="true">img/profiles/unselect_32.png</icon-medium>
                     <icon-large file="true">img/profiles/unselect_48.png</icon-large>

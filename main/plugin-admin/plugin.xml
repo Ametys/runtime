@@ -878,7 +878,7 @@
                     <label i18n="true">PLUGINS_ADMIN_TOOL_JVMSTATUS_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_JVMSTATUS_DESC</description>
                     
-                    <icon-glyph>flaticon-computer247</icon-glyph>
+                    <icon-glyph>flaticon-transport10</icon-glyph>
                     <icon-small file="true">img/jvmstatus/jvmstatus_16.png</icon-small>
                     <icon-medium file="true">img/jvmstatus/jvmstatus_32.png</icon-medium>
                     <icon-large file="true">img/jvmstatus/jvmstatus_48.png</icon-large>

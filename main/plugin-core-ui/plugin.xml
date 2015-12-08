@@ -167,6 +167,7 @@
                  <label i18n="true">PLUGINS_CORE_UI_RELOAD_WORKSPACE_LABEL</label>
                  <description i18n="true">PLUGINS_CORE_UI_RELOAD_WORKSPACE_DESCRIPTION</description>
                   
+                 <icon-glyph>flaticon-reload8</icon-glyph>
                  <param name="icon-small" file="true">img/system/reload_16.png</param>
                  <param name="icon-medium" file="true">img/system/reload_32.png</param>
                  <param name="icon-large" file="true">img/system/reload_48.png</param>
@@ -1230,6 +1231,7 @@
                  <label i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_LABEL</label>
                  <description i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_DESCRIPTION</description>
                   
+                 <icon-glyph>flaticon-return10</icon-glyph>
                  <param name="icon-small" file="true">img/userprefs/userprefs-reset_16.png</param>
                  <param name="icon-medium" file="true">img/userprefs/userprefs-reset_32.png</param>
                  <param name="icon-large" file="true">img/userprefs/userprefs-reset_48.png</param>
@@ -1248,6 +1250,7 @@
                  <label i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_LABEL</label>
                  <description i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_DESCRIPTION</description>
                   
+                 <icon-glyph>flaticon-hammer2</icon-glyph>
                  <param name="icon-small" file="true">img/userprefs/userprefs_16.png</param>
                  <param name="icon-medium" file="true">img/userprefs/userprefs_32.png</param>
                  <param name="icon-large" file="true">img/userprefs/userprefs_48.png</param>

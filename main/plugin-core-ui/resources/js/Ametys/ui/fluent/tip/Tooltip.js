@@ -211,7 +211,7 @@ Ext.define(
         
         register: function(config)
         {
-            if (config.helpId || config.image || config.inribbon)
+            if (config.helpId || config.image || config.inribbon || config.glyphIcon)
             {
                 Ext.apply(config, this.self.create(config));
             }
