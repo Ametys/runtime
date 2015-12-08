@@ -162,7 +162,7 @@
     $font-size-focus: $ametys-ribbon-header-button-font-size,
     $font-size-pressed: $ametys-ribbon-header-button-font-size,
     
-    $line-height: $ametys-ribbon-header-button-font-size*1.1,
+    $line-height: $ametys-ribbon-header-button-font-size*1.1 + 1px,
     
     $font-weight: $ametys-ribbon-header-button-font-weight,
     $font-weight-over: $ametys-ribbon-header-button-font-weight,
