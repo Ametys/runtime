@@ -54,6 +54,40 @@
     $ui-padding: 1px 1px 0 1px
 );
 
+
+.#{$prefix}menu-item .#{$prefix}menu-item-icon {
+	&:before {
+	   	margin-left: 0px !important;
+	   	position: absolute;
+	   	font-size: 16px !important;
+	  	line-height: 16px !important;
+	   	top:0;
+	   	left:0;
+	   	height: 100%;
+	   	color:$ametys-ribbon-main-glyph-color;
+	}
+   	
+	&:after {
+	  	margin-left: 0px;
+	  	position: absolute;
+	  	bottom:0px;
+	  	font-size: 11px;
+	  	line-height: 11px;
+	  	text-shadow: 2px 2px #999999;
+	  	color:$ametys-ribbon-button-glyph-decorator-color;
+	}
+}
+
+.#{$prefix}menu-item-active .#{$prefix}menu-item-icon-ribbon-menu {
+	&:before {
+		color:$ametys-ribbon-main-glyph-color-over;
+	}
+	
+	&:after {
+		color:mix($ametys-ribbon-main-glyph-color-over, #FFF, 20%);
+	}
+}
+
 .a-ribbon-searchmenu-item-category {
     font-size: $menu-item-font-size * .9;
     color: $ametys-ribbon-menu-emphase-color;

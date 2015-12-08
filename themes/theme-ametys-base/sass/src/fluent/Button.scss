@@ -171,7 +171,7 @@
     	}
     }
     
-    .#{$prefix}btn-icon-el-#{$ui}-small {
+    .#{$prefix}btn-#{$ui}-small .#{$prefix}btn-icon-el-#{$ui}-small {
     	&:before {
 	    	margin-left: 0px;
 	    	font-size: 16px;
@@ -180,8 +180,8 @@
     	&:after {
 	    	margin-left: 0px;
 	    	position: absolute;
-	    	right:-1px;
-	    	bottom:-1px;
+	    	left:8px;
+	    	bottom:0px;
 	    	line-height:10px;
 	    	font-size: 10px;
     	}

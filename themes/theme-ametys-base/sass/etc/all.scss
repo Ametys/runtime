@@ -295,7 +295,7 @@
 }
 
 @function ametys-glyph-decorator($color) {
-    @return mix($color, #FFF, 80);
+    @return mix($color, #000, 90);
 }
 
 @mixin tab-button-color(
