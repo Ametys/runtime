@@ -13,6 +13,21 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+ 
+@include extjs-button-small-ui($ui: 'light');
+@include extjs-button-medium-ui($ui: 'light');
+@include extjs-button-large-ui($ui: 'light');
+@include extjs-button-toolbar-small-ui($ui: 'light');
+@include extjs-button-toolbar-medium-ui($ui: 'light');
+@include extjs-button-toolbar-large-ui($ui: 'light');
+
+@include extjs-button-small-ui($ui: 'lighter');
+@include extjs-button-medium-ui($ui: 'lighter');
+@include extjs-button-large-ui($ui: 'lighter');
+@include extjs-button-toolbar-small-ui($ui: 'lighter');
+@include extjs-button-toolbar-medium-ui($ui: 'lighter');
+@include extjs-button-toolbar-large-ui($ui: 'lighter');
+ 
 @include buttons-color(
     $ui: 'light',
     $border-color: transparent, $border-color-over: transparent, $border-color-focus: transparent, $border-color-pressed: transparent, $border-color-focus-over: transparent, $border-color-focus-pressed: transparent, $border-color-disabled: transparent,
