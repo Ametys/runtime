@@ -187,7 +187,7 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsTool', {
 						tooltip: "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_CLEAR_FILTER'/>",
 						handler: Ext.bind (this._clearSearchFilter, this),
 						icon: Ametys.getPluginResourcesPrefix('admin') + '/img/plugins/clear.gif',
-						ui: 'light'
+						cls: 'a-btn-light'
 					}, 
                     {
                         xtype: 'tbspacer',
@@ -198,14 +198,14 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsTool', {
 						tooltip: "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_EXPAND_ALL'/>",
 						handler: Ext.bind (this._expandAll, this, [], false),
 						icon: Ametys.getPluginResourcesPrefix('admin') + '/img/plugins/expand-all.gif',
-                        ui: 'light'
+                        cls: 'a-btn-light'
 					},
 					{
 						// Collapse all
 						tooltip: "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_COLLAPSE_ALL'/>",
 						handler: Ext.bind (this._collapseAll, this, [], false),
 						icon: Ametys.getPluginResourcesPrefix('admin') + '/img/plugins/collapse-all.gif',
-                        ui: 'light'
+                        cls: 'a-btn-light'
 					}
 			]
 		};

@@ -14,27 +14,13 @@
  *  limitations under the License.
  */
  
-@include extjs-button-small-ui($ui: 'light');
-@include extjs-button-medium-ui($ui: 'light');
-@include extjs-button-large-ui($ui: 'light');
-@include extjs-button-toolbar-small-ui($ui: 'light');
-@include extjs-button-toolbar-medium-ui($ui: 'light');
-@include extjs-button-toolbar-large-ui($ui: 'light');
-
-@include extjs-button-small-ui($ui: 'lighter');
-@include extjs-button-medium-ui($ui: 'lighter');
-@include extjs-button-large-ui($ui: 'lighter');
-@include extjs-button-toolbar-small-ui($ui: 'lighter');
-@include extjs-button-toolbar-medium-ui($ui: 'lighter');
-@include extjs-button-toolbar-large-ui($ui: 'lighter');
- 
 @include buttons-color(
-    $ui: 'light',
+    $cls: 'a-btn-light',
     $border-color: transparent, $border-color-over: transparent, $border-color-focus: transparent, $border-color-pressed: transparent, $border-color-focus-over: transparent, $border-color-focus-pressed: transparent, $border-color-disabled: transparent,
     $background-color: transparent, $background-color-focus: transparent, $background-color-disabled: transparent
 );    
 @include buttons-color(
-    $ui: 'lighter',
+    $cls: 'a-btn-lighter',
     $border-color: transparent, $border-color-over: transparent, $border-color-focus: transparent, $border-color-pressed: transparent, $border-color-focus-over: transparent, $border-color-focus-pressed: transparent, $border-color-disabled: transparent,
     $background-color: transparent, $background-color-over: transparent, $background-color-focus: transparent, $background-color-pressed: transparent, $background-color-focus-over: transparent, $background-color-focus-pressed: transparent, $background-color-disabled: transparent
 );    
@@ -71,71 +57,15 @@
     );    
         
     @include buttons-color(
-        $ui: 'light',
+        $cls: 'a-btn-light',
         $color: $color, $color-over: $color-over, $color-focus: $color-focus, $color-pressed: $color-pressed, $color-focus-over: $color-focus-over, $color-focus-pressed: $color-focus-pressed, $color-disabled: $color-disabled, 
         $border-color: transparent, $border-color-over: transparent, $border-color-focus: transparent, $border-color-pressed: transparent, $border-color-focus-over: transparent, $border-color-focus-pressed: transparent, $border-color-disabled: transparent,
         $background-color: transparent, $background-color-over: $background-color-over, $background-color-focus: transparent, $background-color-pressed: $background-color-pressed, $background-color-focus-over: $background-color-focus-over, $background-color-focus-pressed: $background-color-focus-pressed, $background-color-disabled: transparent
     );    
     @include buttons-color(
-        $ui: 'lighter',
+        $cls: 'a-btn-lighter',
         $color: $color, $color-over: $color-over, $color-focus: $color-focus, $color-pressed: $color-pressed, $color-focus-over: $color-focus-over, $color-focus-pressed: $color-focus-pressed, $color-disabled: $color-disabled, 
         $border-color: transparent, $border-color-over: transparent, $border-color-focus: transparent, $border-color-pressed: transparent, $border-color-focus-over: transparent, $border-color-focus-pressed: transparent, $border-color-disabled: transparent,
         $background-color: transparent, $background-color-over: transparent, $background-color-focus: transparent, $background-color-pressed: transparent, $background-color-focus-over: transparent, $background-color-focus-pressed: transparent, $background-color-disabled: transparent
     );    
 }
-/*
-.a-tool-layout-zoned-focused {
-    @for $i from 1 through length($ametys-tool-tab-colors) {
-        $index: $i - 1;
-    
-        $active-color-dark: nth($ametys-tool-tab-colors-dark, $i);
-        $active-color: nth($ametys-tool-tab-colors, $i);
-        $active-color-light: nth($ametys-tool-tab-colors-light, $i);
-    
-        $color: $ametys-tool-tab-gray-superdark; 
-        $color-over: $ametys-tool-tab-gray-superdark; 
-        $color-focus: $ametys-tool-tab-gray-superdark; 
-        $color-pressed: $ametys-tool-tab-gray-superdark; 
-        $color-focus-over: $ametys-tool-tab-gray-superdark; 
-        $color-focus-pressed: $ametys-tool-tab-gray-superdark; 
-        $color-disabled: $ametys-tool-tab-gray-superdark; 
-    
-        $border-color: $active-color;
-        $border-color-over: button-default-border-color-over($border-color);
-        $border-color-focus: button-default-border-color-focus($border-color);
-        $border-color-pressed: button-default-border-color-pressed($border-color);
-        $border-color-focus-over: $border-color-over;
-        $border-color-focus-pressed: $border-color-pressed;
-        $border-color-disabled: button-default-border-color-disabled($border-color);
-    
-        $background-color: $base-highlight-color;
-        $background-color-over: button-default-background-color-over($background-color);
-        $background-color-focus: button-default-background-color-focus($background-color);
-        $background-color-pressed: button-default-background-color-pressed($background-color);
-        $background-color-focus-over: $background-color-over;
-        $background-color-focus-pressed: $background-color-pressed;
-        $background-color-disabled: button-default-background-color-disabled($background-color);
-            
-        &.a-tool-layout-zoned-panel-#{$index*10} {
-            @include buttons-color(
-                $color: $color, $color-over: $color-over, $color-focus: $color-focus, $color-pressed: $color-pressed, $color-focus-over: $color-focus-over, $color-focus-pressed: $color-focus-pressed, $color-disabled: $color-disabled, 
-                $border-color: $border-color, $border-color-over: $border-color-over, $border-color-focus: $border-color-focus, $border-color-pressed: $border-color-pressed, $border-color-focus-over: $border-color-focus-over, $border-color-focus-pressed: $border-color-focus-pressed, $border-color-disabled: $border-color-disabled,
-                $background-color: $background-color, $background-color-over: $background-color-over, $background-color-focus: $background-color-focus, $background-color-pressed: $background-color-pressed, $background-color-focus-over: $background-color-focus-over, $background-color-focus-pressed: $background-color-focus-pressed, $background-color-disabled: $background-color-disabled
-            );    
-                
-            @include buttons-color(
-                $ui: 'light',
-                $color: $color, $color-over: $color-over, $color-focus: $color-focus, $color-pressed: $color-pressed, $color-focus-over: $color-focus-over, $color-focus-pressed: $color-focus-pressed, $color-disabled: $color-disabled, 
-                $border-color: transparent, $border-color-over: transparent, $border-color-focus: transparent, $border-color-pressed: transparent, $border-color-focus-over: transparent, $border-color-focus-pressed: transparent, $border-color-disabled: transparent,
-                $background-color: transparent, $background-color-over: $background-color-over, $background-color-focus: transparent, $background-color-pressed: $background-color-pressed, $background-color-focus-over: $background-color-focus-over, $background-color-focus-pressed: $background-color-focus-pressed, $background-color-disabled: transparent
-            );    
-            @include buttons-color(
-                $ui: 'lighter',
-                $color: $color, $color-over: $color-over, $color-focus: $color-focus, $color-pressed: $color-pressed, $color-focus-over: $color-focus-over, $color-focus-pressed: $color-focus-pressed, $color-disabled: $color-disabled, 
-                $border-color: transparent, $border-color-over: transparent, $border-color-focus: transparent, $border-color-pressed: transparent, $border-color-focus-over: transparent, $border-color-focus-pressed: transparent, $border-color-disabled: transparent,
-                $background-color: transparent, $background-color-over: transparent, $background-color-focus: transparent, $background-color-pressed: transparent, $background-color-focus-over: transparent, $background-color-focus-pressed: transparent, $background-color-disabled: transparent
-            );
-        }    
-    }
-}
-*/

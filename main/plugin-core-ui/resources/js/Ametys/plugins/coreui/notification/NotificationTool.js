@@ -84,7 +84,7 @@ Ext.define('Ametys.plugins.coreui.notification.NotificationTool', {
 			border: false,
 			defaultType: 'button',
 			defaults: {
-				ui: 'light',
+				cls: 'a-btn-light',
 				enableToggle: true
 			},
 			items: [

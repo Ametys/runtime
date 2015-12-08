@@ -50,6 +50,7 @@
     $ui-strip-border-width: 1px 0 0 0,
     $ui-strip-border-color: $ametys-ribbon-tabpanel-active-border-color
 );
+
 .#{$prefix}panel-ribbon-tabpanel {
     // A floating component is using the extjs z-index manager, and will be at above 19000... but we want to keep it at floor to be under drag'n'drop components
     z-index: 4 !important;    
@@ -60,13 +61,17 @@
         $current-color: nth($ametys-ribbon-contextualgroup-colors, $i);
         
         &.a-fluent-tab-contextual-#{$i} {
+            .#{$prefix}tab-inner-ribbon-tabpanel {
+                color: $ametys-ribbon-base-color;
+            }
+            
             &.#{$prefix}tab-over {
                 border-color: transparent;
                 background-color: nth($ametys-ribbon-contextualgroup-colors-light, $i);
             }
             
             &.#{$prefix}tab-active {
-                border-color: $ametys-ribbon-tabpanel-active-border-color $ametys-ribbon-tabpanel-active-border-color transparent $ametys-ribbon-tabpanel-active-border-color;
+                border-color: mix(nth($ametys-ribbon-contextualgroup-colors-light, $i), #dbdbdb, 50%) $ametys-ribbon-tabpanel-active-border-color transparent $ametys-ribbon-tabpanel-active-border-color;
                 background-color: $ametys-ribbon-tabpanel-active-background-color;
             }
             

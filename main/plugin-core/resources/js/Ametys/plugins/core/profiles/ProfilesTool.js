@@ -530,7 +530,7 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 				tools: [
 			        {
 			        	xtype: 'button',
-                        ui: 'light',
+                        cls: 'a-btn-light',
                         padding: '0 3px',
 			        	itemId: 'category-select-all',
 			        	icon: Ametys.getPluginResourcesPrefix('core') + '/img/profiles/select_16.png',
@@ -552,7 +552,7 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 			        },
 			        {
 			        	xtype: 'button',
-                        ui: 'light',
+                        cls: 'a-btn-light',
                         padding: '0 3px',
 			        	itemId: 'category-unselect-all',
 			        	icon: Ametys.getPluginResourcesPrefix('core') + '/img/profiles/unselect_16.png',
