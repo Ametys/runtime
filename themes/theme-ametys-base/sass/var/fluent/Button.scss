@@ -36,6 +36,13 @@ $ametys-ribbon-button-background-color-pressed: darken($ametys-ribbon-button-bac
 /** @var {color} Background color for buttons in the ribbon when the button has the focus */
 $ametys-ribbon-button-background-color-focus: $ametys-ribbon-tab-color;
 
+$ametys-ribbon-button-glyph-color: dynamic($ametys-ribbon-main-glyph-color);
+$ametys-ribbon-button-glyph-color-pressed: dynamic($ametys-ribbon-main-glyph-color-pressed);
+$ametys-ribbon-button-glyph-color-over: dynamic($ametys-ribbon-main-glyph-color-over);
+$ametys-ribbon-button-glyph-decorator-color: dynamic(lighten($ametys-ribbon-button-glyph-color, 20));
+$ametys-ribbon-button-glyph-decorator-color-pressed: dynamic(lighten($ametys-ribbon-button-glyph-color-pressed, 20));
+$ametys-ribbon-button-glyph-decorator-color-over: dynamic(lighten($ametys-ribbon-button-glyph-color-over, 20));
+
 $ametys-ribbon-button-padding-small: 3px;
 $ametys-ribbon-button-iconspacing-small: 3px;
 $ametys-ribbon-button-textpadding-small: 3px;
