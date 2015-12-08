@@ -60,18 +60,23 @@
     @for $i from 1 through length($ametys-ribbon-contextualgroup-colors) {
         $current-color: nth($ametys-ribbon-contextualgroup-colors, $i);
         
+        $mixed-color: mix(nth($ametys-ribbon-contextualgroup-colors-light, $i), #dbdbdb, 50%);
+        
         &.a-fluent-tab-contextual-#{$i} {
+            border-bottom-color: $mixed-color;
+            z-index: 3;
+        
             .#{$prefix}tab-inner-ribbon-tabpanel {
                 color: $ametys-ribbon-base-color;
             }
             
             &.#{$prefix}tab-over {
-                border-color: transparent;
+                border-color: transparent transparent $mixed-color transparent;
                 background-color: nth($ametys-ribbon-contextualgroup-colors-light, $i);
             }
             
             &.#{$prefix}tab-active {
-                border-color: mix(nth($ametys-ribbon-contextualgroup-colors-light, $i), #dbdbdb, 50%) $ametys-ribbon-tabpanel-active-border-color transparent $ametys-ribbon-tabpanel-active-border-color;
+                border-color: $mixed-color $ametys-ribbon-tabpanel-active-border-color transparent $ametys-ribbon-tabpanel-active-border-color;
                 background-color: $ametys-ribbon-tabpanel-active-background-color;
             }
             

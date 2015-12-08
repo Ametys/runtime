@@ -177,7 +177,7 @@
             z-index: 12;
             width: 0;
             height: 0;
-            border-bottom: 3px solid $ametys-tool-tab-gray;
+            border-bottom: 3px solid darken($ametys-tool-tab-gray, 10);
             border-left: 3px solid transparent;
             border-right: 3px solid transparent;
             left: 50%;
