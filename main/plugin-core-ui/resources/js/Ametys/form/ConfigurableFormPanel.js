@@ -68,9 +68,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     },
     
     /**
-     * @cfg {Number} maxNestedLevel=3 For layout purposes, this value is the number of nested repeaters/fieldsets.
+     * @cfg {Number} maxNestedLevel=1 For layout purposes, this value is the number of nested repeaters/fieldsets.
      */
-    maxNestedLevel: 3,
+    maxNestedLevel: 1,
     
     /**
      * @cfg {String/String[]/Ext.XTemplate} tabErrorFieldsTpl
