@@ -20,18 +20,27 @@
 @include extjs-panel-ui(
     $ui: 'ribbon',
     
-    $ui-header-background-color: $ametys-ribbon-header-background-color,
+    $ui-header-background-color: transparent,
     $ui-header-color: $ametys-ribbon-header-color,
     $ui-header-font-size: $ametys-ribbon-header-font-size,
     $ui-header-font-weight: $ametys-ribbon-header-font-weight,
     $ui-header-line-height: $ametys-ribbon-header-height - 2*$ametys-ribbon-header-border-height,
     $ui-header-padding: 0 right($panel-header-padding) 0 left($panel-header-padding),
     $ui-header-text-padding: $ametys-ribbon-header-border-height 0, 
-    $ui-header-border-width: 0
+    $ui-header-border-width: 0,
+    
+    $ui-body-background-color: transparent
 );
 .a-fluent-header-title-extension
 {
     color: $ametys-ribbon-header-highlight-color;
+}
+.#{$prefix}panel-ribbon
+{
+    background-color: $ametys-ribbon-header-background-color;
+    background-image: theme-background-image('fluent/ribbon-bg');
+    background-position: top right;
+    background-repeat: no-repeat;
 }
 
 /**

@@ -20,7 +20,7 @@
 @include extjs-tab-panel-ui(
     $ui: 'ribbon-tabpanel',
     
-    $ui-bar-background-color: $ametys-ribbon-tabpanel-background-color,
+    $ui-bar-background-color: transparent,
     $ui-tab-font-size: $ametys-ribbon-tabpanel-font-size,
     $ui-tab-font-weight: normal,
     
@@ -83,7 +83,7 @@
 @include extjs-panel-ui(
     $ui: 'ribbon-tabpanel', 
     
-    $ui-header-background-color: $ametys-ribbon-tabpanel-background-color,
+    $ui-header-background-color: transparent,
     $ui-header-line-height: $ametys-ribbon-tabpanel-height,
     $ui-header-padding: 0 right($panel-header-padding) 0 0,
     $ui-header-border-width: 0,

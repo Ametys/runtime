@@ -34,6 +34,7 @@
     
     <xsl:template name="head-title"><i18n:text i18n:catalogue='application' i18n:key='APPLICATION_PRODUCT_LABEL'/></xsl:template>
     <xsl:template name="applicationTitle"><i18n:text i18n:catalogue="application" i18n:key="APPLICATION_PRODUCT_LABEL"/></xsl:template>
+    <xsl:template name="ribbonTitle"/>
     <xsl:template name="css-file">/plugins/core-ui/resources/css/special/splashscreen.css</xsl:template>
     
     <xsl:template name="uicall">
@@ -339,7 +340,9 @@
                             </xsl:for-each>
                             
                             var ribbon = Ext.create("Ametys.ui.fluent.ribbon.Ribbon", {<xsl:text/>
-                                <xsl:text/>applicationTitle: '&lt;span class="x-fluent-tab-panel-header-title-extension"&gt;<xsl:call-template name="applicationTitle"/>&lt;/span&gt;',<xsl:text/>
+                                <xsl:text/>applicationTitle: "<xsl:call-template name="applicationTitle"/>",
+                                title: "<xsl:call-template name="ribbonTitle"/>",
+                                
                                 id: 'ribbon',
                                 
                                 mainButton: {
@@ -406,11 +409,14 @@
                                     login: "<xsl:value-of select="user/@login"/>",
                                     email: "<xsl:value-of select="user/email"/>",
                                     menu: { 
-                                        items: [{
-                                            text: "<i18n:text i18n:key='PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_TABPANEL_EDIT_PROFILE_IMAGE' i18n:catalogue='plugin.core-ui'/>",
-                                            handler: Ametys.userprefs.UserProfileDialog.open,
-                                            scope: Ametys.userprefs.UserProfileDialog
-                                        }]
+                                        items: [
+                                            '-',
+                                            {
+                                                text: "<i18n:text i18n:key='PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_TABPANEL_EDIT_PROFILE_IMAGE' i18n:catalogue='plugin.core-ui'/>",
+                                                handler: Ametys.userprefs.UserProfileDialog.open,
+                                                scope: Ametys.userprefs.UserProfileDialog
+                                            }
+                                        ]
                                     }
                                     <xsl:if test="string-length(user/email) > 1">,
                                         smallPhoto: Ametys.getPluginDirectPrefix('core-ui') + '/current-user/image_16',
@@ -586,7 +592,7 @@
                 Ametys.tool.ToolsManager.setToolsLayout("Ametys.ui.tool.layout.ZonedTabsToolsLayout", { 
                     initialized: false,
                     titleChangedCallback: function(title) {
-                        Ext.getCmp("ribbon").setTitle(title);
+                        // Ext.getCmp("ribbon").setTitle(title);
                     } 
                 });
             </script>
@@ -602,16 +608,19 @@
     
     
     
-    <!--xsl:template name="theme-scripts">
-        <script absolute="true">/~cmd/extensions/sencha-fashion/fashion/fashion.js</script>
-        <script absolute="true">/~cmd/extensions/sencha-fashion/sass-compiler.js</script>
+<!--     <xsl:template name="theme-scripts"> -->
+<!--         <script absolute="true">/~cmd/extensions/sencha-fashion/fashion/fashion.js</script> -->
+<!--         <script absolute="true">/~cmd/extensions/sencha-fashion/sass-compiler.js</script> -->
         
-        <script absolute="true">/ext/build/classic/theme-neptune/theme-neptune-debug.js</script>
-        <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/Ribbon/ContextualTabGroup.js</script>
-        <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/GroupScale.js</script>
-        <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/TabPanel.js</script>
-        <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/tool/layout/ZonedTabsToolsLayout/ZoneTabsToolsPanel.js</script>
-        <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/grid/plugin/Multisort.js</script>
-    </xsl:template>
-    <xsl:template name="theme-styles"/-->     
+<!--         <script absolute="true">/ext/build/classic/theme-neptune/theme-neptune-debug.js</script> -->
+<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/Ribbon/ContextualTabGroup.js</script> -->
+<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/GroupScale.js</script> -->
+<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/TabPanel.js</script> -->
+<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/tool/layout/ZonedTabsToolsLayout/ZoneTabsToolsPanel.js</script> -->
+<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/grid/plugin/Multisort.js</script> -->
+
+<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ext/tree/Panel.js</script> -->
+<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ext/resizer/Splitter.js</script> -->
+<!--     </xsl:template> -->
+<!--     <xsl:template name="theme-styles"/>      -->
 </xsl:stylesheet>
