@@ -632,6 +632,8 @@ Ext.define("Ametys.tool.Tool",
                 largeIcon: this.getLargeIcon(),
                 helpId: this.getToolHelpId(),
                 dirtyState: this.isDirty(),
+                
+                priority: (Ametys.tool.Tool.TYPES[this.getType() || Ametys.tool.Tool.TYPE_DEFAULT] || { priority: 0 }).priority,
 				type: (Ametys.tool.Tool.TYPES[this.getType() || Ametys.tool.Tool.TYPE_DEFAULT] || { ui: Ametys.ui.tool.ToolPanel.TOOLTYPE_0 }).ui,
                 
 				dockedItems: [oodPanel],
