@@ -1295,6 +1295,23 @@
     
     <feature name="configurableformpanel.checks" safe="true">
         <extensions>
+            <extension id="org.ametys.plugins.core.configurableformpanel.RunTests"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.SimpleMenu">
+                <class name="Ametys.plugins.coreui.configurableformpanel.TestsController">
+                    <selection-target-type>^form$</selection-target-type>
+                    <label i18n="true">PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_TESTS</label>
+                    <description i18n="true">PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_TESTS_DESC</description>
+                </class>
+                <menu-items>
+                    <item ref="org.ametys.plugins.core.configurableformpanel.CheckMissed" primaryItem="true"/>
+                    <item ref="org.ametys.plugins.core.configurableformpanel.CheckAll"/>
+                </menu-items>
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/configurableformpanel/TestsController.js</file>
+                </scripts>
+            </extension>
+            
             <extension id="org.ametys.plugins.core.configurableformpanel.CheckAll"
                        point="org.ametys.core.ui.RibbonControlsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
@@ -1304,10 +1321,10 @@
                     
                     <selection-target-type>^form$</selection-target-type>
                     
-
                     <label i18n="true">PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_ALL_TESTS</label>
                     <description i18n="true">PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_ALL_TESTS_DESC</description>
                     
+                    <icon-glyph>flaticon-applicattion</icon-glyph>
                     <icon-small file="true">img/Ametys/common/form/configurable/tests/testall_16.png</icon-small>
                     <icon-medium file="true">img/Ametys/common/form/configurable/tests/testall_32.png</icon-medium>
                     <icon-large file="true">img/Ametys/common/form/configurable/tests/testall_48.png</icon-large>
@@ -1330,6 +1347,8 @@
                     <label i18n="true">PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_MISSED_TESTS</label>
                     <description i18n="true">PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_MISSED_TESTS_DESC</description>
                     
+                    <icon-glyph>flaticon-applicattion</icon-glyph>
+                    <icon-decorator>flaticon-decorator-alert9</icon-decorator>
                     <icon-small file="true">img/Ametys/common/form/configurable/tests/testmissing_16.png</icon-small>
                     <icon-medium file="true">img/Ametys/common/form/configurable/tests/testmissing_32.png</icon-medium>
                     <icon-large file="true">img/Ametys/common/form/configurable/tests/testmissing_48.png</icon-large>

@@ -1113,6 +1113,8 @@
                     <description i18n="true">PLUGINS_CORE_PROFILES_ADD_DESCRIPTION</description>
                     <no-right-description>PLUGINS_CORE_PROFILES_DESCRIPTION_NO_RIGHT</no-right-description>
                     
+                    <icon-glyph>flaticon-id16</icon-glyph>
+                    <icon-decorator>flaticon-decorator-add64</icon-decorator>
                     <icon-small file="true">img/profiles/add_16.gif</icon-small>
                     <icon-medium file="true">img/profiles/add_32.gif</icon-medium>
                     <icon-large file="true">img/profiles/add_50.gif</icon-large>
@@ -1136,6 +1138,8 @@
                     <description i18n="true">PLUGINS_CORE_PROFILES_RENAME_DESCRIPTION</description>
                     <no-selection-description i18n="true">PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
                     
+                    <icon-glyph>flaticon-id16</icon-glyph>
+                    <icon-decorator>flaticon-decorator-text1</icon-decorator>
                     <icon-small file="true">img/profiles/rename_16.gif</icon-small>
                     <icon-medium file="true">img/profiles/rename_32.gif</icon-medium>
                     <icon-large file="true">img/profiles/rename_50.gif</icon-large>
@@ -1159,6 +1163,8 @@
                     <description i18n="true">PLUGINS_CORE_PROFILES_DELETE_DESCRIPTION</description>
                     <no-selection-description i18n="true">PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
                     
+                    <icon-glyph>flaticon-id16</icon-glyph>
+                    <icon-decorator>flaticon-decorator-remove11</icon-decorator>
                     <icon-small file="true">img/profiles/delete_16.gif</icon-small>
                     <icon-medium file="true">img/profiles/delete_32.gif</icon-medium>
                     <icon-large file="true">img/profiles/delete_50.gif</icon-large>
@@ -1185,6 +1191,7 @@
                     <description i18n="true">PLUGINS_CORE_PROFILES_SWITCH_TO_EDITION_DESCRIPTION</description>
                     <no-selection-description i18n="true">PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
                     
+                    <icon-glyph>flaticon-edit5</icon-glyph>
                     <icon-small file="true">img/profiles/edit_16.png</icon-small>
                     <icon-medium file="true">img/profiles/edit_32.png</icon-medium>
                     <icon-large file="true">img/profiles/edit_48.png</icon-large>
@@ -1215,6 +1222,7 @@
                     <description i18n="true">PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS_DESCRIPTION</description>
                     <no-selection-description i18n="true">PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
                     
+                    <icon-glyph>flaticon-save31</icon-glyph>
                     <icon-small file="true">img/profiles/save_16.png</icon-small>
                     <icon-medium file="true">img/profiles/save_32.png</icon-medium>
                     <icon-large file="true">img/profiles/save_48.png</icon-large>
@@ -1244,6 +1252,8 @@
                     <description i18n="true">PLUGINS_CORE_PROFILES_DONT_SAVE_MODIFICATIONS_DESCRIPTION</description>
                     <no-selection-description i18n="true">PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
                     
+                    <icon-glyph>flaticon-save31</icon-glyph>
+                    <icon-decorator>flaticon-decorator-remove11</icon-decorator>
                     <icon-small file="true">img/profiles/unsave_16.png</icon-small>
                     <icon-medium file="true">img/profiles/unsave_32.png</icon-medium>
                     <icon-large file="true">img/profiles/unsave_48.png</icon-large>

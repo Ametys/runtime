@@ -300,11 +300,13 @@
     <!-- +
          | TestsController.js
          + -->
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_ALL_TESTS">Tester tous</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_ALL_TESTS_DESC">Lancer tous les tests, quel que soit leur statut actuel.</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_MISSED_TESTS">Tests manqués</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_MISSED_TESTS_DESC">Lancer tous les tests qui ne sont pas en statut "Réussi".</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_TEXT">Les vérifications permettent de vérifier les paramètres de configuration. Voici le bilan :</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_TESTS">Lancer les tests</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_TESTS_DESC">Cliquez ici pour lancer les tests de vérification des paramètres de configuration.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_ALL_TESTS">Lancer tous les tests</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_ALL_TESTS_DESC">Lance tous les tests de vérification, quel que soit leur statut actuel.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_MISSED_TESTS">Lancer les tests manqués</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_MISSED_TESTS_DESC">Relance l'ensemble les tests ayant précédemment échoués.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_TEXT">Les tests permettent de vérifier la validité des paramètres de configuration.&lt;br/&gt;Voici le résultat des tests :</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_SUCCESSES">Succès</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_FAILURES">Echec(s)</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_NOT_TESTED">Non testé(s)</message>

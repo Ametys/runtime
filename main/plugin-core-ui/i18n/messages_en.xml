@@ -299,13 +299,15 @@
     <!-- +
          | TestsController.js
          + -->
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_ALL_TESTS">Test all</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_ALL_TESTS_DESC">Run all tests, regardless of their current status.</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_MISSED_TESTS">Test missed</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_MISSED_TESTS_DESC">Run all tests that do not have a "Success" status.</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_TEXT">The verifications are there to check the configuration parameters. Here are the results:</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_SUCCESSES">Success(es)</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_FAILURES">Failure(s)</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_TESTS">Run tests</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_TESTS_DESC">Click to run the verification tests of the configuration parameters.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_ALL_TESTS">Run all tests</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_ALL_TESTS_DESC">Lance tous les tests de vérification, quel que soit leur statut actuel.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_MISSED_TESTS">Run the missed tests</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_MISSED_TESTS_DESC">Run the tests that previously failed.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_TEXT">The tests check the validity of configuration parameters.&lt;br/&gt;Here are the results:</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_SUCCESSES">Success</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_FAILURES">Failure</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_NOT_TESTED">Not verified</message>
     
     <!-- Save -->

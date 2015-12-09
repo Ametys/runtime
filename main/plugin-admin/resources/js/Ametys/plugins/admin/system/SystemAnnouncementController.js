@@ -25,22 +25,10 @@ Ext.define('Ametys.plugins.admin.system.SystemAnnouncementController', {
 	 * @cfg {Boolean} [available=false] True if the system announcement is available
 	 */
 	/**
-	 * @cfg {String} [announcement-on-icon-small] The path to the icon of the button in size 16x16 pixels when the system announcement is on
+	 * @cfg {String} [announcement-on-icon-decorator] The CSS class for decorator when the system announcement is on
 	 */
 	/**
-	 * @cfg {String} [announcement-on-icon-medium] The path to the icon of the button in size 32x32 pixels when the system announcement is on
-	 */
-	/**
-	 * @cfg {String} [announcement-on-icon-large] The path to the icon of the button in size 48x48 pixels when the system announcement is on
-	 */
-	/**
-	 * @cfg {String} [announcement-off-icon-small] The path to the icon of the button in size 16x16 pixels when the system announcement is off
-	 */
-	/**
-	 * @cfg {String} [announcement-off-icon-medium] The path to the icon of the button in size 32x32 pixels when the system announcement is off
-	 */
-	/**
-	 * @cfg {String} [announcement-off-icon-large] The path to the icon of the button in size 48x48 pixels when the system announcement is off
+	 * @cfg {String} [announcement-off-icon-decorator] The CSS class for decorator when the system announcement is off
 	 */
 	
 	/**
@@ -57,27 +45,11 @@ Ext.define('Ametys.plugins.admin.system.SystemAnnouncementController', {
 	 */
 	
 	/**
-	 * @property {String} _onIconSmall See #cfg-announcement-on-icon-small
+	 * @property {String} _onIconDecorator See #cfg-announcement-on-icon-decorator
 	 * @private
 	 */
 	/**
-	 * @property {String} _onIconMedium See #cfg-announcement-on-icon-medium
-	 * @private
-	 */
-	/**
-	 * @property {String} _onIconLarge See #cfg-announcement-on-icon-large
-	 * @private
-	 */
-	/**
-	 * @property {String} _offIconSmall See #cfg-announcement-off-icon-small
-	 * @private
-	 */
-	/**
-	 * @property {String} _offIconMedium See #cfg-announcement-off-icon-medium
-	 * @private
-	 */
-	/**
-	 * @property {String} _offIconLarge See #cfg-announcement-off-icon-large
+	 * @property {String} _offIconDecorator See #cfg-announcement-off-icon-decorator
 	 * @private
 	 */
 	
@@ -85,30 +57,18 @@ Ext.define('Ametys.plugins.admin.system.SystemAnnouncementController', {
 	{
 		this.callParent(arguments);
 		
-		this._offIconSmall = this.getInitialConfig("announcement-off-icon-small") || this.getInitialConfig("icon-small");
-		this._offIconMedium = this.getInitialConfig("announcement-off-icon-medium") || this.getInitialConfig("icon-medium");
-		this._offIconLarge = this.getInitialConfig("announcement-off-icon-large") || this.getInitialConfig("icon-large");
-		
-		this._onIconSmall = this.getInitialConfig("announcement-on-icon-small") || this.getInitialConfig("icon-small");
-		this._onIconMedium = this.getInitialConfig("announcement-on-icon-medium") || this.getInitialConfig("icon-medium");
-		this._onIconLarge = this.getInitialConfig("announcement-on-icon-large") || this.getInitialConfig("icon-large");
+		this._offIconDecorator = this.getInitialConfig("announcement-off-icon-decorator");
+		this._onIconDecorator = this.getInitialConfig("announcement-on-icon-decorator");
 		
 		if (config.available)
 		{
-			this._iconSmall = this._onIconSmall;
-			this._iconMedium = this._onIconMedium;
-			this._iconLarge = this._onIconLarge;
-			
+			this._iconDecorator = this._onIconDecorator;
 			this._additionalDescription = this.getInitialConfig("announcement-on-description");
 		}
 		else
 		{
-			this._iconSmall = this._offIconSmall;
-			this._iconMedium = this._offIconMedium;
-			this._iconLarge = this._offIconLarge;
-			
+			this._iconDecorator = this._offIconDecorator;
 			this._additionalDescription = this.getInitialConfig("announcement-off-description");
-
 		}
 
 		Ametys.message.MessageBus.on(Ametys.message.Message.MODIFIED, this._onModified, this);
@@ -129,12 +89,12 @@ Ext.define('Ametys.plugins.admin.system.SystemAnnouncementController', {
 			var state = target.getParameters().state;
 			if (state)
 			{
-				this.setIcons (this._onIconSmall, this._onIconMedium, this._onIconLarge);
+				this.setIconDecorator (this._onIconDecorator);
 				this.setAdditionalDescription (this.getInitialConfig("announcement-on-description") || null);
 			}
 			else
 			{
-				this.setIcons (this._offIconSmall, this._offIconMedium, this._offIconLarge);
+				this.setIconDecorator (this._offIconDecorator);
 				this.setAdditionalDescription (this.getInitialConfig("announcement-off-description") || null);
 			}
 		}
