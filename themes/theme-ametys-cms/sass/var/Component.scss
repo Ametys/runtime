@@ -17,10 +17,6 @@
 /**
  * General
  */
-$ametys-rainbow:       dynamic(#960018 #ff9d00 #f2cb1d #2b822a #35baf6 #bb2581 #611ac0); 
-$ametys-rainbow-light: dynamic(#feeced #fff8ed #fffbe6 #e6f3e6 #e5f8ff #fcf0f7 #f6f1fc);
-$ametys-rainbow-dark:  dynamic(#8a1111 #d97c38 #987715 #118a11 #0a7fb2 #a1407a #884ecf); 
-
 $ametys-highlight-color: #804080;
 
 /**
@@ -65,8 +61,6 @@ $ametys-ribbon-tabpanel-linkbutton-color-over: $ametys-ribbon-header-highlight-c
 $ametys-ribbon-tabpanel-linkbutton-textdecoration-over: none;
 $ametys-ribbon-tabpanel-usercard-color: $ametys-ribbon-main-text-color;
 
-$ametys-ribbon-contextualgroup-colors: #e1393c #ff9d00 #f2cb1d #2b822a #00016e #bb2581 #611ac0;
-
 $ametys-ribbon-main-glyph-color: #717171;
 $ametys-ribbon-main-glyph-color-pressed: #804080;
-$ametys-ribbon-main-glyph-color-over: #602a60;
+$ametys-ribbon-main-glyph-color-over: #b060b0;

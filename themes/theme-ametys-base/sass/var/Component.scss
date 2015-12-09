@@ -49,9 +49,30 @@ $ametys-color-hint: dynamic(#404040);
 $ametys-background-color-hint: dynamic(#fcf0c0);
 
 $ametys-highlight-color: dynamic(#2a579a);
-$ametys-rainbow:        dynamic(#d21216 #ff9d00 #f2cb1d #49a349 #0043cc #c9599c #935ed3); 
-$ametys-rainbow-light:  dynamic(#fa9c9c #fff8ed #fffbe6 #e6f3e6 #e5eeff #fcf0f7 #f6f1fc); 
-$ametys-rainbow-dark:   dynamic(#8a1111 #d97c38 #987715 #118a11 #00308c #a1407a #884ecf); 
+
+// ROUGE
+// #c23249 #f6e8eb #960018
+// ORANGE 
+// #ef6c00 #fff8ed #cc6b24
+// #ef6c00 #fff1e5 #cc6b24
+// #ff9d00 #fff8ed #cf5c0a
+// JAUNE
+// #e3d711 #fffbe6 #b3a217
+// #e3d711 #fffee5 #b3a217
+// #f2cb1d #fffbe6 #987715
+// VERT
+// #36aa42 #def3dd #2c8435
+// #49a349 #e6f3e6 #118a11
+// BLEU 
+// #35baf6 #e5f8ff #0a7fb2
+// INDIGO
+// #c9599c #fcf0f7 #a1407a
+// VIOLET
+// #b060b0 #fcf0f7 #804080
+
+$ametys-rainbow:       dynamic(#c23249 #ef6c00 #e3d711 #36aa42 #35baf6 #c9599c #b060b0); 
+$ametys-rainbow-light: dynamic(#f6e8eb #fff1e5 #fafdbd #def3dd #e5f8ff #fcf0f7 #fcf0f7);
+$ametys-rainbow-dark:  dynamic(#960018 #cc6b24 #b3a217 #2c8435 #0a7fb2 #a1407a #804080); 
 
 /**
  * Ribbon
