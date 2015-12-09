@@ -33,3 +33,8 @@
     margin-top: 0;
     margin-bottom: 0;
 }
+
+
+.#{$prefix}tree-view .#{$prefix}grid-cell-inner {
+    padding: $tree-cell-inner-padding;
+}
