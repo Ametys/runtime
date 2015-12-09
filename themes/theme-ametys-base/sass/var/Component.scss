@@ -88,11 +88,13 @@ $ametys-ribbon-main-color: dynamic(#7F7F7F);
 /** @var {color} Ribbon controller's label color */
 $ametys-ribbon-main-text-color: dynamic(#7F7F7F);
 /** @var {color} Ribbon controller's icon glyph color */
-$ametys-ribbon-main-glyph-color: dynamic(#515151);
+$ametys-ribbon-main-glyph-color: dynamic(#616161);
 /** @var {color} Ribbon controller's icon glyph color */
 $ametys-ribbon-main-glyph-color-over: dynamic(#a1a1a1);
 /** @var {color} Ribbon controller's icon glyph color */
 $ametys-ribbon-main-glyph-color-pressed: dynamic(#818181);
+/** @var {color} Ribbon controller's icon glyph color */
+$ametys-ribbon-main-glyph-decorator-color-shadow: dynamic(#EEEEEE);
 /** @var {color} Ribbon tab background color */
 $ametys-ribbon-tab-color: dynamic(#F1F1F1);
 /** @var {color} Ribbon main active color declined for other colors */

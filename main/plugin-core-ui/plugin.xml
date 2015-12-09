@@ -892,6 +892,7 @@
 
                     <label i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_SETDEBUG_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_SETDEBUG_DESCRIPTION</description>
+                    
                     <icon-small file="true">img/uitool-consolelog/level_debug_16.png</icon-small>
                     <icon-medium file="true">img/uitool-consolelog/level_debug_32.png</icon-medium>
                     <icon-large file="true">img/uitool-consolelog/level_debug_48.png</icon-large>
@@ -991,6 +992,8 @@
                     
                     <title i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_LABEL</title>
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_DESCRIPTION</description>
+                    
+                    <icon-glyph>flaticon-log1</icon-glyph>
                     <icon-small file="true">img/uitool-consolelog/logs_16.png</icon-small>
                     <icon-medium file="true">img/uitool-consolelog/logs_32.png</icon-medium>
                     <icon-large file="true">img/uitool-consolelog/logs_48.png</icon-large>

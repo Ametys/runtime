@@ -63,6 +63,7 @@ Ext.define("Ametys.ui.fluent.ribbon.Ribbon.Notificator.Notification", {
         	}
         },
         {name: 'type',  type: 'string', defaultValue: 'info'},
+        {name: 'iconGlyph', type: 'string'},
         {name: 'icon', type: 'string'}, // if no icon specified, the default icon for the selected type will be used
         {name: 'creationDate', type: 'date', dateFormat: Ext.Date.patterns.ISO8601DateTime},
         {name: 'displayed', type: 'boolean'},

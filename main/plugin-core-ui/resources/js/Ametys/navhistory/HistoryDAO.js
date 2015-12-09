@@ -66,6 +66,7 @@ Ext.define("Ametys.navhistory.HistoryDAO.HistoryEntry", {
         		return d;
         	}
         },
+        {name: 'iconGlyph'},
 		{name: 'iconSmall'},
 		{name: 'iconMedium'},
 		{name: 'iconLarge'},
@@ -168,6 +169,7 @@ Ext.define('Ametys.navhistory.HistoryDAO', {
 			label: config.label,
 			date: new Date(),  
 			description: config.description || '',
+			iconGlyph: config.iconGlyph,
 			iconSmall: config.iconSmall,
 			iconMedium: config.iconMedium,
 			iconLarge: config.iconLarge,

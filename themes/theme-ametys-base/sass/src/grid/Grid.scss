@@ -31,4 +31,20 @@
     &.a-grid-icon-user {
         border-radius: 8px;
     }
+    
+    &:before {
+    	margin-left: 0px;
+    	font-size: 16px;
+    	font-weight:16px;
+    }
 } 
+
+.#{$prefix}grid-cell .a-grid-glyph {
+	&:before {
+    	margin-left: 0px;
+    	font-size: 16px;
+    	line-height:16px;
+    	color: $ametys-ribbon-main-glyph-color;
+    	margin-right: 5px;
+    }
+}

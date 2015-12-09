@@ -42,7 +42,12 @@ Ext.define('Ametys.timeline.Timeline', {
 	                  			'<tpl if="comment && comment != \'\'">',
 	                  				'<div class="comment"><span class="x-fa fa-quote-left"></span>{comment}</div>',
 	                  			'</tpl>',
-	                  			'<div class="bg-image" style="background-image:url(\'{icon}\')"></div>',
+	                  			'<tpl if="icon && icon != \'\'">',
+	                  				'<div class="bg-image" style="background-image:url(\'{icon}\')"></div>',
+	                  			'</tpl>',
+	                  			'<tpl if="iconGlyph && iconGlyph != \'\'">',
+	                  				'<div class="icon-glyph {iconGlyph}"></div>',
+	                  			'</tpl>',
 	                  		'</div>',
 	                  	'</div>'],	
 	 
@@ -134,7 +139,8 @@ Ext.define('Ametys.timeline.Timeline.TimelineItem', {
 		      'text',
 		      'comment',
 		      'topText',
-		      'icon'
+		      'icon',
+		      'iconGlyph'
      ]
 });
 

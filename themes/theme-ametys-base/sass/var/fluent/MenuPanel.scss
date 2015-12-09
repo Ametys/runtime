@@ -26,4 +26,11 @@ $ametys-ribbon-menupanel-header-font-size: $ametys-ribbon-font-size;
 $ametys-ribbon-menupanel-header-font-weight: bold;
 $ametys-ribbon-menupanel-header-padding: 3px;
 
+$ametys-ribbon-menupanel-glyph-color: dynamic($ametys-ribbon-main-glyph-color);
+$ametys-ribbon-menupanel-glyph-color-pressed: dynamic($ametys-ribbon-main-glyph-color-pressed);
+$ametys-ribbon-menupanel-glyph-color-over: dynamic($ametys-ribbon-main-glyph-color-over);
+$ametys-ribbon-menupanel-glyph-decorator-color: dynamic(ametys-glyph-decorator($ametys-ribbon-button-glyph-color));
+$ametys-ribbon-menupanel-glyph-decorator-color-pressed: dynamic(ametys-glyph-decorator($ametys-ribbon-button-glyph-color-pressed));
+$ametys-ribbon-menupanel-glyph-decorator-color-over: dynamic(ametys-glyph-decorator($ametys-ribbon-button-glyph-color-over));
+
  
