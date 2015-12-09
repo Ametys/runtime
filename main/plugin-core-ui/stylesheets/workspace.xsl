@@ -327,12 +327,14 @@
                                     var actionParam = <xsl:value-of select="action"/>;
                                     menuItems.push({
                                         text: actionParam['label'],
-                                        icon: Ametys.CONTEXT_PATH + actionParam['icon-small'],
+                                        iconCls: actionParam['icon-glyph'],
+                                        icon: actionParam['icon-glyph'] ? null : Ametys.CONTEXT_PATH + actionParam['icon-small'],
                                         handler: Ametys.getFunctionByName(actionParam['action']),
                                         tooltip: {
                                             title: actionParam['label'],
                                             text: actionParam['description'],
-                                            image: Ametys.CONTEXT_PATH + actionParam['icon-large'],
+                                            glyphIcon: actionParam['icon-glyph'],
+                                            image: actionParam['icon-glyph'] ? null : Ametys.CONTEXT_PATH + actionParam['icon-large'], 
                                             inribbon: false
                                         }
                                     });
@@ -605,8 +607,6 @@
     <xsl:template name="ui-extension-after-static-load">
         <!-- Keep empty. Here for inheritance purpose. -->
     </xsl:template>
-    
-    
     
 <!--     <xsl:template name="theme-scripts"> -->
 <!--         <script absolute="true">/~cmd/extensions/sencha-fashion/fashion/fashion.js</script> -->
