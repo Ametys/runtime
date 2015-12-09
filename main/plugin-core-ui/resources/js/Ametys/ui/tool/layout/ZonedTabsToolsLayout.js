@@ -434,16 +434,16 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
         {
             var zonedTabsToolPanel = this._panelHierarchy[location];
             
-            var newToolType = tool.getType();
+            var newToolPriority = tool.getPriority();
 
             var insertBeforeTabIndex = null;
             zonedTabsToolPanel.items.each( function(item) {
-                if ((this._tabPolicy == 'color' && item.getType() == newToolType) // Tab policy color mean, a single tool per color 
-                        || (this._tabPolicy == 'tool' && item.getType() == newToolType && item.getType() != Ametys.ui.tool.ToolPanel.TOOLTYPE_0)) // Tab policy tool mean, a single tool per color if color is different from default
+                if ((this._tabPolicy == 'color' && item.getPriority() == newToolPriority) // Tab policy color mean, a single tool per color 
+                        || (this._tabPolicy == 'tool' && item.getPriority() == newToolPriority && item.getPriority() != 0)) // Tab policy tool mean, a single tool per color if color is different from default
                 {
                     this.removeTool(item);
                 }
-                else if (tool.getType() > newToolType)
+                else if (this.getPriority() > newToolPriority)
                 {
                     insertBeforeTabIndex = zonedTabsToolPanel.items.indexOf(item);
                     return false;
