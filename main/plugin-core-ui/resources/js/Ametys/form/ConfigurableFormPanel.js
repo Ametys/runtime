@@ -435,6 +435,27 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         this.callParent(arguments);
     },
     
+    reset: function()
+    {
+    	this.callParent(arguments);
+    	
+    	// Reset the warnings and the parameter checkers' status
+		Ext.Array.each(this._paramCheckersDAO._paramCheckers, function(paramChecker)
+		{
+			paramChecker.setStatus(Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_NOT_TESTED);
+			
+			var statusCmp = Ext.getCmp(paramChecker.statusCmpId);
+			if (statusCmp)
+			{
+				statusCmp.hide();
+			}
+		});
+		
+		this._paramCheckersDAO._updateWarnings();
+
+		// TODO reset repeaters
+    },
+    
     /**
      * Get the form container config to be used during its creation.
      * @protected
