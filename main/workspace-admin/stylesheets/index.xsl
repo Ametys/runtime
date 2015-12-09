@@ -15,9 +15,11 @@
    limitations under the License.
    -->
 <xsl:stylesheet version="1.0" 
-                xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
 
     <xsl:import href="plugin:core-ui://stylesheets/workspace.xsl"/>
 
+    <xsl:template name="ribbonTitle"><i18n:text i18n:key="WORKSPACE_ADMINISTRATION_TITLE" i18n:catalogue="workspace.admin"/></xsl:template>
     <xsl:variable name="theme">ametys-admin</xsl:variable>
 </xsl:stylesheet>

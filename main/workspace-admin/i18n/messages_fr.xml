@@ -15,6 +15,9 @@
    limitations under the License.
    -->
 <catalogue xml:lang="fr">
+    
+    <!-- Workspace -->
+    <message key="WORKSPACE_ADMINISTRATION_TITLE">Administration</message>
 
     <!-- Ribbon -->
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_HOME_LABEL">Administration</message>

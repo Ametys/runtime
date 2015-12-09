@@ -16,6 +16,9 @@
    -->
 <catalogue xml:lang="en">
 
+    <!-- Workspace -->
+    <message key="WORKSPACE_ADMINISTRATION_TITLE">Administration</message>
+
     <!-- Ribbon -->
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_HOME_LABEL">Administration</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_LOGS_LABEL">Logs</message>
