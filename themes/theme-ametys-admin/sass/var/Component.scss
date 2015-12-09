@@ -17,16 +17,16 @@
 /**
  * General
  */
-$ametys-highlight-color: #2a579a;
+$ametys-highlight-color: #2a5a9a;
 
 /**
  * Ribbon
  */  
-$ametys-ribbon-base-color: #2a579a;
+$ametys-ribbon-base-color: #2a5a9a;
 $ametys-ribbon-main-color: #F0F0F0;
-$ametys-ribbon-main-text-color: #2a579a;
+$ametys-ribbon-main-text-color: #2a5a9a;
 $ametys-ribbon-tab-color: #F1F1F1;
-$ametys-ribbon-highlight-color: #3e6db6;
+$ametys-ribbon-highlight-color: #4070b0;
 
 $ametys-ribbon-tool-background-image: dynamic('tools/tool-sprites');
 
@@ -62,5 +62,5 @@ $ametys-ribbon-tabpanel-linkbutton-textdecoration-over: none;
 $ametys-ribbon-tabpanel-usercard-color: $ametys-ribbon-main-text-color;
 
 $ametys-ribbon-main-glyph-color: #717171;
-$ametys-ribbon-main-glyph-color-pressed: #2a579a;
-$ametys-ribbon-main-glyph-color-over: #3e6db6;
+$ametys-ribbon-main-glyph-color-pressed: #2a5a9a;
+$ametys-ribbon-main-glyph-color-over: #4070b0;
