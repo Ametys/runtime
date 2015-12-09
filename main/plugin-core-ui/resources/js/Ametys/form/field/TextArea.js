@@ -39,27 +39,29 @@
     
  	constructor: function(config)
  	{
-        // The layout is made in CSS only and me need to override the counter and the wraper with a div so CSS calculations are fine (display: table-cell does not seems to be a good parent).
-        config.beforeBodyEl = "<div>";
-        config.afterBodyEl = "</div>";
-        
- 		config.afterSubTpl = config.afterSubTpl || Ext.create('Ext.XTemplate', [
- 			'<div id="{id}-counter-wrapper" class="' + this.charCounterWrapperCls + '">',
-	 			'<span id="{id}-counter" class="' + this.charCounterCls + '">',
-	 				'<i18n:text i18n:key="PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_1"/> ',
-	 				'<span id="{id}-counter-val">0</span>',
-	 				(config.maxLength == null ? '' : (' <i18n:text i18n:key="PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_2"/> ' + config.maxLength)),
-	 			'</span>',
- 			'</div>'
- 		]);
-        
- 		this.callParent(arguments);
-        
- 		this.on({
- 			'change': this._updateCharCounter,
- 			'keyup': this._updateCharCounter
- 		});
+ 		if (config.charCounter !== false)
+		{
+			// The layout is made in CSS only and me need to override the counter and the wrapper with a div so CSS calculations are fine (display: table-cell does not seems to be a good parent).
+		    config.beforeBodyEl = "<div>";
+		    config.afterBodyEl = "</div>";
+		    
+			config.afterSubTpl = config.afterSubTpl || Ext.create('Ext.XTemplate', [
+				'<div id="{id}-counter-wrapper" class="' + this.charCounterWrapperCls + '">',
+		 			'<span id="{id}-counter" class="' + this.charCounterCls + '">',
+		 				'<i18n:text i18n:key="PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_1"/> ',
+		 				'<span id="{id}-counter-val">0</span>',
+		 				(config.maxLength == null ? '' : (' <i18n:text i18n:key="PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_2"/> ' + config.maxLength)),
+		 			'</span>',
+				'</div>'
+			]);
+			
+			config.listeners = {
+				'change': this._updateCharCounter,
+				'keyup': this._updateCharCounter
+			}
+		}
  		
+ 		this.callParent(arguments);
  	},
     
     /**
