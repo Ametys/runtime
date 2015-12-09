@@ -17,24 +17,20 @@
 /**
  * General
  */
-$ametys-rainbow:       dynamic(#960018 #ff9d00 #f2cb1d #2b822a #00016e #bb2581 #611ac0); 
-$ametys-rainbow-light: dynamic(#feeced #fff8ed #fffbe6 #e6f3e6 #e5eeff #fcf0f7 #f6f1fc);
-$ametys-rainbow-dark:  dynamic(#8a1111 #d97c38 #987715 #118a11 #00308c #a1407a #884ecf); 
-
-$ametys-highlight-color: #960018;
+$ametys-highlight-color: #a03939;
 
 /**
  * Ribbon
  */  
-$ametys-ribbon-base-color: #960018;
+$ametys-ribbon-base-color: #a03939;
 $ametys-ribbon-main-color: #F0F0F0;
-$ametys-ribbon-main-text-color: #302030;
+$ametys-ribbon-main-text-color: #a03939;
 $ametys-ribbon-tab-color: #F1F1F1;
-$ametys-ribbon-highlight-color: #638f91;
+$ametys-ribbon-highlight-color: #c95959;
 
 $ametys-ribbon-tool-background-image: dynamic('tools/tool-sprites');
 
-$ametys-ribbon-header-highlight-color: #b4e8f6;
+$ametys-ribbon-header-highlight-color: #daafb0;
 
 $ametys-ribbon-tabpanel-mainbutton-background-color: $ametys-ribbon-base-color;
 $ametys-ribbon-tabpanel-mainbutton-background-color-over: $ametys-ribbon-highlight-color;
@@ -65,4 +61,6 @@ $ametys-ribbon-tabpanel-linkbutton-color-over: $ametys-ribbon-header-highlight-c
 $ametys-ribbon-tabpanel-linkbutton-textdecoration-over: none;
 $ametys-ribbon-tabpanel-usercard-color: $ametys-ribbon-main-text-color;
 
-$ametys-ribbon-contextualgroup-colors: #e1393c #ff9d00 #f2cb1d #2b822a #00016e #bb2581 #611ac0;
+$ametys-ribbon-main-glyph-color: #717171;
+$ametys-ribbon-main-glyph-color-pressed: #a03939;
+$ametys-ribbon-main-glyph-color-over: #c95959;
