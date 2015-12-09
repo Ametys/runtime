@@ -97,7 +97,10 @@ Ext.define("Ametys.ui.tool.ToolPanel", {
     },
     
     /** 
-     * @cfg {Number} type=TOOLTYPE_0 The type of tool. Have to be one of the TOOLTUPE_ constants. A tool type may have a different rendering look and also an adapted policy (tools of same kind can be grouped together automatically) 
+     * @cfg {Number} type=TOOLTYPE_0 The type of the tool. Have to be one of the TOOLTUPE_ constants. A tool type may have a different rendering look and also an adapted policy (tools of same kind can be grouped together automatically) 
+     */
+    /** 
+     * @cfg {Number} priority=0 The priority of the tool. When the tool layout can display many tools at once, they should be ordered by priority. 
      */
     
     /**
@@ -155,6 +158,15 @@ Ext.define("Ametys.ui.tool.ToolPanel", {
     getType: function()
     {
         return this.type;
+    },
+
+    /**
+     * Get the priority of the tool
+     * @return {Number} The priority value configured at #cfg-priority.
+     */
+    getPriority: function()
+    {
+        return this.priority;
     },
     
     /**
