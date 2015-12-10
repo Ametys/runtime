@@ -93,6 +93,12 @@ $ametys-ribbon-main-glyph-color: dynamic(#616161);
 $ametys-ribbon-main-glyph-color-over: dynamic(#a1a1a1);
 /** @var {color} Ribbon controller's icon glyph color */
 $ametys-ribbon-main-glyph-color-pressed: dynamic(#818181);
+/** @var {color} Ribbon controller's icon decorator color */
+$ametys-ribbon-main-glyph-decorator-color: dynamic(ametys-glyph-decorator($ametys-ribbon-main-glyph-color));
+/** @var {color} Ribbon controller's icon decorator color on press */
+$ametys-ribbon-main-glyph-decorator-color-pressed: dynamic(ametys-glyph-decorator($ametys-ribbon-main-glyph-color-pressed));
+/** @var {color} Ribbon controller's icon glyph decorator on over */
+$ametys-ribbon-main-glyph-decorator-color-over: dynamic(ametys-glyph-decorator($ametys-ribbon-main-glyph-color-over));
 /** @var {color} Ribbon controller's icon glyph color */
 $ametys-ribbon-main-glyph-decorator-color-shadow: dynamic(#EEEEEE);
 /** @var {color} Ribbon tab background color */

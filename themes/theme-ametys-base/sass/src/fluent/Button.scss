@@ -188,15 +188,15 @@
     }
     
     .#{$prefix}btn-#{$ui}-large .#{$prefix}btn-icon-el-#{$ui}-large, .#{$prefix}btn-#{$ui}-small .#{$prefix}btn-icon-el-#{$ui}-small {
-        &:before { color: $ametys-ribbon-main-glyph-color; }
+        &:before { color: $ametys-ribbon-button-glyph-color; }
         &:after { color: $ametys-ribbon-button-glyph-decorator-color; }
     }
     .#{$prefix}btn-pressed.#{$prefix}btn-#{$ui}-large .#{$prefix}btn-icon-el-#{$ui}-large, .#{$prefix}btn-pressed.#{$prefix}btn-#{$ui}-small .#{$prefix}btn-icon-el-#{$ui}-small {
-        &:before { color: $ametys-ribbon-main-glyph-color-pressed; }
+        &:before { color: $ametys-ribbon-button-glyph-color-pressed; }
         &:after { color: $ametys-ribbon-button-glyph-decorator-color-pressed; }
     }
     .#{$prefix}btn-over.#{$prefix}btn-#{$ui}-large .#{$prefix}btn-icon-el-#{$ui}-large, .#{$prefix}btn-pressed.#{$prefix}btn-#{$ui}-small .#{$prefix}btn-icon-el-#{$ui}-small {
-        &:before { color:$ametys-ribbon-main-glyph-color-over; }
+        &:before { color:$ametys-ribbon-button-glyph-color-over; }
         &:after { color: $ametys-ribbon-button-glyph-decorator-color-over; }
     }
     

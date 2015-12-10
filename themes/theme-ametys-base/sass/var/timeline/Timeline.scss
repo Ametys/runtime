@@ -16,7 +16,7 @@
  
 $ametys-timeline-color: $ametys-tool-color;
 $ametys-timeline-comment-color: mix($ametys-tool-color, #FFF, 90%);
-$ametys-timeline-color-dark: $ametys-tool-tab-gray-dark;
+$ametys-timeline-color-dark: dynamic(#818181);
 $ametys-timeline-color-light: mix($ametys-tool-color, #FFF, 60%);
 $ametys-timeline-color-lighter: $ametys-tool-tab-gray-light;
 $ametys-timeline-font-size: $ametys-tool-font-size;
