@@ -106,6 +106,9 @@
     <message key="PLUGINS_ADMIN_STATUS_MONITORING_DISKIO_DESCRIPTION">Ce graphique montre l'activé des disques (lectures et écritures).</message>
 
     <!-- ADMINISTRATOR PLUGINS -->
+    <message key="PLUGINS_ADMIN_TOOL_PLUGINS_LABEL">Plugins</message>
+    <message key="PLUGINS_ADMIN_TOOL_PLUGINS_DESC">Visualiser les plugins par fichiers ou par point d'extension sous forme d'un arbre. Permet d'activer/désactiver des plugins.</message>
+    
     <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYFILE_LABEL">Plugins par fichier</message>
     <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYFILE_DESC">Ouvre un outil permettant de visualiser les plugins par fichiers sous forme d'un arbre. Permet d'activer/désactiver des plugins.</message>
     <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYFILE_ROOT_TEXT">Plugins</message>

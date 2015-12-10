@@ -328,6 +328,17 @@
                 <default-location>cl</default-location>
             </extension>
             
+            <extension id="org.ametys.plugins.admin.Plugins"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.SimpleMenu">
+                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
+                </class>
+                <menu-items>
+                    <item ref="org.ametys.plugins.admin.PluginsByExtensionPoint" primaryItem="true"/>
+                    <item ref="org.ametys.plugins.admin.PluginsByFile"/>
+                </menu-items>
+            </extension>
+            
             <extension id="org.ametys.plugins.admin.Workspaces"  
                        point="org.ametys.core.ui.RibbonControlsManager" 
                        class="org.ametys.core.ui.StaticClientSideElement">
@@ -340,7 +351,7 @@
                     <label i18n="true">PLUGINS_ADMIN_TOOL_WORKSPACES_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_WORKSPACES_DESC</description>
                     
-                    <icon-glyph>flaticon-puzzle-piece1</icon-glyph>
+                    <icon-glyph>flaticon-abecedary4</icon-glyph>
                     <icon-small file="true">img/plugins/workspaces_16.png</icon-small>
                     <icon-medium file="true">img/plugins/workspaces_32.png</icon-medium>
                     <icon-large file="true">img/plugins/workspaces_48.png</icon-large>
