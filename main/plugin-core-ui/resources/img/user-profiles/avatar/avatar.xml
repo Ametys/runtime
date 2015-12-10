@@ -15,13 +15,22 @@
    limitations under the License.
    -->
 <xml>
-    <image id="cactus">cactus.png</image>
-    <image id="cat">cat.png</image>
-    <image id="chess">chess.png</image>
-    <image id="coffee">coffee.png</image>
-    <image id="dice">dice.png</image>
-    <image id="flower">flower.png</image>
-    <image id="moon">moon.png</image>
-    <image id="person">person.png</image>
-    <image id="spaceship">spaceship.png</image>
+    <image id="people1">1.png</image>
+    <image id="people2">2.png</image>
+    <image id="people3">3.png</image>
+    <image id="people4">4.png</image>
+    <image id="people5">5.png</image>
+    <image id="people6">6.png</image>
+    <image id="people7">7.png</image>
+    <image id="people8">8.png</image>
+    <image id="people9">9.png</image>
+    <image id="people11">11.png</image>
+    <image id="people13">13.png</image>
+    <image id="people14">14.png</image>
+    <image id="people15">15.png</image>
+    <image id="bird">bird.png</image>
+    <image id="fox">fox.png</image>
+    <image id="mouse">mouse.png</image>
+    <image id="tiger">tiger.png</image>
+    <image id="wolf">wolf.png</image>
 </xml>

@@ -117,7 +117,7 @@ Ext.define('Ametys.userprefs.UserProfileDialog', {
             this._createProfileImageField(),
             {
                 xtype: 'component',
-                cls: 'a-text-light',
+                cls: 'a-text-warning',
                 html: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_HINT'/>",
             }],
             
@@ -186,7 +186,7 @@ Ext.define('Ametys.userprefs.UserProfileDialog', {
             labelAlign: 'top',
             msgTarget: 'side',
             
-            height: 182
+            height: 270
         });
     },
     
