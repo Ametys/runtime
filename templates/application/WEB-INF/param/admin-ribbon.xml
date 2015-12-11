@@ -55,8 +55,7 @@
                 <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_PLUGINS_LABEL" icon="">
                     <large/>
                     <medium>
-                        <control id="org.ametys.plugins.admin.PluginsByFile"/>
-                        <control id="org.ametys.plugins.admin.PluginsByExtensionPoint"/>
+                        <control id="org.ametys.plugins.admin.Plugins"/>
                         <control id="org.ametys.plugins.admin.Workspaces"/>
                     </medium>
                     <small/>
