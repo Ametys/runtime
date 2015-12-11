@@ -1,3 +1,28 @@
+/* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:394 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default-framed-collapsed-left-tl,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default-framed-collapsed-left-bl,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default-framed-collapsed-left-ml {
+    padding-left: 5px;
+}
+/* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:400 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default-framed-collapsed-left-tc {
+    height: 5px;
+}
+/* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:403 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default-framed-collapsed-left-bc {
+    height: 5px;
+}
+/* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:407 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default-framed-collapsed-left-tl,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default-framed-collapsed-left-bl,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default-framed-collapsed-left-tr,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default-framed-collapsed-left-br,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default-framed-collapsed-left-tc,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default-framed-collapsed-left-bc,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default-framed-collapsed-left-ml,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default-framed-collapsed-left-mr {
+    background-image: url(images/panel-header/panel-header-default-framed-collapsed-left-corners.gif);
+}
 /* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:423 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-rtl.x-panel-header-default-framed-collapsed-left-tl,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-rtl.x-panel-header-default-framed-collapsed-left-ml,
@@ -13894,8 +13919,8 @@ ul.ametys-tooltip-comment > li div.comment-text {
 }
 /* http://localhost:1842/packages/local/theme-ametys-base/sass/src/tip/Tip.scss:93 */
 .x-fluent-tooltip-glyph.size-16:before {
-    font-size: 24px;
-    line-height: 24px;
+    font-size: 16px;
+    line-height: 16px;
 }
 /* http://localhost:1842/packages/local/theme-ametys-base/sass/src/tip/Tip.scss:99 */
 .x-fluent-tooltip-footer {
