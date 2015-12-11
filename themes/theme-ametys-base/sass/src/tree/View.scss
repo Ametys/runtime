@@ -38,3 +38,24 @@
 .#{$prefix}tree-view .#{$prefix}grid-cell-inner {
     padding: $tree-cell-inner-padding;
 }
+
+.a-tree-glyph {
+	position: relative;
+	
+	&:before {
+		font-size:16px;
+		line-height:16px;
+		margin-left:0px;
+		color: #515151;
+	}
+	
+	&:after {
+		font-size:11px;
+		line-height:11px;
+		margin-left:0px;
+		position:absolute;
+		bottom: 6px;
+		left: 6px;
+		color: #313131;
+	}
+}
