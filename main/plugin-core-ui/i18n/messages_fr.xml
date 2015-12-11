@@ -119,7 +119,7 @@
     
     <message key="PLUGINS_CORE_UI_ERROR_404_HEAD">Page introuvable</message>
     <message key="PLUGINS_CORE_UI_ERROR_404_TITLE">Perdu ?!</message>
-    <message key="PLUGINS_CORE_UI_ERROR_404_TEXT">La page que vous avez demandé n'existe pas.</message>
+    <message key="PLUGINS_CORE_UI_ERROR_404_TEXT">La page que vous avez demandée n'existe pas.</message>
     <message key="PLUGINS_CORE_UI_ERROR_404_LINK">Revenir à l'application</message>
     
     <message key="PLUGINS_CORE_UI_ERROR_500_HEAD">Erreur serveur</message>
