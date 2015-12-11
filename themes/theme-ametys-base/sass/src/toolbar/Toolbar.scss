@@ -32,6 +32,49 @@
     overflow: hidden;
 }
 
+.#{$prefix}toolbar-item.#{$prefix}btn .a-btn-glyph {
+	&:before {
+		color: $ametys-ribbon-main-glyph-color;
+	}
+	
+	&.size-48:before {
+   		font-size:48px;
+    	line-height:48px;
+   	}
+   	
+   	&.size-36:before {
+   		font-size:36px;
+    	line-height:36px;
+   	}
+   	
+   	&.size-32:before {
+   		font-size:32px;
+    	line-height:32px;
+   	}
+   	
+   	&.size-24:before {
+   		font-size:24px;
+    	line-height:24px;
+   	}
+   	
+   	&.size-24:before {
+   		font-size:20px;
+    	line-height:20px;
+   	}
+   	
+   	&.size-16:before {
+   		font-size:16px;
+    	line-height:16px;
+   	}
+}
+
+.#{$prefix}toolbar-item.#{$prefix}btn-over .a-btn-glyph {
+	&:before {
+		color: $ametys-ribbon-main-glyph-color-over;
+	}
+}
+
+
 @for $i from 1 through length($ametys-tool-tab-colors) {
     $index: $i - 1;
 
@@ -42,7 +85,13 @@
     .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-#{$index*10} {
         // Other component stuff
         .#{$prefix}toolbar-item.a-toolbar-text {
-			color: $active-color-dark
+			color: $active-color-dark;
+		}
+		
+		.#{$prefix}toolbar-item.#{$prefix}btn-over .a-btn-glyph {
+			&:before {
+				color: $active-color-dark;
+			}
 		}
     }
 }
