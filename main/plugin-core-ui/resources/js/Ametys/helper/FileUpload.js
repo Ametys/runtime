@@ -250,7 +250,7 @@ Ext.define('Ametys.helper.FileUpload', {
 		
 		if (this._cbFn)
 		{
-			Ext.Function.defer (this._cbFn, 0, null, [action.result.id, action.result.filename, action.result.size, Ametys.CONTEXT_PATH + action.result.viewHref, Ametys.CONTEXT_PATH + action.result.downloadHref]);
+			Ext.Function.defer (this._cbFn, 0, null, [action.result.id, action.result.filename || action.result.name, action.result.size, Ametys.CONTEXT_PATH + action.result.viewHref, Ametys.CONTEXT_PATH + action.result.downloadHref]);
 		}
 		
 		this._box.hide();
