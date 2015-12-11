@@ -53,74 +53,77 @@ Ext.define(
                 html: label,
                 hidden: true,
                 listeners: {
-                    'show': this._toggleVisibleState,
-                    'hide': this._toggleVisibleState,
+                    'show': this._changeTitlePositionOrWidth,
+                    'hide': this._changeTitlePositionOrWidth,
+                    'resize': this._changeTitlePositionOrWidth,
                     scope: this
                 }
             });
         },
-
+        
         /**
          * @private
-         * On show, we have to change header title width
+         * This method will determine if title should be set at the left or at the right of this container ; and will also compute its width
          */
-        onShow: function()
+        _changeTitlePositionOrWidth: function()
         {
-            this.callParent(arguments);
-            
             var tabPanel = this.ownerCt.ownerCt.getPanel();
             var title = this.ownerCt.getTitle();
+            var separator = this.ownerCt.getComponent('separator');
             
             // look for last non-contextual tab
             var lastNonContextualTabStrip = null;
+            var lastTabStrip = null;
             for (var i = 0; i < tabPanel.items.length; i++)
             {
-                var panel = tabPanel.items.get(i); 
-                if (panel.contextualTab == null)
+                var tabEl = tabPanel.getTabBar().items.get(i);
+                if (tabEl.isVisible())
                 {
-                    var tabEl = tabPanel.getTabBar().items.get(i);
-                    if (tabEl.isVisible())
+                    lastTabStrip = tabEl;
+                    
+                    var panel = tabPanel.items.get(i); 
+                    if (panel.contextualTab == null)
                     {
                         lastNonContextualTabStrip = tabEl;
                     }
                 }
             }
 
-            if (lastNonContextualTabStrip != null)
+            if (lastNonContextualTabStrip != lastTabStrip)
             {
                 // The fixed width of title will be the right position of the last non-contextual tab - the left position of this title
-                var computeWidth = lastNonContextualTabStrip.getBox().right - title.getPosition()[0];
-                
-                title.flex = undefined;
-                title.setWidth(computeWidth);
-            }            
-        },
-        
-        /**
-         * @private
-         * On hide, we have to change header title width
-         */
-        onHide: function()
-        {
-            var title = this.ownerCt.getTitle();
-            
-            title.flex = 1;
-            title.setWidth(null);
-        },
-        
-        /**
-         * @private
-         * The contextual tab group container may need to be shown or hidden. Let's look at its children
-         */
-        _toggleVisibleState: function()
-        {
-            var allInvisibles = true;
-            
-            this.items.each(function(item) {
-                return allInvisibles = !item.isVisible();
-            });
+                var globalBox = this.ownerCt.getBox(true);
+                var availableLeftWidth = lastNonContextualTabStrip.getBox().right - (separator.previousSibling() ? separator.previousSibling().getPosition()[0] : globalBox.left);
+                var availableRightWidth = (this.nextSibling() ? this.nextSibling().getBox().left : globalBox.right) - lastTabStrip.getBox().right;
 
-            this.setVisible(!allInvisibles);
-        },        
+                console.info(availableLeftWidth + " vs " + availableRightWidth)
+                if (availableLeftWidth > availableRightWidth)
+                {
+                    this.ownerCt.moveBefore(title, this);
+
+                    title.flex = undefined;
+                    title.setWidth(availableLeftWidth);
+                    separator.hide();
+                }                
+                else
+                {
+                    this.add(title);
+                    
+                    title.flex = 1;
+                    title.setWidth(null);
+                    separator.setWidth(availableLeftWidth);
+                    separator.show();
+                }
+                this.show();
+            }
+            else
+            {
+                title.flex = 1;
+                title.setWidth(null);
+                separator.hide();
+                this.ownerCt.moveBefore(title, this);
+                this.hide();
+            }
+        }
     }
 );

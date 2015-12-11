@@ -239,6 +239,13 @@ Ext.define(
                 titlePosition++;
             }
             
+            config.tools.push({ 
+                xtype: 'component', 
+                itemId: 'separator',
+                hidden: true
+            }); 
+            titlePosition++;
+
             // Handle the title
             config.title = {
                 xtype: 'ametys.ribbon-title',
@@ -250,8 +257,8 @@ Ext.define(
             // It will automatically show/hide depending on its items
             config.tools.push({ 
                 xtype: 'ametys.ribbon-contextualtabgroups', 
-                itemId: 'contextualTabGroups',                 flex: 1,
-                hidden: true
+                itemId: 'contextualTabGroups',
+                flex: 1,                hidden: true
             }); 
             
             /**
@@ -478,6 +485,7 @@ Ext.define(
             if (width != oldWidth)
             {
                 this.getPanel().setWidth(width);
+                this.getContextualTabGroupsContainer() && this.getContextualTabGroupsContainer()._changeTitlePositionOrWidth();
             }
         },
         
