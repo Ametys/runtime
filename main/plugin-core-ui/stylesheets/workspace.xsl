@@ -420,7 +420,7 @@
                                             }
                                         ]
                                     }
-                                    <xsl:if test="string-length(user/email) > 1">,
+                                    <xsl:if test="string(user/@login) != ''">,
                                         smallPhoto: Ametys.getPluginDirectPrefix('core-ui') + '/current-user/image_16',
                                         mediumPhoto: Ametys.getPluginDirectPrefix('core-ui') + '/current-user/image_32',
                                         largePhoto: Ametys.getPluginDirectPrefix('core-ui') + '/current-user/image_48',
