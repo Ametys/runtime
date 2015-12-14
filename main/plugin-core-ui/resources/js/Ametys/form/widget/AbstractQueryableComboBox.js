@@ -187,8 +187,13 @@ Ext.define('Ametys.form.widget.AbstractQueryableComboBox', {
        
     markInvalid: function (msg)
     {
-    	this.callParent(arguments);
-    	this.combobox.markInvalid(msg);
+        this.callParent(arguments);
+        
+         // Some widgets that inherit from this class might have the combobox set to null depending on the context
+        if (this.combobox)
+        {
+            this.combobox.markInvalid(msg);
+        }
     },
     
     /**
@@ -235,8 +240,16 @@ Ext.define('Ametys.form.widget.AbstractQueryableComboBox', {
     
     getErrors: function (value) 
     {
-        return Ext.Array.merge(this.callParent(arguments), this.combobox.getErrors(value));
-    },    
+        // Some widgets that inherit from this class might have the combobox set to null depending on the context
+        if (this.combobox)
+        {
+            return Ext.Array.merge(this.callParent(arguments), this.combobox.getErrors(value));
+        }
+        else
+        {
+			return this.callParent(arguments);
+        }
+    },
     
     /**
      * @inheritdoc
