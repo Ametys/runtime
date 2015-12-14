@@ -32,11 +32,18 @@
     $cls: #{$prefix}btn,
     $color, $color-over, $color-focus, $color-pressed, $color-focus-over, $color-focus-pressed, $color-disabled,
     $border-color, $border-color-over, $border-color-focus, $border-color-pressed, $border-color-focus-over, $border-color-focus-pressed, $border-color-disabled,
-    $background-color, $background-color-over, $background-color-focus, $background-color-pressed, $background-color-focus-over, $background-color-focus-pressed, $background-color-disabled)
+    $background-color, $background-color-over, $background-color-focus, $background-color-pressed, $background-color-focus-over, $background-color-focus-pressed, $background-color-disabled,
+    $dark-arrow)
 {
         $ui: 'default';
     
         .#{$prefix}btn.#{$cls} {
+            @if $dark-arrow == true {
+                .x-btn-wrap-default-small.x-btn-arrow-right:after { background-image: theme-background-image(button/#{$ui}-small-arrow-dark); }
+                .x-btn-wrap-default-medium.x-btn-arrow-right:after { background-image: theme-background-image(button/#{$ui}-medium-arrow-dark); }
+                .x-btn-wrap-default-large.x-btn-arrow-right:after { background-image: theme-background-image(button/#{$ui}-large-arrow-dark); }
+            }
+            
             &.#{$prefix}btn-#{$ui}-small, &.#{$prefix}btn-#{$ui}-medium, &.#{$prefix}btn-#{$ui}-large,
             &.#{$prefix}btn-#{$ui}-toolbar-small, &.#{$prefix}btn-#{$ui}-toolbar-medium, &.#{$prefix}btn-#{$ui}-toolbar-large {
                 border-color: $border-color;

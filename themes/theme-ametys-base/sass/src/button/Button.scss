@@ -49,23 +49,28 @@
     $background-color-focus-over: $background-color-over;
     $background-color-focus-pressed: $background-color-pressed;
     $background-color-disabled: button-default-background-color-disabled($background-color);
+    
+    $dark-arrow: true;
         
     @include buttons-color(
         $color: $color, $color-over: $color-over, $color-focus: $color-focus, $color-pressed: $color-pressed, $color-focus-over: $color-focus-over, $color-focus-pressed: $color-focus-pressed, $color-disabled: $color-disabled, 
         $border-color: $border-color, $border-color-over: $border-color-over, $border-color-focus: $border-color-focus, $border-color-pressed: $border-color-pressed, $border-color-focus-over: $border-color-focus-over, $border-color-focus-pressed: $border-color-focus-pressed, $border-color-disabled: $border-color-disabled,
-        $background-color: $background-color, $background-color-over: $background-color-over, $background-color-focus: $background-color-focus, $background-color-pressed: $background-color-pressed, $background-color-focus-over: $background-color-focus-over, $background-color-focus-pressed: $background-color-focus-pressed, $background-color-disabled: $background-color-disabled
+        $background-color: $background-color, $background-color-over: $background-color-over, $background-color-focus: $background-color-focus, $background-color-pressed: $background-color-pressed, $background-color-focus-over: $background-color-focus-over, $background-color-focus-pressed: $background-color-focus-pressed, $background-color-disabled: $background-color-disabled,
+        $dark-arrow: $dark-arrow
     );    
         
     @include buttons-color(
         $cls: 'a-btn-light',
         $color: $color, $color-over: $color-over, $color-focus: $color-focus, $color-pressed: $color-pressed, $color-focus-over: $color-focus-over, $color-focus-pressed: $color-focus-pressed, $color-disabled: $color-disabled, 
         $border-color: transparent, $border-color-over: transparent, $border-color-focus: transparent, $border-color-pressed: transparent, $border-color-focus-over: transparent, $border-color-focus-pressed: transparent, $border-color-disabled: transparent,
-        $background-color: transparent, $background-color-over: $background-color-over, $background-color-focus: transparent, $background-color-pressed: $background-color-pressed, $background-color-focus-over: $background-color-focus-over, $background-color-focus-pressed: $background-color-focus-pressed, $background-color-disabled: transparent
+        $background-color: transparent, $background-color-over: $background-color-over, $background-color-focus: transparent, $background-color-pressed: $background-color-pressed, $background-color-focus-over: $background-color-focus-over, $background-color-focus-pressed: $background-color-focus-pressed, $background-color-disabled: transparent,
+        $dark-arrow: $dark-arrow
     );    
     @include buttons-color(
         $cls: 'a-btn-lighter',
         $color: $color, $color-over: $color-over, $color-focus: $color-focus, $color-pressed: $color-pressed, $color-focus-over: $color-focus-over, $color-focus-pressed: $color-focus-pressed, $color-disabled: $color-disabled, 
         $border-color: transparent, $border-color-over: transparent, $border-color-focus: transparent, $border-color-pressed: transparent, $border-color-focus-over: transparent, $border-color-focus-pressed: transparent, $border-color-disabled: transparent,
-        $background-color: transparent, $background-color-over: transparent, $background-color-focus: transparent, $background-color-pressed: transparent, $background-color-focus-over: transparent, $background-color-focus-pressed: transparent, $background-color-disabled: transparent
+        $background-color: transparent, $background-color-over: transparent, $background-color-focus: transparent, $background-color-pressed: transparent, $background-color-focus-over: transparent, $background-color-focus-pressed: transparent, $background-color-disabled: transparent,
+        $dark-arrow: $dark-arrow
     );    
 }
