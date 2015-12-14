@@ -39,7 +39,7 @@
         
         <!-- remove inlined licenses -->
         <replaceregexp flags="gm">
-            <regexp pattern="/\*([^/]|/[^*])*Anyware Services([^/]|/[^*])*\*/"/>
+            <regexp pattern="/\*[^/]*Anyware Services([^/]|/[^*])*\*/"/>
             <substitution expression=""/>
             <fileset dir="${ametys-runtime-dir}/main/plugin-core-ui/resources/themes/${name}">
                 <include name="**/*.css"/>
