@@ -34,6 +34,26 @@ Ext.define('Ext.theme.neptune.resizer.Splitter', {
     size: 8
 });
 
+/*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+Ext.define('Ext.theme.ametysbase.resizer.Splitter', {
+    override: 'Ext.resizer.Splitter',
+    size: 2
+});
+
 Ext.define('Ext.theme.neptune.toolbar.Toolbar', {
     override: 'Ext.toolbar.Toolbar',
     usePlainButtons: false,
@@ -394,4 +414,161 @@ Ext.define('Ext.theme.neptune.menu.Menu', {
     override: 'Ext.menu.Menu',
     showSeparator: false
 });
+
+/*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+Ext.define('Ext.theme.ametysbase.tree.Panel', {
+    override: 'Ext.tree.Panel',
+    lines: false
+});
+
+/*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+Ext.define('Ametys.theme.ametysbase.grid.plugin.Multisort', {
+    override: 'Ametys.grid.plugin.Multisort',
+    closeItemButtonWidth: 12
+});
+
+/*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+Ext.define('Ametys.theme.ametysbase.ui.fluent.ribbon.GroupScale', {
+    override: 'Ametys.ui.fluent.ribbon.GroupScale',
+    headerPosition: 'bottom',
+    titleAlign: 'center',
+    border: true
+});
+
+/*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+Ext.define('Ametys.theme.ametysbase.ui.fluent.ribbon.Ribbon.ContextualTabGroup', {
+    override: 'Ametys.ui.fluent.ribbon.Ribbon.ContextualTabGroup',
+    margin: "0 0 0 1"
+});
+
+/*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+Ext.define('Ametys.theme.ametysbase.ui.fluent.ribbon.TabPanel', {
+    override: 'Ametys.ui.fluent.ribbon.TabPanel',
+    userCfg: {
+        arrowVisible: false
+    }
+});
+
+/*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+Ext.define('Ametys.theme.ametysbase.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel', {
+    override: 'Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel',
+    border: true,
+    tabBar: {
+        defaults: {
+            flex: 1,
+            minWidth: 56,
+            textAlign: 'left',
+            listeners: {
+                'afterrender': function(button) {
+                    this.setMaxWidth(70 + Ext.create("Ext.util.TextMetrics", button.btnInnerEl).getWidth(button.text));
+                },
+                'textchange': function(button) {
+                    this.setMaxWidth(70 + Ext.create("Ext.util.TextMetrics", button.btnInnerEl).getWidth(button.text));
+                }
+            }
+        }
+    }
+});
+
+/*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+Ext.namespace('Ext.theme.is')['ametys-base'] = true;
+Ext.theme.name = 'ametys-base';
 
