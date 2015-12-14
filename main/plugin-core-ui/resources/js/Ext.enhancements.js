@@ -521,6 +521,8 @@
                 {
                     this.warningWrapEl.dom.style.display = hasWarning ? '' : 'none';
                     this.warningWrapEl.dom.setAttribute("data-warnqtip", activeWarning);
+                    
+                    me.updateLayout();
                 }
             }            
         },
@@ -1986,7 +1988,7 @@
          * @since Ametys Runtime 3.9
          * @ametys
          * @cfg {Boolean} labelHTML=false If true the labelTpl will not be encoded 
-         * */
+         */
         labelHTML: false,
         
         getMultiSelectItemMarkup: function()
