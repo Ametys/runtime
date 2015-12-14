@@ -204,7 +204,7 @@ Ext.define('Ametys.tool.SelectionTool', {
 	/**
 	 * @protected
 	 * Returns the targets from message matching the current selection targets of the tool
-	 * @return {Ametys.message.Message} message the message
+	 * @param {Ametys.message.Message} message the message
 	 * @return {Ametys.message.MessageTarget[]} The common targets between the current targets of the tool and the targets in message
 	 */
 	getTargetsInCurrentSelectionTargets: function (message)
