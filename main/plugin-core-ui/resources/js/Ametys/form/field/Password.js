@@ -158,7 +158,7 @@ Ext.define('Ametys.form.field.Password', {
     	
     	Ext.applyIf(buttonConfig, {
     		tooltip: '',
-            ui: 'lighter',
+            cls: 'a-btn-lighter',
     		handler: Ext.bind(this._setToMode, this, [null], false),
     		margin: '1 0 0 0',
     		border: false
