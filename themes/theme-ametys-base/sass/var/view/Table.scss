@@ -31,9 +31,9 @@ $grid-row-cell-selected-background-color: $ametys-tool-tab-gray-light;
 $grid-row-cell-selected-border-color: $ametys-tool-tab-gray-dark;
 
 $grid-row-cell-line-height: 16px;
-$grid-cell-inner-padding: dynamic(10px 10px 10px);
+$grid-cell-inner-padding: dynamic(9px 10px 9px);
 
-$grid-grouped-header-padding: dynamic(20px 10px 10px);
+$grid-grouped-header-padding: dynamic(2*top($grid-cell-inner-padding) right($grid-cell-inner-padding) bottom($grid-cell-inner-padding) left($grid-cell-inner-padding));
 $grid-grouped-header-background-color: $grid-row-cell-background-color;
 
 $ametys-special-border: dynamic(3px);
