@@ -375,7 +375,7 @@ Ext.define(
                 this.setActiveTab(panel);
                 if (this.floatParent._ribbonCollapsed)
                 {
-                    this._hideCollapsed();
+                    this.floatParent._hideCollapsed();
                 }
             }
         },      
