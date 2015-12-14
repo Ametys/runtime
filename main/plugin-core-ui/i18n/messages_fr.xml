@@ -406,6 +406,7 @@
     <message key="PLUGINS_CORE_UI_PROFILES_TREE_BTN_COLLAPSE_TOOTIP">Replier tout</message>
     <message key="PLUGINS_CORE_UI_PROFILES_TREE_CONTEXT_TOOLTIP">Contexte</message>
     <message key="PLUGINS_CORE_UI_PROFILES_TREE_GET_PROFILES_RIGHTS_ERROR">Une erreur est survenue: impossible de récupérer la liste des profils de droits</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_TREE_FILTER_INVALID">Le filtre de recherche doit contenir au moins 3 caractères</message>
     
     <!-- +
          | Announce

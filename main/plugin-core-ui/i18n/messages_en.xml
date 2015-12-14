@@ -405,7 +405,8 @@
 	<message key="PLUGINS_CORE_UI_PROFILES_TREE_BTN_COLLAPSE_TOOTIP">Collapse all</message>
 	<message key="PLUGINS_CORE_UI_PROFILES_TREE_CONTEXT_TOOLTIP">Context</message>
 	<message key="PLUGINS_CORE_UI_PROFILES_TREE_GET_PROFILES_RIGHTS_ERROR">An error occured : unable to get list of profiles</message>
-
+    <message key="PLUGINS_CORE_UI_PROFILES_TREE_FILTER_INVALID">The search filter must contain at least 3 characters</message>
+    
     <!-- +
          | Announce
          + -->
