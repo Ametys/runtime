@@ -96,7 +96,6 @@ Ext.define(
                 var availableLeftWidth = lastNonContextualTabStrip.getBox().right - (separator.previousSibling() ? separator.previousSibling().getPosition()[0] : globalBox.left);
                 var availableRightWidth = (this.nextSibling() ? this.nextSibling().getBox().left : globalBox.right) - lastTabStrip.getBox().right;
 
-                console.info(availableLeftWidth + " vs " + availableRightWidth)
                 if (availableLeftWidth > availableRightWidth)
                 {
                     this.ownerCt.moveBefore(title, this);
