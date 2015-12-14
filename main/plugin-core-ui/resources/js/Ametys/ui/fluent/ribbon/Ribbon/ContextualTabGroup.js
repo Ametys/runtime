@@ -120,6 +120,15 @@ Ext.define(
                     var tabEl = tabPanel.getTabBar().items.get(index);
 
                     sum += tabEl.getWidth();
+                    
+                    if (i == 0)
+                    {
+                        tabEl.removeCls("a-tab-hasPrevious");
+                    }
+                    else
+                    {
+                        tabEl.addCls("a-tab-hasPrevious");
+                    }
                 }
             
                 this.setWidth(sum + (tabs.length - 1));
