@@ -305,7 +305,7 @@
 .x-treelist-item-icon:before,
 .x-treelist-item-tool:before,
 .x-treelist-item-expander {
-    line-height: 36px;
+    line-height: 34px;
 }
 /* http://localhost:1842/ext/packages/core/sass/src/list/TreeItem.scss:169 */
 .x-treelist-item-icon,
@@ -346,7 +346,7 @@
     margin-left: 20px;
     margin-right: 18px;
     font-size: 12px;
-    line-height: 36px;
+    line-height: 34px;
     text-overflow: ellipsis;
 }
 /* http://localhost:1842/ext/packages/core/sass/src/list/TreeItem.scss:243 */
@@ -2949,8 +2949,8 @@ the height of a multi-line element */
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/ProgressBar.scss:128 */
 .x-progressbar-default-cell > .x-grid-cell-inner,
 .x-progressbarwidget-default-cell > .x-grid-cell-inner {
-    padding-top: 8px;
-    padding-bottom: 8px;
+    padding-top: 7px;
+    padding-bottom: 7px;
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/ProgressBar.scss:132 */
 .x-progressbar-default-cell > .x-grid-cell-inner .x-progress-default,
@@ -3517,8 +3517,8 @@ the height of a multi-line element */
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/button/Button.scss:1246 */
 .x-button-default-small-cell > .x-grid-cell-inner {
-    padding-top: 6px;
-    padding-bottom: 6px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/button/Button.scss:1251 */
 .x-button-default-small-cell > .x-grid-cell-inner >.x-btn-default-small {
@@ -4084,8 +4084,8 @@ the height of a multi-line element */
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/button/Button.scss:1246 */
 .x-button-default-medium-cell > .x-grid-cell-inner {
-    padding-top: 2px;
-    padding-bottom: 2px;
+    padding-top: 1px;
+    padding-bottom: 1px;
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/button/Button.scss:1251 */
 .x-button-default-medium-cell > .x-grid-cell-inner >.x-btn-default-medium {
@@ -5218,8 +5218,8 @@ the height of a multi-line element */
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/button/Button.scss:1246 */
 .x-button-default-toolbar-small-cell > .x-grid-cell-inner {
-    padding-top: 6px;
-    padding-bottom: 6px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/button/Button.scss:1251 */
 .x-button-default-toolbar-small-cell > .x-grid-cell-inner >.x-btn-default-toolbar-small {
@@ -5785,8 +5785,8 @@ the height of a multi-line element */
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/button/Button.scss:1246 */
 .x-button-default-toolbar-medium-cell > .x-grid-cell-inner {
-    padding-top: 2px;
-    padding-bottom: 2px;
+    padding-top: 1px;
+    padding-bottom: 1px;
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/button/Button.scss:1251 */
 .x-button-default-toolbar-medium-cell > .x-grid-cell-inner >.x-btn-default-toolbar-medium {
@@ -8890,8 +8890,8 @@ the height of a multi-line element */
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/form/field/Text.scss:367 */
 .x-textfield-default-cell > .x-grid-cell-inner {
-    padding-top: 6px;
-    padding-bottom: 6px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/form/field/Text.scss:427 */
 .x-form-clear-trigger {
@@ -9023,8 +9023,8 @@ the height of a multi-line element */
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/var/form/field/Checkbox.scss:198 */
 .x-checkbox-default-cell > .x-grid-cell-inner {
-    padding-top: 6px;
-    padding-bottom: 6px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/form/CheckboxGroup.scss:44 */
 .x-form-item-body-default.x-form-checkboxgroup-body {
@@ -9928,11 +9928,11 @@ a.x-color-picker-item:hover {
 .x-form-text-default .x-tagfield-item-selected .x-tagfield-item-close:active {
     background-position: -24px -12px;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:5 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:4 */
 .x-grid-view {
     z-index: 1;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:9 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:8 */
 .x-grid-body,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-grid-body.x-panel-body,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-grid-body.x-panel-body,
@@ -9967,44 +9967,44 @@ a.x-color-picker-item:hover {
     border-style: solid;
     border-color: #c2c2c2;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:18 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:17 */
 .x-grid-item-container {
     min-height: 1px;
     position: relative;
     overflow: hidden;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:24 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:23 */
 .x-grid-empty {
     padding: 10px;
     color: grey;
     background-color: #fff;
     font: normal 12px 'Open Sans', 'Helvetica Neue', helvetica, arial, verdana, sans-serif;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:32 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:31 */
 .x-grid-item {
     color: #000;
     font: normal 12px/16px 'Open Sans', 'Helvetica Neue', helvetica, arial, verdana, sans-serif;
     background-color: #fff;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:38 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:37 */
 .x-grid-item-alt {
     background-color: #fff;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:42 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:41 */
 .x-grid-item-over {
     color: #000;
     background-color: #f1f1f1;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:49 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:48 */
 .x-grid-item-focused {
     outline: 0;
     color: #000;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:53 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:52 */
 .x-grid-item-focused .x-grid-cell-inner {
     z-index: 1;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:61 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:60 */
 .x-grid-item-focused .x-grid-cell-inner:before {
     content: "";
     position: absolute;
@@ -10016,106 +10016,106 @@ a.x-color-picker-item:hover {
     pointer-events: none;
     border: 1px dashed transparent;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:83 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:82 */
 .x-grid-item-selected {
     color: #000;
     background-color: #f1f1f1;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:89 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:88 */
 .x-grid-with-row-lines .x-grid-item {
     border-style: solid;
     border-width: 1px 0 0;
     border-color: #f2f2f2;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:95 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:94 */
 .x-grid-with-row-lines .x-grid-item:first-child {
     border-top-color: #fff;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:101 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:100 */
 .x-grid-with-row-lines .x-grid-item.x-grid-item-over {
     border-style: solid;
     border-color: #e4e4e4;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:106 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:105 */
 .x-grid-with-row-lines .x-grid-item-over + .x-grid-item {
     border-top-style: solid;
     border-top-color: #e4e4e4;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:111 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:110 */
 .x-grid-with-row-lines .x-grid-item.x-grid-item-selected {
     border-style: solid;
     border-color: #c1c1c1;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:116 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:115 */
 .x-grid-with-row-lines .x-grid-item-selected + .x-grid-item {
     border-top-style: solid;
     border-top-color: #c1c1c1;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:121 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:120 */
 .x-grid-with-row-lines .x-grid-item:last-child {
     border-bottom-width: 1px;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:131 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:130 */
 .x-ie8 .x-grid-with-row-lines .x-grid-item {
     border-width: 1px 0;
     margin-top: -1px;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:136 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:135 */
 .x-ie8 .x-grid-with-row-lines .x-grid-item:first-child {
     margin-top: 0;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:142 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:141 */
 .x-grid-cell-inner {
     position: relative;
     text-overflow: ellipsis;
-    padding: 10px 10px 10px;
+    padding: 9px 10px 9px;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:158 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:157 */
 .x-grid-cell-special {
     border-color: #f2f2f2;
     border-style: solid;
     border-right-width: 1px;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:201 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:200 */
 .x-rtl.x-grid-cell-special {
     border-right-width: 0;
     border-left-width: 1px;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:208 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:207 */
 .x-grid-dirty-cell {
     background: url(images/grid/dirty.png) no-repeat 0 0;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:223 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:222 */
 .x-rtl.x-grid-dirty-cell {
     background-image: url(images/grid/dirty-rtl.png);
     background-position: right 0;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:238 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:237 */
 .x-grid-row .x-grid-cell-selected {
     color: #000;
     background-color: #f1f1f1;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:245 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:244 */
 .x-grid-with-col-lines .x-grid-cell {
     border-style: solid;
     border-color: #f2f2f2;
     border-width: 0 1px 0 0;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:251 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:250 */
 .x-grid-with-col-lines .x-grid-item-over .x-grid-cell {
     border-color: #e4e4e4;
     border-style: solid;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:256 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:255 */
 .x-grid-with-col-lines .x-grid-item-selected .x-grid-cell {
     border-color: #c1c1c1;
     border-style: solid;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:264 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:263 */
 .x-rtl.x-grid-with-col-lines .x-grid-cell {
     border-width: 0 0 0 1px;
 }
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:269 */
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/Table.scss:268 */
 .x-grid-resize-marker {
     width: 1px;
     background-color: #0f0f0f;
@@ -10350,7 +10350,7 @@ a.x-color-picker-item:hover {
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/grid/column/Action.scss:1 */
 .x-grid-cell-inner-action-col {
-    padding: 10px 4px 10px 4px;
+    padding: 9px 4px 9px 4px;
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/grid/column/Action.scss:12 */
 .x-action-col-cell .x-item-disabled {
@@ -10367,7 +10367,7 @@ a.x-color-picker-item:hover {
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/grid/column/Check.scss:1 */
 .x-grid-cell-inner-checkcolumn {
-    padding: 11px 10px 10px 10px;
+    padding: 10px 10px 9px 10px;
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/grid/column/Check.scss:12 */
 .x-grid-checkcolumn {
@@ -10386,7 +10386,7 @@ a.x-color-picker-item:hover {
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/grid/column/RowNumberer.scss:1 */
 .x-grid-cell-inner-row-numberer {
-    padding: 10px 5px 10px 3px;
+    padding: 9px 5px 9px 3px;
     background-color: transparent;
 }
 /* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:187 */
@@ -10913,8 +10913,8 @@ a.x-color-picker-item:hover {
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/button/Button.scss:1246 */
 .x-button-grid-cell-small-cell > .x-grid-cell-inner {
-    padding-top: 6px;
-    padding-bottom: 6px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/button/Button.scss:1251 */
 .x-button-grid-cell-small-cell > .x-grid-cell-inner >.x-btn-grid-cell-small {
@@ -10925,7 +10925,7 @@ a.x-color-picker-item:hover {
     border-width: 0 0 1px 0;
     border-style: solid;
     border-color: #c2c2c2;
-    padding: 20px 10px 10px;
+    padding: 18px 10px 9px 10px;
     background: #fff;
     cursor: pointer;
 }
@@ -11361,7 +11361,7 @@ a.x-color-picker-item:hover {
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/grid/plugin/Editing.scss:24 */
 .x-grid-editor .x-form-action-col-field {
-    padding: 10px 4px 10px 4px;
+    padding: 9px 4px 9px 4px;
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/grid/plugin/Editing.scss:30 */
 .x-grid-editor .x-form-text {
@@ -11379,7 +11379,7 @@ a.x-color-picker-item:hover {
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/grid/plugin/RowEditing.scss:7 */
 .x-grid-row-editor .x-form-display-field {
-    padding: 10px 8px 10px 8px;
+    padding: 9px 8px 9px 8px;
     line-height: 16px;
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/grid/plugin/RowEditing.scss:18 */
@@ -11687,7 +11687,7 @@ a.x-color-picker-item:hover {
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/grid/plugin/RowExpander.scss:1 */
 .x-grid-cell-inner-row-expander {
-    padding: 13px 6px 12px 6px;
+    padding: 12px 6px 11px 6px;
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/grid/plugin/RowExpander.scss:14 */
 .x-grid-row-expander {
@@ -11978,7 +11978,7 @@ div.x-border-layout-ct {
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/selection/CheckboxModel.scss:29 */
 .x-grid-cell-row-checker .x-grid-cell-inner {
-    padding: 11px 4px 10px 4px;
+    padding: 10px 4px 9px 4px;
     line-height: 15px;
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/selection/CheckboxModel.scss:43 */
@@ -12116,14 +12116,14 @@ div.x-border-layout-ct {
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/slider/Multi.scss:244 */
 .x-slider-default-cell > .x-grid-cell-inner,
 .x-sliderwidget-default-cell > .x-grid-cell-inner {
-    padding-top: 5px;
-    padding-bottom: 7px;
+    padding-top: 4px;
+    padding-bottom: 6px;
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/sparkline/Base.scss:1 */
 .x-sparkline-cell .x-grid-cell-inner {
     padding-top: 1px;
     padding-bottom: 1px;
-    line-height: 34px;
+    line-height: 32px;
 }
 /* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:187 */
 .x-tab-default-top {
@@ -14002,16 +14002,16 @@ div.x-border-layout-ct {
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/tree/View.scss:151 */
 .x-tree-icon {
     width: 16px;
-    height: 36px;
-    line-height: 36px;
+    height: 34px;
+    line-height: 34px;
     color: #b0b0b0;
     font-size: 16px;
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/tree/View.scss:159 */
 .x-tree-elbow-img {
     width: 18px;
-    height: 36px;
-    line-height: 36px;
+    height: 34px;
+    line-height: 34px;
     margin-right: 2px;
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/tree/View.scss:167 */
@@ -14023,8 +14023,8 @@ div.x-border-layout-ct {
 .x-tree-icon,
 .x-tree-elbow-img,
 .x-tree-checkbox {
-    margin-top: -10px;
-    margin-bottom: -10px;
+    margin-top: -9px;
+    margin-bottom: -9px;
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/tree/View.scss:183 */
 .x-tree-icon-leaf {
@@ -14061,7 +14061,7 @@ div.x-border-layout-ct {
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/tree/View.scss:246 */
 .x-tree-checkbox {
     margin-right: 4px;
-    top: 11px;
+    top: 10px;
     width: 15px;
     height: 15px;
     background-image: url(images/form/checkbox.png);
@@ -14127,7 +14127,7 @@ div.x-border-layout-ct {
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/MultiSelector.scss:6 */
 .x-multiselector-remove .x-grid-cell-inner {
-    padding: 10px 10px 10px;
+    padding: 9px 10px 9px;
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/view/MultiSelector.scss:11 */
 .x-grid-item-over .x-multiselector-remove {
@@ -14708,8 +14708,8 @@ div.x-border-layout-ct {
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/button/Button.scss:1246 */
 .x-button-plain-toolbar-small-cell > .x-grid-cell-inner {
-    padding-top: 6px;
-    padding-bottom: 6px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/button/Button.scss:1251 */
 .x-button-plain-toolbar-small-cell > .x-grid-cell-inner >.x-btn-plain-toolbar-small {
@@ -15258,8 +15258,8 @@ div.x-border-layout-ct {
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/button/Button.scss:1246 */
 .x-button-plain-toolbar-medium-cell > .x-grid-cell-inner {
-    padding-top: 2px;
-    padding-bottom: 2px;
+    padding-top: 1px;
+    padding-bottom: 1px;
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/button/Button.scss:1251 */
 .x-button-plain-toolbar-medium-cell > .x-grid-cell-inner >.x-btn-plain-toolbar-medium {
