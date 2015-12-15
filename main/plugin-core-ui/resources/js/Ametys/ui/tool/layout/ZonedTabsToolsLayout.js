@@ -173,7 +173,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
                     stateful: true,
                     stateId: Ametys.ui.tool.layout.ZonedTabsToolsLayout.Container.getName() + "$",
                     items: [
-        				this._panelHierarchy['l'] = Ext.create(panelClass, { location: 'l', toolsLayout: this, minWidth: this.self.__REGION_MINSIZE.width }),
+        				this._panelHierarchy['l'] = Ext.create(panelClass, { location: 'l', toolsLayout: this, minWidth: this.self.__REGION_MINSIZE.width/*, headerPosition: 'left'*/ }),
                         {
                             xtype: 'zoned-container',
                             stateful: true,
