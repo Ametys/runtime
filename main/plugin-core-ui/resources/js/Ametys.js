@@ -656,8 +656,8 @@ Ext.Date.patterns = {
 /*
  * Changing default ajax method to POST and timeout to a long time
  */
-Ext.Ajax.timeout = 365*24*60*60*1000;
-Ext.Ajax.method = 'POST';
+Ext.Ajax.setTimeout(365*24*60*60*1000);
+Ext.Ajax.setMethod('POST');
 
 /*
  * Load localization for extjs
