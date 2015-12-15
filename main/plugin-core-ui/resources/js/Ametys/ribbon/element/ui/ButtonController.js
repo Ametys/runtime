@@ -66,6 +66,12 @@ Ext.define(
 		/**
 		 * @cfg {Object} ui-config Additionnal configuration object to be passed to UI controls
 		 */
+		
+		/**
+		 * @private
+		 * @property {Number} _refreshingCounter the counter on refreshing state.
+		 */
+		_refreshingCounter: 0,
 
 		constructor: function(config)
 		{
@@ -477,6 +483,8 @@ Ext.define(
 		 */
 		refreshing: function ()
 		{
+			this._refreshingCounter++;
+			
 			var currentDisableState = this._disabled;
 			this.disable();
 			this._refreshing = {
@@ -496,16 +504,23 @@ Ext.define(
 		 */
 		stopRefreshing: function ()
 		{
-			this.getUIControls().each(function (elmt) {
-				if (elmt instanceof Ext.Button)
-				{
-					elmt.stopRefreshing();
-				}
-			});
+			this._refreshingCounter--;
 			
-			var oldDisableState = this._refreshing.disabled; 
-			this._refreshing = false;
-			this.setDisabled(oldDisableState);
+			// Do NOT stop refreshing until a refresh is still in progress
+			if (this._refreshingCounter == 0)
+			{
+				this.getUIControls().each(function (elmt) {
+					if (elmt instanceof Ext.Button)
+					{
+						elmt.stopRefreshing();
+					}
+				});
+				
+				var oldDisableState = this._refreshing.disabled; 
+				this._refreshing = false;
+				this.setDisabled(oldDisableState);
+			}
+			
 		},
 		
 		disable: function()
@@ -555,6 +570,18 @@ Ext.define(
             {
                 this.stopRefreshing();
             }
+        },
+        
+        /**
+         * @inheritDoc
+         * @private 
+         */
+        afterCancelledServerCall: function (options)
+        {
+        	if (options.refreshing == true)
+        	{
+        		this.stopRefreshing();
+        	}
         }
 	}
 );

@@ -920,6 +920,19 @@ Ext.define(
 		},
 		
 		/**
+		 * Force refreshing if the current selection targets match the targets from message.
+		 * The matching targets are updated before the refresh.
+		 * @param {Ametys.message.Message} message the message
+		 */
+		refreshIfMatchingMessage: function (message)
+		{
+			if (this.updateTargetsInCurrentSelectionTargets (message))
+			{
+				this.refresh(true);
+			}
+		},
+		
+		/**
 		 * @protected
 		 * Update the current selection targets with the matching targets from message.
 		 * If the new selection does not match, the controller will be disabled with a configured additional description.

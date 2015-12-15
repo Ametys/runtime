@@ -74,6 +74,17 @@ Ext.define("Ametys.data.ServerCaller", {
         {
             // Default implementation does nothing
         },
+        
+        /**
+         * @template
+         * @protected
+         * This method is called when the #serverCall was cancelled because of a cancel code and the default implementation does nothing.
+         * @param {Object} options The options used for #serverCall and modified by #beforeServerCall.
+         */
+        afterCancelledServerCall: function (options)
+        {
+        	// Default implementation does nothing
+        },
     
         /**
          * This method sends a request to the execute remote method on the server using the corresponding server-side component.
@@ -123,6 +134,11 @@ Ext.define("Ametys.data.ServerCaller", {
                         ignoreOnError: false
                     }
                 ],
+                cancellationCallback: {
+                	handler: this.afterCancelledServerCall,
+                    scope: this,
+                    arguments: options
+                },
                 waitMessage: options.waitMessage,
                 errorMessage: options.errorMessage,
                 cancelCode: options.cancelCode,

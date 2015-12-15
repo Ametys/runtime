@@ -207,8 +207,8 @@ Ext.define(
 		 * @param {Function} message.callback.handler The function to call when the message will come back. 
 		 * @param {Object} message.callback.handler.response Will be the xml parent node of the response. This node can be null or empty on fatal error (see errorMessage). An attribute 'code' is available on this node with the http code. This response has an extra method 'getText' that get the text from a node in parameter of the response.
 		 * @param {Object[]} message.callback.handler.callbackarguments Is the 'callback.arguments' array
-		 * @param {Object} [message.callback.scope] The scope of the function call. Optionnal.
-		 * @param {String[]} [message.callback.arguments] An array of string that will be given as arguments of the callback. Optionnal
+		 * @param {Object} [message.callback.scope] The scope of the function call. Optional.
+		 * @param {String[]} [message.callback.arguments] An array of string that will be given as arguments of the callback. Optional.
          * @param {String[]} [message.callback.ignoreOnError=true] Is the callback called with a null or empty response?
 		 * 
 		 * @param {String} [message.responseType=xml] Can be "xml" (default) to have a xml response, "text" to have a single text node response or "xml2text" to have a single text node response where xml prologue as text is removed
@@ -223,10 +223,16 @@ Ext.define(
 		 * @param {String} [message.errorMessage.msg] The error message. There is a default message. 
 		 * @param {String} [message.errorMessage.category] The error message category for log purposes. 
 		 *  
-		 * @param {String} [message.cancelCode] This parameter allow to cancel a request or ignore its response if it is outdated. Not available for #PRIORITY_SYNCHRONOUS requests.
+		 * @param {String} [message.cancelCode] This parameter allow to cancel a request or ignore its response if it is out-dated. Not available for #PRIORITY_SYNCHRONOUS requests.
 		 * A classic case it that the button wants more information on the last selected content: while asking server for information on content A, if the content B is selected by the user: this parameter allow to discard the information on A. 
 		 * Note that you will not be informed if the cancelled request was not sent or send but ignored by the client : so this is to use on read request only and should be an identifier for your kind of operation (such as 'MyClass$getContentInfo').
 		 * 
+		 * @param {Object} [message.cancellationCallback] Use this parameter to be informed and do some action when the message was cancelled or ignored by the client.
+		 * @param {Function} message.cancellationCallback.handler The function to call when the message was cancelled.
+		 * @param {Object[]} message.cancellationCallback.handler.callbackarguments Is the 'callback.arguments' array
+		 * @param {Object} [message.cancellationCallback.scope] The scope of the function call. Optional.
+		 * @param {String[]} [message.cancellationCallback.arguments] An array of string that will be given as arguments of the callback. Optional.
+      
 		 * @return {Object} The XHR object containing the response data for #PRIORITY_SYNCHRONOUS requests. Null in other cases.
 		 */
 		send: function(message)
@@ -253,6 +259,11 @@ Ext.define(
 						messagesIndexToCancel.push(i);
 						
                         this._hideWaitMessage(oldMessage.waitMessage);
+                        
+                        if (message.cancellationCallback)
+                        {
+                        	message.cancellationCallback.handler.apply(message.cancellationCallback.scope, [message.cancellationCallback.arguments]);
+                        }
                     }
 				}
 				for (var i = messagesIndexToCancel.length - 1; i >= 0; i--)
@@ -353,11 +364,30 @@ Ext.define(
 					arguments: {cb: config.callback}
 				},
 				responseType: 'text',
+				cancellationCallback: {
+					handler: this._cancellationProcessed,
+					scope: this,
+					arguments: {cb: config.cancellationCallback}
+				},
 				cancelCode: config.cancelCode,
 				waitMessage: config.waitMessage,
 				errorMessage: config.errorMessage,
 				priority: (config.priority == Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS) ? null : config.priority
 			});
+		},
+		
+		/**
+		 * @private
+		 * Internal callback after cancellation
+		 * @param {Object} response The server response
+		 * @param {Object} arguments The arguments 
+		 * @param {Function} arguments.cb The callback function 
+		 */
+		_cancellationProcessed: function (arguments)
+		{
+			var callback = arguments.cb;
+			
+			callback.handler.apply(callback.scope || this, [callback.arguments]);
 		},
 		
 		/**
@@ -752,6 +782,12 @@ Ext.define(
 						{
 							this.getLogger().debug("Discarding response for a message with cancel code '" + message.cancelCode + "'");
 						}
+						
+						if (message.cancellationCallback)
+                        {
+							message.cancellationCallback.handler.apply(message.cancellationCallback.scope, [message.cancellationCallback.arguments]);
+                        }
+						
 						continue;
 					}
 					
