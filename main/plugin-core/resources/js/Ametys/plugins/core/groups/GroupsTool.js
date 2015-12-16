@@ -102,7 +102,7 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool', {
                 plugins: {
                     ptype: 'ametysgridviewdragdrop',
                     setAmetysDragInfos: Ext.emptyFn,
-                    setAmetysDropZoneInfos: Ext.bind(this.getDropInfo, this) 
+                    setAmetysDropZoneInfos: Ext.bind(this.getGroupDropInfo, this) 
                 }
             }
 		});
@@ -128,7 +128,15 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool', {
 			
 			listeners: {
 				selectionchange: {fn: this._onUserSelectionChange, scope: this}
-			}
+			},
+			
+            viewConfig: {
+                plugins: {
+                    ptype: 'ametysgridviewdragdrop',
+                    setAmetysDragInfos: Ext.bind(this.getUserDragInfo, this),
+                    setAmetysDropZoneInfos: Ext.bind(this.getUserDropInfo, this) 
+                }
+            }
 		});
 		
 		return Ext.create('Ext.panel.Panel', {
@@ -284,13 +292,12 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool', {
 	},
 	
 	/**
-	 * @private
 	 * Create the target of the drop operation relation.
 	 * @param {Ext.data.Model[]} groups The target group of the drop operation.
 	 * @param {Object} item The default drag data that will be transmitted. You have to add a 'target' item in it: 
 	 * @param {Object} item.target The target (in the relation way) of the drop operation. A Ametys.relation.RelationPoint config. 
 	 */	
-	getDropInfo: function(groups, item)
+	getGroupDropInfo: function(groups, item)
 	{
 		if (groups.length > 0)
 		{
@@ -302,6 +309,58 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool', {
 					type: me._groupTargetType,
 					parameters: { 
 						id: groups[0].id
+					}
+				}
+			};
+		}
+	},
+	
+    /**
+     * @private
+     * Add the 'source' of the drag.
+     * @param {Object} item The default drag data that will be transmitted. You have to add a 'source' item in it: 
+     * @param {Ametys.relation.RelationPoint} item.source The source (in the relation way) of the drag operation. 
+     */
+    getUserDragInfo: function(item)
+    {
+        var targets = [];
+        
+        Ext.Array.each(item.records, function(record) {
+        	targets.push({
+        		type: this._userTargetType,
+        		parameters: {
+        			id: record.id
+        		}
+        	});
+        }, this);
+    
+        if (targets.length > 0)
+        {
+            item.source = {
+                relationTypes: [Ametys.relation.Relation.REFERENCE], 
+                targets: targets
+            };
+        }
+    },
+	
+	/**
+	 * Create the target of the drop operation relation.
+	 * @param {Object} target The target of the drop operation.
+	 * @param {Object} item The default drag data that will be transmitted. You have to add a 'target' item in it: 
+	 * @param {Object} item.target The target (in the relation way) of the drop operation. A Ametys.relation.RelationPoint config. 
+	 */	
+	getUserDropInfo: function(target, item)
+	{
+		var selectedGroup = this._groupGrid.getSelectionModel().getSelection()[0];
+		if (selectedGroup)
+		{
+			var me = this;
+			item.target = {
+				relationTypes: [Ametys.relation.Relation.REFERENCE], 
+				targets: {
+					type: me._groupTargetType,
+					parameters: { 
+						id: selectedGroup.id
 					}
 				}
 			};
