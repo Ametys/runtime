@@ -133,6 +133,7 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool', {
             viewConfig: {
                 plugins: {
                     ptype: 'ametysgridviewdragdrop',
+                    dragTextField: 'login',
                     setAmetysDragInfos: Ext.bind(this.getUserDragInfo, this),
                     setAmetysDropZoneInfos: Ext.bind(this.getUserDropInfo, this) 
                 }
