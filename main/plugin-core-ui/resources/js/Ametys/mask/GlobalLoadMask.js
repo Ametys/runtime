@@ -95,15 +95,20 @@ Ext.define(
             }
             else
             {
-                var msg = this.DEFAULT_MESSAGE;
+                var msg = '';
+                var hasEmptyMessage = false;
                 Ext.Object.each(this._masks, function(id, message) {
                     if (message)
                     {
-                        msg += "<br/>" + message;
+                        msg += msg == '' ? message : '<br/>' + message;
                     }
+                    else
+                	{
+                    	hasEmptyMessage = true;
+                	}
                 }, this);
                 
-                this._show(msg);
+                this._show(hasEmptyMessage ? this.DEFAULT_MESSAGE + '<br />' + msg : msg);
             }
         },
         
