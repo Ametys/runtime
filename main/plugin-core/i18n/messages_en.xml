@@ -623,4 +623,17 @@
     <message key="PLUGINS_CORE_USER_PREFERENCES_INVALID_TYPE">You must specify a valid value for this preference.</message>
     <message key="PLUGINS_CORE_USER_PREFERENCES_PWD_CONFIRMATION_DOESNT_MATCH">The password and its confirmation don't match.</message>
     
+    
+    <!-- CAPTCHA -->
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_CATEGORY">Forms securing</message>
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_GROUP">Human recognition</message>
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_TYPE_LABEL">Recognition system</message>
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_TYPE_DESCRIPTION">Choose the type of captcha to use through the application to protect your form to avoid spam.</message>
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_TYPE_JCAPTCHA">Internal Ametys captcha</message>
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_TYPE_RECAPTCHA">reCaptcha by Google</message>
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_PUBLIC_KEY">Site key reCaptcha</message>
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_PUBLIC_KEY_DESCRIPTION">If you use reCaptcha, you must specify the site key provided by Google.</message>
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_SECRET_KEY">Secret key reCaptcha</message>
+    <message key="PLUGINS_CORE_CAPTCHA_CONFIG_SECRET_KEY_DESCRIPTION">If you use reCaptcha, you must specify the secret key provided by Google.</message>
+    
 </catalogue>

@@ -18,6 +18,9 @@ package org.ametys.runtime.captcha;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -26,6 +29,19 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicNameValuePair;
+
+import org.ametys.runtime.config.Config;
+import org.ametys.runtime.util.JSONUtils;
 
 import nl.captcha.Captcha;
 import nl.captcha.Captcha.Builder;
@@ -44,6 +60,11 @@ public final class CaptchaHelper
     private static final String STATIC_PREFIX_KEY = "STATIC-";
     private static final String DYNAMIC_PREFIX_KEY = "DYNAMIC-";
     
+    // CONFIGURATION
+    private static final String CAPTCHA_TYPE_KEY = "runtime.captcha.type";
+    private static final String RECAPTCHA_SECRET_KEY = "runtime.captcha.recaptcha.secretkey";
+    private static final String RECAPTCHA_PUBLIC_KEY = "runtime.captcha.recaptcha.publickey";
+    
     private static Map<String, List<ValidableCaptcha>> _mapStaticCaptcha = new HashMap<String, List<ValidableCaptcha>>();
     private static Map<String, ValidableCaptcha> _mapDynamicCaptcha = new HashMap<String, ValidableCaptcha>();
     
@@ -52,13 +73,77 @@ public final class CaptchaHelper
         // Nothing
     }
     
+    enum CaptchaType {
+        /** */
+        JCAPTCHA,
+        RECAPTCHA
+    }
+    
+    
+    /**
+     * Retrieve the type of captcha used
+     * @return The type of captcha.
+     */
+    public static String getCaptchaType()
+    {
+        if (Config.getInstance() != null)
+        {
+            return Config.getInstance().getValueAsString(CAPTCHA_TYPE_KEY);
+        }
+        else
+        {
+            return null;
+        }
+    }
+    
+    /**
+     * Retrieve the public key for recaptcha
+     * @return The key
+     */
+    public static String getReCaptchaPublicKey()
+    {
+        if (Config.getInstance() != null)
+        {
+            return Config.getInstance().getValueAsString(RECAPTCHA_PUBLIC_KEY);
+        }
+        else
+        {
+            return null;
+        }
+    }
+    
     /**
      * Check a captcha
      * @param key The key
      * @param value The value to check
-     * @return The image captcha
+     * @return True if the captcha is valid.
      */
-    public static synchronized boolean checkAndInvalidate(String key, String value)
+    public static boolean checkAndInvalidate(String key, String value)
+    {
+        if (Config.getInstance() != null)
+        {
+            String captchaType = Config.getInstance().getValueAsString(CAPTCHA_TYPE_KEY);
+            
+            if (CaptchaType.JCAPTCHA == CaptchaType.valueOf(captchaType.toUpperCase()))
+            {
+                return checkAndInvalidateJCaptcha(key, value);
+            }
+            if (CaptchaType.RECAPTCHA == CaptchaType.valueOf(captchaType.toUpperCase()))
+            {
+                return checkAndInvalidateReCaptcha(value);
+            }
+        }
+
+        return false;
+    }
+        
+    /**
+     * Check a JCaptcha
+     * @param key The key
+     * @param value The value to check
+     * @return True if the captcha is valid.
+     */
+    public static synchronized boolean checkAndInvalidateJCaptcha(String key, String value)
     {
         if (key.startsWith(STATIC_PREFIX_KEY))
         {
@@ -122,6 +207,89 @@ public final class CaptchaHelper
             throw new IllegalArgumentException("The key '" + key + "' is not a valid captcha key because it does not starts with '" + DYNAMIC_PREFIX_KEY + "' or '" + STATIC_PREFIX_KEY + "'");
         }
     }
+    
+    /**
+     * Check a ReCaptcha value
+     * @param value The value to check
+     * @return True if the captcha is valid.
+     */
+    public static boolean checkAndInvalidateReCaptcha(String value)
+    {
+        if (Config.getInstance() != null)
+        {
+            String key = Config.getInstance().getValueAsString(RECAPTCHA_SECRET_KEY);
+            
+            String url = "https://www.google.com/recaptcha/api/siteverify";
+            
+            RequestConfig requestConfig = RequestConfig.custom()
+                    .setConnectTimeout(2000)
+                    .setSocketTimeout(2000)
+                    .build();
+            
+            CloseableHttpClient httpclient = HttpClientBuilder.create()
+                    .setDefaultRequestConfig(requestConfig)
+                    .useSystemProperties()
+                    .build();
+            
+            CloseableHttpResponse httpResponse = null;
+            InputStream is = null;
+            try
+            {
+                // Prepare a request object
+                HttpPost post = new HttpPost(url);
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("secret", key));
+                params.add(new BasicNameValuePair("response", value));
+                post.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+                
+                // Execute the request
+                httpResponse = httpclient.execute(post);
+                
+                if (httpResponse.getStatusLine().getStatusCode() != 200)
+                {
+                    return false;
+                }
+                
+                is = httpResponse.getEntity().getContent();
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                IOUtils.copy(is, bos);
+                
+                Map<String, Object> jsonObject = JSONUtils.parse(bos.toString());
+                
+                return jsonObject.containsKey("success") && (Boolean) jsonObject.get("success");
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            finally
+            {
+                try
+                {
+                    httpclient.close();
+                }
+                catch (IOException e)
+                {
+                    //
+                }
+                if (httpResponse != null)
+                {
+                    try
+                    {
+                        httpResponse.close();
+                    }
+                    catch (IOException e)
+                    {
+                        //
+                    }
+                }
+                IOUtils.closeQuietly(is);
+            }
+        }
+        
+        return false;
+    }
+ 
     
     /**
      * Remove a captcha

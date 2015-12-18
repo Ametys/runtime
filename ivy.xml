@@ -58,6 +58,7 @@ Open source web application framework based on Apache Cocoon.
     <dependency org="apache" name="commons-codec" rev="1.5" conf="default;dev-kernel-resources->default"/>
     <dependency org="apache" name="commons-lang" rev="2.6" conf="default;dev-kernel-resources->default"/>
     <dependency org="apache" name="ibatis" rev="2.3.0" conf="default;dev-kernel-resources->default"/>
+    <dependency org="apache" name="httpcomponents-client" rev="4.5" conf="default->default"/>
     <dependency org="javax.servlet" name="servlet-api" rev="2.4" conf="compile->default;dev-kernel-resources->default"/>
     <dependency org="joda-time" name="joda-time" rev="1.6" conf="default->default;dev-kernel-resources->default"/>
     <dependency org="rrd4j" name="rrd4j" rev="2.2.0" conf="default->default;dev-kernel-resources->default"/>
