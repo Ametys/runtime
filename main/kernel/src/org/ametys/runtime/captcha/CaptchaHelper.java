@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -114,9 +115,9 @@ public final class CaptchaHelper
     
     /**
      * Check a captcha
-     * @param key The key
+     * @param key The captcha key. Can be empty or null when using reCaptcha.
      * @param value The value to check
-     * @return True if the captcha is valid.
+     * @return <code>true</code> if the captcha is valid, false otherwise.
      */
     public static boolean checkAndInvalidate(String key, String value)
     {
@@ -126,10 +127,20 @@ public final class CaptchaHelper
             
             if (CaptchaType.JCAPTCHA == CaptchaType.valueOf(captchaType.toUpperCase()))
             {
+                if (StringUtils.isEmpty(key) || StringUtils.isEmpty(value))
+                {
+                    return false;
+                }
+                
                 return checkAndInvalidateJCaptcha(key, value);
             }
             if (CaptchaType.RECAPTCHA == CaptchaType.valueOf(captchaType.toUpperCase()))
             {
+                if (StringUtils.isEmpty(value))
+                {
+                    return false;
+                }
+                
                 return checkAndInvalidateReCaptcha(value);
             }
         }

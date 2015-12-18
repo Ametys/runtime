@@ -294,7 +294,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
                     String answer = request.getParameter(_captchaField);
                     String captchaKey = request.getParameter(_captchaKeyField);
 
-                    if (captchaKey == null || !CaptchaHelper.checkAndInvalidate(captchaKey, answer)) 
+                    if (!CaptchaHelper.checkAndInvalidate(captchaKey, answer)) 
                     {
                         // Captcha is invalid
                         return null;

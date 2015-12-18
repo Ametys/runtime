@@ -39,8 +39,8 @@
 		<xsl:param name="image-width">200</xsl:param>
 		<xsl:param name="image-height">50</xsl:param>
 		
-        <xsl:param name="captcha-theme">light</xsl:param>
-        <xsl:param name="captcha-size">normal</xsl:param>
+        <xsl:param name="recaptcha-theme">light</xsl:param>
+        <xsl:param name="recaptcha-size">normal</xsl:param>
         
 		<xsl:param name="allow-refresh" select="true()"/>
         
@@ -84,8 +84,8 @@
                     <xsl:with-param name="key-id" select="$key-id"/>
                     <xsl:with-param name="value-name" select="$value-name"/>
                     <xsl:with-param name="value-id" select="$value-id"/>
-                    <xsl:with-param name="captcha-theme" select="$captcha-theme"/>
-                    <xsl:with-param name="captcha-size" select="$captcha-size"/>
+                    <xsl:with-param name="recaptcha-theme" select="$recaptcha-theme"/>
+                    <xsl:with-param name="recaptcha-size" select="$recaptcha-size"/>
                     <xsl:with-param name="js-funcname-torefresh" select="$js-funcname-torefresh"/>
                 </xsl:call-template>
             </xsl:when>
@@ -175,8 +175,8 @@
         <xsl:param name="key-id"/>
         <xsl:param name="value-name"/>
         <xsl:param name="value-id"/>
-        <xsl:param name="captcha-theme"/>
-        <xsl:param name="captcha-size"/>
+        <xsl:param name="recaptcha-theme"/>
+        <xsl:param name="recaptcha-size"/>
         <xsl:param name="js-funcname-torefresh"/>
         
         <xsl:variable name="captcha-id"><xsl:value-of select="concat('captcha', substring-after(math:random(), '.'))"/></xsl:variable>
@@ -234,8 +234,8 @@
                 recaptchaFieldsToLoad = [{
                     'captchaId' : "<xsl:value-of select='$captcha-id'/>",
                     'callback' : loadValueToSend_<xsl:value-of select='$captcha-id'/> ,
-                    'theme' : '<xsl:value-of select="$captcha-theme" />',
-                    'size' : '<xsl:value-of select="$captcha-size" />',
+                    'theme' : '<xsl:value-of select="$recaptcha-theme" />',
+                    'size' : '<xsl:value-of select="$recaptcha-size" />',
                 }];
                 document.write("&lt;script src=\"https://www.google.com/recaptcha/api.js?onload=ReCaptchaCallback_<xsl:value-of select='$captcha-id'/>&amp;render=explicit\" async defer&gt;&lt;/script&gt;");
             }
@@ -245,8 +245,8 @@
                 recaptchaFieldsToLoad.push({
                     'captchaId' : "<xsl:value-of select='$captcha-id'/>",
                     'callback' : loadValueToSend_<xsl:value-of select='$captcha-id'/> ,
-                    'theme' : '<xsl:value-of select="$captcha-theme" />',
-                    'size' : '<xsl:value-of select="$captcha-size" />'
+                    'theme' : '<xsl:value-of select="$recaptcha-theme" />',
+                    'size' : '<xsl:value-of select="$recaptcha-size" />'
                 })
             }
             else
@@ -255,8 +255,8 @@
                 grecaptcha.render("<xsl:value-of select='$captcha-id'/>", {
                     'sitekey' : '<xsl:value-of select='$public-key'/>',
                     'callback' : loadValueToSend_<xsl:value-of select='$captcha-id'/>,
-                    'theme' : '<xsl:value-of select="$captcha-theme" />',
-                    'size' : '<xsl:value-of select="$captcha-size" />'
+                    'theme' : '<xsl:value-of select="$recaptcha-theme" />',
+                    'size' : '<xsl:value-of select="$recaptcha-size" />'
                 });
             }
             
