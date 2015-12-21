@@ -122,10 +122,10 @@ Ext.define('Ametys.tool.SelectionTool', {
 	
 	/**
 	 * @protected
-	 * This function look at the given selection message to determines if the tool has to been refreshed.
-	 * If the current targets do not matched the expected target(s) the function #setNoSelectionMatchState is called and the function will returns false.
+	 * This function looks at the given selection message to determine if the tool has to be refreshed.
+	 * If the current targets do not match the expected target(s) the function #setNoSelectionMatchState is called and the function will return false.
 	 * @param message the selection message. 
-	 * @return true if the tool has to been refreshed
+	 * @return true if the tool has to be refreshed
 	 */
 	_isRefreshNeeded: function (message)
 	{
