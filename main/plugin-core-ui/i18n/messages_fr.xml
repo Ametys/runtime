@@ -58,8 +58,8 @@
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_PERSIST">Se souvenir de moi</message>
     
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_AUTH_FAILURE">Identifiant ou mot de passe incorrect</message>
-    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_WITH_CAPTCHA">Nom d'utilisateur, mot de passe ou texte de l'image incorrect</message>
-    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_MANY_TIME">Remplissez le texte de l'image car il y a eu trop d'erreurs de connexion avec ce nom d'utilisateur</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_WITH_CAPTCHA">Nom d'utilisateur, mot de passe ou captcha incorrect</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_MANY_TIME">Veuillez valider le captcha car il y a eu trop d'erreurs de connexion avec ce nom d'utilisateur</message>
     
     <!-- +
          | Incomplete configuration

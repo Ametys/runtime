@@ -58,8 +58,8 @@
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_PERSIST">Remember me</message>
     
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_AUTH_FAILURE">Invalid user id or password</message>
-    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_WITH_CAPTCHA">Username, login or image text incorrect</message>
-    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_MANY_TIME">Fill the image text because there were too many failed attempts with this username</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_WITH_CAPTCHA">Username, login or captcha incorrect</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_MANY_TIME">Please verify the captcha because there were too many failed attempts with this username</message>
     
     <!-- +
          | Incomplete configuration
