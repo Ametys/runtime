@@ -30,10 +30,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import nl.captcha.Captcha;
+import nl.captcha.Captcha.Builder;
+import nl.captcha.gimpy.DropShadowGimpyRenderer;
+import nl.captcha.gimpy.FishEyeGimpyRenderer;
+import nl.captcha.gimpy.RippleGimpyRenderer;
+import nl.captcha.noise.CurvedLineNoiseProducer;
+import nl.captcha.text.producer.DefaultTextProducer;
+import nl.captcha.text.renderer.DefaultWordRenderer;
+
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -45,15 +55,6 @@ import org.apache.http.message.BasicNameValuePair;
 
 import org.ametys.core.util.JSONUtils;
 import org.ametys.runtime.config.Config;
-
-import nl.captcha.Captcha;
-import nl.captcha.Captcha.Builder;
-import nl.captcha.gimpy.DropShadowGimpyRenderer;
-import nl.captcha.gimpy.FishEyeGimpyRenderer;
-import nl.captcha.gimpy.RippleGimpyRenderer;
-import nl.captcha.noise.CurvedLineNoiseProducer;
-import nl.captcha.text.producer.DefaultTextProducer;
-import nl.captcha.text.renderer.DefaultWordRenderer;
 
 /**
  * Helper for generating image captcha to PNG format
@@ -95,15 +96,15 @@ public final class CaptchaHelper implements Serviceable
         }
         else
         {
-            return null;
+            return "jcaptcha";
         }
     }
 
     /**
      * Check a captcha
-     * @param key The key
+     * @param key The captcha key. Can be empty or null when using reCaptcha.
      * @param value The value to check
-     * @return True if the captcha is valid.
+     * @return <code>true</code> if the captcha is valid, false otherwise.
      */
     public static boolean checkAndInvalidate(String key, String value)
     {
@@ -113,10 +114,20 @@ public final class CaptchaHelper implements Serviceable
             
             if (CaptchaType.JCAPTCHA == CaptchaType.valueOf(captchaType.toUpperCase()))
             {
+                if (StringUtils.isEmpty(key) || StringUtils.isEmpty(value))
+                {
+                    return false;
+                }
+                
                 return checkAndInvalidateJCaptcha(key, value);
             }
             if (CaptchaType.RECAPTCHA == CaptchaType.valueOf(captchaType.toUpperCase()))
             {
+                if (StringUtils.isEmpty(value))
+                {
+                    return false;
+                }
+                
                 return checkAndInvalidateReCaptcha(value);
             }
         }
