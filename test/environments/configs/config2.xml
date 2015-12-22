@@ -27,4 +27,7 @@
 <smtp.mail.sysadminto>ametys@ametys.org</smtp.mail.sysadminto>
 <runtime.debug.ui>false</runtime.debug.ui>
 <runtime.cache.xslt>false</runtime.cache.xslt>
+<runtime.captcha.type>jcaptcha</runtime.captcha.type>
+<runtime.captcha.recaptcha.publickey/>
+<runtime.captcha.recaptcha.secretkey/>
 </config>
