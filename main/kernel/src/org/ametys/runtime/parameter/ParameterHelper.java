@@ -56,9 +56,7 @@ public final class ParameterHelper
         /** date values */
         DATE,
         /** binary values */
-        BINARY,
-        /** content values */
-        CONTENT,
+        BINARY
     }
 
     // Logger for traces
@@ -145,10 +143,6 @@ public final class ParameterHelper
             else if (type == ParameterType.BINARY)
             {
                 return null;
-            }
-            else if (type== ParameterType.CONTENT)
-            {
-                return value;
             }
         }
         catch (Exception nfe)
