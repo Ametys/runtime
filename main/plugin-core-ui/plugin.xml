@@ -418,7 +418,7 @@
                 point="org.ametys.core.ui.widgets.WidgetsManager"
                 class="org.ametys.core.ui.widgets.StaticClientSideWidget">
                 <class name="Ametys.form.field.TriStateCheckbox">
-                    <ftypes>boolean</ftypes>
+                    <ftypes>string</ftypes>
                     <supports-enumerated>false</supports-enumerated>
                     <supports-non-enumerated>true</supports-non-enumerated>
                     <supports-multiple>false</supports-multiple>
