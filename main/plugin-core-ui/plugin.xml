@@ -412,7 +412,24 @@
             </extension>
         </extensions>
     </feature>  
-    
+    <feature name="widgets.others.tricheckbox" safe="true">
+        <extensions>
+            <extension id="edition.tricheckbox"
+                point="org.ametys.core.ui.widgets.WidgetsManager"
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.form.field.TriStateCheckbox">
+                    <ftypes>boolean</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/form/field/TriStateCheckbox.js</file>
+                </scripts>
+            </extension>
+        </extensions>
+    </feature>
     <feature name="widgets.default.richtext" safe="true">
         <extensions>
             <extension id="edition.richtext"
@@ -559,7 +576,7 @@
             </extension>
         </extensions>
     </feature>
-    <feature name="widgets.others.boolean.combobx" safe="true">
+    <feature name="widgets.others.boolean.combobox" safe="true">
         <extensions>
             <extension id="edition.boolean-combobox"
                 point="org.ametys.core.ui.widgets.WidgetsManager"
