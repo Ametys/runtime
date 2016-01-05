@@ -221,6 +221,9 @@
             <category i18n="true">PLUGINS_CORE_CAPTCHA_CONFIG_CATEGORY</category>
             <group i18n="true">PLUGINS_CORE_CAPTCHA_CONFIG_GROUP</group>
             <order>2</order>
+            <disable-conditions>
+                <condition id="runtime.captcha.type" operator="neq">recaptcha</condition>
+            </disable-conditions>
         </param>
         
         <param type="string" id="runtime.captcha.recaptcha.secretkey">
@@ -230,6 +233,9 @@
             <category i18n="true">PLUGINS_CORE_CAPTCHA_CONFIG_CATEGORY</category>
             <group i18n="true">PLUGINS_CORE_CAPTCHA_CONFIG_GROUP</group>
             <order>3</order>
+            <disable-conditions>
+                <condition id="runtime.captcha.type" operator="neq">recaptcha</condition>
+            </disable-conditions>
         </param>
         
         
