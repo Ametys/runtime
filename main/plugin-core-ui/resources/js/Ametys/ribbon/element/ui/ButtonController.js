@@ -94,10 +94,11 @@ Ext.define(
 
 			var hasGalleryItems = this.getInitialConfig("gallery-item") && this.getInitialConfig("gallery-item")["gallery-groups"].length > 0;
 			var menuItemsCount = this._getMenuItemsCount();
+            var createMenuEvenWithOneItem = this.getInitialConfig("createMenuWithOneItem") == "true";
 			
-		    if (!hasGalleryItems && menuItemsCount == 1)
+		    if (!createMenuEvenWithOneItem && !hasGalleryItems && menuItemsCount == 1)
 		    {
-		    	// There is only one menu items => transform menu to one button
+		    	// There is only one menu item => transform menu to one button
 		    	var menuItemCfg = this.getInitialConfig("menu-items");
 				for (var i=0; i < menuItemCfg.length; i++)
 				{
