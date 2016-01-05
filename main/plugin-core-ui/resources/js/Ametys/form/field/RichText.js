@@ -486,7 +486,37 @@ Ext.define('Ametys.form.field.RichText', {
 					root.parentNode.insertBefore(br, mode == 'after' ? root.nextSibling : root);
 					editor.dom.setOuterHTML(br, html);
 				}
-			};			
+			};
+            
+            tinyMCE.additionnalCleanUp = function()
+            {
+                function hasAnAuthorizedAttributes(span)
+                {
+                    var attrs = tinyMCE.activeEditor.dom.getAttribs(span); 
+                    for (var i = 0; i < attrs.length; i++)
+                    { 
+                        var attr = attrs[i];
+                        
+                        if (Ametys.form.widget.RichText.RichTextConfiguration._tags["span"].attributes[attr] != null)
+                        {
+                            return true;
+                        }
+                    }
+                    
+                    return false;
+                }
+                
+                // CMS-7006
+                var spans = tinyMCE.activeEditor.dom.select("span");
+                for (var i = 0; i < spans.length; i++)
+                {
+                    var span = spans[i];
+                    if (tinyMCE.activeEditor.dom.getAttrib(span, "style") != "" || !hasAnAuthorizedAttributes(span)) 
+                    {
+                        tinyMCE.activeEditor.dom.remove(span, true);
+                    }
+                }
+            }
 		}
     },
     
@@ -1000,7 +1030,9 @@ Ext.define('Ametys.form.field.RichText', {
 		editor.onKeyDown.add(Ext.bind(this._onEditorKeyDown, this));
 		editor.onKeyUp.add(Ext.bind(this._onEditorKeyUp, this));
 		editor.onVisualAid.add(Ext.bind(this._onEditorVisualAid, this));
-		editor.onPreProcess.add(Ext.bind(this._onEditorPreProcess, this));		
+		editor.onPreProcess.add(Ext.bind(this._onEditorPreProcess, this));	
+        
+        editor.onPaste.add (function() { window.setTimeout(tinyMCE.additionnalCleanUp, 1); }); // CMS-7006
     },
     
 	/**
