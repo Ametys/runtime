@@ -95,21 +95,22 @@ Ext.define(
 			var hasGalleryItems = this.getInitialConfig("gallery-item") && this.getInitialConfig("gallery-item")["gallery-groups"].length > 0;
 			var menuItemsCount = this._getMenuItemsCount();
 			
-		    if (!hasGalleryItems && menuItemsCount == 1)
-		    {
-		    	// There is only one menu item => transform menu to one button
-		    	var menuItemCfg = this.getInitialConfig("menu-items");
-				for (var i=0; i < menuItemCfg.length; i++)
-				{
-					var elmt = Ametys.ribbon.RibbonManager.getElement(menuItemCfg[i]);
-					if (elmt != null)
-					{
-				    	return elmt.createUI (size, colspan);
-					}
-				}
-		    }
-		    else
-		    {
+            // FIXME RUNTIME-1539
+//		    if (!hasGalleryItems && menuItemsCount == 1)
+//		    {
+//		    	// There is only one menu item => transform menu to one button
+//		    	var menuItemCfg = this.getInitialConfig("menu-items");
+//				for (var i=0; i < menuItemCfg.length; i++)
+//				{
+//					var elmt = Ametys.ribbon.RibbonManager.getElement(menuItemCfg[i]);
+//					if (elmt != null)
+//					{
+//				    	return elmt.createUI (size, colspan);
+//					}
+//				}
+//		    }
+//		    else
+//		    {
 		    	var menu = this._getMenu();
 				
 				var hasActionFn = this.getInitialConfig("action") != null;
@@ -138,7 +139,7 @@ Ext.define(
 					
 					menu: menu
 				}, this.getInitialConfig('ui-config') || {}));
-		    }
+//		    }
 			
 			return element;
 		},
