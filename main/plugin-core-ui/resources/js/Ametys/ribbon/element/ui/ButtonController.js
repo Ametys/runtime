@@ -206,9 +206,9 @@ Ext.define(
 		},
 		
 		/**
-		 * Get the menu constructed from button configuration
+		 * Get the menu constructed from button configuration. Call #_getMenuPanels to build items from galleries configuration. Call #_getMenuItems to build from items configuration.
 		 * @return {Object/Ext.menu.Menu} A menu configuration or the menu itself. Can be null if there is no menu.
-		 * @private
+		 * @protected
 		 */
 		_getMenu: function ()
 		{
@@ -233,9 +233,9 @@ Ext.define(
 		},
 		
 		/**
-		 * Get the menu panels from configuration if exists
+		 * Get the menu panels from galleries configuration if exists
 		 * @returns {Ametys.ui.fluent.ribbon.controls.gallery.MenuPanel[]} The menu panels
-		 * @private
+		 * @protected
 		 */
 		_getMenuPanels: function ()
 		{
@@ -294,7 +294,7 @@ Ext.define(
 		},
 		
 		/**
-		 * Get the configuration of menu panel from initial configuration if exists
+		 * Get the configuration of each menu panel from initial configuration if it exists. Called by #_getMenuPanels.
 		 * @return {Object} The menu panel configuration object
 		 * @protected
 		 */
@@ -319,6 +319,7 @@ Ext.define(
 			return config;
 		},
 		
+        // TO remove
 		_getMenuItemsCount: function ()
 		{
 			var count = 0;
@@ -341,9 +342,9 @@ Ext.define(
 		},
 		
 		/**
-		 * Get the menu items from configuration if exist
+		 * Get the menu items from menu items configuration if it exists
 		 * @returns {Ext.menu.Item[]} The menu items
-		 * @private
+		 * @protected
 		 */
 		_getMenuItems: function ()
 		{
