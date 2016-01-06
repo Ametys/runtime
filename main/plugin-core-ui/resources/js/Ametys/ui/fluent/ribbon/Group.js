@@ -204,7 +204,7 @@ Ext.define(
          * @private
          * The icon button menu is shown: let's insert the buttons in the menu
          * @param {Ext.button.Button} button The icon button
-         * @param {Ext.menu.Menu}} menu The menu displayed
+         * @param {Ext.menu.Menu} menu The menu displayed
          */
         _onIconizedMenuShow: function(button, menu)
         {
@@ -218,7 +218,7 @@ Ext.define(
          * @private
          * The icon button menu is hiden: let's put the buttons back in the ribbon
          * @param {Ext.button.Button} button The icon button
-         * @param {Ext.menu.Menu}} menu The menu displayed
+         * @param {Ext.menu.Menu} menu The menu displayed
          */
         _onIconizedMenuHide: function(button, menu)
         {
