@@ -30,41 +30,14 @@ Ext.define('Ametys.runtime.profiles.ProfileActions', {
 	 */
 	addUsers: function(profileId, users, context, callback, additionalParams)
 	{
-		var params = {
-			profiles: profileId,
-			users: users,
-			profileContext: context
-		};
+		var params = [
+			users,
+			[profileId],
+			context
+		];
 		
-		if (additionalParams != null)
-		{
-			for (var i in additionalParams)
-			{
-				params[i] = additionalParams[i];
-			}
-		}
-		
-		Ametys.data.ServerComm.send({
-			plugin: 'core', 
-			url: 'rights/assign', 
-			parameters: params,
-			priority: Ametys.data.ServerComm.PRIORITY_MAJOR, 
-			callback: {
-				scope: this,
-				handler: function(response)
-				{
-					if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:catalogue='plugin.core' i18n:key='PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_ERROR'/>", response, Ext.getClassName(this) + '.addUsers'))
-					{
-						return;
-					}
-					
-					if (callback)
-					{
-						callback(profileId);
-					}
-				}
-			}
-		});
+        callback = callback || Ext.emptyFn;
+        Ametys.plugins.core.profiles.ProfilesDAO.addUsers(params, callback, {scope: this});
 	},
 	
 	/**
@@ -77,41 +50,14 @@ Ext.define('Ametys.runtime.profiles.ProfileActions', {
 	 */
 	addGroups: function(profileId, groups, context, callback, additionalParams)
 	{
-		var params = {
-				profiles: profileId,
-				groups: groups,
-				profileContext: context
-			};
+		var params = [
+			groups,
+			[profileId],
+			context
+		];
 		
-		if (additionalParams != null)
-		{
-			for (var i in additionalParams)
-			{
-				params[i] = additionalParams[i];
-			}
-		}
-		
-		Ametys.data.ServerComm.send({
-			plugin: 'core', 
-			url: 'rights/assign', 
-			parameters: params,
-			priority: Ametys.data.ServerComm.PRIORITY_MAJOR, 
-			callback: {
-				scope: this,
-				handler: function(response)
-				{
-					if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:catalogue='plugin.core' i18n:key='PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDGROUP_ERROR'/>", response, Ext.getClassName(this) + '.addGroups'))
-					{
-						return;
-					}
-					
-					if (callback)
-					{
-						callback(profileId);
-					}
-				}
-			}
-		});
+        callback = callback || Ext.emptyFn;
+        Ametys.plugins.core.profiles.ProfilesDAO.addGroups(params, callback, {scope: this});
 	},
 	
 	/**
@@ -146,42 +92,15 @@ Ext.define('Ametys.runtime.profiles.ProfileActions', {
 	{
 		if (btn == 'yes')
 		{
-			var params = {
-				profileId: profileId,
-				users: users,
-				groups: groups,
-				profileContext: context
-			};
-			
-			if (additionalParams != null)
-			{
-				for (var i in additionalParams)
-				{
-					params[i] = additionalParams[i];
-				}
-			}
-			
-			Ametys.data.ServerComm.send({
-				plugin: 'core', 
-				url: 'rights/remove', 
-				parameters: params,
-				priority: Ametys.data.ServerComm.PRIORITY_MAJOR, 
-				callback: {
-					scope: this,
-					handler: function(response)
-					{
-						if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:catalogue='plugin.core' i18n:key='PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_ERROR'/>", response, Ext.getClassName(this) + '.remove'))
-						{
-							return;
-						}
-						
-						if (callback)
-						{
-							callback(profileId);
-						}
-					}
-				}
-			});
+			var params = [
+				users,
+				groups,
+				profileId,
+				context
+			];
+            
+            callback = callback || Ext.emptyFn;
+            Ametys.plugins.core.profiles.ProfilesDAO.removeAssignment(params, callback, {scope: this});
 		}
 	}
 });

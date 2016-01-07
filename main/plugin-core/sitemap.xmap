@@ -39,8 +39,6 @@
             <map:action name="profiles-search" src="org.ametys.plugins.core.right.profile.ProfileSearchAction" logger="org.ametys.plugins.core.group"/>
             
             <map:action name="get-rights" src="org.ametys.plugins.core.right.GetRightsAction" logger="org.ametys.plugins.core.right"/>
-            <map:action name="rights-assign" src="org.ametys.plugins.core.right.AssignAction" logger="org.ametys.plugins.core.right"/>
-            <map:action name="rights-remove" src="org.ametys.plugins.core.right.RemoveAction" logger="org.ametys.plugins.core.right"/>
             
             <map:action name="captcha" src="org.ametys.plugins.core.captcha.CreateCaptchaAction" logger="org.ametys.plugins.core.captcha"/>
             <map:action name="upload-store" src="org.ametys.plugins.core.upload.UploadAction" logger="org.ametys.plugins.core.upload"/>
@@ -169,20 +167,6 @@
             <map:match pattern="rights/profile-assignment.xml">
                 <map:generate type="rights-profile-assignment"/>
                 <map:serialize type="xml"/>
-            </map:match>
-            
-            <map:match pattern="rights/assign">
-                <map:act type="rights-assign">
-                    <map:generate type="action-result"/>
-                    <map:serialize type="xml"/>
-                </map:act>
-            </map:match>
-
-            <map:match pattern="rights/remove">
-                <map:act type="rights-remove">
-                    <map:generate type="action-result"/>
-                    <map:serialize type="xml"/>
-                </map:act>
             </map:match>
             
 			<!-- +
