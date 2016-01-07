@@ -45,12 +45,12 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
     /** The current user provider. */
     protected CurrentUserProvider _currentUserProvider;
     /** The profile base impl of rights'manager*/
-    protected ProfileBasedRightsManager _rightsManager;
+    //protected ProfileBasedRightsManager _rightsManager;
 
     public void service(ServiceManager smanager) throws ServiceException
     {
         _smanager = smanager;
-        _rightsManager = (ProfileBasedRightsManager) smanager.lookup(RightsManager.ROLE);
+        //_rightsManager = (ProfileBasedRightsManager) smanager.lookup(RightsManager.ROLE);
     }
     
     /**
@@ -299,9 +299,11 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
      * @param usersLogins The logins of the users to add
      * @param profilesIds The ids of profiles
      * @param context The context
+     * @throws InvalidModificationException If modification are not possible
+     * @throws ServiceException If there is an issue with the service manager
      */
     @Callable
-    public void addUsers(List<String> usersLogins, List<String> profilesIds, String context)
+    public void addUsers(List<String> usersLogins, List<String> profilesIds, String context) throws ServiceException, InvalidModificationException
     {
         assignProfiles(usersLogins, Collections.EMPTY_LIST, profilesIds, context);
     }
@@ -311,9 +313,11 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
      * @param groupsIds The ids of the groups to add
      * @param profilesIds The ids of profiles
      * @param context The context
+     * @throws InvalidModificationException If modification are not possible
+     * @throws ServiceException If there is an issue with the service manager
      */
     @Callable
-    public void addGroups(List<String> groupsIds, List<String> profilesIds, String context)
+    public void addGroups(List<String> groupsIds, List<String> profilesIds, String context) throws ServiceException, InvalidModificationException
     {
         assignProfiles(Collections.EMPTY_LIST, groupsIds, profilesIds, context);
     }
@@ -324,8 +328,10 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
      * @param groupsIds The ids of the groups to add
      * @param profilesIds The ids of profiles
      * @param context The context
+     * @throws InvalidModificationException If modification are not possible
+     * @throws ServiceException If there is an issue with the service manager
      */
-    public void assignProfiles(List<String> usersLogins, List<String> groupsIds, List<String> profilesIds, String context)
+    public void assignProfiles(List<String> usersLogins, List<String> groupsIds, List<String> profilesIds, String context) throws ServiceException, InvalidModificationException
     {
         if (getLogger().isDebugEnabled())
         {
@@ -367,9 +373,11 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
      * @param groupsIds The ids of the groups to remove
      * @param profileId The id of the profile
      * @param context The context
+     * @throws InvalidModificationException If modification are not possible
+     * @throws ServiceException If there is an issue with the service manager
      */
     @Callable
-    public void removeAssignment(List<String> usersLogins, List<String> groupsIds, String profileId, String context)
+    public void removeAssignment(List<String> usersLogins, List<String> groupsIds, String profileId, String context) throws ServiceException, InvalidModificationException
     {
         if (getLogger().isDebugEnabled())
         {
@@ -478,13 +486,23 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
         return result;
     }
     
-    private void _addProfiles(List<String> users, List<String> groups, String context, List<String> profiles)
+    private void _addProfiles(List<String> users, List<String> groups, String context, List<String> profiles) throws ServiceException, InvalidModificationException
     {
+        RightsManager p = (RightsManager) _smanager.lookup(RightsManager.ROLE);
+        
+        if (!(p instanceof ProfileBasedRightsManager))
+        {
+            getLogger().error("RightsManager is of class '" + p.getClass().getName() + "' that is not an instance of ProfileBasedRightsManager");
+            throw new InvalidModificationException("RightsManager is of class '" + p.getClass().getName() + "' that is not an instance of ProfileBasedRightsManager");
+        }
+        
+        ProfileBasedRightsManager rightsManager = (ProfileBasedRightsManager) p;
+        
         for (int i = 0; users != null && i < users.size(); i++)
         {
             for (int j = 0; profiles != null && j < profiles.size(); j++)
             {
-                _rightsManager.addUserRight(users.get(i), context, profiles.get(j));
+                rightsManager.addUserRight(users.get(i), context, profiles.get(j));
             }
         }
     
@@ -492,20 +510,30 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
         {
             for (int j = 0; profiles != null && j < profiles.size(); j++)
             {
-                _rightsManager.addGroupRight(groups.get(i), context, profiles.get(j));
+                rightsManager.addGroupRight(groups.get(i), context, profiles.get(j));
             }
         }
     }
     
-    private void _removeProfile(List<String> users, List<String> groups, String profileId, String context)
+    private void _removeProfile(List<String> users, List<String> groups, String profileId, String context) throws ServiceException, InvalidModificationException
     {
+        RightsManager p = (RightsManager) _smanager.lookup(RightsManager.ROLE);
+        
+        if (!(p instanceof ProfileBasedRightsManager))
+        {
+            getLogger().error("RightsManager is of class '" + p.getClass().getName() + "' that is not an instance of ProfileBasedRightsManager");
+            throw new InvalidModificationException("RightsManager is of class '" + p.getClass().getName() + "' that is not an instance of ProfileBasedRightsManager");
+        }
+        
+        ProfileBasedRightsManager rightsManager = (ProfileBasedRightsManager) p;
+        
         for (int i = 0; users != null && i < users.size(); i++)
         {
-            _rightsManager.removeUserProfile(users.get(i), profileId, context);
+            rightsManager.removeUserProfile(users.get(i), profileId, context);
         }
         for (int i = 0; groups != null && i < groups.size(); i++)
         {
-            _rightsManager.removeGroupProfile(groups.get(i), profileId, context);
+            rightsManager.removeGroupProfile(groups.get(i), profileId, context);
         }
     }
 }
