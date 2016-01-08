@@ -56,6 +56,9 @@ Ext.define(
             
             this.on("menutriggerover", this._onMenuTriggerOver, this);
             this.on("menutriggerout", this._onMenuTriggerOut, this);
+            
+            this.getText = this.mixins.button.getText;
+            this.setText = this.mixins.button.setText;
         },
         
         afterRender: function()

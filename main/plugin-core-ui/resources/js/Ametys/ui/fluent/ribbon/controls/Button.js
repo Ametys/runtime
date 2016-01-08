@@ -36,6 +36,9 @@ Ext.define(
             this.mixins.button.constructor.call(this, config);
             
             this.callParent(arguments);
+            
+            this.getText = this.mixins.button.getText;
+            this.setText = this.mixins.button.setText;
         },
         
         afterRender: function()

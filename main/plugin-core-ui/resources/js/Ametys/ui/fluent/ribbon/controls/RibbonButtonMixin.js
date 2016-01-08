@@ -76,9 +76,6 @@ Ext.define(
          */
         constructor: function(config)
         {
-            this.getText = this.mixins.button.getText;
-            this.setText = this.mixins.button.setText;
-    
             if (config.scale == 'very-small')
             {
                 config.text = null;
