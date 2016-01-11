@@ -808,12 +808,12 @@
     <!-- +
          | ABOUT AMETYS
          + -->
-    <message key="PLUGINS_CORE_UI_ABOUT_LABEL">About Ametys...</message>
-    <message key="PLUGINS_CORE_UI_ABOUT_DESCRIPTION">Information about Ametys</message>
+    <message key="PLUGINS_CORE_UI_ABOUT_LABEL">About ...</message>
+    <message key="PLUGINS_CORE_UI_ABOUT_DESCRIPTION">Get information about your Ametys application.</message>
     <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_TITLE">About</message>
-    <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_BUTTON_OK">OK</message>
-    <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_VERSIONS_VERSION_SEPARATOR"> - </message>
-    <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_VERSIONS_DATE_PREFIX"> from </message>
-    <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_DAO_ERROR">Error retrieving information about the application</message>
+    <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_BUTTON_OK">Ok</message>
+    <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_VERSIONS_VERSION_PREFIX">Version: </message>
+    <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_VERSIONS_DATE_PREFIX"> at </message>
+    <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_DAO_ERROR">An error occurred while retreiving information of versions and licensing</message>
     
 </catalogue>

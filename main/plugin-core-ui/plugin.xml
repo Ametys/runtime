@@ -1283,6 +1283,36 @@
        </extensions>
     </feature>
     
+    <feature name="about">
+    	<components>
+    		<component id="org.ametys.plugins.core.ui.about.AboutInfoProvider"
+    				   role="org.ametys.plugins.core.ui.about.AboutInfoProvider"
+    				   class="org.ametys.plugins.core.ui.about.AboutInfoProvider">
+ 			</component>
+    	</components>
+        
+    	<extensions>
+    		<extension id="org.ametys.plugins.core.ui.about"
+    				   point="org.ametys.core.ui.RibbonAppMenuControlsManager"
+    				   class="org.ametys.core.ui.StaticClientSideElement">
+    			<class name="">
+    				<action>Ametys.plugins.coreui.about.AboutActions.openAboutDialogBox</action>
+    				
+    				<label i18n="true">PLUGINS_CORE_UI_ABOUT_LABEL</label>
+    				<description i18n="true">PLUGINS_CORE_UI_ABOUT_DESCRIPTION</description>
+    				
+    				<icon-glyph>flaticon-question13</icon-glyph>
+    			</class>
+	    		<scripts>
+	    			<file>js/Ametys/plugins/coreui/about/AboutActions.js</file>
+	    		</scripts>
+	    		<css>
+				    <file>css/Ametys/ui/about.css</file>
+				</css>
+    		</extension>
+    	</extensions>
+    </feature>
+    
     <feature name="core.user.profile">
         <components>
             <component class="org.ametys.plugins.core.ui.user.ProfileImageProvider"

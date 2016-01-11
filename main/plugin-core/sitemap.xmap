@@ -48,6 +48,7 @@
 			<map:action name="user-prefs-def" src="org.ametys.plugins.core.userpref.GetUserPreferencesAction" logger="org.ametys.plugins.core.userpref.GetUserPreferencesAction"/>
             <map:action name="save-userprefs" src="org.ametys.plugins.core.userpref.SetUserPreferencesAction" logger="org.ametys.plugins.core.userpref.SetUserPreferencesAction"/>
             
+            <map:action name="resource-exists" src="org.apache.cocoon.acting.ResourceExistsAction"/>
             <map:action name="has-right" src="org.ametys.plugins.core.right.HasRightAction" logger="org.ametys.plugins.core.right">
                 <has-right>true</has-right>
             </map:action>

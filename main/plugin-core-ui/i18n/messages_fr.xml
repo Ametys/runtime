@@ -817,4 +817,14 @@
     <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_VERSIONS_DATE_PREFIX"> du </message>
     <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_DAO_ERROR">Erreur lors de la récupération des informations sur l'application</message>
 
+    <!-- +
+         | ABOUT AMETYS
+         + -->
+    <message key="PLUGINS_CORE_UI_ABOUT_LABEL">A propos ...</message>
+    <message key="PLUGINS_CORE_UI_ABOUT_DESCRIPTION">Obtenir des informations à propos de votre application Ametys.</message>
+    <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_TITLE">A propos</message>
+    <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_BUTTON_OK">OK</message>
+    <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_VERSIONS_VERSION_PREFIX">Version: </message>
+    <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_VERSIONS_DATE_PREFIX"> du </message>
+    <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_DAO_ERROR">Une erreur est survenue lors de la récupération des informations de versions et de licence.</message>
 </catalogue>
