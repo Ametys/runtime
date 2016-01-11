@@ -33,7 +33,21 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
              * @private
              * @readonly
              */         
-            __REGION_MINSIZE: {width: 100, height: 100}
+            __REGION_MINSIZE: {width: 100, height: 100},
+            
+            /**
+             * @property {Object} __ADDITIONNAL_ZONE_CONFIG_LEFT Properties applyed to the configuration of the left zone
+             * @private
+             * @readonly
+             */
+            __ADDITIONNAL_ZONE_CONFIG_LEFT: {},
+            
+            /**
+             * @property {Object} __ADDITIONNAL_ZONE_CONFIG_RIGHT Properties applyed to the configuration of the left zone
+             * @private
+             * @readonly
+             */
+            __ADDITIONNAL_ZONE_CONFIG_RIGHT: {}
         },
         
         /** @cfg {String} focusCls A css classname added to the zone, when one of its tools has the focus */
@@ -167,26 +181,26 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			var panelClass = "Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel";
 			
 			var panels = [
-				this._panelHierarchy['t'] = Ext.create(panelClass, { location: 't', toolsLayout: this, minHeight: this.self.__REGION_MINSIZE.height }),
+				this._panelHierarchy['t'] = Ext.create(panelClass, Ext.apply({ location: 't', toolsLayout: this, minHeight: this.self.__REGION_MINSIZE.height }, this.self.__ADDITIONNAL_ZONE_CONFIG_OTHER)),
                 {
                     xtype: 'zoned-container',
                     stateful: true,
                     stateId: Ametys.ui.tool.layout.ZonedTabsToolsLayout.Container.getName() + "$",
                     items: [
-        				this._panelHierarchy['l'] = Ext.create(panelClass, { location: 'l', toolsLayout: this, minWidth: this.self.__REGION_MINSIZE.width/*, headerPosition: 'left'*/ }),
+        				this._panelHierarchy['l'] = Ext.create(panelClass, Ext.apply({ location: 'l', toolsLayout: this, minWidth: this.self.__REGION_MINSIZE.width}, this.self.__ADDITIONNAL_ZONE_CONFIG_LEFT)),
                         {
                             xtype: 'zoned-container',
                             stateful: true,
                             stateId: Ametys.ui.tool.layout.ZonedTabsToolsLayout.Container.getName() + "$c",
                             items: [
-        				        this._panelHierarchy['cl'] = Ext.create(panelClass, { location: 'cl', toolsLayout: this }),
-        				        this._panelHierarchy['cr'] = Ext.create(panelClass, { location: 'cr', toolsLayout: this })
+        				        this._panelHierarchy['cl'] = Ext.create(panelClass, Ext.apply({ location: 'cl', toolsLayout: this }, this.self.__ADDITIONNAL_ZONE_CONFIG_OTHER)),
+        				        this._panelHierarchy['cr'] = Ext.create(panelClass, Ext.apply({ location: 'cr', toolsLayout: this }, this.self.__ADDITIONNAL_ZONE_CONFIG_OTHER))
                             ]
                         },
-        				this._panelHierarchy['r'] = Ext.create(panelClass, { location: 'r', toolsLayout: this, minWidth: this.self.__REGION_MINSIZE.width })
+        				this._panelHierarchy['r'] = Ext.create(panelClass, Ext.apply({ location: 'r', toolsLayout: this, minWidth: this.self.__REGION_MINSIZE.width }, this.self.__ADDITIONNAL_ZONE_CONFIG_RIGHT))
                     ]
                 },
-                this._panelHierarchy['b'] = Ext.create(panelClass, { location: 'b', toolsLayout: this, minHeight: this.self.__REGION_MINSIZE.height })
+                this._panelHierarchy['b'] = Ext.create(panelClass, Ext.apply({ location: 'b', toolsLayout: this, minHeight: this.self.__REGION_MINSIZE.height }, this.self.__ADDITIONNAL_ZONE_CONFIG_OTHER))
 			];
 			
 			return panels;

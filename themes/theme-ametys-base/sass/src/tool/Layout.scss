@@ -52,16 +52,35 @@
 );
 
 // Fix because right padding is too large by default
-.#{$prefix}tab-closable.#{$prefix}tab-tool-layoutzone .#{$prefix}tab-button {
-    padding-right: $ametys-tool-tab-close-icon-size + $tab-closable-icon-spacing - right($tab-padding);
+.#{$prefix}tab-bar-top, .#{$prefix}tab-bar-bottom {
+    .#{$prefix}tab-closable.#{$prefix}tab-tool-layoutzone .#{$prefix}tab-button {
+        padding-right: $ametys-tool-tab-close-icon-size + $tab-closable-icon-spacing - right($tab-padding);
+    }
+    @if $include-rtl {
+        .#{$prefix}rtl.#{$prefix}tab-closable.#{$prefix}tab-tool-layoutzone .#{$prefix}tab-button {
+            padding-right: 0px;
+            padding-left: $ametys-tool-tab-close-icon-size + $tab-closable-icon-spacing - right($tab-padding);
+        }
+    }
 }
-@if $include-rtl {
-    .#{$prefix}rtl.#{$prefix}tab-closable.#{$prefix}tab-tool-layoutzone .#{$prefix}tab-button {
-        padding-right: 0px;
-        padding-left: $ametys-tool-tab-close-icon-size + $tab-closable-icon-spacing - right($tab-padding);
+.#{$prefix}tab-bar-left, .#{$prefix}tab-bar-right {
+    .#{$prefix}tab-closable.#{$prefix}tab-tool-layoutzone .#{$prefix}tab-button {
+        padding-right: 0;
     }
 }
 
+// Lateral tools
+.#{$prefix}tab-bar-left, .#{$prefix}tab-bar-right { 
+    .#{$prefix}tab-inner-tool-layoutzone {
+        font-size: floor($ametys-tool-tab-font-size * 0.8);
+        line-height: floor($ametys-tool-tab-font-size * 0.8) / 12 * 14;
+        width: 5.5 * floor($ametys-tool-tab-font-size * 0.8);
+    }
+}
+.#{$prefix}tab-tool-layoutzone-left, .#{$prefix}tab-tool-layoutzone-right {
+    padding-left: floor($ametys-tool-tab-font-size * 0.8) / 4;
+    padding-right: floor($ametys-tool-tab-font-size * 0.8) / 4;
+}
 
 // As there is a bug in extjs https://www.sencha.com/forum/showthread.php?305990-6.0.1-Issue-in-theme-neutral-Scss-mixin-extjs-tab-ui&p=1118297#post1118297
 // We have to define size our selves
@@ -83,15 +102,22 @@
 .#{$prefix}tab-tool-layoutzone.#{$prefix}tab-over .#{$prefix}tab-close-btn { @include opacity(0.5); }
 .#{$prefix}tab-tool-layoutzone.#{$prefix}tab-active .#{$prefix}tab-close-btn { @include opacity(1); }
 
+.#{$prefix}tab-tool-layoutzone.#{$prefix}tab-left, .#{$prefix}tab-tool-layoutzone.#{$prefix}tab-right {
+    &.#{$prefix}tab-active .#{$prefix}tab-close-btn { @include opacity(0); }
+    &.#{$prefix}tab-over.#{$prefix}tab-active .#{$prefix}tab-close-btn { @include opacity(1); }
+}
+
 .#{$prefix}tab-tool-layoutzone .#{$prefix}tab-icon-el-tool-layoutzone {
+    position: relative;
+    
 	&:before {
 	   	margin-left: 0px;
 	   	position: absolute;
 	   	font-size: 32px;
 	  	line-height: 32px;
-	   	top:0;
-	   	left:0;
-	   	height: 100%;
+        top:0;
+        left: 0;
+        height: 100%;
 	}
    	
 	&:after {
@@ -103,7 +129,10 @@
 	  	text-shadow: 0px 0px 2px $ametys-ribbon-main-glyph-decorator-color-shadow;
 	}
 }
-
+.#{$prefix}tab-tool-layoutzone.#{$prefix}tab-left .#{$prefix}tab-icon-el-tool-layoutzone:before,
+.#{$prefix}tab-tool-layoutzone.#{$prefix}tab-right .#{$prefix}tab-icon-el-tool-layoutzone:before {
+    width: 100%;
+}
 
 
 .#{$prefix}tab-tool-layoutzone > div {
@@ -171,17 +200,56 @@
  */
 @for $i from 1 through length($ametys-tool-tab-colors) {
     $index: $i - 1;
-        .ametys-tab-color-#{$index*10}.#{$prefix}tab-active:after {
+        
+    // LITTLE TICK
+    .ametys-tab-color-#{$index*10}.#{$prefix}tab-active {
+        &:after {
             content: "";
             position: absolute;
             z-index: 12;
             width: 0;
             height: 0;
+        }
+
+        &.#{$prefix}tab-top:after {
             border-bottom: 3px solid darken($ametys-tool-tab-gray, 10);
             border-left: 3px solid transparent;
             border-right: 3px solid transparent;
+            margin-left: -3px;
             left: 50%;
         }
+        &.#{$prefix}tab-left:after {
+            border-right: 3px solid darken($ametys-tool-tab-gray, 10);
+            border-bottom: 3px solid transparent;
+            border-top: 3px solid transparent;
+            margin-top: -3px;
+            top: 50%;
+            right: 0;
+        }
+        &.#{$prefix}tab-right:after {
+            border-left: 3px solid darken($ametys-tool-tab-gray, 10);
+            border-bottom: 3px solid transparent;
+            border-top: 3px solid transparent;
+            margin-top: -3px;
+            top: 50%;
+            left: 0;
+        }
+    }
+    .a-tool-layout-zoned-focused .ametys-tab-color-#{$index*10}.#{$prefix}tab-active,
+    .a-tool-layout-zoned-notfocused .ametys-tab-color-#{$index*10}.#{$prefix}tab-over {
+        &.#{$prefix}tab-top:after {
+            border-bottom-color: nth($ametys-tool-tab-colors, $i);
+        }
+        &.#{$prefix}tab-left:after {
+            border-right-color: nth($ametys-tool-tab-colors, $i);
+        }
+        &.#{$prefix}tab-right:after {
+            border-left-color: nth($ametys-tool-tab-colors, $i);
+        }
+    }
+            
+    
+        
     
     .a-tool-layout-zoned-notfocused .ametys-tab-color-#{$index*10} {
         @include tab-button-color(
@@ -210,10 +278,6 @@
     }        
         
     .a-tool-layout-zoned-focused .ametys-tab-color-#{$index*10} {
-        &.#{$prefix}tab-active:after {
-            border-bottom-color: nth($ametys-tool-tab-colors, $i);
-        }
-            
         @include tab-button-color(
             $ui: 'tool-layoutzone',
                 

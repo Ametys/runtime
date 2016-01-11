@@ -28,6 +28,7 @@ Ext.define("Ametys.ui.tool.ToolPanel", {
     ui: 'ametys-tool-panel',
     
     border: false,
+    iconAlign: null,
     
     statics:
     {

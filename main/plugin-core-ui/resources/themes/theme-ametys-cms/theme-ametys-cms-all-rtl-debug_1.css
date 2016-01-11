@@ -9928,11 +9928,11 @@ a.x-color-picker-item:hover {
 .x-form-text-default .x-tagfield-item-selected .x-tagfield-item-close:active {
     background-position: -24px -12px;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:5 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:4 */
 .x-grid-view {
     z-index: 1;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:9 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:8 */
 .x-grid-body,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-grid-body.x-panel-body,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-grid-body.x-panel-body,
@@ -9967,44 +9967,44 @@ a.x-color-picker-item:hover {
     border-style: solid;
     border-color: #c2c2c2;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:18 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:17 */
 .x-grid-item-container {
     min-height: 1px;
     position: relative;
     overflow: hidden;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:24 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:23 */
 .x-grid-empty {
     padding: 10px;
     color: grey;
     background-color: #fff;
     font: normal 12px 'Open Sans', 'Helvetica Neue', helvetica, arial, verdana, sans-serif;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:32 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:31 */
 .x-grid-item {
     color: #000;
     font: normal 12px/16px 'Open Sans', 'Helvetica Neue', helvetica, arial, verdana, sans-serif;
     background-color: #fff;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:38 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:37 */
 .x-grid-item-alt {
     background-color: #fff;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:42 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:41 */
 .x-grid-item-over {
     color: #000;
     background-color: #f1f1f1;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:49 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:48 */
 .x-grid-item-focused {
     outline: 0;
     color: #000;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:53 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:52 */
 .x-grid-item-focused .x-grid-cell-inner {
     z-index: 1;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:61 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:60 */
 .x-grid-item-focused .x-grid-cell-inner:before {
     content: "";
     position: absolute;
@@ -10016,106 +10016,106 @@ a.x-color-picker-item:hover {
     pointer-events: none;
     border: 1px dashed transparent;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:83 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:82 */
 .x-grid-item-selected {
     color: #000;
     background-color: #f1f1f1;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:89 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:88 */
 .x-grid-with-row-lines .x-grid-item {
     border-style: solid;
     border-width: 1px 0 0;
     border-color: #f2f2f2;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:95 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:94 */
 .x-grid-with-row-lines .x-grid-item:first-child {
     border-top-color: #fff;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:101 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:100 */
 .x-grid-with-row-lines .x-grid-item.x-grid-item-over {
     border-style: solid;
     border-color: #e4e4e4;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:106 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:105 */
 .x-grid-with-row-lines .x-grid-item-over + .x-grid-item {
     border-top-style: solid;
     border-top-color: #e4e4e4;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:111 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:110 */
 .x-grid-with-row-lines .x-grid-item.x-grid-item-selected {
     border-style: solid;
     border-color: #c1c1c1;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:116 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:115 */
 .x-grid-with-row-lines .x-grid-item-selected + .x-grid-item {
     border-top-style: solid;
     border-top-color: #c1c1c1;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:121 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:120 */
 .x-grid-with-row-lines .x-grid-item:last-child {
     border-bottom-width: 1px;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:131 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:130 */
 .x-ie8 .x-grid-with-row-lines .x-grid-item {
     border-width: 1px 0;
     margin-top: -1px;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:136 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:135 */
 .x-ie8 .x-grid-with-row-lines .x-grid-item:first-child {
     margin-top: 0;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:142 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:141 */
 .x-grid-cell-inner {
     position: relative;
     text-overflow: ellipsis;
     padding: 9px 10px 9px;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:158 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:157 */
 .x-grid-cell-special {
     border-color: #f2f2f2;
     border-style: solid;
     border-right-width: 1px;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:201 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:200 */
 .x-rtl.x-grid-cell-special {
     border-right-width: 0;
     border-left-width: 1px;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:208 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:207 */
 .x-grid-dirty-cell {
     background: url(images/grid/dirty.png) no-repeat 0 0;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:223 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:222 */
 .x-rtl.x-grid-dirty-cell {
     background-image: url(images/grid/dirty-rtl.png);
     background-position: right 0;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:238 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:237 */
 .x-grid-row .x-grid-cell-selected {
     color: #000;
     background-color: #f1f1f1;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:245 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:244 */
 .x-grid-with-col-lines .x-grid-cell {
     border-style: solid;
     border-color: #f2f2f2;
     border-width: 0 1px 0 0;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:251 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:250 */
 .x-grid-with-col-lines .x-grid-item-over .x-grid-cell {
     border-color: #e4e4e4;
     border-style: solid;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:256 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:255 */
 .x-grid-with-col-lines .x-grid-item-selected .x-grid-cell {
     border-color: #c1c1c1;
     border-style: solid;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:264 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:263 */
 .x-rtl.x-grid-with-col-lines .x-grid-cell {
     border-width: 0 0 0 1px;
 }
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:269 */
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/view/Table.scss:268 */
 .x-grid-resize-marker {
     width: 1px;
     background-color: #0f0f0f;
