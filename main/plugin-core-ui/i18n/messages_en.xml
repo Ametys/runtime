@@ -805,4 +805,15 @@
     <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_RIBBON_TIP_TITLE">Notifications</message>
     <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_RIBBON_TIP_DESCRIPTION">Open the notification tool.&lt;br/&gt;&lt;br/&gt;A figure on the ribbon icon displays the number of unread message. The color indicates the most serious message type among these unread messages: red for error, yellow for warning, and blue for simple information.</message>
     
+    <!-- +
+         | ABOUT AMETYS
+         + -->
+    <message key="PLUGINS_CORE_UI_ABOUT_LABEL">About Ametys...</message>
+    <message key="PLUGINS_CORE_UI_ABOUT_DESCRIPTION">Information about Ametys</message>
+    <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_TITLE">About</message>
+    <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_BUTTON_OK">OK</message>
+    <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_VERSIONS_VERSION_SEPARATOR"> - </message>
+    <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_VERSIONS_DATE_PREFIX"> from </message>
+    <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_DAO_ERROR">Error retrieving information about the application</message>
+    
 </catalogue>

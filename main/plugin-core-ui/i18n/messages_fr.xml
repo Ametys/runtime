@@ -805,5 +805,16 @@
     <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_NAVHISTORY_DESC">Cliquez ici pour filtrer l'événements de l'historique de navigation</message>
     <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_RIBBON_TIP_TITLE">Notifications</message>
     <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_RIBBON_TIP_DESCRIPTION">Ouvrir l'outil des notifications.&lt;br/&gt;&lt;br/&gt;Le chiffre indique le nombre de message non lus. La couleur indique le type de message le plus grave parmi ces messages non lus : rouge pour erreur, orange pour avertissement et bleu pour simple information.</message>
+    
+    <!-- +
+         | ABOUT AMETYS
+         + -->
+    <message key="PLUGINS_CORE_UI_ABOUT_LABEL">A propos d'Ametys...</message>
+    <message key="PLUGINS_CORE_UI_ABOUT_DESCRIPTION">Informations à propos d'Ametys</message>
+    <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_TITLE">A propos de</message>
+    <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_BUTTON_OK">OK</message>
+    <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_VERSIONS_VERSION_SEPARATOR"> - </message>
+    <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_VERSIONS_DATE_PREFIX"> du </message>
+    <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_DAO_ERROR">Erreur lors de la récupération des informations sur l'application</message>
 
 </catalogue>
