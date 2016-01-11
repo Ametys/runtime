@@ -169,7 +169,7 @@ Ext.define(
          */
         _onMouseOver: function(e, t)
         {
-            if (this.lastActiveTarget && this.lastActiveTarget.ribbon)
+            if (this.lastActiveTarget && this.lastActiveTarget.helpId)
             {
                 this.clearTimer('hide');
                 this.clearTimer('dismiss');    
@@ -184,7 +184,7 @@ Ext.define(
          */
         _onMouseOut: function(e, t)
         {
-            if (this.lastActiveTarget && this.lastActiveTarget.ribbon)
+            if (this.lastActiveTarget && this.lastActiveTarget.helpId)
             {
                 this.clearTimer('show');
                 if (this.autoHide !== false) 
@@ -257,15 +257,45 @@ Ext.define(
                 var newX, newY;
                 
                 // required position
-                var parentMenu;
-                if (target && (parentMenu = target.parent(".x-menu")))
+                var parent;
+                if (target && (parent = target.parent(".x-menu")))
                 {
+                    var parentMenu = parent;
                     newX = parentMenu.getRight() + 2;
                     newY = target.getTop() - 2;
                     
                     if (newX + this.getWidth() > Ext.getBody().getRight())
                     {
                         newX = parentMenu.getLeft() - 2 - this.getWidth();
+                    }
+                
+                    var currentXY = tip.getPosition();
+                    if (currentXY[0] != newX || currentXY[1] != newY)
+                    {
+                        tip.setPagePosition(newX, newY);
+                    }
+                }
+                else if (target && target.is(".x-tab"))
+                {
+                    if (target.is(".x-tab-top"))
+                    {
+                        newX = target.getLeft() - 1;
+                        newY = target.getBottom() ;
+                    }
+                    else if (target.is(".x-tab-left"))
+                    {
+                        newX = target.getRight() + 1;
+                        newY = target.getTop() - 1 ;
+                    }
+                    else if (target.is(".x-tab-right"))
+                    {
+                        newX = target.getLeft() - 1 - this.getWidth();
+                        newY = target.getTop() - 1 ;
+                    }
+                    else if (target.is(".x-tab-bottom"))
+                    {
+                        newX = target.getLeft() - 1;
+                        newY = target.getTop() - 1  - this.getHeight();
                     }
                 
                     var currentXY = tip.getPosition();
