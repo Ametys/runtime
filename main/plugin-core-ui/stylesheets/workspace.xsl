@@ -44,6 +44,21 @@
     <xsl:template name="head-css">
         <xsl:if test="$splashscreen != 'no'">
             <xsl:call-template name="head-css-impl"/>
+            
+			<style type="text/css">
+				<xsl:variable name="color"><xsl:call-template name="splashscreen-color"/></xsl:variable>
+			
+				.ametys-common .splashscreen {
+		    		border-color: #<xsl:value-of select="$color"/>;
+		    	}
+		    	.ametys-common .splashscreen.noscript:after,
+				.ametys-common.error .splashscreen:after {
+					color: #<xsl:value-of select="$color"/>;
+				}
+				.ametys-common .la-ball-spin-clockwise {
+				    color: #<xsl:value-of select="$color"/> !important;
+				}
+			</style>            
         </xsl:if>
     </xsl:template>
     <xsl:template name="body">
@@ -607,6 +622,8 @@
     <xsl:template name="ui-extension-after-static-load">
         <!-- Keep empty. Here for inheritance purpose. -->
     </xsl:template>
+    
+    <xsl:template name="splashscreen-color">804080</xsl:template>
     
 <!--     <xsl:template name="theme-scripts"> -->
 <!--         <script absolute="true">/~cmd/extensions/sencha-fashion/fashion/fashion.js</script> -->
