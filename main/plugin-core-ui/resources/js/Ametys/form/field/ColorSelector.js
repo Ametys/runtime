@@ -20,7 +20,10 @@
 Ext.define('Ametys.form.field.ColorSelector', {
 	extend: 'Ametys.form.AbstractFieldsWrapper',
 	
-	layout: 'vbox',
+	layout: { 
+        type: 'vbox',
+        align: 'stretch'
+    },
 	
 	/**
 	 * @cfg {Object/Object[]} listColors An array of color objects, with properties :
@@ -30,7 +33,19 @@ Ext.define('Ametys.form.field.ColorSelector', {
 	 */
 	
 	/**
-	 * @cfg {Boolean} allowTransparent True to allow selection of a fully transparent color
+	 * @cfg {String} [currentColor] The initial selected color
+	 */
+    
+	/**
+	 * @cfg {Boolean} [allowTransparent=false] True to allow selection of a fully transparent color
+	 */
+    
+	/**
+	 * @cfg {Boolean} [allowOtherColors=true] True to allow selection of custom color
+	 */
+    
+	/**
+	 * @cfg {Boolean} [allowNoColor=false] True to allow selection of no color (a button will be drawn)
 	 */
 	
 	/**
@@ -41,7 +56,17 @@ Ext.define('Ametys.form.field.ColorSelector', {
 	 * @cfg {Function} callback The function called when a color is selected. Arguments is :
 	 * {String} callback.color The 6 hex characters color value, or 'transparent'.
 	 */
+    
+    width: 155,
 	
+    constructor: function(config)
+    {
+        config.allowTransparent = config.allowTransparent == "true";
+        config.allowOtherColors = config.allowOtherColors != "false";
+        config.allowNoColor = config.allowNoColor == "true";
+        this.callParent(arguments);
+    },
+    
 	initComponent: function() 
 	{
 		this.items = [];
@@ -68,8 +93,7 @@ Ext.define('Ametys.form.field.ColorSelector', {
 				padding: 5,
 				itemId: 'transparent-btn',
 				icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/field/transparent_22.png',
-				text: "<i18n:text i18n:key='PLUGINS_CORE_UI_COLORSELECTOR_NO_COLOR'/>",
-				width: 155,
+				text: "<i18n:text i18n:key='PLUGINS_CORE_UI_COLORSELECTOR_TRANSPARENT'/>",
 				handler: this._setTransparent,
 				scope: this
 			});
@@ -86,15 +110,30 @@ Ext.define('Ametys.form.field.ColorSelector', {
 		});
 		
 		// Other colors
-		this.items.push({
-			xtype: 'button',
-			padding: 5,
-			itemId: 'other-colors-btn',
-			text: "<i18n:text i18n:key='PLUGINS_CORE_UI_COLORSELECTOR_OTHERS_COLORS'/>",
-			width: 155,
-			handler: this._openOtherColors,
-			scope: this
-		});
+        if (this.allowOtherColors)
+        {
+			this.items.push({
+				xtype: 'button',
+				padding: 5,
+				itemId: 'other-colors-btn',
+				text: "<i18n:text i18n:key='PLUGINS_CORE_UI_COLORSELECTOR_OTHERS_COLORS'/>",
+				handler: this._openOtherColors,
+				scope: this
+			});
+        }
+        
+		// No color
+        if (this.allowNoColor)
+        {
+			this.items.push({
+				xtype: 'button',
+				padding: 5,
+				itemId: 'no-color-btn',
+				text: "<i18n:text i18n:key='PLUGINS_CORE_UI_COLORSELECTOR_NO_COLOR'/>",
+				handler: this._setNoColor,
+				scope: this
+			});
+        }
 		
 		this.callParent(arguments);
 	},
@@ -127,7 +166,8 @@ Ext.define('Ametys.form.field.ColorSelector', {
 					xtype: 'colorpicker',
 					handler: this._onColorPickerSelect,
 					scope: this,
-					height: "auto"
+					height: "auto",
+                    width: "auto"
 				}, colorInfos)
 			]
 		});
@@ -157,6 +197,21 @@ Ext.define('Ametys.form.field.ColorSelector', {
 		var color = this._currentColor == "transparent" ? "000000" : this._currentColor;
 		Ametys.helper.ChooseColor.open(this._currentColor, Ext.bind(this._onColorSelect, this));
 	},
+    
+    /**
+     * Handler for the "no color" button. Set an empty value
+     * @private
+     */
+    _setNoColor: function ()
+    {
+        this.setColor("");
+        
+        var cbFn = this.getInitialConfig("callback");
+        if (Ext.isFunction(cbFn))
+        {
+            cbFn("");
+        }
+    },
 	
 	/**
 	 * Set the current value of the field.
@@ -204,6 +259,12 @@ Ext.define('Ametys.form.field.ColorSelector', {
     			transparentBtn.setIcon(Ametys.getPluginResourcesPrefix('core-ui') + '/img/field/transparent_22.png');
     		}
 	    }
+        
+        if (this.allowNoColor && color == "")
+        {
+            valueExists = true;
+            this._currentColor = color;
+        }
 		
 		if (!valueExists)
 		{

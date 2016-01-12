@@ -340,6 +340,7 @@
     <!-- Choose color -->
     <message key="PLUGINS_CORE_UI_COLORSELECTOR_DEFAULT_COLORS">Couleurs par défaut</message>
     <message key="PLUGINS_CORE_UI_COLORSELECTOR_CUSTOM_COLORS">Couleurs personnalisées</message>
+    <message key="PLUGINS_CORE_UI_COLORSELECTOR_TRANSPARENT">Transparent</message>
     <message key="PLUGINS_CORE_UI_COLORSELECTOR_NO_COLOR">Aucune couleur</message>
     <message key="PLUGINS_CORE_UI_COLORSELECTOR_OTHERS_COLORS">Autres couleurs ...</message>
     <message key="PLUGINS_CORE_UI_HELPER_CHOOSECOLOR_OK">Ok</message>
@@ -582,6 +583,10 @@
     <message key="PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_EMPTY_LABEL">-</message>
     <message key="PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_TRUE_LABEL">Oui</message>
     <message key="PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_FALSE_LABEL">Non</message>
+    
+    <message key="PLUGINS_CORE_UI_WIDGET_COLORPICKER_SHOW_COLORS_BUTTON_TEXT">Choisir une couleur</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_COLORPICKER_SHOW_COLORS_BUTTON_TOOLTIP">Cliquer ici pour choisir une couleur</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_COLORPICKER_EMPTY_TEXT">Aucune couleur sélectionnée. Cliquez sur le bouton ci-après pour choisir une couleur</message>
     
     <message key="PLUGINS_CORE_UI_WIDGET_UNKNOWN_FIELD">Champ inconnu: </message>
     

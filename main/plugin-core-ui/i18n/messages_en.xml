@@ -339,6 +339,7 @@
     <!-- Choose color -->
     <message key="PLUGINS_CORE_UI_COLORSELECTOR_DEFAULT_COLORS">Default colors</message>
     <message key="PLUGINS_CORE_UI_COLORSELECTOR_CUSTOM_COLORS">Custom colors</message>
+    <message key="PLUGINS_CORE_UI_COLORSELECTOR_TRANSPARENT">Transparent</message>
     <message key="PLUGINS_CORE_UI_COLORSELECTOR_NO_COLOR">None</message>
     <message key="PLUGINS_CORE_UI_COLORSELECTOR_OTHERS_COLORS">Other colors ...</message>
     <message key="PLUGINS_CORE_UI_HELPER_CHOOSECOLOR_OK">Ok</message>
@@ -581,6 +582,10 @@
     <message key="PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_EMPTY_LABEL">-</message>
     <message key="PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_TRUE_LABEL">Yes</message>
     <message key="PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_FALSE_LABEL">No</message>
+    
+    <message key="PLUGINS_CORE_UI_WIDGET_COLORPICKER_SHOW_COLORS_BUTTON_TEXT">Choose a color</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_COLORPICKER_SHOW_COLORS_BUTTON_TOOLTIP">Click here to choose a color</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_COLORPICKER_EMPTY_TEXT">No color selected. Click the button below to choose a color</message>
     
     <message key="PLUGINS_CORE_UI_WIDGET_UNKNOWN_FIELD">Unknown field: </message>
     

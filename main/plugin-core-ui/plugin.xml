@@ -595,6 +595,25 @@
         </extensions>
     </feature>
     
+    <feature name="widgets.others.colorpicker" safe="true">
+        <extensions>
+            <extension id="edition.colorpicker"
+                point="org.ametys.core.ui.widgets.WidgetsManager"
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.form.widget.ColorPicker">
+                    <ftypes>string</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/form/widget/ColorPicker.js</file>
+                </scripts>
+            </extension>
+        </extensions>
+    </feature>
+    
     <!-- HELP TOOL -->
 	<feature name="userinterface.help" safe="true">
 		<extensions>
