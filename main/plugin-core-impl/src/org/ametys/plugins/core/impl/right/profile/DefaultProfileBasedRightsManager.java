@@ -144,7 +144,19 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      *  sinon ça reviendrait à tout lire à chaque fois !
      */
     private final ThreadLocal<Map<String, Map<String, Map<String, Boolean>>>> _cache2TL = new ThreadLocal<>();
-
+    
+    /*
+     * Cache des droits par utilisateur (droits affectés à l'utilisateur uniquement) sur un contexte donné.
+     * Login -> Contexte -> Set<RightId>
+     */
+    private ThreadLocal<Map<String, Map<String, Set<String>>>> _userRightCache = new ThreadLocal<>();
+    
+    /*
+     * Cache des droits par utilisateur (droits issus des groupes uniquement) sur un contexte donné.
+     * Login -> Contexte -> Set<RightId>
+     */
+    private ThreadLocal<Map<String, Map<String, Set<String>>>> _groupRightCache = new ThreadLocal<>();
+    
     @Override
     public void service(ServiceManager manager) throws ServiceException
     {
@@ -262,6 +274,14 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         if (_cache2TL.get() != null)
         {
             _cache2TL.set(null);
+        }
+        if (_userRightCache.get() != null)
+        {
+            _userRightCache.set(null);
+        }
+        if (_groupRightCache.get() != null)
+        {
+            _groupRightCache.set(null);
         }
     }
 
@@ -1034,6 +1054,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             getLogger().info(sql + "\n[" + profileId + ", " + login + ", " + lcContext + "]");
 
             stmt.executeUpdate();
+            
+            // Query OK: clear the user right cache.
+            _clearUserRightCache();
         }
         catch (NumberFormatException ex)
         {
@@ -1095,6 +1118,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             getLogger().info(sql + "\n[" + profileId + ", " + groupId + ", " + lcContext + "]");
 
             stmt.executeUpdate();
+            
+            // Query OK: clear the group right cache.
+            _clearGroupRightCache();
         }
         catch (NumberFormatException ex)
         {
@@ -1139,6 +1165,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             getLogger().info(sql + "\n[" + login + ", " + profileId + ", " + lcContext + "]");
 
             stmt.executeUpdate();
+            
+            // Query OK: clear the user right cache.
+            _clearUserRightCache();
         }
         catch (NumberFormatException ex)
         {
@@ -1188,6 +1217,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             getLogger().info(sql + "\n[" + login + ", " + lcContext + "]");
 
             stmt.executeUpdate();
+            
+            // Query OK: clear the user right cache.
+            _clearUserRightCache();
         }
         catch (SQLException ex)
         {
@@ -1269,6 +1301,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             getLogger().info(sql + "\n[" + groupId + ", " + profileId + ", " + lcContext + "]");
 
             stmt.executeUpdate();
+            
+            // Query OK: clear the group right cache.
+            _clearGroupRightCache();
         }
         catch (NumberFormatException ex)
         {
@@ -1319,6 +1354,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             getLogger().info(sql + "\n[" + groupId + ", " + lcContext + "]");
 
             stmt.executeUpdate();
+            
+            // Query OK: clear the group right cache.
+            _clearGroupRightCache();
         }
         catch (SQLException ex)
         {
@@ -1460,6 +1498,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         try
         {
+            // Update the context on the group entries.
             String sql = "UPDATE " + _tableGroupRights + " SET Context = ? WHERE LOWER(Context) = ?";
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, fullNewContext);
@@ -1470,9 +1509,13 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                 getLogger().info(sql + "\n[" + fullNewContext + ", " + fullOldContext + "]");
             }
             stmt.executeUpdate();
+            
+            // Clear the group right cache.
+            _clearGroupRightCache();
 
             ConnectionHelper.cleanup(stmt);
 
+            // Update the context on the user entries.
             sql = "UPDATE " + _tableUserRights + " SET Context = ? WHERE LOWER(Context) = ?";
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, fullNewContext);
@@ -1483,6 +1526,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                 getLogger().info(sql + "\n[" + fullNewContext + ", " + fullOldContext + "]");
             }
             stmt.executeUpdate();
+            
+            // Clear the user right cache.
+            _clearUserRightCache();
         }
         finally
         {
@@ -1509,12 +1555,18 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             stmt.executeUpdate();
 
             ConnectionHelper.cleanup(stmt);
+            
+            // Clear the group right cache.
+            _clearGroupRightCache();
 
             sql = "DELETE FROM " + _tableUserRights + " WHERE LOWER(Context) = ?";
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, fullContext);
             getLogger().info(sql + "\n[" + fullContext + "]");
             stmt.executeUpdate();
+            
+            // Clear the user right cache.
+            _clearUserRightCache();
         }
         catch (SQLException ex)
         {
@@ -1806,8 +1858,28 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             ConnectionHelper.cleanup(connection);
         }
     }
-
+    
     private Set<String> getUsersOnlyRights(String login, String context) throws SQLException
+    {
+        Set<String> rights = new HashSet<>();
+        
+        if (login == null)
+        {
+            return rights;
+        }
+        
+        rights = _getUserRightsInCache(login, context);
+        if (rights == null)
+        {
+            rights = _getUsersOnlyRightsFromDb(login, context);
+            
+            _setUserRightsInCache(login, context, rights);
+        }
+        
+        return rights;
+    }
+
+    private Set<String> _getUsersOnlyRightsFromDb(String login, String context) throws SQLException
     {
         Set<String> rights = new HashSet<>();
 
@@ -1870,7 +1942,26 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     private Map<String, Set<String>> getUsersOnlyRights(String login) throws SQLException
     {
         Map<String, Set<String>> rights = new HashMap<>();
-
+        
+        if (login == null)
+        {
+            return rights;
+        }
+        
+        rights = _getUserRightsInCache(login);
+        if (rights == null)
+        {
+            rights = _getUsersOnlyRightsFromDb(login);
+            
+            _setUserRightsInCache(login, rights);
+        }
+        
+        return rights;
+    }
+    
+    private Map<String, Set<String>> _getUsersOnlyRightsFromDb(String login) throws SQLException
+    {
+        Map<String, Set<String>> rights = new HashMap<>();
         Connection connection = ConnectionHelper.getConnection(_poolName);
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -2260,7 +2351,26 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     private Set<String> getGroupsOnlyRights(String login, String context) throws SQLException
     {
         Set<String> rights = new HashSet<>();
-
+        
+        if (login == null)
+        {
+            return rights;
+        }
+        
+        rights = _getGroupRightsInCache(login, context);
+        if (rights == null)
+        {
+            rights = _getGroupsOnlyRightsFromDb(login, context);
+            
+            _setGroupRightsInCache(login, context, rights);
+        }
+        
+        return rights;
+    }
+    
+    private Set<String> _getGroupsOnlyRightsFromDb(String login, String context) throws SQLException
+    {
+        Set<String> rights = new HashSet<>();
         Connection connection = ConnectionHelper.getConnection(_poolName);
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -2344,7 +2454,26 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     private Map<String, Set<String>> getGroupsOnlyRights(String login) throws SQLException
     {
         Map<String, Set<String>> rights = new HashMap<>();
-
+        
+        if (login == null)
+        {
+            return rights;
+        }
+        
+        rights = _getGroupRightsInCache(login);
+        if (rights == null)
+        {
+            rights = _getGroupsOnlyRightsFromDb(login);
+            
+            _setGroupRightsInCache(login, rights);
+        }
+        
+        return rights;
+    }
+    
+    private Map<String, Set<String>> _getGroupsOnlyRightsFromDb(String login) throws SQLException
+    {
+        Map<String, Set<String>> rights = new HashMap<>();
         Connection connection = ConnectionHelper.getConnection(_poolName);
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -2693,7 +2822,177 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         return mapContext;
     }
+    
+    private Set<String> _getUserRightsInCache(String login, String context)
+    {
+        Set<String> rights = _getRightsInCache(_userRightCache, login, context);
+        
+        if (getLogger().isDebugEnabled())
+        {
+            getLogger().debug("User rights cache " + (rights == null ? "miss" : "hit") + " for login '" + login + "' in context '" + context + "'.");
+        }
+        
+        return rights;
+    }
+    
+    private void _setUserRightsInCache(String login, String context, Set<String> rights)
+    {
+        _setRightsInCache(_userRightCache, login, context, rights);
+    }
+    
+    private Map<String, Set<String>> _getUserRightsInCache(String login)
+    {
+        Map<String, Set<String>> rights = _getRightsInCache(_userRightCache, login);
+        
+        if (getLogger().isDebugEnabled())
+        {
+            getLogger().debug("User rights cache " + (rights == null ? "miss" : "hit") + " for login '" + login + "'.");
+        }
+        
+        return rights;
+    }
+    
+    private void _setUserRightsInCache(String login, Map<String, Set<String>> rights)
+    {
+        _setRightsInCache(_userRightCache, login, rights);
+    }
+    
+    private Set<String> _getGroupRightsInCache(String login, String context)
+    {
+        Set<String> rights = _getRightsInCache(_groupRightCache, login, context);
+        
+        if (getLogger().isDebugEnabled())
+        {
+            getLogger().debug("Group rights cache " + (rights == null ? "miss" : "hit") + " for login '" + login + "' in context '" + context + "'.");
+        }
+        
+        return rights;
+    }
+    
+    private void _setGroupRightsInCache(String login, String context, Set<String> rights)
+    {
+        _setRightsInCache(_groupRightCache, login, context, rights);
+    }
+    
+    private Map<String, Set<String>> _getGroupRightsInCache(String login)
+    {
+        Map<String, Set<String>> rights = _getRightsInCache(_groupRightCache, login);
+        
+        if (getLogger().isDebugEnabled())
+        {
+            getLogger().debug("Group rights cache " + (rights == null ? "miss" : "hit") + " for login '" + login + "'.");
+        }
+        
+        return rights;
+    }
+    
+    private void _setGroupRightsInCache(String login, Map<String, Set<String>> rights)
+    {
+        _setRightsInCache(_groupRightCache, login, rights);
+    }
+    
+    /**
+     * Clear the user right cache.
+     */
+    protected void _clearUserRightCache()
+    {
+        Map<String, Map<String, Set<String>>> cache = _userRightCache.get();
+        if (cache != null)
+        {
+            cache.clear();
+        }
+        
+        if (getLogger().isDebugEnabled())
+        {
+            getLogger().debug("Cleared user rights cache.");
+        }
+    }
+    
+    /**
+     * Clear the group right cache.
+     */
+    protected void _clearGroupRightCache()
+    {
+        Map<String, Map<String, Set<String>>> cache = _groupRightCache.get();
+        if (cache != null)
+        {
+            cache.clear();
+        }
+        
+        if (getLogger().isDebugEnabled())
+        {
+            getLogger().debug("Cleared group rights cache.");
+        }
+    }
+    
+    private Set<String> _getRightsInCache(ThreadLocal<Map<String, Map<String, Set<String>>>> cacheTL, String login, String context)
+    {
+        Map<String, Map<String, Set<String>>> cache = cacheTL.get();
+        
+        if (cache == null)
+        {
+            cache = new HashMap<>();
+            cacheTL.set(cache);
+        }
+        
+        if (cache.containsKey(login))
+        {
+            return cache.get(login).get(context);
+        }
+        
+        return null;
+    }
+    
+    private void _setRightsInCache(ThreadLocal<Map<String, Map<String, Set<String>>>> cacheTL, String login, String context, Set<String> rights)
+    {
+        Map<String, Map<String, Set<String>>> cache = cacheTL.get();
 
+        if (cache == null)
+        {
+            cache = new HashMap<>();
+            cacheTL.set(cache);
+        }
+        
+        Map<String, Set<String>> userCache;
+        if (cache.containsKey(login))
+        {
+            userCache = cache.get(login);
+        }
+        else
+        {
+            userCache = new HashMap<>();
+            cache.put(login, userCache);
+        }
+        
+        userCache.put(context, rights);
+    }
+    
+    private Map<String, Set<String>> _getRightsInCache(ThreadLocal<Map<String, Map<String, Set<String>>>> cacheTL, String login)
+    {
+        Map<String, Map<String, Set<String>>> cache = cacheTL.get();
+        
+        if (cache == null)
+        {
+            cache = new HashMap<>();
+            cacheTL.set(cache);
+        }
+        
+        return cache.get(login);
+    }
+    
+    private void _setRightsInCache(ThreadLocal<Map<String, Map<String, Set<String>>>> cacheTL, String login, Map<String, Set<String>> rights)
+    {
+        Map<String, Map<String, Set<String>>> cache = cacheTL.get();
+        
+        if (cache == null)
+        {
+            cache = new HashMap<>();
+            cacheTL.set(cache);
+        }
+        
+        cache.put(login, rights);
+    }
+    
     /**
      * Get the list of declared contexts on which an user has the given right
      * @param login The user's login. Cannot be null.

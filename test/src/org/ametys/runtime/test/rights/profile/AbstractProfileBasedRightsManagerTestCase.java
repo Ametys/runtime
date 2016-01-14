@@ -265,6 +265,14 @@ public abstract class AbstractProfileBasedRightsManagerTestCase extends Abstract
         rights = profileRightsManager.getUserRights("test", null);
         assertEquals(2, rights.size());
         
+        // Test without modifying anything (test cache).
+        rights = profileRightsManager.getUserRights("test", null);
+        assertEquals(2, rights.size());
+        
+        // Test without modifying anything (test cache).
+        rights = profileRightsManager.getUserRights("test", null);
+        assertEquals(2, rights.size());
+        
         profileRightsManager.addUserRight("test", "/test", profile2.getId());
         rights = profileRightsManager.getUserRights("test", null);
         assertEquals(3, rights.size());

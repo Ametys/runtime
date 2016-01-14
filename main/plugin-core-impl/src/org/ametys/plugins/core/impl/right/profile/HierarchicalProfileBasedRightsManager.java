@@ -303,6 +303,9 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
             }
             rs = stmt.executeQuery();
             
+            // Clear the user right cache.
+            _clearUserRightCache();
+            
             // Modify the context on each entry. 
             while (rs.next())
             {
@@ -357,6 +360,9 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
             }
             rs = stmt.executeQuery();
             
+            // Clear the group right cache.
+            _clearGroupRightCache();
+            
             // Modify the context on each entry. 
             while (rs.next())
             {
@@ -403,6 +409,9 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
             getLogger().info(sql + "\n[" + contextPrefix + "/%]");
             stmt.executeUpdate();
             
+            // Clear the group right cache.
+            _clearGroupRightCache();
+            
             ConnectionHelper.cleanup(stmt);
             
             sql = "DELETE FROM " + _tableUserRights + " WHERE LOWER(Context) LIKE ?";
@@ -410,6 +419,9 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
             stmt.setString(1, contextPrefix + "/%");
             getLogger().info(sql + "\n[" + contextPrefix + "/%]");
             stmt.executeUpdate();
+            
+            // Clear the user right cache.
+            _clearUserRightCache();
         }
         catch (SQLException ex)
         {
