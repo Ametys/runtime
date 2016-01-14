@@ -1501,6 +1501,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         
         try
         {
+            // Update the context on the group entries.
             String sql = "UPDATE " + _tableGroupRights + " SET Context = ? WHERE LOWER(Context) = ?";
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, fullNewContext);
@@ -1512,8 +1513,12 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             }
             stmt.executeUpdate();
             
+            // Clear the group right cache.
+            _clearGroupRightCache();
+            
             ConnectionHelper.cleanup(stmt);
             
+            // Update the context on the user entries.
             sql = "UPDATE " + _tableUserRights + " SET Context = ? WHERE LOWER(Context) = ?";
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, fullNewContext);
@@ -1524,6 +1529,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                 getLogger().info(sql + "\n[" + fullNewContext + ", " + fullOldContext + "]");
             }
             stmt.executeUpdate();
+            
+            // Clear the user right cache.
+            _clearUserRightCache();
         }
         finally
         {
@@ -1543,10 +1551,6 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         
         try
         {
-            // Clear the user and group right cache.
-            _clearUserRightCache();
-            _clearGroupRightCache();
-            
             String sql = "DELETE FROM " + _tableGroupRights + " WHERE LOWER(Context) = ?";
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, fullContext);
@@ -1555,11 +1559,17 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             
             ConnectionHelper.cleanup(stmt);
             
+            // Clear the group right cache.
+            _clearGroupRightCache();
+            
             sql = "DELETE FROM " + _tableUserRights + " WHERE LOWER(Context) = ?";
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, fullContext);
             getLogger().info(sql + "\n[" + fullContext + "]");
             stmt.executeUpdate();
+            
+            // Clear the user right cache.
+            _clearUserRightCache();
         }
         catch (SQLException ex)
         {
@@ -2882,7 +2892,10 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         _setRightsInCache(_groupRightCache, login, rights);
     }
     
-    private void _clearUserRightCache()
+    /**
+     * Clear the user right cache.
+     */
+    protected void _clearUserRightCache()
     {
         Map<String, Map<String, Set<String>>> cache = _userRightCache.get();
         if (cache != null)
@@ -2896,7 +2909,10 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
     }
     
-    private void _clearGroupRightCache()
+    /**
+     * Clear the group right cache.
+     */
+    protected void _clearGroupRightCache()
     {
         Map<String, Map<String, Set<String>>> cache = _groupRightCache.get();
         if (cache != null)
