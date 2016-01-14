@@ -149,13 +149,13 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      * Cache des droits par utilisateur (droits affectés à l'utilisateur uniquement) sur un contexte donné.
      * Login -> Contexte -> Set<RightId>
      */
-    private ThreadLocal<Map<String, Map<String, Set<String>>>> _userRightCache = new ThreadLocal<>();
+    private final ThreadLocal<Map<String, Map<String, Set<String>>>> _userRightCache = new ThreadLocal<>();
     
     /*
      * Cache des droits par utilisateur (droits issus des groupes uniquement) sur un contexte donné.
      * Login -> Contexte -> Set<RightId>
      */
-    private ThreadLocal<Map<String, Map<String, Set<String>>>> _groupRightCache = new ThreadLocal<>();
+    private final ThreadLocal<Map<String, Map<String, Set<String>>>> _groupRightCache = new ThreadLocal<>();
     
     @Override
     public void service(ServiceManager manager) throws ServiceException
@@ -194,7 +194,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                 }
                 else if (getLogger().isInfoEnabled())
                 {
-                    getLogger().info("The optionnal external rights file '" + externalFile + "' is missing.");
+                    getLogger().info("The optional external rights file '" + externalFile + "' is missing.");
                 }
             }
             catch (Exception e)
@@ -249,7 +249,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
             if (id.length() == 0 || label.length() == 0 || description.length() == 0 || category.length() == 0)
             {
-                String message = "Error in " + DefaultProfileBasedRightsManager.class.getName() + " configuration : attribute 'id' and elements 'label', 'description' and 'category' are mandatory.";
+                String message = "Error in " + DefaultProfileBasedRightsManager.class.getName() + " configuration: attribute 'id' and elements 'label', 'description' and 'category' are mandatory.";
                 getLogger().error(message);
                 throw new ConfigurationException(message, configuration);
             }
@@ -2669,12 +2669,12 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                     List<String> contextList = mapContext.get(rootContext);
                     if (contextList != null && contextList.contains(endContext))
                     {
-                        getLogger().info("Find in cache the right " + right + "for user " + login + "on context [" + rootContext + ", " + endContext + "]");
+                        getLogger().debug("Find in cache the right " + right + "for user " + login + " on context [" + rootContext + ", " + endContext + "]");
                         return RightResult.RIGHT_OK;
                     }
                     else
                     {
-                        getLogger().info("In cache, user " + login + " has not the right " + right + " on context [" + rootContext + ", " + endContext + "]");
+                        getLogger().debug("In cache, user " + login + " has not the right " + right + " on context [" + rootContext + ", " + endContext + "]");
                         return RightResult.RIGHT_UNKNOWN;
                     }
                 }
@@ -2713,12 +2713,12 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                     Boolean hasRight = mapContext.get(context);
                     if (hasRight.booleanValue())
                     {
-                        getLogger().info("Find in cache2 the right " + right + "for user " + login + "on context [" + context + "]");
+                        getLogger().debug("Find in cache2 the right " + right + "for user " + login + " on context [" + context + "]");
                         return RightResult.RIGHT_OK;
                     }
                     else
                     {
-                        getLogger().info("In cache2, user " + login + " has not the right " + right + " on context [" + context + "]");
+                        getLogger().debug("In cache2, user " + login + " has not the right " + right + " on context [" + context + "]");
                         return RightResult.RIGHT_UNKNOWN;
                     }
                 }
