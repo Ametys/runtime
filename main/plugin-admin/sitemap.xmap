@@ -147,7 +147,7 @@
                 <map:act type="set-header"> 
                     <map:parameter name="Content-Disposition" value="attachment"/> 
                 </map:act>
-                <map:read src="context://WEB-INF/logs/{1}.log"/>
+                <map:read src="ametys-home://logs/{1}.log"/>
             </map:match>
             <map:match pattern="logs/download.zip">
                 <map:act type="set-header"> 

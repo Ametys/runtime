@@ -73,6 +73,11 @@
 	               <span id="startTime"><i18n:date pattern="long" src-pattern="yyyy-MM-dd'T'HH:mm" value="{startTime}"/>&#160;<i18n:time pattern="short" src-pattern="yyyy-MM-dd'T'HH:mm" value="{startTime}"/></span>
 	             </div>
 	         </div>
+             
+             <div id="ametys">
+                <div class="label help" id="ametys-home-help-img"><i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_AMETYS_AMETYS_HOME"/></div>
+                <xsl:value-of select="ametysHome"/>
+             </div>
 	           
 	         <div id="memory">
 	             <div class="label help" id="mem-heap-help-img"><i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_HEAP"/></div>

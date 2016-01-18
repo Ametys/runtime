@@ -47,6 +47,9 @@
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_JVM_VENDOR">Vendor</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_JVM_NAME">JVM</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_JVM_TIME">Startup</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_AMETYS">Ametys</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_AMETYS_AMETYS_HOME">Data directory</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_AMETYS_AMETYS_HOME_HELP">Path to directory containing all Ametys internal data : JCR repository, internal database, temporary directories, log files, ... &lt;br/&gt;You can choose the location of this directory through an environment variable. The environment variable name is defined in the deployment file WEB-INF/web.xml, using the initialization parameter \"ametys.home.property\".</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM">Memory usage</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_HEAP">Main</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_USED_SUFFIX">Used</message>

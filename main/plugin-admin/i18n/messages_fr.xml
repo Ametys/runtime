@@ -47,6 +47,9 @@
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_JVM_VENDOR">Editeur</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_JVM_NAME">JVM</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_JVM_TIME">Démarrage</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_AMETYS">Ametys</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_AMETYS_AMETYS_HOME">Répertoire des données</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_AMETYS_AMETYS_HOME_HELP">Chemin d'accès au répertoire contenant toutes les données internes d'Ametys: repository JCR, base de données internes, répertoires temporaires, journaux de l'application, ...&lt;br/&gt;Vous pouvez choisir l'emplacement de ce répertoire au travers d'une variable d'environnement. Le nom de la variable d'environnement est définie dans le fichier de déploiement WEB-INF/web.xml, au moyen du paramètre d'initialisation \"ametys.home.property\".&lt;br/&gt;Par défaut, le répertoire est le répertoire WEB-INF/data de l'application.</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM">Utilisation de la mémoire</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_HEAP">Principale</message>
     <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_USED_SUFFIX">Utilisée</message>

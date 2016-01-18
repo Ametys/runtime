@@ -134,6 +134,12 @@ Ext.define('Ametys.plugins.admin.jvmstatus.JVMStatusTool', {
     										title : "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_JVM'/>",
     										html: ''
     									},{
+                                            xtype: 'panel',
+                                            cls: 'a-panel-text',
+                                            itemId: 'ametys',
+                                            title : "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_AMETYS'/>",
+                                            html: ''
+                                        },{
     										xtype: 'panel',
     										cls: 'a-panel-text',
     										itemId: 'memory',
@@ -190,13 +196,16 @@ Ext.define('Ametys.plugins.admin.jvmstatus.JVMStatusTool', {
 	 */
 	_refreshCb: function (response, args)
 	{
-		// Html for the 4 panels of the tool
+		// Html for the 5 panels of the tool
 		var html = Ext.dom.Query.jsSelect("div[id='system']", response)[0].innerHTML;
 		this._jvmStatusPanel.down('#system').update(html);
 		
 		html = Ext.dom.Query.jsSelect("div[id='java']", response)[0].innerHTML;
 		this._jvmStatusPanel.down('#jvm').update(html);
 		
+        html = Ext.dom.Query.jsSelect("div[id='ametys']", response)[0].innerHTML;
+        this._jvmStatusPanel.down('#ametys').update(html);
+
 		html = Ext.dom.Query.jsSelect("div[id='memory']", response)[0].innerHTML;
 		this._jvmStatusPanel.down('#memory').update(html);
 		
@@ -204,6 +213,10 @@ Ext.define('Ametys.plugins.admin.jvmstatus.JVMStatusTool', {
 		this._jvmStatusPanel.down('#server').update(html);
 		
 		// Tooltips
+        Ext.create ('Ext.ToolTip', {
+            target: 'ametys-home-help-img',
+            html: "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_AMETYS_AMETYS_HOME_HELP'/>"
+        });
 	    Ext.create ('Ext.ToolTip', {
 	        target: 'mem-heap-help-img',
 	        html: "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_MEMORY_HINT_HEAP'/>"
@@ -222,9 +235,9 @@ Ext.define('Ametys.plugins.admin.jvmstatus.JVMStatusTool', {
 	    });
 		
 		// Refresh used memory
-		 this.refreshData();
+		this.refreshData();
 		 
-		 this.showRefreshed();
+		this.showRefreshed();
 	},
 	
 	/**
