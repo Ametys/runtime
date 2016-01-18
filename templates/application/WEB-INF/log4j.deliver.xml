@@ -18,7 +18,7 @@
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
     <appender name="servlet" class="biz.minaret.log4j.DatedFileAppender">
-        <param name="Directory" value="${context-root}/WEB-INF/logs"/>
+        <param name="Directory" value="${ametys.home.dir}/logs"/>
         <param name="Prefix" value="cms-"/>
         <param name="Suffix" value=".log"/>
         <param name="Append" value="true"/>

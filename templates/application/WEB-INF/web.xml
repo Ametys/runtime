@@ -237,7 +237,16 @@
             <param-name>form-encoding</param-name>
             <param-value>utf-8</param-value>
         </init-param>
-
+        
+        <!--
+            Ametys home property allow to use an environment variable that will indicates the Ametys home directory location.
+            By default the Ametys home directory location will be  WEB-INF/data .
+        -->
+        <init-param>
+            <param-name>ametys.home.property</param-name>
+            <param-value>AMETYS_RUNTIME_HOME</param-value>
+        </init-param>
+        
         <!--
             This parameter allows you to startup Cocoon2 immediately after startup
             of your servlet engine.
