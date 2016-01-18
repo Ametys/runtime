@@ -1434,7 +1434,7 @@
             <component role="org.ametys.core.upload.UploadManager"
                        id="org.ametys.plugins.core.upload.FSUploadManager"
                        class="org.ametys.plugins.core.impl.upload.FSUploadManager">
-                <!-- UploadManager for storing uploaded files into /WEB-INF/data/uploads-user -->
+                <!-- UploadManager for storing uploaded files into Ametys home 'uploads-user' directory -->
             </component>
         </components>
     </feature>
