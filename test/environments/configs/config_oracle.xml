@@ -22,7 +22,6 @@
     <runtime.datasource.core.jdbc.passwd>Ametys_Runtime</runtime.datasource.core.jdbc.passwd>
     <runtime.authentication.basic.realm>realm</runtime.authentication.basic.realm>
     <runtime.upload.max-size>10000000</runtime.upload.max-size>
-    <runtime.upload.dir>WEB-INF/data/uploads</runtime.upload.dir>
     <runtime.debug.ui>0</runtime.debug.ui>
     <runtime.cache.xslt>false</runtime.cache.xslt>
     <runtime.log.abnormal.time>false</runtime.log.abnormal.time>
