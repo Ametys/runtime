@@ -54,8 +54,6 @@
     <message key="PLUGINS_CORE_UPLOAD_CONFIG_GROUP">Uploads management</message>
     <message key="PLUGINS_CORE_UPLOAD_CONFIG_MAXSIZE_LABEL">Maximum size</message>
     <message key="PLUGINS_CORE_UPLOAD_CONFIG_MAXSIZE_DESCRIPTION">The maximum size (in bytes) of uploaded files</message>
-    <message key="PLUGINS_CORE_UPLOAD_CONFIG_DIR_LABEL">Destination directory</message>
-    <message key="PLUGINS_CORE_UPLOAD_CONFIG_DIR_DESCRIPTION">Destination directory for uploaded files. You can use a path relative to your web application directory. The directory path must not end with the '/' character.&lt;br/&gt;Samples: '/home/cms/data/uploads' or 'WEB-INF/data/uploads'.</message>
    
      
 	<!-- USER AND RIGHTS -->
@@ -252,8 +250,6 @@
 	<!-- PARAMETER CHECKERS -->
 	<message key="PLUGINS_CORE_MAIL_CONNECTION_CHECKER_LABEL">Check the connection to the mail server</message>
     <message key="PLUGINS_CORE_MAIL_CONNECTION_CHECKER_DESC">This test checks if the given information allows the connection to the mail server.</message>
-    <message key="PLUGINS_CORE_UPLOAD_DIRECTORY_CHECKER_LABEL">Check the uploads' directory</message>
-    <message key="PLUGINS_CORE_UPLOAD_DIRECTORY_CHECKER_DESC">This test checks the existence of the specified folder or the possibility to create it otherwise, and then if Ametys can write in it. The created folder is temporary and is deleted at the end  of the test.</message>
     
 	<!-- PROFILES ACTIONS -->
 	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_LABEL">Add profile to user</message>

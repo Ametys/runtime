@@ -54,8 +54,6 @@
     <message key="PLUGINS_CORE_UPLOAD_CONFIG_GROUP">Gestion des uploads</message>
     <message key="PLUGINS_CORE_UPLOAD_CONFIG_MAXSIZE_LABEL">Taille maximale</message>
     <message key="PLUGINS_CORE_UPLOAD_CONFIG_MAXSIZE_DESCRIPTION">La taille maximale (en octets) des fichiers uploadés</message>
-    <message key="PLUGINS_CORE_UPLOAD_CONFIG_DIR_LABEL">Répertoire de destination</message>
-    <message key="PLUGINS_CORE_UPLOAD_CONFIG_DIR_DESCRIPTION">Répertoire de destination des fichiers uploadés. Vous pouvez utiliser un chemin relatif à l'application web. Le chemin ne doit pas finir par '/'.&lt;br/&gt;Exemple : '/home/cms/data/uploads' ou 'WEB-INF/data/uploads'.</message>
 
     <!-- USER AND RIGHTS -->
     <message key="PLUGINS_CORE_USERANDRIGHTS_CATEGORY">Utilisateurs et droits</message>
@@ -250,8 +248,6 @@
     <!--  PARAMETER CHECKERS -->
     <message key="PLUGINS_CORE_MAIL_CONNECTION_CHECKER_LABEL">Vérifier la connexion au serveur mail</message>
     <message key="PLUGINS_CORE_MAIL_CONNECTION_CHECKER_DESC">Ce test vérifie que les informations rentrées permettent bien d'établir une connexion avec le serveur d'envoi d'emails</message>
-    <message key="PLUGINS_CORE_UPLOAD_DIRECTORY_CHECKER_LABEL">Vérifier le répertoire de destination des uploads</message>
-    <message key="PLUGINS_CORE_UPLOAD_DIRECTORY_CHECKER_DESC">Ce test vérifie l'existence du dossier spécifié ou la possibilité de créer ce nouveau dossier sinon, puis qu'Ametys a bien les droits d'écriture. Le dossier créée est temporaire et est supprimé à la fin du test.</message>
     
     <!-- PROFILES ACTIONS -->
 	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_LABEL">Affecter à un utilisateur</message>
