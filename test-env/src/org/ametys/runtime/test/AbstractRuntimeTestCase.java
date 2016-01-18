@@ -25,6 +25,8 @@ import javax.xml.parsers.SAXParserFactory;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
+import junit.framework.TestCase;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.slf4j.Logger;
@@ -32,17 +34,23 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.XMLReader;
 
 import org.ametys.runtime.config.Config;
+import org.ametys.runtime.data.AmetysHomeLock;
+import org.ametys.runtime.data.AmetysHomeLockException;
 import org.ametys.runtime.servlet.RuntimeConfig;
-
-import junit.framework.TestCase;
 
 /**
  * Abstract test case for all Runtime test cases.
  */
 public abstract class AbstractRuntimeTestCase extends TestCase
 {
+    /** Ametys home directory path relative to the context path of the test environment. **/
+    public static final String AMETYS_HOME_DIR = "/WEB-INF/data";
+    
     /** The cocoon wrapper. */
     protected CocoonWrapper _cocoon;
+    
+    /** The lock on Ametys home */
+    protected AmetysHomeLock _ametysHomeLock;
     
     /** Logger for traces */
     protected Logger _logger = LoggerFactory.getLogger(getClass());
@@ -64,6 +72,48 @@ public abstract class AbstractRuntimeTestCase extends TestCase
         super(name);
     }
     
+    @Override
+    protected void tearDown() throws Exception
+    {
+        if (_ametysHomeLock != null)
+        {
+            if (_logger.isInfoEnabled())
+            {
+                _logger.info("Releasing lock on Ametys home");
+            }
+            
+            _ametysHomeLock.release();
+            _ametysHomeLock = null;
+        }
+        
+        super.tearDown();
+    }
+    
+    /**
+     * Initialize the Ametys home directory and acquire a lock on it.
+     * @param contextPath the test application path
+     * @return The Ametys home directory
+     * @throws AmetysHomeLockException If an error occurs while acquiring the lock on Ametys home
+     */
+    protected File _initAmetysHome(String contextPath) throws AmetysHomeLockException
+    {
+        String ametysHomePath = contextPath + AMETYS_HOME_DIR;
+        
+        if (_logger.isInfoEnabled())
+        {
+            _logger.info("Acquiring lock on " + ametysHomePath);
+        }
+        
+        // Acquire the lock on Ametys home
+        File ametysHome = new File(ametysHomePath);
+        ametysHome.mkdirs();
+        
+        _ametysHomeLock = new AmetysHomeLock(ametysHome);
+        _ametysHomeLock.acquire();
+        
+        return ametysHome;
+    }
+    
     /**
      * Configures the RuntimeConfig with the given file
      * @param fileName the name of the config file
@@ -72,6 +122,8 @@ public abstract class AbstractRuntimeTestCase extends TestCase
      */
     protected void _configureRuntime(String fileName, String contextPath) throws Exception
     {
+        File ametysHome = _initAmetysHome(contextPath);
+        
         File runtimeConfigFile = new File(fileName);
         
         Configuration runtimeConf = null;
@@ -110,7 +162,7 @@ public abstract class AbstractRuntimeTestCase extends TestCase
             }
         }
         
-        RuntimeConfig.configure(runtimeConf, externalConf, contextPath);
+        RuntimeConfig.configure(runtimeConf, externalConf, ametysHome, contextPath);
     }
     
     /**

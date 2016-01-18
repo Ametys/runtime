@@ -38,8 +38,6 @@ public abstract class AbstractJDBCUsersManagerTestCase extends AbstractJDBCTestC
      */
     protected void _resetDB(String runtimeFilename, String configFileName) throws Exception
     {
-        super.setUp();
-        
         _startApplication("test/environments/runtimes/" + runtimeFilename, "test/environments/configs/" + configFileName, "test/environments/webapp1");
 
         _setDatabase(Arrays.asList(getScripts()));

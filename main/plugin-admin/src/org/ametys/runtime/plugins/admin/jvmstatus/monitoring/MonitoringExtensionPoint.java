@@ -18,12 +18,13 @@ package org.ametys.runtime.plugins.admin.jvmstatus.monitoring;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.cocoon.Constants;
+import org.apache.commons.io.FileUtils;
 import org.rrd4j.core.RrdDb;
 import org.rrd4j.core.RrdDef;
 
 import org.ametys.runtime.plugin.ExtensionPoint;
 import org.ametys.runtime.plugin.component.AbstractThreadSafeComponentExtensionPoint;
+import org.ametys.runtime.servlet.RuntimeConfig;
 
 /**
  * {@link ExtensionPoint} for collecting sample of data in order to be
@@ -39,10 +40,8 @@ public class MonitoringExtensionPoint extends AbstractThreadSafeComponentExtensi
     {
         super.initializeExtensions();
         
-        org.apache.cocoon.environment.Context cocoonContext = (org.apache.cocoon.environment.Context) _context.get(Constants.CONTEXT_ENVIRONMENT_CONTEXT);
-        String rrdStoragePath = cocoonContext.getRealPath(RRD_STORAGE_PATH);
-        File rrdStorageDir = new File(rrdStoragePath);
-
+        File rrdStorageDir = FileUtils.getFile(RuntimeConfig.getInstance().getAmetysHome(), RRD_STORAGE_DIRECTORY);
+        
         if (!rrdStorageDir.exists())
         {
             if (!rrdStorageDir.mkdirs())

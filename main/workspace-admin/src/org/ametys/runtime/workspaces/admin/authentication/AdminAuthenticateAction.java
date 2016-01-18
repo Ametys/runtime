@@ -15,6 +15,7 @@
  */
 package org.ametys.runtime.workspaces.admin.authentication;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -30,7 +31,6 @@ import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.acting.AbstractAction;
-import org.apache.cocoon.environment.Context;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
@@ -43,10 +43,11 @@ import org.ametys.core.authentication.Credentials;
 import org.ametys.core.authentication.CredentialsProvider;
 import org.ametys.core.user.User;
 import org.ametys.plugins.core.impl.authentication.BasicCredentialsProvider;
+import org.ametys.runtime.servlet.RuntimeConfig;
 
 /**
  * Cocoon action for authenticating users in the administration workspace. 
- * Authentication is based on the file ADMINISTRATOR_PASSWORD_FILENAME which contains the
+ * Authentication is based on the file $AMETYS_HOME/administrator/admin.xml which contains the
  * MD5 encrypted password.
  */
 // FIXME to be removed
@@ -54,23 +55,19 @@ public class AdminAuthenticateAction extends AbstractAction implements ThreadSaf
 {
     /** The request attribute name for telling that super user is logged in. */
     public static final String REQUEST_ATTRIBUTE_SUPER_USER = "Runtime:SuperUser";
-    /** Location (from webapplication context) of the administrator password */
-    public static final String ADMINISTRATOR_PASSWORD_FILENAME = "/WEB-INF/data/administrator/admin.xml";
+    /** Location of the administrator password relative to ametys home */
+    public static final String ADMINISTRATOR_PASSWORD_FILENAME = "administrator/admin.xml";
     
     private static final String __SESSION_ADMINISTRATOR = "Runtime:Administrator";
     
     /** The cocoon context, initialized during the contextualize method */
     protected org.apache.avalon.framework.context.Context _context;
 
-    /** The environment context */
-    protected Context _envContext;
-
     private CredentialsProvider _credentialsProvider;
 
     public void contextualize(org.apache.avalon.framework.context.Context context) throws ContextException
     {
         _context = context;
-        _envContext = (Context) _context.get(org.apache.cocoon.Constants.CONTEXT_ENVIRONMENT_CONTEXT);
     }
 
     public void initialize() throws Exception
@@ -154,7 +151,7 @@ public class AdminAuthenticateAction extends AbstractAction implements ThreadSaf
                 return false;
             }
 
-            try (InputStream is  = new FileInputStream(_envContext.getRealPath(ADMINISTRATOR_PASSWORD_FILENAME)))
+            try (InputStream is  = new FileInputStream(new File(RuntimeConfig.getInstance().getAmetysHome(), ADMINISTRATOR_PASSWORD_FILENAME)))
             {
                 XPath xpath = XPathFactory.newInstance().newXPath();
                 String pass = xpath.evaluate("admin/password", new InputSource(is));
@@ -185,7 +182,10 @@ public class AdminAuthenticateAction extends AbstractAction implements ThreadSaf
             {
                 if (getLogger().isWarnEnabled())
                 {
-                    getLogger().warn("The file '" + ADMINISTRATOR_PASSWORD_FILENAME + "' is missing. Default administrator password 'admin' is used.", e);
+                    String ametysHomePath = RuntimeConfig.getInstance().getAmetysHome().getPath();
+                    getLogger().warn(
+                            "The file '" + ADMINISTRATOR_PASSWORD_FILENAME + "' is missing in Ametys home '" + ametysHomePath
+                                    + "'.\nDefault administrator password 'admin' is used.", e);
                 }
                 
                 return "admin".equals(passwd);

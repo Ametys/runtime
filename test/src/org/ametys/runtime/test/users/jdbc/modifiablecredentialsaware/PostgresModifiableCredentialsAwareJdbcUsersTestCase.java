@@ -26,6 +26,7 @@ public class PostgresModifiableCredentialsAwareJdbcUsersTestCase extends Abstrac
     @Override
     protected void setUp() throws Exception
     {
+        super.setUp();
         _resetDB("runtime6.xml", "config_postgres.xml");
     }
     
@@ -33,6 +34,7 @@ public class PostgresModifiableCredentialsAwareJdbcUsersTestCase extends Abstrac
     protected void tearDown() throws Exception
     {
         _cocoon.dispose();
+        super.tearDown();
     }
     
     @Override

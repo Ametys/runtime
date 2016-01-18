@@ -26,6 +26,7 @@ public class HsqlCredentialsAwareJdbcUsersTestCase extends AbstractCredentialsAw
     @Override
     protected void setUp() throws Exception
     {
+        super.setUp();
         _resetDB("runtime7.xml", "config_hsqldb.xml");
     }
     
@@ -33,6 +34,7 @@ public class HsqlCredentialsAwareJdbcUsersTestCase extends AbstractCredentialsAw
     protected void tearDown() throws Exception
     {
         _cocoon.dispose();
+        super.tearDown();
     }
     
     @Override

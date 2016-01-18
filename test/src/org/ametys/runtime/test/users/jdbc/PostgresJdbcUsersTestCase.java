@@ -26,6 +26,7 @@ public class PostgresJdbcUsersTestCase extends AbstractJdbcUnmodifiableUsersTest
     @Override
     protected void setUp() throws Exception
     {
+        super.setUp();
         _resetDB("runtime4.xml", "config_postgres.xml");
     }
     
@@ -33,6 +34,7 @@ public class PostgresJdbcUsersTestCase extends AbstractJdbcUnmodifiableUsersTest
     protected void tearDown() throws Exception
     {
         _cocoon.dispose();
+        super.tearDown();
     }
     
     @Override

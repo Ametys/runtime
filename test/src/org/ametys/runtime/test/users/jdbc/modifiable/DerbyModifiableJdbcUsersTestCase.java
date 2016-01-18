@@ -26,6 +26,7 @@ public class DerbyModifiableJdbcUsersTestCase extends AbstractModifiableJdbcUser
     @Override
     protected void setUp() throws Exception
     {
+        super.setUp();
         _resetDB("runtime5.xml", "config_derby.xml");
     }
     
@@ -33,6 +34,7 @@ public class DerbyModifiableJdbcUsersTestCase extends AbstractModifiableJdbcUser
     protected void tearDown() throws Exception
     {
         _cocoon.dispose();
+        super.tearDown();
     }
     
     @Override

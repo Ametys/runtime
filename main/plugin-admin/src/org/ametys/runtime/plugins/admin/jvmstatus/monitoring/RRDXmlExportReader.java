@@ -18,29 +18,28 @@ package org.ametys.runtime.plugins.admin.jvmstatus.monitoring;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.cocoon.Constants;
+import org.apache.avalon.framework.activity.Initializable;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.reading.AbstractReader;
 import org.apache.cocoon.reading.Reader;
+import org.apache.commons.io.FileUtils;
 import org.rrd4j.core.RrdDb;
 import org.xml.sax.SAXException;
+
+import org.ametys.runtime.servlet.RuntimeConfig;
 
 /**
  * {@link Reader} for exporting sample datas.
  */
-public class RRDXmlExportReader extends AbstractReader implements Contextualizable, MonitoringConstants
+public class RRDXmlExportReader extends AbstractReader implements Initializable, MonitoringConstants
 {
     private String _rrdStoragePath;
 
-    public void contextualize(Context context) throws ContextException
+    public void initialize() throws Exception
     {
-        org.apache.cocoon.environment.Context cocoonContext = (org.apache.cocoon.environment.Context) context.get(Constants.CONTEXT_ENVIRONMENT_CONTEXT);
-        _rrdStoragePath = cocoonContext.getRealPath(RRD_STORAGE_PATH);
+        _rrdStoragePath = FileUtils.getFile(RuntimeConfig.getInstance().getAmetysHome(), RRD_STORAGE_DIRECTORY).getPath();
     }
-
+    
     @Override
     public String getMimeType()
     {

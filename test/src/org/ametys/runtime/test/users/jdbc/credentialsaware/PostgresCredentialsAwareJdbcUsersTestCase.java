@@ -26,6 +26,7 @@ public class PostgresCredentialsAwareJdbcUsersTestCase extends AbstractCredentia
     @Override
     protected void setUp() throws Exception
     {
+        super.setUp();
         _resetDB("runtime7.xml", "config_postgres.xml");
     }
     
@@ -33,6 +34,7 @@ public class PostgresCredentialsAwareJdbcUsersTestCase extends AbstractCredentia
     protected void tearDown() throws Exception
     {
         _cocoon.dispose();
+        super.tearDown();
     }
     
     @Override

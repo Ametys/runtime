@@ -20,9 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
@@ -38,17 +35,9 @@ import org.ametys.runtime.plugins.admin.system.SystemHelper.SystemAnnouncement;
 /**
  * Get the system announces from the system.xml file
  */
-public class GetSystemAnnouncements extends ServiceableAction implements Contextualizable
+public class GetSystemAnnouncements extends ServiceableAction
 {
     private SystemHelper _systemHelper;
-    
-    private org.apache.cocoon.environment.Context _environmentContext;
-
-    @Override
-    public void contextualize(Context context) throws ContextException
-    {
-        _environmentContext = (org.apache.cocoon.environment.Context) context.get(org.apache.cocoon.Constants.CONTEXT_ENVIRONMENT_CONTEXT);
-    }
     
     @Override
     public void service(ServiceManager serviceManager) throws ServiceException
@@ -68,8 +57,7 @@ public class GetSystemAnnouncements extends ServiceableAction implements Context
         
         List<Map<String, String>> announcements = new ArrayList<> ();
         
-        String contextPath = _environmentContext.getRealPath("/");
-        SystemAnnouncement systemAnnouncement = _systemHelper.readValues(contextPath);
+        SystemAnnouncement systemAnnouncement = _systemHelper.readValues();
         
         Map<String, String> messages = systemAnnouncement.getMessages();
         

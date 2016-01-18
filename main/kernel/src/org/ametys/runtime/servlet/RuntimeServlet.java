@@ -60,10 +60,12 @@ import org.apache.cocoon.util.ClassUtils;
 import org.apache.cocoon.util.log.SLF4JLoggerAdapter;
 import org.apache.cocoon.util.log.SLF4JLoggerManager;
 import org.apache.cocoon.xml.XMLUtils;
+import org.apache.commons.collections.EnumerationUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang.time.StopWatch;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,6 +74,8 @@ import org.xml.sax.XMLReader;
 
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.config.ConfigManager;
+import org.ametys.runtime.data.AmetysHomeLock;
+import org.ametys.runtime.data.AmetysHomeLockException;
 import org.ametys.runtime.plugin.Init;
 import org.ametys.runtime.plugin.InitExtensionPoint;
 import org.ametys.runtime.plugin.PluginsManager;
@@ -100,6 +104,12 @@ public class RuntimeServlet extends HttpServlet
 
     /** The config file relative path */
     public static final String CONFIG_RELATIVE_PATH = "/WEB-INF/config/config.xml";
+    
+    /** Name of the servlet initialization parameter for the ametys home property */
+    public static final String AMETYS_HOME_PROPERTY = "ametys.home.property";
+    
+    /** The default ametys home path (relative to the servlet context)  */
+    public static final String AMETYS_HOME_DEFAULT = "/WEB-INF/data";
 
     /** The run modes */
     public enum RunMode
@@ -125,6 +135,9 @@ public class RuntimeServlet extends HttpServlet
     private int _maxUploadSize = DEFAULT_MAX_UPLOAD_SIZE;
     private File _uploadDir;
     private File _cacheDir;
+    
+    private File _ametysHome;
+    private AmetysHomeLock _ametysHomeLock;
     
     private Logger _logger;
     private LoggerManager _loggerManager;
@@ -177,6 +190,10 @@ public class RuntimeServlet extends HttpServlet
             // Configuration file
             Config.setFilename(_servletContext.getRealPath(CONFIG_RELATIVE_PATH));
             
+            // Init the Ametys home directory and lock before setting the logger.
+            // The log folder is located in the Ametys home directory.
+            _initAmetysHome();
+            
             // Init logger
             _initLogger();
     
@@ -207,6 +224,51 @@ public class RuntimeServlet extends HttpServlet
         }
     }
     
+    private void _initAmetysHome() throws AmetysHomeLockException
+    {
+        String ametysHomePath = null;
+        
+        boolean hasAmetysHomeProp = EnumerationUtils.toList(getInitParameterNames()).contains(AMETYS_HOME_PROPERTY);
+        if (!hasAmetysHomeProp)
+        {
+            System.out.println(String.format("[INFO] The '%s' servlet initialization parameter was not found. The Ametys home directory default value will be used '%s'",
+                    AMETYS_HOME_PROPERTY, AMETYS_HOME_DEFAULT));
+        }
+        else
+        {
+            String ametysHomeEnv = getInitParameter(AMETYS_HOME_PROPERTY);
+            if (StringUtils.isEmpty(ametysHomeEnv))
+            {
+                System.out.println(String.format("[WARN] The '%s' servlet initialization parameter appears to be empty. Ametys home directory default value will be used '%s'",
+                        AMETYS_HOME_PROPERTY, AMETYS_HOME_DEFAULT));
+            }
+            else
+            {
+                ametysHomePath = System.getenv(ametysHomeEnv);
+                if (StringUtils.isEmpty(ametysHomePath))
+                {
+                    System.out.println(String.format(
+                            "[WARN] The '%s' environment variable was not found or was empty. Ametys home directory default value will be used '%s'",
+                            ametysHomeEnv, AMETYS_HOME_DEFAULT));
+                }
+            }
+        }
+        
+        if (StringUtils.isEmpty(ametysHomePath))
+        {
+            ametysHomePath = _servletContext.getRealPath(AMETYS_HOME_DEFAULT);
+        }
+        
+        System.out.println("Acquiring lock on " + ametysHomePath);
+        
+        // Acquire the lock on Ametys home
+        _ametysHome = new File(ametysHomePath);
+        _ametysHome.mkdirs();
+        
+        _ametysHomeLock = new AmetysHomeLock(_ametysHome);
+        _ametysHomeLock.acquire();
+    }
+
     private void _initAmetys() throws Exception
     {
         // WEB-INF/param/runtime.xml loading
@@ -216,7 +278,7 @@ public class RuntimeServlet extends HttpServlet
         
         // Upload initialization
         _maxUploadSize = DEFAULT_MAX_UPLOAD_SIZE;
-        _uploadDir = new File(_servletContext.getRealPath("/WEB-INF/data/uploads"));
+        _uploadDir = new File(RuntimeConfig.getInstance().getAmetysHome(), "uploads");
         
         if (ConfigManager.getInstance().isComplete())
         {
@@ -225,23 +287,6 @@ public class RuntimeServlet extends HttpServlet
             {
                 // if the feature core/runtime.upload is deactivated, use the default value (10 Mb)
                 _maxUploadSize = maxUploadSizeParam.intValue();
-            }
-            
-            String uploadDirParam = Config.getInstance().getValueAsString("runtime.upload.dir");
-            if (uploadDirParam != null)
-            {
-                File uploadDir = new File(uploadDirParam);
-                
-                if (uploadDir.isAbsolute())
-                {
-                    // Yes : keep it as is
-                    _uploadDir = uploadDir;
-                }
-                else
-                {
-                    // No : consider it relative to context path
-                    _uploadDir = new File(_servletContextPath, uploadDirParam);
-                }
             }
         }
 
@@ -262,9 +307,9 @@ public class RuntimeServlet extends HttpServlet
         // Hack to have context-relative log files, because of lack in configuration capabilities in log4j.
         // If there are more than one Ametys in the same JVM, the property will be successively set for each instance, 
         // so we heavily rely on DOMConfigurator beeing synchronous.
-        System.setProperty("ametys.log4j.contextPath", _servletContextPath);
+        System.setProperty("ametys.home.dir", _ametysHome.getAbsolutePath());
         DOMConfigurator.configure(logj4fFile);
-        System.clearProperty("ametys.log4j.contextPath");
+        System.clearProperty("ametys.home.dir");
         
         _loggerManager = new SLF4JLoggerManager();
         _logger = LoggerFactory.getLogger(getClass());
@@ -361,7 +406,7 @@ public class RuntimeServlet extends HttpServlet
             throw new ServletException("Unable to load external locations values at WEB-INF/param/external-locations.xml", e);
         }
         
-        RuntimeConfig.configure(runtimeConf, externalConf, _servletContextPath);
+        RuntimeConfig.configure(runtimeConf, externalConf, _ametysHome, _servletContextPath);
     }
 
     @Override
@@ -372,7 +417,13 @@ public class RuntimeServlet extends HttpServlet
             _logger.debug("Servlet destroyed - disposing Cocoon");
             _disposeCocoon();
         }
-
+        
+        if (_ametysHomeLock != null)
+        {
+            _ametysHomeLock.release();
+            _ametysHomeLock = null;
+        }
+        
         _avalonContext = null;
         _logger = null;
         _loggerManager = null;

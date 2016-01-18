@@ -26,6 +26,7 @@ public class PostgresModifiableJdbcUsersTestCase extends AbstractModifiableJdbcU
     @Override
     protected void setUp() throws Exception
     {
+        super.setUp();
         _resetDB("runtime5.xml", "config_postgres.xml");
     }
     
@@ -33,6 +34,7 @@ public class PostgresModifiableJdbcUsersTestCase extends AbstractModifiableJdbcU
     protected void tearDown() throws Exception
     {
         _cocoon.dispose();
+        super.tearDown();
     }
     
     @Override

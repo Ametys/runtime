@@ -23,16 +23,15 @@ import java.util.TimerTask;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.cocoon.Constants;
+import org.apache.commons.io.FileUtils;
 import org.rrd4j.core.RrdDb;
+
+import org.ametys.runtime.servlet.RuntimeConfig;
 
 /**
  * {@link TimerTask} for creating and feeding RRDs files in order to
@@ -45,7 +44,7 @@ import org.rrd4j.core.RrdDb;
  *  <li>Servlet Engine session count
  * </ul>
  */
-public class RRDsFeederTimerTask extends TimerTask implements Component, LogEnabled, Contextualizable, Serviceable, Initializable, Disposable, MonitoringConstants
+public class RRDsFeederTimerTask extends TimerTask implements Component, LogEnabled, Serviceable, Initializable, Disposable, MonitoringConstants
 {
     private Logger _logger;
     private MonitoringExtensionPoint _monitoringExtensionPoint;
@@ -56,12 +55,6 @@ public class RRDsFeederTimerTask extends TimerTask implements Component, LogEnab
     {
         _logger = logger;
     }
-
-    public void contextualize(Context context) throws ContextException
-    {
-        org.apache.cocoon.environment.Context cocoonContext = (org.apache.cocoon.environment.Context) context.get(Constants.CONTEXT_ENVIRONMENT_CONTEXT);
-        _rrdStoragePath = cocoonContext.getRealPath(RRD_STORAGE_PATH);
-    }
     
     public void service(ServiceManager manager) throws ServiceException
     {
@@ -70,6 +63,8 @@ public class RRDsFeederTimerTask extends TimerTask implements Component, LogEnab
     
     public void initialize() throws Exception
     {
+        _rrdStoragePath = FileUtils.getFile(RuntimeConfig.getInstance().getAmetysHome(), RRD_STORAGE_DIRECTORY).getPath();
+        
         _logger.debug("Starting timer");
         // Daemon thread
         _timer = new Timer("RRDFeeder", true);

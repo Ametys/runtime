@@ -46,8 +46,19 @@ public class LdapUsersTestCase extends AbstractRuntimeTestCase
     @Override
     protected void setUp() throws Exception
     {
+        super.setUp();
+        
+        _startApp();
+    }
+    
+    /**
+     * start the application
+     * @throws Exception if an error occurs
+     */
+    protected void _startApp() throws Exception
+    {
         _startApplication("test/environments/runtimes/runtime8.xml", "test/environments/configs/config3.xml", "test/environments/webapp1");
-
+        
         _usersManager = (UsersManager) Init.getPluginServiceManager().lookup(UsersManager.ROLE);
     }
     

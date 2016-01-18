@@ -26,6 +26,7 @@ public class OracleModifiableCredentialsAwareJdbcUsersTestCase extends AbstractM
     @Override
     protected void setUp() throws Exception
     {
+        super.setUp();
         _resetDB("runtime6.xml", "config_oracle.xml");
     }
     
@@ -33,6 +34,7 @@ public class OracleModifiableCredentialsAwareJdbcUsersTestCase extends AbstractM
     protected void tearDown() throws Exception
     {
         _cocoon.dispose();
+        super.tearDown();
     }
     
     @Override

@@ -28,6 +28,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
 import org.ametys.runtime.parameter.ParameterHelper;
+import org.ametys.runtime.servlet.RuntimeConfig;
 
 
 /**
@@ -61,6 +62,8 @@ public class GeneralStatusGenerator extends AbstractGenerator
         XMLUtils.createElement(contentHandler, "javaVersion", System.getProperty("java.version"));
         XMLUtils.createElement(contentHandler, "jvmName", rBean.getVmName());
         XMLUtils.createElement(contentHandler, "startTime", ParameterHelper.valueToString(new Date(rBean.getStartTime())));
+        
+        XMLUtils.createElement(contentHandler, "ametysHome", RuntimeConfig.getInstance().getAmetysHome().getPath());
         
         XMLUtils.endElement(contentHandler, "characteristics");
         contentHandler.endDocument();

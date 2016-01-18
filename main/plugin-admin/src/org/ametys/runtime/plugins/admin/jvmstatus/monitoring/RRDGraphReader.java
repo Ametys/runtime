@@ -22,38 +22,37 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.cocoon.Constants;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.reading.Reader;
 import org.apache.cocoon.reading.ServiceableReader;
+import org.apache.commons.io.FileUtils;
 import org.rrd4j.graph.RrdGraph;
 import org.rrd4j.graph.RrdGraphDef;
 import org.xml.sax.SAXException;
 
+import org.ametys.runtime.servlet.RuntimeConfig;
+
 /**
  * {@link Reader} for exposing a monitoring graph.
  */
-public class RRDGraphReader extends ServiceableReader implements Contextualizable, MonitoringConstants
+public class RRDGraphReader extends ServiceableReader implements Initializable, MonitoringConstants
 {
     private String _rrdStoragePath;
     private MonitoringExtensionPoint _monitoringExtensionPoint;
 
-    public void contextualize(Context context) throws ContextException
-    {
-        org.apache.cocoon.environment.Context cocoonContext = (org.apache.cocoon.environment.Context) context.get(Constants.CONTEXT_ENVIRONMENT_CONTEXT);
-        _rrdStoragePath = cocoonContext.getRealPath(RRD_STORAGE_PATH);
-    }
-    
     @Override
     public void service(ServiceManager smanager) throws ServiceException
     {
         super.service(smanager);
         _monitoringExtensionPoint = (MonitoringExtensionPoint) smanager.lookup(MonitoringExtensionPoint.ROLE);
+    }
+    
+    public void initialize() throws Exception
+    {
+        _rrdStoragePath = FileUtils.getFile(RuntimeConfig.getInstance().getAmetysHome(), RRD_STORAGE_DIRECTORY).getPath();
     }
 
     @Override

@@ -26,6 +26,7 @@ public class OracleCredentialsAwareJdbcUsersTestCase extends AbstractCredentials
     @Override
     protected void setUp() throws Exception
     {
+        super.setUp();
         _resetDB("runtime7.xml", "config_oracle.xml");
     }
     
@@ -33,6 +34,7 @@ public class OracleCredentialsAwareJdbcUsersTestCase extends AbstractCredentials
     protected void tearDown() throws Exception
     {
         _cocoon.dispose();
+        super.tearDown();
     }
     
     @Override

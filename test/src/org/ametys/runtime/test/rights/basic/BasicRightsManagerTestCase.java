@@ -33,6 +33,8 @@ public class BasicRightsManagerTestCase extends AbstractRuntimeTestCase
     @Override
     protected void setUp() throws Exception
     {
+        super.setUp();
+        
         _startApplication("test/environments/runtimes/runtime12.xml", "test/environments/configs/config1.xml", "test/environments/webapp1");
     }
     

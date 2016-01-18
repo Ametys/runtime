@@ -20,8 +20,11 @@ package org.ametys.runtime.plugins.admin.jvmstatus.monitoring;
  */
 public interface MonitoringConstants
 {
-    /** Webapp path for storing RRD files. */
-    public static final String RRD_STORAGE_PATH = "/WEB-INF/data/monitoring";
+    /**
+     * The name of the monitoring directory, located in the Ametys home
+     * directory
+     */
+    public static final String RRD_STORAGE_DIRECTORY = "monitoring";
     
     /** Extension of RRD files. */
     public static final String RRD_EXT = ".rrd";
@@ -109,6 +112,5 @@ public interface MonitoringConstants
             
             return 60 * 60 * hours * days;
         }
-
     }
 }

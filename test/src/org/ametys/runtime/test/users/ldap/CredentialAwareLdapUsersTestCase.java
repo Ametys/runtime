@@ -27,20 +27,12 @@ import org.ametys.runtime.test.Init;
  */
 public class CredentialAwareLdapUsersTestCase extends LdapUsersTestCase
 {
-    
     @Override
-    protected void setUp() throws Exception
+    protected void _startApp() throws Exception
     {
         _startApplication("test/environments/runtimes/runtime9.xml", "test/environments/configs/config4.xml", "test/environments/webapp1");
-
+        
         _usersManager = (UsersManager) Init.getPluginServiceManager().lookup(UsersManager.ROLE);
-    }
-    
-    @Override
-    protected void tearDown() throws Exception
-    {
-        _cocoon.dispose();
-        super.tearDown();
     }
     
     @Override

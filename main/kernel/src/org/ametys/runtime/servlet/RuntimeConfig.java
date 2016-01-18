@@ -63,6 +63,9 @@ public final class RuntimeConfig
     /* Locations of external workspaces */
     private Map<String, File> _externalWorkspaces = new HashMap<>();
 
+    private File _ametysHome;
+    private File _tmpDir;
+    
     private RuntimeConfig()
     {
         // empty constructor
@@ -83,7 +86,7 @@ public final class RuntimeConfig
     }
     
     /**
-     * Returns true if the Runtime has been configured (ie. if the {@link #configure(Configuration, Configuration, String)} method has been called.
+     * Returns true if the Runtime has been configured (ie. if the {@link #configure(Configuration, Configuration, File, String)} method has been called.
      * @return true if the Runtime has been configured.
      */
     public static boolean isConfigured()
@@ -98,13 +101,17 @@ public final class RuntimeConfig
      * Be aware that this can cause the application to become unstable.</b>
      * @param runtimeConf the Configuration of the Runtime kernel (ie the contents of the WEB-INF/param/runtime.xml file)
      * @param externalConf the Configuration of external locations (ie the contents of the WEB-INF/param/external-locations.xml file)
+     * @param ametysHome The ametys home directory
      * @param contextPath the application context path
      */
-    public static synchronized void configure(Configuration runtimeConf, Configuration externalConf, String contextPath)
+    public static synchronized void configure(Configuration runtimeConf, Configuration externalConf, File ametysHome, String contextPath)
     {
         __config = new RuntimeConfig();
         
         __config._contextPath = contextPath;
+        __config._ametysHome = ametysHome;
+        __config._tmpDir = new File(ametysHome, "tmp");
+        __config._tmpDir.mkdirs();
 
         // runtimeConfig is null if the runtime.xml could not be read for any reason
         if (runtimeConf != null)
@@ -376,5 +383,23 @@ public final class RuntimeConfig
     public Date getApplicationBuildDate()
     {
         return _buildDate;
+    }
+    
+    /**
+     * Returns the Ametys home directory. Cannot be null.
+     * @return The Ametys home directory.
+     */
+    public File getAmetysHome()
+    {
+        return _ametysHome;
+    }
+    
+    /**
+     * Returns the Ametys temporary directory. Cannot be null
+     * @return The Ametys temporary directory.
+     */
+    public File getTmpDir()
+    {
+        return _tmpDir;
     }
 }

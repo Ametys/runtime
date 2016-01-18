@@ -26,6 +26,8 @@ public class DerbyHierarchicalProfileBasedRightsManagerTestCase extends Abstract
     @Override
     protected void setUp() throws Exception
     {
+        super.setUp();
+        
         _resetDB("runtime5.xml", "config_derby.xml");
     }
     

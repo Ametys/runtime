@@ -38,6 +38,8 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
     @Override
     protected void setUp() throws Exception
     {
+        super.setUp();
+        
         CommandLineContext ctx = new CommandLineContext("test/environments/webapp1");
         ctx.enableLogging(new SLF4JLoggerAdapter(LoggerFactory.getLogger("ctx")));
         _context = new DefaultContext();

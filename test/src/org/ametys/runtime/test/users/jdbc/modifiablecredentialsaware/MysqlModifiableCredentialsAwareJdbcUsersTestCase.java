@@ -26,6 +26,7 @@ public class MysqlModifiableCredentialsAwareJdbcUsersTestCase extends AbstractMo
     @Override
     protected void setUp() throws Exception
     {
+        super.setUp();
         _resetDB("runtime6.xml", "config1.xml");
     }
     
@@ -33,6 +34,7 @@ public class MysqlModifiableCredentialsAwareJdbcUsersTestCase extends AbstractMo
     protected void tearDown() throws Exception
     {
         _cocoon.dispose();
+        super.tearDown();
     }
     
     @Override

@@ -26,6 +26,8 @@ public class OracleProfileBasedRightsManagerTestCase extends AbstractProfileBase
     @Override
     protected void setUp() throws Exception
     {
+        super.setUp();
+        
         _resetDB("runtime4.xml", "config_oracle.xml");
     }
     

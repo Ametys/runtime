@@ -17,9 +17,6 @@ package org.ametys.runtime.plugins.admin.system;
 
 import java.util.Map;
 
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 
@@ -27,18 +24,10 @@ import org.ametys.core.ui.StaticClientSideElement;
 
 /**
  * This client side element toggles controller according system announcement's state
- *
  */
-public class SystemAnnouncementClientSideElement extends StaticClientSideElement implements Contextualizable
+public class SystemAnnouncementClientSideElement extends StaticClientSideElement
 {
-    private org.apache.cocoon.environment.Context _environmentContext;
     private SystemHelper _systemHelper;
-    
-    @Override
-    public void contextualize(Context context) throws ContextException
-    {
-        _environmentContext = (org.apache.cocoon.environment.Context) context.get(org.apache.cocoon.Constants.CONTEXT_ENVIRONMENT_CONTEXT);
-    }
     
     @Override
     public void service(ServiceManager smanager) throws ServiceException
@@ -52,8 +41,7 @@ public class SystemAnnouncementClientSideElement extends StaticClientSideElement
     {
         Map<String, Object> parameters = super.getParameters(contextualParameters);
         
-        String contextPath = _environmentContext.getRealPath("/");
-        boolean isAvailable = _systemHelper.isSystemAnnouncementAvailable(contextPath);
+        boolean isAvailable = _systemHelper.isSystemAnnouncementAvailable();
         
         if ("true".equals(parameters.get("toggle-enabled")))
         {

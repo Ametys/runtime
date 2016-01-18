@@ -53,16 +53,20 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import org.ametys.core.upload.Upload;
 import org.ametys.core.upload.UploadManager;
+import org.ametys.runtime.servlet.RuntimeConfig;
 
 /**
- * {@link UploadManager} which stores uploaded files into
- * <code>/WEB-INF/data/uploads-user</code>.<p>
+ * {@link UploadManager} which stores uploaded files into the
+ * <code>uploads-user</code> directory located in Ametys home
+ * <p>
  * Note that this implementation is not cluster safe.
  */
 public class FSUploadManager extends TimerTask implements UploadManager, ThreadSafe, Initializable, Contextualizable, LogEnabled, Disposable
 {
-    /** Global uploads directory. */
-    public static final String UPLOADS_DIR = "/WEB-INF/data/uploads-user";
+    /**
+     * The path to the global uploads directory relative to ametys home
+     */
+    public static final String UPLOADS_DIRECTORY = "uploads-user";
 
     /** Context. */
     protected org.apache.cocoon.environment.Context _context;
@@ -84,7 +88,6 @@ public class FSUploadManager extends TimerTask implements UploadManager, ThreadS
     {
         // Retrieve context-root from context
         _context = (org.apache.cocoon.environment.Context) context.get(Constants.CONTEXT_ENVIRONMENT_CONTEXT);
-        _globalUploadsDir = new File(_context.getRealPath(UPLOADS_DIR));
     }
     
     @Override
@@ -94,6 +97,8 @@ public class FSUploadManager extends TimerTask implements UploadManager, ThreadS
         {
             _logger.debug("Starting timer");
         }
+        
+        _globalUploadsDir = new File(RuntimeConfig.getInstance().getAmetysHome(), UPLOADS_DIRECTORY);
         
         // Daemon thread
         _timer = new Timer("FSUploadManager", true);

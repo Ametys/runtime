@@ -26,6 +26,8 @@ public class HsqlProfileBasedRightsManagerTestCase extends AbstractProfileBasedR
     @Override
     protected void setUp() throws Exception
     {
+        super.setUp();
+        
         _resetDB("runtime4.xml", "config_hsqldb.xml");
     }
     

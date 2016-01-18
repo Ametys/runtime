@@ -52,7 +52,7 @@ public class LogsGenerator extends ServiceableGenerator
     
     private void _logs() throws IOException, SAXException
     {
-        TraversableSource logsDirectorySource = (TraversableSource) resolver.resolveURI("context://WEB-INF/logs");
+        TraversableSource logsDirectorySource = (TraversableSource) resolver.resolveURI("ametys-home://logs");
         
         try
         {
@@ -83,24 +83,27 @@ public class LogsGenerator extends ServiceableGenerator
     {
         Map<String, List<TraversableSource>> logs = new HashMap<>();
         
-        Collection<TraversableSource> logFiles = logsDirectorySource.getChildren();
-        for (TraversableSource logSource : logFiles)
+        if (logsDirectorySource.exists())
         {
-            if (!logSource.isCollection())
+            Collection<TraversableSource> logFiles = logsDirectorySource.getChildren();
+            for (TraversableSource logSource : logFiles)
             {
-                String name = logSource.getName();
-                String canonicalName = _getCanonicalName(name);
-                
-                if (canonicalName != null)
+                if (!logSource.isCollection())
                 {
-                    List<TraversableSource> underLogs = logs.get(canonicalName);
-                    if (underLogs == null)
-                    {
-                        underLogs = new ArrayList<>();
-                        logs.put(canonicalName, underLogs);
-                    }
+                    String name = logSource.getName();
+                    String canonicalName = _getCanonicalName(name);
                     
-                    underLogs.add(logSource);
+                    if (canonicalName != null)
+                    {
+                        List<TraversableSource> underLogs = logs.get(canonicalName);
+                        if (underLogs == null)
+                        {
+                            underLogs = new ArrayList<>();
+                            logs.put(canonicalName, underLogs);
+                        }
+                        
+                        underLogs.add(logSource);
+                    }
                 }
             }
         }

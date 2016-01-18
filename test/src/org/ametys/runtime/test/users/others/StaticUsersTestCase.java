@@ -40,7 +40,7 @@ public class StaticUsersTestCase extends AbstractRuntimeTestCase
     protected void setUp() throws Exception
     {
         super.setUp();
-
+        
         _startApplication("test/environments/runtimes/runtime01.xml", "test/environments/configs/config1.xml", "test/environments/webapp1");
     }
     

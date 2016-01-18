@@ -26,6 +26,7 @@ public class DerbyCredentialsAwareJdbcUsersTestCase extends AbstractCredentialsA
     @Override
     protected void setUp() throws Exception
     {
+        super.setUp();
         _resetDB("runtime7.xml", "config_derby.xml");
     }
     
@@ -33,6 +34,7 @@ public class DerbyCredentialsAwareJdbcUsersTestCase extends AbstractCredentialsA
     protected void tearDown() throws Exception
     {
         _cocoon.dispose();
+        super.tearDown();
     }
     
     @Override

@@ -26,6 +26,7 @@ public class OracleModifiableJdbcUsersTestCase extends AbstractModifiableJdbcUse
     @Override
     protected void setUp() throws Exception
     {
+        super.setUp();
         _resetDB("runtime5.xml", "config_oracle.xml");
     }
     
@@ -33,6 +34,7 @@ public class OracleModifiableJdbcUsersTestCase extends AbstractModifiableJdbcUse
     protected void tearDown() throws Exception
     {
         _cocoon.dispose();
+        super.tearDown();
     }
     
     @Override

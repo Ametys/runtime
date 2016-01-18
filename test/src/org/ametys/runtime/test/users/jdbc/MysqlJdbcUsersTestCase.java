@@ -26,6 +26,7 @@ public class MysqlJdbcUsersTestCase extends AbstractJdbcUnmodifiableUsersTestCas
     @Override
     protected void setUp() throws Exception
     {
+        super.setUp();
         _resetDB("runtime4.xml", "config1.xml");
     }
     
@@ -33,6 +34,7 @@ public class MysqlJdbcUsersTestCase extends AbstractJdbcUnmodifiableUsersTestCas
     protected void tearDown() throws Exception
     {
         _cocoon.dispose();
+        super.tearDown();
     }
     
     @Override

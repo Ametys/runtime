@@ -26,6 +26,7 @@ public class HsqlModifiableJdbcUsersTestCase extends AbstractModifiableJdbcUsers
     @Override
     protected void setUp() throws Exception
     {
+        super.setUp();
         _resetDB("runtime5.xml", "config_hsqldb.xml");
     }
     
@@ -33,6 +34,7 @@ public class HsqlModifiableJdbcUsersTestCase extends AbstractModifiableJdbcUsers
     protected void tearDown() throws Exception
     {
         _cocoon.dispose();
+        super.tearDown();
     }
     
     @Override

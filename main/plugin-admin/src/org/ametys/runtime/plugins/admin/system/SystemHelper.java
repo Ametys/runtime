@@ -50,6 +50,7 @@ import org.xml.sax.helpers.AttributesImpl;
 import org.ametys.core.ui.Callable;
 import org.ametys.core.util.I18nUtils;
 import org.ametys.runtime.i18n.I18nizableText;
+import org.ametys.runtime.servlet.RuntimeConfig;
 
 /**
  * Helper for manipulating system announcement 
@@ -57,11 +58,10 @@ import org.ametys.runtime.i18n.I18nizableText;
 public class SystemHelper extends AbstractLogEnabled implements Component, Serviceable, Contextualizable
 {
     /** The relative path to the file where system information are saved (announcement, maintenance...) */
-    public static final String ADMINISTRATOR_SYSTEM_FILE = "WEB-INF/data/administrator/system.xml";
+    public static final String ADMINISTRATOR_SYSTEM_FILE = "administrator/system.xml";
     /** Avalon role */
     public static final String ROLE = SystemHelper.class.getName();
     
-    private org.apache.cocoon.environment.Context _environmentContext;
     private I18nUtils _i18nUtils;
     private Context _context;
     
@@ -75,7 +75,6 @@ public class SystemHelper extends AbstractLogEnabled implements Component, Servi
     public void contextualize(Context context) throws ContextException
     {
         _context = context;
-        _environmentContext = (org.apache.cocoon.environment.Context) context.get(org.apache.cocoon.Constants.CONTEXT_ENVIRONMENT_CONTEXT);
     }
     
     /**
@@ -86,10 +85,9 @@ public class SystemHelper extends AbstractLogEnabled implements Component, Servi
     @Callable
     public void setAnnouncementAvailable (boolean available) throws ProcessingException
     {
-        SystemAnnouncement systemAnnouncement = readValues(_environmentContext.getRealPath("/"));
+        SystemAnnouncement systemAnnouncement = readValues();
         
-        String contextPath = _environmentContext.getRealPath("/");
-        _save(contextPath, available, systemAnnouncement.getMessages());
+        _save(available, systemAnnouncement.getMessages());
     }
     
     /**
@@ -105,7 +103,7 @@ public class SystemHelper extends AbstractLogEnabled implements Component, Servi
     {
         Map<String, Object> result = new HashMap<> ();
         
-        SystemAnnouncement sytemAnnouncement = readValues(_environmentContext.getRealPath("/"));
+        SystemAnnouncement sytemAnnouncement = readValues();
         
         Map<String, String> messages = sytemAnnouncement.getMessages();
         if (messages.containsKey(language) && !override)
@@ -117,8 +115,7 @@ public class SystemHelper extends AbstractLogEnabled implements Component, Servi
         // Add or edit message
         messages.put(language, message);
         
-        String contextPath = _environmentContext.getRealPath("/");
-        _save(contextPath, sytemAnnouncement.isAvailable(), messages);
+        _save(sytemAnnouncement.isAvailable(), messages);
         
         return result;
     }
@@ -134,15 +131,14 @@ public class SystemHelper extends AbstractLogEnabled implements Component, Servi
     {
         Map<String, Object> result = new HashMap<> ();
         
-        SystemAnnouncement sytemAnnouncement = readValues(_environmentContext.getRealPath("/"));
+        SystemAnnouncement sytemAnnouncement = readValues();
         
         Map<String, String> messages = sytemAnnouncement.getMessages();
         if (messages.containsKey(language))
         {
             messages.remove(language);
             
-            String contextPath = _environmentContext.getRealPath("/");
-            _save(contextPath, sytemAnnouncement.isAvailable(), messages);
+            _save(sytemAnnouncement.isAvailable(), messages);
         }
         
         return result;
@@ -150,14 +146,13 @@ public class SystemHelper extends AbstractLogEnabled implements Component, Servi
     
     /**
      * Saves the system announcement's values
-     * @param contextPath The context path
      * @param state true to enable system announcement
      * @param messages the messages
      * @throws ProcessingException if an error ocurred
      */
-    private void _save (String contextPath, boolean state, Map<String, String> messages) throws ProcessingException
+    private void _save (boolean state, Map<String, String> messages) throws ProcessingException
     {
-        File systemFile = new File(contextPath, ADMINISTRATOR_SYSTEM_FILE);
+        File systemFile = new File(RuntimeConfig.getInstance().getAmetysHome(), ADMINISTRATOR_SYSTEM_FILE);
         
         try
         {
@@ -215,25 +210,23 @@ public class SystemHelper extends AbstractLogEnabled implements Component, Servi
     
     /**
      * Tests if system announcements are active.
-     * @param contextPath the webapp context path
      * @return true if system announcements are active.
      */
-    public boolean isSystemAnnouncementAvailable(String contextPath)
+    public boolean isSystemAnnouncementAvailable()
     {
-        SystemAnnouncement systemAnnouncement = readValues(contextPath);
+        SystemAnnouncement systemAnnouncement = readValues();
         return systemAnnouncement.isAvailable();
     }
     
     /**
      * Return the date of the last modification of the annonce
-     * @param contextPath the webapp context path
      * @return The date of the last modification or 0 if there is no announce file
      */
-    public long getSystemAnnoucementLastModificationDate(String contextPath)
+    public long getSystemAnnoucementLastModificationDate()
     {
         try
         {
-            File systemFile = new File(contextPath, ADMINISTRATOR_SYSTEM_FILE);
+            File systemFile = new File(RuntimeConfig.getInstance().getAmetysHome(), ADMINISTRATOR_SYSTEM_FILE);
             if (!systemFile.exists() || !systemFile.isFile())
             {
                 return 0;
@@ -251,12 +244,11 @@ public class SystemHelper extends AbstractLogEnabled implements Component, Servi
      * Returns the system announcement for the given language code, or for the default language code if there is no specified announcement for the given language code.<br>
      * Returns null if the system announcements are not activated.
      * @param languageCode the desired language code of the system announcement
-     * @param contextPath the webapp context path
      * @return the system announcement in the specified language code, or in the default language code, or null if announcements are not active.
      */
-    public String getSystemAnnouncement(String languageCode, String contextPath)
+    public String getSystemAnnouncement(String languageCode)
     {
-        SystemAnnouncement systemAnnouncement = readValues(contextPath);
+        SystemAnnouncement systemAnnouncement = readValues();
         
         if (!systemAnnouncement.isAvailable())
         {
@@ -287,19 +279,18 @@ public class SystemHelper extends AbstractLogEnabled implements Component, Servi
     
     /**
      * Read the system announcement's values
-     * @param contextPath The application context path
      * @return The system announcement values;
      */
-    public SystemAnnouncement readValues (String contextPath)
+    public SystemAnnouncement readValues ()
     {
         SystemAnnouncement announcement = new SystemAnnouncement();
         
         try 
         {
-            File systemFile = new File(contextPath, ADMINISTRATOR_SYSTEM_FILE);
+            File systemFile = new File(RuntimeConfig.getInstance().getAmetysHome(), ADMINISTRATOR_SYSTEM_FILE);
             if (!systemFile.exists() || !systemFile.isFile())
             {
-                _setDefaultValues(contextPath);
+                _setDefaultValues();
             }
             
             Configuration configuration;
@@ -330,7 +321,7 @@ public class SystemHelper extends AbstractLogEnabled implements Component, Servi
         }
     }
     
-    private void _setDefaultValues (String contextPath) throws ProcessingException
+    private void _setDefaultValues () throws ProcessingException
     {
         Map objectModel = ContextHelper.getObjectModel(_context);
         Locale locale = org.apache.cocoon.i18n.I18nUtils.findLocale(objectModel, "locale", null, Locale.getDefault(), true);
@@ -339,7 +330,7 @@ public class SystemHelper extends AbstractLogEnabled implements Component, Servi
         Map<String, String> messages = new HashMap<> ();
         messages.put("*", defaultMessage);
         
-        _save(contextPath, false, messages);
+        _save(false, messages);
     }
     
     /**

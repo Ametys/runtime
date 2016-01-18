@@ -26,6 +26,8 @@ public class MysqlHierarchicalProfileBasedRightsManagerTestCase extends Abstract
     @Override
     protected void setUp() throws Exception
     {
+        super.setUp();
+        
         _resetDB("runtime5.xml", "config1.xml");
     }
     

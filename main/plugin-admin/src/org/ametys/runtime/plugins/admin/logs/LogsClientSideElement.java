@@ -47,7 +47,7 @@ import org.ametys.core.ui.StaticClientSideElement;
 public class LogsClientSideElement extends StaticClientSideElement
 {
     /** The path to the application's logs folder */
-    private static final String __LOGS_BASE = "context://WEB-INF/logs/";
+    private static final String __LOGS_BASE = "ametys-home://logs/";
     
     /** The Excalibur source resolver */
     private SourceResolver _sourceResolver;

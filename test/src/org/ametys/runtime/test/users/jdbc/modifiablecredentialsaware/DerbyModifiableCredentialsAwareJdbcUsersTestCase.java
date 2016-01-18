@@ -26,6 +26,7 @@ public class DerbyModifiableCredentialsAwareJdbcUsersTestCase extends AbstractMo
     @Override
     protected void setUp() throws Exception
     {
+        super.setUp();
         _resetDB("runtime6.xml", "config_derby.xml");
     }
     
@@ -33,6 +34,7 @@ public class DerbyModifiableCredentialsAwareJdbcUsersTestCase extends AbstractMo
     protected void tearDown() throws Exception
     {
         _cocoon.dispose();
+        super.tearDown();
     }
     
     @Override

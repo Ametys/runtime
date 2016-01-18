@@ -126,6 +126,7 @@
     <component-instance class="org.ametys.core.cocoon.source.ZipSourceFactory" name="zip"/>
     <component-instance class="org.ametys.runtime.plugin.PluginSourceFactory" name="plugin"/>
     <component-instance class="org.ametys.runtime.workspace.WorkspaceSourceFactory" name="workspace"/>
+    <component-instance class="org.ametys.runtime.data.AmetysHomeSourceFactory" name="ametys-home"/>
     
     <component-instance class="org.apache.cocoon.components.source.impl.ContextSourceFactory" name="context"/>
     <component-instance class="org.apache.cocoon.components.source.impl.SitemapSourceFactory" name="cocoon"/>

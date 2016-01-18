@@ -26,6 +26,7 @@ public class HsqlModifiableCredentialsAwareJdbcUsersTestCase extends AbstractMod
     @Override
     protected void setUp() throws Exception
     {
+        super.setUp();
         _resetDB("runtime6.xml", "config_hsqldb.xml");
     }
     
@@ -33,6 +34,7 @@ public class HsqlModifiableCredentialsAwareJdbcUsersTestCase extends AbstractMod
     protected void tearDown() throws Exception
     {
         _cocoon.dispose();
+        super.tearDown();
     }
     
     @Override
