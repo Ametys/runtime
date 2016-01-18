@@ -80,22 +80,6 @@
             <group i18n="true">PLUGINS_CORE_UPLOAD_CONFIG_GROUP</group>
             <order>10</order>
         </param>
-        <param id="runtime.upload.dir" type="string">
-            <!-- 
-                The destination directory for uploaded files.
-             -->
-            <label i18n="true">PLUGINS_CORE_UPLOAD_CONFIG_DIR_LABEL</label>
-            <description i18n="true">PLUGINS_CORE_UPLOAD_CONFIG_DIR_DESCRIPTION</description>
-            <validation>
-                <mandatory/>
-                <regexp>^.*[^\/]$</regexp>
-                <invalidText i18n="true">PLUGINS_CORE_REGEXP_INVALID_PATH</invalidText>
-            </validation>        
-            <default-value>WEB-INF/data/uploads</default-value>
-            <category i18n="true">PLUGINS_CORE_SYSTEM_CONFIG_CATEGORY</category>
-            <group i18n="true">PLUGINS_CORE_UPLOAD_CONFIG_GROUP</group>
-            <order>20</order>
-        </param>
         
         <!-- +
              | MAIL - ADDRESSES
@@ -282,29 +266,6 @@
                 <param-ref id="smtp.mail.sysadminto"/>
             </linked-params>
         </param-checker-->
-    
-        <param-checker id="upload-directory-checker" class="org.ametys.plugins.core.impl.checker.DirectoryChecker">
-            <label i18n="true">PLUGINS_CORE_UPLOAD_DIRECTORY_CHECKER_LABEL</label>
-            <description i18n="true">PLUGINS_CORE_UPLOAD_DIRECTORY_CHECKER_DESC</description>
-            <icon-large>img/config/check/test_directorywrite_48.png</icon-large>
-            <icon-medium>img/config/check/test_directorywrite_32.png</icon-medium>
-            <icon-small>img/config/check/test_directorywrite_16.png</icon-small>
-                       
-            <configuration>
-                <check-write/>
-                <creates-if-required/>
-            </configuration>
-                        
-            <ui-ref>
-                <order>1</order>
-                <param-ref id="runtime.upload.dir"/>
-            </ui-ref>
-            
-            <linked-params>
-                <param-ref id="runtime.upload.dir"/>
-            </linked-params>
-        </param-checker>
-        
     </config>
     
     <extension-points>
@@ -528,7 +489,6 @@
         <!-- Mark thoses configuration parameters as necessary. If you do not want to configure this beacause your application does not upload any file => unactive this feature. -->
         <config>
             <param-ref id="runtime.upload.max-size"/>
-            <param-ref id="runtime.upload.dir"/>
         </config>
     </feature>
     
