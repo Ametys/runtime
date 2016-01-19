@@ -1,0 +1,130 @@
+@font-face {
+	font-family: "Editor";
+	src: url("editor.eot");
+	src: url("editor.eot#iefix") format("embedded-opentype"),
+	url("editor.woff") format("woff"),
+	url("editor.ttf") format("truetype"),
+	url("editor.svg") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+[class^="editor-decorator-"]:after, [class*=" editor-decorator-"]:after {   
+	font-family: Editor;
+	font-style: normal;
+}.editor-decorator-alignment:after {
+	content: "\e000";
+}
+.editor-decorator-alignment1:after {
+	content: "\e001";
+}
+.editor-decorator-black391:after {
+	content: "\e002";
+}
+.editor-decorator-bold14:after {
+	content: "\e003";
+}
+.editor-decorator-book255:after {
+	content: "\e004";
+}
+.editor-decorator-character:after {
+	content: "\e005";
+}
+.editor-decorator-clipboard99:after {
+	content: "\e006";
+}
+.editor-decorator-curve4:after {
+	content: "\e007";
+}
+.editor-decorator-design26:after {
+	content: "\e008";
+}
+.editor-decorator-document209:after {
+	content: "\e009";
+}
+.editor-decorator-document28:after {
+	content: "\e00a";
+}
+.editor-decorator-format6:after {
+	content: "\e00b";
+}
+.editor-decorator-greek32:after {
+	content: "\e00c";
+}
+.editor-decorator-html25:after {
+	content: "\e00d";
+}
+.editor-decorator-image2:after {
+	content: "\e00e";
+}
+.editor-decorator-italic8:after {
+	content: "\e00f";
+}
+.editor-decorator-link23:after {
+	content: "\e010";
+}
+.editor-decorator-list4:after {
+	content: "\e011";
+}
+.editor-decorator-movie16:after {
+	content: "\e012";
+}
+.editor-decorator-numbered8:after {
+	content: "\e013";
+}
+.editor-decorator-paint3:after {
+	content: "\e014";
+}
+.editor-decorator-resize11:after {
+	content: "\e015";
+}
+.editor-decorator-right-alignment:after {
+	content: "\e016";
+}
+.editor-decorator-right176:after {
+	content: "\e017";
+}
+.editor-decorator-rightarrow26:after {
+	content: "\e018";
+}
+.editor-decorator-save31:after {
+	content: "\e019";
+}
+.editor-decorator-scissors4:after {
+	content: "\e01a";
+}
+.editor-decorator-spreadsheet4:after {
+	content: "\e01b";
+}
+.editor-decorator-spreadsheet5:after {
+	content: "\e01c";
+}
+.editor-decorator-subscript1:after {
+	content: "\e01d";
+}
+.editor-decorator-superscript2:after {
+	content: "\e01e";
+}
+.editor-decorator-table28:after {
+	content: "\e01f";
+}
+.editor-decorator-tables1:after {
+	content: "\e020";
+}
+.editor-decorator-text152:after {
+	content: "\e021";
+}
+.editor-decorator-textfile1:after {
+	content: "\e022";
+}
+.editor-decorator-underlined4:after {
+	content: "\e023";
+}
+.editor-decorator-web60:after {
+	content: "\e024";
+}
+.editor-decorator-web61:after {
+	content: "\e025";
+}
+.editor-decorator-word2:after {
+	content: "\e026";
+}
