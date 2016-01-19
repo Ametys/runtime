@@ -21,6 +21,8 @@
  *      tooltip: {
  *          title: 'My Ametys Tooltip', 
  *          image: 'resources/img/ametys.gif', 
+ *          // glyphIcon: 'flaticon-computer12',
+ *          // iconDecorator: null
  *          text: 'Click on this button to get access to some features', 
  *          helpId: '12', 
  *          inribbon: true
@@ -33,14 +35,6 @@ Ext.define(
     {
         extend: "Ext.tip.QuickTip",
         alias: 'widget.ametys.quicktip',
-        
-        /**
-         * @cfg {String} [glyphIcon] The CSS class for glyph to use as the icon. This is an alternative to the set of icons.
-         */
-        
-        /**
-         * @cfg {String} [iconDecorator] The CSS class to use as decorator above the main icon.
-         */
         
         statics: {
             
@@ -109,11 +103,14 @@ Ext.define(
              * @param {String} [config.image] An optional image path to display a main image in the tooltip.
              * @param {String} [config.imageHeight=48] Height, in pixels, of the image above.
              * @param {String} [config.imageWidth=48] Width, in pixels, of the image above.
+             * @param {String} [config.glyphIcon] The CSS class for glyph to use as the icon. This is an alternative to the set of icons.
+             * @param {String} [config.iconDecorator] The CSS class to use as decorator above the main icon.
              * @param {String} config.text The main text of the tooltip. Can contains html tags
              * @param {String} [config.helpId] The optionnal help identifier that is linked to an url to be displayed in the help too.
              * @param {Number} [config.dismissDelay=20000] The time before the tooltip automatically disapear is the mouse stay over the element
              * @param {HTMLElement/Ext.dom.Element/String} [config.target] The target element or string id to monitor for mouseover events to trigger showing this ToolTip.
              * @param {Boolean} [config.inribbon=true] Is the tooltip applying for a component of the ribbon? Default to true. It does matter to vertically align the tooltip to the ribbon.
+             * @param {String} [config.anchor] If the tooltip is not "inribbon", you can specify an anchor to select its position relatively to the target. When null, the tooltip is following the mouse. Otherwise must be a string like "tl-bl" to specify the tooltip top-left will be aligned with the target bottom-left (and will not fly with the mouse anymore). Valid positions for each element are "tl, t, tr, l, c, r, bl, b, br".
              * @return {Object} A configuration for tooltip
              */
             create: function(config)
@@ -143,7 +140,8 @@ Ext.define(
                         
                         width: config.width ? config.width : (config.image || config.glyphIcon ? this.imagedTooltipWidth : this.tooltipWidth),
                                 
-                        ribbon: config.inribbon == false ? false : true
+                        ribbon: config.inribbon == false ? false : true,
+                        anchor: config.anchor
                     };
                 }
                 else
@@ -256,17 +254,21 @@ Ext.define(
                 var target = Ext.get(tip.activeTarget.target);
                 var newX, newY;
                 
+                var anchor = tip.activeTarget.anchor;
+
                 // required position
                 var parent;
                 if (target && (parent = target.parent(".x-menu")))
                 {
                     var parentMenu = parent;
-                    newX = parentMenu.getRight() + 2;
-                    newY = target.getTop() - 2;
                     
-                    if (newX + this.getWidth() > Ext.getBody().getRight())
+                    if (parentMenu.getRight() + 2 + this.getWidth() > Ext.getBody().getRight())
                     {
-                        newX = parentMenu.getLeft() - 2 - this.getWidth();
+                        anchor = "tr-tl";
+                    }
+                    else
+                    {
+                        anchor = "tl-tr";
                     }
                 
                     var currentXY = tip.getPosition();
@@ -279,25 +281,78 @@ Ext.define(
                 {
                     if (target.is(".x-tab-top"))
                     {
-                        newX = target.getLeft() - 1;
-                        newY = target.getBottom() ;
+                        anchor = "tl-bl"
                     }
                     else if (target.is(".x-tab-left"))
                     {
-                        newX = target.getRight() + 1;
-                        newY = target.getTop() - 1 ;
+                        anchor = "tl-tr"
                     }
                     else if (target.is(".x-tab-right"))
                     {
-                        newX = target.getLeft() - 1 - this.getWidth();
-                        newY = target.getTop() - 1 ;
+                        anchor = "tr-tl"
                     }
                     else if (target.is(".x-tab-bottom"))
                     {
-                        newX = target.getLeft() - 1;
-                        newY = target.getTop() - 1  - this.getHeight();
+                        anchor = "bl-tl"
                     }
+                }
                 
+                if (anchor)
+                {
+                    var targetCorner = anchor.substring(anchor.indexOf("-") + 1);
+                    if (targetCorner.indexOf("l") != -1)
+                    {
+                            newX = target.getLeft() - 1;
+                    }
+                    else if (targetCorner.indexOf("r") != -1)
+                    {
+                            newX = target.getRight() + 1;
+                    }
+                    else
+                    {
+                            newX = (target.getLeft() + target.getRight()) / 2;
+                    }
+
+                    if (targetCorner.indexOf("t") != -1)
+                    {
+                            newY = target.getTop();
+                    }
+                    else if (targetCorner.indexOf("b") != -1)
+                    {
+                            newY = target.getBottom();
+                    }
+                    else
+                    {
+                            newY = (target.getTop() + target.getBottom()) / 2;
+                    }
+                    
+                    var tooltipCorner = anchor.substring(0, anchor.indexOf("-"));
+                    if (tooltipCorner.indexOf("l") != -1)
+                    {
+                            newX -= 0;
+                    }
+                    else if (tooltipCorner.indexOf("r") != -1)
+                    {
+                            newX -= this.getWidth();
+                    }
+                    else
+                    {
+                            newX -= this.getWidth() / 2;
+                    }
+
+                    if (tooltipCorner.indexOf("t") != -1)
+                    {
+                            newY -= 0;
+                    }
+                    else if (tooltipCorner.indexOf("b") != -1)
+                    {
+                            newY -= this.getHeight();
+                    }
+                    else
+                    {
+                            newY -= this.getHeight() / 2;
+                    }
+                    
                     var currentXY = tip.getPosition();
                     if (currentXY[0] != newX || currentXY[1] != newY)
                     {
