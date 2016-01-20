@@ -118,6 +118,21 @@ Ext.define("Ametys.message.Message",
 			 * The target and subtarget is the element being modified and can be of any type.
 			 */
 			MODIFYING: "modifying",	
+            
+            /**
+             * @readonly
+             * @property {String} REVERTED Event when the on-going changes have been cancelled on an object. 
+             * The target and subtarget is the element being modified and can be of any type.
+             */
+            REVERTED: "reverted", 
+            
+            /**
+             * @readonly
+             * @property {String} SORTED Event when an object has been sorted. 
+             * The target and subtarget is the element being sorted and can be of any type.
+             * @property {String} SORTED.order (required) The sort order. 
+             */
+            SORTED: "sorted", 
 			
             /**
              * @readonly
