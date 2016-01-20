@@ -47,7 +47,7 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool.Messa
 				}
 				else
 				{
-					return (data.workspace ? ("_" + data.workspace) : ('plugins/' + data.plugin)) + "/" + data.url;
+					return (data.workspace ? ("/_" + data.workspace) : data.plugin ? ('/plugins/' + data.plugin) : '') + "/" + data.url;
 				}
         	}
         },
