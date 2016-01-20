@@ -11,7 +11,7 @@
 }
 
 [class^="ametysicon-"]:before, [class*=" ametysicon-"]:before,
-[class^="ametysicon-decorator-"]:after, [class*=" ametysicon-decorator-"]:after
+[class^="decorator-ametysicon-"]:after, [class*=" decorator-ametysicon-"]:after
 {
    font-family: 'Ametys';
    font-style: normal;
@@ -20,4 +20,4 @@
 }
 
 .ametysicon-ametys:before{content:'\0041';}
-.ametysicon-decorator-ametys:after{content:'\0041';}
+.decorator-ametysicon-ametys:after{content:'\0041';}

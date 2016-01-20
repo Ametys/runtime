@@ -117,6 +117,7 @@
             </xsl:call-template>
             
             <css>/plugins/codemirror/resources/css/codemirror.css</css>
+            <css>/plugins/core-ui/resources/font/ametys/Ametys.css</css>
             <css>/plugins/core-ui/resources/font/flaticon/flaticon.css</css>
             <css>/plugins/core-ui/resources/font/flaticon/flaticon-decorator.css</css>
             <css>/plugins/core-ui/resources/font/editor/editor.css</css>

@@ -1417,7 +1417,7 @@
                     <description i18n="true">PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_MISSED_TESTS_DESC</description>
                     
                     <icon-glyph>flaticon-applicattion</icon-glyph>
-                    <icon-decorator>flaticon-decorator-alert9</icon-decorator>
+                    <icon-decorator>decorator-flaticon-alert9</icon-decorator>
                     <icon-small file="true">img/Ametys/common/form/configurable/tests/testmissing_16.png</icon-small>
                     <icon-medium file="true">img/Ametys/common/form/configurable/tests/testmissing_32.png</icon-medium>
                     <icon-large file="true">img/Ametys/common/form/configurable/tests/testmissing_48.png</icon-large>
