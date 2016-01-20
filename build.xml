@@ -69,7 +69,7 @@
 
     <patternset id="check.additional.licenses">
         <exclude name="main/plugin-core-ui/resources/themes/**"/>
-    	<exclude name="main/plugin-core-ui/resources/css/Ametys/ui/icons/**"/>
+    	<exclude name="main/plugin-core-ui/resources/font/**"/>
         <exclude name="themes/theme-*/sass/example/*"/>
         <exclude name="main/plugin-core-ui/resources/js/lunr/*"/>
     </patternset>
