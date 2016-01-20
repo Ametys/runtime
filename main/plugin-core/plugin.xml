@@ -661,7 +661,7 @@
                     <default-description i18n="true">PLUGINS_CORE_USERS_ADD_DESCRIPTION</default-description>
                     
                     <icon-glyph>flaticon-black302</icon-glyph>
-                    <icon-decorator>flaticon-decorator-add64</icon-decorator>
+                    <icon-decorator>decorator-flaticon-add64</icon-decorator>
                     <icon-small file="true">img/users/add_16.png</icon-small>
                     <icon-medium file="true">img/users/add_32.png</icon-medium>
                     <icon-large file="true">img/users/add_48.png</icon-large>
@@ -685,7 +685,7 @@
                     <default-description i18n="true">PLUGINS_CORE_USERS_EDIT_DESCRIPTION</default-description>
                     
                     <icon-glyph>flaticon-black302</icon-glyph>
-                    <icon-decorator>flaticon-decorator-edit45</icon-decorator>
+                    <icon-decorator>decorator-flaticon-edit45</icon-decorator>
                     <icon-small file="true">img/users/modify_16.png</icon-small>
                     <icon-medium file="true">img/users/modify_32.png</icon-medium>
                     <icon-large file="true">img/users/modify_48.png</icon-large>
@@ -709,7 +709,7 @@
                     <default-description i18n="true">PLUGINS_CORE_USERS_DELETE_DESCRIPTION</default-description>
                     
                     <icon-glyph>flaticon-black302</icon-glyph>
-                    <icon-decorator>flaticon-decorator-remove11</icon-decorator>
+                    <icon-decorator>decorator-flaticon-remove11</icon-decorator>
                     <icon-small file="true">img/users/delete_16.png</icon-small>
                     <icon-medium file="true">img/users/delete_32.png</icon-medium>
                     <icon-large file="true">img/users/delete_48.png</icon-large>
@@ -884,7 +884,7 @@
                     <description i18n="true">PLUGINS_CORE_GROUPS_ADD_DESCRIPTION</description>
                     
                     <icon-glyph>flaticon-multiple25</icon-glyph>
-                    <icon-decorator>flaticon-decorator-add64</icon-decorator>
+                    <icon-decorator>decorator-flaticon-add64</icon-decorator>
                     <icon-small file="true">img/groups/add_16.png</icon-small>
                     <icon-medium file="true">img/groups/add_32.png</icon-medium>
                     <icon-large file="true">img/groups/add_50.png</icon-large>
@@ -908,7 +908,7 @@
                     <description i18n="true">PLUGINS_CORE_GROUPS_RENAME_DESCRIPTION</description>
                     
                     <icon-glyph>flaticon-multiple25</icon-glyph>
-                    <icon-decorator>flaticon-decorator-edit45</icon-decorator>
+                    <icon-decorator>decorator-flaticon-edit45</icon-decorator>
                     <icon-small file="true">img/groups/rename_16.png</icon-small>
                     <icon-medium file="true">img/groups/rename_32.png</icon-medium>
                     <icon-large file="true">img/groups/rename_50.png</icon-large>
@@ -932,7 +932,7 @@
                     <description i18n="true">PLUGINS_CORE_GROUPS_DELETE_DESCRIPTION</description>
                     
                     <icon-glyph>flaticon-multiple25</icon-glyph>
-                    <icon-decorator>flaticon-decorator-remove11</icon-decorator>
+                    <icon-decorator>decorator-flaticon-remove11</icon-decorator>
                     <icon-small file="true">img/groups/delete_16.png</icon-small>
                     <icon-medium file="true">img/groups/delete_32.png</icon-medium>
                     <icon-large file="true">img/groups/delete_50.png</icon-large>
@@ -955,7 +955,7 @@
                     <description i18n="true">PLUGINS_CORE_GROUPS_ADDUSERS_DESCRIPTION</description>
                     
                     <icon-glyph>flaticon-black302</icon-glyph>
-                    <icon-decorator>flaticon-decorator-add64</icon-decorator>
+                    <icon-decorator>decorator-flaticon-add64</icon-decorator>
                     <icon-small file="true">img/users/add_16.png</icon-small>
                     <icon-medium file="true">img/users/add_32.png</icon-medium>
                     <icon-large file="true">img/users/add_48.png</icon-large>
@@ -979,7 +979,7 @@
                     <description i18n="true">PLUGINS_CORE_GROUPS_REMOVEUSERS_DESCRIPTION</description>
                     
                     <icon-glyph>flaticon-black302</icon-glyph>
-                    <icon-decorator>flaticon-decorator-remove11</icon-decorator>
+                    <icon-decorator>decorator-flaticon-remove11</icon-decorator>
                     <icon-small file="true">img/users/delete_16.png</icon-small>
                     <icon-medium file="true">img/users/delete_32.png</icon-medium>
                     <icon-large file="true">img/users/delete_48.png</icon-large>
@@ -1080,7 +1080,7 @@
                     <no-right-description>PLUGINS_CORE_PROFILES_DESCRIPTION_NO_RIGHT</no-right-description>
                     
                     <icon-glyph>flaticon-id16</icon-glyph>
-                    <icon-decorator>flaticon-decorator-add64</icon-decorator>
+                    <icon-decorator>decorator-flaticon-add64</icon-decorator>
                     <icon-small file="true">img/profiles/add_16.gif</icon-small>
                     <icon-medium file="true">img/profiles/add_32.gif</icon-medium>
                     <icon-large file="true">img/profiles/add_50.gif</icon-large>
@@ -1105,7 +1105,7 @@
                     <no-selection-description i18n="true">PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
                     
                     <icon-glyph>flaticon-id16</icon-glyph>
-                    <icon-decorator>flaticon-decorator-text1</icon-decorator>
+                    <icon-decorator>decorator-flaticon-text1</icon-decorator>
                     <icon-small file="true">img/profiles/rename_16.gif</icon-small>
                     <icon-medium file="true">img/profiles/rename_32.gif</icon-medium>
                     <icon-large file="true">img/profiles/rename_50.gif</icon-large>
@@ -1130,7 +1130,7 @@
                     <no-selection-description i18n="true">PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
                     
                     <icon-glyph>flaticon-id16</icon-glyph>
-                    <icon-decorator>flaticon-decorator-remove11</icon-decorator>
+                    <icon-decorator>decorator-flaticon-remove11</icon-decorator>
                     <icon-small file="true">img/profiles/delete_16.gif</icon-small>
                     <icon-medium file="true">img/profiles/delete_32.gif</icon-medium>
                     <icon-large file="true">img/profiles/delete_50.gif</icon-large>
@@ -1188,7 +1188,7 @@
                     <description i18n="true">PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS_DESCRIPTION</description>
                     <no-selection-description i18n="true">PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
                     
-                    <icon-glyph>flaticon-save31</icon-glyph>
+                    <icon-glyph>editor-save31</icon-glyph>
                     <icon-small file="true">img/profiles/save_16.png</icon-small>
                     <icon-medium file="true">img/profiles/save_32.png</icon-medium>
                     <icon-large file="true">img/profiles/save_48.png</icon-large>
@@ -1218,8 +1218,8 @@
                     <description i18n="true">PLUGINS_CORE_PROFILES_DONT_SAVE_MODIFICATIONS_DESCRIPTION</description>
                     <no-selection-description i18n="true">PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
                     
-                    <icon-glyph>flaticon-save31</icon-glyph>
-                    <icon-decorator>flaticon-decorator-remove11</icon-decorator>
+                    <icon-glyph>editor-save31</icon-glyph>
+                    <icon-decorator>decorator-flaticon-remove11</icon-decorator>
                     <icon-small file="true">img/profiles/unsave_16.png</icon-small>
                     <icon-medium file="true">img/profiles/unsave_32.png</icon-medium>
                     <icon-large file="true">img/profiles/unsave_48.png</icon-large>

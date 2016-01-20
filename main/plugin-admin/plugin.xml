@@ -122,7 +122,7 @@
                     <description i18n="true">PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_ADD_DESC</description>
 
                     <icon-glyph>flaticon-megaphone19</icon-glyph>
-                    <icon-decorator>flaticon-decorator-add202</icon-decorator>
+                    <icon-decorator>decorator-flaticon-add202</icon-decorator>
                     <icon-small file="true">img/system/add_announcement_16.png</icon-small>
                     <icon-medium file="true">img/system/add_announcement_32.png</icon-medium>
                     <icon-large file="true">img/system/add_announcement_48.png</icon-large>
@@ -144,7 +144,7 @@
                     <description i18n="true">PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_EDIT_DESC</description>
 
                     <icon-glyph>flaticon-megaphone19</icon-glyph>
-                    <icon-decorator>flaticon-decorator-edit45</icon-decorator>
+                    <icon-decorator>decorator-flaticon-edit45</icon-decorator>
                     <icon-small file="true">img/system/edit_announcement_16.png</icon-small>
                     <icon-medium file="true">img/system/edit_announcement_32.png</icon-medium>
                     <icon-large file="true">img/system/edit_announcement_48.png</icon-large>
@@ -170,7 +170,7 @@
                     <description i18n="true">PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DELETE_DESC</description>
 
                     <icon-glyph>flaticon-megaphone19</icon-glyph>
-                    <icon-decorator>flaticon-decorator-remove11</icon-decorator>
+                    <icon-decorator>decorator-flaticon-remove11</icon-decorator>
                     <icon-small file="true">img/system/delete_announcement_16.png</icon-small>
                     <icon-medium file="true">img/system/delete_announcement_32.png</icon-medium>
                     <icon-large file="true">img/system/delete_announcement_48.png</icon-large>
@@ -497,7 +497,7 @@
                     <label i18n="true">PLUGINS_ADMIN_PLUGINS_SAVE_CHANGES_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_PLUGINS_SAVE_CHANGES_DESC</description>
 
-                    <icon-glyph>flaticon-save31</icon-glyph>
+                    <icon-glyph>editor-save31</icon-glyph>
                     <icon-small file="true">img/plugins/save_16.png</icon-small>
                     <icon-medium file="true">img/plugins/save_32.png</icon-medium>
                     <icon-large file="true">img/plugins/save_48.png</icon-large>
@@ -520,8 +520,8 @@
                     <label i18n="true">PLUGINS_ADMIN_PLUGINS_CANCEL_CHANGES_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_PLUGINS_CANCEL_CHANGES_DESC</description>
 
-                    <icon-glyph>flaticon-save31</icon-glyph>
-                    <icon-decorator>flaticon-decorator-remove11</icon-decorator>
+                    <icon-glyph>editor-save31</icon-glyph>
+                    <icon-decorator>decorator-flaticon-remove11</icon-decorator>
                     <icon-small file="true">img/plugins/unsave_16.png</icon-small>
                     <icon-medium file="true">img/plugins/unsave_32.png</icon-medium>
                     <icon-large file="true">img/plugins/unsave_48.png</icon-large>
@@ -615,7 +615,7 @@
                     <description i18n="true">PLUGINS_ADMIN_TOOL_LOGS_LEVEL_DESC</description>
                     
                     <icon-glyph>flaticon-log1</icon-glyph>
-                    <icon-decorator>flaticon-decorator-gear39</icon-decorator>
+                    <icon-decorator>decorator-flaticon-gear39</icon-decorator>
                     <icon-small file="true">img/logs/loglevel_16.png</icon-small>
                     <icon-medium file="true">img/logs/loglevel_32.png</icon-medium>
                     <icon-large file="true">img/logs/loglevel_48.png</icon-large>
@@ -637,7 +637,7 @@
                     <description i18n="true">PLUGINS_ADMIN_TOOL_LOGS_LEVEL_DESC</description>
                     
                     <icon-glyph>flaticon-log1</icon-glyph>
-                    <icon-decorator>flaticon-decorator-gear39</icon-decorator>
+                    <icon-decorator>decorator-flaticon-gear39</icon-decorator>
                     <icon-small file="true">img/logs/loglevel_16.png</icon-small>
                     <icon-medium file="true">img/logs/loglevel_32.png</icon-medium>
                     <icon-large file="true">img/logs/loglevel_48.png</icon-large>
@@ -701,7 +701,7 @@
                     <description i18n="true">PLUGINS_ADMIN_LOGS_DELETE_DESC</description>
 
                     <icon-glyph>flaticon-log1</icon-glyph>
-                    <icon-decorator>flaticon-decorator-remove11</icon-decorator>
+                    <icon-decorator>decorator-flaticon-remove11</icon-decorator>
                     <icon-small file="true">img/logs/delete_16.png</icon-small>
                     <icon-medium file="true">img/logs/delete_32.png</icon-medium>
                     <icon-large file="true">img/logs/delete_48.png</icon-large>
@@ -1079,8 +1079,8 @@
                     <label i18n="true">PLUGINS_ADMIN_CONFIG_HANDLE_SAVE</label>
                     <description i18n="true">PLUGINS_ADMIN_CONFIG_HANDLE_SAVE_DESC</description>
                     
-                    <icon-glyph>flaticon-save31</icon-glyph>
-                    <icon-decorator>flaticon-decorator-gear39</icon-decorator>
+                    <icon-glyph>editor-save31</icon-glyph>
+                    <icon-decorator>decorator-flaticon-gear39</icon-decorator>
                     <icon-small file="true">img/config/save_16.png</icon-small>
                     <icon-medium file="true">img/config/save_32.png</icon-medium>
                     <icon-large file="true">img/config/save_48.png</icon-large>
