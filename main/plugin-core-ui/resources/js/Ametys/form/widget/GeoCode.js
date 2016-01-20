@@ -359,9 +359,9 @@ Ext.define('Ametys.form.widget.GeoCode', {
 	{
 		value = value || this.getValue();
 		
-		var errors = [];
+		var errors = this.callParent(arguments);
    	
-	   	if (!this.allowBlank && (!value || !value.latitude || !value.longitude))
+	   	if (!this.allowBlank && value && (!value.latitude || !value.longitude))
 	   	{
 	   		errors.push(this.blankText);
 	   	}

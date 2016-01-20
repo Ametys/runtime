@@ -421,9 +421,9 @@ Ext.define('Ametys.form.widget.File', {
     {
     	value = value || this.getValue();
     	
-    	var errors = [];
+    	var errors = this.callParent(arguments);
     	
-    	if (!this.allowBlank && (!value || !value.id))
+    	if (!this.allowBlank && (value && !value.id))
     	{
     		errors.push(this.blankText);
     	}
