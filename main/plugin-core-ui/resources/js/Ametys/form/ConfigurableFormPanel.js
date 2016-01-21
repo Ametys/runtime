@@ -1619,9 +1619,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * @return {Boolean} true is o is an instance of HTMLElement
      */
     _isElement: function isElement(o) {
-          return typeof HTMLElement === "object" ? 
-                o instanceof HTMLElement : //DOM2
-                o && typeof o === "object" && o !== null && o.nodeType === 1 && typeof o.nodeName==="string";
+          return o instanceof HTMLElement ||
+                (o && typeof o === "object" && o !== null && o.nodeType === 1 && typeof o.nodeName==="string");
     },
     
     /**
