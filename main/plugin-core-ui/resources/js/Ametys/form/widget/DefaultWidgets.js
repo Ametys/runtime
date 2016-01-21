@@ -346,16 +346,9 @@ Ext.define('Ametys.cms.form.widget.RichText', {
 			resizable: true,
 			charCounter: true,
 			checkTitleHierarchy: true,
-			
-			settings: {
-				// Theme options
-				theme_advanced_buttons1 : "",
-				theme_advanced_buttons2 : "",
-				theme_advanced_buttons3 : "",
-			
-				content_css: Ametys.form.widget.RichText.RichTextConfiguration.getCSSFiles(),
-				valid_elements: Ametys.form.widget.RichText.RichTextConfiguration.getTags()
-			},
+            
+            editorCSSFile: Ametys.form.widget.RichText.RichTextConfiguration.getCSSFiles(),
+		    validElements: Ametys.form.widget.RichText.RichTextConfiguration.getTags(),
 			
 			validator: function(value)
 			{

@@ -14,7 +14,95 @@
  *  limitations under the License.
  */
 
-.#{$prefix}field-richtext .mceLast
+.#{$prefix}field.#{$prefix}field-richtext 
 {
-    height: 21px;
+    .#{$prefix}field-richtext-wrapper {
+        border-color: $form-field-border-color;
+        border-style: solid;
+        
+        > div.mce-container {
+            height: 100%;
+            border-style: none;
+            
+            > div.mce-container-body {
+                height: 100%;
+            
+                > div.mce-edit-area {
+                    height: 100%;
+                    border-style: none;
+                    
+                    iframe {
+                        height: 100% !important;
+                    }
+                }
+            } 
+            
+        }
+    }
+    
+    .#{$prefix}field-richtext-toolbar {
+        border-color: $form-field-border-color;
+        border-style: none solid solid; 
+    }
+    
+    .#{$prefix}field-richtext-splitter {
+        background-color: transparent;
+        
+        &:before {
+            content: " ";
+            
+            background-color: mix(bottom($form-field-border-color), #FFFFFF, 50%);
+            border-width: 1px;
+            border-style: solid solid none;
+            border-color: bottom($form-field-border-color);
+            
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            
+            height: 6px 
+        }
+        
+        &:after {
+            content: "....";
+            font-size: 18px;
+            line-height: 18px;
+            text-align: center;
+            color: top($form-field-border-color);
+            
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0; 
+        }
+    }
+}
+
+.#{$prefix}field-richtext-resizer {
+    border: 5px solid #CFCFCF;
+}
+
+
+/**
+ * Field colors
+ */
+.a-tool-layout-zoned-focused {
+    @for $i from 1 through length($ametys-tool-tab-colors) {
+        $index: $i - 1;
+    
+        $active-color-dark: nth($ametys-tool-tab-colors-dark, $i);
+        $active-color: nth($ametys-tool-tab-colors, $i);
+        $active-color-light: nth($ametys-tool-tab-colors-light, $i);
+        
+        &.a-tool-layout-zoned-panel-#{$index*10} {
+
+            .#{$prefix}field.#{$prefix}field-focus.#{$prefix}field-richtext 
+            {
+                .#{$prefix}field-richtext-wrapper, .#{$prefix}field-richtext-toolbar {
+                    border-color: $active-color;
+                }
+            }
+        }
+    }
 }

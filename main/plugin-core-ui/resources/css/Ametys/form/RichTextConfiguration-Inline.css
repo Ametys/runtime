@@ -13,11 +13,36 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+
+html
+{
+    height: 100%;
+    box-sizing: border-box;
+}
  
 body.mceContentBody
 {
 	font-family:Arial,Helvetica,sans-serif;
 	font-size:12px;
+    background-color: #FFF;
+}
+
+html.preview
+{
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+html.preview body.mceContentBody
+{
+    margin-left: auto !important;
+    margin-right: auto !important;
+    
+    /* let's simulate a padding and a border, with a border and a shadow - to avoid collision with the potential skin body padding */
+    border: 10px solid #FFF;
+    -moz-box-shadow: 0 0 0 1px #c6c6c6;
+    -webkit-box-shadow: 0 0 0 1px #c6c6c6;
+    -o-box-shadow: 0 0 0 1px #c6c6c6;
+    box-shadow: 0 0 0 1px #c6c6c6;
 }
 
 /* -------------

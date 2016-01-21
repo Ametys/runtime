@@ -84,6 +84,7 @@ Ext.define('Ametys.form.AbstractField', {
     {
         config = config || {};
         config.cls = Ext.Array.from(config.cls);
+        config.cls.push("x-field");
         config.cls.push(this.getDefaultCls());
         
         config.listeners = config.listeners || {};

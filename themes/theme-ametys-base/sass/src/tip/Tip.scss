@@ -42,11 +42,9 @@
     text-align: center;
     border: 1px solid $ametys-tooltip-imageborder-color;
     position: relative;
-}
-
-.#{$prefix}fluent-tooltip-img img
-{
-    vertical-align: middle;
+    
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .#{$prefix}fluent-tooltip-glyph {

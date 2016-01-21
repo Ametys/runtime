@@ -360,6 +360,12 @@
     <message key="PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_1">Caractères :</message>
     <message key="PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_2">sur</message>
     <message key="PLUGINS_CORE_UI_FIELD_RICH_TEXT_HIERARCHY_ERROR">La hiérarchie des titres est incorrecte.&lt;br/&gt;Vous ne devez pas saisir de Titre 2 avant un Titre 1 (et ainsi de suite).&lt;br/&gt;Des problèmes graphiques ou d'accessibilité du contenu peuvent subvenir si vous enregistrez en l'état.</message>
+    <message key="PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_PREVIEW_TOOLTIP_TITLE">Mode prévisualisation</message>
+    <message key="PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_PREVIEW_TOOLTIP_TEXT">Ce mode permet d'éditer le contenu avec la vue la plus proche du rendu final puisque la largeur de l'éditeur en ligne est adaptée</message>
+    <message key="PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_FULLPAGE_TOOLTIP_TITLE">Mode pleine-page</message>
+    <message key="PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_FULLPAGE_TOOLTIP_TEXT">Ce mode permet d'éditer le contenu avec une apparence proche du rendu final avec une zone d'édition qui prend toute la largeur disponible</message>
+    <message key="PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_SOURCE_TOOLTIP_TITLE">Mode code HTML</message>
+    <message key="PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_SOURCE_TOOLTIP_TEXT">Ce mode permet d'éditer directement le code HTML du contenu. Attention, car seulement certaines balises et attibuts sont autorisés.</message>
     
     <message key="PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE">Traitement en cours. Veuillez patienter ...</message>
     <message key="PLUGINS_CORE_UI_LOADSCRIPT_SUCCESS">Chargement du fichier </message>

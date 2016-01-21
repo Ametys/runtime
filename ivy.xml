@@ -89,7 +89,7 @@ Open source web application framework based on Apache Cocoon.
     <dependency org="xalan" name="xalan" rev="2.7.2" conf="common_dependencies->default"/>
     
     <!-- Runtime -->
-    <dependency org="tiny_mce" name="tiny_mce" rev="3.5.11-ametys-2" conf="runtime_dependencies->default"/>
+    <dependency org="tiny_mce" name="tiny_mce" rev="4.3.2" conf="runtime_dependencies->default"/>
     <dependency org="codemirror" name="codemirror" rev="3.24-ametys-2" conf="runtime_dependencies->default"/> 
     <dependency org="org.sencha" name="extjs6" rev="6.0.1" conf="runtime_dependencies->default"/>
 	

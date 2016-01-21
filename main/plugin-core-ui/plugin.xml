@@ -1059,25 +1059,6 @@
                     <category>PLUGINS_CORE_RIGHTS_DEV_CATEGORY</category>
                 </right>
             </extension>
-    		<extension id="org.ametys.runtime.editor.SourceEdit"
-    				   point="org.ametys.core.ui.RibbonControlsManager"
-    				   class="org.ametys.core.ui.StaticClientSideElement">
-				<class name="Ametys.ribbon.element.ui.ButtonController">
-					<action>Ametys.plugins.coreui.system.editor.SourceCodeAction.edit</action>
-					<label i18n="true">PLUGINS_CORE_UI_EDITION_SOURCEEDIT_LABEL</label>
-					<description i18n="true">PLUGINS_CORE_UI_EDITION_SOURCEEDIT_DESCRIPTION</description>
-                    <icon-glyph>flaticon-computing10</icon-glyph>
-					<icon-small file="true">img/editor/source_16.png</icon-small>
-					<icon-medium file="true">img/editor/source_32.png</icon-medium>
-					<icon-large file="true">img/editor/source_32.png</icon-large>
-					<selection-target-type>^field$</selection-target-type>
-					<selection-subtarget-type>^node$</selection-subtarget-type>
-				</class> 
-				<scripts>
-					<file>js/Ametys/plugins/coreui/system/editor/SourceCodeAction.js</file>
-				</scripts>
-				<right>CORE_Rights_SourceEdit</right>
-    		</extension> 
     	</extensions>
     </feature>
     

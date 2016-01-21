@@ -359,6 +359,12 @@
     <message key="PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_1">Characters:</message>
     <message key="PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_2">on</message>
     <message key="PLUGINS_CORE_UI_FIELD_RICH_TEXT_HIERARCHY_ERROR">The title hierarchy is invalid.&lt;br/&gt;You can't enter a Title 2 before a Title 1 (and so on).&lt;br/&gt;Important graphical and accessibility issues can appear if you save now.</message>
+    <message key="PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_PREVIEW_TOOLTIP_TITLE">Preview mode</message>
+    <message key="PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_PREVIEW_TOOLTIP_TEXT">This mode allows to edit the content with the rendering closest to the final rendering as the editor wide is adapted</message>
+    <message key="PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_FULLPAGE_TOOLTIP_TITLE">Fullpage mode</message>
+    <message key="PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_FULLPAGE_TOOLTIP_TEXT">This mode allows to edit the content with a looking close to the final rendering with an edition zone as wide as possible</message>
+    <message key="PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_SOURCE_TOOLTIP_TITLE">HTML code mode</message>
+    <message key="PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_SOURCE_TOOLTIP_TEXT">This mode allows to directly edit the HTML code of the content. Becareful, only a defined list of tags and attributes are allowed.</message>
     
     <message key="PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE">Loading. Please wait...</message>
     <message key="PLUGINS_CORE_UI_LOADSCRIPT_SUCCESS">File loaded </message>

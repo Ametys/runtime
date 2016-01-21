@@ -52,8 +52,8 @@
         <xsl:param name="plugins-wrapped-prefix">/_plugins</xsl:param>
 		<xsl:param name="authorized-browsers">
 		     {
-		          'supported': { 'ie': '8-0', 'ff': '12-0', 'sa': '6-0', ch: '18-0', 'op': '12-0' },
-		          'not-supported': { 'ie': '0-7', 'ff': '0-11', 'sa': '0-5', 'ch': '0-17', 'op': '0-11' },
+		          'supported': { 'ie': '9-0', 'ff': '12-0', 'sa': '6-0', ch: '18-0', 'op': '12-0' },
+		          'not-supported': { 'ie': '0-8', 'ff': '0-11', 'sa': '0-5', 'ch': '0-17', 'op': '0-11' },
 		  		  'failure-redirection': "/_admin/public/browser-unsupported.html"
 		     }
 		</xsl:param>
@@ -157,9 +157,10 @@
         <script>/plugins/core-ui/resources/js/Ametys/form/field/ChangePassword.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/form/field/ReferencedNumberField.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/form/field/RichText.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/form/field/RichText/SplitterTracker.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/form/field/TextArea.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/form/field/ColorSelector.js</script>
-        <script>/plugins/tiny_mce/resources/js/tiny_mce<xsl:if test="$debug-mode">_src</xsl:if>.js</script>
+        <script>/plugins/tiny_mce/resources/js/tinymce<xsl:if test="not($debug-mode)">.min</xsl:if>.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/form/field/Code.js</script>
         <script>/plugins/codemirror/resources/js/codemirror.js</script>
         <script>/plugins/codemirror/resources/js/addon/edit/matchbrackets.js</script>

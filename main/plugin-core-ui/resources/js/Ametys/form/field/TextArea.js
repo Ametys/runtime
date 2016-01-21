@@ -49,7 +49,7 @@
 				'<div id="{id}-counter-wrapper" class="' + this.charCounterWrapperCls + '">',
 		 			'<span id="{id}-counter" class="' + this.charCounterCls + '">',
 		 				'<i18n:text i18n:key="PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_1"/> ',
-		 				'<span id="{id}-counter-val">0</span>',
+		 				'<span id="{id}-counter-val" class="char-counter-value">0</span>',
 		 				(config.maxLength == null ? '' : (' <i18n:text i18n:key="PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_2"/> ' + config.maxLength)),
 		 			'</span>',
 				'</div>'
@@ -76,20 +76,21 @@
         if (counter != null)
         {
             counter.innerHTML = count;
+            
+            // is there a maxlength ?
+            if (this.maxLength != Number.MAX_VALUE)
+            {
+                if (count > this.maxLength)
+                {
+                    Ext.get(counter).parent().addCls(this.charCounterMaxExceededCls);
+                }
+                else
+                {
+                    Ext.get(counter).parent().removeCls(this.charCounterMaxExceededCls);
+                }
+            }
         }
         
-        // is there a maxlength ?
-        if (this.maxLength != Number.MAX_VALUE)
-        {
-            if (count > this.maxLength)
-            {
-                Ext.get(counter).addCls(this.charCounterMaxExceededCls);
-            }
-            else
-            {
-                Ext.get(counter).removeCls(this.charCounterMaxExceededCls);
-            }
-        }
     } 	
  });
  

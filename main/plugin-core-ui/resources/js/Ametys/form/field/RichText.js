@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Anyware Services
+ *  Copyright 2015 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -16,53 +16,72 @@
 
 /**
  * Field that displays a richtext.
- * Requires tinymce (version 3) to be loaded.
- * See http://www.tinymce.com/wiki.php/TinyMCE3x:TinyMCE_3.x to have documentation on it.
+ * Requires tinymce (version 4) to be loaded.
+ * See http://www.tinymce.com to have documentation on it.
  */
 Ext.define('Ametys.form.field.RichText', {
-    extend: 'Ext.form.field.TextArea',
+    extend: 'Ametys.form.AbstractField',
     alias: ['widget.richtextfield', 'widget.richtext'],
     alternateClassName: ['Ext.form.RichTextField', 'Ext.form.RichText', 'Ext.form.field.RichText'],
     
     statics: {
+        /** 
+         * @property {Number} _MIN_HEIGHT The min value for the minHeight configuration
+         * @readonly
+         * @private
+         */ 
+        _MIN_HEIGHT: 100,
+        
+        /**
+         * @property {Number} __DEFAULT_HEIGHT The default height value
+         * @readonly
+         * @private
+         */
+        _DEFAULT_HEIGHT: 200,
+        
         /**
          * @readonly
          * @property {RegExp} FILTER_TAGS The regular expression used to filter editor tags (to count characters).
          * @private
          */
-        FILTER_TAGS: new RegExp("(<p( [^>]+)?>" + String.fromCharCode(0xA0) + "<\/p>)|(<[^>]*>)|(\r?\n)", "g")
+        FILTER_TAGS: new RegExp("(<p( [^>]+)?>" + String.fromCharCode(0xA0) + "<\/p>)|(<[^>]*>)|(\r?\n)", "g")        
     },
     
     /**
-     * @cfg {String[]} settings Settings that will be transmitted to tinymce to create the editor. See http://www.tinymce.com/wiki.php/Configuration3x.
-     * They are many default settings.
-     * Example:
-     * 
-     *      settings: {
-     *      	content_css: "style1.css,style2.css",
-     *      }
-     *      
-     * You cannot bind the "setup" setting: use a listener on initialization.
+     * @property {String} richtextCls The base class for richtext
+     * @private
      */
+    richtextCls: "x-field-richtext",
+    
     /**
-     * @property {Object} _settings The settings to init the editor. See #cfg-settings.
+     * @property {Boolean} _editorInitialized=false Has the editor been initialized?
+     * @private
+     */
+    _editorInitialized: false,
+
+    /**
+     * @property {String} _editorId The editor identifier
      * @private
      */
     
     /**
-     * @cfg {Boolean} charCounter=false Show the char counter.
+     * @private
+     * @property {Object} _availableModes A list of available editor modes.
+     * @property {Boolean} _availableModes.preview When true the preview mode is available.
+     * @property {Boolean} _availableModes.full When true the full mode is available.
      */
     /**
-     * @cfg {String} warning Display a warning in the statusbar. Can be used when the richtext width is generally fixed (to the rendered size) but is not in some cases.
+     * @private
+     * @property {String} _currentMode One of the #_availableModes keys.
      */
     /**
-     * @cfg {Boolean} checkTitleHierarchy When true, a warning is displayed if the title hierarchy is wrong (h2 before h1...)
+     * @private
+     * @property {Number} _maxLength See #cfg-maxLength
      */
-    
     /**
-     * @cfg {Number} wysiwygWidth=0 if greater than 0, the width of input will be fixed to this value.
+     * @property _annotations See #cfg-annotations
+     * @private
      */
-    
     /**
      * @private
      * @property {Number} _updateEvery Time in ms between an event on the editor and the time the counter is updating (to prevent too many updates). This will vary in the life time of the editor: a big content will auto increase this value
@@ -70,284 +89,578 @@ Ext.define('Ametys.form.field.RichText', {
     _updateEvery: 1000,
     /**
      * @private
-     * @property {String} _editorContent A cached value of the current editor content, may be null.
-     */
-    _editorContent: null,
-    /**
-     * @private
      * @property {Number} _charCount A cached value of the current character count in the editor, -1 if unknown.
      */
-    _charCount: -1,
+    _charCount: -1, 
     /**
      * @private
      * @property {Object} _counting The timeout object of a pending recount of the characters
      */
     /**
      * @private
-     * @property {Boolean} _notFirstCallToOnRichTextNodeSelected=false This value is false until the editor is selected once. Stays true after.
+     * @property {Number} _suspended The number of times the transmission was suspended. 0 means transmission of selection events between tinymce and the ribbon are not suspended. Cannot be negative.
      */
-    _notFirstCallToOnRichTextNodeSelected: false,
-    
-	/**
-     * @property {Boolean} _editorInitialized=false Has the editor been initialized?
-     */
-    _editorInitialized: false,
-    
-	/**
-	 * @private
-	 * @property {Number} _suspended The number of times the transmission was suspended. 0 means transmission of selection events between tinymce and the ribbon are not suspended. Cannot be negative.
-	 */
-	_suspended: 0,
-	
-	/**
-	 * @cfg {Boolean/String} resizable=false True to let the user resize the editor. "vertical" to only allow a vertical resize
-	 */
-	/**
-	 * @property {Function} _bindedOnEditorResized The method _onEditorResized binded to the current object. Saved to unbind at destroy time.
-	 * @private
-	 */
-	/**
-	 * @property {Object} _editorDiffSize The differential of size between the whole field and the editor inside
-	 * @property {Number} _editorDiffSize.width The width in pixel of difference between the whole field width and the editor width
-	 * @property {Number} _editorDiffSize.height The width in pixel of difference between the whole field width and the editor height
-	 * @private
-	 */
-	
-	/**
-    * @cfg {Object[]} annotations List of available semantic annotations for this RichText
-    * @cfg {Object} annotations.name Unique name of the semantic annotation
-    * @cfg {Object} annotations.label Display name of the semantic annotation
-    * @cfg {Object} annotations.description Description of the semantic annotation
-    */
-	
-	/**
-	 * @property _annotations See #cfg-annotations
-	 * @private
-	 */
-	_annotations: [],
-	
-    /**
-     * @cfg {Number} maxLength
-     * Maximum input field length allowed by validation.
-     * Defaults to Number.MAX_VALUE.
-     */
+    _suspended: 0,
     /**
      * @private
-     * @property {Number} _maxLength The maximum input field length allowed by validation. Defaults to Number.MAX_VALUE.
-     * N.B: the maxLength default configuration field is forced to Number.MAX_VALUE to disable default Textarea validation.
+     * @property {String} charCounterCls The css classname for the counter
      */
-    _maxLength: Number.MAX_VALUE,
+    charCounterCls: 'char-counter',
+    /**
+     * @private
+     * @property {String} charCounterValueCls The css classname for the counter value
+     */
+    charCounterValueCls: 'char-counter-value',
+    /**
+     * @private
+     * @property {String} charCounterCountingCls The css classname for the counter when counting operation is proceeding
+     */
+    charCounterCountingCls: 'char-count-counting',
+    /**
+     * @private
+     * @property {String} charCounterMaxExceededCls The css classname when the max number of characters was exceeded
+     */
+    charCounterMaxExceededCls: 'char-count-maxexceed',
     
-    constructor: function(config)
-    {
-    	this._checkTinyMCE();
-    	this._enhanceTinyMCE();
-    	
-    	var resizable = config.resizable;
-    	config.resizable = false;
-    	
-    	var MINHEIGHT = 100;
-    	config = Ext.applyIf(config, {
-    		height: 200,
-    		minHeight: MINHEIGHT
-    	});
-    	
-    	config.minHeight = Math.max(config.minHeight, MINHEIGHT);
-    	config.height = Math.max(config.height, config.minHeight);
-    	
-    	var withBBar = config.warning || config.charCounter;
-    	var tinyMinHeight = config.minHeight - (withBBar ? 23 : 0);
-    	
-    	if (Ext.isNumber(config.wysiwygWidth) && config.wysiwygWidth > 0)
-    	{
-    		config.width = config.wysiwygWidth; // fix width
-    		config.resizable = 'vertical'; // allows only vertical resize
-    	}
-    	
-    	config.liquidLayout = false; // allows the textarea to call the template method afterComponentLayout
-    	
-    	this.callParent(arguments);
-    	
-    	this._settingsProperty = Ext.apply({
-	    		document_base_url: Ametys.CONTEXT_PATH + "/",
-	    		language: Ametys.LANGUAGE_CODE,
-	    		mode: "none",
-	    		height: config.height,
-	    		min_height: tinyMinHeight,
-
-				// Settings
-	    		doctype: "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">",
-				entity_encoding : 'raw',
-				fix_list_elements : true,
-				fix_table_elements : true,
-				fix_nesting : true,
-				verify_css_classes : false,
-				gecko_spellcheck : true,	    		
-				paste_strip_class_attributes: "mso",
-				paste_remove_styles: true,
-				relative_urls : false,
-				remove_script_host: false,
-				strict_loading_mode : true,
-				readonly: config.disabled,
-				
-				theme: 'advanced',
-				theme_advanced_toolbar_location: "none",
-				theme_advanced_statusbar_location : withBBar ? "bottom" : "none",
-				theme_advanced_path : false,
-				theme_advanced_resizing : resizable ? true: false,
-				theme_advanced_resize_horizontal : resizable != "vertical" ? true: false,
-				theme_advanced_resizing_use_cookie: false,
-				theme_advanced_resizing_min_height: tinyMinHeight,
-				
-	    		// The plugins to load
-	    		plugins: 'table,paste,noneditable,autolink'
-	    	}, 
-	    	config.settings || {}
-	    );
-    	this._settingsProperty.setup = Ext.bind(this._onEditorSetup, this);
+    /** 
+     * @cfg {String/Object} layout
+     * @private 
+     */
+    layout: { 
+        type: 'vbox',
+        align: 'stretch'
     },
     
-    /**
-     * Initialize the maximum length.
+    focusable: true,
+    
+    config: {
+        /**
+         * @cfg {Boolean} readOnly true to prevent the user from changing the field
+         */
+        readOnly: false
+    },
+
+    /** 
+     * @cfg {Object/Object[]} items
+     * @private 
      */
-    initComponent: function()
+     
+     
+     
+     
+    /**
+     * @cfg {Object[]} annotations List of available semantic annotations for this RichText
+     * @cfg {String} annotations.name Unique name of the semantic annotation
+     * @cfg {String} annotations.label Display name of the semantic annotation
+     * @cfg {String} annotations.description Description of the semantic annotation
+     */
+     
+    /**
+     * @cfg {String/String[]} editorCSSFile Can be a simple file URL, a comma separated list of file URLs or an array of file URLs. Theses files are CSS files that will be loaded into the editor
+     * @cfg {String} editorBodyClass=mceConentBody The class set on the editor body tag.
+     */
+    
+    /**
+     * @cfg {String} validElements See tinyMCE valid_elements configuration
+     */
+
+    /**
+     * @cfg {Number} minHeight @inheritdoc
+     * The minimum valeur for this argument is Ametys.form.field.RichText#_MIN_HEIGHT. So you cannot have a very small richtext even if you set a small minHeight value.
+     */
+     
+    /**
+     * @cfg {Number} wysiwygWidth=0 if greater than 0, the width of the editor will be fixed to this value. And the "preview" mode will be available and set by default.
+     */
+     
+    /**
+     * @cfg {Number} maxLength=Number.MAX_VALUE Maximum input field length allowed by validation.
+     */
+    /**
+     * @cfg {Boolean} charCounter=false Show the char counter
+     */
+    /**
+     * @cfg {Boolean} checkTitleHierarchy=false When true, a warning is displayed if the title hierarchy is wrong (h2 before h1...)
+     */
+    /**
+     * @cfg {Boolean/String} editableSource=false When true or "true", the source code become editable in the editor
+     */
+     
+    constructor: function(config)
+    {
+        this._checkTinyMCE();
+        this._enhanceTinyMCE();
+        
+        this._availableModes = { preview: false, full: true, source: false };
+        this._currentMode = "full";
+        this._editorId = Ext.id(null, "editor-");
+        
+        config.cls = Ext.Array.from(config.cls);
+        config.cls.push(this.richtextCls);
+        config.minHeight = Math.max(config.minHeight || 0, Ametys.form.field.RichText._MIN_HEIGHT);
+        config.height = Ext.Number.constrain(config.height || Ametys.form.field.RichText._DEFAULT_HEIGHT, config.minHeight, config.maxHeight);
+        config.id = config.id || Ext.id();
+        
+        this._maxLength = Ext.isNumber(config.maxLength) ? config.maxLength : Number.MAX_VALUE;
+        this._annotations = Ext.Array.from(config.annotations);
+        
+        config.items = [
+            { 
+                xtype: 'container', 
+                itemId: 'card', 
+                layout: 'card', 
+                flex: 1,
+                items: [
+                    { xtype: 'component', itemId: 'wrapper', cls: this.richtextCls + '-wrapper', scrollable: false, border: true, html: "<div id=\"" + this._editorId + "\"></div>" },
+                    { xtype: 'code', itemId: 'source', isField: false, listeners: { change: Ext.bind(this._onUpdate, this) } }
+                ]
+            }
+        ];
+        
+        var toolbarItems = [];
+        
+        var align = 'left';
+        
+        // char counter
+        if (config.charCounter === true)
+        {
+            toolbarItems.push({ 
+                xtype: 'component', 
+                cls: this.charCounterCls,
+                html: "<i18n:text i18n:key='PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_1'/> "
+                     +    '<span id="' + config.id + '-counter-val' + '" class="' + this.charCounterValueCls + '">?</span>'
+                     +    (this._maxLength == Number.MAX_VALUE ? '' : (" <i18n:text i18n:key='PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_2'/> " + this._maxLength)) 
+            });
+        }
+        
+        // Resize handling
+        if (config.resizable)
+        {
+            toolbarItems.push({ xtype: 'component', flex: 1 });
+            toolbarItems.push({ 
+                xtype: 'splitter',
+                cls: this.richtextCls + "-splitter",
+                border: true,
+                performCollapse: false, 
+                collapseDirection: 'top', 
+                collapseTarget: 'prev', 
+                width: 40, 
+                size: '100%', 
+                tracker: { xclass: 'Ametys.form.field.RichText.SplitterTracker', componentToResize: this } 
+            });
+            toolbarItems.push({ xtype: 'component', flex: 1 });
+            align = 'right';
+        }
+        config.resizable = false; // the wrapping component is not rezisable by it self
+        
+        // Resize modes
+        if (Ext.isNumber(config.wysiwygWidth) && config.wysiwygWidth > 0)
+        {
+            if (align != 'right')
+            {
+                toolbarItems.push({ xtype: 'component', flex: 1 });
+                align = 'right'
+            }
+            
+            toolbarItems.push({ 
+                xtype: 'button', 
+                cls: 'a-btn-light',
+                iconCls: 'flaticon-document209 decorator-flaticon-world91',
+                tooltip: {
+                    glyphIcon: 'flaticon-document209',
+                    iconDecorator: 'decorator-flaticon-world91',
+                    title: "<i18n:text i18n:key='PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_PREVIEW_TOOLTIP_TITLE'/>",
+                    text: "<i18n:text i18n:key='PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_PREVIEW_TOOLTIP_TEXT'/>",
+                    anchor: "br-tr",
+                    inribbon: false
+                },
+                enableToggle: true,
+                allowDepress: false,
+                pressed: true,
+                toggleGroup: this._editorId + "-mode",
+                handler: Ext.bind(this._setMode, this, ["preview"], false) 
+            });
+            this._availableModes.preview = true;
+            this._currentMode = "preview"
+        }
+        
+        // Creating status bar if required
+        if (toolbarItems.length > 0)
+        {
+            if (align != 'right')
+            {
+                toolbarItems.push({ xtype: 'component', flex: 1 });
+                align = 'right'
+            }
+
+            toolbarItems.push({ 
+                xtype: 'button', 
+                cls: 'a-btn-light',
+                iconCls: 'flaticon-document209',
+                tooltip: {
+                    glyphIcon: 'flaticon-document209',
+                    title: "<i18n:text i18n:key='PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_FULLPAGE_TOOLTIP_TITLE'/>",
+                    text: "<i18n:text i18n:key='PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_FULLPAGE_TOOLTIP_TEXT'/>",
+                    anchor: "br-tr",
+                    inribbon: false
+                },
+                enableToggle: true,
+                allowDepress: false,
+                pressed: this._currentMode == "full",
+                toggleGroup: this._editorId + "-mode",
+                handler: Ext.bind(this._setMode, this, ["full"], false) 
+            });
+            
+            if (config.editableSource === true || config.editableSource === "true")
+            {
+                toolbarItems.push({ 
+                    xtype: 'button', 
+                    cls: 'a-btn-light',
+                    iconCls: 'editor-html25',
+                    tooltip: {
+                        glyphIcon: 'editor-html25',
+                        title: "<i18n:text i18n:key='PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_SOURCE_TOOLTIP_TITLE'/>",
+                        text: "<i18n:text i18n:key='PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_SOURCE_TOOLTIP_TEXT'/>",
+                        anchor: "br-tr",
+                        inribbon: false
+                    },
+                    enableToggle: true,
+                    allowDepress: false,
+                    toggleGroup: this._editorId + "-mode",
+                    handler: Ext.bind(this._setMode, this, ["source"], false) 
+                });
+                this._availableModes.source = true;
+            }
+
+            config.items.push({
+                xtype: 'container',
+                cls: this.richtextCls + "-toolbar",
+                border: true,
+                layout: {
+                    type: 'hbox',
+                    align: 'middle'
+                },
+                items: toolbarItems
+            });
+        }
+        
+        this.callParent(arguments);
+    },
+    
+    getValue: function()
+    {
+        var editor;
+        
+        if (this._currentMode == "source")
+        {
+            // Cache the current editor content.
+            if (this._charCount == -1)
+            {
+                this.value = this.getSourceEditor().getValue();
+                
+                // Filter the tags and compute the character count. 
+                this._charCount = this.value.replace(Ametys.form.field.RichText.FILTER_TAGS, '').length;
+            }
+        }
+        else if (editor = this.getEditor())
+        {
+            // Cache the current editor content.
+            if (this._charCount == -1)
+            {
+                this.value = editor.getContent();
+                
+                // Filter the tags and compute the character count. 
+                this._charCount = this.value.replace(Ametys.form.field.RichText.FILTER_TAGS, '').length;
+            }
+        }
+        
+        return this.callParent(arguments);
+    },
+    
+    setValue: function(value)
     {
         this.callParent(arguments);
         
-        // Force the default maxLength configuration to Number.MAX_VALUE to disable default validation.
-        if (this.maxLength != Number.MAX_VALUE)
+        var editor;
+        if (this._currentMode == "source")
         {
-            this._maxLength = this.maxLength;
-            this.maxLength = Number.MAX_VALUE;
+            this.getSourceEditor().setValue(value);
         }
+        else if (editor = this.getEditor())
+        {
+            editor.setContent(value);
+        }
+    },    
+    
+    /**
+     * @private
+     * Get the underlying tinymce editor (see http://www.tinymce.com/wiki.php/API3:class.tinymce.Editor).
+     * @return {tinymce.Editor} The wrapper tinymce editor object. Can be null before the end of the render process or after the destroy process. 
+     */
+    getEditor: function()
+    {
+        return tinyMCE.get(this._editorId);
+    },
+    
+    /**
+     * @private
+     * Get the frame of the editor. Can be null if the editor is not ready.
+     * @return {Element} The iframe element or null.
+     */
+    getFrameEl: function()
+    {
+        return this.getEditor() ? Ext.get(this.getEditor().contentAreaContainer).first() : null;
+    },
+    
+    /**
+     * @private
+     * Get the window of the editor. Can be null if the editor is not ready.
+     */
+    getWindow: function()
+    {
+        var frame = this.getFrameEl()
+        return frame ? frame.dom.contentWindow : null;
+    },
+    
+    /**
+     * @private
+     * Get the document of the editor. Can be null if the editor is not ready.
+     */
+    getDocument: function()
+    {
+        var window = this.getWindow();
+        return window ? window.document : null;
+    },
+    
+    /**
+     * Get the field for editing source mode
+     * @return {Ext.form.field.Field} The field for source code editing or null if there is no right to edit source
+     * @private 
+     */
+    getSourceEditor: function()
+    {
+        return this.getComponent("card").items.get(1);
+    },
+    
+    getFocusEl: function()
+    {
+        if (this._currentMode == "source")
+        {
+            return this.getSourceEditor().getFocusEl();
+        }
+        else
+        {
+            return this.getFrameEl();
+        }
+    },
+
+    /**
+     * @private
+     * Change the editor mode or reapply the current and disable state
+     * @param {String} mode A constant of #_availableModes. Can be null to (re)apply existing mode
+     */
+    _setMode: function(mode)
+    {
+        var newMode = mode || this._currentMode;
         
-        if (this.annotations)
+        if (this._availableModes[newMode] === true)
         {
-        	this._annotations = this.annotations;
+            var value = this.getValue(); // We have to read this BEFORE changing the mode, to have the correct value
+            
+            this._currentMode = newMode;
+
+            if (this._editorInitialized == false)
+            {
+                // Too soon... this method will be called again automatically after initialization
+                return;
+            }
+            
+            if (newMode == "source")
+            {
+                if (this.getComponent("card").getLayout().getActiveItem() != this.getComponent("card").items.get(1))
+                {
+                    this.getComponent("card").setActiveItem(1);
+                    this.setValue(value); // Transmit the current value to the new edit component
+                }
+                
+                this.getSourceEditor().setReadOnly(this.getReadOnly());
+            }
+            else
+            {
+                if (this.getComponent("card").getLayout().getActiveItem() != this.getComponent("card").items.get(0))
+                {
+                    this.getComponent("card").setActiveItem(0);
+                    this.setValue(value); // Transmit the current value to the new edit component
+                }
+                
+                var domUtils = this.getEditor().dom;
+                
+                var bodyTag = this.getDocument().body;
+                
+                var htmlTag = bodyTag.parentNode;
+                Ext.Object.each(this._availableModes, function(mode) { domUtils.removeClass(htmlTag, mode); });
+                domUtils.addClass(htmlTag, newMode);
+                
+                switch (newMode)
+                {
+                    case "preview":
+                        // Apply #cfg-wysiwygWidth
+                        domUtils.setStyle(bodyTag, "width", this.getInitialConfig("wysiwygWidth") + "px");
+                        break;
+                    case "full":
+                    default:
+                        domUtils.setStyle(bodyTag, "width", null);
+                }
+                
+                // Adapt readonly mode
+                bodyTag.setAttribute('contenteditable', !this.getReadOnly());
+            }
         }
+
     },
     
-    getRawValue: function()
+    updateReadOnly: function(value)
     {
-    	var editor = this.getEditor(); 
-    	if (editor)
-    	{
-    	    // Cache the current editor content.
-    	    if (this._editorContent == null)
-	        {
-    	        this._editorContent = editor.getContent();
-    	        this.inputEl.dom.value = this._editorContent;
-    	        
-    	        // Compute the character count.
-    	        this._computeCharCount(editor);
-	        }
-    	}
-    	
-    	return this.callParent(arguments);
+        this._setMode();
     },
     
-    setRawValue: function(value)
-    {
-    	this.callParent(arguments);
-    	
-    	var editor = this.getEditor(); 
-    	if (editor)
-    	{
-    		editor.setContent(value);
-    	}
-    },
-    
-	/**
-     * @event editorsetcontent
-     * Fires when the editor received new content. This allows to convert storing tags to internal tags.
-     * @param {Ext.form.Field} field The editor field
-     * @param {tinymce.Editor} editor The tinyMCE editor
-     * @param {Object} object A tinymce object
-     * @param {String} object.content The html content
-     */
-     
-    /**
-     * @event editorgetcontent
-     * Fires when the editor received content. This allows to convert internal tags to storing tags.
-     * @param {Ext.form.Field} field The editor field
-     * @param {tinymce.Editor} editor The tinyMCE editor
-     * @param {Object} object A tinymce object
-     * @param {String} object.content The html content
-     */
-     
-    /**
-     * @event editorkeypress
-     * Fires when the editor has a key press.
-     * @param {Ext.form.Field} field The editor field
-     * @param {tinymce.Editor} editor The tinyMCE editor
-     * @param {Object} e The event 
-     */
-     
-    /**
-     * @event editorkeydown
-     * Fires when the editor has a key down.
-     * @param {Ext.form.Field} field The editor field
-     * @param {tinymce.Editor} editor The tinyMCE editor
-     * @param {Object} e The event 
-     */
-     
-    /**
-     * @event editorkeyup
-     * Fires when the editor has a key up.
-     * @param {Ext.form.Field} field The editor field
-     * @param {tinymce.Editor} editor The tinyMCE editor
-     * @param {Object} e The event 
-     */
-     
-    /**
-     * @event editorvisualaid
-     * Fires when the editor pre process the serialization
-     * @param {Ext.form.Field} field The editor field
-     * @param {tinymce.Editor} editor The tinyMCE editor
-     * @param {Object} object The object 
-     */
-     
-    /**
-     * @event editorpreprocess
-     * Fires when the editor pre process the serialization
-     * @param {Ext.form.Field} field The editor field
-     * @param {tinymce.Editor} editor The tinyMCE editor
-     * @param {Object} object The object 
-     */
-     
-    /**
-     * @event editorhtmlnodeselected
-     * Fires when a HTML node is selected in editor
-     * @param {Ext.form.Field} field The editor field
-     * @param {tinymce.Editor} editor The tinyMCE editor
-     * @param {HTMLElement} node The HTML element selected
-     */
-    
-    /**
-     * Overridden to add custom maxLength validation.
-     * @param {Object} value The current field value.
-     */
     getErrors: function(value)
     {
-        var me = this,
-            errors = me.callParent(arguments);
+        var errors = this.callParent(arguments);
         
         // me.callParent called getRawValue, _charCount should always be up-to-date.
-        if (me._charCount > me._maxLength)
+        if (this._charCount > this._maxLength)
         {
-            errors.push(Ext.String.format(me.maxLengthText, me._maxLength));
+            errors.push(Ext.String.format(this.maxLengthText, this._maxLength));
         }
         
         return errors;
+    },    
+    
+    /**
+     * @private
+     * Check if tinymce is correctly loaded and in the right version. Throws an error if it is not the case.
+     */
+    _checkTinyMCE: function()
+    {
+        var me = this;
+        function failure()
+        {
+            var msg = "tinyMCE 4 cannot be found. Please import the js file of tinymce to be able use RichText fields."
+            me.getLogger().error(msg);
+            throw new Error(msg);
+        }
+        
+        try
+        {
+            if (tinyMCE.majorVersion != "4")
+            {
+                failure();
+            }
+        }
+        catch (e)
+        {
+            failure();
+        }
     },
     
     /**
+     * @private
+     * Add methods, and position some path on tinymce
+     */
+    _enhanceTinyMCE: function()
+    {
+        if (!tinyMCE.focus)
+        {
+            tinyMCE.save = function() {};
+            
+            /*
+             * Focus and on IE restore the last bookmarked position
+             */ 
+            tinyMCE.focus = function ()
+            {
+                tinyMCE.activeEditor.focus();
+            };
+            
+            /*
+             * Insert the given html code at the root of the current selection of the current editor
+             * @param {String} html The html code to insert
+             * @param {String} [mode=split] The mode 'split' : to split the current place of the cursor to insert the html ; 'after' to insert after the root element of the current selection ; 'before' idem but before.
+             */
+            tinyMCE.insertHTMLAtRoot = function(html, mode)
+            {
+                mode = mode || 'split';
+                var editor = tinyMCE.activeEditor;
+                
+                var rootelements = 'h1,h2,h3,h4,h5,h6,div,p';
+                
+                var root = editor.dom.getParent(editor.selection.getNode(), rootelements);
+
+                if (mode == 'split' || root == null)
+                {
+                    // UPGRADE tinyMCE 3.3.3 plugins/table/js/table.js insertTable
+                    editor.selection.setContent('<br class="_mce_marker" />');
+                
+                    var patt = '';
+                    tinymce.each(rootelements.split(','), function(n) {
+                        if (patt)
+                            patt += ',';
+                
+                        patt += n + ' ._mce_marker';
+                    });
+                
+                    tinymce.each(editor.dom.select(patt), function(n) {
+                        editor.dom.split(editor.dom.getParent(n, rootelements), n);
+                    });
+                
+                    editor.dom.setOuterHTML(editor.dom.select('br._mce_marker')[0], html);
+                }
+                else
+                {
+                    var br = editor.dom.doc.createElement("br")
+                    root.parentNode.insertBefore(br, mode == 'after' ? root.nextSibling : root);
+                    editor.dom.setOuterHTML(br, html);
+                }
+            }; 
+        }
+    },
+    
+    /**
+     * @private
+     * Check if the title hierarchy in the content is correct
+     * &lt;h1&gt; before any &lt;h2&gt; and so on
+     */
+    _checkTitleHierarchy: function()
+    {
+        var valid = true;
+        
+        var value = this.getValue();
+        
+        var titles = value.match(/<h[123456]/g);
+        if (titles != null)
+        {
+            // Check that there is no h3 after h1, etc.
+            var previousLevel = 0;
+            for (var i = 0; i < titles.length && valid; i++)
+            {
+                var level = parseInt(titles[i].charAt(2));
+                valid = (level - previousLevel) < 2;
+                previousLevel = level;
+            }
+        }
+        
+        return valid;
+    },
+    
+    
+    
+    /**
      * Get the registered semantic annotations
-     * @return {Object[]} The semantic annotations
+     * @return {Object[]} The semantic annotations. See #cfg-annotations for format.
      */
     getSemanticAnnotations: function ()
     {
-    	return this._annotations;
+        return this._annotations;
     },
     
     /**
@@ -356,7 +669,7 @@ Ext.define('Ametys.form.field.RichText', {
      */
     hasSemanticAnnotations : function ()
     {
-    	return this._annotations.length > 0;
+        return this._annotations.length > 0;
     },
     
     /**
@@ -366,458 +679,137 @@ Ext.define('Ametys.form.field.RichText', {
      */
     getSemanticAnnotation: function (name)
     {
-    	for (var i=0; this._annotations.length; i++)
-    	{
-    		if (this._annotations[i].name == name)
-    		{
-    			return this._annotations[i];
-    		}
-    	}
-    	return null;
-    },
-    
-    /**
-     * @private
-     * Check if tinymce is correctly loaded and in the right version. Throws an error if it is not the case.
-     */
-    _checkTinyMCE: function()
-    {
-    	var me = this;
-    	function failure()
-    	{
-    		var msg = "tinyMCE 3 cannot be found. Please import the js file of tinymce to be able use RichText fields."
-    		me.getLogger().error(msg);
-    		throw new Error(msg);
-    	}
-    	
-    	try
-    	{
-    		if (tinyMCE.majorVersion != "3")
-    		{
-    			failure();
-    		}
-    	}
-    	catch (e)
-    	{
-    		failure();
-    	}
-    },
-    
-    /**
-     * @private
-     * Add methods, and position some path on tinymce
-     */
-    _enhanceTinyMCE: function()
-    {
-		if (!tinyMCE.save)
-		{
-			tinyMCE.baseURL = Ametys.CONTEXT_PATH + '/plugins/tiny_mce/resources/js';
-
-			/*
-			 * Bookmark the cursor position for IE
-			 */
-			tinyMCE.save = function(editor)
-			{
-				editor = editor || tinyMCE.activeEditor;
-				if (Ext.isIE)
-				{
-					editor._bookmark = editor.selection.getBookmark(1);
-				}
-			};
-			
-			/*
-			 * Focus and on IE restore the last bookmarked position
-			 */ 
-			tinyMCE.focus = function ()
-			{
-				tinyMCE.activeEditor.focus();
-				if (tinyMCE.activeEditor._bookmark)
-				{
-					tinyMCE.activeEditor.selection.moveToBookmark(tinyMCE.activeEditor._bookmark);
-				}
-			};
-		
-            // Add i18n for the char counter
-            var i18n = {};
-            i18n[Ametys.LANGUAGE_CODE] = { 
-                common: {
-                    charcount_chars: "<i18n:text i18n:key='PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_1'/>", 
-                    charcount_max: "<i18n:text i18n:key='PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_2'/>"
-                }
-            };
-            tinyMCE.addI18n(i18n);
-			
-			/*
-			 * Insert the given html code at the root of the current selection of the current editor
-			 * @param {String} html The html code to insert
-			 * @param {String} [mode=split] The mode 'split' : to split the current place of the cursor to insert the html ; 'after' to insert after the root element of the current selection ; 'before' idem but before.
-			 */
-			tinyMCE.insertHTMLAtRoot = function(html, mode)
-			{
-				mode = mode || 'split';
-				var editor = tinyMCE.activeEditor;
-				
-				var rootelements = 'h1,h2,h3,h4,h5,h6,div,p';
-				
-				var root = editor.dom.getParent(editor.selection.getNode(), rootelements);
-
-				if (mode == 'split' || root == null)
-				{
-					// UPGRADE tinyMCE 3.3.3 plugins/table/js/table.js insertTable
-					editor.selection.setContent('<br class="_mce_marker" />');
-				
-					var patt = '';
-					tinymce.each(rootelements.split(','), function(n) {
-						if (patt)
-							patt += ',';
-				
-						patt += n + ' ._mce_marker';
-					});
-				
-					tinymce.each(editor.dom.select(patt), function(n) {
-						editor.dom.split(editor.dom.getParent(n, rootelements), n);
-					});
-				
-					editor.dom.setOuterHTML(editor.dom.select('br._mce_marker')[0], html);
-				}
-				else
-				{
-					var br = editor.dom.doc.createElement("br")
-					root.parentNode.insertBefore(br, mode == 'after' ? root.nextSibling : root);
-					editor.dom.setOuterHTML(br, html);
-				}
-			};
-            
-            tinyMCE.additionnalCleanUp = function()
-            {
-                function hasAnAuthorizedAttributes(span)
-                {
-                    var attrs = tinyMCE.activeEditor.dom.getAttribs(span); 
-                    for (var i = 0; i < attrs.length; i++)
-                    { 
-                        var attr = attrs[i];
-                        
-                        if (Ametys.form.widget.RichText.RichTextConfiguration._tags["span"].attributes[attr] != null)
-                        {
-                            return true;
-                        }
-                    }
-                    
-                    return false;
-                }
-                
-                // CMS-7006
-                var spans = tinyMCE.activeEditor.dom.select("span");
-                for (var i = 0; i < spans.length; i++)
-                {
-                    var span = spans[i];
-                    if (tinyMCE.activeEditor.dom.getAttrib(span, "style") != "" || !hasAnAuthorizedAttributes(span)) 
-                    {
-                        tinyMCE.activeEditor.dom.remove(span, true);
-                    }
-                }
-            }
-		}
-    },
-    
-    /**
-     * @private
-     * Creates the char counter under the editor. Use #cfg-charCounter
-     * @param {tinymce.Editor} editor The editor object. If null the active editor will be used.
-     */
-    _createCharCounter: function(editor)
-    {
-    	if (this.initialConfig.charCounter !== true)
-    	{
-    		return;
-    	}
-    	
-		// Char counter
-		Ext.get(editor.id + '_path_row').createChild({
-				tag: 'span',
-				cls: 'char-counter',
-				html: editor.getLang('charcount_chars', 'Characters:') + ' '
-					 +    '<span id="' + editor.id + '-counter-val' + '">?</span>'
-					 +    (this._maxLength == Number.MAX_VALUE ? '' : (' ' +  editor.getLang('charcount_max', 'on') + ' ' + this._maxLength)) 
-			}
-		);
-    },
-    
-    /**
-     * @private
-     * Update the char counter under the editor.
-     * @param {tinymce.Editor} editor The editor object.
-     */
-    _updateCharCounter: function(editor)
-    {
-        if (this._charCount > -1)
+        for (var i=0; this._annotations.length; i++)
         {
-            var count = this._charCount;
-            
-            var counter = document.getElementById(editor.editorId + "-counter-val"); 
-            if (counter != null)
+            if (this._annotations[i].name == name)
             {
-                Ext.get(counter).removeCls("char-count-counting");
-                counter.innerHTML = count;
+                return this._annotations[i];
             }
+        }
+        return null;
+    },
+    
+    
+    
+    afterComponentLayout: function(width, height, oldWidth, oldWeight)
+    {
+        this.callParent(arguments);
+        
+        // Creates the tinymce editor
+        if (!this._editorInitialized)
+        {
+            this._editorInitialized = true;
             
-            // is there a maxlength ?
-            if (this._maxLength != Number.MAX_VALUE)
-            {
-                if (count > this._maxLength)
-                {
-                    Ext.get(counter).addCls("char-count-maxexceed");
-                }
-                else
-                {
-                    Ext.get(counter).removeCls("char-count-maxexceed");
-                }
-            }
+            this._createEditor();
         }
     },
     
     /**
      * @private
-     * This listener is called when the internal field state needs to be updated.
-     * @param {tinymce.Editor} [editor] The editor object
+     * Creates the richtext editor
      */
-    _triggerUpdate: function(editor)
+    _createEditor: function()
     {
-        // Invalidate the editor content and current char count.
-        this._editorContent = null;
-        this._charCount = -1;
-        
-		editor = editor || this.getEditor(); 
-		if (editor != null)
-		{
-			var counter = Ext.get(editor.editorId + "-counter-val");
-			if (counter != null)
-			{
-			    counter.addCls("char-count-counting");
-			}
-			
-			if (this._counting != null)
-		    {
-			    window.clearTimeout(this._counting);
-		    }
-			this._counting = window.setTimeout(Ext.bind(this._update, this), this._updateEvery);
-		}
-    },
-    
-    /**
-     * @private
-     * Compute the character count, validate the field and update the counter.
-     * @param {tinymce.Editor} [editor] The editor object. If null the active editor will be used.
-     */
-    _update: function(editor)
-    {
-        // Cancel the running timer if necessary.
-        if (this._counting != null)
-        {
-            window.clearTimeout(this._counting);
-            this._counting = null;
-        }
-        
-		editor = editor || this.getEditor();
-		if (editor != null)
-		{
-			var took = new Date().getTime();
-			
-			// Validate the field (triggers character counting).
-			this.validate();
-			
-			if (this.checkTitleHierarchy) 
-			{
-				if (this._checkTitleHierarchy())
-				{
-					this.clearWarning();
-				}
-				else
-				{
-					this.markWarning("<i18n:text i18n:key='PLUGINS_CORE_UI_FIELD_RICH_TEXT_HIERARCHY_ERROR'/>");
-				}
-			}
-			
-			// Update the counter.
-			this._updateCharCounter(editor);
-		    
-			var took2 = new Date().getTime();
-			editor._updateEvery = Math.max(took2 - took, 1000);
-		}    	
-    },
+        tinymce.init({
+            document_base_url: Ametys.CONTEXT_PATH + "/",
+            language: Ametys.LANGUAGE_CODE,
+            selector: "#" + this.getComponent("card").getComponent("wrapper").getEl().down("div").getId(),
 
-    /**
-     * @private
-     * Check if the title hierarchy in the content is correct
-     * &lt;h1&gt; before any &lt;h2&gt; and so on
-     */
-    _checkTitleHierarchy: function()
-    {
-	    var valid = true;
-	    
-	    var value = this.getValue();
-	    
-	    var titles = value.match(/<h[123456]/g);
-	    if (titles != null)
-	    {
-	        // Check that there is no h3 after h1, etc.
-	        var previousLevel = 0;
-	        for (var i = 0; i < titles.length && valid; i++)
-	        {
-	            var level = parseInt(titles[i].charAt(2));
-	            valid = (level - previousLevel) < 2;
-	            previousLevel = level;
-	        }
-	    }
-	    
-	    return valid;
+            entity_encoding : 'raw',
+            fix_list_elements : true,
+            browser_spellcheck : true,              
+            paste_data_images: true,
+            paste_webkit_styles: "none",
+            paste_retain_style_properties: "",
+            relative_urls : false,
+            remove_script_host: false,
+            
+            minHeight: 0,
+            
+            menubar: false,
+            toolbar: false,
+            table_toolbar: false,
+            statusbar: false,
+            elementpath : false,
+            resize : false,
+            
+            setup: Ext.bind(this._onEditorSetup, this),
+            
+            content_css: Ext.isArray(this.getInitialConfig("editorCSSFile")) ? Ext.isArray(this.getInitialConfig("editorCSSFile")).join(',') : this.getInitialConfig("editorCSSFile"),
+            body_class: this.getInitialConfig("editorBodyClass") || "mceContentBody",
+            valid_elements: this.getInitialConfig("validElements"),
+            valid_styles: { // CMS-7006
+                '*': 'width, height'
+            },
+            
+            plugins: 'table,paste,noneditable,autolink'
+        });
     },
-    
-    /**
-     * @private
-     * Update the internal char count now.
-     * @param {tinymce.Editor} [editor] The editor object. If null the active editor will be used.
-     */
-    _computeCharCount: function(editor)
-    {
-        // Get the editor content from the cache or from the editor (just in case).
-        var editorContent = this._editorContent || editor.getContent();
         
-        // Filter the tags and compute the character count. 
-        this._charCount = editorContent.replace(Ametys.form.field.RichText.FILTER_TAGS, '').length;
-    },
-    
     /**
      * @private
-     * Displays the #cfg-warning if necessary
+     * Listener when the editor is being setup
      * @param {tinymce.Editor} editor The editor object
      */
-    _createWarning: function(editor)
+    _onEditorSetup: function(editor)
     {
-    	if (this.initialConfig.warning)
-    	{
-			Ext.get(editor.id + '_path_row').insertSibling({
-					tag: 'img',
-					'data-qtip': this.initialConfig.warning,
-					src: Ametys.CONTEXT_PATH +  '/plugins/cms/resources/img/content/warning.png',
-					style: 'float: right; margin: 3px;'
-				},
-				'after'
-			);
-    	}
+        editor.on('init', Ext.bind(this._onEditorInit, this));
+        
+        editor.on('NodeChange', Ext.bind(this._sendSelection, this));
+        editor.on('focus', Ext.bind(this._sendSelection, this)); // Giving focus using TAB a previously focused editor, does not fire 'NodeChange'
+        
+        editor.on('GetContent', Ext.bind(this._onEditorGetContent, this));
+        editor.on('BeforeSetContent', Ext.bind(this._onEditorSetContent, this));
+        editor.on('PreProcess', Ext.bind(this._onEditorPreProcess, this));  
+        
+        editor.on('KeyPress', Ext.bind(this._onEditorKeyPress, this));
+        editor.on('KeyDown', Ext.bind(this._onEditorKeyDown, this));
+        editor.on('KeyUp', Ext.bind(this._onEditorKeyUp, this));
+        
+        editor.on('VisualAid', Ext.bind(this._onEditorVisualAid, this));
     },
     
     /**
      * @private
      * Listener when the editor is initialized
-     * @param {tinymce.Editor} editor The editor object
+     * @param {Object} object The tinymce content object. See tinymce doc to know more.
      */
-    _onEditorInit: function(editor)
+    _onEditorInit: function(object)
     {
-    	if (this.getLogger().isDebugEnabled())
-    	{
-    		this.getLogger().debug("Richtext '" + this.getInputId() + "' editor initialized")
-    	}
-    	
-		this._createCharCounter(editor);
-		
-		// Cache the editor content and compute char count.
-		this.getRawValue();
-		this._updateCharCounter(editor);
-		
-		this._createWarning(editor);
+        var editor = object.target;
+        
+        if (this.getLogger().isDebugEnabled())
+        {
+            this.getLogger().debug("Richtext '" + this.getInputId() + "' editor initialized")
+        }
+        
+        // Set the start value
+        // We cannot call setValue that would trigger validate... 
+        editor.setContent(this.value || "");
+        
+        var _onUpdate = Ext.bind(this._onUpdate, this);
+        editor.on('change', _onUpdate);
+        editor.on('SetContent', _onUpdate);
+        editor.on('KeyUp', _onUpdate);
 
-		// Resize purposes
-		this._bindedOnEditorResized = Ext.bind(this._onEditorResized, this);
-		editor.dom.bind(editor.getWin(), 'resize', this._bindedOnEditorResized);
-		
-		// Setting css classes for browsers
-		var iframe = Ext.get(this.getEditor().contentAreaContainer).first();
-		this._setBrowserCSSClassName(iframe.dom.contentWindow.document.body);
-		
-		// Re-layout purposes
-        this._onEditorLoaded();
-		iframe.on('load', this._onEditorLoaded, this);
-    },
-    
-    /**
-     * @private
-     * Add the current browser informations on the body of the iframe (as it is on extjs body)
-     * @param {HTMLElement} body The body to modify
-     */
-    _setBrowserCSSClassName: function(body)
-    {
-		function add(cls)
-		{
-			tinyMCE.DOM.addClass(body, "x-" + cls);
-		}
-		
-        // very often CSS needs to do checks like "IE7+" or "IE6 or 7". To help
-        // reduce the clutter (since CSS/SCSS cannot do these tests), we add some
-        // additional classes:
-        //
-        //      x-ieXp      : IEX+      :  X <= ieVer
-        //      x-ieXm      : IEX-      :  ieVer <= X
-        //      x-ieX       : IEX       :  X == ieVer
-        //
+        this.getValue(); // required to set _charCount
+        this._updateCharCounter(editor);
+        // End set value
+        
+        this._setMode();
+        
+        // Setting css classes for browsers
+        var body = this.getDocument().body;
         Ext.Object.each(Ext, function(key, value) {
-            if (value === true && Ext.String.startsWith(key, "is"))
+            if (value === true && Ext.String.startsWith(key, "is") && key != "isDomReady" && key != "isReady")
             {
-                add(key.toLowerCase().substring(2));
+                tinyMCE.DOM.addClass(body, "x-" + key.toLowerCase().substring(2));
             }
         });
-    },
-    
-    /**
-     * @private
-     * Relay iframe events to extjs
-     */
-    _onRelayedEvent: function (event) {
-        // relay event from the iframe's document to the document that owns the iframe...
-        var editor = this.getEditor();
-        var iframeEl = Ext.get(editor.contentAreaContainer).first();
-
-            // Get the left-based iframe position
-            iframeXY = iframeEl.getTrueXY(),
-            originalEventXY = event.getXY(),
-
-            // Get the left-based XY position.
-            // This is because the consumer of the injected event will
-            // perform its own RTL normalization.
-            eventXY = event.getTrueXY();
-
-        // the event from the inner document has XY relative to that document's origin,
-        // so adjust it to use the origin of the iframe in the outer document:
-        event.xy = [iframeXY[0] + eventXY[0], iframeXY[1] + eventXY[1]];
-
-        event.injectEvent(iframeEl); // blame the iframe for the event...
-
-        event.xy = originalEventXY; // restore the original XY (just for safety)
-    },
-    
-    /**
-     * @private
-     * Clean up iframe listeners
-     * @param {Boolean} destroying During a destruction
-     */
-    _cleanupListeners: function(destroying)
-    {
-        if (this.rendered) {
-            try {
-                var iframe = Ext.get(editor.contentAreaContainer).first();
-                var doc = iframe.dom.contentWindow.document;
-                if (doc) {
-                    Ext.get(doc).un(this._docListeners);
-                    if (destroying) {
-                        for (var prop in doc) {
-                            if (doc.hasOwnProperty && doc.hasOwnProperty(prop)) {
-                                delete doc[prop];
-                            }
-                        }
-                    }
-                }
-            } catch(e) { }
-        }
+        
+        // Re-layout purposes
+        this._onEditorLoaded();
+        this.getFrameEl().on('load', this._onEditorLoaded, this);
     },
     
     /**
@@ -826,18 +818,14 @@ Ext.define('Ametys.form.field.RichText', {
      */
     _onEditorLoaded: function()
     {
-    	var editor = this.getEditor();
-    	
-    	var iframe = Ext.get(editor.contentAreaContainer).first();
-    	
-        try {
-        	var doc = iframe.dom.contentWindow.document;
+        var me = this,
+            doc = me.getDocument(),
+            fn = me.onRelayedEvent;
 
-            var me = this,
-                fn = me._onRelayedEvent;
-
-            if (doc) 
-            {
+        if (doc) 
+        {
+            
+            try {
                 var extdoc = Ext.get(doc); 
                 
                 extdoc._getPublisher('mousemove').directEvents.mousemove = 1;
@@ -865,221 +853,26 @@ Ext.define('Ametys.form.field.RichText', {
             
                 
                 // We need to be sure we remove all our events from the iframe on unload or we're going to LEAK!
-                Ext.get(iframe.dom.contentWindow).on('beforeunload', me._cleanupListeners, me);
+                Ext.get(me.getWindow()).on('beforeunload', me.cleanupListeners, me);
+            } catch(e) {
+                // cannot do this xss
+                this.getLogger().info(e)
             }
-        } catch(e) {
-            // cannot do this xss
-        	console.info(e)
-        }
+        } 
 
-    	if (iframe.dom.contentWindow.document.body.id)
-    	{
-    		this._onEditorResized();
-    		return;
-    	}
-
-    	if (this.getLogger().isDebugEnabled())
-    	{
-    		this.getLogger().debug("Reseting richtext " + this.getInputId());
-    	}
-    	
-    	this.getRawValue();
-   		editor.save = function() {}
-   		this._removeEditor();
-   		new tinyMCE.Editor(this.getInputId(), this._settingsProperty).render();
-    },
-    
-    /**
-     * @private
-     * Editor is resized, we have to resize field 
-     */
-    _onEditorResized: function()
-    {
-    	var force = false;
-    	if (this._editorFrameWrapperDiffSize == null)
-    	{
-    		force = true,
-    		this._prepareForResize();
-            return; // first resize is useless and makes a useless layout on startup
-        }
-    	
-    	var editor = this.getEditor();
-    	
-    	var editorTab = Ext.get(editor.contentAreaContainer).parent("table") 
-    	var editorSize = editorTab.getSize();
-
-		var currentSize = this.getSize();
-		var newSize = { width: editorSize.width + this._editorDiffSize.width, height: editorSize.height + this._editorDiffSize.height };
-		if (force || newSize.width != currentSize.width || newSize.height != currentSize.height)
-		{
-			// Manual resize of the editor => impact the widget
-			this.setSize(newSize.width, newSize.height);
-		}
-    },
-    
-    /**
-     * @private
-     * This method initialize the #_editorFrameWrapperDiffSize and should be called once only.
-     */
-    _prepareForResize: function()
-    {
-    	var editor = this.getEditor();
-    	
-		var editorFrame = Ext.get(editor.contentAreaContainer).first();
-		var editorSize = editorFrame.getSize();
-    	var editorWrapper = editorFrame.parent("table").parent("div");
-    	var parentSize = editorWrapper.getSize();
-		this._editorFrameWrapperDiffSize = { width: parentSize.width - editorSize.width, height: parentSize.height - editorSize.height };
-
-		this._adaptEditorToPlace();
-    },
-    
-    /**
-     * @private
-     * Adapt the size of the iframe of the editor to the widget size. Called when the widget is resized.
-     */
-    _adaptEditorToPlace: function()
-    {
-    	var editor = this.getEditor();
-    	if (editor == null)
-    	{
-    		return;
-    	}
-    	
-    	if (this._editorFrameWrapperDiffSize == null)
-    	{
-    		this._prepareForResize();
-    		return;
-    	}
-    	
-    	var editorFrame = Ext.get(editor.contentAreaContainer).first();
-    	
-    	var editorPlace = editorFrame.parent("table").parent("div");
-    	var editorSize = editorPlace.getSize();
-
-		var wholeSize = this.getSize();
-		this._editorDiffSize = { width: wholeSize.width - editorSize.width, height: wholeSize.height - editorSize.height }; 
-
-		var newSize = { width: editorSize.width - this._editorFrameWrapperDiffSize.width, height: editorSize.height - this._editorFrameWrapperDiffSize.height };
-    	editorFrame.setSize(newSize);
-    },
-    
-    markInvalid: function()
-    {
-    	this.callParent(arguments);
-    	
-    	if (this.isVisible(true))
-	    {
-    	    this._adaptEditorToPlace();
-	    }
-    },
-    
-    markWarning: function()
-    {
-    	this.callParent(arguments);
-    	
-    	if (this.isVisible(true))
-	    {
-    	    this._adaptEditorToPlace();
-	    }
-    },
-    
-    clearInvalid: function()
-    {
-    	this.callParent(arguments);
-
-        if (this.isVisible(true))
+        if (!doc || !doc.body || !doc.body.className) // first time should be useless
         {
-            this._adaptEditorToPlace();
+            if (this.getLogger().isDebugEnabled())
+            {
+                this.getLogger().debug("Reseting richtext " + this.getInputId());
+            }
+            
+            this.getValue(); // Save the current editor value
+
+            this._removeEditor();
+
+            this._createEditor();
         }
-    },
-    
-    clearWarning: function()
-    {
-    	this.callParent(arguments);
-
-        if (this.isVisible(true))
-        {
-            this._adaptEditorToPlace();
-        }
-    },
-    
-    /**
-     * @private
-     * Listener when the editor is being setup
-     * @param {tinymce.Editor} editor The editor object
-     */
-    _onEditorSetup: function(editor)
-    {
-		if (Ext.isIE)
-		{
-			editor.onEvent.add(tinyMCE.save);
-		}
-		
-		editor.onInit.add(Ext.bind(this._onEditorInit, this));
-		
-		var _triggerUpdate = Ext.bind(this._triggerUpdate, this);
-		editor.onChange.add(_triggerUpdate);
-		editor.onSetContent.add(_triggerUpdate);
-		editor.onKeyUp.add(_triggerUpdate);
-		
-		editor.onNodeChange.add (Ext.bind(this._onEditorRichTextNodeSelected, this));
-		editor.onBeforeSetContent.add(Ext.bind(this._onEditorSetContent, this));
-		editor.onGetContent.add(Ext.bind(this._onEditorGetContent, this));
-		editor.onKeyPress.add(Ext.bind(this._onEditorKeyPress, this));
-		editor.onKeyDown.add(Ext.bind(this._onEditorKeyDown, this));
-		editor.onKeyUp.add(Ext.bind(this._onEditorKeyUp, this));
-		editor.onVisualAid.add(Ext.bind(this._onEditorVisualAid, this));
-		editor.onPreProcess.add(Ext.bind(this._onEditorPreProcess, this));	
-        
-        editor.onPaste.add (function() { window.setTimeout(tinyMCE.additionnalCleanUp, 1); }); // CMS-7006
-    },
-    
-	/**
-	 * Suspend the event fired to the messagebus when a node is selected.
-	 * Use it when you know that several events could be sent at once : suspend before the first, and restart before the last.
-	 * Do not forget to call the restart method! (each suspend should have a restart - think about try/catch to ensure this)
-	 */
-	suspendRichTextNodeSelectionEvent: function()
-	{
-		this._suspended++;
-	},
-	/**
-	 * Restart the transmission of selection event to the messagebug.
-	 * Do not call this method if you do not have call the suspend one before.
-	 */
-	restartRichTextNodeSelectionEvent: function()
-	{
-		if (this._suspended == 0)
-		{
-			var msg = "Ametys.form.field.RichText#restartRichTextNodeSelectionEvent method has been called but transmissions where not suspended";
-			this.getLogger().error(msg);
-			throw new Error(msg);
-		}
-
-		this._suspended--;
-	},
-	
-    /**
-     * @private
-     * Add additionnal css class
-     */
-	afterRender: function()
-	{
-    	this.callParent(arguments);
-    	this.addCls('x-field-richtext');
-	},
-	
-	afterComponentLayout: function(width, height, oldWidth, oldWeight)
-    {
-    	this.callParent(arguments);
-
-    	// Creates the tinymce editor to replace the underlying textarea input
-    	if (!this._editorInitialized)
-    	{
-    		this._editorInitialized = true;
-    		new tinyMCE.Editor(this.getInputId(), this._settingsProperty).render();
-    	}
     },
     
     /**
@@ -1088,188 +881,417 @@ Ext.define('Ametys.form.field.RichText', {
      */
     _removeEditor: function()
     {
-    	var editor = this.getEditor();
-    	if (editor != null)
-    	{
-        	var iframe = Ext.get(editor.contentAreaContainer).first();
-        	if (iframe.dom.contentWindow)
-        	{
-        		Ext.get(iframe.dom.contentWindow.document).clearListeners();
-        	}
-            	
-	    	editor.dom.unbind(editor.getWin(), 'resize', this._bindedOnEditorResized);
-	    	
-	    	// Let's destroy the tinymce component
-	    	tinyMCE.execCommand("mceRemoveControl", false, this.getInputId());
-	    	
-	    	this._notFirstCallToOnRichTextNodeSelected = false;
-    	}
-    },
-    
-    beforeDestroy: function() 
-    {
-    	if (this.getLogger().isDebugEnabled())
-    	{
-    		this.getLogger().debug("Richtext '" + this.getInputId() + "' editor destroyed")
-    	}
+        var editor = this.getEditor();
+        if (editor != null)
+        {
+            if (tinyMCE.activeEditor == editor)
+            {
+                tinyMCE.activeEditor = null;
+            }
 
-    	if (tinyMCE.activeEditor == this.getEditor())
-    	{
-    		tinyMCE.activeEditor = null;
-    	}
-    		
-    	this._removeEditor();
-    	
-    	this.callParent(arguments);
+            this.cleanupListeners(true);
+                
+            // Let's destroy the tinymce component
+            tinymce.remove(editor.id);
+            
+            // this._notFirstCallToOnRichTextNodeSelected = false;
+        }
     },
-    
-    /**
-     * Get the underlying tinymce editor (see http://www.tinymce.com/wiki.php/API3:class.tinymce.Editor).
-     * @return {tinymce.Editor} The wrapper tinymce editor object. Can be null before the end of the render process or after the destroy process. 
-     */
-    getEditor: function()
+
+    onRelayedEvent: function (event) 
     {
-    	return tinyMCE.get(this.getInputId());
+        // relay event from the iframe's document to the document that owns the iframe...
+
+        var iframeEl = this.getFrameEl(),
+
+            // Get the left-based iframe position
+            iframeXY = iframeEl.getTrueXY(),
+            originalEventXY = event.getXY(),
+
+            // Get the left-based XY position.
+            // This is because the consumer of the injected event will
+            // perform its own RTL normalization.
+            eventXY = event.getTrueXY();
+
+        // the event from the inner document has XY relative to that document's origin,
+        // so adjust it to use the origin of the iframe in the outer document:
+        event.xy = [iframeXY[0] + eventXY[0], iframeXY[1] + eventXY[1]];
+
+        event.injectEvent(iframeEl); // blame the iframe for the event...
+
+        event.xy = originalEventXY; // restore the original XY (just for safety)
+    },
+    
+    beforeDestroy: function () 
+    {
+        if (this.getLogger().isDebugEnabled())
+        {
+            this.getLogger().debug("Richtext '" + this.getInputId() + "' editor destroyed")
+        }
+        
+        this._removeEditor();
+        this.callParent();
+    },
+    
+    cleanupListeners: function(destroying)
+    {
+        var doc, prop;
+
+        if (this.rendered) 
+        {
+            try 
+            {
+                doc = this.getDoc();
+                if (doc) 
+                {
+                    Ext.get(doc).un(this._docListeners);
+                    if (destroying) 
+                    {
+                        for (prop in doc) 
+                        {
+                            if (doc.hasOwnProperty && doc.hasOwnProperty(prop)) 
+                            {
+                                delete doc[prop];
+                            }
+                        }
+                    }
+                }
+            } catch(e) { }
+        }
     },
     
     /**
+     * @private
+     * This listener is called when the internal field state needs to be updated.
+     * @param {Object} object The tinymce content object. See tinymce doc to know more.
+     */
+    _onUpdate: function(object)
+    {
+        // Invalidate the editor content and current char count.
+        this._charCount = -1;
+        
+        var counter = Ext.get(this.getId() + '-counter-val'); 
+        if (counter != null)
+        {
+            counter.parent().addCls(this.charCounterCountingCls);
+            
+            if (this._counting != null)
+            {
+                window.clearTimeout(this._counting);
+            }
+            this._counting = window.setTimeout(Ext.bind(this._update, this), this._updateEvery);
+        }
+    },
+    
+    /**
+     * @private
+     * Compute the character count, validate the field and update the counter.
+     */
+    _update: function()
+    {
+        // Cancel the running timer if necessary.
+        if (this._counting != null)
+        {
+            window.clearTimeout(this._counting);
+            this._counting = null;
+        }
+        
+        var took = new Date().getTime();
+        
+        // Validate the field (triggers character counting).
+        this.validate();
+        
+        if (this.checkTitleHierarchy) 
+        {
+            if (this._checkTitleHierarchy())
+            {
+                this.clearWarning();
+            }
+            else
+            {
+                this.markWarning("<i18n:text i18n:key='PLUGINS_CORE_UI_FIELD_RICH_TEXT_HIERARCHY_ERROR'/>");
+            }
+        }
+        
+        // Update the counter.
+        this._updateCharCounter();
+        
+        var took2 = new Date().getTime();
+        this._updateEvery = Math.max(took2 - took, 1000);
+    },
+    
+    /**
+     * @private
+     * Update the char counter under the editor.
+     */
+    _updateCharCounter: function()
+    {
+        if (this._charCount > -1)
+        {
+            var count = this._charCount;
+            
+            var counter = Ext.get(this.getId() + '-counter-val'); 
+            if (counter != null)
+            {
+                counter.parent().removeCls(this.charCounterCountingCls);
+                counter.setHtml("" + count);
+                
+                // is there a maxlength ?
+                if (this._maxLength != Number.MAX_VALUE)
+                {
+                    if (count > this._maxLength)
+                    {
+                        counter.parent.addCls(this.charCounterMaxExceededCls);
+                    }
+                    else
+                    {
+                        counter.parent.removeCls(this.charCounterMaxExceededCls);
+                    }
+                }
+            }
+        }
+    },
+    
+    
+    
+    /**
+     * Suspend the event fired to the messagebus when a node is selected.
+     * Use it when you know that several events could be sent at once : suspend before the first, and restart before the last.
+     * Do not forget to call the restart method! (each suspend should have a restart - think about try/catch to ensure this)
+     */
+    suspendRichTextNodeSelectionEvent: function()
+    {
+        this._suspended++;
+    },
+    /**
+     * Restart the transmission of selection event to the messagebug.
+     * Do not call this method if you do not have call the suspend one before.
+     */
+    restartRichTextNodeSelectionEvent: function()
+    {
+        if (this._suspended == 0)
+        {
+            var msg = "Ametys.form.field.RichText#restartRichTextNodeSelectionEvent method has been called but transmissions where not suspended";
+            this.getLogger().error(msg);
+            throw new Error(msg);
+        }
+
+        this._suspended--;
+    },
+    
+    
+    
+    
+    /**
+     * @event editorsetcontent
+     * Fires when the editor received new content. This allows to convert storing tags to internal tags.
+     * @param {Ext.form.Field} field The editor field
+     * @param {tinymce.Editor} editor The tinyMCE editor
+     * @param {Object} object A tinymce object
+     * @param {String} object.content The html content
+     */
+    /**
      * Listener on tinymce event to call extjs listeners
-     * @param {tinymce.Editor} editor The tinymce editor involved
      * @param {Object} object The tinymce content object. See tinymce doc to know more.
      * @private
      */
-	_onEditorSetContent: function (editor, object)
-	{
-		this.fireEvent ('editorsetcontent', this, editor, object);
-	},
+    _onEditorSetContent: function (object)
+    {
+        this.fireEvent ('editorsetcontent', this, this.getEditor(), object);
+    },
+    
+    /**
+     * @event editorgetcontent
+     * Fires when the editor received content. This allows to convert internal tags to storing tags.
+     * @param {Ext.form.Field} field The editor field
+     * @param {tinymce.Editor} editor The tinyMCE editor
+     * @param {Object} object A tinymce object
+     * @param {String} object.content The html content
+     */
     /**
      * Listener on tinymce event to call extjs listeners
-     * @param {tinymce.Editor} editor The tinymce editor involved
      * @param {Object} object The tinymce content object. See tinymce doc to know more.
      * @private
      */
-	_onEditorGetContent: function (editor, object)
-	{
-		this.fireEvent ('editorgetcontent', this, editor, object);
-	},
+    _onEditorGetContent: function (object)
+    {
+        this.fireEvent ('editorgetcontent', this, this.getEditor(), object);
+    },
+     
     /**
-     * Listener on tinymce event to call extjs listeners
-     * @param {tinymce.Editor} editor The tinymce editor involved
-     * @param {Object} e The event
-     * @private
+     * @event editorkeypress
+     * Fires when the editor has a key press.
+     * @param {Ext.form.Field} field The editor field
+     * @param {tinymce.Editor} editor The tinyMCE editor
+     * @param {Object} e The event 
      */
-	_onEditorKeyPress: function (editor, e)
-	{
-		if (tinymce.isGecko)
-		{
-			if (e.keyCode == 13 || e.charCode == 13) 
-			{
-				var rng = editor.selection.getRng();
-	
-				if (rng.startContainer && editor.getBody() == rng.startContainer && /^table$/i.test(editor.selection.getStart().nodeName)) 
-				{
-					editor.execCommand('mceInsertContent', false, '<p><br mce_bogus="1"/></p>');
-	
-					return tinymce.dom.Event.cancel(e);
-				}
-			}
-		}
-		
-		this.fireEvent ('editorkeypress', this, editor, e);
-	},
     /**
      * Listener on tinymce event to call extjs listeners
-     * @param {tinymce.Editor} editor The tinymce editor involved
-     * @param {Object} e The event
-     * @private
-     */
-	_onEditorKeyDown: function (editor, e)
-	{
-		// BUG FIX CMS 2499
-		if (tinymce.isGecko)
-		{
-			// UPGRADE (tinyMCE 3.3.9.1) plugins/table/editor_plugin_src.js line 968  but handling div form insteadof table
-			var rng, table, dom = editor.dom;
-	
-			// On gecko it's not possible to place the caret before a table
-			if (e.keyCode == 37 || e.keyCode == 38) 
-			{
-				rng = editor.selection.getRng();
-				table = dom.getParent(rng.startContainer, 'table');
-	
-				if (table && editor.getBody().firstChild != table) // DOING THE REVERSE CONDITION BECAUSE WE WANT TO DO SO ALL THE TIME 
-				{
-					if (org.ametys.forms._isAtStart(rng, table)) 
-					{
-						rng = dom.createRng();
-	
-						rng.setStartBefore(table);
-						rng.setEndBefore(table);
-	
-						editor.selection.setRng(rng);
-						
-						e.preventDefault();
-					}
-				}
-			}
-		}	
-		
-		this.fireEvent ('editorkeydown', this, editor, e);
-	},
-    /**
-     * Listener on tinymce event to call extjs listeners
-     * @param {tinymce.Editor} editor The tinymce editor involved
-     * @param {Object} e The event
-     * @private
-     */
-	_onEditorKeyUp: function (editor, e)
-	{
-		this.fireEvent ('editorkeyup', this, editor, e);
-	},
-    /**
-     * Listener on tinymce event to call extjs listeners
-     * @param {tinymce.Editor} editor The tinymce editor involved
      * @param {Object} object The tinymce content object. See tinymce doc to know more.
      * @private
      */
-	_onEditorVisualAid: function (editor, object)
-	{
-		this.fireEvent ('editorvisualaid', this, editor, object);
-	},
+    _onEditorKeyPress: function (object)
+    {
+        this.fireEvent ('editorkeypress', this, this.getEditor(), object);
+    },
+    
+    /**
+     * @event editorkeydown
+     * Fires when the editor has a key down.
+     * @param {Ext.form.Field} field The editor field
+     * @param {tinymce.Editor} editor The tinyMCE editor
+     * @param {Object} e The event 
+     */
     /**
      * Listener on tinymce event to call extjs listeners
-     * @param {tinymce.Editor} editor The tinymce editor involved
      * @param {Object} object The tinymce content object. See tinymce doc to know more.
      * @private
      */
-	_onEditorPreProcess: function (editor, object)
-	{
-		this.fireEvent ('editorpreprocess', this, editor, object);
-	},    
-	/**
-	 * This function is called when a node is selected in the rich text
-     * @param {tinymce.Editor} editor The tinymce editor involved
-     * @param {Object} controlManager See tinymce doc.
-     * @param {HTMLElement} node The currently selected node
-     * @param {Boolean} isCollapsed Is the current selection collaspsed or not
-	 * @private
-	 */
-	_onEditorRichTextNodeSelected: function(editor, controlManager, node, isCollapsed)
-	{
-		if (editor.contentDocument == node || this._suspended > 0)
-		{
-			return;
-		}
-		
-		if (this._notFirstCallToOnRichTextNodeSelected)
-		{
-			Ext.defer(this.fireEvent, 1, this , ['editorhtmlnodeselected', Ext.getCmp(Ext.get(editor.id).parent(".x-form-item").id), editor.selection.getNode()]);
-		}
-		else
-		{
-			editor.onClick.remove(editor.nodeChanged);
-		}
-		this._notFirstCallToOnRichTextNodeSelected = true;
-	}
-	
+    _onEditorKeyDown: function (object)
+    {
+        var editor = this.getEditor();
+        
+        // BUG FIX CMS 2499
+        if (tinymce.isGecko)
+        {
+            var rng, table, dom = editor.dom;
+    
+            // On gecko it's not possible to place the caret before a table
+            if (object.keyCode == 37 || object.keyCode == 38) 
+            {
+                rng = editor.selection.getRng();
+                table = dom.getParent(rng.startContainer, 'table');
+    
+                if (table && editor.getBody().firstChild != table) // DOING THE REVERSE CONDITION BECAUSE WE WANT TO DO SO ALL THE TIME 
+                {
+                    if (this._isAtStart(rng, table)) 
+                    {
+                        rng = dom.createRng();
+    
+                        rng.setStartBefore(table);
+                        rng.setEndBefore(table);
+    
+                        editor.selection.setRng(rng);
+                        
+                        object.preventDefault();
+                    }
+                }
+            }
+        }   
+        
+        this.fireEvent ('editorkeydown', this, editor, object);
+    },
+    
+    /**
+     * @private
+     * Is the given element a start ?
+     * @param {Object} rng the browser's internal range object.
+     * @param {HTMLElement} el the element to start from
+     * @return true if the given element matches a start, false otherwise
+     */
+    _isAtStart: function(rng, el) 
+    {
+        var doc = el.ownerDocument, rng2 = doc.createRange(), elm;
+    
+        rng2.setStartBefore(el);
+        rng2.setEnd(rng.endContainer, rng.endOffset);
+    
+        elm = doc.createElement('body');
+        elm.appendChild(rng2.cloneContents());
+    
+        // Check for text characters of other elements that should be treated as content
+        return elm.innerHTML.replace(/<(br|img|object|embed|input|textarea)[^>]*>/gi, '-').replace(/<[^>]+>/g, '').length == 0;
+    },    
+    
+    /**
+     * @event editorkeyup
+     * Fires when the editor has a key up.
+     * @param {Ext.form.Field} field The editor field
+     * @param {tinymce.Editor} editor The tinyMCE editor
+     * @param {Object} e The event 
+     */
+    /**
+     * Listener on tinymce event to call extjs listeners
+     * @param {Object} object The tinymce content object. See tinymce doc to know more.
+     * @private
+     */
+    _onEditorKeyUp: function (object)
+    {
+        this.fireEvent ('editorkeyup', this, this.getEditor(), object);
+    },
+    
+    /**
+     * @event editorvisualaid
+     * Fires when the editor pre process the serialization
+     * @param {Ext.form.Field} field The editor field
+     * @param {tinymce.Editor} editor The tinyMCE editor
+     * @param {Object} object The object 
+     */
+    /**
+     * Listener on tinymce event to call extjs listeners
+     * @param {Object} object The tinymce content object. See tinymce doc to know more.
+     * @private
+     */
+    _onEditorVisualAid: function (object)
+    {
+        this.fireEvent ('editorvisualaid', this, this.getEditor(), object);
+    },
+    
+    /**
+     * @event editorpreprocess
+     * Fires when the editor pre process the serialization
+     * @param {Ext.form.Field} field The editor field
+     * @param {tinymce.Editor} editor The tinyMCE editor
+     * @param {Object} object The object 
+     */
+    /**
+     * Listener on tinymce event to call extjs listeners
+     * @param {Object} object The tinymce content object. See tinymce doc to know more.
+     * @private
+     */
+    _onEditorPreProcess: function (object)
+    {
+        this.fireEvent ('editorpreprocess', this, this.getEditor(), object);
+    },  
+    
+    /**
+     * @event editorhtmlnodeselected
+     * Fires when a HTML node is selected in editor
+     * @param {Ext.form.Field} field The editor field
+     * @param {tinymce.Editor} editor The tinyMCE editor
+     * @param {HTMLElement} node The HTML element selected
+     */
+    /**
+     * This function is called when a node is selected in the rich text
+     * @param {Object} object The tinymce content object. See tinymce doc to know more.
+     * @private
+     */
+    _sendSelection: function(object)
+    {
+        if (this._currentMode == "source")
+        {
+            Ext.defer(this.fireEvent, 1, this , ['editorhtmlnodeselected', this, null]);
+        }
+        else
+        {
+            var editor = this.getEditor();
+            var node = editor.selection.getNode();
+            
+            if (this.getFrameEl().dom != document.activeElement // Discard this selection while the iframe is not focused
+                || editor.contentDocument == node               // Do not send for #document
+                || this._suspended > 0                          // Do not send if suspended
+                || node == editor._lastActiveNode               // Event already thrown for this
+                )
+            {
+                return;
+            }
+            
+            // Remember this selection for the current succession of events (click, mouseup, focus....)
+            editor._lastActiveNode = node;
+            window.setTimeout(function() { editor._lastActiveNode = null; }, 10);
+            
+            this.getLogger().error("Trace")
+            Ext.defer(this.fireEvent, 1, this , ['editorhtmlnodeselected', this, node]);
+        }
+    }    
 });

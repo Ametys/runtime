@@ -54,23 +54,22 @@
     padding-left: 5px; 
     padding-right: 5px; 
     
-    border-right: 1px solid $ametys-field-charcounter-color; 
     color: $ametys-field-charcounter-color; 
     
     font-size: $ametys-field-charcounter-font-size;
     font-family: $font-family;
 }
 
-.#{$prefix}field .char-count-counting
+.#{$prefix}field .char-counter.char-count-counting .char-counter-value
 {
     color: $ametys-field-charcounter-color-computing;
 }
 
-.#{$prefix}field .char-count-maxexceed
+.#{$prefix}field .char-counter.char-count-maxexceed .char-counter-value
 {
     color: $ametys-field-charcounter-color-error;
 }
-.#{$prefix}field .char-count-maxexceed.char-count-counting
+.#{$prefix}field .char-counter.char-count-maxexceed.char-count-counting .char-counter-value
 {
     color: mix($ametys-field-charcounter-color-error, $ametys-field-charcounter-color-computing, 50%);
 }
