@@ -28,9 +28,14 @@
     box-sizing: $value;
 }
 
+@function ametys-glyph-decorator($color) {
+    @return mix($color, #000, 90);
+}
+
 @mixin buttons-color(
     $cls: #{$prefix}btn,
     $color, $color-over, $color-focus, $color-pressed, $color-focus-over, $color-focus-pressed, $color-disabled,
+    $glyph-color: $color, $glyph-color-over: $color-over, $glyph-color-focus: $color-focus, $glyph-color-pressed: $color-pressed, $glyph-color-focus-over: $color-focus-over, $glyph-color-focus-pressed: $color-focus-pressed, $glyph-color-disabled: $color-disabled,
     $border-color, $border-color-over, $border-color-focus, $border-color-pressed, $border-color-focus-over, $border-color-focus-pressed, $border-color-disabled,
     $background-color, $background-color-over, $background-color-focus, $background-color-pressed, $background-color-focus-over, $background-color-focus-pressed, $background-color-disabled,
     $dark-arrow)
@@ -49,16 +54,34 @@
                 border-color: $border-color;
                 background-color: $background-color;
                 
-                .#{$prefix}btn-inner-#{$ui}-small, .#{$prefix}btn-inner-#{$ui}-medium, .#{$prefix}btn-inner-#{$ui}-large, .#{$prefix}btn-inner-#{$ui}-toolbar-small, .#{$prefix}btn-inner-#{$ui}-toolbar-medium, .#{$prefix}btn-inner-#{$ui}-toolbar-large {
+                .#{$prefix}btn-inner {
                     color: $color;
+                }
+                @if $glyph-color != null {
+                    .#{$prefix}btn-icon-el {
+                        color: $glyph-color;
+                        
+                        &:after {
+                            color: ametys-glyph-decorator($glyph-color);
+                        }
+                    }
                 }
                 
                 &.#{$prefix}btn-over {
                     border-color: $border-color-over;
                     background-color: $background-color-over;
                     
-                    .#{$prefix}btn-inner-#{$ui}-small, .#{$prefix}btn-inner-#{$ui}-medium, .#{$prefix}btn-inner-#{$ui}-large, .#{$prefix}btn-inner-#{$ui}-toolbar-small, .#{$prefix}btn-inner-#{$ui}-toolbar-medium, .#{$prefix}btn-inner-#{$ui}-toolbar-large {
+                    .#{$prefix}btn-inner {
                         color: $color-over;
+                    }
+                    @if $glyph-color-over != null {
+                        .#{$prefix}btn-icon-el {
+                            color: $glyph-color-over;
+                            
+                            &:after {
+                                color: ametys-glyph-decorator($glyph-color-over);
+                            }
+                        }
                     }
                 }
         
@@ -66,16 +89,34 @@
                     border-color: $border-color-focus;
                     background-color: $background-color-focus;
                     
-                    .#{$prefix}btn-inner-#{$ui}-small, .#{$prefix}btn-inner-#{$ui}-medium, .#{$prefix}btn-inner-#{$ui}-large, .#{$prefix}btn-inner-#{$ui}-toolbar-small, .#{$prefix}btn-inner-#{$ui}-toolbar-medium, .#{$prefix}btn-inner-#{$ui}-toolbar-large {
+                    .#{$prefix}btn-inner {
                         color: $color-focus;
+                    }
+                    @if $glyph-color-focus != null {
+                        .#{$prefix}btn-icon-el {
+                            color: $glyph-color-focus;
+                            
+                            &:after {
+                                color: ametys-glyph-decorator($glyph-color-focus);
+                            }
+                        }
                     }
                     
                     &.#{$prefix}btn-over {
                         border-color: $border-color-focus-over;
                         background-color: $background-color-focus-over;
                     
-                        .#{$prefix}btn-inner-#{$ui}-small, .#{$prefix}btn-inner-#{$ui}-medium, .#{$prefix}btn-inner-#{$ui}-large, .#{$prefix}btn-inner-#{$ui}-toolbar-small, .#{$prefix}btn-inner-#{$ui}-toolbar-medium, .#{$prefix}btn-inner-#{$ui}-toolbar-large {
+                        .#{$prefix}btn-inner {
                             color: $color-focus-over;
+                        }
+                        @if $glyph-color != null {
+                            .#{$prefix}btn-icon-el {
+                                color: $glyph-color-over;
+                                
+                                &:after {
+                                    color: ametys-glyph-decorator($glyph-color-over);
+                                }
+                            }
                         }
                     }
         
@@ -83,8 +124,17 @@
                         border-color: $border-color-focus-pressed;
                         background-color: $background-color-focus-pressed;
     
-                        .#{$prefix}btn-inner-#{$ui}-small, .#{$prefix}btn-inner-#{$ui}-medium, .#{$prefix}btn-inner-#{$ui}-large, .#{$prefix}btn-inner-#{$ui}-toolbar-small, .#{$prefix}btn-inner-#{$ui}-toolbar-medium, .#{$prefix}btn-inner-#{$ui}-toolbar-large {
+                        .#{$prefix}btn-inner {
                             color: $color-focus-pressed;
+                        }       
+                        @if $glyph-color-focus-pressed != null {
+                            .#{$prefix}btn-icon-el {
+                                color: $glyph-color-focus-pressed;
+                                
+                                &:after {
+                                    color: ametys-glyph-decorator($glyph-color-focus-pressed);
+                                }
+                            }
                         }
                     }
                 }
@@ -93,8 +143,17 @@
                     border-color: $border-color-pressed;
                     background-color: $background-color-pressed;
     
-                    .#{$prefix}btn-inner-#{$ui}-small, .#{$prefix}btn-inner-#{$ui}-medium, .#{$prefix}btn-inner-#{$ui}-large, .#{$prefix}btn-inner-#{$ui}-toolbar-small, .#{$prefix}btn-inner-#{$ui}-toolbar-medium, .#{$prefix}btn-inner-#{$ui}-toolbar-large {
+                    .#{$prefix}btn-inner {
                         color: $color-pressed;
+                    }
+                    @if $glyph-color-pressed != null {
+                        .#{$prefix}btn-icon-el {
+                            color: $glyph-color-pressed;
+                            
+                            &:after {
+                                color: ametys-glyph-decorator($glyph-color-pressed);
+                            }
+                        }
                     }
                 }
         
@@ -102,8 +161,17 @@
                     border-color: $border-color-disabled;
                     background-color: $background-color-disabled;
     
-                    .#{$prefix}btn-inner-#{$ui}-small, .#{$prefix}btn-inner-#{$ui}-medium, .#{$prefix}btn-inner-#{$ui}-large, .#{$prefix}btn-inner-#{$ui}-toolbar-small, .#{$prefix}btn-inner-#{$ui}-toolbar-medium, .#{$prefix}btn-inner-#{$ui}-toolbar-large {
+                    .#{$prefix}btn-inner {
                         color: $color-disabled;
+                    }
+                    @if $glyph-color-disabled != null {
+                        .#{$prefix}btn-icon-el {
+                            color: $glyph-color-disabled;
+                            
+                            &:after {
+                                color: ametys-glyph-decorator($glyph-color-disabled);
+                            }
+                        }
                     }
                 }
             }
@@ -301,10 +369,6 @@
             background-color: $strip-background-color;
         }
     }
-}
-
-@function ametys-glyph-decorator($color) {
-    @return mix($color, #000, 90);
 }
 
 @mixin tab-button-color(

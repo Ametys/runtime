@@ -45,7 +45,7 @@
     $background-color: #FFF;//$base-highlight-color;
     $background-color-over: button-default-background-color-over($background-color);
     $background-color-focus: button-default-background-color-focus($background-color);
-    $background-color-pressed: button-default-background-color-pressed($background-color);
+    $background-color-pressed: button-default-background-color-pressed($base-highlight-color);
     $background-color-focus-over: $background-color-over;
     $background-color-focus-pressed: $background-color-pressed;
     $background-color-disabled: button-default-background-color-disabled($background-color);
@@ -73,4 +73,13 @@
         $background-color: transparent, $background-color-over: transparent, $background-color-focus: transparent, $background-color-pressed: transparent, $background-color-focus-over: transparent, $background-color-focus-pressed: transparent, $background-color-disabled: transparent,
         $dark-arrow: $dark-arrow
     );    
+}
+
+.#{$prefix}btn-default-small .#{$prefix}btn-icon-left .#{$prefix}btn-icon-el:after {
+    font-size:11px;
+    line-height:11px;
+    margin-left:0px;
+    position:absolute;
+    bottom: -1px;
+    left: 6px;
 }
