@@ -52,8 +52,8 @@
         <xsl:param name="plugins-wrapped-prefix">/_plugins</xsl:param>
 		<xsl:param name="authorized-browsers">
 		     {
-		          'supported': { 'ie': '9-0', 'ff': '12-0', 'sa': '6-0', ch: '18-0', 'op': '12-0' },
-		          'not-supported': { 'ie': '0-8', 'ff': '0-11', 'sa': '0-5', 'ch': '0-17', 'op': '0-11' },
+		          'supported': { 'ie': '10-0', 'ff': '12-0', 'sa': '6-0', ch: '18-0', 'op': '12-0' },
+		          'not-supported': { 'ie': '0-9', 'ff': '0-11', 'sa': '0-5', 'ch': '0-17', 'op': '0-11' },
 		  		  'failure-redirection': "/_admin/public/browser-unsupported.html"
 		     }
 		</xsl:param>
