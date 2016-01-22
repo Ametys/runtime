@@ -124,7 +124,6 @@ public class AmetysHomeTestCase extends AbstractRuntimeTestCase
         
         assertTrue("The lock must be acquired", lockFile.exists());
         assertFalse("Must not be able to create a lock file", lockFile.createNewFile());
-        assertFalse("Must not be able to delete the lock file", lockFile.delete());
         
         // Create a folder and a file in the locked folder
         String filePath = "a/b/c.txt";
