@@ -10,7 +10,6 @@
 }
 [class^="decorator-flaticon-"]:after, [class*=" decorator-flaticon-"]:after {   
 	font-family: Flaticon;
-margin-left: 20px;
 }.decorator-flaticon-abecedary4:after {
 	content: "\e000";
 }

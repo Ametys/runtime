@@ -10,7 +10,6 @@
 }
 [class^="flaticon-"]:before, [class*=" flaticon-"]:before {   
 	font-family: Flaticon;
-margin-left: 20px;
 }.flaticon-abecedary4:before {
 	content: "\e000";
 }
