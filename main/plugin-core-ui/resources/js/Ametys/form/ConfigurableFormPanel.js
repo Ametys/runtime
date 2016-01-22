@@ -201,6 +201,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     border: false,
     
     /**
+     * @cfg {String} defaultPathSeparator='.' The default separator for fields
+     */
+    defaultPathSeparator: '.',
+    
+    /**
      * @private
      * @property {Boolean} _formReady indicates if the form is ready. The form is ready when all fields are rendered and have a value set.
      */
@@ -338,6 +343,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         this.showAmetysComments = config.showAmetysComments === true;
         
         this.on('afterrender', this._setFocusIfReady, this);
+        
+        if (config.defaultPathSeparator)
+        {
+	        this.defaultPathSeparator = config.defaultPathSeparator;
+        }
     },
     
     /**
@@ -1597,6 +1607,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         var repeaterCfg = Ext.applyIf(config, {
             minSize: 0,
             maxSize: Number.MAX_VALUE,
+            defaultPathSeparator: this.defaultPathSeparator,
             form: this
         });
         
@@ -1867,7 +1878,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                         var finalROffset = roffset 
                                         + Ametys.form.ConfigurableFormPanel.HORIZONTAL_PADDING_FIELDSET
                                         + 1;
-                        this._configureJSON(data[name].composition, prefix + name + '.', fieldset, finalOffset, finalROffset);
+                        this._configureJSON(data[name].composition, prefix + name + this.defaultPathSeparator, fieldset, finalOffset, finalROffset);
                     }
                     else
                     {
@@ -2193,7 +2204,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                         var finalROffset = roffset 
                                         + Ametys.form.ConfigurableFormPanel.HORIZONTAL_PADDING_FIELDSET 
                                         + 1; 
-                        this._configureXML(Ext.dom.Query.select("> composition", nodes[i]), prefix + name + '.', fieldset, finalOffset, finalROffset);
+                        this._configureXML(Ext.dom.Query.select("> composition", nodes[i]), prefix + name + this.defaultPathSeparator, fieldset, finalOffset, finalROffset);
                     }
                 }
                 else if (type != '')
@@ -2595,7 +2606,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             var name = sortedRepeaters[i].name;
             var prefix = this.getFieldNamePrefix() + sortedRepeaters[i].prefix;
             var count = sortedRepeaters[i].count;
-            var repeaterPanel = this.down("panel[isRepeater][name='" + name + "'][prefix='" + prefix + "']");
+            var repeaterPanel = this.down("panel[isRepeater][name=" + name + "][prefix/=^" + prefix + "$]");
             
             if (repeaterPanel != null)
             {
@@ -2691,10 +2702,10 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     _setValuesXMLMetadata: function (metadataNode, fieldName)
     {
         var metaName = metadataNode.tagName;
-        var prefix = fieldName.substring(0, fieldName.lastIndexOf('.') + 1);
+        var prefix = fieldName.substring(0, fieldName.lastIndexOf(this.defaultPathSeparator) + 1);
         var childNodes = Ext.dom.Query.selectDirectElements(null, metadataNode);
         var repeaterItemCount = Ext.dom.Query.selectNumber('@entryCount', metadataNode, -1);
-        var repeaterPanel = this.down("panel[isRepeater][name='" + metaName + "'][prefix='" + prefix + "']");
+        var repeaterPanel = this.down("panel[isRepeater][name=" + metaName + "][prefix/=^" + prefix + "$]");
         
         // Case of a repeater metadata.
         if (repeaterItemCount >= 0 && repeaterPanel != null)
@@ -2737,7 +2748,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                         repeaterPanel.setItemPreviousPosition(i, i);
                     }
                     
-                    this._setValuesXMLMetadata(childNodes[i], fieldName + '.' + entryPos);
+                    this._setValuesXMLMetadata(childNodes[i], fieldName + this.defaultPathSeparator + entryPos);
                 }
             }
         }
@@ -2768,7 +2779,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             // Standard composite metadata.
             for (var i=0; i < childNodes.length; i++)
             {
-                this._setValuesXMLMetadata(childNodes[i], fieldName + '.' + childNodes[i].tagName);
+                this._setValuesXMLMetadata(childNodes[i], fieldName + this.defaultPathSeparator + childNodes[i].tagName);
             }
         }
     },
@@ -2913,8 +2924,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             name = fieldNames[i];
             field = this.getForm().findField(name);
             
-            // remove the field name prefix and replace '.' by '/' to compute the path
-            path = name.substring(this.getFieldNamePrefix().length).replace(/\./g, '/');
+            // remove the field name prefix and replace this.defaultPathSeparator by '/' to compute the path
+            var regex = new RegExp("\\" + this.defaultPathSeparator, "g");
+            path = name.substring(this.getFieldNamePrefix().length).replace(regex, '/');
             metadataCommentsNode = Ext.dom.Query.selectNode("metadata[@path='" + path + "']", rootCommentsNode);
             
             this._setValuesXMLCommentsForField(field, metadataCommentsNode);
@@ -3303,16 +3315,23 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     {
         var me = this;
         
-        // Disable conditions listeners
-        this.getForm().getFields().each(function(field) {
-        	
-        	var disableCondition = field.disableCondition;
+        function activateDisableCondition(field) {
+            
+            var disableCondition = field.disableCondition;
             // fields that are initially disabled can never be enabled See #cfg-helpBoxId
             if (disableCondition != null && !field.disabled)
             {
                 me._disableField(field);
                 me._addDisableConditionsListeners(typeof disableCondition === 'string' ? JSON.parse(disableCondition) : disableCondition, field);
             }
+        }
+        
+        // Disable conditions listeners
+        this.getForm().getFields().each(activateDisableCondition, this);
+        
+        // Act on fields added in repeaters
+        this.on('repeaterEntryReady', function(repeater) {
+            this.getChildrenFields(repeater).each(activateDisableCondition, this);
         }, this);
     },
     
@@ -3345,7 +3364,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                 conditionListLength = conditionList.length;
             for (var i = 0; i < conditionListLength; i++)
             {
-                var field = this.getForm().findField(conditionList[i]['id']);
+                var field = this.getRelativeField(conditionList[i]['id'], disablingField);
                 field.on('change', Ext.bind(this._disableField, this, [disablingField], false));
             }
         }
@@ -3358,7 +3377,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
     _disableField: function(field)
     {   
-        var disable = this._evaluateDisableCondition(typeof field.disableCondition === 'string' ? JSON.parse(field.disableCondition) : field.disableCondition);
+        var disable = this._evaluateDisableCondition(typeof field.disableCondition === 'string' ? JSON.parse(field.disableCondition) : field.disableCondition, field);
         field.setDisabled(disable);
     },
     
@@ -3366,8 +3385,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * @private
      * Evaluates the disable condition when a matching field is changing and enables/disables the field accordingly.
      * @param {Object} disableCondition the disable condition.
+     * @param {Ext.form.Field} field The field of reference
      */
-    _evaluateDisableCondition: function(disableCondition)
+    _evaluateDisableCondition: function(disableCondition, field)
     {
         if (!disableCondition.conditions && !disableCondition.condition)
         {
@@ -3399,7 +3419,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                     op = conditionList[i]['operator'],
                     val = conditionList[i]['value'];
                     
-                var result = this._evaluateCondition(id, op, val);
+                var result = this._evaluateCondition(id, op, val, field);
                 disable = disableCondition['type'] != "and" ? disable || result : disable && result;
             }
         }
@@ -3413,11 +3433,13 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * @param {String} id the id of the field.
      * @param {String} operator the operator.
      * @param {String} value the value the field's value will be compared to.
+     * @param {Ext.form.Field} field The field of reference
      * @return {Boolean} result true if the condition is verified, false otherwise.
      */
-    _evaluateCondition: function(id, operator, value)
+    _evaluateCondition: function(id, operator, value, field)
     {
-        var fieldValue = this.getForm().findField(id).getValue();
+        var field = this.getRelativeField(id, field);
+        var fieldValue = field.getValue();
         
         switch (operator)
         {
@@ -3512,20 +3534,20 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             
                 if (!relativeField)
                 {
-                    var prefix = field.name.substring(0, field.name.lastIndexOf('.'));
+                    var prefix = field.name.substring(0, field.name.lastIndexOf(this.defaultPathSeparator));
                     
                     // Handling '..' in field name.
                     Ext.Array.forEach(fieldPath.split('/'), function(pathPart) {
                         if (pathPart == '..')
                         {
-                            prefix = prefix.substring(0, prefix.lastIndexOf('.'));
+                            prefix = prefix.substring(0, prefix.lastIndexOf(this.defaultPathSeparator));
                             fieldPath = fieldPath.substring(3);
                         }
                     });
                     
                     // Separator in composites path is '/' whereas javascript path separator must be '.'
-                    fieldPath = fieldPath.replace('/', '.');
-                    var relativeFieldPath = prefix == '' ? fieldPath : (prefix + '.' + fieldPath);
+                    fieldPath = fieldPath.replace('/', this.defaultPathSeparator);
+                    var relativeFieldPath = prefix == '' ? fieldPath : (prefix + this.defaultPathSeparator + fieldPath);
                     
                     relativeField = this.getField(relativeFieldPath);
                     if (!relativeField)
@@ -3561,6 +3583,16 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         }
         
         return relativeFields;
+    },
+    
+    /**
+     * Helper method to get all children fields of a repeater
+     * @param {Ametys.form.ConfigurableFormPanel.Repeater} repeater The repeater
+     * @return {Ext.util.MixedCollection} The children fields of this repeater
+     */
+    getChildrenFields: function(repeater)
+    {
+        return this.getForm().getFields().filter('name', this.getFieldNamePrefix() + repeater.name + this.defaultPathSeparator + repeater.getItemCount() + this.defaultPathSeparator);
     },
     
     /**

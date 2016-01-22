@@ -85,6 +85,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
     invalidCls: 'a-repeater-invalid',
     
     /**
+     * @cfg {String} defaultPathSeparator='.' The default separator for fields
+     */
+    defaultPathSeparator: '.',
+    
+    /**
      * @cfg {String/String[]/Ext.XTemplate} activeErrorsTpl The template used to format the Array of error messages.
      * It renders each message as an item in an unordered list.
      */
@@ -108,6 +113,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
         config = config || {};
         config.header = config.header || {};
         config.header.titlePosition = config.header.titlePosition || 1; 
+        
+        if (config.defaultPathSeparator)
+        {
+            this.defaultPathSeparator = config.defaultPathSeparator;
+        }
         
         this.callParent(arguments);  
     },
@@ -241,7 +251,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
     	    
     	    items: [{
     	    	xtype: 'numberfield',
-    	    	name: '_' + this.prefix + this.name + '.' + (pos + 1) + '.previous-position',
+    	    	name: '_' + this.prefix + this.name + this.defaultPathSeparator + (pos + 1) + '.previous-position',
     	    	value: Ext.isNumber(opt.previousPosition) ? opt.previousPosition + 1 : -1,
     	    	hidden: true
     	    }],
@@ -300,11 +310,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
         
         if (this.compositionNode)
         {
-        	Ext.defer(this.form._configureXML, 0, this.form, [this.compositionNode, this.prefix + this.name + '.' + index + '.', panel, offset, roffset]);
+        	Ext.defer(this.form._configureXML, 0, this.form, [this.compositionNode, this.prefix + this.name + this.defaultPathSeparator + index + this.defaultPathSeparator, panel, offset, roffset]);
         }
         else
         {
-        	Ext.defer(this.form._configureJSON, 0, this.form, [this.composition, this.prefix + this.name + '.' + index + '.', panel, offset, roffset]);
+        	Ext.defer(this.form._configureJSON, 0, this.form, [this.composition, this.prefix + this.name + this.defaultPathSeparator + index + this.defaultPathSeparator, panel, offset, roffset]);
         }
         
         // Default to true
@@ -649,7 +659,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
     {
         var me = this;
         me.getItems().each(function(panel, index, length) {
-            if (panel.rendered)
+            if (panel.rendered && panel.isVisible(true))
             {
                 panel.collapse();
             }
@@ -776,15 +786,15 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
         var fieldsToRename = {};
     	
         // Shift standard fields.
-        var prefix = me.prefix + me.name + '.' + index;
+        var prefix = me.prefix + me.name + this.defaultPathSeparator + index;
         var fieldNames = this.form.getFieldNames();
     	for (var i = 0; i < fieldNames.length; i++)
     	{
     		var fieldName = fieldNames[i];
-    		if (fieldName.indexOf(prefix + '.') == 0)
+    		if (fieldName.indexOf(prefix + this.defaultPathSeparator) == 0)
     		{
     			var field = me.form.getField(fieldName);
-    			var newName = me.prefix + me.name + '.' + (index + offset) + '.' + fieldName.substring(prefix.length + 1);
+    			var newName = me.prefix + me.name + this.defaultPathSeparator + (index + offset) + this.defaultPathSeparator + fieldName.substring(prefix.length + 1);
     			me._setFieldName(field, newName);
     			
     			fieldsToRename[fieldName] = newName;
@@ -792,11 +802,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
     	}
     	
     	// Shift hidden fields (which name starts with an underscore).
-    	prefix = '_' + me.prefix + me.name + '.' + index;
+    	prefix = '_' + me.prefix + me.name + this.defaultPathSeparator + index;
     	me.form.getForm().getFields().each(function(formField) {
-    	    if (formField.name && formField.name.indexOf(prefix + '.') == 0)
+    	    if (formField.name && formField.name.indexOf(prefix + this.defaultPathSeparator) == 0)
 	        {
-    	        var newName = '_' + me.prefix + me.name + '.' + (index + offset) + '.' + formField.name.substring(prefix.length + 1);
+    	        var newName = '_' + me.prefix + me.name + this.defaultPathSeparator + (index + offset) + this.defaultPathSeparator + formField.name.substring(prefix.length + 1);
     	        me._setFieldName(formField, newName);
 	        }
 	    });
@@ -819,40 +829,40 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
         var fieldsToRename = [];
     	
         // Switch standard fields.
-        var prefix1 = me.prefix + me.name + '.' + index1;
-        var prefix2 = me.prefix + me.name + '.' + index2;
+        var prefix1 = me.prefix + me.name + this.defaultPathSeparator + index1;
+        var prefix2 = me.prefix + me.name + this.defaultPathSeparator + index2;
         var fieldNames = me.form.getFieldNames();
     	for (var i = 0; i < fieldNames.length; i++)
     	{
     		var fieldName = fieldNames[i];
-    		if (fieldName.indexOf(prefix1 + '.') == 0)
+    		if (fieldName.indexOf(prefix1 + this.defaultPathSeparator) == 0)
     		{
     			var field = me.form.getField(fieldName);
-    			var newName = me.prefix + me.name + '.' + index2 + '.' + fieldName.substring(prefix1.length + 1);
+    			var newName = me.prefix + me.name + this.defaultPathSeparator + index2 + this.defaultPathSeparator + fieldName.substring(prefix1.length + 1);
     			
     			fieldsToRename.push({index: i, field: field, newName: newName});
     		}
-    		else if (fieldName.indexOf(prefix2 + '.') == 0)
+    		else if (fieldName.indexOf(prefix2 + this.defaultPathSeparator) == 0)
     		{
     			var field = me.form.getField(fieldName);
-    			var newName = me.prefix + me.name + '.' + index1 + '.' + fieldName.substring(prefix2.length + 1);
+    			var newName = me.prefix + me.name + this.defaultPathSeparator + index1 + this.defaultPathSeparator + fieldName.substring(prefix2.length + 1);
     			
     			fieldsToRename.push({index: i, field: field, newName: newName});
     		}
     	}
     	
         // Switch hidden fields (which name starts with an underscore).
-        prefix1 = '_' + me.prefix + me.name + '.' + index1;
-        prefix2 = '_' + me.prefix + me.name + '.' + index2;
+        prefix1 = '_' + me.prefix + me.name + this.defaultPathSeparator + index1;
+        prefix2 = '_' + me.prefix + me.name + this.defaultPathSeparator + index2;
         me.form.getForm().getFields().each(function(formField) {
-            if (formField.name && formField.name.indexOf(prefix1 + '.') == 0)
+            if (formField.name && formField.name.indexOf(prefix1 + this.defaultPathSeparator) == 0)
             {
-                var newName = '_' + me.prefix + me.name + '.' + index2 + '.' + formField.name.substring(prefix1.length + 1);
+                var newName = '_' + me.prefix + me.name + this.defaultPathSeparator + index2 + this.defaultPathSeparator + formField.name.substring(prefix1.length + 1);
                 me._setFieldName(formField, newName);
             }
-            else if (formField.name && formField.name.indexOf(prefix2 + '.') == 0)
+            else if (formField.name && formField.name.indexOf(prefix2 + this.defaultPathSeparator) == 0)
             {
-                var newName = '_' + me.prefix + me.name + '.' + index1 + '.' + formField.name.substring(prefix2.length + 1);
+                var newName = '_' + me.prefix + me.name + this.defaultPathSeparator + index1 + this.defaultPathSeparator + formField.name.substring(prefix2.length + 1);
                 me._setFieldName(formField, newName);
             }
         });
@@ -874,7 +884,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
         var fieldNames = this.form.getFieldNames();
         var fieldsToRemove = [];
         
-        var prefix = this.prefix + this.name + '.' + index + '.';
+        var prefix = this.prefix + this.name + this.defaultPathSeparator + index + this.defaultPathSeparator;
         for (var i = 0; i < fieldNames.length; i++)
         {
             if (fieldNames[i].indexOf(prefix) == 0)
