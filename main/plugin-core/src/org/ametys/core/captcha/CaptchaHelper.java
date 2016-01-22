@@ -52,6 +52,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.ametys.core.util.JSONUtils;
 import org.ametys.runtime.config.Config;
@@ -69,6 +71,8 @@ public final class CaptchaHelper implements Serviceable
     private static Map<String, List<ValidableCaptcha>> _mapStaticCaptcha = new HashMap<>();
     private static Map<String, ValidableCaptcha> _mapDynamicCaptcha = new HashMap<>();
     private static JSONUtils _jsonUtils;
+    
+    private static Logger _logger = LoggerFactory.getLogger(CaptchaHelper.class);
     
     public void service(ServiceManager manager) throws ServiceException
     {
@@ -258,6 +262,7 @@ public final class CaptchaHelper implements Serviceable
             }
             catch (Exception e)
             {
+                _logger.error("Unable to concat Google server to validate reCaptcha.", e);
                 return false;
             }
             finally
