@@ -206,6 +206,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     defaultPathSeparator: '.',
     
     /**
+     * @cfg {String} hideDisabledFields=false Set to true to hide the disabled fields
+     */
+    hideDisabledFields: false,
+    
+    /**
      * @private
      * @property {Boolean} _formReady indicates if the form is ready. The form is ready when all fields are rendered and have a value set.
      */
@@ -348,6 +353,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         {
 	        this.defaultPathSeparator = config.defaultPathSeparator;
         }
+        this.hideDisabledFields = config.hideDisabledFields === true;
     },
     
     /**
@@ -3379,6 +3385,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     {   
         var disable = this._evaluateDisableCondition(typeof field.disableCondition === 'string' ? JSON.parse(field.disableCondition) : field.disableCondition, field);
         field.setDisabled(disable);
+        field.setHidden(disable && this.hideDisabledFields);
     },
     
     /**
