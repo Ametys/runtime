@@ -14650,28 +14650,28 @@
     border-color: #e1e1e1 !important;
     border-width: 0 !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:195 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:263 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-0 .x-tab-bar-tool-layoutzone {
     background-color: #fcfcfc;
     border-color: #fcfcfc;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:242 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:310 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-0 .x-tab-bar-tool-layoutzone.x-tab-bar-plain {
     background-color: transparent;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:287 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:355 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-0 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:290 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:358 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-0 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-top-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:294 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:362 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-0 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-panel-tool-layoutzone-outer-border-rbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:299 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:367 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-0 .x-tab-bar-tool-layoutzone .x-tab-bar-strip-tool-layoutzone {
     border-color: #dedede;
     background-color: #dedede;
@@ -14680,28 +14680,28 @@
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-0 .x-panel-tool-layoutzone-outer-border-rbl {
     border-color: #dedede !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:195 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:263 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-tab-bar-tool-layoutzone {
     background-color: #f5f5f5;
     border-color: #f5f5f5;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:242 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:310 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-tab-bar-tool-layoutzone.x-tab-bar-plain {
     background-color: transparent;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:287 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:355 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:290 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:358 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-top-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:294 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:362 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-panel-tool-layoutzone-outer-border-rbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:299 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:367 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-tab-bar-tool-layoutzone .x-tab-bar-strip-tool-layoutzone {
     border-color: #d7d7d7;
     background-color: #d7d7d7;
@@ -14710,28 +14710,28 @@
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-tool-layoutzone-outer-border-rbl {
     border-color: #d7d7d7 !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:195 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:263 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-10 .x-tab-bar-tool-layoutzone {
     background-color: #fcfcfc;
     border-color: #fcfcfc;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:242 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:310 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-10 .x-tab-bar-tool-layoutzone.x-tab-bar-plain {
     background-color: transparent;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:287 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:355 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-10 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:290 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:358 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-10 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-top-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:294 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:362 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-10 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-panel-tool-layoutzone-outer-border-rbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:299 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:367 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-10 .x-tab-bar-tool-layoutzone .x-tab-bar-strip-tool-layoutzone {
     border-color: #dedede;
     background-color: #dedede;
@@ -14740,28 +14740,28 @@
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-10 .x-panel-tool-layoutzone-outer-border-rbl {
     border-color: #dedede !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:195 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:263 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-bar-tool-layoutzone {
     background-color: #f5f5f5;
     border-color: #f5f5f5;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:242 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:310 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-bar-tool-layoutzone.x-tab-bar-plain {
     background-color: transparent;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:287 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:355 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:290 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:358 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-top-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:294 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:362 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-panel-tool-layoutzone-outer-border-rbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:299 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:367 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-bar-tool-layoutzone .x-tab-bar-strip-tool-layoutzone {
     border-color: #d7d7d7;
     background-color: #d7d7d7;
@@ -14770,28 +14770,28 @@
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-tool-layoutzone-outer-border-rbl {
     border-color: #d7d7d7 !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:195 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:263 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-20 .x-tab-bar-tool-layoutzone {
     background-color: #fcfcfc;
     border-color: #fcfcfc;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:242 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:310 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-20 .x-tab-bar-tool-layoutzone.x-tab-bar-plain {
     background-color: transparent;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:287 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:355 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-20 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:290 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:358 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-20 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-top-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:294 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:362 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-20 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-panel-tool-layoutzone-outer-border-rbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:299 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:367 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-20 .x-tab-bar-tool-layoutzone .x-tab-bar-strip-tool-layoutzone {
     border-color: #dedede;
     background-color: #dedede;
@@ -14800,28 +14800,28 @@
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-20 .x-panel-tool-layoutzone-outer-border-rbl {
     border-color: #dedede !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:195 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:263 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-tab-bar-tool-layoutzone {
     background-color: #f5f5f5;
     border-color: #f5f5f5;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:242 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:310 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-tab-bar-tool-layoutzone.x-tab-bar-plain {
     background-color: transparent;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:287 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:355 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:290 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:358 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-top-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:294 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:362 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-panel-tool-layoutzone-outer-border-rbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:299 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:367 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-tab-bar-tool-layoutzone .x-tab-bar-strip-tool-layoutzone {
     border-color: #d7d7d7;
     background-color: #d7d7d7;
@@ -14830,28 +14830,28 @@
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-tool-layoutzone-outer-border-rbl {
     border-color: #d7d7d7 !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:195 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:263 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-30 .x-tab-bar-tool-layoutzone {
     background-color: #fcfcfc;
     border-color: #fcfcfc;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:242 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:310 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-30 .x-tab-bar-tool-layoutzone.x-tab-bar-plain {
     background-color: transparent;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:287 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:355 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-30 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:290 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:358 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-30 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-top-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:294 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:362 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-30 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-panel-tool-layoutzone-outer-border-rbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:299 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:367 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-30 .x-tab-bar-tool-layoutzone .x-tab-bar-strip-tool-layoutzone {
     border-color: #dedede;
     background-color: #dedede;
@@ -14860,28 +14860,28 @@
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-30 .x-panel-tool-layoutzone-outer-border-rbl {
     border-color: #dedede !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:195 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:263 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-tab-bar-tool-layoutzone {
     background-color: #f5f5f5;
     border-color: #f5f5f5;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:242 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:310 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-tab-bar-tool-layoutzone.x-tab-bar-plain {
     background-color: transparent;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:287 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:355 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:290 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:358 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-top-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:294 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:362 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-panel-tool-layoutzone-outer-border-rbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:299 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:367 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-tab-bar-tool-layoutzone .x-tab-bar-strip-tool-layoutzone {
     border-color: #d7d7d7;
     background-color: #d7d7d7;
@@ -14890,28 +14890,28 @@
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-tool-layoutzone-outer-border-rbl {
     border-color: #d7d7d7 !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:195 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:263 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-40 .x-tab-bar-tool-layoutzone {
     background-color: #fcfcfc;
     border-color: #fcfcfc;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:242 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:310 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-40 .x-tab-bar-tool-layoutzone.x-tab-bar-plain {
     background-color: transparent;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:287 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:355 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-40 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:290 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:358 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-40 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-top-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:294 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:362 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-40 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-panel-tool-layoutzone-outer-border-rbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:299 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:367 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-40 .x-tab-bar-tool-layoutzone .x-tab-bar-strip-tool-layoutzone {
     border-color: #dedede;
     background-color: #dedede;
@@ -14920,28 +14920,28 @@
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-40 .x-panel-tool-layoutzone-outer-border-rbl {
     border-color: #dedede !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:195 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:263 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-tab-bar-tool-layoutzone {
     background-color: #f5f5f5;
     border-color: #f5f5f5;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:242 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:310 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-tab-bar-tool-layoutzone.x-tab-bar-plain {
     background-color: transparent;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:287 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:355 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:290 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:358 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-top-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:294 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:362 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-panel-tool-layoutzone-outer-border-rbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:299 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:367 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-tab-bar-tool-layoutzone .x-tab-bar-strip-tool-layoutzone {
     border-color: #d7d7d7;
     background-color: #d7d7d7;
@@ -14950,28 +14950,28 @@
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-tool-layoutzone-outer-border-rbl {
     border-color: #d7d7d7 !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:195 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:263 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-50 .x-tab-bar-tool-layoutzone {
     background-color: #fcfcfc;
     border-color: #fcfcfc;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:242 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:310 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-50 .x-tab-bar-tool-layoutzone.x-tab-bar-plain {
     background-color: transparent;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:287 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:355 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-50 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:290 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:358 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-50 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-top-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:294 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:362 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-50 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-panel-tool-layoutzone-outer-border-rbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:299 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:367 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-50 .x-tab-bar-tool-layoutzone .x-tab-bar-strip-tool-layoutzone {
     border-color: #dedede;
     background-color: #dedede;
@@ -14980,28 +14980,28 @@
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-50 .x-panel-tool-layoutzone-outer-border-rbl {
     border-color: #dedede !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:195 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:263 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-tab-bar-tool-layoutzone {
     background-color: #f5f5f5;
     border-color: #f5f5f5;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:242 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:310 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-tab-bar-tool-layoutzone.x-tab-bar-plain {
     background-color: transparent;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:287 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:355 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:290 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:358 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-top-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:294 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:362 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-panel-tool-layoutzone-outer-border-rbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:299 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:367 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-tab-bar-tool-layoutzone .x-tab-bar-strip-tool-layoutzone {
     border-color: #d7d7d7;
     background-color: #d7d7d7;
@@ -15010,28 +15010,28 @@
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-tool-layoutzone-outer-border-rbl {
     border-color: #d7d7d7 !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:195 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:263 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-60 .x-tab-bar-tool-layoutzone {
     background-color: #fcfcfc;
     border-color: #fcfcfc;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:242 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:310 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-60 .x-tab-bar-tool-layoutzone.x-tab-bar-plain {
     background-color: transparent;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:287 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:355 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-60 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:290 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:358 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-60 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-top-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:294 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:362 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-60 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-panel-tool-layoutzone-outer-border-rbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:299 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:367 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-60 .x-tab-bar-tool-layoutzone .x-tab-bar-strip-tool-layoutzone {
     border-color: #dedede;
     background-color: #dedede;
@@ -15040,28 +15040,28 @@
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-60 .x-panel-tool-layoutzone-outer-border-rbl {
     border-color: #dedede !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:195 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:263 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab-bar-tool-layoutzone {
     background-color: #f5f5f5;
     border-color: #f5f5f5;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:242 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:310 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab-bar-tool-layoutzone.x-tab-bar-plain {
     background-color: transparent;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:287 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:355 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:290 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:358 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-noborder-trbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-top-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:294 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:362 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab-bar-tool-layoutzone.x-tab-bar-plain + .x-panel-tool-layoutzone-outer-border-rbl > .x-tabpanel-child.x-panel-tool-layoutzone > .x-panel-body {
     border-color:  !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:299 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:367 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab-bar-tool-layoutzone .x-tab-bar-strip-tool-layoutzone {
     border-color: #d7d7d7;
     background-color: #d7d7d7;
@@ -15119,186 +15119,186 @@
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-over.x-tab-right:after {
     border-left-color: #c23249;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:350 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:414 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone {
     background-color: #fcfcfc;
     border-color: #fcfcfc;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:354 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:418 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone .x-tab-inner-tool-layoutzone {
     color: #cecece;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:357 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:421 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone .x-tab-icon-el-tool-layoutzone {
     color: #cecece;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:361 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:425 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone .x-tab-icon-el-tool-layoutzone:after {
     color: #b9b9b9;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:367 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:431 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-focus {
     background-color: #fcfcfc;
     border-color: #fcfcfc;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:371 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:435 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-focus .x-tab-inner-tool-layoutzone {
     color: #cecece;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:374 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:438 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-focus .x-tab-icon-el-tool-layoutzone {
     color: #cecece;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:378 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:442 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-focus .x-tab-icon-el-tool-layoutzone:after {
     color: #b9b9b9;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:384 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:448 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-over {
     background-color: #f6e8eb;
     border-color: #c23249;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:388 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:452 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-over .x-tab-inner-tool-layoutzone {
     color: #960018;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:391 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:455 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-over .x-tab-icon-el-tool-layoutzone {
     color: #960018;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:395 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:459 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-over .x-tab-icon-el-tool-layoutzone:after {
     color: #870016;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:401 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:465 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-over.x-tab-focus {
     background-color: #f6e8eb;
     border-color: #c23249;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:405 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:469 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-over.x-tab-focus .x-tab-inner-tool-layoutzone {
     color: #960018;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:408 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:472 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-over.x-tab-focus .x-tab-icon-el-tool-layoutzone {
     color: #960018;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:412 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:476 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-over.x-tab-focus .x-tab-icon-el-tool-layoutzone:after {
     color: #870016;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:418 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:482 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-active {
     background-color: #f4f4f4;
     border-color: #c8c8c8;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:422 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:486 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-active .x-tab-inner-tool-layoutzone {
     color: #a8a8a8;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:425 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:489 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-active .x-tab-icon-el-tool-layoutzone {
     color: #a8a8a8;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:429 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:493 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-active .x-tab-icon-el-tool-layoutzone:after {
     color: #979797;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:435 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:499 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-active.x-tab-focus {
     background-color: #f4f4f4;
     border-color: #c8c8c8;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:439 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:503 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-active.x-tab-focus .x-tab-inner-tool-layoutzone {
     color: #a8a8a8;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:442 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:506 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-active.x-tab-focus .x-tab-icon-el-tool-layoutzone {
     color: #a8a8a8;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:446 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:510 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-active.x-tab-focus .x-tab-icon-el-tool-layoutzone:after {
     color: #979797;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:452 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:516 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-active.x-tab-over {
     background-color: #f6e8eb;
     border-color: #c23249;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:456 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:520 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-active.x-tab-over .x-tab-inner-tool-layoutzone {
     color: #960018;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:459 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:523 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-active.x-tab-over .x-tab-icon-el-tool-layoutzone {
     color: #960018;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:463 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:527 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-active.x-tab-over .x-tab-icon-el-tool-layoutzone:after {
     color: #870016;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:469 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:533 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-disabled {
     background-color: #fcfcfc;
     border-color: #fcfcfc;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:473 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:537 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-disabled .x-tab-inner-tool-layoutzone {
     color: #cecece;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:476 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:540 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-disabled .x-tab-icon-el-tool-layoutzone {
     color: #cecece;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:480 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:544 */
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-disabled .x-tab-icon-el-tool-layoutzone:after {
     color: #b9b9b9;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:350 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:414 */
 .a-tool-layout-zoned-focused .ametys-tab-color-0.x-tab-tool-layoutzone {
     background-color: #f5f5f5;
     border-color: #f5f5f5;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:354 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:418 */
 .a-tool-layout-zoned-focused .ametys-tab-color-0.x-tab-tool-layoutzone .x-tab-inner-tool-layoutzone {
     color: #c1c1c1;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:357 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:421 */
 .a-tool-layout-zoned-focused .ametys-tab-color-0.x-tab-tool-layoutzone .x-tab-icon-el-tool-layoutzone {
     color: #c1c1c1;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:361 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:425 */
 .a-tool-layout-zoned-focused .ametys-tab-color-0.x-tab-tool-layoutzone .x-tab-icon-el-tool-layoutzone:after {
     color: #aeaeae;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:367 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:431 */
 .a-tool-layout-zoned-focused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-focus {
     background-color: #f5f5f5;
     border-color: #f5f5f5;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:371 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:435 */
 .a-tool-layout-zoned-focused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-focus .x-tab-inner-tool-layoutzone {
     color: #c1c1c1;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:374 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:438 */
 .a-tool-layout-zoned-focused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-focus .x-tab-icon-el-tool-layoutzone {
     color: #c1c1c1;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:378 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:442 */
 .a-tool-layout-zoned-focused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-focus .x-tab-icon-el-tool-layoutzone:after {
     color: #aeaeae;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:384 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:448 */
 .a-tool-layout-zoned-focused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-over {
     background-color: #f6e8eb;
     border-color: #c23249;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:388 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:452 */
 .a-tool-layout-zoned-focused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-over .x-tab-inner-tool-layoutzone {
     color: #960018;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:391 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/etc/all.scss:455 */
 .a-tool-layout-zoned-focused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-over .x-tab-icon-el-tool-layoutzone {
     color: #960018;
 }
