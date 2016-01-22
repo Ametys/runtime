@@ -63,6 +63,12 @@ Ext.define('Ametys.form.AbstractField', {
     emptyCls: Ext.baseCSSPrefix + 'form-empty',
     
     /**
+     * @property {String} fieldFocusCls The CSS to apply to root element when field is focused 
+     * @private
+     */
+    fieldFocusCls: "x-field-focus",
+    
+    /**
      * @cfg {String} blankText
      * The error text to display if the **{@link #allowBlank}** validation fails
      */
@@ -284,6 +290,23 @@ Ext.define('Ametys.form.AbstractField', {
     {
         this.unsetActiveWarnings();
         this.updateLayout();
-    }
+    },
     
+    
+    onFocus: function(e) 
+    {
+        var me = this;
+
+        me.callParent(arguments);
+
+        me.addCls(me.fieldFocusCls);
+    },
+
+    onBlur: function(e) {
+        var me = this;
+
+        me.callParent(arguments);
+
+        me.removeCls(me.fieldFocusCls);    
+    }
 });

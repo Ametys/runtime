@@ -212,7 +212,7 @@ Ext.define('Ametys.form.field.RichText', {
                 flex: 1,
                 items: [
                     { xtype: 'component', itemId: 'wrapper', cls: this.richtextCls + '-wrapper', scrollable: false, border: true, html: "<div id=\"" + this._editorId + "\"></div>" },
-                    { xtype: 'code', itemId: 'source', isField: false, listeners: { change: Ext.bind(this._onUpdate, this) } }
+                    { xtype: 'code', itemId: 'source', isField: false, listeners: { change: Ext.bind(this._onUpdate, this), focus: Ext.bind(this._onCodeFocus, this), blur: Ext.bind(this._onCodeBlur, this)} }
                 ]
             }
         ];
@@ -347,6 +347,34 @@ Ext.define('Ametys.form.field.RichText', {
         this.callParent(arguments);
     },
     
+    _onCodeFocus: function() {
+        if (this._currentMode == "source")
+        {
+            this.onFocus();
+        }
+    },
+
+    _onCodeBlur: function() {
+        if (this._currentMode == "source")
+        {
+            this.onBlur();
+        }
+    },
+
+    _onEditorFocus: function() {
+        if (this._currentMode != "source")
+        {
+            this.onFocus();
+        }
+    },
+
+    _onEditorBlur: function() {
+        if (this._currentMode != "source")
+        {
+            this.onBlur();
+        }
+    },
+
     getValue: function()
     {
         var editor;
@@ -446,11 +474,37 @@ Ext.define('Ametys.form.field.RichText', {
     {
         if (this._currentMode == "source")
         {
-            return this.getSourceEditor().getFocusEl();
+            return this.getSourceEditor();
         }
         else
         {
             return this.getFrameEl();
+        }
+    },
+    
+    focus: function(selectText, delay)
+    {
+        var me = this,
+            value, focusEl;
+
+        if (delay) 
+        {
+            if (!me.focusTask) 
+            {
+                me.focusTask = new Ext.util.DelayedTask(me.focus);
+            }
+            me.focusTask.delay(Ext.isNumber(delay) ? delay : 10, null, me, [selectText, false]);
+        }
+        else 
+        {
+            if (this._currentMode == "source")
+            {
+                this.getSourceEditor().focus();
+            }
+            else
+            {
+                window.setTimeout(Ext.bind(this.getEditor().focus, this.getEditor()), 1);
+            }
         }
     },
 
@@ -481,6 +535,7 @@ Ext.define('Ametys.form.field.RichText', {
                 {
                     this.getComponent("card").setActiveItem(1);
                     this.setValue(value); // Transmit the current value to the new edit component
+                    this.focus(null, 1);
                 }
                 
                 this.getSourceEditor().setReadOnly(this.getReadOnly());
@@ -491,6 +546,7 @@ Ext.define('Ametys.form.field.RichText', {
                 {
                     this.getComponent("card").setActiveItem(0);
                     this.setValue(value); // Transmit the current value to the new edit component
+                    this.focus(null, 1);
                 }
                 
                 var domUtils = this.getEditor().dom;
@@ -757,6 +813,9 @@ Ext.define('Ametys.form.field.RichText', {
         
         editor.on('NodeChange', Ext.bind(this._sendSelection, this));
         editor.on('focus', Ext.bind(this._sendSelection, this)); // Giving focus using TAB a previously focused editor, does not fire 'NodeChange'
+        
+        editor.on('focus', Ext.bind(this._onEditorFocus, this));
+        editor.on('blur', Ext.bind(this._onEditorBlur, this));
         
         editor.on('GetContent', Ext.bind(this._onEditorGetContent, this));
         editor.on('BeforeSetContent', Ext.bind(this._onEditorSetContent, this));
@@ -1290,7 +1349,6 @@ Ext.define('Ametys.form.field.RichText', {
             editor._lastActiveNode = node;
             window.setTimeout(function() { editor._lastActiveNode = null; }, 10);
             
-            this.getLogger().error("Trace")
             Ext.defer(this.fireEvent, 1, this , ['editorhtmlnodeselected', this, node]);
         }
     }    
