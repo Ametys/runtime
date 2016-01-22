@@ -30,6 +30,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import nl.captcha.Captcha;
+import nl.captcha.Captcha.Builder;
+import nl.captcha.gimpy.DropShadowGimpyRenderer;
+import nl.captcha.gimpy.FishEyeGimpyRenderer;
+import nl.captcha.gimpy.RippleGimpyRenderer;
+import nl.captcha.noise.CurvedLineNoiseProducer;
+import nl.captcha.text.producer.DefaultTextProducer;
+import nl.captcha.text.renderer.DefaultWordRenderer;
+
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.NameValuePair;
@@ -43,15 +53,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.util.JSONUtils;
-
-import nl.captcha.Captcha;
-import nl.captcha.Captcha.Builder;
-import nl.captcha.gimpy.DropShadowGimpyRenderer;
-import nl.captcha.gimpy.FishEyeGimpyRenderer;
-import nl.captcha.gimpy.RippleGimpyRenderer;
-import nl.captcha.noise.CurvedLineNoiseProducer;
-import nl.captcha.text.producer.DefaultTextProducer;
-import nl.captcha.text.renderer.DefaultWordRenderer;
+import org.ametys.runtime.util.LoggerFactory;
 
 /**
  * Helper for generating image captcha to PNG format
@@ -68,6 +70,8 @@ public final class CaptchaHelper
     
     private static Map<String, List<ValidableCaptcha>> _mapStaticCaptcha = new HashMap<String, List<ValidableCaptcha>>();
     private static Map<String, ValidableCaptcha> _mapDynamicCaptcha = new HashMap<String, ValidableCaptcha>();
+    
+    private static Logger _logger = LoggerFactory.getLoggerFor(CaptchaHelper.class);
     
     private CaptchaHelper ()
     {
@@ -271,6 +275,7 @@ public final class CaptchaHelper
             }
             catch (Exception e)
             {
+                _logger.error("Unable to concat Google server to validate reCaptcha.", e);
                 return false;
             }
             finally
