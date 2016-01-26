@@ -453,8 +453,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     
     reset: function()
     {
-    	this.callParent(arguments);
-    	
     	// Reset the warnings and the parameter checkers' status
 		Ext.Array.each(this._paramCheckersDAO._paramCheckers, function(paramChecker)
 		{
@@ -470,6 +468,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 		this._paramCheckersDAO._updateWarnings();
 
 		// TODO reset repeaters
+
+		this.callParent(arguments);
     },
     
     /**
