@@ -377,35 +377,28 @@ Ext.define('Ametys.form.field.RichText', {
 
     getValue: function()
     {
-        var editor;
-        
-        if (this._currentMode == "source")
-        {
-            // Cache the current editor content.
-            if (this._charCount == -1)
-            {
-                this.value = this.getSourceEditor().getValue();
-                
-                // Filter the tags and compute the character count. 
-                this._charCount = this.value.replace(Ametys.form.field.RichText.FILTER_TAGS, '').length;
-                
-                this.checkChange();
-            }
-        }
-        else if (editor = this.getEditor())
-        {
-            // Cache the current editor content.
-            if (this._charCount == -1)
-            {
-                this.value = editor.getContent();
-                
-                // Filter the tags and compute the character count. 
-                this._charCount = this.value.replace(Ametys.form.field.RichText.FILTER_TAGS, '').length;
+        var editor = this.getEditor();
 
-                this.checkChange();
+        if (this._charCount == -1 && editor)
+        {
+            if (this._currentMode == "source")
+            {
+                // Cache the current editor content.
+                {
+                    var rawValue = this.getSourceEditor().getValue(); 
+                    editor.setContent(rawValue);
+                }
             }
+
+            // Cache the current editor content.
+            this.value = editor.getContent();
+            
+            // Filter the tags and compute the character count. 
+            this._charCount = this.value.replace(Ametys.form.field.RichText.FILTER_TAGS, '').length;
+
+            this.checkChange();
         }
-        
+    
         return this.callParent(arguments);
     },
     
