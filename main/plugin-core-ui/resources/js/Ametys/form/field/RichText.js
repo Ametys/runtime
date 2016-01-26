@@ -86,7 +86,7 @@ Ext.define('Ametys.form.field.RichText', {
      * @private
      * @property {Number} _updateEvery Time in ms between an event on the editor and the time the counter is updating (to prevent too many updates). This will vary in the life time of the editor: a big content will auto increase this value
      */
-    _updateEvery: 1000,
+    _updateEvery: 100,
     /**
      * @private
      * @property {Number} _charCount A cached value of the current character count in the editor, -1 if unknown.
@@ -388,6 +388,8 @@ Ext.define('Ametys.form.field.RichText', {
                 
                 // Filter the tags and compute the character count. 
                 this._charCount = this.value.replace(Ametys.form.field.RichText.FILTER_TAGS, '').length;
+                
+                this.checkChanges();
             }
         }
         else if (editor = this.getEditor())
@@ -399,6 +401,8 @@ Ext.define('Ametys.form.field.RichText', {
                 
                 // Filter the tags and compute the character count. 
                 this._charCount = this.value.replace(Ametys.form.field.RichText.FILTER_TAGS, '').length;
+
+                this.checkChange();
             }
         }
         
@@ -851,7 +855,9 @@ Ext.define('Ametys.form.field.RichText', {
         editor.on('SetContent', _onUpdate);
         editor.on('KeyUp', _onUpdate);
 
-        this.getValue(); // required to set _charCount
+        this.suspendCheckChange++;
+        this.lastValue = this.getValue(); // Call to #getValue is required to set _charCount ; moreover, the checkChange have to be helped by setting #lastValue manually (because #getValue changes the indentation)
+        this.suspendCheckChange--;
         this._updateCharCounter(editor);
         // End set value
         
@@ -1076,7 +1082,7 @@ Ext.define('Ametys.form.field.RichText', {
         this._updateCharCounter();
         
         var took2 = new Date().getTime();
-        this._updateEvery = Math.max(took2 - took, 1000);
+        this._updateEvery = Math.max(took2 - took, 100);
     },
     
     /**
