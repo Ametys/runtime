@@ -67,6 +67,7 @@ Ext.define('Ametys.form.field.Code', {
     _readOnly: false,
     
     focusable: true,
+    liquidLayout: false,
     
     /**
      * @inheritdoc
@@ -201,7 +202,9 @@ Ext.define('Ametys.form.field.Code', {
     {
         if (this._codeMirror)
         {
-            this._codeMirror.setSize("100%", height - 2); // This - 2 is a hack due to border, but will soon or later fail
+            var s = this.bodyEl.getSize(true);
+            this._codeMirror.setSize(s.width - 2, s.height - 2); // This - 2 is a hack due to border, but will soon or later fail
+            // FIXME this should fail with errorEl visible or ametysDescription?
         }
     },
     
