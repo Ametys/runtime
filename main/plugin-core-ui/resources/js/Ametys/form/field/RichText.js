@@ -389,7 +389,7 @@ Ext.define('Ametys.form.field.RichText', {
                 // Filter the tags and compute the character count. 
                 this._charCount = this.value.replace(Ametys.form.field.RichText.FILTER_TAGS, '').length;
                 
-                this.checkChanges();
+                this.checkChange();
             }
         }
         else if (editor = this.getEditor())
