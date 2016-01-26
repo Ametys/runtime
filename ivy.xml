@@ -91,7 +91,7 @@ Open source web application framework based on Apache Cocoon.
     <!-- Runtime -->
     <dependency org="tiny_mce" name="tiny_mce" rev="4.3.2" conf="runtime_dependencies->default"/>
     <dependency org="codemirror" name="codemirror" rev="3.24-ametys-2" conf="runtime_dependencies->default"/> 
-    <dependency org="org.sencha" name="extjs6" rev="6.0.1" conf="runtime_dependencies->default"/>
+    <dependency org="org.sencha" name="extjs6" rev="6.0.1-ametys" conf="runtime_dependencies->default"/>
 	
     <!-- Compile and test -->
     <dependency org="javax.servlet" name="javax.servlet-api" rev="3.1.0" conf="compile_base->default"/>
