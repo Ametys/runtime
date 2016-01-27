@@ -942,6 +942,7 @@ Ext.define('Ametys.form.field.RichText', {
         var editor = this.getEditor();
         if (editor != null)
         {
+            console.info("remove " + editor.id)
             if (tinyMCE.activeEditor == editor)
             {
                 tinyMCE.activeEditor = null;
@@ -950,9 +951,7 @@ Ext.define('Ametys.form.field.RichText', {
             this.cleanupListeners(true);
                 
             // Let's destroy the tinymce component
-            tinymce.remove(editor.id);
-            
-            // this._notFirstCallToOnRichTextNodeSelected = false;
+            editor.remove();
         }
     },
 
