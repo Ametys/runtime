@@ -297,9 +297,9 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, oldPrefix + "/%");
             
-            if (getLogger().isInfoEnabled())
+            if (getLogger().isDebugEnabled())
             {
-                getLogger().info(sql + "\n[" + oldPrefix + "/%]");
+                getLogger().debug(sql + "\n[" + oldPrefix + "/%]");
             }
             rs = stmt.executeQuery();
             
@@ -354,9 +354,9 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, oldPrefix + "/%");
             
-            if (getLogger().isInfoEnabled())
+            if (getLogger().isDebugEnabled())
             {
-                getLogger().info(sql + "\n[" + oldPrefix + "/%]");
+                getLogger().debug(sql + "\n[" + oldPrefix + "/%]");
             }
             rs = stmt.executeQuery();
             
@@ -406,7 +406,7 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
             String sql = "DELETE FROM " + _tableGroupRights + " WHERE LOWER(Context) LIKE ?";
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, contextPrefix + "/%");
-            getLogger().info(sql + "\n[" + contextPrefix + "/%]");
+            getLogger().debug(sql + "\n[" + contextPrefix + "/%]");
             stmt.executeUpdate();
             
             // Clear the group right cache.
@@ -417,7 +417,7 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
             sql = "DELETE FROM " + _tableUserRights + " WHERE LOWER(Context) LIKE ?";
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, contextPrefix + "/%");
-            getLogger().info(sql + "\n[" + contextPrefix + "/%]");
+            getLogger().debug(sql + "\n[" + contextPrefix + "/%]");
             stmt.executeUpdate();
             
             // Clear the user right cache.

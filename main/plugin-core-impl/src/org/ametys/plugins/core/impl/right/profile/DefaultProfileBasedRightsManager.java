@@ -548,7 +548,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
         catch (RightOnContextNotInCacheException e)
         {
-            getLogger().info("No find entry in cache for [" + userLogin + ", " + right + ", " + lcContext + "]");
+            getLogger().debug("No find entry in cache for [" + userLogin + ", " + right + ", " + lcContext + "]");
         }
 
         try
@@ -557,7 +557,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
         catch (RightOnContextNotInCacheException e)
         {
-            getLogger().info("No find entry in cache2 for [" + userLogin + ", " + right + ", " + lcContext + "]");
+            getLogger().debug("No find entry in cache2 for [" + userLogin + ", " + right + ", " + lcContext + "]");
         }
 
         try
@@ -647,7 +647,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             stmt.setString(2, lcContext);
 
             // Logger la requête
-            getLogger().info(sql + "\n[" + login + ", " + lcContext + "]");
+            getLogger().debug(sql + "\n[" + login + ", " + lcContext + "]");
 
             rs = stmt.executeQuery();
 
@@ -701,7 +701,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             stmt.setString(2, lcContext);
 
             // Logger la requête
-            getLogger().info(sql + "\n[" + profileID + ", " + lcContext + "]");
+            getLogger().debug(sql + "\n[" + profileID + ", " + lcContext + "]");
 
             rs = stmt.executeQuery();
 
@@ -764,7 +764,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             stmt.setString(2, lcContext);
 
             // Logger la requête
-            getLogger().info(sql + "\n[" + profileID + ", " + lcContext + "]");
+            getLogger().debug(sql + "\n[" + profileID + ", " + lcContext + "]");
 
             rs = stmt.executeQuery();
 
@@ -830,7 +830,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             stmt.setInt(2, Integer.parseInt(profileID));
 
             // Logger la requête
-            getLogger().info(sql + "\n[" + login + ", " + profileID + "]");
+            getLogger().debug(sql + "\n[" + login + ", " + profileID + "]");
 
             rs = stmt.executeQuery();
 
@@ -929,7 +929,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             stmt.setString(2, lcContext);
 
             // Logger la requête
-            getLogger().info(sql + "\n[" + groupId + ", " + lcContext + "]");
+            getLogger().debug(sql + "\n[" + groupId + ", " + lcContext + "]");
 
             rs = stmt.executeQuery();
 
@@ -982,7 +982,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             // Logger la requête
             if (getLogger().isInfoEnabled())
             {
-                getLogger().info(sql + "\n[" + groupID + ", " + profileID + "]");
+                getLogger().debug(sql + "\n[" + groupID + ", " + profileID + "]");
             }
 
             rs = stmt.executeQuery();
@@ -1051,7 +1051,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             stmt.setString(3, lcContext);
 
             // Logger la requête
-            getLogger().info(sql + "\n[" + profileId + ", " + login + ", " + lcContext + "]");
+            getLogger().debug(sql + "\n[" + profileId + ", " + login + ", " + lcContext + "]");
 
             stmt.executeUpdate();
             
@@ -1115,7 +1115,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             stmt.setString(3, lcContext);
 
             // Logger la requête
-            getLogger().info(sql + "\n[" + profileId + ", " + groupId + ", " + lcContext + "]");
+            getLogger().debug(sql + "\n[" + profileId + ", " + groupId + ", " + lcContext + "]");
 
             stmt.executeUpdate();
             
@@ -1162,7 +1162,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             stmt.setString(3, lcContext);
 
             // Logger la requête
-            getLogger().info(sql + "\n[" + login + ", " + profileId + ", " + lcContext + "]");
+            getLogger().debug(sql + "\n[" + login + ", " + profileId + ", " + lcContext + "]");
 
             stmt.executeUpdate();
             
@@ -1214,7 +1214,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             }
 
             // Logger la requête
-            getLogger().info(sql + "\n[" + login + ", " + lcContext + "]");
+            getLogger().debug(sql + "\n[" + login + ", " + lcContext + "]");
 
             stmt.executeUpdate();
             
@@ -1298,7 +1298,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             stmt.setString(3, lcContext);
 
             // Logger la requête
-            getLogger().info(sql + "\n[" + groupId + ", " + profileId + ", " + lcContext + "]");
+            getLogger().debug(sql + "\n[" + groupId + ", " + profileId + ", " + lcContext + "]");
 
             stmt.executeUpdate();
             
@@ -1351,7 +1351,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             }
 
             // Logger la requête
-            getLogger().info(sql + "\n[" + groupId + ", " + lcContext + "]");
+            getLogger().debug(sql + "\n[" + groupId + ", " + lcContext + "]");
 
             stmt.executeUpdate();
             
@@ -1398,7 +1398,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             stmt.setString(1, lcContext);
 
             // Logger la requête
-            getLogger().info(sql + "\n[" + lcContext + "]");
+            getLogger().debug(sql + "\n[" + lcContext + "]");
 
             rs = stmt.executeQuery();
 
@@ -1456,7 +1456,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             stmt.setString(1, lcContext);
 
             // Logger la requête
-            getLogger().info(sql + "\n[" + lcContext + "]");
+            getLogger().debug(sql + "\n[" + lcContext + "]");
 
             rs = stmt.executeQuery();
 
@@ -1504,9 +1504,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             stmt.setString(1, fullNewContext);
             stmt.setString(2, fullOldContext);
 
-            if (getLogger().isInfoEnabled())
+            if (getLogger().isDebugEnabled())
             {
-                getLogger().info(sql + "\n[" + fullNewContext + ", " + fullOldContext + "]");
+                getLogger().debug(sql + "\n[" + fullNewContext + ", " + fullOldContext + "]");
             }
             stmt.executeUpdate();
             
@@ -1521,9 +1521,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             stmt.setString(1, fullNewContext);
             stmt.setString(2, fullOldContext);
 
-            if (getLogger().isInfoEnabled())
+            if (getLogger().isDebugEnabled())
             {
-                getLogger().info(sql + "\n[" + fullNewContext + ", " + fullOldContext + "]");
+                getLogger().debug(sql + "\n[" + fullNewContext + ", " + fullOldContext + "]");
             }
             stmt.executeUpdate();
             
@@ -1551,7 +1551,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             String sql = "DELETE FROM " + _tableGroupRights + " WHERE LOWER(Context) = ?";
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, fullContext);
-            getLogger().info(sql + "\n[" + fullContext + "]");
+            getLogger().debug(sql + "\n[" + fullContext + "]");
             stmt.executeUpdate();
 
             ConnectionHelper.cleanup(stmt);
@@ -1562,7 +1562,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             sql = "DELETE FROM " + _tableUserRights + " WHERE LOWER(Context) = ?";
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, fullContext);
-            getLogger().info(sql + "\n[" + fullContext + "]");
+            getLogger().debug(sql + "\n[" + fullContext + "]");
             stmt.executeUpdate();
             
             // Clear the user right cache.
@@ -1612,7 +1612,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             // Logger la requête
             if (getLogger().isInfoEnabled())
             {
-                getLogger().info(sql + "\n[" + right + ", " + login + "]");
+                getLogger().debug(sql + "\n[" + right + ", " + login + "]");
             }
 
             rs = stmt.executeQuery();
@@ -1694,7 +1694,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             // Logger la requête
             if (getLogger().isInfoEnabled())
             {
-                getLogger().info(sql + "\n[" + right + ", " + login + (context != null ? "," + context : "") + "]");
+                getLogger().debug(sql + "\n[" + right + ", " + login + (context != null ? "," + context : "") + "]");
             }
 
             rs = stmt.executeQuery();
@@ -1791,7 +1791,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             }
 
             // Logger la requête
-            getLogger().info(sql + "\n[" + right + (context != null ? "," + context : "") + "]");
+            getLogger().debug(sql + "\n[" + right + (context != null ? "," + context : "") + "]");
 
             rs = stmt.executeQuery();
 
@@ -1840,7 +1840,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             }
 
             // Logger la requête
-            getLogger().info(sql.toString() + "\n[" + (context != null ? "," + context : "") + "]");
+            getLogger().debug(sql.toString() + "\n[" + (context != null ? "," + context : "") + "]");
 
             rs = stmt.executeQuery();
 
@@ -1920,7 +1920,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             }
 
             // Logger la requête
-            getLogger().info(sql + "\n[" + login + (context != null ? "," + context : "") + "]");
+            getLogger().debug(sql + "\n[" + login + (context != null ? "," + context : "") + "]");
 
             rs = stmt.executeQuery();
 
@@ -1980,7 +1980,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             stmt.setString(1, login);
 
             // Logger la requête
-            getLogger().info(sql + "\n[" + login + "]");
+            getLogger().debug(sql + "\n[" + login + "]");
 
             rs = stmt.executeQuery();
 
@@ -2027,7 +2027,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             stmt.setString(1, login);
 
             // Logger la requête
-            getLogger().info(sql + "\n[" + login + "]");
+            getLogger().debug(sql + "\n[" + login + "]");
 
             rs = stmt.executeQuery();
 
@@ -2090,9 +2090,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                 fillStatement(stmt, null, groupsId, i);
 
                 // Logger la requête
-                if (getLogger().isInfoEnabled())
+                if (getLogger().isDebugEnabled())
                 {
-                    getLogger().info(sql + "\n[" + right + ", " + login + "]");
+                    getLogger().debug(sql + "\n[" + right + ", " + login + "]");
                 }
 
                 rs = stmt.executeQuery();
@@ -2170,9 +2170,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                 fillStatement(stmt, context, groupsId, i);
 
                 // Logger la requête
-                if (getLogger().isInfoEnabled())
+                if (getLogger().isDebugEnabled())
                 {
-                    getLogger().info(sql + "\n[" + right + ", " + (context != null ? "," + context : "") + "]");
+                    getLogger().debug(sql + "\n[" + right + ", " + (context != null ? "," + context : "") + "]");
                 }
 
                 Map<String, List<String>> mapContext = getCacheContext(login, right);
@@ -2254,7 +2254,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             }
 
             // Logger la requête
-            getLogger().info(sql + "\n[" + right + (context != null ? "," + context : "") + "]");
+            getLogger().debug(sql + "\n[" + right + (context != null ? "," + context : "") + "]");
 
             // boucle sur les group id retrouvés
             rs = stmt.executeQuery();
@@ -2316,7 +2316,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             }
 
             // Logger la requête
-            getLogger().info(sql.toString() + "\n[" + (context != null ? "," + context : "") + "]");
+            getLogger().debug(sql.toString() + "\n[" + (context != null ? "," + context : "") + "]");
 
             // boucle sur les group id retrouvés
             rs = stmt.executeQuery();
@@ -2431,7 +2431,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                 }
 
                 // Logger la requête
-                getLogger().info(sql + "\n[" + login + (context == null ? "" : "," + context) + "]");
+                getLogger().debug(sql + "\n[" + login + (context == null ? "" : "," + context) + "]");
 
                 rs = stmt.executeQuery();
 
@@ -2520,7 +2520,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                 }
 
                 // Logger la requête
-                getLogger().info(sql + "\n[" + login + "]");
+                getLogger().debug(sql + "\n[" + login + "]");
 
                 rs = stmt.executeQuery();
 
@@ -2595,7 +2595,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                 }
 
                 // Logger la requête
-                getLogger().info(sql + "\n[" + login + "]");
+                getLogger().debug(sql + "\n[" + login + "]");
 
                 rs = stmt.executeQuery();
 
