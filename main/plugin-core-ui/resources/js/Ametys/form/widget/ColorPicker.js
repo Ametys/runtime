@@ -54,6 +54,8 @@ Ext.define('Ametys.form.widget.ColorPicker', {
     
     initComponent : function() 
     {
+        this.value = this.value || "";
+        
         // Color field
         var displayedColorConfig = {
             cls: Ametys.form.AbstractField.READABLE_TEXT_CLS,
@@ -146,10 +148,6 @@ Ext.define('Ametys.form.widget.ColorPicker', {
         }
         
         this._displayedColorField.update(this.getReadableValue());
-        if (this.value == null || this.valuePublishEvent == "")
-        {
-	        //this.cls = this.emptyCls;
-        }
     },
     
     /**
