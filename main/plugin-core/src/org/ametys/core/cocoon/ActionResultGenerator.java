@@ -34,8 +34,8 @@ import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.Errors;
 
 /**
- * This generator generates a ActionResult tag surounding parameters.<br>
- * Usefull for pipeline that needs no generator.
+ * This generator generates an ActionResult tag surrounding parameters.<br>
+ * Useful for pipeline that needs no generator.
  */
 public class ActionResultGenerator extends AbstractGenerator
 {
