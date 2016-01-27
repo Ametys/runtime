@@ -216,6 +216,76 @@ public final class ConfigurationHelper
     }
     
     /**
+     * Parse a structured Configuration to an Object.
+     * The returned Object can be either a String or a Map&lt;String, Object&gt;.
+     * The map's values are either a String, a Map, or a List&lt;String&gt;.
+     * @param configuration The structured Configuration to parse.
+     * @return The parsed Object.
+     */
+    public static Object parseObject(Configuration configuration)
+    {
+        return parseObject(configuration, null);
+    }
+    
+    /**
+     * Parse a structured Configuration to an Object.
+     * The returned Object can be either a String or a Map&lt;String, Object&gt;.
+     * The map's values are either a String, a Map, or a List&lt;String&gt;.
+     * @param configuration The structured Configuration to parse.
+     * @param defaultValue The value to use when an empty tag is found (at any level in the tree).
+     * @return The parsed Object.
+     */
+    @SuppressWarnings("unchecked")
+    public static Object parseObject(Configuration configuration, Object defaultValue)
+    {
+        String value = configuration.getValue(null);
+        Configuration[] children = configuration.getChildren();
+        
+        if (value != null)
+        {
+            // Mixed content cannot be found in a Configuration: if it has a value,
+            // it won't have any child.
+            return value;
+        }
+        else if (children.length > 0)
+        {
+            Map<String, Object> result = new LinkedHashMap<>();
+            for (Configuration subConf : children)
+            {
+                String name = subConf.getName();
+                Object subValue = parseObject(subConf, defaultValue);
+                boolean multiple = configuration.getChildren(name).length > 1;
+                
+                if (multiple)
+                {
+                    // More than one value with the same name: make it a list and append the current value.
+                    List<Object> values = null;
+                    if (result.containsKey(name))
+                    {
+                        values = (List<Object>) result.get(name);
+                    }
+                    else
+                    {
+                        values = new ArrayList<>();
+                        result.put(name, values);
+                    }
+                    values.add(subValue);
+                }
+                else
+                {
+                    // Only one value with this name: add it as a single value.
+                    result.put(name, subValue);
+                }
+            }
+            return result;
+        }
+        else
+        {
+            return defaultValue;
+        }
+    }
+    
+    /**
      * Parse parameters recursively.
      * @param configuration the parameters configuration.
      * @param defaultPluginName The default plugin name.
