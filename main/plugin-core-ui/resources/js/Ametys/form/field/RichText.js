@@ -278,7 +278,7 @@ Ext.define('Ametys.form.field.RichText', {
                 allowDepress: false,
                 pressed: true,
                 toggleGroup: this._editorId + "-mode",
-                handler: Ext.bind(this._setMode, this, ["preview"], false) 
+                handler: Ext.bind(this._setMode, this, ["preview", true], false) 
             });
             this._availableModes.preview = true;
             this._currentMode = "preview"
@@ -308,7 +308,7 @@ Ext.define('Ametys.form.field.RichText', {
                 allowDepress: false,
                 pressed: this._currentMode == "full",
                 toggleGroup: this._editorId + "-mode",
-                handler: Ext.bind(this._setMode, this, ["full"], false) 
+                handler: Ext.bind(this._setMode, this, ["full", true], false) 
             });
             
             if (config.editableSource === true || config.editableSource === "true")
@@ -327,7 +327,7 @@ Ext.define('Ametys.form.field.RichText', {
                     enableToggle: true,
                     allowDepress: false,
                     toggleGroup: this._editorId + "-mode",
-                    handler: Ext.bind(this._setMode, this, ["source"], false) 
+                    handler: Ext.bind(this._setMode, this, ["source", true], false) 
                 });
                 this._availableModes.source = true;
             }
@@ -509,8 +509,9 @@ Ext.define('Ametys.form.field.RichText', {
      * @private
      * Change the editor mode or reapply the current and disable state
      * @param {String} mode A constant of #_availableModes. Can be null to (re)apply existing mode
+     * @param {Boolean} forceFocus Should focus goes back to the editor
      */
-    _setMode: function(mode)
+    _setMode: function(mode, forceFocus)
     {
         var newMode = mode || this._currentMode;
         
@@ -532,7 +533,6 @@ Ext.define('Ametys.form.field.RichText', {
                 {
                     this.getComponent("card").setActiveItem(1);
                     this.setValue(value); // Transmit the current value to the new edit component
-                    this.focus(null, 1);
                 }
                 
                 this.getSourceEditor().setReadOnly(this.getReadOnly());
@@ -543,7 +543,6 @@ Ext.define('Ametys.form.field.RichText', {
                 {
                     this.getComponent("card").setActiveItem(0);
                     this.setValue(value); // Transmit the current value to the new edit component
-                    this.focus(null, 1);
                 }
                 
                 var domUtils = this.getEditor().dom;
@@ -567,6 +566,11 @@ Ext.define('Ametys.form.field.RichText', {
                 
                 // Adapt readonly mode
                 bodyTag.setAttribute('contenteditable', !this.getReadOnly());
+            }
+
+            if (forceFocus)
+            {
+                this.focus(null, 1);
             }
         }
 
@@ -809,7 +813,7 @@ Ext.define('Ametys.form.field.RichText', {
         editor.on('init', Ext.bind(this._onEditorInit, this));
         
         editor.on('NodeChange', Ext.bind(this._sendSelection, this));
-        editor.on('focus', Ext.bind(this._sendSelection, this)); // Giving focus using TAB a previously focused editor, does not fire 'NodeChange'
+        editor.on('focus', Ext.bind(function() { this.getEditor().nodeChanged() }, this)); // Giving focus using TAB a previously focused editor, does not fire 'NodeChange' automatically. This is necessary for the messagebus AND for UI issues (such as RUNTIME-1593)
         
         editor.on('focus', Ext.bind(this._onEditorFocus, this));
         editor.on('blur', Ext.bind(this._onEditorBlur, this));
