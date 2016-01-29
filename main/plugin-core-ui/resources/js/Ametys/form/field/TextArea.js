@@ -54,14 +54,12 @@
 		 			'</span>',
 				'</div>'
 			]);
-			
-			config.listeners = {
-				'change': this._updateCharCounter,
-				'keyup': this._updateCharCounter
-			}
 		}
  		
  		this.callParent(arguments);
+        
+        this.on('change', this._updateCharCounter, this);
+        this.on('keyup', this._updateCharCounter, this);
  	},
     
     /**
