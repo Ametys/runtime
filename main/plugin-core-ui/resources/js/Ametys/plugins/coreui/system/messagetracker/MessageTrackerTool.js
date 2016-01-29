@@ -114,7 +114,7 @@ Ext.define("Ametys.plugins.coreui.system.messagetracker.MessageTrackerTool",
                     fireDate: new Date(),
                     type: "<span style='font-weight: bold'>" + message.getType() + "</span>" + (parametersAsString ? ("<br/>" + parametersAsString) : ''),
                     target: this._targetsToString(message.getTargets()),
-                    callstack: Ext.String.stacktraceToHTML(message.getCallStack())
+                    callstack: Ext.String.stacktraceToHTML(message.getCallStack(), 4)
                 });
                 store.addSorted(record);
 

@@ -100,7 +100,7 @@ Ext.define("Ametys.plugins.coreui.system.consolelog.ConsoleLogTool",
             stacktraceRendered: function(value, metadata, record)
             {
                 metadata.tdCls = "msg-level-" + record.get('level');
-                return Ext.String.stacktraceToHTML(value);                
+                return Ext.String.stacktraceToHTML(value, 1);                
             }
 		},
 		

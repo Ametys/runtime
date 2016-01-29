@@ -2015,10 +2015,13 @@
         /**
          * Convert the stacktrace of an exception to a readable HTML string.
          * @param {String/Error} stack The exception or the exception stacktrace.
+         * @param {Number} [linesToRemove=0] The number of items to remove from stack. Depending on your stack you may know that the X first element are always the same
          * @return {String} A HTML string 
          */
-        stacktraceToHTML: function(stack)
+        stacktraceToHTML: function(stack, linesToRemove)
         {
+            linesToRemove = linesToRemove || 0;
+            
             if (!Ext.isString(stack))
             {
                 stack = stack.stack;
@@ -2026,7 +2029,6 @@
             
             var stack2 = stack.replace(/\r?\n/g, "<br/>");
             
-            var linesToRemove = 4; // remove useless stack due to extjs creation process
             if (stack2.substring(0,5) == "Error")
             {
                 linesToRemove++;

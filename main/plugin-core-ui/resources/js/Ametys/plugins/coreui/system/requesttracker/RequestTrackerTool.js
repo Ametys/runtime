@@ -158,9 +158,9 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 			
 			this._messageTpl = new Ext.Template(
 					"<b><i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_URL'/></b> : ",
-					"{url}<br/>",
+					"{url}<br/><br/>",
 					"<b><i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_PARAMETERS'/></b> : ",
-					"<code class='request-tracker'>{parameters}</code><br/><br/>",
+					"<code class='request-tracker'>{parameters}</code><br/>",
 					"<b><i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_RESPONSE'/></b> : ",
 					"<code class='request-tracker'>{response}</code>"
 			);
