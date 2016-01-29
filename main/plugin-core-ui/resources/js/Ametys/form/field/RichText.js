@@ -145,7 +145,11 @@ Ext.define('Ametys.form.field.RichText', {
      * @private 
      */
      
-     
+    /**
+     * @readonly
+     * @property {Boolean} isRichText True means the field is a richtext and have a #getNode method
+     */
+    isRichText: true, 
      
      
     /**
@@ -415,7 +419,33 @@ Ext.define('Ametys.form.field.RichText', {
         {
             editor.setContent(value);
         }
-    },    
+    },  
+    
+    /**
+     * Get the currently selection node in the richtext
+     * @return {HTMLElement} The node. Can be null.
+     */
+    getNode: function()
+    {
+        if (this._currentMode != "source")
+        {
+            var editor = this.getEditor();
+            if (editor)
+            {
+                var node = editor.selection.getNode();
+                
+                if (this.getFrameEl().dom == document.activeElement // Discard this selection while the iframe is not focused
+                    && editor.contentDocument != node               // Do not send for #document
+                    && this._suspended == 0                         // Do not send if suspended
+                    )
+                {
+                    return node;
+                }
+            }
+        }
+        
+        return null;
+    },
     
     /**
      * @private
@@ -1336,13 +1366,9 @@ Ext.define('Ametys.form.field.RichText', {
         else
         {
             var editor = this.getEditor();
-            var node = editor.selection.getNode();
+            var node = this.getNode();
             
-            if (this.getFrameEl().dom != document.activeElement // Discard this selection while the iframe is not focused
-                || editor.contentDocument == node               // Do not send for #document
-                || this._suspended > 0                          // Do not send if suspended
-                || node == editor._lastActiveNode               // Event already thrown for this
-                )
+            if (node == editor._lastActiveNode)               // Event already thrown for this){
             {
                 return;
             }

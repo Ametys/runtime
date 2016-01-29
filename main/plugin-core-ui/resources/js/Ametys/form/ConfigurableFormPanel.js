@@ -235,12 +235,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     _lastSelectedFieldId: null,
 
     /**
-     * @private
-     * @property {HTMLNode} _focusRichTextFieldNode When the #_focusFieldId is a rich text, this member is the htmlnode selected inside. null otherwise.
-     */
-    _focusRichTextFieldNode: null,
-    
-    /**
      * @event inputblur
      * Fires when a field loses the focus
      * @param {Ext.form.Field} field The field
@@ -383,7 +377,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     _onFieldSelectedOrBlurred: function(field)
     {
         this._focusFieldId = field != null ? field.getId() : null;
-        this._focusRichTextFieldNode = null;
         
     	if (field)
 		{
@@ -401,7 +394,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     _onRichTextFieldHTMLNodeSelected: function(field, node)
     {
     	this._onFieldSelectedOrBlurred(field);
-        this._focusRichTextFieldNode = node;
     },
     
     /**
@@ -3049,15 +3041,19 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                  }
             }
             
-            if (this._focusRichTextFieldNode != null)
+            if (focusField.isRichText)
             {
-                messageTargets['subtargets']['subtargets'] = {
-                    'type': Ametys.message.MessageTarget.FORM_FIELD_RICHTEXTNODE,
-                    
-                    'parameters': {
-                        'object': this._focusRichTextFieldNode
-                    }
-                };
+                var node = focusField.getNode(); 
+                if (node != null)
+                {
+                    messageTargets['subtargets']['subtargets'] = {
+                        'type': Ametys.message.MessageTarget.FORM_FIELD_RICHTEXTNODE,
+                        
+                        'parameters': {
+                            'object': node
+                        }
+                    };
+                }
             }
         }
         
