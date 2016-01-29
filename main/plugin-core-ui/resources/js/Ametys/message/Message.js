@@ -225,14 +225,14 @@ Ext.define("Ametys.message.Message",
 				{
 					for (var i = 0; i < targets.length; i++)
 					{
-						if (targets[i] != null)
+						if (Ext.isObject(targets[i]))
 						{
 							targetsTypes.push(targets[i].type);
-							addTargetsType(Ext.isArray(targetsTypes.subtargets) ? targetsTypes.subtargets : [targetsTypes.subtargets]);
+							addTargetsType(Ext.Array.from(targets[i].subtargets));
 						}
 					}
 				}
-				addTargetsType(Ext.isArray(config.targets) ? config.targets : [config.targets]);
+				addTargetsType(Ext.Array.from(config.targets));
 				
 				Ext.create(this.self.getName(), {
 					type: Ametys.message.Message.SELECTION_CHANGING,
