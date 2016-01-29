@@ -2026,7 +2026,7 @@
             
             var stack2 = stack.replace(/\r?\n/g, "<br/>");
             
-            var linesToRemove = 5; // remove useless stack due to extjs creation process
+            var linesToRemove = 4; // remove useless stack due to extjs creation process
             if (stack2.substring(0,5) == "Error")
             {
                 linesToRemove++;
@@ -2037,16 +2037,21 @@
                 stack2 = stack2.substring(stack2.indexOf("<br/>") + 5);
             }
             
+            var currentUrl = (document.location.origin || document.location.href.replace(new RegExp("^(https?://[^/]*\(:[0-9]*\)?)\(/.*\)?$"), "$1")) + Ametys.CONTEXT_PATH;
             var stack3 = "";
             Ext.each(stack2.split('<br/>'), function(node, index) 
                     {
                         // Firefox
-                        node = node.replace(/^([^@]*)@(.*):([0-9])*$/, "<span class='method'>$1</span>@<a class='filename' href='$2' target='_blank' title='$2 ($3)'>$2</a>:<span class='line'>$3</span>");
+                        node = node.replace(/^([^@]*)@(.*) line ([0-9]*) > Function:([0-9]*):([0-9]*)$/, "<span class='method'>$1</span> (<a class='filename' href='$2' target='_blank' title='$2 ($3 > Function $4:$5)'>$2</a>:<span class='line'>$3</span> > Function <span class='line'>$4</span>:<span class='line'>$5</span>)");
+                        node = node.replace(/^([^@]*)@(.*):([0-9]*):([0-9]*)$/, "<span class='method'>$1</span> (<a class='filename' href='$2' target='_blank' title='$2 ($3:$4)'>$2</a>:<span class='line'>$3</span>:<span class='line'>$4</span>)");
+                        node = node.replace(/^([^@]*)@(.*):([0-9]*)$/, "<span class='method'>$1</span> (<a class='filename' href='$2' target='_blank' title='$2 ($3)'>$2</a>:<span class='line'>$3</span>)");
                 
                         // IE - Chrome
-                        node = node.replace(/^.*at (.*) \((.*):([0-9]*):([0-9]*)\).*$/, "at <span class='method'>$1</span> (<a class='filename' href='$2' target='_blank' title='$2 ($3:$4)'>$2</a>:<span class='line'>$3</span>:<span class='line'>$4</span>)");
+                        node = node.replace(/^.*at (.*) \((.*):([0-9]*):([0-9]*)\).*$/, "<span class='method'>$1</span> (<a class='filename' href='$2' target='_blank' title='$2 ($3:$4)'>$2</a>:<span class='line'>$3</span>:<span class='line'>$4</span>)");
+                        node = node.replace(/^.*at (.*):([0-9]*):([0-9]*).*$/, "<a class='filename' href='$1' target='_blank' title='$1 ($2:$3)'>$1</a>:<span class='line'>$2</span>:<span class='line'>$3</span>");
+                        node = node.replace(/^.*at (.*) \((.*)\)$/, "<span class='method'>$1</span> (<a class='filename' href='$2' target='_blank' title='$2'>$2</a>)");
                         
-                        stack3 += node + "<br/>"
+                        stack3 += node.replace(new RegExp("([^'])" + currentUrl, "g"), "$1") + "<br/>"; // removing http://xxx except in the tooltip
                     }
             );
             return "<div class='callstack'>" + stack3.substring(0, stack3.length - 5) + "</div>"; // remove last <br/>
