@@ -653,14 +653,37 @@ Ext.define('Ametys.form.field.RichText', {
     
     /**
      * @private
+     * This method is called for IE only to bookmark the cursor position as IE may forgot it and restore the cursor to the 1st character.
+     * It used in conjonction with #_restorePostion 
+     */
+    _savePosition: function()
+    {
+        var editor = this.getEditor();
+        editor._bookmark = editor.selection.getBookmark(1);
+    },
+
+    /**
+     * @private
+     * This method is called for IE only to restore the cursor bookmark as IE may forgot it and restore the cursor to the 1st character.
+     * It used in conjonction with #_savePosition 
+     */
+    _restorePosition: function()
+    {
+        var editor = this.getEditor();
+        if (editor._bookmark)
+        {
+            editor.selection.moveToBookmark(editor._bookmark);
+        }
+    },
+
+    /**
+     * @private
      * Add methods, and position some path on tinymce
      */
     _enhanceTinyMCE: function()
     {
         if (!tinyMCE.focus)
         {
-            tinyMCE.save = function() {};
-            
             /*
              * Focus and on IE restore the last bookmarked position
              */ 
@@ -857,6 +880,15 @@ Ext.define('Ametys.form.field.RichText', {
         editor.on('KeyUp', Ext.bind(this._onEditorKeyUp, this));
         
         editor.on('VisualAid', Ext.bind(this._onEditorVisualAid, this));
+        
+        if (Ext.isIE)
+        {
+            editor.on('BeforeExecCommand', Ext.bind(this._restorePosition, this));
+            editor.on('focus', Ext.bind(this._restorePosition, this));
+            
+            editor.on('ExecCommand', Ext.bind(this._savePosition, this));
+            editor.on('blur', Ext.bind(this._savePosition, this));
+        }
     },
     
     /**
