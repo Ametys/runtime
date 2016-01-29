@@ -288,6 +288,15 @@ Ext.define(
 			});
 			message.responseType = message.responseType || "xml";
 			message.priority = message.priority || Ametys.data.ServerComm.PRIORITY_MAJOR;
+            
+            try
+            {
+                throw new Error("get trace");
+            }
+            catch (e)
+            {
+                message.callstack = e.stack;
+            }
 			
 			if (message.priority == Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS)
 			{

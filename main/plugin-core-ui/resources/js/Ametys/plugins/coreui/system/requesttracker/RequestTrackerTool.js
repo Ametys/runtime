@@ -162,7 +162,9 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 					"<b><i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_PARAMETERS'/></b> : ",
 					"<code class='request-tracker'>{parameters}</code><br/>",
 					"<b><i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_RESPONSE'/></b> : ",
-					"<code class='request-tracker'>{response}</code>"
+					"<code class='request-tracker'>{response}</code><br/>",
+                    "<b><i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_CALLSTACK'/></b> : <br/>",
+                    "{callstack}"
 			);
             
 			return Ext.create("Ext.container.Container", {
@@ -269,7 +271,8 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 						clientCallId: clientCallInfo.id,
 						clientCallMethod: clientCallInfo.method,
 						message: message,
-						response: response
+						response: response,
+                        callstack: message.callstack
 					});
 					this.msgStore.addSorted(r);
 				}
@@ -286,7 +289,8 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 						clientCallId: clientCallInfo.id,
 						clientCallMethod: clientCallInfo.method,
 						message: message,
-						response: response
+						response: response,
+                        callstack: message.callstack
 					});
 					this.msgStore.addSorted(r);
 				}
@@ -311,7 +315,8 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 				
 				var parametersAsString = Ext.JSON.prettyEncode(message.parameters);
 				var responseAsString = this._responseToString(response, id); 
-				this.rightPanel.update(this._messageTpl.applyTemplate({url: message.url, parameters: parametersAsString, response: responseAsString}));
+                var stacktraceAsString = Ext.String.stacktraceToHTML(message.callstack, 1);
+				this.rightPanel.update(this._messageTpl.applyTemplate({url: message.url, parameters: parametersAsString, response: responseAsString, callstack: stacktraceAsString}));
 			}
 			else
 			{
