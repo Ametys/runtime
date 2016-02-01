@@ -65,7 +65,13 @@ Ext.define('Ametys.timeline.Timeline', {
 		config.columns = [{
 	        xtype: "gridcolumn",
 	        flex: 1,
-	        renderer: Ext.bind(this._columnRenderer, this)
+            
+            /**
+             * @cfg {Number} minInsideWidth The minimal width for the grid content: horizontal scroll will appear
+             */
+            minWidth: config.minInsideWidth, 
+
+            renderer: Ext.bind(this._columnRenderer, this)
 	    }]
 		
 		config.features = [{

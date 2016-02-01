@@ -17,42 +17,46 @@
 .uitool-history {
 	&.a-timeline {
 	
-		.version {
-			color: $ametys-timeline-color-dark;
-			position: absolute;
-			font-size:$ametys-timeline-font-size*1.2;
-			z-index: 1;
-			top:0;
-			right:0;
-			text-align: center;
-			background-color: #fff;
-			padding: 0 $ametys-timeline-font-size*1.2/3;
-			
-			&.rotate {
-				transform: rotate(-90deg);
-				-ms-transform: rotate(-90deg); 
-    			-webkit-transform: rotate(-90deg); 
-			}
-			
-			&.valid {
-				color: #45b222;
-				a {
-					color: #45b222;
-				}
-			}
-			
-			&.live {
-				color: #128ce8;
-				a {
-					color: #128ce8;
-				}
-			}
-			
-			a {
-				color: $ametys-timeline-color-dark;
-				text-decoration: none;
-			}
-		}
+	   .versions-container {
+	        position: relative;
+	
+    		.version {
+    			color: $ametys-timeline-color-dark;
+    			position: absolute;
+    			font-size:$ametys-timeline-font-size*1.2;
+    			z-index: 1;
+    			top:0;
+    			right:0;
+    			text-align: center;
+    			background-color: #fff;
+    			padding: 0 $ametys-timeline-font-size*1.2/3;
+    			
+    			&.rotate {
+    				transform: rotate(-90deg);
+    				-ms-transform: rotate(-90deg); 
+        			-webkit-transform: rotate(-90deg); 
+    			}
+    			
+    			&.valid {
+    				color: #45b222;
+    				a {
+    					color: #45b222;
+    				}
+    			}
+    			
+    			&.live {
+    				color: #128ce8;
+    				a {
+    					color: #128ce8;
+    				}
+    			}
+    			
+    			a {
+    				color: $ametys-timeline-color-dark;
+    				text-decoration: none;
+    			}
+    		}
+        }
 		
 		.step-wrap {
 			text-align: center;
