@@ -126,6 +126,7 @@ Ext.define(
 		
 		/**
 		 * The handler to validate the dialog box. Called by {@link #onEnter} for example
+         * @template
 		 */
 		validateAction: function()
 		{
