@@ -74,7 +74,7 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 		    });
 			
 			this.grid = Ext.create("Ext.grid.Panel", { 
-                minHeight: 50,
+                minHeight: 60,
                 flex: 0.3,
 				stateful: true,
 				stateId: this.self.getName() + "$grid",
