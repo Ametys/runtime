@@ -98,6 +98,7 @@
     <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_NAME_ch">Google Chrome</message>
     <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_NAME_sa">Apple Safari</message>
     <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_NAME_op">Opera</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_NAME_ed">Microsoft Edge</message>
     <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC">Consultez le manuel utilisateur pour connaître les navigateurs recommandés.</message>
     
     <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ALL">Toutes versions</message>

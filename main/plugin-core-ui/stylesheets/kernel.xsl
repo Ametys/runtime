@@ -31,16 +31,16 @@
          | @param {String} plugins-wrapped-prefix=/_plugins Prefix for wrapped url to plugins (used for redirections) with leading '/' nor context path. e.g. '/_plugins'
          | @param {String} authorized-browsers Optionnaly, you can provide such a string :
 		 | 					{
-  		 |                     'supported': { 'ie': '8-0', 'ff': '12-0', 'sa': '6-0', 'ch': '18-0', 'op': '12-0' },         // List of supported browsers with their versions
-		 | 					   'not-supported': { 'ie': '0-7', 'ff': '0-11', 'sa': '0-5', 'ch': '0-17', 'op': '0-11' },	    // List of non supported browsers with their versions
- 		 | 					   'warning-redirection': "browser-warning.html",			                                    // Redirection when the browser may be supported
-		 | 					   'failure-redirection': "browser-failure.html"                                                // Redirection when the browser is not supported 
+  		 |                     'supported': { 'ie': '8-0', 'ff': '12-0', 'sa': '6-0', 'ch': '18-0', 'op': '12-0', 'ed': '12-0' },     // List of supported browsers with their versions
+		 | 					   'not-supported': { 'ie': '0-7', 'ff': '0-11', 'sa': '0-5', 'ch': '0-17', 'op': '0-11' },	              // List of non supported browsers with their versions
+ 		 | 					   'warning-redirection': "browser-warning.html",			                                              // Redirection when the browser may be supported
+		 | 					   'failure-redirection': "browser-failure.html"                                                          // Redirection when the browser is not supported 
 		 |                  }			
 		 |					If window.ametys_authorized_browsers is empty, no browser test will be done.<br/>
  		 | 					When a supported browser is detected, everything goes on normally.<br/>
 		 | 					When a not-supported browser is detected, the application is redirected to the failure rediction url. Where a message should indicates to use a supported browser.<br/>
 		 | 					When another browser is detected, the application is redirected to the warning redirection url. Where a message should indicated to use a supported browser, but the user could enforce the navigation (setting a cookie 'ametys.accept.non.supported.navigators' to 'on').<br/>
-		 |					Keys for browsers are 'ie' (Microsoft Internet Explorer), 'ff' (Mozilla Firefox), 'ch' (Google Chrome), 'sa' (Apple Safari) and 'op' (Opera).<br/>
+		 |					Keys for browsers are 'ie' (Microsoft Internet Explorer), 'ff' (Mozilla Firefox), 'ch' (Google Chrome), 'sa' (Apple Safari), 'op' (Opera) and 'ed' (Microsoft Edge).<br/>
 		 |					Versions can be a single number '3' or '3.5', or can be an interleave where 0 is the infinity '0-6' means all versions before 6 and 6 included, '6-0' means all versions after 6 and 6 included.
 		 |                  The default value displayed above is the requirements of ExtJS version.
          |
@@ -52,8 +52,8 @@
         <xsl:param name="plugins-wrapped-prefix">/_plugins</xsl:param>
 		<xsl:param name="authorized-browsers">
 		     {
-		          'supported': { 'ie': '10-0', 'ff': '12-0', 'sa': '6-0', ch: '18-0', 'op': '12-0' },
-		          'not-supported': { 'ie': '0-9', 'ff': '0-11', 'sa': '0-5', 'ch': '0-17', 'op': '0-11' },
+		          'supported': { 'sa': '6-0', ch: '18-0', 'ed': '12-0', 'ie': '10-0', 'ff': '12-0', 'op': '12-0'  },
+		          'not-supported': { 'ie': '0-9.99', 'ff': '0-11.99', 'sa': '0-5.99', 'ch': '0-17.99', 'op': '0-11.99' },
 		  		  'failure-redirection': "/_admin/public/browser-unsupported.html"
 		     }
 		</xsl:param>
