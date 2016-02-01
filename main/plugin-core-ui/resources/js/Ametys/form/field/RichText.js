@@ -434,8 +434,7 @@ Ext.define('Ametys.form.field.RichText', {
             {
                 var node = editor.selection.getNode();
                 
-                if (this.getFrameEl().dom == document.activeElement // Discard this selection while the iframe is not focused
-                    && editor.contentDocument != node               // Do not send for #document
+                if (editor.contentDocument != node               // Do not send for #document
                     && this._suspended == 0                         // Do not send if suspended
                     )
                 {
