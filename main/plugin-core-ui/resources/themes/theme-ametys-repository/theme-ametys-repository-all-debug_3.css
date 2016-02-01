@@ -3150,8 +3150,12 @@
     overflow: hidden;
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:20 */
-.uitool-history.a-timeline .version {
+.uitool-history.a-timeline .versions-container {
     
+    position: relative;
+}
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:23 */
+.uitool-history.a-timeline .versions-container .version {
     color: #818181;
     position: absolute;
     font-size: 14.4px;
@@ -3162,39 +3166,39 @@
     background-color: #fff;
     padding: 0 4.8px;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:31 */
-.uitool-history.a-timeline .version.rotate {
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:34 */
+.uitool-history.a-timeline .versions-container .version.rotate {
     transform: rotate(-90deg);
     -ms-transform: rotate(-90deg);
     -webkit-transform: rotate(-90deg);
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:37 */
-.uitool-history.a-timeline .version.valid {
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:40 */
+.uitool-history.a-timeline .versions-container .version.valid {
     color: #45b222;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:39 */
-.uitool-history.a-timeline .version.valid a {
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:42 */
+.uitool-history.a-timeline .versions-container .version.valid a {
     color: #45b222;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:44 */
-.uitool-history.a-timeline .version.live {
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:47 */
+.uitool-history.a-timeline .versions-container .version.live {
     color: #128ce8;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:46 */
-.uitool-history.a-timeline .version.live a {
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:49 */
+.uitool-history.a-timeline .versions-container .version.live a {
     color: #128ce8;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:51 */
-.uitool-history.a-timeline .version a {
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:54 */
+.uitool-history.a-timeline .versions-container .version a {
     color: #818181;
     text-decoration: none;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:57 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:61 */
 .uitool-history.a-timeline .step-wrap {
     text-align: center;
     margin: 0 54.4px 0 124.4px;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:61 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:65 */
 .uitool-history.a-timeline .step-wrap:before {
     background: #e1e1e1 none repeat scroll 0 0;
     content: "";
@@ -3203,7 +3207,7 @@
     position: absolute;
     width: 3px;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:70 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:74 */
 .uitool-history.a-timeline .step-wrap.last:after {
     background: #fff none repeat scroll 0 0;
     content: "";
@@ -3214,11 +3218,11 @@
     /* line height + padding */
     z-index: 1;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:80 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:84 */
 .uitool-history.a-timeline .step-wrap.last.current:after {
     background-color: transparent;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:84 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:88 */
 .uitool-history.a-timeline .step-wrap .step {
     display: inline-block;
     line-height: 14.4px;
@@ -3226,11 +3230,11 @@
     background: #fff none repeat scroll 0 0;
     color: #818181;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:94 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:98 */
 .uitool-history.a-timeline .timeline-item.first:after {
     bottom: 5px;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:98 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:102 */
 .uitool-history.a-timeline .timeline-item:after {
     background: #818181 none repeat scroll 0 0;
     content: "";
@@ -3240,12 +3244,12 @@
     position: absolute;
     width: 3px;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:108 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:112 */
 .uitool-history.a-timeline .timeline-item .contents-wrap {
     margin: 0 40px 5px 110px;
     min-height: 90px;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:113 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:117 */
 .uitool-history.a-timeline .timeline-item .version-line {
     background: #fff none repeat scroll 0 0;
     width: 36px;
@@ -3253,12 +3257,12 @@
     position: relative;
     z-index: 1;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:120 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:124 */
 .uitool-history.a-timeline .timeline-item .version-line:before {
     background: #fff none repeat scroll 0 0;
     height: 2px;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:125 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:129 */
 .uitool-history.a-timeline .timeline-item .version-line .version {
     color: #818181;
     background: #fff none repeat scroll 0 0;
@@ -3266,56 +3270,56 @@
     padding: 4.8px;
     font-size: 14.4px;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:132 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:136 */
 .uitool-history.a-timeline .timeline-item .version-line .version:before {
     background: #fff none repeat scroll 0 0;
     height: 2px;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:137 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:141 */
 .uitool-history.a-timeline .timeline-item .version-line .version a {
     color: #818181;
     text-decoration: none;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:145 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:149 */
 .uitool-history.a-timeline .timeline-item.current .version-line .version {
     background: #fff none repeat scroll 0 0;
     color: #818181;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:150 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:154 */
 .uitool-history.a-timeline .timeline-item.current.valid .version-line .version {
     border-color: #45b222;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:154 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:158 */
 .uitool-history.a-timeline .timeline-item.current.live .version-line .version {
     border-color: #45b222;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:161 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:165 */
 .uitool-history.a-timeline .timeline-item.valid:after {
     background: #45b222 none repeat scroll 0 0;
     border-color: #45b222;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:166 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:170 */
 .uitool-history.a-timeline .timeline-item.valid .version-line .version {
     background: #45b222;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:172 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:176 */
 .uitool-history.a-timeline .timeline-item.live:after {
     background: #128ce8 none repeat scroll 0 0;
     border-color: #128ce8;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:177 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:181 */
 .uitool-history.a-timeline .timeline-item.live .version-line .version {
     color: #128ce8;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:187 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:191 */
 .uitool-history.a-timeline .x-grid-view .x-grid-item:first-child .x-group-hd-container:after {
     background-color: #fff;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:193 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:197 */
 .uitool-history.a-timeline .x-grid-view .x-grid-item .x-group-hd-container {
     position: relative;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:196 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:200 */
 .uitool-history.a-timeline .x-grid-view .x-grid-item .x-group-hd-container:after {
     background: #818181 none repeat scroll 0 0;
     /*background: #fff none repeat scroll 0 0;*/
@@ -3326,43 +3330,43 @@
     position: absolute;
     width: 3px;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:207 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:211 */
 .uitool-history.a-timeline .x-grid-view .x-grid-item .x-group-hd-container.hd-live:after {
     background-color: #128ce8;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:210 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:214 */
 .uitool-history.a-timeline .x-grid-view .x-grid-item .x-group-hd-container.hd-valid:after {
     background-color: #45b222;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:214 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:218 */
 .uitool-history.a-timeline .x-grid-view .x-grid-item .x-group-hd-container.hd-blank:after {
     background-color: #fff;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:234 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:238 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .uitool-history.a-timeline .step-wrap:before {
     background-color: #c23249;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:234 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:238 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .uitool-history.a-timeline .step-wrap:before {
     background-color: #ef6c00;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:234 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:238 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .uitool-history.a-timeline .step-wrap:before {
     background-color: #e3d711;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:234 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:238 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .uitool-history.a-timeline .step-wrap:before {
     background-color: #36aa42;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:234 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:238 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .uitool-history.a-timeline .step-wrap:before {
     background-color: #35baf6;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:234 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:238 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .uitool-history.a-timeline .step-wrap:before {
     background-color: #c9599c;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:234 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/history.scss:238 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .uitool-history.a-timeline .step-wrap:before {
     background-color: #b060b0;
 }
@@ -13466,8 +13470,4 @@
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-cmd-slicer.x-panel-header-default-framed-collapsed-left:before {
     display: none;
     content: "x-slicer:, frame:5px 5px 5px 5px, corners:url(images/panel-header/panel-header-default-framed-collapsed-left-corners.gif), sides:url(images/panel-header/panel-header-default-framed-collapsed-left-sides.gif)" !important;
-}
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:629 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel .x-panel-header-default-framed-top {
-    border-bottom-width: 5px !important;
 }

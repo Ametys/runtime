@@ -1,3 +1,7 @@
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:629 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel .x-panel-header-default-framed-top {
+    border-bottom-width: 5px !important;
+}
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:633 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel .x-panel-header-default-framed-right {
     border-left-width: 5px !important;
@@ -17058,9 +17062,4 @@
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-header-title-light > .x-title-icon-wrap-light.x-title-icon-right {
     width: 22px;
     padding-left: 6px;
-}
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:457 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-header-title-light > .x-title-icon-wrap-light.x-title-icon-bottom {
-    height: 22px;
-    padding-top: 6px;
 }

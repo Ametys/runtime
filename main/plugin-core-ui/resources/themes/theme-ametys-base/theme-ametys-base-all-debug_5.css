@@ -1,3 +1,14 @@
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:503 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-body-light {
+    background: #fff;
+    border-color: #f2f2f2;
+    color: #000;
+    font-size: 12px;
+    font-weight: normal;
+    font-family: 'Open Sans', 'Helvetica Neue', helvetica, arial, verdana, sans-serif;
+    border-width: 1px;
+    border-style: solid;
+}
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:667 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-header-light {
     background-image: none;

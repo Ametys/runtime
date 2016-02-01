@@ -1,3 +1,7 @@
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:647 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-nbr .x-panel-header-default-framed-collapsed-top {
+    border-bottom-width: 0 !important;
+}
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:651 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-nbr .x-panel-header-default-framed-collapsed-right {
     border-left-width: 0 !important;
@@ -17064,15 +17068,4 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:493 */
 .x-ie8 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-header-title-light > .x-title-icon-wrap-light > .x-title-icon-light {
     color: #666;
-}
-/* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:503 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-body-light {
-    background: #fff;
-    border-color: #f2f2f2;
-    color: #000;
-    font-size: 12px;
-    font-weight: normal;
-    font-family: 'Open Sans', 'Helvetica Neue', helvetica, arial, verdana, sans-serif;
-    border-width: 1px;
-    border-style: solid;
 }

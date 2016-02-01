@@ -1,3 +1,8 @@
+/* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/slicer.scss:83 */
+.a-tool-layout-zoned-notfocused .x-cmd-slicer.x-panel-light-framed:before {
+    display: none;
+    content: "x-slicer:, frame:5px 5px 5px 5px, corners:url(images/panel/panel-light-framed-corners.gif), sides:url(images/panel/panel-light-framed-sides.gif), frame:5px 5px 5px 5px, corners:url(images/panel/panel-light-framed-corners.gif), sides:url(images/panel/panel-light-framed-sides.gif)" !important;
+}
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:187 */
 .a-tool-layout-zoned-notfocused .x-panel-header-light-framed-top {
     -moz-border-radius-topleft: 0;
@@ -16530,8 +16535,4 @@
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:371 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-mr {
     background-position: right top;
-}
-/* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:379 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-tc {
-    background-position: 0 0;
 }
