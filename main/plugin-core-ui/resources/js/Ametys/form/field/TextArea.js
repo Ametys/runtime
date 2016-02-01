@@ -60,6 +60,7 @@
         
         this.on('change', this._updateCharCounter, this);
         this.on('keyup', this._updateCharCounter, this);
+        this.on('render', this._updateCharCounter, this);
  	},
     
     /**
