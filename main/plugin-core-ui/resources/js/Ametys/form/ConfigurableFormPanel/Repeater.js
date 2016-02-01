@@ -156,9 +156,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
             }],
             
             tools: [
-                this._addFirst(this.addLabel),
-                this._errorTool()
-                
+                this._addFirst(this.addLabel)
             ]
         });
         
@@ -245,8 +243,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
                 this._upTool(),
                 this._downTool(),
                 this._addTool(this.addLabel),
-                this._deleteTool(this.delLabel),
-                this._errorTool()
+                this._deleteTool(this.delLabel)
     	    ],
     	    
     	    items: [{
@@ -561,28 +558,14 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
                 	{
                 		me.clearErrorMessages(panel.getHeader() || panel.header);
                 		
-                		if (panel.tools.up)
-                    	{
-                    		panel.getHeader().addTool({type: 'error', qtip: activeError})
-                    	}
-                    	else if (hasError)
-                    	{
-                    		panel.header.tools.push({type: 'error', qtip: activeError})
-                    	}
+                		panel.addTool({type: 'error', qtip: activeError});
                 	}
                 });
             }
             else
             {
             	me.clearErrorMessages(me.getHeader() || me.header);
-            	if (me.rendered)
-            	{
-            		me.getHeader().addTool({type: 'error', qtip: activeError})
-            	}
-            	else
-            	{
-            		me.header.tools.push({type: 'error', qtip: activeError})
-            	}
+           		me.addTool({type: 'error', qtip: activeError});
             }
         }
     	
@@ -732,25 +715,28 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
     _updateToolsVisibility: function()
     {
         var me = this;
+
         
         // Iterate on repeater item panels.
         me.getItems().each(function(panel, index, length) {
-        	
-            // The panel is rendered: tools is an object, items can be accessed by their name.
-        	if (panel.tools.moveup)
-        	{
-        		panel.tools.moveup.setVisible(index > 0);
-        		panel.tools.movedown.setVisible(index < (length-1));
-        		panel.tools.plus.setVisible(me.maxSize == null || length < me.maxSize);
-        		panel.tools.minus.setVisible(me.minSize == null || length > me.minSize);
-        	}
-        	else   // The panel is not rendered yet: tools is a configuration array.
-        	{
-        		panel.tools[1].hidden = index == 0; // up
-        		panel.tools[2].hidden = index == length-1; // down
-        		panel.tools[3].hidden = me.maxSize != null && length >= me.maxSize; // plus
-        		panel.tools[4].hidden = me.minSize != null && length <= me.minSize // delete
-        	}
+            function setVisible(name, value) 
+            {
+	            // The panel is rendered: tools is an object, items can be accessed by their name.
+	        	// The panel is not rendered yet: tools is a configuration array.
+                if (panel.tools[name])
+                {
+                    panel.tools[name].setVisible(value);
+                }
+                else
+                {
+                    Ext.Array.findBy(panel.tools, function(f) { return f.type == 'moveup'; }).hidden = !value;
+                }
+            }
+            
+            setVisible("moveup", index > 0);
+            setVisible("movedown", index < (length-1));
+            setVisible("plus", me.maxSize == null || length < me.maxSize);
+            setVisible("minus", me.minSize == null || length > me.minSize);
         });
     },
     
@@ -1093,19 +1079,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
     		qtip: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_MOVE_UP'/>", 
     		handler: this._up,
     		scope: this
-    	};
-    },
-    
-    /**
-     * Creates the 'error' tool to display error messages
-     * @private
-     */
-    _errorTool: function()
-    {
-    	return {
-    	    type: 'error',
-    	    hidden: true,
-    		qtip: ''
     	};
     },
     
