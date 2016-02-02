@@ -112,26 +112,28 @@ Ext.define(
             {
                 var tabPanel = this._getTabPanel();
                 
-                var sum = 0;
+                var first, last;
                 for (var i = 0; i < tabs.length; i++)
                 {
                     var panel = tabs[i];
                     var index = tabPanel.items.indexOf(panel);
                     var tabEl = tabPanel.getTabBar().items.get(index);
 
-                    sum += tabEl.getWidth();
-                    
                     if (i == 0)
                     {
+                        first = tabEl;
+                        last = tabEl;
                         tabEl.removeCls("a-tab-hasPrevious");
                     }
                     else
                     {
+                        last = tabEl;
                         tabEl.addCls("a-tab-hasPrevious");
                     }
                 }
             
-                this.setWidth(sum + (tabs.length - 1));
+                var width = (last.getEl().getLeft() + last.getEl().getWidth(false, true)) - first.getRegion().left; // last.getEl().getRight() may differ from one pixel under IE, so we use getWidth with the "precision" flag
+                this.setWidth(width);
                 this.ownerCt.show(); // this is required for the first call, because as ownerCt has never been rendered: its listeners are not active
                 this.show();
             }

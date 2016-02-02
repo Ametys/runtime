@@ -69,7 +69,11 @@
             background-color: nth($ametys-ribbon-contextualgroup-colors-light, $i);
             
             &.a-tab-hasPrevious {
-                @include box-shadow(nth($ametys-ribbon-contextualgroup-colors-light, $i)-1px 0 0 0);
+                @include box-shadow(nth($ametys-ribbon-contextualgroup-colors-light, $i)-2px 0 0 0);
+                
+                .#{$prefix}chrome & {
+                    @include box-shadow(nth($ametys-ribbon-contextualgroup-colors-light, $i)-1px 0 0 0);
+                }
             }
         
             .#{$prefix}tab-inner-ribbon-tabpanel {
