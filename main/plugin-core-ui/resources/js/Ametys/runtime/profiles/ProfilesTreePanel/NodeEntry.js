@@ -82,9 +82,19 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel.NodeEntry', {
 		{name: 'inherit', mapping: '@inherit', type: 'boolean'},
 		{
 			name: 'cls', 
-			depends: ['text', 'inherit'],
 			calculate: function(data) {
-				return data.inherit ? 'disabled' : '';
+				var cls = [];
+				if (data.inherit)
+				{
+					cls.push('disabled');
+				}
+				
+				if (data.type == 'user')
+				{
+					cls.push('a-tree-icon-user')
+				}
+				
+				return cls.join(' ');
 			}
 		},
 		{
@@ -101,12 +111,6 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel.NodeEntry', {
 		        }
 			}
 		},
-        {
-            name: 'cls', 
-            calculate: function(data) {
-                return data.type == 'user' ? 'a-tree-icon-user' : '';
-            }
-        },
 		{
 			name: 'leaf', 
 			calculate: function(data) {
