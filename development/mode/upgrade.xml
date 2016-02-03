@@ -162,7 +162,6 @@
         	<replacefilter token="org.ametys.runtime.plugins.core.ui.item.StaticAdminClientSideElement" value="org.ametys.plugins.core.ui.item.StaticAdminClientSideElement"/>
         	
             <replacefilter token="org.ametys.runtime.authentication.AuthenticationManager" value="org.ametys.core.authentication.AuthenticationManager"/>
-            <replacefilter token="org.ametys.runtime.datasource.DataSourceExtensionPoint" value="org.ametys.core.datasource.DataSourceExtensionPoint"/>
             <replacefilter token="org.ametys.runtime.observation.ObserverExtensionPoint" value="org.ametys.core.observation.ObserverExtensionPoint"/>
             <replacefilter token="org.ametys.runtime.plugins.core.right.RightContextConvertorExtentionPoint" value="org.ametys.core.right.RightContextConvertorExtentionPoint"/>
             <replacefilter token="org.ametys.runtime.plugins.core.right.RightsExtensionPoint" value="org.ametys.core.right.RightsExtensionPoint"/>

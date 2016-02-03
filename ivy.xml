@@ -51,8 +51,8 @@ Open source web application framework based on Apache Cocoon.
   <dependencies>
     <!-- Common -->
     <dependency org="org.apache" name="cocoon" rev="2.1.12-ametys" conf="common_dependencies->serializers"/>
-
-    <dependency org="commons-dbcp" name="commons-dbcp" rev="1.4" conf="common_dependencies->default"/>
+    
+    <dependency org="org.apache.commons" name="commons-dbcp2" rev="2.1.1" conf="common_dependencies->default"/>
     <dependency org="commons-logging" name="commons-logging" rev="1.2" conf="common_dependencies->default"/>
     <dependency org="commons-io" name="commons-io" rev="2.4" conf="common_dependencies->default"/>
     <dependency org="commons-codec" name="commons-codec" rev="1.9" conf="common_dependencies->default"/>
