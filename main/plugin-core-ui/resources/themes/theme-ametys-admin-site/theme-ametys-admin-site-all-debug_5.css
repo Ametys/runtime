@@ -1,3 +1,48 @@
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:380 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-header-title-light {
+    color: #a1407a;
+    font-size: 12px;
+    font-weight: normal;
+    font-family: 'Open Sans', 'Helvetica Neue', helvetica, arial, verdana, sans-serif;
+    line-height: 16px;
+}
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:393 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-header-title-light > .x-title-text-light {
+    text-transform: none;
+    padding: 0;
+}
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:440 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-header-title-light > .x-title-icon-wrap-light.x-title-icon-top {
+    height: 22px;
+    padding-bottom: 6px;
+}
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:445 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-header-title-light > .x-title-icon-wrap-light.x-title-icon-right {
+    width: 22px;
+    padding-left: 6px;
+}
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:457 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-header-title-light > .x-title-icon-wrap-light.x-title-icon-bottom {
+    height: 22px;
+    padding-top: 6px;
+}
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:462 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-header-title-light > .x-title-icon-wrap-light.x-title-icon-left {
+    width: 22px;
+    padding-right: 6px;
+}
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:474 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-header-title-light > .x-title-icon-wrap-light > .x-title-icon-light {
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+    color: #666;
+    background-position: center center;
+}
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:493 */
+.x-ie8 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-header-title-light > .x-title-icon-wrap-light > .x-title-icon-light {
+    color: #666;
+}
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:503 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-body-light {
     background: #fff;
@@ -4984,6 +5029,16 @@
     color: #c00;
     background-color: #fff;
 }
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/window/Window.scss:53 */
+.x-window-header-title-default > .x-title-icon-wrap-default > .x-title-icon-default:after {
+    font-size: 11px;
+    line-height: 11px;
+    margin-left: 0px;
+    position: absolute;
+    bottom: -1px;
+    left: 6px;
+    color: #ccc;
+}
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/Labelable.scss:17 */
 .x-column-form-item {
     
@@ -5541,7 +5596,7 @@ ul.ametys-tooltip-comment > li div.comment-text {
     position: absolute;
     right: -2px;
     bottom: -2px;
-    color: #575757;
+    color: #4e4e4e;
     font-size: 24px;
     line-height: 24px;
     text-shadow: 0px 0px 2px #eee;

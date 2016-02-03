@@ -1,3 +1,13 @@
+/* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:453 */
+.a-tool-layout-zoned-notfocused .x-panel-light-framed-ml,
+.a-tool-layout-zoned-notfocused .x-panel-light-framed-mr {
+    background-image: url(images/panel/panel-light-framed-sides.gif);
+    background-repeat: repeat-y;
+}
+/* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:464 */
+.a-tool-layout-zoned-notfocused .x-panel-light-framed-mc {
+    padding: 0px 0px 0px 0px;
+}
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/slicer.scss:83 */
 .a-tool-layout-zoned-notfocused .x-cmd-slicer.x-panel-light-framed:before {
     display: none;
@@ -16523,16 +16533,4 @@
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:355 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-bl {
     background-position: 0 -20px;
-}
-/* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:359 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-br {
-    background-position: right -25px;
-}
-/* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:363 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-ml {
-    background-position: 0 top;
-}
-/* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:371 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-mr {
-    background-position: right top;
 }
