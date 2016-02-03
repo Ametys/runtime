@@ -34,6 +34,13 @@ import org.slf4j.LoggerFactory;
  */
 public final class RuntimeConfig
 {
+    /** The path to the Ametys home data directory */
+    public static String AMETYS_HOME_DATA_DIR = "data";
+    /** The path to the Ametys home config directory */
+    public static String AMETYS_HOME_CONFIG_DIR = "config";
+    /** The path to the Ametys home temporary directory */
+    public static String AMETYS_HOME_TMP_DIR = "tmp";
+    
     // shared instance
     private static RuntimeConfig __config;
     
@@ -111,8 +118,14 @@ public final class RuntimeConfig
         
         __config._contextPath = contextPath;
         __config._ametysHome = ametysHome;
-        __config._dataHome = new File(ametysHome, "data");
-        __config._tmpDir = new File(ametysHome, "tmp");
+
+        File dataHome = new File(ametysHome, AMETYS_HOME_DATA_DIR);
+        dataHome.mkdirs();
+        
+        File configHome = new File(ametysHome, AMETYS_HOME_CONFIG_DIR);
+        configHome.mkdirs();
+        
+        __config._tmpDir = new File(ametysHome, AMETYS_HOME_TMP_DIR);
         __config._tmpDir.mkdirs();
 
         // runtimeConfig is null if the runtime.xml could not be read for any reason

@@ -25,7 +25,7 @@ import org.ametys.runtime.servlet.RuntimeConfig;
 
 /**
  * This component handles SQL data sources. 
- * It is associated with the configuration file $AMETYS_HOME/datasources-ldap.xml 
+ * It is associated with the configuration file $AMETYS_HOME/config/datasources-ldap.xml 
  */
 public class LDAPDataSourceManager extends AbstractDataSourceManager
 {
@@ -68,7 +68,7 @@ public class LDAPDataSourceManager extends AbstractDataSourceManager
             return new File(__filename);
         }
         
-        return new File(RuntimeConfig.getInstance().getAmetysHome(), "data" + File.separator + "datasources-ldap.xml");
+        return new File(RuntimeConfig.getInstance().getAmetysHome(), RuntimeConfig.AMETYS_HOME_CONFIG_DIR + File.separator + "datasources-ldap.xml");
     }
     
     @Override

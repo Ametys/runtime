@@ -45,7 +45,7 @@ import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
 
 /**
  * This component handles SQL data sources. 
- * It is associated with the configuration file $AMETYS_HOME/datasources-sql.xml 
+ * It is associated with the configuration file $AMETYS_HOME/config/datasources-sql.xml 
  */
 public class SQLDataSourceManager extends AbstractDataSourceManager implements Disposable
 {
@@ -81,7 +81,7 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
             return new File(__filename);
         }
         
-        return new File(RuntimeConfig.getInstance().getAmetysHome(), "data" + File.separator + "datasources-sql.xml");
+        return new File(RuntimeConfig.getInstance().getAmetysHome(), RuntimeConfig.AMETYS_HOME_CONFIG_DIR + File.separator + "datasources-sql.xml");
     }
     
     
