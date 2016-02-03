@@ -16,70 +16,70 @@
  
 @font-face {
     font-family: 'Open Sans';
-    src: url('../../../../../plugins/extjs6/resources/classic/theme-triton/resources/fonts/OpenSans-Light.ttf');
+    src: url('../../themes/theme-ametys-base/fonts/OpenSans-Light.woff');
     font-weight: 300;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Open Sans';
-    src: url('../../../../../plugins/extjs6/resources/classic/theme-triton/resources/fonts/OpenSans-LightItalic.ttf');
+    src: url('../../themes/theme-ametys-base/fonts/OpenSans-LightItalic.woff');
     font-weight: 300;
     font-style: italic;
 }
 
 @font-face {
     font-family: 'Open Sans';
-    src: url('../../../../../plugins/extjs6/resources/classic/theme-triton/resources/fonts/OpenSans-Regular.ttf');
+    src: url('../../themes/theme-ametys-base/fonts/OpenSans-Regular.woff');
     font-weight: 400;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Open Sans';
-    src: url('../../../../../plugins/extjs6/resources/classic/theme-triton/resources/fonts/OpenSans-Italic.ttf');
+    src: url('../../themes/theme-ametys-base/fonts/OpenSans-Italic.woff');
     font-weight: 400;
     font-style: italic;
 }
 
 @font-face {
     font-family: 'Open Sans';
-    src: url('../../../../../plugins/extjs6/resources/classic/theme-triton/resources/fonts/OpenSans-Semibold.ttf');
+    src: url('../../themes/theme-ametys-base/fonts/OpenSans-Semibold.woff');
     font-weight: 600;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Open Sans';
-    src: url('../../../../../plugins/extjs6/resources/classic/theme-triton/resources/fonts/OpenSans-SemiboldItalic.ttf');
+    src: url('../../themes/theme-ametys-base/fonts/OpenSans-SemiboldItalic.woff');
     font-weight: 600;
     font-style: italic;
 }
 
 @font-face {
     font-family: 'Open Sans';
-    src: url('../../../../../plugins/extjs6/resources/classic/theme-triton/resources/fonts/OpenSans-Bold.ttf');
+    src: url('../../themes/theme-ametys-base/fonts/OpenSans-Bold.woff');
     font-weight: 700;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Open Sans';
-    src: url('../../../../../plugins/extjs6/resources/classic/theme-triton/resources/fonts/OpenSans-BoldItalic.ttf');
+    src: url('../../themes/theme-ametys-base/fonts/OpenSans-BoldItalic.woff');
     font-weight: 700;
     font-style: italic;
 }
 
 @font-face {
     font-family: 'Open Sans';
-    src: url('../../../../../plugins/extjs6/resources/classic/theme-triton/resources/fonts/OpenSans-ExtraBold.ttf');
+    src: url('../../themes/theme-ametys-base/fonts/OpenSans-ExtraBold.woff');
     font-weight: 800;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Open Sans';
-    src: url('../../../../../plugins/extjs6/resources/classic/theme-triton/resources/fonts/OpenSans-ExtraBoldItalic.ttf');
+    src: url('../../themes/theme-ametys-base/fonts/OpenSans-ExtraBoldItalic.woff');
     font-weight: 800;
     font-style: italic;
 }
