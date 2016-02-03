@@ -47,8 +47,6 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceTool', {
 			model: 'Ametys.plugins.admin.datasource.DataSourceTool.DataSource',
 	        groupField: 'type',
 			
-			sortOnLoad: true,
-			
 	        proxy: {
 	        	type: 'ametys',
 				plugin: 'admin',
@@ -62,7 +60,9 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceTool', {
                     includePrivate: 'true',
                     includeInternal: 'false'
                 }
-	        }
+	        },
+            
+            sorters: [{property: 'name', direction: 'ASC'}]
 		});
 		
 		this._panel = Ext.create('Ext.grid.Panel', {
