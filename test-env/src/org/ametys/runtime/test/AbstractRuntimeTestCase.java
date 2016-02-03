@@ -33,6 +33,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.XMLReader;
 
+import org.ametys.core.datasource.LDAPDataSourceManager;
+import org.ametys.core.datasource.SQLDataSourceManager;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.data.AmetysHomeLock;
 import org.ametys.runtime.data.AmetysHomeLockException;
@@ -45,6 +47,12 @@ public abstract class AbstractRuntimeTestCase extends TestCase
 {
     /** Ametys home directory path relative to the context path of the test environment. **/
     public static final String AMETYS_HOME_DIR = "/WEB-INF/data";
+
+    /** Default SQL datasource file */
+    private static String __DEFAULT_SQL_DATASOURCE_FILE = "test/environments/datasources/datasource-mysql.xml";
+    
+    /** Default LDAP datasource file */
+    private static String __DEFAULT_LDAP_DATASOURCE_FILE = "test/environments/datasources/datasource-ldap.xml"; 
     
     /** The cocoon wrapper. */
     protected CocoonWrapper _cocoon;
@@ -191,12 +199,32 @@ public abstract class AbstractRuntimeTestCase extends TestCase
      * @param configFile the name of the config file
      * @param contextPath the environment application
      * @return the CocoonWrapper used to process URIs
-     * @throws Exception if an error occured
+     * @throws Exception if an error occurred
      */
     protected CocoonWrapper _startApplication(String runtimeFile, String configFile, String contextPath) throws Exception
     {
+        return _startApplication(runtimeFile, configFile, __DEFAULT_SQL_DATASOURCE_FILE, __DEFAULT_LDAP_DATASOURCE_FILE, contextPath);
+    }
+    
+    /**
+     * Starts the application. This a shorthand to _configureRuntime, then _startCocoon.
+     * @param runtimeFile the name of the runtime file used
+     * @param configFile the name of the config file
+     * @param sqlDataSourceFile the name of the SQL data source file
+     * @param ldapDataSourceFile the name of the LDAP data source file
+     * @param contextPath the environment application
+     * @return the CocoonWrapper used to process URIs
+     * @throws Exception if an error occurred
+     */
+    protected CocoonWrapper _startApplication(String runtimeFile, String configFile, String sqlDataSourceFile, String ldapDataSourceFile, String contextPath) throws Exception
+    {
         _configureRuntime(runtimeFile, contextPath);
+        
         Config.setFilename(configFile);
+        
+        SQLDataSourceManager.setFilename(sqlDataSourceFile);
+        LDAPDataSourceManager.setFilename(ldapDataSourceFile);
+        
         return _startCocoon(contextPath);
     }
 }

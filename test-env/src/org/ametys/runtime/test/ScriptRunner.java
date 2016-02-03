@@ -28,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.ametys.core.datasource.ConnectionHelper;
+import org.ametys.runtime.config.Config;
 
 /**
  * Tool to run SQL scripts.<p>
@@ -79,7 +80,8 @@ public final class ScriptRunner
         
         try
         {
-            connection = ConnectionHelper.getConnection(ConnectionHelper.CORE_POOL_NAME);
+            String dataSourceId = Config.getInstance().getValueAsString(ConnectionHelper.CORE_POOL_CONFIG_PARAM);
+            connection = ConnectionHelper.getConnection(dataSourceId);
             runScript(connection, is);
         }
         finally

@@ -26,8 +26,7 @@ public class PostgresModifiableCredentialsAwareJdbcUsersTestCase extends Abstrac
     @Override
     protected void setUp() throws Exception
     {
-        super.setUp();
-        _resetDB("runtime6.xml", "config_postgres.xml");
+        _resetDB("runtime6.xml", "config1.xml", "datasource-postgresql.xml");
     }
     
     @Override
