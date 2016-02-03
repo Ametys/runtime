@@ -83,6 +83,10 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterChecker', {
 		order: null,
 		/** @cfg {String} plugin The name of the plugin that declared the test */
 	    plugin: null,
+        /** @cfg {String} iconGlyph The CSS class to use as glyph icon */
+        iconGlyph: null,
+        /** @cfg {String} iconDecorator The CSS class to use as decorator icon */
+        iconDecorator: null,
 		/** @cfg {String} smallIconPath The path to the 16x16 icon representing the test */
 		smallIconPath: null,
 		/** @cfg {String} mediumIconPath The path to the 32x32 icon representing the test */
@@ -110,6 +114,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterChecker', {
 		this.uiRefLabel = uiRefLabel;
 		this.uiRefType = uiRefType;
 		this.plugin = paramChecker.plugin;
+        this.iconGlyph = paramChecker['icon-glyph'];
+        this.iconDecorator = paramChecker['icon-decorator'];
 		this.smallIconPath = paramChecker['small-icon-path'];
 		this.mediumIconPath = paramChecker['medium-icon-path'];
 		this.largeIconPath = paramChecker['large-icon-path'];

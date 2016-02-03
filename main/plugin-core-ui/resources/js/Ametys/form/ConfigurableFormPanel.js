@@ -2307,6 +2307,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                         Ext.Array.each(paramCheckers, function(paramChecker){
                             var paramCheckerConf = {
                                 'id': Ext.dom.Query.selectValue("> id", paramChecker),
+                                'icon-glyph':  Ext.dom.Query.selectValue("> icon-glyph", paramChecker),
+                                'icon-decorator':  Ext.dom.Query.selectValue("> icon-decorator", paramChecker),
                                 'small-icon-path':  Ext.dom.Query.selectValue("> small-icon-path", paramChecker),
                                 'medium-icon-path':  Ext.dom.Query.selectValue("> medium-icon-path", paramChecker),
                                 'linked-params':  Ext.JSON.decode(Ext.dom.Query.selectValue("> linked-params", paramChecker)),

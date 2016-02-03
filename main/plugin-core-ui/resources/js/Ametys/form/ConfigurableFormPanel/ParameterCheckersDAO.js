@@ -72,6 +72,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 	 * @param {String} paramChecker.class the class implementing the check 
 	 * @param {Object} paramChecker.category the tested category
 	 * @param {Number} paramChecker.order the order of the parameter checker (if several are attached to the same parameter/group/category)
+     * @param {String} paramChecker.icon-glyph the CSS class to use as glyph icon
+     * @param {String} paramChecker.icon-decorator the CSS class to use as glyph decorator
 	 * @param {String} paramChecker.small-icon-path the path to the small icon representing the parameter checker
 	 * @param {String} paramChecker.medium-icon-path the path to the medium icon representing the parameter checker
 	 * @param {String} paramChecker.large-icon-path the path to the large icon representing the parameter checker
@@ -231,7 +233,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 			text: paramChecker.label,
 			textAlign: 'left',
 			
-			icon: Ametys.CONTEXT_PATH + paramChecker.smallIconPath,
+            iconCls: paramChecker.iconGlyph + (paramChecker.iconDecorator ? ' ' + paramChecker.iconDecorator : ''),
+            icon: Ext.isEmpty(paramChecker.iconGlyph) ? Ametys.CONTEXT_PATH + paramChecker.smallIconPath : null,
+                    
 			cls: 'param-checker-button',
 			
 			width: Ametys.form.ConfigurableFormPanel.LABEL_WIDTH - offset + Ametys.form.ConfigurableFormPanel.FIELD_MINWIDTH,
