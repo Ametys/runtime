@@ -249,29 +249,6 @@
     <!-- +
          | DATA SOURCES 
          + -->
-         
-    <!-- Tool -->
-    <message key="PLUGINS_CORE_UITOOL_DATASOURCE_LABEL">Data sources</message>
-    <message key="PLUGINS_CORE_UITOOL_DATASOURCE_DESCRIPTION">Data sources management.</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_ID">Identifier</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_NAME">Name</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_USED">Used</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_PRIVATE">Private</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_TYPE">Type</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_BOOLEAN_YES">Yes</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_GROUP_SQL">SQL data source</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_GROUP_LDAP">LDAP repository</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SQL_PRIVATE">Private SQL source</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SQL_PUBLIC">Public SQL source</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_LDAP_PRIVATE">Private LDAP source</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_LDAP_PUBLIC">Public LDAP source</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DELETE_DATASOURCE_BOX_TITLE">Deletion</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DELETE_SINGLE_DATASOURCE_BOX_MESSAGE">Do you really want to delete this data source?</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DELETE_SEVERAL_DATASOURCE_BOX_MESSAGE">Do you really want to delete these data sources?</message>
-    
-    <!-- +
-         | DATA SOURCES 
-         + -->
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_LABEL">Data sources</message>
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_DESCRIPTION">Handle data sources.</message>
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_ID">Identifier</message>
