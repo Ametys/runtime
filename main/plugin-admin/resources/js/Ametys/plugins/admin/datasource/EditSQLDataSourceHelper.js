@@ -269,9 +269,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
 	            description: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PRIVATE_DESCRIPTION'/>",
 	            'param-checker': {
 	                id: 'sql-connection-checker-datasource',
-	                'small-icon-path': '/plugins/admin/resources/img/datasource/test_sqlconnect_16.png',
-	                'medium-icon-path': '/plugins/admin/resources/img/datasource/test_sqlconnect_32.png',
-	                'large-icon-path': '/plugins/admin/resources/img/datasource/test_sqlconnect_48.png',
+                    'icon-glyph': 'flaticon-data110',
 	                'linked-params': ['driver', 'url', 'user', 'password'],
 	                'param-ref': 'private',
 	                label: "<i18n:text i18n:key='PLUGINS_CORE_SQL_CONNECTION_CHECKER_LABEL' i18n:catalogue='plugin.core-impl'/>",

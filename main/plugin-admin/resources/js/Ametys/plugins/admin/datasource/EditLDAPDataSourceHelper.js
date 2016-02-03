@@ -271,9 +271,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
 			description: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_PRIVATE_DESCRIPTION'/>",
 			'param-checker': {
 				id: 'sql-connection-checker-datasource',
-				'small-icon-path': '/plugins/admin/resources/img/datasource/test_ldapconnect_16.png',
-				'medium-icon-path': '/plugins/admin/resources/img/datasource/test_ldapconnect_32.png',
-				'large-icon-path': '/plugins/admin/resources/img/datasource/test_ldapconnect_48.png',
+				'icon-glyph': 'flaticon-agenda3',
 				'linked-params': ['baseURL', 'baseDN', 'authenticationMethod', 'adminDN', 'adminPassword', 'useSSL', 'followReferrals'],
 				'param-ref': 'private',
 				label: "<i18n:text i18n:key='PLUGINS_CORE_LDAP_CONNECTION_CHECKER_LABEL' i18n:catalogue='plugin.core-impl'/>",
