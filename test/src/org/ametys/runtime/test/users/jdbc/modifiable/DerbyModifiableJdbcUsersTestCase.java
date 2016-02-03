@@ -26,8 +26,7 @@ public class DerbyModifiableJdbcUsersTestCase extends AbstractModifiableJdbcUser
     @Override
     protected void setUp() throws Exception
     {
-        super.setUp();
-        _resetDB("runtime5.xml", "config_derby.xml");
+        _resetDB("runtime5.xml", "config1.xml", "datasource-derby.xml");
     }
     
     @Override

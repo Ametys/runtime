@@ -69,6 +69,7 @@ import org.ametys.core.user.ModifiableUsersManager;
 import org.ametys.core.user.User;
 import org.ametys.core.user.UserListener;
 import org.ametys.core.user.UsersManager;
+import org.ametys.runtime.config.Config;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.request.RequestListener;
 import org.ametys.runtime.request.RequestListenerManager;
@@ -256,6 +257,16 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
             _rightsEP.addRight(id, i18nLabel, i18nDescription, i18nCategory);
         }
+    }
+    
+    /**
+     * Get the connection to the database 
+     * @return the SQL connection
+     */
+    protected Connection getSQLConnection ()
+    {
+        String dataSourceId = Config.getInstance().getValueAsString(_poolName);
+        return ConnectionHelper.getConnection(dataSourceId);
     }
 
     @Override
@@ -630,7 +641,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             return new HashSet<>();
         }
 
-        Connection connection = ConnectionHelper.getConnection(_poolName);
+        Connection connection = getSQLConnection();
 
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -686,7 +697,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         Set<User> users = new HashSet<>();
 
-        Connection connection = ConnectionHelper.getConnection(_poolName);
+        Connection connection = getSQLConnection();
 
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -749,7 +760,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         Set<Group> groups = new HashSet<>();
 
-        Connection connection = ConnectionHelper.getConnection(_poolName);
+        Connection connection = getSQLConnection();
 
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -815,7 +826,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             return contexts;
         }
 
-        Connection connection = ConnectionHelper.getConnection(_poolName);
+        Connection connection = getSQLConnection();
 
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -912,7 +923,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         Set<String> profiles = new HashSet<>();
 
-        Connection connection = ConnectionHelper.getConnection(_poolName);
+        Connection connection = getSQLConnection();
 
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -966,8 +977,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         Set<String> contexts = new HashSet<>();
 
-        Connection connection = ConnectionHelper.getConnection(_poolName);
-
+        Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -1017,8 +1027,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         String lcContext = getFullContext (context);
 
-        Connection connection = ConnectionHelper.getConnection(_poolName);
-
+        Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try
@@ -1081,8 +1090,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         String lcContext = getFullContext (context);
 
-        Connection connection = ConnectionHelper.getConnection(_poolName);
-
+        Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try
@@ -1145,8 +1153,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         String lcContext = getFullContext (context);
 
-        Connection connection = ConnectionHelper.getConnection(_poolName);
-
+        Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
 
         try
@@ -1191,8 +1198,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         String lcContext = getFullContext (context);
 
-        Connection connection = ConnectionHelper.getConnection(_poolName);
-
+        Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
 
         try
@@ -1239,7 +1245,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         String lcOldContext = getFullContext(oldContext);
         String lcNewContext = getFullContext(newContext);
 
-        Connection connection = ConnectionHelper.getConnection(_poolName);
+        Connection connection = getSQLConnection();
 
         try
         {
@@ -1261,7 +1267,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         String lcContext = getFullContext(context);
 
-        Connection connection = ConnectionHelper.getConnection(_poolName);
+        Connection connection = getSQLConnection();
 
         try
         {
@@ -1283,8 +1289,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         String lcContext = getFullContext (context);
 
-        Connection connection = ConnectionHelper.getConnection(_poolName);
-
+        Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
 
         try
@@ -1327,8 +1332,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         String lcContext = getFullContext (context);
 
-        Connection connection = ConnectionHelper.getConnection(_poolName);
-
+        Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
 
         try
@@ -1382,8 +1386,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         Set<User> users = new HashSet<>();
 
-        Connection connection = ConnectionHelper.getConnection(_poolName);
-
+        Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -1440,8 +1443,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         Set<Group> groups = new HashSet<>();
 
-        Connection connection = ConnectionHelper.getConnection(_poolName);
-
+        Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -1596,7 +1598,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      */
     private RightResult hasUserOnlyRight(String login, String right) throws SQLException
     {
-        Connection connection = ConnectionHelper.getConnection(_poolName);
+        Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -1668,7 +1670,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      */
     private RightResult hasUserOnlyRight(String login, String right, String context) throws SQLException
     {
-        Connection connection = ConnectionHelper.getConnection(_poolName);
+        Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -1766,7 +1768,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         Set<String> logins = new HashSet<>();
 
-        Connection connection = ConnectionHelper.getConnection(_poolName);
+        Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -1814,7 +1816,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         Set<String> logins = new HashSet<>();
         
-        Connection connection = ConnectionHelper.getConnection(_poolName);
+        Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -1888,7 +1890,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             return rights;
         }
 
-        Connection connection = ConnectionHelper.getConnection(_poolName);
+        Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -1962,7 +1964,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     private Map<String, Set<String>> _getUsersOnlyRightsFromDb(String login) throws SQLException
     {
         Map<String, Set<String>> rights = new HashMap<>();
-        Connection connection = ConnectionHelper.getConnection(_poolName);
+        Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -2010,7 +2012,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         Map<String, Set<String>> profiles = new HashMap<>();
 
-        Connection connection = ConnectionHelper.getConnection(_poolName);
+        Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -2070,7 +2072,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      */
     private RightResult hasGroupOnlyRight(String login, String right) throws SQLException
     {
-        Connection connection = ConnectionHelper.getConnection(_poolName);
+        Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -2147,7 +2149,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      */
     private RightResult hasGroupOnlyRight(String login, String right, String context) throws SQLException
     {
-        Connection connection = ConnectionHelper.getConnection(_poolName);
+        Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -2229,7 +2231,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         Set<String> logins = new HashSet<>();
 
-        Connection connection = ConnectionHelper.getConnection(_poolName);
+        Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -2290,7 +2292,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         Set<String> logins = new HashSet<>();
 
-        Connection connection = ConnectionHelper.getConnection(_poolName);
+        Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -2371,7 +2373,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     private Set<String> _getGroupsOnlyRightsFromDb(String login, String context) throws SQLException
     {
         Set<String> rights = new HashSet<>();
-        Connection connection = ConnectionHelper.getConnection(_poolName);
+        Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -2474,7 +2476,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     private Map<String, Set<String>> _getGroupsOnlyRightsFromDb(String login) throws SQLException
     {
         Map<String, Set<String>> rights = new HashMap<>();
-        Connection connection = ConnectionHelper.getConnection(_poolName);
+        Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -2551,7 +2553,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         Map<String, Set<String>> profiles = new HashMap<>();
 
-        Connection connection = ConnectionHelper.getConnection(_poolName);
+        Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -3040,7 +3042,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         try
         {
-            connection = ConnectionHelper.getConnection(_poolName);
+            connection = getSQLConnection();
             statement = connection.prepareStatement("SELECT Label, Context FROM " + _tableProfile + " WHERE Id = ?");
             statement.setInt(1, Integer.parseInt(id));
 
@@ -3084,7 +3086,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         try
         {
-            connection = ConnectionHelper.getConnection(_poolName);
+            connection = getSQLConnection();
             DatabaseType dbType = ConnectionHelper.getDatabaseType(connection);
 
             if (dbType == DatabaseType.DATABASE_ORACLE || dbType == DatabaseType.DATABASE_POSTGRES)
@@ -3203,7 +3205,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         try
         {
-            connection = ConnectionHelper.getConnection(_poolName);
+            connection = getSQLConnection();
             if (context == null)
             {
                 stmt = connection.prepareStatement("SELECT Id, Label FROM " + _tableProfile + " WHERE Context is null");
@@ -3248,7 +3250,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         try
         {
-            connection = ConnectionHelper.getConnection(_poolName);
+            connection = getSQLConnection();
             stmt = connection.createStatement();
             rs = stmt.executeQuery("SELECT Id, Label, Context FROM " + _tableProfile);
 
@@ -3456,7 +3458,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         @Override
         public void rename(String newName)
         {
-            Connection connection = ConnectionHelper.getConnection(_poolName);
+            Connection connection = getSQLConnection();
 
             try
             {
@@ -3484,7 +3486,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         {
             Set<String> rights = new HashSet<>();
 
-            Connection connection = ConnectionHelper.getConnection(_poolName);
+            Connection connection = getSQLConnection();
 
             try
             {
@@ -3545,7 +3547,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
             try
             {
-                connection = ConnectionHelper.getConnection(_poolName);
+                connection = getSQLConnection();
 
                 statement = connection.prepareStatement("DELETE FROM " + _tableProfile + " WHERE Id = ?");
                 statement.setInt(1, Integer.parseInt(_id));
@@ -3581,7 +3583,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         @Override
         public void startUpdate()
         {
-            _currentConnection = ConnectionHelper.getConnection(_poolName);
+            _currentConnection = getSQLConnection();
 
             try
             {
@@ -3632,7 +3634,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             }
             else
             {
-                return ConnectionHelper.getConnection(_poolName);
+                return getSQLConnection();
             }
         }
 

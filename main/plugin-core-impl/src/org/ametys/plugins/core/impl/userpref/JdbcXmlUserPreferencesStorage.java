@@ -56,6 +56,7 @@ import org.ametys.core.datasource.ConnectionHelper.DatabaseType;
 import org.ametys.core.userpref.DefaultUserPreferencesStorage;
 import org.ametys.core.userpref.UserPreferencesException;
 import org.ametys.core.userpref.UserPrefsHandler;
+import org.ametys.runtime.config.Config;
 import org.ametys.runtime.parameter.ParameterHelper;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
 
@@ -69,8 +70,8 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
     /** A SAX parser. */
     protected SAXParser _saxParser;
     
-    /** Connection pool name. */
-    protected String _poolName;
+    /** Connection pool configuration parameter. */
+    protected String _poolConfigParam;
     
     /** The database table in which the preferences are stored. */
     protected String _databaseTable;
@@ -78,7 +79,7 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        _poolName = configuration.getChild("pool").getValue(ConnectionHelper.CORE_POOL_NAME);
+        _poolConfigParam = configuration.getChild("pool").getValue(ConnectionHelper.CORE_POOL_CONFIG_PARAM);
         _databaseTable = configuration.getChild("table").getValue();
     }
     
@@ -100,7 +101,8 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
         
         try
         {
-            connection = ConnectionHelper.getConnection(_poolName);
+            String dataSourceId = Config.getInstance().getValueAsString(_poolConfigParam);
+            connection = ConnectionHelper.getConnection(dataSourceId);
             DatabaseType dbType = ConnectionHelper.getDatabaseType(connection);
             
             stmt = connection.prepareStatement("SELECT * FROM " + _databaseTable + " WHERE login = ? AND context = ?");
@@ -158,7 +160,8 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
         
         try
         {
-            connection = ConnectionHelper.getConnection(_poolName);
+            String dataSourceId = Config.getInstance().getValueAsString(_poolConfigParam);
+            connection = ConnectionHelper.getConnection(dataSourceId);
             
             stmt = connection.prepareStatement("DELETE FROM " + _databaseTable + " WHERE login = ? AND context = ?");
             stmt.setString(1, login);
@@ -183,10 +186,13 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
     public void setUserPreferences(String login, String storageContext, Map<String, String> contextVars, Map<String, String> preferences) throws UserPreferencesException
     {
         byte[] prefBytes = _getPreferencesXmlBytes(preferences);
+        Connection connection = null;
         
-        try (InputStream dataIs = new ByteArrayInputStream(prefBytes);
-             Connection connection = ConnectionHelper.getConnection(_poolName))
+        try (InputStream dataIs = new ByteArrayInputStream(prefBytes);)
         {
+            
+            String dataSourceId = Config.getInstance().getValueAsString(_poolConfigParam);
+            connection = ConnectionHelper.getConnection(dataSourceId);
             
             DatabaseType dbType = ConnectionHelper.getDatabaseType(connection);
             

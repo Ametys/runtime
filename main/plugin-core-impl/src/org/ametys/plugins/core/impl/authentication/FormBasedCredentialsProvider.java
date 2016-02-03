@@ -100,8 +100,8 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
     /** Default cookie lifetime (15 days in seconds) */
     public static final int DEFAULT_COOKIE_LIFETIME = 1209600;
     
-    /** The pool name */
-    protected String _poolName;
+    /** The configuration parameter id of the connection pool */
+    protected String _poolConfigParam;
     /** Name of the user name html field */
     protected String _usernameField;
 
@@ -346,9 +346,11 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet rs = null;
-        try
+
+        try 
         {
-            connection = ConnectionHelper.getConnection(_poolName);
+            String dataSourceId = Config.getInstance().getValueAsString(_poolConfigParam);
+            connection = ConnectionHelper.getConnection(dataSourceId);
             DatabaseType dbType = ConnectionHelper.getDatabaseType(connection);
             
             if (dbType.equals(DatabaseType.DATABASE_ORACLE))
@@ -389,8 +391,9 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         }
         finally
         {
-            ConnectionHelper.cleanup(statement);       
+            ConnectionHelper.cleanup(rs);
             ConnectionHelper.cleanup(connection);
+            ConnectionHelper.cleanup(statement);  
         }
     }
     /**
@@ -399,18 +402,19 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
      */
     protected void _deleteLoginFailedBDD(String login)
     {
-        Connection con = null;
+        Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        try
+
+        try 
         {
-            // Effectuer la connexion à la base de données
-            con = ConnectionHelper.getConnection(ConnectionHelper.CORE_POOL_NAME);    
+            String dataSourceId = Config.getInstance().getValueAsString(_poolConfigParam);
+            connection = ConnectionHelper.getConnection(dataSourceId);
             
             // Contruire la requête pour authentifier l'utilisateur
             String sql = "DELETE FROM Users_FormConnectionFailed WHERE login = ?";
             
-            stmt = con.prepareStatement(sql);
+            stmt = connection.prepareStatement(sql);
             stmt.setString(1, login);
             
             // Effectuer la requête
@@ -425,7 +429,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
             // Fermer les ressources de connexion
             ConnectionHelper.cleanup(rs);
             ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(con);
+            ConnectionHelper.cleanup(connection);
         }
         
     }
@@ -437,18 +441,19 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
      */
     protected Integer _requestNbConnectBDD(String login)
     {
-        Connection con = null;
+        Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        try
+
+        try 
         {
-            // Effectuer la connexion à la base de données
-            con = ConnectionHelper.getConnection(ConnectionHelper.CORE_POOL_NAME);    
+            String dataSourceId = Config.getInstance().getValueAsString(_poolConfigParam);
+            connection = ConnectionHelper.getConnection(dataSourceId);
             
             // Contruire la requête pour authentifier l'utilisateur
             String sql = "SELECT nb_connect FROM Users_FormConnectionFailed WHERE login = ?";
             
-            stmt = con.prepareStatement(sql);
+            stmt = connection.prepareStatement(sql);
             stmt.setString(1, login);
     
             // Effectuer la requête
@@ -471,7 +476,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
             // Fermer les ressources de connexion
             ConnectionHelper.cleanup(rs);
             ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(con);
+            ConnectionHelper.cleanup(connection);
         }
     }
     
@@ -502,17 +507,18 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
      */
     protected void _insertLoginNbConnectBDD(String login)
     {
-        Connection con = null;
+        Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        try
+
+        try 
         {
-         // Effectuer la connexion à la base de données
-            con = ConnectionHelper.getConnection(ConnectionHelper.CORE_POOL_NAME);    
+            String dataSourceId = Config.getInstance().getValueAsString(_poolConfigParam);
+            connection = ConnectionHelper.getConnection(dataSourceId);
             
             String sqlUpdate = "INSERT INTO Users_FormConnectionFailed (login, nb_connect, last_connect) VALUES (?, ?, ?)";
            
-            stmt = con.prepareStatement(sqlUpdate);
+            stmt = connection.prepareStatement(sqlUpdate);
             stmt.setString(1, login);
             stmt.setInt(2, 1);
             
@@ -532,7 +538,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
             // Fermer les ressources de connexion
             ConnectionHelper.cleanup(rs);
             ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(con);
+            ConnectionHelper.cleanup(connection);
         }
     }
     
@@ -543,17 +549,17 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
      */
     protected void _updateLoginNbConnectBDD(String login, Integer nbConnect)
     {
-        Connection con = null;
+        Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        try
+
+        try 
         {
-            // Effectuer la connexion à la base de données
-            con = ConnectionHelper.getConnection(ConnectionHelper.CORE_POOL_NAME);    
-            
+            String dataSourceId = Config.getInstance().getValueAsString(_poolConfigParam);
+            connection = ConnectionHelper.getConnection(dataSourceId);
             String sqlUpdate = "UPDATE Users_FormConnectionFailed SET nb_connect = ? WHERE login = ?";
            
-            stmt = con.prepareStatement(sqlUpdate);
+            stmt = connection.prepareStatement(sqlUpdate);
             stmt.setInt(1, nbConnect + 1);
             stmt.setString(2, login);
             
@@ -568,7 +574,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
             // Fermer les ressources de connexion
             ConnectionHelper.cleanup(rs);
             ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(con);
+            ConnectionHelper.cleanup(connection);
         }
     }
     
@@ -625,7 +631,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        _poolName = configuration.getChild("pool").getValue(ConnectionHelper.CORE_POOL_NAME);
+        _poolConfigParam = configuration.getChild("pool").getValue(ConnectionHelper.CORE_POOL_CONFIG_PARAM);
         _usernameField = configuration.getChild("username-field").getValue("Username");
         _passwordField = configuration.getChild("password-field").getValue("Password");
         _rememberMeField =  configuration.getChild("rememberMe-field").getValue("rememberMe");

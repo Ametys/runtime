@@ -24,6 +24,7 @@
                     <large/>
                     <medium>
                         <control id="org.ametys.plugins.admin.config.Open"/>
+                        <control id="org.ametys.plugins.admin.DataSource"/>
                     </medium>
                     <small/>
                 </group>
@@ -172,6 +173,21 @@
                         <control id="org.ametys.plugins.admin.config.Save"/>
                         <control id="org.ametys.plugins.core.configurableformpanel.CheckAll"/>
                         <control id="org.ametys.plugins.core.configurableformpanel.CheckMissed"/>
+                    </medium>
+                    <small/>
+                </group>
+            </groups>
+        </tab>
+        
+        <!-- Contextual tab for data sources -->
+        <tab id="org.ametys.plugins.admin.datasources.Tab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_DATASOURCE_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_DATASOURCE_LABEL" contextualColor="1" contextualGroup="DATASOURCES">
+            <groups>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_DATASOURCES_GROUPS_GROUP_ACTIONS" icon="">
+                    <large/>
+                    <medium>
+                        <control id="org.ametys.plugins.admin.datasources.Add"/>
+                        <control id="org.ametys.plugins.admin.datasources.Edit"/>
+                        <control id="org.ametys.plugins.admin.datasources.Delete"/>
                     </medium>
                     <small/>
                 </group>

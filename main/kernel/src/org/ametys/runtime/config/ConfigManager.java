@@ -131,8 +131,8 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     }
 
     /**
-     * Returns false if the model is initialized and all parameters are valued
-     * @return false if the model is initialized and all parameters are valued
+     * Returns true if the model is initialized and all parameters are valued
+     * @return true if the model is initialized and all parameters are valued
      */
     public boolean isComplete()
     {
@@ -478,7 +478,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     {
         String id = parameter.getId();
         Object value = ParameterHelper.castValue(untypedValues.get(id), parameter.getType());
-
+        
         if (value == null && !"".equals(untypedValues.get(id)))
         {
             if (_logger.isWarnEnabled())

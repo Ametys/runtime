@@ -16,6 +16,7 @@
 package org.ametys.core.util.ldap;
 
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import javax.naming.Context;
@@ -28,23 +29,30 @@ import javax.naming.ldap.InitialLdapContext;
 import javax.naming.ldap.LdapContext;
 import javax.naming.ldap.PagedResultsControl;
 
-import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 
+import org.ametys.core.datasource.AbstractDataSourceManager.DataSourceDefinition;
+import org.ametys.core.datasource.LDAPDataSourceManager;
 import org.ametys.core.util.CachingComponent;
 import org.ametys.runtime.config.Config;
 
 /**
  * This abstract class contains all basic for a ldap connection using config parameters
  */
-public abstract class AbstractLDAPConnector extends CachingComponent<Object> implements Configurable
+public abstract class AbstractLDAPConnector extends CachingComponent<Object> implements Serviceable
 {
     // Check filter look
     private static final Pattern __FILTER = Pattern.compile("\\s*\\(.*\\)\\s*");
-
+    
+    /** The configuration parameter id of the LDAP data source */
+    private static final String __LDAP_PARAMETER_ID = "runtime.datasource.core.ldap";
+    
     /** URL connection to the ldap server. */
-    protected String _ldapUrl;
+    protected String _ldapUrl;  
     /** Base DN to the ldap server. */
     protected String _ldapBaseDN;
     /** Distinguished name of the admin used for searching. */
@@ -62,6 +70,38 @@ public abstract class AbstractLDAPConnector extends CachingComponent<Object> imp
     
     /** Indicates if the LDAP server supports paging feature. */
     protected boolean _pagingSupported;
+
+    /** The LDAP data source manager */
+    private LDAPDataSourceManager _ldapDataSourceManager;
+    
+    @Override
+    public void initialize() throws Exception
+    {
+        super.initialize();
+        
+        String dataSourceId = Config.getInstance().getValueAsString(__LDAP_PARAMETER_ID);
+        
+        DataSourceDefinition ldapDefinition = _ldapDataSourceManager.getDataSourceDefinition(dataSourceId);
+        
+        Map<String, String> ldapParameters = ldapDefinition.getParameters();
+        
+        _ldapUrl = ldapParameters.get(LDAPDataSourceManager.PARAM_BASE_URL);
+        _ldapBaseDN = ldapParameters.get(LDAPDataSourceManager.PARAM_BASE_DN);
+        _ldapAdminRelativeDN = ldapParameters.get(LDAPDataSourceManager.PARAM_ADMIN_DN);
+        _ldapAdminPassword = ldapParameters.get(LDAPDataSourceManager.PARAM_ADMIN_PASSWORD);
+        _ldapAuthenticationMethod = ldapParameters.get(LDAPDataSourceManager.PARAM_AUTHENTICATION_METHOD);
+        _ldapUseSSL = "true".equals(ldapParameters.get(LDAPDataSourceManager.PARAM_USE_SSL));
+        _ldapFollowReferrals = "true".equals(ldapParameters.get(LDAPDataSourceManager.PARAM_FOLLOW_REFERRALS));
+        _ldapAliasDerefMode = ldapParameters.get(LDAPDataSourceManager.PARAM_ALIAS_DEREFERENCING);
+        
+        _pagingSupported = _testPagingSupported();
+    }
+    
+    @Override
+    public void service(ServiceManager serviceManager) throws ServiceException
+    {
+        _ldapDataSourceManager = (LDAPDataSourceManager) serviceManager.lookup(LDAPDataSourceManager.ROLE); 
+    }
     
     /**
      * Get the filter from configuration key and check it
@@ -100,32 +140,6 @@ public abstract class AbstractLDAPConnector extends CachingComponent<Object> imp
         {
             throw new ConfigurationException("Unable to parse scope", e);
         }
-    }
-
-    @Override
-    public void configure(Configuration configuration) throws ConfigurationException
-    {
-        _ldapUrl = _getConfigParameter(configuration, "BaseUrl");
-        _ldapUseSSL = "true".equals(_getConfigParameter(configuration, "UseSSL"));
-        _ldapBaseDN = _getConfigParameter(configuration, "BaseDN");
-        _ldapFollowReferrals = "true".equals(_getConfigParameter(configuration, "FollowReferrals"));
-        
-        _ldapAuthenticationMethod = _getConfigParameter(configuration, "AuthenticationMethod");
-        if (!_ldapAuthenticationMethod.equals("none"))
-        {
-            _ldapAdminRelativeDN = _getConfigParameter(configuration, "AdminDN");
-            _ldapAdminPassword = _getConfigParameter(configuration, "AdminPassword");
-        }
-        
-        _ldapAliasDerefMode = _getConfigParameter(configuration, "AliasDereferencing");
-    }
-    
-    @Override
-    public void initialize() throws Exception
-    {
-        super.initialize();
-        
-        _pagingSupported = _testPagingSupported();
     }
     
     /**

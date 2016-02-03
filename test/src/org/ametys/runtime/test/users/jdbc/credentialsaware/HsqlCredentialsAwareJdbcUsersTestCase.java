@@ -26,8 +26,7 @@ public class HsqlCredentialsAwareJdbcUsersTestCase extends AbstractCredentialsAw
     @Override
     protected void setUp() throws Exception
     {
-        super.setUp();
-        _resetDB("runtime7.xml", "config_hsqldb.xml");
+        _resetDB("runtime7.xml", "config1.xml", "datasource-hsql.xml");
     }
     
     @Override

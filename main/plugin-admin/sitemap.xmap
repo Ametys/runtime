@@ -40,6 +40,9 @@
             <map:action name="config-save" src="org.ametys.runtime.plugins.admin.configuration.SaveConfigAction" logger="org.ametys.runtime.plugins.admin.action"/>
             <map:action name="config-test" src="org.ametys.runtime.plugins.admin.configuration.ParameterCheckerAction" logger="org.ametys.runtime.plugins.admin.action"/>
 			<map:action name="restart" src="org.ametys.runtime.plugins.admin.RestartAction" logger="org.ametys.runtime.plugins.admin.action"/>
+		  
+		    <map:action name="datasources" src="org.ametys.runtime.plugins.admin.datasource.GetDataSourcesAction" logger="org.ametys.plugins.admin.datasource.GetDataSourcesAction" />
+		    <map:action name="datasource-test" src="org.ametys.runtime.plugins.admin.datasource.CheckDataSourceAction" logger="org.ametys.runtime.plugins.admin.datasource.TestDataSourceAction" />
 		</map:actions>
         
         <map:readers>
@@ -282,6 +285,25 @@
             <map:match pattern="system-announcements">
                 <map:act type="system-announcements">
                     <map:read type="json"/>
+                </map:act>
+            </map:match>
+            
+            <!-- +
+                 | Data sources
+                 + -->
+            <map:match pattern="datasources/get">
+                <map:act type="datasources">
+                    <map:parameter name="includePrivate" value="{request-param:includePrivate}"/>
+                    <map:parameter name="includeInternal" value="{request-param:includeInternal}"/>
+                    <map:parameter name="dbtype" value="{request-param:type}"/>
+                    <map:read type="json"/>
+                </map:act>
+            </map:match>
+            
+            <map:match pattern="datasource/test">
+                <map:act type="datasource-test">
+                    <map:generate type="action-result"/>
+                    <map:serialize type="xml"/>
                 </map:act>
             </map:match>
             

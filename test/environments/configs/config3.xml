@@ -22,24 +22,14 @@
     USER DRIVEN LDAP CONFIG
  -->
 <config>
-<runtime.datasource.core.jdbc.user>Ametys_Runtime</runtime.datasource.core.jdbc.user>
-<runtime.datasource.core.jdbc.driver>com.mysql.jdbc.Driver</runtime.datasource.core.jdbc.driver>
-<runtime.datasource.core.jdbc.passwd>Ametys_Runtime</runtime.datasource.core.jdbc.passwd>
-<runtime.datasource.core.jdbc.url>jdbc:mysql://mysql-dev.anyware.corp/Ametys_Runtime_Test</runtime.datasource.core.jdbc.url>
+<runtime.datasource.core.jdbc.pool>SQL-test</runtime.datasource.core.jdbc.pool>
 <runtime.authentication.basic.realm>realm</runtime.authentication.basic.realm>
 <runtime.upload.max-size>10000000</runtime.upload.max-size>
 <runtime.debug.ui>0</runtime.debug.ui>
 <runtime.cache.xslt>false</runtime.cache.xslt>
 <runtime.log.abnormal.time>false</runtime.log.abnormal.time>
 
-<runtime.datasource.core.ldap.baseUrl>ldap://ldap-dev.anyware.corp</runtime.datasource.core.ldap.baseUrl>
-<runtime.datasource.core.ldap.useSSL>false</runtime.datasource.core.ldap.useSSL>
-<runtime.datasource.core.ldap.baseDN>dc=ametys-test-groups,dc=org</runtime.datasource.core.ldap.baseDN>
-<runtime.datasource.core.ldap.authMethod>none</runtime.datasource.core.ldap.authMethod>
-<runtime.datasource.core.ldap.adminDN></runtime.datasource.core.ldap.adminDN>
-<runtime.datasource.core.ldap.adminPasswd></runtime.datasource.core.ldap.adminPasswd>
-<runtime.datasource.core.ldap.aliasDereferencing>always</runtime.datasource.core.ldap.aliasDereferencing>
-<runtime.datasource.core.ldap.followReferrals>false</runtime.datasource.core.ldap.followReferrals>
+<runtime.datasource.core.ldap>LDAP-test-groups</runtime.datasource.core.ldap>
 
 
 <runtime.users.ldap.peopleDN>ou=people</runtime.users.ldap.peopleDN>

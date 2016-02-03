@@ -56,7 +56,9 @@ public final class ParameterHelper
         /** date values */
         DATE,
         /** binary values */
-        BINARY
+        BINARY,
+        /** datasource values */
+        DATASOURCE
     }
 
     // Logger for traces
@@ -125,6 +127,10 @@ public final class ParameterHelper
                 return value;
             }
             else if (type == ParameterType.PASSWORD)
+            {
+                return value;
+            }
+            else if (type == ParameterType.DATASOURCE)
             {
                 return value;
             }

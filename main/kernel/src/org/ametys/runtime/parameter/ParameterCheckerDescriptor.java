@@ -312,8 +312,8 @@ public class ParameterCheckerDescriptor extends AbstractLogEnabled
     }
     
     /**
-     * Retrieves the configuration of the parameter the parameter checker is attached to
-     * @return _uiRefParamId the configuration of the parameter
+     * Retrieves the id of the parameter the parameter checker is attached to
+     * @return _uiRefParamId the id of the parameter
      */
     public String getUiRefParamId()
     {
@@ -321,8 +321,8 @@ public class ParameterCheckerDescriptor extends AbstractLogEnabled
     }
     
     /**
-     * Sets the configuration of the parameter the parameter checker is attached to
-     * @param uiRefParamId the configuration of the parameter
+     * Sets the id of the parameter the parameter checker is attached to
+     * @param uiRefParamId the id of the parameter
      */
     public void setUiRefParamId(String uiRefParamId)
     {

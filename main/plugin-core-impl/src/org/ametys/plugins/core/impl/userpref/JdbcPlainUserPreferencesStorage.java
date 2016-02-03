@@ -39,6 +39,7 @@ import org.ametys.core.datasource.ConnectionHelper;
 import org.ametys.core.userpref.DefaultUserPreferencesStorage;
 import org.ametys.core.userpref.UserPreferencesException;
 import org.ametys.core.userpref.UserPreferencesStorage;
+import org.ametys.runtime.config.Config;
 import org.ametys.runtime.parameter.ParameterHelper;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
 
@@ -72,7 +73,7 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
 {
     
     /** Connection pool name. */
-    protected String _poolName;
+    protected String _poolConfigParam;
     
     /** The database table in which the preferences are stored. */
     protected String _databaseTable;
@@ -96,7 +97,7 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
     public void configure(Configuration configuration) throws ConfigurationException
     {
         // Default to the core pool.
-        _poolName = configuration.getChild("pool").getValue(ConnectionHelper.CORE_POOL_NAME);
+        _poolConfigParam = configuration.getChild("pool").getValue(ConnectionHelper.CORE_POOL_CONFIG_PARAM);
         // The table configuration is mandatory.
         _databaseTable = configuration.getChild("table").getValue();
         // Default to "login".
@@ -148,7 +149,9 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
         
         try
         {
-            connection = ConnectionHelper.getConnection(_poolName);
+            
+            String dataSourceId = Config.getInstance().getValueAsString(_poolConfigParam);
+            connection = ConnectionHelper.getConnection(dataSourceId);
             
             StringBuilder query = new StringBuilder();
             query.append("SELECT * FROM ").append(_databaseTable).append(" WHERE ").append(_loginColumn).append(" = ?");
@@ -215,7 +218,8 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
         
         try
         {
-            connection = ConnectionHelper.getConnection(_poolName);
+            String dataSourceId = Config.getInstance().getValueAsString(_poolConfigParam);
+            connection = ConnectionHelper.getConnection(dataSourceId);
             
             StringBuilder query = new StringBuilder();
             query.append("DELETE FROM ").append(_databaseTable).append(" WHERE ").append(_loginColumn).append(" = ?");
@@ -253,7 +257,8 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
         Connection connection = null;
         try
         {
-            connection = ConnectionHelper.getConnection(_poolName);
+            String dataSourceId = Config.getInstance().getValueAsString(_poolConfigParam);
+            connection = ConnectionHelper.getConnection(dataSourceId);
             
             // Test if the preferences already exist.
             if (dataExists(connection, login, storageContext))
@@ -298,7 +303,8 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
                     query.append(" AND ").append(_contextColumn).append(" = ?");
                 }
                 
-                connection = ConnectionHelper.getConnection(_poolName);
+                String dataSourceId = Config.getInstance().getValueAsString(_poolConfigParam);
+                connection = ConnectionHelper.getConnection(dataSourceId);
                 
                 statement = connection.prepareStatement(query.toString());
                 statement.setString(1, column);

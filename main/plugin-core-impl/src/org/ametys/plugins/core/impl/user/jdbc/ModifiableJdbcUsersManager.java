@@ -157,8 +157,7 @@ public class ModifiableJdbcUsersManager extends JdbcUsersManager implements Modi
         try
         {
             // Effectuer la connexion à la base de données via un pool de connexion
-            con = ConnectionHelper.getConnection(_poolName);
-
+            con = getSQLConnection();
             stmt = createAddStatement(con, userInformation);
 
             // Effectuer la requête et vérifier le résultat
@@ -316,8 +315,7 @@ public class ModifiableJdbcUsersManager extends JdbcUsersManager implements Modi
         {
             // Effectuer la connexion à la base de données
             // via un pool de connexion
-            con = ConnectionHelper.getConnection(_poolName);
-
+            con = getSQLConnection();
             stmt = createModifyStatement(con, userInformation);
 
             // Effectuer la requête
@@ -417,7 +415,7 @@ public class ModifiableJdbcUsersManager extends JdbcUsersManager implements Modi
         try
         {
             // Effectuer la connexion à la base de données via un pool de connexion
-            con = ConnectionHelper.getConnection(_poolName);
+            con = getSQLConnection();
 
             // Contruire la requête pour supprimer un utilisateur
             String sqlRequest = "DELETE FROM " + _tableName + " WHERE " + _parameters.get("login").getColumn() + " = ?";

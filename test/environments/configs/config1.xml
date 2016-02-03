@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright 2009 Anyware Services
+   Copyright 2015 Anyware Services
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -13,31 +13,31 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-   -->
+-->
    
 <!-- 
     CORRECT DATASOURCE CONFIG TO MYSQL TEST BASE
     CORRECT runtime2 config
  -->
 <config>
-<runtime.datasource.core.jdbc.user>Ametys_Runtime</runtime.datasource.core.jdbc.user>
-<runtime.datasource.core.jdbc.driver>com.mysql.jdbc.Driver</runtime.datasource.core.jdbc.driver>
-<runtime.datasource.core.jdbc.passwd>Ametys_Runtime</runtime.datasource.core.jdbc.passwd>
-<runtime.datasource.core.jdbc.url>jdbc:mysql://mysql-dev.anyware.corp/Ametys_Runtime_Test</runtime.datasource.core.jdbc.url>
-<runtime.authentication.basic.realm>realm</runtime.authentication.basic.realm>
-<runtime.upload.max-size>10000000</runtime.upload.max-size>
-<runtime.debug.ui>0</runtime.debug.ui>
-<runtime.cache.xslt>false</runtime.cache.xslt>
-<runtime.log.abnormal.time>false</runtime.log.abnormal.time>
-<smtp.mail.host>smtp.anyware.corp</smtp.mail.host>
-<smtp.mail.port>993</smtp.mail.port>
-<smtp.mail.security.protocol>none</smtp.mail.security.protocol>
-<smtp.mail.user></smtp.mail.user>
-<smtp.mail.password></smtp.mail.password>
-<smtp.mail.from>test@ametys.org</smtp.mail.from>
-<smtp.mail.sysadminto>ametys@ametys.org</smtp.mail.sysadminto>
-<param2>param2</param2>
-<param4>4</param4>
+	<runtime.datasource.core.jdbc.pool>SQL-test</runtime.datasource.core.jdbc.pool>
+	<runtime.authentication.basic.realm>realm</runtime.authentication.basic.realm>
+	<runtime.upload.max-size>10000000</runtime.upload.max-size>
+	<runtime.debug.ui>0</runtime.debug.ui>
+	<runtime.cache.xslt>false</runtime.cache.xslt>
+	<runtime.log.abnormal.time>false</runtime.log.abnormal.time>
+	<smtp.mail.host>mail.anyware.corp</smtp.mail.host>
+	<smtp.mail.port>993</smtp.mail.port>
+	<smtp.mail.security.protocol>none</smtp.mail.security.protocol>
+	<smtp.mail.user></smtp.mail.user>
+	<smtp.mail.password></smtp.mail.password>
+	<smtp.mail.from>test@ametys.org</smtp.mail.from>
+	<smtp.mail.sysadminto>ametys@ametys.org</smtp.mail.sysadminto>
+	<param2>param2</param2>
+	<param4>4</param4>
+	<runtime.captcha.type>jcaptcha</runtime.captcha.type>
+    <runtime.captcha.recaptcha.publickey/>
+    <runtime.captcha.recaptcha.secretkey/>
 <runtime.captcha.type>jcaptcha</runtime.captcha.type>
 <runtime.captcha.recaptcha.publickey/>
 <runtime.captcha.recaptcha.secretkey/>

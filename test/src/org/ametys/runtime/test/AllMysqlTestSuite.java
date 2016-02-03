@@ -15,9 +15,6 @@
  */
 package org.ametys.runtime.test;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.ametys.runtime.test.groups.jdbc.MysqlJdbcGroupsTestCase;
 import org.ametys.runtime.test.rights.profile.MysqlProfileBasedRightsManagerTestCase;
 import org.ametys.runtime.test.rights.profile.hierarchical.MysqlHierarchicalProfileBasedRightsManagerTestCase;
@@ -26,6 +23,9 @@ import org.ametys.runtime.test.users.jdbc.MysqlJdbcUsersTestCase;
 import org.ametys.runtime.test.users.jdbc.credentialsaware.MysqlCredentialsAwareJdbcUsersTestCase;
 import org.ametys.runtime.test.users.jdbc.modifiable.MysqlModifiableJdbcUsersTestCase;
 import org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware.MysqlModifiableCredentialsAwareJdbcUsersTestCase;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * Test suite grouping all Mysql-based tests

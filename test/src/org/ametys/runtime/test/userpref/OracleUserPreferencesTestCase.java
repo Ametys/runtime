@@ -27,7 +27,7 @@ public class OracleUserPreferencesTestCase extends AbstractUserPreferencesTestCa
     protected void setUp() throws Exception
     {
         super.setUp();
-        _resetDB("runtime4.xml", "config_oracle.xml");
+        _resetDB("runtime4.xml", "config1.xml", "datasource-oracle.xml");
     }
     
     @Override

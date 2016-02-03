@@ -1034,6 +1034,7 @@
                                     <li>long</li>
                                     <li>double</li>
                                     <li>date (date and time)</li>
+                                    <li>datasource</li>
                                 </ul>
                             ]]>
                         </xsd:documentation>
@@ -1046,6 +1047,7 @@
                             <xsd:enumeration value="long"/>
                             <xsd:enumeration value="double"/>
                             <xsd:enumeration value="date"/>
+                            <xsd:enumeration value="datasource"/>
                         </xsd:restriction>
                     </xsd:simpleType>
                 </xsd:attribute>

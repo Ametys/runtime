@@ -1,5 +1,5 @@
 /*
- *  Copyright 2009 Anyware Services
+ *  Copyright 2009 Anyware Services_configureRuntime
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -34,11 +34,12 @@ public abstract class AbstractJDBCUsersManagerTestCase extends AbstractJDBCTestC
      * Reset the db
      * @param runtimeFilename The file name in runtimes env dir
      * @param configFileName The file name in config env dir
+     * @param sqlDataSourceFileName the path of the data sources configuration file
      * @throws Exception if an error occurs
      */
-    protected void _resetDB(String runtimeFilename, String configFileName) throws Exception
+    protected void _resetDB(String runtimeFilename, String configFileName, String sqlDataSourceFileName) throws Exception
     {
-        _startApplication("test/environments/runtimes/" + runtimeFilename, "test/environments/configs/" + configFileName, "test/environments/webapp1");
+        _startApplication("test/environments/runtimes/" + runtimeFilename, "test/environments/configs/" + configFileName, "test/environments/datasources/" + sqlDataSourceFileName, null, "test/environments/webapp1");
 
         _setDatabase(Arrays.asList(getScripts()));
         

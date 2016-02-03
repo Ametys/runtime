@@ -44,6 +44,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 
+import org.ametys.runtime.config.Config;
 import org.ametys.runtime.plugin.PluginsManager;
 import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 import org.ametys.runtime.plugin.component.PluginAware;
@@ -55,10 +56,10 @@ import org.ametys.runtime.plugin.component.PluginAware;
 public abstract class AbstractMyBatisDAO extends AbstractLogEnabled implements Contextualizable, Serviceable, PluginAware, Configurable, Initializable
 {
     private SqlSessionFactory _sessionFactory;
-    private DataSourceExtensionPoint _dsExtPoint;
+    private SQLDataSourceManager _sqlDataSourceManager;
     private String _contextPath;
     private String _pluginName;
-    private String _poolName;
+    private String _poolConfigParam;
     private Set<SqlMap> _sqlMaps;
     
     public void contextualize(org.apache.avalon.framework.context.Context context) throws ContextException
@@ -70,7 +71,7 @@ public abstract class AbstractMyBatisDAO extends AbstractLogEnabled implements C
     @Override
     public void service(ServiceManager manager) throws ServiceException
     {
-        _dsExtPoint = (DataSourceExtensionPoint) manager.lookup(DataSourceExtensionPoint.ROLE);
+        _sqlDataSourceManager = (SQLDataSourceManager) manager.lookup(SQLDataSourceManager.ROLE);
     }
     
     public void setPluginInfo(String pluginName, String featureName)
@@ -80,8 +81,7 @@ public abstract class AbstractMyBatisDAO extends AbstractLogEnabled implements C
     
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        _poolName = configuration.getChild("datasource", true).getValue(ConnectionHelper.CORE_POOL_NAME);
-        
+        _poolConfigParam = configuration.getChild("datasource", true).getValue(ConnectionHelper.CORE_POOL_CONFIG_PARAM);
         _sqlMaps = new HashSet<>();
         Configuration[] sqlMaps = configuration.getChildren("sqlMap");
         for (Configuration sqlMapConf : sqlMaps)
@@ -117,17 +117,18 @@ public abstract class AbstractMyBatisDAO extends AbstractLogEnabled implements C
     
     public void initialize() throws Exception
     {
-        DataSource dataSource = _dsExtPoint.getExtension(_poolName);
+        String dataSourceId = Config.getInstance().getValueAsString(_poolConfigParam);
+        DataSource dataSource = _sqlDataSourceManager.getSQLDataSource(dataSourceId);
         
         if (dataSource == null)
         {
-            throw new ConfigurationException("Invalid pool name: " + _poolName);
+            throw new ConfigurationException("Invalid pool configuration parameter: " + _poolConfigParam);
         }
         
         SqlSessionFactoryBuilder sessionFactoryBuilder = new SqlSessionFactoryBuilder();
         
         TransactionFactory transactionFactory = new JdbcTransactionFactory();
-        Environment env = new Environment(_poolName, transactionFactory, dataSource);
+        Environment env = new Environment(_poolConfigParam, transactionFactory, dataSource);
         
         org.apache.ibatis.session.Configuration config = new org.apache.ibatis.session.Configuration(env);
         config.setCacheEnabled(true);
@@ -170,7 +171,7 @@ public abstract class AbstractMyBatisDAO extends AbstractLogEnabled implements C
                 
                 if (getLogger().isInfoEnabled())
                 {
-                    getLogger().info("Initialized mybatis mapper at location '{}' for pool '{}'", mapperLocation, _poolName);
+                    getLogger().info("Initialized mybatis mapper at location '{}' for pool '{}'", mapperLocation, _poolConfigParam);
                 }
 
                 XMLMapperBuilder mapperParser = new XMLMapperBuilder(mapperStream, config, mapperLocation, config.getSqlFragments());

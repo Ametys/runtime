@@ -15,9 +15,6 @@
  */
 package org.ametys.runtime.test;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.ametys.runtime.test.administrator.jvmstatus.RequestCountListenerTestCase;
 import org.ametys.runtime.test.administrator.jvmstatus.SessionCountListenerTestCase;
 import org.ametys.runtime.test.cocoon.XHTMLSerializerTestCase;
@@ -42,6 +39,9 @@ import org.ametys.runtime.test.users.others.StaticUsersTestCase;
 import org.ametys.runtime.test.util.DateConversionTestCase;
 import org.ametys.runtime.test.util.I18nTestCase;
 import org.ametys.runtime.test.util.JSONTestCase;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * Test suite grouping all Runtime tests

@@ -37,6 +37,7 @@ import org.ametys.core.group.GroupsManager;
 import org.ametys.core.group.InvalidModificationException;
 import org.ametys.core.group.ModifiableGroupsManager;
 import org.ametys.plugins.core.impl.group.jdbc.ModifiableJdbcGroupsManager;
+import org.ametys.runtime.config.Config;
 import org.ametys.runtime.test.AbstractJDBCTestCase;
 import org.ametys.runtime.test.Init;
 
@@ -64,11 +65,12 @@ public abstract class AbstractJdbcGroupsTestCase extends AbstractJDBCTestCase
      * Reset the db
      * @param runtimeFilename The file name in runtimes env dir
      * @param configFileName The file name in config env dir
+     * @param dataSourceFileName The file name in data sources env dir
      * @throws Exception if an error occurs
      */
-    protected void _resetDB(String runtimeFilename, String configFileName) throws Exception
+    protected void _resetDB(String runtimeFilename, String configFileName, String dataSourceFileName) throws Exception
     {
-        _startApplication("test/environments/runtimes/" + runtimeFilename, "test/environments/configs/" + configFileName, "test/environments/webapp1");
+        _startApplication("test/environments/runtimes/" + runtimeFilename, "test/environments/configs/" + configFileName, "test/environments/datasources/" + dataSourceFileName, null, "test/environments/webapp1");
         
         _setDatabase(Arrays.asList(getScripts()));
 
@@ -237,7 +239,8 @@ public abstract class AbstractJdbcGroupsTestCase extends AbstractJDBCTestCase
         
         try
         {
-            connection = ConnectionHelper.getConnection(ConnectionHelper.CORE_POOL_NAME);
+            String dataSourceId = Config.getInstance().getValueAsString(ConnectionHelper.CORE_POOL_CONFIG_PARAM);
+            connection = ConnectionHelper.getConnection(dataSourceId);
             stmt = connection.prepareStatement("SELECT Id FROM Groups order by Id");
             
             rs = stmt.executeQuery();

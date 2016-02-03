@@ -1,0 +1,76 @@
+/*
+ *  Copyright 2014 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+package org.ametys.plugins.core.impl.checker;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.util.Map;
+
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+
+import org.ametys.core.datasource.ConnectionHelper;
+import org.ametys.runtime.parameter.ParameterChecker;
+import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
+
+/**
+ * Checks the SQL connection with the data written in the configuration panel
+ */
+public class SQLConnectionChecker extends AbstractLogEnabled implements ParameterChecker
+{
+    @Override
+    public void check(Map<String, String> parameters) throws ParameterCheckerTestFailureException
+    {
+        String password = parameters.get("password");
+        String driver = parameters.get("driver");
+        String url = parameters.get("url");
+        String login = parameters.get("user");
+        String driverNotFoundMessage = parameters.get("driverNotFoundMessage");
+        
+        Connection connection = null;
+        try 
+        {
+            Class.forName(driver);
+            connection = DriverManager.getConnection(url, login, password);
+        }
+        catch (ClassNotFoundException cnfe)
+        {
+            if (driverNotFoundMessage != null)
+            {
+                throw new ParameterCheckerTestFailureException(driverNotFoundMessage, cnfe);
+            }
+            throw new ParameterCheckerTestFailureException("The given driver classpath was not found. Try to put the driver's jar in the WEB-INF/lib folder and reboot the application", cnfe);
+        }
+        catch (Exception e)
+        {
+            throw new ParameterCheckerTestFailureException(e.getMessage(), e);
+        }
+        finally
+        {
+            if (connection != null)
+            {
+                try
+                {
+                    ConnectionHelper.cleanup(connection);
+                }
+                catch (Exception e)
+                {
+                    throw new ParameterCheckerTestFailureException(e.getMessage(), e);
+                }
+            }
+        }
+    }
+}

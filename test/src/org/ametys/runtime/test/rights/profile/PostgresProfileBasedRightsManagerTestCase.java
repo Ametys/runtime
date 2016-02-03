@@ -26,9 +26,7 @@ public class PostgresProfileBasedRightsManagerTestCase extends AbstractProfileBa
     @Override
     protected void setUp() throws Exception
     {
-        super.setUp();
-        
-        _resetDB("runtime4.xml", "config_postgres.xml");
+        _resetDB("runtime4.xml", "config1.xml", "datasource-postgresql.xml");
     }
     
     @Override

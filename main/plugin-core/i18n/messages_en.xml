@@ -249,7 +249,9 @@
     
 	<!-- PARAMETER CHECKERS -->
 	<message key="PLUGINS_CORE_MAIL_CONNECTION_CHECKER_LABEL">Check the connection to the mail server</message>
-    <message key="PLUGINS_CORE_MAIL_CONNECTION_CHECKER_DESC">This test checks if the given information allows the connection to the mail server.</message>
+	<message key="PLUGINS_CORE_MAIL_CONNECTION_CHECKER_DESC">This test checks if the given information allows the connection to the mail server.</message>
+    <message key="PLUGINS_CORE_LDAP_DN_CONNECTION_CHECKER_LABEL">Check the connection to the LDAP repository</message>
+    <message key="PLUGINS_CORE_LDAP_DN_CONNECTION_CHECKER_DESC">This test checks that the given data allows to establish a connection with the LDAP, and also verifies the DN.</message>
     
 	<!-- PROFILES ACTIONS -->
 	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_LABEL">Add profile to user</message>
@@ -296,4 +298,15 @@
     <message key="PLUGINS_CORE_CAPTCHA_CONFIG_PUBLIC_KEY_DESCRIPTION">If you use reCaptcha, you must specify the site key provided by Google.</message>
     <message key="PLUGINS_CORE_CAPTCHA_CONFIG_SECRET_KEY">Secret key reCaptcha</message>
     <message key="PLUGINS_CORE_CAPTCHA_CONFIG_SECRET_KEY_DESCRIPTION">If you use reCaptcha, you must specify the secret key provided by Google.</message>
+    
+    <!-- +
+         | DATA SOURCE
+         + -->
+    <message key="PLUGINS_CORE_INTERNAL_DATASOURCE_LABEL">Internal database</message>
+    <message key="PLUGINS_CORE_INTERNAL_DATASOURCE_LABEL">SQL database used for internal purpose</message>
+    
+    <message key="PLUGINS_CORE_DATASOURCEDAO_GET_DATASOURCE_ERROR">An error occurred while retrieving the data source.</message>
+    <message key="PLUGINS_CORE_DATASOURCEDAO_ADD_DATASOURCE_ERROR">An error occurred : the data source has not been created.</message>
+    <message key="PLUGINS_CORE_DATASOURCEDAO_EDIT_DATASOURCE_ERROR">An error occurred : the data source has not been edited.</message>
+    <message key="PLUGINS_CORE_DATASOURCEDAO_DELETE_DATASOURCE_ERROR">An error occurred : the data sources have not been deleted.</message>
 </catalogue>

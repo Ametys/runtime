@@ -26,6 +26,7 @@ import org.ametys.core.datasource.ConnectionHelper;
 import org.ametys.core.user.CredentialsAwareUsersManager;
 import org.ametys.core.user.ModifiableUsersManager;
 import org.ametys.plugins.core.impl.user.jdbc.CredentialsAwareJdbcUsersManager;
+import org.ametys.runtime.config.Config;
 import org.ametys.runtime.test.users.jdbc.AbstractJDBCUsersManagerTestCase;
 
 /**
@@ -110,7 +111,8 @@ public abstract class AbstractCredentialsAwareJdbcUsersTestCase extends Abstract
         
         try
         {
-            connection = ConnectionHelper.getConnection(ConnectionHelper.CORE_POOL_NAME);
+            String dataSourceId = Config.getInstance().getValueAsString(ConnectionHelper.CORE_POOL_CONFIG_PARAM);
+            connection = ConnectionHelper.getConnection(dataSourceId);
             
             String sql = "SELECT password, salt FROM Users WHERE login = ?";
             

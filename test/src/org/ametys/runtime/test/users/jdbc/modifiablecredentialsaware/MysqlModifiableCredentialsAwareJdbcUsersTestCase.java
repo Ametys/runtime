@@ -26,8 +26,7 @@ public class MysqlModifiableCredentialsAwareJdbcUsersTestCase extends AbstractMo
     @Override
     protected void setUp() throws Exception
     {
-        super.setUp();
-        _resetDB("runtime6.xml", "config1.xml");
+        _resetDB("runtime6.xml", "config1.xml", "datasource-mysql.xml");
     }
     
     @Override

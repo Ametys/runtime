@@ -45,5 +45,7 @@
     
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_CONFIG_LABEL">Configuration</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_CONFIG_GROUPS_GROUP_ACTIONS">Actions</message>
-
+    
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_DATASOURCE_LABEL">Source de données</message>
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_DATASOURCES_GROUPS_GROUP_ACTIONS">Actions</message>
 </catalogue>

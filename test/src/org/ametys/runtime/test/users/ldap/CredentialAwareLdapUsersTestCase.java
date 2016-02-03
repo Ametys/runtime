@@ -30,7 +30,7 @@ public class CredentialAwareLdapUsersTestCase extends LdapUsersTestCase
     @Override
     protected void _startApp() throws Exception
     {
-        _startApplication("test/environments/runtimes/runtime9.xml", "test/environments/configs/config4.xml", "test/environments/webapp1");
+        _startApplication("test/environments/runtimes/runtime9.xml", "test/environments/configs/config4.xml", null, "test/environments/configs/datasource-ldap.xml", "test/environments/webapp1");
         
         _usersManager = (UsersManager) Init.getPluginServiceManager().lookup(UsersManager.ROLE);
     }

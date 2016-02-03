@@ -108,7 +108,7 @@ public class ModifiableCredentialsAwareJdbcUsersManager extends ModifiableJdbcUs
         {
             // Effectuer la connexion à la base de données
             // via un pool de connexion
-            con = ConnectionHelper.getConnection(_poolName);
+            con = getSQLConnection();
 
             // Contruire la requête pour authentifier l'utilisateur
             String sql = "SELECT " + _parameters.get("login").getColumn() + ", " + _parameters.get("password").getColumn() + ", " + _saltColumn + " FROM " + _tableName + " WHERE " + _parameters.get("login").getColumn() + " = ?";
@@ -195,7 +195,7 @@ public class ModifiableCredentialsAwareJdbcUsersManager extends ModifiableJdbcUs
 
         try
         {
-            con = ConnectionHelper.getConnection(_poolName);
+            con = getSQLConnection();
 
             String generateSaltKey = RandomStringUtils.randomAlphanumeric(48);
             String newEncryptedPassword = DigestUtils.sha512Hex(generateSaltKey + password);

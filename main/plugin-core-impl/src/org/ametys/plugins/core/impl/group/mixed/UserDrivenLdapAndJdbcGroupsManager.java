@@ -23,7 +23,6 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.service.Serviceable;
 
 import org.ametys.core.group.Group;
 import org.ametys.core.group.GroupListener;
@@ -37,7 +36,7 @@ import org.ametys.plugins.core.impl.group.ldap.UserDrivenLdapGroupsManager;
  * Mixed-source groups manager that searches a group first in a LDAP directory, then in a database.<br>
  * The relations between LDAP groups and users are user-driven, i.e. the user LDAP entry has a group membership attribute.
  */
-public class UserDrivenLdapAndJdbcGroupsManager extends UserDrivenLdapGroupsManager implements ModifiableGroupsManager, UserListener, Serviceable//, Contextualizable, PluginAware
+public class UserDrivenLdapAndJdbcGroupsManager extends UserDrivenLdapGroupsManager implements ModifiableGroupsManager, UserListener//, Contextualizable, PluginAware
 {
     
     /** The fallback groups manager. */

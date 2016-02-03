@@ -53,11 +53,14 @@ public abstract class AbstractHierarchicalProfileBasedRightsManagerTestCase exte
      * Reset the db
      * @param runtimeFilename The file name in runtimes env dir
      * @param configFileName The file name in config env dir
+     * @param sqlDataSourceFileName The file name in config env dir
      * @throws Exception if an error occurs
      */
-    protected void _resetDB(String runtimeFilename, String configFileName) throws Exception
+    protected void _resetDB(String runtimeFilename, String configFileName, String sqlDataSourceFileName) throws Exception
     {
-        _startApplication("test/environments/runtimes/" + runtimeFilename, "test/environments/configs/" + configFileName, "test/environments/webapp1");
+        super.setUp();
+        
+        _startApplication("test/environments/runtimes/" + runtimeFilename, "test/environments/configs/" + configFileName, "test/environments/configs/" + sqlDataSourceFileName, null, "test/environments/webapp1");
 
         _setDatabase(Arrays.asList(getScripts()));
 

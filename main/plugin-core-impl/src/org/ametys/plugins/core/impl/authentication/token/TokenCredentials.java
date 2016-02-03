@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 import org.ametys.core.authentication.Credentials;
 import org.ametys.core.datasource.ConnectionHelper;
+import org.ametys.runtime.config.Config;
 
 /**
  * Credentials coming from more than one source.
@@ -61,13 +62,17 @@ public class TokenCredentials extends Credentials
      */
     public boolean checkToken()
     {
-        try (Connection connection = ConnectionHelper.getConnection(ConnectionHelper.CORE_POOL_NAME))
+        Connection connection = null;
+        PreparedStatement deleteStatement = null;   
+        
+        try
         {
+            String dataSourceId = Config.getInstance().getValueAsString(ConnectionHelper.CORE_POOL_CONFIG_PARAM);
+            connection = ConnectionHelper.getConnection(dataSourceId);
+                    
             // Delete 2 weeks or more old entries
-            try (PreparedStatement deleteStatement = _getDeleteOldUserTokenStatement(connection))
-            {
-                deleteStatement.executeUpdate();
-            }
+            deleteStatement = _getDeleteOldUserTokenStatement(connection);
+            deleteStatement.executeUpdate();
 
             // Retrieve entries corresponding to this login
             String login = getLogin();
@@ -94,6 +99,11 @@ public class TokenCredentials extends Credentials
         {
             _LOGGER.error("Communication error with the database", e); 
             return false;
+        }
+        finally
+        {
+            ConnectionHelper.cleanup(deleteStatement);
+            ConnectionHelper.cleanup(connection);
         }
     }
     

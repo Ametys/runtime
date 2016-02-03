@@ -26,8 +26,7 @@ public class HsqlModifiableCredentialsAwareJdbcUsersTestCase extends AbstractMod
     @Override
     protected void setUp() throws Exception
     {
-        super.setUp();
-        _resetDB("runtime6.xml", "config_hsqldb.xml");
+        _resetDB("runtime6.xml", "config1.xml", "datasource-hsql.xml");
     }
     
     @Override

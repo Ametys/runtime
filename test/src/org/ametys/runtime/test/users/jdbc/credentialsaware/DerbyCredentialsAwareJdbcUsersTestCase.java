@@ -26,8 +26,7 @@ public class DerbyCredentialsAwareJdbcUsersTestCase extends AbstractCredentialsA
     @Override
     protected void setUp() throws Exception
     {
-        super.setUp();
-        _resetDB("runtime7.xml", "config_derby.xml");
+        _resetDB("runtime7.xml", "config1.xml", "datasource-derby.xml");
     }
     
     @Override

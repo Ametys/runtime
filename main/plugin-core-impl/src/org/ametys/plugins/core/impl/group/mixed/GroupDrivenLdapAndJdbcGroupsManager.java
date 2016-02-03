@@ -23,7 +23,6 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.service.Serviceable;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
@@ -42,7 +41,7 @@ import org.ametys.plugins.core.impl.group.ldap.GroupDrivenLdapGroupsManager;
  * Mixed-source groups manager that searches a group first in a LDAP directory, then in a database.<br>
  * The relations between LDAP groups and users are group-driven, i.e. the group LDAP entry has a "list of members" attribute.
  */
-public class GroupDrivenLdapAndJdbcGroupsManager extends GroupDrivenLdapGroupsManager implements ModifiableGroupsManager, UserListener, Serviceable//, Contextualizable, PluginAware
+public class GroupDrivenLdapAndJdbcGroupsManager extends GroupDrivenLdapGroupsManager implements ModifiableGroupsManager, UserListener//, Contextualizable, PluginAware
 {
     
     /** The fallback groups manager. */

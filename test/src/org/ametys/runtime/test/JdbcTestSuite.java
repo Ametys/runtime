@@ -15,9 +15,6 @@
  */
 package org.ametys.runtime.test;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.ametys.runtime.test.groups.jdbc.AllGroupsTestSuite;
 import org.ametys.runtime.test.rights.profile.AllProfileBasedRightsManagerTestSuite;
 import org.ametys.runtime.test.rights.profile.hierarchical.AllHierarchicalProfileBasedRightsManagerTestSuite;
@@ -26,6 +23,9 @@ import org.ametys.runtime.test.users.jdbc.AllUsersTestSuite;
 import org.ametys.runtime.test.users.jdbc.credentialsaware.AllCredentialsAwareJdbcUsersTestSuite;
 import org.ametys.runtime.test.users.jdbc.modifiable.AllModifiableUsersTestSuite;
 import org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware.AllModifiableCredentialsAwareJdbcUsersTestSuite;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * Test suite grouping all JDBC-related runtime tests.

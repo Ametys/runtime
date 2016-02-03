@@ -15,9 +15,6 @@
  */
 package org.ametys.runtime.test;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.ametys.runtime.test.groups.jdbc.DerbyJdbcGroupsTestCase;
 import org.ametys.runtime.test.rights.profile.DerbyProfileBasedRightsManagerTestCase;
 import org.ametys.runtime.test.rights.profile.hierarchical.DerbyHierarchicalProfileBasedRightsManagerTestCase;
@@ -26,6 +23,9 @@ import org.ametys.runtime.test.users.jdbc.DerbyJdbcUsersTestCase;
 import org.ametys.runtime.test.users.jdbc.credentialsaware.DerbyCredentialsAwareJdbcUsersTestCase;
 import org.ametys.runtime.test.users.jdbc.modifiable.DerbyModifiableJdbcUsersTestCase;
 import org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware.DerbyModifiableCredentialsAwareJdbcUsersTestCase;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * Test suite grouping all Runtime tests

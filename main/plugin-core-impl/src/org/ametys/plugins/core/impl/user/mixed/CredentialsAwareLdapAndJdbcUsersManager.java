@@ -30,7 +30,6 @@ import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.service.Serviceable;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.excalibur.xml.sax.ContentHandlerProxy;
 import org.xml.sax.Attributes;
@@ -54,7 +53,7 @@ import org.ametys.runtime.plugin.component.PluginAware;
 /**
  * Try to find the user in the LDAP directory first. If not found, try to find him in the DBMS.
  */
-public class CredentialsAwareLdapAndJdbcUsersManager extends CredentialsAwareLdapUsersManager implements ModifiableUsersManager, Serviceable, Contextualizable, PluginAware, Disposable
+public class CredentialsAwareLdapAndJdbcUsersManager extends CredentialsAwareLdapUsersManager implements ModifiableUsersManager, Contextualizable, PluginAware, Disposable
 {
     /** Fallback users manager. */
     protected ModifiableCredentialsAwareJdbcUsersManager _fallbackUsersManager;

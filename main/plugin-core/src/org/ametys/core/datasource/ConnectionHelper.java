@@ -22,22 +22,28 @@ import java.sql.Statement;
 
 import javax.sql.DataSource;
 
+import org.apache.avalon.framework.component.Component;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Helper class to retrieve java.sql.Connection from pools
+ * Helper component used to retrieve java.sql.Connection from pools
  */
-public final class ConnectionHelper
+public final class ConnectionHelper implements Component, Serviceable
 {
-    /**
-     * Constant for core Connection pool name
-     */
-    public static final String CORE_POOL_NAME = "runtime.datasource.core.jdbc.pool";
+    /** The id of the configuration parameter corresponding to the core connection pool */
+    public static final String CORE_POOL_CONFIG_PARAM = "runtime.datasource.core.jdbc.pool";
     
-    /**
-     * Enumeration for database type.<br>
-     */
+    /** Logger for traces */
+    private static Logger _logger = LoggerFactory.getLogger(ConnectionHelper.class.getName());
+    
+    /** The manager for SQL data source */
+    private static SQLDataSourceManager _sqlDataSourceManager;
+    
+    /** Enumeration for database type.&lt;br&gt; */
     public enum DatabaseType
     {
         /** Database type is unknown */
@@ -59,51 +65,33 @@ public final class ConnectionHelper
         DATABASE_HSQLDB
     }
     
-    // Logger for traces
-    private static Logger _logger = LoggerFactory.getLogger(ConnectionHelper.class.getName());
+    @Override
+    public void service(ServiceManager serviceManager) throws ServiceException
+    {
+        _sqlDataSourceManager = (SQLDataSourceManager) serviceManager.lookup(SQLDataSourceManager.ROLE); 
+    }
 
-    private static DataSourceExtensionPoint _extensionPoint;
-    
-    private ConnectionHelper()
-    {
-        // empty constructor
-    }
-    
-    /**
-     * Initializes the Datasources holding the actual Connections
-     * @param extensionPoint the application DataSourceExtensionPoint 
-     */
-    public static void setExtensionPoint(DataSourceExtensionPoint extensionPoint)
-    {
-        _extensionPoint = extensionPoint;
-    }
-    
     /**
      * Returns a Connection from the pool.
-     * @param poolName the name of the Avalon connection pool
+     * @param id the id of the data source configuration parameter
      * @return a java.sql.Connection to query a SQL database
      */
-    public static Connection getConnection(String poolName)
+    public static Connection getConnection(String id)
     {
-        if (_extensionPoint == null)
-        {
-            throw new IllegalStateException("ComponentSelector has not been properly set up. The method setSelector(selector) must be called before getting any Connection.");
-        }
-
         DataSource dataSource;
-        Connection conn = null;
-
+        Connection connection = null;
+        
         try
         {
-            dataSource =  _extensionPoint.getExtension(poolName);
-            conn = dataSource.getConnection();
+            dataSource =  _sqlDataSourceManager.getSQLDataSource(id);
+            connection = dataSource.getConnection();
         }
         catch (SQLException e)
         {
-            throw new RuntimeException("Unable to get Connection from pool " + poolName, e);
+            throw new RuntimeException("Unable to get Connection from pool " + id, e);
         }
 
-        return conn;
+        return connection;
     }
     
     /**

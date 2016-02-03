@@ -40,6 +40,7 @@ import javax.naming.ldap.LdapContext;
 import javax.naming.ldap.SortControl;
 
 import org.apache.avalon.framework.component.Component;
+import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.thread.ThreadSafe;
@@ -56,7 +57,7 @@ import org.ametys.core.util.ldap.AbstractLDAPConnector;
 /**
  * Use a ldap server for getting the list of users.
  */
-public class LdapUsersManager extends AbstractLDAPConnector implements UsersManager, ThreadSafe, Component
+public class LdapUsersManager extends AbstractLDAPConnector implements UsersManager, ThreadSafe, Component, Configurable
 {
     /** Relative DN for users. */
     protected String _usersRelativeDN;
@@ -82,8 +83,6 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        super.configure(configuration);
-        
         _usersRelativeDN = _getConfigParameter(configuration, "RelativeDN");
         _usersObjectFilter = _getFilter(configuration, "Filter");
         _usersSearchScope = _getSearchScope(configuration, "SearchScope");

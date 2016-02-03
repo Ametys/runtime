@@ -26,9 +26,7 @@ public class PostgresHierarchicalProfileBasedRightsManagerTestCase extends Abstr
     @Override
     protected void setUp() throws Exception
     {
-        super.setUp();
-        
-        _resetDB("runtime5.xml", "config_postgres.xml");
+        _resetDB("runtime5.xml", "config1.xml", "datasource-postgresql.xml");
     }
     
     @Override

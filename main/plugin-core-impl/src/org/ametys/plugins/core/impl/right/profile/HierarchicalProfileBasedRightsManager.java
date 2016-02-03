@@ -199,7 +199,7 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
         String lcOldContext = getFullContext(oldContext);
         String lcNewContext = getFullContext(newContext);
         
-        Connection connection = ConnectionHelper.getConnection(_poolName);
+        Connection connection = getSQLConnection();
         
         try
         {
@@ -241,7 +241,7 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
     {
         String lcContext = getFullContext(context);
         
-        Connection connection = ConnectionHelper.getConnection(_poolName);
+        Connection connection = getSQLConnection();
         
         try
         {

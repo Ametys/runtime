@@ -26,8 +26,7 @@ public class PostgresCredentialsAwareJdbcUsersTestCase extends AbstractCredentia
     @Override
     protected void setUp() throws Exception
     {
-        super.setUp();
-        _resetDB("runtime7.xml", "config_postgres.xml");
+        _resetDB("runtime7.xml", "config1.xml", "datasource-postgresql.xml");
     }
     
     @Override

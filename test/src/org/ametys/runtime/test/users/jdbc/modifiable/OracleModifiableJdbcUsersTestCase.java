@@ -26,8 +26,7 @@ public class OracleModifiableJdbcUsersTestCase extends AbstractModifiableJdbcUse
     @Override
     protected void setUp() throws Exception
     {
-        super.setUp();
-        _resetDB("runtime5.xml", "config_oracle.xml");
+        _resetDB("runtime5.xml", "config1.xml", "datasource-oracle.xml");
     }
     
     @Override

@@ -27,48 +27,24 @@
     <!-- DATASOURCE CORE -->
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE">Database</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE_GROUP_CORE">Kernel database connection</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_DRIVER_LABEL">Driver</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_DRIVER_DESCRIPTION">JDBC Driver fully qualified class name</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_URL_LABEL">Url</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_URL_DESCRIPTION">JDBC URL for connecting to the database</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_USER_LABEL">User</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_USER_DESCRIPTION">User name for connecting to the database</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_PASSWORD_LABEL">Password</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_PASSWORD_DESCRIPTION">Password associated with the user name for connecting to the database</message>
+    
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP">LDAP directory</message>
     
-    <message key="PLUGINS_CORE_SQL_CONNECTION_CHECKER_LABEL">Check the connection to the kernel database</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_DATASOURCE_LABEL">Kernel database</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_DATASOURCE_DESCRIPTION">Specify here the data source that will be used as the kernel database. It will store, among other entities, the users, the groups, the rights' profiles...</message> 
+    
+    <message key="PLUGINS_CORE_SQL_CONNECTION_CHECKER_LABEL">Connection to the kernel database</message>
     <message key="PLUGINS_CORE_SQL_CONNECTION_CHECKER_DESC">This test checks if the given information allows the connection to the SQL kernel database.</message>
     
     <!-- DATASOURCE LDAP -->
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE">Server</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEURL_LABEL">Url</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEURL_DESCRIPTION">Url for LDAP server</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEURL_INVALID">The url of the LDAP server is invalid. It has to be like 'ldap://server:389' or 'ldaps://server:389'.</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEDN_LABEL">Base DN</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEDN_DESCRIPTION">Base DN for the entire LDAP directory</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINDN_LABEL">Administrator's DN</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINDN_DESCRIPTION">Absolute DN for LDAP directory super-user</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINPASSWORD_LABEL">Administrator password</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINPASSWORD_DESCRIPTION">LDAP directory super-user password</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_FOLLOWREFERRALS_LABEL">Follow references</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_FOLLOWREFERRALS_DESCRIPTION">Check this option to enable following references (mainly for dynamic groups).</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_LABEL">Alias dereferencing</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_DESCRIPTION">Defines the alias dereferencing mode.&lt;br/&gt;- &lt;b&gt;always : &lt;/b&gt;always dereference aliases&lt;br/&gt;- &lt;b&gt;never : &lt;/b&gt;never dereferences aliases&lt;br/&gt;- &lt;b&gt;finding : &lt;/b&gt;dereferences aliases only during name resolution&lt;br/&gt;- &lt;b&gt;searching : &lt;/b&gt;dereferences aliases only after name resolution</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_ALWAYS">always</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_NEVER">never</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_FINDING">finding</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_SEARCHING">searching</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_LABEL">Authentication method</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_DESCRIPTION">Define the authentication method for LDAP directory</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_ENUM_NONE">Anonymous</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_ENUM_SIMPLE">Simple</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_SSL_LABEL">Secured connection</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_SSL_DESCRIPTION">Select to use the secure LDAP (ldaps)</message>
-    
-    <message key="PLUGINS_CORE_LDAP_DN_CONNECTION_CHECKER_LABEL">Check the connection to the LDAP repository</message>
-    <message key="PLUGINS_CORE_LDAP_DN_CONNECTION_CHECKER_DESC">This test checks if the provided information allow to establish a connection to the LDAP repository</message>
 
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_LDAP_DATASOURCE_LABEL">LDAP connection</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_LDAP_DATASOURCE_DESCRIPTION">Specify here the data source to use to establish a LDAP connection.</message>
+
+    <message key="PLUGINS_CORE_LDAP_CONNECTION_CHECKER_LABEL">Connection to the LDAP repository</message>
+    <message key="PLUGINS_CORE_LDAP_CONNECTION_CHECKER_DESC">This test checks if the given information allows the connection to the LDAP repository.</message>
+    
     <!-- USER LDAP -->
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS">Users</message>
     <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_PEOPLEDN_LABEL">DN for people</message>
@@ -130,8 +106,17 @@
     <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_URL_DESCRIPTION">CAS server Url</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_AUTHORIZEDPROXY_LABEL">Proxy chain</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_AUTHORIZEDPROXY_DESCRIPTION">CAS server authorized proxy chain</message>
-        
-    <message key="PLUGINS_CORE_CAS_SERVER_CHECKER_LABEL">Check the CAS server URL</message>
-    <message key="PLUGINS_CORE_CAS_SERVER_CHECKER_DESC">This test checks if the provided url allows to establish a connection to the CAS server.</message>    
     
+    <message key="PLUGINS_CORE_CAS_SERVER_CHECKER_LABEL">Check the url of the CAS server</message>
+    <message key="PLUGINS_CORE_CAS_SERVER_CHECKER_DESC">This test checks that the specified url is valid by trying to establish a connection.</message>
+    <!-- +
+         | SQL DATABASE TYPES 
+         + -->
+    <message key="PLUGINS_CORE_DATASOURCE_DERBY_DRIVER_LABEL">Derby</message>
+    <message key="PLUGINS_CORE_DATASOURCE_MYSQL_DRIVER_LABEL">MySQL</message>
+    <message key="PLUGINS_CORE_DATASOURCE_HSQL_DRIVER_LABEL">HSQL</message>
+    <message key="PLUGINS_CORE_DATASOURCE_POSTGRESQL_DRIVER_LABEL">PostGreSQL</message>
+    <message key="PLUGINS_CORE_DATASOURCE_ORACLE_DRIVER_LABEL">Oracle</message>
+    <message key="PLUGINS_CORE_DATASOURCE_DRIVER_NOT_FOUND">The specified driver was not found.</message>
+    <message key="PLUGINS_CORE_DATASOURCE_ORACLE_DRIVER_NOT_FOUND">The specified Oracle JDBC driver was not found. If you want to download it, please visit: http://www.oracle.com/technetwork/indexes/downloads/index.html#drivers</message>
 </catalogue>

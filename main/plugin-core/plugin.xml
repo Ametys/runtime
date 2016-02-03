@@ -297,9 +297,6 @@
                          class="org.ametys.core.cocoon.SourceFactoriesExtensionPoint"
                          safe="true"/>
 
-        <extension-point id="org.ametys.core.datasource.DataSourceExtensionPoint"
-                         class="org.ametys.core.datasource.DataSourceExtensionPoint"/>
-
         <extension-point id="org.ametys.runtime.cocoon.SitemapConfigurationExtensionPoint"
                          class="org.ametys.runtime.cocoon.SitemapConfigurationExtensionPoint"
                          safe="true"/>
@@ -312,6 +309,11 @@
                          class="org.ametys.core.observation.ObserverExtensionPoint">
             <!-- Observer extension point -->
         </extension-point>
+        
+        <extension-point id="org.ametys.core.datasource.dbtype.SQLDatabaseTypeExtensionPoint"
+                         class="org.ametys.core.datasource.dbtype.SQLDatabaseTypeExtensionPoint"
+                         safe="true"/>
+        
     </extension-points>
     
     <feature name="util.servercommhelper" safe="true">
@@ -1313,4 +1315,42 @@
             </extension>
         </extensions>
      </feature>
+    
+    <feature name="runtime.core.datasource.dao" safe="true">
+        <components>
+            <component role="org.ametys.core.datasource.DataSourceDAO"
+                       id="org.ametys.core.datasource.DataSourceDAO"
+                       class="org.ametys.core.datasource.DataSourceDAO"/>
+        </components>
+    </feature>
+        
+    <!-- +
+         | SQL DATA SOURCE 
+         + -->  
+    <feature name="runtime.core.datasource.sql" safe="true">
+        <components>
+            <component role="org.ametys.core.datasource.ConnectionHelper"
+                       id="org.ametys.core.datasource.ConnectionHelper"
+                       class="org.ametys.core.datasource.ConnectionHelper"/>
+            
+            <component role="org.ametys.core.datasource.SQLDataSourceManager"
+                       id="org.ametys.core.datasource.SQLDataSourceManager"
+                       class="org.ametys.core.datasource.SQLDataSourceManager"/>
+                       
+           <component role="org.ametys.core.datasource.dbtype.SQLDatabaseTypeManager"
+                       id="org.ametys.core.datasource.dbtype.SQLDatabaseTypeManager"
+                       class="org.ametys.core.datasource.dbtype.SQLDatabaseTypeManager"/>
+        </components>
+    </feature>
+    
+    <!-- +
+         | LDAP DATA SOURCE 
+         + -->  
+    <feature name="runtime.core.datasource.ldap.manager" safe="true">
+        <components>
+            <component role="org.ametys.core.datasource.LDAPDataSourceManager"
+                       id="org.ametys.core.datasource.LDAPDataSourceManager"
+                       class="org.ametys.core.datasource.LDAPDataSourceManager"/>
+        </components>
+    </feature>
 </plugin>

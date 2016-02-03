@@ -27,7 +27,7 @@ public class DerbyJdbcGroupsTestCase extends AbstractJdbcGroupsTestCase
     protected void setUp() throws Exception
     {
         super.setUp();
-        _resetDB("runtime4.xml", "config_derby.xml");
+        _resetDB("runtime4.xml", "config1.xml", "datasource-derby.xml");
     }
     
     @Override

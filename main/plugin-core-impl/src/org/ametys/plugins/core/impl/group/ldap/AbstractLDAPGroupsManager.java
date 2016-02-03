@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.cocoon.xml.XMLUtils;
@@ -36,7 +37,7 @@ import org.ametys.core.util.ldap.AbstractLDAPConnector;
 /**
  * This class is the base for groups manager using LDAP
  */
-public abstract class AbstractLDAPGroupsManager extends AbstractLDAPConnector implements GroupsManager
+public abstract class AbstractLDAPGroupsManager extends AbstractLDAPConnector implements GroupsManager, Configurable
 {
     /** The group DN relative to baseDN */
     protected String _groupsRelativeDN;
@@ -52,8 +53,6 @@ public abstract class AbstractLDAPGroupsManager extends AbstractLDAPConnector im
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        super.configure(configuration);
-        
         _groupsRelativeDN = _getConfigParameter(configuration, "RelativeDN");
         _groupsObjectFilter = _getFilter(configuration, "Filter");
         _groupsSearchScope = _getSearchScope(configuration, "SearchScope");

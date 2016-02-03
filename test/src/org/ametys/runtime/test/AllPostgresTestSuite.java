@@ -15,9 +15,6 @@
  */
 package org.ametys.runtime.test;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.ametys.runtime.test.groups.jdbc.PostgresJdbcGroupsTestCase;
 import org.ametys.runtime.test.rights.profile.PostgresProfileBasedRightsManagerTestCase;
 import org.ametys.runtime.test.rights.profile.hierarchical.PostgresHierarchicalProfileBasedRightsManagerTestCase;
@@ -26,6 +23,9 @@ import org.ametys.runtime.test.users.jdbc.PostgresJdbcUsersTestCase;
 import org.ametys.runtime.test.users.jdbc.credentialsaware.PostgresCredentialsAwareJdbcUsersTestCase;
 import org.ametys.runtime.test.users.jdbc.modifiable.PostgresModifiableJdbcUsersTestCase;
 import org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware.PostgresModifiableCredentialsAwareJdbcUsersTestCase;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * Test suite grouping all Runtime tests

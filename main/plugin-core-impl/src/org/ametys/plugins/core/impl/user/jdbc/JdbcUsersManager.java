@@ -52,6 +52,7 @@ import org.ametys.core.datasource.ConnectionHelper.DatabaseType;
 import org.ametys.core.user.User;
 import org.ametys.core.user.UsersManager;
 import org.ametys.core.util.CachingComponent;
+import org.ametys.runtime.config.Config;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.AbstractParameterParser;
 import org.ametys.runtime.parameter.DefaultValidator;
@@ -169,6 +170,16 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
         
         _validatorManager.dispose();
         _validatorManager = null;
+    }
+    
+    /**
+     * Get the connection to the database 
+     * @return the SQL connection
+     */
+    protected Connection getSQLConnection ()
+    {
+        String dataSourceId = Config.getInstance().getValueAsString(_poolName);
+        return ConnectionHelper.getConnection(dataSourceId);
     }
 
     /**
@@ -784,7 +795,7 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
         @SuppressWarnings("synthetic-access")
         public T runWithException() throws Exception
         {
-            Connection connection = ConnectionHelper.getConnection(_poolName);
+            Connection connection = getSQLConnection();
             PreparedStatement stmt = null;
             ResultSet rs = null;
             

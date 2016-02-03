@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright 2009 Anyware Services
+   Copyright 2015 Anyware Services
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-   -->
+-->
 
 <!-- 
     DATASOURCE CONFIG
@@ -21,24 +21,14 @@
     GROUP DRIVEN LDAP CONFIG
  -->
 <config>
-<runtime.datasource.core.jdbc.user>Ametys_Runtime</runtime.datasource.core.jdbc.user>
-<runtime.datasource.core.jdbc.driver>com.mysql.jdbc.Driver</runtime.datasource.core.jdbc.driver>
-<runtime.datasource.core.jdbc.passwd>Ametys_Runtime</runtime.datasource.core.jdbc.passwd>
-<runtime.datasource.core.jdbc.url>jdbc:mysql://mysql-dev.anyware.corp/Ametys_Runtime_Test</runtime.datasource.core.jdbc.url>
+<runtime.datasource.core.jdbc.pool>SQL-test</runtime.datasource.core.jdbc.pool>
 <runtime.authentication.basic.realm>realm</runtime.authentication.basic.realm>
 <runtime.upload.max-size>10000000</runtime.upload.max-size>
 <runtime.debug.ui>0</runtime.debug.ui>
 <runtime.cache.xslt>false</runtime.cache.xslt>
 <runtime.log.abnormal.time>false</runtime.log.abnormal.time>
 
-<runtime.datasource.core.ldap.baseUrl>ldap://ldap-dev.anyware.corp</runtime.datasource.core.ldap.baseUrl>
-<runtime.datasource.core.ldap.useSSL>false</runtime.datasource.core.ldap.useSSL>
-<runtime.datasource.core.ldap.baseDN>dc=ametys-test-users,dc=org</runtime.datasource.core.ldap.baseDN>
-<runtime.datasource.core.ldap.authMethod>none</runtime.datasource.core.ldap.authMethod>
-<runtime.datasource.core.ldap.adminDN></runtime.datasource.core.ldap.adminDN>
-<runtime.datasource.core.ldap.adminPasswd></runtime.datasource.core.ldap.adminPasswd>
-<runtime.datasource.core.ldap.aliasDereferencing>always</runtime.datasource.core.ldap.aliasDereferencing>
-<runtime.datasource.core.ldap.followReferrals>false</runtime.datasource.core.ldap.followReferrals>
+<runtime.datasource.core.ldap>LDAP-test-users</runtime.datasource.core.ldap>
 
 <runtime.users.ldap.peopleDN>ou=people</runtime.users.ldap.peopleDN>
 <runtime.users.ldap.baseFilter>(objectclass=inetOrgPerson)</runtime.users.ldap.baseFilter>

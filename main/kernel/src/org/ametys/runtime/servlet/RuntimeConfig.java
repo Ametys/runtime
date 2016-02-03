@@ -64,6 +64,7 @@ public final class RuntimeConfig
     private Map<String, File> _externalWorkspaces = new HashMap<>();
 
     private File _ametysHome;
+    private File _dataHome;
     private File _tmpDir;
     
     private RuntimeConfig()
@@ -110,6 +111,7 @@ public final class RuntimeConfig
         
         __config._contextPath = contextPath;
         __config._ametysHome = ametysHome;
+        __config._dataHome = new File(ametysHome, "data");
         __config._tmpDir = new File(ametysHome, "tmp");
         __config._tmpDir.mkdirs();
 

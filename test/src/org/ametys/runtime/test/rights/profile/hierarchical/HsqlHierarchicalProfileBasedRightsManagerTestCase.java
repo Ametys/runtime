@@ -26,9 +26,7 @@ public class HsqlHierarchicalProfileBasedRightsManagerTestCase extends AbstractH
     @Override
     protected void setUp() throws Exception
     {
-        super.setUp();
-        
-        _resetDB("runtime5.xml", "config_hsqldb.xml");
+        _resetDB("runtime5.xml", "config1.xml", "datasource-hsql.xml");
     }
     
     @Override

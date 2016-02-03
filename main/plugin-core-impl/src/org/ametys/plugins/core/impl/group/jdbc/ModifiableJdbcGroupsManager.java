@@ -53,6 +53,7 @@ import org.ametys.core.group.ModifiableGroupsManager;
 import org.ametys.core.user.ModifiableUsersManager;
 import org.ametys.core.user.UserListener;
 import org.ametys.core.user.UsersManager;
+import org.ametys.runtime.config.Config;
 import org.ametys.runtime.plugin.PluginsManager;
 import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 
@@ -148,7 +149,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
 
         try
         {
-            connection = ConnectionHelper.getConnection(_poolName);
+            connection = getSQLConnection();
 
             String sql = "SELECT " + _groupsListColLabel + " FROM " + _groupsListTable + " WHERE " + _groupsListColId + " =  ?";
             stmt = connection.prepareStatement(sql);
@@ -189,6 +190,16 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
         // Retourner le groupe trouvé ou null
         return group;
     }
+    
+    /**
+     * Get the connection to the database 
+     * @return the SQL connection
+     */
+    protected Connection getSQLConnection ()
+    {
+        String dataSourceId = Config.getInstance().getValueAsString(_poolName);
+        return ConnectionHelper.getConnection(dataSourceId);
+    }
 
     /**
      * Get the sql clause that gets all groups
@@ -210,7 +221,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
 
         try
         {
-            connection = ConnectionHelper.getConnection(_poolName);
+            connection = getSQLConnection();
 
             stmt = connection.createStatement();
             String sql = _createGetGroupsClause();
@@ -265,7 +276,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
 
         try
         {
-            connection = ConnectionHelper.getConnection(_poolName);
+            connection = getSQLConnection();
 
             String sql = "SELECT " + _groupsCompositionColGroup + " FROM " + _groupsCompositionTable + " WHERE " + _groupsCompositionColUser + " = ?";
             stmt = connection.prepareStatement(sql);
@@ -314,7 +325,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
 
         try
         {
-            connection = ConnectionHelper.getConnection(_poolName);
+            connection = getSQLConnection();
 
             String sql = "DELETE FROM " + _groupsCompositionTable + " WHERE Login = ?";
 
@@ -409,7 +420,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
 
         try
         {
-            connection = ConnectionHelper.getConnection(_poolName);
+            connection = getSQLConnection();
             DatabaseType datatype = ConnectionHelper.getDatabaseType(connection);
             
             if (datatype == DatabaseType.DATABASE_ORACLE)
@@ -517,7 +528,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
 
         try
         {
-            connection = ConnectionHelper.getConnection(_poolName);
+            connection = getSQLConnection();
 
             statement = connection.prepareStatement("DELETE FROM " + _groupsListTable + " WHERE " + _groupsListColId + " = ?");
             statement.setInt(1, Integer.parseInt(groupID));
@@ -561,7 +572,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
 
         try
         {
-            connection = ConnectionHelper.getConnection(_poolName);
+            connection = getSQLConnection();
 
             // Start transaction.
             connection.setAutoCommit(false);

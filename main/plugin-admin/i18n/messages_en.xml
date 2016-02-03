@@ -245,4 +245,102 @@
     <message key="PLUGINS_ADMIN_SYSTEM_ERROR_SAVE">An error occurred on the server. The modifications on the welcome announcement have not been saved.</message>
     <message key="PLUGINS_ADMIN_SYSTEM_CONFIRM_DIALOG_TITLE">Replace the existing message</message>
     <message key="PLUGINS_ADMIN_SYSTEM_CONFIRM_DIALOG_TEXT">A message already exists in the selected language, do you want to replace it ?</message>
+    
+    <!-- +
+         | DATA SOURCES 
+         + -->
+         
+    <!-- Tool -->
+    <message key="PLUGINS_CORE_UITOOL_DATASOURCE_LABEL">Data sources</message>
+    <message key="PLUGINS_CORE_UITOOL_DATASOURCE_DESCRIPTION">Data sources management.</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_ID">Identifier</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_NAME">Name</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_USED">Used</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_PRIVATE">Private</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_TYPE">Type</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_BOOLEAN_YES">Yes</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_GROUP_SQL">SQL data source</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_GROUP_LDAP">LDAP repository</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SQL_PRIVATE">Private SQL source</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SQL_PUBLIC">Public SQL source</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_LDAP_PRIVATE">Private LDAP source</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_LDAP_PUBLIC">Public LDAP source</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DELETE_DATASOURCE_BOX_TITLE">Deletion</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DELETE_SINGLE_DATASOURCE_BOX_MESSAGE">Do you really want to delete this data source?</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DELETE_SEVERAL_DATASOURCE_BOX_MESSAGE">Do you really want to delete these data sources?</message>
+    
+    <!-- SQL -->
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SQL_ADD">New SQL data source</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SQL_DESCRIPTION">Add a SQL data source.</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SQL_MODIFY">Modify a SQL data source</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SQL_DESCRIPTION">Modify a SQL data source.</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SQL_REMOVE">Delete one or several sources</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SQL_DESCRIPTION">Delete a SQL data source.</message>
+    
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_ADD_TITLE">New SQL data source</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_EDIT_TITLE">Modification of a SQL data source</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_OK">Ok</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_CANCEL">Cancel</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_NAME">Name</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_NAME_DESCRIPTION">The data source name as it will appear when a data source has to be selected.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DESCRIPTION">Description</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DESCRIPTION_DESCRIPTION">Optional description for the data source</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DRIVER">JDBC Driver</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DRIVER_DESCRIPTION">The JDBC driver that will be used for this data source.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_URL">Url</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_URL_DESCRIPTION">The url where to find the database that must follow the template corresponding to the selected driver.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_USER">Identifier</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_USER_DESCRIPTION">Identifier of the data base user. Optional.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PASSWORD">Password</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PASSWORD_DESCRIPTION">Password allowing access to the database. Optional.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PRIVATE">Private source</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PRIVATE_DESCRIPTION">Check this box if you this data source to be private. It will only be visible in the administrator interface if this is the case.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_GET_DRIVERS_ERROR">A server error occurred while trying to retrieve the available drivers.</message>
+    
+    <!-- LDAP -->
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_LDAP_ADD">New LDAP repository</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_LDAP_DESCRIPTION">Add a LDAP repository.</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_LDAP_MODIFY">Modify a repository</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_LDAP_DESCRIPTION">Modify a LDAP repository.</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_LDAP_REMOVE">Delete one or several repositories</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_LDAP_DESCRIPTION">Delete one or several LDAP repositories.</message>
+        
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_ADD_TITLE">New LDAP repository</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_EDIT_TITLE">Modification of a LDAP repository</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_OK">Ok</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_CANCEL">Cancel</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_NAME">Name</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_NAME_DESCRIPTION">The data source name as it will appear when a data source has to be selected.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_DESCRIPTION">Description</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_DESCRIPTION_DESCRIPTION">Optional description for the data source</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_URL">Url</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_URL_DESCRIPTION">The url of the LDAP server.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_URL_REGEXP_TEXT">The url of the LDAP server is invalid. It has to be in the form 'ldap://server:389' or 'ldaps://server:389'.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_USESSL">Secured connection</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_USESSL_DESCRIPTION">Check this box if you prefer to use the 'ldaps' protocol over 'ldap' to establish a connection with the repository.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_BASEDN">Base DN</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_BASEDN_DESCRIPTION">Base DN for all access to the repository.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_FOLLOWREFERRALS">Follow referrals</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_FOLLOWREFERRALS_DESCRIPTION">Check this box to follow the references in the search results (mostly for dynamic LDAP groups).</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_ALIASDEREFERENCING">Alias dereferencing</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_ALIASDEREFERENCING_DESCRIPTION">Defines the alias dereferencing mode.&lt;br/&gt;- &lt;b&gt;Always: &lt;/b&gt;always dereference aliases&lt;br/&gt;- &lt;b&gt;Never: &lt;/b&gt;never dereferences aliases&lt;br/&gt;- &lt;b&gt;During resolution: &lt;/b&gt;dereferences aliases only during name resolution&lt;br/&gt;- &lt;b&gt;After resolution: &lt;/b&gt;dereferences aliases only after name resolution</message>
+    <message key="PLUGINS_ADMIN_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_ALWAYS">Always</message>
+    <message key="PLUGINS_ADMIN_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_NEVER">Never</message>
+    <message key="PLUGINS_ADMIN_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_FINDING">During resolution</message>
+    <message key="PLUGINS_ADMIN_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_SEARCHING">After resolution</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_AUTHENTICATIONMETHOD">Authentication method</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_AUTHENTICATIONMETHOD_DESCRIPTION">The type of authentication used between the application and the LDAP repository</message>
+    <message key="PLUGINS_ADMIN_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_ENUM_NONE">Anonymous</message>
+    <message key="PLUGINS_ADMIN_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_ENUM_SIMPLE">Simple</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_ADMINDN">Administrator DN</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_ADMINDN_DESCRIPTION">Absolute DN for a super user of the LDAP directory.</message> 
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_ADMINPASSWORD">Administrator password</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_ADMINPASSWORD_DESCRIPTION">The password of this user.</message>   
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_PRIVATE">Private source</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_PRIVATE_DESCRIPTION">Check this box if you this data source to be private. It will only be visible in the administrator workspace if this is the case.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_GET_DRIVERS_ERROR">A server error occurred while trying to retrieve the available drivers.</message>
+    
+    <message key="PLUGINS_ADMIN_DATASOURCES_GET_DATASOURCE_ERROR">A server error occurred, the data source was not found.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_ADD_DATASOURCE_ERROR">A server error occurred, the data source was not added.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_EDIT_DATASOURCE_ERROR">A server error occurred, the data source was not edited.</message>
 </catalogue>

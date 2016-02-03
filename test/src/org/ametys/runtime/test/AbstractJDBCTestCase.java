@@ -21,6 +21,7 @@ import java.sql.Connection;
 import java.util.List;
 
 import org.ametys.core.datasource.ConnectionHelper;
+import org.ametys.runtime.config.Config;
 
 /**
  * Abstract test case for jdbc Runtime test cases.
@@ -38,7 +39,8 @@ public abstract class AbstractJDBCTestCase extends AbstractRuntimeTestCase
         
         try
         {
-            connection = ConnectionHelper.getConnection(ConnectionHelper.CORE_POOL_NAME);
+            String dataSourceId = Config.getInstance().getValueAsString(ConnectionHelper.CORE_POOL_CONFIG_PARAM);
+            connection = ConnectionHelper.getConnection(dataSourceId);
             
             for (File script : scripts)
             {

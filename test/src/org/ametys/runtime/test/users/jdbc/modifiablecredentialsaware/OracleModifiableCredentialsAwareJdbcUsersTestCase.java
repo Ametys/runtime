@@ -26,8 +26,7 @@ public class OracleModifiableCredentialsAwareJdbcUsersTestCase extends AbstractM
     @Override
     protected void setUp() throws Exception
     {
-        super.setUp();
-        _resetDB("runtime6.xml", "config_oracle.xml");
+        _resetDB("runtime6.xml", "config1.xml", "datasource-oracle.xml");
     }
     
     @Override

@@ -248,6 +248,8 @@
     <!--  PARAMETER CHECKERS -->
     <message key="PLUGINS_CORE_MAIL_CONNECTION_CHECKER_LABEL">Vérifier la connexion au serveur mail</message>
     <message key="PLUGINS_CORE_MAIL_CONNECTION_CHECKER_DESC">Ce test vérifie que les informations rentrées permettent bien d'établir une connexion avec le serveur d'envoi d'emails</message>
+    <message key="PLUGINS_CORE_LDAP_DN_CONNECTION_CHECKER_LABEL">Vérifier la connexion à l'annuaire LDAP</message>
+    <message key="PLUGINS_CORE_LDAP_DN_CONNECTION_CHECKER_DESC">Ce test vérifie que les informations entrées permettent bien d'établir une connection au LDAP, et vérifie que le DN est valide.</message>
     
     <!-- PROFILES ACTIONS -->
 	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_LABEL">Affecter à un utilisateur</message>
@@ -295,5 +297,16 @@
     <message key="PLUGINS_CORE_CAPTCHA_REFRESH_ALT">Cliquez ici pour rafraîchir l'image de vérification</message>
     <message key="PLUGINS_CORE_CAPTCHA_REFRESH">Rafraichir l'image</message>
     <message key="PLUGINS_CORE_CAPTCHA_REFRESH_NOSCRIPT">Si l'image n'est pas suffisament claire, vous pouvez rafraichir la page.</message>
+    
+    <!-- +
+         | DATA SOURCE
+         + -->
+    <message key="PLUGINS_CORE_INTERNAL_DATASOURCE_LABEL">Base de données interne</message>
+    <message key="PLUGINS_CORE_INTERNAL_DATASOURCE_DESCRIPTION">Base de données SQL interne.</message>   
+    
+    <message key="PLUGINS_CORE_DATASOURCEDAO_GET_DATASOURCE_ERROR">Une erreur est survenue lors de la récupération de la source de données.</message>
+    <message key="PLUGINS_CORE_DATASOURCEDAO_ADD_DATASOURCE_ERROR">Une erreur est survenue: la source de données n'a pas été ajoutée.</message>
+    <message key="PLUGINS_CORE_DATASOURCEDAO_EDIT_DATASOURCE_ERROR">Une erreur est survenue: la source de données n'a pas été modifiée.</message>
+    <message key="PLUGINS_CORE_DATASOURCEDAO_DELETE_DATASOURCE_ERROR">Une erreur est survenue: la ou les sources de données n'ont pas été supprimées.</message>
     
 </catalogue>
