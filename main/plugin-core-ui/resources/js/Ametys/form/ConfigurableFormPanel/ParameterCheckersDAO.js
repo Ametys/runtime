@@ -558,6 +558,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 		Ext.Array.each(this._paramCheckers, function(paramChecker){
 			var button = Ext.getCmp(paramChecker.buttonId),
 				helpBox = Ext.getCmp(paramChecker.helpBoxId),
+				notTested = paramChecker.getStatus() == Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_NOT_TESTED,
 				success = paramChecker.getStatus() == Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_SUCCESS,
 				failure = paramChecker.getStatus() == Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_FAILURE,
 				warning = paramChecker.getStatus() == Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_WARNING,
@@ -568,7 +569,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 				linkedParamField._warnings = linkedParamField._warnings || {};
 				
 				var activeWarnings = linkedParamField.getActiveWarnings();
-				if (success)
+				if (success || notTested)
 				{
 					Ext.Array.remove(activeWarnings, warningMsg);
 					linkedParamField._warnings[paramChecker.id] = null;
@@ -636,7 +637,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 		{
 			Ametys.log.ErrorDialog.display({
 				title: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_ERROR'/>", 
-				text: nbErrors + " <i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_ERROR_TEXT'/>",
+				text: nbErrors > 1 ? nbErrors + " <i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_ERROR_TEXT'/>" : "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_SINGLE_ERROR_TEXT'/>",
 	    		category: this.self.getName(),
 	    		details: details
 			});

@@ -287,7 +287,8 @@
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_UI_REF_GROUP">On the group</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_UI_REF_PARAMETER">On the parameter</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_ERROR">Error while performing the parameter verification.</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_ERROR_TEXT">verification(s) have failed.&lt;br/&gt;Press the 'Details' button for further information or see the application's logs.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_ERROR_TEXT">verification have failed.&lt;br/&gt;Press the 'Details' button for further information or see the application's logs.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_SINGLE_ERROR_TEXT">The verification has failed.&lt;br/&gt;Press the 'Details' button for further information or see the application's logs.</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_SUCCESS">Success</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_FAILURE">Failure</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_NOT_TESTED">Not tested</message>
@@ -413,8 +414,14 @@
 	<message key="PLUGINS_CORE_UI_PROFILES_TREE_BTN_COLLAPSE_TOOTIP">Collapse all</message>
 	<message key="PLUGINS_CORE_UI_PROFILES_TREE_CONTEXT_TOOLTIP">Context</message>
 	<message key="PLUGINS_CORE_UI_PROFILES_TREE_GET_PROFILES_RIGHTS_ERROR">An error occured : unable to get list of profiles</message>
-    <message key="PLUGINS_CORE_UI_PROFILES_TREE_FILTER_INVALID">The search filter must contain at least 3 characters</message>
     
+    <!-- DATASOURCES -->
+    <message key="PLUGINS_CORE_UI_WIDGET_DATASOURCE_BUTTON_DEFAULT_TOOLTIP">Add a new data source</message>        
+    <message key="PLUGINS_CORE_UI_WIDGET_SQL_DATASOURCE_BUTTON_TOOLTIP">Add a new SQL data source</message>   
+    <message key="PLUGINS_CORE_UI_WIDGET_LDAP_DATASOURCE_BUTTON_TOOLTIP">Add a new LDAP data source</message>  
+
+    <message key="PLUGINS_CORE_UI_PROFILES_TREE_FILTER_INVALID">The search filter must contain at least 3 characters</message>
+
     <!-- +
          | Announce
          + -->

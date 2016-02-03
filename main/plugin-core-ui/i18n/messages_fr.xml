@@ -288,7 +288,8 @@
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_UI_REF_GROUP">Sur le groupe</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_UI_REF_PARAMETER">Sur le paramètre</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_ERROR">Erreur lors de la vérification des paramètres</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_ERROR_TEXT">vérifications(s) a (ont) échoué.&lt;br/&gt;Appuyez sur 'Détails' pour en savoir plus ou consultez les journaux de l'application.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_ERROR_TEXT">vérifications ont échoué.&lt;br/&gt;Appuyez sur 'Détails' pour en savoir plus ou consultez les journaux de l'application.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_SINGLE_ERROR_TEXT">La vérification a échoué.&lt;br/&gt;Appuyez sur 'Détails' pour en savoir plus ou consultez les journaux de l'application.</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_SUCCESS">Succès</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_FAILURE">Echec</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_NOT_TESTED">Non testé</message>
@@ -415,6 +416,11 @@
     <message key="PLUGINS_CORE_UI_PROFILES_TREE_CONTEXT_TOOLTIP">Contexte</message>
     <message key="PLUGINS_CORE_UI_PROFILES_TREE_GET_PROFILES_RIGHTS_ERROR">Une erreur est survenue: impossible de récupérer la liste des profils de droits</message>
     <message key="PLUGINS_CORE_UI_PROFILES_TREE_FILTER_INVALID">Le filtre de recherche doit contenir au moins 3 caractères</message>
+    
+    <!-- DATASOURCES -->
+    <message key="PLUGINS_CORE_UI_WIDGET_DATASOURCE_BUTTON_DEFAULT_TOOLTIP">Ajouter une nouvelle source de données</message>        
+    <message key="PLUGINS_CORE_UI_WIDGET_SQL_DATASOURCE_BUTTON_TOOLTIP">Ajouter une nouvelle source de données SQL</message>    
+    <message key="PLUGINS_CORE_UI_WIDGET_LDAP_DATASOURCE_BUTTON_TOOLTIP">Ajouter une nouvelle source de données LDAP</message>    
     
     <!-- +
          | Announce

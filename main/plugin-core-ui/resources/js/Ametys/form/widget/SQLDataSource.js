@@ -1,0 +1,32 @@
+/*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+/**
+ * Field displaying a combobox allowing to select one of the available SQL data sources. Optionally, 
+ * this field can allow the addition of other SQL data sources. 
+ */
+Ext.define('Ametys.form.widget.SQLDataSource', {
+    extend: 'Ametys.form.widget.AbstractDataSource',
+    alias: ['widget.datasource-sql'],
+	
+    dataSourceType: 'SQL',
+	tooltipText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_SQL_DATASOURCE_BUTTON_TOOLTIP'/>",
+
+	creationHandler: function()
+	{
+		Ametys.plugins.admin.datasource.EditSQLDataSourceHelper.add(Ext.bind(this._selectNewDataSource, this));
+	}
+});
