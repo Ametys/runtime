@@ -81,7 +81,7 @@ public class DataSourceDAO extends AbstractLogEnabled implements Component, Serv
     {
         List<Map<String, Object>> datasources = new ArrayList<>();
         
-        if (StringUtils.isEmpty(type) || type.equals(DataSourceType.SQL))
+        if (StringUtils.isEmpty(type) || type.equals(DataSourceType.SQL.toString()))
         {
             Map<String, DataSourceDefinition> sqlDataSources = _sqlDataSourceManager.getDataSourceDefinitions(includePrivate, includeInternal);
             for (String id : sqlDataSources.keySet())
@@ -90,7 +90,7 @@ public class DataSourceDAO extends AbstractLogEnabled implements Component, Serv
             }
         }
         
-        if (StringUtils.isEmpty(type) || type.equals(DataSourceType.LDAP))
+        if (StringUtils.isEmpty(type) || type.equals(DataSourceType.LDAP.toString()))
         {
             Map<String, DataSourceDefinition> ldapDataSources = _ldapDataSourceManager.getDataSourceDefinitions(includePrivate, includeInternal);
             for (String id : ldapDataSources.keySet())
