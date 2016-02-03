@@ -248,8 +248,6 @@
     <!--  PARAMETER CHECKERS -->
     <message key="PLUGINS_CORE_MAIL_CONNECTION_CHECKER_LABEL">Vérifier la connexion au serveur mail</message>
     <message key="PLUGINS_CORE_MAIL_CONNECTION_CHECKER_DESC">Ce test vérifie que les informations rentrées permettent bien d'établir une connexion avec le serveur d'envoi d'emails</message>
-    <message key="PLUGINS_CORE_LDAP_DN_CONNECTION_CHECKER_LABEL">Vérifier la connexion à l'annuaire LDAP</message>
-    <message key="PLUGINS_CORE_LDAP_DN_CONNECTION_CHECKER_DESC">Ce test vérifie que les informations entrées permettent bien d'établir une connection au LDAP, et vérifie que le DN est valide.</message>
     
     <!-- PROFILES ACTIONS -->
 	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_LABEL">Affecter à un utilisateur</message>
