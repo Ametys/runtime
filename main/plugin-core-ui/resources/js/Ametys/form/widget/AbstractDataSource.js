@@ -95,7 +95,7 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
     						{ 
 				    			width: 20,
 				    			handler: Ext.bind(this.creationHandler, this),
-				    			icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/datasource/widget_add_16.png',
+				    			iconCls: 'flaticon-add64',
 				    			tooltip: this.tooltipText
 				    		}); 
 		}
