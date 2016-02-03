@@ -159,7 +159,8 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceTool', {
 	 */
 	_renderName: function(value, md, record)
 	{
-		return '<span class="a-grid-glyph flaticon-data110"></span>' + value;
+        var glyph = record.get('type') == 'LDAP' ? 'flaticon-agenda3' : 'flaticon-data110';
+		return '<span class="a-grid-glyph ' + glyph + '"></span>' + value;
 	},
 	
     /**
