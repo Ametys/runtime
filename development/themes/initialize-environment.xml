@@ -74,6 +74,9 @@
                 <include name="theme-*"/>
             </dirset>
         </for-each>
+        
+        <!-- No condition here, as we want to replace existing file with new themes -->
+        <antcall target="create-sencha-themes-builder"/>
     </target>
     <target name="create-sencha-theme">
         <echo>Handling theme ${name}</echo>
@@ -147,7 +150,30 @@
             &lt;/project&gt;
          </echo>
     </target>
-            
+    
+    <target name="create-sencha-themes-builder" unless="sencha-already-themes-builder">
+        <echo file="${ametys-themes-dir}/build-all-themes.xml">
+            &lt;project name="build-all-themes" default="build-all-themes"&gt;
+                &lt;target name="build-all-themes"&gt;
+        </echo>
+        
+        <for-each target="create-sencha-themes-builder-part" absolutepathproperty="location" localnameproperty="name">
+            <dirset dir="${ametys-themes-dir}">
+                <include name="theme-*"/>
+            </dirset>
+        </for-each>
+        
+        <echo file="${ametys-themes-dir}/build-all-themes.xml" append="true">
+                &lt;/target&gt;
+            &lt;/project&gt;
+        </echo>
+    </target>
+    <target name="create-sencha-themes-builder-part">
+        <echo file="${ametys-themes-dir}/build-all-themes.xml" append="true">
+                    &lt;ant antfile="build-${name}.xml"/&gt;
+        </echo>
+    </target>
+                
     <!-- +
          | CREATE SENCHA WORKSPACE
          + -->
