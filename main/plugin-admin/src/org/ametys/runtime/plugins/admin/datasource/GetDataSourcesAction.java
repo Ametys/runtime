@@ -54,9 +54,9 @@ public class GetDataSourcesAction extends ServiceableAction
         
         boolean includePrivate = parameters.getParameterAsBoolean("includePrivate", false);
         boolean includeInternal = parameters.getParameterAsBoolean("includeInternal", false);
-        String dbtype = parameters.getParameter("type", null);
+        String dstype = parameters.getParameter("type", null);
         
-        List<Map<String, Object>> dataSources = _dataSourceDAO.getDataSources(dbtype, includePrivate, includeInternal);
+        List<Map<String, Object>> dataSources = _dataSourceDAO.getDataSources(dstype, includePrivate, includeInternal);
         result.put("datasources", dataSources);
         
         request.setAttribute(JSonReader.OBJECT_TO_READ, result);

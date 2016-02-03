@@ -64,18 +64,7 @@ public class StaticSQLDatabaseType extends AbstractLogEnabled implements Configu
         
         _label = ConfigurationHelper.parseI18nizableText(configuration.getChild("label"), "plugin." + _pluginName);
         _driver = configuration.getChild("driver").getValue();
-        
-        try
-        {
-            Class.forName(_driver);
-        }
-        catch (ClassNotFoundException e)
-        {
-            getLogger().warn("Driver not found '"  + _driver  + "' for SQL data source of id '" + _id + "'.", e);
-        }
-        
         _driverNotFoundMessage = ConfigurationHelper.parseI18nizableText(configuration.getChild("driver-not-found-message"), "plugin." + _pluginName); 
-        
         _template = configuration.getChild("template").getValue("");
     }
     
