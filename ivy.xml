@@ -97,11 +97,11 @@ Open source web application framework based on Apache Cocoon.
     <dependency org="javax.servlet" name="javax.servlet-api" rev="3.1.0" conf="compile_base->default"/>
     <dependency org="org.jasig.cas.client" name="cas-client-core" rev="3.4.0" conf="compile_base,test->default"/>
     
-    <dependency org="mysql" name="mysql-connector-java" rev="5.1.36" conf="test->default"/>
-    <dependency org="com.oracle" name="ojdbc6" rev="11.2.0.3" conf="test->default"/>
-    <dependency org="postgresql" name="postgresql" rev="9.1-901-1.jdbc4" conf="test->default"/>
-    <dependency org="org.apache.derby" name="derby" rev="10.5.3.0_1" conf="test->default"/>
-    <dependency org="org.hsqldb" name="hsqldb" rev="2.3.3" conf="test->default"/>
+    <dependency org="mysql" name="mysql-connector-java" rev="5.1.36" conf="runtime->default"/>
+    <dependency org="postgresql" name="postgresql" rev="9.1-901-1.jdbc4" conf="runtime->default"/>
+    <dependency org="org.apache.derby" name="derby" rev="10.5.3.0_1" conf="runtime->default"/>
+    <dependency org="org.hsqldb" name="hsqldb" rev="2.3.3" conf="runtime->default"/>
+    <dependency org="com.oracle" name="ojdbc7" rev="12.1.0.2" conf="test->default"/>
 
     <dependency org="junit" name="junit" rev="4.12" conf="test,test-env->default"/>
   </dependencies>
