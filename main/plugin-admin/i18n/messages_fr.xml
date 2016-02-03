@@ -312,8 +312,6 @@
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_USESSL_DESCRIPTION">Cochez cette case si vous souhaiter utiliser le protocole 'ldaps' plutôt que 'ldap' pour établir la connexion à l'annuaire.</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_BASEDN">DN de base</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_BASEDN_DESCRIPTION">DN de base pour tous les accès à l'annuaire.</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_BASEDN">DN de base</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_BASEDN_DESCRIPTION">DN de base pour tous les accès à l'annuaire.</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_FOLLOWREFERRALS">Suivre les références</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_FOLLOWREFERRALS_DESCRIPTION">Cochez cette option pour suivre les références dans les résultats de recherche (principalement pour les groupes LDAP dynamiques).</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_ALIASDEREFERENCING">Déréférencement des alias</message>
