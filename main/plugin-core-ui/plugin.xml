@@ -411,7 +411,45 @@
                 <!-- scripts are loaded as static to be extensible -->                 
             </extension>
         </extensions>
+    </feature>
+    <feature name="widgets.default.datasource.sql" safe="true">
+        <extensions>
+            <extension id="edition.datasource-sql"
+                       point="org.ametys.core.ui.widgets.WidgetsManager"
+                       class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+               <class name="Ametys.form.widget.SQLDataSource">
+                    <ftypes>datasource</ftypes>
+                    <supports-enumerated>false</supports-enumerated> 
+                    <supports-non-enumerated>true</supports-non-enumerated> 
+                    <supports-multiple>false</supports-multiple> 
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/form/widget/AbstractDataSource.js</file>
+                    <file>js/Ametys/form/widget/SQLDataSource.js</file>
+                </scripts>
+            </extension> 
+        </extensions>
     </feature>  
+    <feature name="widgets.default.datasource.ldap" safe="true">
+        <extensions>
+            <extension id="edition.datasource-ldap"
+                       point="org.ametys.core.ui.widgets.WidgetsManager"
+                       class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+               <class name="Ametys.form.widget.LDAPDataSource">
+                    <ftypes>datasource</ftypes>
+                    <supports-enumerated>false</supports-enumerated> 
+                    <supports-non-enumerated>true</supports-non-enumerated> 
+                    <supports-multiple>false</supports-multiple> 
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/form/widget/AbstractDataSource.js</file>
+                    <file>js/Ametys/form/widget/LDAPDataSource.js</file>
+                </scripts>
+            </extension> 
+        </extensions>
+    </feature> 
     <feature name="widgets.others.tricheckbox" safe="true">
         <extensions>
             <extension id="edition.tricheckbox"
@@ -1370,7 +1408,6 @@
                     <mode>all</mode>
                     
                     <selection-target-type>^form$</selection-target-type>
-                    
                     <label i18n="true">PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_ALL_TESTS</label>
                     <description i18n="true">PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_ALL_TESTS_DESC</description>
                     
@@ -1393,7 +1430,6 @@
                     
                     <selection-target-type>^form$</selection-target-type>
                     
-
                     <label i18n="true">PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_MISSED_TESTS</label>
                     <description i18n="true">PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_MISSED_TESTS_DESC</description>
                     
