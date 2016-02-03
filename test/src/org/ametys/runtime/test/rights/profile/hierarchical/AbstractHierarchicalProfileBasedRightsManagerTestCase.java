@@ -60,7 +60,7 @@ public abstract class AbstractHierarchicalProfileBasedRightsManagerTestCase exte
     {
         super.setUp();
         
-        _startApplication("test/environments/runtimes/" + runtimeFilename, "test/environments/configs/" + configFileName, "test/environments/configs/" + sqlDataSourceFileName, null, "test/environments/webapp1");
+        _startApplication("test/environments/runtimes/" + runtimeFilename, "test/environments/configs/" + configFileName, "test/environments/datasources/" + sqlDataSourceFileName, null, "test/environments/webapp1");
 
         _setDatabase(Arrays.asList(getScripts()));
 

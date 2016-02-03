@@ -60,7 +60,7 @@ public abstract class AbstractUserPreferencesTestCase extends AbstractJDBCTestCa
      */
     protected void _resetDB(String runtimeFilename, String configFileName, String sqlDataSourceFileName) throws Exception
     {
-        _startApplication("test/environments/runtimes/" + runtimeFilename, "test/environments/configs/" + configFileName, "test/environments/configs/" + sqlDataSourceFileName, null, "test/environments/webapp1");
+        _startApplication("test/environments/runtimes/" + runtimeFilename, "test/environments/configs/" + configFileName, "test/environments/datasources/" + sqlDataSourceFileName, null, "test/environments/webapp1");
         
         _setDatabase(Arrays.asList(getScripts()));
 
