@@ -257,7 +257,7 @@
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_USED">Utilisée</message>
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_PRIVATE">Privée</message>
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_TYPE">Type</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_GROUP_SQL">Base de données SQL</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_GROUP_SQL">Base de données</message>
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_GROUP_LDAP">Annuaire LDAP</message>
     
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_ADD_LABEL">Nouvelle source de données</message>
@@ -285,7 +285,7 @@
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DESCRIPTION">Description</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DESCRIPTION_DESCRIPTION">Description optionnelle pour la source de données.</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DRIVER">Pilote JDBC</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DRIVER_DESCRIPTION">Nom complet de la classe JDBC à charger pour se connecter à la base de données.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DRIVER_DESCRIPTION">Pilote JDBC à charger pour se connecter à la base de données.</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_URL">Url</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_URL_DESCRIPTION">Url de connexion au serveur de base de données.</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_USER">Utilisateur</message>

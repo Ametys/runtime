@@ -269,44 +269,59 @@
     <message key="PLUGINS_ADMIN_UITOOL_DELETE_SINGLE_DATASOURCE_BOX_MESSAGE">Do you really want to delete this data source?</message>
     <message key="PLUGINS_ADMIN_UITOOL_DELETE_SEVERAL_DATASOURCE_BOX_MESSAGE">Do you really want to delete these data sources?</message>
     
-    <!-- SQL -->
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SQL_ADD">New SQL data source</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SQL_DESCRIPTION">Add a SQL data source.</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SQL_MODIFY">Modify a SQL data source</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SQL_DESCRIPTION">Modify a SQL data source.</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SQL_REMOVE">Delete one or several sources</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SQL_DESCRIPTION">Delete a SQL data source.</message>
+    <!-- +
+         | DATA SOURCES 
+         + -->
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_LABEL">Data sources</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_DESCRIPTION">Handle data sources.</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_ID">Identifier</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_NAME">Name</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_USED">In use</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_PRIVATE">private</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_TYPE">Type</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_GROUP_SQL">SQL database</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_GROUP_LDAP">LDAP directory</message>
     
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_ADD_TITLE">New SQL data source</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_EDIT_TITLE">Modification of a SQL data source</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_ADD_LABEL">New data source</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_ADD_DESCRIPTION">Add a new data source</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SQL_ADD_LABEL">New SQL data source</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SQL_ADD_DESCRIPTION">Add a data source of SQL type.</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_LDAP_ADD_LABEL">New LDAP directory</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_LDAP_ADD_DESCRIPTION">Add a new LDAP directory</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_EDIT_LABEL">Edit</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_EDIT_DESCRIPTION">Edit the selected data source.</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_LABEL">Delete</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_DESCRIPTION">Delete the selected data source(s)</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_ALLRIGHT_START_DESCRIPTION">Click here to remove the following data sources : </message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_ALLRIGHT_END_DESCRIPTION">.</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_INUSE_START_DESCRIPTION">The following data sources can not be deleted because they are currently in use : </message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_INUSE_END_DESCRIPTION">.</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_CONFIRM">Are you sure you want to delete this or these data sources?</message>
+    
+    <!-- SQL dialog helper -->
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_ADD_TITLE">New SQL database</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_EDIT_TITLE">Edit SQL database</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_OK">Ok</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_CANCEL">Cancel</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_NAME">Name</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_NAME_DESCRIPTION">The data source name as it will appear when a data source has to be selected.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_NAME_DESCRIPTION">The name of the data source.</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DESCRIPTION">Description</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DESCRIPTION_DESCRIPTION">Optional description for the data source</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DRIVER">JDBC Driver</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DRIVER_DESCRIPTION">The JDBC driver that will be used for this data source.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DESCRIPTION_DESCRIPTION">Optional description of the data source.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DRIVER">JDBC driver</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DRIVER_DESCRIPTION">JDBC driver to load to connect to the database.</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_URL">Url</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_URL_DESCRIPTION">The url where to find the database that must follow the template corresponding to the selected driver.</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_USER">Identifier</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_USER_DESCRIPTION">Identifier of the data base user. Optional.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_URL_DESCRIPTION">Url connection to the database server.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_USER">User</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_USER_DESCRIPTION">User identifier to use when connecting to the database server.</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PASSWORD">Password</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PASSWORD_DESCRIPTION">Password allowing access to the database. Optional.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PASSWORD_DESCRIPTION">The password for the user to use when connecting to the database server.</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PRIVATE">Private source</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PRIVATE_DESCRIPTION">Check this box if you this data source to be private. It will only be visible in the administrator interface if this is the case.</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_GET_DRIVERS_ERROR">A server error occurred while trying to retrieve the available drivers.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PRIVATE_DESCRIPTION">Check this box if you want this data source is private.&lt;br/&gt;A private source is only be visible in the administration interface.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_GET_DRIVERS_ERROR">An error occurred while retrieving the JDBC drivers.</message>
     
     <!-- LDAP -->
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_LDAP_ADD">New LDAP repository</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_LDAP_DESCRIPTION">Add a LDAP repository.</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_LDAP_MODIFY">Modify a repository</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_LDAP_DESCRIPTION">Modify a LDAP repository.</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_LDAP_REMOVE">Delete one or several repositories</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_LDAP_DESCRIPTION">Delete one or several LDAP repositories.</message>
-        
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_ADD_TITLE">New LDAP repository</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_EDIT_TITLE">Modification of a LDAP repository</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_ADD_TITLE">New LDAP directory</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_EDIT_TITLE">Edit LDAP directory</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_OK">Ok</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_CANCEL">Cancel</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_NAME">Name</message>
@@ -335,12 +350,7 @@
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_ADMINDN">Administrator DN</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_ADMINDN_DESCRIPTION">Absolute DN for a super user of the LDAP directory.</message> 
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_ADMINPASSWORD">Administrator password</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_ADMINPASSWORD_DESCRIPTION">The password of this user.</message>   
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_ADMINPASSWORD_DESCRIPTION">The password for the administration user to use when connecting to the LDAP server.</message>   
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_PRIVATE">Private source</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_PRIVATE_DESCRIPTION">Check this box if you this data source to be private. It will only be visible in the administrator workspace if this is the case.</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_GET_DRIVERS_ERROR">A server error occurred while trying to retrieve the available drivers.</message>
-    
-    <message key="PLUGINS_ADMIN_DATASOURCES_GET_DATASOURCE_ERROR">A server error occurred, the data source was not found.</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_ADD_DATASOURCE_ERROR">A server error occurred, the data source was not added.</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_EDIT_DATASOURCE_ERROR">A server error occurred, the data source was not edited.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_PRIVATE_DESCRIPTION">>Check this box if you want this data source is private.&lt;br/&gt;A private source is only be visible in the administration interface.</message>
 </catalogue>
