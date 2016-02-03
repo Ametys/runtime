@@ -579,8 +579,8 @@ Ext.define(
 				glyphIcon: this._iconGlyph,
 				iconDecorator: this._iconDecorator,
 				image: !this._iconGlyph && icon ? Ametys.CONTEXT_PATH + icon : null,
-				imageWidth: this._iconLarge ? 48 : (this._iconMedium ? 32 : 16),
-				imageHeight: this._iconLarge ? 48 : (this._iconMedium ? 32 : 16),
+				imageWidth: this._iconGlyph || this._iconLarge ? 48 : (this._iconMedium ? 32 : 16),
+				imageHeight: this._iconGlyph || this._iconLarge ? 48 : (this._iconMedium ? 32 : 16),
 				text: this._description + (this._additionalDescription ? ('<br/><br/>' + this._additionalDescription) : ''),
 				helpId: this.getInitialConfig("help") || undefined,
 				inribbon: inribbon == null ? true : inribbon
