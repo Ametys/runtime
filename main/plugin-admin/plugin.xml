@@ -1307,17 +1307,22 @@
             
             <extension id="org.ametys.plugins.admin.datasources.Delete"
                        point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.core.ui.StaticClientSideElement">
-               <class name="Ametys.ribbon.element.ui.ButtonController">
+                       class="org.ametys.runtime.plugins.admin.datasource.DeleteDataSourceClientSideElement">
+               <class name="Ametys.plugins.admin.datasource.DeleteDataSourceController">
                    <action>Ametys.plugins.admin.datasource.DataSourceActions.remove</action>
                    <selection-target-type>^datasource$</selection-target-type>
                    
                    <label i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_LABEL</label>
                    <description i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_DESCRIPTION</description>
+                   <allright-start-description i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_ALLRIGHT_START_DESCRIPTION</allright-start-description>
+                   <allright-end-description i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_ALLRIGHT_END_DESCRIPTION</allright-end-description>
+                   <inuse-start-description i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_INUSE_START_DESCRIPTION</inuse-start-description>
+                   <inuse-end-description i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_INUSE_END_DESCRIPTION</inuse-end-description>
                    <icon-glyph>flaticon-data110</icon-glyph>
                    <icon-decorator>decorator-flaticon-remove11</icon-decorator>
                </class>             
                <scripts>
+                    <file>js/Ametys/plugins/admin/datasource/DeleteDataSourceController.js</file>
                    <file>js/Ametys/plugins/admin/datasource/DataSourceActions.js</file>
                    <file plugin="core">js/Ametys/plugins/core/datasource/DataSourceDAO.js</file>
                </scripts>                       

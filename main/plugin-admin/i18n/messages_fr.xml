@@ -270,6 +270,10 @@
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_EDIT_DESCRIPTION">Modifier la source de données sélectionnée.</message>
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_LABEL">Supprimer</message>
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_DESCRIPTION">Supprime la ou les sources de données sélectionnées</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_ALLRIGHT_START_DESCRIPTION">Cliquez ici pour supprimer les sources de données suivantes: </message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_ALLRIGHT_END_DESCRIPTION">.</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_INUSE_START_DESCRIPTION">Les sources de données suivantes ne peuvent être supprimées car elles sont actuellement utilisée: </message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_INUSE_END_DESCRIPTION">.</message>
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_CONFIRM">Etes-vous sûr de vouloir supprimer ce ou ces sources de données ?</message>
     
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_ADD_TITLE">Nouvelle source de données SQL</message>

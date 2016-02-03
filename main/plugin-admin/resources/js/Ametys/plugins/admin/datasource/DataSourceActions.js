@@ -76,7 +76,7 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceActions', {
 			Ametys.MessageBox.confirm (
 				"<i18n:text i18n:key='PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_LABEL'/>",
 				"<i18n:text i18n:key='PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_CONFIRM'/>",
-				Ext.bind(this._removeConfirm, this, [targets], 1),
+				Ext.bind(this._removeConfirm, this, [targets, controller._allRightDataSourceIds], 1),
 				this
 			);
 		}
@@ -88,7 +88,7 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceActions', {
 	 * @param {String} answer the user answer
 	 * @param {Ametys.message.MessageTarget[]} targets the data source message targets.
 	 */
-	_removeConfirm: function(answer, targets)
+	_removeConfirm: function(answer, targets, allRightSourceIds)
 	{
 		if (answer == 'yes')
 		{
@@ -97,12 +97,16 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceActions', {
 			var ids = [];
 			Ext.Array.each(targets, function(target) {
                 
-                var type = target.getParameters().type;
-                if (!datasourceByType[type])
+                if (Ext.Array.contains(allRightSourceIds, target.getParameters().id))
                 {
-                    datasourceByType[type] = [];
+                    var type = target.getParameters().type;
+	                if (!datasourceByType[type])
+	                {
+	                    datasourceByType[type] = [];
+	                }
+	                
+	                datasourceByType[type].push(target.getParameters().id);
                 }
-				datasourceByType[type].push(target.getParameters().id);
 			});
 			
             for (var type in datasourceByType)

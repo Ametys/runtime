@@ -1218,7 +1218,7 @@
                        class="org.ametys.plugins.core.impl.datasource.StaticSQLDatabaseType">
                  <driver>org.apache.derby.jdbc.EmbeddedDriver</driver>
                  <label i18n="true">PLUGINS_CORE_DATASOURCE_DERBY_DRIVER_LABEL</label>
-                 <template>jdbc:derby:path/to/db;create=true</template>
+                 <template>jdbc:derby:&lt;path&gt;;create=true</template>
                  <driver-not-found-message i18n="true">PLUGINS_CORE_DATASOURCE_DRIVER_NOT_FOUND</driver-not-found-message>
             </extension>
         </extensions>
@@ -1232,7 +1232,7 @@
                        class="org.ametys.plugins.core.impl.datasource.StaticSQLDatabaseType">
                  <driver>com.mysql.jdbc.Driver</driver>
                  <label i18n="true">PLUGINS_CORE_DATASOURCE_MYSQL_DRIVER_LABEL</label>
-                 <template>jdbc:mysql://&lt;servername&gt;/&lt;dbname&gt;</template>
+                 <template>jdbc:mysql://&lt;hostname&gt;[&lt;:3306&gt;]/&lt;dbname&gt;</template>
                  <driver-not-found-message i18n="true">PLUGINS_CORE_DATASOURCE_DRIVER_NOT_FOUND</driver-not-found-message>
             </extension>
         </extensions>
@@ -1246,7 +1246,7 @@
                        class="org.ametys.plugins.core.impl.datasource.StaticSQLDatabaseType">
                  <driver>org.hsqldb.jdbc.JDBCDriver</driver>
                  <label i18n="true">PLUGINS_CORE_DATASOURCE_HSQL_DRIVER_LABEL</label>
-                 <template>jdbc:hsql:path/to/db</template>
+                 <template>jdbc:hsqldb:&lt;path&gt;</template>
                  <driver-not-found-message i18n="true">PLUGINS_CORE_DATASOURCE_DRIVER_NOT_FOUND</driver-not-found-message>
             </extension>
         </extensions>
@@ -1260,7 +1260,7 @@
                        class="org.ametys.plugins.core.impl.datasource.StaticSQLDatabaseType">
                  <driver>org.postgresql.Driver</driver>
                  <label i18n="true">PLUGINS_CORE_DATASOURCE_POSTGRESQL_DRIVER_LABEL</label>
-                 <template>jdbc:postgresql://&lt;servername&gt;/&lt;dbname&gt;</template>
+                 <template>jdbc:postgresql://&lt;hostname&gt;[&lt;:port&gt;]/&lt;dbname&gt;</template>
                  <driver-not-found-message i18n="true">PLUGINS_CORE_DATASOURCE_DRIVER_NOT_FOUND</driver-not-found-message>
             </extension>
         </extensions>

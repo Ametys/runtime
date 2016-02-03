@@ -277,8 +277,10 @@ public class DataSourceDAO extends AbstractLogEnabled implements Component, Serv
         {
             _ldapDataSourceManager.delete(ids);
         }
-        
-        throw new IllegalArgumentException("Unable to delete data sources: unknown data source type '" + type + "'");
+        else
+        {
+            throw new IllegalArgumentException("Unable to delete data sources: unknown data source type '" + type + "'");
+        }
     }
     
     private Map<String, Object> _dataSourceDefinition2Json (DataSourceDefinition dataSource)
