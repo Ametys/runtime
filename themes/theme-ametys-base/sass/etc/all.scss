@@ -29,7 +29,7 @@
 }
 
 @function ametys-glyph-decorator($color) {
-    @return mix($color, #000, 90);
+    @return mix($color, #000, 80);
 }
 
 @mixin buttons-color(
