@@ -49,3 +49,12 @@
     color: $ametys-window-text-error-color;
     background-color: $ametys-window-text-error-background-color;
 }
+
+.x-window-header-title-default > .x-title-icon-wrap-default > .x-title-icon-default:after {
+    font-size:11px;
+    line-height:11px;
+    margin-left:0px;
+    position:absolute;
+    bottom: -1px;
+    left: 6px;
+}
