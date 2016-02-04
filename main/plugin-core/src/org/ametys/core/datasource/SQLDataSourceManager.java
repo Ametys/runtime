@@ -25,6 +25,7 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.commons.dbcp2.ConnectionFactory;
 import org.apache.commons.dbcp2.DriverManagerConnectionFactory;
@@ -41,8 +42,6 @@ import org.ametys.runtime.parameter.ParameterChecker;
 import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
 import org.ametys.runtime.servlet.RuntimeConfig;
 import org.ametys.runtime.util.AmetysHomeHelper;
-
-import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
 
 /**
  * This component handles SQL data sources. 
