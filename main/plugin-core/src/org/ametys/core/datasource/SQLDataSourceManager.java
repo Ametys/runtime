@@ -40,6 +40,7 @@ import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.ParameterChecker;
 import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
 import org.ametys.runtime.servlet.RuntimeConfig;
+import org.ametys.runtime.util.AmetysHomeHelper;
 
 import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
 
@@ -81,7 +82,7 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
             return new File(__filename);
         }
         
-        return new File(RuntimeConfig.getInstance().getAmetysHome(), RuntimeConfig.AMETYS_HOME_CONFIG_DIR + File.separator + "datasources-sql.xml");
+        return new File(AmetysHomeHelper.getAmetysHomeConfig(), "datasources-sql.xml");
     }
     
     

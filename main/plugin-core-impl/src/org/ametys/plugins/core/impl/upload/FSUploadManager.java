@@ -53,7 +53,7 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import org.ametys.core.upload.Upload;
 import org.ametys.core.upload.UploadManager;
-import org.ametys.runtime.servlet.RuntimeConfig;
+import org.ametys.runtime.util.AmetysHomeHelper;
 
 /**
  * {@link UploadManager} which stores uploaded files into the
@@ -98,7 +98,7 @@ public class FSUploadManager extends TimerTask implements UploadManager, ThreadS
             _logger.debug("Starting timer");
         }
         
-        _globalUploadsDir = new File(RuntimeConfig.getInstance().getAmetysHome(), UPLOADS_DIRECTORY);
+        _globalUploadsDir = new File(AmetysHomeHelper.getAmetysHomeData(), UPLOADS_DIRECTORY);
         
         // Daemon thread
         _timer = new Timer("FSUploadManager", true);

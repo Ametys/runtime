@@ -21,7 +21,7 @@ import java.util.Map;
 import org.ametys.plugins.core.impl.checker.LDAPConnectionChecker;
 import org.ametys.runtime.parameter.ParameterChecker;
 import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
-import org.ametys.runtime.servlet.RuntimeConfig;
+import org.ametys.runtime.util.AmetysHomeHelper;
 
 /**
  * This component handles SQL data sources. 
@@ -68,7 +68,7 @@ public class LDAPDataSourceManager extends AbstractDataSourceManager
             return new File(__filename);
         }
         
-        return new File(RuntimeConfig.getInstance().getAmetysHome(), RuntimeConfig.AMETYS_HOME_CONFIG_DIR + File.separator + "datasources-ldap.xml");
+        return new File(AmetysHomeHelper.getAmetysHomeConfig(), "datasources-ldap.xml");
     }
     
     @Override
