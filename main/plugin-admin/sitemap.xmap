@@ -295,7 +295,7 @@
                 <map:act type="datasources">
                     <map:parameter name="includePrivate" value="{request-param:includePrivate}"/>
                     <map:parameter name="includeInternal" value="{request-param:includeInternal}"/>
-                    <map:parameter name="dbtype" value="{request-param:type}"/>
+                    <map:parameter name="type" value="{request-param:type}"/>
                     <map:read type="json"/>
                 </map:act>
             </map:match>
