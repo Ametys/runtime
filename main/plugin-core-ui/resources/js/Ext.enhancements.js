@@ -1848,7 +1848,7 @@
                 {
                     return "... " + values + " value" + (values != 1 ? "s" : "") + " ...";
                 }
-                return '<div class="json-array' + (offset < startClosedAtOffset ? '' : ' json-closed') + '">' 
+                return '<div class="json-array' + (offset < (startClosedAtOffset || 2) ? '' : ' json-closed') + '">' 
                         + '<span class="json-char" onclick="Ext.get(this.parentNode).toggleCls(\'json-closed\')" oncontextmenu="Ext.get(this.parentNode).removeCls(\'json-closed\'); Ext.get(this.parentNode).select(\'div.json-closed\').removeCls(\'json-closed\'); return false;">' 
                                 + separator 
                         + '</span>' 
