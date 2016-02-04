@@ -257,6 +257,10 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
             getLogger().error(message, e);
             throw new UserPreferencesException(message, e);
         }
+        finally
+        {
+            ConnectionHelper.cleanup(connection);
+        }
     }
 
     @Override
