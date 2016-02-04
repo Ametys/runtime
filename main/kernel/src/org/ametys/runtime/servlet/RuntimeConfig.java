@@ -28,19 +28,14 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.ametys.runtime.util.AmetysHomeHelper;
+
 /**
  * Java representation of the WEB-INF/param/runtime.xml file.<br>
  * Contains all runtime configuration values.
  */
 public final class RuntimeConfig
 {
-    /** The path to the Ametys home data directory */
-    public static String AMETYS_HOME_DATA_DIR = "data";
-    /** The path to the Ametys home config directory */
-    public static String AMETYS_HOME_CONFIG_DIR = "config";
-    /** The path to the Ametys home temporary directory */
-    public static String AMETYS_HOME_TMP_DIR = "tmp";
-    
     // shared instance
     private static RuntimeConfig __config;
     
@@ -71,8 +66,6 @@ public final class RuntimeConfig
     private Map<String, File> _externalWorkspaces = new HashMap<>();
 
     private File _ametysHome;
-    private File _dataHome;
-    private File _tmpDir;
     
     private RuntimeConfig()
     {
@@ -119,14 +112,14 @@ public final class RuntimeConfig
         __config._contextPath = contextPath;
         __config._ametysHome = ametysHome;
 
-        File dataHome = new File(ametysHome, AMETYS_HOME_DATA_DIR);
+        File dataHome = new File(ametysHome, AmetysHomeHelper.__AMETYS_HOME_DATA_DIR);
         dataHome.mkdirs();
         
-        File configHome = new File(ametysHome, AMETYS_HOME_CONFIG_DIR);
+        File configHome = new File(ametysHome, AmetysHomeHelper.__AMETYS_HOME_CONFIG_DIR);
         configHome.mkdirs();
         
-        __config._tmpDir = new File(ametysHome, AMETYS_HOME_TMP_DIR);
-        __config._tmpDir.mkdirs();
+        File tmpDir = new File(ametysHome, AmetysHomeHelper.__AMETYS_HOME_TMP_DIR);
+        tmpDir.mkdirs();
 
         // runtimeConfig is null if the runtime.xml could not be read for any reason
         if (runtimeConf != null)
@@ -407,14 +400,5 @@ public final class RuntimeConfig
     public File getAmetysHome()
     {
         return _ametysHome;
-    }
-    
-    /**
-     * Returns the Ametys temporary directory. Cannot be null
-     * @return The Ametys temporary directory.
-     */
-    public File getTmpDir()
-    {
-        return _tmpDir;
     }
 }
