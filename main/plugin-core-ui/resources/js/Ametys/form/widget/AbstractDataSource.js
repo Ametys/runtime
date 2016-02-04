@@ -44,11 +44,25 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 	 * @cfg {Function} creationFunction the function used to add a new data source
 	 */
 	
-	/**
-	 * @cfg {String} tooltipText the text of the tooltip
-	 */
-	tooltipText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_DATASOURCE_BUTTON_DEFAULT_TOOLTIP'/>",
-	
+    /**
+     * @cfg {String} createButtonText='' The text of the create button.
+     */
+    createButtonText: '',
+    /**
+     * @cfg {String} createButtonIcon The button icon path for the create button.
+     */
+    createButtonIcon: null,
+    
+    /**
+     * @cfg {String} createButtonIconCls The button icon CSS for the create button.
+     */
+    createButtonIconCls: 'flaticon-data110 decorator-flaticon-add64',
+    
+    /**
+     * @cfg {String} createButtonTooltip The button icon tooltip for the create button.
+     */
+    createButtonTooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_DATASOURCE_BUTTON_DEFAULT_TOOLTIP'/>",
+    
 	/**
 	 * @private
 	 * @property {Ext.data.Store} _store the combo box's store
@@ -94,9 +108,11 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
     		this.items[1] = Ext.create('Ext.button.Button', 
     						{ 
 				    			width: 20,
-				    			handler: Ext.bind(this.creationHandler, this),
-				    			iconCls: 'flaticon-add64',
-				    			tooltip: this.tooltipText
+                                text: this.createButtonText,
+			                    icon: this.createButtonIcon,
+				    			iconCls: this.createButtonIconCls,
+			                    tooltip: this.createButtonTooltip,
+				    			handler: Ext.bind(this._createButtonHandler, this)
 				    		}); 
 		}
     	
@@ -171,13 +187,46 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 		
 		return this._store;
 	},
+    
+    /**
+     * Function invoked when clicking on create button
+     * @private
+     */
+    _createButtonHandler: function ()
+    {
+        this.createDataSource(Ext.bind(this._selectDataSource, this));
+    },
+    
+    /**
+     * Select the created data source in the combo box
+     * @param {String} id the id of the new data source
+     */
+    _selectDataSource: function (datasource)
+    {
+        if (datasource && datasource.id)
+        {
+            var me = this;
+	        if (this._store.getById(datasource.id) != null)
+	        {
+	            this.setValue(datasource.id);
+	        }
+	        else
+	        {
+                // Too soon, store the id to select after reload
+	            this._dataSourceToSelect = datasource.id;
+	        }
+        }
+    },
 	
 	/**
+     * @protected
+     * @template
 	 * Handler when the 'Add data source' button is clicked
+     * @param {Function} the function to call after creating data source
 	 */
-	creationHandler: function()
+	createDataSource: function(callback)
 	{
-		throw new Error("The method #creationHandler is not implemented in " + this.self.getName());
+		throw new Error("The method #createDataSource is not implemented in " + this.self.getName());
 	},
 	
 	/**
@@ -299,24 +348,6 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 			{
 				this._store.reload();
 			}
-		}
-	},
-	
-	/**
-	 * Select the created data source in the combo box
-	 * @param {String} id the id of the new data source
-	 */
-	_selectNewDataSource: function(id)
-	{
-		var me = this;
-		
-		if (this._store.getById(id) != null)
-		{
-			this.setValue(id);
-		}
-		else
-		{
-			this._dataSourceToSelect = id;
 		}
 	}
 });

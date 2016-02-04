@@ -23,11 +23,11 @@ Ext.define('Ametys.form.widget.LDAPDataSource', {
     alias: ['widget.datasource-ldap'],
 	
     dataSourceType: 'LDAP',
-	tooltipText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_LDAP_DATASOURCE_BUTTON_TOOLTIP'/>",
-	
-	creationHandler: function()
-	{
-		this._addingDataSource = true;
-		Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper.add(Ext.bind(this._selectNewDataSource, this));
-	}
+    createButtonIconCls: 'flaticon-agenda3 decorator-flaticon-add64',
+    createButtonTooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_LDAP_DATASOURCE_BUTTON_TOOLTIP'/>",
+    
+    createDataSource: function (callback)
+    {
+        Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper.add(callback);
+    }
 });

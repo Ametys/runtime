@@ -23,10 +23,11 @@ Ext.define('Ametys.form.widget.SQLDataSource', {
     alias: ['widget.datasource-sql'],
 	
     dataSourceType: 'SQL',
-	tooltipText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_SQL_DATASOURCE_BUTTON_TOOLTIP'/>",
+    createButtonIconCls: 'flaticon-data110 decorator-flaticon-add64',
+	createButtonTooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_SQL_DATASOURCE_BUTTON_TOOLTIP'/>",
 
-	creationHandler: function()
+	createDataSource: function (callback)
 	{
-		Ametys.plugins.admin.datasource.EditSQLDataSourceHelper.add(Ext.bind(this._selectNewDataSource, this));
+		Ametys.plugins.admin.datasource.EditSQLDataSourceHelper.add(callback);
 	}
 });
