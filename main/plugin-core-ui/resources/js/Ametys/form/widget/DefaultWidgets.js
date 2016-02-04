@@ -326,7 +326,8 @@ Ext.define('Ametys.cms.form.widget.RichText', {
 	
 	/**
 	 * @cfg {Object} widgetParams The widget configuration
-	 * @cfg {Number} widgetParams.height=#FIELD_HEIGHT The height of HTML area
+	 * @cfg {Number} widgetParams.height=Ametys.cms.form.widget.RichText#FIELD_HEIGHT The height of HTML area
+     * @cfg {Number} widgetParams.validElements=Ametys.form.widget.RichText.RichTextConfiguration#getTags() The allowed tags/attributes in rich text
 	 */
 	
 	statics:
@@ -342,13 +343,13 @@ Ext.define('Ametys.cms.form.widget.RichText', {
 	constructor: function (config)
 	{
 		config = Ext.apply(config, {
-			height: config.height ? Number(config.height) : Ametys.cms.form.widget.RichText.FIELD_HEIGHT,
+			height: Ext.isNumber(config.height) ? Number(config.height) : Ametys.cms.form.widget.RichText.FIELD_HEIGHT,
 			resizable: true,
 			charCounter: true,
 			checkTitleHierarchy: true,
             
             editorCSSFile: Ametys.form.widget.RichText.RichTextConfiguration.getCSSFiles(),
-		    validElements: Ametys.form.widget.RichText.RichTextConfiguration.getTags(),
+		    validElements: config.validElements || Ametys.form.widget.RichText.RichTextConfiguration.getTags(),
 			
 			validator: function(value)
 			{
