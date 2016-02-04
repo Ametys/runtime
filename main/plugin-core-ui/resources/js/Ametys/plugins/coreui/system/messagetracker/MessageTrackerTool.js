@@ -68,24 +68,98 @@ Ext.define("Ametys.plugins.coreui.system.messagetracker.MessageTrackerTool",
             });
             
             this.grid = Ext.create("Ext.grid.Panel", {
-                cls: "uitool-messagestracker",
                 stateful: true,
                 stateId: this.self.getName() + "$grid",
                 store: this.store,
                 scrollable: true,
+                border: true,
+                flex: 0.5,
+                minWidth: 100,
                 columns: [
                     {stateId: 'grid-id', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_ID'/>", width: 40, sortable: true, dataIndex: 'id', hideable: false},
-                    {stateId: 'grid-creationdate', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_CREATIONDATE'/>", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer(Ext.Date.patterns.ShortDateTime), dataIndex: 'creationDate'},
-                    {stateId: 'grid-firedate', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_FIREDATE'/>", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer(Ext.Date.patterns.ShortDateTime), dataIndex: 'fireDate'},
-                    {stateId: 'grid-type', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_TYPE'/>", width: 200, sortable: true, dataIndex: 'type'},
-                    {stateId: 'grid-target', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_TARGET'/>", flex: 1, sortable: true, dataIndex: 'target'},
-                    {stateId: 'grid-callstack', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_CALLSTACK'/>", flex: 0.5, sortable: true, hidden: true, dataIndex: 'callstack'}
-                ]
+                    {stateId: 'grid-creationdate', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_CREATIONDATE'/>", width: 130, sortable: true, renderer: Ext.util.Format.dateRenderer(Ext.Date.patterns.ShortDateTime), dataIndex: 'creationDate'},
+                    {stateId: 'grid-firedate', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_FIREDATE'/>", width: 130, sortable: true, renderer: Ext.util.Format.dateRenderer(Ext.Date.patterns.ShortDateTime), dataIndex: 'fireDate'},
+                    {stateId: 'grid-type', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_TYPE'/>", width: 150, sortable: true, dataIndex: 'type'},
+                    {stateId: 'grid-target', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_TARGET'/>", flex: 1, sortable: true, dataIndex: 'target', renderer: Ext.bind(this._targetRenderer, this)}
+                ],
+                
+                listeners: {'selectionchange': Ext.bind(this._onSelectMessage, this) }                
+            });
+            
+            this._messageTpl = new Ext.Template(
+                    "<b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_ID'/></b> : {id}, - ",
+                    "<b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_CREATIONDATE'/></b> : {creationDate}, - ",
+                    "<b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_FIREDATE'/></b> : {fireDate}<br/>",
+                    "<br/>",
+                    "<b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_TYPE'/></b> : {type}<br/>",
+                    "{parameters}",
+                    "<br/>",
+                    "<b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_TARGET'/></b> :<br/>",
+                    "{targets}<br/>",
+                    "<br/>",
+                    "<b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_CALLSTACK'/></b> :<br/>",
+                    "{callstack}"
+            );            
+            
+            this.rightPanel = Ext.create("Ext.Component", {
+                stateful: true,
+                stateId: this.self.getName() + "$rightPanel",
+                scrollable: true,
+                minWidth: 100,
+                split: true,
+                border: true,
+                flex: 0.5,
+                ui: 'panel',
+                cls: 'a-panel-text',
+                defaultHtml: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_MESSAGE'/>",
+                html: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_MESSAGE'/>"
             });
 
-            return this.grid;
+            return Ext.create("Ext.container.Container", {
+                layout: { 
+                    type: 'hbox',
+                    align: 'stretch'
+                },
+                cls: 'uitool-messagestracker',
+                items: [ this.grid, this.rightPanel ]
+            });            
         },
 
+        /**
+         * Listener on the grid panel, when selecting a record
+         * @param {Ext.selection.RowModel} selModel The selection mode
+         * @param {Ext.data.Model} records The record selected
+         * @param {Object} eOpts The options object passed to Ext.util.Observable.addListener.
+         * @private
+         */
+        _onSelectMessage: function (selModel, records, eOpts)
+        {
+            if (records.length > 0)
+            {
+                var record = records[0];
+                var id = record.getId();
+                
+                var type = record.get("type");
+                var parameters = Ext.JSON.prettyEncode(record.get("parameters"));
+                var targets = record.get("target");
+                var callstack = record.get("callstack");
+                
+                this.rightPanel.update(this._messageTpl.applyTemplate({
+                    id: id, 
+                    creationDate: Ext.Date.format(record.get("creationDate"), Ext.Date.patterns.ShortDateTime),
+                    fireDate: Ext.Date.format(record.get("fireDate"), Ext.Date.patterns.ShortDateTime),
+                    type: type,
+                    parameters: parameters ? parameters + "<br/>" : "",
+                    targets: this._targetsToString(targets, false),
+                    callstack: Ext.String.stacktraceToHTML(callstack, 4)
+                }));
+            }
+            else
+            {
+                this.rightPanel.update(this.rightPanel.defaultHtml);
+            }
+        },
+        
         getMBSelectionInteraction: function() 
         {
             return Ametys.tool.Tool.MB_TYPE_NOSELECTION;
@@ -106,15 +180,14 @@ Ext.define("Ametys.plugins.coreui.system.messagetracker.MessageTrackerTool",
             var store = this.store;
             try
             {
-                var parametersAsString = Ext.JSON.prettyEncode(message.getParameters());
-                
                 var record = Ext.create("Ametys.plugins.coreui.system.messagetracker.MessageTrackerTool.MessageEntry", {
                     id: message.getNumber(),
                     creationDate: message.getCreationDate(),
                     fireDate: new Date(),
-                    type: "<span style='font-weight: bold'>" + message.getType() + "</span>" + (parametersAsString ? ("<br/>" + parametersAsString) : ''),
-                    target: this._targetsToString(message.getTargets()),
-                    callstack: Ext.String.stacktraceToHTML(message.getCallStack(), 4)
+                    type: message.getType(),
+                    parameters: message.getParameters(),
+                    target: message.getTargets(),
+                    callstack: message.getCallStack()
                 });
                 store.addSorted(record);
 
@@ -134,12 +207,23 @@ Ext.define("Ametys.plugins.coreui.system.messagetracker.MessageTrackerTool",
         },
         
         /**
+         * @private
+         * Render the target in the grid
+         * @param {Ametys.message.MessageTarget[]} targets The targets to render
+         */
+        _targetRenderer: function(targets)
+        {
+            return  this._targetsToString(targets, true);
+        },
+        
+        /**
          * Converts '@link Ametys.message.MessageTarget} to a readable string
          * @param {Ametys.message.MessageTarget[]} targets The message parameters to convert
+         * @param {Boolean} [shortVersion=false] When true return only the names (and not the parameters)
          * @param {Number} [offset = 0] The offset to indent the text
          * @private
          */
-        _targetsToString: function (targets, offset)
+        _targetsToString: function (targets, shortVersion, offset)
         {
             offset = offset || 0;
             
@@ -157,14 +241,17 @@ Ext.define("Ametys.plugins.coreui.system.messagetracker.MessageTrackerTool",
                 {
                     s += "&#160;&#160;&#160;&#160;";
                 }
-                s += "<span style='font-weight: bold'>" + target.getType() + "</span><br/>"
-                s += Ext.JSON.prettyEncode(target.getParameters(), offset);
+                s += "<span style='font-weight: bold'>" + target.getType() + "</span>"
+                if (shortVersion !== true) 
+                {
+                    s += "<br/>" + Ext.JSON.prettyEncode(target.getParameters(), offset, null, 0);
+                }
                 
                 if (target.getSubtargets().length > 0)
                 {
                     s += "<br/>";
                 }
-                s += this._targetsToString(target.getSubtargets(), offset + 1);
+                s += this._targetsToString(target.getSubtargets(), shortVersion, offset + 1);
             }
             
             if (targets.length == 0 && offset == 0)

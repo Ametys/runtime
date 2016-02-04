@@ -128,7 +128,7 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 			    listeners: {'selectionchange': Ext.bind(this._onSelectMessage, this) }
 			});
 			
-			this.leftPanel = Ext.create("Ext.Panel", {
+			this.leftPanel = Ext.create("Ext.Container", {
 				stateful: true,
 				stateId: this.self.getName() + "$leftPanel",
 				split: true,
@@ -137,19 +137,17 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
                     align: 'stretch'
                 },
 				minWidth: 100,
-                flex: 0.4,
+                flex: 0.5,
 				items: [ this.grid, this.msgGrid ]
 			});
 			
 			this.rightPanel = Ext.create("Ext.Component", {
-				layout: 'fit',
-                stateful: true,
                 stateId: this.self.getName() + "$rightPanel",
 				scrollable: true,
                 minWidth: 100,
                 split: true,
                 border: true,
-                flex: 0.6,
+                flex: 0.5,
                 ui: 'panel',
                 cls: 'a-panel-text',
 				defaultHtml: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_MESSAGE'/>",

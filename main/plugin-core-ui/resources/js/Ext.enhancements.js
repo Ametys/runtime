@@ -1837,9 +1837,10 @@
          * @param {Object} renderer.value The value to encode
          * @param {Number} renderer.offset The offset to indent the text (to use only when generating new lines).
          * @param {String/Boolean} renderer.return The rendered value or `false` to get the standard rendering for this value.
+         * @param {Number} [startClosedAtOffset=2] When reaching this offset, the arrays or objects are closed 
          * @return {String} The rendered value, as a HTML fragment.
          */
-        prettyEncode: function (value, offset, renderer)
+        prettyEncode: function (value, offset, renderer, startClosedAtOffset)
         {
             function openArrayOrObject(separator, value)
             {
@@ -1847,7 +1848,7 @@
                 {
                     return "... " + values + " value" + (values != 1 ? "s" : "") + " ...";
                 }
-                return '<div class="json-array' + (offset <= 1 ? '' : ' json-closed') + '">' 
+                return '<div class="json-array' + (offset < startClosedAtOffset ? '' : ' json-closed') + '">' 
                         + '<span class="json-char" onclick="Ext.get(this.parentNode).toggleCls(\'json-closed\')" oncontextmenu="Ext.get(this.parentNode).removeCls(\'json-closed\'); Ext.get(this.parentNode).select(\'div.json-closed\').removeCls(\'json-closed\'); return false;">' 
                                 + separator 
                         + '</span>' 

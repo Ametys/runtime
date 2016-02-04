@@ -13,7 +13,11 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
- 
+
+.callstack {
+    white-space: nowrap;    
+} 
+
 .callstack .filename {
     color: $ametys-stacktrace-filename-color;
     text-decoration: none;

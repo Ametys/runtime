@@ -1,5 +1,5 @@
 /*
- *  Copyright 2010 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,9 +15,12 @@
  */
 
 .uitool-requesttracker {
+    .a-panel-text {
+        white-space: nowrap;
+    }    
+    
     code.request-tracker {
     	color: $ametys-tools-requesttracker-details-code-color;
-    	white-space: nowrap;
     	display: block;
     }
     code.request-tracker .tag {

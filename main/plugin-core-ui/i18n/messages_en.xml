@@ -686,6 +686,7 @@
     <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_CLEAR_LABEL">Clear messages</message>
     <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_CLEAR_DESCRIPTION">Click here to clear messages from message tracker.</message>
     <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_CLEAR_DESCRIPTION2">Action inactive as message tracker window is not opened</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_MESSAGE">Select a message on the nearby part to display details.</message>
     
     <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_ID">N°</message>
     <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_CREATIONDATE">Creation date</message>
@@ -703,7 +704,7 @@
     <message key="PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_CLEAR_LABEL">Clear requests</message>
     <message key="PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_CLEAR_DESCRIPTION">Click here to clear messages from message tracker.</message>
     <message key="PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_CLEAR_DESCRIPTION2">Action inactive as message tracker window is not opened</message>
-    <message key="PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_MESSAGE">Select request on the left to display details.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_MESSAGE">Select a request on the left to display details.</message>
     
     <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_ID">N°</message>
     <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_TYPE">Type</message>
