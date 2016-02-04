@@ -112,13 +112,14 @@ public final class RuntimeConfig
         __config._contextPath = contextPath;
         __config._ametysHome = ametysHome;
 
-        File dataHome = new File(ametysHome, AmetysHomeHelper.__AMETYS_HOME_DATA_DIR);
+        // create home directories
+        File dataHome = new File(ametysHome, AmetysHomeHelper.AMETYS_HOME_DATA_DIR);
         dataHome.mkdirs();
         
-        File configHome = new File(ametysHome, AmetysHomeHelper.__AMETYS_HOME_CONFIG_DIR);
+        File configHome = new File(ametysHome, AmetysHomeHelper.AMETYS_HOME_CONFIG_DIR);
         configHome.mkdirs();
         
-        File tmpDir = new File(ametysHome, AmetysHomeHelper.__AMETYS_HOME_TMP_DIR);
+        File tmpDir = new File(ametysHome, AmetysHomeHelper.AMETYS_HOME_TMP_DIR);
         tmpDir.mkdirs();
 
         // runtimeConfig is null if the runtime.xml could not be read for any reason

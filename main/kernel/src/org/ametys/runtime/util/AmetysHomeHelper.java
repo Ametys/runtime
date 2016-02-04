@@ -26,11 +26,11 @@ import org.ametys.runtime.servlet.RuntimeConfig;
 public final class AmetysHomeHelper
 {
     /** The path to the Ametys home data directory */
-    private static String __AMETYS_HOME_DATA_DIR = "data";
+    public static String AMETYS_HOME_DATA_DIR = "data";
     /** The path to the Ametys home config directory */
-    private static String __AMETYS_HOME_CONFIG_DIR = "config";
+    public static String AMETYS_HOME_CONFIG_DIR = "config";
     /** The path to the Ametys home temporary directory */
-    private static String __AMETYS_HOME_TMP_DIR = "tmp";
+    public static String AMETYS_HOME_TMP_DIR = "tmp";
     
     private AmetysHomeHelper()
     {
@@ -52,7 +52,7 @@ public final class AmetysHomeHelper
      */
     public static File getAmetysHomeData()
     {
-        return new File(RuntimeConfig.getInstance().getAmetysHome(), __AMETYS_HOME_DATA_DIR);
+        return new File(RuntimeConfig.getInstance().getAmetysHome(), AMETYS_HOME_DATA_DIR);
     }
     
     /**
@@ -61,7 +61,7 @@ public final class AmetysHomeHelper
      */
     public static File getAmetysHomeConfig()
     {
-        return new File(RuntimeConfig.getInstance().getAmetysHome(), __AMETYS_HOME_CONFIG_DIR);
+        return new File(RuntimeConfig.getInstance().getAmetysHome(), AMETYS_HOME_CONFIG_DIR);
     }
     
     /**
@@ -70,7 +70,7 @@ public final class AmetysHomeHelper
      */
     public static File getAmetysHomeTmp()
     {
-        return new File(RuntimeConfig.getInstance().getAmetysHome(), __AMETYS_HOME_TMP_DIR);
+        return new File(RuntimeConfig.getInstance().getAmetysHome(), AMETYS_HOME_TMP_DIR);
     }
     
 }
