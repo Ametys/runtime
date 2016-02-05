@@ -85,6 +85,7 @@ public class CredentialsAwareLdapAndJdbcUsersManager extends CredentialsAwareLda
     @Override
     public void service(ServiceManager manager) throws ServiceException
     {
+        super.service(manager);
         _serviceManager = manager;
     }
     
