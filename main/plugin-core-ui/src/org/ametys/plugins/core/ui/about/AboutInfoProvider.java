@@ -162,7 +162,7 @@ public class AboutInfoProvider extends AbstractLogEnabled implements Serviceable
         if (licenseFile.exists() && licenseFile.isFile())
         {
             StringBuffer sb = new StringBuffer();
-            try ( BufferedReader reader = new BufferedReader(new FileReader(licenseFile)) )
+            try (BufferedReader reader = new BufferedReader(new FileReader(licenseFile)))
             {
                 String line;
                 while ((line = reader.readLine()) != null)
@@ -180,5 +180,4 @@ public class AboutInfoProvider extends AbstractLogEnabled implements Serviceable
             return "";
         }
     }
-
 }
