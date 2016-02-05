@@ -526,6 +526,7 @@ Ext.define(
             // Display slashscreen back if any
             if (Ext.getBody().child("div.head"))
             {
+                document.body.className = "";
                 Ext.get(document.body.parentNode).addCls("ametys-common");
                 Ext.getBody().child("div.head").dom.style.display = '';
                 Ext.getBody().child("div.foot").dom.style.display = '';
