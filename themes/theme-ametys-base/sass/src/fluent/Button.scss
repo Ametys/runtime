@@ -70,10 +70,18 @@
     }
     
     .#{$prefix}btn-inner-#{$ui}-small {
-        margin-top: $ametys-ribbon-button-texticonalignadjust-small;
+        margin-top: $ametys-ribbon-button-texticonalignadjust-small - 1px;
+        
+        .#{$prefix}chrome & {
+            margin-top: $ametys-ribbon-button-texticonalignadjust-small;
+        }
     }
     .#{$prefix}btn-icon-el-#{$ui}-small {
         margin-bottom: $ametys-ribbon-button-texticonalignadjust-small;
+        
+        .#{$prefix}gecko &:before {
+            vertical-align: top;
+        }
     }
       
     @include extjs-button-large-ui(
