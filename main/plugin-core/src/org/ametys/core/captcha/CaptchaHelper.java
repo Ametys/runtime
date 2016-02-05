@@ -79,7 +79,8 @@ public final class CaptchaHelper implements Serviceable
         _jsonUtils = (JSONUtils) manager.lookup(JSONUtils.ROLE);
     }
     
-    enum CaptchaType {
+    enum CaptchaType 
+    {
         /** Ametys Internal Captcha */
         JCAPTCHA,
         
@@ -228,14 +229,10 @@ public final class CaptchaHelper implements Serviceable
                     .setSocketTimeout(2000)
                     .build();
             
-            CloseableHttpClient httpclient = HttpClientBuilder.create()
-                    .setDefaultRequestConfig(requestConfig)
-                    .useSystemProperties()
-                    .build();
-            
-            CloseableHttpResponse httpResponse = null;
-            InputStream is = null;
-            try
+            try (CloseableHttpClient httpclient = HttpClientBuilder.create()
+                                                                   .setDefaultRequestConfig(requestConfig)
+                                                                   .useSystemProperties()
+                                                                   .build())
             {
                 // Prepare a request object
                 HttpPost post = new HttpPost(url);
@@ -244,49 +241,28 @@ public final class CaptchaHelper implements Serviceable
                 params.add(new BasicNameValuePair("response", value));
                 post.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
                 
-                // Execute the request
-                httpResponse = httpclient.execute(post);
-                
-                if (httpResponse.getStatusLine().getStatusCode() != 200)
+                try (CloseableHttpResponse httpResponse = httpclient.execute(post))
                 {
-                    return false;
+                    if (httpResponse.getStatusLine().getStatusCode() != 200)
+                    {
+                        return false;
+                    }
+                    
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    try (InputStream is = httpResponse.getEntity().getContent())
+                    {
+                        IOUtils.copy(is, bos);
+                    }
+                    
+                    Map<String, Object> jsonObject = _jsonUtils.convertJsonToMap(bos.toString());
+                    
+                    return jsonObject.containsKey("success") && (Boolean) jsonObject.get("success");
                 }
-                
-                is = httpResponse.getEntity().getContent();
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                IOUtils.copy(is, bos);
-                
-                Map<String, Object> jsonObject = _jsonUtils.convertJsonToMap(bos.toString());
-                
-                return jsonObject.containsKey("success") && (Boolean) jsonObject.get("success");
             }
-            catch (Exception e)
+            catch (IOException e)
             {
                 _logger.error("Unable to concat Google server to validate reCaptcha.", e);
                 return false;
-            }
-            finally
-            {
-                try
-                {
-                    httpclient.close();
-                }
-                catch (IOException e)
-                {
-                    //
-                }
-                if (httpResponse != null)
-                {
-                    try
-                    {
-                        httpResponse.close();
-                    }
-                    catch (IOException e)
-                    {
-                        //
-                    }
-                }
-                IOUtils.closeQuietly(is);
             }
         }
         
