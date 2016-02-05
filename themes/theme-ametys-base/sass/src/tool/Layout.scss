@@ -107,6 +107,23 @@
     &.#{$prefix}tab-over.#{$prefix}tab-active .#{$prefix}tab-close-btn { @include opacity(1); }
 }
 
+// Adapt text position
+.#{$prefix}tab-tool-layoutzone.#{$prefix}tab-left, .#{$prefix}tab-tool-layoutzone.#{$prefix}tab-right {
+    .#{$prefix}ie10p & .#{$prefix}tab-icon-el.#{$prefix}tab-icon-el-tool-layoutzone:before {
+        padding-top: 1px;
+    }
+    
+    .#{$prefix}tab-inner.#{$prefix}tab-inner-tool-layoutzone {
+        margin-top: -1px;
+        padding-bottom: 1px;
+        
+        .#{$prefix}chrome & {
+            margin-top: 0;
+            padding-bottom: 0;
+        }
+    }
+}
+    
 .#{$prefix}tab-tool-layoutzone .#{$prefix}tab-icon-el-tool-layoutzone {
     position: relative;
     

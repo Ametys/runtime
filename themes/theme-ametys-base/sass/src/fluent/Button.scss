@@ -122,15 +122,31 @@
         }
     }
     
-    .#{$prefix}btn-icon-el-#{$ui}-large {
-        margin-top: ($ametys-ribbon-button-padding-large - 1px); 
+    .#{$prefix}btn-text.#{$prefix}btn-icon-top > .#{$prefix}btn-icon-el.#{$prefix}btn-icon-el-#{$ui}-large {
+        margin-top: ($ametys-ribbon-button-padding-large - 1px) - 1px;
         margin-right: ($ametys-ribbon-button-padding-large - 1px);
         margin-left: ($ametys-ribbon-button-padding-large - 1px); 
+        margin-bottom: $ametys-ribbon-button-iconspacing-large + 1px;
+        
+        &:before {
+            vertical-align: top;
+        }
     }
     .#{$prefix}btn-inner-#{$ui}-large {
-        padding: ($ametys-ribbon-button-texticonalignadjust-large - 1px) ($ametys-ribbon-button-padding-large - 1px) 1px ($ametys-ribbon-button-padding-large - 1px); 
+        padding: ($ametys-ribbon-button-texticonalignadjust-large - 2px) ($ametys-ribbon-button-padding-large - 1px) 2px ($ametys-ribbon-button-padding-large - 1px);
+        
+        .#{$prefix}chrome & {
+            padding: ($ametys-ribbon-button-texticonalignadjust-large - 1px) ($ametys-ribbon-button-padding-large - 1px) 1px ($ametys-ribbon-button-padding-large - 1px);
+        }
+         
         height: 2*$ametys-ribbon-button-line-height;
     }
+    
+    .#{$prefix}btn-text.#{$prefix}btn-icon-top > .#{$prefix}btn-icon-el-#{$ui}-large {
+        margin-bottom: $ametys-ribbon-button-iconspacing-large - 1px;
+        margin-top: 1px; 
+    }
+    
     .#{$prefix}btn-inner-#{$ui}-large .arrow {
         background-image: theme-background-image('button/#{$ui}-large-arrow');
         width: 7px;
