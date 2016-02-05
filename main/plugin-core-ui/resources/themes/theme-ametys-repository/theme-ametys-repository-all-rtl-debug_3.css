@@ -1,4 +1,23 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2961 */
+.x-tab-focus .x-tab-tool-layoutzone-right-tl,
+.x-tab-focus .x-tab-tool-layoutzone-right-bl,
+.x-tab-focus .x-tab-tool-layoutzone-right-tr,
+.x-tab-focus .x-tab-tool-layoutzone-right-br,
+.x-tab-focus .x-tab-tool-layoutzone-right-tc,
+.x-tab-focus .x-tab-tool-layoutzone-right-bc {
+    background-image: url(images/tab/tab-tool-layoutzone-right-focus-corners.gif);
+}
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2970 */
+.x-tab-focus .x-tab-tool-layoutzone-right-ml,
+.x-tab-focus .x-tab-tool-layoutzone-right-mr {
+    background-image: url(images/tab/tab-tool-layoutzone-right-focus-sides.gif);
+}
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2975 */
+.x-tab-focus .x-tab-tool-layoutzone-right-mc {
+    background-repeat: repeat-x;
+    background-image: url(images/tab/tab-tool-layoutzone-right-focus-fbg.gif);
+}
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2961 */
 .x-tab-focus.x-tab-over .x-tab-tool-layoutzone-right-tl,
 .x-tab-focus.x-tab-over .x-tab-tool-layoutzone-right-bl,
 .x-tab-focus.x-tab-over .x-tab-tool-layoutzone-right-tr,
@@ -837,11 +856,32 @@
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:110 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:111 */
+.x-ie10p .x-tab-tool-layoutzone .x-tab-icon-el.x-tab-icon-el-tool-layoutzone:before {
+    padding-top: 1px;
+}
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:114 */
+.x-gecko .x-tab-tool-layoutzone .x-tab-inner.x-tab-inner-tool-layoutzone {
+    margin-top: -1px;
+    padding-bottom: 1px;
+}
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:119 */
+.x-tab-tool-layoutzone.x-tab-left .x-tab-inner.x-tab-inner-tool-layoutzone,
+.x-tab-tool-layoutzone.x-tab-right .x-tab-inner.x-tab-inner-tool-layoutzone {
+    margin-top: -1px;
+    padding-bottom: 1px;
+}
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:123 */
+.x-chrome .x-tab-tool-layoutzone.x-tab-left .x-tab-inner.x-tab-inner-tool-layoutzone,
+.x-chrome .x-tab-tool-layoutzone.x-tab-right .x-tab-inner.x-tab-inner-tool-layoutzone {
+    margin-top: 0;
+    padding-bottom: 0;
+}
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:130 */
 .x-tab-tool-layoutzone .x-tab-icon-el-tool-layoutzone {
     position: relative;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:113 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:133 */
 .x-tab-tool-layoutzone .x-tab-icon-el-tool-layoutzone:before {
     margin-left: 0px;
     position: absolute;
@@ -851,7 +891,7 @@
     left: 0;
     height: 100%;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:123 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:143 */
 .x-tab-tool-layoutzone .x-tab-icon-el-tool-layoutzone:after {
     margin-left: 0px;
     position: absolute;
@@ -860,12 +900,12 @@
     line-height: 18px;
     text-shadow: 0px 0px 2px #eee;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:132 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:152 */
 .x-tab-tool-layoutzone.x-tab-left .x-tab-icon-el-tool-layoutzone:before,
 .x-tab-tool-layoutzone.x-tab-right .x-tab-icon-el-tool-layoutzone:before {
     width: 100%;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:138 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:158 */
 .x-tab-tool-layoutzone > div {
     overflow: hidden;
 }
@@ -1601,7 +1641,7 @@
     border-color: #dedede;
     background-color: #dedede;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:175 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:195 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-0 .x-panel-tool-layoutzone-outer-border-rbl {
     border-color: #dedede !important;
 }
@@ -1631,7 +1671,7 @@
     border-color: #d7d7d7;
     background-color: #d7d7d7;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:192 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:212 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-tool-layoutzone-outer-border-rbl {
     border-color: #d7d7d7 !important;
 }
@@ -1661,7 +1701,7 @@
     border-color: #dedede;
     background-color: #dedede;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:175 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:195 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-10 .x-panel-tool-layoutzone-outer-border-rbl {
     border-color: #dedede !important;
 }
@@ -1691,7 +1731,7 @@
     border-color: #d7d7d7;
     background-color: #d7d7d7;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:192 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:212 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-tool-layoutzone-outer-border-rbl {
     border-color: #d7d7d7 !important;
 }
@@ -1721,7 +1761,7 @@
     border-color: #dedede;
     background-color: #dedede;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:175 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:195 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-20 .x-panel-tool-layoutzone-outer-border-rbl {
     border-color: #dedede !important;
 }
@@ -1751,7 +1791,7 @@
     border-color: #d7d7d7;
     background-color: #d7d7d7;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:192 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:212 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-tool-layoutzone-outer-border-rbl {
     border-color: #d7d7d7 !important;
 }
@@ -1781,7 +1821,7 @@
     border-color: #dedede;
     background-color: #dedede;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:175 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:195 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-30 .x-panel-tool-layoutzone-outer-border-rbl {
     border-color: #dedede !important;
 }
@@ -1811,7 +1851,7 @@
     border-color: #d7d7d7;
     background-color: #d7d7d7;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:192 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:212 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-tool-layoutzone-outer-border-rbl {
     border-color: #d7d7d7 !important;
 }
@@ -1841,7 +1881,7 @@
     border-color: #dedede;
     background-color: #dedede;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:175 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:195 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-40 .x-panel-tool-layoutzone-outer-border-rbl {
     border-color: #dedede !important;
 }
@@ -1871,7 +1911,7 @@
     border-color: #d7d7d7;
     background-color: #d7d7d7;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:192 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:212 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-tool-layoutzone-outer-border-rbl {
     border-color: #d7d7d7 !important;
 }
@@ -1901,7 +1941,7 @@
     border-color: #dedede;
     background-color: #dedede;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:175 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:195 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-50 .x-panel-tool-layoutzone-outer-border-rbl {
     border-color: #dedede !important;
 }
@@ -1931,7 +1971,7 @@
     border-color: #d7d7d7;
     background-color: #d7d7d7;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:192 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:212 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-tool-layoutzone-outer-border-rbl {
     border-color: #d7d7d7 !important;
 }
@@ -1961,7 +2001,7 @@
     border-color: #dedede;
     background-color: #dedede;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:175 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:195 */
 .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-60 .x-panel-tool-layoutzone-outer-border-rbl {
     border-color: #dedede !important;
 }
@@ -1991,11 +2031,11 @@
     border-color: #d7d7d7;
     background-color: #d7d7d7;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:192 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:212 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-panel-tool-layoutzone-outer-border-rbl {
     border-color: #d7d7d7 !important;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:206 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:226 */
 .ametys-tab-color-0.x-tab-active:after {
     content: "";
     position: absolute;
@@ -2003,7 +2043,7 @@
     width: 0;
     height: 0;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:214 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:234 */
 .ametys-tab-color-0.x-tab-active.x-tab-top:after {
     border-bottom: 3px solid #c8c8c8;
     border-left: 3px solid transparent;
@@ -2011,7 +2051,7 @@
     margin-left: -3px;
     left: 50%;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:221 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:241 */
 .ametys-tab-color-0.x-tab-active.x-tab-left:after {
     border-right: 3px solid #c8c8c8;
     border-bottom: 3px solid transparent;
@@ -2020,7 +2060,7 @@
     top: 50%;
     right: 0;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:229 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:249 */
 .ametys-tab-color-0.x-tab-active.x-tab-right:after {
     border-left: 3px solid #c8c8c8;
     border-bottom: 3px solid transparent;
@@ -2029,17 +2069,17 @@
     top: 50%;
     left: 0;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:240 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:260 */
 .a-tool-layout-zoned-focused .ametys-tab-color-0.x-tab-active.x-tab-top:after,
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-over.x-tab-top:after {
     border-bottom-color: #c23249;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:243 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:263 */
 .a-tool-layout-zoned-focused .ametys-tab-color-0.x-tab-active.x-tab-left:after,
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-over.x-tab-left:after {
     border-right-color: #c23249;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:246 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:266 */
 .a-tool-layout-zoned-focused .ametys-tab-color-0.x-tab-active.x-tab-right:after,
 .a-tool-layout-zoned-notfocused .ametys-tab-color-0.x-tab-over.x-tab-right:after {
     border-left-color: #c23249;
@@ -2316,7 +2356,7 @@
 .a-tool-layout-zoned-focused .ametys-tab-color-0.x-tab-tool-layoutzone.x-tab-disabled .x-tab-icon-el-tool-layoutzone:after {
     color: #9a9a9a;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:206 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:226 */
 .ametys-tab-color-10.x-tab-active:after {
     content: "";
     position: absolute;
@@ -2324,7 +2364,7 @@
     width: 0;
     height: 0;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:214 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:234 */
 .ametys-tab-color-10.x-tab-active.x-tab-top:after {
     border-bottom: 3px solid #c8c8c8;
     border-left: 3px solid transparent;
@@ -2332,7 +2372,7 @@
     margin-left: -3px;
     left: 50%;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:221 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:241 */
 .ametys-tab-color-10.x-tab-active.x-tab-left:after {
     border-right: 3px solid #c8c8c8;
     border-bottom: 3px solid transparent;
@@ -2341,7 +2381,7 @@
     top: 50%;
     right: 0;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:229 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:249 */
 .ametys-tab-color-10.x-tab-active.x-tab-right:after {
     border-left: 3px solid #c8c8c8;
     border-bottom: 3px solid transparent;
@@ -2350,17 +2390,17 @@
     top: 50%;
     left: 0;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:240 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:260 */
 .a-tool-layout-zoned-focused .ametys-tab-color-10.x-tab-active.x-tab-top:after,
 .a-tool-layout-zoned-notfocused .ametys-tab-color-10.x-tab-over.x-tab-top:after {
     border-bottom-color: #ef6c00;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:243 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:263 */
 .a-tool-layout-zoned-focused .ametys-tab-color-10.x-tab-active.x-tab-left:after,
 .a-tool-layout-zoned-notfocused .ametys-tab-color-10.x-tab-over.x-tab-left:after {
     border-right-color: #ef6c00;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:246 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:266 */
 .a-tool-layout-zoned-focused .ametys-tab-color-10.x-tab-active.x-tab-right:after,
 .a-tool-layout-zoned-notfocused .ametys-tab-color-10.x-tab-over.x-tab-right:after {
     border-left-color: #ef6c00;
@@ -2637,7 +2677,7 @@
 .a-tool-layout-zoned-focused .ametys-tab-color-10.x-tab-tool-layoutzone.x-tab-disabled .x-tab-icon-el-tool-layoutzone:after {
     color: #9a9a9a;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:206 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:226 */
 .ametys-tab-color-20.x-tab-active:after {
     content: "";
     position: absolute;
@@ -2645,7 +2685,7 @@
     width: 0;
     height: 0;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:214 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:234 */
 .ametys-tab-color-20.x-tab-active.x-tab-top:after {
     border-bottom: 3px solid #c8c8c8;
     border-left: 3px solid transparent;
@@ -2653,7 +2693,7 @@
     margin-left: -3px;
     left: 50%;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:221 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:241 */
 .ametys-tab-color-20.x-tab-active.x-tab-left:after {
     border-right: 3px solid #c8c8c8;
     border-bottom: 3px solid transparent;
@@ -2662,7 +2702,7 @@
     top: 50%;
     right: 0;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:229 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:249 */
 .ametys-tab-color-20.x-tab-active.x-tab-right:after {
     border-left: 3px solid #c8c8c8;
     border-bottom: 3px solid transparent;
@@ -2671,17 +2711,17 @@
     top: 50%;
     left: 0;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:240 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:260 */
 .a-tool-layout-zoned-focused .ametys-tab-color-20.x-tab-active.x-tab-top:after,
 .a-tool-layout-zoned-notfocused .ametys-tab-color-20.x-tab-over.x-tab-top:after {
     border-bottom-color: #e3d711;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:243 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:263 */
 .a-tool-layout-zoned-focused .ametys-tab-color-20.x-tab-active.x-tab-left:after,
 .a-tool-layout-zoned-notfocused .ametys-tab-color-20.x-tab-over.x-tab-left:after {
     border-right-color: #e3d711;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:246 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:266 */
 .a-tool-layout-zoned-focused .ametys-tab-color-20.x-tab-active.x-tab-right:after,
 .a-tool-layout-zoned-notfocused .ametys-tab-color-20.x-tab-over.x-tab-right:after {
     border-left-color: #e3d711;
@@ -2958,7 +2998,7 @@
 .a-tool-layout-zoned-focused .ametys-tab-color-20.x-tab-tool-layoutzone.x-tab-disabled .x-tab-icon-el-tool-layoutzone:after {
     color: #9a9a9a;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:206 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:226 */
 .ametys-tab-color-30.x-tab-active:after {
     content: "";
     position: absolute;
@@ -2966,7 +3006,7 @@
     width: 0;
     height: 0;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:214 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:234 */
 .ametys-tab-color-30.x-tab-active.x-tab-top:after {
     border-bottom: 3px solid #c8c8c8;
     border-left: 3px solid transparent;
@@ -2974,7 +3014,7 @@
     margin-left: -3px;
     left: 50%;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:221 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:241 */
 .ametys-tab-color-30.x-tab-active.x-tab-left:after {
     border-right: 3px solid #c8c8c8;
     border-bottom: 3px solid transparent;
@@ -2983,7 +3023,7 @@
     top: 50%;
     right: 0;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:229 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:249 */
 .ametys-tab-color-30.x-tab-active.x-tab-right:after {
     border-left: 3px solid #c8c8c8;
     border-bottom: 3px solid transparent;
@@ -2992,17 +3032,17 @@
     top: 50%;
     left: 0;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:240 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:260 */
 .a-tool-layout-zoned-focused .ametys-tab-color-30.x-tab-active.x-tab-top:after,
 .a-tool-layout-zoned-notfocused .ametys-tab-color-30.x-tab-over.x-tab-top:after {
     border-bottom-color: #36aa42;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:243 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:263 */
 .a-tool-layout-zoned-focused .ametys-tab-color-30.x-tab-active.x-tab-left:after,
 .a-tool-layout-zoned-notfocused .ametys-tab-color-30.x-tab-over.x-tab-left:after {
     border-right-color: #36aa42;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:246 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:266 */
 .a-tool-layout-zoned-focused .ametys-tab-color-30.x-tab-active.x-tab-right:after,
 .a-tool-layout-zoned-notfocused .ametys-tab-color-30.x-tab-over.x-tab-right:after {
     border-left-color: #36aa42;
@@ -3279,7 +3319,7 @@
 .a-tool-layout-zoned-focused .ametys-tab-color-30.x-tab-tool-layoutzone.x-tab-disabled .x-tab-icon-el-tool-layoutzone:after {
     color: #9a9a9a;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:206 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:226 */
 .ametys-tab-color-40.x-tab-active:after {
     content: "";
     position: absolute;
@@ -3287,7 +3327,7 @@
     width: 0;
     height: 0;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:214 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:234 */
 .ametys-tab-color-40.x-tab-active.x-tab-top:after {
     border-bottom: 3px solid #c8c8c8;
     border-left: 3px solid transparent;
@@ -3295,7 +3335,7 @@
     margin-left: -3px;
     left: 50%;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:221 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:241 */
 .ametys-tab-color-40.x-tab-active.x-tab-left:after {
     border-right: 3px solid #c8c8c8;
     border-bottom: 3px solid transparent;
@@ -3304,7 +3344,7 @@
     top: 50%;
     right: 0;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:229 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:249 */
 .ametys-tab-color-40.x-tab-active.x-tab-right:after {
     border-left: 3px solid #c8c8c8;
     border-bottom: 3px solid transparent;
@@ -3313,17 +3353,17 @@
     top: 50%;
     left: 0;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:240 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:260 */
 .a-tool-layout-zoned-focused .ametys-tab-color-40.x-tab-active.x-tab-top:after,
 .a-tool-layout-zoned-notfocused .ametys-tab-color-40.x-tab-over.x-tab-top:after {
     border-bottom-color: #35baf6;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:243 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:263 */
 .a-tool-layout-zoned-focused .ametys-tab-color-40.x-tab-active.x-tab-left:after,
 .a-tool-layout-zoned-notfocused .ametys-tab-color-40.x-tab-over.x-tab-left:after {
     border-right-color: #35baf6;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:246 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:266 */
 .a-tool-layout-zoned-focused .ametys-tab-color-40.x-tab-active.x-tab-right:after,
 .a-tool-layout-zoned-notfocused .ametys-tab-color-40.x-tab-over.x-tab-right:after {
     border-left-color: #35baf6;
@@ -3600,7 +3640,7 @@
 .a-tool-layout-zoned-focused .ametys-tab-color-40.x-tab-tool-layoutzone.x-tab-disabled .x-tab-icon-el-tool-layoutzone:after {
     color: #9a9a9a;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:206 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:226 */
 .ametys-tab-color-50.x-tab-active:after {
     content: "";
     position: absolute;
@@ -3608,7 +3648,7 @@
     width: 0;
     height: 0;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:214 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:234 */
 .ametys-tab-color-50.x-tab-active.x-tab-top:after {
     border-bottom: 3px solid #c8c8c8;
     border-left: 3px solid transparent;
@@ -3616,7 +3656,7 @@
     margin-left: -3px;
     left: 50%;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:221 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:241 */
 .ametys-tab-color-50.x-tab-active.x-tab-left:after {
     border-right: 3px solid #c8c8c8;
     border-bottom: 3px solid transparent;
@@ -3625,7 +3665,7 @@
     top: 50%;
     right: 0;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:229 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:249 */
 .ametys-tab-color-50.x-tab-active.x-tab-right:after {
     border-left: 3px solid #c8c8c8;
     border-bottom: 3px solid transparent;
@@ -3634,17 +3674,17 @@
     top: 50%;
     left: 0;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:240 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:260 */
 .a-tool-layout-zoned-focused .ametys-tab-color-50.x-tab-active.x-tab-top:after,
 .a-tool-layout-zoned-notfocused .ametys-tab-color-50.x-tab-over.x-tab-top:after {
     border-bottom-color: #c9599c;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:243 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:263 */
 .a-tool-layout-zoned-focused .ametys-tab-color-50.x-tab-active.x-tab-left:after,
 .a-tool-layout-zoned-notfocused .ametys-tab-color-50.x-tab-over.x-tab-left:after {
     border-right-color: #c9599c;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:246 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:266 */
 .a-tool-layout-zoned-focused .ametys-tab-color-50.x-tab-active.x-tab-right:after,
 .a-tool-layout-zoned-notfocused .ametys-tab-color-50.x-tab-over.x-tab-right:after {
     border-left-color: #c9599c;
@@ -3921,7 +3961,7 @@
 .a-tool-layout-zoned-focused .ametys-tab-color-50.x-tab-tool-layoutzone.x-tab-disabled .x-tab-icon-el-tool-layoutzone:after {
     color: #9a9a9a;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:206 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:226 */
 .ametys-tab-color-60.x-tab-active:after {
     content: "";
     position: absolute;
@@ -3929,7 +3969,7 @@
     width: 0;
     height: 0;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:214 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:234 */
 .ametys-tab-color-60.x-tab-active.x-tab-top:after {
     border-bottom: 3px solid #c8c8c8;
     border-left: 3px solid transparent;
@@ -3937,7 +3977,7 @@
     margin-left: -3px;
     left: 50%;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:221 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:241 */
 .ametys-tab-color-60.x-tab-active.x-tab-left:after {
     border-right: 3px solid #c8c8c8;
     border-bottom: 3px solid transparent;
@@ -3946,7 +3986,7 @@
     top: 50%;
     right: 0;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:229 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:249 */
 .ametys-tab-color-60.x-tab-active.x-tab-right:after {
     border-left: 3px solid #c8c8c8;
     border-bottom: 3px solid transparent;
@@ -3955,17 +3995,17 @@
     top: 50%;
     left: 0;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:240 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:260 */
 .a-tool-layout-zoned-focused .ametys-tab-color-60.x-tab-active.x-tab-top:after,
 .a-tool-layout-zoned-notfocused .ametys-tab-color-60.x-tab-over.x-tab-top:after {
     border-bottom-color: #b060b0;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:243 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:263 */
 .a-tool-layout-zoned-focused .ametys-tab-color-60.x-tab-active.x-tab-left:after,
 .a-tool-layout-zoned-notfocused .ametys-tab-color-60.x-tab-over.x-tab-left:after {
     border-right-color: #b060b0;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:246 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:266 */
 .a-tool-layout-zoned-focused .ametys-tab-color-60.x-tab-active.x-tab-right:after,
 .a-tool-layout-zoned-notfocused .ametys-tab-color-60.x-tab-over.x-tab-right:after {
     border-left-color: #b060b0;
@@ -4242,35 +4282,35 @@
 .a-tool-layout-zoned-focused .ametys-tab-color-60.x-tab-tool-layoutzone.x-tab-disabled .x-tab-icon-el-tool-layoutzone:after {
     color: #9a9a9a;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:303 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:323 */
 .a-tool-layout-zoned-notfocused .x-tab-icon-el-tool-layoutzone,
 .a-tool-layout-zoned-focused .x-tab-icon-el-tool-layoutzone {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
     opacity: 0.5;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:308 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:328 */
 .a-tool-layout-zoned-notfocused .x-tab-over .x-tab-icon-el-tool-layoutzone,
 .a-tool-layout-zoned-focused .x-tab-over .x-tab-icon-el-tool-layoutzone {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:314 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:334 */
 .a-tool-layout-zoned-focused .x-tab-active .x-tab-icon-el-tool-layoutzone {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:321 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:341 */
 .a-tools-menu-close {
     /**
  * Contextual menu
  */
     background-image: url(images/ui-tools/close_16.png);
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:324 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:344 */
 .a-tools-menu-close-others {
     background-image: url(images/ui-tools/close_others_16.png);
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:327 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:347 */
 .a-tools-menu-close-all {
     background-image: url(images/ui-tools/close_all_16.png);
 }
@@ -5139,31 +5179,40 @@
     vertical-align: middle;
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:18 */
+.uitool-requesttracker .a-panel-text {
+    
+    white-space: nowrap;
+}
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:22 */
 .uitool-requesttracker code.request-tracker {
     color: #000;
-    white-space: nowrap;
     display: block;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:23 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:26 */
 .uitool-requesttracker code.request-tracker .tag {
     color: #3f7f7f;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:26 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:29 */
 .uitool-requesttracker code.request-tracker .text {
     color: #000;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:29 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:32 */
 .uitool-requesttracker code.request-tracker .attr-name {
     color: #9500ab;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:32 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:35 */
 .uitool-requesttracker code.request-tracker .attr-eq {
     color: #000;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:35 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:38 */
 .uitool-requesttracker code.request-tracker .attr-value {
     color: #2a00ff;
     font-style: italic;
+}
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/messagetracker.scss:18 */
+.uitool-messagestracker .a-panel-text {
+    
+    white-space: nowrap;
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/help.scss:17 */
 .uitool-help .tbar-btn-open-window-container {
@@ -8399,70 +8448,70 @@
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .a-timeline.error .contents-wrap .text strong {
     color: #c00;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/Component.scss:66 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/Component.scss:67 */
 @font-face {
     font-family: 'Open Sans';
     src: url('fonts/OpenSans-Light.woff');
     font-weight: 300;
     font-style: normal;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/Component.scss:75 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/Component.scss:76 */
 @font-face {
     font-family: 'Open Sans';
     src: url('fonts/OpenSans-LightItalic.woff');
     font-weight: 300;
     font-style: italic;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/Component.scss:84 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/Component.scss:85 */
 @font-face {
     font-family: 'Open Sans';
     src: url('fonts/OpenSans-Regular.woff');
     font-weight: 400;
     font-style: normal;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/Component.scss:93 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/Component.scss:94 */
 @font-face {
     font-family: 'Open Sans';
     src: url('fonts/OpenSans-Italic.woff');
     font-weight: 400;
     font-style: italic;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/Component.scss:102 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/Component.scss:103 */
 @font-face {
     font-family: 'Open Sans';
     src: url('fonts/OpenSans-Semibold.woff');
     font-weight: 600;
     font-style: normal;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/Component.scss:111 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/Component.scss:112 */
 @font-face {
     font-family: 'Open Sans';
     src: url('fonts/OpenSans-SemiboldItalic.woff');
     font-weight: 600;
     font-style: italic;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/Component.scss:120 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/Component.scss:121 */
 @font-face {
     font-family: 'Open Sans';
     src: url('fonts/OpenSans-Bold.woff');
     font-weight: 700;
     font-style: normal;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/Component.scss:129 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/Component.scss:130 */
 @font-face {
     font-family: 'Open Sans';
     src: url('fonts/OpenSans-BoldItalic.woff');
     font-weight: 700;
     font-style: italic;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/Component.scss:138 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/Component.scss:139 */
 @font-face {
     font-family: 'Open Sans';
     src: url('fonts/OpenSans-ExtraBold.woff');
     font-weight: 800;
     font-style: normal;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/Component.scss:147 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/Component.scss:148 */
 @font-face {
     font-family: 'Open Sans';
     src: url('fonts/OpenSans-ExtraBoldItalic.woff');
@@ -13435,52 +13484,4 @@
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:347 */
 .a-tool-layout-zoned-notfocused .x-panel-light-framed-tl {
     background-position: 0 -10px;
-}
-/* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:351 */
-.a-tool-layout-zoned-notfocused .x-panel-light-framed-tr {
-    background-position: right -15px;
-}
-/* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:355 */
-.a-tool-layout-zoned-notfocused .x-panel-light-framed-bl {
-    background-position: 0 -20px;
-}
-/* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:359 */
-.a-tool-layout-zoned-notfocused .x-panel-light-framed-br {
-    background-position: right -25px;
-}
-/* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:363 */
-.a-tool-layout-zoned-notfocused .x-panel-light-framed-ml {
-    background-position: 0 top;
-}
-/* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:371 */
-.a-tool-layout-zoned-notfocused .x-panel-light-framed-mr {
-    background-position: right top;
-}
-/* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:379 */
-.a-tool-layout-zoned-notfocused .x-panel-light-framed-tc {
-    background-position: 0 0;
-}
-/* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:383 */
-.a-tool-layout-zoned-notfocused .x-panel-light-framed-bc {
-    background-position: 0 -5px;
-}
-/* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:388 */
-.a-tool-layout-zoned-notfocused .x-panel-light-framed-tr,
-.a-tool-layout-zoned-notfocused .x-panel-light-framed-br,
-.a-tool-layout-zoned-notfocused .x-panel-light-framed-mr {
-    padding-right: 5px;
-}
-/* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:394 */
-.a-tool-layout-zoned-notfocused .x-panel-light-framed-tl,
-.a-tool-layout-zoned-notfocused .x-panel-light-framed-bl,
-.a-tool-layout-zoned-notfocused .x-panel-light-framed-ml {
-    padding-left: 5px;
-}
-/* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:400 */
-.a-tool-layout-zoned-notfocused .x-panel-light-framed-tc {
-    height: 5px;
-}
-/* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:403 */
-.a-tool-layout-zoned-notfocused .x-panel-light-framed-bc {
-    height: 5px;
 }
