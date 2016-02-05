@@ -56,7 +56,7 @@ public abstract class AbstractRuntimeTestCase extends TestCase
     
     /** The cocoon wrapper. */
     protected CocoonWrapper _cocoon;
-    
+
     /** The lock on Ametys home */
     protected AmetysHomeLock _ametysHomeLock;
     
@@ -207,7 +207,21 @@ public abstract class AbstractRuntimeTestCase extends TestCase
     }
     
     /**
-     * Starts the application. This a shorthand to _configureRuntime, then _startCocoon.
+     * Starts the application with the default LDAP data source and the provided sql data source file. This a shorthand to _configureRuntime, then _startCocoon.
+     * @param runtimeFile the name of the runtime file used
+     * @param configFile the name of the config file
+     * @param sqlDataSourceFile the name of the SQL data source file
+     * @param contextPath the environment application
+     * @return the CocoonWrapper used to process URIs
+     * @throws Exception if an error occurred
+     */
+    protected CocoonWrapper _startApplication(String runtimeFile, String configFile, String sqlDataSourceFile, String contextPath) throws Exception
+    {
+        return _startApplication(runtimeFile, configFile, sqlDataSourceFile, __DEFAULT_LDAP_DATASOURCE_FILE, contextPath);
+    }
+    
+    /**
+     * Starts the application with the provided SQL and LDAP data sources files. This a shorthand to _configureRuntime, then _startCocoon.
      * @param runtimeFile the name of the runtime file used
      * @param configFile the name of the config file
      * @param sqlDataSourceFile the name of the SQL data source file
