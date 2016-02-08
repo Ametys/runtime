@@ -22,6 +22,7 @@
     a, a:link, a:active {
         color: $ametys-window-link-color;
         text-decoration: $ametys-window-link-text-decoration;
+        cursor: pointer;
     }
     a:hover {
         color: $ametys-window-link-color-over;
