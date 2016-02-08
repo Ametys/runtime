@@ -36,7 +36,7 @@
     $cls: #{$prefix}btn,
     $color, $color-over, $color-focus, $color-pressed, $color-focus-over, $color-focus-pressed, $color-disabled,
     $glyph-color: $color, $glyph-color-over: $color-over, $glyph-color-focus: $color-focus, $glyph-color-pressed: $color-pressed, $glyph-color-focus-over: $color-focus-over, $glyph-color-focus-pressed: $color-focus-pressed, $glyph-color-disabled: $color-disabled,
-    $glyph-decorator-color, $glyph-decorator-color-over, $glyph-decorator-color-focus, $glyph-decorator-color-pressed, $glyph-decorator-color-focus-over, $glyph-decorator-color-focus-pressed, $glyph-decorator-color-disabled,
+    $glyph-decorator-color, $glyph-decorator-color-over: $glyph-decorator-color, $glyph-decorator-color-focus: $glyph-decorator-color, $glyph-decorator-color-pressed: $glyph-decorator-color, $glyph-decorator-color-focus-over: $glyph-decorator-color-over, $glyph-decorator-color-focus-pressed: $glyph-decorator-color-pressed, $glyph-decorator-color-disabled: $glyph-decorator-color,
     $border-color, $border-color-over, $border-color-focus, $border-color-pressed, $border-color-focus-over, $border-color-focus-pressed, $border-color-disabled,
     $background-color, $background-color-over, $background-color-focus, $background-color-pressed, $background-color-focus-over, $background-color-focus-pressed, $background-color-disabled,
     $dark-arrow)
@@ -268,6 +268,15 @@
         $tab-glyph-color-focus-active: $tab-glyph-color-active,
         $tab-glyph-color-disabled: $tab-glyph-color,
         
+        $tab-glyph-decorator-color,
+        $tab-glyph-decorator-color-focus: $tab-glyph-decorator-color,
+        $tab-glyph-decorator-color-over: $tab-glyph-decorator-color,
+        $tab-glyph-decorator-color-active: $tab-glyph-decorator-color,
+        $tab-glyph-decorator-color-over-active: $tab-glyph-decorator-color-active, 
+        $tab-glyph-decorator-color-focus-over: $tab-glyph-decorator-color-over,
+        $tab-glyph-decorator-color-focus-active: $tab-glyph-decorator-color-active,
+        $tab-glyph-decorator-color-disabled: $tab-glyph-decorator-color,
+        
         $tab-plain-background-color,
         $tab-plain-background-color-focus: $tab-plain-background-color, 
         $tab-plain-background-color-over: $tab-plain-background-color, 
@@ -304,6 +313,15 @@
         $tab-plain-glyph-color-focus-active: $tab-glyph-color-active,
         $tab-plain-glyph-color-disabled: $tab-glyph-color,
         
+        $tab-plain-glyph-decorator-color,
+        $tab-plain-glyph-decorator-color-focus: $tab-plain-glyph-decorator-color,
+        $tab-plain-glyph-decorator-color-over: $tab-plain-glyph-decorator-color,
+        $tab-plain-glyph-decorator-color-active: $tab-plain-glyph-decorator-color,
+        $tab-plain-glyph-decorator-color-over-active: $tab-plain-glyph-decorator-color-active, 
+        $tab-plain-glyph-decorator-color-focus-over: $tab-plain-glyph-decorator-color-over,
+        $tab-plain-glyph-decorator-color-focus-active: $tab-plain-glyph-decorator-color-active,
+        $tab-plain-glyph-decorator-color-disabled: $tab-plain-glyph-decorator-color,
+
         $strip-border-color,
         $strip-background-color,
          
@@ -351,9 +369,18 @@
                 $tab-glyph-color-over: $tab-glyph-color-over, 
                 $tab-glyph-color-active: $tab-glyph-color-active, 
                 $tab-glyph-color-over-active: $tab-glyph-color-over-active, 
-                $tab-glyph-color-focus-over: $tab-plain-glyph-color-focus-over, 
+                $tab-glyph-color-focus-over: $tab-glyph-color-focus-over, 
                 $tab-glyph-color-focus-active: $tab-glyph-color-focus-active, 
-                $tab-glyph-color-disabled: $tab-glyph-color-disabled 
+                $tab-glyph-color-disabled: $tab-glyph-color-disabled, 
+                
+                $tab-glyph-decorator-color: $tab-glyph-decorator-color, 
+                $tab-glyph-decorator-color-focus: $tab-glyph-decorator-color-focus, 
+                $tab-glyph-decorator-color-over: $tab-glyph-decorator-color-over, 
+                $tab-glyph-decorator-color-active: $tab-glyph-decorator-color-active, 
+                $tab-glyph-decorator-color-over-active: $tab-glyph-decorator-color-over-active, 
+                $tab-glyph-decorator-color-focus-over: $tab-glyph-decorator-color-focus-over, 
+                $tab-glyph-decorator-color-focus-active: $tab-glyph-decorator-color-focus-active, 
+                $tab-glyph-decorator-color-disabled: $tab-glyph-decorator-color-disabled 
             );
         }
         
@@ -399,7 +426,16 @@
                     $tab-glyph-color-over-active: $tab-plain-glyph-color-over-active, 
                     $tab-glyph-color-focus-over: $tab-plain-glyph-color-focus-over, 
                     $tab-glyph-color-focus-active: $tab-plain-glyph-color-focus-active, 
-                    $tab-glyph-color-disabled: $tab-plain-glyph-color-disabled
+                    $tab-glyph-color-disabled: $tab-plain-glyph-color-disabled, 
+                
+                $tab-glyph-decorator-color: $tab-plain-glyph-decorator-color, 
+                $tab-glyph-decorator-color-focus: $tab-plain-glyph-decorator-color-focus, 
+                $tab-glyph-decorator-color-over: $tab-plain-glyph-decorator-color-over, 
+                $tab-glyph-decorator-color-active: $tab-plain-glyph-decorator-color-active, 
+                $tab-glyph-decorator-color-over-active: $tab-plain-glyph-decorator-color-over-active, 
+                $tab-glyph-decorator-color-focus-over: $tab-plain-glyph-decorator-color-focus-over, 
+                $tab-glyph-decorator-color-focus-active: $tab-plain-glyph-decorator-color-focus-active, 
+                $tab-glyph-decorator-color-disabled: $tab-plain-glyph-decorator-color-disabled 
                 );   
             }
             
@@ -459,7 +495,16 @@
         $tab-glyph-color-over-active: $tab-glyph-color-active, 
         $tab-glyph-color-focus-over: $tab-glyph-color-over, 
         $tab-glyph-color-focus-active: $tab-glyph-color-active, 
-        $tab-glyph-color-disabled: $tab-glyph-color
+        $tab-glyph-color-disabled: $tab-glyph-color,
+        
+        $tab-glyph-decorator-color, 
+        $tab-glyph-decorator-color-focus: $tab-glyph-decorator-color, 
+        $tab-glyph-decorator-color-over: $tab-glyph-decorator-color, 
+        $tab-glyph-decorator-color-active: $tab-glyph-decorator-color, 
+        $tab-glyph-decorator-color-over-active: $tab-glyph-decorator-color-active, 
+        $tab-glyph-decorator-color-focus-over: $tab-glyph-decorator-color-over, 
+        $tab-glyph-decorator-color-focus-active: $tab-glyph-decorator-color-active, 
+        $tab-glyph-decorator-color-disabled: $tab-glyph-decorator-color
     )
 {
     &.#{$prefix}tab-#{$ui} {
@@ -472,9 +517,16 @@
         .#{$prefix}tab-icon-el-#{$ui} {
             color: $tab-glyph-color;
             
-            @if $tab-glyph-color != null { 
+            @if $tab-glyph-decorator-color != null {
                 &:after {
-                    color: ametys-glyph-decorator($tab-glyph-color);
+                    color: $tab-glyph-decorator-color;
+                }
+            }
+            @else {
+                @if $tab-glyph-color != null {
+                    &:after {
+                        color: ametys-glyph-decorator($tab-glyph-color);
+                    }
                 }
             }
         }
@@ -489,9 +541,16 @@
             .#{$prefix}tab-icon-el-#{$ui} {
                 color: $tab-glyph-color-focus;
             
-                @if $tab-glyph-color-focus != null { 
+                @if $tab-glyph-decorator-color-focus != null {
                     &:after {
-                        color: ametys-glyph-decorator($tab-glyph-color-focus);
+                        color: $tab-glyph-decorator-color-focus;
+                    }
+                }
+                @else {
+                    @if $tab-glyph-color-focus != null {
+                        &:after {
+                            color: ametys-glyph-decorator($tab-glyph-color-focus);
+                        }
                     }
                 }
             }
@@ -506,9 +565,16 @@
             .#{$prefix}tab-icon-el-#{$ui} {
                 color: $tab-glyph-color-over;
             
-                @if $tab-glyph-color-over != null { 
+                @if $tab-glyph-decorator-color-over != null {
                     &:after {
-                        color: ametys-glyph-decorator($tab-glyph-color-over);
+                        color: $tab-glyph-decorator-color-over;
+                    }
+                }
+                @else {
+                    @if $tab-glyph-color-over != null {
+                        &:after {
+                            color: ametys-glyph-decorator($tab-glyph-color-over);
+                        }
                     }
                 }
             }
@@ -523,9 +589,16 @@
             .#{$prefix}tab-icon-el-#{$ui} {
                 color: $tab-glyph-color-focus-over;
             
-                @if $tab-glyph-color-focus-over != null { 
+                @if $tab-glyph-decorator-color-focus-over != null {
                     &:after {
-                        color: ametys-glyph-decorator($tab-glyph-color-focus-over);
+                        color: $tab-glyph-decorator-color-focus-over;
+                    }
+                }
+                @else {
+                    @if $tab-glyph-color-focus-over != null {
+                        &:after {
+                            color: ametys-glyph-decorator($tab-glyph-color-focus-over);
+                        }
                     }
                 }
             }
@@ -540,9 +613,16 @@
             .#{$prefix}tab-icon-el-#{$ui} {
                 color: $tab-glyph-color-active;
             
-                @if $tab-glyph-color-active != null { 
+                @if $tab-glyph-decorator-color-active != null {
                     &:after {
-                        color: ametys-glyph-decorator($tab-glyph-color-active);
+                        color: $tab-glyph-decorator-color-active;
+                    }
+                }
+                @else {
+                    @if $tab-glyph-color-active != null {
+                        &:after {
+                            color: ametys-glyph-decorator($tab-glyph-color-active);
+                        }
                     }
                 }
             }
@@ -557,9 +637,16 @@
             .#{$prefix}tab-icon-el-#{$ui} {
                 color: $tab-glyph-color-focus-active;
             
-                @if $tab-glyph-color-focus-active != null { 
+                @if $tab-glyph-decorator-color-focus-active != null {
                     &:after {
-                        color: ametys-glyph-decorator($tab-glyph-color-focus-active);
+                        color: $tab-glyph-decorator-color-focus-active;
+                    }
+                }
+                @else {
+                    @if $tab-glyph-color-focus-active != null {
+                        &:after {
+                            color: ametys-glyph-decorator($tab-glyph-color-focus-active);
+                        }
                     }
                 }
             }
@@ -574,11 +661,19 @@
             .#{$prefix}tab-icon-el-#{$ui} {
                 color: $tab-glyph-color-over-active;
             
-                @if $tab-glyph-color-over-active != null { 
+                @if $tab-glyph-decorator-color-over-active != null {
                     &:after {
-                        color: ametys-glyph-decorator($tab-glyph-color-over-active);
+                        color: $tab-glyph-decorator-color-over-active;
                     }
                 }
+                @else {
+                    @if $tab-glyph-color-over-active != null {
+                        &:after {
+                            color: ametys-glyph-decorator($tab-glyph-color-over-active);
+                        }
+                    }
+                }
+
             }
         }
         &.#{$prefix}tab-disabled {
@@ -591,9 +686,16 @@
             .#{$prefix}tab-icon-el-#{$ui} {
                 color: $tab-glyph-color-disabled;
             
-                @if $tab-glyph-color-disabled != null { 
+                @if $tab-glyph-decorator-color-disabled != null {
                     &:after {
-                        color: ametys-glyph-decorator($tab-glyph-color-disabled);
+                        color: $tab-glyph-decorator-color-disabled;
+                    }
+                }
+                @else {
+                    @if $tab-glyph-color-disabled != null {
+                        &:after {
+                            color: ametys-glyph-decorator($tab-glyph-color-disabled);
+                        }
                     }
                 }
             }
