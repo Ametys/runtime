@@ -177,7 +177,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
                 this.getPlaceholder().getTitle().hide();
             }
 			
-			var size = this.items.getCount();
+			var size = this.items ? this.items.getCount() : 0;
 			if (size > 0)
 			{
 				var vertical = this._location == 'l' || this._location == 'r';
