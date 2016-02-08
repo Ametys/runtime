@@ -23,7 +23,7 @@
     
     <message key="PLUGINS_CORE_UI_SHUTDOWN_DEFAULTTITLE">L'application est arrêtée</message> 
     <message key="PLUGINS_CORE_UI_SHUTDOWN_DEFAULTTEXT">L'application est maintenant arrêtée. Vous pouvez fermer votre navigateur ou cliquer sur le lien suivant pour la redémarrer maintenant.</message>
-    <message key="PLUGINS_CORE_UI_SHUTDOWN_DEFAULTACTION">Cliquez ici pour vous reconnecter à l'application.</message>
+    <message key="PLUGINS_CORE_UI_SHUTDOWN_DEFAULTACTION">Cliquez ici pour vous reconnecter à l'application</message>
 
     <!-- +
          | Workspace

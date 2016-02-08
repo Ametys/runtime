@@ -491,6 +491,13 @@ Ext.define(
 					styles[i].parentNode.removeChild(styles[i]);
 				}
 			}
+            
+            var vps = Ext.ComponentQuery.query('viewport'); 
+            if (vps.length > 0)
+            {
+                vps[0].destroy();
+            }
+
 			
 			// Destroy all components at once (to avoid errors due to removal order)
 			Ext.ComponentManager.each(function(id, item, size) {
@@ -527,6 +534,7 @@ Ext.define(
             if (Ext.getBody().child("div.head"))
             {
                 document.body.className = "";
+                
                 Ext.get(document.body.parentNode).addCls("ametys-common");
                 Ext.getBody().child("div.head").dom.style.display = '';
                 Ext.getBody().child("div.foot").dom.style.display = '';
