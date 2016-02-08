@@ -999,7 +999,8 @@ Ext.define('Ametys.form.field.RichText', {
         var editor = this.getEditor();
         if (editor != null)
         {
-            console.info("remove " + editor.id)
+            this.getLogger().debug("remove " + editor.id)
+            
             if (tinyMCE.activeEditor == editor)
             {
                 tinyMCE.activeEditor = null;
