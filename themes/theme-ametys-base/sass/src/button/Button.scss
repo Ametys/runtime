@@ -54,6 +54,14 @@
     $glyph-color-focus-pressed: lighten($ametys-tool-tab-gray-superdark, 15%);
     $glyph-color-disabled: lighten($ametys-tool-tab-gray-superdark, 15%); 
 
+    $glyph-decorator-color: #000000; 
+    $glyph-decorator-color-over: #000000; 
+    $glyph-decorator-color-focus: #000000; 
+    $glyph-decorator-color-pressed: #000000; 
+    $glyph-decorator-color-focus-over: #000000; 
+    $glyph-decorator-color-focus-pressed: #000000;
+    $glyph-decorator-color-disabled: #000000; 
+
     $border-color: $base-dark-color;
     $border-color-over: button-default-border-color-over($border-color);
     $border-color-focus: button-default-border-color-focus($border-color);
@@ -75,15 +83,16 @@
     @include buttons-color(
         $color: $color, $color-over: $color-over, $color-focus: $color-focus, $color-pressed: $color-pressed, $color-focus-over: $color-focus-over, $color-focus-pressed: $color-focus-pressed, $color-disabled: $color-disabled, 
         $glyph-color: $glyph-color, $glyph-color-over: $glyph-color-over, $glyph-color-focus: $glyph-color-focus, $glyph-color-pressed: $glyph-color-pressed, $glyph-color-focus-over: $glyph-color-focus-over, $glyph-color-focus-pressed: $glyph-color-focus-pressed, $glyph-color-disabled: $glyph-color-disabled, 
+        $glyph-decorator-color: $glyph-decorator-color, $glyph-decorator-color-over: $glyph-decorator-color-over, $glyph-decorator-color-focus: $glyph-decorator-color-focus, $glyph-decorator-color-pressed: $glyph-decorator-color-pressed, $glyph-decorator-color-focus-over: $glyph-decorator-color-focus-over, $glyph-decorator-color-focus-pressed: $glyph-decorator-color-focus-pressed, $glyph-decorator-color-disabled: $glyph-decorator-color-disabled, 
         $border-color: $border-color, $border-color-over: $border-color-over, $border-color-focus: $border-color-focus, $border-color-pressed: $border-color-pressed, $border-color-focus-over: $border-color-focus-over, $border-color-focus-pressed: $border-color-focus-pressed, $border-color-disabled: $border-color-disabled,
         $background-color: $background-color, $background-color-over: $background-color-over, $background-color-focus: $background-color-focus, $background-color-pressed: $background-color-pressed, $background-color-focus-over: $background-color-focus-over, $background-color-focus-pressed: $background-color-focus-pressed, $background-color-disabled: $background-color-disabled,
         $dark-arrow: $dark-arrow
     );    
-        
     @include buttons-color(
         $cls: 'a-btn-light',
         $color: $color, $color-over: $color-over, $color-focus: $color-focus, $color-pressed: $color-pressed, $color-focus-over: $color-focus-over, $color-focus-pressed: $color-focus-pressed, $color-disabled: $color-disabled, 
         $glyph-color: $glyph-color, $glyph-color-over: $glyph-color-over, $glyph-color-focus: $glyph-color-focus, $glyph-color-pressed: $glyph-color-pressed, $glyph-color-focus-over: $glyph-color-focus-over, $glyph-color-focus-pressed: $glyph-color-focus-pressed, $glyph-color-disabled: $glyph-color-disabled, 
+        $glyph-decorator-color: $glyph-decorator-color, $glyph-decorator-color-over: $glyph-decorator-color-over, $glyph-decorator-color-focus: $glyph-decorator-color-focus, $glyph-decorator-color-pressed: $glyph-decorator-color-pressed, $glyph-decorator-color-focus-over: $glyph-decorator-color-focus-over, $glyph-decorator-color-focus-pressed: $glyph-decorator-color-focus-pressed, $glyph-decorator-color-disabled: $glyph-decorator-color-disabled, 
         $border-color: transparent, $border-color-over: transparent, $border-color-focus: transparent, $border-color-pressed: transparent, $border-color-focus-over: transparent, $border-color-focus-pressed: transparent, $border-color-disabled: transparent,
         $background-color: transparent, $background-color-over: $background-color-over, $background-color-focus: transparent, $background-color-pressed: $background-color-pressed, $background-color-focus-over: $background-color-focus-over, $background-color-focus-pressed: $background-color-focus-pressed, $background-color-disabled: transparent,
         $dark-arrow: $dark-arrow
@@ -92,6 +101,7 @@
         $cls: 'a-btn-lighter',
         $color: $color, $color-over: $color-over, $color-focus: $color-focus, $color-pressed: $color-pressed, $color-focus-over: $color-focus-over, $color-focus-pressed: $color-focus-pressed, $color-disabled: $color-disabled, 
         $glyph-color: $glyph-color, $glyph-color-over: $glyph-color-over, $glyph-color-focus: $glyph-color-focus, $glyph-color-pressed: $glyph-color-pressed, $glyph-color-focus-over: $glyph-color-focus-over, $glyph-color-focus-pressed: $glyph-color-focus-pressed, $glyph-color-disabled: $glyph-color-disabled, 
+        $glyph-decorator-color: $glyph-decorator-color, $glyph-decorator-color-over: $glyph-decorator-color-over, $glyph-decorator-color-focus: $glyph-decorator-color-focus, $glyph-decorator-color-pressed: $glyph-decorator-color-pressed, $glyph-decorator-color-focus-over: $glyph-decorator-color-focus-over, $glyph-decorator-color-focus-pressed: $glyph-decorator-color-focus-pressed, $glyph-decorator-color-disabled: $glyph-decorator-color-disabled, 
         $border-color: transparent, $border-color-over: transparent, $border-color-focus: transparent, $border-color-pressed: transparent, $border-color-focus-over: transparent, $border-color-focus-pressed: transparent, $border-color-disabled: transparent,
         $background-color: transparent, $background-color-over: transparent, $background-color-focus: transparent, $background-color-pressed: transparent, $background-color-focus-over: transparent, $background-color-focus-pressed: transparent, $background-color-disabled: transparent,
         $dark-arrow: $dark-arrow
