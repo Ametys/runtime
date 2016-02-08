@@ -684,14 +684,6 @@ Ext.define('Ametys.form.field.RichText', {
         if (!tinyMCE.focus)
         {
             /*
-             * Focus and on IE restore the last bookmarked position
-             */ 
-            tinyMCE.focus = function ()
-            {
-                tinyMCE.activeEditor.focus();
-            };
-            
-            /*
              * Insert the given html code at the root of the current selection of the current editor
              * @param {String} html The html code to insert
              * @param {String} [mode=split] The mode 'split' : to split the current place of the cursor to insert the html ; 'after' to insert after the root element of the current selection ; 'before' idem but before.
