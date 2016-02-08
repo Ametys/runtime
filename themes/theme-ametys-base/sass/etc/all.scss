@@ -29,7 +29,12 @@
 }
 
 @function ametys-glyph-decorator($color) {
-    @return mix($color, #000, 80);
+    @if lightness($color) > 40% {
+        @return mix($color, #000, 80);
+    }
+    @else {
+        @return #000;
+    }
 }
 
 @mixin buttons-color(
