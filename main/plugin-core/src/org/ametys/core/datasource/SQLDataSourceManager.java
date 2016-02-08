@@ -283,8 +283,12 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
     {
         for (String id : _pools.keySet())
         {
-            _disposePool(id);
+            // Not calling _disposePool(id); to avoid
+            // ConcurrentModificationException RUNTIME-1633
+            _pools.get(id).close();
         }
+        
+        _pools = null;
     }
     
     /**
