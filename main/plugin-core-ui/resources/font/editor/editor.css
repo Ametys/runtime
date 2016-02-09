@@ -8,8 +8,7 @@
 	font-weight: normal;
 	font-style: normal;
 }
-[class^="editor-"]:before, [class*=" editor-"]:before,
-[class^="editor-"]:after, [class*=" editor-"]:after {   
+[class^="editor-"]:before, [class*=" editor-"]:before {   
 	font-family: Editor;
 	font-style: normal;
 }.editor-alignment:before {
