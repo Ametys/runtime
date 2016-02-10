@@ -251,11 +251,17 @@ Ext.define(
                         this.floatParent._showCollapsed();
                     }
                     
-                    this._checkSize();
+                    this.updateLayout();
                 }
             }
                 
             return card;
+        },
+        
+        afterComponentLayout: function(width, height, oldWidth, oldHeight) 
+        {
+            this.callParent(arguments);
+            this._checkSize();
         },
         
         onResize: function(width, height, oldWidth, oldHeight) 

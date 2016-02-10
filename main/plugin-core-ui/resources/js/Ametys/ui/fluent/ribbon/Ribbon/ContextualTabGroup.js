@@ -98,6 +98,42 @@ Ext.define(
             this._getTabPanel().setActiveTab(this._getVisibleContextualTabs()[0]);
         },
         
+        afterComponentLayout: function(width, height, oldWidth, oldHeight) 
+        {
+            var tabs = this._getVisibleContextualTabs();
+            
+            // Any tab visible ? show the group label and size it
+            if (tabs.length > 0)
+            {
+                var tabPanel = this._getTabPanel();
+                
+                var first, last;
+                for (var i = 0; i < tabs.length; i++)
+                {
+                    var panel = tabs[i];
+                    var index = tabPanel.items.indexOf(panel);
+                    var tabEl = tabPanel.getTabBar().items.get(index);
+
+                    if (i == 0)
+                    {
+                        first = tabEl;
+                        last = tabEl;
+                    }
+                    else
+                    {
+                        last = tabEl;
+                    }
+                }
+                
+                var newWidth = Math.round((last.getEl().getLeft() + last.getEl().getWidth(false, true)) - first.getRegion().left); // last.getEl().getRight() may differ from one pixel under IE, so we use getWidth with the "precision" flag
+                if (width != newWidth)
+                {
+                    this.setWidth(newWidth);
+                }
+            }
+            return this.callParent(arguments);  
+        },
+        
         /**
          * @private
          * Set the width of the contextual group to the sum of the width of the button of the tabs of the given ribbon panel (contextual group label)
@@ -132,10 +168,9 @@ Ext.define(
                     }
                 }
             
-                var width = (last.getEl().getLeft() + last.getEl().getWidth(false, true)) - first.getRegion().left; // last.getEl().getRight() may differ from one pixel under IE, so we use getWidth with the "precision" flag
-                this.setWidth(width);
                 this.ownerCt.show(); // this is required for the first call, because as ownerCt has never been rendered: its listeners are not active
                 this.show();
+                this.updateLayout();
             }
             // No contextual tab is visible: hide it
             else

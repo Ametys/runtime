@@ -153,6 +153,7 @@ Ext.define("Ametys.message.MessageBus",
 		    
 		    // Stops server comm to group all incoming request
 		    Ametys.data.ServerComm.suspend();
+            Ext.suspendLayouts();
 		    
 		    // Loop on listeners
 		    for (var i = 0; i < listeners.length; i++)
@@ -206,6 +207,7 @@ Ext.define("Ametys.message.MessageBus",
 
 			// Finally send all requests
 		    Ametys.data.ServerComm.restart();
+            Ext.resumeLayouts(true);
 		},
 		
 		/**
