@@ -145,6 +145,25 @@ Ext.define('Ametys.form.widget.RichText.RichTextConfiguration', {
 		}
 		return validElements;
 	},
+    
+    /**
+     * Get all supported styles as a tinymce conf object. See valid_styles tinymce configuration doc for the exact format.
+     * @return {Object} The supported properties for the style attribute.
+     */
+    getStyles: function()
+    {
+        var validStyles = {};
+        
+        for (var key in this._tags)
+        {
+            if (this._tags[key].attributes["style"])
+            {
+                validStyles[key] = this._tags[key].attributes["style"].values.join(",");
+            }
+        }        
+        
+        return validStyles;
+    },
 	
 	/**
 	 * This method retrieve a tag to handle.
@@ -160,8 +179,14 @@ Ext.define('Ametys.form.widget.RichText.RichTextConfiguration', {
 	 *      aTag.emptyTag = "+"; // The &lt;a&gt; tag will be forced opened
 	 *      var classAttr = aTag.handleAttribute("class"); // The class attribute is now accepted on the &lt;a&gt; tag
 	 *      classAttr.defaultValue = "myclass"; // The class attribute will now always exists on &lt;a&gt; tag with the value "myclass"
-	 *      classAttr.values.push("myclass");
-	 *      classAttr.values.push("myclass2"); // The class attribute will now accept 2 values myclass or myclass2
+	 *      classAttr.handleValue("myclass");
+	 *      classAttr.handleValue("myclass2"); // The class attribute will now accept 2 values myclass or myclass2
+     *      classAttr.handleValue(["myclass3", "myclass"]); // The class attribute will now accept 3 values myclass or myclass2 or myclass3
+     *      
+     * Please note, that the "style" attribute is holded separately: 
+     * the following line wille handle the "p" tag, with a style attribute, which contains the 'text-align' property.
+     *      Ametys.form.widget.RichText.RichTextConfiguration.handleTag("p").handleAttribute("style").handleValue("text-align");
+     * and not a style attribute that can be equals to "text-align".
 	 */
 	handleTag: function(tagName)
 	{
@@ -180,27 +205,35 @@ Ext.define('Ametys.form.widget.RichText.RichTextConfiguration', {
 								attributeName: attributeName,
 								values: [],
 								defaultValue: null,
+                                handleValue: function(value) {
+                                    value = Ext.Array.from(value);
+                                    this.values = Ext.Array.merge(this.values, value)
+                                    return this;
+                                },
 								toString: function() {
 									var a = this.defaultValue != null ? this.attributeName + "=" + this.defaultValue : "";
 
 									var b = ""
-									for (var key in this.values)
-									{
-										if (typeof this.values[key] == "string")
-										{
-											if (b != "") 
-											{
-												b += "?";
-											}
-																			
-											b += this.values[key];
-										}
-									}
-									if (b != "")
-									{
-										b = this.attributeName + "<" + b;
-									}
-									
+                                    if (attributeName != "style")
+                                    {
+    									for (var key in this.values)
+    									{
+    										if (typeof this.values[key] == "string")
+    										{
+    											if (b != "") 
+    											{
+    												b += "?";
+    											}
+    																			
+    											b += this.values[key];
+    										}
+    									}
+    									if (b != "")
+    									{
+    										b = this.attributeName + "<" + b;
+    									}
+                                    }
+								
 									if (a == "" && b == "")
 									{
 										return this.attributeName;

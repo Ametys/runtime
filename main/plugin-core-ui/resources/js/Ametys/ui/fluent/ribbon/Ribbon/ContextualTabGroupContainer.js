@@ -61,6 +61,12 @@ Ext.define(
             });
         },
         
+        /*afterComponentLayout: function(width, height, oldWidth, oldHeight) 
+        {
+            this.callParent(arguments);
+            this._changeTitlePositionOrWidth();
+        },*/
+        
         /**
          * @private
          * This method will determine if title should be set at the left or at the right of this container ; and will also compute its width

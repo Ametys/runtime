@@ -167,6 +167,9 @@ Ext.define('Ametys.form.field.RichText', {
     /**
      * @cfg {String} validElements See tinyMCE valid_elements configuration
      */
+    /**
+     * @cfg {Object} validStyles See tinyMCE valid_styles configuration
+     */
 
     /**
      * @cfg {Number} minHeight @inheritdoc
@@ -841,9 +844,7 @@ Ext.define('Ametys.form.field.RichText', {
             content_css: Ext.isArray(this.getInitialConfig("editorCSSFile")) ? Ext.isArray(this.getInitialConfig("editorCSSFile")).join(',') : this.getInitialConfig("editorCSSFile"),
             body_class: this.getInitialConfig("editorBodyClass") || "mceContentBody",
             valid_elements: this.getInitialConfig("validElements"),
-            valid_styles: { // CMS-7006
-                '*': 'width, height'
-            },
+            valid_styles: this.getInitialConfig("validStyles"),
             
             plugins: 'table,paste,noneditable,autolink'
         });
