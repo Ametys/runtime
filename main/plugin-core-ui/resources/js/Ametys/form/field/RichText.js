@@ -349,6 +349,8 @@ Ext.define('Ametys.form.field.RichText', {
         }
         
         this.callParent(arguments);
+        
+        this._sendDelayedSelection = Ext.Function.createBuffered(this._sendDelayedSelection, 10, this);
     },
     
     _onCodeFocus: function() {
@@ -1392,16 +1394,14 @@ Ext.define('Ametys.form.field.RichText', {
             var editor = this.getEditor();
             var node = this.getNode();
             
-            if (node == editor._lastActiveNode)               // Event already thrown for this){
-            {
-                return;
-            }
-            
             // Remember this selection for the current succession of events (click, mouseup, focus....)
             editor._lastActiveNode = node;
-            window.setTimeout(function() { editor._lastActiveNode = null; }, 10);
-            
-            Ext.defer(this.fireEvent, 1, this , ['editorhtmlnodeselected', this, node]);
+            this._sendDelayedSelection();
         }
-    }    
+    },
+    
+    _sendDelayedSelection: function()
+    {
+        this.fireEvent('editorhtmlnodeselected', this, this.getEditor()._lastActiveNode);
+    }
 });
