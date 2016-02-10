@@ -156,7 +156,7 @@
         </config>
     </feature>
     
-    <feature name="runtime.appmenu.reload">
+    <feature name="runtime.appmenu.reload" safe="true">
         <extensions>
             <extension id="org.ametys.plugins.core.ReloadWorkspace"
                      point="org.ametys.core.ui.RibbonAppMenuControlsManager"
@@ -1191,7 +1191,7 @@
         </extensions>
     </feature>
     
-    <feature name="staticimports.announce">
+    <feature name="staticimports.announce" safe="true">
         <extensions>
             <extension id="Ametys.plugins.coreui.system.Announce"
                        point="org.ametys.core.ui.StaticFileImportsManager"
@@ -1203,7 +1203,7 @@
         </extensions>
     </feature>
     
-    <feature name="staticimports.system.time">
+    <feature name="staticimports.system.time" safe="true">
         <extensions>
             <extension id="Ametys.plugins.coreui.system.StartTimeChecker"
                        point="org.ametys.core.ui.StaticFileImportsManager"

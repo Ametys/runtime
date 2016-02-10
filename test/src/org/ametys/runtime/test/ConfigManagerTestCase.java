@@ -56,7 +56,7 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
         
         Config.setFilename("test/environments/configs/config0.xml"); // does not exist
         
-        PluginsManager.getInstance().init(null, _context, "test/environments/webapp1");
+        PluginsManager.getInstance().init(null, _context, "test/environments/webapp1", false);
         
         assertTrue(PluginsManager.getInstance().isSafeMode());
         assertFalse(ConfigManager.getInstance().isComplete());
@@ -71,7 +71,7 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
         _configureRuntime("test/environments/runtimes/runtime01.xml", "test/environments/webapp1");
         Config.setFilename("test/environments/configs/config2.xml"); // missing necessary parameters
         
-        PluginsManager.getInstance().init(null, _context, "test/environments/webapp1");
+        PluginsManager.getInstance().init(null, _context, "test/environments/webapp1", false);
         
         assertTrue(PluginsManager.getInstance().isSafeMode());
         assertFalse(ConfigManager.getInstance().isComplete());
@@ -86,7 +86,7 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
         _configureRuntime("test/environments/runtimes/runtime03.xml", "test/environments/webapp1");
         Config.setFilename("test/environments/configs/config2.xml");
 
-        PluginsManager.getInstance().init(null, _context, "test/environments/webapp1");
+        PluginsManager.getInstance().init(null, _context, "test/environments/webapp1", false);
         
         assertTrue(ConfigManager.getInstance().isComplete());
     }
@@ -100,7 +100,7 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
         _configureRuntime("test/environments/runtimes/runtime02.xml", "test/environments/webapp1");
         Config.setFilename("test/environments/configs/config1.xml");
         
-        PluginsManager.getInstance().init(null, _context, "test/environments/webapp1");
+        PluginsManager.getInstance().init(null, _context, "test/environments/webapp1", false);
         
         assertTrue(ConfigManager.getInstance().isComplete());
         

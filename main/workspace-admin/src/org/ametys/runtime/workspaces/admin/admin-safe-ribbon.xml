@@ -31,6 +31,7 @@
                 <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_SYSTEM_LABEL" icon="">
                     <large/>
                     <medium>
+                        <control id="org.ametys.plugins.admin.restart.RestartMenu"/>
                         <control id="org.ametys.plugins.admin.System"/>
                         <control id="org.ametys.plugins.admin.JVMStatus"/>
                         <control id="org.ametys.plugins.admin.SystemProperties"/>
@@ -52,6 +53,13 @@
                         <control id="org.ametys.plugins.admin.PluginsByFile"/>
                         <control id="org.ametys.plugins.admin.PluginsByExtensionPoint"/>
                         <control id="org.ametys.plugins.admin.Workspaces"/>
+                    </medium>
+                    <small/>
+                </group>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_APPLICATION_LABEL" icon="">
+                    <large/>
+                    <medium>
+                        <control id="org.ametys.plugins.repository.administrator.JCRRepository"/>
                     </medium>
                     <small/>
                 </group>

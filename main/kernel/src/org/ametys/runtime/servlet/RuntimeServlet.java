@@ -119,7 +119,7 @@ public class RuntimeServlet extends HttpServlet
         /** Maintenance mode required by administrator */
         // MAINTENANCE,
     }
-
+    
     private static RunMode _mode = RunMode.NORMAL;
     
     private ServletContext _servletContext;
@@ -144,7 +144,7 @@ public class RuntimeServlet extends HttpServlet
     
     private Exception _exception;
     
-    private Collection<Pattern> _allowedURLPattern = Arrays.asList(Pattern.compile("_admin/.*"), Pattern.compile("plugins/[^/]+/resources/.*"));
+    private Collection<Pattern> _allowedURLPattern = Arrays.asList(Pattern.compile("_admin($|/.*)"), Pattern.compile("_repository($|/.*)"), Pattern.compile("plugins/[^/]+/resources/.*"));
     
     @Override
     public void init() throws ServletException 
@@ -454,19 +454,8 @@ public class RuntimeServlet extends HttpServlet
             return;
         }
         
-        String uri = req.getServletPath();
+        String uri = _retrieveUri(req);
         
-        String pathInfo = req.getPathInfo();
-        if (pathInfo != null) 
-        {
-            uri += pathInfo;
-        }
-        
-        if (uri.length() > 0 && uri.charAt(0) == '/') 
-        {
-            uri = uri.substring(1);
-        }
-
         if (PluginsManager.getInstance().isSafeMode())
         {
             // safe mode
@@ -555,23 +544,69 @@ public class RuntimeServlet extends HttpServlet
 
         _fireRequestEnded(req);
 
-        if (req.getAttribute("org.ametys.runtime.reload") != null)
+        if (Boolean.TRUE.equals(req.getAttribute("org.ametys.runtime.reload")))
         {
-            try
-            {
-                ConfigManager.getInstance().dispose();
-                _disposeCocoon();
-                _servletContext.removeAttribute("PluginsComponentManager");
-
-                _initAmetys();
-            }
-            catch (Exception e)
-            {
-                _logger.error("Error while reloading Ametys. Entering in error mode.", e);
-                _exception = e;
-            }
+            restartCocoon(req);
         }
         // }
+    }
+    
+    /**
+     * Restart cocoon
+     * @param req The http servlet request, used to read safeMode and normalMode
+     *            request attribute if possible. If null, safe mode will be
+     *            forced only if it was alread forced.
+     */
+    public void restartCocoon(HttpServletRequest req)
+    {
+        try
+        {
+            ConfigManager.getInstance().dispose();
+            _disposeCocoon(); 
+            _servletContext.removeAttribute("PluginsComponentManager");
+            
+            // By default force safe mode if it was already forced
+            boolean wasForcedSafeMode = PluginsManager.Status.SAFE_MODE_FORCED.equals(PluginsManager.getInstance().getStatus());
+            boolean forceSafeMode = wasForcedSafeMode;
+            if (req != null)
+            {
+                // Also, checks if there is some specific request attributes
+                // Force safe mode if is explicitly requested
+                // Or force safe mode it was already forced unless normal mode is explicitly requested 
+                forceSafeMode = Boolean.TRUE.equals(req.getAttribute("org.ametys.runtime.reload.safeMode"));
+                if (!forceSafeMode)
+                {
+                    // 
+                    forceSafeMode = wasForcedSafeMode && !Boolean.TRUE.equals(req.getAttribute("org.ametys.runtime.reload.normalMode"));
+                }
+            }
+            
+            _servletContext.setAttribute("org.ametys.runtime.forceSafeMode", forceSafeMode);
+            
+            _initAmetys();
+        }
+        catch (Exception e)
+        {
+            _logger.error("Error while reloading Ametys. Entering in error mode.", e);
+            _exception = e;
+        }
+    }
+    
+    private String _retrieveUri(HttpServletRequest req)
+    {
+        String uri = req.getServletPath();
+        
+        String pathInfo = req.getPathInfo();
+        if (pathInfo != null) 
+        {
+            uri += pathInfo;
+        }
+        
+        if (uri.length() > 0 && uri.charAt(0) == '/') 
+        {
+            uri = uri.substring(1);
+        }
+        return uri;
     }
     
     @SuppressWarnings("unchecked")

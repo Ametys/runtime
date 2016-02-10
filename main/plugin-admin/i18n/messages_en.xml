@@ -246,6 +246,18 @@
     <message key="PLUGINS_ADMIN_SYSTEM_CONFIRM_DIALOG_TITLE">Replace the existing message</message>
     <message key="PLUGINS_ADMIN_SYSTEM_CONFIRM_DIALOG_TEXT">A message already exists in the selected language, do you want to replace it ?</message>
     
+    <!-- ADMINITRATOR MAINTENANCE / RESTART -->
+    <message key="PLUGINS_ADMIN_RESTART_RESTART_BUTTON_LABEL">Restart</message>
+    <message key="PLUGINS_ADMIN_RESTART_RESTART_BUTTON_DESC">Force the application to be restarted.</message>
+    <message key="PLUGINS_ADMIN_RESTART_SAFE_MODE_RESTART_BUTTON_LABEL">Restart in safe mode</message>
+    <message key="PLUGINS_ADMIN_RESTART_SAFE_MODE_RESTART_BUTTON_DESC">Force the application to be restarted in safe mode.</message>
+    
+    <message key="PLUGINS_ADMIN_RESTART_RESTART">Restarting</message>
+    <message key="PLUGINS_ADMIN_RESTART_RESTART_MSG">The application is going to restart.</message>
+    <message key="PLUGINS_ADMIN_RESTART_SAFE_MODE_RESTART_MSG">The application is going to be restarted in safe mode.</message>
+    <message key="PLUGINS_ADMIN_RESTART_RESTART_FAILED">Restarting failed</message>
+    <message key="PLUGINS_ADMIN_RESTART_RESTART_FAILED_MSG">The application failed to restart.</message>
+    
     <!-- +
          | DATA SOURCES 
          + -->

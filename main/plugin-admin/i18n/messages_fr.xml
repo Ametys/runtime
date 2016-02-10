@@ -246,6 +246,17 @@
     <message key="PLUGINS_ADMIN_SYSTEM_CONFIRM_DIALOG_TITLE">Remplacer le message existant</message>
     <message key="PLUGINS_ADMIN_SYSTEM_CONFIRM_DIALOG_TEXT">Une annonnce existe déjà dans cette langue, voulez-vous le remplacer ?</message>
     
+    <!-- ADMINITRATOR MAINTENANCE / RESTART -->
+    <message key="PLUGINS_ADMIN_RESTART_RESTART_BUTTON_LABEL">Redémarrer</message>
+    <message key="PLUGINS_ADMIN_RESTART_RESTART_BUTTON_DESC">Forcer un redémarrage complet de l'application.</message>
+    <message key="PLUGINS_ADMIN_RESTART_SAFE_MODE_RESTART_BUTTON_LABEL">Redémarrer en mode sans échec</message>
+    <message key="PLUGINS_ADMIN_RESTART_SAFE_MODE_RESTART_BUTTON_DESC">Forcer un redémarrage en mode sans échec.</message>
+    
+    <message key="PLUGINS_ADMIN_RESTART_RESTART">Redémarrage</message>
+    <message key="PLUGINS_ADMIN_RESTART_RESTART_MSG">L'application va être redémarrée.</message>
+    <message key="PLUGINS_ADMIN_RESTART_SAFE_MODE_RESTART_MSG">L'application va être redémarrée en mode sans échec.</message>
+    <message key="PLUGINS_ADMIN_RESTART_RESTART_FAILED">Echec du redémarrage</message>
+    <message key="PLUGINS_ADMIN_RESTART_RESTART_FAILED_MSG">Le redémarrage a échoué.</message>
     
     <!-- +
          | DATA SOURCES 

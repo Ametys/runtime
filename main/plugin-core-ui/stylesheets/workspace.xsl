@@ -572,6 +572,8 @@
                             });
                     })();
                 </script>
+                
+                <xsl:call-template name="after-workspace-load-hook"/>
     </xsl:template>
 
     <xsl:template name="ui-apptools-load">
@@ -622,6 +624,10 @@
     <xsl:template name="ui-extension-after-static-load">
         <!-- Keep empty. Here for inheritance purpose. -->
     </xsl:template>
+    <xsl:template name="after-workspace-load-hook">
+        <!-- Keep empty. Here for inheritance purpose. -->
+    </xsl:template>
+    
     
     <xsl:template name="splashscreen-color">804080</xsl:template>
     

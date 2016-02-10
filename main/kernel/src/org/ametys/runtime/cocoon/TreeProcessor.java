@@ -19,6 +19,7 @@ import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.cocoon.Constants;
 import org.apache.cocoon.environment.Context;
+import org.apache.commons.lang.BooleanUtils;
 
 import org.ametys.runtime.plugin.PluginsManager;
 import org.ametys.runtime.plugin.component.PluginsComponentManager;
@@ -44,8 +45,10 @@ public class TreeProcessor extends org.apache.cocoon.components.treeprocessor.Tr
             // WorkspaceManager loading
             WorkspaceManager.getInstance().init(RuntimeConfig.getInstance().getExcludedWorkspaces(), contextPath);
             
-            PluginsComponentManager pluginCM = PluginsManager.getInstance().init(componentManager, context, contextPath);
-
+            boolean forceSafeMode = BooleanUtils.toBoolean((Boolean) ctx.getAttribute("org.ametys.runtime.forceSafeMode"));
+            PluginsComponentManager pluginCM = PluginsManager.getInstance().init(componentManager, context, contextPath, forceSafeMode);
+            ctx.removeAttribute("org.ametys.runtime.forceSafeMode");
+            
             // Effective substitution of the Cocoon CM
             super.compose(pluginCM);
             _pluginCM = pluginCM;

@@ -88,7 +88,7 @@ public class SaveConfigAction extends AbstractAction implements Contextualizable
         {
             getLogger().debug("Positionning org.ametys.runtime.reload=true for Cocoon reloading");
         }
-        request.setAttribute("org.ametys.runtime.reload", "true");
+        request.setAttribute("org.ametys.runtime.reload", true);
 
         return EMPTY_MAP;
     }

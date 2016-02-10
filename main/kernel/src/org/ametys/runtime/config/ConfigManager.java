@@ -478,7 +478,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     {
         String id = parameter.getId();
         Object value = ParameterHelper.castValue(untypedValues.get(id), parameter.getType());
-        
+
         if (value == null && !"".equals(untypedValues.get(id)))
         {
             if (_logger.isWarnEnabled())
@@ -609,12 +609,21 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         _declaredParams = null;
         _params = null;
         _usedParamsName = null;
-        _validatorManager.dispose();
-        _validatorManager = null;
-        _enumeratorManager.dispose();
-        _enumeratorManager = null;
-        _parameterCheckerManager.dispose();
-        _parameterCheckerManager = null;
+        if (_validatorManager != null)
+        {
+            _validatorManager.dispose();
+            _validatorManager = null;
+        }
+        if (_enumeratorManager != null)
+        {
+            _enumeratorManager.dispose();
+            _enumeratorManager = null;
+        }
+        if (_parameterCheckerManager != null)
+        {
+            _parameterCheckerManager.dispose();
+            _parameterCheckerManager = null;
+        }
     }
     
     /**

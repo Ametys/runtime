@@ -36,6 +36,12 @@ Ext.define('Ametys.plugins.coreui.system.StartTimeChecker', {
     
     /**
      * @private
+     * @property {String[]} __lastStatus The CMS status returned by the last request.
+     */
+    _lastStatus: [],
+    
+    /**
+     * @private
      * Send a check request.
      */
     _sendCheckMessage: function()
@@ -74,6 +80,12 @@ Ext.define('Ametys.plugins.coreui.system.StartTimeChecker', {
         var lastModification = Ext.dom.Query.selectNumber('', startupNode);
         var lastVersion = startupNode.getAttribute('version');
         
+        var newStatus = Ext.Array.clean((startupNode.getAttribute('status') || '').split(',')),
+            notChanged = Ext.Array.intersect(this._lastStatus, newStatus);
+            removed = Ext.Array.difference(this._lastStatus, notChanged),
+            added = Ext.Array.difference(newStatus, notChanged),
+            hasDiff = removed.length > 0 || added.length > 0;
+            
         if (lastModification > this._lastModification && this._lastModification > 0)
         {
             Ametys.Msg.show({
@@ -84,6 +96,24 @@ Ext.define('Ametys.plugins.coreui.system.StartTimeChecker', {
             });
         }
         
+        if (hasDiff)
+        {
+            Ext.create("Ametys.message.Message", {
+                type: Ametys.message.Message.MODIFIED,
+                targets: {
+                    type: Ametys.message.MessageTarget.APPLICATION,
+                    parameters: {
+                        status: {
+                            current: newStatus,
+                            added: added,
+                            removed: removed
+                        }
+                    }
+                }
+            });
+        }
+        
+        this._lastStatus = newStatus;
         this._lastModification = lastModification;
         this._lastVersion = lastVersion;
     }
@@ -92,3 +122,21 @@ Ext.define('Ametys.plugins.coreui.system.StartTimeChecker', {
 
 // Start the checker.
 Ametys.plugins.coreui.system.StartTimeChecker._sendCheckMessage();
+
+Ext.define("Ametys.message.ApplicationMessageTarget", {
+    override: "Ametys.message.MessageTarget",
+    statics:  {
+        /**
+         * @member Ametys.message.MessageTarget
+         * @static
+         * @readonly
+         * @property {String} APPLICATION The target application
+         * Parameters are:
+         * @property {Object} APPLICATION.status An object containing the system status
+         * @property {String[]} APPLICATION.status.current The current system status
+         * @property {String[]} APPLICATION.status.added The system status that have just been added
+         * @property {String[]} APPLICATION.status.removed The system status that have just been removed
+         */
+        APPLICATION: "application"
+    }
+});

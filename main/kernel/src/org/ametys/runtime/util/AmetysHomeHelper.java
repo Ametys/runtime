@@ -26,11 +26,11 @@ import org.ametys.runtime.servlet.RuntimeConfig;
 public final class AmetysHomeHelper
 {
     /** The path to the Ametys home data directory */
-    public static String AMETYS_HOME_DATA_DIR = "data";
+    public static final String AMETYS_HOME_DATA_DIR = "data";
     /** The path to the Ametys home config directory */
-    public static String AMETYS_HOME_CONFIG_DIR = "config";
+    public static final String AMETYS_HOME_CONFIG_DIR = "config";
     /** The path to the Ametys home temporary directory */
-    public static String AMETYS_HOME_TMP_DIR = "tmp";
+    public static final String AMETYS_HOME_TMP_DIR = "tmp";
     
     private AmetysHomeHelper()
     {

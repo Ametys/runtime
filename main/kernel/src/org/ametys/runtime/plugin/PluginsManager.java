@@ -79,7 +79,7 @@ public final class PluginsManager
     
     // safe mode flag
     private boolean _safeMode;
-
+    
     // associations plugins/resourcesURI
     private Map<String, String> _resourceURIs;
     
@@ -272,10 +272,11 @@ public final class PluginsManager
      * @param parentCM the parent {@link ComponentManager}.
      * @param context the Avalon context
      * @param contextPath the Web context path on the server filesystem
+     * @param forceSafeMode true to force the application to enter the safe mode
      * @return the {@link PluginsComponentManager} containing loaded components.
      * @throws Exception if something wrong occurs during plugins loading
      */
-    public PluginsComponentManager init(ComponentManager parentCM, Context context, String contextPath) throws Exception
+    public PluginsComponentManager init(ComponentManager parentCM, Context context, String contextPath, boolean forceSafeMode) throws Exception
     {
         _resourceURIs = new HashMap<>();
         _locations = new HashMap<>();
@@ -319,7 +320,7 @@ public final class PluginsManager
             PluginsComponentManager safeManager = _enterSafeMode(parentCM, context, contextPath);
             return safeManager;
         }
-
+        
         // Get active feature list
         PluginsInformation info = computeActiveFeatures(contextPath, excludedPlugins, excludedFeatures, componentsConfig);
         
@@ -339,7 +340,7 @@ public final class PluginsManager
             PluginsComponentManager manager = _enterSafeMode(parentCM, context, contextPath);
             return manager;
         }
-
+        
         // Create the ComponentManager
         PluginsComponentManager manager = new PluginsComponentManager(parentCM);
         manager.setLogger(LoggerFactory.getLogger("org.ametys.runtime.plugin.manager"));
@@ -369,6 +370,14 @@ public final class PluginsManager
         // check if the config is complete and valid
         configManager.validate();
         
+        // force safe mode if requested
+        if (forceSafeMode)
+        {
+            _status = Status.SAFE_MODE_FORCED;
+            PluginsComponentManager safeManager = _enterSafeMode(parentCM, context, contextPath);
+            return safeManager;
+        }
+        
         if (!configManager.isComplete())
         {
             _status = Status.CONFIG_INCOMPLETE;
@@ -390,7 +399,7 @@ public final class PluginsManager
             PluginsComponentManager safeManager = _enterSafeMode(parentCM, context, contextPath);
             return safeManager;
         }
-
+        
         _plugins = plugins;
         _features = features;
         _inactiveFeatures = info.getInactiveFeatures();
@@ -1495,7 +1504,12 @@ public final class PluginsManager
         /**
          * The runtime.xml could not be loaded.
          */
-        RUNTIME_NOT_LOADED
+        RUNTIME_NOT_LOADED,
+        
+        /**
+         * Safe mode has been forced.
+         */
+        SAFE_MODE_FORCED
     }
     
     /**

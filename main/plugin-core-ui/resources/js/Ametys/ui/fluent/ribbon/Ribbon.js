@@ -348,9 +348,12 @@ Ext.define(
         /**
          * Add an information message
          * @param {Object} message See #cfg-message.
+         * @return {String} The id of the newly created component containing the added message
          */
         addMessage: function(message)
         {
+            var msgId = Ext.id();
+            
             var items = [
                 {
                     xtype: 'component',
@@ -364,34 +367,34 @@ Ext.define(
                     html: message.text
                 }
             ];
+            
             if (message.closeable !== false)
             {
+                
                 items.push({
                     xtype: 'tool',
                     type: 'close',
                     tooltip: this.messageCloseText,
-                    callback: Ext.bind(this._closeMessage, this)
+                    callback: Ext.bind(this.closeMessage, this, [msgId], false)
                 });
             }
             
-            this._messageContainer.add({
+            var messageCmp = this._messageContainer.add({
+                id: msgId,
                 cls: 'a-message-type-' + (message.type || 'info'),
                 items: items
             });
+            
+            return msgId;
         },
         
         /**
-         * @private
-         * Close the info message
-         * @param {Ext.Component} owner The logical owner of the tool. In a typical
-         * `Ext.panel.Panel`, this is set to the owning panel. This value comes from the
-         * `toolOwner` config.
-         * @param {Ext.panel.Tool} tool The tool that is calling.
-         * @param {Ext.event.Event} event The click event. 
+         * Remove a previously added message. 
+         * @param {String} msgId The component id of the message component returned by {@link #addMessage}
          */
-        _closeMessage: function(owner, tool, event)
+        closeMessage: function(msgId)
         {
-            owner.ownerCt.remove(owner);
+            this._messageContainer.remove(msgId);
         },
         
         /**

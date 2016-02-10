@@ -24,6 +24,7 @@ import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
+import org.apache.commons.lang3.BooleanUtils;
 
 /**
  * Action for reloading application
@@ -40,7 +41,16 @@ public class RestartAction extends AbstractAction implements ThreadSafe
         }
         
         Request request = ObjectModelHelper.getRequest(objectModel);
-        request.setAttribute("org.ametys.runtime.reload", "true");
+        request.setAttribute("org.ametys.runtime.reload", true);
+        
+        if (BooleanUtils.toBoolean(request.getParameter("normalMode")))
+        {
+            request.setAttribute("org.ametys.runtime.reload.normalMode", true);
+        }
+        else if (BooleanUtils.toBoolean(request.getParameter("safeMode")))
+        {
+            request.setAttribute("org.ametys.runtime.reload.safeMode", true);
+        }
         
         return EMPTY_MAP;
     }

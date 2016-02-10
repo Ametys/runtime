@@ -56,6 +56,7 @@ import org.ametys.core.user.User;
 import org.ametys.core.user.UsersManager;
 import org.ametys.core.util.JSONUtils;
 import org.ametys.plugins.core.user.UserHelper;
+import org.ametys.runtime.plugin.PluginsManager;
 
 /**
  * Generates the uitools factories definition using the component associated 
@@ -313,6 +314,9 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
      */
     protected void saxAdditionnalInfo(Map<String, Object> contextParameters) throws SAXException
     {
-        // Nothing
+        if (PluginsManager.getInstance().isSafeMode())
+        {
+            XMLUtils.createElement(contentHandler, "safe-mode", PluginsManager.getInstance().getStatus().toString());
+        }
     }
 }

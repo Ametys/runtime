@@ -18,7 +18,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.ametys.org/schema/plugin http://www.ametys.org/schema/plugin-4.0.xsd"
         runtimeVersion="4.0" version="2.0">
-    
+        
     <extension-points>
         <extension-point id="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.MonitoringExtensionPoint"
                          class="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.MonitoringExtensionPoint"
@@ -1087,6 +1087,57 @@
                 </class>
                 <scripts>
                     <file>js/Ametys/plugins/admin/config/SaveConfigAction.js</file>
+                </scripts>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <!-- +
+         |  Restart
+         + -->
+    <feature name="runtime.admin.restart" safe="true">
+        <extensions>
+            <extension id="org.ametys.plugins.admin.restart.RestartMenu"
+                       point="org.ametys.core.ui.RibbonControlsManager" 
+                       class="org.ametys.core.ui.SimpleMenu">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                </class>
+                <menu-items>
+                    <item ref="org.ametys.plugins.admin.restart.Restart" primaryItem="true" />
+                    <item ref="org.ametys.plugins.admin.restart.ForceSafeMode" />
+                </menu-items>
+            </extension>
+            
+            <extension id="org.ametys.plugins.admin.restart.Restart"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.admin.restart.RestartActions.forceNormalMode</action>
+                    
+                    <label i18n="true">PLUGINS_ADMIN_RESTART_RESTART_BUTTON_LABEL</label>
+                    <description i18n="true">PLUGINS_ADMIN_RESTART_RESTART_BUTTON_DESC</description>
+                    
+                    <icon-glyph>flaticon-power110</icon-glyph>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/admin/restart/RestartActions.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.plugins.admin.restart.ForceSafeMode"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.admin.restart.RestartActions.forceSafeMode</action>
+                    
+                    <label i18n="true">PLUGINS_ADMIN_RESTART_SAFE_MODE_RESTART_BUTTON_LABEL</label>
+                    <description i18n="true">PLUGINS_ADMIN_RESTART_SAFE_MODE_RESTART_BUTTON_DESC</description>
+                    
+                    <icon-glyph>flaticon-power110</icon-glyph>
+                    <icon-decorator>decorator-flaticon-three115</icon-decorator>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/admin/restart/RestartActions.js</file>
                 </scripts>
             </extension>
         </extensions>

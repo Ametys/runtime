@@ -85,6 +85,8 @@
     <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TEXT_NOT_INITIALIZED">L'application est en mode sans-échec car elle n'a pas pu s'initialiser correctement suite à une erreur. Vous pouvez visualiser les journaux pour en savoir plus.</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TITLE_RUNTIME_NOT_LOADED">Attention</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TEXT_RUNTIME_NOT_LOADED">L'application est en mode sans-échec car le fichier de configuration 'WEB-INF/param/runtime.xml' n'a pas pu être chargé correctement. Vous pouvez visualiser les journaux pour en savoir plus.</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TITLE_SAFE_MODE_FORCED">Information</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TEXT_SAFE_MODE_FORCED">L'application est en mode sans-échec.</message>
     
     <!-- +
          | Unsupported browser

@@ -324,6 +324,14 @@
     	</components>
     </feature>
     
+    <feature name="util.systemstatus" safe="true">
+    	<components>
+    		<component role="org.ametys.core.util.SystemStatus"
+    				   id="org.ametys.core.util.SystemStatus"
+    				   class="org.ametys.core.util.SystemStatus" />
+    	</components>
+    </feature>
+    
     <feature name="util.jsonutils" safe="true">
     	<components>
     		<component role="org.ametys.core.util.JSONUtils"

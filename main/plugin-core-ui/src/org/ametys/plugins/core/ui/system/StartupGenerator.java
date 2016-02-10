@@ -20,6 +20,7 @@ import java.lang.management.ManagementFactory;
 import java.util.Collection;
 
 import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.cocoon.xml.AttributesImpl;
@@ -27,6 +28,7 @@ import org.apache.cocoon.xml.XMLUtils;
 import org.apache.commons.lang.StringUtils;
 import org.xml.sax.SAXException;
 
+import org.ametys.core.util.SystemStatus;
 import org.ametys.core.version.Version;
 import org.ametys.core.version.VersionsHandler;
 
@@ -36,6 +38,16 @@ import org.ametys.core.version.VersionsHandler;
 public class StartupGenerator extends ServiceableGenerator
 {
     private static String __version;
+    
+    /** System status provider */
+    private SystemStatus _systemStatus;
+    
+    @Override
+    public void service(ServiceManager sm) throws ServiceException
+    {
+        super.service(sm);
+        _systemStatus = (SystemStatus) sm.lookup(SystemStatus.ROLE);
+    }
     
     @Override
     public void generate() throws IOException, SAXException, ProcessingException
@@ -85,6 +97,7 @@ public class StartupGenerator extends ServiceableGenerator
         
         AttributesImpl attrs = new AttributesImpl();
         attrs.addCDATAAttribute("version", __version);
+        attrs.addCDATAAttribute("status", StringUtils.join(_systemStatus.getStatus(), ','));
         
         contentHandler.startDocument();
         XMLUtils.createElement(contentHandler, "startup-time", attrs, Long.toString(ManagementFactory.getRuntimeMXBean().getStartTime()));

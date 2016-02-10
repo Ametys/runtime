@@ -17,10 +17,6 @@ package org.ametys.runtime.workspaces.admin;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
-
-import org.apache.cocoon.xml.XMLUtils;
-import org.xml.sax.SAXException;
 
 import org.ametys.runtime.plugin.PluginsManager;
 import org.ametys.runtime.plugin.PluginsManager.Status;
@@ -66,16 +62,5 @@ public class WorkspaceGenerator extends org.ametys.plugins.core.ui.WorkspaceGene
         }
         
         return super.getUIToolsConfiguration();
-    }
-    
-    @Override
-    protected void saxAdditionnalInfo(Map<String, Object> contextParameters) throws SAXException
-    {
-        super.saxAdditionnalInfo(contextParameters);
-        
-        if (PluginsManager.getInstance().isSafeMode())
-        {
-            XMLUtils.createElement(contentHandler, "safe-mode", PluginsManager.getInstance().getStatus().toString());
-        }
     }
 }
