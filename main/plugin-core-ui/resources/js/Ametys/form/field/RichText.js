@@ -1274,7 +1274,7 @@ Ext.define('Ametys.form.field.RichText', {
         var editor = this.getEditor();
         
         // BUG FIX CMS 2499
-        if (tinymce.isGecko)
+        if (tinymce.isGecko || tinymce.isIE)
         {
             var rng, table, dom = editor.dom;
     
