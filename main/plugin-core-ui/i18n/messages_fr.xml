@@ -44,7 +44,11 @@
     <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_ITEMS_AVAILABLE">Fonctionnalités</message>
     <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_ITEMS_UNAVAILABLE">Fonctionnalités indisponibles</message>
     
-    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_TABPANEL_EDIT_PROFILE_IMAGE">Modifier votre image de profil</message>
+    <!-- +
+         | User Profile
+         + -->
+    <message key="PLUGINS_CORE_UI_EDIT_PROFILE_IMAGE_LABEL">Modifier votre image de profil</message>
+    <message key="PLUGINS_CORE_UI_EDIT_PROFILE_IMAGE_DESCRIPTION">Cliquez ici pour modifier votre image de profil</message>
     
     <!-- +
          | Login screen

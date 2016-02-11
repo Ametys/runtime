@@ -62,12 +62,6 @@
             <!-- Handles the static import files that are used on client side -->
         </extension-point>
         
-        <extension-point id="org.ametys.core.ui.RibbonAppMenuControlsManager"
-                         class="org.ametys.core.ui.RibbonAppMenuControlsManager"
-                         safe="true">
-            <!-- Handles the dynamic items that may takes place in the ametys menu -->
-        </extension-point>
-        
         <extension-point id="org.ametys.core.ui.RibbonControlsManager"
                          class="org.ametys.core.ui.RibbonControlsManager"
                          safe="true">
@@ -159,9 +153,9 @@
     <feature name="runtime.appmenu.reload" safe="true">
         <extensions>
             <extension id="org.ametys.plugins.core.ReloadWorkspace"
-                     point="org.ametys.core.ui.RibbonAppMenuControlsManager"
+                     point="org.ametys.core.ui.RibbonControlsManager"
                      class="org.ametys.core.ui.StaticClientSideElement">
-              <class name="Ametys.plugins.cms.system.reload.ReloadActions">
+              <class name="Ametys.ribbon.element.ui.ButtonController">
                  <action>Ametys.plugins.coreui.system.reload.ReloadActions.reload</action>
                   
                  <label i18n="true">PLUGINS_CORE_UI_RELOAD_WORKSPACE_LABEL</label>
@@ -1281,9 +1275,9 @@
             </extension>
             
             <extension id="org.ametys.plugins.core.userprefs.ResetWorkspace"
-                     point="org.ametys.core.ui.RibbonAppMenuControlsManager"
+                     point="org.ametys.core.ui.RibbonControlsManager"
                      class="org.ametys.core.ui.StaticClientSideElement">
-              <class name="Ametys.plugins.coreui.userprefs.UserPrefsActions">
+              <class name="Ametys.ribbon.element.ui.ButtonController">
                  <action>Ametys.plugins.coreui.userprefs.UserPrefsActions.resetWorkspace</action>
                   
                  <label i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_LABEL</label>
@@ -1300,9 +1294,9 @@
          </extension>
          
          <extension id="org.ametys.plugins.core.userprefs.Edit"
-                     point="org.ametys.core.ui.RibbonAppMenuControlsManager"
+                     point="org.ametys.core.ui.RibbonControlsManager"
                      class="org.ametys.core.ui.StaticClientSideElement">
-              <class name="Ametys.plugins.coreui.userprefs.UserPrefsActions">
+              <class name="Ametys.ribbon.element.ui.ButtonController">
                 <action>Ametys.plugins.coreui.userprefs.UserPrefsActions.edit</action>
                   
                  <label i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_LABEL</label>
@@ -1331,9 +1325,9 @@
         
     	<extensions>
     		<extension id="org.ametys.plugins.core.ui.about"
-    				   point="org.ametys.core.ui.RibbonAppMenuControlsManager"
+    				   point="org.ametys.core.ui.RibbonControlsManager"
     				   class="org.ametys.core.ui.StaticClientSideElement">
-    			<class name="">
+    			<class name="Ametys.ribbon.element.ui.ButtonController">
     				<action>Ametys.plugins.coreui.about.AboutActions.openAboutDialogBox</action>
     				
     				<label i18n="true">PLUGINS_CORE_UI_ABOUT_LABEL</label>
@@ -1368,10 +1362,18 @@
                     <group i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_GROUP_10_DISPLAY</group>
                  </param>
             </extension>
+           
             
-            <extension id="org.ametys.plugins.core.user.profile.Edit"
-                       point="org.ametys.core.ui.StaticFileImportsManager"
-                       class="org.ametys.core.ui.StaticFileImportsClientSideElement">
+            <extension id="org.ametys.core.userpref.EditProfileImage"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.userprefs.UserProfileDialog.open</action>
+                    <label i18n="true">PLUGINS_CORE_UI_EDIT_PROFILE_IMAGE_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_EDIT_PROFILE_IMAGE_DESCRIPTION</description>
+                    
+                    <icon-glyph>flaticon-black302</icon-glyph>
+                </class>
                 <scripts>
                     <file>js/Ametys/userprefs/UserProfileDialog.js</file>
                     <file>js/Ametys/userprefs/UserProfileDialog/ProfileImageModel.js</file>

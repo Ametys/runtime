@@ -138,6 +138,12 @@ public class RibbonConfigurationManager
     /** The tabs of the ribbon */
     protected List<Tab> _tabs = new ArrayList<>();
 
+    /** The App menu elements of the ribbon */
+    protected List<Element> _appMenu = new ArrayList<>();
+    
+    /** The user menu elements of the ribbon */
+    protected List<Element> _userMenu = new ArrayList<>();
+    
     /** The controls referenced by the ribbon */
     protected Set<String> _controlsReferences = new HashSet<>();
     /** The tabs referenced by the ribbon */
@@ -178,7 +184,13 @@ public class RibbonConfigurationManager
         {
             _logger.debug("Starting reading ribbon configuration");
         }
+        
+        Configuration[] appMenuConfigurations = configuration.getChild("app-menu").getChildren();
+        this._appMenu.addAll(_configureElement(appMenuConfigurations));
 
+        Configuration[] userMenuConfigurations = configuration.getChild("user-menu").getChildren();
+        this._userMenu.addAll(_configureElement(userMenuConfigurations));
+        
         Configuration[] tabsConfigurations = configuration.getChild("tabs").getChildren();
         for (Configuration tabConfiguration : tabsConfigurations)
         {
@@ -222,6 +234,27 @@ public class RibbonConfigurationManager
         {
             _logger.debug("Ending reading ribbon configuration");
         }
+    }
+    
+    private List<Element> _configureElement(Configuration[] configurations) throws ConfigurationException
+    {
+        List<Element> elements = new ArrayList<>();
+        for (Configuration configuration : configurations)
+        {
+            if ("control".equals(configuration.getName()))
+            {
+                elements.add(new ControlRef(configuration, _logger));
+            }
+            else if ("separator".equals(configuration.getName()))
+            {
+                elements.add(new Separator());
+            }
+            else
+            {
+                _logger.warn("During configuration of the ribbon, the app-menu or user-menu use an unknow tag '" + configuration.getName() + "'");
+            }
+        }
+        return elements;
     }
     
     /**
@@ -330,10 +363,26 @@ public class RibbonConfigurationManager
     public void saxRibbonDefinition(ContentHandler handler, Map<String, Object> contextualParameters) throws SAXException
     {
         _lazyInitialize();
+        _lazyInitialize(this._appMenu);
+        _lazyInitialize(this._userMenu);
         
         handler.startPrefixMapping("i18n", "http://apache.org/cocoon/i18n/2.1");
         XMLUtils.startElement(handler, "ribbon");
-
+        
+        XMLUtils.startElement(handler, "app-menu");
+        for (Element appMenu : this._appMenu)
+        {
+            appMenu.toSAX(handler);
+        }
+        XMLUtils.endElement(handler, "app-menu");
+        
+        XMLUtils.startElement(handler, "user-menu");
+        for (Element userMenu : this._userMenu)
+        {
+            userMenu.toSAX(handler);
+        }
+        XMLUtils.endElement(handler, "user-menu");
+        
         XMLUtils.startElement(handler, "controls");
         for (String controlId : this._controlsReferences)
         {
@@ -966,6 +1015,18 @@ public class RibbonConfigurationManager
             }
             
             XMLUtils.endElement(handler, "toolbar");
+        }
+    }
+    
+    /**
+     * A menu separator
+     */
+    public class Separator implements Element
+    {
+        @Override
+        public void toSAX(ContentHandler handler) throws SAXException
+        {
+            XMLUtils.createElement(handler, "separator");
         }
     }
 }

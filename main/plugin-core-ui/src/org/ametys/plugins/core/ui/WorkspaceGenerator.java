@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
@@ -41,7 +40,6 @@ import org.xml.sax.SAXException;
 import org.ametys.core.ui.ClientSideElement;
 import org.ametys.core.ui.MessageTargetFactoriesManager;
 import org.ametys.core.ui.RelationsManager;
-import org.ametys.core.ui.RibbonAppMenuControlsManager;
 import org.ametys.core.ui.RibbonConfigurationManager;
 import org.ametys.core.ui.RibbonControlsManager;
 import org.ametys.core.ui.RibbonTabsManager;
@@ -67,8 +65,6 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
     protected RibbonControlsManager _ribbonControlManager;
     /** The ribbon tab manager */
     protected RibbonTabsManager _ribbonTabManager;
-    /** The Ametys menu manager */
-    protected RibbonAppMenuControlsManager _appControlsManager;
     /** The list of existing message target factories */
     protected MessageTargetFactoriesManager _messageTargetFactoriesManager;
     /** The ui tools factories manager */
@@ -100,7 +96,6 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
         _uitoolsFactoriesManager = (UIToolsFactoriesManager) smanager.lookup(UIToolsFactoriesManager.ROLE);
         _ribbonTabManager = (RibbonTabsManager) smanager.lookup(RibbonTabsManager.ROLE);
         _ribbonControlManager = (RibbonControlsManager) smanager.lookup(RibbonControlsManager.ROLE);
-        _appControlsManager = (RibbonAppMenuControlsManager) smanager.lookup(RibbonAppMenuControlsManager.ROLE);
         _relationsManager = (RelationsManager) smanager.lookup(RelationsManager.ROLE);
         _widgetsManager = (WidgetsManager) smanager.lookup(WidgetsManager.ROLE);
         _saxClientSideElementHelper = (SAXClientSideElementHelper) smanager.lookup(SAXClientSideElementHelper.ROLE);
@@ -157,7 +152,6 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
             uitoolsManager.saxDefaultState(contentHandler, contextParameters);
         }
         
-        saxAppItems ();
         saxMessageTargetFactories(contextParameters);
         saxRelationsHandlers(contextParameters);
         saxWidgets(contextParameters);
@@ -192,27 +186,6 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
         String mode = parameters.getParameter("mode", null);
         File configFile = new File (_cocoonContext.getRealPath("/WEB-INF/param/" + toolsFileName + (mode != null ? "-" + mode : "") + ".xml"));
         return new FileInputStream(configFile);
-    }
-    
-    /** 
-     * SAX the application items
-     * @throws SAXException if an error occurred
-     */
-    protected void saxAppItems () throws SAXException
-    {
-        String mode = parameters.getParameter("mode", null);
-        if (mode == null)
-        {
-            // SAX application item only in "normal" mode
-            XMLUtils.startElement(contentHandler, "app-menu");
-            Set<String> itemIds = _appControlsManager.getExtensionsIds();
-            for (String itemId : itemIds)
-            {
-                ClientSideElement control = _appControlsManager.getExtension(itemId);
-                _saxClientSideElementHelper.saxDefinition(itemId, "item", control, contentHandler, new HashMap<String, Object>());
-            }
-            XMLUtils.endElement(contentHandler, "app-menu");
-        }
     }
     
     /**

@@ -185,8 +185,8 @@
                 <xsl:call-template name="ui-extension-after-static-load"/>
                 
                 <xsl:call-template name="kernel-load">
-                      <xsl:with-param name="scripts" select="(ribbon/controls/control/scripts/file | ribbon/tabsControls/tab/scripts/file | uitools-factories/uitool-factory/scripts/file | messagetarget-factories/messagetarget-factory/scripts/file | relations-handlers/relation-handler/scripts/file | widgets/widget-wrapper/widget/scripts/file | app-menu/item/scripts/file)[not(. = current()/static-imports/import/scripts/file)]"/>
-                      <xsl:with-param name="css" select="(ribbon/controls/control/css/file | ribbon/tabsControls/tab/css/file | uitools-factories/uitool-factory/css/file | messagetarget-factories/messagetarget-factory/css/file | relations-handlers/relation-handler/css/file | widgets/widget-wrapper/widget/css/file | app-menu/item/css/file)[not(. = current()/static-imports/import/css/file)]"/>
+                      <xsl:with-param name="scripts" select="(ribbon/controls/control/scripts/file | ribbon/tabsControls/tab/scripts/file | uitools-factories/uitool-factory/scripts/file | messagetarget-factories/messagetarget-factory/scripts/file | relations-handlers/relation-handler/scripts/file | widgets/widget-wrapper/widget/scripts/file)[not(. = current()/static-imports/import/scripts/file)]"/>
+                      <xsl:with-param name="css" select="(ribbon/controls/control/css/file | ribbon/tabsControls/tab/css/file | uitools-factories/uitool-factory/css/file | messagetarget-factories/messagetarget-factory/css/file | relations-handlers/relation-handler/css/file | widgets/widget-wrapper/widget/css/file)[not(. = current()/static-imports/import/css/file)]"/>
                 </xsl:call-template>                
 
                 <script type="text/javascript">
@@ -336,25 +336,66 @@
                     </xsl:for-each>
 
                             /** Ribbon creation */
-                            var menuItems = [];
-                            <xsl:for-each select="app-menu/item">
-                                (function () {
-                                    var actionParam = <xsl:value-of select="action"/>;
-                                    menuItems.push({
-                                        text: actionParam['label'],
-                                        iconCls: actionParam['icon-glyph'],
-                                        icon: actionParam['icon-glyph'] ? null : Ametys.CONTEXT_PATH + actionParam['icon-small'],
-                                        handler: Ametys.getFunctionByName(actionParam['action']),
-                                        tooltip: {
-                                            title: actionParam['label'],
-                                            text: actionParam['description'],
-                                            glyphIcon: actionParam['icon-glyph'],
-                                            image: actionParam['icon-glyph'] ? null : Ametys.CONTEXT_PATH + actionParam['icon-large'], 
-                                            inribbon: false
-                                        }
-                                    });
-                                })();
+                            var appMenuItems = [];
+                            <xsl:for-each select="ribbon/app-menu/*">
+                                <xsl:choose>
+                                    <xsl:when test="local-name()='control'">
+                                        <xsl:variable name="id" select="@id"/>
+                                        (function () {
+                                            var actionParam = <xsl:value-of select="/Ametys/workspace/ribbon/controls/control[@id = $id]/action"/>;
+                                            appMenuItems.push({
+                                                text: actionParam['label'],
+                                                iconCls: actionParam['icon-glyph'],
+                                                icon: actionParam['icon-glyph'] ? null : Ametys.CONTEXT_PATH + actionParam['icon-small'],
+                                                handler: Ametys.getFunctionByName(actionParam['action']),
+                                                tooltip: {
+                                                    title: actionParam['label'],
+                                                    text: actionParam['description'],
+                                                    glyphIcon: actionParam['icon-glyph'],
+                                                    image: actionParam['icon-glyph'] ? null : Ametys.CONTEXT_PATH + actionParam['icon-large'], 
+                                                    inribbon: false
+                                                }
+                                            });
+                                        })();
+                                    </xsl:when>
+                                    <xsl:when test="local-name()='separator'">
+                                        appMenuItems.push('-');
+                                    </xsl:when>
+                                </xsl:choose>
                             </xsl:for-each>
+                            
+                            <xsl:if test="user">
+                                var userMenuItems = [];
+                                <xsl:if test="ribbon/user-menu/*">
+                                    userMenuItems.push('-');
+                                </xsl:if>
+                                <xsl:for-each select="ribbon/user-menu/*">
+                                    <xsl:choose>
+                                        <xsl:when test="local-name()='control'">
+                                            <xsl:variable name="id" select="@id"/>
+                                            (function () {
+                                                var actionParam = <xsl:value-of select="/Ametys/workspace/ribbon/controls/control[@id = $id]/action"/>;
+                                                userMenuItems.push({
+                                                    text: actionParam['label'],
+                                                    iconCls: actionParam['icon-glyph'],
+                                                    icon: actionParam['icon-glyph'] ? null : Ametys.CONTEXT_PATH + actionParam['icon-small'],
+                                                    handler: Ametys.getFunctionByName(actionParam['action']),
+                                                    tooltip: {
+                                                        title: actionParam['label'],
+                                                        text: actionParam['description'],
+                                                        glyphIcon: actionParam['icon-glyph'],
+                                                        image: actionParam['icon-glyph'] ? null : Ametys.CONTEXT_PATH + actionParam['icon-large'], 
+                                                        inribbon: false
+                                                    }
+                                                });
+                                            })();
+                                        </xsl:when>
+                                        <xsl:when test="local-name()='separator'">
+                                            userMenuItems.push('-');
+                                        </xsl:when>
+                                    </xsl:choose>
+                                </xsl:for-each>
+                            </xsl:if>
                             
                             var ribbon = Ext.create("Ametys.ui.fluent.ribbon.Ribbon", {<xsl:text/>
                                 <xsl:text/>applicationTitle: "<xsl:call-template name="applicationTitle"/>",
@@ -372,9 +413,9 @@
                                          text: "", 
                                          inribbon: true
                                     },*/
-                                    menu: menuItems.length == 0 ? null : {
+                                    menu: appMenuItems.length == 0 ? null : {
                                          ui: 'ribbon-menu',
-                                         items: menuItems
+                                         items: appMenuItems
                                     }
                                 },
                                 
@@ -426,14 +467,7 @@
                                     login: "<xsl:value-of select="user/@login"/>",
                                     email: "<xsl:value-of select="user/email"/>",
                                     menu: { 
-                                        items: [
-                                            '-',
-                                            {
-                                                text: "<i18n:text i18n:key='PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_TABPANEL_EDIT_PROFILE_IMAGE' i18n:catalogue='plugin.core-ui'/>",
-                                                handler: Ametys.userprefs.UserProfileDialog.open,
-                                                scope: Ametys.userprefs.UserProfileDialog
-                                            }
-                                        ]
+                                        items: userMenuItems
                                     }
                                     <xsl:if test="string(user/@login) != ''">,
                                         smallPhoto: Ametys.getPluginDirectPrefix('core-ui') + '/current-user/image_16',
