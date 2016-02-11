@@ -180,10 +180,6 @@ Ext.define('Ametys.form.widget.RichText.RichTextConfiguration', {
             if (this._tags[key].attributes["class"])
             {
                 validClasses[key] = this._tags[key].attributes["class"].values.join(" ");
-                /*for (var key2 in this._tags[key].attributes["class"].values)
-                {
-                    validClasses[key][this._tags[key].attributes["class"].values[key2]] = true;
-                }*/
             }
         }        
         
