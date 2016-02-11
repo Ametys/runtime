@@ -53,10 +53,11 @@ public class DeleteDataSourceClientSideElement extends StaticClientSideElement
      * Get state of data sources
      * @param datasourceIds the ids of data sources with their type.
      * @return informations on datasource's state
-     * @throws IOException 
-     * @throws SAXException 
-     * @throws ConfigurationException 
+     * @throws IOException if an error occurred while reading configuration file
+     * @throws SAXException if an error occurred while parsing configuration file
+     * @throws ConfigurationException if an error occurred while parsing configuration reading file
      */
+    @SuppressWarnings("unchecked")
     @Callable
     public Map<String, Object> getStatus(Map<String, String> datasourceIds) throws ConfigurationException, SAXException, IOException
     {
@@ -81,6 +82,7 @@ public class DeleteDataSourceClientSideElement extends StaticClientSideElement
                 case LDAP:
                     dsDef = _ldapSourceManager.getDataSourceDefinition(id);
                     isInUse = dsDef != null ? _ldapSourceManager.isInUse(id) : false;
+                    break;
                 default:
                     break;
             }

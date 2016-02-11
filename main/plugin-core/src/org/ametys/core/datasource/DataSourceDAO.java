@@ -261,13 +261,13 @@ public class DataSourceDAO extends AbstractLogEnabled implements Component, Serv
      * Remove one or several data sources 
      * @param type The type of data source
      * @param ids the ids of the data sources to remove
-     * @throws IOException 
-     * @throws SAXException 
-     * @throws ConfigurationException 
-     * @throws ProcessingException 
+     * @throws IOException if an error occurred while reading configuration file
+     * @throws SAXException if an error occurred while parsing configuration file
+     * @throws ConfigurationException if an error occurred while parsing configuration reading file
+     * @throws ProcessingException if an error occurred while saving changes
      */
     @Callable
-    public void removeDataSource (String type, List<String> ids) throws ProcessingException, ConfigurationException, SAXException, IOException
+    public void removeDataSource (String type, List<String> ids) throws ConfigurationException, SAXException, IOException, ProcessingException
     {
         if (type.equals(DataSourceType.SQL.toString()))
         {

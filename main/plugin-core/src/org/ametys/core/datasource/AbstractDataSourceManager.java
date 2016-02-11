@@ -61,11 +61,10 @@ import org.ametys.runtime.util.ConfigurationHelper;
  */
 public abstract class AbstractDataSourceManager extends AbstractLogEnabled implements Component, Initializable
 {
-    private long _lastUpdate;
-    
     /** The data source definitions */
     protected Map<String, DataSourceDefinition> _dataSourcesDef;
 
+    private long _lastUpdate;
     
     @Override
     public void initialize() throws Exception
@@ -124,9 +123,9 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
      * @param includePrivate true to include private data sources
      * @param includeInternal true to include internal data sources. Not used by default.
      * @return the data source definitions
-     * @throws IOException 
-     * @throws SAXException 
-     * @throws ConfigurationException 
+     * @throws IOException if an error occurred while reading configuration file
+     * @throws SAXException if an error occurred while parsing configuration file
+     * @throws ConfigurationException if an error occurred while parsing configuration reading file
      */
     public Map<String, DataSourceDefinition> getDataSourceDefinitions (boolean includePrivate, boolean includeInternal) throws ConfigurationException, SAXException, IOException
     {
@@ -155,9 +154,9 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
      * Get the data source definition or null if not found
      * @param id the id of data source
      * @return the data source definition or null if not found
-     * @throws IOException 
-     * @throws SAXException 
-     * @throws ConfigurationException
+     * @throws IOException if an error occurred while reading configuration file
+     * @throws SAXException if an error occurred while parsing configuration file
+     * @throws ConfigurationException if an error occurred while parsing configuration reading file
      */
     public DataSourceDefinition getDataSourceDefinition (String id) throws ConfigurationException, SAXException, IOException
     {
@@ -172,10 +171,10 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
      * @param parameters the parameters
      * @param isPrivate true if private
      * @return the created data sourec definition
-     * @throws ConfigurationException
-     * @throws SAXException
-     * @throws IOException
-     * @throws ProcessingException
+     * @throws IOException if an error occurred while reading configuration file
+     * @throws SAXException if an error occurred while parsing configuration file
+     * @throws ConfigurationException if an error occurred while parsing configuration reading file
+     * @throws ProcessingException if an error while saving changes
      */
     public DataSourceDefinition add (I18nizableText name, I18nizableText description, Map<String, Object> parameters, boolean isPrivate) throws ConfigurationException, SAXException, IOException, ProcessingException
     {
@@ -206,10 +205,10 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
      * @param parameters the parameters
      * @param isPrivate true if private
      * @return the edited data source definition
-     * @throws ConfigurationException
-     * @throws SAXException
-     * @throws IOException
-     * @throws ProcessingException
+     * @throws IOException if an error occurred while reading configuration file
+     * @throws SAXException if an error occurred while parsing configuration file
+     * @throws ConfigurationException if an error occurred while parsing configuration reading file
+     * @throws ProcessingException if an error while saving changes or if the data source was not found
      */
     public DataSourceDefinition edit (String id, I18nizableText name, I18nizableText description, Map<String, Object> parameters, boolean isPrivate) throws ConfigurationException, SAXException, IOException, ProcessingException
     {
@@ -240,9 +239,9 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
      * Delete data sources
      * @param dataSourceIds the ids of data sources to delete
      * @throws ProcessingException if an error occurred
-     * @throws IOException 
-     * @throws SAXException 
-     * @throws ConfigurationException 
+     * @throws IOException if an error occurred while reading configuration file
+     * @throws SAXException if an error occurred while parsing configuration file
+     * @throws ConfigurationException if an error occurred while parsing configuration reading file
      */
     public void delete (List<String> dataSourceIds) throws ProcessingException, ConfigurationException, SAXException, IOException
     {
@@ -261,9 +260,9 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
      * Delete a data source
      * @param dataSourceId the id of data source to delete
      * @throws ProcessingException if an error occurred
-     * @throws IOException 
-     * @throws SAXException 
-     * @throws ConfigurationException 
+     * @throws IOException if an error occurred while reading configuration file
+     * @throws SAXException if an error occurred while parsing configuration file
+     * @throws ConfigurationException if an error occurred while parsing configuration reading file
      */
     public void delete (String dataSourceId) throws ProcessingException, ConfigurationException, SAXException, IOException
     {
@@ -278,9 +277,9 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
     /**
      * Read and update the data sources configuration
      * @param checkParameters true to test parameters while reading configuration.
-     * @throws IOException if an error occurred while reading file
-     * @throws SAXException if an error occurred while reading file
-     * @throws ConfigurationException if an error occurred while reading file
+     * @throws IOException if an error occurred while reading configuration file
+     * @throws SAXException if an error occurred while parsing configuration file
+     * @throws ConfigurationException if an error occurred while parsing configuration reading file
      */
     protected void readConfiguration (boolean checkParameters) throws ConfigurationException, SAXException, IOException
     {
