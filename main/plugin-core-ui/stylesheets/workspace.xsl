@@ -358,7 +358,7 @@
                                             });
                                         })();
                                     </xsl:when>
-                                    <xsl:when test="local-name()='separator'">
+                                    <xsl:when test="local-name()='separator' and following-sibling::control">
                                         appMenuItems.push('-');
                                     </xsl:when>
                                 </xsl:choose>
@@ -390,7 +390,7 @@
                                                 });
                                             })();
                                         </xsl:when>
-                                        <xsl:when test="local-name()='separator'">
+                                        <xsl:when test="local-name()='separator' and following-sibling::control">
                                             userMenuItems.push('-');
                                         </xsl:when>
                                     </xsl:choose>

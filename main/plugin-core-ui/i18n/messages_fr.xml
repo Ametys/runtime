@@ -47,7 +47,7 @@
     <!-- +
          | User Profile
          + -->
-    <message key="PLUGINS_CORE_UI_EDIT_PROFILE_IMAGE_LABEL">Modifier votre image de profil</message>
+    <message key="PLUGINS_CORE_UI_EDIT_PROFILE_IMAGE_LABEL">Mon image de profil</message>
     <message key="PLUGINS_CORE_UI_EDIT_PROFILE_IMAGE_DESCRIPTION">Cliquez ici pour modifier votre image de profil</message>
     
     <!-- +
