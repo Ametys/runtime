@@ -351,6 +351,7 @@ Ext.define('Ametys.cms.form.widget.RichText', {
             editorCSSFile: Ametys.form.widget.RichText.RichTextConfiguration.getCSSFiles(),
 		    validElements: config.validElements || Ametys.form.widget.RichText.RichTextConfiguration.getTags(),
             validStyles: Ametys.form.widget.RichText.RichTextConfiguration.getStyles(),
+            validClasses: Ametys.form.widget.RichText.RichTextConfiguration.getClasses(),
 			
 			validator: function(value)
 			{

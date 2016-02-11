@@ -164,6 +164,31 @@ Ext.define('Ametys.form.widget.RichText.RichTextConfiguration', {
         
         return validStyles;
     },
+    
+    /**
+     * Get all supported classes as a tinymce conf object. See valid_classes tinymce configuration doc for the exact format.
+     * @return {Object} The supported properties for the style attribute.
+     */
+    getClasses: function()
+    {
+        var validClasses = {};
+        
+        for (var key in this._tags)
+        {
+            validClasses[key] = {};
+            
+            if (this._tags[key].attributes["class"])
+            {
+                validClasses[key] = this._tags[key].attributes["class"].values.join(" ");
+                /*for (var key2 in this._tags[key].attributes["class"].values)
+                {
+                    validClasses[key][this._tags[key].attributes["class"].values[key2]] = true;
+                }*/
+            }
+        }        
+        
+        return validClasses;
+    },    
 	
 	/**
 	 * This method retrieve a tag to handle.
@@ -183,10 +208,13 @@ Ext.define('Ametys.form.widget.RichText.RichTextConfiguration', {
 	 *      classAttr.handleValue("myclass2"); // The class attribute will now accept 2 values myclass or myclass2
      *      classAttr.handleValue(["myclass3", "myclass"]); // The class attribute will now accept 3 values myclass or myclass2 or myclass3
      *      
-     * Please note, that the "style" attribute is holded separately: 
-     * the following line wille handle the "p" tag, with a style attribute, which contains the 'text-align' property.
+     * Please note, that the "style" and "classes" attributes are holded separately: 
+     * For "style", each value is a valid property. E.g. the following line wille handle the "p" tag, with a style attribute, which contains the 'text-align' property.
      *      Ametys.form.widget.RichText.RichTextConfiguration.handleTag("p").handleAttribute("style").handleValue("text-align");
-     * and not a style attribute that can be equals to "text-align".
+     *      and not a style attribute that can be equals to "text-align".
+     * For "class", each value is a valid class.
+     *      Ametys.form.widget.RichText.RichTextConfiguration.handleTag("p").handleAttribute("class").handleValue("a");
+     *      means that the class attribute can contains "a", but do not need to be equals to "a". 
 	 */
 	handleTag: function(tagName)
 	{
@@ -214,7 +242,7 @@ Ext.define('Ametys.form.widget.RichText.RichTextConfiguration', {
 									var a = this.defaultValue != null ? this.attributeName + "=" + this.defaultValue : "";
 
 									var b = ""
-                                    if (attributeName != "style")
+                                    if (attributeName != "style" && attributeName != "class")
                                     {
     									for (var key in this.values)
     									{
