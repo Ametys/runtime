@@ -53,20 +53,11 @@ Ext.define('Ametys.form.field.ReferencedNumberField', {
 	 * @private
 	 */
 	
-	/**
-	 * @cfg {String} ref-description The description of the value of reference as a tooltip
-	 */
-	/**
-	 * @property {String} _refDescription See #cfg-ref-description.
-	 * @private
-	 */
-	
 	constructor: function (config)
 	{
 		this.callParent(arguments);
 		
 		this._refCls = config['ref-cls'];
-		this._refDescription = config['ref-description'];
 		this._referenceValue = config['ref-value'];
 	},
 
@@ -80,7 +71,7 @@ Ext.define('Ametys.form.field.ReferencedNumberField', {
 		
 		if (this.rendered)
 		{
-			this._refEl.dom.value = value;
+            this.getEl().set({"data-refvalue": Ext.isString(value) ? value : ""});
 		}
 	},
 	
@@ -92,26 +83,6 @@ Ext.define('Ametys.form.field.ReferencedNumberField', {
 	{
 		this.callParent(arguments);
 		
-		this._refEl = this.el.insertSibling({
-			id: Ext.id(),
-			cls: this.el.dom.className + " " + this._refCls,
-			readOnly: true,
-			tag:'input'
-		}, 'after');
-		
-		if (this._refDescription != null)
-		{
-			var cfg = Ametys.ui.fluent.tip.Tooltip.create({
-            	title: this.fieldLabel,
-            	text: this._refDescription
-            });
-            
-	        Ext.QuickTips.register(Ext.apply({target: this._refEl.dom.id}, cfg));
-		}
-
-		if (this._referenceValue != null)
-		{
-			this._refEl.dom.value = this._referenceValue;
-		}
+        this.setReferenceValue(this._referenceValue);
 	}
 });
