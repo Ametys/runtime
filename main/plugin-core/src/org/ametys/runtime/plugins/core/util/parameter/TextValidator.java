@@ -112,6 +112,6 @@ public class TextValidator extends DefaultValidator
      */
     protected String getText(Object value)
     {
-        return value.toString();
+        return value != null ? value.toString() : "";
     }
 }
