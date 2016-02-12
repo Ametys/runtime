@@ -16,8 +16,8 @@
    -->
 <project name="merge" default="kernel-runtime-39">
 
-    <property name="dest-dir" location="../../../../.."/>
+    <property name="dest-dir" location="../../../.."/>
 
-    <import file="../../../../../bootstrap/4/development/merge/merge.xml"/>
+    <import file="../../../../bootstrap/4/development/merge/merge.xml"/>
     
 </project>
