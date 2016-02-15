@@ -2979,29 +2979,29 @@
     left: 6px;
     color: #313131;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/consolelogs.scss:18 */
-.uitool-consolelog .msg-level-0 {
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/logs.scss:18 */
+.uitool-log .msg-level-0 {
     
     color: #101010;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/consolelogs.scss:19 */
-.uitool-consolelog .msg-level-1 {
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/logs.scss:19 */
+.uitool-log .msg-level-1 {
     color: #3892d4;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/consolelogs.scss:20 */
-.uitool-consolelog .msg-level-2 {
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/logs.scss:20 */
+.uitool-log .msg-level-2 {
     color: #ffae01;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/consolelogs.scss:21 */
-.uitool-consolelog .msg-level-3 {
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/logs.scss:21 */
+.uitool-log .msg-level-3 {
     color: #c00;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/consolelogs.scss:22 */
-.uitool-consolelog .msg-level-4 {
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/logs.scss:22 */
+.uitool-log .msg-level-4 {
     color: #c00;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/consolelogs.scss:24 */
-.uitool-consolelog .x-grid-cell img {
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/logs.scss:24 */
+.uitool-log .x-grid-cell img {
     margin-right: 4px;
     vertical-align: middle;
 }
