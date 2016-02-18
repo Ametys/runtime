@@ -15,11 +15,15 @@
  */
 package org.ametys.core.cocoon.source;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.JarURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
 
 import org.apache.cocoon.util.NetUtils;
 import org.apache.excalibur.source.SourceNotFoundException;
@@ -27,6 +31,8 @@ import org.apache.excalibur.source.SourceUtil;
 import org.apache.excalibur.source.SourceValidity;
 import org.apache.excalibur.source.impl.AbstractSource;
 import org.apache.excalibur.source.impl.validity.NOPValidity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // Note : le code de cette classe est une recopie de
 // org.apache.excalibur.source.impl.ResourceSource, déclarée "final"
@@ -36,15 +42,20 @@ import org.apache.excalibur.source.impl.validity.NOPValidity;
  */
 public final class ResourceSource extends AbstractSource
 {
+    private final static Logger __LOGGER = LoggerFactory.getLogger(ResourceSource.class);
+    
     /** Location of the resource */
     private URL _location;
 
     private String _mimeType;
+    
+    private String _path;
+    
 
     /**
      * Constructor.<br>
      * @param systemId URI of the desired resource
-     * @throws MalformedURLException if the systemId is not like &lt;scheme&gt;://&lt;path&gt;
+     * @throws MalformedURLException if the systemId is not like &lt;scheme>://&lt;path>
      * @throws SourceNotFoundException if the location can not be found in the class loader
      */
     public ResourceSource(final String systemId) throws MalformedURLException, SourceNotFoundException
@@ -56,10 +67,10 @@ public final class ResourceSource extends AbstractSource
         }
 
         String scheme = systemId.substring(0, pos);
-        String path = NetUtils.normalize(systemId.substring(pos + "://".length()));
+        _path = NetUtils.normalize(systemId.substring(pos + "://".length()));
 
-        setSystemId(scheme + "://" + path);
-        _location = getClassLoader().getResource(path);
+        setSystemId(scheme + "://" + _path);
+        _location = getClassLoader().getResource(_path);
         setScheme(scheme);
         
         if (_location == null)
@@ -74,25 +85,57 @@ public final class ResourceSource extends AbstractSource
     }
 
     @Override
-    protected void checkInfos()
+    protected void getInfos()
     {
-        super.checkInfos();
-
         URLConnection connection = null;
         try
         {
+            _mimeType = URLConnection.getFileNameMap().getContentTypeFor(_path);
+
             connection = _location.openConnection();
-            setLastModified(connection.getLastModified());
-            setContentLength(connection.getContentLength());
-            _mimeType = connection.getContentType();
+
+            // Sun's JDK contains a bug leaking file descriptors when calling JarURLConnection.getLastModified()
+            // In case of JarURLConnection, we could access directly to the underlying jar file.
+            if (connection instanceof JarURLConnection)
+            {
+                URL jarFileURL = ((JarURLConnection) connection).getJarFileURL();
+                if ("file".equals(jarFileURL.getProtocol()))
+                {
+                    File file = new File(jarFileURL.toURI());
+                    
+                    try (JarFile jarFile = new JarFile(file))
+                    {
+                        ZipEntry entry = jarFile.getEntry(_path);
+    
+                        setLastModified(entry.getTime());
+                        setContentLength(entry.getSize());
+                    }
+                }
+                else
+                {
+                    // Not that bad since we know the JAR lastmodified >= entry lastmodified
+                    URLConnection jarconnection = jarFileURL.openConnection();
+                    setLastModified(jarconnection.getLastModified());
+                    jarconnection.getInputStream().close();
+                    
+                    setContentLength(connection.getContentLength());
+                }
+            }
+            else
+            {
+                setLastModified(connection.getLastModified());
+                setContentLength(connection.getContentLength());
+            }
         }
-        catch (IOException ioe)
+        catch (Exception e)
         {
+            __LOGGER.error("An error occurred while accessing info for resource " + _path, e);
+            
             setLastModified(0);
             setContentLength(-1);
             _mimeType = null;
         }
-    }
+    } 
 
     @Override
     public String getMimeType()
@@ -137,4 +180,5 @@ public final class ResourceSource extends AbstractSource
 
         return loader;
     }
+
 }
