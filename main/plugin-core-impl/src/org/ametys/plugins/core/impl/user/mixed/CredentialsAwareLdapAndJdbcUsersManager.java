@@ -58,6 +58,8 @@ public class CredentialsAwareLdapAndJdbcUsersManager extends CredentialsAwareLda
     /** Fallback users manager. */
     protected ModifiableCredentialsAwareJdbcUsersManager _fallbackUsersManager;
     
+    /** The component unique id */
+    protected String _id;
     /** The avalon context. */
     protected Context _context;
     /** The plugin name. */
@@ -76,10 +78,11 @@ public class CredentialsAwareLdapAndJdbcUsersManager extends CredentialsAwareLda
     }
     
     @Override
-    public void setPluginInfo(String pluginName, String featureName)
+    public void setPluginInfo(String pluginName, String featureName, String id)
     {
         _pluginName = pluginName;
         _featureName = featureName;
+        _id = id;
     }
     
     @Override
@@ -117,7 +120,7 @@ public class CredentialsAwareLdapAndJdbcUsersManager extends CredentialsAwareLda
     {
         ModifiableCredentialsAwareJdbcUsersManager jdbcUM = new ModifiableCredentialsAwareJdbcUsersManager();
         jdbcUM.contextualize(_context);
-        jdbcUM.setPluginInfo(_pluginName, _featureName);
+        jdbcUM.setPluginInfo(_pluginName, _featureName, _id);
         jdbcUM.service(_serviceManager);
         jdbcUM.configure(_fbConfiguration);
         jdbcUM.initialize();

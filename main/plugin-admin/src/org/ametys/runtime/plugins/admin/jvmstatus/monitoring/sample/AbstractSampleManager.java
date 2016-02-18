@@ -83,18 +83,15 @@ public abstract class AbstractSampleManager implements SampleManager, Monitoring
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        String id = configuration.getChild("id").getValue(null);
         boolean isLabelI18n = configuration.getChild("label").getAttributeAsBoolean("i18n", false);
         String label =  configuration.getChild("label").getValue(null);
         boolean isDescriptionI18n = configuration.getChild("description").getAttributeAsBoolean("i18n", false);
         String description =  configuration.getChild("description").getValue(null);
         
-        if (StringUtils.isEmpty(id) || StringUtils.isEmpty(label) || StringUtils.isEmpty(description))
+        if (StringUtils.isEmpty(label) || StringUtils.isEmpty(description))
         {
-            throw new ConfigurationException("Missing <id>, <label> or <description>", configuration);
+            throw new ConfigurationException("Missing <label> or <description>", configuration);
         }
-        
-        _id = id;
         
         if (isLabelI18n)
         {
@@ -119,10 +116,11 @@ public abstract class AbstractSampleManager implements SampleManager, Monitoring
      * @see org.ametys.runtime.plugin.component.PluginAware#setPluginInfo(java.lang.String, java.lang.String)
      */
     @Override
-    public void setPluginInfo(String pluginName, String featureName)
+    public void setPluginInfo(String pluginName, String featureName, String id)
     {
         _pluginName = pluginName;
         _featureName = featureName;
+        _id = id;
     }
     
     public void enableLogging(Logger logger)

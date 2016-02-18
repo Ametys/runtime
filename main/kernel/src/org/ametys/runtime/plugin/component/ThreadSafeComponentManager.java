@@ -346,7 +346,7 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
 
             if (component instanceof PluginAware)
             {
-                ((PluginAware) component).setPluginInfo(_pluginName, _featureName);
+                ((PluginAware) component).setPluginInfo(_pluginName, _featureName, _role);
             }
             
             return component;

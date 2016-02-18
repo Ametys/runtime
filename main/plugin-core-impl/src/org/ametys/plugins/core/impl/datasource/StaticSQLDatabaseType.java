@@ -48,15 +48,15 @@ public class StaticSQLDatabaseType extends AbstractLogEnabled implements Configu
     /** The driver not found message */
     private I18nizableText _driverNotFoundMessage;
     
-    public void setPluginInfo(String pluginName, String featureName)
+    public void setPluginInfo(String pluginName, String featureName, String id)
     {
         _pluginName = pluginName;
+        _id = id;
     }
     
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        _id = configuration.getAttribute("id");
         if (getLogger().isDebugEnabled())
         {
             getLogger().debug("Configuring database type with id '" + _id  + "'");

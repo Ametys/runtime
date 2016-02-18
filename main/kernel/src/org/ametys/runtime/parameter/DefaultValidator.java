@@ -94,7 +94,7 @@ public class DefaultValidator extends AbstractLogEnabled implements Validator, C
     }
     
     @Override
-    public void setPluginInfo(String pluginName, String featureName)
+    public void setPluginInfo(String pluginName, String featureName, String id)
     {
         _pluginName = pluginName;
     }

@@ -73,8 +73,9 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
     }
     
     @Override
-    public void setPluginInfo(String pluginName, String featureName)
+    public void setPluginInfo(String pluginName, String featureName, String id)
     {
+        _id = id;
         _pluginName = pluginName;
         _featureName = featureName;
     }
@@ -82,7 +83,6 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        _id = configuration.getAttribute("id");
         if (getLogger().isDebugEnabled())
         {
             getLogger().debug("Configuring element '" + _id + "'");

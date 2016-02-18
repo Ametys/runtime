@@ -25,6 +25,7 @@ public interface PluginAware
      * <i>Note : </i>The feature name may be null if the targeted component in declared at plugin level.
      * @param pluginName Unique identifier for the plugin hosting the extension
      * @param featureName Unique feature identifier (unique for a given pluginName)
+     * @param id Unique identifier of this component
      */
-    public void setPluginInfo(String pluginName, String featureName);
+    public void setPluginInfo(String pluginName, String featureName, String id);
 }

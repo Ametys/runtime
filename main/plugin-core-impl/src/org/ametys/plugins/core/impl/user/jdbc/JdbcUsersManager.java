@@ -96,21 +96,25 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
     //ComponentManager pour les Enumerator
     private ThreadSafeComponentManager<Enumerator> _enumeratorManager;
     
-    public void setPluginInfo(String pluginName, String featureName)
+    @Override
+    public void setPluginInfo(String pluginName, String featureName, String id)
     {
         _pluginName = pluginName;
     }
     
+    @Override
     public void contextualize(Context context) throws ContextException
     {
         _context = context;
     }
     
+    @Override
     public void service(ServiceManager manager) throws ServiceException
     {
         _manager = manager;
     }
     
+    @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
         _validatorManager = new ThreadSafeComponentManager<>();

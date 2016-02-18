@@ -67,7 +67,7 @@ public class StaticUserPreferenceProvider extends AbstractLogEnabled implements 
     protected String _pluginName;
     
     @Override
-    public void setPluginInfo(String pluginName, String featureName)
+    public void setPluginInfo(String pluginName, String featureName, String id)
     {
         _pluginName = pluginName;
     }

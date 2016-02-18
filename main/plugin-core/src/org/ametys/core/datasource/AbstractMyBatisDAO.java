@@ -74,7 +74,7 @@ public abstract class AbstractMyBatisDAO extends AbstractLogEnabled implements C
         _sqlDataSourceManager = (SQLDataSourceManager) manager.lookup(SQLDataSourceManager.ROLE);
     }
     
-    public void setPluginInfo(String pluginName, String featureName)
+    public void setPluginInfo(String pluginName, String featureName, String id)
     {
         _pluginName = pluginName;
     }

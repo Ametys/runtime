@@ -133,7 +133,7 @@ public abstract class AbstractComponentExtensionPoint<T> extends AbstractLogEnab
         {
             if (t instanceof PluginAware)
             {
-                ((PluginAware) t).setPluginInfo(ec.getPluginName(), ec.getFeatureName());
+                ((PluginAware) t).setPluginInfo(ec.getPluginName(), ec.getFeatureName(), id);
             }
             
             if (t instanceof LogEnabled)
