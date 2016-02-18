@@ -343,7 +343,7 @@ Ext.define('Ametys.cms.form.widget.RichText', {
 	constructor: function (config)
 	{
 		config = Ext.apply(config, {
-			height: Ext.isNumber(config.height) ? Number(config.height) : Ametys.cms.form.widget.RichText.FIELD_HEIGHT,
+			height: Ext.isNumber(Number(config.height)) ? Number(config.height) : Ametys.cms.form.widget.RichText.FIELD_HEIGHT,
 			resizable: true,
 			charCounter: true,
 			checkTitleHierarchy: true,
