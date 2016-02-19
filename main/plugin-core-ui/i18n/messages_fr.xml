@@ -751,6 +751,40 @@
     <!--+
          | LOG
          + -->
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LABEL">Journaux serveur</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_DESCRIPTION">Consultez les journaux du serveur en temps réel.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_STOP_REQUESTS">Mettre en pause la réception des messages du serveur.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CLEAR_GRID">Vide la liste des messages reçus.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_GRID_STATUSBAR">{0} message(s) affiché(s).</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_GRID_STATUSBAR_EMPTY">Aucun message affiché.</message>
+    <message key="PLUGINS_CORE_UI_LOGTOOL_DEFAULT_DETAIL_MESSAGE">Sélectionnez un message dans la partie ci-contre pour afficher son détail.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_TIMESTAMP_TEXT">Date :</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_USER_TEXT">Utilisateur :</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CATEGORY_TEXT">Catégorie :</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_REQUESTURI_TEXT">URI de la requête :</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_THREAD_TEXT">Thread :</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LOCATION_TEXT">Emplacement :</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CALLSTACK_TEXT">Pile d'appels :</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LEVEL_TEXT">Niveau :</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_MESSAGE_TEXT">Message :</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_TIMESTAMP_HEADER">Date</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_USER_HEADER">Utilisateur</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LEVEL_HEADER">Niveau</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CATEGORY_HEADER">Catégorie</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_REQUESTURI_HEADER">URI</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_MESSAGE_HEADER">Message</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LOCATION_HEADER">Emplacement</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_THREAD_HEADER">Thread</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CALLSTACK_HEADER">Pile d'appel</message>
+    
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_PAUSE_LABEL">Pause</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_PAUSE_DESCRIPTION">Interrompre la communication avec le serveur pour ne plus recevoir de nouveaux messages.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_PLAY_DESCRIPTION">La  mise à jour en temps réel des logs est actuellement en pause. Cliquez ici pour la relancer.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CLEAR_LABEL">Effacer</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CLEAR_DESCRIPTION">Effacer la liste de tous les messages reçus du serveur.</message>
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_SERVERLOG_ACTIONS_LABEL">Journaux serveur</message>
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_SERVERLOG_GROUPS_GROUP_ACTIONS">Actions</message>
+
     <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOG_LABEL">Journaux applicatifs</message>
     <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOG_DESCRIPTION">Voir les journaux applicatifs affichant les événements</message>
     <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOG_CLEAR_LABEL">Effacer les événements affichés</message>
@@ -780,7 +814,13 @@
     <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_MESSAGE">Message</message>
     <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_DETAILS">Détails</message>
     <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_STACKTRACE">Pile d'appels</message>
-    
+    <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_DATE_TEXT">Date :</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_LEVEL_TEXT">Niveau :</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_CATEGORY_TEXT">Catégorie :</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_MESSAGE_TEXT">Message :</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_DETAILS_TEXT">Détails :</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_STACKTRACE_TEXT">Pile d'appels :</message>
+
     <!--+
          | SOURCE EDIT
          + -->

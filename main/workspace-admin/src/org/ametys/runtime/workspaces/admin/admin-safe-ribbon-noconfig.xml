@@ -40,6 +40,7 @@
                 <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_LOGS_LABEL" icon="">
                     <large/>
                     <medium>
+                        <control id="org.ametys.plugins.core.ui.log.ServerLogTool"/>
                         <control id="org.ametys.plugins.admin.Logs"/>
                         <control id="org.ametys.plugins.admin.LogsLevel"/>
                     </medium>
@@ -174,6 +175,20 @@
                         <control id="org.ametys.plugins.admin.datasources.Add"/>
                         <control id="org.ametys.plugins.admin.datasources.Edit"/>
                         <control id="org.ametys.plugins.admin.datasources.Delete"/>
+                    </medium>
+                    <small/>
+                </group>
+            </groups>
+        </tab>
+        
+        <!-- Contextual tab for server logs -->
+        <tab id="org.ametys.plugins.core.ui.log.ServerLogTool.Tab" label="plugin.core-ui:RIBBON_ADMINISTRATION_TABS_TAB_SERVERLOG_ACTIONS_LABEL" contextualLabel="plugin.core-ui:RIBBON_ADMINISTRATION_TABS_TAB_SERVERLOG_ACTIONS_LABEL" contextualColor="4" contextualGroup="LOGS">
+            <groups>
+                <group label="plugin.core-ui:RIBBON_ADMINISTRATION_TABS_TAB_SERVERLOG_GROUPS_GROUP_ACTIONS" icon="">
+                    <large/>
+                    <medium>
+                        <control id="org.ametys.plugins.core.ui.log.ServerLogTool.Pause"/>
+                        <control id="org.ametys.plugins.core.ui.log.ServerLogTool.Clear"/>
                     </medium>
                     <small/>
                 </group>

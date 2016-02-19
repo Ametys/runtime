@@ -20,7 +20,7 @@
  */
 Ext.define("Ametys.plugins.coreui.system.consolelog.ConsoleLogTool",
 	{
-		extend: "Ametys.tool.Tool",
+		extend: "Ametys.plugins.coreui.log.AbstractLogTool",
 		
 		statics: {
 			/**
@@ -104,6 +104,20 @@ Ext.define("Ametys.plugins.coreui.system.consolelog.ConsoleLogTool",
             }
 		},
 		
+	    constructor: function(config)
+	    {
+	        this.callParent(arguments);
+	        
+	        this._detailsTpl = new Ext.XTemplate(
+	                "<tpl if='date'><b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_DATE_TEXT'/></b> {date}<br /></tpl>",
+	                "<tpl if='level'><b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_LEVEL_TEXT'/></b> {level}<br /></tpl>",
+	                "<tpl if='category'><b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_CATEGORY_TEXT'/></b> {category}<br /></tpl>",
+	                "<tpl if='message'><b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_MESSAGE_TEXT'/></b> {message}<br /></tpl>",
+	                "<tpl if='details'><br /><b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_DETAILS_TEXT'/></b><br />{details}</tpl>",
+	                "<tpl if='stacktrace'><br /><b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_STACKTRACE_TEXT'/></b><br />{stacktrace}</tpl>"
+	        );
+	    },
+		
         /**
          * Renderer for the level column
          * @param {Number} value The level
@@ -125,37 +139,109 @@ Ext.define("Ametys.plugins.coreui.system.consolelog.ConsoleLogTool",
                 case Ametys.log.Logger.Entry.LEVEL_FATAL: return "<img src=\"" + imgSrc + "\"/><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_LEVEL_4'/>";
             }
         },
+        
+        getStore: function()
+        {
+            return Ametys.log.LoggerFactory.getStore();
+        },
+        
+        getColumns: function()
+        {
+            return [
+                {
+                    stateId: 'grid-date',
+                    header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_DATE'/>",
+                    width: 120,
+                    sortable: true,
+                    renderer: Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.dateRenderer,
+                    dataIndex: 'date'
+                },
+                {
+                    stateId: 'grid-level',
+                    header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_LEVEL'/>",
+                    width: 80,
+                    sortable: true,
+                    renderer: Ext.bind(this.levelRenderer, this),
+                    dataIndex: 'level',
+                    hideable: false,
+                    filter: {
+                        type: 'list',
+                        store: Ext.create('Ext.data.Store', {
+                            fields: ['id','text'],
+                            data: [
+                               {id: 0, text: 'Debug'},
+                               {id: 1, text: 'Info'},
+                               {id: 2, text: 'Warn'},
+                               {id: 3, text: 'Error'},
+                               {id: 4, text: 'Fatal'}
+                            ]
+                        })
+                    }
+                },
+                {
+                    stateId: 'grid-category',
+                    header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_CATEGORY'/>",
+                    width: 200,
+                    sortable: true,
+                    renderer: Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.allRenderer,
+                    dataIndex: 'category',
+                    filter: {
+                        type: 'string'
+                    }
+                },
+                {
+                    stateId: 'grid-message',
+                    header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_MESSAGE'/>",
+                    flex: 0.5,
+                    sortable: true,
+                    renderer: Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.allRenderer,
+                    dataIndex: 'message',
+                    hideable: false,
+                    filter: {
+                        type: 'string'
+                    }
+                },
+                {
+                    stateId: 'grid-details',
+                    header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_DETAILS'/>",
+                    flex: 1,
+                    sortable: true,
+                    renderer: Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.allRenderer,
+                    dataIndex: 'details',
+                    hidden: true,
+                    filter: {
+                        type: 'string'
+                    }
+                },
+                {
+                    stateId: 'grid-stacktrace',
+                    header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_STACKTRACE'/>",
+                    flex: 1,
+                    hidden: true,
+                    renderer: Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.stacktraceRendered,
+                    dataIndex: 'stacktrace',
+                    filter: {
+                        type: 'string'
+                    }
+                }
+            ];
+        },
+        
+        getDetailsText: function(records)
+        {
+            var record = records[0];
             
-		/**
-		 * @property {Ext.grid.Panel} grid The grid panel displaying the logs
-		 * @private
-		 */
-		
-		createPanel: function()
-		{
-			this.grid = Ext.create("Ext.grid.Panel", { 
-				stateful: true,
-				stateId: this.self.getName() + "$grid",
-				store: Ametys.log.LoggerFactory.getStore(),
-				autoScroll: true,
-				cls: 'uitool-consolelog',
-			    columns: [
-			        {stateId: 'grid-date', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_DATE'/>", width: 120, sortable: true, renderer: Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.dateRenderer, dataIndex: 'date'},
-			        {stateId: 'grid-level', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_LEVEL'/>", width: 80, sortable: true, renderer: Ext.bind(this.levelRenderer, this), dataIndex: 'level', hideable: false},
-			        {stateId: 'grid-category', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_CATEGORY'/>", width: 200, sortable: true, renderer: Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.allRenderer, dataIndex: 'category'},
-			        {stateId: 'grid-message', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_MESSAGE'/>", flex: 0.5, sortable: true, renderer: Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.allRenderer, dataIndex: 'message', hideable: false},
-			        {stateId: 'grid-details', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_DETAILS'/>", flex: 1, sortable: true, renderer: Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.allRenderer, dataIndex: 'details'},
-                    {stateId: 'grid-stacktrace', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_STACKTRACE'/>", flex: 1, hidden: true, renderer: Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.stacktraceRendered, dataIndex: 'stacktrace'}
-			    ]
-			});
-
-			return this.grid;
-		},
-		
-		getMBSelectionInteraction: function() 
-		{
-		    return Ametys.tool.Tool.MB_TYPE_NOSELECTION;
-		},
+            var data = {
+                date: Ext.Date.format(record.get("date"), Ext.Date.patterns.ShortDateTime),
+                level: record.get("level"),
+                category: record.get("category"),
+                message: record.get("message"),
+                details: record.get("details"),
+                stacktrace: Ext.String.stacktraceToHTML(record.get("stacktrace"))
+            };
+            
+            return this._detailsTpl.applyTemplate(data);
+        },
         
         getType: function()
         {

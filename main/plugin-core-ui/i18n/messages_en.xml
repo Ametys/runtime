@@ -751,6 +751,40 @@
     <!--+
          | LOG
          + -->
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LABEL">Server logs</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_DESCRIPTION">Display the server logs in real time.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_STOP_REQUESTS">Stop receiving server logs.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CLEAR_GRID">Clear the logs list.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_GRID_STATUSBAR">{0} logs displayed.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_GRID_STATUSBAR_EMPTY">No log to display.</message>
+    <message key="PLUGINS_CORE_UI_LOGTOOL_DEFAULT_DETAIL_MESSAGE">Select a message on the nearby part to display details.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_TIMESTAMP_TEXT">Date:</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_USER_TEXT">User:</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CATEGORY_TEXT">Category:</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_REQUESTURI_TEXT">Request URI:</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_THREAD_TEXT">Thread:</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LOCATION_TEXT">Location:</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CALLSTACK_TEXT">Callstack:</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LEVEL_TEXT">Level:</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_MESSAGE_TEXT">Message:</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_TIMESTAMP_HEADER">Date</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_USER_HEADER">User</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LEVEL_HEADER">Level</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CATEGORY_HEADER">Category</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_REQUESTURI_HEADER">Request URI</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_MESSAGE_HEADER">Message</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_THREAD_HEADER">Thread</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LOCATION_HEADER">Location</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CALLSTACK_HEADER">Callstack</message>
+    
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_PAUSE_LABEL">Pause</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_PAUSE_DESCRIPTION">Temporary interrupt the communication with the server and pause the update of the logs.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_PLAY_DESCRIPTION">The real time update of the logs is currently paused. Click here to unpause it.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CLEAR_LABEL">Clear</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CLEAR_DESCRIPTION">Clear the list of all messages previously received.</message>
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_SERVERLOG_ACTIONS_LABEL">Server logs</message>
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_SERVERLOG_GROUPS_GROUP_ACTIONS">Actions</message>
+
     <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOG_LABEL">Application logs</message>
     <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOG_DESCRIPTION">See the application logs displaying technical events</message>
     <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOG_CLEAR_LABEL">Clear events</message>
@@ -780,6 +814,12 @@
     <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_MESSAGE">Message</message>
     <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_DETAILS">Details</message>
     <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_STACKTRACE">Call stack</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_DATE_TEXT">Date:</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_LEVEL_TEXT">Level:</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_CATEGORY_TEXT">Category:</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_MESSAGE_TEXT">Message:</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_DETAILS_TEXT">Details:</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_STACKTRACE_TEXT">Stacktrace:</message>
     
     <!--+
          | SOURCE EDIT

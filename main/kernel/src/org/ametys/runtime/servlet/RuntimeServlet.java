@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.Properties;
 import java.util.regex.Pattern;
 
@@ -32,6 +33,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.OutputKeys;
@@ -66,6 +68,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang.time.StopWatch;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Appender;
+import org.apache.log4j.LogManager;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,6 +80,7 @@ import org.ametys.runtime.config.Config;
 import org.ametys.runtime.config.ConfigManager;
 import org.ametys.runtime.data.AmetysHomeLock;
 import org.ametys.runtime.data.AmetysHomeLockException;
+import org.ametys.runtime.log.MemoryAppender;
 import org.ametys.runtime.plugin.Init;
 import org.ametys.runtime.plugin.InitExtensionPoint;
 import org.ametys.runtime.plugin.PluginsManager;
@@ -311,6 +316,16 @@ public class RuntimeServlet extends HttpServlet
         DOMConfigurator.configure(logj4fFile);
         System.clearProperty("ametys.home.dir");
         
+        Appender appender = new MemoryAppender(); 
+        appender.setName("memory-appender");
+        LogManager.getRootLogger().addAppender(appender); 
+        Enumeration<org.apache.log4j.Logger> categories = LogManager.getCurrentLoggers(); 
+        while (categories.hasMoreElements()) 
+        { 
+            org.apache.log4j.Logger logger = categories.nextElement(); 
+            logger.addAppender(appender); 
+        } 
+        
         _loggerManager = new SLF4JLoggerManager();
         _logger = LoggerFactory.getLogger(getClass());
     }
@@ -477,6 +492,17 @@ public class RuntimeServlet extends HttpServlet
                     res.sendRedirect(req.getContextPath() + "/_admin/public/safe-mode.html");
                     return;
                 }
+            }
+        }
+        
+        HttpSession session = req.getSession(false); 
+        if (session != null) 
+        { 
+            String authenticatedUser = (String) session.getAttribute("Runtime:UserLogin"); 
+            
+            if (authenticatedUser != null)
+            {
+                MDC.put("user", authenticatedUser);
             }
         }
         
