@@ -33,12 +33,16 @@ import org.xml.sax.helpers.AttributesImpl;
 import org.ametys.core.group.Group;
 import org.ametys.core.group.GroupsManager;
 import org.ametys.core.util.ldap.AbstractLDAPConnector;
+import org.ametys.runtime.config.Config;
 
 /**
  * This class is the base for groups manager using LDAP
  */
 public abstract class AbstractLDAPGroupsManager extends AbstractLDAPConnector implements GroupsManager, Configurable
 {
+    /** The configuration parameter id of the LDAP data source */
+    protected static final String __LDAP_DATA_SOURCE_PARAMETER = "runtime.datasource.core.ldap";
+    
     /** The group DN relative to baseDN */
     protected String _groupsRelativeDN;
     /** The filter to find groups */
@@ -58,6 +62,12 @@ public abstract class AbstractLDAPGroupsManager extends AbstractLDAPConnector im
         _groupsSearchScope = _getSearchScope(configuration, "SearchScope");
         _groupsIdAttribute = _getConfigParameter(configuration, "Id");
         _groupsDescriptionAttribute = _getConfigParameter(configuration, "Description");
+    }
+    
+    @Override
+    protected String getDataSourceId()
+    {
+        return Config.getInstance().getValueAsString(__LDAP_DATA_SOURCE_PARAMETER);
     }
     
     @Override

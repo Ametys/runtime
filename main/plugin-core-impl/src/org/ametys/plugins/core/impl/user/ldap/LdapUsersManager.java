@@ -53,12 +53,16 @@ import org.xml.sax.helpers.AttributesImpl;
 import org.ametys.core.user.User;
 import org.ametys.core.user.UsersManager;
 import org.ametys.core.util.ldap.AbstractLDAPConnector;
+import org.ametys.runtime.config.Config;
 
 /**
  * Use a ldap server for getting the list of users.
  */
 public class LdapUsersManager extends AbstractLDAPConnector implements UsersManager, ThreadSafe, Component, Configurable
 {
+    /** The configuration parameter id of the LDAP data source */
+    protected static final String __LDAP_DATA_SOURCE_PARAMETER = "runtime.datasource.core.ldap";
+    
     /** Relative DN for users. */
     protected String _usersRelativeDN;
     /** Filter for limiting the search. */
@@ -98,6 +102,12 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
         _usersEmailAttribute = _getConfigParameter(configuration, "Email");
         _userEmailIsMandatory = configuration.getChild("Email").getAttributeAsBoolean("mandatory", false);
         _serverSideSorting = !"false".equals(_getConfigParameter(configuration, "ServerSideSorting"));
+    }
+    
+    @Override
+    protected String getDataSourceId()
+    {
+        return Config.getInstance().getValueAsString(__LDAP_DATA_SOURCE_PARAMETER);
     }
     
     @Override
