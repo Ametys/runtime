@@ -48,9 +48,6 @@ public abstract class AbstractLDAPConnector extends CachingComponent<Object> imp
     // Check filter look
     private static final Pattern __FILTER = Pattern.compile("\\s*\\(.*\\)\\s*");
     
-    /** The configuration parameter id of the LDAP data source */
-    private static final String __LDAP_PARAMETER_ID = "runtime.datasource.core.ldap";
-    
     /** URL connection to the ldap server. */
     protected String _ldapUrl;  
     /** Base DN to the ldap server. */
@@ -79,8 +76,7 @@ public abstract class AbstractLDAPConnector extends CachingComponent<Object> imp
     {
         super.initialize();
         
-        String dataSourceId = Config.getInstance().getValueAsString(__LDAP_PARAMETER_ID);
-        
+        String dataSourceId = getDataSourceId();
         DataSourceDefinition ldapDefinition = _ldapDataSourceManager.getDataSourceDefinition(dataSourceId);
         
         Map<String, String> ldapParameters = ldapDefinition.getParameters();
@@ -102,6 +98,13 @@ public abstract class AbstractLDAPConnector extends CachingComponent<Object> imp
     {
         _ldapDataSourceManager = (LDAPDataSourceManager) serviceManager.lookup(LDAPDataSourceManager.ROLE); 
     }
+    
+    /**
+     * Get the id of LDAP data source
+     * @return the id of data source
+     */
+    protected abstract String getDataSourceId ();
+    
     
     /**
      * Get the filter from configuration key and check it
