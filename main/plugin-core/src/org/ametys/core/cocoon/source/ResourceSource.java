@@ -34,15 +34,14 @@ import org.apache.excalibur.source.impl.validity.NOPValidity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// Note : le code de cette classe est une recopie de
-// org.apache.excalibur.source.impl.ResourceSource, déclarée "final"
+// Note : duplication of the final class org.apache.excalibur.source.impl.ResourceSource
 /**
  * Description of a source which is described by the resource protocol which
  * gets a resource from the classloader.
  */
 public final class ResourceSource extends AbstractSource
 {
-    private final static Logger __LOGGER = LoggerFactory.getLogger(ResourceSource.class);
+    private static final Logger __LOGGER = LoggerFactory.getLogger(ResourceSource.class);
     
     /** Location of the resource */
     private URL _location;
@@ -55,7 +54,7 @@ public final class ResourceSource extends AbstractSource
     /**
      * Constructor.<br>
      * @param systemId URI of the desired resource
-     * @throws MalformedURLException if the systemId is not like &lt;scheme>://&lt;path>
+     * @throws MalformedURLException if the systemId is not like &lt;scheme&gt;://&lt;path&gt;
      * @throws SourceNotFoundException if the location can not be found in the class loader
      */
     public ResourceSource(final String systemId) throws MalformedURLException, SourceNotFoundException
