@@ -32,7 +32,7 @@ public class MemoryLogRecord extends Log4JLogRecord
      */
     public String getUser()
     {
-      return (_user);
+        return _user;
     }
 
     /**
@@ -52,7 +52,7 @@ public class MemoryLogRecord extends Log4JLogRecord
      */
     public String getRequestURI()
     {
-        return (_requestURI);
+        return _requestURI;
     }
     
     /**
