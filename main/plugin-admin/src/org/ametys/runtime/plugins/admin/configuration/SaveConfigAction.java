@@ -15,12 +15,10 @@
  */
 package org.ametys.runtime.plugins.admin.configuration;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.acting.AbstractAction;
@@ -31,23 +29,15 @@ import org.apache.cocoon.environment.SourceResolver;
 
 import org.ametys.runtime.config.ConfigManager;
 import org.ametys.runtime.servlet.RuntimeServlet;
+import org.ametys.runtime.util.AmetysHomeHelper;
 
 
 /**
  * This action is in charge to get and save the config values entered by the user.<br>
  * The backup is delegated to <code>Config</code>
  */
-public class SaveConfigAction extends AbstractAction implements Contextualizable, ThreadSafe
+public class SaveConfigAction extends AbstractAction implements ThreadSafe
 {   
-    // Logger for traces
-    private String _configFileName;
-
-    public void contextualize(Context context) throws ContextException
-    {
-        org.apache.cocoon.environment.Context ctx = (org.apache.cocoon.environment.Context) context.get(org.apache.cocoon.Constants.CONTEXT_ENVIRONMENT_CONTEXT);
-        _configFileName = ctx.getRealPath(RuntimeServlet.CONFIG_RELATIVE_PATH);
-    }
-    
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String src, Parameters parameters) throws Exception
     {
         if (getLogger().isDebugEnabled())
@@ -72,7 +62,7 @@ public class SaveConfigAction extends AbstractAction implements Contextualizable
             }
 
             // Sauvegarde le déploiement
-            configManager.save(untypedValues, _configFileName);
+            configManager.save(untypedValues, new File(AmetysHomeHelper.getAmetysHomeConfig(), RuntimeServlet.CONFIG_FILE_NAME).getCanonicalPath());
         }
         catch (Exception e)
         {

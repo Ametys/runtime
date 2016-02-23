@@ -88,6 +88,7 @@ import org.ametys.runtime.plugin.PluginsManager.Status;
 import org.ametys.runtime.plugin.component.PluginsComponentManager;
 import org.ametys.runtime.request.RequestListener;
 import org.ametys.runtime.request.RequestListenerManager;
+import org.ametys.runtime.util.AmetysHomeHelper;
 
 /**
  * Main entry point for applications.<br>
@@ -107,8 +108,8 @@ public class RuntimeServlet extends HttpServlet
     /** Default max upload size (10 Mb) */
     public static final int DEFAULT_MAX_UPLOAD_SIZE = 10 * 1024 * 1024;
 
-    /** The config file relative path */
-    public static final String CONFIG_RELATIVE_PATH = "/WEB-INF/config/config.xml";
+    /** The config file name */
+    public static final String CONFIG_FILE_NAME = "config.xml";
     
     /** Name of the servlet initialization parameter for the ametys home property */
     public static final String AMETYS_HOME_PROPERTY = "ametys.home.property";
@@ -191,17 +192,18 @@ public class RuntimeServlet extends HttpServlet
             {
                 FileUtils.forceMkdir(tmpDir);
             }
-
-            // Configuration file
-            Config.setFilename(_servletContext.getRealPath(CONFIG_RELATIVE_PATH));
             
             // Init the Ametys home directory and lock before setting the logger.
             // The log folder is located in the Ametys home directory.
             _initAmetysHome();
             
+            // Configuration file
+            File config = FileUtils.getFile(_ametysHome, AmetysHomeHelper.AMETYS_HOME_CONFIG_DIR, CONFIG_FILE_NAME);
+            Config.setFilename(config.getCanonicalPath());
+            
             // Init logger
             _initLogger();
-    
+            
             _initAmetys();
         }
         catch (Throwable t)
