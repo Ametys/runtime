@@ -20,11 +20,14 @@ $tag-field-item-margin: dynamic(0 3px 1px 0);
 $tag-field-item-height: dynamic(20px);
 
 $ametys-tag-field-icon-spacing: dynamic(3px);
-$ametys-tag-field-link-color: dynamic($ametys-highlight-color);
-$ametys-tag-field-link-color-over: dynamic($ametys-ribbon-tabpanel-mainbutton-background-color-over);
 $ametys-tag-field-link-text-decoration: dynamic(underline);
 $ametys-tag-field-link-text-decoration-over: dynamic(underline);
 
 $ametys-tag-field-glyph-color: dynamic($ametys-ribbon-main-glyph-color);
 $ametys-tag-field-glyph-decorator-color: dynamic($ametys-ribbon-main-glyph-decorator-color);
 $ametys-tag-field-glyph-decorator-color-shadow: dynamic($ametys-ribbon-main-glyph-decorator-color-shadow);
+
+/* Override default color when field is selected but has no focus*/
+$tag-field-item-selected-color: dynamic($tag-field-item-color);
+$tag-field-item-selected-background-color: dynamic($tag-field-item-background-color);
+$tag-field-item-selected-border-color: dynamic($tag-field-item-border-color);

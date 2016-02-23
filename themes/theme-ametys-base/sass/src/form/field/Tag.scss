@@ -20,19 +20,17 @@
         white-space: normal;
     }
     
-    .#{$prefix}tagfield-item 
+    .#{$prefix}tagfield-item {
         img {
             margin-right: $ametys-tag-field-icon-spacing; 
             vertical-align: text-top;
         }
         
         .clickable {
-            color: $ametys-tag-field-link-color;
             text-decoration: $ametys-tag-field-link-text-decoration;
         }
         .clickable:hover {
             cursor: pointer;
-            color: $ametys-tag-field-link-color-over;
             text-decoration: $ametys-tag-field-link-text-decoration-over;
         }
         
@@ -62,17 +60,27 @@
 		    	text-shadow: 0px 0px 2px $ametys-tag-field-glyph-decorator-color-shadow;
 		    }
         }
-        
-	.#{$prefix}tagfield-item-selected .#{$prefix}tagfield-item-text .#{$prefix}tagfield-glyph {
-		&:before {
-			color: #fff;
-		}
-		
-		&:after {
-			color: #fff;
-		}
+	}
+    
+    .#{$prefix}tagfield-item-selected {
+    	.clickable {
+            color: color: #fff;
+        }
+        .clickable:hover {
+            color: color: #fff;
+        }
 	}
 }   
+
+.#{$prefix}field-focus .#{$prefix}tagfield ul.#{$prefix}tagfield-list .#{$prefix}tagfield-item-selected .#{$prefix}tagfield-item-text .#{$prefix}tagfield-glyph {
+	&:before {
+		color: #fff;
+	}
+	
+	&:after {
+		color: #fff;
+	}
+}
      
 .#{$prefix}tagfield-item-close {
     @include opacity(0.1);
@@ -98,7 +106,19 @@
     }
 }
 
- 
+.#{$prefix}field-focus {
+    @include extjs-tag-field-ui(
+        $ui: 'default',
+        
+        $ui-item-background-color: lighten($ametys-highlight-color, 40%),
+        $ui-item-border-color: lighten($ametys-highlight-color, 10%),
+
+        $ui-item-selected-color: #fff,
+        $ui-item-selected-background-color: $ametys-highlight-color,
+        $ui-item-selected-border-color: darken($ametys-highlight-color, 10%)
+    );
+} 
+            
 .a-tool-layout-zoned-focused {
     @for $i from 1 through length($ametys-tool-tab-colors) {
         $index: $i - 1;
@@ -109,17 +129,6 @@
         
         &.a-tool-layout-zoned-panel-#{$index*10} {
             .#{$prefix}field-focus {
-                .#{$prefix}tagfield ul.#{$prefix}tagfield-list {
-                    .#{$prefix}tagfield-item-selected {
-                        &.#{$prefix}tagfield-item .clickable {
-                            color: mix($ametys-tag-field-link-color, lighten($active-color-light, 30%), 50%);
-                        }
-                        &.#{$prefix}tagfield-item .clickable:hover {
-                            color: mix($ametys-tag-field-link-color-over, lighten($active-color-light, 30%), 50%);
-                        }
-                    }
-                }
-                
                 @include extjs-tag-field-ui(
                     $ui: 'default',
                     
