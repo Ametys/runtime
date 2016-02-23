@@ -62,32 +62,42 @@
 		    	text-shadow: 0px 0px 2px $ametys-tag-field-glyph-decorator-color-shadow;
 		    }
         }
-    }   
+        
+	.#{$prefix}tagfield-item-selected .#{$prefix}tagfield-item-text .#{$prefix}tagfield-glyph {
+		&:before {
+			color: #fff;
+		}
+		
+		&:after {
+			color: #fff;
+		}
+	}
+}   
      
-    .#{$prefix}tagfield-item-close {
-        @include opacity(0.1);
+.#{$prefix}tagfield-item-close {
+    @include opacity(0.1);
+    
+    &:hover {
+        @include opacity(1);
+    }
+    
+    .#{$prefix}tagfield-item-selected & {
+        @include opacity(0.5);
         
         &:hover {
             @include opacity(1);
         }
-        
-        .#{$prefix}tagfield-item-selected & {
-            @include opacity(0.5);
-            
-            &:hover {
-                @include opacity(1);
-            }
-        }
+    }
 
-        .#{$prefix}field-focus & {
-            @include opacity(0.5);
-            
-            &:hover {
-                @include opacity(1);
-            }
+    .#{$prefix}field-focus & {
+        @include opacity(0.5);
+        
+        &:hover {
+            @include opacity(1);
         }
     }
-    
+}
+
  
 .a-tool-layout-zoned-focused {
     @for $i from 1 through length($ametys-tool-tab-colors) {
