@@ -192,6 +192,9 @@
             <arg value="workspace"/>
             <arg value="${ametys-work-dir}"/>
         </exec>
+        <echo file="${ametys-work-dir}/.sencha/workspace/sencha.cfg" append="true">
+skip.slice=1
+</echo>
     </target>
     
     <!-- +
