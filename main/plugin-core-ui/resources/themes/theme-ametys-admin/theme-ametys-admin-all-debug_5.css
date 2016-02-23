@@ -5871,40 +5871,75 @@ ul.ametys-tooltip-comment > li div.comment-text {
     text-decoration: underline;
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:39 */
+.x-tagfield ul.x-tagfield-list .x-tagfield-item-text .x-tagfield-glyph {
+    position: relative;
+    display: inline-block;
+    vertical-align: text-bottom;
+    margin-right: 5px;
+    widht: 16px;
+    height: 16px;
+}
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:47 */
+.x-tagfield ul.x-tagfield-list .x-tagfield-item-text .x-tagfield-glyph:before {
+    margin-left: 0px;
+    font-size: 16px;
+    line-height: 16px;
+    color: #717171;
+}
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:54 */
+.x-tagfield ul.x-tagfield-list .x-tagfield-item-text .x-tagfield-glyph:after {
+    margin-left: 0px;
+    position: absolute;
+    left: 8px;
+    bottom: 0px;
+    color: #5a5a5a;
+    font-size: 11px;
+    line-height: 11px;
+    text-shadow: 0px 0px 2px #eee;
+}
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:67 */
+.x-tagfield ul.x-tagfield-list .x-tagfield-item-selected .x-tagfield-item-text .x-tagfield-glyph:before {
+    color: #fff;
+}
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:71 */
+.x-tagfield ul.x-tagfield-list .x-tagfield-item-selected .x-tagfield-item-text .x-tagfield-glyph:after {
+    color: #fff;
+}
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:77 */
 .x-tagfield-item-close {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=10);
     opacity: 0.1;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:42 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:80 */
 .x-tagfield-item-close:hover {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:46 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:84 */
 .x-tagfield-item-selected .x-tagfield-item-close {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
     opacity: 0.5;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:49 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:87 */
 .x-tagfield-item-selected .x-tagfield-item-close:hover {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:54 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:92 */
 .x-field-focus .x-tagfield-item-close {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
     opacity: 0.5;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:57 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:95 */
 .x-field-focus .x-tagfield-item-close:hover {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:76 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:114 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-field-focus .x-tagfield ul.x-tagfield-list .x-tagfield-item-selected.x-tagfield-item .clickable {
     color: #95adcd;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:79 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:117 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-field-focus .x-tagfield ul.x-tagfield-list .x-tagfield-item-selected.x-tagfield-item .clickable:hover {
     color: #a0b8d8;
 }
@@ -5975,11 +6010,11 @@ ul.ametys-tooltip-comment > li div.comment-text {
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-field-focus .x-form-text-default .x-tagfield-item-selected .x-tagfield-item-close:active {
     background-position: -24px -12px;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:76 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:114 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-field-focus .x-tagfield ul.x-tagfield-list .x-tagfield-item-selected.x-tagfield-item .clickable {
     color: #95adcd;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:79 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:117 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-field-focus .x-tagfield ul.x-tagfield-list .x-tagfield-item-selected.x-tagfield-item .clickable:hover {
     color: #a0b8d8;
 }
@@ -6050,11 +6085,11 @@ ul.ametys-tooltip-comment > li div.comment-text {
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-field-focus .x-form-text-default .x-tagfield-item-selected .x-tagfield-item-close:active {
     background-position: -24px -12px;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:76 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:114 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-field-focus .x-tagfield ul.x-tagfield-list .x-tagfield-item-selected.x-tagfield-item .clickable {
     color: #95adcd;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:79 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:117 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-field-focus .x-tagfield ul.x-tagfield-list .x-tagfield-item-selected.x-tagfield-item .clickable:hover {
     color: #a0b8d8;
 }
@@ -6125,11 +6160,11 @@ ul.ametys-tooltip-comment > li div.comment-text {
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-field-focus .x-form-text-default .x-tagfield-item-selected .x-tagfield-item-close:active {
     background-position: -24px -12px;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:76 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:114 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-field-focus .x-tagfield ul.x-tagfield-list .x-tagfield-item-selected.x-tagfield-item .clickable {
     color: #95adcd;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:79 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:117 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-field-focus .x-tagfield ul.x-tagfield-list .x-tagfield-item-selected.x-tagfield-item .clickable:hover {
     color: #a0b8d8;
 }
@@ -6200,11 +6235,11 @@ ul.ametys-tooltip-comment > li div.comment-text {
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-field-focus .x-form-text-default .x-tagfield-item-selected .x-tagfield-item-close:active {
     background-position: -24px -12px;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:76 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:114 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-field-focus .x-tagfield ul.x-tagfield-list .x-tagfield-item-selected.x-tagfield-item .clickable {
     color: #95adcd;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:79 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:117 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-field-focus .x-tagfield ul.x-tagfield-list .x-tagfield-item-selected.x-tagfield-item .clickable:hover {
     color: #a0b8d8;
 }
@@ -6275,11 +6310,11 @@ ul.ametys-tooltip-comment > li div.comment-text {
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-field-focus .x-form-text-default .x-tagfield-item-selected .x-tagfield-item-close:active {
     background-position: -24px -12px;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:76 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:114 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-field-focus .x-tagfield ul.x-tagfield-list .x-tagfield-item-selected.x-tagfield-item .clickable {
     color: #95adcd;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:79 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:117 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-field-focus .x-tagfield ul.x-tagfield-list .x-tagfield-item-selected.x-tagfield-item .clickable:hover {
     color: #a0b8d8;
 }
@@ -6350,11 +6385,11 @@ ul.ametys-tooltip-comment > li div.comment-text {
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-field-focus .x-form-text-default .x-tagfield-item-selected .x-tagfield-item-close:active {
     background-position: -24px -12px;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:76 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:114 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-field-focus .x-tagfield ul.x-tagfield-list .x-tagfield-item-selected.x-tagfield-item .clickable {
     color: #95adcd;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:79 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:117 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-field-focus .x-tagfield ul.x-tagfield-list .x-tagfield-item-selected.x-tagfield-item .clickable:hover {
     color: #a0b8d8;
 }
@@ -6425,7 +6460,7 @@ ul.ametys-tooltip-comment > li div.comment-text {
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-field-focus .x-form-text-default .x-tagfield-item-selected .x-tagfield-item-close:active {
     background-position: -24px -12px;
 }
-/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:101 */
+/* http://localhost:1841/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:139 */
 .x-tagfield-noresult-text {
     color: #404040;
     font-style: italic;
