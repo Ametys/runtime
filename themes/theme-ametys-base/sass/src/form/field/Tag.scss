@@ -35,7 +35,35 @@
             color: $ametys-tag-field-link-color-over;
             text-decoration: $ametys-tag-field-link-text-decoration-over;
         }
-    }    
+        
+        .#{$prefix}tagfield-item-text .#{$prefix}tagfield-glyph {
+        	position: relative;
+			display: inline-block;
+			vertical-align: text-bottom;
+			margin-right: 5px;
+			widht: 16px;
+			height: 16px;
+			
+			&:before {
+		    	margin-left: 0px;
+		    	font-size: 16px;
+		    	line-height:16px;
+		    	color: $ametys-tag-field-glyph-color;
+		    }
+		    
+		    &:after {
+		    	margin-left: 0px;
+		    	position: absolute;
+		    	left:8px;
+		    	bottom:0px;
+		    	color: $ametys-tag-field-glyph-decorator-color; 
+		    	font-size: 11px;
+		    	line-height:11px;
+		    	text-shadow: 0px 0px 2px $ametys-tag-field-glyph-decorator-color-shadow;
+		    }
+        }
+    }   
+     
     .#{$prefix}tagfield-item-close {
         @include opacity(0.1);
         
