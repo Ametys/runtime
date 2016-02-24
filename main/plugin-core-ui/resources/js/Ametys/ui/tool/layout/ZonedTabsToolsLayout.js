@@ -396,10 +396,12 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			if (tool.getGlyphIcon() != null)
 			{
 				tabEl.setIconCls(tool.getGlyphIcon() + (tool.getIconDecorator() != null ? ' ' + tool.getIconDecorator() : ''));
+                tabEl.setIcon(null);
 			}
 			else
 			{
 				tabEl.setIcon(Ametys.CONTEXT_PATH + tool.getMediumIcon());
+                tabEl.setIconCls(null);
 			}
 			
 			tabEl.setTooltip({
