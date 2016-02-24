@@ -72,6 +72,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
         _dataSourcesDef = new HashMap<>();
         
         readConfiguration(true);
+        checkDataSourceConfigurationParameters();
     }
     
     /**
@@ -249,6 +250,10 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
         
         for (String id : dataSourceIds)
         {
+            if (isInUse(id))
+            {
+                throw new ProcessingException("The data source '" + id + "' is currently in use. The deletion process has been aborted.");
+            }
             deleteDataSource (_dataSourcesDef.get(id));
             _dataSourcesDef.remove(id);
         }
@@ -267,6 +272,11 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
     public void delete (String dataSourceId) throws ProcessingException, ConfigurationException, SAXException, IOException
     {
         readConfiguration(false);
+        
+        if (isInUse(dataSourceId))
+        {
+            throw new ProcessingException("The data source '" + dataSourceId + "' is currently in use. The deletion process has been aborted.");
+        }
         
         deleteDataSource (_dataSourcesDef.get(dataSourceId));
         _dataSourcesDef.remove(dataSourceId);
@@ -290,8 +300,6 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
             _dataSourcesDef = new HashMap<>();
             
             Configuration configuration = new DefaultConfigurationBuilder().buildFromFile(file);
-            
-            
             for (Configuration dsConfig : configuration.getChildren("datasource"))
             {
                 String id = dsConfig.getAttribute("id");
@@ -432,7 +440,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
                 if (parameters.get(paramName).getType() == ParameterType.DATASOURCE)
                 {
                     String dataSourceValue = config.getValueAsString(paramName);
-                    if (dataSourceValue != null && dataSourceValue.equals(id))
+                    if (dataSourceValue != null && dataSourceValue.startsWith(getDataSourcePrefixId()) && dataSourceValue.equals(id))
                     {
                         return true;
                     }
@@ -441,6 +449,29 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
         }
         
         return false;
+    }
+    
+    /**
+     * Check that the configured data sources match the defined in the data sources configuration file
+     */
+    protected void checkDataSourceConfigurationParameters()
+    {
+        Config config = Config.getInstance();
+        if (config != null)
+        {
+            Map<String, ConfigParameter> parameters = ConfigManager.getInstance().getParameters();
+            for (String paramName : parameters.keySet())
+            {
+                if (parameters.get(paramName).getType() == ParameterType.DATASOURCE)
+                {
+                    String dataSourceValue = config.getValueAsString(paramName);
+                    if (dataSourceValue != null && dataSourceValue.startsWith(getDataSourcePrefixId()) && !_dataSourcesDef.keySet().contains(dataSourceValue) && !PluginsManager.getInstance().isSafeMode())
+                    {
+                        throw new UnknownDataSourceException("The value '" + dataSourceValue + "' of the  data source configuration parameter '" + paramName + "' was not found in the available data sources. The configuration is not initialized.");
+                    }
+                }
+            }
+        }
     }
     
     /**

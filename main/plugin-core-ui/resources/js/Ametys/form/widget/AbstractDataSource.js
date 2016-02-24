@@ -92,7 +92,8 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
   	    	    		    
   	    	    		    // FIXME set value => config tool dirty
 	  	    	            autoLoadOnValue: true,
-  	    	    		    
+	  	    	            forceSelection: true,
+	  	    	            
 	  	    	            valueField: 'id',
   	    	    		    displayField: 'name',
   	    	    		    

@@ -17,8 +17,6 @@ package org.ametys.core.datasource;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -158,30 +156,13 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
      */
     public DataSource getSQLDataSource (String id)
     {
-        return _sqlDataSources.get(id);
-    }
-    
-    /**
-     * Returns a Connection from the pool.
-     * @param poolId the id of the connection pool
-     * @return a java.sql.Connection to query a SQL database
-     */
-    public Connection getConnection(String poolId)
-    {
-        DataSource dataSource;
-        Connection connection = null;
-
-        try
+        DataSource dataSource = _sqlDataSources.get(id);
+        if (dataSource == null)
         {
-            dataSource =  getSQLDataSource(poolId);
-            connection = dataSource.getConnection();
+            throw new UnknownDataSourceException("The data source of id '" + id + "' was not found.");
         }
-        catch (SQLException e)
-        {
-            throw new RuntimeException("Unable to get Connection from pool " + poolId, e);
-        }
-
-        return connection;
+        
+        return dataSource;
     }
     
     @Override
