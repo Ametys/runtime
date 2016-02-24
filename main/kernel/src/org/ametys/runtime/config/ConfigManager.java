@@ -513,6 +513,37 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                 
                 _isComplete = false;
             }
+            
+            // Make sure valued configuration parameters with an enumerator have their value in the enumeration values
+            Enumerator enumerator = parameter.getEnumerator();
+            if (enumerator != null)
+            {
+                I18nizableText entry = null;
+                try
+                {
+                    entry = enumerator.getEntry(ParameterHelper.valueToString(value));
+                }
+                catch (Exception e)
+                {
+                    if (_logger.isWarnEnabled())
+                    {
+                        _logger.warn("The value '" + value + "' for the parameter '" + id + "' led to an exception. Configuration is not initialized." , e);
+                    }
+                    
+                    _isComplete = false;
+                }
+                
+                if (entry == null)
+                {
+                    if (_logger.isWarnEnabled())
+                    {
+                        _logger.warn("The value '" + value + "' for the parameter '" + id + "' is not allowed. Configuration is not initialized.");
+                    }
+                    
+                    _isComplete = false;
+                }
+            }
+            
         }
         
         return value;
