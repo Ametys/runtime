@@ -132,3 +132,10 @@ $ametys-font-path: get-resource-path('fonts');
     font-weight: 800;
     font-style: italic;
 }
+
+// Fix for RUNTIME-1663 - Tooltips are not working on disabled stuffs
+// Fix for https://www.sencha.com/forum/showthread.php?302961-Tooltips-not-working-when-button-is-disabled.-Intended&p=1128689
+.#{$prefix}item-disabled,
+.#{$prefix}item-disabled * {
+    pointer-events: auto !important;
+}
