@@ -30,7 +30,7 @@ public class GroupDrivenLdapGroupsTestCase extends AbstractLdapGroupsTestCase
     {
         super.setUp();
         
-        _startApplication("test/environments/runtimes/runtime8.xml", "test/environments/configs/config3.xml", null, "test/environments/datasources/datasource-ldap.xml", "test/environments/webapp1");
+        _startApplication("test/environments/runtimes/runtime8.xml", "test/environments/configs/config3.xml", "test/environments/datasources/datasource-mysql.xml", "test/environments/datasources/datasource-ldap.xml", "test/environments/webapp1");
         
         _groupsManager = (GroupsManager) Init.getPluginServiceManager().lookup(GroupsManager.ROLE);
     }
