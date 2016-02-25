@@ -162,7 +162,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
     
     /**
-     * @property {String[]} _notInFirstEditionPanels the ids list of the root panels (tabs or panel) that have been at least edited once. We consider a tab edited once when the focus has switched from one field of one of the tabs fieldsets to a different fieldset, of this tab or of another tab.
+     * @property {String[]} _notInFirstEditionPanels the ids list of the root panels (tabs or panel) that have been edited at least once. 
+     * We consider a tab edited once when the focus has switched from one field of one of the tabs fieldsets to a different fieldset, of this tab or of another tab.
      * @private
      */
     
@@ -377,7 +378,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     _onFieldSelectedOrBlurred: function(field)
     {
         this._focusFieldId = field != null ? field.getId() : null;
-        
     	if (field)
 		{
     		this._handlePanelsEdition(field);
@@ -1006,22 +1006,23 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             
             for (var i = 0; i < tabFields.length; i++)
             {
-                if (tabFields[i].getErrors().length > 0)
+            	var tabField = tabFields[i];
+                if (tabField.getErrors().length > 0)
                 {
-                    errorFields.push("<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD'/>" +  " " + this._getFieldLabel(tabFields[i], panel));
+                    errorFields.push("<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD'/>" +  " " + this._getFieldLabel(tabField, panel));
                 }
                 
-                if (Ext.isFunction(tabFields[i].hasActiveWarning) && tabFields[i].hasActiveWarning())
+                if (Ext.isFunction(tabField.hasActiveWarning) && tabField.hasActiveWarning())
                 {
-                    warnFields.push("<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD'/>" + " " + this._getFieldLabel(tabFields[i], panel));
+                    warnFields.push("<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD'/>" + " " + this._getFieldLabel(tabField, panel));
                 }
                 
-                if (Ext.isFunction(tabFields[i].getComments) && tabFields[i].getComments().length > 0)
+                if (Ext.isFunction(tabField.getComments) && tabField.getComments().length > 0)
                 {
-                    var comment = tabFields[i].getComments()[0];
+                    var comment = tabField.getComments()[0];
                     var commentValue = Ext.String.format('<em>{0} ({1}, le {2})</em>', comment.text, comment.author, Ext.Date.format(comment.date, Ext.Date.patterns.FriendlyDateTime));
                              
-                    commentFields.push(this._getFieldLabel(tabFields[i], panel) + " : " + commentValue);
+                    commentFields.push(this._getFieldLabel(tabField, panel) + " : " + commentValue);
                 }
             }
             
