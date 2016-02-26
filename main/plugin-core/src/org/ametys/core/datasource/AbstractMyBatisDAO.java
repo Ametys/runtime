@@ -59,7 +59,7 @@ public abstract class AbstractMyBatisDAO extends AbstractLogEnabled implements C
     private SQLDataSourceManager _sqlDataSourceManager;
     private String _contextPath;
     private String _pluginName;
-    private String _poolConfigParam;
+    private String _dataSourceId;
     private Set<SqlMap> _sqlMaps;
     
     public void contextualize(org.apache.avalon.framework.context.Context context) throws ContextException
@@ -81,7 +81,19 @@ public abstract class AbstractMyBatisDAO extends AbstractLogEnabled implements C
     
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        _poolConfigParam = configuration.getChild("datasource", true).getValue(ConnectionHelper.CORE_POOL_CONFIG_PARAM);
+        Configuration dataSourceConf = configuration.getChild("datasource", true);
+        String dataSourceConfParam = dataSourceConf.getValue(ConnectionHelper.CORE_POOL_CONFIG_PARAM);
+        String dataSourceConfType = dataSourceConf.getAttribute("type", "config");
+        
+        if (StringUtils.equals(dataSourceConfType, "config"))
+        {
+            _dataSourceId = Config.getInstance().getValueAsString(dataSourceConfParam);
+        }
+        else // expecting type="id"
+        {
+            _dataSourceId = dataSourceConfParam;
+        }
+        
         _sqlMaps = new HashSet<>();
         Configuration[] sqlMaps = configuration.getChildren("sqlMap");
         for (Configuration sqlMapConf : sqlMaps)
@@ -117,18 +129,17 @@ public abstract class AbstractMyBatisDAO extends AbstractLogEnabled implements C
     
     public void initialize() throws Exception
     {
-        String dataSourceId = Config.getInstance().getValueAsString(_poolConfigParam);
-        DataSource dataSource = _sqlDataSourceManager.getSQLDataSource(dataSourceId);
+        DataSource dataSource = _sqlDataSourceManager.getSQLDataSource(_dataSourceId);
         
         if (dataSource == null)
         {
-            throw new ConfigurationException("Invalid pool configuration parameter: " + _poolConfigParam);
+            throw new ConfigurationException("Invalid datasource id: " + _dataSourceId);
         }
         
         SqlSessionFactoryBuilder sessionFactoryBuilder = new SqlSessionFactoryBuilder();
         
         TransactionFactory transactionFactory = new JdbcTransactionFactory();
-        Environment env = new Environment(_poolConfigParam, transactionFactory, dataSource);
+        Environment env = new Environment(_dataSourceId, transactionFactory, dataSource);
         
         org.apache.ibatis.session.Configuration config = new org.apache.ibatis.session.Configuration(env);
         config.setCacheEnabled(true);
@@ -171,7 +182,7 @@ public abstract class AbstractMyBatisDAO extends AbstractLogEnabled implements C
                 
                 if (getLogger().isInfoEnabled())
                 {
-                    getLogger().info("Initialized mybatis mapper at location '{}' for pool '{}'", mapperLocation, _poolConfigParam);
+                    getLogger().info("Initialized mybatis mapper at location '{}' for datasource id '{}'", mapperLocation, _dataSourceId);
                 }
 
                 XMLMapperBuilder mapperParser = new XMLMapperBuilder(mapperStream, config, mapperLocation, config.getSqlFragments());
