@@ -1087,7 +1087,7 @@
         </components>
     </feature>
     
-    <feature name="runtime.user.preferences.default" depends="runtime.datasource.core">
+    <feature name="runtime.user.preferences.default" depends="runtime.datasource.core,core/runtime.core.sql.userprefs.init">
         <!-- 
             The main users'preferences manager implementation, that do store users'prefs into a sql db. 
         -->
@@ -1155,7 +1155,7 @@
         </components>
     </feature>
 
-    <feature name="runtime.rights.impl.profil" depends="runtime.datasource.core">
+    <feature name="runtime.rights.impl.profil" depends="runtime.datasource.core,core/runtime.core.sql.profile.init">
         <!-- 
             This feature declares the profile based rights manager.<br/>
             This manager use the core database pool.
@@ -1177,7 +1177,7 @@
         </components>
     </feature>
 
-    <feature name="runtime.rights.impl.hierarchicalProfil" depends="runtime.datasource.core">
+    <feature name="runtime.rights.impl.hierarchicalProfil" depends="runtime.datasource.core,core/runtime.core.sql.profile.init">
         <!-- 
             The same as runtime.rights.impl.profil but where rights are inherited in contexts :
             having the right on '/foo' gives the right on '/foo/subfoo'

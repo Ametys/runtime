@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.ametys.runtime.test;
+package org.ametys.core.script;
 
 import java.io.IOException;
 import java.io.InputStream;

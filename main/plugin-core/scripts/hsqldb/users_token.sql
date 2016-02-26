@@ -16,7 +16,8 @@
 CREATE CACHED TABLE UsersToken (
   id int PRIMARY KEY NOT NULL IDENTITY,
   login varchar(64),
-  token varchar(128)  NOT NULL, -- the hashed token + salt are stocked here
+  -- the hashed token + salt are stocked here
+  token varchar(128)  NOT NULL,
   salt varchar(64) NOT NULL,
   creation_date datetime not null
 );

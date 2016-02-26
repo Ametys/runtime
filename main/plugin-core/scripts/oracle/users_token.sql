@@ -17,7 +17,8 @@ CREATE TABLE UsersToken
 (
   id number PRIMARY KEY NOT NULL,
   login varchar(64),
-  token varchar(128) NOT NULL, -- the hashed token + salt are stocked here
+  -- the hashed token + salt are stocked here
+  token varchar(128) NOT NULL,
   salt varchar(64) NOT NULL,
   creation_date date NOT NULL
 );

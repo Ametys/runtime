@@ -20,7 +20,8 @@ DROP TABLE IF EXISTS UsersToken;
 CREATE TABLE UsersToken(
   id SERIAL PRIMARY KEY,
   login VARCHAR(64),
-  token VARCHAR(128)  NOT NULL, -- the hashed token + salt are stocked here
+  -- the hashed token + salt are stocked here
+  token VARCHAR(128)  NOT NULL,
   salt VARCHAR(64) NOT NULL,
   creation_date DATE NOT NULL
 );

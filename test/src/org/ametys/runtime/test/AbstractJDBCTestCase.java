@@ -21,6 +21,7 @@ import java.sql.Connection;
 import java.util.List;
 
 import org.ametys.core.datasource.ConnectionHelper;
+import org.ametys.core.script.ScriptRunner;
 import org.ametys.runtime.config.Config;
 
 /**
