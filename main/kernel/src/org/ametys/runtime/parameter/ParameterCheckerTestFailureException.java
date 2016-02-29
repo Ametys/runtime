@@ -18,7 +18,7 @@ package org.ametys.runtime.parameter;
 /**
  * Class handling the parameter checkers' test failures.
  */
-public class ParameterCheckerTestFailureException extends Throwable
+public class ParameterCheckerTestFailureException extends RuntimeException
 {
     /**
      * Constructor without arguments

@@ -37,7 +37,6 @@ import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.ContentHandler;
@@ -57,7 +56,6 @@ import org.ametys.runtime.util.ConfigurationHelper;
 
 /**
  * Abstract component to handle data source
- *
  */
 public abstract class AbstractDataSourceManager extends AbstractLogEnabled implements Component, Initializable
 {
@@ -79,56 +77,53 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
      * Get the file configuration of data sources
      * @return the file
      */
-    public abstract File getFileConfiguration ();
+    public abstract File getFileConfiguration();
     
     /**
      * Get the prefix for data source identifier
      * @return the id prefix
      */
-    protected abstract String getDataSourcePrefixId ();
+    protected abstract String getDataSourcePrefixId();
     
     /**
      * Checks the parameters of a data source
      * @param dataSource the data source to check
      * @throws ParameterCheckerTestFailureException if parameters test failed
      */
-    public abstract void checkParameters (DataSourceDefinition dataSource) throws ParameterCheckerTestFailureException;
+    public abstract void checkParameters(DataSourceDefinition dataSource) throws ParameterCheckerTestFailureException;
     
     /**
      * Checks the parameters of a data source
      * @param rawParameters the data source parameters
      * @throws ParameterCheckerTestFailureException if parameters test failed
      */
-    public abstract void checkParameters (Map<String, String> rawParameters) throws ParameterCheckerTestFailureException;
+    public abstract void checkParameters(Map<String, String> rawParameters) throws ParameterCheckerTestFailureException;
     
     /**
      * Creates a data source from its configuration
      * @param dataSource the data source configuration
      */
-    protected abstract void createDataSource (DataSourceDefinition dataSource);
+    protected abstract void createDataSource(DataSourceDefinition dataSource);
     
     /**
      * Edit a data source from its configuration
      * @param dataSource the data source configuration
      */
-    protected abstract void editDataSource (DataSourceDefinition dataSource);
+    protected abstract void editDataSource(DataSourceDefinition dataSource);
     
     /**
      * Deletes a data source
      * @param dataSource the data source configuration
      */
-    protected abstract void deleteDataSource (DataSourceDefinition dataSource);
+    protected abstract void deleteDataSource(DataSourceDefinition dataSource);
     
     /**
      * Get the data source definitions 
      * @param includePrivate true to include private data sources
      * @param includeInternal true to include internal data sources. Not used by default.
      * @return the data source definitions
-     * @throws IOException if an error occurred while reading configuration file
-     * @throws SAXException if an error occurred while parsing configuration file
-     * @throws ConfigurationException if an error occurred while parsing configuration reading file
      */
-    public Map<String, DataSourceDefinition> getDataSourceDefinitions (boolean includePrivate, boolean includeInternal) throws ConfigurationException, SAXException, IOException
+    public Map<String, DataSourceDefinition> getDataSourceDefinitions(boolean includePrivate, boolean includeInternal)
     {
         readConfiguration(false);
         
@@ -155,11 +150,8 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
      * Get the data source definition or null if not found
      * @param id the id of data source
      * @return the data source definition or null if not found
-     * @throws IOException if an error occurred while reading configuration file
-     * @throws SAXException if an error occurred while parsing configuration file
-     * @throws ConfigurationException if an error occurred while parsing configuration reading file
      */
-    public DataSourceDefinition getDataSourceDefinition (String id) throws ConfigurationException, SAXException, IOException
+    public DataSourceDefinition getDataSourceDefinition(String id)
     {
         readConfiguration(false);
         return _dataSourcesDef.get(id);
@@ -172,12 +164,8 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
      * @param parameters the parameters
      * @param isPrivate true if private
      * @return the created data sourec definition
-     * @throws IOException if an error occurred while reading configuration file
-     * @throws SAXException if an error occurred while parsing configuration file
-     * @throws ConfigurationException if an error occurred while parsing configuration reading file
-     * @throws ProcessingException if an error while saving changes
      */
-    public DataSourceDefinition add (I18nizableText name, I18nizableText description, Map<String, Object> parameters, boolean isPrivate) throws ConfigurationException, SAXException, IOException, ProcessingException
+    public DataSourceDefinition add(I18nizableText name, I18nizableText description, Map<String, Object> parameters, boolean isPrivate)
     {
         readConfiguration(false);
         
@@ -206,12 +194,8 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
      * @param parameters the parameters
      * @param isPrivate true if private
      * @return the edited data source definition
-     * @throws IOException if an error occurred while reading configuration file
-     * @throws SAXException if an error occurred while parsing configuration file
-     * @throws ConfigurationException if an error occurred while parsing configuration reading file
-     * @throws ProcessingException if an error while saving changes or if the data source was not found
      */
-    public DataSourceDefinition edit (String id, I18nizableText name, I18nizableText description, Map<String, Object> parameters, boolean isPrivate) throws ConfigurationException, SAXException, IOException, ProcessingException
+    public DataSourceDefinition edit(String id, I18nizableText name, I18nizableText description, Map<String, Object> parameters, boolean isPrivate)
     {
         readConfiguration(false);
         
@@ -233,18 +217,14 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
             return ds;
         }
         
-        throw new ProcessingException("The data source with id '" + id + "' was not found. Unable to edit it.");
+        throw new RuntimeException("The data source with id '" + id + "' was not found. Unable to edit it.");
     }
     
     /**
      * Delete data sources
      * @param dataSourceIds the ids of data sources to delete
-     * @throws ProcessingException if an error occurred
-     * @throws IOException if an error occurred while reading configuration file
-     * @throws SAXException if an error occurred while parsing configuration file
-     * @throws ConfigurationException if an error occurred while parsing configuration reading file
      */
-    public void delete (List<String> dataSourceIds) throws ProcessingException, ConfigurationException, SAXException, IOException
+    public void delete(List<String> dataSourceIds)
     {
         readConfiguration(false);
         
@@ -252,7 +232,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
         {
             if (isInUse(id))
             {
-                throw new ProcessingException("The data source '" + id + "' is currently in use. The deletion process has been aborted.");
+                throw new RuntimeException("The data source '" + id + "' is currently in use. The deletion process has been aborted.");
             }
             deleteDataSource (_dataSourcesDef.get(id));
             _dataSourcesDef.remove(id);
@@ -264,22 +244,19 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
     /**
      * Delete a data source
      * @param dataSourceId the id of data source to delete
-     * @throws ProcessingException if an error occurred
-     * @throws IOException if an error occurred while reading configuration file
-     * @throws SAXException if an error occurred while parsing configuration file
-     * @throws ConfigurationException if an error occurred while parsing configuration reading file
      */
-    public void delete (String dataSourceId) throws ProcessingException, ConfigurationException, SAXException, IOException
+    public void delete(String dataSourceId)
     {
         readConfiguration(false);
         
         if (isInUse(dataSourceId))
         {
-            throw new ProcessingException("The data source '" + dataSourceId + "' is currently in use. The deletion process has been aborted.");
+            throw new RuntimeException("The data source '" + dataSourceId + "' is currently in use. The deletion process has been aborted.");
         }
         
         deleteDataSource (_dataSourcesDef.get(dataSourceId));
         _dataSourcesDef.remove(dataSourceId);
+        
         saveConfiguration();
     }
     
@@ -287,56 +264,52 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
     /**
      * Read and update the data sources configuration
      * @param checkParameters true to test parameters while reading configuration.
-     * @throws IOException if an error occurred while reading configuration file
-     * @throws SAXException if an error occurred while parsing configuration file
-     * @throws ConfigurationException if an error occurred while parsing configuration reading file
      */
-    protected void readConfiguration (boolean checkParameters) throws ConfigurationException, SAXException, IOException
+    protected void readConfiguration(boolean checkParameters)
     {
-        File file = getFileConfiguration();
-        if (file.exists() && file.lastModified() > _lastUpdate)
+        try
         {
-            _lastUpdate = new Date().getTime();
-            _dataSourcesDef = new HashMap<>();
-            
-            Configuration configuration = new DefaultConfigurationBuilder().buildFromFile(file);
-            for (Configuration dsConfig : configuration.getChildren("datasource"))
+            File file = getFileConfiguration();
+            if (file.exists() && file.lastModified() > _lastUpdate)
             {
-                String id = dsConfig.getAttribute("id");
+                _lastUpdate = new Date().getTime();
+                _dataSourcesDef = new HashMap<>();
                 
-                I18nizableText name = ConfigurationHelper.parseI18nizableText(dsConfig.getChild("name"), "plugin.core");
-                I18nizableText description = ConfigurationHelper.parseI18nizableText(dsConfig.getChild("description"), "plugin.core", "");
-                
-                boolean isPrivate = dsConfig.getAttributeAsBoolean("private", false);
-                
-                Map<String, String> parameters = new HashMap<>();
-                
-                Configuration[] paramsConfig = dsConfig.getChild("parameters").getChildren();
-                for (Configuration paramConfig : paramsConfig)
+                Configuration configuration = new DefaultConfigurationBuilder().buildFromFile(file);
+                for (Configuration dsConfig : configuration.getChildren("datasource"))
                 {
-                    String value = paramConfig.getValue("");
-                    parameters.put(paramConfig.getName(), value);
-                }
-                
-                DataSourceDefinition dataSource = new DataSourceDefinition(id, name, description, parameters, isPrivate);
-                _dataSourcesDef.put(id, dataSource);
-                
-                // Validate the used SQL data sources if not already in safe mode
-                if (checkParameters && !PluginsManager.getInstance().isSafeMode() && isInUse(id))
-                {
-                    try
+                    String id = dsConfig.getAttribute("id");
+                    
+                    I18nizableText name = ConfigurationHelper.parseI18nizableText(dsConfig.getChild("name"), "plugin.core");
+                    I18nizableText description = ConfigurationHelper.parseI18nizableText(dsConfig.getChild("description"), "plugin.core", "");
+                    
+                    boolean isPrivate = dsConfig.getAttributeAsBoolean("private", false);
+                    
+                    Map<String, String> parameters = new HashMap<>();
+                    
+                    Configuration[] paramsConfig = dsConfig.getChild("parameters").getChildren();
+                    for (Configuration paramConfig : paramsConfig)
+                    {
+                        String value = paramConfig.getValue("");
+                        parameters.put(paramConfig.getName(), value);
+                    }
+                    
+                    DataSourceDefinition dataSource = new DataSourceDefinition(id, name, description, parameters, isPrivate);
+                    _dataSourcesDef.put(id, dataSource);
+                    
+                    // Validate the used SQL data sources if not already in safe mode
+                    if (checkParameters && !PluginsManager.getInstance().isSafeMode() && isInUse(id))
                     {
                         checkParameters (dataSource);
                     }
-                    catch (Throwable t)
-                    {
-                        throw new IllegalArgumentException("The SQL data source of id '" + id + "' is not valid", t);
-                    } 
+                    
+                    createDataSource (dataSource);
                 }
-                
-                createDataSource (dataSource);
             }
-            
+        }
+        catch (IOException | ConfigurationException | SAXException e)
+        {
+            throw new RuntimeException("Unable to parse datasource configuration file.", e);
         }
     }
     
@@ -344,9 +317,8 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
     
     /**
      * Save the configured data sources 
-     * @throws ProcessingException if an error occurred while saving
      */
-    protected void saveConfiguration () throws ProcessingException
+    protected void saveConfiguration()
     {
         File file = getFileConfiguration();
         try
@@ -380,7 +352,6 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
                 
                 for (DataSourceDefinition datasource : _dataSourcesDef.values())
                 {
-                    // FIXME DO not save default SQL data source ?
                     saxDataSource(th, datasource);
                 }
                 
@@ -390,7 +361,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
         }
         catch (SAXException | IOException | TransformerConfigurationException e)
         {
-            throw new ProcessingException("Unable to save the configuration of data sources", e);
+            throw new RuntimeException("Unable to save the configuration of data sources", e);
         }
     }
     
@@ -400,7 +371,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
      * @param dataSource the data source
      * @throws SAXException if an error occurred while SAXing
      */
-    protected void saxDataSource (ContentHandler handler, DataSourceDefinition dataSource) throws SAXException
+    protected void saxDataSource(ContentHandler handler, DataSourceDefinition dataSource) throws SAXException
     {
         AttributesImpl attrs = new AttributesImpl();
         
@@ -429,7 +400,8 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
      * @param id The id of data source to check
      * @return true if the data source is in use
      */
-    public boolean isInUse (String id)
+    // FIXME this method only checks in the configuration, which is not enough
+    public boolean isInUse(String id)
     {
         Config config = Config.getInstance();
         if (config != null)
@@ -465,7 +437,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
                 if (parameters.get(paramName).getType() == ParameterType.DATASOURCE)
                 {
                     String dataSourceValue = config.getValueAsString(paramName);
-                    if (dataSourceValue != null && dataSourceValue.startsWith(getDataSourcePrefixId()) && !_dataSourcesDef.keySet().contains(dataSourceValue) && !PluginsManager.getInstance().isSafeMode())
+                    if (dataSourceValue != null && dataSourceValue.startsWith(getDataSourcePrefixId()) && getDataSourceDefinition(dataSourceValue) != null && !PluginsManager.getInstance().isSafeMode())
                     {
                         throw new UnknownDataSourceException("The value '" + dataSourceValue + "' of the  data source configuration parameter '" + paramName + "' was not found in the available data sources. The configuration is not initialized.");
                     }

@@ -16,7 +16,6 @@
 package org.ametys.core.datasource;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -24,7 +23,6 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.commons.dbcp2.ConnectionFactory;
 import org.apache.commons.dbcp2.DriverManagerConnectionFactory;
 import org.apache.commons.dbcp2.PoolableConnection;
@@ -32,7 +30,6 @@ import org.apache.commons.dbcp2.PoolableConnectionFactory;
 import org.apache.commons.dbcp2.PoolingDataSource;
 import org.apache.commons.pool2.ObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPool;
-import org.xml.sax.SAXException;
 
 import org.ametys.plugins.core.impl.checker.SQLConnectionChecker;
 import org.ametys.runtime.i18n.I18nizableText;
@@ -105,7 +102,7 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
     }
     
     @Override
-    public DataSourceDefinition getDataSourceDefinition(String id) throws ConfigurationException, SAXException, IOException
+    public DataSourceDefinition getDataSourceDefinition(String id)
     {
         readConfiguration(false);
         
@@ -118,7 +115,7 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
     }
 
     @Override
-    public Map<String, DataSourceDefinition> getDataSourceDefinitions(boolean includePrivate, boolean includeInternal) throws ConfigurationException, SAXException, IOException
+    public Map<String, DataSourceDefinition> getDataSourceDefinitions(boolean includePrivate, boolean includeInternal)
     {
         readConfiguration(false);
         
