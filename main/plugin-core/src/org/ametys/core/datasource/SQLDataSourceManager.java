@@ -86,8 +86,6 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
         _sqlDataSources = new HashMap<>();
         _pools = new HashMap<>();
         
-        super.initialize();
-        
         // Add the internal and not editable DB
         Map<String, String> parameters = new HashMap<>();
         parameters.put ("driver", __AMETYS_INTERNAL_DATASOURCE_DRIVER);
@@ -98,6 +96,9 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
         parameters.put ("password", ""); 
         
         _internalDataSource = new DataSourceDefinition(__AMETYS_INTERNAL_DATASOURCE_ID, __AMETYS_INTERNAL_DATASOURCE_NAME, __AMETYS_INTERNAL_DATASOURCE_DESCRIPTION, parameters, true);
+
+        super.initialize();
+        
         createDataSource(_internalDataSource);
     }
     
