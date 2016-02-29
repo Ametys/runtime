@@ -437,7 +437,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
                 if (parameters.get(paramName).getType() == ParameterType.DATASOURCE)
                 {
                     String dataSourceValue = config.getValueAsString(paramName);
-                    if (dataSourceValue != null && dataSourceValue.startsWith(getDataSourcePrefixId()) && getDataSourceDefinition(dataSourceValue) != null && !PluginsManager.getInstance().isSafeMode())
+                    if (dataSourceValue != null && dataSourceValue.startsWith(getDataSourcePrefixId()) && getDataSourceDefinition(dataSourceValue) == null && !PluginsManager.getInstance().isSafeMode())
                     {
                         throw new UnknownDataSourceException("The value '" + dataSourceValue + "' of the  data source configuration parameter '" + paramName + "' was not found in the available data sources. The configuration is not initialized.");
                     }
