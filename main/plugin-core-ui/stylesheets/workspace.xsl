@@ -342,20 +342,11 @@
                                     <xsl:when test="local-name()='control'">
                                         <xsl:variable name="id" select="@id"/>
                                         (function () {
-                                            var actionParam = <xsl:value-of select="/Ametys/workspace/ribbon/controls/control[@id = $id]/action"/>;
-                                            appMenuItems.push({
-                                                text: actionParam['label'],
-                                                iconCls: actionParam['icon-glyph'],
-                                                icon: actionParam['icon-glyph'] ? null : Ametys.CONTEXT_PATH + actionParam['icon-small'],
-                                                handler: Ametys.getFunctionByName(actionParam['action']),
-                                                tooltip: {
-                                                    title: actionParam['label'],
-                                                    text: actionParam['description'],
-                                                    glyphIcon: actionParam['icon-glyph'],
-                                                    image: actionParam['icon-glyph'] ? null : Ametys.CONTEXT_PATH + actionParam['icon-large'], 
-                                                    inribbon: false
-                                                }
-                                            });
+                                        	var element = Ametys.ribbon.RibbonManager.getElement("<xsl:value-of select="$id"/>");
+                                        	if (element != null)
+                                            {
+                                            	appMenuItems.push(element.addMenuItemUI());
+                                            }
                                         })();
                                     </xsl:when>
                                     <xsl:when test="local-name()='separator' and following-sibling::control">
@@ -374,20 +365,11 @@
                                         <xsl:when test="local-name()='control'">
                                             <xsl:variable name="id" select="@id"/>
                                             (function () {
-                                                var actionParam = <xsl:value-of select="/Ametys/workspace/ribbon/controls/control[@id = $id]/action"/>;
-                                                userMenuItems.push({
-                                                    text: actionParam['label'],
-                                                    iconCls: actionParam['icon-glyph'],
-                                                    icon: actionParam['icon-glyph'] ? null : Ametys.CONTEXT_PATH + actionParam['icon-small'],
-                                                    handler: Ametys.getFunctionByName(actionParam['action']),
-                                                    tooltip: {
-                                                        title: actionParam['label'],
-                                                        text: actionParam['description'],
-                                                        glyphIcon: actionParam['icon-glyph'],
-                                                        image: actionParam['icon-glyph'] ? null : Ametys.CONTEXT_PATH + actionParam['icon-large'], 
-                                                        inribbon: false
-                                                    }
-                                                });
+                                            	var element = Ametys.ribbon.RibbonManager.getElement("<xsl:value-of select="$id"/>");
+                                            	if (element != null)
+                                            	{
+		                                            userMenuItems.push(element.addMenuItemUI());
+                                            	}
                                             })();
                                         </xsl:when>
                                         <xsl:when test="local-name()='separator' and following-sibling::control">
