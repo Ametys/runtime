@@ -34,6 +34,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Node;
 
+import org.ametys.core.DevMode;
 import org.ametys.core.util.dom.MapElement;
 import org.ametys.core.version.Version;
 import org.ametys.core.version.VersionsHandler;
@@ -281,5 +282,16 @@ public class AmetysXSLTHelper implements Contextualizable, Serviceable
         versionsMap.put("Component", versionList);
 
         return new MapElement("Versions", versionsMap);
+    }
+    
+    /**
+     * Get the current mode of the application for the current user.
+     * @return True if the application is in developer mode, false if in production mode.
+     */
+    public static boolean isDeveloperMode()
+    {
+        Request request = ContextHelper.getRequest(_context);
+        
+        return DevMode.isDeveloperMode(request);
     }
 }

@@ -42,7 +42,7 @@ import org.apache.commons.lang.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-import org.ametys.runtime.config.Config;
+import org.ametys.core.DevMode;
 
 /**
  * This transformer will minimize every scripts together
@@ -51,8 +51,7 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
 {
     private String _path;
     private String _defaultPluginCoreUrl;
-    private Long _debugMode;
-    private Long _configuredDebugMode;
+    private Boolean _debugMode;
     private int _randomJSCode;
     private int _randomCSSCode;
     private Context _context;
@@ -73,7 +72,6 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        _configuredDebugMode = Config.getInstance() != null && Config.getInstance().getValueAsLong("runtime.debug.ui") != null ? Config.getInstance().getValueAsLong("runtime.debug.ui") : 2;
         _defaultPluginCoreUrl = configuration.getChild("plugin-core-url").getValue(null);
     }
     
@@ -82,10 +80,9 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
     {
         super.setup(res, om, src, params);
         
-        String debugModeStr = params.getParameter("debug-mode-request", null);
-        _debugMode = StringUtils.isNotEmpty(debugModeStr) ? Long.parseLong(debugModeStr) : _configuredDebugMode;
+        Request request = ContextHelper.getRequest(_context);
+        _debugMode = DevMode.isDeveloperMode(request);
     }
-    
     
     /**
      * Get the list of files for js
@@ -161,7 +158,7 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
             
             AttributesImpl attrs = new AttributesImpl();
             attrs.addCDATAAttribute("type", "text/javascript");
-            attrs.addCDATAAttribute("src", StringUtils.defaultIfEmpty(source, _defaultPluginCoreUrl) + "/jsfilelist/" + jsFileList.hashCode() + "-" + (_debugMode != 0 ? "true" : "false") + ".js");
+            attrs.addCDATAAttribute("src", StringUtils.defaultIfEmpty(source, _defaultPluginCoreUrl) + "/jsfilelist/" + jsFileList.hashCode() + "-" + (_debugMode ? "true" : "false") + ".js");
             super.startElement("", "script", "script", attrs);
             super.endElement("", "script", "script");
         }
@@ -200,7 +197,7 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
             AttributesImpl attrs = new AttributesImpl();
             attrs.addCDATAAttribute("type", "text/css");
             attrs.addCDATAAttribute("rel", "stylesheet");
-            attrs.addCDATAAttribute("href", StringUtils.defaultIfEmpty(source, _defaultPluginCoreUrl) + "/cssfilelist/" + cssFileList.hashCode() + "-" + (_debugMode != 0 ? "true" : "false") + ".css");
+            attrs.addCDATAAttribute("href", StringUtils.defaultIfEmpty(source, _defaultPluginCoreUrl) + "/cssfilelist/" + cssFileList.hashCode() + "-" + (_debugMode ? "true" : "false") + ".css");
             super.startElement("", "link", "link", attrs);
             super.endElement("", "link", "link");
         }
@@ -230,7 +227,7 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
     @Override
     public void startElement(String uri, String loc, String raw, Attributes a) throws SAXException
     {
-        if (_debugMode != 2)
+        if (!_debugMode)
         {
             _path += "/" + loc;
             
@@ -281,7 +278,7 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
                         getLogger().debug("For random code '" + _randomCSSCode + "', adding css file '" + fileName + "'");
                     }
                     List<String> cssFileList = _getCSSFileList();
-                    if (_debugMode == 1 && cssFileList.size() > 31)
+                    if (_debugMode && cssFileList.size() > 31)
                     {
                         // Too many css for IE
                         _cssCheckPoint();
@@ -305,7 +302,7 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
     @Override
     public void endElement(String uri, String loc, String raw) throws SAXException
     {
-        if (_debugMode != 2)
+        if (!_debugMode)
         { 
             if (StringUtils.countMatches(_path, "/") == 2)
             {

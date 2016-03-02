@@ -34,20 +34,6 @@
         <!-- +
              | CORE DEBUG
              + -->
-        <param id="runtime.cache.xslt" type="boolean">
-            <!-- 
-                This parameter allows to deactivate XSLT cache
-             -->
-            <label i18n="true">PLUGINS_CORE_CACHE_XSLT_LABEL</label>
-            <description i18n="true">PLUGINS_CORE_CACHE_XSLT_DESCRIPTION</description>
-            <validation>
-                <mandatory/>
-            </validation>
-            <default-value>false</default-value>
-            <category i18n="true">PLUGINS_CORE_SYSTEM_CONFIG_CATEGORY</category>
-            <group i18n="true">PLUGINS_CORE_DEBUG_GROUP</group>
-            <order>20</order>
-        </param>
         <param id="runtime.log.abnormal.time" type="boolean">
             <!-- 
                 This parameter activates the trace of process taking an abnormal time in logs
@@ -505,7 +491,7 @@
     <feature name="runtime.debug">
         <!-- Mark the UI debug parameter as available. If your application does not handle it you can unativate it. -->
         <config>
-            <param-ref id="runtime.cache.xslt"/>
+            <param-ref id="runtime.mode.dev"/>
             <param-ref id="runtime.log.abnormal.time"/>
 		</config>
 	</feature>

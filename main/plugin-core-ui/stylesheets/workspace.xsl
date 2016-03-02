@@ -30,7 +30,7 @@
     
     <xsl:variable name="contextPath" select="ametys:uriPrefix(false())"/>
     <xsl:variable name="workspaceURI" select="ametys:workspacePrefix()"/>
-    <xsl:variable name="debug-mode" select="ametys:config('runtime.debug.ui')"/>
+    <xsl:variable name="debug-mode" select="ametys:isDeveloperMode()"/>
     
     <xsl:template name="head-title"><i18n:text i18n:catalogue='application' i18n:key='APPLICATION_PRODUCT_LABEL'/></xsl:template>
     <xsl:template name="applicationTitle"><i18n:text i18n:catalogue="application" i18n:key="APPLICATION_PRODUCT_LABEL"/></xsl:template>
@@ -170,7 +170,7 @@
                 </xsl:call-template>                
                 
                 <script type="text/javascript">
-                    Ametys.setAppParameter("debug.ui", "<xsl:value-of select="$debug-mode"/>");        
+                    Ametys.setAppParameter("debug.mode", "<xsl:value-of select="$debug-mode"/>");        
 
                     Ametys.setAppParameter("user", {
                         login: "<xsl:value-of select="user/@login"/>",

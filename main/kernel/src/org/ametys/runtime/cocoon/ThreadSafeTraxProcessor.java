@@ -128,7 +128,7 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
         if (config != null)
         {
             // not in safe mode
-            _dontUseCache = Config.getInstance().getValueAsBoolean("runtime.cache.xslt");
+            _dontUseCache = false;
         }
     }
 

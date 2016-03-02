@@ -140,11 +140,10 @@
     <!-- +
          | Config 
          + -->
-    <message key="PLUGINS_CORE_UI_DEBUG_UI_LABEL">User interfaces</message>
-    <message key="PLUGINS_CORE_UI_DEBUG_UI_DESCRIPTION">Set user interface in developer mode (CSS/JS not minified...)</message>
-    <message key="PLUGINS_CORE_UI_DEBUG_UI_VAL_0">Production mode (concatenated, minimized)</message>
-    <message key="PLUGINS_CORE_UI_DEBUG_UI_VAL_1">Partial developer mode (concatenated, not minimized)</message>
-    <message key="PLUGINS_CORE_UI_DEBUG_UI_VAL_2">Full developer mode (not concatenated, not minimized)</message>
+    <message key="PLUGINS_CORE_UI_DEBUG_UI_LABEL">Mode</message>
+    <message key="PLUGINS_CORE_UI_DEBUG_UI_DESCRIPTION">Set the application mode.</message>
+    <message key="PLUGINS_CORE_UI_DEBUG_UI_VAL_0">Production</message>
+    <message key="PLUGINS_CORE_UI_DEBUG_UI_VAL_1">Development</message>
     
     <!-- + 
          | Date patterns
@@ -828,12 +827,12 @@
     <message key="PLUGINS_CORE_UI_EDITION_SOURCEEDIT_DESCRIPTION">Edit HTML source code of rich editable areas</message>
     
     <!--+
-        | DEBUG MODE
+        | DEV MODE
         + -->
-    <message key="PLUGINS_CORE_UI_TOOLS_DEBUG_UI_LABEL">UI Debug mode</message>
-    <message key="PLUGINS_CORE_UI_TOOLS_DEBUG_UI_DESCRIPTION">Toggle debug mode for UI: this will reload the application with/without minified CSS and JS.</message>
-    <message key="PLUGINS_CORE_UI_TOOLS_DEBUG_UI_CONFIRM_TITLE">Reload needed</message>
-    <message key="PLUGINS_CORE_UI_TOOLS_DEBUG_UI_CONFIRM_TEXT">Be careful! Modifying this parameter implies to reload the application. Do you want to do it?</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_DEVMODE_LABEL">Development mode</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_DEVMODE_DESCRIPTION">Toggle development mode: this will reload the application with/without the development mode.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_DEVMODE_CONFIRM_TITLE">Reload needed</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_DEVMODE_CONFIRM_TEXT">Be careful! Modifying this parameter implies to reload the application. Do you want to do it?</message>
     
     <!-- +
 		 | HELP

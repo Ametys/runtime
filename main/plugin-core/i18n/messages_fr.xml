@@ -44,8 +44,6 @@
     <!-- System -->
     <message key="PLUGINS_CORE_SYSTEM_CONFIG_CATEGORY">Système</message>
     <message key="PLUGINS_CORE_DEBUG_GROUP">Mode développement</message>
-    <message key="PLUGINS_CORE_CACHE_XSLT_LABEL">Transformations XSLT</message>
-    <message key="PLUGINS_CORE_CACHE_XSLT_DESCRIPTION">Cochez cette case pour désactiver le cache des transformations XSLT.&lt;br/&gt;Il est généralement inutile de désactiver ce cache puisqu'il tient compte de la date de dernière modification des fichiers XSLT.</message>
     <message key="PLUGINS_CORE_LOGGING_GROUP">Journalisation</message>
     <message key="PLUGINS_CORE_TRACE_LOG_ABNORMAL_TIME_LABEL">Tracer les processus longs</message>
     <message key="PLUGINS_CORE_TRACE_LOG_ABNORMAL_TIME_DESCRIPTION">Cochez cette case pour activer le tracage en sévérité 'warning' (avertissement) dans les journaux de l'application des processus prenant un temps anormalement long</message>

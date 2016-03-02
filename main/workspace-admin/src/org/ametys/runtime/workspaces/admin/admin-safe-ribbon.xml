@@ -75,7 +75,7 @@
                         <control id="org.ametys.runtime.userinterface.MessageTrackerControlMenu"/>
                         <control id="org.ametys.runtime.userinterface.RequestTrackerControlMenu"/>
                         <control id="org.ametys.runtime.userinterface.ConsoleLogControlMenu"/>
-                        <control id="org.ametys.runtime.userinterface.debug.UI"/>
+                        <control id="org.ametys.runtime.userinterface.DevMode"/>
                     </medium>
                     <small/>
                 </group>

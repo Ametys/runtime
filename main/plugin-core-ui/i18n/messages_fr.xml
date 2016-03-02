@@ -141,11 +141,10 @@
     <!-- +
          | Config 
          + -->
-    <message key="PLUGINS_CORE_UI_DEBUG_UI_LABEL">Interfaces graphiques</message>
-    <message key="PLUGINS_CORE_UI_DEBUG_UI_DESCRIPTION">Mettre les interfaces graphiques en mode développeur (CSS/JS non minimisés...)</message>
-    <message key="PLUGINS_CORE_UI_DEBUG_UI_VAL_0">Mode production (concaténé, minimisé)</message>
-    <message key="PLUGINS_CORE_UI_DEBUG_UI_VAL_1">Mode développeur partiel (concaténé, non minimisé)</message>
-    <message key="PLUGINS_CORE_UI_DEBUG_UI_VAL_2">Mode développeur complet (non concaténé, non minimisé)</message>
+    <message key="PLUGINS_CORE_UI_DEBUG_UI_LABEL">Mode</message>
+    <message key="PLUGINS_CORE_UI_DEBUG_UI_DESCRIPTION">Définit le mode de l'application.</message>
+    <message key="PLUGINS_CORE_UI_DEBUG_UI_VAL_0">Production</message>
+    <message key="PLUGINS_CORE_UI_DEBUG_UI_VAL_1">Développement</message>
     
     <!-- + 
          | Date patterns
@@ -828,12 +827,12 @@
     <message key="PLUGINS_CORE_UI_EDITION_SOURCEEDIT_DESCRIPTION">Ce bouton permet de modifier le code source d'un éditeur en ligne riche</message>
     
     <!--+
-       | DEBUG MODE
-       + -->
-    <message key="PLUGINS_CORE_UI_TOOLS_DEBUG_UI_LABEL">IHM en mode debug</message>
-    <message key="PLUGINS_CORE_UI_TOOLS_DEBUG_UI_DESCRIPTION">Passer l'ihm en mode debug : cette action recharge l'application en/sans minifier les CSS et les JS.</message>
-    <message key="PLUGINS_CORE_UI_TOOLS_DEBUG_UI_CONFIRM_TITLE">Rechargement nécessaire</message>
-    <message key="PLUGINS_CORE_UI_TOOLS_DEBUG_UI_CONFIRM_TEXT">Attention ! La modification de ce paramètre nécessite de recharger l'application. Voulez-vous continuer quand même ?</message>
+        | DEV MODE
+        + -->
+    <message key="PLUGINS_CORE_UI_TOOLS_DEVMODE_LABEL">Mode développement</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_DEVMODE_DESCRIPTION">Passer en mode développement : cette action recharge l'application en activant/désactivant le mode développement.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_DEVMODE_CONFIRM_TITLE">Rechargement nécessaire</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_DEVMODE_CONFIRM_TEXT">Attention ! La modification de ce paramètre nécessite de recharger l'application. Voulez-vous continuer quand même ?</message>
     
     <!-- +
 		 | HELP

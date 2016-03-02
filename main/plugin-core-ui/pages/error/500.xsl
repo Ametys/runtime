@@ -30,7 +30,7 @@
     <xsl:template name="text"><i18n:text i18n:key="PLUGINS_CORE_UI_ERROR_500_TEXT" i18n:catalogue="plugin.core-ui"/></xsl:template>
     
     <xsl:template name="text-additionnal">
-	    <xsl:if test="not(ametys:config('runtime.debug.ui') = 0)">
+	    <xsl:if test="ametys:isDeveloperMode()">
 	        <xsl:call-template name="button">
 	            <xsl:with-param name="text"><i18n:text i18n:key='PLUGINS_CORE_UI_ERROR_500_LINK' i18n:catalogue='plugin.core-ui'/></xsl:with-param>
 	            <xsl:with-param name="action">document.body.className = (document.body.className == '') ? 'stacktrace' : '';</xsl:with-param>

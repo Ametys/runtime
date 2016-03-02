@@ -21,7 +21,7 @@
     
     <config>
         <!-- Debug parameters -->
-        <param id="runtime.debug.ui" type="long">
+        <param id="runtime.mode.dev" type="boolean">
             <!-- 
                 This parameter allows to load UI in debug mode (i.e. load CSS/JS not minified)
              -->
@@ -30,15 +30,11 @@
             <enumeration>
                 <entry>
                     <label i18n="true">PLUGINS_CORE_UI_DEBUG_UI_VAL_0</label>
-                    <value>0</value>
+                    <value>false</value>
                 </entry>
                 <entry>
                     <label i18n="true">PLUGINS_CORE_UI_DEBUG_UI_VAL_1</label>
-                    <value>1</value>
-                </entry>
-                <entry>
-                    <label i18n="true">PLUGINS_CORE_UI_DEBUG_UI_VAL_2</label>
-                    <value>2</value>
+                    <value>true</value>
                 </entry>
             </enumeration>
             <validation>
@@ -144,9 +140,9 @@
     </feature>
     
     <feature name="runtime.debug">
-        <!-- Mark the UI debug parameter as available. If your application does not handle it you can unactivate it. -->
+        <!-- Mark the Developer mode parameter as available. If your application does not handle it you can unactivate it. -->
         <config>
-            <param-ref id="runtime.debug.ui"/>
+            <param-ref id="runtime.mode.dev"/>
         </config>
     </feature>
     
@@ -1119,17 +1115,17 @@
                     <category>PLUGINS_CORE_RIGHTS_DEV_CATEGORY</category>
                 </right>
             </extension>
-    		<extension id="org.ametys.runtime.userinterface.debug.UI"
+    		<extension id="org.ametys.runtime.userinterface.DevMode"
     				   point="org.ametys.core.ui.RibbonControlsManager"
     				   class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.ui.ButtonController">
-                    <initialize>Ametys.plugins.coreui.system.debug.UIDebugActions.initialize</initialize>
-					<action>Ametys.plugins.coreui.system.debug.UIDebugActions.act</action>
+                    <initialize>Ametys.plugins.coreui.system.devmode.DevModeActions.initialize</initialize>
+					<action>Ametys.plugins.coreui.system.devmode.DevModeActions.act</action>
                     <toggle-enabled>true</toggle-enabled>
 
-					<label i18n="true">PLUGINS_CORE_UI_TOOLS_DEBUG_UI_LABEL</label>
-					<description i18n="true">PLUGINS_CORE_UI_TOOLS_DEBUG_UI_DESCRIPTION</description>
-					<help>org.ametys.runtime.debug.ui</help>
+					<label i18n="true">PLUGINS_CORE_UI_TOOLS_DEVMODE_LABEL</label>
+					<description i18n="true">PLUGINS_CORE_UI_TOOLS_DEVMODE_DESCRIPTION</description>
+					<help>org.ametys.runtime.debug.mode</help>
                     
                     <icon-glyph>flaticon-bugs3</icon-glyph>
 					<icon-small file="true">img/debug/ui-debug-16.png</icon-small>
@@ -1137,7 +1133,7 @@
 					<icon-large file="true">img/debug/ui-debug-48.png</icon-large>
 				</class>
 				<scripts>
-					<file>js/Ametys/plugins/coreui/system/debug/UIDebugActions.js</file>
+					<file>js/Ametys/plugins/coreui/system/devmode/DevModeActions.js</file>
 				</scripts>
 				<right context-prefix="/contributor">CORE_Rights_DebugMode</right>
     		</extension>

@@ -65,7 +65,7 @@
 		<xsl:variable name="language-code" select="ametys:translate('plugin.core-ui:PLUGINS_CORE_UI_LANGUAGE_CODE')"/>
         <xsl:variable name="rtl" select="ametys:translate('plugin.core-ui:PLUGINS_CORE_UI_LANGUAGE_RTL') = 'true'"/>
 		<xsl:variable name="max-upload-size" select="ametys:config('runtime.upload.max-size')"/>
-        <xsl:variable name="debug-mode" select="not(ametys:config('runtime.debug.ui') = 0)"/>
+        <xsl:variable name="debug-mode" select="ametys:isDeveloperMode()"/>
 
 		<xsl:call-template name="kernel-browsers">
 			<xsl:with-param name="authorized-browsers" select="$authorized-browsers"/>

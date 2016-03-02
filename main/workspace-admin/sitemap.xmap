@@ -136,9 +136,7 @@
                 <map:transform type="i18n">
                     <map:parameter name="locale" value="{locale:locale}"/>
                 </map:transform>
-                <map:transform type="minimizer" src="{request:contextPath}{request-attr:workspaceURI}/plugins/core">
-                    <map:parameter name="debug-mode-request" value="{request-param:debug.ui}"/>
-                </map:transform>
+                <map:transform type="minimizer" src="{request:contextPath}{request-attr:workspaceURI}/plugins/core" />
                 <map:serialize type="xhtml"/>
             </map:match>
             
