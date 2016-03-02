@@ -255,9 +255,12 @@ Ext.define('Ametys.form.widget.AbstractQueryableComboBox', {
     
     getSubmitData: function ()
     {
-    	var data = {};    	
-    	data[this.name] = this.getValue();
-    	return data;
+        var data = null;
+        if (!this.disabled && this.submitValue) {
+            data = {};
+            data[this.name] = this.getValue();
+        }
+        return data;
     },
     
     getReadableValue: function (separator)
