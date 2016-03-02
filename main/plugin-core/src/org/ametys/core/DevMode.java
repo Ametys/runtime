@@ -19,7 +19,7 @@ import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.Session;
 
 import org.ametys.runtime.config.Config;
-import org.ametys.runtime.servlet.RuntimeConfig;
+import org.ametys.runtime.plugin.PluginsManager;
 
 /**
  * Static class for retrieving and setting the development mode of the application.
@@ -81,7 +81,7 @@ public final class DevMode
             }
         }
         
-        if (RuntimeConfig.getInstance().isSafeMode())
+        if (PluginsManager.getInstance().isSafeMode())
         {
             return true;
         }
