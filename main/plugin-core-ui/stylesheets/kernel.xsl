@@ -24,6 +24,10 @@
 	
     <xsl:variable name="theme">ametys-base</xsl:variable>
     <xsl:variable name="uxtheme">neptune</xsl:variable>
+
+	<xsl:variable name="language-code" select="ametys:translate('plugin.core-ui:PLUGINS_CORE_UI_LANGUAGE_CODE')"/>
+    <xsl:variable name="rtl" select="ametys:translate('plugin.core-ui:PLUGINS_CORE_UI_LANGUAGE_RTL') = 'true'"/>
+    <xsl:variable name="debug-mode" select="ametys:isDeveloperMode()"/>
 	
     <!-- +
          | Load and initialize all scripts for UI
@@ -62,10 +66,7 @@
 		<xsl:variable name="context-path" select="ametys:uriPrefix(false())"/>
 		<xsl:variable name="workspace-name" select="ametys:workspaceName()"/>
 		<xsl:variable name="workspace-prefix" select="ametys:workspacePrefix()"/>
-		<xsl:variable name="language-code" select="ametys:translate('plugin.core-ui:PLUGINS_CORE_UI_LANGUAGE_CODE')"/>
-        <xsl:variable name="rtl" select="ametys:translate('plugin.core-ui:PLUGINS_CORE_UI_LANGUAGE_RTL') = 'true'"/>
 		<xsl:variable name="max-upload-size" select="ametys:config('runtime.upload.max-size')"/>
-        <xsl:variable name="debug-mode" select="ametys:isDeveloperMode()"/>
 
 		<xsl:call-template name="kernel-browsers">
 			<xsl:with-param name="authorized-browsers" select="$authorized-browsers"/>
@@ -87,34 +88,50 @@
         </script>
         
        	<xsl:variable name="scripts">
-       		<script>/plugins/extjs6/resources/ext-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
-            <script>/plugins/extjs6/resources/classic/locale/locale-<xsl:value-of select="$language-code"/><xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
+       		<script debug="false" rtl="false">/plugins/extjs6/resources/ext-all.js</script>
+       		<script debug="true" rtl="false">/plugins/extjs6/resources/ext-all-debug.js</script>
+       		<script debug="false" rtl="true">/plugins/extjs6/resources/ext-all-rtl.js</script>
+       		<script debug="true" rtl="true">/plugins/extjs6/resources/ext-all-rtl-debug.js</script>
+            <script lang="true" debug="false">
+                <lang code="en" default="true">/plugins/extjs6/resources/classic/locale/locale-en.js</lang>
+                <lang code="fr">/plugins/extjs6/resources/classic/locale/locale-fr.js</lang>
+                <lang code="es">/plugins/extjs6/resources/classic/locale/locale-es.js</lang>
+            </script>
+            <script lang="true" debug="true">
+                <lang code="en" default="true">/plugins/extjs6/resources/classic/locale/locale-en-debug.js</lang>
+                <lang code="fr">/plugins/extjs6/resources/classic/locale/locale-fr-debug.js</lang>
+                <lang code="es">/plugins/extjs6/resources/classic/locale/locale-es-debug.js</lang>
+            </script>
             
-            <xsl:call-template name="theme-scripts">
-                <xsl:with-param name="debug-mode"><xsl:value-of select="$debug-mode"/></xsl:with-param>
-            </xsl:call-template>
+            <xsl:call-template name="theme-scripts" />
             
-            <script>/plugins/extjs6/resources/packages/ux/classic/ux<xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
+            <script debug="false">/plugins/extjs6/resources/packages/ux/classic/ux.js</script>
+            <script debug="true">/plugins/extjs6/resources/packages/ux/classic/ux-debug.js</script>
             
 			<script>/plugins/core-ui/resources/js/Ext.fixes.js</script>
             <script>/plugins/core-ui/resources/js/Ext.enhancements.js</script>
             
             <script>/plugins/core-ui/resources/js/lunr/lunr.min.js</script>
 	        <script>/plugins/core-ui/resources/js/lunr/lunr-ametys.js</script>
-	        <script>/plugins/core-ui/resources/js/lunr/lunr-ametys-<xsl:value-of select="$language-code"/>.js</script>
-	        <xsl:if test="$language-code != 'en'">
-		        <script>/plugins/core-ui/resources/js/lunr/lunr.stemmer.support.min.js</script>
-				<script>/plugins/core-ui/resources/js/lunr/lunr.<xsl:value-of select="$language-code"/>.min.js</script>
-			</xsl:if>
+            <script lang="true">
+                <lang code="en" default="true">/plugins/core-ui/resources/js/lunr/lunr-ametys-en.js</lang>
+                <lang code="fr">/plugins/core-ui/resources/js/lunr/lunr-ametys-fr.js</lang>
+                <lang code="es">/plugins/core-ui/resources/js/lunr/lunr-ametys-es.js</lang>
+            </script>
+            <script lang="true">
+                <lang code="es">/plugins/core-ui/resources/js/lunr/lunr.stemmer.support.min.js</lang>
+                <lang code="fr">/plugins/core-ui/resources/js/lunr/lunr.stemmer.support.min.js</lang>
+            </script>
+            <script lang="true">
+                <lang code="es">/plugins/core-ui/resources/js/lunr/lunr.es.min.js</lang>
+                <lang code="fr">/plugins/core-ui/resources/js/lunr/lunr.fr.min.js</lang>
+            </script>
 
 			<xsl:call-template name="ametys-scripts"/>
 	    </xsl:variable>
 	    
 		<xsl:variable name="css">
-            <xsl:call-template name="theme-styles">
-                <xsl:with-param name="rtl" select="$rtl"/>
-                <xsl:with-param name="debug-mode" select="$debug-mode"/>
-            </xsl:call-template>
+            <xsl:call-template name="theme-styles" />
             
             <css>/plugins/codemirror/resources/css/codemirror.css</css>
             <css>/plugins/core-ui/resources/font/ametys/Ametys.css</css>
@@ -132,9 +149,8 @@
     </xsl:template>
     
     <xsl:template name="theme-scripts">
-        <xsl:param name="debug-mode"/>
-        
-        <script>/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/><xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
+        <script debug="false">/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/>.js</script>
+        <script debug="true">/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/>-debug.js</script>
     </xsl:template>
     
     <xsl:template name="ametys-scripts">
@@ -160,7 +176,8 @@
         <script>/plugins/core-ui/resources/js/Ametys/form/field/RichText/SplitterTracker.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/form/field/TextArea.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/form/field/ColorSelector.js</script>
-        <script>/plugins/tiny_mce/resources/js/tinymce<xsl:if test="not($debug-mode)">.min</xsl:if>.js</script>
+        <script debug="true">/plugins/tiny_mce/resources/js/tinymce.js</script>
+        <script debug="false">/plugins/tiny_mce/resources/js/tinymce.min.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/form/field/Code.js</script>
         <script>/plugins/codemirror/resources/js/codemirror.js</script>
         <script>/plugins/codemirror/resources/js/addon/edit/matchbrackets.js</script>
@@ -263,12 +280,18 @@
     </xsl:template>
     
     <xsl:template name="theme-styles">
-        <xsl:param name="rtl"/>
-        <xsl:param name="debug-mode"/>
-        
-        <css>/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/>-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.css</css>
-        <css>/plugins/extjs6/resources/packages/ux/classic/<xsl:value-of select="$uxtheme"/>/resources/ux-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.css</css>
-        <css>/plugins/extjs6/resources/packages/charts/classic/<xsl:value-of select="$uxtheme"/>/resources/charts-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.css</css>
+        <css debug="false" rtl="false">/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/>-all.css</css>
+        <css debug="false" rtl="true">/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/>-all-rtl.css</css>
+        <css debug="true" rtl="false">/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/>-all-debug.css</css>
+        <css debug="true" rtl="true">/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/>-all-rtl-debug.css</css>
+        <css debug="false" rtl="false">/plugins/extjs6/resources/packages/ux/classic/<xsl:value-of select="$uxtheme"/>/resources/ux-all.css</css>
+        <css debug="false" rtl="true">/plugins/extjs6/resources/packages/ux/classic/<xsl:value-of select="$uxtheme"/>/resources/ux-all-rtl.css</css>
+        <css debug="true" rtl="false">/plugins/extjs6/resources/packages/ux/classic/<xsl:value-of select="$uxtheme"/>/resources/ux-all-debug.css</css>
+        <css debug="true" rtl="true">/plugins/extjs6/resources/packages/ux/classic/<xsl:value-of select="$uxtheme"/>/resources/ux-all-rtl-debug.css</css>
+        <css debug="false" rtl="false">/plugins/extjs6/resources/packages/charts/classic/<xsl:value-of select="$uxtheme"/>/resources/charts-all.css</css>
+        <css debug="false" rtl="true">/plugins/extjs6/resources/packages/charts/classic/<xsl:value-of select="$uxtheme"/>/resources/charts-all-rtl.css</css>
+        <css debug="true" rtl="false">/plugins/extjs6/resources/packages/charts/classic/<xsl:value-of select="$uxtheme"/>/resources/charts-all-debug.css</css>
+        <css debug="true" rtl="true">/plugins/extjs6/resources/packages/charts/classic/<xsl:value-of select="$uxtheme"/>/resources/charts-all-rtl-debug.css</css>
     </xsl:template>
  
     <!-- +
@@ -282,48 +305,95 @@
         <xsl:param name="css"/>
         
 		<xsl:param name="load-cb"/>
-        
+
         <xsl:variable name="contextPath" select="ametys:uriPrefix(false())"/>
-		 
+        
 		<!-- Load scripts -->
 		<xsl:if test="$scripts">
 	        <xsl:for-each select="$scripts">
-	            <xsl:variable name="position" select="position()"/>
-	            <xsl:variable name="value" select="."/>
-	            
-	            <!-- check that the src was not already loaded (by another plugin for example) -->
-	            <xsl:if test="not($scripts[position() &lt; $position and . = $value])">
-                    <script type="text/javascript">
-                        <xsl:attribute name="src">
-                            <xsl:choose>
-                                <xsl:when test="@absolute='true' or contains(., '://')"><xsl:value-of select="."/></xsl:when>
-                                <xsl:otherwise><xsl:value-of select="concat($contextPath, .)"/></xsl:otherwise>
-                            </xsl:choose>
-                        </xsl:attribute>
-                    </script>
-	        	    <xsl:copy-of select="$load-cb"/>
-	            </xsl:if>
+                <xsl:if test="(not(@debug) or ($debug-mode and @debug = 'true') or (not($debug-mode) and @debug = 'false')) and (not(@rtl) or ($rtl and @rtl = 'true') or (not($rtl) and @rtl = 'false'))">
+                    
+					<xsl:variable name="position" select="position()"/>
+                
+                    <xsl:variable name="value">
+                        <xsl:choose>
+                            <xsl:when test="@lang = 'true'">
+                                <xsl:choose>
+                                    <xsl:when test="lang[@code = $language-code]">
+                                        <xsl:value-of select="lang[@code = $language-code]"/>    
+                                    </xsl:when>
+                                    <xsl:when test="lang[@default = 'true']">
+                                        <!-- Fallback to the default language if the user language was not found -->
+                                        <xsl:value-of select="lang[@default = 'true']"/>
+                                    </xsl:when>
+                                </xsl:choose>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                    <xsl:value-of select="."/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:variable>
+                    
+                    
+                    <xsl:if test="$value != ''">
+        	            <!-- check that the src was not already loaded (by another plugin for example) -->
+        	            <xsl:if test="not($scripts[position() &lt; $position and . = $value])">
+                            <script type="text/javascript">
+                                <xsl:attribute name="src">
+                                    <xsl:choose>
+                                        <xsl:when test="@absolute='true' or contains($value, '://')"><xsl:value-of select="$value"/></xsl:when>
+                                        <xsl:otherwise><xsl:value-of select="concat($contextPath, $value)"/></xsl:otherwise>
+                                    </xsl:choose>
+                                </xsl:attribute>
+                            </script>
+        	        	    <xsl:copy-of select="$load-cb"/>
+        	            </xsl:if>
+                    </xsl:if>
+                </xsl:if>
 	        </xsl:for-each>
 	    </xsl:if>
 
 		<!-- Load css -->
         <xsl:if test="$css">
 	        <xsl:for-each select="$css">
-	            <xsl:variable name="position" select="position()"/>
-	            <xsl:variable name="value" select="."/>
+                <xsl:if test="(not(@debug) or ($debug-mode and @debug = 'true') or (not($debug-mode) and @debug = 'false')) and (not(@rtl) or ($rtl and @rtl = 'true') or (not($rtl) and @rtl = 'false'))">
+                
+                    <xsl:variable name="position" select="position()"/>
+
+                    <xsl:variable name="value">
+                        <xsl:choose>
+                            <xsl:when test="@lang and @lang = 'true'">
+                                <xsl:choose>
+                                    <xsl:when test="lang[@code = $language-code]">
+                                        <xsl:value-of select="lang[@code = $language-code]"/>    
+                                    </xsl:when>
+                                    <xsl:when test="lang[@default = 'true']">
+                                        <!-- Fallback to the default language if the user language was not found -->
+                                        <xsl:value-of select="lang[@default = 'true']"/>
+                                    </xsl:when>
+                                </xsl:choose>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="."/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:variable>
 	            
-	            <!-- check that the src was not already loaded (by another plugin for example) -->
-	            <xsl:if test="not($css[position() &lt; $position and . = $value])">
-	                <link rel="stylesheet" type="text/css">
-                        <xsl:attribute name="href">
-                            <xsl:choose>
-                                <xsl:when test="@absolute='true' or contains(., '://')"><xsl:value-of select="."/></xsl:when>
-                                <xsl:otherwise><xsl:value-of select="concat($contextPath, .)"/></xsl:otherwise>
-                            </xsl:choose>
-                        </xsl:attribute>
-                    </link>
-	        	    <xsl:copy-of select="$load-cb"/>
-	            </xsl:if>
+                    <xsl:if test="$value != ''">
+        	            <!-- check that the src was not already loaded (by another plugin for example) -->
+        	            <xsl:if test="not($css[position() &lt; $position and . = $value])">
+        	                <link rel="stylesheet" type="text/css">
+                                <xsl:attribute name="href">
+                                    <xsl:choose>
+                                        <xsl:when test="@absolute='true' or contains($value, '://')"><xsl:value-of select="$value"/></xsl:when>
+                                        <xsl:otherwise><xsl:value-of select="concat($contextPath, $value)"/></xsl:otherwise>
+                                    </xsl:choose>
+                                </xsl:attribute>
+                            </link>
+        	        	    <xsl:copy-of select="$load-cb"/>
+        	            </xsl:if>
+                    </xsl:if>
+                </xsl:if>
 	        </xsl:for-each>
 	   </xsl:if>
     </xsl:template>

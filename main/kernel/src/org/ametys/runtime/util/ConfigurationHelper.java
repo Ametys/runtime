@@ -16,14 +16,17 @@
 package org.ametys.runtime.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
+import org.ametys.core.ui.ClientSideElement.ScriptFile;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.i18n.I18nizableText;
 
@@ -121,15 +124,53 @@ public final class ConfigurationHelper
      * @return The list of complete URLs of files to import.
      * @throws ConfigurationException If an error occurs
      */
-    public static List<String> parsePluginResourceList(Configuration configuration, String defaultPluginName, Logger logger) throws ConfigurationException
+    public static List<ScriptFile> parsePluginResourceList(Configuration configuration, String defaultPluginName, Logger logger) throws ConfigurationException
     {
-        List<String> resourceUrls = new ArrayList<>();
+        List<ScriptFile> resourceFiles = new ArrayList<>();
         String listDefaultPlugin = configuration.getAttribute("plugin", defaultPluginName);
         for (Configuration fileConfiguration : configuration.getChildren("file"))
         {
-            resourceUrls.add(parsePluginResource(fileConfiguration, listDefaultPlugin, logger));
+            ScriptFile scriptFile = _getPluginResourceJSValue(fileConfiguration, listDefaultPlugin, logger);
+            
+            resourceFiles.add(scriptFile);
         }
-        return resourceUrls;
+        return resourceFiles;
+    }
+
+    private static ScriptFile _getPluginResourceJSValue(Configuration fileConfiguration, String listDefaultPlugin, Logger logger) throws ConfigurationException
+    {
+        ScriptFile scriptFile;
+        String debug = fileConfiguration.getAttribute("debug", "all");
+
+        boolean langAware = fileConfiguration.getAttributeAsBoolean("lang", false);
+        if (langAware)
+        {
+            String defaultLang = fileConfiguration.getAttribute("defaultLang", null);
+            
+            Map<String, String> langPaths = new HashMap<>();
+            for (Configuration langConfiguration : fileConfiguration.getChildren("lang"))
+            {
+                String code = langConfiguration.getAttribute("code", null);
+                if (StringUtils.isBlank(code))
+                {
+                    throw new ConfigurationException("Code attribute is mandatory for lang tag", langConfiguration);
+                }
+                
+                String path = _getPluginResourceValue(langConfiguration, listDefaultPlugin, langConfiguration.getValue(), logger);
+                langPaths.put(code, path);
+            }
+            
+            scriptFile = new ScriptFile(debug, langPaths, defaultLang);
+        }
+        else
+        {
+            String rtl = fileConfiguration.getAttribute("rtl", "all");
+            String path = _getPluginResourceValue(fileConfiguration, listDefaultPlugin, fileConfiguration.getValue(), logger);
+            
+            scriptFile = new ScriptFile(debug, rtl, path);
+        }
+        
+        return scriptFile;
     }
     
     /**

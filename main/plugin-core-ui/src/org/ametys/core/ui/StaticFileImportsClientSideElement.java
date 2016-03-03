@@ -29,8 +29,8 @@ public class StaticFileImportsClientSideElement extends StaticClientSideElement
     @Override
     protected Script _configureScript(Configuration configuration) throws ConfigurationException
     {
-        List<String> scriptsImports = _configureImports(configuration.getChild("scripts"));
-        List<String> cssImports = _configureImports(configuration.getChild("css"));
+        List<ScriptFile> scriptsImports = _configureImports(configuration.getChild("scripts"));
+        List<ScriptFile> cssImports = _configureImports(configuration.getChild("css"));
         
         return new Script("", scriptsImports, cssImports);
     }

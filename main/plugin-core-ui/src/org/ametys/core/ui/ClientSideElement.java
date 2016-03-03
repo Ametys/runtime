@@ -68,6 +68,111 @@ public interface ClientSideElement
     public String getPluginName();
 
     /**
+     * This class represents a script file
+     */
+    public class ScriptFile
+    {
+        private String _debugMode;
+        private String _rtlMode;
+        private boolean _langMode;
+        private String _path;
+        private Map<String, String> _langPaths;
+        private String _defaultLang;
+        
+        /**
+         * Default constructor. Create a new script only defined by its path.
+         * @param path The script path
+         */
+        public ScriptFile(String path)
+        {
+            _path = path;
+            _langMode = false;
+        }
+
+        /**
+         * Create a new script file that is not language aware.
+         * @param debug The debug mode. Can be null.
+         * @param rtl The rtl mode. Can be null.
+         * @param path The file path.
+         */
+        public ScriptFile(String debug, String rtl, String path)
+        {
+            _debugMode = debug;
+            _rtlMode = rtl;
+            _path = path;
+            _langMode = false;
+        }
+        
+        /**
+         * Create a new script file with a language specific configuration.
+         * @param debug The debug mode. Can be null.
+         * @param langPaths The list of languages with their paths.
+         * @param defaultLang The default language code. Can be null.
+         */
+        public ScriptFile(String debug, Map<String, String> langPaths, String defaultLang)
+        {
+            _debugMode = debug;
+            _langPaths = langPaths;
+            _defaultLang = defaultLang;
+            _langMode = true;
+        }
+        
+        /**
+         * Get the debug mode
+         * @return the debug mode
+         */
+        public String getDebugMode()
+        {
+            return _debugMode;
+        }
+        
+        /**
+         * Get the rtl mode
+         * @return the the rtl mode
+         */
+        public String getRtlMode()
+        {
+            return _rtlMode;
+        }
+        
+        /**
+         * Retrieve the language mode
+         * @return True if the script file is language specific
+         */
+        public boolean isLangSpecific()
+        {
+            return _langMode;
+        }
+        
+        /**
+         * Get the file path
+         * @return the path
+         */
+        public String getPath()
+        {
+            return _path;
+        }
+        
+        /**
+         * Get the path mapping by language
+         * @return the paths by languages
+         */
+        public Map<String, String> getLangPaths()
+        {
+            return _langPaths;
+        }
+        
+        /**
+         * Get the default language
+         * @return the the default language
+         */
+        public String getDefaultLang()
+        {
+            return _defaultLang;
+        }
+    }
+    
+    /**
      * This class represents a script
      */
     public class Script
@@ -75,9 +180,9 @@ public interface ClientSideElement
         /** The script class name of the script */
         protected String _classname;
         /** The script files of the script (url is relative to webapp context) */
-        protected List<String> _scriptFiles;
+        protected List<ScriptFile> _scriptFiles;
         /** The css files of the script (url is relative to webapp context) */
-        protected List<String> _cssFiles;
+        protected List<ScriptFile> _cssFiles;
 
         /**
          * Creates a script
@@ -85,7 +190,7 @@ public interface ClientSideElement
          * @param scriptFiles The list of files needed to execute the classname. Must not be null.
          * @param cssFiles The list of css files needed to correctly display the script. Must not be null.
          */
-        public Script(String classname, List<String> scriptFiles, List<String> cssFiles)
+        public Script(String classname, List<ScriptFile> scriptFiles, List<ScriptFile> cssFiles)
         {
             _classname = classname;
             _scriptFiles = scriptFiles;
@@ -105,7 +210,7 @@ public interface ClientSideElement
          * The list of files needed to execute the classname.
          * @return The list of files needed to execute the classname. Must not be null.
          */
-        public List<String> getScriptFiles()
+        public List<ScriptFile> getScriptFiles()
         {
             return _scriptFiles;
         }
@@ -114,7 +219,7 @@ public interface ClientSideElement
          * The list of css files needed to correctly display the script.
          * @return The list of css files needed to correctly display the script. Must not be null.
          */
-        public List<String> getCSSFiles()
+        public List<ScriptFile> getCSSFiles()
         {
             return _cssFiles;
         }

@@ -16,6 +16,7 @@
 package org.ametys.core.ui;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
@@ -29,6 +30,7 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
 import org.ametys.core.ui.ClientSideElement.Script;
+import org.ametys.core.ui.ClientSideElement.ScriptFile;
 import org.ametys.core.util.JSONUtils;
 
 /**
@@ -75,21 +77,67 @@ public class SAXClientSideElementHelper extends AbstractLogEnabled implements Co
             
             // SAX Scripts
             XMLUtils.startElement(handler, "scripts");
-            for (String fileName : script.getScriptFiles())
+            for (ScriptFile scriptFile : script.getScriptFiles())
             {
-                XMLUtils.createElement(handler, "file", fileName);
+                saxScriptFile(handler, scriptFile);
             }
             XMLUtils.endElement(handler, "scripts");
     
             // SAX CSS
             XMLUtils.startElement(handler, "css");
-            for (String fileName : script.getCSSFiles())
+            for (ScriptFile scriptFile : script.getCSSFiles())
             {
-                XMLUtils.createElement(handler, "file", fileName);
+                saxScriptFile(handler, scriptFile);
             }
             XMLUtils.endElement(handler, "css");
     
             XMLUtils.endElement(handler, tagName);
         }
+    }
+    
+    private void saxScriptFile(ContentHandler handler, ScriptFile scriptFile) throws SAXException
+    {
+        AttributesImpl fileAttrs = new AttributesImpl();
+        String debugMode = scriptFile.getDebugMode();
+        if (debugMode != null && !"all".equals(debugMode))
+        {
+            fileAttrs.addCDATAAttribute("debug", debugMode);
+        }
+        
+        if (!scriptFile.isLangSpecific())
+        {
+            String rtlMode = scriptFile.getRtlMode();
+            if (rtlMode != null && !"all".equals(rtlMode))
+            {
+                fileAttrs.addCDATAAttribute("rtl", rtlMode);
+            }
+            
+            XMLUtils.createElement(handler, "file", fileAttrs, scriptFile.getPath());
+        }
+        else
+        {
+            fileAttrs.addCDATAAttribute("lang", "true");
+            XMLUtils.startElement(handler, "file", fileAttrs);
+            
+            String defaultLang = scriptFile.getDefaultLang();
+            Map<String, String> langPaths = scriptFile.getLangPaths();
+            
+            for (Entry<String, String> langPath : langPaths.entrySet())
+            {
+                AttributesImpl langAttrs = new AttributesImpl();
+                
+                String codeLang = langPath.getKey();
+                langAttrs.addCDATAAttribute("code", codeLang);
+                if (codeLang.equals(defaultLang))
+                {
+                    langAttrs.addCDATAAttribute("default", "true");
+                }
+                
+                XMLUtils.createElement(handler, "lang", langAttrs, langPath.getValue());
+            }
+
+            XMLUtils.endElement(handler, "file");
+        }
+        
     }
 }

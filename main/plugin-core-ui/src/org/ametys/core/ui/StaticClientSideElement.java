@@ -132,8 +132,8 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
      */
     protected Script _configureScript(Configuration configuration) throws ConfigurationException
     {
-        List<String> scriptsImports = _configureImports(configuration.getChild("scripts"));
-        List<String> cssImports = _configureImports(configuration.getChild("css"));
+        List<ScriptFile> scriptsImports = _configureImports(configuration.getChild("scripts"));
+        List<ScriptFile> cssImports = _configureImports(configuration.getChild("css"));
         String jsClassName = _configureClass(configuration.getChild("class"));
         
         return new Script(jsClassName, scriptsImports, cssImports);
@@ -161,7 +161,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
      * @return The set of the complete url of imported file
      * @throws ConfigurationException If an error occurs
      */
-    protected List<String> _configureImports(Configuration configuration) throws ConfigurationException
+    protected List<ScriptFile> _configureImports(Configuration configuration) throws ConfigurationException
     {
         return ConfigurationHelper.parsePluginResourceList(configuration, getPluginName(), getLogger());
     }
