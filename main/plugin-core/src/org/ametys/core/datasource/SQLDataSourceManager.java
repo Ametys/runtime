@@ -16,6 +16,8 @@
 package org.ametys.core.datasource;
 
 import java.io.File;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -136,6 +138,27 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
     protected String getDataSourcePrefixId()
     {
         return "SQL-";
+    }
+    
+    /**
+     * Get a connection object the internal data source
+     * @return the connection object to Ametys' internal SQL data source
+     */
+    public Connection getInternalSQLDataSourceConnection()
+    {
+        DataSource dataSource;
+        Connection connection = null;
+        try
+        {
+            dataSource =  getSQLDataSource(__AMETYS_INTERNAL_DATASOURCE_ID);
+            connection = dataSource.getConnection();
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException("Unable to get the connection to the internal ametys SQL data source", e);
+        }
+        
+        return connection;
     }
     
     /**

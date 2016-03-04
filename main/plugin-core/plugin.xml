@@ -299,6 +299,10 @@
         <extension-point id="org.ametys.core.datasource.dbtype.SQLDatabaseTypeExtensionPoint"
                          class="org.ametys.core.datasource.dbtype.SQLDatabaseTypeExtensionPoint"
                          safe="true"/>
+                         
+        <extension-point id="org.ametys.core.datasource.DataSourceCustomerExtensionPoint"
+                         class="org.ametys.core.datasource.DataSourceCustomerExtensionPoint"
+                         safe="true"/>
         
     </extension-points>
     
@@ -1310,11 +1314,11 @@
         </extensions>
      </feature>
     
-    <feature name="runtime.core.datasource.dao" safe="true">
+    <feature name="runtime.core.datasource.client-interaction" safe="true">
         <components>
-            <component role="org.ametys.core.datasource.DataSourceDAO"
-                       id="org.ametys.core.datasource.DataSourceDAO"
-                       class="org.ametys.core.datasource.DataSourceDAO"/>
+            <component role="org.ametys.core.datasource.DataSourceClientInteraction"
+                       id="org.ametys.core.datasource.DataSourceClientInteraction"
+                       class="org.ametys.core.datasource.DataSourceClientInteraction"/>
         </components>
     </feature>
         

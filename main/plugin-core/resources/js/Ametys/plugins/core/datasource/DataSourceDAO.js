@@ -29,7 +29,7 @@ Ext.define('Ametys.plugins.core.datasource.DataSourceDAO', {
     	 * @member Ametys.plugins.core.datasource.DataSourceDAO
     	 * @method getDataSource
     	 * Retrieve a data source from its id
-    	 * This calls the method 'getSQLDataSource' of the server DAO 'org.ametys.core.datasource.DataSourceDAO'.
+    	 * This calls the method 'getSQLDataSource' of the server DAO 'org.ametys.core.datasource.DataSourceClientInteraction'.
     	 * @param {Object[]} parameters The parameters to transmit to the server method
          * @param {String} parameters.type The type of data source to retrieve
     	 * @param {String} parameters.id The id of the data source to retrieve
@@ -47,11 +47,11 @@ Ext.define('Ametys.plugins.core.datasource.DataSourceDAO', {
 		 * @param {Boolean} [options.ignoreCallbackOnError] If the server throws an exception, should the callback be called with a null parameter. See Ametys.data.ServerCall#callMethod ignoreOnError.
     	 */
 		this.addCallables({
-		    role: "org.ametys.core.datasource.DataSourceDAO",
+		    role: "org.ametys.core.datasource.DataSourceClientInteraction",
 			methodName: "getDataSource",
      		errorMessage: {
 				category: this.self.getName(),
-				msg: "<i18n:text i18n:key='PLUGINS_CORE_DATASOURCEDAO_GET_DATASOURCE_ERROR'/>"
+				msg: "{{i18n PLUGINS_CORE_DATASOURCEDAO_GET_DATASOURCE_ERROR}}"
 			}
 		});
 		
@@ -60,7 +60,7 @@ Ext.define('Ametys.plugins.core.datasource.DataSourceDAO', {
     	 * @member Ametys.plugins.core.datasource.DataSourceDAO
     	 * @method addDataSource
     	 * Add a data source
-    	 * This calls the method 'addDataSource' of the server DAO 'org.ametys.core.datasource.DataSourceDAO'.
+    	 * This calls the method 'addDataSource' of the server DAO 'org.ametys.core.datasource.DataSourceClientInteraction'.
     	 * @param {Object[]} parameters The parameters to transmit to the server method
          * @param {String} parameters.type (required) The type of data source to create
          * @param {Object} parameters.dsParams The parameters of the data source. It should contains at least the following parameters:
@@ -81,14 +81,14 @@ Ext.define('Ametys.plugins.core.datasource.DataSourceDAO', {
 		 * @param {Boolean} [options.ignoreCallbackOnError] If the server throws an exception, should the callback be called with a null parameter. See Ametys.data.ServerCall#callMethod ignoreOnError.
     	 */
 		this.addCallables({
-		    role: "org.ametys.core.datasource.DataSourceDAO",
+		    role: "org.ametys.core.datasource.DataSourceClientInteraction",
 			methodName: "addDataSource",
 			callback: {
          		handler: this._addDataSourceCb
      		},
      		errorMessage: {
 				category: this.self.getName(),
-				msg: "<i18n:text i18n:key='PLUGINS_CORE_DATASOURCEDAO_ADD_DATASOURCE_ERROR'/>"
+				msg: "{{i18n PLUGINS_CORE_DATASOURCEDAO_ADD_DATASOURCE_ERROR}}"
 			}
 		});
 		
@@ -97,7 +97,7 @@ Ext.define('Ametys.plugins.core.datasource.DataSourceDAO', {
     	 * @member Ametys.plugins.core.datasource.DataSourceDAO
     	 * @method editDataSource
     	 * Edit a data source
-    	 * This calls the method 'editDataSource' of the server DAO 'org.ametys.core.datasource.DataSourceDAO'.
+    	 * This calls the method 'editDataSource' of the server DAO 'org.ametys.core.datasource.DataSourceClientInteraction'.
     	 * @param {Object[]} parameters The parameters to transmit to the server method
          * @param {String} parameters.type (required) The type of data source to edit
          * @param {Object} parameters.dsParams The parameters of the data source. It should contains at least the following parameters:
@@ -119,14 +119,14 @@ Ext.define('Ametys.plugins.core.datasource.DataSourceDAO', {
 		 * @param {Boolean} [options.ignoreCallbackOnError] If the server throws an exception, should the callback be called with a null parameter. See Ametys.data.ServerCall#callMethod ignoreOnError.
     	 */
 		this.addCallables({
-			role: "org.ametys.core.datasource.DataSourceDAO",
+			role: "org.ametys.core.datasource.DataSourceClientInteraction",
 			methodName: "editDataSource",
 			callback: {
          		handler: this._editDataSourceCb
      		},
      		errorMessage: {
 				category: this.self.getName(),
-				msg: "<i18n:text i18n:key='PLUGINS_CORE_DATASOURCEDAO_EDIT_DATASOURCE_ERROR'/>"
+				msg: "{{i18n PLUGINS_CORE_DATASOURCEDAO_EDIT_DATASOURCE_ERROR}}"
 			}
 		});
 		
@@ -135,7 +135,7 @@ Ext.define('Ametys.plugins.core.datasource.DataSourceDAO', {
     	 * @member Ametys.plugins.core.datasource.DataSourceDAO
     	 * @method removeDataSource
     	 * Remove the selected sql data source
-    	 * This calls the method 'removeDataSource' of the server DAO 'org.ametys.core.datasource.DataSourceDAO'.
+    	 * This calls the method 'removeDataSource' of the server DAO 'org.ametys.core.datasource.DataSourceClientInteraction'.
     	 * @param {Object[]} parameters The parameters to transmit to the server method
          * @param {String} parameters.type (required) The type of data source to create
          * @param {String[]} parameters.ids The ids of data source to delete
@@ -152,14 +152,14 @@ Ext.define('Ametys.plugins.core.datasource.DataSourceDAO', {
 		 * @param {Boolean} [options.ignoreCallbackOnError] If the server throws an exception, should the callback be called with a null parameter. See Ametys.data.ServerCall#callMethod ignoreOnError.
     	 */
 		this.addCallables({
-			role: "org.ametys.core.datasource.DataSourceDAO",
+			role: "org.ametys.core.datasource.DataSourceClientInteraction",
 			methodName: "removeDataSource",
 			callback: {
          		handler: this._removeDataSourceCb
      		},
      		errorMessage: {
 				category: this.self.getName(),
-				msg: "<i18n:text i18n:key='PLUGINS_CORE_DATASOURCEDAO_DELETE_DATASOURCE_ERROR'/>"
+				msg: "{{i18n PLUGINS_CORE_DATASOURCEDAO_DELETE_DATASOURCE_ERROR}}"
 			}
 		});
 	},

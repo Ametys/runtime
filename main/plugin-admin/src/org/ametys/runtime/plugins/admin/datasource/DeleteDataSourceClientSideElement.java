@@ -27,7 +27,8 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.xml.sax.SAXException;
 
 import org.ametys.core.datasource.AbstractDataSourceManager.DataSourceDefinition;
-import org.ametys.core.datasource.DataSourceDAO.DataSourceType;
+import org.ametys.core.datasource.DataSourceClientInteraction.DataSourceType;
+import org.ametys.core.datasource.DataSourceCustomerExtensionPoint;
 import org.ametys.core.datasource.LDAPDataSourceManager;
 import org.ametys.core.datasource.SQLDataSourceManager;
 import org.ametys.core.ui.Callable;
@@ -40,6 +41,7 @@ public class DeleteDataSourceClientSideElement extends StaticClientSideElement
 {
     private SQLDataSourceManager _sqlDataSourceManager;
     private LDAPDataSourceManager _ldapSourceManager;
+    private DataSourceCustomerExtensionPoint _dataSourceCustomerEP;
     
     @Override
     public void service(ServiceManager smanager) throws ServiceException
@@ -47,6 +49,7 @@ public class DeleteDataSourceClientSideElement extends StaticClientSideElement
         super.service(smanager);
         _sqlDataSourceManager = (SQLDataSourceManager) smanager.lookup(SQLDataSourceManager.ROLE);
         _ldapSourceManager = (LDAPDataSourceManager) smanager.lookup(LDAPDataSourceManager.ROLE);
+        _dataSourceCustomerEP = (DataSourceCustomerExtensionPoint) smanager.lookup(DataSourceCustomerExtensionPoint.ROLE);
     }
     
     /**
@@ -77,11 +80,11 @@ public class DeleteDataSourceClientSideElement extends StaticClientSideElement
             {
                 case SQL:
                     dsDef = _sqlDataSourceManager.getDataSourceDefinition(id);
-                    isInUse = dsDef != null ? _sqlDataSourceManager.isInUse(id) : false;
+                    isInUse = dsDef != null ? _dataSourceCustomerEP.isInUse(id) : false;
                     break;
                 case LDAP:
                     dsDef = _ldapSourceManager.getDataSourceDefinition(id);
-                    isInUse = dsDef != null ? _ldapSourceManager.isInUse(id) : false;
+                    isInUse = dsDef != null ? _dataSourceCustomerEP.isInUse(id) : false;
                     break;
                 default:
                     break;

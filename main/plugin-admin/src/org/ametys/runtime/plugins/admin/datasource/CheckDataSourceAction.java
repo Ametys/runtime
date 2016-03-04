@@ -15,12 +15,10 @@
  */
 package org.ametys.runtime.plugins.admin.datasource;
 
-import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
@@ -30,11 +28,10 @@ import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
 import org.apache.commons.lang.StringUtils;
-import org.xml.sax.SAXException;
 
 import org.ametys.core.cocoon.ActionResultGenerator;
 import org.ametys.core.datasource.AbstractDataSourceManager.DataSourceDefinition;
-import org.ametys.core.datasource.DataSourceDAO.DataSourceType;
+import org.ametys.core.datasource.DataSourceClientInteraction.DataSourceType;
 import org.ametys.core.datasource.LDAPDataSourceManager;
 import org.ametys.core.datasource.SQLDataSourceManager;
 import org.ametys.core.datasource.dbtype.SQLDatabaseTypeManager;
@@ -104,7 +101,7 @@ public class CheckDataSourceAction extends ServiceableAction
         return result;
     }
     
-    private void _checkSQLParameters (Request request) throws ParameterCheckerTestFailureException, ConfigurationException, SAXException, IOException
+    private void _checkSQLParameters (Request request) throws ParameterCheckerTestFailureException
     {
         Map<String, String> sqlParameters = new HashMap<> ();
         
@@ -138,7 +135,7 @@ public class CheckDataSourceAction extends ServiceableAction
         _sqlDataSourceManager.checkParameters(sqlParameters);
     }
     
-    private void _checkLDAPParameters (Request request) throws ParameterCheckerTestFailureException, ConfigurationException, SAXException, IOException
+    private void _checkLDAPParameters (Request request) throws ParameterCheckerTestFailureException
     {
         Map<String, String> ldapParameters = new HashMap<> ();
         

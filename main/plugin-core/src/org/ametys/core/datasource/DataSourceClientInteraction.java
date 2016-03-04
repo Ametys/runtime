@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -36,12 +36,12 @@ import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 
 /**
- * DAO for manipulating data sources (SQL or LDAP)
+ * Component gathering manipulation methods for SQL and LDAP data sources 
  */
-public class DataSourceDAO extends AbstractLogEnabled implements Component, Serviceable
+public class DataSourceClientInteraction extends AbstractLogEnabled implements Component, Serviceable
 {
     /** The Avalon role */
-    public static final String ROLE = DataSourceDAO.class.getName();
+    public static final String ROLE = DataSourceClientInteraction.class.getName();
     
     /** The SQL data source manager */
     private SQLDataSourceManager _sqlDataSourceManager;
@@ -49,9 +49,11 @@ public class DataSourceDAO extends AbstractLogEnabled implements Component, Serv
     /** The SQL data source manager */
     private LDAPDataSourceManager _ldapDataSourceManager;
     
+    /** The extension for data source clients */
+    private DataSourceCustomerExtensionPoint _dataSourceCustomerEP;
+    
     /**
      * Enum for data source types
-     *
      */
     public enum DataSourceType 
     {
@@ -66,6 +68,7 @@ public class DataSourceDAO extends AbstractLogEnabled implements Component, Serv
     {
         _sqlDataSourceManager = (SQLDataSourceManager) manager.lookup(SQLDataSourceManager.ROLE);
         _ldapDataSourceManager = (LDAPDataSourceManager) manager.lookup(LDAPDataSourceManager.ROLE);
+        _dataSourceCustomerEP = (DataSourceCustomerExtensionPoint) manager.lookup(DataSourceCustomerExtensionPoint.ROLE);
     }
     
     /**
@@ -153,7 +156,7 @@ public class DataSourceDAO extends AbstractLogEnabled implements Component, Serv
 
         Map<String, Object> def2json = _dataSourceDefinition2Json(ldapDefinition);
         def2json.put("type", "LDAP");
-        def2json.put("isInUse", _ldapDataSourceManager.isInUse(ldapDefinition.getId()));
+        def2json.put("isInUse", _dataSourceCustomerEP.isInUse(ldapDefinition.getId()));
         
         return def2json;
     }
@@ -171,7 +174,7 @@ public class DataSourceDAO extends AbstractLogEnabled implements Component, Serv
         
         Map<String, Object> def2json = _dataSourceDefinition2Json(sqlDefinition);
         def2json.put("type", "SQL");
-        def2json.put("isInUse", _sqlDataSourceManager.isInUse(sqlDefinition.getId()));
+        def2json.put("isInUse", _dataSourceCustomerEP.isInUse(sqlDefinition.getId()));
         
         return def2json;
     }
@@ -243,10 +246,28 @@ public class DataSourceDAO extends AbstractLogEnabled implements Component, Serv
         DataSourceDefinition def = null;
         if (type.equals(DataSourceType.SQL.toString()))
         {
+            DataSourceDefinition previousdataSourceDefinition = _sqlDataSourceManager.getDataSourceDefinition(id); 
+            
+            // Inject the recorded password before overriding the existing data source (saved passwords are not sent)
+            String previousPassword = previousdataSourceDefinition.getParameters().get("password");
+            if (StringUtils.isNotEmpty(previousPassword))
+            {
+                parameters.put("password", previousPassword);
+            }
+
             def = _sqlDataSourceManager.edit(id, new I18nizableText(name), new I18nizableText(description), parameters, isPrivate);
         }
         else if (type.equals(DataSourceType.LDAP.toString()))
         {
+            DataSourceDefinition previousdataSourceDefinition = _ldapDataSourceManager.getDataSourceDefinition(id);
+            
+            // Inject the recorded password before overriding the existing data source (saved passwords are not sent)
+            String previousPassword = previousdataSourceDefinition.getParameters().get(LDAPDataSourceManager.PARAM_ADMIN_PASSWORD);
+            if (StringUtils.isNotEmpty(previousPassword))
+            {
+                parameters.put(LDAPDataSourceManager.PARAM_ADMIN_PASSWORD, previousPassword);
+            }
+            
             def = _ldapDataSourceManager.edit(id, new I18nizableText(name), new I18nizableText(description), parameters, isPrivate);
         }
         else

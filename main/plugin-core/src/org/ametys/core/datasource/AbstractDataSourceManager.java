@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.TransformerConfigurationException;
@@ -37,19 +38,18 @@ import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
 import org.ametys.core.util.StringUtils;
-import org.ametys.runtime.config.Config;
-import org.ametys.runtime.config.ConfigManager;
-import org.ametys.runtime.config.ConfigParameter;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
 import org.ametys.runtime.parameter.ParameterHelper;
-import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
 import org.ametys.runtime.plugin.PluginsManager;
 import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 import org.ametys.runtime.util.ConfigurationHelper;
@@ -57,12 +57,14 @@ import org.ametys.runtime.util.ConfigurationHelper;
 /**
  * Abstract component to handle data source
  */
-public abstract class AbstractDataSourceManager extends AbstractLogEnabled implements Component, Initializable
+public abstract class AbstractDataSourceManager extends AbstractLogEnabled implements Component, Initializable, Serviceable
 {
     /** The data source definitions */
     protected Map<String, DataSourceDefinition> _dataSourcesDef;
 
     private long _lastUpdate;
+
+    private DataSourceCustomerExtensionPoint _dataSourceCustomerEP;
     
     @Override
     public void initialize() throws Exception
@@ -70,7 +72,13 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
         _dataSourcesDef = new HashMap<>();
         
         readConfiguration(true);
-        checkDataSourceConfigurationParameters();
+        checkDataSources();
+    }
+    
+    @Override
+    public void service(ServiceManager serviceManager) throws ServiceException
+    {
+        _dataSourceCustomerEP = (DataSourceCustomerExtensionPoint) serviceManager.lookup(DataSourceCustomerExtensionPoint.ROLE);
     }
     
     /**
@@ -230,7 +238,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
         
         for (String id : dataSourceIds)
         {
-            if (isInUse(id))
+            if (_dataSourceCustomerEP.isInUse(id))
             {
                 throw new RuntimeException("The data source '" + id + "' is currently in use. The deletion process has been aborted.");
             }
@@ -240,26 +248,6 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
         
         saveConfiguration();
     }
-    
-    /**
-     * Delete a data source
-     * @param dataSourceId the id of data source to delete
-     */
-    public void delete(String dataSourceId)
-    {
-        readConfiguration(false);
-        
-        if (isInUse(dataSourceId))
-        {
-            throw new RuntimeException("The data source '" + dataSourceId + "' is currently in use. The deletion process has been aborted.");
-        }
-        
-        deleteDataSource (_dataSourcesDef.get(dataSourceId));
-        _dataSourcesDef.remove(dataSourceId);
-        
-        saveConfiguration();
-    }
-    
     
     /**
      * Read and update the data sources configuration
@@ -298,7 +286,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
                     _dataSourcesDef.put(id, dataSource);
                     
                     // Validate the used SQL data sources if not already in safe mode
-                    if (checkParameters && !PluginsManager.getInstance().isSafeMode() && isInUse(id))
+                    if (checkParameters && !PluginsManager.getInstance().isSafeMode() && _dataSourceCustomerEP.isInUse(id))
                     {
                         checkParameters (dataSource);
                     }
@@ -312,8 +300,6 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
             throw new RuntimeException("Unable to parse datasource configuration file.", e);
         }
     }
-    
-    
     
     /**
      * Save the configured data sources 
@@ -396,59 +382,22 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
     }
     
     /**
-     * Determines if a data source is in use by a configuration parameter
-     * @param id The id of data source to check
-     * @return true if the data source is in use
+     * Check that the used data sources are indeed available 
      */
-    // FIXME this method only checks in the configuration, which is not enough
-    public boolean isInUse(String id)
+    protected void checkDataSources()
     {
-        Config config = Config.getInstance();
-        if (config != null)
+        Set<String> usedDataSourceIds = _dataSourceCustomerEP.getUsedDataSourceIds();
+        for (String dataSourceId : usedDataSourceIds)
         {
-            Map<String, ConfigParameter> parameters = ConfigManager.getInstance().getParameters();
-            for (String paramName : parameters.keySet())
+            if (dataSourceId != null && dataSourceId.startsWith(getDataSourcePrefixId()) && getDataSourceDefinition(dataSourceId) == null  && !PluginsManager.getInstance().isSafeMode())
             {
-                if (parameters.get(paramName).getType() == ParameterType.DATASOURCE)
-                {
-                    String dataSourceValue = config.getValueAsString(paramName);
-                    if (dataSourceValue != null && dataSourceValue.startsWith(getDataSourcePrefixId()) && dataSourceValue.equals(id))
-                    {
-                        return true;
-                    }
-                }
-            }
-        }
-        
-        return false;
-    }
-    
-    /**
-     * Check that the configured data sources match the defined in the data sources configuration file
-     */
-    protected void checkDataSourceConfigurationParameters()
-    {
-        Config config = Config.getInstance();
-        if (config != null)
-        {
-            Map<String, ConfigParameter> parameters = ConfigManager.getInstance().getParameters();
-            for (String paramName : parameters.keySet())
-            {
-                if (parameters.get(paramName).getType() == ParameterType.DATASOURCE)
-                {
-                    String dataSourceValue = config.getValueAsString(paramName);
-                    if (dataSourceValue != null && dataSourceValue.startsWith(getDataSourcePrefixId()) && getDataSourceDefinition(dataSourceValue) == null && !PluginsManager.getInstance().isSafeMode())
-                    {
-                        throw new UnknownDataSourceException("The value '" + dataSourceValue + "' of the  data source configuration parameter '" + paramName + "' was not found in the available data sources. The configuration is not initialized.");
-                    }
-                }
+                throw new UnknownDataSourceException("The data source '" + dataSourceId + "' was not found in the available data sources.");                
             }
         }
     }
     
     /**
      * This class represents the definition of a data source
-     *
      */
     public class DataSourceDefinition 
     {
@@ -512,7 +461,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
         }
         
         /**
-         * The parameters values
+         * Get the parameters of the data source definition
          * @return the parameters
          */
         public Map<String, String> getParameters()

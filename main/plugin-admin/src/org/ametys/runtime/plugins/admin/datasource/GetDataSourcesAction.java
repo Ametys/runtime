@@ -29,7 +29,7 @@ import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
 
 import org.ametys.core.cocoon.JSonReader;
-import org.ametys.core.datasource.DataSourceDAO;
+import org.ametys.core.datasource.DataSourceClientInteraction;
 
 /**
  * Retrieve the data sources and format them in JSON
@@ -37,12 +37,12 @@ import org.ametys.core.datasource.DataSourceDAO;
 public class GetDataSourcesAction extends ServiceableAction
 {
     /** The manager handling the SQL data sources */
-    private DataSourceDAO _dataSourceDAO; 
+    private DataSourceClientInteraction _dataSourceClientInteraction; 
     
     @Override
     public void service(ServiceManager smanager) throws ServiceException
     {
-        _dataSourceDAO = (DataSourceDAO) smanager.lookup(DataSourceDAO.ROLE);
+        _dataSourceClientInteraction = (DataSourceClientInteraction) smanager.lookup(DataSourceClientInteraction.ROLE);
     }
     
     @Override
@@ -56,7 +56,7 @@ public class GetDataSourcesAction extends ServiceableAction
         boolean includeInternal = parameters.getParameterAsBoolean("includeInternal", false);
         String dstype = parameters.getParameter("type", null);
         
-        List<Map<String, Object>> dataSources = _dataSourceDAO.getDataSources(dstype, includePrivate, includeInternal);
+        List<Map<String, Object>> dataSources = _dataSourceClientInteraction.getDataSources(dstype, includePrivate, includeInternal);
         result.put("datasources", dataSources);
         
         request.setAttribute(JSonReader.OBJECT_TO_READ, result);

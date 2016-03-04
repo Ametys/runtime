@@ -1207,6 +1207,18 @@
     </feature>
     
     <!-- +
+         | CONFIGURATION DATA SOURCE CLIENT 
+         + -->
+    <feature name="runtime.core.datasource.client" safe="true">
+        <extensions>
+            <extension point="org.ametys.core.datasource.DataSourceCustomerExtensionPoint"
+                       id="org.ametys.plugins.core.impl.datasource.ConfigurationDataSourceCustomer"
+                       class="org.ametys.plugins.core.impl.datasource.ConfigurationDataSourceCustomer">
+            </extension>
+        </extensions>
+    </feature>
+    
+    <!-- +
          | HANDLED SQL DATABASE TYPES
          + -->
           
