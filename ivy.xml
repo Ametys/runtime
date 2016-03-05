@@ -76,13 +76,12 @@ Open source web application framework based on Apache Cocoon.
     <dependency org="org.apache.xmlgraphics" name="fop" rev="2.0" conf="common_dependencies->default">
         <exclude org="avalon-framework"/>
     </dependency>
+    <dependency org="ro.isdc.wro4j" name="wro4j-core" rev="1.7.9" conf="common_dependencies->default"/>
     
     <dependency org="log4j" name="log4j" rev="1.2.17" conf="common_dependencies->default"/>
     <dependency org="org.slf4j" name="slf4j-api" rev="1.7.5" conf="common_dependencies->default"/>
     <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.7.5" conf="test,runtime_dependencies->default"/>    
     <dependency org="log4j" name="apache-log4j-extras" rev="1.2.17" conf="runtime_dependencies->default"/>
-    
-    <dependency org="org.apache.avalon.logkit" name="avalon-logkit" rev="2.2.1" conf="common_dependencies->default"/>
     
     <dependency org="xml-apis" name="xml-apis" rev="1.4.01" conf="common_dependencies->default"/>
     <dependency org="xerces" name="xercesImpl" rev="2.11.0" conf="common_dependencies->default"/>
