@@ -35,7 +35,7 @@ public class XMLResourceBundleFactory extends org.apache.cocoon.i18n.XMLResource
 
         XMLResourceBundle bundle = new XMLResourceBundle(sourceURI, locale, parent);
         bundle.enableLogging(getLogger());
-        bundle.reload(this.resolver, this.interval);
+        bundle.reload(manager, resolver, interval);
         return bundle;
     }
     

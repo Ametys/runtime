@@ -17,6 +17,7 @@ package org.ametys.core.cocoon;
 
 import java.util.Locale;
 
+import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.i18n.Bundle;
 import org.apache.excalibur.source.SourceResolver;
 
@@ -40,9 +41,9 @@ public class XMLResourceBundle extends org.apache.cocoon.i18n.XMLResourceBundle
     }
 
     @Override
-    public boolean reload(SourceResolver resolver, long interval)
+    public boolean reload(ServiceManager manager, SourceResolver resolver, long interval)
     {
-        return super.reload(resolver, interval);
+        return super.reload(manager, resolver, interval);
     }
     
     /**
@@ -50,6 +51,6 @@ public class XMLResourceBundle extends org.apache.cocoon.i18n.XMLResourceBundle
      */
     public void invalidate ()
     {
-        this.validity = new InvalidSourceValidity();
+        setValidity(new InvalidSourceValidity());
     }
 }
