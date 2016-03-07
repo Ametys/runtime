@@ -33,10 +33,12 @@ import org.apache.cocoon.components.CocoonComponentManager;
 import org.apache.cocoon.components.pipeline.ProcessingPipeline;
 import org.apache.cocoon.environment.Environment;
 import org.apache.cocoon.environment.background.BackgroundEnvironment;
+import org.apache.cocoon.environment.commandline.AbstractCommandLineEnvironment;
 import org.apache.cocoon.environment.commandline.CommandLineContext;
 import org.apache.cocoon.environment.commandline.CommandLineSession;
 import org.apache.cocoon.xml.ContentHandlerWrapper;
 import org.apache.cocoon.xml.XMLConsumer;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log.Hierarchy;
 import org.apache.log.Priority;
 import org.xml.sax.ContentHandler;
@@ -193,6 +195,10 @@ public class CocoonWrapper
         try
         {
             Environment env = new BackgroundEnvironment(_logger, _cliContext);
+            
+            // Random request ID: used by AbstractCachingPipeline to implement pipeline locking.
+            String requestId = RandomStringUtils.randomAlphanumeric(8);
+            env.getObjectModel().put(AbstractCommandLineEnvironment.CLI_REQUEST_ID, requestId);
             
             Object processingKey = CocoonComponentManager.startProcessing(env);
             int environmentDepth = CocoonComponentManager.markEnvironment();
