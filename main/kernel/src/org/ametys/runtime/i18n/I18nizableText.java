@@ -18,6 +18,8 @@ package org.ametys.runtime.i18n;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.cocoon.transformation.I18nTransformer;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
@@ -493,5 +495,85 @@ public final class I18nizableText
         }
 
         return equalsBuilder.isEquals();
+    }
+
+    private static boolean isI18n(Configuration config)
+    {
+        return config.getAttributeAsBoolean("i18n", false) || config.getAttribute("type", "").equals("i18n");
+    }
+
+    /**
+     * Get an i18n text configuration (can be a key or a "direct" string).
+     * @param config The configuration to parse.
+     * @param catalogueLocation The i18n catalogue location URI
+     * @param catalogueFilename The i18n catalogue bundle name
+     * @param value The i18n text, can be a key or a "direct" string.
+     * @return The i18nizable text
+     */
+    private static I18nizableText getI18nizableTextValue(Configuration config, String catalogueLocation, String catalogueFilename, String value)
+    {
+        return new I18nizableText(catalogueLocation, catalogueFilename, value);
+    }
+
+    /**
+     * Get an i18n text configuration (can be a key or a "direct" string).
+     * @param config The configuration to parse.
+     * @param defaultCatalogue The i18n catalogue to use when not specified.  
+     * @param value The i18n text, can be a key or a "direct" string.
+     * @return The i18nizable text
+     */
+    public static I18nizableText getI18nizableTextValue(Configuration config, String defaultCatalogue, String value)
+    {
+        if (I18nizableText.isI18n(config))
+        {
+            String catalogue = config.getAttribute("catalogue", defaultCatalogue);
+            
+            return new I18nizableText(catalogue, value);
+        }
+        else
+        {
+            return new I18nizableText(value);
+        }
+    }
+
+    /**
+     * Parse a i18n text configuration.
+     * @param config the configuration to use.
+     * @param catalogueLocation The i18n catalogue location URI
+     * @param catalogueFilename The i18n catalogue bundle name
+     * @param defaultValue The default value key in configuration
+     * @return the i18n text.
+     * @throws ConfigurationException if the configuration is not valid.
+     */
+    public static I18nizableText parseI18nizableText(Configuration config, String catalogueLocation, String catalogueFilename, String defaultValue) throws ConfigurationException
+    {
+        String text = config.getValue(defaultValue);
+        return I18nizableText.getI18nizableTextValue(config, catalogueLocation, catalogueFilename, text);
+    }
+
+    /**
+     * Parse an optional i18n text configuration, with a default value.
+     * @param config the configuration to use.
+     * @param defaultCatalogue the i18n catalogue to use when not specified. 
+     * @param defaultValue the default value key in configuration.
+     * @return the i18n text.
+     */
+    public static I18nizableText parseI18nizableText(Configuration config, String defaultCatalogue, String defaultValue)
+    {
+        String text = config.getValue(defaultValue);
+        return I18nizableText.getI18nizableTextValue(config, defaultCatalogue, text);
+    }
+
+    /**
+     * Parse a mandatory i18n text configuration, throwing an exception if empty.
+     * @param config the configuration to use.
+     * @param defaultCatalogue the i18n catalogue to use when not specified.
+     * @return the i18n text.
+     * @throws ConfigurationException if the configuration is not valid.
+     */
+    public static I18nizableText parseI18nizableText(Configuration config, String defaultCatalogue) throws ConfigurationException
+    {
+        String text = config.getValue();
+        return I18nizableText.getI18nizableTextValue(config, defaultCatalogue, text);
     }
 }

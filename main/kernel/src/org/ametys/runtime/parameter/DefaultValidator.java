@@ -31,7 +31,6 @@ import org.xml.sax.SAXException;
 
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.plugin.component.PluginAware;
-import org.ametys.runtime.util.ConfigurationHelper;
 
 
 /**
@@ -115,7 +114,7 @@ public class DefaultValidator extends AbstractLogEnabled implements Validator, C
         Configuration textConfig = validatorConfig.getChild("invalidText", false);
         if (textConfig != null)
         {
-            _invalidText = ConfigurationHelper.parseI18nizableText(textConfig, "plugin." + _pluginName);
+            _invalidText = I18nizableText.parseI18nizableText(textConfig, "plugin." + _pluginName);
         }
     }
     

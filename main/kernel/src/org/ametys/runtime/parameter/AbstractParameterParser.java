@@ -26,7 +26,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
-import org.ametys.runtime.util.ConfigurationHelper;
 
 /**
  * {@link Parameter} parser from an XML configuration.
@@ -149,7 +148,7 @@ public abstract class AbstractParameterParser<P extends Parameter<T>, T>
      */
     protected I18nizableText _parseI18nizableText(Configuration config, String pluginName, String name) throws ConfigurationException
     {
-        return ConfigurationHelper.parseI18nizableText(config.getChild(name), "plugin." + pluginName);
+        return I18nizableText.parseI18nizableText(config.getChild(name), "plugin." + pluginName);
     }
 
     /**

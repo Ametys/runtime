@@ -52,7 +52,6 @@ import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
 import org.ametys.runtime.parameter.ParameterHelper;
 import org.ametys.runtime.plugin.PluginsManager;
 import org.ametys.runtime.plugin.component.AbstractLogEnabled;
-import org.ametys.runtime.util.ConfigurationHelper;
 
 /**
  * Abstract component to handle data source
@@ -268,8 +267,8 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
                 {
                     String id = dsConfig.getAttribute("id");
                     
-                    I18nizableText name = ConfigurationHelper.parseI18nizableText(dsConfig.getChild("name"), "plugin.core");
-                    I18nizableText description = ConfigurationHelper.parseI18nizableText(dsConfig.getChild("description"), "plugin.core", "");
+                    I18nizableText name = I18nizableText.parseI18nizableText(dsConfig.getChild("name"), "plugin.core");
+                    I18nizableText description = I18nizableText.parseI18nizableText(dsConfig.getChild("description"), "plugin.core", "");
                     
                     boolean isPrivate = dsConfig.getAttributeAsBoolean("private", false);
                     

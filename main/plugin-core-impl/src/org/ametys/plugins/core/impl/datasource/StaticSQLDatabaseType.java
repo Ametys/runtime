@@ -23,7 +23,6 @@ import org.ametys.core.datasource.dbtype.SQLDatabaseType;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 import org.ametys.runtime.plugin.component.PluginAware;
-import org.ametys.runtime.util.ConfigurationHelper;
 
 /**
  * Default implementation for a {@link SQLDatabaseType}.
@@ -62,9 +61,9 @@ public class StaticSQLDatabaseType extends AbstractLogEnabled implements Configu
             getLogger().debug("Configuring database type with id '" + _id  + "'");
         }
         
-        _label = ConfigurationHelper.parseI18nizableText(configuration.getChild("label"), "plugin." + _pluginName);
+        _label = I18nizableText.parseI18nizableText(configuration.getChild("label"), "plugin." + _pluginName);
         _driver = configuration.getChild("driver").getValue();
-        _driverNotFoundMessage = ConfigurationHelper.parseI18nizableText(configuration.getChild("driver-not-found-message"), "plugin." + _pluginName); 
+        _driverNotFoundMessage = I18nizableText.parseI18nizableText(configuration.getChild("driver-not-found-message"), "plugin." + _pluginName); 
         _template = configuration.getChild("template").getValue("");
     }
     
