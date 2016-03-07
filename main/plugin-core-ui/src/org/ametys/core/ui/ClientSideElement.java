@@ -170,6 +170,12 @@ public interface ClientSideElement
         {
             return _defaultLang;
         }
+        
+        @Override
+        public String toString()
+        {
+            return _path;
+        }
     }
     
     /**

@@ -73,7 +73,7 @@ public class StaticUIItemFactoryTestCase extends AbstractRuntimeTestCase
         assertEquals("JavascriptClass", itemFactory1.getScript(null).getScriptClassname());
         assertNotNull(itemFactory1.getScript(null).getScriptFiles());
         assertEquals(1, itemFactory1.getScript(null).getScriptFiles().size());
-        assertEquals("/plugins/staticuiitemfactorytest/resources/js/script.js", itemFactory1.getScript(null).getScriptFiles().iterator().next());
+        assertEquals("/plugins/staticuiitemfactorytest/resources/js/script.js", itemFactory1.getScript(null).getScriptFiles().iterator().next().getPath());
         // label
         assertNotNull(itemFactory1.getParameters(null).get("label"));
         assertTrue(itemFactory1.getParameters(null).get("label") instanceof I18nizableText);
@@ -153,7 +153,7 @@ public class StaticUIItemFactoryTestCase extends AbstractRuntimeTestCase
         assertEquals("OtherJavascriptClass", itemFactory4.getScript(null).getScriptClassname());
         assertNotNull(itemFactory4.getScript(null).getScriptFiles());
         assertEquals(1, itemFactory4.getScript(null).getScriptFiles().size());
-        assertEquals("/plugins/core/resources/js/script.js", itemFactory4.getScript(null).getScriptFiles().iterator().next());
+        assertEquals("/plugins/core/resources/js/script.js", itemFactory4.getScript(null).getScriptFiles().iterator().next().getPath());
         assertEquals("staticuiitemfactorytest", itemFactory4.getPluginName());
         // label
         assertNotNull(itemFactory4.getParameters(null).get("label"));
