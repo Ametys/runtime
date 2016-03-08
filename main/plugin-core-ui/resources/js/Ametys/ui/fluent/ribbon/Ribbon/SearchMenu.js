@@ -132,7 +132,6 @@ Ext.define(
             	focusable: false
             });
             
-            this.searchMenuHelpItem = this.searchMenuHelpItem.replace("[", "{").replace("]", "}");
             this.searchMenuHelpItem = Ext.create("Ext.Template", this.searchMenuHelpItem);
 
             if (config.allowSearch)
