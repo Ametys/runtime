@@ -146,7 +146,7 @@ public class I18nTestCase extends AbstractRuntimeTestCase
         
         try 
         {
-            pluginSource = _srcResolver.resolveURI("cocoon://plugins/test/resources/js/input.js");
+            pluginSource = _srcResolver.resolveURI("cocoon://plugins/test/resources/js/input.en.js");
             expectation = _srcResolver.resolveURI("plugin:test://resources/js/expectation.js");
             
             is1 = pluginSource.getInputStream();
