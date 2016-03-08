@@ -62,7 +62,7 @@ Ext.define('Ametys.form.widget.StringTime', {
         return {
             format: this.format == "ShortTime" ? Ext.Date.patterns.ShortTime : Ext.Date.patterns.VeryShortTime,
             formatText: '',
-            invalidText: "<i18n:text i18n:key='PLUGINS_CORE_UI_FORM_FIELD_STRINGTIME_INVALID_TEXT'/>",
+            invalidText: "{{i18n PLUGINS_CORE_UI_FORM_FIELD_STRINGTIME_INVALID_TEXT}}",
             submitFormat: this.format == "ShortTime" ? "H:i:s" : "H:i",
             msgTarget: 'none',
     		value: this.value,

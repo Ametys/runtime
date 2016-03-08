@@ -38,8 +38,8 @@ Ext.define('Ametys.plugins.coreui.system.devmode.DevModeActions', {
 	act: function(controller, state)
 	{
 		Ametys.Msg.show({
-			title: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_DEVMODE_CONFIRM_TITLE'/>",
-			msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_DEVMODE_CONFIRM_TEXT'/>",
+			title: "{{i18n PLUGINS_CORE_UI_TOOLS_DEVMODE_CONFIRM_TITLE}}",
+			msg: "{{i18n PLUGINS_CORE_UI_TOOLS_DEVMODE_CONFIRM_TEXT}}",
 			icon: Ext.Msg.QUESTION,
 			buttons: Ext.Msg.YESNO,
 			callback: this._actCb,

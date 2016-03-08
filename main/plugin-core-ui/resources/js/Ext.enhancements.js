@@ -277,10 +277,10 @@
             '<ul class="{listCls} ametys-tooltip-comment"><tpl for="comments"><li>',
             // Author and date formatting
             '<div class="author-date">',
-            Ext.String.format("<i18n:translate><i18n:text i18n:key='PLUGINS_CORE_UI_AMETYS_COMMENTS_TPL_AUTHOR_DATE'/><i18n:param>{0}</i18n:param><i18n:param>{1}</i18n:param></i18n:translate>", '{author}', '{date:date(Ext.Date.patterns.FriendlyDateTime )}'),
+            Ext.String.format("{{i18n PLUGINS_CORE_UI_AMETYS_COMMENTS_TPL_AUTHOR_DATE}}", '{author}', '{date:date(Ext.Date.patterns.FriendlyDateTime )}'),
             '</div><div class="comment-text">{text:nl2br()}</div>',
             '</li></tpl></ul>',
-            "<tpl else><i18n:text i18n:key='PLUGINS_CORE_UI_AMETYS_COMMENTS_TPL_EMPTY'/></tpl>"
+            "<tpl else>{{i18n PLUGINS_CORE_UI_AMETYS_COMMENTS_TPL_EMPTY}}</tpl>"
         ],
         
         /**
@@ -810,7 +810,7 @@
              */
             if (this.ametysShowMultipleHint == true)
             {
-                result += '<span class="ametys-field-hint">(' + "<i18n:text i18n:key='PLUGINS_CORE_UI_MULTIPLE_HINT'/>" + ')</span>'
+                result += '<span class="ametys-field-hint">(' + "{{i18n PLUGINS_CORE_UI_MULTIPLE_HINT}}" + ')</span>'
             }
             
             return result;
@@ -838,7 +838,7 @@
              */
             if (Ametys.MAX_UPLOAD_SIZE != undefined && Ametys.MAX_UPLOAD_SIZE != '' && this.ametysShowMaxUploadSizeHint !== false)
             {
-                this.triggerWrap.dom.setAttribute('data-maxsizemsg', "(<i18n:text i18n:key='PLUGINS_CORE_UI_UPLOAD_HINT'/>" + Ext.util.Format.fileSize(Ametys.MAX_UPLOAD_SIZE) + ")");
+                this.triggerWrap.dom.setAttribute('data-maxsizemsg', "({{i18n PLUGINS_CORE_UI_UPLOAD_HINT}}" + Ext.util.Format.fileSize(Ametys.MAX_UPLOAD_SIZE) + ")");
             }
         },
         
@@ -1975,7 +1975,7 @@
     Ext.define("Ametys.ux.IFrame", {
         override: 'Ext.ux.IFrame',
         
-        loadMask: "<i18n:text i18n:key='PLUGINS_CORE_UI_IFRAME_LOADING'/>"
+        loadMask: "{{i18n PLUGINS_CORE_UI_IFRAME_LOADING}}"
     });
 })();
 

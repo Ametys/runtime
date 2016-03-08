@@ -89,80 +89,80 @@ Ext.define('Ametys.form.widget.File', {
     	filters: {
     		none: {
     			buttonMenuText: "",
-    			buttonMenuTooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_FILE_BUTTON'/>",
+    			buttonMenuTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_FILE_BUTTON}}",
     			buttonMenuIcon: Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/resources-picker/file_local_16.png',
 				
-    			emptyText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_FILE_SELECTED'/>",
+    			emptyText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_FILE_SELECTED}}",
     			
-    			deleteText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_FILE_BUTTON'/>",
-    			deleteTextConfirm: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_FILE_CONFIRM'/>",
+    			deleteText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_FILE_BUTTON}}",
+    			deleteTextConfirm: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_FILE_CONFIRM}}",
     			
-    			downloadText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_FILE'/>"
+    			downloadText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_FILE}}"
     		},
     		
     		image: {
     			buttonMenuText: "",
-    			buttonMenuTooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_IMAGE_BUTTON'/>",
+    			buttonMenuTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_IMAGE_BUTTON}}",
 				buttonMenuIcon: Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/resources-picker/image_local_16.png',
 				
-    			emptyText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_IMAGE_SELECTED'/>",
+    			emptyText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_IMAGE_SELECTED}}",
     			
-    			deleteText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_IMAGE_BUTTON'/>",
-    			deleteTextConfirm: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_IMAGE_CONFIRM'/>",
+    			deleteText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_IMAGE_BUTTON}}",
+    			deleteTextConfirm: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_IMAGE_CONFIRM}}",
     			
-    			downloadText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_IMAGE'/>"
+    			downloadText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_IMAGE}}"
     		},
     		
     		multimedia: {
     			buttonMenuText: "",
-    			buttonMenuTooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_MULTIMEDIA_BUTTON'/>",
+    			buttonMenuTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_MULTIMEDIA_BUTTON}}",
     			buttonMenuIcon: Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/resources-picker/multimedia_local_16.png',
 				
-    			emptyText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_MULTIMEDIA_SELECTED'/>",
+    			emptyText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_MULTIMEDIA_SELECTED}}",
     			
-    			deleteText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_MULTIMEDIA_BUTTON'/>",
-    			deleteTextConfirm: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_MULTIMEDIA_CONFIRM'/>",
+    			deleteText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_MULTIMEDIA_BUTTON}}",
+    			deleteTextConfirm: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_MULTIMEDIA_CONFIRM}}",
     			
-    			downloadText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_MULTIMEDIA'/>"
+    			downloadText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_MULTIMEDIA}}"
     		},
     		
     		video: {
     			buttonMenuText: "",
-    			buttonMenuTooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_VIDEO_BUTTON'/>",
+    			buttonMenuTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_VIDEO_BUTTON}}",
     			buttonMenuIcon: Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/resources-picker/multimedia_local_16.png',
 				
-    			emptyText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_VIDEO_SELECTED'/>",
+    			emptyText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_VIDEO_SELECTED}}",
     			
-    			deleteText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_VIDEO_BUTTON'/>",
-    			deleteTextConfirm: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_VIDEO_CONFIRM'/>",
+    			deleteText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_VIDEO_BUTTON}}",
+    			deleteTextConfirm: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_VIDEO_CONFIRM}}",
     			
-    			downloadText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_VIDEO'/>"
+    			downloadText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_VIDEO}}"
     		},
     		
     		flash: {
     			buttonMenuText: "",
-    			buttonMenuTooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_FLASH_BUTTON'/>",
+    			buttonMenuTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_FLASH_BUTTON}}",
     			buttonMenuIcon: Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/resources-picker/multimedia_local_16.png',
 				
-    			emptyText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_FLASH_SELECTED'/>",
+    			emptyText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_FLASH_SELECTED}}",
     			
-    			deleteText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_FLASH_BUTTON'/>",
-    			deleteTextConfirm: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_FLASH_CONFIRM'/>",
+    			deleteText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_FLASH_BUTTON}}",
+    			deleteTextConfirm: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_FLASH_CONFIRM}}",
     			
-    			downloadText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_FLASH'/>"
+    			downloadText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_FLASH}}"
     		},
     		
     		audio: {
     			buttonMenuText: "",
-    			buttonMenuTooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_SOUND_BUTTON'/>",
+    			buttonMenuTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_SOUND_BUTTON}}",
     			buttonMenuIcon: Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/resources-picker/sound_local_16.png',
 				
-    			emptyText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_SOUND_SELECTED'/>",
+    			emptyText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_SOUND_SELECTED}}",
     			
-    			deleteText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_SOUND_BUTTON'/>",
-    			deleteTextConfirm: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_SOUND_CONFIRM'/>",
+    			deleteText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_SOUND_BUTTON}}",
+    			deleteTextConfirm: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_SOUND_CONFIRM}}",
     			
-    			downloadText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_SOUND'/>"
+    			downloadText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_SOUND}}"
     		}
     	}
     },

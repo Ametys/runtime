@@ -94,7 +94,7 @@ Ext.define('Ametys.plugins.core.profiles.EditProfileHelper', {
 				
 				items: [{
 					xtype: 'textfield',
-					fieldLabel: "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_DIALOG_NAME' i18n:catalogue='plugin.core'/>",
+					fieldLabel: "{{i18n plugin.core:PLUGINS_CORE_PROFILES_DIALOG_NAME}}",
 					name: 'name',
 					allowBlank: false
 				}, {
@@ -104,7 +104,7 @@ Ext.define('Ametys.plugins.core.profiles.EditProfileHelper', {
 			});
 			
 			this._box = Ext.create('Ametys.window.DialogBox', {
-				title: this._mode == 'new' ? "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_DIALOG_ADD_TITLE' i18n:catalogue='plugin.core'/>" : "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_DIALOG_EDIT_TITLE' i18n:catalogue='plugin.core'/>",
+				title: this._mode == 'new' ? "{{i18n plugin.core:PLUGINS_CORE_PROFILES_DIALOG_ADD_TITLE}}" : "{{i18n plugin.core:PLUGINS_CORE_PROFILES_DIALOG_EDIT_TITLE}}",
 				icon: Ametys.getPluginResourcesPrefix('core') + '/img/profiles/' + (this._mode == 'new' ? 'add_16.gif' : 'rename_16.gif'),
 				
 				width: 450,
@@ -114,10 +114,10 @@ Ext.define('Ametys.plugins.core.profiles.EditProfileHelper', {
 				
 				closeAction: 'hide',
 				buttons : [{
-					text: "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_DIALOG_OK' i18n:catalogue='plugin.core'/>",
+					text: "{{i18n plugin.core:PLUGINS_CORE_PROFILES_DIALOG_OK}}",
 					handler: Ext.bind(this._validate, this)
 				}, {
-					text: "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_DIALOG_CANCEL' i18n:catalogue='plugin.core'/>",
+					text: "{{i18n plugin.core:PLUGINS_CORE_PROFILES_DIALOG_CANCEL}}",
 					handler: Ext.bind(function() {this._box.hide();}, this)
 				}]
 			});
@@ -126,7 +126,7 @@ Ext.define('Ametys.plugins.core.profiles.EditProfileHelper', {
 		}
 		else
 		{
-			this._box.setTitle(this._mode == 'new' ? "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_DIALOG_ADD_TITLE' i18n:catalogue='plugin.core'/>" : "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_DIALOG_EDIT_TITLE' i18n:catalogue='plugin.core'/>");
+			this._box.setTitle(this._mode == 'new' ? "{{i18n plugin.core:PLUGINS_CORE_PROFILES_DIALOG_ADD_TITLE}}" : "{{i18n plugin.core:PLUGINS_CORE_PROFILES_DIALOG_EDIT_TITLE}}");
 			this._box.setIcon(Ametys.getPluginResourcesPrefix('core') + '/img/profiles/' + (this._mode == 'new' ? 'add_16.gif' : 'rename_16.gif'));
 		}
 	},
@@ -196,8 +196,8 @@ Ext.define('Ametys.plugins.core.profiles.EditProfileHelper', {
 		if (profile.errors)
 		{
 			Ametys.Msg.show ({
-                title: "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_UNKNOWN_PROFILE_TITLE'/>",
-                msg: "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_UNKNOWN_PROFILE_ERROR'/>",
+                title: "{{i18n PLUGINS_CORE_PROFILES_UNKNOWN_PROFILE_TITLE}}",
+                msg: "{{i18n PLUGINS_CORE_PROFILES_UNKNOWN_PROFILE_ERROR}}",
                 buttons: Ext.Msg.OK,
                 icon: Ext.MessageBox.ERROR
 			});

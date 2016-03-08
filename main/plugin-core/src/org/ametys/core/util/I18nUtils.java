@@ -161,7 +161,7 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
      * @param text The i18n key to translate
      * @param language The language code to use for translation. Can be null.
      * @return The translation or null if there's no available translation
-     * @throws IllegalStateException if an error occured
+     * @throws IllegalStateException if an error occurred
      */
     public String translate(I18nizableText text, String language) throws IllegalStateException
     {

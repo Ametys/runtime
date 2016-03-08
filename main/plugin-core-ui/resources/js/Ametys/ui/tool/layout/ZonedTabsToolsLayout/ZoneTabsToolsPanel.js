@@ -72,20 +72,20 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
             
 			this._contextMenu = new Ext.menu.Menu({
 		        items: [{
-		            text: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLS_CLOSE_TAB'>Close</i18n:text>", // Default translation for js test purposes
+		            text: "{{i18n PLUGINS_CORE_UI_MSG_TOOLS_CLOSE_TAB}}", 
 		            handler: this._closeCurrentTab,
 		            iconCls: "a-tools-menu-close",
 		            scope: this
 		        },
 		        '-',
 		        {
-		            text: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLS_CLOSE_OTHERS'>Close others</i18n:text>", // Default translation for js test purposes
+		            text: "{{i18n PLUGINS_CORE_UI_MSG_TOOLS_CLOSE_OTHERS}}", 
 		            handler: this._closeOthersTabs,
                     iconCls: "a-tools-menu-close-others",
 		            scope: this
 		        },
 		        {
-		            text: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLS_CLOSE_ALL'>Close all</i18n:text>", // Default translation for js test purposes
+		            text: "{{i18n PLUGINS_CORE_UI_MSG_TOOLS_CLOSE_ALL}}", 
 		            handler: this._closeAllTabs,
                     iconCls: "a-tools-menu-close-all",
 		            scope: this
@@ -270,7 +270,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
                     xtype: 'tool',
 					itemId: 'unpin',
 					type: "unpin",
-				    qtip: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLS_UNPIN'/>",
+				    qtip: "{{i18n PLUGINS_CORE_UI_MSG_TOOLS_UNPIN}}",
 				    handler: Ext.bind(this._onTabBarUnpinToolClick, this),
 				    width: 16,
 				    flex: 0
@@ -280,7 +280,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 					itemId: 'pin',
 					type: "pin",
 					hidden: true,
-				    qtip: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLS_PIN'/>",
+				    qtip: "{{i18n PLUGINS_CORE_UI_MSG_TOOLS_PIN}}",
 				    handler: Ext.bind(this._onTabBarPinToolClick, this),
 				    width: 16,
 				    flex: 0

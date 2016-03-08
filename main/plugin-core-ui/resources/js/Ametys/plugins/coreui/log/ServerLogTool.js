@@ -47,15 +47,15 @@ Ext.define('Ametys.plugins.coreui.log.ServerLogTool', {
         this.callParent(arguments);
         
         this._detailsTpl = new Ext.XTemplate(
-            "<tpl if='timestamp'><b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_SERVERLOGS_TIMESTAMP_TEXT'/></b> {timestamp}<br /></tpl>",
-            "<tpl if='user'><b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_SERVERLOGS_USER_TEXT'/></b> {user}<br /></tpl>",
-            "<tpl if='thread'><b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_SERVERLOGS_THREAD_TEXT'/></b> {thread}<br /></tpl>",
-            "<tpl if='level'><b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LEVEL_TEXT'/></b> {level}<br /></tpl>",
-            "<tpl if='category'><b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CATEGORY_TEXT'/></b> {category}<br /></tpl>",
-            "<tpl if='requestURI'><b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_SERVERLOGS_REQUESTURI_TEXT'/></b> {requestURI}<br /></tpl>",
-            "<tpl if='message'><b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_SERVERLOGS_MESSAGE_TEXT'/></b> {message}<br /></tpl>",
-            "<tpl if='location'><b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LOCATION_TEXT'/></b> {location}<br /></tpl>",
-            "<tpl if='callstack'><br /><b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CALLSTACK_TEXT'/></b><br />{callstack}</tpl>"
+            "<tpl if='timestamp'><b>{{i18n PLUGINS_CORE_UI_TOOLS_SERVERLOGS_TIMESTAMP_TEXT}}</b> {timestamp}<br /></tpl>",
+            "<tpl if='user'><b>{{i18n PLUGINS_CORE_UI_TOOLS_SERVERLOGS_USER_TEXT}}</b> {user}<br /></tpl>",
+            "<tpl if='thread'><b>{{i18n PLUGINS_CORE_UI_TOOLS_SERVERLOGS_THREAD_TEXT}}</b> {thread}<br /></tpl>",
+            "<tpl if='level'><b>{{i18n PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LEVEL_TEXT}}</b> {level}<br /></tpl>",
+            "<tpl if='category'><b>{{i18n PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CATEGORY_TEXT}}</b> {category}<br /></tpl>",
+            "<tpl if='requestURI'><b>{{i18n PLUGINS_CORE_UI_TOOLS_SERVERLOGS_REQUESTURI_TEXT}}</b> {requestURI}<br /></tpl>",
+            "<tpl if='message'><b>{{i18n PLUGINS_CORE_UI_TOOLS_SERVERLOGS_MESSAGE_TEXT}}</b> {message}<br /></tpl>",
+            "<tpl if='location'><b>{{i18n PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LOCATION_TEXT}}</b> {location}<br /></tpl>",
+            "<tpl if='callstack'><br /><b>{{i18n PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CALLSTACK_TEXT}}</b><br />{callstack}</tpl>"
         );
     },
     
@@ -91,7 +91,7 @@ Ext.define('Ametys.plugins.coreui.log.ServerLogTool', {
     {
         return [{
                 stateId: 'grid-timestamp',
-                header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_SERVERLOGS_TIMESTAMP_HEADER'/>",
+                header: "{{i18n PLUGINS_CORE_UI_TOOLS_SERVERLOGS_TIMESTAMP_HEADER}}",
                 width: 130,
                 sortable: true,
                 dataIndex: 'timestamp',
@@ -99,7 +99,7 @@ Ext.define('Ametys.plugins.coreui.log.ServerLogTool', {
             },
             {
                 stateId: 'grid-user',
-                header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_SERVERLOGS_USER_HEADER'/>",
+                header: "{{i18n PLUGINS_CORE_UI_TOOLS_SERVERLOGS_USER_HEADER}}",
                 width: 100,
                 sortable: true,
                 dataIndex: 'user',
@@ -110,7 +110,7 @@ Ext.define('Ametys.plugins.coreui.log.ServerLogTool', {
             },
             {
                 stateId: 'grid-thread',
-                header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_SERVERLOGS_THREAD_HEADER'/>",
+                header: "{{i18n PLUGINS_CORE_UI_TOOLS_SERVERLOGS_THREAD_HEADER}}",
                 width: 150,
                 sortable: true,
                 dataIndex: 'thread',
@@ -122,7 +122,7 @@ Ext.define('Ametys.plugins.coreui.log.ServerLogTool', {
             },
             {
                 stateId: 'grid-level',
-                header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LEVEL_HEADER'/>",
+                header: "{{i18n PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LEVEL_HEADER}}",
                 width: 75,
                 sortable: true,
                 dataIndex: 'level',
@@ -143,7 +143,7 @@ Ext.define('Ametys.plugins.coreui.log.ServerLogTool', {
             },
             {
                 stateId: 'grid-category',
-                header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CATEGORY_HEADER'/>",
+                header: "{{i18n PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CATEGORY_HEADER}}",
                 width: 250,
                 flex: 0.25,
                 sortable: true,
@@ -155,7 +155,7 @@ Ext.define('Ametys.plugins.coreui.log.ServerLogTool', {
             },
             {
                 stateId: 'grid-request-uri',
-                header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_SERVERLOGS_REQUESTURI_HEADER'/>",
+                header: "{{i18n PLUGINS_CORE_UI_TOOLS_SERVERLOGS_REQUESTURI_HEADER}}",
                 width: 300,
                 sortable: true,
                 dataIndex: 'requestURI',
@@ -167,7 +167,7 @@ Ext.define('Ametys.plugins.coreui.log.ServerLogTool', {
             },
             {
                 stateId: 'grid-message',
-                header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_SERVERLOGS_MESSAGE_HEADER'/>",
+                header: "{{i18n PLUGINS_CORE_UI_TOOLS_SERVERLOGS_MESSAGE_HEADER}}",
                 width: 400,
                 sortable: true,
                 dataIndex: 'message',
@@ -179,7 +179,7 @@ Ext.define('Ametys.plugins.coreui.log.ServerLogTool', {
             },
             {
                 stateId: 'grid-location',
-                header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LOCATION_HEADER'/>",
+                header: "{{i18n PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LOCATION_HEADER}}",
                 width: 100,
                 sortable: true,
                 dataIndex: 'location',
@@ -191,7 +191,7 @@ Ext.define('Ametys.plugins.coreui.log.ServerLogTool', {
             },
             {
                 stateId: 'grid-callstack',
-                header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CALLSTACK_HEADER'/>",
+                header: "{{i18n PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CALLSTACK_HEADER}}",
                 width: 100,
                 sortable: true,
                 dataIndex: 'callstack',

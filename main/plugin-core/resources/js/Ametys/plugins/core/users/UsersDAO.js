@@ -55,7 +55,7 @@ Ext.define(
 	     		},
 	     		errorMessage: {
 					category: this.self.getName(),
-					msg: "<i18n:text i18n:key='PLUGINS_CORE_USERS_ADD_ERROR'/>"
+					msg: "{{i18n PLUGINS_CORE_USERS_ADD_ERROR}}"
 				}
 			});
 			
@@ -90,7 +90,7 @@ Ext.define(
 	     		},
 	     		errorMessage: {
 					category: this.self.getName(),
-					msg: "<i18n:text i18n:key='PLUGINS_CORE_USERS_EDIT_ERROR'/>"
+					msg: "{{i18n PLUGINS_CORE_USERS_EDIT_ERROR}}"
 				}
 			});
 			
@@ -124,7 +124,7 @@ Ext.define(
 	         		handler: this._deleteUsersCb,
 	     		},
 				errorMessage: {
-				    msg: "<i18n:text i18n:key='PLUGINS_CORE_USERS_DELETE_ERROR'/>",
+				    msg: "{{i18n PLUGINS_CORE_USERS_DELETE_ERROR}}",
 				    category: Ext.getClassName(this)
 				}
 			});
@@ -154,7 +154,7 @@ Ext.define(
 			    role: "org.ametys.plugins.core.user.UserDAO",
 				methodName: "getUser",
 				errorMessage: {
-				    msg: "<i18n:text i18n:key='PLUGINS_CORE_USERS_INFOS_ERROR'/>",
+				    msg: "{{i18n PLUGINS_CORE_USERS_INFOS_ERROR}}",
 				    category: Ext.getClassName(this)
 				}
 			});
@@ -188,7 +188,7 @@ Ext.define(
 	         		handler: this._impersonateUserCb
 	     		},
 				errorMessage: {
-				    msg: "<i18n:text i18n:key='PLUGINS_CORE_USERS_IMPERSONATE_ERROR'/>",
+				    msg: "{{i18n PLUGINS_CORE_USERS_IMPERSONATE_ERROR}}",
 				    category: Ext.getClassName(this)
 				}
 			});
@@ -279,8 +279,8 @@ Ext.define(
 			if (user['error'])
 			{
 				Ext.Msg.show ({
-					title: "<i18n:text i18n:key='PLUGINS_CORE_USERS_IMPERSONATE_FAILURE_TITLE'/>",
-					msg: "<i18n:text i18n:key='PLUGINS_CORE_USERS_IMPERSONATE_FAILURE'/>",
+					title: "{{i18n PLUGINS_CORE_USERS_IMPERSONATE_FAILURE_TITLE}}",
+					msg: "{{i18n PLUGINS_CORE_USERS_IMPERSONATE_FAILURE}}",
 					buttons: Ext.Msg.OK,
 					icon: Ext.MessageBox.ERROR
 				});
@@ -288,8 +288,8 @@ Ext.define(
 			else
 			{
 				Ext.Msg.show ({
-					title: "<i18n:text i18n:key='PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_TITLE'/>",
-					msg: "<i18n:text i18n:key='PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS'/> " + user.name + " (" + user.login + ").\n<i18n:text i18n:key='PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_2'/>",
+					title: "{{i18n PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_TITLE}}",
+					msg: "{{i18n PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS}} " + user.name + " (" + user.login + ").\n{{i18n PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_2}}",
 					buttons: Ext.Msg.OK,
 					icon: Ext.MessageBox.INFO,
 					fn: function() 

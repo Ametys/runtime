@@ -120,7 +120,7 @@ Ext.define('Ametys.plugins.core.users.EditUserHelper', {
 			});
 			
 			this._box = Ext.create('Ametys.window.DialogBox', {
-				title: this._mode == 'new' ? "<i18n:text i18n:key='PLUGINS_CORE_USERS_DIALOG_ADD_TITLE' i18n:catalogue='plugin.core'/>" : "<i18n:text i18n:key='PLUGINS_CORE_USERS_DIALOG_EDIT_TITLE' i18n:catalogue='plugin.core'/>",
+				title: this._mode == 'new' ? "{{i18n plugin.core:PLUGINS_CORE_USERS_DIALOG_ADD_TITLE}}" : "{{i18n plugin.core:PLUGINS_CORE_USERS_DIALOG_EDIT_TITLE}}",
 				icon: Ametys.getPluginResourcesPrefix('core') + '/img/users/' + (this._mode == 'new' ? 'add_16.png' : 'modify_16.png'),
 				
 				layout: 'fit',
@@ -131,10 +131,10 @@ Ext.define('Ametys.plugins.core.users.EditUserHelper', {
 				
 				closeAction: 'hide',
 				buttons : [{
-					text: "<i18n:text i18n:key='PLUGINS_CORE_USERS_DIALOG_OK' i18n:catalogue='plugin.core'/>",
+					text: "{{i18n plugin.core:PLUGINS_CORE_USERS_DIALOG_OK}}",
 					handler: Ext.bind(this._validate, this)
 				}, {
-					text: "<i18n:text i18n:key='PLUGINS_CORE_USERS_DIALOG_CANCEL' i18n:catalogue='plugin.core'/>",
+					text: "{{i18n plugin.core:PLUGINS_CORE_USERS_DIALOG_CANCEL}}",
 					handler: Ext.bind(function() {this._box.hide();}, this)
 				}]
 			});
@@ -143,7 +143,7 @@ Ext.define('Ametys.plugins.core.users.EditUserHelper', {
 		}
 		else
 		{
-			this._box.setTitle(this._mode == 'new' ? "<i18n:text i18n:key='PLUGINS_CORE_USERS_DIALOG_ADD_TITLE' i18n:catalogue='plugin.core'/>" : "<i18n:text i18n:key='PLUGINS_CORE_USERS_DIALOG_EDIT_TITLE' i18n:catalogue='plugin.core'/>");
+			this._box.setTitle(this._mode == 'new' ? "{{i18n plugin.core:PLUGINS_CORE_USERS_DIALOG_ADD_TITLE}}" : "{{i18n plugin.core:PLUGINS_CORE_USERS_DIALOG_EDIT_TITLE}}");
 			this._box.setIcon(Ametys.getPluginResourcesPrefix('core') + '/img/users/' + (this._mode == 'new' ? 'add_16.png' : 'modify_16.png'));
 			callback(true);
 		}
@@ -257,7 +257,7 @@ Ext.define('Ametys.plugins.core.users.EditUserHelper', {
 				var fd = this._form.findField(error);
 				if (fd)
 				{
-					fd.markInvalid("<i18n:text i18n:key='PLUGINS_CORE_USERS_DIALOG_INVALID_FIELD' i18n:catalogue='plugin.core'/>");
+					fd.markInvalid("{{i18n plugin.core:PLUGINS_CORE_USERS_DIALOG_INVALID_FIELD}}");
 				}
 			}, this);
 			

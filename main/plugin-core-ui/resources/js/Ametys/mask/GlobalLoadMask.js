@@ -39,7 +39,7 @@ Ext.define(
         /**
          * @property {String} DEFAULT_MESSAGE The message that will always be displayed on the top of the waiting messages.
          */
-        DEFAULT_MESSAGE: "<i18n:text i18n:key='PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE'/>",
+        DEFAULT_MESSAGE: "{{i18n PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE}}",
         
         /** 
          * @private

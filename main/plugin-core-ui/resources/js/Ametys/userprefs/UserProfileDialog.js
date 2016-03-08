@@ -99,7 +99,7 @@ Ext.define('Ametys.userprefs.UserProfileDialog', {
         
         // Create dialogbox
         this._box = Ext.create('Ametys.window.DialogBox', {
-            title: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_TITLE'/>",
+            title: "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_TITLE}}",
             icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/user-profiles/edit-profile_16.png',
             
             width: 700,
@@ -112,21 +112,21 @@ Ext.define('Ametys.userprefs.UserProfileDialog', {
             items : [{
                 xtype: 'component',
                 cls: 'a-text',
-                html: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_INTRO'/>"
+                html: "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_INTRO}}"
             }, 
             this._createProfileImageField(),
             {
                 xtype: 'component',
                 cls: 'a-text-warning',
-                html: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_HINT'/>",
+                html: "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_HINT}}",
             }],
             
             closeAction: 'hide',
             buttons : [{
-                    text: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_OK'/>",
+                    text: "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_OK}}",
                     handler : Ext.bind(this._ok, this)
                 }, {
-                    text: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_CANCEL'/>",
+                    text: "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_CANCEL}}",
                     handler: Ext.bind(function() {this._box.close();}, this)
                 } 
             ]
@@ -239,8 +239,8 @@ Ext.define('Ametys.userprefs.UserProfileDialog', {
         {
             Ametys.notify({
                 type: 'info',
-                title: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_SAVE_SUCCESS_TITLE'/>",
-                description: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_SAVE_SUCCESS_DESC'/>"
+                title: "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_SAVE_SUCCESS_TITLE}}",
+                description: "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_SAVE_SUCCESS_DESC}}"
             });
             
             this._box.close();
@@ -266,8 +266,8 @@ Ext.define('Ametys.userprefs.UserProfileDialog', {
             }
             
             Ametys.log.ErrorDialog.display({
-                title: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_SAVE_FAILURE_TITLE'/>",
-                text: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_SAVE_FAILURE_DESC'/>",
+                title: "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_SAVE_FAILURE_TITLE}}",
+                text: "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_SAVE_FAILURE_DESC}}",
                 details: details,
                 category: this.self.getName() 
             });

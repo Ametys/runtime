@@ -51,33 +51,33 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageModel', {
             {
                 if (data.source == 'upload-image')
                 {
-                    return "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_UPLOADIMAGE'/>";
+                    return "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_UPLOADIMAGE}}";
                 }
                 
-                var desc = "<u><i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_PREFIX'/></u> : ";
+                var desc = "<u>{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_PREFIX}}</u> : ";
                 
                 switch (data.source)
                 {
                     case 'localimage':
-                        desc += "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_LOCALIMAGE'/>";
+                        desc += "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_LOCALIMAGE}}";
                         break;
                     case 'gravatar':
-                        desc += "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_GRAVATAR'/>";
+                        desc += "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_GRAVATAR}}";
                         break;
                     case 'usersmanager':
-                        desc += "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_USERSMANAGER'/>";
+                        desc += "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_USERSMANAGER}}";
                         break;
                     case 'initials':
-                        desc += "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_INITIALS'/>";
+                        desc += "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_INITIALS}}";
                         break;
                     case 'upload':
-                        desc += "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_UPLOAD'/>";
+                        desc += "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_UPLOAD}}";
                         break;
                     case 'userpref':
-                        desc += "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_USERPREF'/>";
+                        desc += "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_USERPREF}}";
                         break;
                     case 'default':
-                        desc += "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_DEFAULT'/>";
+                        desc += "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_DESC_DEFAULT}}";
                         break;
                 }
                 

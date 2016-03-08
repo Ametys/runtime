@@ -26,17 +26,17 @@ Ext.define('Ametys.form.widget.BooleanCombobox', {
 	/**
 	 * @cfg {String} emptyLabel='-' Label used for empty option 
 	 */
-	emptyLabel: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_EMPTY_LABEL' />",
+	emptyLabel: "{{i18n PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_EMPTY_LABEL}}",
 	
 	/**
 	 * @cfg {String} trueLabel='yes' Label used for 'true' option
 	 */
-	trueLabel: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_TRUE_LABEL' />",
+	trueLabel: "{{i18n PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_TRUE_LABEL}}",
 	
 	/**
 	 * @cfg {String} falseLabel='no' Label used for 'false' option
 	 */
-	falseLabel: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_FALSE_LABEL' />",
+	falseLabel: "{{i18n PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_FALSE_LABEL}}",
 	
 	constructor: function (config)
 	{
@@ -48,9 +48,9 @@ Ext.define('Ametys.form.widget.BooleanCombobox', {
 			
 			queryMode: 'local',
 			store: [
-               [null, config.emptyLabel || "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_EMPTY_LABEL' />"],
-               [true, config.trueLabel || "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_TRUE_LABEL' />"],
-               [false, config.falseLabel || "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_FALSE_LABEL' />"],
+               [null, config.emptyLabel || "{{i18n PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_EMPTY_LABEL}}"],
+               [true, config.trueLabel || "{{i18n PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_TRUE_LABEL}}"],
+               [false, config.falseLabel || "{{i18n PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_FALSE_LABEL}}"],
             ]
 		});
 		

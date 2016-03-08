@@ -89,10 +89,10 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceTool', {
 				        	switch (name)
 				        	{
 					        	case 'SQL':
-					        		return "<i18n:text i18n:key='PLUGINS_ADMIN_UITOOL_DATASOURCE_GROUP_SQL'/>";
+					        		return "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_GROUP_SQL}}";
 					        		
 					        	case 'LDAP':
-					        		return "<i18n:text i18n:key='PLUGINS_ADMIN_UITOOL_DATASOURCE_GROUP_LDAP'/>";
+					        		return "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_GROUP_LDAP}}";
 					        	default:
 					        		throw 'Unrecognized type ' + name;
 				        	}
@@ -102,11 +102,11 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceTool', {
 		    }],
 			
 		    columns: [
-		        {stateId: 'grid-name', header: "<i18n:text i18n:key='PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_NAME'/>", flex: 0.8, sortable: true, dataIndex:'name', renderer: this._renderName},
-		        {stateId: 'grid-private', header: "<i18n:text i18n:key='PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_PRIVATE'/>", width: 120, sortable: true, dataIndex: 'private', renderer: this._renderBoolean},
-		        {stateId: 'grid-inUse', header: "<i18n:text i18n:key='PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_USED'/>", width: 120, sortable: true, dataIndex: 'isInUse', align :'center', renderer: this._renderBoolean},
-		        {stateId: 'grid-type', header: "<i18n:text i18n:key='PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_TYPE'/>", width: 80, hidden: true, dataIndex: 'type'},
-		        {stateId: 'grid-id', header: "<i18n:text i18n:key='PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_ID'/>", flex: 0.2, hidden: true, dataIndex: 'id'}
+		        {stateId: 'grid-name', header: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_NAME}}", flex: 0.8, sortable: true, dataIndex:'name', renderer: this._renderName},
+		        {stateId: 'grid-private', header: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_PRIVATE}}", width: 120, sortable: true, dataIndex: 'private', renderer: this._renderBoolean},
+		        {stateId: 'grid-inUse', header: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_USED}}", width: 120, sortable: true, dataIndex: 'isInUse', align :'center', renderer: this._renderBoolean},
+		        {stateId: 'grid-type', header: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_TYPE}}", width: 80, hidden: true, dataIndex: 'type'},
+		        {stateId: 'grid-id', header: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_ID}}", flex: 0.2, hidden: true, dataIndex: 'id'}
 		    ]
 		});
 		
@@ -174,7 +174,7 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceTool', {
         var isTrue = Ext.isBoolean(value) ? value : value == 'true';
         if (isTrue)
         {
-            return '<span class="a-grid-glyph flaticon-check34" title="' + "<i18n:text i18n:key='UITOOL_SEARCH_BOOLEAN_YES' i18n:catalogue='plugin.cms'/>" + '"></span>';
+            return '<span class="a-grid-glyph flaticon-check34" title="' + "{{i18n plugin.cms:UITOOL_SEARCH_BOOLEAN_YES}}" + '"></span>';
         }
         else
         {

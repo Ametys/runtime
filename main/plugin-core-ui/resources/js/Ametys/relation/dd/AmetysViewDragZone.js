@@ -45,7 +45,7 @@ Ext.define('Ametys.relation.dd.AmetysViewDragZone', {
 				
 				if (i == maxElements - 1 && i != this.dragData.records.length - 1)
 				{
-					s += "<i18n:text i18n:key='PLUGINS_CORE_UI_RELATIONS_VIEW_DRAGTEXT_HELLIP_1'/> " + (this.dragData.records.length - maxElements + 1) + " <i18n:text i18n:key='PLUGINS_CORE_UI_RELATIONS_VIEW_DRAGTEXT_HELLIP_2'/>";
+					s += "{{i18n PLUGINS_CORE_UI_RELATIONS_VIEW_DRAGTEXT_HELLIP_1}} " + (this.dragData.records.length - maxElements + 1) + " {{i18n PLUGINS_CORE_UI_RELATIONS_VIEW_DRAGTEXT_HELLIP_2}}";
 				}
 				else
 				{

@@ -93,7 +93,7 @@ Ext.define('Ametys.form.field.ChangePassword', {
         {
             if  (value === undefined || this._field.getValue() != this._confirmField.getValue())
             {
-                errors.push("<i18n:text key='PLUGINS_CORE_UI_CHANGEPASSWORD_VALIDATOR'/>");
+                errors.push("{{i18n PLUGINS_CORE_UI_CHANGEPASSWORD_VALIDATOR}}");
             }
             
             errors = Ext.Array.merge(errors, this._confirmField.getErrors(value));

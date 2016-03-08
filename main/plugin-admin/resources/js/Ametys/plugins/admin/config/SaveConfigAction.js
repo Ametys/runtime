@@ -46,7 +46,7 @@ Ext.define('Ametys.plugins.admin.config.SaveConfigAction', {
 			return;
 		}
     	
-    	Ext.getBody().mask("<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_SAVE_WAIT_MSG'/>");
+    	Ext.getBody().mask("{{i18n PLUGINS_ADMIN_CONFIG_SAVE_WAIT_MSG}}");
         Ext.defer(Ext.bind(this._save, this, [form.getValues()], false), 1, this);
     },
 
@@ -73,8 +73,8 @@ Ext.define('Ametys.plugins.admin.config.SaveConfigAction', {
         if (result == null)
         {
             Ametys.log.ErrorDialog.display({
-                title: "<i18n:text i18n:key='PLUGINS_ADMIN_SAVE_DIALOG_TITLE'/>", 
-                text: "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_SAVE_FATALERROR'/>",
+                title: "{{i18n PLUGINS_ADMIN_SAVE_DIALOG_TITLE}}", 
+                text: "{{i18n PLUGINS_ADMIN_CONFIG_SAVE_FATALERROR}}",
                 details: ex,
                 category: "Ametys.plugins.core.administration.Config.save"
             });
@@ -87,8 +87,8 @@ Ext.define('Ametys.plugins.admin.config.SaveConfigAction', {
         if (!Ext.isEmpty(error))
         {
         	Ametys.log.ErrorDialog.display({
-                title: "<i18n:text i18n:key='PLUGINS_ADMIN_SAVE_DIALOG_TITLE'/>", 
-                text: "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_SAVE_ERROR'/>",
+                title: "{{i18n PLUGINS_ADMIN_SAVE_DIALOG_TITLE}}", 
+                text: "{{i18n PLUGINS_ADMIN_CONFIG_SAVE_ERROR}}",
                 details: error,
                 category: "Ametys.plugins.core.administration.Config.save"
             });
@@ -97,8 +97,8 @@ Ext.define('Ametys.plugins.admin.config.SaveConfigAction', {
         
         // Success
         Ametys.Msg.show ({
-	        title: "<i18n:text i18n:key='PLUGINS_ADMIN_SAVE_DIALOG_TITLE'/>",
-            msg: "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_SAVE_OK'/>",
+	        title: "{{i18n PLUGINS_ADMIN_SAVE_DIALOG_TITLE}}",
+            msg: "{{i18n PLUGINS_ADMIN_CONFIG_SAVE_OK}}",
             buttons: Ext.Msg.OK,
             icon: Ext.MessageBox.INFO,
             fn: Ametys.reload

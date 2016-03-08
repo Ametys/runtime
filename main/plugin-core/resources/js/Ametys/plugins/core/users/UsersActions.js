@@ -43,9 +43,9 @@ Ext.define('Ametys.plugins.core.users.UsersActions', {
 	{
 		Ametys.notify({
 	        type: 'info',
-	        title: "<i18n:text i18n:key='PLUGINS_CORE_USERS_NOTIFY_CREATION'/>",
+	        title: "{{i18n PLUGINS_CORE_USERS_NOTIFY_CREATION}}",
 	        icon: '/plugins/core/resources/img/users/user_32.png',
-	        description: Ext.String.format("<i18n:translate><i18n:text i18n:key='PLUGINS_CORE_USERS_NOTIFY_CREATION_DESC'/><i18n:param name='fullname'>{0}</i18n:param></i18n:translate>", user.fullname)
+	        description: Ext.String.format("{{i18n PLUGINS_CORE_USERS_NOTIFY_CREATION_DESC}}", user.fullname)
 	    });
 		
 		if (userToolRole)
@@ -83,8 +83,8 @@ Ext.define('Ametys.plugins.core.users.UsersActions', {
 		var userTargets = controller.getMatchingTargets();
 		if (userTargets != null && userTargets.length > 0)
 		{
-			Ametys.Msg.confirm("<i18n:text i18n:key='PLUGINS_CORE_USERS_DELETE_LABEL' i18n:catalogue='plugin.core'/>",
-				"<i18n:text i18n:key='PLUGINS_CORE_USERS_DELETE_CONFIRM' i18n:catalogue='plugin.core'/>",
+			Ametys.Msg.confirm("{{i18n plugin.core:PLUGINS_CORE_USERS_DELETE_LABEL}}",
+				"{{i18n plugin.core:PLUGINS_CORE_USERS_DELETE_CONFIRM}}",
 				Ext.bind(this._doDelete, this, [userTargets, controller], 1),
 				this
 			);

@@ -79,10 +79,10 @@ Ext.define('Ametys.timeline.Timeline', {
 	                         '<div class="timeline-day">{name:this.formatName}</div>',
 	                         {
 	                        	 formatName: function(date) {
-	                            	 var formattedDate = Ext.Date.format(new Date(date), "<i18n:text i18n:key='PLUGINS_CORE_UI_TIMELINE_DATE_FORMAT'/>");
-	                            	 var today = Ext.Date.format(new Date(), "<i18n:text i18n:key='PLUGINS_CORE_UI_TIMELINE_DATE_FORMAT'/>");
+	                            	 var formattedDate = Ext.Date.format(new Date(date), "{{i18n PLUGINS_CORE_UI_TIMELINE_DATE_FORMAT}}");
+	                            	 var today = Ext.Date.format(new Date(), "{{i18n PLUGINS_CORE_UI_TIMELINE_DATE_FORMAT}}");
 	                            	 
-	                            	 return formattedDate == today ? "<i18n:text i18n:key='PLUGINS_CORE_UI_TIMELINE_TODAY'/>" : formattedDate;
+	                            	 return formattedDate == today ? "{{i18n PLUGINS_CORE_UI_TIMELINE_TODAY}}" : formattedDate;
 	                             }
 	                         }
 	        ],
@@ -127,11 +127,11 @@ Ext.define('Ametys.timeline.Timeline.TimelineItem', {
 		    		calculate: function (data)
 		    		{
 		    			// Remove hours/minutes
-		    			var formattedDate = Ext.Date.format(data.date, "<i18n:text i18n:key='PLUGINS_CORE_UI_TIMELINE_DATE_FORMAT'/>");
-		    			return Ext.Date.parse(formattedDate, "<i18n:text i18n:key='PLUGINS_CORE_UI_TIMELINE_DATE_FORMAT'/>");
+		    			var formattedDate = Ext.Date.format(data.date, "{{i18n PLUGINS_CORE_UI_TIMELINE_DATE_FORMAT}}");
+		    			return Ext.Date.parse(formattedDate, "{{i18n PLUGINS_CORE_UI_TIMELINE_DATE_FORMAT}}");
 		    			
 		    			var today = Ext.Date.format(new Date(), 'd/m/y');
-		    			return formattedDate == today ? "<i18n:text i18n:key='PLUGINS_CORE_UI_TIMELINE_TODAY'/>" : Ext.Date.format(data.date, 'd/m/y');
+		    			return formattedDate == today ? "{{i18n PLUGINS_CORE_UI_TIMELINE_TODAY}}" : Ext.Date.format(data.date, 'd/m/y');
 		    		}
 		       },
 		       {
@@ -139,7 +139,7 @@ Ext.define('Ametys.timeline.Timeline.TimelineItem', {
 			   		depends: ['date'],
 			   		calculate: function (data)
 			   		{
-			   			return Ext.Date.format(data.date, "<i18n:text i18n:key='PLUGINS_CORE_UI_TIMELINE_HOUR_FORMAT'/>");
+			   			return Ext.Date.format(data.date, "{{i18n PLUGINS_CORE_UI_TIMELINE_HOUR_FORMAT}}");
 			   		}
 		      },
 		      'text',

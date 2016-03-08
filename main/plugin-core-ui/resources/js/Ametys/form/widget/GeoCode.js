@@ -55,7 +55,7 @@ Ext.define('Ametys.form.widget.GeoCode', {
 	/**
 	 * @cfg {String} buttonTooltipText The button tooltip text
 	 */	
-	buttonTooltipText : "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_GEOCODE_SHOW_MAP_BUTTON_TOOLTIP'/>",
+	buttonTooltipText : "{{i18n PLUGINS_CORE_UI_WIDGET_GEOCODE_SHOW_MAP_BUTTON_TOOLTIP}}",
 	/**
 	 * @cfg {String} deleteButtonIcon The full path to the delete button icon (in 16x16 pixels)
 	 */
@@ -63,19 +63,19 @@ Ext.define('Ametys.form.widget.GeoCode', {
 	/**
 	 * @cfg {String} deleteTooltipText The delete button tooltip text
 	 */	
-	deleteTooltipText : "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_GEOCODE_DELETE_BUTTON'/>",
+	deleteTooltipText : "{{i18n PLUGINS_CORE_UI_WIDGET_GEOCODE_DELETE_BUTTON}}",
 	/**
 	 * @cfg {String} deletePopupTitle The title of the delete confirmation popup 
 	 */	
-	deleteTitle : "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_GEOCODE_DELETE_CONFIRM_TITLE'/>",
+	deleteTitle : "{{i18n PLUGINS_CORE_UI_WIDGET_GEOCODE_DELETE_CONFIRM_TITLE}}",
 	/**
 	 * @cfg {String} deleteConfirm The text of the delete confirmation popup 
 	 */	
-	deleteConfirm : "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_GEOCODE_DELETE_CONFIRM_CONTENT'/>",	
+	deleteConfirm : "{{i18n PLUGINS_CORE_UI_WIDGET_GEOCODE_DELETE_CONFIRM_CONTENT}}",	
 	/**
 	 * @cfg {String} emptyText The text for empty field
 	 */
-	emptyText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_GEOCODE_NO_COORDINATES'>No coordinates</i18n:text>",
+	emptyText: "{{i18n PLUGINS_CORE_UI_WIDGET_GEOCODE_NO_COORDINATES}}",
 	
 	/**
 	 * @property {Object[]} _formFieldsBuildingTheAddress Form fields building the initialAddress  
@@ -195,7 +195,7 @@ Ext.define('Ametys.form.widget.GeoCode', {
 				
 				if (!field)
 				{
-					var message = "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_GEOCODE_UNKNOWN_FIELD'/>" + prefix + '.' + fieldName;
+					var message = "{{i18n PLUGINS_CORE_UI_WIDGET_GEOCODE_UNKNOWN_FIELD}}" + prefix + '.' + fieldName;
 					me.getLogger().error(message);
 				}
 				else
@@ -498,7 +498,7 @@ Ext.define('Ametys.form.widget.GeoCode', {
 	{
 		if (this.getValue())
 		{
-			this.markWarning("<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_GEOCODE_ADDRESS_CHANGE'/>");
+			this.markWarning("{{i18n PLUGINS_CORE_UI_WIDGET_GEOCODE_ADDRESS_CHANGE}}");
 		} 
 	},
 	

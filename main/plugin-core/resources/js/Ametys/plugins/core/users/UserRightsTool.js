@@ -26,7 +26,7 @@ Ext.define('Ametys.plugins.core.users.UserRightsTool', {
 	 * @property {Ext.Template} _toolTitleTpl The template used for tool's title
 	 */
 	_toolTitleTpl: new Ext.Template(
-			"<i18n:text i18n:key='PLUGINS_CORE_UITOOL_USER_RIGHTS_TITLE'/>",
+			"{{i18n PLUGINS_CORE_UITOOL_USER_RIGHTS_TITLE}}",
 			" {fullname}"
 	),
 	
@@ -35,7 +35,7 @@ Ext.define('Ametys.plugins.core.users.UserRightsTool', {
 	 * @property {Ext.Template} _toolDescriptionTpl The template used for tool's description
 	 */
 	_toolDescriptionTpl: new Ext.Template(
-			"<i18n:text i18n:key='PLUGINS_CORE_UITOOL_USER_RIGHTS_TOOLTIPTEXT'/>",
+			"{{i18n PLUGINS_CORE_UITOOL_USER_RIGHTS_TOOLTIPTEXT}}",
 			" {fullname} ({login})"
 	),
 	
@@ -43,18 +43,18 @@ Ext.define('Ametys.plugins.core.users.UserRightsTool', {
 	 * @private
 	 * @property {Ext.Template} _contextByProfileHintTpl The template used for hint description
 	 */
-	_contextByProfileHintTpl: new Ext.Template("<i18n:text i18n:key='PLUGINS_CORE_UITOOL_USER_RIGHTS_CONTEXT_BY_PROFILE_HINT_1'/>",
+	_contextByProfileHintTpl: new Ext.Template("{{i18n PLUGINS_CORE_UITOOL_USER_RIGHTS_CONTEXT_BY_PROFILE_HINT_1}}",
 			" {fullname} ({login})",
-			"<i18n:text i18n:key='PLUGINS_CORE_UITOOL_USER_RIGHTS_CONTEXT_BY_PROFILE_HINT_2'/>"
+			"{{i18n PLUGINS_CORE_UITOOL_USER_RIGHTS_CONTEXT_BY_PROFILE_HINT_2}}"
 	),
 	
 	/**
 	 * @private
 	 * @property {Ext.Template} _rightsByContextHintTpl The template used for hint description
 	 */
-	_rightsByContextHintTpl: new Ext.Template("<i18n:text i18n:key='PLUGINS_CORE_UITOOL_USER_RIGHTS_RIGHTS_BY_CONTEXT_HINT_1'/>",
+	_rightsByContextHintTpl: new Ext.Template("{{i18n PLUGINS_CORE_UITOOL_USER_RIGHTS_RIGHTS_BY_CONTEXT_HINT_1}}",
 			" {fullname} ({login})",
-			"<i18n:text i18n:key='PLUGINS_CORE_UITOOL_USER_RIGHTS_RIGHTS_BY_CONTEXT_HINT_2'/>"
+			"{{i18n PLUGINS_CORE_UITOOL_USER_RIGHTS_RIGHTS_BY_CONTEXT_HINT_2}}"
 	),
 	
 	/**
@@ -115,7 +115,7 @@ Ext.define('Ametys.plugins.core.users.UserRightsTool', {
 			},
 			waitMessage: true,
 			errorMessage: {
-				msg: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_USER_RIGHTS_ERROR'/>",
+				msg: "{{i18n PLUGINS_CORE_UITOOL_USER_RIGHTS_ERROR}}",
 				category: Ext.getClassName(this)
 			}
 		});

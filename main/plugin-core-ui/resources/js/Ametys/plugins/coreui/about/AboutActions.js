@@ -59,7 +59,7 @@ Ext.define('Ametys.plugins.coreui.about.AboutActions', {
             var itemsCfg = this._createItemsCfg();
             
             this._aboutBox = Ext.create('Ametys.window.DialogBox', {
-                title: "<i18n:text i18n:key='PLUGINS_CORE_UI_ABOUT_DIALOG_TITLE'/>",
+                title: "{{i18n PLUGINS_CORE_UI_ABOUT_DIALOG_TITLE}}",
                 iconCls: "flaticon-question13",
 
                 maxHeight: 600,
@@ -75,7 +75,7 @@ Ext.define('Ametys.plugins.coreui.about.AboutActions', {
                 
                 closeAction: 'hide',
                 buttons: [{
-                    text: "<i18n:text i18n:key='PLUGINS_CORE_UI_ABOUT_DIALOG_BUTTON_OK'/>",
+                    text: "{{i18n PLUGINS_CORE_UI_ABOUT_DIALOG_BUTTON_OK}}",
                     handler: function() { this._aboutBox.close(); },
                     scope: this
                 }]    
@@ -171,8 +171,8 @@ Ext.define('Ametys.plugins.coreui.about.AboutActions', {
         '<tpl for=".">',       
             '<div class="version">{name} - ',
             '<tpl if="version">',
-                "<i18n:text i18n:key='PLUGINS_CORE_UI_ABOUT_DIALOG_VERSIONS_VERSION_PREFIX'/>" + '{version}',
-                "<i18n:text i18n:key='PLUGINS_CORE_UI_ABOUT_DIALOG_VERSIONS_DATE_PREFIX'/>" + '{[Ext.util.Format.date(values.date, Ext.Date.patterns.FriendlyDateTime)]}</div>',
+                "{{i18n PLUGINS_CORE_UI_ABOUT_DIALOG_VERSIONS_VERSION_PREFIX}}" + '{version}',
+                "{{i18n PLUGINS_CORE_UI_ABOUT_DIALOG_VERSIONS_DATE_PREFIX}}" + '{[Ext.util.Format.date(values.date, Ext.Date.patterns.FriendlyDateTime)]}</div>',
             '</tpl>',
         '</tpl>'
     ),

@@ -90,7 +90,7 @@
     <message key="PLUGINS_CORE_USERS_INFOS_ERROR">An error occurred while retrieving user's information</message>
     <message key="PLUGINS_CORE_USERS_IMPERSONATE_ERROR">An error occurred: unable to connect with the login of the selected user.</message>
     <message key="PLUGINS_CORE_USERS_NOTIFY_CREATION">User creation</message>
-    <message key="PLUGINS_CORE_USERS_NOTIFY_CREATION_DESC">The user {fullname} has been created successfully.</message>
+    <message key="PLUGINS_CORE_USERS_NOTIFY_CREATION_DESC">The user \{0\} has been created successfully.</message>
     
     <!-- Helper -->
     <message key="PLUGINS_CORE_USERS_DIALOG_ADD_TITLE">New user</message>
@@ -162,7 +162,7 @@
     <message key="PLUGINS_CORE_GROUPS_ADD_LABEL">Create group</message>
     <message key="PLUGINS_CORE_GROUPS_ADD_DESCRIPTION">Create a new group</message>
     <message key="PLUGINS_CORE_GROUPS_ADD_ERROR">An error occurred: the group was not created.</message>
-    <message key="PLUGINS_CORE_GROUPS_ADD_NOTIFY">The group {label} has been created successfully.</message>
+    <message key="PLUGINS_CORE_GROUPS_ADD_NOTIFY">The group  \{0\} has been created successfully.</message>
     <message key="PLUGINS_CORE_GROUPS_RENAME_LABEL">Rename</message>
     <message key="PLUGINS_CORE_GROUPS_RENAME_DESCRIPTION">Rename the selected group.</message>
     <message key="PLUGINS_CORE_GROUPS_RENAME_ERROR">An error occurred: the group was not renamed.</message>

@@ -115,10 +115,10 @@ Ext.define('Ametys.plugins.admin.logs.LogsTool', {
 		    }],
 			
 		    columns: [
-		        {stateId: 'grid-location', header: "<i18n:text i18n:key='PLUGINS_ADMIN_LOGS_COL_NAME'/>", flex: 1, width : 250, renderer: this._fileNameRendered, menuDisabled : true, sortable: true, dataIndex: 'location'},
-		        {stateId: 'grid-date', header: "<i18n:text i18n:key='PLUGINS_ADMIN_LOGS_COL_DATE'/>", flex: 0, width : 150, renderer: Ext.util.Format.dateRenderer('d F Y'), menuDisabled : true, sortable: true, dataIndex:'date',  align :'center'},
-		        {stateId: 'grid-size', header: "<i18n:text i18n:key='PLUGINS_ADMIN_LOGS_COL_SIZE'/>", flex: 0, width : 100, renderer: this._sizeRendered, menuDisabled : true, sortable: true, dataIndex: 'size', align :'right'},
-		        {stateId: 'grid-name', header: "<i18n:text i18n:key='PLUGINS_ADMIN_LOGS_COL_CATEGORY'/>", flex: 0, width : 100, hidden: true, menuDisabled : true, sortable: true, dataIndex: 'name', align :'right'}
+		        {stateId: 'grid-location', header: "{{i18n PLUGINS_ADMIN_LOGS_COL_NAME}}", flex: 1, width : 250, renderer: this._fileNameRendered, menuDisabled : true, sortable: true, dataIndex: 'location'},
+		        {stateId: 'grid-date', header: "{{i18n PLUGINS_ADMIN_LOGS_COL_DATE}}", flex: 0, width : 150, renderer: Ext.util.Format.dateRenderer('d F Y'), menuDisabled : true, sortable: true, dataIndex:'date',  align :'center'},
+		        {stateId: 'grid-size', header: "{{i18n PLUGINS_ADMIN_LOGS_COL_SIZE}}", flex: 0, width : 100, renderer: this._sizeRendered, menuDisabled : true, sortable: true, dataIndex: 'size', align :'right'},
+		        {stateId: 'grid-name', header: "{{i18n PLUGINS_ADMIN_LOGS_COL_CATEGORY}}", flex: 0, width : 100, hidden: true, menuDisabled : true, sortable: true, dataIndex: 'name', align :'right'}
 		    ]
 		});
 	},
@@ -133,8 +133,8 @@ Ext.define('Ametys.plugins.admin.logs.LogsTool', {
 	{
 		if (record.get('size') > 1024 * 1024)
 	    {
-	    	Ametys.Msg.confirm ("<i18n:text i18n:key='PLUGINS_ADMIN_LOGS_VIEW_DIALOG_TITLE'/>", 
-	    					    "<i18n:text i18n:key='PLUGINS_ADMIN_LOGS_VIEW_DIALOG_CONFIRM'/>",
+	    	Ametys.Msg.confirm ("{{i18n PLUGINS_ADMIN_LOGS_VIEW_DIALOG_TITLE}}", 
+	    					    "{{i18n PLUGINS_ADMIN_LOGS_VIEW_DIALOG_CONFIRM}}",
 	    					    function (answer)
 	    					    {
 	    							if (answer == 'yes')

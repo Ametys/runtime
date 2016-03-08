@@ -69,7 +69,7 @@ public class RuntimeResourceReader extends ResourceReader implements Serviceable
         }
         catch (ServiceException e)
         {
-            String errorMessage = "The runtime resource reader cannot be setup : the runtime source resolver cannot be retrived";
+            String errorMessage = "The runtime resource reader cannot be setup : the runtime source resolver cannot be retrieved";
             getLogger().error(errorMessage);
             throw new ProcessingException(errorMessage, e);
         }

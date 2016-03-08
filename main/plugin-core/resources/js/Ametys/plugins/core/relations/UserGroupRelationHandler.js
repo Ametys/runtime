@@ -49,8 +49,8 @@ Ext.define('Ametys.plugins.core.relations.UserGroupRelationHandler', {
 		var relations = [ 
 		    Ext.create('Ametys.relation.Relation', {
     			type: Ametys.relation.Relation.REFERENCE,
-    			label: "<i18n:text i18n:key='PLUGINS_CORE_RELATIONS_ADD_USER_LABEL'/>",
-    			description: "<i18n:text i18n:key='PLUGINS_CORE_RELATIONS_ADD_USER_DESCRIPTION'/>",
+    			label: "{{i18n PLUGINS_CORE_RELATIONS_ADD_USER_LABEL}}",
+    			description: "{{i18n PLUGINS_CORE_RELATIONS_ADD_USER_DESCRIPTION}}",
     			smallIcon: null,
     			mediumIcon: null,
     			largeIcon: null

@@ -33,7 +33,7 @@ Ext.define('Ametys.form.SaveHelper', {
             var subtargets = target.getSubtargets(function(target) { return target.getType() ==  Ametys.message.MessageTarget.FORM }, 0);
             if (subtargets.length == 0)
             {
-            	Ext.MessageBox.alert("<i18n:text i18n:key='PLUGINS_CORE_UI_SAVE_NOFORM_TITLE'/>", "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIG_SAVE_NOFORM'/>");
+            	Ext.MessageBox.alert("{{i18n PLUGINS_CORE_UI_SAVE_NOFORM_TITLE}}", "{{i18n PLUGINS_CORE_UI_CONFIG_SAVE_NOFORM}}");
                 return null;
             }
 
@@ -74,7 +74,7 @@ Ext.define('Ametys.form.SaveHelper', {
 		if (invalidFields.length > 0)
 		{
             // At least one field is invalid
-			var errorMessage = "<i18n:text i18n:key='PLUGINS_CORE_UI_SAVE_ACTION_INVALIDFIELDS'/>";
+			var errorMessage = "{{i18n PLUGINS_CORE_UI_SAVE_ACTION_INVALIDFIELDS}}";
 			errorMessage += "<ul>";
 			Ext.Array.each(invalidFields, function(invalidField) {
 				errorMessage += "<li>";
@@ -84,7 +84,7 @@ Ext.define('Ametys.form.SaveHelper', {
 			errorMessage += "</ul>";
 			
 			Ametys.Msg.show({
-				   title: "<i18n:text i18n:key='PLUGINS_CORE_UI_SAVE_ACTION_INVALID_TITLE'/>", 
+				   title: "{{i18n PLUGINS_CORE_UI_SAVE_ACTION_INVALID_TITLE}}", 
 				   msg: errorMessage,
 				   buttons: Ext.Msg.OK,
 				   icon: Ext.MessageBox.ERROR,
@@ -96,12 +96,12 @@ Ext.define('Ametys.form.SaveHelper', {
             // At least one test wasn't successful
             var msgBox = Ext.create('Ext.window.MessageBox', {closeAction: 'destroy'});
             
-            msgBox.buttonText.yes = "<i18n:text i18n:key='PLUGINS_CORE_UI_SAVE_TESTS_NOK_MBOX_SAVE'/>";
-            msgBox.buttonText.no = "<i18n:text i18n:key='PLUGINS_CORE_UI_SAVE_TESTS_NOK_MBOX_RETRY'/>";
-            msgBox.buttonText.cancel = "<i18n:text i18n:key='PLUGINS_CORE_UI_SAVE_TESTS_NOK_MBOX_CANCEL'/>";
+            msgBox.buttonText.yes = "{{i18n PLUGINS_CORE_UI_SAVE_TESTS_NOK_MBOX_SAVE}}";
+            msgBox.buttonText.no = "{{i18n PLUGINS_CORE_UI_SAVE_TESTS_NOK_MBOX_RETRY}}";
+            msgBox.buttonText.cancel = "{{i18n PLUGINS_CORE_UI_SAVE_TESTS_NOK_MBOX_CANCEL}}";
             msgBox.show({
-                title: "<i18n:text i18n:key='PLUGINS_CORE_UI_SAVE_TESTS_NOK_MBOX_TITLE'/>", 
-                msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_SAVE_TESTS_NOK_MBOX_MSG'/>",
+                title: "{{i18n PLUGINS_CORE_UI_SAVE_TESTS_NOK_MBOX_TITLE}}", 
+                msg: "{{i18n PLUGINS_CORE_UI_SAVE_TESTS_NOK_MBOX_MSG}}",
                 buttons: Ext.Msg.YESNOCANCEL,
                 icon: Ext.Msg.WARNING,
                 fn: function(answer)
@@ -112,7 +112,7 @@ Ext.define('Ametys.form.SaveHelper', {
                     }
                     else if (answer == 'no')
                     {
-                        Ext.getBody().mask("<i18n:text i18n:key='PLUGINS_CORE_UI_SAVE_WAIT_MSG'/>");
+                        Ext.getBody().mask("{{i18n PLUGINS_CORE_UI_SAVE_WAIT_MSG}}");
                         paramCheckersDAO.check(paramCheckers, 
             					              true, 
             					              Ext.bind(function(success) 
@@ -186,8 +186,8 @@ Ext.define('Ametys.form.SaveHelper', {
 		if (Ext.Object.getSize(warnedFields) > 0)
 		{
 			var msgBox = Ext.create('Ext.window.MessageBox', {closeAction: 'destroy'});
-            msgBox.buttonText.yes = "<i18n:text i18n:key='PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_YES'/>";
-            msgBox.buttonText.no = "<i18n:text i18n:key='PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_NO'/>";
+            msgBox.buttonText.yes = "{{i18n PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_YES}}";
+            msgBox.buttonText.no = "{{i18n PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_NO}}";
 			
 			var message = "<ul>";
 			Ext.Object.each(warnedFields, function(warnedFieldLabel) {
@@ -208,8 +208,8 @@ Ext.define('Ametys.form.SaveHelper', {
 			message += "</ul>";
 			
 		    Ametys.Msg.show({
-		        title: "<i18n:text i18n:key='PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_TITLE'/>",
-		        msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_START'/>" + message + "<i18n:text i18n:key='PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_END'/>",
+		        title: "{{i18n PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_TITLE}}",
+		        msg: "{{i18n PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_START}}" + message + "{{i18n PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_END}}",
 		        buttons: Ext.Msg.YESNO,
 		        icon: Ext.Msg.QUESTION,
 		        fn: function(answer) {callback(answer == 'yes');},

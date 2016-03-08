@@ -76,8 +76,8 @@ Ext.define('Ametys.plugins.admin.config.ConfigTool', {
 		var me = this;
         if (this.isDirty())
 		{
-			Ametys.form.SaveHelper.promptBeforeQuit("<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_DIRTY_CLOSE_MBOX_LABEL'/>", 
-												    "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_DIRTY_CLOSE_MBOX_TEXT'/>",
+			Ametys.form.SaveHelper.promptBeforeQuit("{{i18n PLUGINS_ADMIN_CONFIG_DIRTY_CLOSE_MBOX_LABEL}}", 
+												    "{{i18n PLUGINS_ADMIN_CONFIG_DIRTY_CLOSE_MBOX_TEXT}}",
 												    null,
 												    Ext.bind(this._closeCb, this));
 			return;
@@ -120,7 +120,7 @@ Ext.define('Ametys.plugins.admin.config.ConfigTool', {
                 handler: this._getConfigurationParametersCb,
                 scope: this
             },
-            errorMessage: {msg: "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_LOADING_ERROR'/>", category: this.self.getName()},
+            errorMessage: {msg: "{{i18n PLUGINS_ADMIN_CONFIG_LOADING_ERROR}}", category: this.self.getName()},
             waitMessage: true
         });
 	},

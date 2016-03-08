@@ -137,7 +137,7 @@ Ext.define('Ametys.userprefs.UserPrefsDAO', {
 		var callback = args[0];
 		var prefContext = args[1];
 		
-		if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_ERROR'/>", response, "Ametys.userprefs.UserPrefsDAO._cachePrepared"))
+		if (Ametys.data.ServerComm.handleBadResponse("{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_ERROR}}", response, "Ametys.userprefs.UserPrefsDAO._cachePrepared"))
 		{
 			callback(false);
 			return;
@@ -263,7 +263,7 @@ Ext.define('Ametys.userprefs.UserPrefsDAO', {
 		var callback = args[0];
 		var prefContext = args[1];
 
-		if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_ERROR_SAVE'/>", response, "Ametys.userprefs.UserPrefsDAO._valuesSaved"))
+		if (Ametys.data.ServerComm.handleBadResponse("{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_ERROR_SAVE}}", response, "Ametys.userprefs.UserPrefsDAO._valuesSaved"))
 		{
 			callback(false, null);
 			return;

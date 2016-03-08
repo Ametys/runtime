@@ -33,8 +33,8 @@ Ext.define('Ametys.plugins.admin.logs.LogsActions', {
 			var targetParameters = target.getParameters();
 			if (targetParameters.size > 1024 * 1024)
 		    {
-		    	Ametys.Msg.confirm ("<i18n:text i18n:key='PLUGINS_ADMIN_LOGS_VIEW_DIALOG_TITLE'/>", 
-		    					    "<i18n:text i18n:key='PLUGINS_ADMIN_LOGS_VIEW_DIALOG_CONFIRM'/>",
+		    	Ametys.Msg.confirm ("{{i18n PLUGINS_ADMIN_LOGS_VIEW_DIALOG_TITLE}}", 
+		    					    "{{i18n PLUGINS_ADMIN_LOGS_VIEW_DIALOG_CONFIRM}}",
 		    					    function (answer)
 		    					    {
 		    							if (answer == 'yes')
@@ -91,8 +91,8 @@ Ext.define('Ametys.plugins.admin.logs.LogsActions', {
 	 */
 	deleteFile: function (controller)
 	{
-		Ametys.Msg.confirm ("<i18n:text i18n:key='PLUGINS_ADMIN_LOGS_DELETE_DIALOG_TITLE'/>", 
-							"<i18n:text i18n:key='PLUGINS_ADMIN_LOGS_DELETE_DIALOG_CONFIRM'/>", 
+		Ametys.Msg.confirm ("{{i18n PLUGINS_ADMIN_LOGS_DELETE_DIALOG_TITLE}}", 
+							"{{i18n PLUGINS_ADMIN_LOGS_DELETE_DIALOG_CONFIRM}}", 
 							Ext.bind(this._delete, this, [controller], 1));
 	},
 	
@@ -117,7 +117,7 @@ Ext.define('Ametys.plugins.admin.logs.LogsActions', {
 	        
 	        controller.serverCall('deleteLogs', [filesLocations], Ext.bind(this._deleteCb, this),
 				{ 
-                    errorMessage: { msg: "<i18n:text i18n:key='PLUGINS_ADMIN_LOGS_DELETE_ERROR'/>", category: 'Ametys.plugins.admin.actions.LogsActions'},
+                    errorMessage: { msg: "{{i18n PLUGINS_ADMIN_LOGS_DELETE_ERROR}}", category: 'Ametys.plugins.admin.actions.LogsActions'},
                     refreshing: true
                 } 
 			);
@@ -138,8 +138,8 @@ Ext.define('Ametys.plugins.admin.logs.LogsActions', {
         if (response.failures.length > 0)
         {
         	Ametys.Msg.show({
-				title: "<i18n:text i18n:key='PLUGINS_ADMIN_LOGS_DELETE_DIALOG_TITLE'/>",
-				msg: "<i18n:text i18n:key='PLUGINS_ADMIN_LOGS_DELETE_ERROR'/>",
+				title: "{{i18n PLUGINS_ADMIN_LOGS_DELETE_DIALOG_TITLE}}",
+				msg: "{{i18n PLUGINS_ADMIN_LOGS_DELETE_ERROR}}",
 				buttons: Ext.Msg.OK,
 				icon: Ext.MessageBox.ERROR
 			});
@@ -152,8 +152,8 @@ Ext.define('Ametys.plugins.admin.logs.LogsActions', {
 	 */
 	purge: function (controller)
 	{
-		Ametys.Msg.confirm ("<i18n:text i18n:key='PLUGINS_ADMIN_LOGS_PURGE_DIALOG_TITLE'/>", 
-					         "<i18n:text i18n:key='PLUGINS_ADMIN_LOGS_PURGE_DIALOG_CONFIRM'/>",
+		Ametys.Msg.confirm ("{{i18n PLUGINS_ADMIN_LOGS_PURGE_DIALOG_TITLE}}", 
+					         "{{i18n PLUGINS_ADMIN_LOGS_PURGE_DIALOG_CONFIRM}}",
 					         Ext.bind(this._purge, this, [controller], 1));
 	},
 	
@@ -167,7 +167,7 @@ Ext.define('Ametys.plugins.admin.logs.LogsActions', {
 	    {
 	        controller.serverCall('purgeLogs', null, Ext.bind(this._purgeCb, this),
 				{ 
-                    errorMessage: { msg: "<i18n:text i18n:key='PLUGINS_ADMIN_LOGS_PURGE_SERVER_ERROR'/>", category: 'Ametys.plugins.admin.actions.LogsActions'},
+                    errorMessage: { msg: "{{i18n PLUGINS_ADMIN_LOGS_PURGE_SERVER_ERROR}}", category: 'Ametys.plugins.admin.actions.LogsActions'},
                     refreshing: true
                 } 
 			);
@@ -186,8 +186,8 @@ Ext.define('Ametys.plugins.admin.logs.LogsActions', {
 		this._sendDeletionMessage(deletedFiles);
 		
         Ametys.Msg.show({
-			title: "<i18n:text i18n:key='PLUGINS_ADMIN_LOGS_PURGE'/>",
-			msg: deletedFiles.length == 0 ? "<i18n:text i18n:key='PLUGINS_ADMIN_LOGS_PURGE_NONE'/>" : deletedFiles.length + " " + "<i18n:text i18n:key='PLUGINS_ADMIN_LOGS_PURGE_AMOUNT'/>",
+			title: "{{i18n PLUGINS_ADMIN_LOGS_PURGE}}",
+			msg: deletedFiles.length == 0 ? "{{i18n PLUGINS_ADMIN_LOGS_PURGE_NONE}}" : deletedFiles.length + " " + "{{i18n PLUGINS_ADMIN_LOGS_PURGE_AMOUNT}}",
 			buttons: Ext.Msg.OK,
 			icon: Ext.MessageBox.INFO
     	});
@@ -239,7 +239,7 @@ Ext.define('Ametys.plugins.admin.logs.LogsActions', {
 					Ext.bind(this._changeLogLevelCB, this),
 					{ 
 						errorMessage: { 
-							msg: "<i18n:text i18n:key='PLUGINS_ADMIN_TOOL_LOGS_LEVEL_SERVER_ERROR'/>", 
+							msg: "{{i18n PLUGINS_ADMIN_TOOL_LOGS_LEVEL_SERVER_ERROR}}", 
 							category: 'Ametys.plugins.admin.actions.LogsActions' 
 						},
 						arguments: {

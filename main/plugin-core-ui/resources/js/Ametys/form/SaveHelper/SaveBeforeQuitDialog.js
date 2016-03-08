@@ -51,8 +51,8 @@ Ext.define('Ametys.form.SaveHelper.SaveBeforeQuitDialog', {
 		
 		this._delayedInitialized();
 	
-		this._dialog.setTitle (title || "<i18n:text i18n:key='PLUGINS_CORE_UI_HELPER_SAVE_BEFORE_QUIT_TITLE'/>");
-		this._dialog.items.get(0).update(msg || "<i18n:text i18n:key='PLUGINS_CORE_UI_HELPER_SAVE_BEFORE_QUIT_MESSAGE'/>");
+		this._dialog.setTitle (title || "{{i18n PLUGINS_CORE_UI_HELPER_SAVE_BEFORE_QUIT_TITLE}}");
+		this._dialog.items.get(0).update(msg || "{{i18n PLUGINS_CORE_UI_HELPER_SAVE_BEFORE_QUIT_MESSAGE}}");
 		this._dialog.setIcon(icon || Ametys.getPluginResourcesPrefix('core-ui') + "/img/save_16.png");
 		
 		this._dialog.show();
@@ -82,7 +82,7 @@ Ext.define('Ametys.form.SaveHelper.SaveBeforeQuitDialog', {
 				
 				buttons : [ 
 		            {
-						text : "<i18n:text i18n:key='PLUGINS_CORE_UI_HELPER_SAVE_BEFORE_QUIT_SAVE_BTN_LABEL'/>",
+						text : "{{i18n PLUGINS_CORE_UI_HELPER_SAVE_BEFORE_QUIT_SAVE_BTN_LABEL}}",
 						handler : function () 
 						{ 
 							this._callback(true);
@@ -92,7 +92,7 @@ Ext.define('Ametys.form.SaveHelper.SaveBeforeQuitDialog', {
 						scope: this
 					},
 		            {
-						text : "<i18n:text i18n:key='PLUGINS_CORE_UI_HELPER_SAVE_BEFORE_QUIT_DONT_SAVE_BTN_LABEL'/>",
+						text : "{{i18n PLUGINS_CORE_UI_HELPER_SAVE_BEFORE_QUIT_DONT_SAVE_BTN_LABEL}}",
 						handler : function () 
 						{ 
 							this._callback(false);
@@ -102,7 +102,7 @@ Ext.define('Ametys.form.SaveHelper.SaveBeforeQuitDialog', {
 						scope: this
 					},
 		            {
-						text : "<i18n:text i18n:key='PLUGINS_CORE_UI_HELPER_SAVE_BEFORE_QUIT_CANCEL_BTN_LABEL'/>",
+						text : "{{i18n PLUGINS_CORE_UI_HELPER_SAVE_BEFORE_QUIT_CANCEL_BTN_LABEL}}",
 						handler : function () 
 						{ 
 							this._dialog.close();

@@ -39,7 +39,7 @@ Ext.define('Ametys.plugins.admin.jvmstatus.JVMStatusTool', {
 				},
 				errorMessage: {
 					category: 'Ametys.plugins.admin.jvmstatus.JVMStatusTool.garbageCollect',
-					msg: "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_GC_ERROR'/>"
+					msg: "{{i18n PLUGINS_ADMIN_STATUS_GC_ERROR}}"
 				}
 			});
 		},
@@ -51,8 +51,8 @@ Ext.define('Ametys.plugins.admin.jvmstatus.JVMStatusTool', {
 		helpSessions: function ()
 		{
 			Ametys.Msg.show ({
-				title: "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_ERROR'/>",
-				msg: "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_SESSIONS_ERROR_HINT'/>",
+				title: "{{i18n PLUGINS_ADMIN_STATUS_ERROR}}",
+				msg: "{{i18n PLUGINS_ADMIN_STATUS_SESSIONS_ERROR_HINT}}",
 				buttons: Ext.Msg.OK,
 				icon: Ext.MessageBox.WARNING
 		    });
@@ -65,8 +65,8 @@ Ext.define('Ametys.plugins.admin.jvmstatus.JVMStatusTool', {
 		helpRequests: function ()
 		{
 			Ametys.Msg.show ({
-				title: "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_ERROR'/>",
-				msg: "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_REQUESTS_ERROR_HINT'/>",
+				title: "{{i18n PLUGINS_ADMIN_STATUS_ERROR}}",
+				msg: "{{i18n PLUGINS_ADMIN_STATUS_REQUESTS_ERROR_HINT}}",
 				buttons: Ext.Msg.OK,
 				icon: Ext.MessageBox.ERROR
 		    });
@@ -124,32 +124,32 @@ Ext.define('Ametys.plugins.admin.jvmstatus.JVMStatusTool', {
     										xtype: 'panel',
     										cls: 'a-panel-text',
     										itemId: 'system',
-    										title : "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_SYS'/>",
+    										title : "{{i18n PLUGINS_ADMIN_STATUS_TAB_GENERAL_SYS}}",
     										html: ''
     									},
     									{
     										xtype: 'panel',
     										cls: 'a-panel-text',
     										itemId: 'jvm',
-    										title : "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_JVM'/>",
+    										title : "{{i18n PLUGINS_ADMIN_STATUS_TAB_GENERAL_JVM}}",
     										html: ''
     									},{
                                             xtype: 'panel',
                                             cls: 'a-panel-text',
                                             itemId: 'ametys',
-                                            title : "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_AMETYS'/>",
+                                            title : "{{i18n PLUGINS_ADMIN_STATUS_TAB_GENERAL_AMETYS}}",
                                             html: ''
                                         },{
     										xtype: 'panel',
     										cls: 'a-panel-text',
     										itemId: 'memory',
-    										title : "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM'/>",
+    										title : "{{i18n PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM}}",
     										html: ''
     									},{
     										xtype: 'panel',
     										cls: 'a-panel-text',
     										itemId: 'server',
-    										title : "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE'/>",
+    										title : "{{i18n PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE}}",
     										html: ''
     									}
 									]
@@ -178,7 +178,7 @@ Ext.define('Ametys.plugins.admin.jvmstatus.JVMStatusTool', {
 			priority: Ametys.data.ServerComm.PRIORITY_MAJOR,
 			errorMessage: {
 				category: this.self.getName(),
-				msg: "<i18n:text i18n:key='PLUGINS_ADMIN_TOOL_JVMSTATUS_SERVER_ERROR'/>"
+				msg: "{{i18n PLUGINS_ADMIN_TOOL_JVMSTATUS_SERVER_ERROR}}"
 			},
 			callback: {
 				handler: this._refreshCb,
@@ -215,23 +215,23 @@ Ext.define('Ametys.plugins.admin.jvmstatus.JVMStatusTool', {
 		// Tooltips
         Ext.create ('Ext.ToolTip', {
             target: 'ametys-home-help-img',
-            html: "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_AMETYS_AMETYS_HOME_HELP'/>"
+            html: "{{i18n PLUGINS_ADMIN_STATUS_TAB_GENERAL_AMETYS_AMETYS_HOME_HELP}}"
         });
 	    Ext.create ('Ext.ToolTip', {
 	        target: 'mem-heap-help-img',
-	        html: "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_MEMORY_HINT_HEAP'/>"
+	        html: "{{i18n PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_MEMORY_HINT_HEAP}}"
 	    });
 	    Ext.create ('Ext.ToolTip', {
 	        target: 'handle-session-help-img',
-	        html: "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_SESSION_HELP'/>"
+	        html: "{{i18n PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_SESSION_HELP}}"
 	    });
 	    Ext.create ('Ext.ToolTip', {
 	        target: 'handle-request-help-img',
-	        html: "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_REQUEST_HELP'/>"
+	        html: "{{i18n PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_REQUEST_HELP}}"
 	    });
 	    Ext.create ('Ext.ToolTip', {
 	        target: 'handle-thread-help-img',
-	        html: "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_THREAD_HELP'/>"
+	        html: "{{i18n PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_THREAD_HELP}}"
 	    });
 		
 		// Refresh used memory
@@ -256,7 +256,7 @@ Ext.define('Ametys.plugins.admin.jvmstatus.JVMStatusTool', {
 			},
 			errorMessage: {
 				category: this.self.getName(),
-				msg: "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_REFRESH_ERROR'/>"
+				msg: "{{i18n PLUGINS_ADMIN_STATUS_REFRESH_ERROR}}"
 			}
 		});
 	},
@@ -281,9 +281,9 @@ Ext.define('Ametys.plugins.admin.jvmstatus.JVMStatusTool', {
 	    var usedMem = response['heap-memory-used'];
 	    var maxMem = response['heap-memory-max'];
 	    
-	    var tip  = "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_USED'/> : " + Math.round(usedMem / (1024*1024) * 10) / 10 + " <i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_UNIT'/>"
-	            + "\n<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_FREE'/> : " + Math.round((commitedMem - usedMem) / (1024*1024) * 10) / 10 + " <i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_UNIT'/>"
-	            + "\n<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_AVAILABLE'/> : " + Math.round((maxMem-commitedMem) / (1024*1024) * 10) / 10  + " <i18n:text i18n:key='PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_UNIT'/>";
+	    var tip  = "{{i18n PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_USED}} : " + Math.round(usedMem / (1024*1024) * 10) / 10 + " {{i18n PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_UNIT}}"
+	            + "\n{{i18n PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_FREE}} : " + Math.round((commitedMem - usedMem) / (1024*1024) * 10) / 10 + " {{i18n PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_UNIT}}"
+	            + "\n{{i18n PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_AVAILABLE}} : " + Math.round((maxMem-commitedMem) / (1024*1024) * 10) / 10  + " {{i18n PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_UNIT}}";
 	    
 	    document.getElementById("totalMemImg").title = tip;
 	    document.getElementById("freeMemImg").title = tip;
@@ -301,14 +301,14 @@ Ext.define('Ametys.plugins.admin.jvmstatus.JVMStatusTool', {
 	    // ACTIVE SESSION
 	    var sessions = response.activeSessions;
 	    if (sessions == null) 
-	        document.getElementById("activeSession").innerHTML = "<a href='#' onclick='Ametys.plugins.admin.jvmstatus.JVMStatusTool.helpSessions(); return false;'><i18n:text i18n:key='PLUGINS_ADMIN_STATUS_SESSIONS_ERROR'/></a>";
+	        document.getElementById("activeSession").innerHTML = "<a href='#' onclick='Ametys.plugins.admin.jvmstatus.JVMStatusTool.helpSessions(); return false;'>{{i18n PLUGINS_ADMIN_STATUS_SESSIONS_ERROR}}</a>";
 	    else
 	        document.getElementById("activeSession").innerHTML = sessions;
 
 	    // ACTIVE REQUEST
 	    var requests = response.activeRequests;
 	    if (requests == null) 
-	        document.getElementById("activeRequest").innerHTML = "<a href='#' onclick='Ametys.plugins.admin.jvmstatus.JVMStatusTool.helpRequests(); return false;'><i18n:text i18n:key='PLUGINS_ADMIN_STATUS_REQUESTS_ERROR'/></a>";
+	        document.getElementById("activeRequest").innerHTML = "<a href='#' onclick='Ametys.plugins.admin.jvmstatus.JVMStatusTool.helpRequests(); return false;'>{{i18n PLUGINS_ADMIN_STATUS_REQUESTS_ERROR}}</a>";
 	    else
 	        document.getElementById("activeRequest").innerHTML = requests;
 
@@ -317,7 +317,7 @@ Ext.define('Ametys.plugins.admin.jvmstatus.JVMStatusTool', {
 	    var locked = response.deadlockThreads;
 	    if (locked != "0")
 	    {
-	        document.getElementById("deadlockThread").innerHTML = "(<a href='#' title='<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_THREADS_ERROR_LOCK_HINT'/>' style='color: red; font-weight: bold' onclick='Ametys.plugins.admin.jvmstatus.JVMStatusTool.deadLock()'>" + locked + " <i18n:text i18n:key='PLUGINS_ADMIN_STATUS_THREADS_LOCK'/></a>)";
+	        document.getElementById("deadlockThread").innerHTML = "(<a href='#' title='{{i18n PLUGINS_ADMIN_STATUS_THREADS_ERROR_LOCK_HINT}}' style='color: red; font-weight: bold' onclick='Ametys.plugins.admin.jvmstatus.JVMStatusTool.deadLock()'>" + locked + " {{i18n PLUGINS_ADMIN_STATUS_THREADS_LOCK}}</a>)";
 		}
 	    
 	    // TIME

@@ -89,7 +89,7 @@
     <message key="PLUGINS_CORE_USERS_INFOS_ERROR">Une erreur est survenue: impossible de récupérer les informations sur cet utilisateur</message>
     <message key="PLUGINS_CORE_USERS_IMPERSONATE_ERROR">Une erreur est survenue: impossible de se connecter avec les identifiants de l'utilisateur sélectionné.</message>
     <message key="PLUGINS_CORE_USERS_NOTIFY_CREATION">Création d'utilisateur</message>
-    <message key="PLUGINS_CORE_USERS_NOTIFY_CREATION_DESC">L'utilisateur {fullname} a bien été créé.</message>
+    <message key="PLUGINS_CORE_USERS_NOTIFY_CREATION_DESC">L'utilisateur \{0\} a bien été créé.</message>
     
     <!-- Helper -->
     <message key="PLUGINS_CORE_USERS_DIALOG_ADD_TITLE">Nouvel utilisateur</message>
@@ -160,7 +160,7 @@
     <message key="PLUGINS_CORE_GROUPS_ADD_LABEL">Nouveau groupe</message>
     <message key="PLUGINS_CORE_GROUPS_ADD_DESCRIPTION">Crée un nouveau groupe</message>
     <message key="PLUGINS_CORE_GROUPS_ADD_ERROR">Une erreur est survenue: le groupe n'a pas été créé</message>
-    <message key="PLUGINS_CORE_GROUPS_ADD_NOTIFY">Le groupe {label} a bien été créé.</message>
+    <message key="PLUGINS_CORE_GROUPS_ADD_NOTIFY">Le groupe \{0\} a bien été créé.</message>
     <message key="PLUGINS_CORE_GROUPS_RENAME_LABEL">Renommer</message>
     <message key="PLUGINS_CORE_GROUPS_RENAME_DESCRIPTION">Renomme le groupe sélectionné</message>
     <message key="PLUGINS_CORE_GROUPS_RENAME_ERROR">Une erreur est survenue: le groupe n'a pas été supprimé</message>

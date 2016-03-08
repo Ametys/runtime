@@ -513,12 +513,12 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
     	
     	if (this.minSize != null && this.getItemCount() < this.minSize)
         {
-    		errors.push("<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_INSERT_INVALID_MINSIZE'/>: " + this.getItemCount() + '/' +  this.minSize);
+    		errors.push("{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_INSERT_INVALID_MINSIZE}}: " + this.getItemCount() + '/' +  this.minSize);
         }
     	
     	if (this.maxSize != null && this.getItemCount() > this.maxSize)
         {
-    		errors.push("<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_INSERT_INVALID_MAXSIZE'/>: " + this.getItemCount() + '/' +  this.maxSize);
+    		errors.push("{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_INSERT_INVALID_MAXSIZE}}: " + this.getItemCount() + '/' +  this.maxSize);
         }
     	
     	return errors;
@@ -1062,7 +1062,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
     {
     	return {
     	    type: 'movedown',
-    		qtip: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_MOVE_DOWN'/>", 
+    		qtip: "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_MOVE_DOWN}}", 
     		handler: this._down,
             scope: this
     	};
@@ -1076,7 +1076,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
     {
     	return {
     	    type: 'moveup',
-    		qtip: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_MOVE_UP'/>", 
+    		qtip: "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_MOVE_UP}}", 
     		handler: this._up,
     		scope: this
     	};
@@ -1096,8 +1096,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
         if (this.maxSize != null && this.getItemCount() >= this.maxSize)
         {
             Ametys.Msg.show({
-                title: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_INSERT'/>",
-                msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_INSERT_ERROR_MAXSIZE'/>",
+                title: "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_INSERT}}",
+                msg: "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_INSERT_ERROR_MAXSIZE}}",
                 buttons: Ext.Msg.OK,
                 icon: Ext.MessageBox.ERROR
             });
@@ -1120,8 +1120,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
         if (this.maxSize != null && this.getItemCount() >= this.maxSize)
         {
             Ametys.Msg.show({
-                title: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_INSERT'/>",
-                msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_INSERT_ERROR_MAXSIZE'/>",
+                title: "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_INSERT}}",
+                msg: "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_INSERT_ERROR_MAXSIZE}}",
                 buttons: Ext.Msg.OK,
                 icon: Ext.MessageBox.ERROR
             });
@@ -1222,8 +1222,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
         if (this.minSize != null && this.getItemCount() <= this.minSize)
         {
             Ametys.Msg.show({
-                title: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_DELETE'/>",
-                msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_DELETE_ERROR_MINSIZE'/>",
+                title: "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_DELETE}}",
+                msg: "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_DELETE_ERROR_MINSIZE}}",
                 buttons: Ext.Msg.OK,
                 icon: Ext.MessageBox.ERROR
             });
@@ -1232,8 +1232,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
         
         // Confirm deletion
         Ametys.Msg.confirm(
-			"<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_DELETE'/>",
-			"<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_DELETE_CONFIRM'/>",
+			"{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_DELETE}}",
+			"{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_DELETE_CONFIRM}}",
 			function (answer)
 			{
 				if (answer == 'yes')

@@ -251,7 +251,7 @@ Ext.define(
 			var me = this;
 			function internalOnError (msg)
 			{
-				var message = "<i18n:text i18n:key='PLUGINS_CORE_UI_LOADSCRIPT_ERROR'/>" + url;
+				var message = "{{i18n PLUGINS_CORE_UI_LOADSCRIPT_ERROR}}" + url;
 				me.getLogger().error(message);
 				
 				if (Ext.isFunction (onError))
@@ -264,7 +264,7 @@ Ext.define(
 			{
 				if (me.getLogger().isInfoEnabled())
 				{
-					var message = "<i18n:text i18n:key='PLUGINS_CORE_UI_LOADSCRIPT_SUCCESS'/>" + url;
+					var message = "{{i18n PLUGINS_CORE_UI_LOADSCRIPT_SUCCESS}}" + url;
 					me.getLogger().info(message);
 				}
 				
@@ -455,9 +455,9 @@ Ext.define(
 		 */
 		shutdown: function(title, message, action) 
 		{
-			title = title || "<i18n:text i18n:key='PLUGINS_CORE_UI_SHUTDOWN_DEFAULTTITLE'/>";
-			message = message || "<i18n:text i18n:key='PLUGINS_CORE_UI_SHUTDOWN_DEFAULTTEXT'/>";
-            action = action || "<i18n:text i18n:key='PLUGINS_CORE_UI_SHUTDOWN_DEFAULTACTION'/>";
+			title = title || "{{i18n PLUGINS_CORE_UI_SHUTDOWN_DEFAULTTITLE}}";
+			message = message || "{{i18n PLUGINS_CORE_UI_SHUTDOWN_DEFAULTTEXT}}";
+            action = action || "{{i18n PLUGINS_CORE_UI_SHUTDOWN_DEFAULTACTION}}";
 			
 			if (window.console)
 			{
@@ -650,16 +650,16 @@ Ext.define(
 Ext.Date.patterns = {
 	ISO8601DateTime:"Y-m-d\\TH:i:s.uP",
 	ISO8601Date:"Y-m-d",
-	ShortDate: "<i18n:text i18n:key='PLUGINS_CORE_UI_DATETIME_SHORTDATE'/>",
-	LongDate: "<i18n:text i18n:key='PLUGINS_CORE_UI_DATETIME_LONGDATE'/>",
-	FullDate: "<i18n:text i18n:key='PLUGINS_CORE_UI_DATETIME_FULLDATE'/>",
-    VeryShortTime: "<i18n:text i18n:key='PLUGINS_CORE_UI_DATETIME_VERYSHORTTIME'/>",
-	ShortTime: "<i18n:text i18n:key='PLUGINS_CORE_UI_DATETIME_SHORTTIME'/>",
-	LongTime: "<i18n:text i18n:key='PLUGINS_CORE_UI_DATETIME_LONGTIME'/>",
-	ShortDateTime: "<i18n:text i18n:key='PLUGINS_CORE_UI_DATETIME_SHORTDATETIME'/>",
-	FriendlyDateTime: "<i18n:text i18n:key='PLUGINS_CORE_UI_DATETIME_FRIENDLYDATETIME'/>",
-	LongDateTime: "<i18n:text i18n:key='PLUGINS_CORE_UI_DATETIME_LONGDATETIME'/>",
-	FullDateTime: "<i18n:text i18n:key='PLUGINS_CORE_UI_DATETIME_FULLDATETIME'/>"
+	ShortDate: "{{i18n PLUGINS_CORE_UI_DATETIME_SHORTDATE}}",
+	LongDate: "{{i18n PLUGINS_CORE_UI_DATETIME_LONGDATE}}",
+	FullDate: "{{i18n PLUGINS_CORE_UI_DATETIME_FULLDATE}}",
+    VeryShortTime: "{{i18n PLUGINS_CORE_UI_DATETIME_VERYSHORTTIME}}",
+	ShortTime: "{{i18n PLUGINS_CORE_UI_DATETIME_SHORTTIME}}",
+	LongTime: "{{i18n PLUGINS_CORE_UI_DATETIME_LONGTIME}}",
+	ShortDateTime: "{{i18n PLUGINS_CORE_UI_DATETIME_SHORTDATETIME}}",
+	FriendlyDateTime: "{{i18n PLUGINS_CORE_UI_DATETIME_FRIENDLYDATETIME}}",
+	LongDateTime: "{{i18n PLUGINS_CORE_UI_DATETIME_LONGDATETIME}}",
+	FullDateTime: "{{i18n PLUGINS_CORE_UI_DATETIME_FULLDATETIME}}"
 };
 
 /*
@@ -676,7 +676,7 @@ Ext.Ajax.setMethod('POST');
     // This is to change default value
     Ext.define("Ext.locale.i18n.LoadMask", {
         override: "Ext.LoadMask",
-        msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE'/>"
+        msg: "{{i18n PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE}}"
     });
 })();
 

@@ -168,8 +168,8 @@ Ext.define("Ametys.message.MessageBus",
 					catch (e)
 					{
 						Ametys.log.ErrorDialog.display({
-								title: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_MESSAGEBUS_BUSERROR_TITLE'/>",
-								text: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_MESSAGEBUS_BUSERROR_DESC'/>",
+								title: "{{i18n PLUGINS_CORE_UI_MSG_MESSAGEBUS_BUSERROR_TITLE}}",
+								text: "{{i18n PLUGINS_CORE_UI_MSG_MESSAGEBUS_BUSERROR_DESC}}",
 				                details: e,
 				                category: "Ametys.message.MessageBus"
 						});
@@ -192,8 +192,8 @@ Ext.define("Ametys.message.MessageBus",
 			catch (e)
 			{
 				Ametys.log.ErrorDialog.display({
-						title: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_MESSAGEBUS_REFRESHERROR_TITLE'/>",
-						text: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_MESSAGEBUS_REFRESHERROR_DESC'/>",
+						title: "{{i18n PLUGINS_CORE_UI_MSG_MESSAGEBUS_REFRESHERROR_TITLE}}",
+						text: "{{i18n PLUGINS_CORE_UI_MSG_MESSAGEBUS_REFRESHERROR_DESC}}",
 		                details: e,
 		                category: "Ametys.message.MessageBus"
 				});

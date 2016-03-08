@@ -57,7 +57,7 @@ Ext.define(
 			}
 			else
 			{
-				dialogBox.setTitle(dialogBox.originalTitle + " - " + nb + " "+ "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_ERRORDIALOG_OTHERSERRORS'/>");
+				dialogBox.setTitle(dialogBox.originalTitle + " - " + nb + " "+ "{{i18n PLUGINS_CORE_UI_MSG_ERRORDIALOG_OTHERSERRORS}}");
 				
 				var buttons = dialogBox.getDockedItems('toolbar[dock="bottom"]')[0];
 				buttons.items.get(0).setVisible(false);
@@ -134,8 +134,8 @@ Ext.define(
 			var okId = Ext.id();
 			
 			var errorDialog = new Ametys.window.DialogBox( {
-				title: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_ERRORDIALOG_ERROR_MSG'/>" + title,
-				originalTitle: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_ERRORDIALOG_ERROR_MSG'/>" + title,
+				title: "{{i18n PLUGINS_CORE_UI_MSG_ERRORDIALOG_ERROR_MSG}}" + title,
+				originalTitle: "{{i18n PLUGINS_CORE_UI_MSG_ERRORDIALOG_ERROR_MSG}}" + title,
 				bodyPadding: '0',
 				layout: {
                     type: 'vbox',
@@ -150,25 +150,25 @@ Ext.define(
 				defaultButton: okId,
 				buttons : [
 				    {
-				    	text :"<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_ERRORDIALOG_OK'>Ok</i18n:text>",
+				    	text :"{{i18n PLUGINS_CORE_UI_MSG_ERRORDIALOG_OK}}",
 				    	id: okId,
 				    	handler : Ametys.log.ErrorDialog._okMessage
 				    },
 				    new Ext.SplitButton({
 				    	// A bug of extjs imply to set space character. If not the menu zone is too big.
-				    	text :"&#160;&#160;&#160;&#160;&#160;" + "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_ERRORDIALOG_SPLITBUTTON_OK'/>" + "&#160;&#160;&#160;&#160;&#160;",
+				    	text :"&#160;&#160;&#160;&#160;&#160;" + "{{i18n PLUGINS_CORE_UI_MSG_ERRORDIALOG_SPLITBUTTON_OK}}" + "&#160;&#160;&#160;&#160;&#160;",
 				    	menu: 
 				    	{
 				    		items: 
 				    		[{
-			    		 		text: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_ERRORDIALOG_IGNOREERRORS'/>",
+			    		 		text: "{{i18n PLUGINS_CORE_UI_MSG_ERRORDIALOG_IGNOREERRORS}}",
 			    		 		handler: function() { window.setTimeout(Ametys.log.ErrorDialog._okMessages, 10); } 
 				    		 }]
 				    	},
 				    	handler : Ametys.log.ErrorDialog._okMessage
 				    }),
 				    {
-						text : "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_ERRORDIALOG_DETAILS'/> >>",
+						text : "{{i18n PLUGINS_CORE_UI_MSG_ERRORDIALOG_DETAILS}} >>",
 						handler : function() 
 						{
 			    			var currentErrorDialog = Ametys.log.ErrorDialog._stack[0];
@@ -176,11 +176,11 @@ Ext.define(
 			    			if (detailledMsg.hidden)
 				    		{
 				    			detailledMsg.show();
-				    			this.setText("<< <i18n:text i18n:key='PLUGINS_CORE_UI_MSG_ERRORDIALOG_DETAILS'/>");
+				    			this.setText("<< {{i18n PLUGINS_CORE_UI_MSG_ERRORDIALOG_DETAILS}}");
 				    		}
 				    		else
 				    		{
-				    			this.setText("<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_ERRORDIALOG_DETAILS'/> >>");
+				    			this.setText("{{i18n PLUGINS_CORE_UI_MSG_ERRORDIALOG_DETAILS}} >>");
 				    			detailledMsg.hide();
 				    		}
 						}

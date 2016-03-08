@@ -96,7 +96,7 @@ Ext.define('Ametys.plugins.coreui.help.HelpTool', {
 	{
 		this._openWindowBtn = new Ext.button.Button({
 			icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/uitool-help/new-window_16.png',
-			tooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_HELP_OPEN_NEW_WINDOW'/>",
+			tooltip: "{{i18n PLUGINS_CORE_UI_TOOLS_HELP_OPEN_NEW_WINDOW}}",
 			cls: 'tbar-btn-open-window',
 			handler: this._openNewWindow,
 			scope: this
@@ -148,11 +148,11 @@ Ext.define('Ametys.plugins.coreui.help.HelpTool', {
 	    this._noHelpPanel = Ext.create("Ext.Button", {
             ui: 'tool-hintmessage',
             textAlign: 'left',
-            text:"<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_HELP_INFO_NOT_FOUND'/>",
+            text:"{{i18n PLUGINS_CORE_UI_TOOLS_HELP_INFO_NOT_FOUND}}",
             tooltip: {
-                title: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_HELP_INFO_NOT_FOUND_TOOLTIP_TITLE'/>",
+                title: "{{i18n PLUGINS_CORE_UI_TOOLS_HELP_INFO_NOT_FOUND_TOOLTIP_TITLE}}",
                 image: Ametys.getPluginResourcesPrefix('core-ui') + "/img/uitool-help/help_48.png",
-                text: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_HELP_INFO_NOT_FOUND_TOOLTIP_DESCRIPTION'/>",
+                text: "{{i18n PLUGINS_CORE_UI_TOOLS_HELP_INFO_NOT_FOUND_TOOLTIP_DESCRIPTION}}",
                 inribbon: false
             },
             handler: this._showDefaultUrl,
@@ -295,7 +295,7 @@ Ext.define('Ametys.plugins.coreui.help.HelpTool', {
 			},
 			waitMessage: true,
 			errorMessage: {
-				msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_HELP_ERROR_URL_PROVIDER'/>",
+				msg: "{{i18n PLUGINS_CORE_UI_TOOLS_HELP_ERROR_URL_PROVIDER}}",
 				category: Ext.getClassName(this)
 			}
 		});
@@ -344,7 +344,7 @@ Ext.define('Ametys.plugins.coreui.help.HelpTool', {
 			},
 			waitMessage: true,
 			errorMessage: {
-				msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_HELP_ERROR_URL_PROVIDER'/>",
+				msg: "{{i18n PLUGINS_CORE_UI_TOOLS_HELP_ERROR_URL_PROVIDER}}",
 				category: Ext.getClassName(this)
 			}
 		});
@@ -391,7 +391,7 @@ Ext.define('Ametys.plugins.coreui.help.HelpTool', {
 			},
 			waitMessage: true,
 			errorMessage: {
-				msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_HELP_ERROR_URL_PROVIDER'/>",
+				msg: "{{i18n PLUGINS_CORE_UI_TOOLS_HELP_ERROR_URL_PROVIDER}}",
 				category: Ext.getClassName(this)
 			}
 		});

@@ -89,29 +89,29 @@ Ext.define('Ametys.plugins.coreui.notification.NotificationTool', {
 			},
 			items: [
 					{
-						text: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_INFO_LABEL'/>",
-						tooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_INFO_DESC'/>",
+						text: "{{i18n PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_INFO_LABEL}}",
+						tooltip: "{{i18n PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_INFO_DESC}}",
 						filterName: 'info',
 						pressed: true,
 						toggleHandler: Ext.bind (this._filter, ['info'], true)
 					},
 					{
-						text: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_WARN_LABEL'/>",
-						tooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_WARN_DESC'/>",
+						text: "{{i18n PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_WARN_LABEL}}",
+						tooltip: "{{i18n PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_WARN_DESC}}",
 						pressed: true,
 						filterName: 'warn',
 						toggleHandler: Ext.bind (this._filter, this, ['warn'], true)
 					},
 					{
-						text: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_ERROR_LABEL'/>",
-						tooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_ERROR_DESC'/>",
+						text: "{{i18n PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_ERROR_LABEL}}",
+						tooltip: "{{i18n PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_ERROR_DESC}}",
 						pressed: true,
 						filterName: 'error',
 						toggleHandler: Ext.bind (this._filter, this, ['error'], true)
 					},
 					{
-						text: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_NAVHISTORY_LABEL'/>",
-						tooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_NAVHISTORY_DESC'/>",
+						text: "{{i18n PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_NAVHISTORY_LABEL}}",
+						tooltip: "{{i18n PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_NAVHISTORY_DESC}}",
 						pressed: true,
 						filterName: 'navhistory',
 						toggleHandler: Ext.bind (this._filter, this, ['navhistory'], true)
@@ -121,8 +121,8 @@ Ext.define('Ametys.plugins.coreui.notification.NotificationTool', {
                         flex: 0.0001
                     },
 					{
-                    	text: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DELETE_LABEL'/>",
-						tooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DELETE_DESC'/>",
+                    	text: "{{i18n PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DELETE_LABEL}}",
+						tooltip: "{{i18n PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DELETE_DESC}}",
 						handler: this._deleteAll,
 						scope: this,
 						hidden: true,
@@ -136,7 +136,7 @@ Ext.define('Ametys.plugins.coreui.notification.NotificationTool', {
 			itemId: 'no-notification-hint',
 			xtype: 'component',
 			hidden: true,
-			html: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_NO_NOTIFICATIONS'/>"
+			html: "{{i18n PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_NO_NOTIFICATIONS}}"
 		}];
 	},
 	

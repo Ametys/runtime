@@ -59,7 +59,7 @@ Ext.define('Ametys.public.AuthDialog', {
     	this.items = [
           	{
         		xtype : "label",
-        		text : "<i18n:text i18n:key='PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_LABEL'/>",
+        		text : "{{i18n PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_LABEL}}",
         	}, 
         	// Login
         	{
@@ -70,7 +70,7 @@ Ext.define('Ametys.public.AuthDialog', {
         		height : 55,
         		hideLabel : true,
         		allowBlank : false,
-        		emptyText : "<i18n:text i18n:key='PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_LOGIN'/>",
+        		emptyText : "{{i18n PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_LOGIN}}",
         		enableKeyEvents: true,
         		triggers : {
         			glyphed : {
@@ -92,7 +92,7 @@ Ext.define('Ametys.public.AuthDialog', {
                 cls : "ametys-auth-textbox",
                 height : 55,
                 hideLabel : true,
-                emptyText : "<i18n:text i18n:key='PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_PASSWORD'/>",
+                emptyText : "{{i18n PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_PASSWORD}}",
                 inputType : "password",
                 name : this.pwdFieldName,
                 // bind : "{password}",
@@ -129,7 +129,7 @@ Ext.define('Ametys.public.AuthDialog', {
                   cls : "form-panel-font-color rememberMeCheckbox",
                   height : 30,
                   // bind : "{rememberMe}",
-                  boxLabel : "<i18n:text i18n:key='PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_PERSIST'/>",
+                  boxLabel : "{{i18n PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_PERSIST}}",
                 }, {
                 	xtype:'tbseparator',
             		flex:1,
@@ -137,7 +137,7 @@ Ext.define('Ametys.public.AuthDialog', {
                 },{
                   xtype : "box",
                   hidden: !this.forgotPassword,
-                  html : '<a href="#authentication.passwordreset" class="link-forgot-password">' + "<i18n:text i18n:key='PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FORGOT_PASSWORD'/>" + '</a>'
+                  html : '<a href="#authentication.passwordreset" class="link-forgot-password">' + "{{i18n PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FORGOT_PASSWORD}}" + '</a>'
                 }]
              }, 
              // Submit
@@ -147,7 +147,7 @@ Ext.define('Ametys.public.AuthDialog', {
                 // ui : "soft-green",
                 iconAlign : "right",
                 iconCls : "x-fa fa-angle-right",
-                text : "<i18n:text i18n:key='PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_SUBMIT'/>",
+                text : "{{i18n PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_SUBMIT}}",
                 // formBind : true,
                 handler: function () { 
                 	var form = this.ownerCt;
@@ -163,10 +163,10 @@ Ext.define('Ametys.public.AuthDialog', {
   		
   		if (this.authFailure)
   		{
-  			this.down('#error-text').update("<i18n:text i18n:key='PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_AUTH_FAILURE'/>");
+  			this.down('#error-text').update("{{i18n PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_AUTH_FAILURE}}");
   			this.down('#error-text').show();
-  			this.getForm().findField('Username').markInvalid("<i18n:text i18n:key='PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_AUTH_FAILURE'/>");
-  			this.getForm().findField('Password').markInvalid("<i18n:text i18n:key='PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_AUTH_FAILURE'/>");
+  			this.getForm().findField('Username').markInvalid("{{i18n PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_AUTH_FAILURE}}");
+  			this.getForm().findField('Password').markInvalid("{{i18n PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_AUTH_FAILURE}}");
   		}
   	}
   }
@@ -193,7 +193,7 @@ Ext.define('Ametys.public.NewsDialog', {
 Ext.define('Ametys.public.LoginScreen', {
     extend: 'Ext.panel.Panel',
     
-    title: "<i18n:text i18n:key='PLUGINS_CORE_UI_LOGIN_SCREEN_TITLE'/>",
+    title: "{{i18n PLUGINS_CORE_UI_LOGIN_SCREEN_TITLE}}",
     cls : "ametys-auth-screen",
     
     /**

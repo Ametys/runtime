@@ -94,8 +94,8 @@ Ext.define('Ametys.plugins.core.users.UsersTool', {
 			scrollable: true,
 			
 			columns: [
-				{header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_USERS_COL_NAME' i18n:catalogue='plugin.core'/>", width: 250, sortable: true, dataIndex: 'displayName', renderer: Ext.bind(this._renderDisplayName, this), hideable: false},
-				{header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_USERS_COL_EMAIL' i18n:catalogue='plugin.core'/>", flex: 1, sortable: true, dataIndex: 'email'}
+				{header: "{{i18n plugin.core:PLUGINS_CORE_UITOOL_USERS_COL_NAME}}", width: 250, sortable: true, dataIndex: 'displayName', renderer: Ext.bind(this._renderDisplayName, this), hideable: false},
+				{header: "{{i18n plugin.core:PLUGINS_CORE_UITOOL_USERS_COL_EMAIL}}", flex: 1, sortable: true, dataIndex: 'email'}
 			],
 			
 			selModel : {
@@ -116,7 +116,7 @@ Ext.define('Ametys.plugins.core.users.UsersTool', {
 						cls: 'ametys',
 						maxWidth: 400,
 						flex: 1,
-						emptyText: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_USERS_SEARCH_EMPTY_TEXT'/>",
+						emptyText: "{{i18n PLUGINS_CORE_UITOOL_USERS_SEARCH_EMPTY_TEXT}}",
 						listeners: {change: Ext.Function.createBuffered(this._search, 500, this)},
 						style: {
                             marginRight: '0px'
@@ -124,7 +124,7 @@ Ext.define('Ametys.plugins.core.users.UsersTool', {
 					},
 					' ',
 					{
-						html: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_USERS_SEARCH_LIMIT_HELPTEXT'/>",
+						html: "{{i18n PLUGINS_CORE_UITOOL_USERS_SEARCH_LIMIT_HELPTEXT}}",
 						xtype: 'component',
 						cls: 'a-toolbar-text'
 					}]

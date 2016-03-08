@@ -93,8 +93,8 @@ Ext.define('Ametys.helper.ChooseLocation.LoadGoogleMaps', {
 		this._isGoogleMapsLoaded = false;
 		
 		Ametys.log.ErrorDialog.display({
-			title : "<i18n:text i18n:key='LOAD_GOOGLE_MAPS_ERROR'/>",
-			text : "<i18n:text i18n:key='LOAD_GOOGLE_MAPS_ERROR_DESC'/>",
+			title : "{{i18n LOAD_GOOGLE_MAPS_ERROR}}",
+			text : "{{i18n LOAD_GOOGLE_MAPS_ERROR_DESC}}",
 			details : e,
 			category : this.self.getName()
 		});

@@ -27,8 +27,8 @@ Ext.define('Ametys.plugins.admin.restart.RestartActions', {
     forceNormalMode: function()
     {
         Ametys.Msg.show({
-            title: "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_SAVE_CHANGES_LABEL'/>",
-            message: "<i18n:text i18n:key='PLUGINS_ADMIN_RESTART_RESTART_MSG'/>",
+            title: "{{i18n PLUGINS_ADMIN_PLUGINS_SAVE_CHANGES_LABEL}}",
+            message: "{{i18n PLUGINS_ADMIN_RESTART_RESTART_MSG}}",
             icon: Ext.Msg.QUESTION,
             buttons: Ext.Msg.OKCANCEL,
             scope: this,
@@ -46,8 +46,8 @@ Ext.define('Ametys.plugins.admin.restart.RestartActions', {
     forceSafeMode: function()
     {
         Ametys.Msg.show({
-            title: "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_SAVE_CHANGES_LABEL'/>",
-            message: "<i18n:text i18n:key='PLUGINS_ADMIN_RESTART_SAFE_MODE_RESTART_MSG'/>",
+            title: "{{i18n PLUGINS_ADMIN_PLUGINS_SAVE_CHANGES_LABEL}}",
+            message: "{{i18n PLUGINS_ADMIN_RESTART_SAFE_MODE_RESTART_MSG}}",
             icon: Ext.Msg.QUESTION,
             buttons: Ext.Msg.OKCANCEL,
             scope: this,
@@ -66,7 +66,7 @@ Ext.define('Ametys.plugins.admin.restart.RestartActions', {
      */
     restart: function(normalMode, safeMode)
     {
-        Ext.getBody().mask("<i18n:text i18n:key='PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE' i18n:catalogue='plugin.core-ui'/>", '');
+        Ext.getBody().mask("{{i18n plugin.core-ui:PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE}}", '');
             
         var result =  Ext.Ajax.request({
             url: Ametys.getPluginDirectPrefix('admin') + '/restart',
@@ -89,8 +89,8 @@ Ext.define('Ametys.plugins.admin.restart.RestartActions', {
                     }
                     
                     Ametys.log.ErrorDialog.display({
-                        title: "<i18n:text i18n:key='PLUGINS_ADMIN_RESTART_RESTART_FAILED'/>", 
-                        text: "<i18n:text i18n:key='PLUGINS_ADMIN_RESTART_RESTART_FAILED_MSG'/>",
+                        title: "{{i18n PLUGINS_ADMIN_RESTART_RESTART_FAILED}}", 
+                        text: "{{i18n PLUGINS_ADMIN_RESTART_RESTART_FAILED_MSG}}",
                         details: '',
                         category: 'Ametys.plugins.admin.restart'
                     });

@@ -52,14 +52,14 @@ Ext.define('Ametys.form.field.Password', {
          * @property {String} 
          * the tooltip of the button for changing the password
          */
-        RESET_PASSWORD_TEXT: "<i18n:text i18n:key='PLUGINS_CORE_UI_PASSWORD_RESET'/>",
+        RESET_PASSWORD_TEXT: "{{i18n PLUGINS_CORE_UI_PASSWORD_RESET}}",
         /**
          * @protected
          * @readonly
          * @property {String} 
          * the tooltip of the button for resetting the password
          */
-        CHANGE_PASSWORD_TEXT: "<i18n:text i18n:key='PLUGINS_CORE_UI_PASSWORD_CHANGE'/>"
+        CHANGE_PASSWORD_TEXT: "{{i18n PLUGINS_CORE_UI_PASSWORD_CHANGE}}"
     },
     
     /**

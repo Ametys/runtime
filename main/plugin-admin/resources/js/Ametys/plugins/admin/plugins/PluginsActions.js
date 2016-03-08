@@ -81,7 +81,7 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsActions', {
 			
 			Ametys.plugins.admin.plugins.PluginsDAO.activateExtensionPoint (targetParameters.pluginName + "/" + targetParameters.featureName);
 			
-			Ext.MessageBox.alert("<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_CHANGES_ALERT_TITLE'/>", "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_CHANGES_ALERT_TEXT'/>");
+			Ext.MessageBox.alert("{{i18n PLUGINS_ADMIN_PLUGINS_CHANGES_ALERT_TITLE}}", "{{i18n PLUGINS_ADMIN_PLUGINS_CHANGES_ALERT_TEXT}}");
 			this._sendModifyingMessage(targetParameters.pluginName);
 		}
 	},
@@ -98,7 +98,7 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsActions', {
 			var targetParameters = target.getParameters();
 			Ametys.plugins.admin.plugins.PluginsDAO.deactivateExtensionPoint (targetParameters.pluginName + "/" + targetParameters.featureName);
 			
-			Ext.MessageBox.alert("<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_CHANGES_ALERT_TITLE'/>", "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_CHANGES_ALERT_TEXT'/>");
+			Ext.MessageBox.alert("{{i18n PLUGINS_ADMIN_PLUGINS_CHANGES_ALERT_TITLE}}", "{{i18n PLUGINS_ADMIN_PLUGINS_CHANGES_ALERT_TEXT}}");
 			this._sendModifyingMessage(targetParameters.pluginName);
 		}
 	},
@@ -116,7 +116,7 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsActions', {
 			
 			Ametys.plugins.admin.plugins.PluginsDAO.selectComponent(targetParameters.parentName, targetParameters.componentId);
 			
-			Ext.MessageBox.alert("<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_CHANGES_ALERT_TITLE'/>", "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_CHANGES_ALERT_TEXT'/>");
+			Ext.MessageBox.alert("{{i18n PLUGINS_ADMIN_PLUGINS_CHANGES_ALERT_TITLE}}", "{{i18n PLUGINS_ADMIN_PLUGINS_CHANGES_ALERT_TEXT}}");
 			this._sendModifyingMessage(targetParameters.pluginName);
 		}
 	},
@@ -167,8 +167,8 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsActions', {
 	 */
 	saveChanges: function(controller)
 	{
-		Ext.MessageBox.alert("<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_CHANGES_BEWARE_TITLE'/>", 
-				"<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_CHANGES_BEWARE_TEXT'/>",
+		Ext.MessageBox.alert("{{i18n PLUGINS_ADMIN_PLUGINS_CHANGES_BEWARE_TITLE}}", 
+				"{{i18n PLUGINS_ADMIN_PLUGINS_CHANGES_BEWARE_TEXT}}",
 				Ext.bind(function ()
 				{
 					var cmpchanges = "";
@@ -182,25 +182,25 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsActions', {
 					var ep = Ametys.plugins.admin.plugins.PluginsDAO.getModifiedExtensionPoints();
 					for (var i in ep)
 					{
-						epchanges += i + " : " + (ep[i] ? "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_ACTIVATE_LABEL'/>" : "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_DEACTIVATE_LABEL'/>") + "<br/>";
+						epchanges += i + " : " + (ep[i] ? "{{i18n PLUGINS_ADMIN_PLUGINS_ACTIVATE_LABEL}}" : "{{i18n PLUGINS_ADMIN_PLUGINS_DEACTIVATE_LABEL}}") + "<br/>";
 					}
 					
 					var changes = "";
 					if (cmpchanges != "")
 					{
-						changes += "<b><i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_CHANGES_CMP'/></b><br/>"
+						changes += "<b>{{i18n PLUGINS_ADMIN_PLUGINS_CHANGES_CMP}}</b><br/>"
 								   + cmpchanges;
 					}
 					if (epchanges != "")
 					{
-						changes += "<b><i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_CHANGES_EP'/></b><br/>"
+						changes += "<b>{{i18n PLUGINS_ADMIN_PLUGINS_CHANGES_EP}}</b><br/>"
 								   + epchanges;
 					}
 					
-					Ext.MessageBox.confirm("<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_CHANGES_CONFIRM_TITLE'/>", 
-							"<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_CHANGES_CONFIRM_TEXT_START'/><ul>"
+					Ext.MessageBox.confirm("{{i18n PLUGINS_ADMIN_PLUGINS_CHANGES_CONFIRM_TITLE}}", 
+							"{{i18n PLUGINS_ADMIN_PLUGINS_CHANGES_CONFIRM_TEXT_START}}<ul>"
 							+ changes
-							+ "</ul><i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_CHANGES_CONFIRM_TEXT_END'/>", 
+							+ "</ul>{{i18n PLUGINS_ADMIN_PLUGINS_CHANGES_CONFIRM_TEXT_END}}", 
 							function(val) { if (val == "yes") { this._saveChangesNow(controller._pluginName); } }, this);
 				}, this));
 	},
@@ -226,13 +226,13 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsActions', {
 				arguments: {pluginName: pluginName},
 			},
 			errorMessage: {
-				msg: "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_SAVE_CHANGES_ERROR'/>",
+				msg: "{{i18n PLUGINS_ADMIN_PLUGINS_SAVE_CHANGES_ERROR}}",
 				category: this.self.getName()
 			},
 			responseType: null
 		});
 		
-		Ext.getBody().mask("<i18n:text i18n:key='PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE' i18n:catalogue='plugin.core-ui'/>");
+		Ext.getBody().mask("{{i18n plugin.core-ui:PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE}}");
 	},
 
 	/**
@@ -246,9 +246,9 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsActions', {
 	{
 		Ext.getBody().unmask();
 
-	    Ametys.Msg.alert("<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_SAVE_CHANGES_LABEL'/>", "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_CHANGES_DONE'/>");
+	    Ametys.Msg.alert("{{i18n PLUGINS_ADMIN_PLUGINS_SAVE_CHANGES_LABEL}}", "{{i18n PLUGINS_ADMIN_PLUGINS_CHANGES_DONE}}");
 
-	    Ext.getBody().mask("<i18n:text i18n:key='PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE' i18n:catalogue='plugin.core-ui'/>");
+	    Ext.getBody().mask("{{i18n plugin.core-ui:PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE}}");
 	    
 	    // Restart
 	    Ext.Ajax.request({url: Ametys.getPluginDirectPrefix(args.pluginName) + "/restart", params: "", async: false});

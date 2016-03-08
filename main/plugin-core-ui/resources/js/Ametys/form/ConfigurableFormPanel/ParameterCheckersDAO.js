@@ -357,7 +357,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 				   '</tr>' +
 				   '<tr>' +
 				     	'<td colspan="2">' +
-			   				"- <i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TOOLTIP_TESTED_PARAMS'/>" + paramChecker.linkedParamsLabels +
+			   				"- {{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TOOLTIP_TESTED_PARAMS}}" + paramChecker.linkedParamsLabels +
 			   			'</td>' +
 				   '</tr>' +
 			'</table>'
@@ -500,30 +500,30 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
     {
 		var tipHtml = [],
 			tpl = new Ext.XTemplate(
-			   					"<tpl if='status == " + Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_NOT_TESTED + "'><i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_NOT_TESTED'/></tpl>" +
-					   			"<tpl if='status == " + Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_SUCCESS + "'><i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_SUCCESS'/></tpl>" +
-					   			"<tpl if='status == " + Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_FAILURE + "'><i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_FAILURE'/></br>" +
+			   					"<tpl if='status == " + Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_NOT_TESTED + "'>{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_NOT_TESTED}}</tpl>" +
+					   			"<tpl if='status == " + Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_SUCCESS + "'>{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_SUCCESS}}</tpl>" +
+					   			"<tpl if='status == " + Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_FAILURE + "'>{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_FAILURE}}</br>" +
 					   				'<tr>' + 
 					   					'<td colspan="2">' +
-					   						"- <i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TOOLTIP_MESSAGE'/> <strong>" + paramChecker.errorMsg + "</strong>" +
+					   						"- {{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TOOLTIP_MESSAGE}} <strong>" + paramChecker.errorMsg + "</strong>" +
 				   						'</td>' +
 			   						'</tr>' +
 				   				"</tpl>" +
 				   				"<tpl if='status == " + Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_DEACTIVATED + "'>" +
-				   					"<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_DEACTIVATED'/> </br>" +
+				   					"{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_DEACTIVATED}} </br>" +
 				   					'<tr>' + 
 				   						'<td colspan="2">' +
-				   							"<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TOOLTIP_MESSAGE'/>" +
-				   							"<strong><i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TOOLTIP_DEACTIVATED_MESSAGE'/></strong>" +
+				   							"{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TOOLTIP_MESSAGE}}" +
+				   							"<strong>{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TOOLTIP_DEACTIVATED_MESSAGE}}</strong>" +
 											'</td>' +
 			   						'</tr>' +
 								"</tpl>" +
 			   					"<tpl if='status == " + Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_WARNING + "'>" +
-					   				"<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_WARNING'/> </br>" +
+					   				"{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_WARNING}} </br>" +
 					   				"<tpl if='errorMsg != null'>" +
 				  		   				'<tr>' + 
 				  		   					'<td colspan="2">' +
-				  		   						"<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TOOLTIP_MESSAGE2'/> <strong>" + paramChecker.errorMsg + "</strong>" +
+				  		   						"{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TOOLTIP_MESSAGE2}} <strong>" + paramChecker.errorMsg + "</strong>" +
 					   						'</td>' +
 				   						'</tr>' +
 			   						'</tpl>' +
@@ -566,7 +566,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 				success = paramChecker.getStatus() == Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_SUCCESS,
 				failure = paramChecker.getStatus() == Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_FAILURE,
 				warning = paramChecker.getStatus() == Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_WARNING,
-				warningMsg = "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_WARNING_TEXT_BEGINNING'/>" + paramChecker.label + "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_WARNING_TEXT_END'/>";	
+				warningMsg = "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_WARNING_TEXT_BEGINNING}}" + paramChecker.label + "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_WARNING_TEXT_END}}";	
 			
 			Ext.Array.each(paramChecker.linkedParams, function(linkedParam){
 				var linkedParamField = me._form.getForm().findField(linkedParam);
@@ -614,15 +614,15 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 				switch (uiRefType)
 				{
 					case 'category':
-						firstSentence = "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_UI_REF_CATEGORY'/>";
+						firstSentence = "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_UI_REF_CATEGORY}}";
 						break;
 				
 					case 'group':
-						firstSentence = "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_UI_REF_GROUP'/>";
+						firstSentence = "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_UI_REF_GROUP}}";
 						break;
 						
 					case 'parameter':
-						firstSentence = "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_UI_REF_PARAMETER'/>";
+						firstSentence = "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_UI_REF_PARAMETER}}";
 						break;
 					
 					default:
@@ -640,8 +640,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 		if (nbErrors > 0)
 		{
 			Ametys.log.ErrorDialog.display({
-				title: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_ERROR'/>", 
-				text: nbErrors > 1 ? nbErrors + " <i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_ERROR_TEXT'/>" : "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_SINGLE_ERROR_TEXT'/>",
+				title: "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_ERROR}}", 
+				text: nbErrors > 1 ? nbErrors + " {{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_ERROR_TEXT}}" : "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_SINGLE_ERROR_TEXT}}",
 	    		category: this.self.getName(),
 	    		details: details
 			});
@@ -709,8 +709,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
         if (!success)
         {
             Ametys.log.ErrorDialog.display({
-                title: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_SERVER_CALL_ERROR_TITLE'/>", 
-                text: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_SERVER_CALL_ERROR_TEXT'/>",
+                title: "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_SERVER_CALL_ERROR_TITLE}}", 
+                text: "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_SERVER_CALL_ERROR_TEXT}}",
                 category: this.self.getName()
             });
             

@@ -37,7 +37,7 @@ Ext.define('Ametys.form.SaveHelper.SaveErrorDialog', {
 	showErrorDialog: function (title, msg, detailedMsg)
 	{
 		this._delayedInitialized();
-		this._errorDialog.setTitle (title || "<i18n:text i18n:key='PLUGINS_CORE_UI_SAVE_ACTION_FAILED_TITLE'/>");
+		this._errorDialog.setTitle (title || "{{i18n PLUGINS_CORE_UI_SAVE_ACTION_FAILED_TITLE}}");
 		
 		this._errorDialog.items.get(0).update(msg);
 		this._errorDialog.items.get(1).update(detailedMsg);
@@ -55,7 +55,7 @@ Ext.define('Ametys.form.SaveHelper.SaveErrorDialog', {
 		{
 			this._errorDialog = Ext.create('Ametys.window.DialogBox', {
 		    	
-		    	title: "<i18n:text i18n:key='PLUGINS_CORE_UI_SAVE_ACTION_FAILED_TITLE'/>",
+		    	title: "{{i18n PLUGINS_CORE_UI_SAVE_ACTION_FAILED_TITLE}}",
 		    	icon: Ametys.getPluginResourcesPrefix('core-ui') + "/img/error_16.gif",
 		    	
 				width: 450,
@@ -80,7 +80,7 @@ Ext.define('Ametys.form.SaveHelper.SaveErrorDialog', {
 							
 				closeAction: 'hide',
 				buttons : [ {
-						text : "<i18n:text i18n:key='PLUGINS_CORE_UI_SAVE_ACTION_FAILED_OK_BTN'/>",
+						text : "{{i18n PLUGINS_CORE_UI_SAVE_ACTION_FAILED_OK_BTN}}",
 						handler : function () { this._errorDialog.close()},
 						scope: this
 					}

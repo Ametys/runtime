@@ -59,7 +59,7 @@ Ext.define('Ametys.plugins.coreui.system.Announce', {
     {
         this._sendCheckMessage();
         
-        if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_UI_TOOL_ANNOUNCE_ERROR_TITLE'/>", response, 'Ametys.plugins.coreui.system.Announce'))
+        if (Ametys.data.ServerComm.handleBadResponse("{{i18n PLUGINS_CORE_UI_TOOL_ANNOUNCE_ERROR_TITLE}}", response, 'Ametys.plugins.coreui.system.Announce'))
         {
             return;
         }
@@ -75,7 +75,7 @@ Ext.define('Ametys.plugins.coreui.system.Announce', {
                 this._lastModification = lastModification;
                 
                 Ext.getCmp("ribbon").addMessage({
-                    title: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOL_ANNOUNCE_TITLE'/>",
+                    title: "{{i18n PLUGINS_CORE_UI_TOOL_ANNOUNCE_TITLE}}",
                     text: message,
                     closeable: true,
                     type: "info"

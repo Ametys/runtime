@@ -68,7 +68,7 @@ Ext.define("Ametys.helper.ChooseColor", {
         });
 
         this._box = Ext.create('Ametys.window.DialogBox', {
-            title: "<i18n:text i18n:key='PLUGINS_CORE_UI_COLORSELECTOR_OTHERS_COLORS'/>",
+            title: "{{i18n PLUGINS_CORE_UI_COLORSELECTOR_OTHERS_COLORS}}",
             width: 600,
             scrollable: false,
 
@@ -76,10 +76,10 @@ Ext.define("Ametys.helper.ChooseColor", {
 
             closeAction: 'hide',
             buttons: [{
-                text: "<i18n:text i18n:key='PLUGINS_CORE_UI_HELPER_CHOOSECOLOR_OK'/>",
+                text: "{{i18n PLUGINS_CORE_UI_HELPER_CHOOSECOLOR_OK}}",
                 handler: Ext.bind(this._validate, this)
             }, {
-                text: "<i18n:text i18n:key='PLUGINS_CORE_UI_HELPER_CHOOSECOLOR_CANCEL'/>",
+                text: "{{i18n PLUGINS_CORE_UI_HELPER_CHOOSECOLOR_CANCEL}}",
                 handler: Ext.bind(this._cancel, this)
             }]
         });

@@ -27,8 +27,8 @@ Ext.define('Ametys.plugins.coreui.system.reload.ReloadActions', {
 	reload: function()
 	{
 		Ametys.Msg.show({
-		    title: "<i18n:text i18n:key='PLUGINS_CORE_UI_RELOAD_WORKSPACE_PROMPT_LABEL'/>",
-		    msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_RELOAD_WORKSPACE_PROMPT_DESC'/>",
+		    title: "{{i18n PLUGINS_CORE_UI_RELOAD_WORKSPACE_PROMPT_LABEL}}",
+		    msg: "{{i18n PLUGINS_CORE_UI_RELOAD_WORKSPACE_PROMPT_DESC}}",
 		    buttons: Ext.Msg.OKCANCEL,
 		    fn: Ext.bind(this._reloadNow, this),
 		    icon: Ext.window.MessageBox.QUESTION

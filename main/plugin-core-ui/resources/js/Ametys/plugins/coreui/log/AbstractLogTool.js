@@ -37,7 +37,7 @@ Ext.define('Ametys.plugins.coreui.log.AbstractLogTool', {
     {
         this.callParent(arguments);
         
-        this.noselectDetailMessage = this.getInitialConfig("noselect-detail-message") || "<i18n:text i18n:key='PLUGINS_CORE_UI_LOGTOOL_DEFAULT_DETAIL_MESSAGE'/>";
+        this.noselectDetailMessage = this.getInitialConfig("noselect-detail-message") || "{{i18n PLUGINS_CORE_UI_LOGTOOL_DEFAULT_DETAIL_MESSAGE}}";
         this.verticalPanelLayout = this.getInitialConfig("vertical-panel-layout") != null ? this.getInitialConfig("vertical-panel-layout") : true;
     },
     
@@ -175,11 +175,11 @@ Ext.define('Ametys.plugins.coreui.log.AbstractLogTool', {
         var count = this.grid.getStore().getCount();
         if (count > 0)
         {
-            statusbar.setStatus(Ext.String.format("<i18n:translate><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_SERVERLOGS_GRID_STATUSBAR'/><i18n:param>{0}</i18n:param></i18n:translate>", count));
+            statusbar.setStatus(Ext.String.format("{{i18n PLUGINS_CORE_UI_TOOLS_SERVERLOGS_GRID_STATUSBAR}}", count));
         }
         else
         {
-            statusbar.setStatus("<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_SERVERLOGS_GRID_STATUSBAR_EMPTY'/>");
+            statusbar.setStatus("{{i18n PLUGINS_CORE_UI_TOOLS_SERVERLOGS_GRID_STATUSBAR_EMPTY}}");
         }
     },
     

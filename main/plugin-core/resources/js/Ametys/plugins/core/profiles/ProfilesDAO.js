@@ -52,7 +52,7 @@ Ext.define(
 	     		},
 	     		errorMessage: {
 					category: this.self.getName(),
-					msg: "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_ADD_ERROR'/>"
+					msg: "{{i18n PLUGINS_CORE_PROFILES_ADD_ERROR}}"
 				}
 			});
 			
@@ -85,7 +85,7 @@ Ext.define(
 	     		},
 	     		errorMessage: {
 					category: this.self.getName(),
-					msg: "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_RENAME_ERROR'/>"
+					msg: "{{i18n PLUGINS_CORE_PROFILES_RENAME_ERROR}}"
 				}
 			});
 			
@@ -118,7 +118,7 @@ Ext.define(
 	     		},
 	     		errorMessage: {
 					category: this.self.getName(),
-					msg: "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS_ERROR'/>"
+					msg: "{{i18n PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS_ERROR}}"
 				}
 			});
 			
@@ -150,7 +150,7 @@ Ext.define(
 	         		handler: this._deleteProfilesCb
 	     		},
 				errorMessage: {
-				    msg: "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_DELETE_ERROR'/>",
+				    msg: "{{i18n PLUGINS_CORE_PROFILES_DELETE_ERROR}}",
 				    category: Ext.getClassName(this)
 				}
 			});
@@ -179,7 +179,7 @@ Ext.define(
 			    role: "org.ametys.plugins.core.right.profile.ProfileDAO",
 				methodName: "getProfile",
 				errorMessage: {
-				    msg: "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_INFOS_ERROR'/>",
+				    msg: "{{i18n PLUGINS_CORE_PROFILES_INFOS_ERROR}}",
 				    category: Ext.getClassName(this)
 				}
 			});
@@ -213,7 +213,7 @@ Ext.define(
                     handler: this._addUsersCb
                 },
 				errorMessage: {
-				    msg: "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_ERROR'/>",
+				    msg: "{{i18n PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_ERROR}}",
 				    category: Ext.getClassName(this) + '.addUsers'
 				}
 			});
@@ -247,7 +247,7 @@ Ext.define(
                     handler: this._addGroupsCb
                 },
                 errorMessage: {
-                    msg: "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDGROUP_ERROR'/>",
+                    msg: "{{i18n PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDGROUP_ERROR}}",
                     category: Ext.getClassName(this) + '.addGroups'
                 }
             });
@@ -282,7 +282,7 @@ Ext.define(
                     handler: this._removeAssignmentCb
                 },
 				errorMessage: {
-				    msg: "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_ERROR'/>",
+				    msg: "{{i18n PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_ERROR}}",
 				    category: Ext.getClassName(this) + '.removeAssignment'
 				}
 			});

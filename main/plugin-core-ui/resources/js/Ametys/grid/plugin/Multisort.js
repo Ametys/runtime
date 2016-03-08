@@ -225,7 +225,7 @@ Ext.define('Ametys.grid.plugin.Multisort',
         	items  : [
 	            {
 	                xtype: 'tbtext',
-	                text: "<i18n:text i18n:key='PLUGINS_CORE_UI_MULTISORT_TOOLBAR_TEXT'/>",
+	                text: "{{i18n PLUGINS_CORE_UI_MULTISORT_TOOLBAR_TEXT}}",
 	                reorderable: false
             	}
         	],
@@ -275,7 +275,7 @@ Ext.define('Ametys.grid.plugin.Multisort',
         				renderTo: cmpId,
                         
                         iconCls: "a-grid-multisort-toolbar-toggle-img",
-        				tooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_MULTISORT_SHOW_TOOLBAR_BUTTON_TOOLTIP'/>",
+        				tooltip: "{{i18n PLUGINS_CORE_UI_MULTISORT_SHOW_TOOLBAR_BUTTON_TOOLTIP}}",
                         
 	        			ui: 'ametys-grid-multisort-toggle',
                         
@@ -285,7 +285,7 @@ Ext.define('Ametys.grid.plugin.Multisort',
                         enableToggle: true,
         				toggleHandler: function(btn, state) {
 							me.getCmp().getDockedItems('toolbar[dock="top"]')[0].setVisible(state);
-    						btn.setTooltip(state ? "<i18n:text i18n:key='PLUGINS_CORE_UI_MULTISORT_HIDE_TOOLBAR_BUTTON_TOOLTIP'/>" : "<i18n:text i18n:key='PLUGINS_CORE_UI_MULTISORT_SHOW_TOOLBAR_BUTTON_TOOLTIP'/>");
+    						btn.setTooltip(state ? "{{i18n PLUGINS_CORE_UI_MULTISORT_HIDE_TOOLBAR_BUTTON_TOOLTIP}}" : "{{i18n PLUGINS_CORE_UI_MULTISORT_SHOW_TOOLBAR_BUTTON_TOOLTIP}}");
 	        			}
         			});
 

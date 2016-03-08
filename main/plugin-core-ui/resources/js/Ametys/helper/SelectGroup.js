@@ -140,7 +140,7 @@ Ext.define('Ametys.helper.SelectGroup', {
 			labelWidth :70,
 			width: 210,
 			
-			fieldLabel: "<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_FIND'/>",
+			fieldLabel: "{{i18n PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_FIND}}",
 			name: "criteria",
 			value: "",
 			 
@@ -175,7 +175,7 @@ Ext.define('Ametys.helper.SelectGroup', {
 		});	
 		
 		this._box = Ext.create('Ametys.window.DialogBox', {
-			title : this.allowMultiselection ? "<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_SELECTGROUPS_DIALOG_CAPTION'/>" : "<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CAPTION'/>",
+			title : this.allowMultiselection ? "{{i18n PLUGINS_CORE_UI_GROUPS_SELECTGROUPS_DIALOG_CAPTION}}" : "{{i18n PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CAPTION}}",
 			layout: {
 			    type: 'vbox',
 			    align : 'stretch',
@@ -194,7 +194,7 @@ Ext.define('Ametys.helper.SelectGroup', {
 			        		 textAlign: 'center'
 			        	 },
 			        	 cls: 'a-text-warning',
-			        	 html: "<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_WARN100'/>"
+			        	 html: "{{i18n PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_WARN100}}"
 			         }
 			],
 			
@@ -202,10 +202,10 @@ Ext.define('Ametys.helper.SelectGroup', {
 			closeAction: 'hide',
 			
 			buttons : [ {
-				text :"<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_OK'/>",
+				text :"{{i18n PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_OK}}",
 				handler : Ext.bind(this.ok, this)
 			}, {
-				text :"<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CANCEL'/>",
+				text :"{{i18n PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CANCEL}}",
 				handler : Ext.bind(this.cancel, this)
 			} ]
 		});
@@ -246,8 +246,8 @@ Ext.define('Ametys.helper.SelectGroup', {
 		if (records.length == 0)
 		{
 			Ametys.Msg.show({
-			   title: this.allowMultiselection ? "<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_SELECTGROUPS_DIALOG_CAPTION'/>" : "<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CAPTION'/>",
-			   msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_NORESULT'/>",
+			   title: this.allowMultiselection ? "{{i18n PLUGINS_CORE_UI_GROUPS_SELECTGROUPS_DIALOG_CAPTION}}" : "{{i18n PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CAPTION}}",
+			   msg: "{{i18n PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_NORESULT}}",
 			   buttons: Ext.Msg.OK,
 			   icon: Ext.MessageBox.INFO
 			});
@@ -281,8 +281,8 @@ Ext.define('Ametys.helper.SelectGroup', {
 		if (selection.length == 0)
 		{
 			Ametys.Msg.show({
-				   title: this.allowMultiselection ? "<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_SELECTGROUPS_DIALOG_CAPTION'/>" : "<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CAPTION'/>",
-				   msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_ERROR_EMPTY'/>",
+				   title: this.allowMultiselection ? "{{i18n PLUGINS_CORE_UI_GROUPS_SELECTGROUPS_DIALOG_CAPTION}}" : "{{i18n PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CAPTION}}",
+				   msg: "{{i18n PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_ERROR_EMPTY}}",
 				   buttons: Ext.Msg.OK,
 				   icon: Ext.MessageBox.INFO
 				});

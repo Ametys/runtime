@@ -86,8 +86,8 @@ Ext.define('Ametys.plugins.admin.jvmstatus.SystemPropertiesTool', {
 			store : store,
 			
 		    columns: [
-		        {stateId: 'grid-name', header: "<i18n:text i18n:key='PLUGINS_ADMIN_TOOL_SYSTEMPROPERTIES_COL_NAME'/>", menuDisabled : true, sortable: true, flex: 1, dataIndex: 'name' },
-		        {stateId: 'grid-value', header: "<i18n:text i18n:key='PLUGINS_ADMIN_TOOL_SYSTEMPROPERTIES_COL_VALUE'/>", menuDisabled : true, sortable: true, flex: 1, dataIndex: 'value' }
+		        {stateId: 'grid-name', header: "{{i18n PLUGINS_ADMIN_TOOL_SYSTEMPROPERTIES_COL_NAME}}", menuDisabled : true, sortable: true, flex: 1, dataIndex: 'name' },
+		        {stateId: 'grid-value', header: "{{i18n PLUGINS_ADMIN_TOOL_SYSTEMPROPERTIES_COL_VALUE}}", menuDisabled : true, sortable: true, flex: 1, dataIndex: 'value' }
 		    ]
 		})
 	},

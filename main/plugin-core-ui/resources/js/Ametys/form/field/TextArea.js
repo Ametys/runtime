@@ -48,9 +48,9 @@
 			config.afterSubTpl = config.afterSubTpl || Ext.create('Ext.XTemplate', [
 				'<div id="{id}-counter-wrapper" class="' + this.charCounterWrapperCls + '">',
 		 			'<span id="{id}-counter" class="' + this.charCounterCls + '">',
-		 				'<i18n:text i18n:key="PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_1"/> ',
+		 				'{{i18n PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_1}} ',
 		 				'<span id="{id}-counter-val" class="char-counter-value">0</span>',
-		 				(config.maxLength == null ? '' : (' <i18n:text i18n:key="PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_2"/> ' + config.maxLength)),
+		 				(config.maxLength == null ? '' : (' {{i18n PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_2}} ' + config.maxLength)),
 		 			'</span>',
 				'</div>'
 			]);

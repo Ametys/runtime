@@ -40,7 +40,7 @@
 
     <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_MESSAGE_CLOSE_DESCRIPTION">Fermer ce message</message>
     <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_PLACEHOLDER">Rechercher une fonctionnalité...</message>
-    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_SEARCHITEM_LABEL">Obtenir de l'aide sur \"[text]\"</message>
+    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_SEARCHITEM_LABEL">Obtenir de l'aide sur \"[\{0\}]\"</message>
     <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_ITEMS_AVAILABLE">Fonctionnalités</message>
     <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_ITEMS_UNAVAILABLE">Fonctionnalités indisponibles</message>
     
@@ -754,7 +754,7 @@
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_DESCRIPTION">Consultez les journaux du serveur en temps réel.</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_STOP_REQUESTS">Mettre en pause la réception des messages du serveur.</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CLEAR_GRID">Vide la liste des messages reçus.</message>
-    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_GRID_STATUSBAR">{0} message(s) affiché(s).</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_GRID_STATUSBAR">\{0\} message(s) affiché(s).</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_GRID_STATUSBAR_EMPTY">Aucun message affiché.</message>
     <message key="PLUGINS_CORE_UI_LOGTOOL_DEFAULT_DETAIL_MESSAGE">Sélectionnez un message dans la partie ci-contre pour afficher son détail.</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_TIMESTAMP_TEXT">Date :</message>

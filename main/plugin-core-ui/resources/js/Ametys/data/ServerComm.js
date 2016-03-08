@@ -467,13 +467,13 @@ Ext.define(
 					}
 				}
 				
-				if (!this._off && confirm("<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE'/>"))
+				if (!this._off && confirm("{{i18n PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE}}"))
 				{
 					return null; // this._sendSynchronousMessage(messageRequest);
 				}
 				else
 				{
-					Ametys.shutdown("<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1'/>", "<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2'/>");
+					Ametys.shutdown("{{i18n PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1}}", "{{i18n PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2}}");
 					return null;
 				}
 			}
@@ -493,7 +493,7 @@ Ext.define(
 			if (conn.responseXML == null)
 			{
 
-				if (confirm("<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_NOTXML_DESC'/>") && !this._off)
+				if (confirm("{{i18n PLUGINS_CORE_UI_SERVERCOMM_NOTXML_DESC}}") && !this._off)
 				{
 					return null; // this._sendSynchronousMessage(messageRequest);
 				}
@@ -756,13 +756,13 @@ Ext.define(
 				}
 			}
 			
-			if (!this._off && (response.responseXML != null || confirm("<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_NOTXML_DESC'/>")))
+			if (!this._off && (response.responseXML != null || confirm("{{i18n PLUGINS_CORE_UI_SERVERCOMM_NOTXML_DESC}}")))
 			{
 				this._dispatch(response, options);
 			}
 			else
 			{
-				Ametys.shutdown("<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1'/>", "<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2'/>");
+				Ametys.shutdown("{{i18n PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1}}", "{{i18n PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2}}");
 			}
 		},
 
@@ -803,7 +803,7 @@ Ext.define(
 					var badResponse = false;
 					if (message.errorMessage != null && message.errorMessage !== false)
 					{
-						var msg = "<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_ERROR_DESC'/>";
+						var msg = "{{i18n PLUGINS_CORE_UI_SERVERCOMM_ERROR_DESC}}";
 						var category = this.self.getName(); 
 						
 						if (Ext.isString(message.errorMessage))
@@ -842,8 +842,8 @@ Ext.define(
     							Ext.defer(throwException, 1, this, [e]);
     							
     							Ametys.log.ErrorDialog.display({
-    								title: "<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_ERROR_TITLE'/>",
-    								text: "<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_ERROR_DESC'/>",
+    								title: "{{i18n PLUGINS_CORE_UI_SERVERCOMM_ERROR_TITLE}}",
+    								text: "{{i18n PLUGINS_CORE_UI_SERVERCOMM_ERROR_DESC}}",
     								details: e,
     								category: "Ametys.data.ServerComm"
     							});
@@ -877,13 +877,13 @@ Ext.define(
 				}
 			}
 
-			if (!this._off && confirm("<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE'/>"))
+			if (!this._off && confirm("{{i18n PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE}}"))
 			{
 				this._dispatch(response, options);
 			}
 			else
 			{
-				Ametys.shutdown("<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1'/>", "<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2'/>");
+				Ametys.shutdown("{{i18n PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1}}", "{{i18n PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2}}");
 			}
 		},
 		
@@ -911,9 +911,9 @@ Ext.define(
 				if (response == null)
 				{
 					Ametys.log.ErrorDialog.display({
-							title: "<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_BADRESPONSE_TITLE'/>", 
+							title: "{{i18n PLUGINS_CORE_UI_SERVERCOMM_BADRESPONSE_TITLE}}", 
 							text: message,
-							details: "<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_BADRESPONSE_DESC'/>",
+							details: "{{i18n PLUGINS_CORE_UI_SERVERCOMM_BADRESPONSE_DESC}}",
 							category: category
 					});
 				}
@@ -925,7 +925,7 @@ Ext.define(
 					var hasStk = intStk != null && intStk != "";
 						
 					Ametys.log.ErrorDialog.display({
-							title: "<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_SERVER_FAILED_DESC'/>" + response.getAttribute("code") + ")", 
+							title: "{{i18n PLUGINS_CORE_UI_SERVERCOMM_SERVER_FAILED_DESC}}" + response.getAttribute("code") + ")", 
 							text: message,
 							details: (hasMsg ? intMsg : "")
 							+ (hasMsg && hasStk ? "\n\n" : "")

@@ -144,7 +144,7 @@ Ext.define("Ametys.relation.RelationManager",
 			var indexes = Ext.Object.getKeys(possibleRelations);
 			if (indexes.length == 0)
 			{
-				Ametys.Msg.alert("<i18n:text i18n:key='PLUGINS_CORE_UI_RELATIONS_UNSUPPORTED_MOVE_LABEL'/>", "<i18n:text i18n:key='PLUGINS_CORE_UI_RELATIONS_UNSUPPORTED_MOVE_DESCRIPTION'/>");
+				Ametys.Msg.alert("{{i18n PLUGINS_CORE_UI_RELATIONS_UNSUPPORTED_MOVE_LABEL}}", "{{i18n PLUGINS_CORE_UI_RELATIONS_UNSUPPORTED_MOVE_DESCRIPTION}}");
 				this.getLogger().warn("No RelationHandler supports one of the compatible relations");
 				callback(false);
 				return;

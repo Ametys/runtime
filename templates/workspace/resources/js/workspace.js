@@ -15,7 +15,7 @@
  */
 
 // Dummy log message.
-alert("<i18n:text i18n:key='WORKSPACE_TEMPLATE_ALERT'/>");
+alert("{{i18n WORKSPACE_TEMPLATE_ALERT}}");
 
 var logger = Ametys.log.LoggerFactory.getLoggerFor("templates.workspace");
 if (logger.isInfoEnabled())

@@ -329,8 +329,8 @@ Ext.define("Ametys.tool.ToolsManager",
 			catch (e)
 			{
 				Ametys.log.ErrorDialog.display({
-					title: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLS_OPEN_ERROR_TITLE'/>",
-					text: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLS_OPEN_ERROR_TEXT'/>",
+					title: "{{i18n PLUGINS_CORE_UI_MSG_TOOLS_OPEN_ERROR_TITLE}}",
+					text: "{{i18n PLUGINS_CORE_UI_MSG_TOOLS_OPEN_ERROR_TEXT}}",
 					details: e,
 					category: this.self.getName()
 				});

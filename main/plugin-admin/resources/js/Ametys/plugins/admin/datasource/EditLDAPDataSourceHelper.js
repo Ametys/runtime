@@ -98,7 +98,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
 			});
 			
 			this._box = Ext.create('Ametys.window.DialogBox', {
-				title: this._mode == 'new' ? "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_ADD_TITLE'/>" : "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_EDIT_TITLE'/>",
+				title: this._mode == 'new' ? "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_ADD_TITLE}}" : "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_EDIT_TITLE}}",
 				icon: Ametys.getPluginResourcesPrefix('admin') + '/img/datasource/' + (this._mode == 'new' ? 'add_16.png' : 'edit_16.png'),
 				
 				layout: 'fit',
@@ -107,10 +107,10 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
 				
 				closeAction: 'hide',
 				buttons : [{
-					text: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_OK'/>",
+					text: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_OK}}",
 					handler: Ext.bind(this._ok, this)
 				}, {
-					text: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_CANCEL'/>",
+					text: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_CANCEL}}",
 					handler: Ext.bind(function() {this._box.hide();}, this)
 				}]
 			});
@@ -119,7 +119,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
 		}
 		else
 		{
-			this._box.setTitle(this._mode == 'new' ? "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_ADD_TITLE'/>" : "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_EDIT_TITLE'/>");
+			this._box.setTitle(this._mode == 'new' ? "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_ADD_TITLE}}" : "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_EDIT_TITLE}}");
 			this._box.setIcon(Ametys.getPluginResourcesPrefix('admin') + '/img/datasource/' + (this._mode == 'new' ? 'add_16.png' : 'edit_16.png'));
 			callback(true);
 		}
@@ -139,18 +139,18 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
 		var aliasDereferencingEnumeration = [];
 		
 		// Anonymous
-		authenticationMethodEnumeration.push({label: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_ENUM_NONE'/>", value: 'none'});
+		authenticationMethodEnumeration.push({label: "{{i18n PLUGINS_ADMIN_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_ENUM_NONE}}", value: 'none'});
 		// Simple
-		authenticationMethodEnumeration.push({label: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_ENUM_SIMPLE'/>", value: 'simple'});
+		authenticationMethodEnumeration.push({label: "{{i18n PLUGINS_ADMIN_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_ENUM_SIMPLE}}", value: 'simple'});
 		
 		// Always
-		aliasDereferencingEnumeration.push({label: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_NEVER'/>", value: 'never'});
+		aliasDereferencingEnumeration.push({label: "{{i18n PLUGINS_ADMIN_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_NEVER}}", value: 'never'});
 		// Never
-		aliasDereferencingEnumeration.push({label: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_ALWAYS'/>", value: 'always'});
+		aliasDereferencingEnumeration.push({label: "{{i18n PLUGINS_ADMIN_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_ALWAYS}}", value: 'always'});
 		// Finding
-		aliasDereferencingEnumeration.push({label: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_FINDING'/>", value: 'finding'});
+		aliasDereferencingEnumeration.push({label: "{{i18n PLUGINS_ADMIN_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_FINDING}}", value: 'finding'});
 		// Searching
-		aliasDereferencingEnumeration.push({label: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_SEARCHING'/>", value: 'searching'});
+		aliasDereferencingEnumeration.push({label: "{{i18n PLUGINS_ADMIN_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_SEARCHING}}", value: 'searching'});
 		
 		
 		// Id field
@@ -169,8 +169,8 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
 		// Name field
 		configuration.name = {
 			type: 'string',
-	        label: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_NAME'/>",
-	        description: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_NAME_DESCRIPTION'/>",
+	        label: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_NAME}}",
+	        description: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_NAME_DESCRIPTION}}",
 	        validation: {
 	        	mandatory: true
 	        }
@@ -183,20 +183,20 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
 			'widget-params': {
 				charCounter: false
 			},
-	        label: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_DESCRIPTION'/>",
-	        description: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_DESCRIPTION_DESCRIPTION'/>"
+	        label: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_DESCRIPTION}}",
+	        description: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_DESCRIPTION_DESCRIPTION}}"
 		};
 		
 		// Base URL field 
 		configuration.baseURL = {
 			type: 'string',
-			label: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_URL'/>",
-			description: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_URL_DESCRIPTION'/>",
+			label: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_URL}}",
+			description: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_URL_DESCRIPTION}}",
 			'default-value': 'ldap://server:389',
 	        validation: {
 	        	mandatory: true,
 	        	regexp: new RegExp('^ldaps?://[\\w\\-.]*(:\d+)?'),
-	        	regexText: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_URL_REGEXP_TEXT'/>"
+	        	regexText: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_URL_REGEXP_TEXT}}"
 	        }
 		};
 		
@@ -204,8 +204,8 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
 		configuration.useSSL = {
 			type: 'boolean',
 			widget: 'edition.checkbox',
-			label: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_USESSL'/>",
-			description: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_USESSL_DESCRIPTION'/>",
+			label: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_USESSL}}",
+			description: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_USESSL_DESCRIPTION}}",
 	        validation: {
 	        	mandatory: true
 	        }
@@ -214,8 +214,8 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
 		// Base DN field
 		configuration.baseDN = {
 			type: 'string',
-			label: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_BASEDN'/>",
-			description: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_BASEDN_DESCRIPTION'/>",
+			label: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_BASEDN}}",
+			description: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_BASEDN_DESCRIPTION}}",
 			'default-value': 'dc=company,dc=com'
 		};
 		
@@ -223,8 +223,8 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
 		configuration.aliasDereferencing = {
 			type: 'string',
 			enumeration: aliasDereferencingEnumeration,
-			label: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_ALIASDEREFERENCING'/>",
-			description: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_ALIASDEREFERENCING_DESCRIPTION'/>",
+			label: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_ALIASDEREFERENCING}}",
+			description: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_ALIASDEREFERENCING_DESCRIPTION}}",
 			'default-value': 'always'
 		};
 		
@@ -232,24 +232,24 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
 		configuration.followReferrals = {
 			type: 'boolean',
 			widget: 'edition.checkbox',
-			label: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_FOLLOWREFERRALS'/>",
-			description: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_FOLLOWREFERRALS_DESCRIPTION'/>"
+			label: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_FOLLOWREFERRALS}}",
+			description: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_FOLLOWREFERRALS_DESCRIPTION}}"
 		};
 		
 		// Authentication method field
 		configuration.authenticationMethod = {
 			type: 'string',
 			enumeration: authenticationMethodEnumeration,
-			label: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_AUTHENTICATIONMETHOD'/>",
-			description: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_AUTHENTICATIONMETHOD_DESCRIPTION'/>",
+			label: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_AUTHENTICATIONMETHOD}}",
+			description: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_AUTHENTICATIONMETHOD_DESCRIPTION}}",
 			'default-value': 'none'
 		};
 		
 		// Administrator domain name field
 		configuration.adminDN = {
 			type: 'string',
-			label: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_ADMINDN'/>",
-			description: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_ADMINDN_DESCRIPTION'/>",
+			label: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_ADMINDN}}",
+			description: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_ADMINDN_DESCRIPTION}}",
 			disableCondition: {condition: [{id: 'authenticationMethod', operator: 'eq', value: 'none'}]},
 			'default-value': 'cn=admin'
 		};
@@ -258,8 +258,8 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
 		configuration.adminPassword = {
 			type: 'password',
 			widget: 'edition.password',
-			label: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_ADMINPASSWORD'/>",
-			description: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_ADMINPASSWORD_DESCRIPTION'/>",
+			label: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_ADMINPASSWORD}}",
+			description: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_ADMINPASSWORD_DESCRIPTION}}",
 			disableCondition: {condition: [{id: 'authenticationMethod', operator: 'eq', value: 'none'}]}
 		};
 		
@@ -267,15 +267,15 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
 		configuration['private'] = {
 			type: 'boolean',
 			widget: 'edition.checkbox',
-			label: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_PRIVATE'/>",
-			description: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_PRIVATE_DESCRIPTION'/>",
+			label: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_PRIVATE}}",
+			description: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_PRIVATE_DESCRIPTION}}",
 			'param-checker': {
 				id: 'sql-connection-checker-datasource',
 				'icon-glyph': 'flaticon-agenda3',
 				'linked-params': ['baseURL', 'baseDN', 'authenticationMethod', 'adminDN', 'adminPassword', 'useSSL', 'followReferrals'],
 				'param-ref': 'private',
-				label: "<i18n:text i18n:key='PLUGINS_CORE_LDAP_CONNECTION_CHECKER_LABEL' i18n:catalogue='plugin.core-impl'/>",
-				description: "<i18n:text i18n:key='PLUGINS_CORE_LDAP_CONNECTION_CHECKER_DESC' i18n:catalogue='plugin.core-impl'/>",
+				label: "{{i18n plugin.core-impl:PLUGINS_CORE_LDAP_CONNECTION_CHECKER_LABEL}}",
+				description: "{{i18n plugin.core-impl:PLUGINS_CORE_LDAP_CONNECTION_CHECKER_DESC}}",
 				order: 1
 			}
 		};
@@ -330,7 +330,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
  		// Test the data source
  		var paramCheckersDAO = this._form._paramCheckersDAO;
  		
- 		Ext.getBody().mask("<i18n:text i18n:key='PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE' i18n:catalogue='plugin.core-ui'/>");
+ 		Ext.getBody().mask("{{i18n plugin.core-ui:PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE}}");
  		paramCheckersDAO.check(paramCheckersDAO._paramCheckers,
  							   true, 
 					           Ext.bind(function(success) 

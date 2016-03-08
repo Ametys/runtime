@@ -60,7 +60,7 @@ Ext.define('Ametys.plugins.core.superuser.SuperUserActions', {
 			Ext.bind(this._affectSuperUserCb, this),
 			{ 
                 errorMessage: { 
-                	msg: "<i18n:text i18n:key='PLUGINS_CORE_SUPERUSER_AFFECT_ERROR' i18n:catalogue='plugin.core'/>", 
+                	msg: "{{i18n plugin.core:PLUGINS_CORE_SUPERUSER_AFFECT_ERROR}}", 
                 	category: Ext.getClassName(this)
             	},
                 refreshing: true
@@ -77,8 +77,8 @@ Ext.define('Ametys.plugins.core.superuser.SuperUserActions', {
 	_affectSuperUserCb: function(response, args)
 	{
 		Ametys.Msg.show ({
-			title: "<i18n:text i18n:key='PLUGINS_CORE_SUPERUSER_AFFECT_TITLE' i18n:catalogue='plugin.core'/>",
-			msg: "<i18n:text i18n:key='PLUGINS_CORE_SUPERUSER_AFFECT_SUCCESS' i18n:catalogue='plugin.core'/>",
+			title: "{{i18n plugin.core:PLUGINS_CORE_SUPERUSER_AFFECT_TITLE}}",
+			msg: "{{i18n plugin.core:PLUGINS_CORE_SUPERUSER_AFFECT_SUCCESS}}",
 			buttons: Ext.Msg.OK,
 			icon: Ext.MessageBox.INFO
 		});

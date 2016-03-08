@@ -23,7 +23,7 @@ Ext.define('Ametys.error.ErrorPage', {
 
     cls : 'ametys-error-page',
     
-    title: "<i18n:text i18n:catalogue='application' i18n:key='APPLICATION_PRODUCT_LABEL'/>",
+    title: "{{i18n application:APPLICATION_PRODUCT_LABEL}}",
     titleAlign : "center",
     
     maximized : true,
@@ -64,7 +64,7 @@ Ext.define('Ametys.error.ErrorPage', {
     	      hidden: Ext.isEmpty(this.details),
     	      width: '70%',
     	      
-    	      title: "<i18n:text i18n:key='KERNEL_ERROR_DETAILS' i18n:catalogue='kernel'/>",
+    	      title: "{{i18n kernel:KERNEL_ERROR_DETAILS}}",
       		  collapsible: true,
     		  titleCollapse: true,
     		  animCollapse: true,

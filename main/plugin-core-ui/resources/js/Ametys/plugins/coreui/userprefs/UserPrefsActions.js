@@ -27,8 +27,8 @@ Ext.define('Ametys.plugins.coreui.userprefs.UserPrefsActions', {
 	resetWorkspace: function()
 	{
 		Ametys.Msg.show({
-		    title: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_PROMPT_TITLE'/>",
-		    msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_PROMPT_DESC'/>",
+		    title: "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_PROMPT_TITLE}}",
+		    msg: "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_PROMPT_DESC}}",
 		    buttons: Ext.Msg.OKCANCEL,
 		    fn: Ext.bind(this._resetWorkspaceNow, this),
 		    icon: Ext.window.MessageBox.QUESTION
@@ -67,8 +67,8 @@ Ext.define('Ametys.plugins.coreui.userprefs.UserPrefsActions', {
     		}
     		
     	    Ametys.log.ErrorDialog.display({
-    	        title: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_FAILURE_TITLE'/>",
-    	        text: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_FAILURE_DESC'/>",
+    	        title: "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_FAILURE_TITLE}}",
+    	        text: "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_FAILURE_DESC}}",
     	        details: details,
     	        category: this.self.getName() 
     	    });
@@ -138,7 +138,7 @@ Ext.define('Ametys.plugins.coreui.userprefs.UserPrefsActions', {
 			responseType: 'text'
 		});
 		
-		if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_ERROR'/>", response, Ext.getClassName(this)))
+		if (Ametys.data.ServerComm.handleBadResponse("{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_ERROR}}", response, Ext.getClassName(this)))
         {
             return false;
         }
@@ -147,7 +147,7 @@ Ext.define('Ametys.plugins.coreui.userprefs.UserPrefsActions', {
 		this._form.configure(result.preferences);
 		
 		this._box = Ext.create('Ametys.window.DialogBox', {
-			title :"<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_LABEL'/>",
+			title :"{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_LABEL}}",
 			icon : Ametys.getPluginResourcesPrefix('core-ui') + "/img/userprefs/userprefs_16.png",
 			
 			width : 600,
@@ -163,15 +163,15 @@ Ext.define('Ametys.plugins.coreui.userprefs.UserPrefsActions', {
 			
 			closeAction: 'hide',
 			buttons : [ {
-				text :"<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_BTN_RESTORE_DEFAULTS'/>",
+				text :"{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_BTN_RESTORE_DEFAULTS}}",
 				handler : this.restoreDefaults,
 				scope: this
 			}, ' ', ' ',{
-				text :"<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_BTN_OK'/>",
+				text :"{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_BTN_OK}}",
 				handler : this._saveUserPrefs,
 				scope: this
 			}, {
-				text :"<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_BTN_CANCEL'/>",
+				text :"{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_BTN_CANCEL}}",
 				handler : function () { this._box.close()},
 				scope: this
 			} ]
@@ -224,8 +224,8 @@ Ext.define('Ametys.plugins.coreui.userprefs.UserPrefsActions', {
 		if (success == false && errors != null)
     	{
 			Ametys.form.SaveHelper.handleServerErrors(this._form, 
-					"<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_FAILURE_TITLE'/>", 
-					"<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_FAILURE_DESC'/>", 
+					"{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_FAILURE_TITLE}}", 
+					"{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_FAILURE_DESC}}", 
 					errors);
     	}
     	else

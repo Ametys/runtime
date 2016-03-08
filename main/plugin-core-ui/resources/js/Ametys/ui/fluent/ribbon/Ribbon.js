@@ -158,7 +158,7 @@ Ext.define(
          * @private
          * @property {String} messageCloseText The message on the close button of the information message #cfg-message
          */
-        messageCloseText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_MESSAGE_CLOSE_DESCRIPTION' i18n:catalogue='plugin.core-ui'>Close this message</i18n:text>",
+        messageCloseText: "{{i18n plugin.core-ui:PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_MESSAGE_CLOSE_DESCRIPTION}}",
 		
         /**
          * @cfg {Object/Ext.toolbar.Toolbar} quickToolbar The quicktoolbar (configuration or object) on the top left of the ribbon. 

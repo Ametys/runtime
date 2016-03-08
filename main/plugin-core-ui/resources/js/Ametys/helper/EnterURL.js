@@ -94,7 +94,7 @@ Ext.define('Ametys.helper.EnterURL', {
 									}, 
 									{
 										xtype: 'textfield',
-										fieldLabel : "<i18n:text i18n:key='PLUGINS_CORE_UI_HELPER_ENTERURL_LABEL'/>",
+										fieldLabel : "{{i18n PLUGINS_CORE_UI_HELPER_ENTERURL_LABEL}}",
 										name: 'url',
 										itemId: 'url',
 										width: 450,
@@ -116,10 +116,10 @@ Ext.define('Ametys.helper.EnterURL', {
 				defaultFocus: 'url',
 				closeAction: 'hide',
 				buttons : [{
-					text :"<i18n:text i18n:key='PLUGINS_CORE_UI_HELPER_ENTERURL_OK'/>",
+					text :"{{i18n PLUGINS_CORE_UI_HELPER_ENTERURL_OK}}",
 					handler : Ext.bind(this._ok, this)
 				}, {
-					text :"<i18n:text i18n:key='PLUGINS_CORE_UI_HELPER_ENTERURL_CANCEL'/>",
+					text :"{{i18n PLUGINS_CORE_UI_HELPER_ENTERURL_CANCEL}}",
 					handler: Ext.bind(this._cancel, this)
 				}]
 			});

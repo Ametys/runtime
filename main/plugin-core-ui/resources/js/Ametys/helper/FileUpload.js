@@ -89,9 +89,9 @@ Ext.define('Ametys.helper.FileUpload', {
 										xtype: 'filefield',
 										name: 'file',
 										id: 'fileupload-file',
-										emptyText: "<i18n:text i18n:key='PLUGINS_CORE_UI_FILEUPLOAD_FIELD_EMPTYTEXT'/>",
-									    fieldLabel: "<i18n:text i18n:key='PLUGINS_CORE_UI_FILEUPLOAD_FIELD_FIELDLABEL'/>",
-									    buttonText: "<i18n:text i18n:key='PLUGINS_CORE_UI_FILEUPLOAD_FIELD_BUTTONTEXT'/>",
+										emptyText: "{{i18n PLUGINS_CORE_UI_FILEUPLOAD_FIELD_EMPTYTEXT}}",
+									    fieldLabel: "{{i18n PLUGINS_CORE_UI_FILEUPLOAD_FIELD_FIELDLABEL}}",
+									    buttonText: "{{i18n PLUGINS_CORE_UI_FILEUPLOAD_FIELD_BUTTONTEXT}}",
 										width: 370,
 										
 										listeners: {'change': {fn: this._selectFile, scope: this}}
@@ -103,11 +103,11 @@ Ext.define('Ametys.helper.FileUpload', {
 				defaultFocus: 'file',
 				closeAction: 'hide',
 				buttons : [{
-					text :"<i18n:text i18n:key='PLUGINS_CORE_UI_FILEUPLOAD_BOX_OK'/>",
+					text :"{{i18n PLUGINS_CORE_UI_FILEUPLOAD_BOX_OK}}",
 					disabled: true,
 					handler : Ext.bind(this._submit, this)
 				}, {
-					text :"<i18n:text i18n:key='PLUGINS_CORE_UI_FILEUPLOAD_BOX_CANCEL'/>",
+					text :"{{i18n PLUGINS_CORE_UI_FILEUPLOAD_BOX_CANCEL}}",
 					handler: Ext.bind(function() {this._box.hide();}, this) 
 				}]
 			});
@@ -135,7 +135,7 @@ Ext.define('Ametys.helper.FileUpload', {
 	 * @property {String} IMAGE_FILTER_LABEL Label for image filter
 	 * @readonly
 	 */
-	IMAGE_FILTER_LABEL: "<i18n:text i18n:key='PLUGINS_CORE_UI_FILEUPLOAD_IMAGEFILTER'/>",
+	IMAGE_FILTER_LABEL: "{{i18n PLUGINS_CORE_UI_FILEUPLOAD_IMAGEFILTER}}",
 	
 	/**
 	 * Filter for videos and audio files
@@ -149,7 +149,7 @@ Ext.define('Ametys.helper.FileUpload', {
 	 * @property {String} VIDEO_FILTER_LABEL Label for video filter
 	 * @readonly
 	 */
-	VIDEO_FILTER_LABEL: "<i18n:text i18n:key='PLUGINS_CORE_UI_FILEUPLOAD_VIDEOFILTER'/>",
+	VIDEO_FILTER_LABEL: "{{i18n PLUGINS_CORE_UI_FILEUPLOAD_VIDEOFILTER}}",
 	
 	/**
 	 * Filter for videos and audio files
@@ -163,7 +163,7 @@ Ext.define('Ametys.helper.FileUpload', {
 	 * @property {String} MULTIMEDIA_FILTER_LABEL Label for multimedia filter
 	 * @readonly
 	 */
-	MULTIMEDIA_FILTER_LABEL: "<i18n:text i18n:key='PLUGINS_CORE_UI_FILEUPLOAD_MULTIMEDIAFILTER'/>",
+	MULTIMEDIA_FILTER_LABEL: "{{i18n PLUGINS_CORE_UI_FILEUPLOAD_MULTIMEDIAFILTER}}",
 	
 	/**
 	 * Filter for audio files
@@ -177,7 +177,7 @@ Ext.define('Ametys.helper.FileUpload', {
 	 * @property {String} SOUND_FILTER_LABEL Label for sound filter
 	 * @readonly
 	 */
-	SOUND_FILTER_LABEL: "<i18n:text i18n:key='PLUGINS_CORE_UI_FILEUPLOAD_SOUNDFILTER'/>",
+	SOUND_FILTER_LABEL: "{{i18n PLUGINS_CORE_UI_FILEUPLOAD_SOUNDFILTER}}",
 
 	/**
 	 * Filter for SWF files
@@ -191,7 +191,7 @@ Ext.define('Ametys.helper.FileUpload', {
 	 * @property {String} FLASH_FILTER_LABEL Label for flash filter
 	 * @readonly
 	 */
-	FLASH_FILTER_LABEL: "<i18n:text i18n:key='PLUGINS_CORE_UI_FILEUPLOAD_FLASHFILTER'/>",
+	FLASH_FILTER_LABEL: "{{i18n PLUGINS_CORE_UI_FILEUPLOAD_FLASHFILTER}}",
 
 
 	/**
@@ -211,8 +211,8 @@ Ext.define('Ametys.helper.FileUpload', {
 			if (disabled)
 			{
 				Ametys.log.ErrorDialog.display({
-					title: "<i18n:text i18n:key='PLUGINS_CORE_UI_FILEUPLOAD_ERRORDIALOG_TEXT'/>", 
-					text: "<i18n:text i18n:key='PLUGINS_CORE_UI_FILEUPLOAD_ERRORDIALOG_DESC'/> " + Ametys.getObjectByName("Ametys.helper.FileUpload." + this._filter.$name + '_LABEL'),
+					title: "{{i18n PLUGINS_CORE_UI_FILEUPLOAD_ERRORDIALOG_TEXT}}", 
+					text: "{{i18n PLUGINS_CORE_UI_FILEUPLOAD_ERRORDIALOG_DESC}} " + Ametys.getObjectByName("Ametys.helper.FileUpload." + this._filter.$name + '_LABEL'),
 		    		details: "",
 		    		category: "Ametys.helper.FileUpload._selectFile"
 				});
@@ -231,8 +231,8 @@ Ext.define('Ametys.helper.FileUpload', {
 		this._box.down('form').getForm().submit({
 			url : Ametys.getPluginDirectPrefix('core') + "/upload/store",
 			
-			waitTitle: "<i18n:text i18n:key='PLUGINS_CORE_UI_FILEUPLOAD_SUBMITFORM_TITLE'/>",
-			waitMsg: "<i18n:text i18n:key='PLUGINS_CORE_UI_FILEUPLOAD_SUBMITFORM_MSG'/>",
+			waitTitle: "{{i18n PLUGINS_CORE_UI_FILEUPLOAD_SUBMITFORM_TITLE}}",
+			waitMsg: "{{i18n PLUGINS_CORE_UI_FILEUPLOAD_SUBMITFORM_MSG}}",
 			
 			success: Ext.bind(this._submitSuccess, this),
 		    failure: Ext.bind(this._submitFailure, this)
@@ -268,8 +268,8 @@ Ext.define('Ametys.helper.FileUpload', {
 		if (action.result.error == "rejected")
 		{
 			Ametys.log.ErrorDialog.display({
-				title: "<i18n:text i18n:key='PLUGINS_CORE_UI_FILEUPLOAD_ERROR_MSG'/>", 
-				text: "<i18n:text i18n:key='PLUGINS_CORE_UI_FILEUPLOAD_ERROR_FILEREJECTED'/>",
+				title: "{{i18n PLUGINS_CORE_UI_FILEUPLOAD_ERROR_MSG}}", 
+				text: "{{i18n PLUGINS_CORE_UI_FILEUPLOAD_ERROR_FILEREJECTED}}",
 	    		details: "",
 	    		category: "Ametys.helper.FileUpload"
 			});
@@ -277,8 +277,8 @@ Ext.define('Ametys.helper.FileUpload', {
 		else
 		{
 			Ametys.log.ErrorDialog.display({
-				title: "<i18n:text i18n:key='PLUGINS_CORE_UI_FILEUPLOAD_ERROR_MSG'/>", 
-				text: "<i18n:text i18n:key='PLUGINS_CORE_UI_FILEUPLOAD_ERROR_ON_SERVER'/>",
+				title: "{{i18n PLUGINS_CORE_UI_FILEUPLOAD_ERROR_MSG}}", 
+				text: "{{i18n PLUGINS_CORE_UI_FILEUPLOAD_ERROR_ON_SERVER}}",
 	    		details: action.result.error ? action.result.error.message + "\n" + action.result.error.stacktrace : "",
 	    		category: "Ametys.helper.FileUpload"
 			});

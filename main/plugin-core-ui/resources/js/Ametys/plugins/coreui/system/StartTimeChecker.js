@@ -71,7 +71,7 @@ Ext.define('Ametys.plugins.coreui.system.StartTimeChecker', {
     {
         this._sendCheckMessage();
         
-        if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_UI_TOOL_STARTUPTIME_ERROR_TITLE'/>", response, 'Ametys.plugins.coreui.system.StartTimeChecker'))
+        if (Ametys.data.ServerComm.handleBadResponse("{{i18n PLUGINS_CORE_UI_TOOL_STARTUPTIME_ERROR_TITLE}}", response, 'Ametys.plugins.coreui.system.StartTimeChecker'))
         {
             return;
         }
@@ -89,8 +89,8 @@ Ext.define('Ametys.plugins.coreui.system.StartTimeChecker', {
         if (lastModification > this._lastModification && this._lastModification > 0)
         {
             Ametys.Msg.show({
-                   title: (lastVersion == this._lastVersion) ? "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOL_STARTUPTIME_TITLE'/>" : "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOL_STARTUPTIME_TITLE2'/>",
-                   msg: (lastVersion == this._lastVersion) ? "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOL_STARTUPTIME_MESSAGE'/>" : "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOL_STARTUPTIME_MESSAGE2'/>",
+                   title: (lastVersion == this._lastVersion) ? "{{i18n PLUGINS_CORE_UI_TOOL_STARTUPTIME_TITLE}}" : "{{i18n PLUGINS_CORE_UI_TOOL_STARTUPTIME_TITLE2}}",
+                   msg: (lastVersion == this._lastVersion) ? "{{i18n PLUGINS_CORE_UI_TOOL_STARTUPTIME_MESSAGE}}" : "{{i18n PLUGINS_CORE_UI_TOOL_STARTUPTIME_MESSAGE2}}",
                    buttons: Ext.Msg.OK,
                    icon: Ext.MessageBox.INFO
             });

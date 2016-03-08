@@ -44,12 +44,12 @@ Ext.define('Ametys.form.widget.FlipFlap', {
      * Labels for buttons.
      */
     buttonsText: {
-        top: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_FLIPFLAP_MOVE_TO_TOP'/>",
-        up: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_FLIPFLAP_MOVE_UP'/>",
-        add: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_FLIPFLAP_ADD_TO_SELECTED'/>",
-        remove: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_FLIPFLAP_REMOVE_FROM_SELECTED'/>",
-        down: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_FLIPFLAP_MOVE_DOWN'/>",
-        bottom: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_FLIPFLAP_MOVE_TO_BOTTOM'/>"
+        top: "{{i18n PLUGINS_CORE_UI_WIDGET_FLIPFLAP_MOVE_TO_TOP}}",
+        up: "{{i18n PLUGINS_CORE_UI_WIDGET_FLIPFLAP_MOVE_UP}}",
+        add: "{{i18n PLUGINS_CORE_UI_WIDGET_FLIPFLAP_ADD_TO_SELECTED}}",
+        remove: "{{i18n PLUGINS_CORE_UI_WIDGET_FLIPFLAP_REMOVE_FROM_SELECTED}}",
+        down: "{{i18n PLUGINS_CORE_UI_WIDGET_FLIPFLAP_MOVE_DOWN}}",
+        bottom: "{{i18n PLUGINS_CORE_UI_WIDGET_FLIPFLAP_MOVE_TO_BOTTOM}}"
     },
 
     layout: {

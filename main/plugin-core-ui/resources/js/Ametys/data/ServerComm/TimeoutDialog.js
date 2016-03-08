@@ -68,8 +68,8 @@ Ext.define(
 		 */
 	    constructor: function(details, index, timeout) {
 	    	timeout = timeout || Ametys.data.ServerComm.TimeoutDialog.TIMEOUT;
-	    	var title = "<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_TIMEOUTDIALOG_TITLE'/>"
-	    	var text = "<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_TIMEOUTDIALOG_TEXT1'/>" + "<br/>" + "<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_TIMEOUTDIALOG_TEXT2'/>"
+	    	var title = "{{i18n PLUGINS_CORE_UI_SERVERCOMM_TIMEOUTDIALOG_TITLE}}"
+	    	var text = "{{i18n PLUGINS_CORE_UI_SERVERCOMM_TIMEOUTDIALOG_TEXT1}}" + "<br/>" + "{{i18n PLUGINS_CORE_UI_SERVERCOMM_TIMEOUTDIALOG_TEXT2}}"
 	    		
 	    	this._runningRequestIndex = index;
 	    	this.getRequestOptions()._timeout = null;
@@ -105,7 +105,7 @@ Ext.define(
 	    		defaultButton: waitId,
 	    		buttons : [
 	    		    {
-	    		    	text :"<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_TIMEOUTDIALOG_WAIT'/>",
+	    		    	text :"{{i18n PLUGINS_CORE_UI_SERVERCOMM_TIMEOUTDIALOG_WAIT}}",
 	    		    	id: waitId,
 	    		    	timeout: timeout,
 	    		    	handler : function() 
@@ -118,7 +118,7 @@ Ext.define(
 	    		    	}
 	    		    },
 	    		    {
-	    		    	text :"<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_TIMEOUTDIALOG_CANCEL'/>",
+	    		    	text :"{{i18n PLUGINS_CORE_UI_SERVERCOMM_TIMEOUTDIALOG_CANCEL}}",
 	    		    	handler : function() 
 	    		    	{
 	        				var currentTimeoutDialog = Ametys.data.ServerComm.TimeoutDialog._stack[0];
@@ -127,7 +127,7 @@ Ext.define(
 	    		    	}
 	    		    },
 	    			{
-	    				text : "<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_TIMEOUTDIALOG_DETAILS'/>" + " >>", 
+	    				text : "{{i18n PLUGINS_CORE_UI_SERVERCOMM_TIMEOUTDIALOG_DETAILS}}" + " >>", 
 	    				handler : function() 
 	    				{
 	    	    			var currentTimeoutDialog = Ametys.data.ServerComm.TimeoutDialog._stack[0];
@@ -136,12 +136,12 @@ Ext.define(
 	    		    		{
 	    		    			detailledMsg.setHeight(50);
 	    		    			detailledMsg.show();
-	    		    			this.setText("<< " + "<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_TIMEOUTDIALOG_DETAILS'/>");
+	    		    			this.setText("<< " + "{{i18n PLUGINS_CORE_UI_SERVERCOMM_TIMEOUTDIALOG_DETAILS}}");
 	    		    			currentTimeoutDialog.setHeight(170)
 	    		    		}
 	    		    		else
 	    		    		{
-	    		    			this.setText("<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_TIMEOUTDIALOG_DETAILS'/>" + " >>");
+	    		    			this.setText("{{i18n PLUGINS_CORE_UI_SERVERCOMM_TIMEOUTDIALOG_DETAILS}}" + " >>");
 	    		    			detailledMsg.hide();
 	    		    			currentTimeoutDialog.setHeight(120)
 	    		    		}

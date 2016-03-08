@@ -50,7 +50,7 @@ Ext.define(
              * @readonly
              * @private
              */
-            helpText: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLTIP_FOOTER_TEXT'>See help</i18n:text>",
+            helpText: "{{i18n PLUGINS_CORE_UI_MSG_TOOLTIP_FOOTER_TEXT}}",
             
             /**
              * @property {Number} tooltipWidth The width of the tooltip if the tooltip doest not have an image

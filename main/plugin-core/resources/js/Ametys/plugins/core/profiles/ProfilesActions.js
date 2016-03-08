@@ -66,8 +66,8 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesActions', {
 		var profileTargets = controller.getMatchingTargets();
 		if (profileTargets != null && profileTargets.length > 0)
 		{
-			Ametys.Msg.confirm("<i18n:text i18n:key='PLUGINS_CORE_PROFILES_DELETE_LABEL' i18n:catalogue='plugin.core'/>",
-				"<i18n:text i18n:key='PLUGINS_CORE_PROFILES_DELETE_CONFIRM' i18n:catalogue='plugin.core'/>",
+			Ametys.Msg.confirm("{{i18n plugin.core:PLUGINS_CORE_PROFILES_DELETE_LABEL}}",
+				"{{i18n plugin.core:PLUGINS_CORE_PROFILES_DELETE_CONFIRM}}",
 				Ext.bind(this._doDelete, this, [profileTargets, controller], 1),
 				this
 			);

@@ -15,11 +15,16 @@
  */
 package org.ametys.runtime.test.util;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.commons.io.IOUtils;
+import org.apache.excalibur.source.Source;
+import org.apache.excalibur.source.SourceResolver;
 
 import org.ametys.core.util.I18nUtils;
 import org.ametys.runtime.i18n.I18nizableText;
@@ -34,6 +39,7 @@ import junit.framework.TestCase;
 public class I18nTestCase extends AbstractRuntimeTestCase
 {
     I18nUtils _i18nUtils;
+    SourceResolver _srcResolver;
     
     @Override
     protected void setUp() throws Exception
@@ -43,6 +49,7 @@ public class I18nTestCase extends AbstractRuntimeTestCase
         
         ServiceManager manager = Init.getPluginServiceManager();
         _i18nUtils = (I18nUtils) manager.lookup(I18nUtils.ROLE);
+        _srcResolver = (SourceResolver) manager.lookup(SourceResolver.ROLE);
     }
     
     @Override
@@ -120,6 +127,46 @@ public class I18nTestCase extends AbstractRuntimeTestCase
         
         translatedText = _i18nUtils.translate(new I18nizableText("plugin.test", "TEST_KEY_I18N_PARAMS", params), "zh");
         assertEquals("chinese text", translatedText);
+        
+        _cocoon._leaveEnvironment(environmentInformation);
+    }
+    
+    /**
+     * Test the i18n text reader
+     */
+    @SuppressWarnings("resource")
+    public void testI18nTextReader()
+    {
+        Map<String, Object> environmentInformation = _cocoon._enterEnvironment();
+        Source pluginSource = null;
+        Source expectation = null;
+        
+        InputStream is1 = null;
+        InputStream is2 = null;
+        
+        try 
+        {
+            pluginSource = _srcResolver.resolveURI("cocoon://plugins/test/resources/js/input.js");
+            expectation = _srcResolver.resolveURI("plugin:test://resources/js/expectation.js");
+            
+            is1 = pluginSource.getInputStream();
+            is2 = expectation.getInputStream();
+                    
+            assertEquals(IOUtils.toString(is1), IOUtils.toString(is2));
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException("I/O exception", e);
+        }
+        finally
+        {
+            IOUtils.closeQuietly(is1);
+            IOUtils.closeQuietly(is2);
+            
+            _srcResolver.release(expectation);
+            _srcResolver.release(pluginSource);
+        }
+        
         
         _cocoon._leaveEnvironment(environmentInformation);
     }

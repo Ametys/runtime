@@ -61,7 +61,7 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
     /**
      * @cfg {String} createButtonTooltip The button icon tooltip for the create button.
      */
-    createButtonTooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_DATASOURCE_BUTTON_DEFAULT_TOOLTIP'/>",
+    createButtonTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_DATASOURCE_BUTTON_DEFAULT_TOOLTIP}}",
     
 	/**
 	 * @private

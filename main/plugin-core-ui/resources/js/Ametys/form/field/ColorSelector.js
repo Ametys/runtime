@@ -81,7 +81,7 @@ Ext.define('Ametys.form.field.ColorSelector', {
 		{
 			// Default colors
 			this._initColorPicker({
-				label: "<i18n:text i18n:key='PLUGINS_CORE_UI_COLORSELECTOR_DEFAULT_COLORS'/>"
+				label: "{{i18n PLUGINS_CORE_UI_COLORSELECTOR_DEFAULT_COLORS}}"
 			});
 		}
 		
@@ -93,7 +93,7 @@ Ext.define('Ametys.form.field.ColorSelector', {
 				padding: 5,
 				itemId: 'transparent-btn',
 				icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/field/transparent_22.png',
-				text: "<i18n:text i18n:key='PLUGINS_CORE_UI_COLORSELECTOR_TRANSPARENT'/>",
+				text: "{{i18n PLUGINS_CORE_UI_COLORSELECTOR_TRANSPARENT}}",
 				handler: this._setTransparent,
 				scope: this
 			});
@@ -104,7 +104,7 @@ Ext.define('Ametys.form.field.ColorSelector', {
 			xtype: "panel",
 			bodyPadding: 5,
 			itemId: "custom-color-panel",
-			title: "<i18n:text i18n:key='PLUGINS_CORE_UI_COLORSELECTOR_CUSTOM_COLORS'/>",
+			title: "{{i18n PLUGINS_CORE_UI_COLORSELECTOR_CUSTOM_COLORS}}",
 			hidden: true,
 			items: []
 		});
@@ -116,7 +116,7 @@ Ext.define('Ametys.form.field.ColorSelector', {
 				xtype: 'button',
 				padding: 5,
 				itemId: 'other-colors-btn',
-				text: "<i18n:text i18n:key='PLUGINS_CORE_UI_COLORSELECTOR_OTHERS_COLORS'/>",
+				text: "{{i18n PLUGINS_CORE_UI_COLORSELECTOR_OTHERS_COLORS}}",
 				handler: this._openOtherColors,
 				scope: this
 			});
@@ -129,7 +129,7 @@ Ext.define('Ametys.form.field.ColorSelector', {
 				xtype: 'button',
 				padding: 5,
 				itemId: 'no-color-btn',
-				text: "<i18n:text i18n:key='PLUGINS_CORE_UI_COLORSELECTOR_NO_COLOR'/>",
+				text: "{{i18n PLUGINS_CORE_UI_COLORSELECTOR_NO_COLOR}}",
 				handler: this._setNoColor,
 				scope: this
 			});

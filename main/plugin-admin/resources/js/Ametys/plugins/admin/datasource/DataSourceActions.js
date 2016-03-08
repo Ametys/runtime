@@ -74,8 +74,8 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceActions', {
 		if (targets.length > 0)
 		{
 			Ametys.MessageBox.confirm (
-				"<i18n:text i18n:key='PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_LABEL'/>",
-				"<i18n:text i18n:key='PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_CONFIRM'/>",
+				"{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_LABEL}}",
+				"{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_CONFIRM}}",
 				Ext.bind(this._removeConfirm, this, [targets, controller._allRightDataSourceIds], 1),
 				this
 			);

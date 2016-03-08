@@ -58,8 +58,8 @@ Ext.define('Ametys.plugins.core.groups.GroupsActions', {
 		var groupTargets = controller.getMatchingTargets();
 		if (groupTargets != null && groupTargets.length > 0)
 		{
-			Ametys.Msg.confirm("<i18n:text i18n:key='PLUGINS_CORE_GROUPS_DELETE_LABEL' i18n:catalogue='plugin.core'/>",
-				"<i18n:text i18n:key='PLUGINS_CORE_GROUPS_DELETE_CONFIRM' i18n:catalogue='plugin.core'/>",
+			Ametys.Msg.confirm("{{i18n plugin.core:PLUGINS_CORE_GROUPS_DELETE_LABEL}}",
+				"{{i18n plugin.core:PLUGINS_CORE_GROUPS_DELETE_CONFIRM}}",
 				Ext.bind(this._doDelete, this, [groupTargets, controller], 1),
 				this
 			);
@@ -137,8 +137,8 @@ Ext.define('Ametys.plugins.core.groups.GroupsActions', {
 		var groupTargets = controller.getMatchingTargets();
 		if (groupTargets != null && groupTargets.length > 0)
 		{
-			Ametys.Msg.confirm("<i18n:text i18n:key='PLUGINS_CORE_GROUPS_REMOVEUSERS_LABEL'/>", 
-					"<i18n:text i18n:key='PLUGINS_CORE_GROUPS_REMOVEUSERS_CONFIRM'/>", 
+			Ametys.Msg.confirm("{{i18n PLUGINS_CORE_GROUPS_REMOVEUSERS_LABEL}}", 
+					"{{i18n PLUGINS_CORE_GROUPS_REMOVEUSERS_CONFIRM}}", 
 					Ext.bind(this._confirmRemove, this, [groupTargets[0], controller], 1), 
 					this);
 		}

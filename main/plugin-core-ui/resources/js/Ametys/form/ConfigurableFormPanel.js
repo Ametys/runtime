@@ -81,28 +81,28 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         '<div class="a-configurable-form-panel-tooltip-status">',
         '<tpl if="errors && errors.length">',
             '<tpl if="errors.length == 1">',
-                "<span class=\"a-configurable-form-panel-tooltip-status-error-label\"><i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_ERROR_FIELD'/></span>",
+                "<span class=\"a-configurable-form-panel-tooltip-status-error-label\">{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_ERROR_FIELD}}</span>",
             '</tpl>',
             '<tpl if="errors.length != 1">',
-                "<span class=\"a-configurable-form-panel-tooltip-status-error-label\">{errors.length}<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_ERROR_FIELDS'/></span>",
+                "<span class=\"a-configurable-form-panel-tooltip-status-error-label\">{errors.length}{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_ERROR_FIELDS}}</span>",
             '</tpl>',
             '<ul class="error"><tpl for="errors"><li>{.}</li></tpl></ul>',
         '</tpl>',
         '<tpl if="warns && warns.length">',
             '<tpl if="warns.length == 1">',
-                "<span class=\"a-configurable-form-panel-tooltip-status-warn-label\"><i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_WARN_FIELD'/></span>",
+                "<span class=\"a-configurable-form-panel-tooltip-status-warn-label\">{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_WARN_FIELD}}</span>",
             '</tpl>',
             '<tpl if="warns.length != 1">',
-                "<span class=\"a-configurable-form-panel-tooltip-status-warn-label\">{warns.length}<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_WARN_FIELDS'/></span>",
+                "<span class=\"a-configurable-form-panel-tooltip-status-warn-label\">{warns.length}{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_WARN_FIELDS}}</span>",
             '</tpl>',
             '<ul class="warn"><tpl for="warns"><li>{.}</li></tpl></ul>',
         '</tpl>',
         '<tpl if="comments && comments.length">',
             '<tpl if="comments.length == 1">',
-                "<span class=\"a-configurable-form-panel-tooltip-status-comment-label\"><i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_COMMENT_FIELD'/></span>",
+                "<span class=\"a-configurable-form-panel-tooltip-status-comment-label\">{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_COMMENT_FIELD}}</span>",
             '</tpl>',
             '<tpl if="comments.length != 1">',
-                "<span class=\"a-configurable-form-panel-tooltip-status-comment-label\">{comments.length}<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_COMMENT_FIELDS'/></span>",
+                "<span class=\"a-configurable-form-panel-tooltip-status-comment-label\">{comments.length}{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_COMMENT_FIELDS}}</span>",
             '</tpl>',
             '<ul class="comment"><tpl for="comments"><li>{.}</li></tpl></ul>',
         '</tpl>',
@@ -291,13 +291,13 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 
             items:[
                 {
-                    text: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_COLLAPSE_ALL'/>",
+                    text: "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_COLLAPSE_ALL}}",
                     handler: function (btn) { 
                         me._expandOrCollapseAllInlineTab(me._tabPanel, btn, true)
                     }
                 },
                 {
-                    text: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_EXPAND_ALL'/>",
+                    text: "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_EXPAND_ALL}}",
                     handler: function (btn) { 
                         me._expandOrCollapseAllInlineTab(me._tabPanel, btn, false)
                     }
@@ -611,7 +611,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
     _expandOrCollapseAllInlineTab: function (tabpanel, btn, collapse)
     {
-        this.mask("<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_WAIT_MSG'/>");
+        this.mask("{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_WAIT_MSG}}");
         
         Ext.Function.defer(this._doExpandOrCollapseAllInlineTab, 100, this, [tabpanel, btn, collapse]);
     },
@@ -988,11 +988,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                         var label = paramChecker.label;
                         if (status == Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_FAILURE) 
                         {
-                            testsErrorMessages.push("<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER'/>" + " '" + label + "': " +  paramChecker.getErrorMsg());
+                            testsErrorMessages.push("{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER}}" + " '" + label + "': " +  paramChecker.getErrorMsg());
                         }
                         else if (status == Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_WARNING)
                         {
-                            testsWarnMessages.push("<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER'/>" + " '" + label + "': " +  "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_WARNING'/>");
+                            testsWarnMessages.push("{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER}}" + " '" + label + "': " +  "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_WARNING}}");
                         }
                     }
                 });
@@ -1009,12 +1009,12 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             	var tabField = tabFields[i];
                 if (tabField.getErrors().length > 0)
                 {
-                    errorFields.push("<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD'/>" +  " " + this._getFieldLabel(tabField, panel));
+                    errorFields.push("{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD}}" +  " " + this._getFieldLabel(tabField, panel));
                 }
                 
                 if (Ext.isFunction(tabField.hasActiveWarning) && tabField.hasActiveWarning())
                 {
-                    warnFields.push("<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD'/>" + " " + this._getFieldLabel(tabField, panel));
+                    warnFields.push("{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD}}" + " " + this._getFieldLabel(tabField, panel));
                 }
                 
                 if (Ext.isFunction(tabField.getComments) && tabField.getComments().length > 0)
@@ -1522,7 +1522,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             
             allowBlank: !config.mandatory,
             regex: config.regexp ? new RegExp (config.regexp) : null,
-            regexText: config.regexText || config.invalidText || "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_INVALID_REGEXP'/>" + config.regexp,
+            regexText: config.regexText || config.invalidText || "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_INVALID_REGEXP}}" + config.regexp,
             disabled: config.disabled,
             
             msgTarget: 'side',
@@ -2023,7 +2023,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 
                 for (var i=0; i < tabs.length; i++)
                 {
-                    var tab = this._addTabItem (tabPanel, tabs[i].label || "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_UNTITLED'/>");
+                    var tab = this._addTabItem (tabPanel, tabs[i].label || "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_UNTITLED}}");
                     
                     // Transmit offset + 5 (padding) + 1 (border) + 11 (margin + border) if we are in a nested composite.
                     var finalOffset = offset 
@@ -2332,7 +2332,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     
                 for (var i=0; i < tabs.length; i++)
                 {
-                    var tab = this._addTabItem (tabPanel, Ext.dom.Query.selectValue('> label', tabs[i], "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_UNTITLED'/>"));
+                    var tab = this._addTabItem (tabPanel, Ext.dom.Query.selectValue('> label', tabs[i], "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_UNTITLED}}"));
                     
                     // Transmit offset + 5 (padding) + 1 (border) + 11 (margin + border) if we are in a nested composite.
                     var finalOffset = offset 
@@ -3102,7 +3102,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         if (!this._commentsBox)
         {
             this._commentsBox = Ext.create('Ametys.window.DialogBox', {
-                title: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_DIALOGBOX_TITLE'/>",
+                title: "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_DIALOGBOX_TITLE}}",
                 icon: Ametys.getPluginResourcesPrefix("core-ui") + '/img/Ametys/theme/gray/edit_comment_16.png',
                 
                 scrollable: true,
@@ -3124,14 +3124,14 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                 defaultFocus: 'button-ok',
                 buttons : [{
                     itemId: 'button-ok',
-                    text: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_BTN_OK'/>",
+                    text: "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_BTN_OK}}",
                     handler: Ext.emptyFn
                 }, {
-                    text: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_BTN_DELETE'/>",
+                    text: "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_BTN_DELETE}}",
                     handler: Ext.emptyFn,
                     hidden: true
                 }, {
-                    text: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_BTN_CANCEL'/>",
+                    text: "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_BTN_CANCEL}}",
                     handler: Ext.bind(function() {this._commentsBox.close();}, this) 
                 }]
             });
@@ -3142,7 +3142,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         {
             fdLabel = fdLabel.substring(2);
         }
-        this._commentsBox.setTitle ("<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_DIALOGBOX_TITLE'/>" + ' - ' + fdLabel);
+        this._commentsBox.setTitle ("{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_DIALOGBOX_TITLE}}" + ' - ' + fdLabel);
         this._commentsBox.items.get(0).setValue (text);
         this._commentsBox.getDockedItems('toolbar > button')[0].setHandler(Ext.bind(this._onCommentClickValidate, this, [field, text]));
         this._commentsBox.getDockedItems('toolbar > button')[1].setHandler(Ext.bind(this._onCommentClickDelete, this, [field]));
@@ -3187,8 +3187,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     {
         var me = this;
         Ametys.Msg.confirm(
-            "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_DELETE_CONFIRM_TITLE'/>",
-            "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_DELETE_CONFIRM_MSG'/>",
+            "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_DELETE_CONFIRM_TITLE}}",
+            "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_DELETE_CONFIRM_MSG}}",
             function (btn) {
                 if (btn == 'yes')
                 {
@@ -3216,7 +3216,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                 
                 this._mask = Ext.create('Ext.LoadMask', {
                     target: this,
-                    msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE'/>"
+                    msg: "{{i18n PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE}}"
                 });
                 this._mask.show();
                 
@@ -3558,7 +3558,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                     relativeField = this.getField(relativeFieldPath);
                     if (!relativeField)
                     {
-                        var message = "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_UNKNOWN_FIELD'/>" + relativeFieldPath;
+                        var message = "{{i18n PLUGINS_CORE_UI_WIDGET_UNKNOWN_FIELD}}" + relativeFieldPath;
                         this.getLogger().error(message);
                     }
                 }

@@ -59,7 +59,7 @@ Ext.define('Ametys.plugins.admin.system.SystemActions', {
 			},
 			errorMessage: {
 				category: this.self.getName(),
-				msg: "<i18n:text i18n:key='PLUGINS_ADMIN_SYSTEM_ERROR_SAVE'/>"
+				msg: "{{i18n PLUGINS_ADMIN_SYSTEM_ERROR_SAVE}}"
 			}
 		});
 	},
@@ -130,8 +130,8 @@ Ext.define('Ametys.plugins.admin.system.SystemActions', {
 		var target = controller.getMatchingTargets()[0];
 		if (target != null)
 		{
-			Ametys.Msg.confirm ("<i18n:text i18n:key='PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DELETE_LABEL'/>", 
-				    "<i18n:text i18n:key='PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DELETE_CONFIRM'/>", 
+			Ametys.Msg.confirm ("{{i18n PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DELETE_LABEL}}", 
+				    "{{i18n PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DELETE_CONFIRM}}", 
 				    Ext.bind(this._confirmDelete, this, [target.getParameters().language], 1));
 		}
 	},
@@ -157,7 +157,7 @@ Ext.define('Ametys.plugins.admin.system.SystemActions', {
 				},
 				errorMessage: {
 					category: this.self.getName(),
-					msg: "<i18n:text i18n:key='PLUGINS_ADMIN_SYSTEM_ERROR_SAVE'/>"
+					msg: "{{i18n PLUGINS_ADMIN_SYSTEM_ERROR_SAVE}}"
 				}
 			});
 		}
@@ -206,17 +206,17 @@ Ext.define('Ametys.plugins.admin.system.SystemActions', {
 			},
 			
 			items : [ {
-							fieldLabel: "<i18n:text i18n:key='PLUGINS_ADMIN_SYSTEM_COL_LANG'/>",
-							ametysDescription: "<i18n:text i18n:key='PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DIALOG_LANG_HELP'/>",
+							fieldLabel: "{{i18n PLUGINS_ADMIN_SYSTEM_COL_LANG}}",
+							ametysDescription: "{{i18n PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DIALOG_LANG_HELP}}",
 							name: 'language',
 							allowBlank: false,
 							regex: /^[a-z]{2}$/,
-							regexText: "<i18n:text i18n:key='PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DIALOG_ERROR_LANG'/>"
+							regexText: "{{i18n PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DIALOG_ERROR_LANG}}"
 						},
 						{
 							xtype: 'textarea',
-							fieldLabel :"<i18n:text i18n:key='PLUGINS_ADMIN_SYSTEM_COL_MESSAGE'/>",
-							ametysDescription: "<i18n:text i18n:key='PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DIALOG_MESSAGE_HELP'/>",
+							fieldLabel :"{{i18n PLUGINS_ADMIN_SYSTEM_COL_MESSAGE}}",
+							ametysDescription: "{{i18n PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DIALOG_MESSAGE_HELP}}",
 							allowBlank: false,
 							name: 'message',
 							height: 80
@@ -225,7 +225,7 @@ Ext.define('Ametys.plugins.admin.system.SystemActions', {
 		});
 		
 		this._box = Ext.create('Ametys.window.DialogBox', {
-			title :"<i18n:text i18n:key='PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DIALOG_CAPTION'/>",
+			title :"{{i18n PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DIALOG_CAPTION}}",
 			icon: Ametys.getPluginResourcesPrefix('admin') + '/img/system/announcement_16.png',
 			
 			layout :'fit',
@@ -237,10 +237,10 @@ Ext.define('Ametys.plugins.admin.system.SystemActions', {
 			closeAction: 'hide',
 			
 			buttons : [{
-				text :"<i18n:text i18n:key='PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DIALOG_OK'/>",
+				text :"{{i18n PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DIALOG_OK}}",
 				handler : Ext.bind(this._ok, this)
 			}, {
-				text :"<i18n:text i18n:key='PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DIALOG_CANCEL'/>",
+				text :"{{i18n PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DIALOG_CANCEL}}",
 				handler : function () {this._box.hide();},
 				scope: this
 			}]
@@ -327,7 +327,7 @@ Ext.define('Ametys.plugins.admin.system.SystemActions', {
 			},
 			errorMessage: {
 				category: this.self.getName(),
-				msg: "<i18n:text i18n:key='PLUGINS_ADMIN_SYSTEM_ERROR_SAVE'/>"
+				msg: "{{i18n PLUGINS_ADMIN_SYSTEM_ERROR_SAVE}}"
 			}
 		});
 	},
@@ -361,8 +361,8 @@ Ext.define('Ametys.plugins.admin.system.SystemActions', {
 		if (response['already-exists'])
 		{
 			// Ask the user if he wants to replace the existing welcoming language
-			Ametys.Msg.confirm ("<i18n:text i18n:key='PLUGINS_ADMIN_SYSTEM_CONFIRM_DIALOG_TITLE'/>", 
-							    "<i18n:text i18n:key='PLUGINS_ADMIN_SYSTEM_CONFIRM_DIALOG_TEXT'/>", 
+			Ametys.Msg.confirm ("{{i18n PLUGINS_ADMIN_SYSTEM_CONFIRM_DIALOG_TITLE}}", 
+							    "{{i18n PLUGINS_ADMIN_SYSTEM_CONFIRM_DIALOG_TEXT}}", 
 							    Ext.bind(this._confirmCb, this, [args.language, args.message], 1));
 		}
 		else

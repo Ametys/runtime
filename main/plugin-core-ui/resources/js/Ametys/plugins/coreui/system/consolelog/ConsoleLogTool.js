@@ -109,12 +109,12 @@ Ext.define("Ametys.plugins.coreui.system.consolelog.ConsoleLogTool",
 	        this.callParent(arguments);
 	        
 	        this._detailsTpl = new Ext.XTemplate(
-	                "<tpl if='date'><b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_DATE_TEXT'/></b> {date}<br /></tpl>",
-	                "<tpl if='level'><b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_LEVEL_TEXT'/></b> {level}<br /></tpl>",
-	                "<tpl if='category'><b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_CATEGORY_TEXT'/></b> {category}<br /></tpl>",
-	                "<tpl if='message'><b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_MESSAGE_TEXT'/></b> {message}<br /></tpl>",
-	                "<tpl if='details'><br /><b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_DETAILS_TEXT'/></b><br />{details}</tpl>",
-	                "<tpl if='stacktrace'><br /><b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_STACKTRACE_TEXT'/></b><br />{stacktrace}</tpl>"
+	                "<tpl if='date'><b>{{i18n PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_DATE_TEXT}}</b> {date}<br /></tpl>",
+	                "<tpl if='level'><b>{{i18n PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_LEVEL_TEXT}}</b> {level}<br /></tpl>",
+	                "<tpl if='category'><b>{{i18n PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_CATEGORY_TEXT}}</b> {category}<br /></tpl>",
+	                "<tpl if='message'><b>{{i18n PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_MESSAGE_TEXT}}</b> {message}<br /></tpl>",
+	                "<tpl if='details'><br /><b>{{i18n PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_DETAILS_TEXT}}</b><br />{details}</tpl>",
+	                "<tpl if='stacktrace'><br /><b>{{i18n PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_STACKTRACE_TEXT}}</b><br />{stacktrace}</tpl>"
 	        );
 	    },
 		
@@ -131,12 +131,12 @@ Ext.define("Ametys.plugins.coreui.system.consolelog.ConsoleLogTool",
             metadata.tdCls = "msg-level-" + value;
             switch (value)
             {
-                case Ametys.log.Logger.Entry.LEVEL_DEBUG: return "<img src=\"" + imgSrc + "\"/><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_LEVEL_0'/>";
-                case Ametys.log.Logger.Entry.LEVEL_INFO: return "<img src=\"" + imgSrc + "\"/><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_LEVEL_1'/>";
-                case Ametys.log.Logger.Entry.LEVEL_WARN: return "<img src=\"" + imgSrc + "\"/><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_LEVEL_2'/>";
-                case Ametys.log.Logger.Entry.LEVEL_ERROR: return "<img src=\"" + imgSrc + "\"/><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_LEVEL_3'/>";
+                case Ametys.log.Logger.Entry.LEVEL_DEBUG: return "<img src=\"" + imgSrc + "\"/>{{i18n PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_LEVEL_0}}";
+                case Ametys.log.Logger.Entry.LEVEL_INFO: return "<img src=\"" + imgSrc + "\"/>{{i18n PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_LEVEL_1}}";
+                case Ametys.log.Logger.Entry.LEVEL_WARN: return "<img src=\"" + imgSrc + "\"/>{{i18n PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_LEVEL_2}}";
+                case Ametys.log.Logger.Entry.LEVEL_ERROR: return "<img src=\"" + imgSrc + "\"/>{{i18n PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_LEVEL_3}}";
                 default:
-                case Ametys.log.Logger.Entry.LEVEL_FATAL: return "<img src=\"" + imgSrc + "\"/><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_LEVEL_4'/>";
+                case Ametys.log.Logger.Entry.LEVEL_FATAL: return "<img src=\"" + imgSrc + "\"/>{{i18n PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_LEVEL_4}}";
             }
         },
         
@@ -150,7 +150,7 @@ Ext.define("Ametys.plugins.coreui.system.consolelog.ConsoleLogTool",
             return [
                 {
                     stateId: 'grid-date',
-                    header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_DATE'/>",
+                    header: "{{i18n PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_DATE}}",
                     width: 120,
                     sortable: true,
                     renderer: Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.dateRenderer,
@@ -158,7 +158,7 @@ Ext.define("Ametys.plugins.coreui.system.consolelog.ConsoleLogTool",
                 },
                 {
                     stateId: 'grid-level',
-                    header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_LEVEL'/>",
+                    header: "{{i18n PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_LEVEL}}",
                     width: 80,
                     sortable: true,
                     renderer: Ext.bind(this.levelRenderer, this),
@@ -180,7 +180,7 @@ Ext.define("Ametys.plugins.coreui.system.consolelog.ConsoleLogTool",
                 },
                 {
                     stateId: 'grid-category',
-                    header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_CATEGORY'/>",
+                    header: "{{i18n PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_CATEGORY}}",
                     width: 200,
                     sortable: true,
                     renderer: Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.allRenderer,
@@ -191,7 +191,7 @@ Ext.define("Ametys.plugins.coreui.system.consolelog.ConsoleLogTool",
                 },
                 {
                     stateId: 'grid-message',
-                    header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_MESSAGE'/>",
+                    header: "{{i18n PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_MESSAGE}}",
                     flex: 0.5,
                     sortable: true,
                     renderer: Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.allRenderer,
@@ -203,7 +203,7 @@ Ext.define("Ametys.plugins.coreui.system.consolelog.ConsoleLogTool",
                 },
                 {
                     stateId: 'grid-details',
-                    header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_DETAILS'/>",
+                    header: "{{i18n PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_DETAILS}}",
                     flex: 1,
                     sortable: true,
                     renderer: Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.allRenderer,
@@ -215,7 +215,7 @@ Ext.define("Ametys.plugins.coreui.system.consolelog.ConsoleLogTool",
                 },
                 {
                     stateId: 'grid-stacktrace',
-                    header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_STACKTRACE'/>",
+                    header: "{{i18n PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_STACKTRACE}}",
                     flex: 1,
                     hidden: true,
                     renderer: Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.stacktraceRendered,

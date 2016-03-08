@@ -131,7 +131,7 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsTool', {
                       ui: 'tool-topclickablemessage',
 					  hidden: true,
 					  itemId: 'no-result',
-					  text: "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_FILTER_NO_MATCH'/>" + "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_FILTER_NO_MATCH_ACTION'/>",
+					  text: "{{i18n PLUGINS_ADMIN_PLUGINS_FILTER_NO_MATCH}}" + "{{i18n PLUGINS_ADMIN_PLUGINS_FILTER_NO_MATCH_ACTION}}",
 					  scope: this,
 					  handler: this._clearSearchFilter
 				  },
@@ -140,7 +140,7 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsTool', {
 	            	  cls: 'hint',
 	            	  hidden: true,
 	            	  dock: 'top',
-	            	  html: "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_CHANGES_PENDING'/>"
+	            	  html: "{{i18n PLUGINS_ADMIN_PLUGINS_CHANGES_PENDING}}"
 	              }
 			],
 					
@@ -173,9 +173,9 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsTool', {
 						flex: 1,
                         maxWidth: 400,
 						itemId: 'plugins-filter-input',
-						emptyText: "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_FILTER'/>",
+						emptyText: "{{i18n PLUGINS_ADMIN_PLUGINS_FILTER}}",
 						minLength: 3,
-						minLengthText: "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_FILTER_INVALID'/>",
+						minLengthText: "{{i18n PLUGINS_ADMIN_PLUGINS_FILTER_INVALID}}",
 						msgTarget: 'qtip',
 						listeners: {change: Ext.Function.createBuffered(this._filter, 500, this)},
 						style: {
@@ -184,7 +184,7 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsTool', {
 					}, 
 					{
 						// Clear filter
-						tooltip: "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_CLEAR_FILTER'/>",
+						tooltip: "{{i18n PLUGINS_ADMIN_PLUGINS_CLEAR_FILTER}}",
 						handler: Ext.bind (this._clearSearchFilter, this),
 						icon: Ametys.getPluginResourcesPrefix('admin') + '/img/plugins/clear.gif',
 						cls: 'a-btn-light'
@@ -195,14 +195,14 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsTool', {
                     },
                     {
 						// Expand all
-						tooltip: "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_EXPAND_ALL'/>",
+						tooltip: "{{i18n PLUGINS_ADMIN_PLUGINS_EXPAND_ALL}}",
 						handler: Ext.bind (this._expandAll, this, [], false),
 						icon: Ametys.getPluginResourcesPrefix('admin') + '/img/plugins/expand-all.gif',
                         cls: 'a-btn-light'
 					},
 					{
 						// Collapse all
-						tooltip: "<i18n:text i18n:key='PLUGINS_ADMIN_PLUGINS_COLLAPSE_ALL'/>",
+						tooltip: "{{i18n PLUGINS_ADMIN_PLUGINS_COLLAPSE_ALL}}",
 						handler: Ext.bind (this._collapseAll, this, [], false),
 						icon: Ametys.getPluginResourcesPrefix('admin') + '/img/plugins/collapse-all.gif',
                         cls: 'a-btn-light'

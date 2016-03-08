@@ -23,15 +23,15 @@ Ext.define('Ametys.form.widget.ColorPicker', {
     /**
      * @cfg {String} buttonText The button text
      */
-    buttonText : "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_COLORPICKER_SHOW_COLORS_BUTTON_TEXT'/>",
+    buttonText : "{{i18n PLUGINS_CORE_UI_WIDGET_COLORPICKER_SHOW_COLORS_BUTTON_TEXT}}",
     /**
      * @cfg {String} buttonTooltipText The button tooltip text
      */ 
-    buttonTooltipText : "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_COLORPICKER_SHOW_COLORS_BUTTON_TOOLTIP'/>",
+    buttonTooltipText : "{{i18n PLUGINS_CORE_UI_WIDGET_COLORPICKER_SHOW_COLORS_BUTTON_TOOLTIP}}",
     /**
      * @cfg {String} emptyText The text for empty field
      */
-    emptyText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_COLORPICKER_EMPTY_TEXT'/>",
+    emptyText: "{{i18n PLUGINS_CORE_UI_WIDGET_COLORPICKER_EMPTY_TEXT}}",
     
     /**
      * @cfg {Object/Object[]} listColors An array of color objects, with properties :

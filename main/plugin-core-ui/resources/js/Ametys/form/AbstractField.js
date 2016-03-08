@@ -72,7 +72,7 @@ Ext.define('Ametys.form.AbstractField', {
      * @cfg {String} blankText
      * The error text to display if the **{@link #allowBlank}** validation fails
      */
-    blankText : "<i18n:text i18n:key='PLUGINS_CORE_UI_DEFAULT_VALIDATOR_MANDATORY'/>",
+    blankText : "{{i18n PLUGINS_CORE_UI_DEFAULT_VALIDATOR_MANDATORY}}",
     
     /**
      *  @cfg {Boolean} allowBlank=true. Specify false to validate that the value is not empty

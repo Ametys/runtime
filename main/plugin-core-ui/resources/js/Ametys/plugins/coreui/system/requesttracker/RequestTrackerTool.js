@@ -82,12 +82,12 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 				scrollable: true,
                 border: true,
 			    columns: [
-			        {stateId: 'grid-id', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_ID'/>", width: 55, sortable: true, dataIndex: 'id', hideable: false},
-			        {stateId: 'grid-type', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_TYPE'/>", width: 85, sortable: true, dataIndex: 'type'},
-			        {stateId: 'grid-date', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_DATE'/>", width: 130, sortable: true, renderer: Ext.util.Format.dateRenderer(Ext.Date.patterns.ShortDateTime), dataIndex: 'date'},
-			        {stateId: 'grid-duration', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_DURATION'/>", width: 65, sortable: true, dataIndex: 'duration'},
-			        {stateId: 'grid-size', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_SIZE'/>", width: 60, sortable: true, dataIndex: 'size'},
-			        {stateId: 'grid-return', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_RETURN'/>", width: 70, sortable: true, dataIndex: 'return'}
+			        {stateId: 'grid-id', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_ID}}", width: 55, sortable: true, dataIndex: 'id', hideable: false},
+			        {stateId: 'grid-type', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_TYPE}}", width: 85, sortable: true, dataIndex: 'type'},
+			        {stateId: 'grid-date', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_DATE}}", width: 130, sortable: true, renderer: Ext.util.Format.dateRenderer(Ext.Date.patterns.ShortDateTime), dataIndex: 'date'},
+			        {stateId: 'grid-duration', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_DURATION}}", width: 65, sortable: true, dataIndex: 'duration'},
+			        {stateId: 'grid-size', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_SIZE}}", width: 60, sortable: true, dataIndex: 'size'},
+			        {stateId: 'grid-return', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_RETURN}}", width: 70, sortable: true, dataIndex: 'return'}
 			    ],
 			    
 			    listeners: {'selectionchange': Ext.bind(this._onSelectRequest, this)}
@@ -112,17 +112,17 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 				store: this.msgStore,
 				scrollable: true,
 			    columns: [
-			        {stateId: 'msgrid-id', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_ID'/>", width: 55, sortable: true, dataIndex: 'id', hideable: false},
-			        {stateId: 'msgrid-readabletype', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_READABLE_TYPE'/>", width: 70, sortable: true, dataIndex: 'readableCallType', renderer: Ext.bind(this._renderCallType, this)},
-			        {stateId: 'msgrid-readablevalue', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_READABLE_VALUE'/>", width: 250, sortable: true, dataIndex: 'readableCallValue'},
-			        {stateId: 'msgrid-plugin', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_PLUGIN'/>", width: 70, sortable: true, hidden: true, dataIndex: 'plugin'},
-			        {stateId: 'msgrid-workspace', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_WORKSPACE'/>", width: 95, sortable: true, hidden: true, dataIndex: 'workspace'},
-			        {stateId: 'msgrid-url', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_URL'/>", width: 180, sortable: true, hidden: true, dataIndex: 'url'},
-			        {stateId: 'msgrid-ccrole', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_CCROLE'/>", width: 180, sortable: true, hidden: true, dataIndex: 'clientCallRole'},
-			        {stateId: 'msgrid-ccid', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_CCID'/>", width: 180, sortable: true, hidden: true, dataIndex: 'clientCallId'},
-			        {stateId: 'msgrid-ccmethod', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_CCMETHOD'/>", width: 180, sortable: true, hidden: true, dataIndex: 'clientCallMethod'},
-			        {stateId: 'msgrid-priority', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY'/>", width: 70, sortable: true, dataIndex: 'priority'},
-			        {stateId: 'msgrid-type', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_TYPE'/>", width: 75, sortable: true, dataIndex: 'type'}
+			        {stateId: 'msgrid-id', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_ID}}", width: 55, sortable: true, dataIndex: 'id', hideable: false},
+			        {stateId: 'msgrid-readabletype', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_READABLE_TYPE}}", width: 70, sortable: true, dataIndex: 'readableCallType', renderer: Ext.bind(this._renderCallType, this)},
+			        {stateId: 'msgrid-readablevalue', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_READABLE_VALUE}}", width: 250, sortable: true, dataIndex: 'readableCallValue'},
+			        {stateId: 'msgrid-plugin', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_PLUGIN}}", width: 70, sortable: true, hidden: true, dataIndex: 'plugin'},
+			        {stateId: 'msgrid-workspace', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_WORKSPACE}}", width: 95, sortable: true, hidden: true, dataIndex: 'workspace'},
+			        {stateId: 'msgrid-url', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_URL}}", width: 180, sortable: true, hidden: true, dataIndex: 'url'},
+			        {stateId: 'msgrid-ccrole', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_CCROLE}}", width: 180, sortable: true, hidden: true, dataIndex: 'clientCallRole'},
+			        {stateId: 'msgrid-ccid', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_CCID}}", width: 180, sortable: true, hidden: true, dataIndex: 'clientCallId'},
+			        {stateId: 'msgrid-ccmethod', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_CCMETHOD}}", width: 180, sortable: true, hidden: true, dataIndex: 'clientCallMethod'},
+			        {stateId: 'msgrid-priority', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY}}", width: 70, sortable: true, dataIndex: 'priority'},
+			        {stateId: 'msgrid-type', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_TYPE}}", width: 75, sortable: true, dataIndex: 'type'}
 			    ],
 			    
 			    listeners: {'selectionchange': Ext.bind(this._onSelectMessage, this) }
@@ -150,18 +150,18 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
                 flex: 0.5,
                 ui: 'panel',
                 cls: 'a-panel-text',
-				defaultHtml: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_MESSAGE'/>",
-				html: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_MESSAGE'/>"
+				defaultHtml: "{{i18n PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_MESSAGE}}",
+				html: "{{i18n PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_MESSAGE}}"
 			});
 			
 			this._messageTpl = new Ext.Template(
-					"<b><i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_URL'/></b> : ",
+					"<b>{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_URL}}</b> : ",
 					"{url}<br/><br/>",
-					"<b><i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_PARAMETERS'/></b> : ",
+					"<b>{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_PARAMETERS}}</b> : ",
 					"<code class='request-tracker'>{parameters}</code><br/>",
-					"<b><i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_RESPONSE'/></b> : ",
+					"<b>{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_RESPONSE}}</b> : ",
 					"<code class='request-tracker'>{response}</code><br/>",
-                    "<b><i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_CALLSTACK'/></b> : <br/>",
+                    "<b>{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_CALLSTACK}}</b> : <br/>",
                     "{callstack}"
 			);
             
@@ -191,11 +191,11 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 		{
 			if (record.get('readableCallType'))
 			{
-				return "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_READABLE_VAL1'/>";
+				return "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_READABLE_VAL1}}";
 			}
 			else
 			{
-				return "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_READABLE_VAL2'/>";
+				return "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_READABLE_VAL2}}";
 			}
 		},
 		
@@ -250,11 +250,11 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 					var priority = "";
 					switch (message.priority)
 					{
-						case Ametys.data.ServerComm.PRIORITY_MAJOR: priority = "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY_MAJOR'/>"; break;
-						case Ametys.data.ServerComm.PRIORITY_NORMAL: priority = "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY_NORMAL'/>"; break;
-						case Ametys.data.ServerComm.PRIORITY_MINOR: priority = "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY_MINOR'/>"; break;
-						case Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS: priority = "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY_SYNCHRONOUS'/>"; break;
-						case Ametys.data.ServerComm.PRIORITY_LONG_REQUEST: priority = "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY_LONG_REQUEST'/>"; break;
+						case Ametys.data.ServerComm.PRIORITY_MAJOR: priority = "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY_MAJOR}}"; break;
+						case Ametys.data.ServerComm.PRIORITY_NORMAL: priority = "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY_NORMAL}}"; break;
+						case Ametys.data.ServerComm.PRIORITY_MINOR: priority = "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY_MINOR}}"; break;
+						case Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS: priority = "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY_SYNCHRONOUS}}"; break;
+						case Ametys.data.ServerComm.PRIORITY_LONG_REQUEST: priority = "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY_LONG_REQUEST}}"; break;
 						default: priority = message.priority;
 					}
 					
@@ -281,7 +281,7 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 						plugin: message.plugin,
 						workspace: message.workspace,
 						url: this._removeGetParameters(message.url),
-						priority: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY_SYNCHRONOUS'/>",
+						priority: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY_SYNCHRONOUS}}",
 						type: message.responseType,
 						clientCallRole: clientCallInfo.role,
 						clientCallId: clientCallInfo.id,
@@ -483,7 +483,7 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 				
 				var record = Ext.create("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool.RequestEntry", {
 					id: id,
-					type: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_TYPE_ASYNC'/>",
+					type: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_TYPE_ASYNC}}",
 					date: new Date(),
 					duration: "...",
 					"return": "...",
@@ -528,13 +528,13 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 				switch (responseType)
 				{
 					case 0:
-						record.set("return", "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_RETURN_OK'/>"); 
+						record.set("return", "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_RETURN_OK}}"); 
 						break;
 					case 1:
-						record.set("return", "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_RETURN_CANCELED'/>");
+						record.set("return", "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_RETURN_CANCELED}}");
 						break;
 					case 2:
-						record.set("return", "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_RETURN_FAILURE'/>");
+						record.set("return", "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_RETURN_FAILURE}}");
 						break;
 				}
 				record.commit();
@@ -562,7 +562,7 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 				window.setTimeout(function() {
 					var record = Ext.create("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool.RequestEntry", {
 						id: id,
-						type: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_TYPE_SYNC'/>",
+						type: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_TYPE_SYNC}}",
 						date: new Date(),
 						duration: "...",
 						"return": "...",
@@ -601,10 +601,10 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 					switch (responseType)
 					{
 						case 0:
-							record.set("return", "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_RETURN_OK'/>"); 
+							record.set("return", "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_RETURN_OK}}"); 
 							break;
 						case 2:
-							record.set("return", "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_RETURN_FAILURE'/>");
+							record.set("return", "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_RETURN_FAILURE}}");
 							break;
 					}
 					record.commit();

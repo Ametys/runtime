@@ -61,13 +61,13 @@ Ext.define(
          * @readonly
          * @private
          */
-        searchMenuDefaultText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_PLACEHOLDER' i18n:catalogue='plugin.core-ui'/>",
+        searchMenuDefaultText: "{{i18n plugin.core-ui:PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_PLACEHOLDER}}",
         /**
          * @property {String} searchMenuHelpItem A template string for the final item menu to open help with that search. An object with a string property "text" is provided to the template.
          * @readonly
          * @private
          */
-        searchMenuHelpItem: "<i18n:text i18n:key='PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_SEARCHITEM_LABEL' i18n:catalogue='plugin.core-ui'>See help for \"{text}\"</i18n:text>",
+        searchMenuHelpItem: "{{i18n plugin.core-ui:PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_SEARCHITEM_LABEL}}",
         
         /**
          * @readonly
@@ -119,7 +119,7 @@ Ext.define(
             config.items = Ext.Array.from(config.items);
             config.items.push({
             	id: "enabledControllersGroup",
-            	text: "<b><i18n:text i18n:key='PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_ITEMS_AVAILABLE'/></b>",
+            	text: "<b>{{i18n PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_ITEMS_AVAILABLE}}</b>",
             	hideOnClick: false,
             	focusable: false
             }, {
@@ -127,7 +127,7 @@ Ext.define(
             	id: 'groupsSeparator'
             }, {
             	id: "disabledControllersGroup",
-            	text: "<b><i18n:text i18n:key='PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_ITEMS_UNAVAILABLE'/></b>",
+            	text: "<b>{{i18n PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_ITEMS_UNAVAILABLE}}</b>",
             	hideOnClick: false,
             	focusable: false
             });

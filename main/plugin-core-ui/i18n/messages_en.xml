@@ -754,7 +754,7 @@
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_DESCRIPTION">Display the server logs in real time.</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_STOP_REQUESTS">Stop receiving server logs.</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CLEAR_GRID">Clear the logs list.</message>
-    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_GRID_STATUSBAR">{0} logs displayed.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_GRID_STATUSBAR">\{0\} logs displayed.</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_GRID_STATUSBAR_EMPTY">No log to display.</message>
     <message key="PLUGINS_CORE_UI_LOGTOOL_DEFAULT_DETAIL_MESSAGE">Select a message on the nearby part to display details.</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_TIMESTAMP_TEXT">Date:</message>

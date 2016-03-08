@@ -19,7 +19,6 @@
 <!-- =========================== Components ================================ -->
 	<map:components>
 		<map:generators default="file">
-		    <map:generator name="i18nizabletext" src="org.ametys.runtime.i18n.I18nizableJSFileGenerator" label="content" logger="org.ametys.runtime.kernel.sitemap.generator.i18ntext" pool-grow="4" pool-max="32" pool-min="8"/>
     		<map:generator name="exception" src="org.apache.cocoon.generation.ExceptionGenerator" logger="org.ametys.runtime.kernel.sitemap.generator.exception"/>
 		</map:generators>
   
@@ -42,6 +41,7 @@
 		<map:readers default="resource">
 			<map:reader name="resource" src="org.ametys.core.cocoon.RuntimeResourceReader" logger="org.ametys.runtime.kernel.sitemap.reader.resource"/>
 			<map:reader name="json" src="org.ametys.core.cocoon.JSonReader" logger="org.ametys.runtime.kernel.sitemap.reader.json"/>
+			<map:reader name="i18n-text" src="org.ametys.core.cocoon.I18nTextReader" logger="org.ametys.runtime.kernel.sitemap.reader.i18ntext"/>
 		</map:readers>
     
 		<map:serializers default="xhtml">
@@ -98,6 +98,7 @@
             <map:action name="plugin-exists" src="org.ametys.runtime.plugin.PluginExistsAction" logger="org.ametys.runtime.kernel.sitemap.actions.plugin-exists"/>
 			<map:action name="exception" src="org.ametys.runtime.exception.ExceptionAction" logger="org.ametys.runtime.kernel.sitemap.actions.exception"/>
             <map:action name="set-authorization-header" src="org.ametys.runtime.authentication.SetAuthorizationHeaderAction" logger="workspace.action.setauthheader"/>
+            <map:action name="resource-not-exists" src="org.ametys.core.util.cocoon.ResourceNotExistsAction"/>
             <map:action name="resource-exists" src="org.apache.cocoon.acting.ResourceExistsAction"/>
 		</map:actions>
 
@@ -155,34 +156,29 @@
                 <map:read src="resource:///org/ametys/runtime/servlet/favicon.ico"/>
             </map:match>
             					
-            <!-- Plugins -->
-            <!-- Plugins dynamic resources (i18n aware JS) -->
-            <map:match pattern="plugins/extjs*/resources/**"><!-- FIXME Hack for ExtJS to remove when modifying i18n way of js -->
-                <map:act type="plugin-exists" src="extjs{1}">
-                    <map:read src="plugin:extjs{../1}://resources/{../2}"/>
-                </map:act>
-            </map:match>
-            <map:match pattern="plugins/tiny_mce*/resources/**"><!-- FIXME Hack for tinymce to remove when modifying i18n way of js -->
-                <map:act type="plugin-exists" src="tiny_mce{1}">
-                    <map:read src="plugin:tiny_mce{../1}://resources/{../2}"/>
-                </map:act>
-            </map:match>
-            <map:match pattern="plugins/codemirror*/resources/**"><!-- FIXME Hack for codemirror to remove when modifying i18n way of js -->
-                <map:act type="plugin-exists" src="codemirror{1}">
-                    <map:read src="plugin:codemirror{../1}://resources/{../2}"/>
-                </map:act>
-            </map:match>
-            <map:match pattern="plugins/*/resources/**.js">
+            <!-- Plugins dynamic resources (i18n aware JS) : forced language -->
+            <map:match pattern="plugins/*/resources/**.*.js">
                 <map:act type="plugin-exists" src="{1}">
-                    <map:generate src="plugin:{../1}://resources/{../2}.js" type="i18nizabletext"/>
-                    <map:transform type="i18n">
-                        <map:parameter name="locale" value="{locale:locale}"/>
-                        <map:parameter name="plugin" value="{../1}"/>
-                    </map:transform>
-                    <map:serialize type="text" mime-type="text/javascript;charset=utf-8"/>
+	                <map:act type="resource-not-exists" src="plugin:{../1}://resources/{../2}.{../3}.js">    
+	                    <map:read src="plugin:{../../1}://resources/{../../2}.js" type="i18n-text">
+	                        <map:parameter name="locale" value="{../../3}"/>
+	                        <map:parameter name="plugin" value="{../../1}"/>
+	                    </map:read>
+	                </map:act>
                 </map:act>
             </map:match>
             
+            <!-- Plugins dynamic resources (i18n aware JS) -->
+            <map:match pattern="plugins/*/resources/**.js">
+                <map:act type="plugin-exists" src="{1}">    
+                    <map:read src="plugin:{../1}://resources/{../2}.js" type="i18n-text">
+	                    <map:parameter name="locale" value="{locale:locale}"/>
+                        <map:parameter name="plugin" value="{../1}"/>
+                    </map:read>
+                </map:act>
+            </map:match>
+            
+            <!-- Other resources (css, images...) -->
             <map:match pattern="plugins/*/resources/**">
                 <map:act type="plugin-exists" src="{1}">
                     <map:read src="plugin:{../1}://resources/{../2}"/>

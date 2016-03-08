@@ -50,17 +50,17 @@ Ext.define("Ametys.plugins.coreui.system.messagetracker.MessageTrackerTool",
             this.callParent(arguments);
             
             this._messageTpl = new Ext.Template(
-                "<b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_ID'/></b> : {id}, - ",
-                "<b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_CREATIONDATE'/></b> : {creationDate}, - ",
-                "<b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_FIREDATE'/></b> : {fireDate}<br/>",
+                "<b>{{i18n PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_ID}}</b> : {id}, - ",
+                "<b>{{i18n PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_CREATIONDATE}}</b> : {creationDate}, - ",
+                "<b>{{i18n PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_FIREDATE}}</b> : {fireDate}<br/>",
                 "<br/>",
-                "<b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_TYPE'/></b> : {type}<br/>",
+                "<b>{{i18n PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_TYPE}}</b> : {type}<br/>",
                 "{parameters}",
                 "<br/>",
-                "<b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_TARGET'/></b> :<br/>",
+                "<b>{{i18n PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_TARGET}}</b> :<br/>",
                 "{targets}<br/>",
                 "<br/>",
-                "<b><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_CALLSTACK'/></b> :<br/>",
+                "<b>{{i18n PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_CALLSTACK}}</b> :<br/>",
                 "{callstack}"
             );
             
@@ -85,7 +85,7 @@ Ext.define("Ametys.plugins.coreui.system.messagetracker.MessageTrackerTool",
             return [
                 {
                     stateId: 'grid-id',
-                    header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_ID'/>",
+                    header: "{{i18n PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_ID}}",
                     width: 40,
                     sortable: true,
                     dataIndex: 'id',
@@ -96,7 +96,7 @@ Ext.define("Ametys.plugins.coreui.system.messagetracker.MessageTrackerTool",
                 },
                 {
                     stateId: 'grid-creationdate',
-                    header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_CREATIONDATE'/>",
+                    header: "{{i18n PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_CREATIONDATE}}",
                     width: 130,
                     sortable: true,
                     renderer: Ext.util.Format.dateRenderer(Ext.Date.patterns.ShortDateTime),
@@ -104,7 +104,7 @@ Ext.define("Ametys.plugins.coreui.system.messagetracker.MessageTrackerTool",
                 },
                 {
                     stateId: 'grid-firedate',
-                    header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_FIREDATE'/>",
+                    header: "{{i18n PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_FIREDATE}}",
                     width: 130,
                     sortable: true,
                     renderer: Ext.util.Format.dateRenderer(Ext.Date.patterns.ShortDateTime),
@@ -112,7 +112,7 @@ Ext.define("Ametys.plugins.coreui.system.messagetracker.MessageTrackerTool",
                 },
                 {
                     stateId: 'grid-type',
-                    header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_TYPE'/>",
+                    header: "{{i18n PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_TYPE}}",
                     width: 150,
                     sortable: true,
                     dataIndex: 'type',
@@ -122,7 +122,7 @@ Ext.define("Ametys.plugins.coreui.system.messagetracker.MessageTrackerTool",
                 },
                 {
                     stateId: 'grid-target',
-                    header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_TARGET'/>",
+                    header: "{{i18n PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_TARGET}}",
                     flex: 1,
                     sortable: true,
                     dataIndex: 'target',
@@ -234,7 +234,7 @@ Ext.define("Ametys.plugins.coreui.system.messagetracker.MessageTrackerTool",
             
             if (targets.length == 0 && offset == 0)
             {
-                s = "<span style='color: #7f7f7f; font-style: italic;'><i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_NOTARGET'/></span>";
+                s = "<span style='color: #7f7f7f; font-style: italic;'>{{i18n PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_NOTARGET}}</span>";
             }
             
             return s;

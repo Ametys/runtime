@@ -109,7 +109,7 @@ Ext.define('Ametys.helper.ChooseLocation', {
 		this._searchErrorMsg = '';
 		
 		this._gmapwindow = Ext.create("Ametys.window.DialogBox",{
-			title: config.title || "<i18n:text i18n:key='PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_DEFAULT_TITLE'/>",
+			title: config.title || "{{i18n PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_DEFAULT_TITLE}}",
 			icon: config.icon || Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/geolocation/geolocation_16.png', 
 			
 			closeAction : 'destroy',
@@ -128,7 +128,7 @@ Ext.define('Ametys.helper.ChooseLocation', {
 				items : [{
 							xtype: 'component',
 							cls: 'a-text',
-							html: config.helpMessage || "<i18n:text i18n:key='PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_HELP_MSG_1'/>"
+							html: config.helpMessage || "{{i18n PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_HELP_MSG_1}}"
 						},
 						{
 							// Search address bar
@@ -140,7 +140,7 @@ Ext.define('Ametys.helper.ChooseLocation', {
 							        {
 							        	xtype: 'textfield',
 							        	id: 'geo-search-textfield',
-							        	fieldLabel: "<i18n:text i18n:key='PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH_LABEL'/>",
+							        	fieldLabel: "{{i18n PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH_LABEL}}",
 							        	labelAlign: 'right',
 							        	labelSeparator: '',
 							        	labelWidth: 80,
@@ -154,7 +154,7 @@ Ext.define('Ametys.helper.ChooseLocation', {
 							        {
 							        	xtype: 'button',
 							        	icon: Ametys.getPluginResourcesPrefix('cms') + '/img/search/search_16.png',
-							        	tooltip : "<i18n:text i18n:key='PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH'/>",				
+							        	tooltip : "{{i18n PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH}}",				
 							        	handler : Ext.bind(this._pinAtTextfieldAddress, this)
 							        }
 							]
@@ -176,10 +176,10 @@ Ext.define('Ametys.helper.ChooseLocation', {
 			
 			// Buttons
 			buttons : [{
-					text :"<i18n:text i18n:key='PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_OK'/>",
+					text :"{{i18n PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_OK}}",
 					handler: Ext.bind(this._ok, this)
 				}, {
-					text :'<i18n:text i18n:key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_CANCEL"/>',
+					text :'{{i18n PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_CANCEL}}',
 					handler: Ext.bind(this._cancel, this)
 				}
 			]
@@ -305,7 +305,7 @@ Ext.define('Ametys.helper.ChooseLocation', {
 			}
 			else
 			{
-				me._setErrorSearchMessage("<i18n:text i18n:key='PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH_NOT_FOUND'/>" + anAddress);
+				me._setErrorSearchMessage("{{i18n PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH_NOT_FOUND}}" + anAddress);
 			}
 		});
 	},

@@ -70,7 +70,7 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
 			},
 			errorMessage: {
 				category: this.self.getName(),
-				msg: "<i18n:text i18n:key='PLUGINS_ADMIN_TOOL_MONITORING_SERVER_ERROR'/>"
+				msg: "{{i18n PLUGINS_ADMIN_TOOL_MONITORING_SERVER_ERROR}}"
 			}
 		});
 	},
@@ -109,7 +109,7 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
 		    		+ '    <button style="border-left-style: none;" id="btn-' + id + '-left" onclick="Ametys.plugins.admin.jvmstatus.MonitoringTool.prototype._nextImg(\'' + id + '\', -1,\'' + response.samples.periods + '\'); return false;">&lt;&lt;</button>'
 		    		+ '    <img id="img-' + id + '" src="' + Ametys.getPluginDirectPrefix("admin") + '/jvmstatus/monitoring/' + id + '/' + response.samples.periods[1] + '.png" title="' + description + '"/>'
 		    		+ '    <button style="border-right-style: none;" id="btn-' + id + '-right"  onclick="Ametys.plugins.admin.jvmstatus.MonitoringTool.prototype._nextImg(\'' + id + '\', +1,\'' + response.samples.periods + '\'); return false;">&gt;&gt;</button>'
-		    		+ '<br/><a target="_blank" href="' + Ametys.getPluginDirectPrefix("admin") + '/jvmstatus/monitoring/' + id + '.xml"><i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_MONITORING_EXPORT"/></a>'
+		    		+ '<br/><a target="_blank" href="' + Ametys.getPluginDirectPrefix("admin") + '/jvmstatus/monitoring/' + id + '.xml">{{i18n PLUGINS_ADMIN_STATUS_TAB_MONITORING_EXPORT}}</a>'
 		    	    + '</div>'
 		    });
 		}

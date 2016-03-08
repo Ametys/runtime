@@ -41,11 +41,11 @@ Ext.define('Ametys.form.widget.AbstractQueryableComboBox', {
     /**
      * @cfg {String} noResultText The text when there is no result found.
      */
-	noResultText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_QUERYABLE_COMBOBOX_NO_RESULT'/>",
+	noResultText: "{{i18n PLUGINS_CORE_UI_WIDGET_QUERYABLE_COMBOBOX_NO_RESULT}}",
 	/**
      * @cfg {String} loadingText The text while loading results
      */
-	loadingText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_QUERYABLE_COMBOBOX_LOADING'/>",
+	loadingText: "{{i18n PLUGINS_CORE_UI_WIDGET_QUERYABLE_COMBOBOX_LOADING}}",
 	
 	/**
      * @cfg {String} emptyText The default text to place into an empty field.

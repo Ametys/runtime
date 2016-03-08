@@ -237,9 +237,9 @@ Ext.define('Ametys.form.field.RichText', {
             toolbarItems.push({ 
                 xtype: 'component', 
                 cls: this.charCounterCls,
-                html: "<i18n:text i18n:key='PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_1'/> "
+                html: "{{i18n PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_1}} "
                      +    '<span id="' + config.id + '-counter-val' + '" class="' + this.charCounterValueCls + '">?</span>'
-                     +    (this._maxLength == Number.MAX_VALUE ? '' : (" <i18n:text i18n:key='PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_2'/> " + this._maxLength)) 
+                     +    (this._maxLength == Number.MAX_VALUE ? '' : (" {{i18n PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_2}} " + this._maxLength)) 
             });
         }
         
@@ -279,8 +279,8 @@ Ext.define('Ametys.form.field.RichText', {
                 tooltip: {
                     glyphIcon: 'flaticon-document209',
                     iconDecorator: 'decorator-flaticon-world91',
-                    title: "<i18n:text i18n:key='PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_PREVIEW_TOOLTIP_TITLE'/>",
-                    text: "<i18n:text i18n:key='PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_PREVIEW_TOOLTIP_TEXT'/>",
+                    title: "{{i18n PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_PREVIEW_TOOLTIP_TITLE}}",
+                    text: "{{i18n PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_PREVIEW_TOOLTIP_TEXT}}",
                     anchor: "br-tr",
                     inribbon: false
                 },
@@ -309,8 +309,8 @@ Ext.define('Ametys.form.field.RichText', {
                 iconCls: 'flaticon-document209',
                 tooltip: {
                     glyphIcon: 'flaticon-document209',
-                    title: "<i18n:text i18n:key='PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_FULLPAGE_TOOLTIP_TITLE'/>",
-                    text: "<i18n:text i18n:key='PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_FULLPAGE_TOOLTIP_TEXT'/>",
+                    title: "{{i18n PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_FULLPAGE_TOOLTIP_TITLE}}",
+                    text: "{{i18n PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_FULLPAGE_TOOLTIP_TEXT}}",
                     anchor: "br-tr",
                     inribbon: false
                 },
@@ -329,8 +329,8 @@ Ext.define('Ametys.form.field.RichText', {
                     iconCls: 'editor-html25',
                     tooltip: {
                         glyphIcon: 'editor-html25',
-                        title: "<i18n:text i18n:key='PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_SOURCE_TOOLTIP_TITLE'/>",
-                        text: "<i18n:text i18n:key='PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_SOURCE_TOOLTIP_TEXT'/>",
+                        title: "{{i18n PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_SOURCE_TOOLTIP_TITLE}}",
+                        text: "{{i18n PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_SOURCE_TOOLTIP_TEXT}}",
                         anchor: "br-tr",
                         inribbon: false
                     },
@@ -1131,7 +1131,7 @@ Ext.define('Ametys.form.field.RichText', {
             }
             else
             {
-                this.markWarning("<i18n:text i18n:key='PLUGINS_CORE_UI_FIELD_RICH_TEXT_HIERARCHY_ERROR'/>");
+                this.markWarning("{{i18n PLUGINS_CORE_UI_FIELD_RICH_TEXT_HIERARCHY_ERROR}}");
             }
         }
         

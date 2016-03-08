@@ -92,7 +92,7 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool', {
 			flex: 0.4,
             
 			store: groupStore,
-			columns: [{flex: 1, header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_GROUPS_LABEL' i18n:catalogue='plugin.core'/>", width: 330, dataIndex: 'label', renderer: this._renderGroupName, hideable: false}],
+			columns: [{flex: 1, header: "{{i18n plugin.core:PLUGINS_CORE_UITOOL_GROUPS_LABEL}}", width: 330, dataIndex: 'label', renderer: this._renderGroupName, hideable: false}],
 			
 			listeners: {
 				selectionchange: {fn: this._onGroupSelectionChange, scope: this}
@@ -124,7 +124,7 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool', {
 				mode: 'MULTI'
 			},
 			
-			columns: [{flex: 1, header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_GROUPS_USERSGROUP'/>", width: 350, dataIndex: 'displayName', renderer: Ext.bind(this._renderUserName, this), hideable: false, sortable: true}],
+			columns: [{flex: 1, header: "{{i18n PLUGINS_CORE_UITOOL_GROUPS_USERSGROUP}}", width: 350, dataIndex: 'displayName', renderer: Ext.bind(this._renderUserName, this), hideable: false, sortable: true}],
 			
 			listeners: {
 				selectionchange: {fn: this._onUserSelectionChange, scope: this}

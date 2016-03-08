@@ -55,7 +55,7 @@ Ext.define(
 	     		},
 	     		errorMessage: {
 					category: this.self.getName(),
-					msg: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_ADD_ERROR'/>"
+					msg: "{{i18n PLUGINS_CORE_GROUPS_ADD_ERROR}}"
 				}
 			});
 			
@@ -90,7 +90,7 @@ Ext.define(
 	     		},
 	     		errorMessage: {
 					category: this.self.getName(),
-					msg: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_RENAME_ERROR'/>"
+					msg: "{{i18n PLUGINS_CORE_GROUPS_RENAME_ERROR}}"
 				}
 			});
 			
@@ -124,7 +124,7 @@ Ext.define(
 	         		handler: this._deleteGroupsCb,
 	     		},
 				errorMessage: {
-				    msg: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_DELETE_ERROR'/>",
+				    msg: "{{i18n PLUGINS_CORE_GROUPS_DELETE_ERROR}}",
 				    category: Ext.getClassName(this)
 				}
 			});
@@ -154,7 +154,7 @@ Ext.define(
 			    role: "org.ametys.plugins.core.group.GroupDAO",
 				methodName: "getGroup",
 				errorMessage: {
-				    msg: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_INFOS_ERROR'/>",
+				    msg: "{{i18n PLUGINS_CORE_GROUPS_INFOS_ERROR}}",
 				    category: Ext.getClassName(this)
 				}
 			});
@@ -190,7 +190,7 @@ Ext.define(
 	         		handler: this._editGroupCb,
 	     		},
 				errorMessage: {
-				    msg: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_UPDATEUSERS_ERROR'/>",
+				    msg: "{{i18n PLUGINS_CORE_GROUPS_UPDATEUSERS_ERROR}}",
 				    category: Ext.getClassName(this)
 				}
 			});
@@ -226,7 +226,7 @@ Ext.define(
 	         		handler: this._editGroupCb,
 	     		},
 				errorMessage: {
-				    msg: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_UPDATEUSERS_ERROR'/>",
+				    msg: "{{i18n PLUGINS_CORE_GROUPS_UPDATEUSERS_ERROR}}",
 				    category: Ext.getClassName(this)
 				}
 			});
@@ -253,9 +253,9 @@ Ext.define(
 				
 				Ametys.notify({
 			        type: 'info',
-			        title: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_ADD_LABEL'/>",
+			        title: "{{i18n PLUGINS_CORE_GROUPS_ADD_LABEL}}",
 			        icon: '/plugins/core/resources/img/groups/group_32.png',
-			        description: Ext.String.format("<i18n:translate><i18n:text i18n:key='PLUGINS_CORE_GROUPS_ADD_NOTIFY'/><i18n:param name='label'>{0}</i18n:param></i18n:translate>", group.label)
+			        description: Ext.String.format("{{i18n PLUGINS_CORE_GROUPS_ADD_NOTIFY}}", group.label)
 			    });
 			}
 		},

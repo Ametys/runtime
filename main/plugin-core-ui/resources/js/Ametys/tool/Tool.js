@@ -698,13 +698,13 @@ Ext.define("Ametys.tool.Tool",
                 ui: 'tool-hintmessage',
                 textAlign: 'left',
                 hidden: true,
-                text:"<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_LABEL'/>",
+                text:"{{i18n PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_LABEL}}",
                 tooltip: {
-                    title: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_TITLE'/>",
+                    title: "{{i18n PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_TITLE}}",
                     image: Ametys.getPluginResourcesPrefix('core-ui') + "/img/tools/reload_32.png",
                     imageWidth: 32,
                     imageHeight: 32,
-                    text: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_DESCRIPTION'/>",
+                    text: "{{i18n PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_DESCRIPTION}}",
                     inribbon: false
                 },
                 handler: Ext.bind(this.refresh, this, [true], false)
@@ -751,7 +751,7 @@ Ext.define("Ametys.tool.Tool",
 			this._oodPanel.show();
 			if (major)
 			{
-                var msg = "<i18n:translate><i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_MAJOR'/><i18n:param><a href=\"#\" onclick=\"Ametys.tool.ToolsManager.getTool('" + this.getId() + "').refresh(); return false;\"></i18n:param><i18n:param></a></i18n:param></i18n:translate>"; 
+                var msg = Ext.String.format("{{i18n PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_MAJOR}}", "<a href=\"#\" onclick=\"Ametys.tool.ToolsManager.getTool('" + this.getId() + "').refresh(); return false;\"", "</a>"); 
 				if (this._contentPanel.rendered)
 				{
 					this._contentPanel.mask(msg, "ametys-mask-unloading");
@@ -811,7 +811,7 @@ Ext.define("Ametys.tool.Tool",
 		{
 			this.showUpToDate();
 
-			msg = msg || "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLS_REFRESHING'/>";
+			msg = msg || "{{i18n PLUGINS_CORE_UI_MSG_TOOLS_REFRESHING}}";
 			
 			if (!this._refreshMask)
 			{

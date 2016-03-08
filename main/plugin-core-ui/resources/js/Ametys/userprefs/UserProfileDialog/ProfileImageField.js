@@ -218,8 +218,8 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
         {
             Ametys.helper.FileUpload.open(
                 Ametys.getPluginResourcesPrefix('core-ui') + '/img/user-profiles/upload-image-icon.png',
-                "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_UPLOAD_TITLE'/>",
-                "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_UPLOAD_HINT'/>",
+                "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_UPLOAD_TITLE}}",
+                "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_UPLOAD_HINT}}",
                 Ext.bind(this._fileUploadCb, this)
             );
             

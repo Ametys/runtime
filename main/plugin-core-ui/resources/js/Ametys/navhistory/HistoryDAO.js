@@ -87,19 +87,19 @@ Ext.define('Ametys.navhistory.HistoryDAO', {
 	 * @readonly
 	 * @property {String} SEARCH_TYPE Type for entries dealing with a research
 	 */
-	SEARCH_TYPE: "<i18n:text i18n:key='PLUGINS_CORE_UI_NAVHISTORY_DAO_SEARCH_TYPE'/>",
+	SEARCH_TYPE: "{{i18n PLUGINS_CORE_UI_NAVHISTORY_DAO_SEARCH_TYPE}}",
 	
 	/**
 	 * @readonly
 	 * @property {String} TOOL_TYPE Type for entries dealing with a tool
 	 */
-	TOOL_TYPE: "<i18n:text i18n:key='PLUGINS_CORE_UI_NAVHISTORY_DAO_TOOL_TYPE'/>",
+	TOOL_TYPE: "{{i18n PLUGINS_CORE_UI_NAVHISTORY_DAO_TOOL_TYPE}}",
 	
 	/**
 	 * @readonly
 	 * @property {String} CONTENT_TYPE Type for entries dealing with a content
 	 */
-	CONTENT_TYPE: "<i18n:text i18n:key='PLUGINS_CORE_UI_NAVHISTORY_DAO_CONTENT_TYPE'/>",
+	CONTENT_TYPE: "{{i18n PLUGINS_CORE_UI_NAVHISTORY_DAO_CONTENT_TYPE}}",
 	
 	/**
 	 * @property {Ext.data.Store} _store The store containing the navhistory events

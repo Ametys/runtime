@@ -23,7 +23,6 @@
         <map:actions>
             <map:action name="authenticate" src="org.ametys.runtime.authentication.AuthenticateAction" logger="workspace.action.authenticate"/>
             <map:action name="set-authorization-header" src="org.ametys.runtime.authentication.SetAuthorizationHeaderAction"  logger="workspace.action.setheader"/>
-            <map:action name="resource-exists" src="org.apache.cocoon.acting.ResourceExistsAction"/>
         </map:actions>
         
         <map:transformers>
@@ -55,25 +54,29 @@
         </map:pipeline>
         
         <map:pipeline>
-            <map:match pattern="resources/**.js">
-                <!-- FIXME temporary compatible with .i18nfiles -->
-                <map:act type="resource-exists" src="resources/{1}.js">
-                    <map:generate src="resources/{../1}.js" type="i18nizabletext"/>
-                    <map:transform type="i18n">
-                        <map:parameter name="locale" value="{locale:locale}"/>
-                        <map:parameter name="workspace" value="workspace"/><!-- Workspace name have to be hardcoded -->
-                    </map:transform>
-                    <map:serialize type="text" mime-type="text/javascript;charset=utf-8"/>
+            <!-- +
+                 | WORKSPACE RESOURCES
+                 + -->
+
+            <!-- JS Files (Forced language) -->
+            <map:match pattern="resources/**.*.js">
+                <map:act type="resource-not-exists" src="resources/{1}.{2}.js">
+                    <map:read src="resources/{1}.js" type="i18n-text">
+                        <map:parameter name="locale" value="{2}"/>
+                        <map:parameter name="workspace" value="admin"/>
+                    </map:read>
                 </map:act>
-                <map:generate src="resources/{1}.i18n.js" type="i18nizabletext"/>
-                <map:transform type="i18n">
+            </map:match>
+        
+            <!-- JS Files -->
+            <map:match pattern="resources/**.js">
+                <map:read src="resources/{1}.js" type="i18n-text">
                     <map:parameter name="locale" value="{locale:locale}"/>
-                    <map:parameter name="workspace" value="workspace"/><!-- Workspace name have to be hardcoded since it can be call throught the web workspace -->
-                </map:transform>
-                <map:serialize type="text" mime-type="text/javascript;charset=utf-8"/>
+                    <map:parameter name="workspace" value="admin"/>
+                </map:read>
             </map:match>
             
-            <!-- Workspace resources -->
+            <!-- Other resources (css, images...) -->
             <map:match pattern="resources/**">
                 <map:read src="resources/{1}"/>
             </map:match>

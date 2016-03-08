@@ -89,11 +89,11 @@ Ext.define('Ametys.plugins.coreui.configurableformpanel.TestsController', {
 		var html = [],
 			tpl = new Ext.Template(
 				"<div class='test-results'>" + 
-					"<span><i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_TEXT'/></span>" +
+					"<span>{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_TEXT}}</span>" +
 					'<ul>' + 
-						"<li> {successes} <i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_SUCCESSES'/></li>" +
-						"<li> {failures} <i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_FAILURES'/></li>" +
-						"<li> {notTested} <i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_NOT_TESTED'/></li>" +
+						"<li> {successes} {{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_SUCCESSES}}</li>" +
+						"<li> {failures} {{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_FAILURES}}</li>" +
+						"<li> {notTested} {{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_NOT_TESTED}}</li>" +
 					'</ul>' +
 				"</div>"
 			);

@@ -146,7 +146,7 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 			flex: 0.3,
 			
 			store: profileStore,
-			columns: [{flex: 1, header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_PROFILES_LABEL' i18n:catalogue='plugin.core'/>", dataIndex: 'label', renderer: this._renderProfilName, hideable: false}],
+			columns: [{flex: 1, header: "{{i18n plugin.core:PLUGINS_CORE_UITOOL_PROFILES_LABEL}}", dataIndex: 'label', renderer: this._renderProfilName, hideable: false}],
 			
 			listeners: {
 				beforeselect: {fn: this._onBeforeSelectProfile, scope: this},
@@ -172,7 +172,7 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
             		itemId: 'no-selection',
 					scrollable: true,
 					border: false,
-                    html: "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_UNSELECTED'/>"
+                    html: "{{i18n PLUGINS_CORE_PROFILES_UNSELECTED}}"
             	},
             	{
             		xtype: 'container',
@@ -184,7 +184,7 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 					items: [ {
                         xtype: 'component',
                         itemId: 'empty-selection',
-                        html: "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_EMPTY'/>"
+                        html: "{{i18n PLUGINS_CORE_PROFILES_EMPTY}}"
                     }]
 				},
 				{
@@ -266,7 +266,7 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
     			}
         	}
         	
-        	Ametys.form.SaveHelper.promptBeforeQuit(null, "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_RIGHTS_CONFIRM_DESCRIPTION'/>", null, callback);
+        	Ametys.form.SaveHelper.promptBeforeQuit(null, "{{i18n PLUGINS_CORE_PROFILES_RIGHTS_CONFIRM_DESCRIPTION}}", null, callback);
         	return;
 		}
 
@@ -428,7 +428,7 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 				}
 			}
 			
-			Ametys.form.SaveHelper.promptBeforeQuit(null, "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_RIGHTS_CONFIRM_DESCRIPTION'/>", null, callback);
+			Ametys.form.SaveHelper.promptBeforeQuit(null, "{{i18n PLUGINS_CORE_PROFILES_RIGHTS_CONFIRM_DESCRIPTION}}", null, callback);
 
 			// Cancel the selection, it will be done after the user answered the dialog
 			return false;
@@ -534,7 +534,7 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
                         padding: '0 3px',
 			        	itemId: 'category-select-all',
 			        	icon: Ametys.getPluginResourcesPrefix('core') + '/img/profiles/select_16.png',
-			        	tooltip: '<i18n:text i18n:key="PLUGINS_CORE_UITOOL_PROFILES_CATEGORY_SELECT_ALL"/>',
+			        	tooltip: '{{i18n PLUGINS_CORE_UITOOL_PROFILES_CATEGORY_SELECT_ALL}}',
 			        	border: false,
                         handler: function() {me.selectAll(categoryId)},
                         listeners: 
@@ -556,7 +556,7 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
                         padding: '0 3px',
 			        	itemId: 'category-unselect-all',
 			        	icon: Ametys.getPluginResourcesPrefix('core') + '/img/profiles/unselect_16.png',
-			        	tooltip: '<i18n:text i18n:key="PLUGINS_CORE_UITOOL_PROFILES_CATEGORY_UNSELECT_ALL"/>',
+			        	tooltip: '{{i18n PLUGINS_CORE_UITOOL_PROFILES_CATEGORY_UNSELECT_ALL}}',
 			        	border: false,
 			        	handler: function() {me.unselectAll(categoryId)},
 			        	listeners: 
@@ -739,7 +739,7 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 					}
 				}
 				
-				Ametys.form.SaveHelper.promptBeforeQuit(null, "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_RIGHTS_CONFIRM_DESCRIPTION'/>", null, callback);
+				Ametys.form.SaveHelper.promptBeforeQuit(null, "{{i18n PLUGINS_CORE_PROFILES_RIGHTS_CONFIRM_DESCRIPTION}}", null, callback);
 			}
 			else
 			{

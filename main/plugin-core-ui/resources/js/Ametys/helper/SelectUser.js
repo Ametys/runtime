@@ -137,7 +137,7 @@ Ext.define('Ametys.helper.SelectUser', {
 		this._initialized = true;
 
 		this._searchField = Ext.create('Ext.form.TextField', {
-			 fieldLabel: "<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_FIND'/>",
+			 fieldLabel: "{{i18n PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_FIND}}",
 			 name: "criteria",
 			 cls: 'ametys',
 			 region: 'north',
@@ -197,7 +197,7 @@ Ext.define('Ametys.helper.SelectUser', {
 		});	
 		
 		this._box = Ext.create('Ametys.window.DialogBox', {
-			title : this.allowMultiselection ? "<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSERS_DIALOG_CAPTION'/>" : "<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CAPTION'/>",
+			title : this.allowMultiselection ? "{{i18n PLUGINS_CORE_UI_USERS_SELECTUSERS_DIALOG_CAPTION}}" : "{{i18n PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CAPTION}}",
 			icon: Ametys.getPluginResourcesPrefix('core') + '/img/users/user_16.png',
 			
 			layout: {
@@ -217,7 +217,7 @@ Ext.define('Ametys.helper.SelectUser', {
 			        		 textAlign: 'center'
 			        	 },
 			        	 cls: 'a-text-warning',
-			        	 html: "<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_WARN100'/>"
+			        	 html: "{{i18n PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_WARN100}}"
 			         }
 			],
 			
@@ -225,10 +225,10 @@ Ext.define('Ametys.helper.SelectUser', {
 			closeAction: 'hide',
 			
 			buttons : [ {
-				text :"<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_OK'/>",
+				text :"{{i18n PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_OK}}",
 				handler : Ext.bind(this.ok, this)
 			}, {
-				text :"<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CANCEL'/>",
+				text :"{{i18n PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CANCEL}}",
 				handler : Ext.bind(this.cancel, this)
 			} ]
 		});
@@ -268,8 +268,8 @@ Ext.define('Ametys.helper.SelectUser', {
 		if (records.length == 0)
 		{
 			Ametys.Msg.show({
-			   title: "<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CAPTION'/>",
-			   msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_NORESULT'/>",
+			   title: "{{i18n PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CAPTION}}",
+			   msg: "{{i18n PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_NORESULT}}",
 			   buttons: Ext.Msg.OK,
 			   icon: Ext.MessageBox.INFO
 			});
@@ -288,8 +288,8 @@ Ext.define('Ametys.helper.SelectUser', {
 		if (selection.length == 0)
 		{
 			Ametys.Msg.show({
-				   title: this.allowMultiselection ? "<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSERS_DIALOG_CAPTION'/>" : "<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CAPTION'/>",
-				   msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_ERROR_EMPTY'/>",
+				   title: this.allowMultiselection ? "{{i18n PLUGINS_CORE_UI_USERS_SELECTUSERS_DIALOG_CAPTION}}" : "{{i18n PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CAPTION}}",
+				   msg: "{{i18n PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_ERROR_EMPTY}}",
 				   buttons: Ext.Msg.OK,
 				   icon: Ext.MessageBox.INFO
 				});

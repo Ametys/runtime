@@ -104,7 +104,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
 			});
             
 			this._box = Ext.create('Ametys.window.DialogBox', {
-				title: this._mode == 'new' ? "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_ADD_TITLE'/>" : "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_EDIT_TITLE'/>",
+				title: this._mode == 'new' ? "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_ADD_TITLE}}" : "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_EDIT_TITLE}}",
 				iconCls: "flaticon-data110 decorator-flaticon-add64",
 				
 				layout: 'fit',
@@ -113,10 +113,10 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
 				
 				closeAction: 'hide',
 				buttons : [{
-					text: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_OK'/>",
+					text: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_OK}}",
 					handler: Ext.bind(this._ok, this)
 				}, {
-					text: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_CANCEL'/>",
+					text: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_CANCEL}}",
 					handler: Ext.bind(function() {this._box.hide();}, this)
 				}]
 			});
@@ -125,7 +125,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
 		}
 		else
 		{
-			this._box.setTitle(this._mode == 'new' ? "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_ADD_TITLE'/>" : "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_EDIT_TITLE'/>");
+			this._box.setTitle(this._mode == 'new' ? "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_ADD_TITLE}}" : "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_EDIT_TITLE}}");
 			this._box.setIconCls("flaticon-data110 " + (this._mode == 'new' ? "decorator-flaticon-add64" : "decorator-flaticon-edit45"));
 			callback(true);
 		}
@@ -152,7 +152,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
 			},
 			errorMessage: {
 				category: this.self.getName(),
-				msg: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_GET_DRIVERS_ERROR'/>"
+				msg: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_GET_DRIVERS_ERROR}}"
 			}
 		});
 	},
@@ -213,8 +213,8 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
             // Name
             'name': {
                 type: 'string',
-                label: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_NAME'/>",
-                description: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_NAME_DESCRIPTION'/>",
+                label: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_NAME}}",
+                description: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_NAME_DESCRIPTION}}",
                 validation: {
                     mandatory: true
                 }
@@ -226,15 +226,15 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
                 'widget-params': {
                     charCounter: false
                 },
-                label: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DESCRIPTION'/>",
-                description: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DESCRIPTION_DESCRIPTION'/>"
+                label: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DESCRIPTION}}",
+                description: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DESCRIPTION_DESCRIPTION}}"
             },
             // Driver 
             'driver': {
 	            type: 'string',
 	            enumeration: driverEnumeration,
-	            label: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DRIVER'/>",
-	            description: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DRIVER_DESCRIPTION'/>",
+	            label: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DRIVER}}",
+	            description: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DRIVER_DESCRIPTION}}",
 	            validation: {
 	                mandatory: true
 	            }
@@ -242,8 +242,8 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
             // Server url
             'url': {
 	            type: 'string',
-	            label: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_URL'/>",
-	            description: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_URL_DESCRIPTION'/>",
+	            label: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_URL}}",
+	            description: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_URL_DESCRIPTION}}",
 	            validation: {
 	                mandatory: true
 	            }
@@ -251,29 +251,29 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
             // Username
             'user': {
 	            type: 'string',
-	            label: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_USER'/>",
-	            description: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_USER_DESCRIPTION'/>"
+	            label: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_USER}}",
+	            description: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_USER_DESCRIPTION}}"
 	        },
             // Password
             'password': {
                 type: 'password',
 	            widget: 'edition.password',
-	            label: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PASSWORD'/>",
-	            description: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PASSWORD_DESCRIPTION'/>"
+	            label: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PASSWORD}}",
+	            description: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PASSWORD_DESCRIPTION}}"
             },
             // Is private ?
             'private': {
                 type: 'boolean',
 	            widget: 'edition.checkbox',
-	            label: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PRIVATE'/>",
-	            description: "<i18n:text i18n:key='PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PRIVATE_DESCRIPTION'/>",
+	            label: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PRIVATE}}",
+	            description: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PRIVATE_DESCRIPTION}}",
 	            'param-checker': {
 	                id: 'sql-connection-checker-datasource',
                     'icon-glyph': 'flaticon-data110',
 	                'linked-params': ['driver', 'url', 'user', 'password'],
 	                'param-ref': 'private',
-	                label: "<i18n:text i18n:key='PLUGINS_CORE_SQL_CONNECTION_CHECKER_LABEL' i18n:catalogue='plugin.core-impl'/>",
-	                description: "<i18n:text i18n:key='PLUGINS_CORE_SQL_CONNECTION_CHECKER_DESC' i18n:catalogue='plugin.core-impl'/>",
+	                label: "{{i18n plugin.core-impl:PLUGINS_CORE_SQL_CONNECTION_CHECKER_LABEL}}",
+	                description: "{{i18n plugin.core-impl:PLUGINS_CORE_SQL_CONNECTION_CHECKER_DESC}}",
 	                order: 1
 	            }
             }
@@ -329,7 +329,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
  		// Test the data source
  		var paramCheckersDAO = this._form._paramCheckersDAO;
  		
- 		Ext.getBody().mask("<i18n:text i18n:key='PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE' i18n:catalogue='plugin.core-ui'/>");
+ 		Ext.getBody().mask("{{i18n plugin.core-ui:PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE}}");
  		paramCheckersDAO.check(paramCheckersDAO._paramCheckers,
  							   true, 
 					           Ext.bind(function(success) 
