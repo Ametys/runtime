@@ -124,7 +124,7 @@ Ext.define('Ametys.plugins.cms.search.solr.EditSolrQueryExtension', {
 	    }
 	    
 	    Ametys.tool.ToolsManager.openTool('uitool-solrsearch', {
-	        id: 'search-tool.solr',
+	        id: 'search-ui.solr',
 	        expanded: true,
 	        values: toolValues
 	    });
