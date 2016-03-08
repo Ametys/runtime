@@ -196,7 +196,7 @@
     <!-- +
          | Tools.js
          + -->
-    <message key="PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_MAJOR">Les données affichées par cet outil ne sont à jour et peuvent être incohérentes.&lt;br/&gt;{0}Cliquez ici pour rafraichir l'affichage{1}.</message>
+    <message key="PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_MAJOR">Les données affichées par cet outil ne sont à jour et peuvent être incohérentes.&lt;br/&gt;\{0\}Cliquez ici pour rafraichir l'affichage\{1\}.</message>
     <message key="PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_LABEL">Les données affichées ne sont plus à jour. Cliquez ici pour rafraîchir l'outil.</message>
     <message key="PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_TITLE">Affichage obsolète</message>
     <message key="PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_DESCRIPTION">Les données qui sont actuellement affichées dans cet écran ne sont plus à jour.&lt;br/&gt;&lt;br/&gt;En cliquant sur le bandeau jaune vous allez lancer un rafraîchissement de la vue.&lt;br/&gt;&lt;br/&gt;&lt;span style='font-style: italic'&gt;Ce rafraîchissement n'est pas fait automatiquement pour des raisons de performances.&lt;/span&gt;</message>

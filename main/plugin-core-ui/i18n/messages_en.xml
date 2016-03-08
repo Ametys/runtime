@@ -195,7 +195,7 @@
     <!-- +
          | Tools.js
          + -->
-    <message key="PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_MAJOR">Data displayed on this tool are not up to date ad can be inconsistent.&lt;br/&gt;{0}Click here to refresh the display{1}.</message>
+    <message key="PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_MAJOR">Data displayed on this tool are not up to date ad can be inconsistent.&lt;br/&gt;\{0\}Click here to refresh the display\{1\}.</message>
     <message key="PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_LABEL">Data are not up to date. Click here to refresh this tool.</message>
     <message key="PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_TITLE">Out of date</message>
     <message key="PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_DESCRIPTION">Data currently displayed are not up to date.&lt;br/&gt;&lt;br/&gt;By clicking on the yellow bar you will refresh the view.&lt;br/&gt;&lt;br/&gt;&lt;span style='font-style: italic'&gt;The refresh is not automatic for performances purpose.&lt;/span&gt;</message>
