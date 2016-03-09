@@ -152,7 +152,7 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
             int endLength = __I18N_END.length();
             int minI18nDeclarationLength = beginningLength + 1 + 1 + endLength; // 1 mandatory backspace and at least 1 character for the key
             
-            char[] srcChars = IOUtils.toCharArray(is);
+            char[] srcChars = IOUtils.toCharArray(is, "UTF-8");
             int srcLength = srcChars.length;
             
             int skip = 0; // Avoid checkstyle warning : "Control variable 'i' is modified"
@@ -208,7 +208,7 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
                 }
             }
             
-            IOUtils.write(outStringBuilder.toString(), out);
+            IOUtils.write(outStringBuilder.toString(), out, "UTF-8");
         }
         finally
         {
