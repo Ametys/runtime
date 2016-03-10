@@ -16,9 +16,12 @@
 package org.ametys.runtime.test.users.jdbc;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.sql.Connection;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.excalibur.xml.dom.DOMHandler;
@@ -26,6 +29,8 @@ import org.apache.excalibur.xml.dom.DOMHandlerFactory;
 import org.apache.excalibur.xml.xpath.XPathProcessor;
 import org.w3c.dom.Node;
 
+import org.ametys.core.datasource.ConnectionHelper;
+import org.ametys.core.script.ScriptRunner;
 import org.ametys.core.user.CredentialsAwareUsersManager;
 import org.ametys.core.user.ModifiableUsersManager;
 import org.ametys.core.user.User;
@@ -37,6 +42,26 @@ import org.ametys.runtime.test.Init;
  */
 public abstract class AbstractJdbcUnmodifiableUsersTestCase extends AbstractJDBCUsersManagerTestCase
 {
+    // FIXME to remove
+    @Override
+    protected void _setDatabase(List<File> scripts) throws Exception
+    {
+        Connection connection = null;
+        
+        try
+        {
+            connection = ConnectionHelper.getInternalSQLDataSourceConnection();
+            
+            for (File script : scripts)
+            {
+                ScriptRunner.runScript(connection, new FileInputStream(script));
+            }
+        }
+        finally
+        {
+            ConnectionHelper.cleanup(connection);
+        }
+    }
     
     /**
      * Provide the scripts to run for populating database.

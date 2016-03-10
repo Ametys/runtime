@@ -63,7 +63,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
 
     private long _lastUpdate;
 
-    private DataSourceCustomerExtensionPoint _dataSourceCustomerEP;
+    private DataSourceConsumerExtensionPoint _dataSourceConsumerEP;
     
     @Override
     public void initialize() throws Exception
@@ -77,7 +77,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
     @Override
     public void service(ServiceManager serviceManager) throws ServiceException
     {
-        _dataSourceCustomerEP = (DataSourceCustomerExtensionPoint) serviceManager.lookup(DataSourceCustomerExtensionPoint.ROLE);
+        _dataSourceConsumerEP = (DataSourceConsumerExtensionPoint) serviceManager.lookup(DataSourceConsumerExtensionPoint.ROLE);
     }
     
     /**
@@ -237,7 +237,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
         
         for (String id : dataSourceIds)
         {
-            if (_dataSourceCustomerEP.isInUse(id))
+            if (_dataSourceConsumerEP.isInUse(id))
             {
                 throw new RuntimeException("The data source '" + id + "' is currently in use. The deletion process has been aborted.");
             }
@@ -285,7 +285,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
                     _dataSourcesDef.put(id, dataSource);
                     
                     // Validate the used SQL data sources if not already in safe mode
-                    if (checkParameters && !PluginsManager.getInstance().isSafeMode() && _dataSourceCustomerEP.isInUse(id))
+                    if (checkParameters && !PluginsManager.getInstance().isSafeMode() && _dataSourceConsumerEP.isInUse(id))
                     {
                         checkParameters (dataSource);
                     }
@@ -385,7 +385,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
      */
     protected void checkDataSources()
     {
-        Set<String> usedDataSourceIds = _dataSourceCustomerEP.getUsedDataSourceIds();
+        Set<String> usedDataSourceIds = _dataSourceConsumerEP.getUsedDataSourceIds();
         for (String dataSourceId : usedDataSourceIds)
         {
             if (dataSourceId != null && dataSourceId.startsWith(getDataSourcePrefixId()) && getDataSourceDefinition(dataSourceId) == null  && !PluginsManager.getInstance().isSafeMode())

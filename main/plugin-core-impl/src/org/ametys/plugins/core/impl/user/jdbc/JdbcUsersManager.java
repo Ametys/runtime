@@ -52,7 +52,6 @@ import org.ametys.core.datasource.ConnectionHelper.DatabaseType;
 import org.ametys.core.user.User;
 import org.ametys.core.user.UsersManager;
 import org.ametys.core.util.CachingComponent;
-import org.ametys.runtime.config.Config;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.AbstractParameterParser;
 import org.ametys.runtime.parameter.DefaultValidator;
@@ -74,9 +73,6 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
 
     /** Plugin name */
     protected String _pluginName;
-
-    /** Connection pool */
-    protected String _poolName;
 
     /** JDBC table name */
     protected String _tableName;
@@ -127,7 +123,6 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
         _enumeratorManager.contextualize(_context);
         _enumeratorManager.service(_manager);
         
-        _poolName = configuration.getChild("pool").getValue();
         _tableName = configuration.getChild("table").getValue("Users");
 
         _parameters = new LinkedHashMap<>();
@@ -177,13 +172,12 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
     }
     
     /**
-     * Get the connection to the database 
+     * Get the connection to the internal database 
      * @return the SQL connection
      */
     protected Connection getSQLConnection ()
     {
-        String dataSourceId = Config.getInstance().getValueAsString(_poolName);
-        return ConnectionHelper.getConnection(dataSourceId);
+        return ConnectionHelper.getInternalSQLDataSourceConnection();
     }
 
     /**

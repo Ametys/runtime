@@ -100,9 +100,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     /** The groups manager */
     protected GroupsManager _groupsManager;
 
-    /** The jdbc pool name */
-    protected String _poolName;
-
+    /** The id of the data source to use */
+    protected String _dataSourceId;
+    
     /** The jdbc table name for profiles' list */
     protected String _tableProfile;
 
@@ -217,15 +217,24 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             configureRights(rightsConfiguration);
         }
 
-        String poolName = configuration.getChild("pool").getValue("");
-        if (poolName.length() == 0)
+        Configuration dataSourceConf = configuration.getChild("datasource", false);
+        if (dataSourceConf == null)
         {
-            String message = "The 'pool' mandatory element is missing or empty";
-            getLogger().error(message);
-            throw new ConfigurationException(message, configuration);
+            throw new ConfigurationException("The 'datasource' configuration node must be defined.", dataSourceConf);
         }
-
-        _poolName = poolName;
+        
+        String dataSourceConfParam = dataSourceConf.getValue();
+        String dataSourceConfType = dataSourceConf.getAttribute("type", "config");
+        
+        if (StringUtils.equals(dataSourceConfType, "config"))
+        {
+            _dataSourceId = Config.getInstance().getValueAsString(dataSourceConfParam);
+        }
+        else // expecting type="id"
+        {
+            _dataSourceId = dataSourceConfParam;
+        }
+        
         _tableProfile = configuration.getChild("table-profile").getValue("Rights_Profile");
         _tableProfileRights = configuration.getChild("table-profile-rights").getValue("Rights_ProfileRights");
         _tableUserRights = configuration.getChild("table-profile-user").getValue("Rights_UserRights");
@@ -265,8 +274,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      */
     protected Connection getSQLConnection ()
     {
-        String dataSourceId = Config.getInstance().getValueAsString(_poolName);
-        return ConnectionHelper.getConnection(dataSourceId);
+        return ConnectionHelper.getConnection(_dataSourceId);
     }
 
     @Override

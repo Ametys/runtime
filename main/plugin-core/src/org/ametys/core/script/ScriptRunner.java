@@ -28,7 +28,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.ametys.core.datasource.ConnectionHelper;
-import org.ametys.runtime.config.Config;
 
 /**
  * Tool to run SQL scripts.<p>
@@ -66,28 +65,6 @@ public final class ScriptRunner
     private ScriptRunner()
     {
         // Nothing to do
-    }
-    
-    /**
-     * Run a SQL script using a connection from the core pool.
-     * @param is the input stream containing the script data.
-     * @throws IOException if an error occurs while reading the script.
-     * @throws SQLException if an error occurs while executing the script.
-     */
-    public static void runScript(InputStream is) throws IOException, SQLException
-    {
-        Connection connection = null;
-        
-        try
-        {
-            String dataSourceId = Config.getInstance().getValueAsString(ConnectionHelper.CORE_POOL_CONFIG_PARAM);
-            connection = ConnectionHelper.getConnection(dataSourceId);
-            runScript(connection, is);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(connection);
-        }
     }
 
     /**

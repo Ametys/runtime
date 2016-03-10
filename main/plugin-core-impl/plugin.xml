@@ -20,27 +20,6 @@
         runtimeVersion="4.0" version="2.0">
     
     <config>
-        <!-- DATASOURCE JDBC -->
-        <param id="runtime.datasource.core.jdbc.pool" type="datasource">
-            <!-- 
-                This parameter contains the jdbc driver class to load to connect the core database pool.
-             -->
-            <label i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_DATASOURCE_LABEL</label>
-            <description i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_DATASOURCE_DESCRIPTION</description>
-            <widget>edition.datasource-sql</widget>
-            <widget-params>
-                <param name="allowCreation">true</param>
-                <param name="allowPrivate">true</param>
-                <param name="allowInternal">true</param>
-            </widget-params>
-            <validation>
-                <mandatory/>
-            </validation>
-            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE</category>
-            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE_GROUP_CORE</group>
-            <order>10</order>
-        </param>
-        
         <!-- DATASOURCE LDAP -->
         <!-- Server -->
         <param id="runtime.datasource.core.ldap" type="datasource">
@@ -296,6 +275,46 @@
             <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</group>
             <order>80</order>
         </param>
+            
+        <!-- USER PREFS DATA SOURCE -->
+        <param id="runtime.usersprefs.datasource" type="datasource">
+            <!-- 
+                This parameter contains the datasource used for the runtime user preferences
+             -->
+            <label i18n="true">PLUGINS_CORE_DATASOURCE_CONFIG_USERPREFS_DATASOURCE_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_DATASOURCE_CONFIG_USERPREFS_DATASOURCE_DESCRIPTION</description>
+            <widget>edition.datasource-sql</widget>
+            <widget-params>
+                <param name="allowCreation">true</param>
+                <param name="allowPrivate">true</param>
+                <param name="allowInternal">true</param>
+            </widget-params>
+            <validation>
+                <mandatory/>
+            </validation>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CONFIG_USERPREFS_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CONFIG_USERPREFS_GROUP</group>
+        </param>
+        
+        <!-- RIGHTS DATA SOURCE -->
+        <param id="runtime.rights.datasource" type="datasource">
+            <!-- 
+                This parameter contains the datasource used for the runtime user preferences
+             -->
+            <label i18n="true">PLUGINS_CORE_DATASOURCE_CONFIG_RIGHTS_DATASOURCE_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_DATASOURCE_CONFIG_RIGHTS_DATASOURCE_DESCRIPTION</description>
+            <widget>edition.datasource-sql</widget>
+            <widget-params>
+                <param name="allowCreation">true</param>
+                <param name="allowPrivate">true</param>
+                <param name="allowInternal">true</param>
+            </widget-params>
+            <validation>
+                <mandatory/>
+            </validation>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CONFIG_RIGHTS_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CONFIG_RIGHTS_GROUP</group>
+        </param>
         
         <!-- +
              | AUTHENTICATION
@@ -482,25 +501,15 @@
         </components>
     </feature>
     
-    <feature name="runtime.datasource.core" passive="true">
-        <!--
-            This feature defines the pool of connection to the database.
-         -->
-        <config>
-            <param-ref id="runtime.datasource.core.jdbc.pool"/>
-        </config>
-    </feature>
-    
-    <feature name="runtime.user.impl.jdbc.core" depends="runtime.datasource.core">
+    <feature name="runtime.user.impl.jdbc.core">
         <!-- 
-            This features defines the base jdbc implementation of users (based on core database pool) 
+            This features defines the base jdbc implementation of users (based on internal data base) 
          -->
         <components>
             <component role="org.ametys.core.user.UsersManager"
                        id="org.ametys.plugins.core.user.CoreJdbc"
                        class="org.ametys.plugins.core.impl.user.jdbc.JdbcUsersManager"
                        logger="org.ametys.plugins.core.impl.users.jdbc.simple">
-                <pool>runtime.datasource.core.jdbc.pool</pool>
                 <table>Users</table>
                 <param id="login"/>
                 <param id="firstname"/>
@@ -510,7 +519,7 @@
         </components>
     </feature>
     
-    <feature name="runtime.user.impl.jdbc.modifiable.core" depends="runtime.datasource.core">
+    <feature name="runtime.user.impl.jdbc.modifiable.core">
         <!-- 
             The same as runtime.user.impl.jdbc.core but where users can be modified through the API
             @see:plugin{feature/runtime.user.impl.jdbc.core}
@@ -520,7 +529,6 @@
                        id="org.ametys.plugins.core.user.CoreModifiableJdbc"
                        class="org.ametys.plugins.core.impl.user.jdbc.ModifiableJdbcUsersManager"
                        logger="org.ametys.plugins.core.impl.users.jdbc.modifiable">
-                <pool>runtime.datasource.core.jdbc.pool</pool>
                 <table>Users</table>
                 <param id="login"/>
                 <param id="firstname"/>
@@ -530,7 +538,7 @@
         </components>
     </feature>
     
-    <feature name="runtime.user.impl.jdbc.credentialsaware.core" depends="runtime.datasource.core">
+    <feature name="runtime.user.impl.jdbc.credentialsaware.core">
         <!-- 
             The same as runtime.user.impl.jdbc.core but where users can be authentified through the API
             @see:plugin{feature/runtime.user.impl.jdbc.core}
@@ -540,7 +548,6 @@
                        id="org.ametys.plugins.core.user.CoreCredentialsAwareJdbc"
                        class="org.ametys.plugins.core.impl.user.jdbc.CredentialsAwareJdbcUsersManager"
                        logger="org.ametys.plugins.core.impl.users.jdbc.credential">
-                <pool>runtime.datasource.core.jdbc.pool</pool>
                 <table>Users</table>
                 <param id="login"/>
                 <param id="password"/>
@@ -552,7 +559,7 @@
         </components>
     </feature>
     
-    <feature name="runtime.user.impl.jdbc.modifiablecredentialsaware.core" depends="runtime.datasource.core">
+    <feature name="runtime.user.impl.jdbc.modifiablecredentialsaware.core">
         <!-- 
             The same as runtime.user.impl.jdbc.core but where users can be modified and authentified through the API
             @see:plugin{feature/runtime.user.impl.jdbc.core}
@@ -564,7 +571,6 @@
                        id="org.ametys.plugins.core.user.CoreModifiableCredentialsAwareJdbc"
                        class="org.ametys.plugins.core.impl.user.jdbc.ModifiableCredentialsAwareJdbcUsersManager"
                        logger="org.ametys.plugins.core.impl.users.jdbc.credentialmodifiable">
-                <pool>runtime.datasource.core.jdbc.pool</pool>
                 <table>Users</table>
                 <param id="login"/>
                 <param id="password"/>
@@ -643,7 +649,7 @@
         </components>
     </feature>
     
-    <feature name="runtime.user.impl.ldap.and.jdbc.credentialsaware" depends="runtime.datasource.core">
+    <feature name="runtime.user.impl.ldap.and.jdbc.credentialsaware">
         <!-- 
             This users manager will search for users into the ldap and into the sql db.
             @see:plugin{feature/runtime.user.impl.ldap.credentialsaware}
@@ -677,7 +683,6 @@
                 
                 <!-- Fallback users manager configuration. -->
                 <FallbackUsersManagerConfiguration>
-                    <pool>runtime.datasource.core.jdbc.pool</pool>
                     <table>Users</table>
                     <param id="login"/>
                     <param id="password"/>
@@ -702,7 +707,7 @@
         </components>
     </feature>
     
-    <feature name="runtime.groups.impl.jdbc" depends="runtime.datasource.core">
+    <feature name="runtime.groups.impl.jdbc">
         <!-- 
             This features defines the base jdbc implementation of groups (based on core database pool)
          -->
@@ -711,7 +716,6 @@
                        id="org.ametys.plugins.core.group.ModifiableJdbcCore"
                        class="org.ametys.plugins.core.impl.group.jdbc.ModifiableJdbcGroupsManager"
                        logger="org.ametys.plugins.core.impl.group.jdbc">
-                <pool>runtime.datasource.core.jdbc.pool</pool>
                 <list>
                     <table>Groups</table>
                     <id>Id</id>
@@ -807,7 +811,6 @@
             @see:plugin{feature/runtime.groups.impl.jdbc}
          -->
         <config>
-            <param-ref id="runtime.datasource.core.jdbc.pool"/>
             <param-ref id="runtime.datasource.core.ldap"/>
             
             <param-ref id="runtime.groups.ldap.groupDN"/>
@@ -840,7 +843,6 @@
                 <UsersLogin>runtime.users.ldap.loginAttr</UsersLogin>
                 
                 <FallbackGroupsManagerConfiguration>
-                    <pool>runtime.datasource.core.jdbc.pool</pool>
                     <list>
                         <table>Groups</table>
                         <id>Id</id>
@@ -856,14 +858,13 @@
         </components>
     </feature>
     
-    <feature name="runtime.groups.impl.ldap.and.jdbc.groupDriven" depends="runtime.datasource.core">
+    <feature name="runtime.groups.impl.ldap.and.jdbc.groupDriven">
         <!-- 
             This users manager will search for users into the ldap (group driven) and into the sql db.
             @see:plugin{feature/runtime.groups.impl.ldap.groupDriven}
             @see:plugin{feature/runtime.groups.impl.jdbc}
          -->
         <config>
-            <param-ref id="runtime.datasource.core.jdbc.pool"/>
             
             <param-ref id="runtime.datasource.core.ldap"/>
             
@@ -893,7 +894,6 @@
                 <Login>runtime.users.ldap.loginAttr</Login>
                 
                 <FallbackGroupsManagerConfiguration>
-                    <pool>runtime.datasource.core.jdbc.pool</pool>
                     <list>
                         <table>Groups</table>
                         <id>Id</id>
@@ -958,7 +958,7 @@
             <component role="org.ametys.core.authentication.CredentialsProvider"
                        id="org.ametys.plugins.core.authentication.FormBased"
                        class="org.ametys.plugins.core.impl.authentication.FormBasedCredentialsProvider"
-                       logger="org.ametys.plugins.core..authentication.formbased">
+                       logger="org.ametys.plugins.core.authentication.formbased">
                 <username-field>Username</username-field>
                 <password-field>Password</password-field>
                 <rememberMe-field>rememberMe</rememberMe-field>
@@ -1087,15 +1087,19 @@
         </components>
     </feature>
     
-    <feature name="runtime.user.preferences.default" depends="runtime.datasource.core,core/runtime.core.sql.userprefs.init">
+    <feature name="runtime.user.preferences.default" depends="core/runtime.core.sql.userprefs.init">
+        <config>
+            <param-ref id="runtime.usersprefs.datasource"/> 
+        </config>
         <!-- 
             The main users'preferences manager implementation, that do store users'prefs into a sql db. 
         -->
+        
         <components>
             <component role="org.ametys.core.userpref.DefaultUserPreferencesStorage"
                        id="org.ametys.plugins.core.userpref.JdbcXmlUserPreferencesStorage"
                        class="org.ametys.plugins.core.impl.userpref.JdbcXmlUserPreferencesStorage">
-                <pool>runtime.datasource.core.jdbc.pool</pool>
+                <datasource type="config">runtime.usersprefs.datasource</datasource>
                 <table>UserPreferences</table>
             </component>
         </components>
@@ -1155,12 +1159,16 @@
         </components>
     </feature>
 
-    <feature name="runtime.rights.impl.profil" depends="runtime.datasource.core,core/runtime.core.sql.profile.init">
+    <feature name="runtime.rights.impl.profil" depends="core/runtime.core.sql.profile.init">
         <!-- 
             This feature declares the profile based rights manager.<br/>
             This manager use the core database pool.
             A profile is a set of atomic rights.
          -->
+        <config>
+            <param-ref id="runtime.rights.datasource"/>
+        </config>
+
         <components>
             <component role="org.ametys.core.right.RightsManager"
                        id="org.ametys.plugins.core.right.DefaultProfileBased"
@@ -1169,15 +1177,18 @@
                 <!--
                     See javadoc.<br/>
                     The configuration is handled in /WEB-INF/param/rights.xml.<br/>
-                    The database pool is runtime.datasource.core.jdbc.pool
+                    The database pool is runtime.rights.datasource
                  -->
                 <rights config="/WEB-INF/param/rights.xml"/>
-                <pool>runtime.datasource.core.jdbc.pool</pool>
+                <datasource type="config">runtime.rights.datasource</datasource>
             </component>
         </components>
     </feature>
 
-    <feature name="runtime.rights.impl.hierarchicalProfil" depends="runtime.datasource.core,core/runtime.core.sql.profile.init">
+    <feature name="runtime.rights.impl.hierarchicalProfil" depends="core/runtime.core.sql.profile.init">
+        <config>
+            <param-ref id="runtime.rights.datasource"/>
+        </config>
         <!-- 
             The same as runtime.rights.impl.profil but where rights are inherited in contexts :
             having the right on '/foo' gives the right on '/foo/subfoo'
@@ -1189,7 +1200,7 @@
                        class="org.ametys.plugins.core.impl.right.profile.HierarchicalProfileBasedRightsManager"
                        logger="org.ametys.plugins.core.impl.right.hierarchicalprofil">
                 <rights config="/WEB-INF/param/rights.xml"/>
-                <pool>runtime.datasource.core.jdbc.pool</pool>
+                <datasource type="config">runtime.rights.datasource</datasource>
             </component>                       
         </components>
     </feature>
@@ -1211,9 +1222,9 @@
          + -->
     <feature name="runtime.core.datasource.client" safe="true">
         <extensions>
-            <extension point="org.ametys.core.datasource.DataSourceCustomerExtensionPoint"
-                       id="org.ametys.plugins.core.impl.datasource.ConfigurationDataSourceCustomer"
-                       class="org.ametys.plugins.core.impl.datasource.ConfigurationDataSourceCustomer">
+            <extension point="org.ametys.core.datasource.DataSourceConsumerExtensionPoint"
+                       id="org.ametys.plugins.core.impl.datasource.ConfigurationDataSourceConsumer"
+                       class="org.ametys.plugins.core.impl.datasource.ConfigurationDataSourceConsumer">
             </extension>
         </extensions>
     </feature>

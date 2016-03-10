@@ -71,7 +71,6 @@ import org.ametys.runtime.workspace.WorkspaceMatcher;
  *                  - A list of URL prefixes that are accessible without authentication. The login and failure URLs are always accessible without authentication.<br><br>
  * 
  * For example :<br>
- *               &lt;pool&gt;runtime.datasource.core.jdbc.pool&lt;/pool&gt;<br>
  *               &lt;username-field&gt;Username&lt;/username-field&gt;<br>
  *               &lt;password-field&gt;Password&lt;/password-field&gt;<br>
  *               &lt;cookie&gt;<br>
@@ -100,8 +99,6 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
     /** Default cookie lifetime (15 days in seconds) */
     public static final int DEFAULT_COOKIE_LIFETIME = 1209600;
     
-    /** The configuration parameter id of the connection pool */
-    protected String _poolConfigParam;
     /** Name of the user name html field */
     protected String _usernameField;
 
@@ -349,8 +346,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
 
         try 
         {
-            String dataSourceId = Config.getInstance().getValueAsString(_poolConfigParam);
-            connection = ConnectionHelper.getConnection(dataSourceId);
+            connection = ConnectionHelper.getInternalSQLDataSourceConnection();
             DatabaseType dbType = ConnectionHelper.getDatabaseType(connection);
             
             if (dbType.equals(DatabaseType.DATABASE_ORACLE))
@@ -408,8 +404,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
 
         try 
         {
-            String dataSourceId = Config.getInstance().getValueAsString(_poolConfigParam);
-            connection = ConnectionHelper.getConnection(dataSourceId);
+            connection = ConnectionHelper.getInternalSQLDataSourceConnection();
             
             // Contruire la requête pour authentifier l'utilisateur
             String sql = "DELETE FROM Users_FormConnectionFailed WHERE login = ?";
@@ -447,8 +442,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
 
         try 
         {
-            String dataSourceId = Config.getInstance().getValueAsString(_poolConfigParam);
-            connection = ConnectionHelper.getConnection(dataSourceId);
+            connection = ConnectionHelper.getInternalSQLDataSourceConnection();
             
             // Contruire la requête pour authentifier l'utilisateur
             String sql = "SELECT nb_connect FROM Users_FormConnectionFailed WHERE login = ?";
@@ -513,8 +507,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
 
         try 
         {
-            String dataSourceId = Config.getInstance().getValueAsString(_poolConfigParam);
-            connection = ConnectionHelper.getConnection(dataSourceId);
+            connection = ConnectionHelper.getInternalSQLDataSourceConnection();
             
             String sqlUpdate = "INSERT INTO Users_FormConnectionFailed (login, nb_connect, last_connect) VALUES (?, ?, ?)";
            
@@ -555,8 +548,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
 
         try 
         {
-            String dataSourceId = Config.getInstance().getValueAsString(_poolConfigParam);
-            connection = ConnectionHelper.getConnection(dataSourceId);
+            connection = ConnectionHelper.getInternalSQLDataSourceConnection();
             String sqlUpdate = "UPDATE Users_FormConnectionFailed SET nb_connect = ? WHERE login = ?";
            
             stmt = connection.prepareStatement(sqlUpdate);
@@ -631,7 +623,6 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        _poolConfigParam = configuration.getChild("pool").getValue(ConnectionHelper.CORE_POOL_CONFIG_PARAM);
         _usernameField = configuration.getChild("username-field").getValue("Username");
         _passwordField = configuration.getChild("password-field").getValue("Password");
         _rememberMeField =  configuration.getChild("rememberMe-field").getValue("rememberMe");

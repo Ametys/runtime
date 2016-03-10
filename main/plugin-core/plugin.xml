@@ -300,8 +300,8 @@
                          class="org.ametys.core.datasource.dbtype.SQLDatabaseTypeExtensionPoint"
                          safe="true"/>
                          
-        <extension-point id="org.ametys.core.datasource.DataSourceCustomerExtensionPoint"
-                         class="org.ametys.core.datasource.DataSourceCustomerExtensionPoint"
+        <extension-point id="org.ametys.core.datasource.DataSourceConsumerExtensionPoint"
+                         class="org.ametys.core.datasource.DataSourceConsumerExtensionPoint"
                          safe="true"/>
         
     </extension-points>
@@ -1358,8 +1358,21 @@
             <extension point="org.ametys.runtime.plugin.InitExtensionPoint"
                        id="org.ametys.core.script.loginform.SqlTablesInit"
                        class="org.ametys.core.script.SqlTablesInit">
+                <datasource type="id">SQL-ametys-internal</datasource>
                 <script testTable="Users_FormConnectionFailed">users_form_failed_connection.sql</script>
                 <script testTable="UsersToken">users_token.sql</script>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="runtime.core.sql.users.and.groups.init">
+        <extensions>
+            <extension point="org.ametys.runtime.plugin.InitExtensionPoint"
+                       id="org.ametys.core.script.users.and.groups.SqlTablesInit"
+                       class="org.ametys.core.script.SqlTablesInit">
+                <datasource type="id">SQL-ametys-internal</datasource>
+                <script testTable="Users">jdbc_users_auth.sql</script>
+                <script testTable="Groups">jdbc_groups.sql</script>
             </extension>
         </extensions>
     </feature>
@@ -1369,6 +1382,7 @@
             <extension point="org.ametys.runtime.plugin.InitExtensionPoint"
                        id="org.ametys.core.script.profile.SqlTablesInit"
                        class="org.ametys.core.script.SqlTablesInit">
+                 <datasource type="id">SQL-ametys-internal</datasource>
                 <script testTable="Rights_Profile">profile_rights.sql</script>
             </extension>
         </extensions>
@@ -1379,6 +1393,7 @@
             <extension point="org.ametys.runtime.plugin.InitExtensionPoint"
                        id="org.ametys.core.script.userprefs.SqlTablesInit"
                        class="org.ametys.core.script.SqlTablesInit">
+                <datasource type="id">SQL-ametys-internal</datasource>
                 <script testTable="UserPreferences">user_prefs.sql</script>
             </extension>
         </extensions>

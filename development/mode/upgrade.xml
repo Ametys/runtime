@@ -122,8 +122,6 @@
 		 	<include name="**/plugin.xml"/>
 			<replacefilter token="factory-id" value="tool-role"/>
 			<replacefilter token=".i18n.js" value=".js"/>
-			
-			<replacefilter token="core/runtime.datasource.core" value="core-impl/runtime.datasource.core"/>
 		</replace>
 		        	
     	<!--file plugin="core">css/users/selectuser.css</file> => <file plugin="core-ui">css/selectuser.css</file>
@@ -256,8 +254,6 @@
     		<replacefilter token="org.ametys.runtime.plugins.core.administrator.version.VersionsHandler" value="org.ametys.core.version.VersionsHandler"/>
     		
     		<replacefilter token="org.ametys.runtime.plugins.core." value="org.ametys.plugins.core."/>
-    		
-    		<replacefilter token="core/runtime.datasource.core" value="core-impl/runtime.datasource.core"/>
    		</replace>
     	
     	<echo message="Upgrade runtime.xml"/>

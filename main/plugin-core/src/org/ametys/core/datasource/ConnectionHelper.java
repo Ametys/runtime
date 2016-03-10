@@ -34,9 +34,6 @@ import org.slf4j.LoggerFactory;
  */
 public final class ConnectionHelper implements Component, Serviceable
 {
-    /** The id of the configuration parameter corresponding to the core connection pool */
-    public static final String CORE_POOL_CONFIG_PARAM = "runtime.datasource.core.jdbc.pool";
-    
     /** Logger for traces */
     private static Logger _logger = LoggerFactory.getLogger(ConnectionHelper.class.getName());
     
@@ -71,6 +68,15 @@ public final class ConnectionHelper implements Component, Serviceable
         _sqlDataSourceManager = (SQLDataSourceManager) serviceManager.lookup(SQLDataSourceManager.ROLE); 
     }
 
+    /**
+     * Get a connection to the internal sql data source
+     * @return java.sql.Connection to query the internal SQL database
+     */
+    public static Connection getInternalSQLDataSourceConnection()
+    {
+        return _sqlDataSourceManager.getInternalSQLDataSourceConnection();
+    }
+    
     /**
      * Returns a Connection from the pool.
      * @param id the id of the data source configuration parameter

@@ -21,39 +21,40 @@
     GROUP DRIVEN LDAP CONFIG
  -->
 <config>
-<runtime.datasource.core.jdbc.pool>SQL-test</runtime.datasource.core.jdbc.pool>
-<runtime.authentication.basic.realm>realm</runtime.authentication.basic.realm>
-<runtime.upload.max-size>10000000</runtime.upload.max-size>
-<runtime.mode.dev>false</runtime.mode.dev>
-<runtime.log.abnormal.time>false</runtime.log.abnormal.time>
-
-<runtime.datasource.core.ldap>LDAP-test-users</runtime.datasource.core.ldap>
-
-<runtime.users.ldap.peopleDN>ou=people</runtime.users.ldap.peopleDN>
-<runtime.users.ldap.baseFilter>(objectclass=inetOrgPerson)</runtime.users.ldap.baseFilter>
-<runtime.users.ldap.scope>sub</runtime.users.ldap.scope>
-<runtime.users.ldap.loginAttr>uid</runtime.users.ldap.loginAttr>
-<runtime.users.ldap.firstnameAttr>givenName</runtime.users.ldap.firstnameAttr>
-<runtime.users.ldap.lastnameAttr>sn</runtime.users.ldap.lastnameAttr>
-<runtime.users.ldap.emailAttr>mail</runtime.users.ldap.emailAttr>
-<runtime.users.ldap.serverSideSorting>true</runtime.users.ldap.serverSideSorting>
-
-<runtime.groups.ldap.groupDN>ou=groups</runtime.groups.ldap.groupDN>
-<runtime.groups.ldap.filter>(objectclass=organizationalUnit)</runtime.groups.ldap.filter>
-<runtime.groups.ldap.scope>one</runtime.groups.ldap.scope>
-<runtime.groups.ldap.id>ou</runtime.groups.ldap.id>
-<runtime.groups.ldap.description>description</runtime.groups.ldap.description>
-<runtime.groups.ldap.memberof>memberOf</runtime.groups.ldap.memberof>
-
-<smtp.mail.host>smtp.anyware.corp</smtp.mail.host>
-<smtp.mail.port>993</smtp.mail.port>
-<smtp.mail.security.protocol>none</smtp.mail.security.protocol>
-<smtp.mail.user></smtp.mail.user>
-<smtp.mail.password></smtp.mail.password>
-<smtp.mail.from>test@ametys.org</smtp.mail.from>
-<smtp.mail.sysadminto>ametys@ametys.org</smtp.mail.sysadminto>
-
-<runtime.captcha.type>jcaptcha</runtime.captcha.type>
-<runtime.captcha.recaptcha.publickey/>
-<runtime.captcha.recaptcha.secretkey/>
+	<runtime.usersprefs.datasource>SQL-test</runtime.usersprefs.datasource>
+	<runtime.rights.datasource>SQL-test</runtime.rights.datasource>
+	<runtime.authentication.basic.realm>realm</runtime.authentication.basic.realm>
+	<runtime.upload.max-size>10000000</runtime.upload.max-size>
+	<runtime.mode.dev>false</runtime.mode.dev>
+	<runtime.log.abnormal.time>false</runtime.log.abnormal.time>
+	
+	<runtime.datasource.core.ldap>LDAP-test-users</runtime.datasource.core.ldap>
+	
+	<runtime.users.ldap.peopleDN>ou=people</runtime.users.ldap.peopleDN>
+	<runtime.users.ldap.baseFilter>(objectclass=inetOrgPerson)</runtime.users.ldap.baseFilter>
+	<runtime.users.ldap.scope>sub</runtime.users.ldap.scope>
+	<runtime.users.ldap.loginAttr>uid</runtime.users.ldap.loginAttr>
+	<runtime.users.ldap.firstnameAttr>givenName</runtime.users.ldap.firstnameAttr>
+	<runtime.users.ldap.lastnameAttr>sn</runtime.users.ldap.lastnameAttr>
+	<runtime.users.ldap.emailAttr>mail</runtime.users.ldap.emailAttr>
+	<runtime.users.ldap.serverSideSorting>true</runtime.users.ldap.serverSideSorting>
+	
+	<runtime.groups.ldap.groupDN>ou=groups</runtime.groups.ldap.groupDN>
+	<runtime.groups.ldap.filter>(objectclass=organizationalUnit)</runtime.groups.ldap.filter>
+	<runtime.groups.ldap.scope>one</runtime.groups.ldap.scope>
+	<runtime.groups.ldap.id>ou</runtime.groups.ldap.id>
+	<runtime.groups.ldap.description>description</runtime.groups.ldap.description>
+	<runtime.groups.ldap.memberof>memberOf</runtime.groups.ldap.memberof>
+	
+	<smtp.mail.host>smtp.anyware.corp</smtp.mail.host>
+	<smtp.mail.port>993</smtp.mail.port>
+	<smtp.mail.security.protocol>none</smtp.mail.security.protocol>
+	<smtp.mail.user></smtp.mail.user>
+	<smtp.mail.password></smtp.mail.password>
+	<smtp.mail.from>test@ametys.org</smtp.mail.from>
+	<smtp.mail.sysadminto>ametys@ametys.org</smtp.mail.sysadminto>
+	
+	<runtime.captcha.type>jcaptcha</runtime.captcha.type>
+	<runtime.captcha.recaptcha.publickey/>
+	<runtime.captcha.recaptcha.secretkey/>
 </config>

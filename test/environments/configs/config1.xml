@@ -20,7 +20,8 @@
     CORRECT runtime2 config
  -->
 <config>
-	<runtime.datasource.core.jdbc.pool>SQL-test</runtime.datasource.core.jdbc.pool>
+    <runtime.usersprefs.datasource>SQL-test</runtime.usersprefs.datasource>
+	<runtime.rights.datasource>SQL-test</runtime.rights.datasource>
 	<runtime.authentication.basic.realm>realm</runtime.authentication.basic.realm>
 	<runtime.upload.max-size>10000000</runtime.upload.max-size>
 	<runtime.mode.dev>false</runtime.mode.dev>
@@ -37,7 +38,4 @@
 	<runtime.captcha.type>jcaptcha</runtime.captcha.type>
     <runtime.captcha.recaptcha.publickey/>
     <runtime.captcha.recaptcha.secretkey/>
-<runtime.captcha.type>jcaptcha</runtime.captcha.type>
-<runtime.captcha.recaptcha.publickey/>
-<runtime.captcha.recaptcha.secretkey/>
 </config>

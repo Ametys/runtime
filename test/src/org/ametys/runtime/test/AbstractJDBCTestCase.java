@@ -22,7 +22,6 @@ import java.util.List;
 
 import org.ametys.core.datasource.ConnectionHelper;
 import org.ametys.core.script.ScriptRunner;
-import org.ametys.runtime.config.Config;
 
 /**
  * Abstract test case for jdbc Runtime test cases.
@@ -40,15 +39,14 @@ public abstract class AbstractJDBCTestCase extends AbstractRuntimeTestCase
         
         try
         {
-            String dataSourceId = Config.getInstance().getValueAsString(ConnectionHelper.CORE_POOL_CONFIG_PARAM);
-            connection = ConnectionHelper.getConnection(dataSourceId);
+            connection = ConnectionHelper.getConnection("SQL-test");
             
             for (File script : scripts)
             {
                 ScriptRunner.runScript(connection, new FileInputStream(script));
             }
         }
-        finally
+        finally 
         {
             ConnectionHelper.cleanup(connection);
         }

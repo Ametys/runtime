@@ -19,17 +19,17 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.ametys.core.datasource.DataSourceCustomer;
+import org.ametys.core.datasource.DataSourceConsumer;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.config.ConfigManager;
 import org.ametys.runtime.config.ConfigParameter;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
 
 /**
- * Implementation of {@link DataSourceCustomer} allowing to know whether a data source is used in the configuration or not.
+ * Implementation of {@link DataSourceConsumer} allowing to know whether a data source is used in the configuration or not.
  * It also allows to retrieve the data source ids that are currently in use.
  */
-public class ConfigurationDataSourceCustomer implements DataSourceCustomer
+public class ConfigurationDataSourceConsumer implements DataSourceConsumer
 {
     @Override
     public boolean isInUse(String id)

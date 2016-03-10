@@ -16,17 +16,19 @@
 package org.ametys.runtime.test.users.jdbc.credentialsaware;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Arrays;
+import java.util.List;
 
 import org.ametys.core.authentication.Credentials;
 import org.ametys.core.datasource.ConnectionHelper;
+import org.ametys.core.script.ScriptRunner;
 import org.ametys.core.user.CredentialsAwareUsersManager;
 import org.ametys.core.user.ModifiableUsersManager;
 import org.ametys.plugins.core.impl.user.jdbc.CredentialsAwareJdbcUsersManager;
-import org.ametys.runtime.config.Config;
 import org.ametys.runtime.test.users.jdbc.AbstractJDBCUsersManagerTestCase;
 
 /**
@@ -34,6 +36,26 @@ import org.ametys.runtime.test.users.jdbc.AbstractJDBCUsersManagerTestCase;
  */
 public abstract class AbstractCredentialsAwareJdbcUsersTestCase extends AbstractJDBCUsersManagerTestCase
 {
+    // FIXME to remove
+    @Override
+    protected void _setDatabase(List<File> scripts) throws Exception
+    {
+        Connection connection = null;
+        
+        try
+        {
+            connection = ConnectionHelper.getInternalSQLDataSourceConnection();
+            
+            for (File script : scripts)
+            {
+                ScriptRunner.runScript(connection, new FileInputStream(script));
+            }
+        }
+        finally
+        {
+            ConnectionHelper.cleanup(connection);
+        }
+    }
     
     /**
      * Provide the scripts to run for populating database.
@@ -111,8 +133,7 @@ public abstract class AbstractCredentialsAwareJdbcUsersTestCase extends Abstract
         
         try
         {
-            String dataSourceId = Config.getInstance().getValueAsString(ConnectionHelper.CORE_POOL_CONFIG_PARAM);
-            connection = ConnectionHelper.getConnection(dataSourceId);
+            connection = ConnectionHelper.getConnection("SQL-test");
             
             String sql = "SELECT password, salt FROM Users WHERE login = ?";
             

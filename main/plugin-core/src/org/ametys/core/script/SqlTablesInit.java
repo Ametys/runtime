@@ -79,8 +79,13 @@ public class SqlTablesInit extends AbstractLogEnabled implements Init, Serviceab
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        Configuration dataSourceConf = configuration.getChild("datasource", true);
-        String dataSourceConfParam = dataSourceConf.getValue(ConnectionHelper.CORE_POOL_CONFIG_PARAM);
+        Configuration dataSourceConf = configuration.getChild("datasource", false);
+        if (dataSourceConf == null)
+        {
+            throw new ConfigurationException("The 'datasource' configuration node must be defined.", dataSourceConf);
+        }
+        
+        String dataSourceConfParam = dataSourceConf.getValue();
         String dataSourceConfType = dataSourceConf.getAttribute("type", "config");
         
         if (StringUtils.equals(dataSourceConfType, "config"))

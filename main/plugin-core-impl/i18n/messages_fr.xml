@@ -26,11 +26,8 @@
     
     <!-- DATASOURCE CORE -->
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE">Base de données</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE_GROUP_CORE">Connexion à la base de données noyau</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP">Annuaire LDAP</message>
     
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_DATASOURCE_LABEL">Base de données noyau</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_DATASOURCE_DESCRIPTION">Spécifiez ici la source de données à utiliser en tant que base de données noyau. Elle sera utilisée pour stocker, entre autres, les utilisateurs, les groupes, les profils de droits...</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP">Annuaire LDAP</message>
     
     <message key="PLUGINS_CORE_SQL_CONNECTION_CHECKER_LABEL">Connexion à une base SQL</message>
     <message key="PLUGINS_CORE_SQL_CONNECTION_CHECKER_DESC">Ce test vérifie que les informations rentrées permettent bien d'établir une connexion à la base de données.</message>
@@ -43,6 +40,23 @@
     
     <message key="PLUGINS_CORE_LDAP_CONNECTION_CHECKER_LABEL">Connexion à un annuaire LDAP</message>
     <message key="PLUGINS_CORE_LDAP_CONNECTION_CHECKER_DESC">Ce test vérifie que les informations rentrées permettent bien d'établir une connexion à un LDAP.</message>
+    
+    <!-- DATASOURCE USER PREFERENCES -->
+    <message key="PLUGINS_CORE_DATASOURCE_CONFIG_USERPREFS_CATEGORY">Préférences utilisateur</message>
+	
+	<message key="PLUGINS_CORE_DATASOURCE_CONFIG_USERPREFS_GROUP">Base de données</message>
+	
+	<message key="PLUGINS_CORE_DATASOURCE_CONFIG_USERPREFS_DATASOURCE_LABEL">Source de données</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CONFIG_USERPREFS_DATASOURCE_DESCRIPTION">Spécifiez ici la source de données à utiliser pour stocker et manipuler les préférences utilisateur.</message>
+    
+    <!-- DATASOURCE RIGHTS -->
+    <message key="PLUGINS_CORE_DATASOURCE_CONFIG_RIGHTS_CATEGORY">Droits</message>
+    
+    <message key="PLUGINS_CORE_DATASOURCE_CONFIG_RIGHTS_GROUP">Base de données</message>
+    
+    <message key="PLUGINS_CORE_DATASOURCE_CONFIG_RIGHTS_DATASOURCE_LABEL">Source de données</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CONFIG_RIGHTS_DATASOURCE_DESCRIPTION">Spécifiez ici la source de données à utiliser pour stocker et manipuler les droits.</message>
+
     
     <!-- USER LDAP -->
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS">Utilisateurs</message>

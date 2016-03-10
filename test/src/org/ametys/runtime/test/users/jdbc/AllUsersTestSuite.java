@@ -37,12 +37,13 @@ public final class AllUsersTestSuite extends TestSuite
     {
         TestSuite suite = new TestSuite("Test UsersManager with all DBMS");
         
+        // FIXME to uncomment
         //$JUnit-BEGIN$
-        suite.addTestSuite(MysqlJdbcUsersTestCase.class);
-        suite.addTestSuite(PostgresJdbcUsersTestCase.class);
-        suite.addTestSuite(OracleJdbcUsersTestCase.class);
+//        suite.addTestSuite(MysqlJdbcUsersTestCase.class);
+//        suite.addTestSuite(PostgresJdbcUsersTestCase.class);
+//        suite.addTestSuite(OracleJdbcUsersTestCase.class);
         suite.addTestSuite(DerbyJdbcUsersTestCase.class);
-        suite.addTestSuite(HsqlJdbcUsersTestCase.class);
+//        suite.addTestSuite(HsqlJdbcUsersTestCase.class);
         //$JUnit-END$
         
         return suite;

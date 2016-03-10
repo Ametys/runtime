@@ -20,7 +20,7 @@ import java.util.Set;
 /**
  * Interface for entities that use data sources
  */
-public interface DataSourceCustomer
+public interface DataSourceConsumer
 {
     /**
      * Determines if a data source is used

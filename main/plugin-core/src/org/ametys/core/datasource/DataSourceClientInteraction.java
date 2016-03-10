@@ -50,7 +50,7 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
     private LDAPDataSourceManager _ldapDataSourceManager;
     
     /** The extension for data source clients */
-    private DataSourceCustomerExtensionPoint _dataSourceCustomerEP;
+    private DataSourceConsumerExtensionPoint _dataSourceConsumerEP;
     
     /**
      * Enum for data source types
@@ -68,7 +68,7 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
     {
         _sqlDataSourceManager = (SQLDataSourceManager) manager.lookup(SQLDataSourceManager.ROLE);
         _ldapDataSourceManager = (LDAPDataSourceManager) manager.lookup(LDAPDataSourceManager.ROLE);
-        _dataSourceCustomerEP = (DataSourceCustomerExtensionPoint) manager.lookup(DataSourceCustomerExtensionPoint.ROLE);
+        _dataSourceConsumerEP = (DataSourceConsumerExtensionPoint) manager.lookup(DataSourceConsumerExtensionPoint.ROLE);
     }
     
     /**
@@ -156,7 +156,7 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
 
         Map<String, Object> def2json = _dataSourceDefinition2Json(ldapDefinition);
         def2json.put("type", "LDAP");
-        def2json.put("isInUse", _dataSourceCustomerEP.isInUse(ldapDefinition.getId()));
+        def2json.put("isInUse", _dataSourceConsumerEP.isInUse(ldapDefinition.getId()));
         
         return def2json;
     }
@@ -174,7 +174,7 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
         
         Map<String, Object> def2json = _dataSourceDefinition2Json(sqlDefinition);
         def2json.put("type", "SQL");
-        def2json.put("isInUse", _dataSourceCustomerEP.isInUse(sqlDefinition.getId()));
+        def2json.put("isInUse", _dataSourceConsumerEP.isInUse(sqlDefinition.getId()));
         
         return def2json;
     }

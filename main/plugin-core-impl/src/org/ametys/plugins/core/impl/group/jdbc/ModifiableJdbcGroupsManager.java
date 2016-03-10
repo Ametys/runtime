@@ -53,7 +53,6 @@ import org.ametys.core.group.ModifiableGroupsManager;
 import org.ametys.core.user.ModifiableUsersManager;
 import org.ametys.core.user.UserListener;
 import org.ametys.core.user.UsersManager;
-import org.ametys.runtime.config.Config;
 import org.ametys.runtime.plugin.PluginsManager;
 import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 
@@ -69,8 +68,6 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
     /** Group listeners */
     protected List<GroupListener> _listeners = new ArrayList<>();
 
-    /** The name of the jdbc pool to use */
-    protected String _poolName;
     /** The name of the jdbc table containing the list of groups */
     protected String _groupsListTable;
     /** The name of the jdbc column in <code>_groupsListTable</code> containing the unique identifier of a group */
@@ -93,8 +90,6 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        _poolName = configuration.getChild("pool").getValue();
-
         Configuration listConfiguration = configuration.getChild("list");
         _groupsListTable = listConfiguration.getChild("table").getValue("Groups");
         _groupsListColId = listConfiguration.getChild("id").getValue("Id");
@@ -197,8 +192,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
      */
     protected Connection getSQLConnection ()
     {
-        String dataSourceId = Config.getInstance().getValueAsString(_poolName);
-        return ConnectionHelper.getConnection(dataSourceId);
+        return ConnectionHelper.getInternalSQLDataSourceConnection();
     }
 
     /**

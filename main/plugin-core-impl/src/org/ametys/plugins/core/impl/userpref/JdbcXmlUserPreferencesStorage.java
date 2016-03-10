@@ -1,5 +1,5 @@
 /*
- *  Copyright 2011 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -47,6 +47,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.excalibur.xml.sax.SAXParser;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -66,12 +67,11 @@ import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
  */
 public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements DefaultUserPreferencesStorage, ThreadSafe, Configurable, Serviceable
 {
-    
     /** A SAX parser. */
     protected SAXParser _saxParser;
     
-    /** Connection pool configuration parameter. */
-    protected String _poolConfigParam;
+    /** The id of the data source used. */
+    protected String _dataSourceId;
     
     /** The database table in which the preferences are stored. */
     protected String _databaseTable;
@@ -79,7 +79,25 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        _poolConfigParam = configuration.getChild("pool").getValue(ConnectionHelper.CORE_POOL_CONFIG_PARAM);
+     // Data source id
+        Configuration dataSourceConf = configuration.getChild("datasource", false);
+        if (dataSourceConf == null)
+        {
+            throw new ConfigurationException("The 'datasource' configuration node must be defined.", dataSourceConf);
+        }
+        
+        String dataSourceConfParam = dataSourceConf.getValue();
+        String dataSourceConfType = dataSourceConf.getAttribute("type", "config");
+        
+        if (StringUtils.equals(dataSourceConfType, "config"))
+        {
+            _dataSourceId = Config.getInstance().getValueAsString(dataSourceConfParam);
+        }
+        else // expecting type="id"
+        {
+            _dataSourceId = dataSourceConfParam;
+        }
+        
         _databaseTable = configuration.getChild("table").getValue();
     }
     
@@ -101,8 +119,7 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
         
         try
         {
-            String dataSourceId = Config.getInstance().getValueAsString(_poolConfigParam);
-            connection = ConnectionHelper.getConnection(dataSourceId);
+            connection = ConnectionHelper.getConnection(_dataSourceId);
             DatabaseType dbType = ConnectionHelper.getDatabaseType(connection);
             
             stmt = connection.prepareStatement("SELECT * FROM " + _databaseTable + " WHERE login = ? AND context = ?");
@@ -160,8 +177,7 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
         
         try
         {
-            String dataSourceId = Config.getInstance().getValueAsString(_poolConfigParam);
-            connection = ConnectionHelper.getConnection(dataSourceId);
+            connection = ConnectionHelper.getConnection(_dataSourceId);
             
             stmt = connection.prepareStatement("DELETE FROM " + _databaseTable + " WHERE login = ? AND context = ?");
             stmt.setString(1, login);
@@ -191,8 +207,7 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
         try (InputStream dataIs = new ByteArrayInputStream(prefBytes);)
         {
             
-            String dataSourceId = Config.getInstance().getValueAsString(_poolConfigParam);
-            connection = ConnectionHelper.getConnection(dataSourceId);
+            connection = ConnectionHelper.getConnection(_dataSourceId);
             
             DatabaseType dbType = ConnectionHelper.getDatabaseType(connection);
             

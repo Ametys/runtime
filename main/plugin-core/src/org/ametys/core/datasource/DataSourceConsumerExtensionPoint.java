@@ -22,17 +22,17 @@ import java.util.Set;
 import org.ametys.runtime.plugin.component.AbstractThreadSafeComponentExtensionPoint;
 
 /**
- * This class is in charge to load and initialize the various {@link DataSourceCustomer} 
+ * This class is in charge to load and initialize the various {@link DataSourceConsumer} 
  */
-public class DataSourceCustomerExtensionPoint extends AbstractThreadSafeComponentExtensionPoint<DataSourceCustomer>
+public class DataSourceConsumerExtensionPoint extends AbstractThreadSafeComponentExtensionPoint<DataSourceConsumer>
 {
     /** Avalon Role */
-    public static final String ROLE = DataSourceCustomerExtensionPoint.class.getName();
+    public static final String ROLE = DataSourceConsumerExtensionPoint.class.getName();
 
     /**
-     * Determines if a data source is in use by a {@link DataSourceCustomer}
+     * Determines if a data source is in use by a {@link DataSourceConsumer}
      * @param id The id of the data source to check
-     * @return true if the data source is used by at least one of the {@link DataSourceCustomer}
+     * @return true if the data source is used by at least one of the {@link DataSourceConsumer}
      */
     public boolean isInUse(String id)
     {
@@ -41,7 +41,7 @@ public class DataSourceCustomerExtensionPoint extends AbstractThreadSafeComponen
 
         while (iterator.hasNext() && !inUse)
         {
-            DataSourceCustomer dataSourceClient = getExtension(iterator.next());
+            DataSourceConsumer dataSourceClient = getExtension(iterator.next());
             inUse = dataSourceClient.isInUse(id);
         }
         
@@ -50,7 +50,7 @@ public class DataSourceCustomerExtensionPoint extends AbstractThreadSafeComponen
     
     /**
      * Retrieve the ids of the used data sources
-     * @return the set of ids of data source used by all of the {@link DataSourceCustomer}
+     * @return the set of ids of data source used by all of the {@link DataSourceConsumer}
      */
     public Set<String> getUsedDataSourceIds()
     {
@@ -59,7 +59,7 @@ public class DataSourceCustomerExtensionPoint extends AbstractThreadSafeComponen
         
         for (String extensionId : extensionsIds)
         {
-            DataSourceCustomer dataSourceClient = getExtension(extensionId);
+            DataSourceConsumer dataSourceClient = getExtension(extensionId);
             usedDataSourceIds.addAll(dataSourceClient.getUsedDataSourceIds());
         }
         

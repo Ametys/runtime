@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -71,9 +71,8 @@ import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
  */
 public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implements UserPreferencesStorage, ThreadSafe, Configurable
 {
-    
-    /** Connection pool name. */
-    protected String _poolConfigParam;
+    /** The id of the data source used. */
+    protected String _dataSourceId;
     
     /** The database table in which the preferences are stored. */
     protected String _databaseTable;
@@ -96,8 +95,25 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        // Default to the core pool.
-        _poolConfigParam = configuration.getChild("pool").getValue(ConnectionHelper.CORE_POOL_CONFIG_PARAM);
+        // Data source id
+        Configuration dataSourceConf = configuration.getChild("datasource", false);
+        if (dataSourceConf == null)
+        {
+            throw new ConfigurationException("The 'datasource' configuration node must be defined.", dataSourceConf);
+        }
+        
+        String dataSourceConfParam = dataSourceConf.getValue();
+        String dataSourceConfType = dataSourceConf.getAttribute("type", "config");
+        
+        if (StringUtils.equals(dataSourceConfType, "config"))
+        {
+            _dataSourceId = Config.getInstance().getValueAsString(dataSourceConfParam);
+        }
+        else // expecting type="id"
+        {
+            _dataSourceId = dataSourceConfParam;
+        }
+        
         // The table configuration is mandatory.
         _databaseTable = configuration.getChild("table").getValue();
         // Default to "login".
@@ -149,9 +165,7 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
         
         try
         {
-            
-            String dataSourceId = Config.getInstance().getValueAsString(_poolConfigParam);
-            connection = ConnectionHelper.getConnection(dataSourceId);
+            connection = ConnectionHelper.getConnection(_dataSourceId);
             
             StringBuilder query = new StringBuilder();
             query.append("SELECT * FROM ").append(_databaseTable).append(" WHERE ").append(_loginColumn).append(" = ?");
@@ -218,8 +232,7 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
         
         try
         {
-            String dataSourceId = Config.getInstance().getValueAsString(_poolConfigParam);
-            connection = ConnectionHelper.getConnection(dataSourceId);
+            connection = ConnectionHelper.getConnection(_dataSourceId);
             
             StringBuilder query = new StringBuilder();
             query.append("DELETE FROM ").append(_databaseTable).append(" WHERE ").append(_loginColumn).append(" = ?");
@@ -257,8 +270,7 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
         Connection connection = null;
         try
         {
-            String dataSourceId = Config.getInstance().getValueAsString(_poolConfigParam);
-            connection = ConnectionHelper.getConnection(dataSourceId);
+            connection = ConnectionHelper.getConnection(_dataSourceId);
             
             // Test if the preferences already exist.
             if (dataExists(connection, login, storageContext))
@@ -303,8 +315,7 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
                     query.append(" AND ").append(_contextColumn).append(" = ?");
                 }
                 
-                String dataSourceId = Config.getInstance().getValueAsString(_poolConfigParam);
-                connection = ConnectionHelper.getConnection(dataSourceId);
+                connection = ConnectionHelper.getConnection(_dataSourceId);
                 
                 statement = connection.prepareStatement(query.toString());
                 statement.setString(1, column);

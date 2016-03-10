@@ -37,7 +37,6 @@ import org.ametys.core.group.GroupsManager;
 import org.ametys.core.group.InvalidModificationException;
 import org.ametys.core.group.ModifiableGroupsManager;
 import org.ametys.plugins.core.impl.group.jdbc.ModifiableJdbcGroupsManager;
-import org.ametys.runtime.config.Config;
 import org.ametys.runtime.test.AbstractJDBCTestCase;
 import org.ametys.runtime.test.Init;
 
@@ -239,8 +238,8 @@ public abstract class AbstractJdbcGroupsTestCase extends AbstractJDBCTestCase
         
         try
         {
-            String dataSourceId = Config.getInstance().getValueAsString(ConnectionHelper.CORE_POOL_CONFIG_PARAM);
-            connection = ConnectionHelper.getConnection(dataSourceId);
+            // FIXME
+            connection = ConnectionHelper.getInternalSQLDataSourceConnection();
             stmt = connection.prepareStatement("SELECT Id FROM Groups order by Id");
             
             rs = stmt.executeQuery();
