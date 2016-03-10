@@ -67,7 +67,9 @@ Open source web application framework based on Apache Cocoon.
     <dependency org="joda-time" name="joda-time" rev="2.8.2" conf="common_dependencies->default"/>
     <dependency org="org.jsoup" name="jsoup" rev="1.8.3" conf="common_dependencies->default"/>
     <dependency org="org.rrd4j" name="rrd4j" rev="2.2.1" conf="common_dependencies->default"/>
-    <dependency org="yahoo" name="yuicompressor" rev="2.4.6" conf="common_dependencies->default"/>
+    <dependency org="com.yahoo.platform.yui" name="yuicompressor" rev="2.4.8" conf="common_dependencies->default">
+        <exclude org="rhino"/>
+    </dependency>
     <dependency org="com.google.guava" name="guava" rev="18.0" conf="common_dependencies->default"/>
     <dependency org="org.fusesource" name="sigar" rev="1.6.4" conf="compile_base->default;runtime_dependencies->runtime">
         <exclude module="sigar-lib" conf="test"/>
