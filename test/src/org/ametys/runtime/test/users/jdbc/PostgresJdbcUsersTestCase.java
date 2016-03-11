@@ -39,14 +39,24 @@ public class PostgresJdbcUsersTestCase extends AbstractJdbcUnmodifiableUsersTest
     @Override
     protected File[] getScripts()
     {
+        return new File[] {
+            new File("test/environments/scripts/jdbc-derby/dropTables.sql"),
+            new File("main/plugin-core/scripts/derby/jdbc_users.sql"),
+            new File("main/plugin-core/scripts/derby/jdbc_groups.sql"),
+            new File("main/plugin-core/scripts/derby/profile_rights.sql")
+        };
+        
+        // FIXME uncomment
         // Use non auth script by default
-        return new File[] {new File("main/plugin-core/scripts/postgresql/jdbc_users.sql")};
+//        return new File[] {new File("main/plugin-core/scripts/postgresql/jdbc_users.sql")};
     }
     
     @Override
     protected File[] getPopulateScripts()
     {
-        return new File[] {new File("test/environments/scripts/jdbc-postgres/fillJDBCUsers.sql")};
+        return new File[] {new File("test/environments/scripts/jdbc-derby/fillJDBCUsers.sql")};
+        // FIXME uncomment
+//        return new File[] {new File("test/environments/scripts/jdbc-postgres/fillJDBCUsers.sql")};
     }
 
 }

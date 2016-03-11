@@ -39,13 +39,31 @@ public class PostgresCredentialsAwareJdbcUsersTestCase extends AbstractCredentia
     @Override
     protected File[] getScripts()
     {
-        return new File[] {new File("main/plugin-core/scripts/postgresql/jdbc_users_auth.sql")};
+        return new File[] {
+            new File("test/environments/scripts/jdbc-derby/dropTables.sql"),
+            new File("main/plugin-core/scripts/derby/jdbc_users_auth.sql"),
+            new File("main/plugin-core/scripts/derby/jdbc_groups.sql"),
+            new File("main/plugin-core/scripts/derby/profile_rights.sql")
+        };
     }
     
     @Override
     protected File[] getPopulateScripts()
     {
-        return new File[] {new File("test/environments/scripts/jdbc-postgres/fillJDBCUsersAuth.sql")};
+        return new File[] {new File("test/environments/scripts/jdbc-derby/fillJDBCUsersAuth.sql")};
     }
+    
+    // FIXME to uncomment
+//    @Override
+//    protected File[] getScripts()
+//    {
+//        return new File[] {new File("main/plugin-core/scripts/postgresql/jdbc_users_auth.sql")};
+//    }
+//    
+//    @Override
+//    protected File[] getPopulateScripts()
+//    {
+//        return new File[] {new File("test/environments/scripts/jdbc-postgres/fillJDBCUsersAuth.sql")};
+//    }
 
 }

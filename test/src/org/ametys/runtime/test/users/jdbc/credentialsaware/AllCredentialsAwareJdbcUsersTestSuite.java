@@ -37,13 +37,12 @@ public final class AllCredentialsAwareJdbcUsersTestSuite extends TestSuite
     {
         TestSuite suite = new TestSuite("Test CredentialsAwareJdbcUsersManager with all DBMS");
         
-        //FIXME to uncomment
         //$JUnit-BEGIN$
-//        suite.addTestSuite(MysqlCredentialsAwareJdbcUsersTestCase.class);
-//        suite.addTestSuite(PostgresCredentialsAwareJdbcUsersTestCase.class);
-//        suite.addTestSuite(OracleCredentialsAwareJdbcUsersTestCase.class);
+        suite.addTestSuite(MysqlCredentialsAwareJdbcUsersTestCase.class);
+        suite.addTestSuite(PostgresCredentialsAwareJdbcUsersTestCase.class);
+        suite.addTestSuite(OracleCredentialsAwareJdbcUsersTestCase.class);
         suite.addTestSuite(DerbyCredentialsAwareJdbcUsersTestCase.class);
-//        suite.addTestSuite(HsqlCredentialsAwareJdbcUsersTestCase.class);
+        suite.addTestSuite(HsqlCredentialsAwareJdbcUsersTestCase.class);
         //$JUnit-END$
         
         return suite;

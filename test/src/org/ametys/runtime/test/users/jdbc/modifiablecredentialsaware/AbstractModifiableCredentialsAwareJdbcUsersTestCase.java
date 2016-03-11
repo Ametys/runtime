@@ -15,12 +15,17 @@
  */
 package org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.ametys.core.authentication.Credentials;
+import org.ametys.core.datasource.ConnectionHelper;
+import org.ametys.core.script.ScriptRunner;
 import org.ametys.core.user.CredentialsAwareUsersManager;
 import org.ametys.core.user.InvalidModificationException;
 import org.ametys.core.user.ModifiableUsersManager;
@@ -34,6 +39,27 @@ import org.ametys.runtime.test.users.jdbc.AbstractJDBCUsersManagerTestCase;
  */
 public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extends AbstractJDBCUsersManagerTestCase
 {
+    
+ // FIXME to remove
+    @Override
+    protected void _setDatabase(List<File> scripts) throws Exception
+    {
+        Connection connection = null;
+        
+        try
+        {
+            connection = ConnectionHelper.getInternalSQLDataSourceConnection();
+            
+            for (File script : scripts)
+            {
+                ScriptRunner.runScript(connection, new FileInputStream(script));
+            }
+        }
+        finally
+        {
+            ConnectionHelper.cleanup(connection);
+        }
+    }
     
     /**
      * Test the getting of users on mysql

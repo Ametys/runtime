@@ -16,6 +16,7 @@
 package org.ametys.runtime.test.groups.jdbc;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -36,6 +37,7 @@ import org.ametys.core.group.GroupListener;
 import org.ametys.core.group.GroupsManager;
 import org.ametys.core.group.InvalidModificationException;
 import org.ametys.core.group.ModifiableGroupsManager;
+import org.ametys.core.script.ScriptRunner;
 import org.ametys.plugins.core.impl.group.jdbc.ModifiableJdbcGroupsManager;
 import org.ametys.runtime.test.AbstractJDBCTestCase;
 import org.ametys.runtime.test.Init;
@@ -45,6 +47,27 @@ import org.ametys.runtime.test.Init;
  */
 public abstract class AbstractJdbcGroupsTestCase extends AbstractJDBCTestCase
 {
+    // FIXME Remove method
+    @Override
+    protected void _setDatabase(List<File> scripts) throws Exception
+    {
+        Connection connection = null;
+        
+        try
+        {
+            connection = ConnectionHelper.getInternalSQLDataSourceConnection();
+            
+            for (File script : scripts)
+            {
+                ScriptRunner.runScript(connection, new FileInputStream(script));
+            }
+        }
+        finally 
+        {
+            ConnectionHelper.cleanup(connection);
+        }
+    }
+    
     /** the groups manager */
     protected GroupsManager _groupsManager;
     

@@ -39,19 +39,29 @@ public class HsqlJdbcUsersTestCase extends AbstractJdbcUnmodifiableUsersTestCase
     @Override
     protected File[] getScripts()
     {
-        // Use non auth script by default
         return new File[] {
-            new File("test/environments/scripts/jdbc-hsqldb/dropTables.sql"),
-            new File("main/plugin-core/scripts/hsqldb/jdbc_users.sql"),
-            new File("main/plugin-core/scripts/hsqldb/jdbc_groups.sql"),
-            new File("main/plugin-core/scripts/hsqldb/profile_rights.sql")
+            new File("test/environments/scripts/jdbc-derby/dropTables.sql"),
+            new File("main/plugin-core/scripts/derby/jdbc_users.sql"),
+            new File("main/plugin-core/scripts/derby/jdbc_groups.sql"),
+            new File("main/plugin-core/scripts/derby/profile_rights.sql")
         };
+        
+        // FIXME uncomment
+        // Use non auth script by default
+//        return new File[] {
+//            new File("test/environments/scripts/jdbc-hsqldb/dropTables.sql"),
+//            new File("main/plugin-core/scripts/hsqldb/jdbc_users.sql"),
+//            new File("main/plugin-core/scripts/hsqldb/jdbc_groups.sql"),
+//            new File("main/plugin-core/scripts/hsqldb/profile_rights.sql")
+//        };
     }
     
     @Override
     protected File[] getPopulateScripts()
     {
-        return new File[] {new File("test/environments/scripts/jdbc-hsqldb/fillJDBCUsers.sql")};
+        return new File[] {new File("test/environments/scripts/jdbc-derby/fillJDBCUsers.sql")};
+        // FIXME uncomment
+//        return new File[] {new File("test/environments/scripts/jdbc-hsqldb/fillJDBCUsers.sql")};
     }
 
 }

@@ -39,7 +39,19 @@ public class MysqlModifiableCredentialsAwareJdbcUsersTestCase extends AbstractMo
     @Override
     protected File[] getScripts()
     {
-        return new File[] {new File("main/plugin-core/scripts/mysql/jdbc_users_auth.sql")};
+        return new File[] {
+            new File("test/environments/scripts/jdbc-derby/dropTables.sql"),
+            new File("main/plugin-core/scripts/derby/jdbc_users_auth.sql"),
+            new File("main/plugin-core/scripts/derby/jdbc_groups.sql"),
+            new File("main/plugin-core/scripts/derby/profile_rights.sql")
+        };
     }
+    
+    // FIXME to uncomment
+//    @Override
+//    protected File[] getScripts()
+//    {
+//        return new File[] {new File("main/plugin-core/scripts/mysql/jdbc_users_auth.sql")};
+//    }
     
 }

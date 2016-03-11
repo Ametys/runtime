@@ -39,19 +39,29 @@ public class OracleJdbcUsersTestCase extends AbstractJdbcUnmodifiableUsersTestCa
     @Override
     protected File[] getScripts()
     {
-        // Use non auth script by default
         return new File[] {
-            new File("test/environments/scripts/jdbc-oracle/dropTables.sql"),
-            new File("main/plugin-core/scripts/oracle/jdbc_users.sql"),
-            new File("main/plugin-core/scripts/oracle/jdbc_groups.sql"),
-            new File("main/plugin-core/scripts/oracle/profile_rights.sql")
+            new File("test/environments/scripts/jdbc-derby/dropTables.sql"),
+            new File("main/plugin-core/scripts/derby/jdbc_users.sql"),
+            new File("main/plugin-core/scripts/derby/jdbc_groups.sql"),
+            new File("main/plugin-core/scripts/derby/profile_rights.sql")
         };
+        
+        // FIXME uncomment
+        // Use non auth script by default
+//        return new File[] {
+//            new File("test/environments/scripts/jdbc-oracle/dropTables.sql"),
+//            new File("main/plugin-core/scripts/oracle/jdbc_users.sql"),
+//            new File("main/plugin-core/scripts/oracle/jdbc_groups.sql"),
+//            new File("main/plugin-core/scripts/oracle/profile_rights.sql")
+//        };
     }
     
     @Override
     protected File[] getPopulateScripts()
     {
-        return new File[] {new File("test/environments/scripts/jdbc-oracle/fillJDBCUsers.sql")};
+        return new File[] {new File("test/environments/scripts/jdbc-derby/fillJDBCUsers.sql")};
+        // FIXME uncomment
+//        return new File[] {new File("test/environments/scripts/jdbc-oracle/fillJDBCUsers.sql")};
     }
 
 }

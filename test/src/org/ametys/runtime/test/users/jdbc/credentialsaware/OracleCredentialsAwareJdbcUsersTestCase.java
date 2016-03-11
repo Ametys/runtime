@@ -40,17 +40,35 @@ public class OracleCredentialsAwareJdbcUsersTestCase extends AbstractCredentials
     protected File[] getScripts()
     {
         return new File[] {
-            new File("test/environments/scripts/jdbc-oracle/dropTables.sql"),
-            new File("main/plugin-core/scripts/oracle/jdbc_users_auth.sql"),
-            new File("main/plugin-core/scripts/oracle/jdbc_groups.sql"),
-            new File("main/plugin-core/scripts/oracle/profile_rights.sql")
+            new File("test/environments/scripts/jdbc-derby/dropTables.sql"),
+            new File("main/plugin-core/scripts/derby/jdbc_users_auth.sql"),
+            new File("main/plugin-core/scripts/derby/jdbc_groups.sql"),
+            new File("main/plugin-core/scripts/derby/profile_rights.sql")
         };
     }
     
     @Override
     protected File[] getPopulateScripts()
     {
-        return new File[] {new File("test/environments/scripts/jdbc-oracle/fillJDBCUsersAuth.sql")};
+        return new File[] {new File("test/environments/scripts/jdbc-derby/fillJDBCUsersAuth.sql")};
     }
+    
+    // FIXME to uncomment
+//    @Override
+//    protected File[] getScripts()
+//    {
+//        return new File[] {
+//            new File("test/environments/scripts/jdbc-oracle/dropTables.sql"),
+//            new File("main/plugin-core/scripts/oracle/jdbc_users_auth.sql"),
+//            new File("main/plugin-core/scripts/oracle/jdbc_groups.sql"),
+//            new File("main/plugin-core/scripts/oracle/profile_rights.sql")
+//        };
+//    }
+//    
+//    @Override
+//    protected File[] getPopulateScripts()
+//    {
+//        return new File[] {new File("test/environments/scripts/jdbc-oracle/fillJDBCUsersAuth.sql")};
+//    }
 
 }
