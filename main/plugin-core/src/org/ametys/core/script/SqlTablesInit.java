@@ -102,6 +102,8 @@ public class SqlTablesInit extends AbstractLogEnabled implements Init, Serviceab
         
         for (Configuration scriptConf : scripts)
         {
+            String pluginName = scriptConf.getAttribute("plugin", _pluginName);
+            
             String testTable = scriptConf.getAttribute("testTable");
             if (StringUtils.isBlank(testTable))
             {
@@ -114,7 +116,7 @@ public class SqlTablesInit extends AbstractLogEnabled implements Init, Serviceab
                 throw new ConfigurationException("The SQL file name cannot be blank.");
             }
             
-            _scripts.add(new InitScript(fileName, testTable));
+            _scripts.add(new InitScript(pluginName, fileName, testTable));
         }
     }
     
@@ -199,12 +201,12 @@ public class SqlTablesInit extends AbstractLogEnabled implements Init, Serviceab
                 return;
         }
         
-        // location = plugin:PLUGIN_NAME://scripts/SCRIPT_FOLDER/SQL_FILENAME
-        StringBuilder sb = new StringBuilder("plugin:").append(_pluginName).append("://scripts/").append(scriptFolder).append('/');
-        String locationPrefix = sb.toString(); 
-        
         for (InitScript initScript : _scripts)
         {
+            // location = plugin:PLUGIN_NAME://scripts/SCRIPT_FOLDER/SQL_FILENAME
+            StringBuilder sb = new StringBuilder("plugin:").append(initScript._pluginName).append("://scripts/").append(scriptFolder).append('/');
+            String locationPrefix = sb.toString();
+            
             if (!tableExists(connection, initScript._testTable))
             {
                 String location = locationPrefix + initScript._fileName;
@@ -270,11 +272,13 @@ public class SqlTablesInit extends AbstractLogEnabled implements Init, Serviceab
     
     private static class InitScript
     {
+        final String _pluginName;
         final String _fileName;
         final String _testTable;
         
-        public InitScript(String fileNameArg, String testTableArg)
+        public InitScript(String pluginNameArg, String fileNameArg, String testTableArg)
         {
+            _pluginName = pluginNameArg;
             _fileName = fileNameArg;
             _testTable = testTableArg;
         }
