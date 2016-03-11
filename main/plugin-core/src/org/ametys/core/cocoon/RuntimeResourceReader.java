@@ -23,12 +23,15 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.ResourceNotFoundException;
+import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Source;
 import org.apache.cocoon.environment.SourceResolver;
 import org.apache.cocoon.reading.ResourceReader;
@@ -60,6 +63,14 @@ public class RuntimeResourceReader extends ResourceReader implements Serviceable
     }
     
     @Override
+    public void configure(Configuration configuration) throws ConfigurationException
+    {
+        super.configure(configuration);
+        
+        quickTest = true;
+    }
+    
+    @Override
     public void setup(SourceResolver initialResolver, Map cocoonObjectModel, String src, Parameters par) throws ProcessingException, SAXException, IOException
     {
         org.apache.excalibur.source.SourceResolver runtimeResolver;
@@ -80,6 +91,14 @@ public class RuntimeResourceReader extends ResourceReader implements Serviceable
         _maxHeight = par.getParameterAsInteger("maxHeight", 0);
         
         super.setup(new SourceResolverWrapper(runtimeResolver), cocoonObjectModel, src, par);
+        
+        @SuppressWarnings("unchecked")
+        Map<String, Object> params = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
+        
+        if (params != null)
+        {
+            params.put("lastModified", getLastModified());
+        }
     }
     
     @Override
