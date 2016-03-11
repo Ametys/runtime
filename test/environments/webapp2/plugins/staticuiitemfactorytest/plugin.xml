@@ -20,8 +20,8 @@
         runtimeVersion="4.0" version="4.0">
          
     <extension-points>
-        <extension-point id="DesktopManagerTest" 
-                		 class="org.ametys.plugins.core.ui.item.DesktopManager">
+        <extension-point id="ribbonManagerTest" 
+                		 class="org.ametys.core.ui.RibbonControlsManager">
                <actions>
                    <category name="ONE">
                        <item id="staticuiitemfactorytest.1"/>
@@ -42,17 +42,17 @@
     <feature name="staticuiitemfactorytest">
         <extensions>
             <!-- Single class item -->
-            <extension point="DesktopManagerTest" 
+            <extension point="ribbonManagerTest" 
                        id="staticuiitemfactorytest.1"
                        class="org.ametys.core.ui.StaticClientSideElement"
                        logger="tests.staticuiitemfactory">
                 
                 <class name="JavascriptClass">
-					<param name="label" i18n="true">label</param>
+					<param name="label" type="i18n">label</param>
 					<param name="default-description" i18n="true">description</param>
-					<param name="icon-small" file="true">img/icon_small.gif</param>
-					<param name="icon-medium" file="true">img/icon_medium.gif</param>
-					<param name="icon-large" file="true">img/icon_large.gif</param>
+					<param name="icon-small" type="file">img/icon_small.gif</param>
+					<param name="icon-medium" type="file">img/icon_medium.gif</param>
+					<param name="icon-large" type="file">img/icon_large.gif</param>
 				</class>   
 				<scripts>
 					<file>js/script.js</file>
@@ -60,7 +60,7 @@
             </extension>
 
             <!-- Single link item -->
-            <extension point="DesktopManagerTest" 
+            <extension point="ribbonManagerTest" 
                        id="staticuiitemfactorytest.3"
                        class="org.ametys.core.ui.StaticClientSideElement"
                        logger="tests.staticuiitemfactory">
@@ -77,7 +77,7 @@
             </extension>
             
             <!-- Other plugin items -->
-            <extension point="DesktopManagerTest" 
+            <extension point="ribbonManagerTest" 
                        id="staticuiitemfactorytest.4"
                        class="org.ametys.core.ui.StaticClientSideElement"
                        logger="tests.staticuiitemfactory">
@@ -93,7 +93,7 @@
 				</scripts> 
             </extension>
             
-            <extension point="DesktopManagerTest" 
+            <extension point="ribbonManagerTest" 
                        id="staticuiitemfactorytest.5"
                        class="org.ametys.core.ui.StaticClientSideElement"
                        logger="tests.staticuiitemfactory">

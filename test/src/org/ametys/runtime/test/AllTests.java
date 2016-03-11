@@ -23,7 +23,6 @@ import org.ametys.runtime.test.groups.ldap.UserDrivenLdapGroupsTestCase;
 import org.ametys.runtime.test.groups.others.EmptyGroupsTestCase;
 import org.ametys.runtime.test.plugins.PluginsTestCase;
 import org.ametys.runtime.test.rights.basic.BasicRightsManagerTestCase;
-import org.ametys.runtime.test.ui.DesktopManagerTestCase;
 import org.ametys.runtime.test.ui.StaticUIItemFactoryTestCase;
 import org.ametys.runtime.test.userpref.AllUserPreferencesTestSuite;
 import org.ametys.runtime.test.users.jdbc.AllUsersTestSuite;
@@ -90,7 +89,6 @@ public final class AllTests
         suite.addTest(AllUserPreferencesTestSuite.suite());
         
         suite.addTestSuite(StaticUIItemFactoryTestCase.class);
-        suite.addTestSuite(DesktopManagerTestCase.class);
 
         suite.addTestSuite(DateConversionTestCase.class);
         suite.addTestSuite(JSONTestCase.class);

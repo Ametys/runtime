@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -19,15 +19,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
 import org.apache.avalon.framework.service.ServiceManager;
 
 import org.ametys.core.ui.ClientSideElement;
+import org.ametys.core.ui.RibbonControlsManager;
 import org.ametys.core.util.JSONUtils;
-import org.ametys.plugins.core.ui.item.DesktopManager;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.Init;
+
+import junit.framework.TestCase;
 
 /**
  * {@link TestCase} for converting or parsing JSON string
@@ -35,7 +35,7 @@ import org.ametys.runtime.test.Init;
 public class JSONTestCase extends AbstractRuntimeTestCase
 {
     JSONUtils _jsonUtils;
-    DesktopManager _desktopManager;
+    RibbonControlsManager _ribbonManager;
     
     @Override
     protected void setUp() throws Exception
@@ -45,7 +45,7 @@ public class JSONTestCase extends AbstractRuntimeTestCase
         
         ServiceManager manager = Init.getPluginServiceManager();
         _jsonUtils = (JSONUtils) manager.lookup(JSONUtils.ROLE);
-        _desktopManager = (DesktopManager) manager.lookup("DesktopManagerTest");
+        _ribbonManager = (RibbonControlsManager) manager.lookup("ribbonManagerTest");
     }
     
     @Override
@@ -85,7 +85,7 @@ public class JSONTestCase extends AbstractRuntimeTestCase
     {
         Map<String, Object> environmentInformation = _cocoon._enterEnvironment();
         
-        ClientSideElement itemFactory3 = _desktopManager.getExtension("staticuiitemfactorytest.5");
+        ClientSideElement itemFactory3 = _ribbonManager.getExtension("staticuiitemfactorytest.5");
         Map<String, Object> parameters = itemFactory3.getParameters(null);
         
         String expectedJson = "{\"label\":\"label\",\"default-description\":\"description\",\"icon-small\":\"/plugins/core/resources/img/icon_small.gif\",\"icon-medium\":\"/plugins/core/resources/img/icon_medium.gif\",\"icon-large\":\"/plugins/core/resources/img/icon_large.gif\",\"child\":{\"id\":\"child-1\",\"label\":\"label\"}}";

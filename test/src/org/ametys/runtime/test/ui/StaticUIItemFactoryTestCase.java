@@ -16,8 +16,8 @@
 package org.ametys.runtime.test.ui;
 
 import org.ametys.core.ui.ClientSideElement;
+import org.ametys.core.ui.RibbonControlsManager;
 import org.ametys.core.ui.StaticClientSideElement;
-import org.ametys.plugins.core.ui.item.DesktopManager;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.Init;
@@ -28,13 +28,13 @@ import org.ametys.runtime.test.Init;
 public class StaticUIItemFactoryTestCase extends AbstractRuntimeTestCase
 {
     /** The runtime ui item maanger */
-    protected DesktopManager _desktopManager;
+    protected RibbonControlsManager _ribbonManager;
     
     @Override
     protected void setUp() throws Exception
     {
         _startApplication("test/environments/runtimes/runtime01.xml", "test/environments/configs/config1.xml", "test/environments/webapp2");
-        _desktopManager = (DesktopManager) Init.getPluginServiceManager().lookup("DesktopManagerTest");
+        _ribbonManager = (RibbonControlsManager) Init.getPluginServiceManager().lookup("ribbonManagerTest");
     }
     
     @Override
@@ -50,7 +50,7 @@ public class StaticUIItemFactoryTestCase extends AbstractRuntimeTestCase
      */
     public void testUnexisting() throws Exception
     {
-        ClientSideElement itemFactory0 = _desktopManager.getExtension("unexisting");
+        ClientSideElement itemFactory0 = _ribbonManager.getExtension("unexisting");
         assertNull(itemFactory0);
     }
     
@@ -63,7 +63,7 @@ public class StaticUIItemFactoryTestCase extends AbstractRuntimeTestCase
         /**
          * 1st FACTORY 
          */
-        ClientSideElement itemFactory1 = _desktopManager.getExtension("staticuiitemfactorytest.1");
+        ClientSideElement itemFactory1 = _ribbonManager.getExtension("staticuiitemfactorytest.1");
         assertNotNull(itemFactory1);
         assertTrue(itemFactory1 instanceof StaticClientSideElement);
         // action
@@ -104,7 +104,7 @@ public class StaticUIItemFactoryTestCase extends AbstractRuntimeTestCase
         /**
          * 3rd FACTORY 
          */
-        ClientSideElement itemFactory3 = _desktopManager.getExtension("staticuiitemfactorytest.3");
+        ClientSideElement itemFactory3 = _ribbonManager.getExtension("staticuiitemfactorytest.3");
         assertNotNull(itemFactory3);
         assertTrue(itemFactory3 instanceof StaticClientSideElement);
         // action
@@ -143,7 +143,7 @@ public class StaticUIItemFactoryTestCase extends AbstractRuntimeTestCase
         /**
          * 4th FACTORY 
          */
-        ClientSideElement itemFactory4 = _desktopManager.getExtension("staticuiitemfactorytest.4");
+        ClientSideElement itemFactory4 = _ribbonManager.getExtension("staticuiitemfactorytest.4");
         assertNotNull(itemFactory4);
         assertTrue(itemFactory4 instanceof StaticClientSideElement);
         // action
