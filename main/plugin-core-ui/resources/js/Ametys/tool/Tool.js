@@ -110,6 +110,11 @@ Ext.define("Ametys.tool.Tool",
 			OOD_MAJOROUTOFDATE: 2
 		},
 		
+        /**
+         * @property {Ext.Component} _contentPanel The content panel of the tool
+         * @private
+         */
+        
 		/**
 		 * @auto
 		 * @cfg {Ametys.tool.ToolFactory} factory (required) The factory that created the tool. Cannot be null.
@@ -670,6 +675,7 @@ Ext.define("Ametys.tool.Tool",
 		/**
 		 * @protected
 		 * Get the content panel created by #createPanel function
+         * @return {Ext.Component} The main component of the tool 
 		 */
 		getContentPanel: function()
 		{
