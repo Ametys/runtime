@@ -41,28 +41,16 @@ public class HsqlJdbcGroupsTestCase extends AbstractJdbcGroupsTestCase
     protected File[] getScripts()
     {
         return new File[] {
-            new File("test/environments/scripts/jdbc-derby/dropTables.sql"),
-            new File("main/plugin-core/scripts/derby/jdbc_users.sql"),
-            new File("main/plugin-core/scripts/derby/jdbc_groups.sql"),
-            new File("main/plugin-core/scripts/derby/profile_rights.sql")
+            new File("test/environments/scripts/jdbc-hsqldb/dropTables.sql"),
+            new File("main/plugin-core/scripts/hsqldb/jdbc_users.sql"),
+            new File("main/plugin-core/scripts/hsqldb/jdbc_groups.sql"),
+            new File("main/plugin-core/scripts/hsqldb/profile_rights.sql")
         };
-        
-        // FIXME uncomment
-//        return new File[] {
-//            new File("test/environments/scripts/jdbc-hsqldb/dropTables.sql"),
-//            new File("main/plugin-core/scripts/hsqldb/jdbc_users.sql"),
-//            new File("main/plugin-core/scripts/hsqldb/jdbc_groups.sql"),
-//            new File("main/plugin-core/scripts/hsqldb/profile_rights.sql")
-//        };
     }
 
     @Override
     protected File[] getPopulateScripts()
     {
-        return new File[] {new File("test/environments/scripts/jdbc-derby/fillJDBCUsersAndGroups.sql")};
-        
-        // FIXME Uncomment
-        // return new File[] {new File("test/environments/scripts/jdbc-hsqldb/fillJDBCUsersAndGroups.sql")};
+        return new File[] {new File("test/environments/scripts/jdbc-hsqldb/fillJDBCUsersAndGroups.sql")};
     }
-
 }
