@@ -28,6 +28,7 @@ import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.ResourceNotFoundException;
 import org.apache.cocoon.caching.CacheableProcessingComponent;
 import org.apache.cocoon.components.source.SourceUtil;
+import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.SourceResolver;
 import org.apache.cocoon.reading.ServiceableReader;
 import org.apache.commons.io.IOUtils;
@@ -133,6 +134,14 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
         {
             throw new ProcessingException("There is a conflict for the selection of the catalogue to use. You can only pick one catalogue at a time, "
                     + "either with the id of a default catalogue, the name of a plugin or of a workspace.");
+        }
+        
+        @SuppressWarnings("unchecked")
+        Map<String, Object> params = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
+        
+        if (params != null)
+        {
+            params.put("lastModified", getLastModified());
         }
     }
     
