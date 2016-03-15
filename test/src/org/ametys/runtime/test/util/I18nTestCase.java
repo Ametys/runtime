@@ -152,7 +152,7 @@ public class I18nTestCase extends AbstractRuntimeTestCase
             is1 = pluginSource.getInputStream();
             is2 = expectation.getInputStream();
                     
-            assertEquals(IOUtils.toString(is1), IOUtils.toString(is2));
+            assertEquals(IOUtils.toString(is2), IOUtils.toString(is1));
         }
         catch (IOException e)
         {

@@ -133,3 +133,6 @@ Ext.define('Ametys.plugins.cms.search.solr.EditSolrQueryExtension', {
 });
 
 Ametys.plugins.cms.search.solr.EditSolrQueryExtension.addSearchExtension();
+
+// unfinished declaration
+{{i18n UNFINISHED
