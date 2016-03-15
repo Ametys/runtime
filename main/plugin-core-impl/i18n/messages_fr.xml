@@ -25,8 +25,6 @@
     <message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_LOW">Privilégier le confort</message>
     
     <!-- DATASOURCE CORE -->
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE">Base de données</message>
-    
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP">Annuaire LDAP</message>
     
     <message key="PLUGINS_CORE_SQL_CONNECTION_CHECKER_LABEL">Connexion à une base SQL</message>
