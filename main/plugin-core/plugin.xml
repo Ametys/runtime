@@ -303,6 +303,10 @@
         <extension-point id="org.ametys.core.datasource.DataSourceConsumerExtensionPoint"
                          class="org.ametys.core.datasource.DataSourceConsumerExtensionPoint"
                          safe="true"/>
+                         
+        <extension-point id="org.ametys.core.engine.BackgroundEngineHookExtensionPoint"
+                         class="org.ametys.core.engine.BackgroundEngineHookExtensionPoint"
+                         safe="true"/>
         
     </extension-points>
     

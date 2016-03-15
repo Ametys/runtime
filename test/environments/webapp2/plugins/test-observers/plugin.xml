@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2016 Anyware Services
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
+<plugin xmlns="http://www.ametys.org/schema/plugin"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.ametys.org/schema/plugin http://www.ametys.org/schema/plugin-4.0.xsd"
+        runtimeVersion="4.0" version="4.0">
+        
+    <!-- register the tests observers -->
+    <feature name="observers">
+        <extensions>
+            <!-- accept -->
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$AcceptObserver"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$AcceptObserver" />
+            
+            <!-- deny -->
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$DenyObserver"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$DenyObserver" />
+            
+            <!-- priority : high / mid / low -->
+           <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$MidPriorityObserver"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$MidPriorityObserver" />
+                       
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$LowPriorityObserver"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$LowPriorityObserver" />
+                       
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$HighPriorityObserver"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$HighPriorityObserver" />
+                       
+            <!-- async observers -->
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$BasicAsyncObserver.1"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$BasicAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$BasicAsyncObserver.2"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$BasicAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$BasicAsyncObserver.3"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$BasicAsyncObserver" />
+                       
+            <!-- non parallelizable async observers with priority : high / mid / low -->
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$HighPriorityAsyncObserver"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$HighPriorityAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$MidPriorityAsyncObserver"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$MidPriorityAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$LowPriorityAsyncObserver"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$LowPriorityAsyncObserver" />
+                       
+            <!-- pressure observers : 5 sync  -->
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureSyncObserver.1"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureSyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureSyncObserver.2"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureSyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureSyncObserver.3"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureSyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureSyncObserver.4"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureSyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureSyncObserver.5"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureSyncObserver" />
+                       
+            <!-- pressure observers : 20 async non-parallel  -->
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver.1"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver.2"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver.3"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver.4"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver.5"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver.6"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver.7"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver.8"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver.9"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver.10"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver.11"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver.12"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver.13"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver.14"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver.15"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver.16"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver.17"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver.18"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver.19"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver.20"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureNonParallelizableAsyncObserver" />
+                       
+            <!-- pressure observers : 30 async parallel  -->
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.1"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.2"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.3"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.4"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.5"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.6"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.7"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.8"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.9"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.10"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.11"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.12"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.13"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.14"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.15"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.16"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.17"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.18"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.19"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.20"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.21"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.22"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.23"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.24"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.25"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.26"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.27"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.28"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.29"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+            <extension point="org.ametys.core.observation.ObserverExtensionPoint"
+                       id="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver.30"
+                       class="org.ametys.runtime.test.observers.ObserversTestCase$PressureParallelizableAsyncObserver" />
+        </extensions>
+    </feature>
+</plugin>
