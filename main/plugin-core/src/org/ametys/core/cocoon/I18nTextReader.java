@@ -422,8 +422,8 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
     
     /**
      * Append to the given string builder the characters from the given array in the selected range 
-     * @param outStringBuilder the string builder to write in
-     * @param srcChars the source characters
+     * @param sb the string builder to write in
+     * @param chars the characters' array
      * @param beginIdx the begin index
      * @param endIdx the end index
      */
