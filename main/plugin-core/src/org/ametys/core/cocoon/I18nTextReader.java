@@ -245,6 +245,7 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
      * @param srcChars the input file as characters
      * @param candidateBeginIdx the index at which we started analyzing a viable i18n declaration
      * @param sb the string builder where we store the output string
+     * @param initialOffset the initial offset 
      * @return the amount of analyzed characters
      */
     private int _analyzeI18nDeclaration(char[] srcChars, int candidateBeginIdx, StringBuilder sb, int initialOffset)
