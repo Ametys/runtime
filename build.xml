@@ -72,6 +72,7 @@
     	<exclude name="main/plugin-core-ui/resources/font/**"/>
         <exclude name="themes/theme-*/sass/example/*"/>
         <exclude name="main/plugin-core-ui/resources/js/lunr/*"/>
+        <exclude name="test/environments/webapp2/plugins/test/**"/>
     </patternset>
 	
 	<target name="compile" depends="common-build.compile">
