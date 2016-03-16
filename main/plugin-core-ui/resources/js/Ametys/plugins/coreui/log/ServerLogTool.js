@@ -357,6 +357,13 @@ Ext.define('Ametys.plugins.coreui.log.ServerLogTool', {
      */
     clearLogs: function()
     {
+        /*
+         * FIXME
+         * The following line "clearFilter" is a workaround for the following bug : https://www.sencha.com/forum/showthread.php?309523
+         * It should be removed when this bug is fixed.
+         */
+        this._store.clearFilter();
+        
         this._store.removeAll();
         this._logsQueue = [];
     },
