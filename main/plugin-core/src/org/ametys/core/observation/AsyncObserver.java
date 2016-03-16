@@ -19,7 +19,7 @@ package org.ametys.core.observation;
 /**
  * An interface to mark an observer as asynchronous. The
  * {@link #observe(Event, java.util.Map)} method will be run in another thread
- * and then will not block the main process. <br/>
+ * and then will not block the main process. <br>
  * Priority between AsyncObserver is still respected. For a given {@link Event},
  * a higher priority AsyncObserver will not run until lower ones are finished.
  */
