@@ -49,9 +49,8 @@
 		 |                  The default value displayed above is the requirements of ExtJS version.
          |
          | @param {String} theme=neptune The ExtJS theme to load
-		 | @param {String} load-cb= A callback js function to call after each js/css file is loaded
          + -->
-    <xsl:template name="kernel-base">
+    <xsl:template name="kernel-base-js">
         <xsl:param name="plugins-direct-prefix">/plugins</xsl:param>
         <xsl:param name="plugins-wrapped-prefix">/_plugins</xsl:param>
 		<xsl:param name="authorized-browsers">
@@ -61,7 +60,6 @@
 		  		  'failure-redirection': "/_admin/public/browser-unsupported.html"
 		     }
 		</xsl:param>
-        <xsl:param name="load-cb"/>
         
 		<xsl:variable name="context-path" select="ametys:uriPrefix(false())"/>
 		<xsl:variable name="workspace-name" select="ametys:workspaceName()"/>
@@ -129,7 +127,13 @@
 
 			<xsl:call-template name="ametys-scripts"/>
 	    </xsl:variable>
-	    
+
+        <xsl:call-template name="kernel-load-js">
+            <xsl:with-param name="scripts" select="exslt:node-set($scripts)/*"/>
+        </xsl:call-template>
+    </xsl:template>
+            
+    <xsl:template name="kernel-base-css">
 		<xsl:variable name="css">
             <xsl:call-template name="theme-styles" />
             
@@ -141,10 +145,8 @@
             <css>/plugins/core-ui/resources/font/editor/editor-decorator.css</css>
 		</xsl:variable>
 
-		<xsl:call-template name="kernel-load">
-			<xsl:with-param name="scripts" select="exslt:node-set($scripts)/*"/>
+		<xsl:call-template name="kernel-load-css">
 			<xsl:with-param name="css" select="exslt:node-set($css)/*"/>
-			<xsl:with-param name="load-cb" select="$load-cb"/>
 		</xsl:call-template>
     </xsl:template>
     
@@ -280,10 +282,10 @@
     </xsl:template>
     
     <xsl:template name="theme-styles">
-        <css debug="false" rtl="false">/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/>-all.css</css>
-        <css debug="false" rtl="true">/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/>-all-rtl.css</css>
-        <css debug="true" rtl="false">/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/>-all-debug.css</css>
-        <css debug="true" rtl="true">/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/>-all-rtl-debug.css</css>
+        <css data-donotminimize="true" debug="false" rtl="false">/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/>-all.css</css>
+        <css data-donotminimize="true" debug="false" rtl="true">/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/>-all-rtl.css</css>
+        <css data-donotminimize="true" debug="true" rtl="false">/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/>-all-debug.css</css>
+        <css data-donotminimize="true" debug="true" rtl="true">/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/>-all-rtl-debug.css</css>
         <css debug="false" rtl="false">/plugins/extjs6/resources/packages/ux/classic/<xsl:value-of select="$uxtheme"/>/resources/ux-all.css</css>
         <css debug="false" rtl="true">/plugins/extjs6/resources/packages/ux/classic/<xsl:value-of select="$uxtheme"/>/resources/ux-all-rtl.css</css>
         <css debug="true" rtl="false">/plugins/extjs6/resources/packages/ux/classic/<xsl:value-of select="$uxtheme"/>/resources/ux-all-debug.css</css>
@@ -298,13 +300,22 @@
          | Load CSS and JS files. This template will ensure that each file is called once only.
          | @param {Node} scripts JS files to load . The node is a list of nodes with file url as text value. The url is relative to the server and should not contains context path.
          | @param {Node} css The same as scripts but for css files.
-		 | @param {String} load-cb A callback js function to call after each js/css file is loaded
          + -->
     <xsl:template name="kernel-load">
         <xsl:param name="scripts"/>
         <xsl:param name="css"/>
         
-		<xsl:param name="load-cb"/>
+        <xsl:call-template name="kernel-load-css">
+            <xsl:with-param name="css" select="$css" />
+        </xsl:call-template>
+        
+        <xsl:call-template name="kernel-load-js">
+            <xsl:with-param name="scripts" select="$scripts" />
+        </xsl:call-template>
+    </xsl:template>
+        
+    <xsl:template name="kernel-load-js">
+        <xsl:param name="scripts"/>
 
         <xsl:variable name="contextPath" select="ametys:uriPrefix(false())"/>
         
@@ -345,14 +356,21 @@
                                         <xsl:otherwise><xsl:value-of select="concat($contextPath, $value)"/></xsl:otherwise>
                                     </xsl:choose>
                                 </xsl:attribute>
+                                <xsl:if test="@data-donotminimize">
+                                    <xsl:attribute name="data-donotminimize"><xsl:value-of select="@data-donotminimize" /></xsl:attribute>
+                                </xsl:if>
                             </script>
-        	        	    <xsl:copy-of select="$load-cb"/>
         	            </xsl:if>
                     </xsl:if>
                 </xsl:if>
 	        </xsl:for-each>
 	    </xsl:if>
-
+        
+    </xsl:template>
+    
+    <xsl:template name="kernel-load-css">
+        <xsl:param name="css"/>
+        
 		<!-- Load css -->
         <xsl:if test="$css">
 	        <xsl:for-each select="$css">
@@ -389,8 +407,10 @@
                                         <xsl:otherwise><xsl:value-of select="concat($contextPath, $value)"/></xsl:otherwise>
                                     </xsl:choose>
                                 </xsl:attribute>
+                                <xsl:if test="@data-donotminimize">
+                                    <xsl:attribute name="data-donotminimize"><xsl:value-of select="@data-donotminimize" /></xsl:attribute>
+                                </xsl:if>
                             </link>
-        	        	    <xsl:copy-of select="$load-cb"/>
         	            </xsl:if>
                     </xsl:if>
                 </xsl:if>

@@ -147,7 +147,7 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
         
         if (params != null)
         {
-            params.put("lastModified", getLastModified());
+            params.put(RuntimeResourceReader.LAST_MODIFIED, _inputSource.getLastModified());
         }
     }
     

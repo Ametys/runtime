@@ -31,7 +31,7 @@
         </map:actions>
         
         <map:transformers>
-            <map:transformer name="minimizer" src="org.ametys.plugins.core.ui.minimize.MinimizeTransformer"/>
+            <map:transformer name="minimizer" src="org.ametys.plugins.core.ui.minimize.MinimizeTransformer" />
         </map:transformers>
     </map:components>
     
@@ -140,7 +140,7 @@
                 <map:transform type="i18n">
                     <map:parameter name="locale" value="{locale:locale}"/>
                 </map:transform>
-                <map:transform type="minimizer" src="{request:contextPath}{request-attr:workspaceURI}/plugins/core" />
+                <map:transform type="minimizer" src="{request:contextPath}{request-attr:workspaceURI}" />
                 <map:serialize type="xhtml"/>
             </map:match>
             

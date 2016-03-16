@@ -60,8 +60,6 @@
         <map:readers>
             <map:reader name="upload-reader" src="org.ametys.plugins.core.upload.UploadReader" logger="org.ametys.plugins.core.upload"/>
             <map:reader name="buffered-image" src="org.ametys.core.captcha.BufferedImageReader" logger="org.ametys.plugins.core.captcha"/>
-        	<map:reader name="css" src="org.ametys.plugins.core.ui.minimize.MinimizeCSSReader"/>
-            <map:reader name="js" src="org.ametys.plugins.core.ui.minimize.MinimizeJSReader"/>
             <map:reader name="json" src="org.ametys.core.cocoon.JSonReader"/>
         </map:readers>
         
@@ -76,18 +74,6 @@
 	
 	<map:pipelines>
 		<map:pipeline>
-			<map:match pattern="cssfilelist/*-*.css">
-				<map:read type="css" src="{1}">
-					<map:parameter name="import" value="{2}"/>
-				</map:read>
-			</map:match>
-			
-			<map:match pattern="jsfilelist/*-*.js">
-				<map:read type="js" src="{1}">
-					<map:parameter name="import" value="{2}"/>
-				</map:read>
-			</map:match>
-
             <!-- +
                  | USERS
                  + -->

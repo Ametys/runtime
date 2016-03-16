@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -17,10 +17,20 @@
 package org.ametys.plugins.core.ui.minimize;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -34,33 +44,58 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.components.ContextHelper;
 import org.apache.cocoon.environment.Request;
-import org.apache.cocoon.environment.Session;
-import org.apache.cocoon.environment.SourceResolver;
 import org.apache.cocoon.transformation.ServiceableTransformer;
 import org.apache.cocoon.xml.AttributesImpl;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.excalibur.source.Source;
+import org.apache.excalibur.source.SourceResolver;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 import org.ametys.core.DevMode;
+import org.ametys.core.cocoon.RuntimeResourceReader;
 
 /**
  * This transformer will minimize every scripts together
  */
 public class MinimizeTransformer extends ServiceableTransformer implements Contextualizable, Configurable
 {
-    private String _path;
-    private String _defaultPluginCoreUrl;
+    private static final String DEFAULT_URI_PATTERN = "^/plugins/[^/]+/resources/";
+    private static final Pattern IMPORT_WITHOUT_MEDIA_PATTERN = Pattern.compile("^@import\\b\\s*(?:(?:url)?\\(?\\s*[\"']?)([^)\"']*)[\"']?\\)?\\s*;?$", Pattern.MULTILINE | Pattern.CASE_INSENSITIVE);
+    private static final Pattern EXTERNAL_URL = Pattern.compile("^(http[s]?://[^/]+)(/.*)?$");
+    
+    /* Hash cache */
+    private static Map<String, List<FileData>> _hashCache = new HashMap<>();
+
+    /* Cocoon Source Resolver */
+    private SourceResolver _resolver;
+
+    /* Configuration */
     private Boolean _debugMode;
-    private int _randomJSCode;
-    private int _randomCSSCode;
     private Context _context;
-    private String _removedPath;
+    private List<Pattern> _patterns;
+    private String _locale;
+    private Boolean _inlineCssMedias;
+    private String _defaultPluginCoreUrl;
+    private String _currentContextPath;
+    
+    /* Dependencies cache */
+    private Map<String, Long> _dependenciesCacheValidity;
+    private Map<String, List<String>> _dependenciesCache;
+
+    /* Current queue being minified */
+    private Map<String, Map<String, String>> _filesQueue;
+    private String _queueTag;
+    private Set<String> _queueMedia;
+    private boolean _isCurrentTagQueued;
     
     @Override
     public void service(ServiceManager smanager) throws ServiceException
     {
         super.service(smanager);
+        _resolver = (SourceResolver) smanager.lookup(SourceResolver.ROLE);
     }
     
     @Override
@@ -72,155 +107,47 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        _defaultPluginCoreUrl = configuration.getChild("plugin-core-url").getValue(null);
+        _defaultPluginCoreUrl = configuration.getChild("plugin-core-url").getValue("");
+        
+        Configuration paternsConfig = configuration.getChild("patterns");
+        
+        _patterns = new ArrayList<>();
+        for (Configuration paternConfig : paternsConfig.getChildren("pattern"))
+        {
+            Pattern pattern = Pattern.compile(paternConfig.getValue());
+            _patterns.add(pattern);
+        }
+        
+        if (_patterns.isEmpty())
+        {
+            _patterns.add(Pattern.compile(DEFAULT_URI_PATTERN));
+        }
+        
+        _inlineCssMedias = Boolean.valueOf(configuration.getChild("inline-css-medias").getValue("false"));
+        
+        _dependenciesCacheValidity = new HashMap<>();
+        _dependenciesCache = new HashMap<>();
     }
     
     @Override
-    public void setup(SourceResolver res, Map om, String src, Parameters params) throws ProcessingException, SAXException, IOException
+    public void setup(org.apache.cocoon.environment.SourceResolver res, Map obj, String src, Parameters par) throws ProcessingException, SAXException, IOException 
     {
-        super.setup(res, om, src, params);
+        super.setup(res, obj, src, par);
         
         Request request = ContextHelper.getRequest(_context);
+        _locale = request.getLocale().getLanguage();
         _debugMode = DevMode.isDeveloperMode(request);
+        _currentContextPath = request.getContextPath();
     }
-    
-    /**
-     * Get the list of files for js
-     * @return Return a modifiable file list registrer in session for the current _randomJSCode. Will never be null.
-     */
-    @SuppressWarnings("unchecked")
-    private List<String> _getJSFileList()
-    {
-        Request request = ContextHelper.getRequest(_context);
-        Session session = request.getSession(true);
-        
-        Map<Integer, List<String>> codesAndFiles = (Map<Integer, List<String>>) session.getAttribute(MinimizeTransformer.class.getName() + "$js-tmp");
-        if (codesAndFiles == null)
-        {
-            session.setAttribute(MinimizeTransformer.class.getName() + "$js-tmp", new HashMap<Integer, List<String>>());
-            codesAndFiles = (Map<Integer, List<String>>) session.getAttribute(MinimizeTransformer.class.getName() + "$js-tmp");
-        }
-        
-        if (!codesAndFiles.containsKey(_randomJSCode))
-        {            
-            codesAndFiles.put(_randomJSCode, new ArrayList<String>());
-        }
-        return codesAndFiles.get(_randomJSCode);
-    }
-    
-    /**
-     * Get the list of files for css
-     * @return Return a modifiable file list registrer in session for the curren _randomCSSCode. Will never be null.
-     */
-    @SuppressWarnings("unchecked")
-    private List<String> _getCSSFileList()
-    {
-        Request request = ContextHelper.getRequest(_context);
-        Session session = request.getSession(true);
-        
-        Map<Integer, List<String>> codesAndFiles = (Map<Integer, List<String>>) session.getAttribute(MinimizeTransformer.class.getName() + "$css-tmp");
-        if (codesAndFiles == null)
-        {
-            session.setAttribute(MinimizeTransformer.class.getName() + "$css-tmp", new HashMap<Integer, List<String>>());
-            codesAndFiles = (Map<Integer, List<String>>) session.getAttribute(MinimizeTransformer.class.getName() + "$css-tmp");
-        }
-        
-        if (!codesAndFiles.containsKey(_randomCSSCode))
-        {            
-            codesAndFiles.put(_randomCSSCode, new ArrayList<String>());
-        }
-        return codesAndFiles.get(_randomCSSCode);
-    }
-    
-    
-    /**
-     * At this point, if a minimizable list of files is know, generates a script tag here.
-     * Starts a new list of files.
-     * @throws SAXException if an error occurred
-     */
-    @SuppressWarnings("unchecked")
-    private void _jsCheckPoint() throws SAXException
-    {
-        Request request = ContextHelper.getRequest(_context);
-        Session session = request.getSession(true);
-        
-        List<String> jsFileList = _getJSFileList(); 
-        if (jsFileList.size() > 0)
-        {
-            // Store the file list for future transformer
-            Map<Integer, List<String>> finalCodesAndFiles = (Map<Integer, List<String>>) session.getAttribute(MinimizeTransformer.class.getName() + "$js");
-            if (finalCodesAndFiles == null)
-            {
-                session.setAttribute(MinimizeTransformer.class.getName() + "$js", new HashMap<Integer, List<String>>());
-                finalCodesAndFiles = (Map<Integer, List<String>>) session.getAttribute(MinimizeTransformer.class.getName() + "$js");
-            }
-            finalCodesAndFiles.put(jsFileList.hashCode(), jsFileList);
-            
-            AttributesImpl attrs = new AttributesImpl();
-            attrs.addCDATAAttribute("type", "text/javascript");
-            attrs.addCDATAAttribute("src", StringUtils.defaultIfEmpty(source, _defaultPluginCoreUrl) + "/jsfilelist/" + jsFileList.hashCode() + "-" + (_debugMode ? "true" : "false") + ".js");
-            super.startElement("", "script", "script", attrs);
-            super.endElement("", "script", "script");
-        }
-        
-        // Remove the file list for temporary manipulations
-        Map<Integer, List<String>> codesAndFiles = (Map<Integer, List<String>>) session.getAttribute(MinimizeTransformer.class.getName() + "$js-tmp");
-        codesAndFiles.remove(_randomJSCode);
-
-        // Change random code to avoid conflict between threads (of a same session)
-        _randomJSCode = (int) (Math.random() * Integer.MAX_VALUE);
-    }
-    
-    /**
-     * At this point, if a minimizable list of files is know, generates a css tag here.
-     * Starts a new list of files.
-     * @throws SAXException if an error occurred
-     */
-    @SuppressWarnings("unchecked")
-    private void _cssCheckPoint() throws SAXException
-    {
-        Request request = ContextHelper.getRequest(_context);
-        Session session = request.getSession(true);
-        
-        List<String> cssFileList = _getCSSFileList(); 
-        if (cssFileList.size() > 0)
-        {
-            // Store the file list for future transformer
-            Map<Integer, List<String>> finalCodesAndFiles = (Map<Integer, List<String>>) session.getAttribute(MinimizeTransformer.class.getName() + "$css");
-            if (finalCodesAndFiles == null)
-            {
-                session.setAttribute(MinimizeTransformer.class.getName() + "$css", new HashMap<Integer, List<String>>());
-                finalCodesAndFiles = (Map<Integer, List<String>>) session.getAttribute(MinimizeTransformer.class.getName() + "$css");
-            }
-            finalCodesAndFiles.put(cssFileList.hashCode(), cssFileList);
-            
-            AttributesImpl attrs = new AttributesImpl();
-            attrs.addCDATAAttribute("type", "text/css");
-            attrs.addCDATAAttribute("rel", "stylesheet");
-            attrs.addCDATAAttribute("href", StringUtils.defaultIfEmpty(source, _defaultPluginCoreUrl) + "/cssfilelist/" + cssFileList.hashCode() + "-" + (_debugMode ? "true" : "false") + ".css");
-            super.startElement("", "link", "link", attrs);
-            super.endElement("", "link", "link");
-        }
-        
-        // Remove the file list for temporary manipulations
-        Map<Integer, List<String>> codesAndFiles = (Map<Integer, List<String>>) session.getAttribute(MinimizeTransformer.class.getName() + "$css-tmp");
-        codesAndFiles.remove(_randomCSSCode);
-
-        // Change random code to avoid conflict between threads (of a same session)
-        _randomCSSCode = (int) (Math.random() * Integer.MAX_VALUE);
-    }
-
-    
-    
-    
-    
-
-    
     
     @Override
     public void startDocument() throws SAXException
     {
-        _path = "";
+        _filesQueue = new LinkedHashMap<>();
+        _queueTag = "";
+        _isCurrentTagQueued = false;
+        _queueMedia = new HashSet<>();
+        
         super.startDocument();
     }
     
@@ -229,67 +156,20 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
     {
         if (!_debugMode)
         {
-            _path += "/" + loc;
-            
-            if (StringUtils.countMatches(_path, "/") == 2)
+            if (_isMinimizable(StringUtils.lowerCase(loc), a))
             {
-                // we are googin in third level (/html/head/* or /html/body/* 
-                super.startElement(uri, loc, raw, a);
-                _cssCheckPoint();
-                _jsCheckPoint();
-            }
-            else if (StringUtils.countMatches(_path, "/") > 2 && _isAScriptTag(loc, a))
-            {
-                int index = _getAttributeIndex(a, "src");
-                if (index == -1)
-                {
-                    // A local script in between... stop 
-                    _cssCheckPoint();
-                    _jsCheckPoint();
-                    super.startElement(uri, loc, raw, a);
-                }
-                else
-                { 
-                    // A distant script
-                    String fileName = _relativize(a.getValue(index));
-                    if (getLogger().isDebugEnabled())
-                    {
-                        getLogger().debug("For random code '" + _randomJSCode + "', adding js file '" + fileName + "'");
-                    }
-                    _getJSFileList().add(fileName);
-                    _removedPath = _path;
-                }
-            }
-            else if (StringUtils.countMatches(_path, "/") > 2 && _isAStyleOrLinkTag(loc, a))
-            {
-                int index = _getAttributeIndex(a, "href");
-                if (index == -1)
-                {
-                    // A local style in between... stop 
-                    _cssCheckPoint();
-                    super.startElement(uri, loc, raw, a);
-                }
-                else
-                {
-                    // A distant script
-                    String fileName = _relativize(a.getValue(index));
-                    if (getLogger().isDebugEnabled())
-                    {
-                        getLogger().debug("For random code '" + _randomCSSCode + "', adding css file '" + fileName + "'");
-                    }
-                    List<String> cssFileList = _getCSSFileList();
-                    if (_debugMode && cssFileList.size() > 31)
-                    {
-                        // Too many css for IE
-                        _cssCheckPoint();
-                    }
-                    
-                    cssFileList.add(fileName);
-                    _removedPath = _path;
-                }
+                _isCurrentTagQueued = true;
+                _addToQueue(StringUtils.lowerCase(loc), a);
             }
             else
             {
+                _isCurrentTagQueued = false;
+                
+                if (_filesQueue.size() > 0)
+                {
+                    _processQueue();
+                }
+                
                 super.startElement(uri, loc, raw, a);
             }
         }
@@ -304,25 +184,19 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
     {
         if (!_debugMode)
         { 
-            if (StringUtils.countMatches(_path, "/") == 2)
+            if (_isCurrentTagQueued)
             {
-                _cssCheckPoint();
-                _jsCheckPoint();
-            }
-
-            if (!StringUtils.startsWith(_path, _removedPath))
-            {
-                super.endElement(uri, loc, raw);
+                _isCurrentTagQueued = false;
             }
             else
             {
-                if (StringUtils.equals(_path, _removedPath))
+                if (_filesQueue.size() > 0)
                 {
-                    _removedPath = null;
+                    _processQueue();
                 }
-            }
 
-            _path = StringUtils.removeEnd(_path, "/" + loc);
+                super.endElement(uri, loc, raw);
+            }
         }
         else
         {
@@ -330,143 +204,407 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
         }
     }
     
-    
-    
-    
-    
     /**
-     * Determine if the element is a script
-     * @param loc The tag name
-     * @param a The attributes
-     * @return true if it is a script
+     * Check if the current tag can be minimized by this transformer
+     * @param tagName The tag name
+     * @param attrs The attribute
+     * @return True if minimizable
      */
-    private boolean _isAScriptTag(String loc, Attributes a)
+    private boolean _isMinimizable(String tagName, Attributes attrs)
     {
-        if (StringUtils.equalsIgnoreCase(loc, "script"))
-        {
-            for (int i = 0; i < a.getLength(); i++)
-            {
-                if (StringUtils.equalsIgnoreCase(a.getLocalName(i), "type"))
-                {
-                    return StringUtils.equals("text/javascript", a.getValue(i));
-                }
-            }
-            return true;
-        }
-        else
+        if ("true".equals(attrs.getValue("data-donotminimize")))
         {
             return false;
         }
-    }
-    
-    /**
-     * Determine if the element is a inline css style
-     * @param loc The tag name
-     * @param a The attributes
-     * @return true if it is a link
-     */
-    private boolean _isAStyleOrLinkTag(String loc, Attributes a)
-    {
-        if (StringUtils.equalsIgnoreCase(loc, "style"))
-        {
-            for (int i = 0; i < a.getLength(); i++)
-            {
-                if (StringUtils.equalsIgnoreCase(a.getLocalName(i), "type"))
-                {
-                    return StringUtils.equals("text/css", a.getValue(i));
-                }
-            }
-            return true;
-        }
-        else if (StringUtils.equalsIgnoreCase(loc, "link"))
-        {
-            boolean isAStylesheet = false;
-            for (int i = 0; i < a.getLength(); i++)
-            {
-                if (StringUtils.equalsIgnoreCase(a.getLocalName(i), "type") && !StringUtils.equals("text/css", a.getValue(i)))
-                {
-                    return false;
-                }
-                else if (StringUtils.equalsIgnoreCase(a.getLocalName(i), "rel") && StringUtils.equals("stylesheet", a.getValue(i)))
-                {
-                    isAStylesheet = true;
-                }
-            }
-            return isAStylesheet;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    
-    /**
-     * Script or link tags are using external url, we have to convert it in internal url.
-     * External can be: http://thisserver.com/context/path/to/file.js or /context/path/to/file.js or path/to/file.js
-     * @param url The external url
-     * @return The internalized url
-     */
-    private String _relativize(String url)
-    {
-        Request request = ContextHelper.getRequest(_context);
         
-        // full absolute url
-        if (StringUtils.startsWith(url, "http://") || StringUtils.startsWith(url, "https://"))
-        {
-            // An issue can happend, if the context path is blank but the wanted url is for another context on our server... we are internalizing it
-            if (StringUtils.startsWith(url, request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath()))
-            {
-                return "~" + StringUtils.removeStart(url, request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath());
-            }
-            else if (StringUtils.startsWith(url, request.getScheme() + "://" + request.getServerName() + request.getContextPath()))
-            {
-                return "~" + StringUtils.removeStart(url, request.getScheme() + "://" + request.getServerName() + request.getContextPath());
-            }
-            else
-            {
-                return url;
-            }
-        }
+        String uri = null;
         
-        // absolute url
-        else if (StringUtils.startsWith(url, "/"))
+        if ("script".equals(tagName))
         {
-            // An issue can happend, if the context path is blank but the wanted url is for another context on our server... we are internalizing it
-            if (StringUtils.startsWith(url, request.getContextPath()))
+            String type = attrs.getValue("type");
+            if (StringUtils.isNotEmpty(type) && !"text/javascript".equals(type) && !"application/javascript".equals(type))
             {
-                return "~" + StringUtils.removeStart(url, request.getContextPath());
+                // unsupported script type
+                return false;
             }
-            else
-            {
-                return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + url;
-            }
-        }
-        
-        // relative url
-        else
-        {
-            String internalCurrentURL = StringUtils.removeStart(request.getRequestURI(), request.getContextPath());
-            internalCurrentURL = StringUtils.substringBeforeLast(internalCurrentURL, "/");
             
-            return "~" + org.apache.cocoon.util.NetUtils.normalize(internalCurrentURL + "/" + url);
+            uri = attrs.getValue("src");
+        }
+        
+        if ("link".equals(tagName))
+        {
+            String type = attrs.getValue("type");
+            if (StringUtils.isNotEmpty(type) && !"text/css".equals(type))
+            {
+                // unsupported script type
+                return false;
+            }
+            
+            String rel = attrs.getValue("rel");
+            if (!"stylesheet".equals(rel))
+            {
+                // unsupported relation type
+                return false;
+            }
+            
+            uri = attrs.getValue("href");
+        }
+        
+        if (StringUtils.isNotEmpty(uri))
+        {
+            uri = FilenameUtils.normalize(uri, true);
+            if (StringUtils.startsWith(uri, _currentContextPath))
+            {
+                uri = StringUtils.removeStart(uri, _currentContextPath);
+            }
+            
+            for (Pattern pattern : _patterns)
+            {
+                Matcher matcher = pattern.matcher(uri);
+                if (matcher.find())
+                {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Add a new tag to the current queue. If the new tag is not compatible with the current queue, it is processed first and emptied before adding the new type of tag.
+     * @param tagName The tag name
+     * @param attrs The tag attribute
+     * @throws SAXException If an error occurred
+     */
+    private void _addToQueue(String tagName, Attributes attrs) throws SAXException
+    {
+        Map<String, String> fileOptions = new HashMap<>();
+        
+        if (_filesQueue.size() > 0)
+        {
+            // Check if can be added to current queue. If not, process queue before adding.
+            boolean sameAsCurrentQueue = tagName.equals(_queueTag);
+            
+            if (sameAsCurrentQueue && "link".equals(tagName))
+            {
+                String media = attrs.getValue("media");
+                Set<String> medias = _filterMediaValue(media);
+                
+                if (_inlineCssMedias)
+                {
+                    // allow different medias in queue, but store the value as file option
+                    fileOptions.put("media", StringUtils.join(medias, ","));
+                }
+                else
+                {
+                    // media must be the same as current queue
+                    sameAsCurrentQueue = medias.equals(_queueMedia);
+                }
+            }
+            
+            if (!sameAsCurrentQueue)
+            {
+                _processQueue();
+            }
+        }
+        
+        String uri = FilenameUtils.normalize("script".equals(tagName) ? attrs.getValue("src") : attrs.getValue("href"), true);
+        
+        if (StringUtils.isNotEmpty(uri))
+        {
+            if (StringUtils.startsWith(uri, _currentContextPath))
+            {
+                uri = StringUtils.removeStart(uri, _currentContextPath);
+            }
+            
+            fileOptions.put("tag", tagName);
+            _filesQueue.put(uri, fileOptions);
+            if (_filesQueue.size() == 1)
+            {
+                // first item in queue, set the queue attributes for further additions compatibility checks.
+                _queueTag = tagName;
+                
+                if (!_inlineCssMedias && "link".equals(tagName))
+                {
+                    String media = attrs.getValue("media");
+                    _queueMedia = _filterMediaValue(media);
+                }
+            }
         }
     }
     
     /**
-     * Determine if an attributes with this local name does exist and get its index
-     * @param a The attributes
-     * @param name The local name of an attribute
-     * @return the index if tha attributes exists or -1 otherwise
+     * Process the current files queue by saxing it as one file, which name is the hash of the sum of files. 
+     * This hash is cached, to allow the retrieval of the real files from the hash value.
+     * The files parameters, such as the media value of css files, are also stored in the cache.
+     * @throws SAXException If an error occurred
      */
-    private int _getAttributeIndex(Attributes a, String name)
+    private void _processQueue() throws SAXException
     {
-        for (int i = 0; i < a.getLength(); i++)
+        String hash = _getQueueHash();
+        
+        AttributesImpl attrs = new AttributesImpl();
+        
+        if ("script".equals(_queueTag))
         {
-            if (StringUtils.equalsIgnoreCase(a.getLocalName(i), name))
+            attrs.addCDATAAttribute("type", "text/javascript");
+            attrs.addCDATAAttribute("src", StringUtils.defaultIfEmpty(source, _defaultPluginCoreUrl) + "/plugins/core-ui/resources-minimized/" + hash + ".js");
+        }
+        
+        if ("link".equals(_queueTag))
+        {
+            attrs.addCDATAAttribute("type", "text/css");
+            attrs.addCDATAAttribute("rel", "stylesheet");
+            attrs.addCDATAAttribute("href", StringUtils.defaultIfEmpty(source, _defaultPluginCoreUrl) + "/plugins/core-ui/resources-minimized/" + hash + ".css");
+            if (!_inlineCssMedias && !_queueMedia.isEmpty())  
             {
-                return i;
+                String medias = StringUtils.join(_queueMedia, ",");
+                if (StringUtils.isNotEmpty(medias))
+                {
+                    attrs.addCDATAAttribute("media", medias);
+                }
+            }
+
+        }
+        
+        super.startElement("", _queueTag, _queueTag, attrs);
+        super.endElement("", _queueTag, _queueTag);
+        
+        _queueTag = null;
+        _filesQueue.clear();
+    }
+    
+    private Set<FileData> _getFileDependencies(String uri, String media, String tag) throws SAXException
+    {
+        Set<FileData> dependencies = new LinkedHashSet<>();
+        
+        Source fileSource;
+        Map<String, Object> resolveParameters = new HashMap<>();
+        
+        try
+        {
+            fileSource = _resolver.resolveURI("cocoon:/" + uri, null, resolveParameters);
+        }
+        catch (IOException e)
+        {
+            throw new SAXException("Unable to resolve the dependencies of specified uri", e);
+        }
+        long fileLastModified = resolveParameters.get(RuntimeResourceReader.LAST_MODIFIED) != null ? (long) resolveParameters.get("lastModified") : -1;
+         
+        FileData fileInfos = new FileData(uri);
+        fileInfos.setLastModified(fileLastModified);
+        fileInfos.setMedia(media);
+        dependencies.add(fileInfos);
+        
+        Long validity = _dependenciesCacheValidity.get(uri);
+        if (validity == null || validity != fileLastModified)
+        {
+            // cache is outdated
+            List<String> dependenciesCache = new ArrayList<>();
+            
+            if ("link".equals(tag))
+            {
+                for (FileData cssDependency : _getCssFileDependencies(uri, fileSource, tag))
+                {
+                    if (!dependenciesCache.contains(cssDependency.getUri()))
+                    {
+                        dependenciesCache.add(cssDependency.getUri());
+                        dependencies.add(cssDependency);
+                    }
+                }
+            }
+            
+            _dependenciesCache.put(uri, dependenciesCache);
+            _dependenciesCacheValidity.put(uri, fileLastModified);
+        }
+        else
+        {
+            // cache is up to date
+            for (String dependencyCached : _dependenciesCache.get(uri))
+            {
+                dependencies.addAll(_getFileDependencies(dependencyCached, null, tag));
             }
         }
-        return -1;
+        
+        return dependencies;
+    }
+    
+    private List<FileData> _getCssFileDependencies(String uri, Source cssSource, String tag) throws SAXException
+    {
+        List<FileData> cssDependencies = new ArrayList<>();
+        
+        String fileContent;
+        try (InputStream is = cssSource.getInputStream())
+        {
+            fileContent = IOUtils.toString(is);
+        }
+        catch (IOException e)
+        {
+            throw new SAXException("Unable to retrieve css file dependencies", e);
+        }
+        
+        Matcher urlMatcher = IMPORT_WITHOUT_MEDIA_PATTERN.matcher(fileContent);
+        
+        while (urlMatcher.find()) 
+        {
+            String cssUrl = urlMatcher.group(1);
+            
+            Matcher externalMatcher = EXTERNAL_URL.matcher(cssUrl);
+            
+            if (!externalMatcher.find())
+            {
+                String realUrl = FilenameUtils.normalize(FilenameUtils.concat(FilenameUtils.getFullPath(uri), cssUrl), true);
+                cssDependencies.addAll(_getFileDependencies(realUrl, null, tag));
+            }
+        }
+        
+        return cssDependencies;
+    }
+    
+    private String _getQueueHash() throws SAXException
+    {
+        List<FileData> hashCache = new ArrayList<>();
+        
+        for (Entry<String, Map<String, String>> entry : _filesQueue.entrySet())
+        {
+            String fileUri = entry.getKey();
+            Map<String, String> fileOptions = entry.getValue();
+            String media = fileOptions.get("media");
+            String tag = fileOptions.get("tag");
+            
+            Set<FileData> fileDependencies = _getFileDependencies(fileUri, media, tag);
+            if (fileDependencies != null)
+            {
+                hashCache.addAll(fileDependencies);
+            }
+        }
+        
+        String hash = Base64.getEncoder().encodeToString((String.valueOf(hashCache.hashCode()) + _locale).getBytes());
+        _hashCache.put(hash, hashCache);
+        return hash;
+    }
+    
+    private Set<String> _filterMediaValue(String mediaValue)
+    {
+        Set<String> result = new HashSet<>();
+        
+        if (mediaValue != null)
+        {
+            for (String media : StringUtils.split(mediaValue, ','))
+            {
+                result.add(media.trim());
+            }
+            
+            // test for default value
+            if (result.size() == 2 && result.contains("print") && result.contains("screen"))
+            {
+                result.clear();
+            }
+        }
+        
+        return result;
+    }
+    
+    /**
+     * Retrieve the files list for a given hash
+     * @param hash The hash
+     * @return The list of files informations
+     */
+    public static List<FileData> getFilesForHash(String hash)
+    {
+        return _hashCache.get(hash);
+    }
+    
+    /**
+     * The description of a file
+     */
+    class FileData
+    {
+        private String _uri;
+        private Long _lastModified;
+        private String _media;
+        
+        public FileData(String uri)
+        {
+            _uri = uri;
+        }
+        
+        /**
+         * Set the last modified value
+         * @param lastModified the lastModified to set
+         */
+        public void setLastModified(Long lastModified)
+        {
+            this._lastModified = lastModified;
+        }
+
+        /**
+         * set the medias value
+         * @param media the medias to set
+         */
+        public void setMedia(String media)
+        {
+            this._media = media;
+        }
+
+        /**
+         * Get the file uri
+         * @return the uri
+         */
+        public String getUri()
+        {
+            return _uri;
+        }
+        
+        /**
+         * Get the file last modified date
+         * @return the lastModified
+         */
+        public Long getLastModified()
+        {
+            return _lastModified;
+        }
+        
+        /**
+         * Get the file medias
+         * @return the medias
+         */
+        public String getMedia()
+        {
+            return _media;
+        }
+        
+        @Override
+        public boolean equals(Object obj)
+        {
+            if (obj instanceof FileData)
+            {
+                FileData fObj = (FileData) obj;
+                return StringUtils.equals(_uri, fObj._uri)
+                        && (_lastModified == null ? fObj._lastModified == null : _lastModified.equals(fObj._lastModified)) 
+                        && StringUtils.equals(_media, fObj._media);
+            }
+            return false;
+        }
+        
+        @Override
+        public int hashCode()
+        {
+            return Objects.hash(_uri, _lastModified, _media);
+        }
+        
+        @Override
+        public String toString()
+        {
+            if (_media != null)
+            {
+                return _uri + "#" + _media + " (" + _lastModified + ")";
+            }
+            else
+            {
+                return _uri + " (" + _lastModified + ")";
+            }
+        }
     }
 }

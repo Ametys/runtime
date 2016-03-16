@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -23,8 +23,9 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.excalibur.source.Source;
+
+import org.ametys.plugins.core.ui.minimize.MinimizeTransformer.FileData;
 
 import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
 
@@ -41,20 +42,14 @@ public class MinimizeJSReader extends AbstractMinimizeReader
     }
 
     @Override
-    protected String getListCode()
-    {
-        return "$js";
-    }
-
-    @Override
-    protected String _handleFileDirect(String file, String contextPath)
+    protected String _handleFile(FileData file, String contextPath)
     {
         StringBuffer sb = new StringBuffer();
         
         Source jssource = null;
         try
         {
-            jssource = _resolver.resolveURI(StringUtils.startsWith(file, "~") ? "cocoon:/" + org.apache.cocoon.util.NetUtils.normalize(file.substring(1)) : file);
+            jssource = _resolver.resolveURI("cocoon:/" + org.apache.cocoon.util.NetUtils.normalize(file.getUri()));
             
             String s;
             try (InputStream is = jssource.getInputStream())
@@ -71,7 +66,9 @@ public class MinimizeJSReader extends AbstractMinimizeReader
             Writer w = new StringWriter();
             compressor.compress(w, 8000, false, false, true, true);
             
+            sb.append("/** File : " + file.getUri() + " */\n");
             sb.append(w.toString());
+            sb.append("\n");
         }
         catch (Exception e)
         {
@@ -84,11 +81,5 @@ public class MinimizeJSReader extends AbstractMinimizeReader
         }
 
         return sb.toString();
-    }
-    
-    @Override
-    protected String _handleFileImport(String file, String contextPath)
-    {
-        return "document.write(\"<script type='text/javascript' src='" + (StringUtils.startsWith(file, "~") ? contextPath + org.apache.cocoon.util.NetUtils.normalize(file.substring(1)) : file)  + "'><!-- import --></script>\");\n";
     }
 }

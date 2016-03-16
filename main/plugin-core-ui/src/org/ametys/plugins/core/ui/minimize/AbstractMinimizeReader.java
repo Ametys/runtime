@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ package org.ametys.plugins.core.ui.minimize;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
@@ -27,7 +26,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.caching.CacheableProcessingComponent;
 import org.apache.cocoon.environment.ObjectModelHelper;
-import org.apache.cocoon.environment.Session;
+import org.apache.cocoon.environment.Response;
 import org.apache.cocoon.reading.ServiceableReader;
 import org.apache.commons.io.IOUtils;
 import org.apache.excalibur.source.SourceResolver;
@@ -36,7 +35,7 @@ import org.apache.excalibur.source.impl.validity.NOPValidity;
 import org.mozilla.javascript.EvaluatorException;
 import org.xml.sax.SAXException;
 
-import org.ametys.core.util.cocoon.InvalidSourceValidity;
+import org.ametys.plugins.core.ui.minimize.MinimizeTransformer.FileData;
 
 /**
  * This generator generates a single file to load all ui items files.
@@ -57,23 +56,13 @@ public abstract class AbstractMinimizeReader extends ServiceableReader implement
     @Override
     public Serializable getKey()
     {
-        boolean importMode = parameters.getParameterAsBoolean("import", false);
-        return source + "-" + importMode;
+        return source;
     }
 
     @Override
     public SourceValidity getValidity()
     {
-        boolean importMode = parameters.getParameterAsBoolean("import", false);
-
-        if (importMode)
-        {
-            return new InvalidSourceValidity();
-        }
-        else
-        {
-            return new NOPValidity();
-        }
+        return new NOPValidity();
     }
 
     @Override
@@ -81,30 +70,13 @@ public abstract class AbstractMinimizeReader extends ServiceableReader implement
     {
         return 0;
     }
-
-    /**
-     * Should return the session attribute suffix ($js or $css for example)
-     * @return The code
-     */
-    protected abstract String getListCode();
-
-    @SuppressWarnings("unchecked")
-    private List<String> _getFileList()
+    
+    @Override
+    public void setup(org.apache.cocoon.environment.SourceResolver res, java.util.Map obj, String src, org.apache.avalon.framework.parameters.Parameters par) throws ProcessingException, SAXException, IOException 
     {
-        Session session = ObjectModelHelper.getRequest(objectModel).getSession(true);
-
-        Map<Integer, List<String>> codesAndFiles = (Map<Integer, List<String>>) session.getAttribute(MinimizeTransformer.class.getName() + getListCode());
-        if (codesAndFiles == null)
-        {
-            throw new IllegalStateException("No files list register in that user's session (" + MinimizeTransformer.class.getName() + getListCode() + ")");
-        }
-
-        int id = Integer.parseInt(source);
-        if (!codesAndFiles.containsKey(id))
-        {
-            throw new IllegalStateException("No files list using code '" + source + "' register in that user's session (" + MinimizeTransformer.class.getName() + getListCode() + ")");
-        }
-        return codesAndFiles.get(id);
+        super.setup(res, obj, src, par);
+        Response response = ObjectModelHelper.getResponse(objectModel);
+        response.setDateHeader("Expires", System.currentTimeMillis() + 365 * 24 * 60 * 60 * 1000);
     }
 
     @Override
@@ -112,10 +84,10 @@ public abstract class AbstractMinimizeReader extends ServiceableReader implement
     {
         StringBuffer sb = new StringBuffer("");
 
-        List<String> files = _getFileList();
+        List<FileData> files = MinimizeTransformer.getFilesForHash(source);
         if (files != null) 
         {
-            for (String file : files)
+            for (FileData file : files)
             {
                 sb.append(_handleFile(file, ObjectModelHelper.getRequest(objectModel).getContextPath()));
             }
@@ -126,33 +98,12 @@ public abstract class AbstractMinimizeReader extends ServiceableReader implement
     }
 
     /**
-     * Implement to import a file
-     * @param file The file to import
-     * @param contextPath The context path
-     * @return The imported file
-     */
-    protected abstract String _handleFileImport(String file, String contextPath);
-    /**
      * Implement to include a file
      * @param file The file to include
      * @param contextPath The context path
      * @return The included file
      */
-    protected abstract String _handleFileDirect(String file, String contextPath);
-
-    private String _handleFile(String file, String contextPath)
-    {
-        boolean importMode = parameters.getParameterAsBoolean("import", false);
-
-        if (importMode)
-        {
-            return _handleFileImport(file, contextPath);
-        }
-        else
-        {
-            return _handleFileDirect(file, contextPath);
-        }
-    }
+    protected abstract String _handleFile(FileData file, String contextPath);
 
     /**
      * Error reporter in a logger 

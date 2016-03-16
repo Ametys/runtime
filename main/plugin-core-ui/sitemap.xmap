@@ -32,6 +32,8 @@
         </map:actions>
         
         <map:readers>
+            <map:reader name="css" src="org.ametys.plugins.core.ui.minimize.MinimizeCSSReader"/>
+            <map:reader name="js" src="org.ametys.plugins.core.ui.minimize.MinimizeJSReader"/>
             <map:reader name="image" src="org.apache.cocoon.reading.ImageReader" logger="sitemap.reader.image" pool-max="32"/>
             <map:reader name="user-profile-image" src="org.ametys.plugins.core.ui.user.ProfileImageReader" logger="org.ametys.plugins.core.ui.user"/>
         </map:readers>
@@ -40,6 +42,15 @@
     
     <map:pipelines>
             <map:pipeline>
+                <!-- Resources -->
+	            <map:match pattern="resources-minimized/*.css">
+	                <map:read type="css" src="{1}" />
+	            </map:match>
+	            
+	            <map:match pattern="resources-minimized/*.js">
+	                <map:read type="js" src="{1}" />
+	            </map:match>
+                
                 <!-- Dispatcher -->
                 <map:match pattern="servercomm/messages.xml">
                     <map:generate type="dispatcher"/>

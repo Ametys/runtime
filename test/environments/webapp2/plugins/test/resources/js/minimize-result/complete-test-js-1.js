@@ -1,0 +1,1 @@
+/** ERROR Exception during processing of cocoon://plugins/test/resources/js/minimize/a.js*/

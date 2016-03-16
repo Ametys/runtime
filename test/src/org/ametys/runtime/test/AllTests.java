@@ -22,6 +22,7 @@ import org.ametys.runtime.test.groups.jdbc.AllGroupsTestSuite;
 import org.ametys.runtime.test.groups.ldap.GroupDrivenLdapGroupsTestCase;
 import org.ametys.runtime.test.groups.ldap.UserDrivenLdapGroupsTestCase;
 import org.ametys.runtime.test.groups.others.EmptyGroupsTestCase;
+import org.ametys.runtime.test.minimize.MinimizeTransformerTestCase;
 import org.ametys.runtime.test.observers.ObserversTestCase;
 import org.ametys.runtime.test.plugins.PluginsTestCase;
 import org.ametys.runtime.test.rights.basic.BasicRightsManagerTestCase;
@@ -98,6 +99,7 @@ public final class AllTests
         suite.addTestSuite(DateConversionTestCase.class);
         suite.addTestSuite(JSONTestCase.class);
         suite.addTestSuite(I18nTestCase.class);
+        suite.addTestSuite(MinimizeTransformerTestCase.class);
         suite.addTestSuite(ObserversTestCase.class);
         
         //$JUnit-END$

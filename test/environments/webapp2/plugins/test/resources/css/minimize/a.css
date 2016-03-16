@@ -1,0 +1,7 @@
+@import url('folder/z.css')
+
+@import url('folder/z.css') print;
+
+div.a {
+	background: #000001;
+}

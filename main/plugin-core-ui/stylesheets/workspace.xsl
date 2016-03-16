@@ -37,8 +37,12 @@
     <xsl:template name="ribbonTitle"/>
     <xsl:template name="css-file">/plugins/core-ui/resources/css/special/splashscreen.css</xsl:template>
     
-    <xsl:template name="uicall">
-        <xsl:call-template name="kernel-base"/>
+    <xsl:template name="uicall-js">
+        <xsl:call-template name="kernel-base-js"/>
+    </xsl:template>
+    
+    <xsl:template name="uicall-css">
+        <xsl:call-template name="kernel-base-css"/>
     </xsl:template>
     
     <xsl:template name="head-css">
@@ -157,17 +161,17 @@
     <xsl:template match="workspace">
                 <noscript><i18n:text i18n:key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_MAIN_ERROR_NOJS" i18n:catalogue="plugin.core-ui"/></noscript>
                 
-                <xsl:call-template name="uicall"/>                
-
+                <xsl:call-template name="uicall-css"/>                
+                <xsl:call-template name="kernel-load-css">
+                      <xsl:with-param name="css" select="static-imports/import/css/file | ribbon/controls/control/css/file | ribbon/tabsControls/tab/css/file | uitools-factories/uitool-factory/css/file | messagetarget-factories/messagetarget-factory/css/file | relations-handlers/relation-handler/css/file | widgets/widget-wrapper/widget/css/file"/>
+                </xsl:call-template>
+                                
+                <xsl:call-template name="uicall-js"/>                
+                
                 <xsl:call-template name="ui-apptools-load"/>
                
                 <xsl:call-template name="ui-extension-load"/>
                     
-                <!-- UITools -->
-                <xsl:call-template name="kernel-load">
-                      <xsl:with-param name="scripts" select="static-imports/import/scripts/file"/>
-                      <xsl:with-param name="css" select="static-imports/import/css/file"/>
-                </xsl:call-template>                
                 
                 <script type="text/javascript">
                     Ametys.setAppParameter("debug.mode", "<xsl:value-of select="$debug-mode"/>");        
@@ -182,11 +186,16 @@
                     });
                 </script>
                 
+                <!-- UITools -->
+
+                <xsl:call-template name="kernel-load">
+                      <xsl:with-param name="scripts" select="static-imports/import/scripts/file"/>
+                </xsl:call-template>                
+                
                 <xsl:call-template name="ui-extension-after-static-load"/>
                 
                 <xsl:call-template name="kernel-load">
                       <xsl:with-param name="scripts" select="(ribbon/controls/control/scripts/file | ribbon/tabsControls/tab/scripts/file | uitools-factories/uitool-factory/scripts/file | messagetarget-factories/messagetarget-factory/scripts/file | relations-handlers/relation-handler/scripts/file | widgets/widget-wrapper/widget/scripts/file)[not(. = current()/static-imports/import/scripts/file)]"/>
-                      <xsl:with-param name="css" select="(ribbon/controls/control/css/file | ribbon/tabsControls/tab/css/file | uitools-factories/uitool-factory/css/file | messagetarget-factories/messagetarget-factory/css/file | relations-handlers/relation-handler/css/file | widgets/widget-wrapper/widget/css/file)[not(. = current()/static-imports/import/css/file)]"/>
                 </xsl:call-template>                
 
                 <script type="text/javascript">

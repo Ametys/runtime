@@ -23,8 +23,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
@@ -47,6 +45,9 @@ import org.ametys.core.util.ImageHelper;
 @SuppressWarnings("deprecation")
 public class RuntimeResourceReader extends ResourceReader implements Serviceable
 {
+    /** last modified parameter name for resources parameters */
+    public static final String LAST_MODIFIED = "lastModified";
+    
     /** the avalon service manager */
     protected ServiceManager _manager;
     
@@ -60,14 +61,6 @@ public class RuntimeResourceReader extends ResourceReader implements Serviceable
     public void service(ServiceManager manager) throws ServiceException
     {
         _manager = manager;
-    }
-    
-    @Override
-    public void configure(Configuration configuration) throws ConfigurationException
-    {
-        super.configure(configuration);
-        
-        quickTest = true;
     }
     
     @Override
@@ -92,12 +85,14 @@ public class RuntimeResourceReader extends ResourceReader implements Serviceable
         
         super.setup(new SourceResolverWrapper(runtimeResolver), cocoonObjectModel, src, par);
         
+        quickTest = true;
+        
         @SuppressWarnings("unchecked")
         Map<String, Object> params = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
         
         if (params != null)
         {
-            params.put("lastModified", getLastModified());
+            params.put(LAST_MODIFIED, getLastModified());
         }
     }
     

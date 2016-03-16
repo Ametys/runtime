@@ -1,0 +1,6 @@
+/*! File : /plugins/test/resources/css/minimize/a.css */
+/*! File :/plugins/test/resources/css/minimize/a.css > /plugins/test/resources/css/minimize/folder/z.css */ div.z {background:#ffffff;} /*! File end :/plugins/test/resources/css/minimize/a.css > /plugins/test/resources/css/minimize/folder/z.css */ /*! File :/plugins/test/resources/css/minimize/a.css > /plugins/test/resources/css/minimize/folder/z.css */ @media print {div.z {background:#ffffff;}} /*! File end :/plugins/test/resources/css/minimize/a.css > /plugins/test/resources/css/minimize/folder/z.css */ div.a {background:#000001;}
+/*! File : /plugins/test/resources/css/minimize/folder/z.css */
+div.z {background:#ffffff;}
+/*! File : /plugins/test/resources/css/minimize/b.css */
+div.b {background:#000002;}
