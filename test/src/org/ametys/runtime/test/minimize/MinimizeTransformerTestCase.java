@@ -32,6 +32,8 @@ import org.ametys.runtime.test.Init;
  */
 public class MinimizeTransformerTestCase extends AbstractRuntimeTestCase
 {
+    private static Pattern MINIMIZED_URLS_PATTERN = Pattern.compile("['\"]/plugins/core-ui/resources-minimized/([^/.'\"]+)\\.([^/.'\"]+)['\"]");
+
     private SourceResolver _resolver;
 
     /**
@@ -72,15 +74,15 @@ public class MinimizeTransformerTestCase extends AbstractRuntimeTestCase
         Source source = _resolver.resolveURI("cocoon://_plugins/test/minimize/" + inputFilename);
         
         String result = IOUtils.toString(source.getInputStream(), "UTF-8");
+        String filteredResult = result.replaceAll("/plugins/core-ui/resources-minimized/[^/.]+\\.(js|css)", "/plugins/core-ui/resources-minimized/__HASH__.$1");
         String expected = IOUtils.toString(expectedSource.getInputStream(), "UTF-8");
-        assertEquals("XML output differs", expected, result);
+        assertEquals("XML output differs", expected, filteredResult);
 
-        Pattern urls = Pattern.compile("['\"]/plugins/core-ui/resources-minimized/([^/.'\"]+\\.([^/.'\"]+))['\"]");
-        Matcher matcher = urls.matcher(result);
+        Matcher matcher = MINIMIZED_URLS_PATTERN.matcher(result);
         
         _assertFilesMinimized(matcher, "css", "complete-test-css-1.css");
         _assertFilesMinimized(matcher, "css", "complete-test-css-2.css");
-        _assertFilesMinimized(matcher, "js", "complete-test-js-1.js"); // File a.js does not exist, but file should still generate
+        _assertFilesMinimized(matcher, "js", "complete-test-js-1.js"); // File a.js does not exist, but hashed file should still generate
         _assertFilesMinimized(matcher, "css", "complete-test-css-3.css");
         _assertFilesMinimized(matcher, "css", "complete-test-css-4.css");
         _assertFilesMinimized(matcher, "js", "complete-test-js-2.js");
@@ -98,7 +100,7 @@ public class MinimizeTransformerTestCase extends AbstractRuntimeTestCase
         String fileExtension = matcher.group(2);
         assertEquals("Wrong minimized type", type, fileExtension);
         
-        Source source = _resolver.resolveURI("cocoon://_plugins/test/resources-minimized/" + file);
+        Source source = _resolver.resolveURI("cocoon://_plugins/test/resources-minimized/" + file + "." + fileExtension);
         String actual = IOUtils.toString(source.getInputStream(), "UTF-8");
         assertEquals("Minimized file content did not match expected value", expected, actual);
     }
