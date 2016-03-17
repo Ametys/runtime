@@ -29,6 +29,8 @@ import org.apache.avalon.framework.service.Serviceable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.ametys.core.datasource.AbstractDataSourceManager.DataSourceDefinition;
+
 /**
  * Helper component used to retrieve java.sql.Connection from pools
  */
@@ -79,7 +81,7 @@ public final class ConnectionHelper implements Component, Serviceable
     
     /**
      * Returns a Connection from the pool.
-     * @param id the id of the data source configuration parameter
+     * @param id the id of the data source
      * @return a java.sql.Connection to query a SQL database
      */
     public static Connection getConnection(String id)
@@ -218,5 +220,15 @@ public final class ConnectionHelper implements Component, Serviceable
         {
             return DatabaseType.DATABASE_UNKNOWN;
         }
+    }
+    
+    /**
+     * Returns the SQL {@link DataSourceDefinition} corresponding to the given id.
+     * @param id the id of the data source
+     * @return the {@link DataSourceDefinition}.
+     */
+    public static DataSourceDefinition getDataSourceDefinition(String id)
+    {
+        return _sqlDataSourceManager.getDataSourceDefinition(id);
     }
 }
