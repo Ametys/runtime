@@ -750,7 +750,7 @@
     <!--+
          | LOG
          + -->
-    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LABEL">Journaux serveur</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LABEL">Journaux en direct</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_DESCRIPTION">Consultez les journaux du serveur en temps réel.</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_STOP_REQUESTS">Mettre en pause la réception des messages du serveur.</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CLEAR_GRID">Vide la liste des messages reçus.</message>
@@ -781,7 +781,7 @@
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_PLAY_DESCRIPTION">La  mise à jour en temps réel des logs est actuellement en pause. Cliquez ici pour la relancer.</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CLEAR_LABEL">Effacer</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CLEAR_DESCRIPTION">Effacer la liste de tous les messages reçus du serveur.</message>
-    <message key="RIBBON_ADMINISTRATION_TABS_TAB_SERVERLOG_ACTIONS_LABEL">Journaux serveur</message>
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_SERVERLOG_ACTIONS_LABEL">Journaux en direct</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_SERVERLOG_GROUPS_GROUP_ACTIONS">Actions</message>
 
     <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOG_LABEL">Journaux applicatifs</message>

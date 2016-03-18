@@ -750,7 +750,7 @@
     <!--+
          | LOG
          + -->
-    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LABEL">Server logs</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LABEL">Live logs</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_DESCRIPTION">Display the server logs in real time.</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_STOP_REQUESTS">Stop receiving server logs.</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CLEAR_GRID">Clear the logs list.</message>
@@ -781,7 +781,7 @@
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_PLAY_DESCRIPTION">The real time update of the logs is currently paused. Click here to unpause it.</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CLEAR_LABEL">Clear</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CLEAR_DESCRIPTION">Clear the list of all messages previously received.</message>
-    <message key="RIBBON_ADMINISTRATION_TABS_TAB_SERVERLOG_ACTIONS_LABEL">Server logs</message>
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_SERVERLOG_ACTIONS_LABEL">Live logs</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_SERVERLOG_GROUPS_GROUP_ACTIONS">Actions</message>
 
     <message key="PLUGINS_CORE_UI_TOOLS_CONSOLELOG_LABEL">Application logs</message>
