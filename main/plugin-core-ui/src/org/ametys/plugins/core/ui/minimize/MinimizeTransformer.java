@@ -519,12 +519,16 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
     /**
      * The description of a file
      */
-    class FileData
+    public class FileData
     {
         private String _uri;
         private Long _lastModified;
         private String _media;
         
+        /**
+         * Default constructor for a file data
+         * @param uri The uri locating the file
+         */
         public FileData(String uri)
         {
             _uri = uri;

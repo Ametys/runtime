@@ -15,14 +15,26 @@
  */
 package org.ametys.runtime.test.minimize;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.excalibur.source.Source;
+import org.apache.excalibur.source.SourceNotFoundException;
 import org.apache.excalibur.source.SourceResolver;
 
+import org.ametys.plugins.core.ui.minimize.MinimizeTransformer;
+import org.ametys.plugins.core.ui.minimize.MinimizeTransformer.FileData;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.CocoonWrapper;
 import org.ametys.runtime.test.Init;
@@ -103,5 +115,85 @@ public class MinimizeTransformerTestCase extends AbstractRuntimeTestCase
         Source source = _resolver.resolveURI("cocoon://_plugins/test/resources-minimized/" + file + "." + fileExtension);
         String actual = IOUtils.toString(source.getInputStream(), "UTF-8");
         assertEquals("Minimized file content did not match expected value", expected, actual);
+    }
+    
+    /**
+     * This test runs all the possible situations that the minimize transformer may encounter, though a single html file and all the minified results.
+     * @throws Exception If an error occurs
+     */
+    public void testMinimizeTransformerLastModify() throws Exception
+    {
+        CocoonWrapper cocoon = _startApplication("test/environments/runtimes/runtime01.xml", "test/environments/configs/config1.xml", "test/environments/webapp2");
+
+        Map<String, Object> environmentInformation = _cocoon._enterEnvironment();
+        
+        _resolver = (SourceResolver) Init.getPluginServiceManager().lookup(SourceResolver.ROLE);
+        _assertLastModify("last-modify-test.html", "lastModify-create.js", "lastModify-edit.js", "js");
+        
+        _cocoon._leaveEnvironment(environmentInformation);
+        cocoon.dispose();
+    }
+
+    private void _assertLastModify(String htmlFile, String fileToCreate, String fileToModify, String extension) throws Exception
+    {
+        // Delete temporary file to create if exists
+        File file = new File("test/environments/webapp2/plugins/test/resources/js/minimize/" + fileToCreate);
+        if (file.exists())
+        {
+            assertTrue("Unable to delete file for last modify tests", file.delete());
+        }
+        
+        
+        // Generate a hash with a non existing file
+        String hashNotFound = _getHashFromSourceFile(htmlFile);
+        List<FileData> filesForHash = MinimizeTransformer.getFilesForHash(hashNotFound);
+        assertTrue("The hash cache is invalid", filesForHash.size() == 2 
+                && filesForHash.get(0).getUri().equals("/plugins/test/resources/js/minimize/" + fileToCreate)
+                && filesForHash.get(1).getUri().equals("/plugins/test/resources/js/minimize/" + fileToModify));
+        
+        _assertMinimizedEquals(hashNotFound + "." + extension, "/** ERROR Exception during processing of cocoon://plugins/test/resources/js/minimize/" + fileToCreate + "*/" 
+                + "/** File : /plugins/test/resources/js/minimize/" + fileToModify + " */\nconsole.log(\"test\");\n");
+        
+        
+        // Create the file and regenerate the hash
+        assertTrue("Unable to create file to test last modify", file.createNewFile());
+        String hashFound = _getHashFromSourceFile(htmlFile);
+        assertFalse("Same hash after creating the file", hashNotFound.equals(hashFound));
+
+        _assertMinimizedEquals(hashFound + "." + extension, "/** ERROR Index: 0, Size: 0*/"
+                + "/** File : /plugins/test/resources/js/minimize/" + fileToModify + " */\nconsole.log(\"test\");\n");
+        
+        // Edit the file to generate a new hash
+        Files.write(Paths.get("test/environments/webapp2/plugins/test/resources/js/minimize/" + fileToModify), Arrays.asList("/* Temporary test file */", "console.log('test')"), Charset.forName("UTF-8"), StandardOpenOption.TRUNCATE_EXISTING);
+        
+        String hashModified = _getHashFromSourceFile(htmlFile);
+        assertFalse("Hash must change when file is modified", hashNotFound.equals(hashModified) || hashFound.equals(hashModified));
+
+        _assertMinimizedEquals(hashModified + "." + extension, "/** ERROR Index: 0, Size: 0*/"
+                + "/** File : /plugins/test/resources/js/minimize/" + fileToModify + " */\nconsole.log(\"test\");\n");
+
+        
+        // Delete temporary file created at the end
+        if (file.exists())
+        {
+            assertTrue("Unable to delete file after last modify tests", file.delete());
+        }
+    }
+
+    private void _assertMinimizedEquals(String hashedFile, String expected) throws MalformedURLException, IOException, SourceNotFoundException
+    {
+        Source source = _resolver.resolveURI("cocoon://_plugins/test/resources-minimized/" + hashedFile);
+        String contentFound = IOUtils.toString(source.getInputStream(), "UTF-8");
+
+        assertEquals("Minimized file content is not correct", expected, contentFound);
+    }
+
+    private String _getHashFromSourceFile(String fileSource) throws MalformedURLException, IOException, SourceNotFoundException
+    {
+        Source source = _resolver.resolveURI("cocoon://_plugins/test/minimize/" + fileSource);
+        String sourceContent = IOUtils.toString(source.getInputStream(), "UTF-8");
+        Matcher matcher = MINIMIZED_URLS_PATTERN.matcher(sourceContent);
+        assertTrue("File was not successfully minimized", matcher.find());
+        return matcher.group(1);
     }
 }
