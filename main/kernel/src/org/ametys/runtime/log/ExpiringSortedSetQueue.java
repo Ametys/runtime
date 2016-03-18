@@ -110,8 +110,11 @@ public class ExpiringSortedSetQueue<T>
      */
     public SortedSet<T> tailSet(T fromElement)
     {
-        removeAllExpired(now());
-        return _queue.tailSet(fromElement);
+        synchronized (_expirationDate)
+        {
+            removeAllExpired(now());
+            return new TreeSet<>(_queue.tailSet(fromElement));
+        }
     }
     
     /**
@@ -121,8 +124,11 @@ public class ExpiringSortedSetQueue<T>
      */
     public SortedSet<T> headSet(T toElement)
     {
-        removeAllExpired(now());
-        return _queue.headSet(toElement);
+        synchronized (_expirationDate)
+        {
+            removeAllExpired(now());
+            return new TreeSet<>(_queue.headSet(toElement));
+        }
     }
     
     /**
@@ -133,8 +139,11 @@ public class ExpiringSortedSetQueue<T>
      */
     public SortedSet<T> subSet(T fromElement, T toElement)
     {
-        removeAllExpired(now());
-        return _queue.subSet(fromElement, toElement);
+        synchronized (_expirationDate)
+        {
+            removeAllExpired(now());
+            return new TreeSet<>(_queue.subSet(fromElement, toElement));
+        }
     }
     
 
@@ -155,7 +164,6 @@ public class ExpiringSortedSetQueue<T>
                 iterator.remove();
             }
         }
-        
     }
     
     private void removeIfExpired(final T key, final Long now)
