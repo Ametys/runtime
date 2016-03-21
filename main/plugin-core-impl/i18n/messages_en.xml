@@ -53,7 +53,7 @@
     <message key="PLUGINS_CORE_DATASOURCE_CONFIG_LOGIN_FORM_CONFIG_CATEGORY">Login form</message>
     <message key="PLUGINS_CORE_DATASOURCE_CONFIG_LOGIN_FORM_CONFIG_GROUP">Data base</message>
     <message key="PLUGINS_CORE_DATASOURCE_CONFIG_LOGIN_FORM_CONFIG_DATASOURCE_LABEL">Data source</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CONFIG_LOGIN_FORM_CONFIG_DATASOURCE_DESCRIPTION">Indicate here the data source to use to connect to the data base of the CMS login form</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CONFIG_LOGIN_FORM_CONFIG_DATASOURCE_DESCRIPTION">Indicate here the data source to use to connect to the data base of login form.</message>
     
     <!-- USER LDAP -->
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS">Users</message>
