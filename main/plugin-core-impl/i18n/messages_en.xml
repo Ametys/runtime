@@ -32,28 +32,28 @@
     
     <!-- DATASOURCE LDAP -->
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE">Server</message>
-
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_LDAP_DATASOURCE_LABEL">LDAP connection</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_LDAP_DATASOURCE_DESCRIPTION">Specify here the data source to use to establish a LDAP connection.</message>
-
     <message key="PLUGINS_CORE_LDAP_CONNECTION_CHECKER_LABEL">Connection to the LDAP repository</message>
     <message key="PLUGINS_CORE_LDAP_CONNECTION_CHECKER_DESC">This test checks if the given information allows the connection to the LDAP repository.</message>
     
     <!-- DATASOURCE USER PREFERENCES -->
     <message key="PLUGINS_CORE_DATASOURCE_CONFIG_USERPREFS_CATEGORY">User preferences</message>
-    
     <message key="PLUGINS_CORE_DATASOURCE_CONFIG_USERPREFS_GROUP">Data base</message>
-    
     <message key="PLUGINS_CORE_DATASOURCE_CONFIG_USERPREFS_DATASOURCE_LABEL">Data source</message>
     <message key="PLUGINS_CORE_DATASOURCE_CONFIG_USERPREFS_DATASOURCE_DESCRIPTION">Indicate here the data source to use to store and manipulate the user preferences</message>
     
         <!-- DATASOURCE RIGHTS -->
     <message key="PLUGINS_CORE_DATASOURCE_CONFIG_RIGHTS_CATEGORY">Rights</message>
-    
     <message key="PLUGINS_CORE_DATASOURCE_CONFIG_RIGHTS_GROUP">Data base</message>
-    
     <message key="PLUGINS_CORE_DATASOURCE_CONFIG_RIGHTS_DATASOURCE_LABEL">Data source</message>
     <message key="PLUGINS_CORE_DATASOURCE_CONFIG_RIGHTS_DATASOURCE_DESCRIPTION">Indicate here the data source to use to store and manipulate the rights.</message>
+    
+    <!-- DATASOURCE LOGIN FORM -->
+    <message key="PLUGINS_CORE_DATASOURCE_CONFIG_LOGIN_FORM_CONFIG_CATEGORY">Login form</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CONFIG_LOGIN_FORM_CONFIG_GROUP">Data base</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CONFIG_LOGIN_FORM_CONFIG_DATASOURCE_LABEL">Data source</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CONFIG_LOGIN_FORM_CONFIG_DATASOURCE_DESCRIPTION">Indicate here the data source to use to connect to the data base of the CMS login form</message>
     
     <!-- USER LDAP -->
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS">Users</message>

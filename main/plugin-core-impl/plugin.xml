@@ -316,6 +316,27 @@
             <group i18n="true">PLUGINS_CORE_DATASOURCE_CONFIG_RIGHTS_GROUP</group>
         </param>
         
+        <!-- LOGIN FORM DATA SOURCE -->
+        <param id="runtime.login.form.datasource" type="datasource">
+            <!-- 
+                This parameter contains the data source to use to connect the login form database
+             -->
+            <label i18n="true">PLUGINS_CORE_DATASOURCE_CONFIG_LOGIN_FORM_CONFIG_DATASOURCE_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_DATASOURCE_CONFIG_LOGIN_FORM_CONFIG_DATASOURCE_DESCRIPTION</description>
+            <widget>edition.datasource-sql</widget>
+            <widget-params>
+                <param name="allowCreation">true</param>
+                <param name="allowPrivate">true</param>
+                <param name="allowInternal">true</param>
+            </widget-params>
+            <validation>
+                <mandatory/>
+            </validation>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CONFIG_LOGIN_FORM_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CONFIG_LOGIN_FORM_CONFIG_GROUP</group>
+            <order>10</order>
+        </param>
+        
         <!-- +
              | AUTHENTICATION
              + -->

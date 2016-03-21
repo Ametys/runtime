@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 import org.ametys.core.authentication.Credentials;
 import org.ametys.core.datasource.ConnectionHelper;
+import org.ametys.runtime.config.Config;
 
 /**
  * Credentials coming from more than one source.
@@ -66,7 +67,8 @@ public class TokenCredentials extends Credentials
         
         try
         {
-            connection = ConnectionHelper.getInternalSQLDataSourceConnection();
+            String dataSourceId = Config.getInstance().getValueAsString("runtime.login.form.datasource");
+            connection = ConnectionHelper.getConnection(dataSourceId);
                     
             // Delete 2 weeks or more old entries
             deleteStatement = _getDeleteOldUserTokenStatement(connection);

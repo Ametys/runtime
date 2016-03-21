@@ -346,7 +346,8 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
 
         try 
         {
-            connection = ConnectionHelper.getInternalSQLDataSourceConnection();
+            String dataSourceId = Config.getInstance().getValueAsString("runtime.login.form.datasource");
+            connection = ConnectionHelper.getConnection(dataSourceId);
             DatabaseType dbType = ConnectionHelper.getDatabaseType(connection);
             
             if (dbType.equals(DatabaseType.DATABASE_ORACLE))
@@ -404,7 +405,8 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
 
         try 
         {
-            connection = ConnectionHelper.getInternalSQLDataSourceConnection();
+            String dataSourceId = Config.getInstance().getValueAsString("runtime.login.form.datasource");
+            connection = ConnectionHelper.getConnection(dataSourceId);
             
             // Contruire la requête pour authentifier l'utilisateur
             String sql = "DELETE FROM Users_FormConnectionFailed WHERE login = ?";
@@ -442,7 +444,8 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
 
         try 
         {
-            connection = ConnectionHelper.getInternalSQLDataSourceConnection();
+            String dataSourceId = Config.getInstance().getValueAsString("runtime.login.form.datasource");
+            connection = ConnectionHelper.getConnection(dataSourceId);
             
             // Contruire la requête pour authentifier l'utilisateur
             String sql = "SELECT nb_connect FROM Users_FormConnectionFailed WHERE login = ?";
@@ -507,7 +510,8 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
 
         try 
         {
-            connection = ConnectionHelper.getInternalSQLDataSourceConnection();
+            String dataSourceId = Config.getInstance().getValueAsString("runtime.login.form.datasource");
+            connection = ConnectionHelper.getConnection(dataSourceId);
             
             String sqlUpdate = "INSERT INTO Users_FormConnectionFailed (login, nb_connect, last_connect) VALUES (?, ?, ?)";
            
@@ -548,7 +552,9 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
 
         try 
         {
-            connection = ConnectionHelper.getInternalSQLDataSourceConnection();
+            String dataSourceId = Config.getInstance().getValueAsString("runtime.login.form.datasource");
+            connection = ConnectionHelper.getConnection(dataSourceId);
+            
             String sqlUpdate = "UPDATE Users_FormConnectionFailed SET nb_connect = ? WHERE login = ?";
            
             stmt = connection.prepareStatement(sqlUpdate);
