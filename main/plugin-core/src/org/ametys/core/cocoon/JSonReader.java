@@ -41,8 +41,8 @@ public class JSonReader extends ServiceableReader
     public String getMimeType()
     {
         // RUNTIME-1063 The JSON reader should expose the standard MIME type "application/json"
-        // Keep "text/html" since IE does not know how to deal with "application/json" by default
-        return "text/html";
+        // Keep "text/plain" since IE does not know how to deal with "application/json" by default
+        return "text/plain";
     }
     
     @Override
