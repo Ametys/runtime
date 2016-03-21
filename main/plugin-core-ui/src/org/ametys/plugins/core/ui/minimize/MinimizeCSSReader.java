@@ -36,7 +36,7 @@ public class MinimizeCSSReader extends AbstractMinimizeReader
     private static final Pattern CSS_URL_PATTERN_SRC = Pattern.compile("src\\b\\s*=\\s*['\"](.*?)['\"]", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
     private static final Pattern CSS_URL_PATTERN_IMPORT_URL = Pattern.compile("(?:@import\\s*)?\\burl\\b\\s*\\(\\s*['\"]?(.*?)['\"]?\\s*\\)", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
     private static final Pattern CSS_URL_PATTERN_IMPORT = Pattern.compile("@import\\b\\s['\"](.*?)['\"]", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
-    private static final Pattern IMPORT_PATTERN = Pattern.compile("(?:^|;)\\s*@import\\b\\s*(?:(?:url)?\\(?\\s*[\"']?)([^)\"']*)[\"']?\\)?[ \\t]*([^;\\n]*)?(?:;\\s*\\n)?", Pattern.MULTILINE | Pattern.CASE_INSENSITIVE);
+    private static final Pattern IMPORT_PATTERN = Pattern.compile("(?:^|;)\\s*@import\\b\\s*(?:(?:url)?\\(?\\s*[\"']?)([^)\"']*)[\"']?\\)?[ \\t]*([^;\\r\\n]*)?(?:;\\s*\\r?\\n)?", Pattern.MULTILINE | Pattern.CASE_INSENSITIVE);
 
     @Override
     public String getMimeType()

@@ -88,7 +88,7 @@ public class MinimizeTransformerTestCase extends AbstractRuntimeTestCase
         String result = IOUtils.toString(source.getInputStream(), "UTF-8");
         String filteredResult = result.replaceAll("/plugins/core-ui/resources-minimized/[^/.]+\\.(js|css)", "/plugins/core-ui/resources-minimized/__HASH__.$1");
         String expected = IOUtils.toString(expectedSource.getInputStream(), "UTF-8");
-        assertEquals("XML output differs", expected, filteredResult);
+        assertEquals("XML output differs", expected.replace("\r", ""), filteredResult.replace("\r", ""));
 
         Matcher matcher = MINIMIZED_URLS_PATTERN.matcher(result);
         
@@ -114,7 +114,7 @@ public class MinimizeTransformerTestCase extends AbstractRuntimeTestCase
         
         Source source = _resolver.resolveURI("cocoon://_plugins/test/resources-minimized/" + file + "." + fileExtension);
         String actual = IOUtils.toString(source.getInputStream(), "UTF-8");
-        assertEquals("Minimized file content did not match expected value", expected, actual);
+        assertEquals("Minimized file content did not match expected value", expected.replace("\r", ""), actual.replace("\r", ""));
     }
     
     /**
