@@ -1614,99 +1614,21 @@
 })();
 
 (function() {
-    Ext.define("Ametys.selection.RowModel", {
-        override: "Ext.selection.RowModel",
+    Ext.override(Ext.grid.plugin.CellEditing, {
         
         /**
          * @member Ext.grid.plugin.CellEditing
          * @ametys
          * @since Ametys Runtime 3.9
          * @cfg {Boolean} moveEditorOnEnter
-         * <tt>false</tt> to turn off moving the editor to the next row down when the enter key is pressed
-         * or the next row up when shift + enter keys are pressed.
+         * <tt>false</tt> to turn off moving the editor to the next row (down) when the enter key is pressed or the previous row (up) when shift + enter keys are pressed.
          */
-        
-        /**
-         * @private
-         * As onEditorTab but for ENTER key
-         */
-        onEditorEnter: function(editingPlugin, e)
-        {
-            if (this.moveEditorOnEnter == true) 
-            {
-                var me = this,
-                view = editingPlugin.context.view,
-                record = editingPlugin.getActiveRecord(),
-                header = editingPlugin.getActiveColumn(),
-                position = view.getPosition(record, header),
-                direction = e.shiftKey ? 'up' : 'down',
-                lastPos;
 
-                // We want to continue looping while:
-                // 1) We have a valid position
-                // 2) There is no editor at that position
-                // 3) There is an editor, but editing has been cancelled (veto event)
-    
-                // Changing row require a timeout to avoid the modification of the new record instead of the old one ; and completing the editing in stead of opening it
-                window.setTimeout(function() {
-                    do {
-                        lastPos = position;
-                        position  = view.walkCells(position, direction, e, me.preventWrap);
-                        if (position === false || lastPos && lastPos.isEqual(position)) {
-                            // If we end up with the same result twice, it means that we weren't able to progress
-                            // via walkCells, for example if the remaining records are non-record rows, so gracefully
-                            // fall out here.
-                            return;
-                        }
-                        editingPlugin.context.grid.getSelectionModel().deselect(lastPos.row);
-                    } while (position && (!position.column.getEditor(record) || !editingPlugin.startEditByPosition(position)));
-                }, 1);
-            }
-        },
-        
-        onEditorTab: function(editingPlugin, e) {
-            var me = this,
-                view = editingPlugin.context.view,
-                record = editingPlugin.getActiveRecord(),
-                header = editingPlugin.getActiveColumn(),
-                position = view.getPosition(record, header),
-                direction = e.shiftKey ? 'left' : 'right',
-                lastPos;
-
-            // We want to continue looping while:
-            // 1) We have a valid position
-            // 2) There is no editor at that position
-            // 3) There is an editor, but editing has been cancelled (veto event)
-
-            do {
-                lastPos = position;
-                position  = view.walkCells(position, direction, e, me.preventWrap);
-                if (lastPos && lastPos.isEqual(position)) {
-                    // If we end up with the same result twice, it means that we weren't able to progress
-                    // via walkCells, for example if the remaining records are non-record rows, so gracefully
-                    // fall out here.
-                    return;
-                }
-                editingPlugin.context.grid.getSelectionModel().deselect(lastPos.row);                                       // FIX we have to deselect last row CMS-5979
-            } while (position && (!position.column.getEditor(record) || !editingPlugin.startEditByPosition(position)));
-        }       
-    });
-    
-    Ext.define("Ametys.grid.plugin.CellEditing", {
-        override: "Ext.grid.plugin.CellEditing",
-        
         /**
          * @member Ext.grid.plugin.CellEditing
          * @ametys
          * @since Ametys Runtime 3.9
          * @cfg {Boolean} editAfterSelect=false When #cfg-triggerEvent is not specified or is 'cellclick' and #cfg-clicksToEdit is 1, this configuration allow to enter in edition only if the record was focused first. As a rename under files manager, you will have to first click on the row to select it and click again to edit it (but not doubleclick).
-         */
-
-        /**
-         * @member Ext.grid.plugin.CellEditing
-         * @ametys
-         * @since Ametys Runtime 3.9
-         * @cfg {Boolean} silentlyIgnoreInvalid=true When leaving edition of a field with keys (ENTER or TAB), the edition will be canceled if true, and the edition will not be quit when false. Bluring the field will continue cancelling the edition if the field is invalid.
          */
 
         /**
@@ -1771,55 +1693,34 @@
                 window.clearTimeout(this.oncellclicktimeout);
                 this.oncellclicktimeout = null;
             }
-        },
-        
-        onSpecialKey: function(ed, field, e) {
-            var sm = ed.up('tablepanel').getSelectionModel();
-            if (sm.moveEditorOnEnter && e.getKey() === e.ENTER) 
-            {
-                e.stopEvent();
-
-                var column = this.getActiveColumn();
-                var record = this.getActiveRecord();
-                
-                if (ed) {
-                    // Allow the field to act on tabs before onEditorTab, which ends
-                    // up calling completeEdit. This is useful for picker type fields.
-                    ed.onEditorTab(e);
-                }
-
-                if (sm.onEditorEnter) {
-                    sm.onEditorEnter(ed.editingPlugin, e);
-                }
-            }
-            else
-            {
-                this.callParent(arguments);
-            }
         }
     });
-    
-    Ext.define("Ametys.grid.CellEditor", {
-        override: "Ext.grid.CellEditor",
+
+    Ext.override(Ext.grid.CellEditor, {
         
-        startEdit: function()
+        onSpecialKey : function(field, event) 
         {
-            // TODO this.editingPlugin.armed = this.editingPlugin.getActiveRecord().getId();
-        
             this.callParent(arguments);
-        },
-        
-        onSpecialKey : function(field, event) {
-            if (this.editingPlugin.silentlyIgnoreInvalid == false && !field.isValid() && (event.getKey() == event.ENTER || event.getKey() == event.TAB))
-            {
-                event.stopEvent();
-                return;
-            }
             
-            this.callParent(arguments);
-        },
+            if (this.editingPlugin.moveEditorOnEnter == true && event.getKey() == event.ENTER) 
+            {
+                // We just left the edit mode using the ENTER key: let's edit the following line as editingPlugin#moveEditorOnEnter is true
+                var view = this.editingPlugin.view;
+                
+                var newRecord = view.walkRecs(this.context.record, event.shiftKey ? -1 : 1);
+                if (newRecord && newRecord != this.context.record)
+                {
+                    event.shiftKey = false; // Shift+ENTER should goes up, but the navigation model will consider this as a SHIFT+UP that means "keep selection" during the move
+                    
+                    var newPos = view.getNavigationModel().getPosition().setRow(newRecord);
+                    view.getNavigationModel().setPosition(newPos, null, event);
+                    
+                    this.editingPlugin.startEdit(newRecord, newPos.column);
+                }
+            }
+        }
         
-        alignment: "tl-tl"
+        //alignment: "l-l"
     });
 })();
 
