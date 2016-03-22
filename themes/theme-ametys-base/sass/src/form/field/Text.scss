@@ -95,6 +95,12 @@
                     &.#{$prefix}form-trigger-wrap-focus {
                         border-color: $active-color;
                     }
+                    &.#{$prefix}form-text-wrap-warning {
+                        border-color: $ametys-field-warning-color;
+                    } 
+                    &.#{$prefix}form-trigger-wrap-invalid {
+                        border-color: $form-text-field-invalid-border-color;
+                    }
                 }
             }
         
@@ -102,6 +108,12 @@
                 .#{$prefix}form-text-wrap-default {
                     &.#{$prefix}form-text-wrap-focus {
                         border-color: $active-color;
+                    }
+                    &.#{$prefix}form-text-wrap-warning {
+                        border-color: $ametys-field-warning-color;
+                    } 
+                    &.#{$prefix}form-trigger-wrap-invalid {
+                        border-color: $form-text-field-invalid-border-color;
                     }
                 }
             }
