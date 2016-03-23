@@ -528,6 +528,9 @@
         },
         
         /**
+         * @member Ext.form.Labelable
+         * @ametys
+         * @since Ametys Runtime 4.0
          * @private
          * Add/remove invalid class(es)
          * @param {Boolean} hasWarning Has a warning
@@ -619,11 +622,17 @@
     Ext.override(Ext.form.field.Text, {
 
         /** 
+         * @member Ext.form.field.Text
+         * @ametys
+         * @since Ametys Runtime 4.0
          * @private
          * @property {String} triggerWrapWarningCls The css classname to set on trigger wrapper if warning
          */
         triggerWrapWarningCls: Ext.baseCSSPrefix + 'form-trigger-wrap-warning',
         /** 
+         * @member Ext.form.field.Text
+         * @ametys
+         * @since Ametys Runtime 4.0
          * @private
          * @property {String} inputWrapWarningCls The css classname to set on input wrapper if warning
          */
