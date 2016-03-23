@@ -1651,9 +1651,6 @@
         
         onCellClick: function(view, cell, colIdx, record, row, rowIdx, e)
         {
-            // In some specific case, such as trigger widgets, changing the selection does not close the current edition
-            this.getActiveEditor() && this.getActiveEditor().completeEdit();
-            
             if (!this.editAfterSelect || (this.triggerEvent != null && this.triggerEvent != 'cellclick') || this.clicksToEdit !== 1)
             {
                 this.callParent(arguments);
