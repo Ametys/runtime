@@ -17,7 +17,7 @@ package org.ametys.plugins.core.impl.checker;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.Map;
+import java.util.List;
 
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -41,9 +41,6 @@ import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
  */
 public class DirectoryChecker extends AbstractLogEnabled implements Configurable, ParameterChecker, Serviceable
 {
-    /** The id of the configuration panel's parameter which path is going to be checked */
-    private String _pathParameter;
-    
     /** Equals true if the directory has to be writable */
     private boolean _checkWrite;
     
@@ -63,10 +60,8 @@ public class DirectoryChecker extends AbstractLogEnabled implements Configurable
         
         if (configuration.getChild("linked-params").getChildren().length != 1)
         {
-            throw new ConfigurationException("The Directory Checker should have exactly 1 linked parameter: directory");
+            throw new ConfigurationException("The Directory Checker should have exactly 1 linked parameter: the directory");
         }
-
-        _pathParameter = configuration.getChild("linked-params").getChild("param-ref").getAttribute("id");
     }
     
     @Override
@@ -76,7 +71,7 @@ public class DirectoryChecker extends AbstractLogEnabled implements Configurable
     }
     
     @Override
-    public void check(Map<String, String> configurationParameters) throws ParameterCheckerTestFailureException
+    public void check(List<String> values) throws ParameterCheckerTestFailureException
     {
         if (_sourceResolver == null)
         {
@@ -90,8 +85,7 @@ public class DirectoryChecker extends AbstractLogEnabled implements Configurable
             }
         }
         
-        String path = configurationParameters.get(_pathParameter);
-        _checkDirectory(path);
+        _checkDirectory(values.get(0));
     }
     
     /**

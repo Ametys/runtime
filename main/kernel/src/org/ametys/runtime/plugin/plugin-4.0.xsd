@@ -890,11 +890,11 @@
 
     <xsd:complexType name="ui-ref">
         <xsd:sequence>
-            <xsd:element name="order" type="xsd:integer" minOccurs="1" maxOccurs="1">
+            <xsd:element name="order" type="xsd:integer" minOccurs="0" maxOccurs="1">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">
                          <![CDATA[
-                             The id of the linked parameter, must be unique.
+                             The display order of the parameter checker, in case several are defined at the same location
                          ]]>
                      </xsd:documentation>
                  </xsd:annotation>
@@ -920,7 +920,7 @@
              <xsd:annotation>
                  <xsd:documentation xml:lang="en">
                      <![CDATA[
-                         The id of the linked parameter, must be unique.
+                         The relative or absolute id of the referenced parameter
                      ]]>
                  </xsd:documentation>
              </xsd:annotation>            

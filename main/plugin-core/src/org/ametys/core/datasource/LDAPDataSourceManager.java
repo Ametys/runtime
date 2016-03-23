@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@
 package org.ametys.core.datasource;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.ametys.plugins.core.impl.checker.LDAPConnectionChecker;
@@ -78,16 +80,20 @@ public class LDAPDataSourceManager extends AbstractDataSourceManager
     }
     
     @Override
-    public void checkParameters(DataSourceDefinition dataSource) throws ParameterCheckerTestFailureException
-    {
-        checkParameters(dataSource.getParameters());
-    }
-    
-    @Override
     public void checkParameters(Map<String, String> rawParameters) throws ParameterCheckerTestFailureException
     {
+        // Order the parameters
+        List<String> values = new ArrayList<> ();
+        values.add(rawParameters.get(PARAM_BASE_URL));
+        values.add(rawParameters.get(PARAM_AUTHENTICATION_METHOD));
+        values.add(rawParameters.get(PARAM_ADMIN_DN));
+        values.add(rawParameters.get(PARAM_ADMIN_PASSWORD));
+        values.add(rawParameters.get(PARAM_USE_SSL));
+        values.add(rawParameters.get(PARAM_FOLLOW_REFERRALS));
+        values.add(rawParameters.get(PARAM_BASE_DN));
+        
         ParameterChecker paramChecker = new LDAPConnectionChecker();
-        paramChecker.check(rawParameters);
+        paramChecker.check(values);
     }
     
     @Override

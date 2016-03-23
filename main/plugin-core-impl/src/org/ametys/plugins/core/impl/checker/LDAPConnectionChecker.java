@@ -16,7 +16,7 @@
 package org.ametys.plugins.core.impl.checker;
 
 import java.util.Hashtable;
-import java.util.Map;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.NamingException;
@@ -25,7 +25,6 @@ import javax.naming.directory.InitialDirContext;
 
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
-import org.ametys.core.datasource.LDAPDataSourceManager;
 import org.ametys.runtime.parameter.ParameterChecker;
 import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
 
@@ -36,18 +35,18 @@ import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
 public class LDAPConnectionChecker extends AbstractLogEnabled implements ParameterChecker
 {
     @Override
-    public void check(Map<String, String> parameters) throws ParameterCheckerTestFailureException
+    public void check(List<String> values) throws ParameterCheckerTestFailureException
     {
         Hashtable<String, String> env = new Hashtable<>();
         
         // Get the parameter values
-        String baseUrl = parameters.get(LDAPDataSourceManager.PARAM_BASE_URL);
-        String authMethod = parameters.get(LDAPDataSourceManager.PARAM_AUTHENTICATION_METHOD);
-        String adminDN = parameters.get(LDAPDataSourceManager.PARAM_ADMIN_DN);
-        String adminPassword = parameters.get(LDAPDataSourceManager.PARAM_ADMIN_PASSWORD);
-        String useSSL = parameters.get(LDAPDataSourceManager.PARAM_USE_SSL);
-        String followReferrals = parameters.get(LDAPDataSourceManager.PARAM_FOLLOW_REFERRALS);
-        String baseDN = parameters.get(LDAPDataSourceManager.PARAM_BASE_DN);
+        String baseUrl = values.get(0);
+        String authMethod = values.get(1);
+        String adminDN = values.get(2);
+        String adminPassword = values.get(3);
+        String useSSL = values.get(4);
+        String followReferrals = values.get(5);
+        String baseDN = values.get(6);
         
         // Define the corresponding context
         env.put(Context.PROVIDER_URL, baseUrl);

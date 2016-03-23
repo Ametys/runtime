@@ -94,15 +94,8 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
     
     /**
      * Checks the parameters of a data source
-     * @param dataSource the data source to check
-     * @throws ParameterCheckerTestFailureException if parameters test failed
-     */
-    public abstract void checkParameters(DataSourceDefinition dataSource) throws ParameterCheckerTestFailureException;
-    
-    /**
-     * Checks the parameters of a data source
-     * @param rawParameters the data source parameters
-     * @throws ParameterCheckerTestFailureException if parameters test failed
+     * @param rawParameters the parameters of the data source
+     * @throws ParameterCheckerTestFailureException if the test failed
      */
     public abstract void checkParameters(Map<String, String> rawParameters) throws ParameterCheckerTestFailureException;
     
@@ -287,7 +280,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
                     // Validate the used SQL data sources if not already in safe mode
                     if (checkParameters && !PluginsManager.getInstance().isSafeMode() && _dataSourceConsumerEP.isInUse(id))
                     {
-                        checkParameters (dataSource);
+                        checkParameters (parameters);
                     }
                     
                     createDataSource (dataSource);

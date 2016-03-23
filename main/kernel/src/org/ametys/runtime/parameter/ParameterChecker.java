@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,17 +15,17 @@
  */
 package org.ametys.runtime.parameter;
 
-import java.util.Map;
+import java.util.List;
 
 /**
- * Interface for the parameter checker
+ * Interface of the parameter checkers
  */
 public interface ParameterChecker
 {
     /**
      * Checks the validity of the parameters.
-     * @param parameters the parameters
+     * @param values the values to test
      * @throws ParameterCheckerTestFailureException if the test failed
      */
-    public void check(Map<String, String> parameters) throws ParameterCheckerTestFailureException;
+    public void check(List<String> values) throws ParameterCheckerTestFailureException;
 }

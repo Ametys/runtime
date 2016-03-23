@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -44,7 +44,8 @@ Ext.define('Ametys.plugins.admin.config.ConfigTool', {
             
 			listeners: {
 				'fieldchange': Ext.bind(this.setDirty, this, [true], false),
-				'inputfocus': Ext.bind(this.sendCurrentSelection, this)
+				'inputfocus': Ext.bind(this.sendCurrentSelection, this),
+				'testresultschange': Ext.bind(this.sendCurrentSelection, this)
 			}
 		});
 		

@@ -201,15 +201,10 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
         return {
             // Data source id (for edition only)
             'id': {
+            	label: 'test',
 	            hidden: true,
 	            type: 'string'
 	        },
-            // Data source type
-            'type': {
-	            hidden: true,
-	            type: 'string',
-	            'default-value': 'SQL'
-            },
             // Name
             'name': {
                 type: 'string',
@@ -267,15 +262,15 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
 	            widget: 'edition.checkbox',
 	            label: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PRIVATE}}",
 	            description: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PRIVATE_DESCRIPTION}}",
-	            'param-checker': {
-	                id: 'sql-connection-checker-datasource',
-                    'icon-glyph': 'flaticon-data110',
-	                'linked-params': ['driver', 'url', 'user', 'password'],
-	                'param-ref': 'private',
-	                label: "{{i18n plugin.core-impl:PLUGINS_CORE_SQL_CONNECTION_CHECKER_LABEL}}",
-	                description: "{{i18n plugin.core-impl:PLUGINS_CORE_SQL_CONNECTION_CHECKER_DESC}}",
-	                order: 1
-	            }
+            },
+            
+            // Global parameter checker
+            'field-checker': {
+                id: 'sql-connection-checker-datasource',
+                'icon-glyph': 'flaticon-data110',
+                'linked-fields': ['id', 'driver', 'url', 'user', 'password'],
+                label: "{{i18n plugin.core-impl:PLUGINS_CORE_SQL_CONNECTION_CHECKER_LABEL}}",
+                description: "{{i18n plugin.core-impl:PLUGINS_CORE_SQL_CONNECTION_CHECKER_DESC}}"
             }
         }
     },
@@ -327,19 +322,19 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
 		}
  		
  		// Test the data source
- 		var paramCheckersDAO = this._form._paramCheckersDAO;
+ 		var fieldCheckersManager = this._form._fieldCheckersManager;
  		
  		Ext.getBody().mask("{{i18n plugin.core-ui:PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE}}");
- 		paramCheckersDAO.check(paramCheckersDAO._paramCheckers,
- 							   true, 
-					           Ext.bind(function(success) 
-				      		   { 
-					              Ext.getBody().unmask(); 
-					              if (success) 
-					              { 
-					            	  this._okCb();
-					              }
-				      	  		}, this), false); 
+ 		fieldCheckersManager.check(null,
+	 							   true, 
+						           Ext.bind(function(success) 
+					      		   { 
+						              Ext.getBody().unmask(); 
+						              if (success) 
+						              { 
+						            	  this._okCb();
+						              }
+					      	  		}, this), false); 
  	},
  	
  	/**

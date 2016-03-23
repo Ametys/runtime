@@ -15,7 +15,7 @@
  */
 package org.ametys.plugins.core.impl.checker;
 
-import java.util.Map;
+import java.util.List;
 
 //import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.configuration.Configurable;
@@ -31,14 +31,6 @@ import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
  */
 public class SendMailChecker implements ParameterChecker, Configurable //, Contextualizable cf Runtime-1065
 {
-    private String _paramHost;
-    private String _paramPort;
-    private String _paramSecurityProtocol;
-    private String _paramUser;
-    private String _paramPasswd;
-    private String _paramFromEmail;
-    private String _paramToEmail;
-
 //    private Context _context;
 
 //    public void contextualize(Context context) throws org.apache.avalon.framework.context.ContextException 
@@ -54,33 +46,24 @@ public class SendMailChecker implements ParameterChecker, Configurable //, Conte
         {
             throw new ConfigurationException("The MailConnectionChecker should have 5 linked params in the right order: host, port, security.protocol, user, password, fromEmail, toEmail");
         }
-        
-        int i = 0;
-        _paramHost = config[i++].getAttribute("id");
-        _paramPort = config[i++].getAttribute("id");
-        _paramSecurityProtocol = config[i++].getAttribute("id");
-        _paramUser = config[i++].getAttribute("id");
-        _paramPasswd = config[i++].getAttribute("id");
-        _paramFromEmail = config[i++].getAttribute("id");
-        _paramToEmail = config[i++].getAttribute("id");
     }
 
     
     @Override 
-    public void check(Map<String, String> configurationParameters) throws ParameterCheckerTestFailureException
+    public void check(List<String> values) throws ParameterCheckerTestFailureException
     {
-        String password = configurationParameters.get(_paramPasswd);
-        String host = configurationParameters.get(_paramHost);
-        String portStr = configurationParameters.get(_paramPort);
-        long port = Integer.parseInt(portStr);
-        String user = configurationParameters.get(_paramUser);
-        String protocol = configurationParameters.get(_paramSecurityProtocol);
-        String recipient = configurationParameters.get(_paramFromEmail);
-        String sender = configurationParameters.get(_paramToEmail);
+        String host = values.get(0);
+        String portAsString = values.get(1);
+        String protocol = values.get(2);
+        String user = values.get(3);
+        String password = values.get(4);
+        String sender = values.get(5);
+        String recipient = values.get(6);
         
         // Request request = ContextHelper.getRequest(_context);
-        
         // reconstruire url back office a la place de host
+
+        long port = Integer.parseInt(portAsString);
         try
         {
             SendMailHelper.sendMail("[Ametys] Test email", null, 

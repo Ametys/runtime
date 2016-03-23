@@ -15,8 +15,9 @@
  */
 package org.ametys.runtime.plugins.admin.datasource;
 
-import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
@@ -36,14 +37,19 @@ import org.ametys.core.datasource.LDAPDataSourceManager;
 import org.ametys.core.datasource.SQLDataSourceManager;
 import org.ametys.core.datasource.dbtype.SQLDatabaseTypeManager;
 import org.ametys.core.util.I18nUtils;
+import org.ametys.core.util.JSONUtils;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
+import org.ametys.runtime.parameter.ParameterHelper;
 
 /**
  * This action checks the validity of a data source's parameters
  */
 public class CheckDataSourceAction extends ServiceableAction
 {
+    /** The id of the SQL data source checker */
+    private static final String __SQL_DATASOURCE_CHECKER_ID = "sql-connection-checker-datasource";
+    
     /** The manager for SQL data source */
     private SQLDataSourceManager _sqlDataSourceManager;
     
@@ -56,6 +62,9 @@ public class CheckDataSourceAction extends ServiceableAction
     /** Utility methods helping the management of internationalizable text */
     private I18nUtils _i18nUtils;
     
+    /** Helper component gathering utility methods for the management of JSON entities */
+    private JSONUtils _jsonUtils;
+    
     @Override
     public void service(ServiceManager serviceManager) throws ServiceException
     {
@@ -63,6 +72,7 @@ public class CheckDataSourceAction extends ServiceableAction
         _sqlDataSourceManager = (SQLDataSourceManager) serviceManager.lookup(SQLDataSourceManager.ROLE);
         _sqlDatabaseTypeManager = (SQLDatabaseTypeManager) serviceManager.lookup(SQLDatabaseTypeManager.ROLE);
         _i18nUtils = (I18nUtils) serviceManager.lookup(I18nUtils.ROLE);
+        _jsonUtils = (JSONUtils) serviceManager.lookup(JSONUtils.ROLE);
     }
     
     @Override
@@ -70,57 +80,68 @@ public class CheckDataSourceAction extends ServiceableAction
     {
         Map<String, String> result = new HashMap<> ();
         Request request = ObjectModelHelper.getRequest(objectModel);
+
+        String fieldCheckersInfoJSON = request.getParameter("fieldCheckersInfo");
+        Map<String, Object> fieldCheckersInfo = _jsonUtils.convertJsonToMap(fieldCheckersInfoJSON);
+        Iterator<String> fieldCheckersIds = fieldCheckersInfo.keySet().iterator();
+        String fieldCheckerId = fieldCheckersIds.next();
         
-        String type = request.getParameter("type");
+        @SuppressWarnings("unchecked")
+        Map<String, List<String>> fieldCheckerInfo = (Map<String, List<String>>) fieldCheckersInfo.get(fieldCheckerId);
+        List<String> values = fieldCheckerInfo.get("rawTestValues");
+        
+        String type = fieldCheckerId.equals(__SQL_DATASOURCE_CHECKER_ID) ? "SQL" : "LDAP";
+        
         DataSourceType dsType = DataSourceType.valueOf(type);
-        
         try 
         {
             switch (dsType)
             {
                 case SQL:
-                    _checkSQLParameters (request);
+                    _checkSQLParameters(values);
                     break;
                     
                 case LDAP:
-                    _checkLDAPParameters(request);
+                    _checkLDAPParameters(values);
                     break;
                 
                 default:
-                    throw new IllegalArgumentException("Unknow data source of type'" + type + "'. Unable to check data source parameters.");
+                    throw new IllegalArgumentException("Unknow data source of type '" + type + "'. Unable to check data source parameters.");
             }
         }
         catch (Throwable t)
         {
             getLogger().error("Data source test failed: \n" + t.getMessage(), t);
             String msg = t.getMessage() != null ? t.getMessage() : "Unknown error";
-            result.put(request.getParameter("paramCheckersIds"), msg);
+            
+            // We know we only have one parameter checker here
+            result.put(fieldCheckerId, msg);
         }
         
         request.setAttribute(ActionResultGenerator.MAP_REQUEST_ATTR, result);
         return result;
     }
     
-    private void _checkSQLParameters (Request request) throws ParameterCheckerTestFailureException
+    private void _checkSQLParameters (List<String> values) throws ParameterCheckerTestFailureException
     {
         Map<String, String> sqlParameters = new HashMap<> ();
         
-        String driver = request.getParameter("driver");
+        String driver = values.get(1);
+        sqlParameters.put("driver", driver);
         if (StringUtils.isNotEmpty(driver))
         {
             I18nizableText driverNotFoundMessageKey = _sqlDatabaseTypeManager.getClassNotFoundMessage(driver);
             sqlParameters.put("driverNotFoundMessage", _i18nUtils.translate(driverNotFoundMessageKey));
         }
         
-        sqlParameters.put("url", request.getParameter("url"));
-        sqlParameters.put("driver", request.getParameter("driver"));
-        sqlParameters.put("user", request.getParameter("user"));
+        sqlParameters.put("url", values.get(2));
+        sqlParameters.put("user", values.get(3));
         
-        String password = request.getParameter("password");
+        String password = values.get(4);
         if (password == null)
         {
-            // Get password from registered data source if exists
-            String dataSourceId = request.getParameter("id");
+            // Get password from the registered data source if it exists
+            String dataSourceId = values.get(0);
             DataSourceDefinition dataSourceDefinition = _sqlDataSourceManager.getDataSourceDefinition(dataSourceId);
             if (dataSourceDefinition != null)
             {
@@ -135,32 +156,26 @@ public class CheckDataSourceAction extends ServiceableAction
         _sqlDataSourceManager.checkParameters(sqlParameters);
     }
     
-    private void _checkLDAPParameters (Request request) throws ParameterCheckerTestFailureException
+    private void _checkLDAPParameters (List<String> values) throws ParameterCheckerTestFailureException
     {
         Map<String, String> ldapParameters = new HashMap<> ();
         
-        Enumeration parameterNames = request.getParameterNames();
-        while (parameterNames.hasMoreElements())
-        {
-            String paramName = (String) parameterNames.nextElement();
-            ldapParameters.put(paramName, request.getParameter(paramName));
-        }
+        ldapParameters.put(LDAPDataSourceManager.PARAM_BASE_URL, values.get(1));
+        ldapParameters.put(LDAPDataSourceManager.PARAM_BASE_DN, values.get(2));
+        ldapParameters.put(LDAPDataSourceManager.PARAM_USE_SSL, ParameterHelper.valueToString(values.get(3)));
         
-        ldapParameters.put(LDAPDataSourceManager.PARAM_BASE_URL, request.getParameter(LDAPDataSourceManager.PARAM_BASE_URL));
-        ldapParameters.put(LDAPDataSourceManager.PARAM_BASE_DN, request.getParameter(LDAPDataSourceManager.PARAM_BASE_DN));
-        ldapParameters.put(LDAPDataSourceManager.PARAM_USE_SSL, request.getParameter(LDAPDataSourceManager.PARAM_USE_SSL));
-        ldapParameters.put(LDAPDataSourceManager.PARAM_FOLLOW_REFERRALS, request.getParameter(LDAPDataSourceManager.PARAM_FOLLOW_REFERRALS));
+        ldapParameters.put(LDAPDataSourceManager.PARAM_FOLLOW_REFERRALS, ParameterHelper.valueToString(values.get(4)));
         
-        String authenticationMethod = request.getParameter(LDAPDataSourceManager.PARAM_AUTHENTICATION_METHOD);
+        String authenticationMethod = values.get(5);
         ldapParameters.put(LDAPDataSourceManager.PARAM_AUTHENTICATION_METHOD, authenticationMethod);
-        ldapParameters.put(LDAPDataSourceManager.PARAM_ADMIN_DN, request.getParameter(LDAPDataSourceManager.PARAM_ADMIN_DN));
         
-        String adminPassword = request.getParameter(LDAPDataSourceManager.PARAM_ADMIN_DN);
+        ldapParameters.put(LDAPDataSourceManager.PARAM_ADMIN_DN, values.get(6));
         
         // A null password + an authentication method => the password is recorded
+        String adminPassword = values.get(7);
         if (adminPassword == null && !authenticationMethod.equals("none"))
         {
-            String dataSourceId = request.getParameter("id");
+            String dataSourceId = values.get(0);
             DataSourceDefinition dataSourceDefinition = _ldapDataSourceManager.getDataSourceDefinition(dataSourceId);
             if (dataSourceDefinition != null)
             {

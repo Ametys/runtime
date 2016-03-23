@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,29 +15,19 @@
  */
 package org.ametys.runtime.parameter;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.JsonFactory;
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
 import org.ametys.runtime.i18n.I18nizableText;
 
 /**
- *  Default implementation for the parameter checker 
+ * Descriptor of a parameter checker 
  */
 public class ParameterCheckerDescriptor extends AbstractLogEnabled
 {
@@ -62,72 +52,20 @@ public class ParameterCheckerDescriptor extends AbstractLogEnabled
     /** The concrete class of the parameter checker */
     protected String _concreteClass;
     
-    /** The order of the ui parameter */
+    /** The order of the parameter checker. When several parameter checkers have the same location, 
+     *  the order allows to order graphically the parameter checkers: the parameter checker with the lowest
+     *  order will be at the top. */
     protected int _uiRefOrder;
     
-    /** The id of the ui parameter */
-    protected String _uiRefParamId;
-    
-    /** The group of the checked parameter */
-    protected I18nizableText _uiRefGroup;
-    
-    /** The category of the checked parameter */
-    protected I18nizableText _uiRefCategory;
+    /** The location of the parameter checker */
+    protected String _uiRefLocation;
     
     /** The configuration of the linked parameters */
-    protected Set<String> _linkedParamsIds;
+    protected Set<String> _linkedParamsPaths;
     
-    /** The Map representation of the parameter checker */
+    /** The concrete class of the parameter checker implementing the check */
     protected ParameterChecker _parameterChecker;
 
-    /** The Json factory */
-    private JsonFactory _jsonFactory = new JsonFactory();
-    
-    /** The object mapper */
-    private ObjectMapper _objectMapper = new ObjectMapper();
-    
-   /**
-    * Returns a json representation of the ParameterCheckerDescriptor
-    * @return the json representation
-    */
-    public String toJsonOLD() // FIXME to remove
-    {
-        StringWriter writer = new StringWriter();
-
-        Map<String, Object> result = new HashMap<>();
-        List<String> linkedParamsList = new ArrayList<>();
-
-        Iterator<String> it = _linkedParamsIds.iterator();
-        while (it.hasNext())
-        {
-            linkedParamsList.add(it.next());
-        }
-
-        if (_uiRefParamId != null)
-        {
-            result.put("param-ref", _uiRefParamId);
-        }
-
-        result.put("linked-params", linkedParamsList);
-        result.put("small-icon-path", _smallIconPath);
-        result.put("medium-icon-path", _mediumIconPath);
-        result.put("large-icon-path", _largeIconPath);
-        result.put("id", _id);
-        result.put("class", _concreteClass);
-
-        try
-        {
-            JsonGenerator jsonGenerator = _jsonFactory.createJsonGenerator(writer);
-            _objectMapper.writeValue(jsonGenerator, result);
-
-            return writer.toString();
-        }
-        catch (IOException e)
-        {
-            throw new IllegalArgumentException("The object can not be converted to json string", e);
-        }
-    }
-    
     /**
      * SAX the description informations
      * @param handler The handler where to sax
@@ -135,36 +73,21 @@ public class ParameterCheckerDescriptor extends AbstractLogEnabled
      */
     public void toSAX(ContentHandler handler) throws SAXException
     {
-        XMLUtils.startElement(handler, "param-checker");
-
         XMLUtils.createElement(handler, "id", getId());
+        getLabel().toSAX(handler, "label");
+        getDescription().toSAX(handler, "description");
+
         XMLUtils.createElement(handler, "small-icon-path", getSmallIconPath());
         XMLUtils.createElement(handler, "medium-icon-path", getMediumIconPath());
         XMLUtils.createElement(handler, "large-icon-path", getLargeIconPath());
         
-        if (getLinkedParamsIds() != null)
+        if (getLinkedParamsPaths() != null)
         {
-            String linkedParamsAsJSON = "[" + StringUtils.join(getLinkedParamsIds().parallelStream().map(s -> "\"" + s + "\"").collect(Collectors.toList()), ", ") + "]"; 
-            XMLUtils.createElement(handler, "linked-params", linkedParamsAsJSON);
+            String linkedParamsAsJSON = "[" + StringUtils.join(getLinkedParamsPaths().parallelStream().map(s -> "\"" + s + "\"").collect(Collectors.toList()), ", ") + "]"; 
+            XMLUtils.createElement(handler, "linked-fields", linkedParamsAsJSON);
         }
-        
-        if (getUiRefParamId() != null)
-        {
-            XMLUtils.createElement(handler, "param-ref", getUiRefParamId());
-        }
-        if (getUiRefCategory() != null)
-        {
-            getUiRefCategory().toSAX(handler, "category");
-        }
-        if (getUiRefGroup() != null)
-        {
-            getUiRefGroup().toSAX(handler, "group");
-        }
-        getLabel().toSAX(handler, "label");
-        getDescription().toSAX(handler, "description");
+
         XMLUtils.createElement(handler, "order", Integer.toString(getUiRefOrder()));
-        
-        XMLUtils.endElement(handler, "param-checker");
     }
     
     /**
@@ -312,75 +235,39 @@ public class ParameterCheckerDescriptor extends AbstractLogEnabled
     }
     
     /**
-     * Retrieves the id of the parameter the parameter checker is attached to
-     * @return _uiRefParamId the id of the parameter
+     * Get the location of the parameter checker
+     * @return _uiRefOrder the ui order
      */
-    public String getUiRefParamId()
+    public String getUiRefLocation()
     {
-        return _uiRefParamId;
+        return _uiRefLocation;
     }
     
     /**
-     * Sets the id of the parameter the parameter checker is attached to
-     * @param uiRefParamId the id of the parameter
+     * Set the location of the parameter checker
+     * @param uiRefLocation the location of the parameter checker
      */
-    public void setUiRefParamId(String uiRefParamId)
+    public void setUiRefLocation(String uiRefLocation)
     {
-        _uiRefParamId = uiRefParamId;
+        _uiRefLocation = uiRefLocation;
     }
     
     /**
-     * Retrieves the text of the configuration group the parameter checker is attached to
-     * @return _uiRefGroup the text of the configuration group
-     */
-    public I18nizableText getUiRefGroup()
-    {
-        return _uiRefGroup;
-    }
-    
-    /**
-     * Sets the text of the configuration group the parameter checker is attached to
-     * @param uiRefGroup the text of the configuration group
-     */
-    public void setUiRefGroup(I18nizableText uiRefGroup)
-    {
-        _uiRefGroup = uiRefGroup;
-    }
-    
-    /**
-     * Retrieves the text of the configuration category the parameter checker is attached to
-     * @return _uiRefCategory the text of the configuration group
-     */
-    public I18nizableText getUiRefCategory()
-    {
-        return _uiRefCategory;
-    }
-    
-    /**
-     * Sets the text of the configuration category the parameter checker is attached to
-     * @param uiRefCategory the text of the configuration group
-     */
-    public void setUiRefCategory(I18nizableText uiRefCategory)
-    {
-        _uiRefCategory = uiRefCategory;
-    }
-    
-    /**
-     * Retrieves the parameters' ids used by the parameter checker
-     * @return _linkedParams the parameters' ids used by the parameter checker
+     * Retrieve the path of the parameters used by the parameter checker
+     * @return _linkedParamsPaths the paths of the parameters used by the parameter checker
      **/
-    public Set<String> getLinkedParamsIds()
+    public Set<String> getLinkedParamsPaths()
     {
-        return _linkedParamsIds;
+        return _linkedParamsPaths;
     }
     
     /**
      * Sets the parameters' ids used by the parameter checker
-     * @param linkedParamsIds the parameters' ids used by the parameter checker
+     * @param linkedParamsPaths the parameters' ids used by the parameter checker
      */
-    public void setLinkedParamsIds(Set<String> linkedParamsIds)
+    public void setLinkedParamsPaths(Set<String> linkedParamsPaths)
     {
-        _linkedParamsIds = linkedParamsIds;    
+        _linkedParamsPaths = linkedParamsPaths;    
     }
     
     /**

@@ -38,11 +38,11 @@
             <map:action name="system-announcements" src="org.ametys.runtime.plugins.admin.system.GetSystemAnnouncements" logger="org.ametys.runtime.plugins.admin.action"/>
             
             <map:action name="config-save" src="org.ametys.runtime.plugins.admin.configuration.SaveConfigAction" logger="org.ametys.runtime.plugins.admin.action"/>
-            <map:action name="config-test" src="org.ametys.runtime.plugins.admin.configuration.ParameterCheckerAction" logger="org.ametys.runtime.plugins.admin.action"/>
+            <map:action name="config-test" src="org.ametys.runtime.plugins.admin.configuration.CheckConfigAction" logger="org.ametys.runtime.plugins.admin.action"/>
 			<map:action name="restart" src="org.ametys.runtime.plugins.admin.RestartAction" logger="org.ametys.runtime.plugins.admin.action"/>
 		  
 		    <map:action name="datasources" src="org.ametys.runtime.plugins.admin.datasource.GetDataSourcesAction" logger="org.ametys.plugins.admin.datasource.GetDataSourcesAction" />
-		    <map:action name="datasource-test" src="org.ametys.runtime.plugins.admin.datasource.CheckDataSourceAction" logger="org.ametys.runtime.plugins.admin.datasource.TestDataSourceAction" />
+		    <map:action name="datasource-test" src="org.ametys.runtime.plugins.admin.datasource.CheckDataSourceAction" logger="org.ametys.runtime.plugins.admin.datasource.CheckDataSourceAction" />
 		</map:actions>
         
         <map:readers>

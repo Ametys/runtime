@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -18,27 +18,28 @@ package org.ametys.plugins.core.impl.checker;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.util.Map;
+import java.util.List;
 
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.commons.lang3.StringUtils;
 
 import org.ametys.core.datasource.ConnectionHelper;
 import org.ametys.runtime.parameter.ParameterChecker;
 import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
 
 /**
- * Checks the SQL connection with the data written in the configuration panel
+ * Checks that a sql connection can be established with the provided values
  */
 public class SQLConnectionChecker extends AbstractLogEnabled implements ParameterChecker
 {
     @Override
-    public void check(Map<String, String> parameters) throws ParameterCheckerTestFailureException
+    public void check(List<String> values) throws ParameterCheckerTestFailureException
     {
-        String password = parameters.get("password");
-        String driver = parameters.get("driver");
-        String url = parameters.get("url");
-        String login = parameters.get("user");
-        String driverNotFoundMessage = parameters.get("driverNotFoundMessage");
+        String url = values.get(0);
+        String driver = values.get(1);
+        String driverNotFoundMessage = values.get(2);
+        String login = values.get(3);
+        String password = values.get(4);
         
         Connection connection = null;
         try 
@@ -48,7 +49,7 @@ public class SQLConnectionChecker extends AbstractLogEnabled implements Paramete
         }
         catch (ClassNotFoundException cnfe)
         {
-            if (driverNotFoundMessage != null)
+            if (StringUtils.isNotEmpty(driverNotFoundMessage))
             {
                 throw new ParameterCheckerTestFailureException(driverNotFoundMessage, cnfe);
             }

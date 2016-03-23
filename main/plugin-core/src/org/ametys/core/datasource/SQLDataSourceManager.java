@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -18,8 +18,10 @@ package org.ametys.core.datasource;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -60,7 +62,7 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
     private Map<String, ObjectPool> _pools;
     
     private DataSourceDefinition _internalDataSource;
-
+    
     /**
      * Set the config filename. Only use for tests.
      * @param filename Name with path of the config file
@@ -187,16 +189,18 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
     }
     
     @Override
-    public void checkParameters(DataSourceDefinition dataSource) throws ParameterCheckerTestFailureException
-    {
-        checkParameters(dataSource.getParameters());
-    }
-    
-    @Override
     public void checkParameters(Map<String, String> rawParameters) throws ParameterCheckerTestFailureException
     {
+        // Order the parameters
+        List<String> values = new ArrayList<> ();
+        values.add(rawParameters.get("url"));
+        values.add(rawParameters.get("driver"));
+        values.add(""); 
+        values.add(rawParameters.get("user"));
+        values.add(rawParameters.get("password"));
+
         ParameterChecker paramChecker = new SQLConnectionChecker();
-        paramChecker.check(rawParameters);
+        paramChecker.check(values);
     }
     
     @Override

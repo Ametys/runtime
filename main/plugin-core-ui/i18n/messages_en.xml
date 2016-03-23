@@ -15,7 +15,6 @@
    limitations under the License.
    -->
 <catalogue xml:lang="en">
-
     <!-- ISO LANGUAGE CODE -->
     <message key="PLUGINS_CORE_UI_LANGUAGE_CODE">en</message>
     <!-- Is language Right-To-Left read? -->
@@ -278,30 +277,29 @@
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_DELETE_CONFIRM_MSG">Are you sure you want to delete with comment ?</message>
 
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD">The field</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER">The parameter checker</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER">The parameter checker</message>
     
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_GLOBAL_FIELD_CHECKER">Global check</message>
     <!-- +
-         | ParameterCheckersDAO.js
+         | FieldCheckersManager.js
          + -->
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_SERVER_CALL_ERROR_TITLE">Server error</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_SERVER_CALL_ERROR_TEXT">An error has occurred on the server. Parameter verifications are now reset.</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TOOLTIP_TESTED_PARAMS">Used parameter(s): </message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_WARNING_TEXT_BEGINNING">The verification '</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_WARNING_TEXT_END">' has failed. Check the value of this parameter.</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_UI_REF_CATEGORY">On the category</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_UI_REF_GROUP">On the group</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_UI_REF_PARAMETER">On the parameter</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_ERROR">Error while performing the parameter verification.</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_ERROR_TEXT">verification have failed.&lt;br/&gt;Press the 'Details' button for further information or see the application's logs.</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_SINGLE_ERROR_TEXT">The verification has failed.&lt;br/&gt;Press the 'Details' button for further information or see the application's logs.</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_SUCCESS">Success</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_FAILURE">Failure</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_NOT_TESTED">Not tested</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_DEACTIVATED">Deactivated</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_WARNING">This verification depends on one or more modified parameters. Consider passing this verification to check the modifications.</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TOOLTIP_MESSAGE">Message:</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TOOLTIP_MESSAGE2">Last error message:</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TOOLTIP_DEACTIVATED_MESSAGE">This test is disabled because all of its linked parameters are disabled or at least one the linked parameters is invalid.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_SERVER_CALL_ERROR_TITLE">Server error</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_SERVER_CALL_ERROR_TEXT">An error has occurred on the server. Parameter verifications are now reset.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_TOOLTIP_TESTED_PARAMS">Used parameter(s): </message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_WARNING_TEXT_BEGINNING">The verification '</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_WARNING_TEXT_END">' has failed. Check the value of this parameter.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_ERROR">Error while performing the parameter verification.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_ERROR_TEXT">verification have failed.&lt;br/&gt;Press the 'Details' button for further information or see the application's logs.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_SINGLE_ERROR_TEXT">The verification has failed.&lt;br/&gt;Press the 'Details' button for further information or see the application's logs.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_STATUS_SUCCESS">Success</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_STATUS_FAILURE">Failure</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_STATUS_NOT_TESTED">Not tested</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_STATUS_DEACTIVATED">Deactivated</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_STATUS_WARNING">This verification depends on one or more modified parameters. Consider passing this verification to check the modifications.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_TOOLTIP_MESSAGE">Message:</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_TOOLTIP_MESSAGE2">Last error message:</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_TOOLTIP_DEACTIVATED_MESSAGE">This test is disabled because all of its linked parameters are disabled or at least one the linked parameters is invalid.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_NO_LINKED_FIELD">None</message>
     
     <!-- +
          | TestsController.js

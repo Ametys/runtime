@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -122,10 +122,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
     autoFocus: true,
     
-     /**
-      * @cfg {String} fieldNamePrefix='' The prefix to all submitted fields (should end with '.' if non empty)
-      */
-     
     /**
      * @cfg {Object} defaultFieldConfig Default config to apply to all form fields
      */
@@ -135,7 +131,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
     
     /**
-     * @cfg {String} testURL The url to use to run the verifications. see {@link Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO#check}
+     * @cfg {String} testURL The url to use to run the verifications. see {@link Ametys.form.ConfigurableFormPanel.FieldCheckersManager#check}
      */
     /**
      * @private
@@ -168,7 +164,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
     
     /**
-     * @property {Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO} _paramCheckersDAO The instance of the parameters checkers DAO of this form
+     * @property {Ametys.form.ConfigurableFormPanel.FieldCheckersManager} _fieldCheckersManager The field checkers manager instance of this form
      * @private
      */
     
@@ -205,6 +201,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * @cfg {String} defaultPathSeparator='.' The default separator for fields
      */
     defaultPathSeparator: '.',
+    
+    /**
+     * @cfg {String} fieldNamePrefix='' The prefix to all submitted fields (should end with '.' if non empty)
+     */
+    fieldNamePrefix: '',
     
     /**
      * @cfg {String} hideDisabledFields=false Set to true to hide the disabled fields
@@ -267,6 +268,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * Fired when one of the fields changes after the form is ready
      * @param {Ext.form.Field} field The field that changed
      */
+    /**
+     * @event testresultschange
+     * Fired when the results of the tests change
+     * @param {Object} testResults the tests results
+     */
 
     constructor: function (config)
     {
@@ -322,7 +328,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         this._tabPanels = [];
         this._notInFirstEditionPanels = [];
 
-        this._paramCheckersDAO = Ext.create('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
+        this._fieldCheckersManager = Ext.create('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
             form: this
         });
 
@@ -408,33 +414,36 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 		{
     		// The focus has switched
     		var previouslyFocusedField = this.getField(this._lastSelectedFieldId);
-    		var previousPanel = previouslyFocusedField.up('panel[cls~=ametys-form-tab-item], panel[cls~=ametys-form-tab-inline-item]');
-			var currentPanel = field.up('panel[cls~=ametys-form-tab-item], panel[cls~=ametys-form-tab-inline-item]');
-            
-			// The previous panel and/or the current panel can be null if it is outside of the thumbnails
-			if (!previousPanel && currentPanel)
+    		
+    		// It might have been destroyed already (if contained in a deleted repeater item)
+    		if (previouslyFocusedField)
 			{
-				// The previous panel is outside of the thumbnails 
-				this._validateTabOrPanelFields(null);
-			}
-			else if (previousPanel && (!currentPanel || (previousPanel.id != currentPanel.id)))
-			{
-				// The focus has switched from one panel or from outside of the thumbnails to another panel 
-				// => the previously selected panel is not in first edition mode anymore
-				if (!Ext.Array.contains(this._notInFirstEditionPanels, previousPanel.id))
+	    		var previousPanel = previouslyFocusedField.up('panel[cls~=ametys-form-tab-item], panel[cls~=ametys-form-tab-inline-item]');
+				var currentPanel = field.up('panel[cls~=ametys-form-tab-item], panel[cls~=ametys-form-tab-inline-item]');
+	            
+				// The previous panel and/or the current panel can be null if it is outside of the thumbnails
+				if (!previousPanel && currentPanel)
 				{
-					this._notInFirstEditionPanels.push(previousPanel.id);
+					// The previous panel is outside of the thumbnails 
+					this._validateTabOrPanelFields(null);
 				}
-				
-				this._validateTabOrPanelFields(previousPanel);
+				else if (previousPanel && (!currentPanel || (previousPanel.id != currentPanel.id)))
+				{
+					// The focus has switched from one panel or from outside of the thumbnails to another panel 
+					// => the previously selected panel is not in first edition mode anymore
+					if (!Ext.Array.contains(this._notInFirstEditionPanels, previousPanel.id))
+					{
+						this._notInFirstEditionPanels.push(previousPanel.id);
+					}
+					
+					this._validateTabOrPanelFields(previousPanel);
+				}
 			}
 		}
     },
     
     /**
-     * @private
      * Inherited to unregister from the message bus
-     * @inheritdoc
      */
     destroy: function()
     {
@@ -445,23 +454,22 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     
     reset: function()
     {
-    	// Reset the warnings and the parameter checkers' status
-		Ext.Array.each(this._paramCheckersDAO._paramCheckers, function(paramChecker)
+    	// reset the fields
+    	this.callParent(arguments);
+    	
+    	// Reset the warnings and the status of the field checkers
+		this._fieldCheckersManager.reset();
+
+		// Reset the repeaters
+		Ext.Array.each(this._repeaters, function(repeaterId)
 		{
-			paramChecker.setStatus(Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_NOT_TESTED);
-			
-			var statusCmp = Ext.getCmp(paramChecker.statusCmpId);
-			if (statusCmp)
+			var repeaterPanel = Ext.getCmp(repeaterId);
+			// repeater panel can already have been deleted if they were within a parent repeater item
+			if (repeaterPanel)
 			{
-				statusCmp.hide();
+				repeaterPanel.reset();
 			}
 		});
-		
-		this._paramCheckersDAO._updateWarnings();
-
-		// TODO reset repeaters
-
-		this.callParent(arguments);
     },
     
     /**
@@ -882,23 +890,23 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     
     /**
      * @private
-     * Get the list of param checkers contained in the given tab
+     * Get the list of field checkers contained in the given tab
      * @param {Ext.panel.Panel} panel the panel
-     * @return {Ametys.form.ConfigurableFormPanel.ParameterChecker[]} The array of parameter checkers contained in the panel
+     * @return {Ametys.form.ConfigurableFormPanel.FieldChecker[]} The array of field checkers contained in the panel
      */
-    _getParamCheckers: function(panel)
+    _getFieldCheckers: function(panel)
     {
         var panelContainers = panel.query('container'),
-            paramCheckers = [];
+            fieldCheckers = [];
 
         Ext.Array.each(panelContainers, function(container){
             if (container.hasCls('param-checker-container'))
             {
-                paramCheckers.push(container.down('button').paramChecker);
+            	fieldCheckers.push(container.down('button').fieldChecker);
             }
         });
         
-        return paramCheckers;
+        return fieldCheckers;
     },
     
     /**
@@ -974,25 +982,25 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         
         if (header != null)
         {
-            // Let's get all errors and warning from parameters checkers
-            var tabParamCheckers = this._getParamCheckers(panel),
+            // Let's get all errors and warning from the field checkers
+            var tabFieldCheckers = this._getFieldCheckers(panel),
                 testsErrorMessages = [],
                 testsWarnMessages = [];
 
-            if (!Ext.isEmpty(tabParamCheckers))
+            if (!Ext.isEmpty(tabFieldCheckers))
             {
-                Ext.Array.each(tabParamCheckers, function(paramChecker){
-                    var status = paramChecker.getStatus();
-                    if (status != Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_HIDDEN)
+                Ext.Array.each(tabFieldCheckers, function(fieldChecker){
+                    var status = fieldChecker.getStatus();
+                    if (status != Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_HIDDEN)
                     {
-                        var label = paramChecker.label;
-                        if (status == Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_FAILURE) 
+                        var label = fieldChecker.label;
+                        if (status == Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_FAILURE) 
                         {
-                            testsErrorMessages.push("{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER}}" + " '" + label + "': " +  paramChecker.getErrorMsg());
+                            testsErrorMessages.push("{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER}}" + " '" + label + "': " +  fieldChecker.getErrorMsg());
                         }
-                        else if (status == Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_WARNING)
+                        else if (status == Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_WARNING)
                         {
-                            testsWarnMessages.push("{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER}}" + " '" + label + "': " +  "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_WARNING}}");
+                            testsWarnMessages.push("{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER}}" + " '" + label + "': " +  "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_STATUS_WARNING}}");
                         }
                     }
                 });
@@ -1140,10 +1148,50 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             fieldLabel = fieldLabel.substr(0, fieldLabel.length - 1).trim();
         }
         
-        // var errors = Ext.merge(field.getErrors(), field.getActiveWarnings()).join(',');
         return label + fieldLabel;
     },
     
+    /**
+     * @private
+     * Get the full label of a component of the form
+     * @param {Ext.Component} cmp the component
+     * @return the full label of the given component
+     */
+    _getFullLabel: function(cmp)
+    {
+    	var label = '';
+    	if (cmp.isFieldLabelable)
+    	{
+        	// Remove the starting or trailing '*' character
+    		label = cmp.getFieldLabel();
+            if (Ext.String.startsWith(label, '*'))
+            {
+            	label = label.substr(1).trim();
+            }
+            else if (Ext.String.endsWith(label, '*'))
+            {
+            	label = label.substr(0, label.length - 1).trim();
+            }
+    	}
+    	else if (cmp.isRepeater)
+		{
+    		label = cmp.getLabel();
+		}
+    	else
+		{
+    		label = cmp.title;
+		}
+    	
+    	var ownerCt = cmp.ownerCt;
+        while (ownerCt != null && (ownerCt.title || ownerCt.isRepeater))
+        {
+        	var ownerLabel = ownerCt.isRepeater ? ownerCt.getLabel() : ownerCt.title;
+            label = ownerLabel + " > " + label;
+            ownerCt = ownerCt.ownerCt;
+        }
+    	
+        return label;
+    },
 
     /**
      * @private
@@ -1269,7 +1317,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     
     /**
      * @private
-     * Show or hide the elements of a fieldset, including the parameter checkers
+     * Show or hide the elements of a fieldset, including the field checkers
      * @param {Ext.form.field.Checkbox} checkbox the checkbox 
      * @param {Ext.panel.Panel} fieldset the fieldset the group switch belongs to
      * @param {Boolean} startup true if this is the first call, false otherwise
@@ -1293,9 +1341,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         	
             if (fieldsetElement.hasCls('param-checker-container'))
             {
-                // parameter checker
-                fieldsetElement.down('button').paramChecker.setStatus(checked ? Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_NOT_TESTED
-                                                                      : Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_HIDDEN);
+                // field checker
+                fieldsetElement.down('button').fieldChecker.setStatus(checked ? Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_NOT_TESTED
+                                                                      : Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_HIDDEN);
             }
         	else if (!startup)
     		{
@@ -1314,7 +1362,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         
         if (!startup)
         {
-            this._paramCheckersDAO._updateTestResults();
+            this._fieldCheckersManager._updateTestResults();
         }
         
         Ext.resumeLayouts(true);
@@ -1597,7 +1645,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     
     /**
      * Creates and returns a repeater panel from the configuration object
-     * @param {Object} config The repeater configuration object. See Ametys.form.ConfigurableFormPanel.Repeater configuration.
+     * @param {Object} config The repeater configuration object. See {@link Ametys.form.ConfigurableFormPanel.Repeater} configuration.
      * @return {Ametys.form.ConfigurableFormPanel.Repeater} The created repeater panel
      * @private
      */
@@ -1654,7 +1702,28 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      *                 role: "tabs"
      *                 label: "My first tab"
      *              }
-     *          ]
+     *          ],
+     *          "field-checker": [{
+     *          	"id": "my-checker-id",
+     *              "label": "Label",
+     *              "description": "Description",
+     *          	"icon-glyph": "flaticon-data110",
+     *              "linked-field": ['linked.field.1.path', 'linked.field.2.path'], // you can begin a linked field with the default separator (#cfg-defaultPathSeparator),
+     *              													            // in order to use an absolute path instead of a relative path, see the
+     *              											                    // second field checker below where we have defaultPathSeparator = "/"
+     *              "order": "1" // used to sort the field checkers amongst themselves, the smaller the vertically higher
+     *			}, 
+     *			{ 
+     *				"id": "my-other-checker-id",
+     *              "label": "Other label",
+     *              "description": "Other description",
+     *          	"small-icon-path": "path for the small icon representing the test",
+     *          	"medium-icon-path": "path for the medium icon representing the test",
+     *          	"large-icon-path": "path for the large icon representing the test",
+     *              "linked-field": ['/linked.field.1.path', '/linked.field.2.path'],
+     *              "order": "10", // will be displayed below the first checker 
+     *			}]
+     *   	
      *      }
      * 
      * The **&lt;fieldName&gt;** is the form name of the field. (Note that you can prefix all field names using #cfg-fieldNamePrefix). See under for the reserved fieldName "fieldsets"
@@ -1666,8 +1735,10 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * The string **type** is the kind of value handled by the field. The supported types for metadata depend on the configuration of your Ametys.runtime.form.WidgetManager. Kernel provides widgets for the following types (case is not important):
      * BINARY, BOOLEAN, DATE, DATETIME, DOUBLE, FILE, GEOCODE, LONG, REFERENCE, RICH_TEXT, STRING, USER.
      * 
-     * The **type** can also be **COMPOSITE** to create a fieldset around a few fields. 
+     * The **type** can also be **COMPOSITE** to create a fieldset around a few fields.      
+     * 
      * If so, a **composition** field must recursively describe child elements.
+     * There can also be a **field-checker** defined on the composite field (See below).
      * A composite field can also be a repeater of fields if it does have a **repeater** field.
      * A repeatable composite also needs the following fields:
      * 
@@ -1716,53 +1787,53 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      *   - String **type** the type of the underlying conditions. Can be set to "and" (default value) or "or".
      * 
      * The Object **condition** has the following attributes:
-     
+     * 
      * - String **id** the id of the field that will be evaluated
      * - String **operator** the operator used to evaluated the field. Can be **eq**, **neq**, **gt**, **geq**, **leq** or **lt**         
      * - String **value** the value with which the field will be compared to
      *
      *
-     * The object **param-checker** can be used in order to check the value of certain parameters. It must contain the following attributes: 
-     
+     * The object **field-checker** can be used in order to check the value of certain parameters. It must contain the following attributes: 
+     *
      *  - String **id** The id of the parameter checker. 
      *  - String **large-icon-path** The relative path to the 48x48 icon representing the test
      *  - String **medium-icon-path** The relative path to the 32x32 icon representing the test
      *  - String **small-icon-path** The relative path to the 16x16 icon representing the test
-     *  - String[] **linked-params** the ids of the linked parameters (parameters used to run the check). Always JSON encoded even for XML configurations.
-     *  - String **param-ref** if the checker is graphically attached to a parameter, the id of the field it is attached to
+     *  - String **icon-glyph** the glyph used for the icon representing the test
+     *  - String **icon-decorator** the decorator to use on the icon
+     *  - String[] **linked-fields** the absolute or relative paths of the linked field (fields used to run the check). Always JSON-encoded even for XML configurations.
      *  - String **label** The label of the parameter checker
      *  - String **description** The description of the parameter checker
-     *  - String **group** if the checker is graphically attached to a group, the label of the group it is attached to
-     *  - String **category** if the checker is graphically attached to a group **or** a category, the label of the category it is attached to
      *  - String **order** The displaying order (from top to bottom). Indeed, several parameter checkers can be defined on a given tab, fieldset or parameter.
      *  
-     *  Here is a full example of a paremeter checker attached to a single parameter (example for data in XML):
+     *  Here is a full example of a field checker definition (example for data in XML, see above for a JSON example):
      *
-     *
-     *      <param-checker>
+     *      <field-checker>
      *          <id>checker-id</id>
+     *          <icon-glyph>flaticon-data110</icon-glyph>
+     *          <icon-decorator></icon-decorator>
      *          <small-icon-path>small/icon/path/img_16.png</small-icon-path>
      *          <medium-icon-path>medium/icon/path/img_32.png</small-icon-path>
      *          <large-icon-path>large/icon/path/img_48.png</large-icon-path>
-     *          <linked-params>["linked.param.id"]</linked-params>
-     *          <param-ref>linked.param.id</param-ref>
+     *          <linked-fields>["linked.field.path"]</linked-fields>
      *          <label>Checker label</label>
      *          <description>Checker description</description>
      *          <order>1</order>
-     *      </param-checker>
-     *  
+     *      </field-checker>
      *
      * The **fieldname "fieldsets"** is a reserved keyword (if type is not specified) to create a graphical grouping of fields. This only works at root of data. 
      * Its value is an array of configuration with attributes:
      * 
      * - String **role** Can be "tabs" or "fieldsets" to create a tab grouping or a fieldset grouping. Note that tab grouping can be replaced by simple panels according to a user preference.
      * - String **label** The label of the grouping.
-     * - Object **switcher** The configuration of the switcher parameter. The switcher is a boolean field that is used to enable/disable the other fields of its fieldset (available for fieldsets that have a "fieldset" role exclusively).
+     * - Object **switcher** The configuration of the switcher field. The switcher is a boolean field that is used to enable/disable the other fields of its fieldset (available for fieldsets that have a "fieldset" role exclusively).
      *   It must have a **label** and an **id** (the id of the boolean field) and optionally a **default-value**.
-     * - Object **param-checker** (see above) Fieldsets can also have a parameter checker for both "tab" and "fieldset" role
+     * - Object **field-checker** (see above) Fieldsets can also have a parameter checker for both "tab" and "fieldset" role
      * - Object **elements** The child elements of the grouping : this is a recursive data object, except that **"fieldsets"** can not be used again with the role "tab".
      * 
-     * 
+     * You can define a **field-checker** directly under the data node/object, in which case the checker will be global and displayed at the bottom of 
+     * the main form container. See the example at the top of this documentation.
+     *
      * @param {Object/HTMLElement} data The data to create the form structure. Can be a JSON object or an XML HTMLElement.
      */
     configure: function(data)
@@ -1777,7 +1848,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         }
         
         this._initializeDisableConditions();
-        this._paramCheckersDAO.initializeParamCheckers();
+        this._fieldCheckersManager.initializeFieldCheckers();
     },
     
     /**
@@ -1791,263 +1862,258 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
     _configureJSON: function (data, prefix, ct, offset, roffset)
     {
-            prefix = prefix || this.getFieldNamePrefix();
-            ct = ct || this._getFormContainer();
-            offset = offset || 0;
-            roffset = roffset || 0;
+        prefix = prefix || this.getFieldNamePrefix();
+        ct = ct || this._getFormContainer();
+        offset = offset || 0;
+        roffset = roffset || 0;
+        
+        var tabs = [];
+        
+        for (var name in data)
+        {
+            var type = data[name].type ? data[name].type.toLowerCase() : null;
             
-            var tabs = [];
-            
-            var me = this;
-            for (var name in data)
+            // Compute the nesting level
+            var parentLevelPanel = ct.up('panel[nestingLevel]');
+            var nestingLevel = 1;
+            if (ct.nestingLevel)
             {
-                var type = data[name].type ? data[name].type.toLowerCase() : null;
-                
-                // Compute the nesting level
-                var parentLevelPanel = ct.up('panel[nestingLevel]');
-                var nestingLevel = 1;
-                if (ct.nestingLevel)
+                nestingLevel = ct.nestingLevel + 1;
+            }
+            else if (parentLevelPanel)
+            {
+                nestingLevel = parentLevelPanel.nestingLevel + 1;
+            }
+            
+            if (!type && name == 'fieldsets')
+            {
+                var fieldsets = data[name];
+                for (var i=0; i < fieldsets.length; i++)
                 {
-                    nestingLevel = ct.nestingLevel + 1;
-                }
-                else if (parentLevelPanel)
-                {
-                    nestingLevel = parentLevelPanel.nestingLevel + 1;
-                }
-                
-                if (!type && name == 'fieldsets')
-                {
-                    var fieldsets = data[name];
-                    for (var i=0; i < fieldsets.length; i++)
+                    if (fieldsets[i].role == 'fieldset')
                     {
-                        if (fieldsets[i].role == 'fieldset')
+                        var elements = fieldsets[i].elements;
+                        
+                        var switcherCfg = fieldsets[i].switcher;
+                        if (switcherCfg != null)
                         {
-                            var elements = fieldsets[i].elements;
-                            
-                            var switcherCfg = fieldsets[i].switcher;
-                            if (switcherCfg != null)
-                            {
-                                switcherCfg.name = switcherCfg.id;
-                                delete switcherCfg.id;
-                                switcherCfg.type = 'boolean';
-                            }
-                            
-                            var fieldset = this._addFieldSet(ct, fieldsets[i].label, nestingLevel, switcherCfg);
-                            
-                            // Transmit offset + 5 (padding) + 1 (border) + 11 (margin + border) if we are in a nested composite.
-                            var finalOffset = offset 
-                                            + Ametys.form.ConfigurableFormPanel.HORIZONTAL_PADDING_FIELDSET
-                                            + (nestingLevel > 1 ? Ametys.form.ConfigurableFormPanel.OFFSET_FIELDSET : 0)
-                                            + 1;
-                            var finalROffset = roffset 
-                                            + Ametys.form.ConfigurableFormPanel.HORIZONTAL_PADDING_FIELDSET
-                                            + 1;
-                            
-                            this._configureJSON(elements, prefix, fieldset, finalOffset, finalROffset);
-                            
-                            var paramCheckers = fieldsets[i]['param-checker'];
-                            if (!Ext.isEmpty(paramCheckers))
-                            {
-                                if (paramCheckers.length > 1)
-                                {
-                                	 paramCheckers.sort(Ext.bind(me._compareByOrder, me));
-                                }
-                                
-                                Ext.Array.each(paramCheckers, function(paramChecker){
-                                    me._paramCheckersDAO.addGroupChecker(fieldset, paramChecker, finalOffset, finalROffset);
-                                });
-                            }
+                            switcherCfg.name = switcherCfg.id;
+                            delete switcherCfg.id;
+                            switcherCfg.type = 'boolean';
                         }
-                        else // role = tab
-                        {
-                            tabs.push(fieldsets[i]);
-                        }
-                    }
-                }
-                else if (type == 'composite')
-                {
-                    if (!data[name].repeater)
-                    {
-                        var fieldset = this._addFieldSet(ct, data[name].label, nestingLevel);
+                        
+                        var fieldset = this._addFieldSet(ct, fieldsets[i].label, nestingLevel, switcherCfg);
+                        
                         // Transmit offset + 5 (padding) + 1 (border) + 11 (margin + border) if we are in a nested composite.
                         var finalOffset = offset 
-                                        + Ametys.form.ConfigurableFormPanel.HORIZONTAL_PADDING_FIELDSET 
+                                        + Ametys.form.ConfigurableFormPanel.HORIZONTAL_PADDING_FIELDSET
                                         + (nestingLevel > 1 ? Ametys.form.ConfigurableFormPanel.OFFSET_FIELDSET : 0)
-                                        + 1; 
+                                        + 1;
                         var finalROffset = roffset 
                                         + Ametys.form.ConfigurableFormPanel.HORIZONTAL_PADDING_FIELDSET
                                         + 1;
-                        this._configureJSON(data[name].composition, prefix + name + this.defaultPathSeparator, fieldset, finalOffset, finalROffset);
-                    }
-                    else
-                    {
-                        var repeater = data[name].repeater;
                         
-                        var repeaterCfg = {
-                                prefix: prefix,
-                                name: name,
-                                
-                                label: data[name].label,
-                                description: data[name].description,
-                                
-                                addLabel: repeater['add-label'],
-                                delLabel: repeater['del-label'],
-                                headerLabel: repeater['header-label'],
-                                
-                                minSize: repeater['min-size'] || 0,
-                                maxSize: repeater['max-size'] || Number.MAX_VALUE,
-                                
-                                composition: repeater.composition,
-                                
-                                nestingLevel: nestingLevel,
-                                offset: offset,
-                                roffset: roffset
+                        this._configureJSON(elements, prefix, fieldset, finalOffset, finalROffset);
+                        
+                        var fieldCheckers = fieldsets[i]['field-checker'];
+                        if (!Ext.isEmpty(fieldCheckers))
+                        {
+                        	this._fieldCheckersManager.addFieldCheckers(fieldset, fieldCheckers, prefix, finalOffset, finalROffset);
                         }
-                            
-                        this._addRepeater (ct, repeaterCfg, repeater['initial-size'] || 0);
+                    }
+                    else // role = tab
+                    {
+                        tabs.push(fieldsets[i]);
+                    }
+                }
+            }
+            else if (!type && name == 'field-checker' && nestingLevel == 1)
+        	{
+            	 var fieldCheckers = data[name];
+                 if (!Ext.isEmpty(fieldCheckers))
+                 {
+                	 this._fieldCheckersManager.addFieldCheckers(ct, fieldCheckers, prefix, offset, roffset);
+                 }
+        	}
+            else if (type == 'composite')
+            {
+                if (!data[name].repeater)
+                {
+                    var fieldset = this._addFieldSet(ct, data[name].label, nestingLevel);
+                    // Transmit offset + 5 (padding) + 1 (border) + 11 (margin + border) if we are in a nested composite.
+                    var finalOffset = offset 
+                                    + Ametys.form.ConfigurableFormPanel.HORIZONTAL_PADDING_FIELDSET 
+                                    + (nestingLevel > 1 ? Ametys.form.ConfigurableFormPanel.OFFSET_FIELDSET : 0)
+                                    + 1; 
+                    var finalROffset = roffset 
+                                    + Ametys.form.ConfigurableFormPanel.HORIZONTAL_PADDING_FIELDSET
+                                    + 1;
+                    this._configureJSON(data[name].composition, prefix + name + this.defaultPathSeparator, fieldset, finalOffset, finalROffset);
+                    
+                    var fieldCheckers = data[name]['field-checker'];
+                    if (!Ext.isEmpty(fieldCheckers))
+                    {
+                    	this._fieldCheckersManager.addFieldCheckers(fieldset, fieldCheckers, prefix + name + this.defaultPathSeparator, finalOffset, finalROffset);
                     }
                 }
                 else
                 {
-                    var fieldData = data[name];
+                    var repeater = data[name].repeater;
                     
-                    var label = fieldData.label;
-                    var description = fieldData.description;
-                    var isMandatory = fieldData.validation ? (fieldData.validation.mandatory) || false : false;
-                    
-                    var labelWithMandatory = this.labelAlign == 'top' ? label + (isMandatory ? ' *' : '') : (isMandatory ? '* ' : '') + label;
-                    
-                    var widgetCfg = {
-                        name: prefix + name,
-                        shortName: name,
-                        type: type,
+                    var repeaterCfg = {
+                        prefix: prefix,
+                        name: name,
                         
-                        fieldLabel: this.withTitleOnLabels ? '<span title="' + label + '">' + labelWithMandatory + '</span>' : labelWithMandatory, // FIXME Runtime-1465
-                        ametysDescription: description || '',
-                        showAmetysComments: this.showAmetysComments,
+                        label: data[name].label,
+                        description: data[name].description,
                         
-                        mandatory: isMandatory,
-                        value: fieldData['default-value'],
+                        addLabel: repeater['add-label'],
+                        delLabel: repeater['del-label'],
+                        headerLabel: repeater['header-label'],
                         
-                        multiple: fieldData.multiple,
-                        widget: fieldData.widget,
+                        minSize: repeater['min-size'] || 0,
+                        maxSize: repeater['max-size'] || Number.MAX_VALUE,
                         
-                        hidden: fieldData.hidden, 
-                        disabled: fieldData['can-not-write'] === true,
+                        composition: repeater.composition,
                         
-                        disableCondition: fieldData.disableCondition,
+                        fieldCheckers: repeater['field-checker'],
                         
-                        form: this,
+                        nestingLevel: nestingLevel,
                         offset: offset,
                         roffset: roffset
-                    };
-
-                    // Add configured configuration
-                    Ext.Object.each(this._additionalWidgetsConfFromParams, function(key, value, object) {
-                        widgetCfg[key] = fieldData[value];
-                    });
-                    Ext.Object.each(this._additionalWidgetsConf, function(key, value, object) {
-                        widgetCfg[key] = value;
-                    });
-                    
-                    if (fieldData.validation)
-                    {
-                        var validation = fieldData.validation;
-                        widgetCfg.regexp = validation.regexp || null;
-                        
-                        if (validation.invalidText)
-                        {
-                            widgetCfg.invalidText = validation.invalidText;
-                        }
-                        if (validation.regexText)
-                        {
-                            widgetCfg.regexText = validation.regexText;
-                        }
                     }
-                    
-                    if (fieldData.enumeration)
-                    {
-                        var enumeration = [];
                         
-                        var entries = fieldData.enumeration;
-                        for (var j=0; j < entries.length; j++)
-                        {
-                            enumeration.push([entries[j].value, entries[j].label]);
-                        }
-                        
-                        widgetCfg.enumeration = enumeration;
-                    }
-                    
-                    if (fieldData['widget-params'])
-                    {
-                        widgetCfg = Ext.merge (widgetCfg, fieldData['widget-params']);
-                    }
-                    
-                    if (fieldData.annotations)
-                    {
-                        var annotations = [];
-                        
-                        var entries = fieldData.annotations;
-                        for (var j=0; j < entries.length; j++)
-                        {
-                        	annotations.push({
-                                name: entries[j].name,
-                                label: entries[j].label || entries[j].name,
-                                description: entries[j].description || entries[j].label || entries[j].name
-                            });
-                        }
-                        
-                        widgetCfg.annotations = annotations;
-                    }
-                    
-                    this._addInputField(ct, widgetCfg);
-                    
-                    var paramCheckers = fieldData['param-checker'];
-                    if (!Ext.isEmpty(paramCheckers))
-                    {
-                        if (paramCheckers.length > 1)
-                        {
-                        	paramCheckers.sort(Ext.bind(me._compareByOrder, me));
-                        }
-                        
-                        Ext.Array.each(paramCheckers, function(paramChecker){
-                            me._paramCheckersDAO.addParameterChecker(paramChecker, offset, roffset);
-                        });
-                    }
+                    this._addRepeater (ct, repeaterCfg, repeater['initial-size'] || 0);
                 }
             }
-            
-            if (tabs.length > 0)
+            else
             {
-                var tabPanel = this._addTab();
-
-                for (var i=0; i < tabs.length; i++)
-                {
-                    var tab = this._addTabItem (tabPanel, tabs[i].label || "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_UNTITLED}}");
-                    
-                    // Transmit offset + 5 (padding) + 1 (border) + 11 (margin + border) if we are in a nested composite.
-                    var finalOffset = offset 
-                                    + Ametys.form.ConfigurableFormPanel.PADDING_TAB 
-                                    + 1; 
-                    var finalROffset = roffset 
-                                    + Ametys.form.ConfigurableFormPanel.PADDING_TAB 
-                                    + 1; 
-                    this._configureJSON (tabs[i].elements, prefix, tab, finalOffset, finalROffset);
+                var fieldData = data[name];
                 
-                    // Add the parameter checker at the end of the current tab
-                    var paramCheckers = tabs[i]['param-checker'];
-                    if (!Ext.isEmpty(paramCheckers))
+                var label = fieldData.label;
+                var description = fieldData.description;
+                var isMandatory = fieldData.validation ? (fieldData.validation.mandatory) || false : false;
+                
+                var labelWithMandatory = this.labelAlign == 'top' ? label + (isMandatory ? ' *' : '') : (isMandatory ? '* ' : '') + label;
+                
+                var widgetCfg = {
+                    name: prefix + name,
+                    shortName: name,
+                    type: type,
+                    
+                    fieldLabel: this.withTitleOnLabels ? '<span title="' + label + '">' + labelWithMandatory + '</span>' : labelWithMandatory, // FIXME Runtime-1465
+                    ametysDescription: description || '',
+                    showAmetysComments: this.showAmetysComments,
+                    
+                    mandatory: isMandatory,
+                    value: fieldData['default-value'],
+                    
+                    multiple: fieldData.multiple,
+                    widget: fieldData.widget,
+                    
+                    hidden: fieldData.hidden, 
+                    disabled: fieldData['can-not-write'] === true,
+                    
+                    disableCondition: fieldData.disableCondition,
+                    
+                    form: this,
+                    offset: offset,
+                    roffset: roffset
+                };
+
+                // Add configured configuration
+                Ext.Object.each(this._additionalWidgetsConfFromParams, function(key, value, object) {
+                    widgetCfg[key] = fieldData[value];
+                });
+                Ext.Object.each(this._additionalWidgetsConf, function(key, value, object) {
+                    widgetCfg[key] = value;
+                });
+                
+                if (fieldData.validation)
+                {
+                    var validation = fieldData.validation;
+                    widgetCfg.regexp = validation.regexp || null;
+                    
+                    if (validation.invalidText)
                     {
-                        if (paramCheckers.length > 1)
-                        {
-                        	paramCheckers.sort(Ext.bind(me._compareByOrder, me));
-                        }
-                        Ext.Array.each(paramCheckers, function(paramChecker) {
-                            me._paramCheckersDAO.addCategoryChecker(tab, paramChecker, finalOffset, finalROffset);
-                        });
+                        widgetCfg.invalidText = validation.invalidText;
+                    }
+                    if (validation.regexText)
+                    {
+                        widgetCfg.regexText = validation.regexText;
                     }
                 }
+                
+                if (fieldData.enumeration)
+                {
+                    var enumeration = [];
+                    
+                    var entries = fieldData.enumeration;
+                    for (var j=0; j < entries.length; j++)
+                    {
+                        enumeration.push([entries[j].value, entries[j].label]);
+                    }
+                    
+                    widgetCfg.enumeration = enumeration;
+                }
+                
+                if (fieldData['widget-params'])
+                {
+                    widgetCfg = Ext.merge (widgetCfg, fieldData['widget-params']);
+                }
+                
+                if (fieldData.annotations)
+                {
+                    var annotations = [];
+                    
+                    var entries = fieldData.annotations;
+                    for (var j=0; j < entries.length; j++)
+                    {
+                    	annotations.push({
+                            name: entries[j].name,
+                            label: entries[j].label || entries[j].name,
+                            description: entries[j].description || entries[j].label || entries[j].name
+                        });
+                    }
+                    
+                    widgetCfg.annotations = annotations;
+                }
+                
+                var field = this._addInputField(ct, widgetCfg);
+                
+                var fieldCheckers = fieldData['field-checker'];
+                if (!Ext.isEmpty(fieldCheckers))
+                {
+                	this._fieldCheckersManager.addFieldCheckers(ct, fieldCheckers, prefix, offset, roffset, field);
+                }
             }
+        }
+        
+        if (tabs.length > 0)
+        {
+            var tabPanel = this._addTab();
+
+            for (var i=0; i < tabs.length; i++)
+            {
+                var tab = this._addTabItem (tabPanel, tabs[i].label || "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_UNTITLED}}");
+                
+                // Transmit offset + 5 (padding) + 1 (border) + 11 (margin + border) if we are in a nested composite.
+                var finalOffset = offset 
+                                + Ametys.form.ConfigurableFormPanel.PADDING_TAB 
+                                + 1; 
+                var finalROffset = roffset 
+                                + Ametys.form.ConfigurableFormPanel.PADDING_TAB 
+                                + 1; 
+                this._configureJSON (tabs[i].elements, prefix, tab, finalOffset, finalROffset);
+            
+                // Add the field checker at the end of the current tab
+                var fieldCheckers = tabs[i]['field-checker'];
+                if (!Ext.isEmpty(fieldCheckers))
+                {
+                	this._fieldCheckersManager.addFieldCheckers(tab, fieldCheckers, prefix, finalOffset, finalROffset);
+                }
+            }
+        }
     },
     
     /**
@@ -2061,334 +2127,269 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
     _configureXML: function (data, prefix, ct, offset, roffset)
     {
-            prefix = prefix || this.getFieldNamePrefix();
-            ct = ct || this._getFormContainer();
-            offset = offset || 0;
-            roffset = roffset || 0;
+        prefix = prefix || this.getFieldNamePrefix();
+        ct = ct || this._getFormContainer();
+        offset = offset || 0;
+        roffset = roffset || 0;
+        
+        var nodes = Ext.dom.Query.selectDirectElements(null, data);
+        
+        var tabs = [];
+        
+        for (var i=0; i < nodes.length; i++)
+        {
+            var name = nodes[i].tagName;
             
-            var me = this;
-            
-            var nodes = Ext.dom.Query.selectDirectElements(null, data);
-            
-            var tabs = [];
-            
-            for (var i=0; i < nodes.length; i++)
+            if (nodes[i].childNodes.length == 1 && nodes[i].childNodes[0].nodeType != 1) // fieldset label
             {
-                var name = nodes[i].tagName;
-                
-                if (nodes[i].childNodes.length == 1 && nodes[i].childNodes[0].nodeType != 1) // fieldset label
-                {
-                    continue;
-                }
-                
-                var type = Ext.dom.Query.selectValue("> type", nodes[i], '').toLowerCase();
-                var label = Ext.dom.Query.selectValue("> label", nodes[i], name);
-                var description = Ext.dom.Query.selectValue('> description', nodes[i], '');
-                
-                // Compute the nesting level
-                var parentLevelPanel = ct.up('panel[nestingLevel]');
-                var nestingLevel = 1;
-                if (ct.nestingLevel)
-                {
-                    nestingLevel = ct.nestingLevel + 1;
-                }
-                else if (parentLevelPanel)
-                {
-                    nestingLevel = parentLevelPanel.nestingLevel + 1;
-                }
-                
-                if (type == '' && name == 'fieldsets')
-                {
-                    var role = nodes[i].getAttribute('role');
-                    if (role == 'fieldset')
-                    {
-                        var elements = Ext.dom.Query.selectNode('> elements', nodes[i]);
-                        
-                        var switcher = Ext.dom.Query.selectNode('> switcher', nodes[i]);
-                        
-                        if (switcher != null)
-                        {   
-                            var switcherCfg = {};
-                            
-                            // Create an object representing the switcher
-                            switcherCfg.name = Ext.dom.Query.selectValue('> id', switcher);
-                            switcherCfg.label = Ext.dom.Query.selectValue('> label', switcher);
-                            switcherCfg.defaultValue = Ext.dom.Query.selectValue('> default-value', switcher);
-                            switcherCfg.type = 'boolean';
-                        }
-                        
-                        var fieldset = this._addFieldSet(ct, label, nestingLevel, switcher != null ? switcherCfg : null);
-
-                        // Transmit offset + 5 (padding) + 1 (border) + 11 (margin + border) if we are in a nested composite.
-                        var finalOffset = offset 
-                                        + Ametys.form.ConfigurableFormPanel.HORIZONTAL_PADDING_FIELDSET 
-                                        + (nestingLevel > 1 ? Ametys.form.ConfigurableFormPanel.OFFSET_FIELDSET : 0)
-                                        + 1; 
-                        var finalROffset = roffset 
-                                        + Ametys.form.ConfigurableFormPanel.HORIZONTAL_PADDING_FIELDSET 
-                                        + 1; 
-                        
-                        if (elements)
-                        {
-                            this._configureXML (elements, prefix, fieldset, finalOffset, finalROffset);
-                        }
-                        
-                        var paramCheckers = Ext.dom.Query.select('> param-checker', nodes[i]);
-                        if (!Ext.isEmpty(paramCheckers))
-                        {
-                            if (paramCheckers.length > 1)
-                            {
-                            	paramCheckers.sort(Ext.bind(me._compareByOrder, me));
-                            }
-                        	
-                            Ext.Array.each(paramCheckers, function(paramChecker){
-                                var paramCheckerConf = {
-                                    'id': Ext.dom.Query.selectValue("> id", paramChecker),
-                                    'small-icon-path':  Ext.dom.Query.selectValue("> small-icon-path", paramChecker),
-                                    'medium-icon-path':  Ext.dom.Query.selectValue("> medium-icon-path", paramChecker),
-                                    'linked-params':  Ext.JSON.decode(Ext.dom.Query.selectValue("> linked-params", paramChecker)),
-                                    'category':  Ext.dom.Query.selectValue("> category", paramChecker),
-                                    'group':  Ext.dom.Query.selectValue("> group", paramChecker),
-                                    'large-icon-path':  Ext.dom.Query.selectValue("> large-icon-path", paramChecker),
-                                    'label':  Ext.dom.Query.selectValue("> label", paramChecker),
-                                    'description':  Ext.dom.Query.selectValue("> description", paramChecker),
-                                    'order':  Ext.dom.Query.selectValue("> order", paramChecker)
-                                };
-                                
-                                me._paramCheckersDAO.addGroupChecker(fieldset, paramCheckerConf, finalOffset, finalROffset);
-                            });
-                        }
-                    }
-                    else // role = tab
-                    {
-                        tabs.push(nodes[i]);
-                    }
-                }
-                else if (type == 'composite')
-                {
-                    var repeaterNode = Ext.dom.Query.selectNode('> repeater', nodes[i]);
-                    if (repeaterNode != null)
-                    {
-                        var repeaterCfg = {
-                            prefix: prefix,
-                            name: name,
-                            
-                            label: label,
-                            description: description,
-                            
-                            addLabel: Ext.dom.Query.selectValue('> add-label', repeaterNode),
-                            delLabel: Ext.dom.Query.selectValue('> del-label', repeaterNode),
-                            headerLabel: Ext.dom.Query.selectValue('> header-label', repeaterNode, ''),
-                            
-                            minSize: Ext.dom.Query.selectNumber('@min-size', repeaterNode, 0),
-                            maxSize: Ext.dom.Query.selectNumber('@max-size', repeaterNode, Number.MAX_VALUE),
-                            
-                            compositionNode: Ext.dom.Query.selectNode('> composition', repeaterNode),
-                            
-                            nestingLevel: nestingLevel,
-                            offset: offset,
-                            roffset: roffset
-                        }
-                        
-                        this._addRepeater (ct, repeaterCfg, Ext.dom.Query.selectNumber('@initial-size', repeaterNode));
-                    }
-                    else
-                    {
-                        var fieldset = this._addFieldSet(ct, label, nestingLevel);
-                        // Transmit offset + 5 (padding) + 1 (border) + 11 (margin + border) if we are in a nested composite.
-                        var finalOffset = offset 
-                                        + Ametys.form.ConfigurableFormPanel.HORIZONTAL_PADDING_FIELDSET 
-                                        + (nestingLevel > 1 ? Ametys.form.ConfigurableFormPanel.OFFSET_FIELDSET : 0)
-                                        + 1; 
-                        var finalROffset = roffset 
-                                        + Ametys.form.ConfigurableFormPanel.HORIZONTAL_PADDING_FIELDSET 
-                                        + 1; 
-                        this._configureXML(Ext.dom.Query.select("> composition", nodes[i]), prefix + name + this.defaultPathSeparator, fieldset, finalOffset, finalROffset);
-                    }
-                }
-                else if (type != '')
-                {
-                    var isMandatory = Ext.dom.Query.selectValue("> validation > mandatory", nodes[i]) == 'true';
-                    
-                    var widgetCfg = {
-                        name: prefix + name,
-                        type: Ext.dom.Query.selectValue("> type", nodes[i]),
-                        
-                        fieldLabel: (isMandatory ? '* ' : '') + label,
-                        ametysDescription: Ext.dom.Query.selectValue("> description", nodes[i], ''),
-                        showAmetysComments: this.showAmetysComments,
-                        
-                        value: Ext.dom.Query.selectValue("> default-value", nodes[i], ''),
-                        
-                        mandatory: isMandatory,
-                        regexp: Ext.dom.Query.selectValue("> validation > regexp", nodes[i], null),
-                        
-                        multiple: Ext.dom.Query.selectValue("> multiple", nodes[i]) == 'true',
-                        widget: Ext.dom.Query.selectValue("> widget", nodes[i], null),
-                        disabled: Ext.dom.Query.selectValue("> can-not-write", nodes[i]) == 'true',
-                        
-                        disableCondition: Ext.dom.Query.selectValue("> disable-conditions", nodes[i], null),
-                        
-                        form: this,
-                        offset: offset,
-                        roffset: roffset
-                    };
-                    
-                    // Add configured configuration
-                    Ext.Object.each(this._additionalWidgetsConfFromParams, function(key, value, object) {
-                        widgetCfg[key] = Ext.dom.Query.selectValue('> ' + value, nodes[i]);
-                    });
-
-                    Ext.Object.each(this._additionalWidgetsConf, function(key, value, object) {
-                        widgetCfg[key] = value;
-                    });
-
-                    
-                    var invalidText = Ext.dom.Query.selectValue('> validation > invalidText', nodes[i], null);
-                    if (invalidText != null)
-                    {
-                        widgetCfg.invalidText = invalidText;
-                    }
-                    
-                    var regexText = Ext.dom.Query.selectValue('> validation > regexText', nodes[i], null);
-                    if (regexText != null)
-                    {
-                        widgetCfg.regexText = regexText;
-                    }
-                    
-                    var enumeration = [];
-                    var enumerationValues = Ext.dom.Query.selectNode("enumeration", nodes[i]);
-                    if (enumerationValues != undefined)
-                    {
-                        var entries = Ext.dom.Query.selectDirectElements("*", enumerationValues);
-                        for (var j=0; j < entries.length; j++)
-                        {
-                            enumeration.push([entries[j].getAttribute("value"), Ext.dom.Query.selectValue("", entries[j])]);
-                        }
-                    }
-                    
-                    if (enumeration.length > 0)
-                    {
-                        widgetCfg.enumeration = enumeration;
-                    }
-                    
-                    var widgetParamNodes = Ext.dom.Query.select('> widget-params > *', nodes[i]);
-                    for (var j=0; j < widgetParamNodes.length; j++)
-                    {
-                        widgetCfg[widgetParamNodes[j].tagName] = Ext.dom.Query.selectValue('', widgetParamNodes[j]);
-                    }
-                    
-                    var annotationNodes = Ext.dom.Query.select('> annotations > *', nodes[i]);
-                    var annotations = [];
-                    for (var j=0; j < annotationNodes.length; j++)
-                    {
-                        var aName = annotationNodes[j].getAttribute("name");
-                        annotations.push({
-                            name: aName,
-                            label: Ext.dom.Query.selectValue('> label', annotationNodes[j], aName),
-                            description: Ext.dom.Query.selectValue('> description', annotationNodes[j], aName)
-                        });
-                    }
-                    
-                    if (annotations.length > 0)
-                    {
-                        widgetCfg['annotations'] = annotations;
-                    }
-                    
-                    this._addInputField(ct, widgetCfg);
-                    
-                    var paramCheckers = Ext.dom.Query.select('> param-checker', nodes[i]);
-                    if (!Ext.isEmpty(paramCheckers))
-                    {
-                        if (paramCheckers.length > 1)
-                        {
-                        	paramCheckers.sort(Ext.bind(me._compareByOrder, me));
-                        }
-                        
-                        Ext.Array.each(paramCheckers, function(paramChecker){
-                            var paramCheckerConf = {
-                                'id': Ext.dom.Query.selectValue("> id", paramChecker),
-                                'icon-glyph':  Ext.dom.Query.selectValue("> icon-glyph", paramChecker),
-                                'icon-decorator':  Ext.dom.Query.selectValue("> icon-decorator", paramChecker),
-                                'small-icon-path':  Ext.dom.Query.selectValue("> small-icon-path", paramChecker),
-                                'medium-icon-path':  Ext.dom.Query.selectValue("> medium-icon-path", paramChecker),
-                                'linked-params':  Ext.JSON.decode(Ext.dom.Query.selectValue("> linked-params", paramChecker)),
-                                'param-ref':  Ext.dom.Query.selectValue("> param-ref", paramChecker),
-                                'large-icon-path':  Ext.dom.Query.selectValue("> large-icon-path", paramChecker),
-                                'label':  Ext.dom.Query.selectValue("> label", paramChecker),
-                                'description':  Ext.dom.Query.selectValue("> description", paramChecker),
-                                'order':  Ext.dom.Query.selectValue("> order", paramChecker)
-                            };
-                            
-                            me._paramCheckersDAO.addParameterChecker(paramCheckerConf, offset, roffset);
-                        })
-                    }
-                }
+                continue;
             }
             
-            if (tabs.length > 0)
+            var type = Ext.dom.Query.selectValue("> type", nodes[i], '').toLowerCase();
+            var label = Ext.dom.Query.selectValue("> label", nodes[i], name);
+            var description = Ext.dom.Query.selectValue('> description', nodes[i], '');
+            
+            // Compute the nesting level
+            var parentLevelPanel = ct.up('panel[nestingLevel]');
+            var nestingLevel = 1;
+            if (ct.nestingLevel)
             {
-                var tabPanel = this._addTab();
-    
-                for (var i=0; i < tabs.length; i++)
+                nestingLevel = ct.nestingLevel + 1;
+            }
+            else if (parentLevelPanel)
+            {
+                nestingLevel = parentLevelPanel.nestingLevel + 1;
+            }
+            
+            if (type == '' && name == 'fieldsets')
+            {
+                var role = nodes[i].getAttribute('role');
+                if (role == 'fieldset')
                 {
-                    var tab = this._addTabItem (tabPanel, Ext.dom.Query.selectValue('> label', tabs[i], "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_UNTITLED}}"));
+                    var elements = Ext.dom.Query.selectNode('> elements', nodes[i]);
                     
+                    var switcher = Ext.dom.Query.selectNode('> switcher', nodes[i]);
+                    
+                    if (switcher != null)
+                    {   
+                        var switcherCfg = {};
+                        
+                        // Create an object representing the switcher
+                        switcherCfg.name = Ext.dom.Query.selectValue('> id', switcher);
+                        switcherCfg.label = Ext.dom.Query.selectValue('> label', switcher);
+                        switcherCfg.defaultValue = Ext.dom.Query.selectValue('> default-value', switcher);
+                        switcherCfg.type = 'boolean';
+                    }
+                    
+                    var fieldset = this._addFieldSet(ct, label, nestingLevel, switcher != null ? switcherCfg : null);
+
                     // Transmit offset + 5 (padding) + 1 (border) + 11 (margin + border) if we are in a nested composite.
                     var finalOffset = offset 
-                                    + Ametys.form.ConfigurableFormPanel.PADDING_TAB 
+                                    + Ametys.form.ConfigurableFormPanel.HORIZONTAL_PADDING_FIELDSET 
+                                    + (nestingLevel > 1 ? Ametys.form.ConfigurableFormPanel.OFFSET_FIELDSET : 0)
                                     + 1; 
                     var finalROffset = roffset 
-                                    + Ametys.form.ConfigurableFormPanel.PADDING_TAB 
+                                    + Ametys.form.ConfigurableFormPanel.HORIZONTAL_PADDING_FIELDSET 
                                     + 1; 
                     
-                    var elements = Ext.dom.Query.selectNode('> elements', tabs[i]);
                     if (elements)
                     {
-                        this._configureXML (elements, prefix, tab, finalOffset, finalROffset);
+                        this._configureXML (elements, prefix, fieldset, finalOffset, finalROffset);
                     }
                     
-                    // Add the parameter checker at the end of the current tab
-                    var paramCheckers = Ext.dom.Query.select('> param-checker', tabs[i]);
-                    if (!Ext.isEmpty(paramCheckers))
+                    var fieldCheckers = Ext.dom.Query.select('> field-checker', nodes[i]);
+                    if (!Ext.isEmpty(fieldCheckers))
                     {
-                        if (paramCheckers.length > 1)
-                        {
-                        	paramCheckers.sort(Ext.bind(me._compareByOrder, me));
-                        }
-                        Ext.Array.each(paramCheckers, function(paramChecker) {
-                            var paramCheckerConf = {
-                                'id': Ext.dom.Query.selectValue("> id", paramChecker),
-                                'small-icon-path':  Ext.dom.Query.selectValue("> small-icon-path", paramChecker),
-                                'medium-icon-path':  Ext.dom.Query.selectValue("> medium-icon-path", paramChecker),
-                                'linked-params':  Ext.JSON.decode(Ext.dom.Query.selectValue("> linked-params", paramChecker)),
-                                'category':  Ext.dom.Query.selectValue("> category", paramChecker),
-                                'large-icon-path':  Ext.dom.Query.selectValue("> large-icon-path", paramChecker),
-                                'label':  Ext.dom.Query.selectValue("> label", paramChecker),
-                                'description':  Ext.dom.Query.selectValue("> description", paramChecker),
-                                'order':  Ext.dom.Query.selectValue("> order", paramChecker)
-                            };
-                            
-                            me._paramCheckersDAO.addCategoryChecker(tab, paramCheckerConf, finalOffset, finalROffset);
-                        });
+                    	this._fieldCheckersManager.addFieldCheckers(fieldset, fieldCheckers, prefix, finalOffset, finalROffset);
+                    }
+                }
+                else // role = tab
+                {
+                    tabs.push(nodes[i]);
+                }
+            }
+            else if (!type && name == 'field-checker' && nestingLevel == 1)
+        	{
+                 this._fieldCheckersManager.addFieldCheckers(ct, data[name], prefix, offset, roffset);
+        	}
+            else if (type == 'composite')
+            {
+                var repeaterNode = Ext.dom.Query.selectNode('> repeater', nodes[i]);
+                if (repeaterNode != null)
+                {
+                    var repeaterCfg = {
+                        prefix: prefix,
+                        name: name,
+                        
+                        label: label,
+                        description: description,
+                        
+                        addLabel: Ext.dom.Query.selectValue('> add-label', repeaterNode),
+                        delLabel: Ext.dom.Query.selectValue('> del-label', repeaterNode),
+                        headerLabel: Ext.dom.Query.selectValue('> header-label', repeaterNode, ''),
+                        
+                        minSize: Ext.dom.Query.selectNumber('@min-size', repeaterNode, 0),
+                        maxSize: Ext.dom.Query.selectNumber('@max-size', repeaterNode, Number.MAX_VALUE),
+                        
+                        compositionNode: Ext.dom.Query.selectNode('> composition', repeaterNode),
+                        fieldCheckers: Ext.dom.Query.selectNode('> field-checker', repeaterNode),
+                        	
+                        nestingLevel: nestingLevel,
+                        offset: offset,
+                        roffset: roffset
+                    }
+                    
+                    this._addRepeater (ct, repeaterCfg, Ext.dom.Query.selectNumber('@initial-size', repeaterNode));
+                }
+                else
+                {
+                    var fieldset = this._addFieldSet(ct, label, nestingLevel);
+                    // Transmit offset + 5 (padding) + 1 (border) + 11 (margin + border) if we are in a nested composite.
+                    var finalOffset = offset 
+                                    + Ametys.form.ConfigurableFormPanel.HORIZONTAL_PADDING_FIELDSET 
+                                    + (nestingLevel > 1 ? Ametys.form.ConfigurableFormPanel.OFFSET_FIELDSET : 0)
+                                    + 1; 
+                    var finalROffset = roffset 
+                                    + Ametys.form.ConfigurableFormPanel.HORIZONTAL_PADDING_FIELDSET 
+                                    + 1; 
+                    this._configureXML(Ext.dom.Query.select("> composition", nodes[i]), prefix + name + this.defaultPathSeparator, fieldset, finalOffset, finalROffset);
+                    
+                    var fieldCheckers = Ext.dom.Query.select('> field-checker', nodes[i]);
+                    if (!Ext.isEmpty(fieldCheckers))
+                    {
+                        this._fieldCheckersManager.addFieldCheckers(fieldset, fieldCheckers, prefix + name + this.defaultPathSeparator, finalOffset, finalROffset);
                     }
                 }
             }
-    },
-    
-    /**
-     * Compare two parameter checkers with their order
-     * @param {Ametys.form.ConfigurableFormPanel.ParameterChecker} a the first parameter checker
-     * @param {Ametys.form.ConfigurableFormPanel.ParameterChecker} b the second parameter checker
-     */
-    _compareByOrder: function(a, b) 
-    {
-        var aOrder = this._isElement(a) ? Ext.dom.Query.selectValue('order', a) : a.order;
-        var bOrder = this._isElement(b) ? Ext.dom.Query.selectValue('order', b) : b.order;
-    	
-        var comparison = aOrder - bOrder;
+            else if (type != '')
+            {
+                var isMandatory = Ext.dom.Query.selectValue("> validation > mandatory", nodes[i]) == 'true';
+                
+                var widgetCfg = {
+                    name: prefix + name,
+                    type: Ext.dom.Query.selectValue("> type", nodes[i]),
+                    
+                    fieldLabel: (isMandatory ? '* ' : '') + label,
+                    ametysDescription: Ext.dom.Query.selectValue("> description", nodes[i], ''),
+                    showAmetysComments: this.showAmetysComments,
+                    
+                    value: Ext.dom.Query.selectValue("> default-value", nodes[i], ''),
+                    
+                    mandatory: isMandatory,
+                    regexp: Ext.dom.Query.selectValue("> validation > regexp", nodes[i], null),
+                    
+                    multiple: Ext.dom.Query.selectValue("> multiple", nodes[i]) == 'true',
+                    widget: Ext.dom.Query.selectValue("> widget", nodes[i], null),
+                    disabled: Ext.dom.Query.selectValue("> can-not-write", nodes[i]) == 'true',
+                    
+                    disableCondition: Ext.dom.Query.selectValue("> disable-conditions", nodes[i], null),
+                    
+                    form: this,
+                    offset: offset,
+                    roffset: roffset
+                };
+                
+                // Add configured configuration
+                Ext.Object.each(this._additionalWidgetsConfFromParams, function(key, value, object) {
+                    widgetCfg[key] = Ext.dom.Query.selectValue('> ' + value, nodes[i]);
+                });
+
+                Ext.Object.each(this._additionalWidgetsConf, function(key, value, object) {
+                    widgetCfg[key] = value;
+                });
+
+                
+                var invalidText = Ext.dom.Query.selectValue('> validation > invalidText', nodes[i], null);
+                if (invalidText != null)
+                {
+                    widgetCfg.invalidText = invalidText;
+                }
+                
+                var regexText = Ext.dom.Query.selectValue('> validation > regexText', nodes[i], null);
+                if (regexText != null)
+                {
+                    widgetCfg.regexText = regexText;
+                }
+                
+                var enumeration = [];
+                var enumerationValues = Ext.dom.Query.selectNode("enumeration", nodes[i]);
+                if (enumerationValues != undefined)
+                {
+                    var entries = Ext.dom.Query.selectDirectElements("*", enumerationValues);
+                    for (var j=0; j < entries.length; j++)
+                    {
+                        enumeration.push([entries[j].getAttribute("value"), Ext.dom.Query.selectValue("", entries[j])]);
+                    }
+                }
+                
+                if (enumeration.length > 0)
+                {
+                    widgetCfg.enumeration = enumeration;
+                }
+                
+                var widgetParamNodes = Ext.dom.Query.select('> widget-params > *', nodes[i]);
+                for (var j=0; j < widgetParamNodes.length; j++)
+                {
+                    widgetCfg[widgetParamNodes[j].tagName] = Ext.dom.Query.selectValue('', widgetParamNodes[j]);
+                }
+                
+                var annotationNodes = Ext.dom.Query.select('> annotations > *', nodes[i]);
+                var annotations = [];
+                for (var j=0; j < annotationNodes.length; j++)
+                {
+                    var aName = annotationNodes[j].getAttribute("name");
+                    annotations.push({
+                        name: aName,
+                        label: Ext.dom.Query.selectValue('> label', annotationNodes[j], aName),
+                        description: Ext.dom.Query.selectValue('> description', annotationNodes[j], aName)
+                    });
+                }
+                
+                if (annotations.length > 0)
+                {
+                    widgetCfg['annotations'] = annotations;
+                }
+                
+                var field = this._addInputField(ct, widgetCfg);
+                
+                var fieldCheckers = Ext.dom.Query.select('> field-checker', nodes[i]);
+                if (!Ext.isEmpty(fieldCheckers))
+                {
+                    this._fieldCheckersManager.addFieldCheckers(ct, fieldCheckers, prefix, offset, roffset, field);
+                }
+            }
+        }
         
-        return comparison != 0 ? comparison : 1;
+        if (tabs.length > 0)
+        {
+            var tabPanel = this._addTab();
+
+            for (var i=0; i < tabs.length; i++)
+            {
+                var tab = this._addTabItem (tabPanel, Ext.dom.Query.selectValue('> label', tabs[i], "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_UNTITLED}}"));
+                
+                // Transmit offset + 5 (padding) + 1 (border) + 11 (margin + border) if we are in a nested composite.
+                var finalOffset = offset 
+                                + Ametys.form.ConfigurableFormPanel.PADDING_TAB 
+                                + 1; 
+                var finalROffset = roffset 
+                                + Ametys.form.ConfigurableFormPanel.PADDING_TAB 
+                                + 1; 
+                
+                var elements = Ext.dom.Query.selectNode('> elements', tabs[i]);
+                if (elements)
+                {
+                    this._configureXML (elements, prefix, tab, finalOffset, finalROffset);
+                }
+                
+                // Add the field checker at the end of the current tab
+                var fieldCheckers = Ext.dom.Query.select('> field-checker', tabs[i]);
+                if (!Ext.isEmpty(fieldCheckers))
+                {
+                    this._fieldCheckersManager.addFieldCheckers(tab, fieldCheckers, prefix, finalOffset, finalROffset);
+                }
+            }
+        }
     },
     
     /**
@@ -2878,7 +2879,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             var fd = this.getForm().findField(this._fields[i]);
             if (!fd.isValid())
             {
-                invalidFields.push(fd.getFieldLabel());
+                invalidFields.push(this._getFullLabel(fd));
             }
             else
             {
@@ -3029,7 +3030,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             
             'parameters': {
                 'object': form,
-                'test-results': this._paramCheckersDAO ? this._paramCheckersDAO._testResults : {}
+                'test-results': this._fieldCheckersManager ? this._fieldCheckersManager._testResults : {}
             }
         };
         
@@ -3369,7 +3370,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                 conditionListLength = conditionList.length;
             for (var i = 0; i < conditionListLength; i++)
             {
-                var field = this.getRelativeField(conditionList[i]['id'], disablingField);
+                var field = this.getRelativeField(this.getFieldNamePrefix() + conditionList[i]['id'], disablingField);
                 field.on('change', Ext.bind(this._disableField, this, [disablingField], false));
             }
         }
@@ -3421,7 +3422,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             
             for (var i = 0; i < conditionListLength; i++)
             {
-                var id = conditionList[i]['id'],
+                var id = this.getFieldNamePrefix() + conditionList[i]['id'],
                     op = conditionList[i]['operator'],
                     val = conditionList[i]['value'];
                     

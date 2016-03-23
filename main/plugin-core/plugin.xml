@@ -208,7 +208,6 @@
             </disable-conditions>
         </param>
         
-        
        <param-checker id="mail-connection-checker" class="org.ametys.plugins.core.impl.checker.MailConnectionChecker">
             <label i18n="true">PLUGINS_CORE_MAIL_CONNECTION_CHECKER_LABEL</label>
             <description i18n="true">PLUGINS_CORE_MAIL_CONNECTION_CHECKER_DESC</description>
@@ -218,7 +217,6 @@
             <icon-large>img/config/check/test_emailconnect_48.png</icon-large>
                         
             <ui-ref>
-                <order>5</order>
                 <category i18n="true">PLUGINS_CORE_MAIL_CONFIG_CATEGORY</category>
                 <group i18n="true">PLUGINS_CORE_MAIL_CONFIG_GROUP</group>
             </ui-ref>
@@ -232,13 +230,15 @@
             </linked-params>
         </param-checker>
         
-        <!--param-checker id="send-mail-checker" class="org.ametys.plugins.core.impl.parameter.checker.SendMailChecker">
+        <!--param-checker id="send-mail-checker" class="org.ametys.plugins.core.impl.checker.SendMailChecker">
             <label i18n="true">PLUGINS_CORE_SEND_MAIL_CHECKER_LABEL</label>
             <description i18n="true">PLUGINS_CORE_SEND_MAIL_CHECKER_DESC</description>
-            <icon plugin="core">img/config/check/test_mailsend.png</icon>
+            
+            <icon-small>img/config/check/test_emailconnect_16.png</icon-small>
+            <icon-medium>img/config/check/test_emailconnect_32.png</icon-medium>
+            <icon-large>img/config/check/test_emailconnect_48.png</icon-large>
                         
             <ui-ref>
-                <order>1</order>
                 <category i18n="true">PLUGINS_CORE_MAIL_CONFIG_CATEGORY</category>
             </ui-ref>
             

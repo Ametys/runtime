@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -16,9 +16,9 @@
 
 /**
  * @private
- * Class representing a parameter checker
+ * Class representing a field checker
  */
-Ext.define('Ametys.form.ConfigurableFormPanel.ParameterChecker', {
+Ext.define('Ametys.form.ConfigurableFormPanel.FieldChecker', {
 	
 	statics: {
 		/**
@@ -73,13 +73,13 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterChecker', {
 		description: null,
 		/** @cfg {Number} status A constant of this class to define the current test status */
 		status: null,
+		/** @cfg {Ext.Component} uiComponent the component the parameter checker is graphically attached to */
+		uiComponent: null,
 		/** @cfg {String} errorMsg The error message associated to a failure status */
 		errorMsg: null,
-		/** @cfg {String} uiRefType equals 'category' || 'group' || 'parameter' */
-		uiRefType: null,
-		/** @cfg {String} uiRefLabel the label of the category/group/parameter the parameter checker is attached to */
-		uiRefLabel: null,
-		/** @cfg {Number} order The order of the parameter checker to display tests when many should be rendered at the same location */
+		/** @cfg {String} fieldCheckerPrefix the path prefix of this field checker */
+		fieldCheckerPrefix: null,
+		/** @cfg {Number} order The order of the field checker to display tests when many should be rendered at the same location */
 		order: null,
 		/** @cfg {String} plugin The name of the plugin that declared the test */
 	    plugin: null,
@@ -95,31 +95,45 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterChecker', {
 		largeIconPath: null,
 		/** @cfg {String[]} linkedParams The ids of the parameters linked to this test */
 		linkedParams: [],
-		/** @cfg {String[]} linkedParamsLabels The readable labels of the parameters linked to this test (in the same order thant #cfg-linkedParams) */
+		/** @cfg {String[]} linkedParamsLabels The readable labels of the fields linked to this test (in the same order thant #cfg-linkedParams) */
 		linkedParamsLabels: [],
+		/** @cfg {Ext.form.Field[]} linkedParamsFields the list of fields associated to this field checker */
+		linkedParamsFields: [],
 		/** @cfg {String} buttonId The id of the button that launch the test */
 		buttonId: null,
 		/** @cfg {String} helpBoxId The id of the help icon associated to the test */
 		helpBoxId: null,
 		/** @cfg {String} statusCmpId The id of the status component associated to the test */
-		statusCmpId: null
+		statusCmpId: null,
+		/** @cfg {String} fieldNamePrefix The optional prefix for field names */
+		fieldNamePrefix: null,
+		/** @cfg {String} pathSeparator The path separator */
+		pathSeparator: null
 	},
 	
-	constructor: function(paramChecker, uiRefLabel, uiRefType, label, description)
+	constructor: function(fieldChecker, uiComponent, path, label, description, fieldNamePrefix, pathSeparator)
 	{
-		this.id= paramChecker.id;
+		this.id = fieldChecker.id;
+		
 		this.label = label;
 		this.description = description;
+		
 		this.status = this.self.STATUS_NOT_TESTED;
-		this.uiRefLabel = uiRefLabel;
-		this.uiRefType = uiRefType;
-		this.plugin = paramChecker.plugin;
-        this.iconGlyph = paramChecker['icon-glyph'];
-        this.iconDecorator = paramChecker['icon-decorator'];
-		this.smallIconPath = paramChecker['small-icon-path'];
-		this.mediumIconPath = paramChecker['medium-icon-path'];
-		this.largeIconPath = paramChecker['large-icon-path'];
-		this.linkedParams = paramChecker['linked-params'];
+
+		this.uiComponent = uiComponent;
+		
+        this.iconGlyph = fieldChecker['icon-glyph'];
+        this.iconDecorator = fieldChecker['icon-decorator'];
+		this.smallIconPath = fieldChecker['small-icon-path'];
+		this.mediumIconPath = fieldChecker['medium-icon-path'];
+		this.largeIconPath = fieldChecker['large-icon-path'];
+		
+		this.linkedFieldsPaths = fieldChecker['linked-fields'] || "";
+		this.fieldCheckerPrefix = path;
+		this.fieldNamePrefix = fieldNamePrefix;
+		this.pathSeparator = pathSeparator;
+		
+		this.plugin = fieldChecker.plugin;
 	},
 	
 	/**
@@ -159,15 +173,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterChecker', {
 	},
 	
 	/**
-	 * Set the tooltip associated to error message
-	 * @param {String} errorTooltip See #cfg-errorMsg
-	 */
-	setErrorTooltip: function(errorTooltip)
-	{
-		this.errorTooltip = errorTooltip;
-	},
-	
-	/**
 	 * Get the status
 	 * @return {Number} See the #cfg-status
 	 */
@@ -198,19 +203,80 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterChecker', {
 	 * Set the labels of the linked parameter
 	 * @param {Number} labelList See the #cfg-linkedParamsLabels
 	 */
-	setLinkedParamsLabels: function(labelList)
+	setLinkedFieldsLabels: function(labelList)
 	{
-		this.linkedParamsLabels = labelList;
+		this.linkedFieldsLabels = labelList;
 	},
     
+	/**
+	 * Set the list of linked parameters fields of this field checker
+	 * @param {Ext.form.Field[]} linkedParamsFields the list of linked parameters fields
+	 */
+	setLinkedFields: function(linkedFields)
+	{
+		this.linkedFields = linkedFields;
+	},
+	
+	/**
+	 * Get the list of linked parameters fields of this field checker
+	 * @return the list of fields that are linked to this parameter checker
+	 */
+	getLinkedFields: function(linkedFields)
+	{
+		return this.linkedFields;
+	},
+	
+	/**
+	 * Reset this field checker
+	 */
+	reset: function()
+	{
+		this.setStatus(this.self.STATUS_NOT_TESTED);
+		
+		var statusCmp = Ext.getCmp(this.statusCmpId);
+		if (statusCmp)
+		{
+			statusCmp.hide();
+		}
+	},
+	
     /**
-     * Is the param checker active? (not part of a switched-off group or deactivated)
-     * @return {Boolean} true if active
+     * Is the field checker active?
+     * @return {Boolean} true if the parameter checker is active, false otherwise
      */
     isActive: function()
     {
         var status = this.getStatus();
-        return status != Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_HIDDEN
-            && status != Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_DEACTIVATED;
-    }    
+        
+        // not part of a switched-off group or deactivated
+        return status != Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_HIDDEN
+            && status != Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_DEACTIVATED;
+    },    
+	
+	/**
+	 * Get the paths of the fields corresponding to the linked parameters of this field checker
+	 * The fields can either by relative to the field checker prefix (see #cfg-fieldCheckerPrefix), or absolute,
+	 * in which case we have to prepend the given fieldPrefix. 
+	 * @return {String[]} the list of linked parameters paths
+	 */
+	getLinkedFieldsPaths: function()
+	{
+		var linkedFieldsPaths = [];
+		Ext.Array.each(this.linkedFieldsPaths, function (linkedFieldPath) {
+			
+			if (Ext.String.startsWith(linkedFieldPath, this.pathSeparator))
+			{
+				// Absolute path
+				linkedFieldsPaths.push(this.fieldNamePrefix + linkedFieldPath.substring(this.pathSeparator.length));
+			}
+			else
+			{
+				// Relative path : the field prefix is contained in the field checker prefix
+				linkedFieldsPaths.push(this.fieldCheckerPrefix + linkedFieldPath);
+			}
+			
+		}, this);
+		
+		return linkedFieldsPaths;
+	}
 });

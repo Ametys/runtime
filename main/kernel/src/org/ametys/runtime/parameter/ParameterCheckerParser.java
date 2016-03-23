@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 package org.ametys.runtime.parameter;
 
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -29,9 +29,9 @@ import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
 
 /**
- * Parses parameter checked from XML configurations. 
+ * Parameter checker parser from an XML configuration. 
  */
-public final class ParameterCheckerParser
+public class ParameterCheckerParser
 {
     /** The parameter checker component manager. */
     protected ThreadSafeComponentManager<ParameterChecker> _parameterCheckerManager;
@@ -42,7 +42,7 @@ public final class ParameterCheckerParser
     private final Map<ParameterCheckerDescriptor, String> _parameterCheckersToLookup = new HashMap<>();
     
     /**
-     * Creates a parameter checker parser
+     * Create a parameter checker parser
      * @param paramCheckerManager the parameter checker.
      */
     public ParameterCheckerParser(ThreadSafeComponentManager<ParameterChecker> paramCheckerManager)
@@ -51,15 +51,15 @@ public final class ParameterCheckerParser
     }
     
     /**
-     * Parses a the parameter checker from a XML configuration.
+     * Parse a parameter checker from a XML configuration.
      * @param pluginName the plugin's name declaring this parameter.
      * @param paramCheckerConfig the XML configuration.
-     * @return the parsed parameter.
+     * @return the {@link ParameterCheckerDescriptor} for the parsed parameter checker
      * @throws ConfigurationException if the configuration is not valid.
      */
     public ParameterCheckerDescriptor parseParameterChecker(String pluginName, Configuration paramCheckerConfig) throws ConfigurationException
     {
-        ParameterCheckerDescriptor parameterChecker = new ParameterCheckerDescriptor();
+        ParameterCheckerDescriptor parameterChecker = _getParameterCheckerDescriptorInstance();
          
         String parameterId = paramCheckerConfig.getAttribute("id");
         String concreteClass = paramCheckerConfig.getAttribute("class");
@@ -92,33 +92,19 @@ public final class ParameterCheckerParser
         I18nizableText description = _parseI18nizableText(paramCheckerConfig, pluginName, "description");
         
         Configuration uiRefConfig = paramCheckerConfig.getChild("ui-ref");
-        int uiRefOrder = uiRefConfig.getChild("order").getValueAsInteger();
+        int uiRefOrder = uiRefConfig.getChild("order").getValueAsInteger(1);
         
-        String uiRefParamId = null;
-        Configuration uiRefParamConfig = uiRefConfig.getChild("param-ref", false);
-        if (uiRefParamConfig != null)
+        String uiRefLocation = null;
+        Configuration uiRefLocationConfig = uiRefConfig.getChild("location", false);
+        if (uiRefLocationConfig != null)
         {
-            uiRefParamId = uiRefParamConfig.getAttribute("id");
+            uiRefLocation = uiRefLocationConfig.getAttribute("path");
         }
         
-        I18nizableText uiRefGroup = null;
-        Configuration uiRefGroupConfig = uiRefConfig.getChild("group", false);
-        if (uiRefGroupConfig != null)
-        {
-            uiRefGroup = _parseI18nizableText(uiRefConfig, pluginName, "group");
-        }
-        
-        I18nizableText  uiRefCategory = null;
-        Configuration uiRefCategoryConfig = uiRefConfig.getChild("category", false);
-        if (uiRefCategoryConfig != null)
-        {
-            uiRefCategory = _parseI18nizableText(uiRefConfig, pluginName, "category");
-        }
-        
-        Set<String >linkedParamsIds = new HashSet<>();
+        Set<String >linkedParamsPaths = new LinkedHashSet<>();
         for (Configuration linkedParamConfig : paramCheckerConfig.getChild("linked-params").getChildren("param-ref"))
         {
-            linkedParamsIds.add(linkedParamConfig.getAttribute("id"));
+            linkedParamsPaths.add(linkedParamConfig.getAttribute("id"));
         }
         
         parameterChecker.setId(parameterId);
@@ -128,11 +114,10 @@ public final class ParameterCheckerParser
         parameterChecker.setSmallIconPath(smallIconPath);
         parameterChecker.setMediumIconPath(mediumIconPath);
         parameterChecker.setLargeIconPath(largeIconPath);
-        parameterChecker.setUiRefParamId(uiRefParamId);
-        parameterChecker.setUiRefGroup(uiRefGroup);
         parameterChecker.setUiRefOrder(uiRefOrder);
-        parameterChecker.setUiRefCategory(uiRefCategory);
-        parameterChecker.setLinkedParamsIds(linkedParamsIds);
+        parameterChecker.setUiRefLocation(uiRefLocation);
+
+        parameterChecker.setLinkedParamsPaths(linkedParamsPaths);
         
         _setParameterChecker(pluginName, parameterChecker, parameterId, paramCheckerConfig);
         return parameterChecker;
@@ -205,5 +190,14 @@ public final class ParameterCheckerParser
     protected I18nizableText _parseI18nizableText(Configuration config, String pluginName, String name) throws ConfigurationException
     {
         return I18nizableText.parseI18nizableText(config.getChild(name), "plugin." + pluginName);
+    }
+    
+    /**
+     * Get the parameter checker descriptor instance to use
+     * @return the parameter checker descriptor instance to use
+     */
+    protected ParameterCheckerDescriptor _getParameterCheckerDescriptorInstance()
+    {
+        return new ParameterCheckerDescriptor();
     }
 }

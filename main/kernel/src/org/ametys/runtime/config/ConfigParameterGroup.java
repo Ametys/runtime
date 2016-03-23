@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -28,18 +28,18 @@ import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
 /**
  * Represent a group of parameters.
  */
-public class ParameterGroup
+public class ConfigParameterGroup
 {
     private Map<String, ConfigParameter> _groupParams;
     private String _switcher;
     private I18nizableText _groupLabel;
-    private Set<ParameterCheckerDescriptor> _paramCheckers;
+    private Set<ConfigParameterCheckerDescriptor> _paramCheckers;
     
     /**
      * Create a group
      * @param groupLabel The label of the group
      */
-    public ParameterGroup (I18nizableText groupLabel)
+    public ConfigParameterGroup (I18nizableText groupLabel)
     {
         _groupLabel = groupLabel;
         _groupParams = new TreeMap<>();
@@ -69,7 +69,7 @@ public class ParameterGroup
         }
     }
     
-    void addParamChecker(ParameterCheckerDescriptor paramChecker)
+    void addParamChecker(ConfigParameterCheckerDescriptor paramChecker)
     {
         _paramCheckers.add(paramChecker);
     }
@@ -78,7 +78,7 @@ public class ParameterGroup
      * Returns the {@link ParameterCheckerDescriptor}s associated with this group.
      * @return the {@link ParameterCheckerDescriptor}s associated with this group.
      */
-    public Set<ParameterCheckerDescriptor> getParamCheckers()
+    public Set<ConfigParameterCheckerDescriptor> getParamCheckers()
     {
         return _paramCheckers;
     }

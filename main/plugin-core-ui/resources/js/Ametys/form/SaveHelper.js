@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -57,7 +57,7 @@ Ext.define('Ametys.form.SaveHelper', {
     },
     
     /**
-     * Determine if a form is ready to be saved. This function is asynchronous since some user interaction maybe required.
+     * Determine if a form is ready to be saved. This function is asynchronous since some user interaction may be required.
      * @param {Ametys.form.ConfigurableFormPanel} form the configurable form panel
      * @param {Function} callback function invoked after the saving process was authorized or not
      * @param {Function} callback.canSave true if the form can be saved.
@@ -66,8 +66,8 @@ Ext.define('Ametys.form.SaveHelper', {
     {
         var me = this,
 	        testsOk = true,
-	        paramCheckersDAO = form._paramCheckersDAO,
-	        paramCheckers = paramCheckersDAO._paramCheckers;
+	        fieldCheckersManager = form._fieldCheckersManager,
+	        fieldCheckers = fieldCheckersManager._fieldCheckers;
         
 		// Validate form
 		var invalidFields = Ext.Array.merge(form.getInvalidFields(), form.getInvalidRepeaters());
@@ -91,7 +91,7 @@ Ext.define('Ametys.form.SaveHelper', {
 				   handler: function() {callback(false);}  
 			});
 		}
-        else if (!this._areTestsOk(paramCheckers))
+        else if (!this._areTestsOk(fieldCheckers))
         {
             // At least one test wasn't successful
             var msgBox = Ext.create('Ext.window.MessageBox', {closeAction: 'destroy'});
@@ -113,16 +113,16 @@ Ext.define('Ametys.form.SaveHelper', {
                     else if (answer == 'no')
                     {
                         Ext.getBody().mask("{{i18n PLUGINS_CORE_UI_SAVE_WAIT_MSG}}");
-                        paramCheckersDAO.check(paramCheckers, 
-            					              true, 
-            					              Ext.bind(function(success) 
-    					            		  { 
-        					            	  	Ext.getBody().unmask(); 
-        					            	  	if (success) 
-        					            	  	{ 
-        					            			this._handleWarnedFields(form, callback);
-    					            	  		} 
-    					            		  }, me), false);
+                        fieldCheckersManager.check(null, 
+	            					               true, 
+	            					               Ext.bind(function(success) 
+	    					            		   { 
+	        					            	  	 Ext.getBody().unmask(); 
+	        					            	  	 if (success) 
+	        					            	  	 { 
+	        					            		 	this._handleWarnedFields(form, callback);
+	    					            	  		 }  
+	    					            		   }, me), false);
                     }
                 }
             });
@@ -204,7 +204,7 @@ Ext.define('Ametys.form.SaveHelper', {
 				message += "<li>";
 				message += "<strong>" + warnedFieldLabel + "</strong>: " + warningList
 				message += "</li>";
-			})
+			});
 			message += "</ul>";
 			
 		    Ametys.Msg.show({
@@ -226,19 +226,19 @@ Ext.define('Ametys.form.SaveHelper', {
     /**
      * @private
      * Are all the tests currently successful?
-     * @param {Ametys.form.ConfigurableFormPanel.ParameterChecker[]} paramCheckers the parameter checkers
+     * @param {Ametys.form.ConfigurableFormPanel.FieldChecker[]} fieldCheckers the field checkers
      * @return true if all the tests are currently successful, false otherwise
      */
-    _areTestsOk: function(paramCheckers)
+    _areTestsOk: function(fieldCheckers)
     {
     	var testsOk = true;
-		Ext.Array.each(paramCheckers, function(paramChecker) {
-	        var status = paramChecker.getStatus();
+		Ext.Array.each(fieldCheckers, function(fieldChecker) {
+	        var status = fieldChecker.getStatus();
 	        
-	        if (Ext.getCmp(paramChecker.buttonId).isVisible() 
-	            && (status == Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_FAILURE 
-	                || status == Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_NOT_TESTED
-	                || status == Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_WARNING))
+	        if (Ext.getCmp(fieldChecker.buttonId).isVisible() 
+	            && (status == Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_FAILURE 
+	                || status == Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_NOT_TESTED
+	                || status == Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_WARNING))
 	        {
 	        	testsOk = false;
                 return false; // stop iteration

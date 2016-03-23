@@ -495,7 +495,6 @@
             </configuration>
                         
             <ui-ref>
-                <order>1</order>
                 <param-ref id="runtime.authentication.cas.serverUrl"/>
             </ui-ref>
             

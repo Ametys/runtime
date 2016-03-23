@@ -152,18 +152,10 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
 		// Searching
 		aliasDereferencingEnumeration.push({label: "{{i18n PLUGINS_ADMIN_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_SEARCHING}}", value: 'searching'});
 		
-		
 		// Id field
 		configuration.id = {
 			hidden: true,
 			type: 'string'
-		};
-		
-		// Type field
-		configuration.type = {
-			hidden: true,
-			type: 'string',
-			'default-value': 'LDAP'
 		};
 		
 		// Name field
@@ -269,15 +261,15 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
 			widget: 'edition.checkbox',
 			label: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_PRIVATE}}",
 			description: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_PRIVATE_DESCRIPTION}}",
-			'param-checker': {
-				id: 'sql-connection-checker-datasource',
-				'icon-glyph': 'flaticon-agenda3',
-				'linked-params': ['baseURL', 'baseDN', 'authenticationMethod', 'adminDN', 'adminPassword', 'useSSL', 'followReferrals'],
-				'param-ref': 'private',
-				label: "{{i18n plugin.core-impl:PLUGINS_CORE_LDAP_CONNECTION_CHECKER_LABEL}}",
-				description: "{{i18n plugin.core-impl:PLUGINS_CORE_LDAP_CONNECTION_CHECKER_DESC}}",
-				order: 1
-			}
+		};
+		
+		// Global parameter checker
+		configuration['field-checker'] = {
+			id: 'ldap-connection-checker-datasource',
+			'icon-glyph': 'flaticon-agenda3',
+			'linked-fields': ['id', 'baseURL', 'baseDN', 'useSSL', 'followReferrals', 'authenticationMethod', 'adminDN', 'adminPassword'],
+			label: "{{i18n plugin.core-impl:PLUGINS_CORE_LDAP_CONNECTION_CHECKER_LABEL}}",
+			description: "{{i18n plugin.core-impl:PLUGINS_CORE_LDAP_CONNECTION_CHECKER_DESC}}"
 		};
 		
 		this._form.configure(configuration);
@@ -328,19 +320,19 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
 		}
  		
  		// Test the data source
- 		var paramCheckersDAO = this._form._paramCheckersDAO;
+ 		var fieldCheckersManager = this._form._fieldCheckersManager;
  		
  		Ext.getBody().mask("{{i18n plugin.core-ui:PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE}}");
- 		paramCheckersDAO.check(paramCheckersDAO._paramCheckers,
- 							   true, 
-					           Ext.bind(function(success) 
-				      		   { 
-					              Ext.getBody().unmask(); 
-					              if (success) 
-					              { 
-					            	  this._okCb();
-					              }
-				      	  		}, this), false); 
+ 		fieldCheckersManager.check(null,
+	 							   true, 
+						           Ext.bind(function(success) 
+					      		   { 
+						              Ext.getBody().unmask(); 
+						              if (success) 
+						              { 
+						            	  this._okCb();
+						              }
+					      	  		}, this), false); 
  	},
  	
  	/**

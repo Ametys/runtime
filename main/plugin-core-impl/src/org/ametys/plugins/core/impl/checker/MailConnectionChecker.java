@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 package org.ametys.plugins.core.impl.checker;
 
-import java.util.Map;
+import java.util.List;
 
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -30,12 +30,6 @@ import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
  */
 public class MailConnectionChecker implements ParameterChecker, Configurable
 {
-    private String _paramHost;
-    private String _paramPort;
-    private String _paramSecurityProtocol;
-    private String _paramUser;
-    private String _paramPasswd;
-
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
@@ -44,28 +38,20 @@ public class MailConnectionChecker implements ParameterChecker, Configurable
         {
             throw new ConfigurationException("The MailConnectionChecker should have 5 linked params in the right order: host, port, security.protocol, user, password");
         }
-        
-        int i = 0;
-        _paramHost = config[i++].getAttribute("id");
-        _paramPort = config[i++].getAttribute("id");
-        _paramSecurityProtocol = config[i++].getAttribute("id");
-        _paramUser = config[i++].getAttribute("id");
-        _paramPasswd = config[i++].getAttribute("id");
     }
     
     @Override 
-    public void check(Map<String, String> configurationParameters) throws ParameterCheckerTestFailureException
+    public void check(List<String> values) throws ParameterCheckerTestFailureException
     {
-        String password = configurationParameters.get(_paramPasswd);
-        String host = configurationParameters.get(_paramHost);
-        String portStr = configurationParameters.get(_paramPort);
-        long port = Integer.parseInt(portStr);
-        String user = configurationParameters.get(_paramUser);
-        String protocol = configurationParameters.get(_paramSecurityProtocol);
+        String host = values.get(0);
+        String portAsString = values.get(1);
+        String protocol = values.get(2);
+        String user = values.get(3);
+        String password = values.get(4);
         
         try
         {
-            SendMailHelper.sendMail(null, null, null, null, null, null, null, null, false, false, host, port, protocol, user, password);
+            SendMailHelper.sendMail(null, null, null, null, null, null, null, null, false, false, host, Integer.parseInt(portAsString), protocol, user, password);
         }
         catch (Exception e)
         {

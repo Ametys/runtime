@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -38,9 +39,6 @@ import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
  */
 public class HttpUrlChecker implements ParameterChecker, Configurable
 {
-    /** Configuration parameter id for url */
-    private String _urlParameterId;
-    
     /** The user agent */
     private String _userAgent;
     
@@ -64,7 +62,6 @@ public class HttpUrlChecker implements ParameterChecker, Configurable
         
         Configuration timeoutConfig = requestConfig.getChild("timeout", false);
         
-        _urlParameterId = configuration.getChild("linked-params").getChild("param-ref").getAttribute("id");
         _timeout = timeoutConfig != null ? timeoutConfig.getValueAsInteger() : -1;
         _userAgent = requestConfig.getChild("user-agent").getValue(null);
         _method = requestConfig.getChild("method").getValue(null);
@@ -78,11 +75,12 @@ public class HttpUrlChecker implements ParameterChecker, Configurable
         }
     }
     
-    public void check(Map<String, String> configurationParameters) throws ParameterCheckerTestFailureException
+    @Override
+    public void check(List<String> values) throws ParameterCheckerTestFailureException
     {
         try
         {
-            String configUrl = configurationParameters.get(_urlParameterId);
+            String configUrl = values.get(0);
             HttpURLConnection httpUrlConnection = _prepareConnection(configUrl);
             
             // Do the connection

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -34,8 +34,8 @@ Ext.define('Ametys.plugins.coreui.configurableformpanel.TestsController', {
                 var mode = controller.getInitialConfig().mode;
                 var form = target.getParameters().object.owner;
                 
-                var activeParamCheckers = form._paramCheckersDAO._paramCheckers.filter(function (el) { return el.isActive; });
-                form._paramCheckersDAO.check(activeParamCheckers, true, Ext.emptyFn , mode == 'all');
+                var activeFieldCheckers = form._fieldCheckersManager._fieldCheckers.filter(function (el) { return el.isActive; });
+                form._fieldCheckersManager.check(activeFieldCheckers, true, Ext.emptyFn , mode == 'all');
             }
         }
     },
@@ -44,36 +44,17 @@ Ext.define('Ametys.plugins.coreui.configurableformpanel.TestsController', {
 	 * @property {String} _mode the check mode (can be "all" or "missed")
 	 * @private
 	 */
+    
 	constructor: function(config)
 	{
 		this.callParent(arguments);
 		this._mode = config.mode;
-		
-		Ametys.message.MessageBus.on(Ametys.message.Message.MODIFIED, this._onModified, this);
 	},
 	
-	/**
-	 * Listener when the test results have been modified
-	 * Will update the state of the button
-	 * @param {Ametys.message.Message} message The modified message.
-	 * @protected
-	 */
-	_onModified: function(message)
+	updateState: function()
 	{
-		var targets = message.getTargets();
-		for (var i=0; i < targets.length; i++)
-		{
-			var target = targets[i];
-			if (target.getType() == Ametys.message.MessageTarget.CONFIGURATION)
-			{
-				var subtarget = target.getSubtargets()[0]; 
-				if (subtarget.getType() == Ametys.message.MessageTarget.FORM)
-				{
-					this._updateDescriptions(subtarget.getParameters()['test-results']);
-					return;
-				}
-			}
-		}
+		var formTarget = this.getMatchingTargets()[0];
+		this._updateDescriptions(formTarget.getParameters()['test-results']);
 	},
 	
 	/**

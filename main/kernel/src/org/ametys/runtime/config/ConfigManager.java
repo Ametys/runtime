@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -52,8 +52,6 @@ import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.Enumerator;
 import org.ametys.runtime.parameter.Errors;
 import org.ametys.runtime.parameter.ParameterChecker;
-import org.ametys.runtime.parameter.ParameterCheckerDescriptor;
-import org.ametys.runtime.parameter.ParameterCheckerParser;
 import org.ametys.runtime.parameter.ParameterHelper;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
 import org.ametys.runtime.parameter.Validator;
@@ -66,6 +64,9 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
 {
     /** the regular expression for ids */
     public static final Pattern CONFIG_ID_PATTERN = Pattern.compile("[a-zA-Z][a-zA-Z0-9.\\-_]*");
+    
+    /** The field separator for the field hierarchy */
+    private static final String FIELD_SEPARATOR = "/";
     
     // shared instance
     private static ConfigManager __manager;
@@ -90,10 +91,10 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     private Map<String, ConfigParameterInfo> _declaredParameterCheckers;
         
     // Parsed parameter checkers
-    private Map<String, ParameterCheckerDescriptor> _parameterCheckers;
+    private Map<String, ConfigParameterCheckerDescriptor> _parameterCheckers;
     
     // The parameters classified by categories and groups
-    private Map<I18nizableText, ParameterCategory> _categorizedParameters;
+    private Map<I18nizableText, ConfigParameterCategory> _categorizedParameters;
     
     // Determines if the extension point is initialized
     private boolean _isInitialized;
@@ -362,7 +363,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             }
         }
         
-        ParameterCheckerParser parameterCheckerParser = new ParameterCheckerParser(_parameterCheckerManager);
+        ConfigParameterCheckerParser parameterCheckerParser = new ConfigParameterCheckerParser(_parameterCheckerManager);
         for (String id : _declaredParameterCheckers.keySet())
         {
             boolean invalidParameters = false;
@@ -372,9 +373,10 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             {
                 ConfigParameterInfo info = _declaredParameterCheckers.get(id);
                 
-                ParameterCheckerDescriptor parameterChecker = null;
+                ConfigParameterCheckerDescriptor parameterChecker = null;
                 try
                 {
+                    
                     parameterChecker = parameterCheckerParser.parseParameterChecker(info.getPluginName(), info.getConfiguration());
                 }
                 catch (ConfigurationException ex)
@@ -382,10 +384,22 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                     throw new RuntimeException("Unable to configure the parameter checker: " + id, ex);
                 }
                 
-                for (String linkedParameterId : parameterChecker.getLinkedParamsIds())
+                for (String linkedParameterPath : parameterChecker.getLinkedParamsPaths())
                 {
+                    ConfigParameter linkedParameter = null;
+
+                    // Linked parameters can be declared with an absolute path, in which case they are prefixed with '/
+                    if (linkedParameterPath.startsWith(FIELD_SEPARATOR))
+                    {
+                        linkedParameter = _params.get(linkedParameterPath.substring(FIELD_SEPARATOR.length()));
+                    }
+                    else
+                    {
+                        linkedParameter = _params.get(linkedParameterPath);
+                    }
+                    
                     // If at least one parameter used is invalid, the parameter checker is invalidated
-                    if (_params.get(linkedParameterId) == null)
+                    if (linkedParameter == null)
                     {
                         invalidParameters = true;
                         break;
@@ -397,7 +411,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                     if (_logger.isDebugEnabled())
                     {
                         _logger.debug("All the configuration parameters associated to the parameter checker '" + parameterChecker.getId() + "' are not used.\n"
-                                    + "This parameter checker will not be used");
+                                    + "This parameter checker will be ignored");
                     }
                 }
                 else
@@ -436,9 +450,9 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     {
         if (_isComplete && untypedValues != null)
         {
-            for (ParameterCategory category : _categorizedParameters.values())
+            for (ConfigParameterCategory category : _categorizedParameters.values())
             {
-                for (ParameterGroup group: category.getGroups().values())
+                for (ConfigParameterGroup group: category.getGroups().values())
                 {
                     boolean isGroupSwitchedOn = true;
                     String groupSwitch = group.getSwitch();
@@ -715,7 +729,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
      * Returns all {@link ConfigParameter} grouped by categories and groups.
      * @return all {@link ConfigParameter}.
      */
-    public Map<I18nizableText, ParameterCategory> getCategories()
+    public Map<I18nizableText, ConfigParameterCategory> getCategories()
     {
         return _categorizedParameters;
     }
@@ -740,10 +754,10 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     }
     
     /**
-     * Returns all {@link ParameterCheckerDescriptor}s.
-     * @return all {@link ParameterCheckerDescriptor}s.
+     * Returns all {@link ConfigParameterCheckerDescriptor}s.
+     * @return all {@link ConfigParameterCheckerDescriptor}s.
      */
-    public Map<String, ParameterCheckerDescriptor> getParameterCheckers()
+    public Map<String, ConfigParameterCheckerDescriptor> getParameterCheckers()
     {
         return _parameterCheckers;
     }
@@ -753,14 +767,14 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
      * @param id the id of the parameter checker to get
      * @return the associated parameter checker descriptor
      */
-    public ParameterCheckerDescriptor getParameterChecker(String id)
+    public ConfigParameterCheckerDescriptor getParameterChecker(String id)
     {
         return _parameterCheckers.get(id);
     }
     
-    private Map<I18nizableText, ParameterCategory> _categorizeParameters(Map<String, ConfigParameter> params, Map<String, ParameterCheckerDescriptor> paramCheckers)
+    private Map<I18nizableText, ConfigParameterCategory> _categorizeParameters(Map<String, ConfigParameter> params, Map<String, ConfigParameterCheckerDescriptor> paramCheckers)
     {
-        Map<I18nizableText, ParameterCategory> categories = new HashMap<> ();
+        Map<I18nizableText, ConfigParameterCategory> categories = new HashMap<> ();
         
         // Classify parameters by groups and categories
         Iterator<String> it = params.keySet().iterator();
@@ -773,18 +787,18 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             I18nizableText groupName = param.getDisplayGroup();
 
             // Get the map of groups of the category
-            ParameterCategory category = categories.get(categoryName);
+            ConfigParameterCategory category = categories.get(categoryName);
             if (category == null)
             {
-                category = new ParameterCategory();
+                category = new ConfigParameterCategory();
                 categories.put(categoryName, category);
             }
 
             // Get the map of parameters of the group
-            ParameterGroup group = category.getGroups().get(groupName);
+            ConfigParameterGroup group = category.getGroups().get(groupName);
             if (group == null)
             {
-                group = new ParameterGroup(groupName);
+                group = new ConfigParameterGroup(groupName);
                 category.getGroups().put(groupName, group);
             }
 
@@ -796,12 +810,12 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         while (paramCheckersIt.hasNext())
         {
             String key = paramCheckersIt.next();
-            ParameterCheckerDescriptor paramChecker = paramCheckers.get(key);
+            ConfigParameterCheckerDescriptor paramChecker = paramCheckers.get(key);
             
             I18nizableText uiCategory = paramChecker.getUiRefCategory();
             if (uiCategory != null)
             {
-                ParameterCategory category = categories.get(uiCategory);
+                ConfigParameterCategory category = categories.get(uiCategory);
                 if (category == null)
                 {
                     if (_logger.isDebugEnabled())
@@ -819,7 +833,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                     }
                     else
                     {
-                        ParameterGroup group = category.getGroups().get(uiGroup);
+                        ConfigParameterGroup group = category.getGroups().get(uiGroup);
                         if (group == null)
                         {
                             if (_logger.isDebugEnabled())
@@ -961,7 +975,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         while (catIt.hasNext())
         {
             I18nizableText categoryKey = catIt.next();
-            ParameterCategory category = _categorizedParameters.get(categoryKey);
+            ConfigParameterCategory category = _categorizedParameters.get(categoryKey);
             StringBuilder categoryLabel = new StringBuilder();
             categoryLabel.append("+\n      | ");
             categoryLabel.append(categoryKey.toString());
@@ -987,7 +1001,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                 handler.comment(groupLabel.toString().toCharArray(), 0, groupLabel.length());
                 XMLUtils.data(handler, "\n  ");
 
-                ParameterGroup group = category.getGroups().get(groupKey);
+                ConfigParameterGroup group = category.getGroups().get(groupKey);
                 for (ConfigParameter param: group.getParams(true))
                 {
                     Object typedValue = typedValues.get(param.getId());

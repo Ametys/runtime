@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -73,6 +73,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
      * @cfg {Object} composition The repeater composition as JSON object.
      */
     /**
+     * @cfg {Object/Object[]} fieldCheckers The field checkers of this repeater as a JSON object
+     */
+    /**
      * @cfg {String} prefix The metadata prefix (to create sub elements)
      */
     /**
@@ -118,7 +121,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
         {
             this.defaultPathSeparator = config.defaultPathSeparator;
         }
-        
+
         this.callParent(arguments);  
     },
     
@@ -189,7 +192,19 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
     },
     
     /**
-     * Get the miminum size ie. the miminum of entries
+     * Clear all the repeater items
+     */
+    reset: function()
+    {
+    	var items = this.getItems();
+		for (var i = items.getCount() - 1; i >= 0; i--)
+    	{
+ 	    	this.removeItem(items.getAt(i));
+    	}
+    },
+    
+    /**
+     * Get the miminum size ie. the miminum amount of entries
      * @return {Number} The miminum size of the repeater
      */
     getMinSize: function ()
@@ -314,6 +329,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
         	Ext.defer(this.form._configureJSON, 0, this.form, [this.composition, this.prefix + this.name + this.defaultPathSeparator + index + this.defaultPathSeparator, panel, offset, roffset]);
         }
         
+        if (this.fieldCheckers)
+    	{
+        	this.form._fieldCheckersManager.addFieldCheckers(this.items.get(index), this.fieldCheckers, this.prefix + this.name + this.defaultPathSeparator + index + this.defaultPathSeparator, this.offset, this.roffset);
+    	}
+
         // Default to true
 //        panel.expand(opt.animate !== false);
     },
@@ -328,7 +348,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
     {
 		// Suspend layout update.
     	this.form.suspendLayouts();
-    	
         var options = options || {};
         
         if (options.fireRepeaterEntryReadyEvent)

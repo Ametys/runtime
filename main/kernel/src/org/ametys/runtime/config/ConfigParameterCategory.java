@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -24,34 +24,38 @@ import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.ParameterCheckerDescriptor;
 
 /**
- * Represents a category of parameters
+ * Represents a category of configuration parameters
  */
-public class ParameterCategory
+public class ConfigParameterCategory
 {
-    private Map<I18nizableText, ParameterGroup> _groups;
-    private Set<ParameterCheckerDescriptor> _paramCheckers;
+    private Map<I18nizableText, ConfigParameterGroup> _groups;
+    private Set<ConfigParameterCheckerDescriptor> _paramCheckers;
 
-    ParameterCategory ()
+    ConfigParameterCategory ()
     {
         _groups = new HashMap<>();
         _paramCheckers = new HashSet<>();
     }
     
-    void addParamChecker(ParameterCheckerDescriptor paramChecker)
+    void addParamChecker(ConfigParameterCheckerDescriptor paramChecker)
     {
         _paramCheckers.add(paramChecker);
     }
 
     /**
-     * Returns all {@link ParameterGroup} for this category.
-     * @return all {@link ParameterGroup} for this category.
+     * Returns all {@link ConfigParameterGroup} for this category.
+     * @return all {@link ConfigParameterGroup} for this category.
      */
-    public Map<I18nizableText, ParameterGroup> getGroups()
+    public Map<I18nizableText, ConfigParameterGroup> getGroups()
     {
         return _groups;
     }
     
-    void setGroups(Map<I18nizableText, ParameterGroup> groups)
+    /**
+     * Set the configuration groups of this category
+     * @param groups the configuration groups
+     */
+    void setGroups(Map<I18nizableText, ConfigParameterGroup> groups)
     {
         this._groups = groups;
     }
@@ -60,12 +64,16 @@ public class ParameterCategory
      * Returns all {@link ParameterCheckerDescriptor} for this category.
      * @return all {@link ParameterCheckerDescriptor} for this category.
      */
-    public Set<ParameterCheckerDescriptor> getParamCheckers()
+    public Set<ConfigParameterCheckerDescriptor> getParamCheckers()
     {
         return _paramCheckers;
     }
     
-    void setParamCheckers(Set<ParameterCheckerDescriptor> paramCheckers)
+    /**
+     * Set the parameter checkers of this category
+     * @param paramCheckers the parameter checkers
+     */
+    void setParamCheckers(Set<ConfigParameterCheckerDescriptor> paramCheckers)
     {
         this._paramCheckers = paramCheckers;
     }

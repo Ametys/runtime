@@ -33,10 +33,10 @@ import org.ametys.core.util.I18nUtils;
 import org.ametys.core.util.I18nizableTextComparator;
 import org.ametys.runtime.config.ConfigManager;
 import org.ametys.runtime.config.ConfigParameter;
-import org.ametys.runtime.config.ParameterCategory;
-import org.ametys.runtime.config.ParameterGroup;
+import org.ametys.runtime.config.ConfigParameterCategory;
+import org.ametys.runtime.config.ConfigParameterCheckerDescriptor;
+import org.ametys.runtime.config.ConfigParameterGroup;
 import org.ametys.runtime.i18n.I18nizableText;
-import org.ametys.runtime.parameter.ParameterCheckerDescriptor;
 import org.ametys.runtime.parameter.ParameterHelper;
 
 
@@ -60,7 +60,7 @@ public class ConfigGenerator extends AbstractGenerator implements Serviceable
         ConfigManager configManager = ConfigManager.getInstance();
 
         XMLUtils.startElement(contentHandler, "configuration");
-        Map<I18nizableText, ParameterCategory> categories = _sortCategories(configManager.getCategories());
+        Map<I18nizableText, ConfigParameterCategory> categories = _sortCategories(configManager.getCategories());
         _saxConfiguration(categories, configManager.getParameterCheckers());
         XMLUtils.endElement(contentHandler, "configuration");
         
@@ -89,7 +89,7 @@ public class ConfigGenerator extends AbstractGenerator implements Serviceable
         XMLUtils.endElement(contentHandler, "values");
     }
     
-    private  void _saxConfiguration(Map<I18nizableText, ParameterCategory> categories, Map<String, ParameterCheckerDescriptor> checkers) throws SAXException, ProcessingException
+    private  void _saxConfiguration(Map<I18nizableText, ConfigParameterCategory> categories, Map<String, ConfigParameterCheckerDescriptor> checkers) throws SAXException, ProcessingException
     {
         for (I18nizableText categoryKey : categories.keySet())
         {
@@ -99,15 +99,17 @@ public class ConfigGenerator extends AbstractGenerator implements Serviceable
             
             categoryKey.toSAX(contentHandler, "label");
             
-            ParameterCategory category = categories.get(categoryKey);
+            ConfigParameterCategory category = categories.get(categoryKey);
             
             // Category checkers
-            Set<ParameterCheckerDescriptor> paramCheckersCategories = category.getParamCheckers();
+            Set<ConfigParameterCheckerDescriptor> paramCheckersCategories = category.getParamCheckers();
             if (paramCheckersCategories != null)
             {
-                for (ParameterCheckerDescriptor paramChecker : paramCheckersCategories)
+                for (ConfigParameterCheckerDescriptor paramChecker : paramCheckersCategories)
                 {
+                    XMLUtils.startElement(contentHandler, "field-checker");
                     paramChecker.toSAX(contentHandler);
+                    XMLUtils.endElement(contentHandler, "field-checker");
                 }
             }
             
@@ -115,7 +117,7 @@ public class ConfigGenerator extends AbstractGenerator implements Serviceable
 
             for (I18nizableText groupKey : category.getGroups().keySet())
             {
-                ParameterGroup group = category.getGroups().get(groupKey);
+                ConfigParameterGroup group = category.getGroups().get(groupKey);
 
                 AttributesImpl fieldsetAttrs = new AttributesImpl();
                 fieldsetAttrs.addCDATAAttribute("role", "fieldset");
@@ -124,12 +126,14 @@ public class ConfigGenerator extends AbstractGenerator implements Serviceable
                 groupKey.toSAX(contentHandler, "label");
 
                 // Group checkers
-                Set<ParameterCheckerDescriptor> paramCheckersGroups = group.getParamCheckers();
+                Set<ConfigParameterCheckerDescriptor> paramCheckersGroups = group.getParamCheckers();
                 if (paramCheckersGroups != null)
                 {
-                    for (ParameterCheckerDescriptor paramChecker : paramCheckersGroups)
+                    for (ConfigParameterCheckerDescriptor paramChecker : paramCheckersGroups)
                     {
+                        XMLUtils.startElement(contentHandler, "field-checker");
                         paramChecker.toSAX(contentHandler);
+                        XMLUtils.endElement(contentHandler, "field-checker");
                     }
                 }
                 
@@ -165,11 +169,13 @@ public class ConfigGenerator extends AbstractGenerator implements Serviceable
                     // Sax parameter checkers attached to a single parameter
                     for (String paramCheckerId : checkers.keySet())
                     {
-                        ParameterCheckerDescriptor paramChecker = checkers.get(paramCheckerId);
+                        ConfigParameterCheckerDescriptor paramChecker = checkers.get(paramCheckerId);
                         String uiRefParamId = paramChecker.getUiRefParamId();
                         if (uiRefParamId != null && uiRefParamId.equals(paramId))
                         {
+                            XMLUtils.startElement(contentHandler, "field-checker");
                             paramChecker.toSAX(contentHandler);
+                            XMLUtils.endElement(contentHandler, "field-checker");
                         }
                     }
                     
@@ -185,9 +191,9 @@ public class ConfigGenerator extends AbstractGenerator implements Serviceable
         }
     }
 
-    private Map<I18nizableText, ParameterCategory> _sortCategories(Map<I18nizableText, ParameterCategory> categories)
+    private Map<I18nizableText, ConfigParameterCategory> _sortCategories(Map<I18nizableText, ConfigParameterCategory> categories)
     {
-        TreeMap<I18nizableText, ParameterCategory> sortedCategories = new TreeMap<>(new I18nizableTextComparator(_i18nUtils));
+        TreeMap<I18nizableText, ConfigParameterCategory> sortedCategories = new TreeMap<>(new I18nizableTextComparator(_i18nUtils));
         sortedCategories.putAll(categories);
 
         return sortedCategories;
