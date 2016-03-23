@@ -14,6 +14,9 @@
  *  limitations under the License.
  */
 
+/**
+ * The timeline is a grid panel with a very special UI to display a chronolgy
+ */
 Ext.define('Ametys.timeline.Timeline', {
 	extend: 'Ext.grid.Panel',
 	
