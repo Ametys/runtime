@@ -154,6 +154,12 @@ Ext.define('Ametys.form.field.Code', {
         }
         return data;
     },
+    
+    reset: function()
+ 	{
+ 		this.originalValue = this.originalValue || '';
+ 		this.callParent(arguments);
+ 	},
 
     /**
      * Set the field value.
