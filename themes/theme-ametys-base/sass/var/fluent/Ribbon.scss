@@ -53,6 +53,8 @@ $ametys-ribbon-header-textfield-border-color: $ametys-ribbon-base-dark-color;
 $ametys-ribbon-header-textfield-outline-color: $ametys-ribbon-highlight-color;
 $ametys-ribbon-header-textfield-padding: dynamic(3px 6px 2px);
 
+$ametys-ribbon-tool-help-glyph: "\f059";
+
 $ametys-ribbon-message-color: $ametys-color-hint;
 $ametys-ribbon-message-background-color: $ametys-background-color-hint;
 $ametys-ribbon-message-border-color: darken($ametys-background-color-hint, 6%);
@@ -61,6 +63,7 @@ $ametys-ribbon-message-font-weight: normal;
 $ametys-ribbon-message-title-font-size: $font-size;
 $ametys-ribbon-message-title-font-weight: normal;
 $ametys-ribbon-message-title-text-transform: uppercase;
+$ametys-ribbon-message-close-glyph: "\f057";
 
 /** @var {number} The background color of the ribbon top is used after the ribbon to have a wrap effect. This value is the width of this border. */
 $ametys-ribbon-message-border-width: 1px;

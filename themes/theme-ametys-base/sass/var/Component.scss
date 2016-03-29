@@ -23,6 +23,7 @@ $base-color: dynamic(#C5C5C5);
 $font-size: dynamic(12px);
 
 $css-shadow-border-radius: dynamic(0);
+$enable-font-icons: dynamic(true);
 
 /**
  * General
@@ -111,14 +112,26 @@ $ametys-ribbon-font-size: $font-size;
 $ametys-ribbon-mainbutton-icon: dynamic('fluent/sandwich_16');
 
 $ametys-ribbon-tool-background-image: dynamic('tools/tool-sprites-dark');
+$ametys-ribbon-tool-glyph-color: dynamic(#666666);
 $ametys-ribbon-panel-tool-background-image: dynamic('tools/small-tool-sprites-dark');
+$ametys-ribbon-panel-tool-glyph-color: dynamic(#666666);
 $ametys-tooltip-background-image: dynamic('tools/tool-sprites-dark');
+$ametys-tooltip-glyph-color: dynamic(#666666);
 
 $ametys-ribbon-message-tool-background-image: dynamic('tools/tool-sprites-dark');
+$ametys-ribbon-message-tool-glyph-color: dynamic(#666666);
 $ametys-ribbon-message-image-small-info: dynamic('shared/icon-small-info');
+$ametys-ribbon-message-glyph-info: dynamic("\f05a");
+$ametys-ribbon-message-glyph-color-info: dynamic(#999999);
 $ametys-ribbon-message-image-small-question: dynamic('shared/icon-small-question');
+$ametys-ribbon-message-glyph-question: dynamic("\f059");
+$ametys-ribbon-message-glyph-color-question: dynamic(#999999);
 $ametys-ribbon-message-image-small-warning: dynamic('shared/icon-small-warning');
+$ametys-ribbon-message-glyph-warning: dynamic("\f071");
+$ametys-ribbon-message-glyph-color-warning: dynamic(#f9d701);
 $ametys-ribbon-message-image-small-error: dynamic('shared/icon-small-error');
+$ametys-ribbon-message-glyph-error: dynamic("\f057");
+$ametys-ribbon-message-glyph-color-error: dynamic(#f17430);
 $ametys-ribbon-message-image-small-size: 16px;
 $ametys-ribbon-message-image-info: dynamic('shared/icon-info');
 $ametys-ribbon-message-image-question: dynamic('shared/icon-question');
@@ -166,6 +179,9 @@ $ametys-tool-tab-colors-light: $ametys-rainbow-light;
 $ametys-tool-tab-colors-dark: $ametys-rainbow-dark;
 
 $ametys-tool-tab-close-icon-size: dynamic(16px);
+$ametys-tool-tab-close-glyph-color: dynamic(#cfcfcf); 
+$ametys-tool-tab-close-glyph-color-over: $ametys-tool-tab-close-glyph-color; 
+$ametys-tool-tab-close-glyph-color-pressed: dynamic(#ffffff); 
 
 /**
  * Fields

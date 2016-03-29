@@ -121,7 +121,14 @@
     padding-right: 2px;
     width: 16px;
     height: 16px;
-    background-image: theme-background-image($ametys-tooltip-background-image);
+    
+    @if $enable-font-icons == false {
+        background-image: theme-background-image($ametys-tooltip-background-image);
+    }
+    @else {
+        color: $ametys-tooltip-glyph-color;
+    }
+    
     background-repeat: no-repeat;
     background-position: 0 -320px;
     vertical-align: top;

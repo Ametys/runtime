@@ -65,5 +65,16 @@ $ametys-ribbon-group-middle-padding-bottom: $ametys-ribbon-button-height-small -
 }
 
 .#{$prefix}panel-ribbon-tabpanel-groupscale .#{$prefix}tool-img {
-    background-image: theme-background-image($ametys-ribbon-panel-tool-background-image);
+    @if $enable-font-icons == false {
+        background-image: theme-background-image($ametys-ribbon-panel-tool-background-image);
+    }
+    @else {
+        &:before {
+            color: $ametys-ribbon-panel-tool-glyph-color;
+            height: 100%;
+            display: block;
+            font-size: 50%;
+            line-height: 200%;
+        }
+    }
 }

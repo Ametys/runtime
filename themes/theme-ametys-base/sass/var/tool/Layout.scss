@@ -30,6 +30,12 @@ $ametys-tool-tab-padding: dynamic(3px 12px);
 $ametys-tool-tab-normal-font-weight: normal;
 $ametys-tool-tab-icon-width: 32px;
 $ametys-tool-tab-icon-height: 32px;
+$ametys-tool-tab-close-glyph: dynamic("\f00d");
+$ametys-tool-tab-close-glyph-over: dynamic("\f057");
+$ametys-tool-tab-close-glyph-pressed: $ametys-tool-tab-close-glyph-over;
+$ametys-tool-tab-close-glyph-size: dynamic($ametys-tool-tab-close-icon-size * 10 / 16);
+$ametys-tool-tab-close-glyph-size-over: dynamic($ametys-tool-tab-close-icon-size);
+$ametys-tool-tab-close-glyph-size-pressed: $ametys-tool-tab-close-glyph-size-over; 
 
 $ametys-tool-border-width: dynamic(1px);
 $ametys-tool-inner-border-width: dynamic($font-size/3);

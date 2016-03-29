@@ -82,6 +82,30 @@
     padding-right: floor($ametys-tool-tab-font-size * 0.8) / 4;
 }
 
+// Glyph position
+.#{$prefix}tab-tool-layoutzone,
+.#{$prefix}tab-tool-layoutzone.#{$prefix}tab-active {
+    .#{$prefix}tab-close-btn:before {
+        padding-left: (($ametys-tool-tab-close-icon-size - $ametys-tool-tab-close-glyph-size) / 2) + $ametys-tool-tab-close-icon-size / 8;
+        line-height: $ametys-tool-tab-close-icon-size;
+        font-size: $ametys-tool-tab-close-glyph-size;
+        content: $ametys-tool-tab-close-glyph;
+        color: $ametys-tool-tab-close-glyph-color;
+    }
+    .#{$prefix}tab-close-btn-over:before {
+        padding-left: ($ametys-tool-tab-close-icon-size - $ametys-tool-tab-close-glyph-size-over) / 2 + $ametys-tool-tab-close-icon-size / 8;
+        font-size: $ametys-tool-tab-close-glyph-size-over;
+        content: $ametys-tool-tab-close-glyph-over;
+        color: $ametys-tool-tab-close-glyph-color-over;
+    }
+    .#{$prefix}tab-close-btn-pressed:before {
+        padding-left: ($ametys-tool-tab-close-icon-size - $ametys-tool-tab-close-glyph-size-pressed) / 2 + $ametys-tool-tab-close-icon-size / 8;
+        font-size: $ametys-tool-tab-close-glyph-size-pressed;
+        content: $ametys-tool-tab-close-glyph-pressed;
+        color: $ametys-tool-tab-close-glyph-color-pressed;
+    }
+}
+
 // As there is a bug in extjs https://www.sencha.com/forum/showthread.php?305990-6.0.1-Issue-in-theme-neutral-Scss-mixin-extjs-tab-ui&p=1118297#post1118297
 // We have to define size our selves
 .#{$prefix}tab-tool-layoutzone,

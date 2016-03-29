@@ -133,8 +133,16 @@
  * Tools
  */
 .#{$prefix}panel-header-ribbon {
-     .#{$prefix}tool-img {
-        background-image: theme-background-image($ametys-ribbon-tool-background-image);
+    .#{$prefix}tool-img {
+        @if $enable-font-icons == false {
+            background-image: theme-background-image($ametys-ribbon-tool-background-image);
+        }
+        @else {
+            color: $ametys-ribbon-tool-glyph-color;
+            
+            &.#{$prefix}tool-help:before {
+                content: $ametys-ribbon-tool-help-glyph;
+            }        }
     }
     .#{$prefix}tool-focus {
         outline-color: $ametys-ribbon-header-button-outline-color;
@@ -159,21 +167,46 @@
     }
     
     .#{$prefix}tool-img {
-        background-image: theme-background-image($ametys-ribbon-message-tool-background-image);
-    }
-    
-    @mixin message-type($type, $image) {
-        &.a-message-type-#{$type} {
-            padding-left: left($panel-header-padding) * 2 + $ametys-ribbon-message-image-small-size;
-            background-repeat: no-repeat;
-            background-position: $ametys-ribbon-message-font-size center;
-            background-image: theme-background-image($image);
+        @if $enable-font-icons == false { 
+            background-image: theme-background-image($ametys-ribbon-message-tool-background-image);
+        }
+        @else {
+            color: $ametys-ribbon-message-tool-glyph-color;
+            
+            &.#{$prefix}tool-close:before {
+                content: $ametys-ribbon-message-close-glyph;
+            }
         }
     }
-    @include message-type('info', $ametys-ribbon-message-image-small-info) {};
-    @include message-type('question', $ametys-ribbon-message-image-small-question) {};
-    @include message-type('warning', $ametys-ribbon-message-image-small-warning) {};
-    @include message-type('error', $ametys-ribbon-message-image-small-error) {};
+    
+    @mixin message-type($type, $image, $glyph, $color) {
+        &.a-message-type-#{$type} {
+            padding-left: left($panel-header-padding) * 2 + $ametys-ribbon-message-image-small-size;
+            
+            @if $enable-font-icons == false { 
+                background-repeat: no-repeat;
+                background-position: $ametys-ribbon-message-font-size center;
+                background-image: theme-background-image($image);
+            }
+            @else {
+                position: relative;
+                
+                &:before {
+                    font: ($ametys-ribbon-message-font-size * 1.333)/1 FontAwesome;
+                    color: $color;
+                    content: $glyph;
+                    position: absolute;
+                    top: 50%;
+                    margin-top: -($ametys-ribbon-message-font-size * 0.667); 
+                    left: $ametys-ribbon-message-font-size;
+                }
+            }
+        }
+    }
+    @include message-type('info', $ametys-ribbon-message-image-small-info, $ametys-ribbon-message-glyph-info, $ametys-ribbon-message-glyph-color-info) {};
+    @include message-type('question', $ametys-ribbon-message-image-small-question, $ametys-ribbon-message-glyph-question, $ametys-ribbon-message-glyph-color-question) {};
+    @include message-type('warning', $ametys-ribbon-message-image-small-warning, $ametys-ribbon-message-glyph-warning, $ametys-ribbon-message-glyph-color-warning) {};
+    @include message-type('error', $ametys-ribbon-message-image-small-error, $ametys-ribbon-message-glyph-error, $ametys-ribbon-message-glyph-color-error) {};
 };
 .#{$prefix}component-ribbon-message-title {
     font-size: $ametys-ribbon-message-title-font-size;

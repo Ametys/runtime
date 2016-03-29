@@ -222,9 +222,15 @@
  * Tools
  */
 .#{$prefix}panel-header-ribbon-tabpanel {
-     .#{$prefix}tool-img {
-        background-image: theme-background-image($ametys-ribbon-tool-background-image);
-    }
+    .#{$prefix}tool-img {
+        @if $enable-font-icons == false {
+            background-image: theme-background-image($ametys-ribbon-tool-background-image);
+        }
+        @else {
+            color: $ametys-ribbon-tool-glyph-color;
+        }
+    }    
+
     .#{$prefix}tool-focus {
         outline-color: $ametys-ribbon-header-button-outline-color;
     }
