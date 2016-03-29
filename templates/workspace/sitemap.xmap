@@ -76,6 +76,19 @@
                 </map:read>
             </map:match>
             
+            <!-- LESS Files -->
+            <map:match pattern="resources/**.less">
+                <map:read type="less" src="resources/{1}.less" />
+            </map:match>
+            
+            <!-- SASS Files -->
+            <map:match pattern="resources/**.sass">
+                <map:read type="sass" src="resources/{1}.sass" />
+            </map:match>
+            <map:match pattern="resources/**.scss">
+                <map:read type="sass" src="resources/{1}.scss" />
+            </map:match>
+            
             <!-- Other resources (css, images...) -->
             <map:match pattern="resources/**">
                 <map:read src="resources/{1}"/>

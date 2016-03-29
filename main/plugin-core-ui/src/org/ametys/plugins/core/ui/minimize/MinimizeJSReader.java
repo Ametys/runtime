@@ -21,6 +21,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.net.URI;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.excalibur.source.Source;
@@ -49,7 +50,12 @@ public class MinimizeJSReader extends AbstractMinimizeReader
         Source jssource = null;
         try
         {
-            jssource = _resolver.resolveURI("cocoon:/" + org.apache.cocoon.util.NetUtils.normalize(file.getUri()));
+            URI uriToResolve = new URI(file.getUri());
+            if (!uriToResolve.isAbsolute())
+            {
+                uriToResolve = new URI("cocoon:/" + file.getUri());
+            }
+            jssource = _resolver.resolveURI(uriToResolve.normalize().toString());
             
             String s;
             try (InputStream is = jssource.getInputStream())

@@ -17,6 +17,8 @@
 package org.ametys.plugins.core.ui.minimize;
 
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,7 +58,9 @@ public class MinimizeCSSReader extends AbstractMinimizeReader
         Source cssSource = null;
         try
         {
-            cssSource = _resolver.resolveURI("cocoon:/" + org.apache.cocoon.util.NetUtils.normalize(fileUri));
+            URI uri = new URI(fileUri);
+            String uriToResolve = uri.isAbsolute() ? fileUri : "cocoon:/" + org.apache.cocoon.util.NetUtils.normalize(fileUri);
+            cssSource = _resolver.resolveURI(uriToResolve);
             
             String s0;
             try (InputStream is = cssSource.getInputStream())
@@ -115,7 +119,7 @@ public class MinimizeCSSReader extends AbstractMinimizeReader
         return sb.toString();
     }
 
-    private String _resolveImportUrl(String content, String nestedParentFilesName, String contextPath)
+    private String _resolveImportUrl(String content, String nestedParentFilesName, String contextPath) throws URISyntaxException
     {
         StringBuffer sb = new StringBuffer();
         
@@ -128,7 +132,8 @@ public class MinimizeCSSReader extends AbstractMinimizeReader
             
             if (cssUrl != null && !cssUrl.startsWith("http://") && !cssUrl.startsWith("https"))
             {
-                String importedContent = _handleFile(StringUtils.removeStart(cssUrl, contextPath), media, nestedParentFilesName, contextPath);
+                URI uri = new URI(cssUrl);
+                String importedContent = _handleFile(uri.isAbsolute() ? cssUrl : StringUtils.removeStart(cssUrl, contextPath), media, nestedParentFilesName, contextPath);
                 
                 importMatcher.appendReplacement(sb, importedContent);
             }
@@ -139,7 +144,7 @@ public class MinimizeCSSReader extends AbstractMinimizeReader
         return sb.toString();
     }
 
-    private String _remplaceRelativeUri(String content, String fileUri, Pattern pattern)
+    private String _remplaceRelativeUri(String content, String fileUri, Pattern pattern) throws URISyntaxException
     {
         Matcher urlMatcher = pattern.matcher(content);
         StringBuffer sb = new StringBuffer();
@@ -148,8 +153,9 @@ public class MinimizeCSSReader extends AbstractMinimizeReader
         {
             String fullMatch = urlMatcher.group();
             String cssUrl = urlMatcher.group(1);
+            URI uri = new URI(cssUrl);
             
-            if (cssUrl != null && !cssUrl.startsWith("http://") && !cssUrl.startsWith("https"))
+            if (cssUrl != null && !uri.isAbsolute())
             {
                 String fullPathUrl = FilenameUtils.normalize(FilenameUtils.concat(FilenameUtils.getFullPath(fileUri), cssUrl), true);
                 urlMatcher.appendReplacement(sb, fullMatch.replace(cssUrl, fullPathUrl));

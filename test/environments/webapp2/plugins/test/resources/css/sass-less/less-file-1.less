@@ -1,0 +1,11 @@
+@import "plugin:test://resources/css/sass-less/folder/less-file-2";
+
+@import "imported-css-file-1.css";
+@import "folder/imported-css-file-2.css";
+
+@nice-blue: #5B83AD;
+@light-blue: @nice-blue + #111;
+
+#header {
+  color: @light-blue;
+}

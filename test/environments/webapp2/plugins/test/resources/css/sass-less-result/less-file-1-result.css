@@ -1,0 +1,9 @@
+@import "../imported-css-file-3.css";
+@import "imported-css-file-1.css";
+@import "folder/imported-css-file-2.css";
+tr bucket {
+  color: blue;
+}
+#header {
+  color: #6c94be;
+}

@@ -18,6 +18,8 @@ package org.ametys.plugins.core.ui.minimize;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
@@ -375,7 +377,7 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
         _filesQueue.clear();
     }
     
-    private Set<FileData> _getFileDependencies(String uri, String media, String tag) throws SAXException
+    private Set<FileData> _getFileDependencies(String cssUri, String media, String tag) throws SAXException
     {
         Set<FileData> dependencies = new LinkedHashSet<>();
         
@@ -384,20 +386,26 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
         
         try
         {
-            fileSource = _resolver.resolveURI("cocoon:/" + uri, null, resolveParameters);
+            String uriToResolve = cssUri;
+            URI uri = new URI(cssUri);
+            if (!uri.isAbsolute())
+            {
+                uriToResolve = "cocoon:/" + uriToResolve;
+            }
+            fileSource = _resolver.resolveURI(uriToResolve, null, resolveParameters);
         }
-        catch (IOException e)
+        catch (Exception e)
         {
             throw new SAXException("Unable to resolve the dependencies of specified uri", e);
         }
         long fileLastModified = resolveParameters.get(RuntimeResourceReader.LAST_MODIFIED) != null ? (long) resolveParameters.get("lastModified") : -1;
          
-        FileData fileInfos = new FileData(uri);
+        FileData fileInfos = new FileData(cssUri);
         fileInfos.setLastModified(fileLastModified);
         fileInfos.setMedia(media);
         dependencies.add(fileInfos);
         
-        Long validity = _dependenciesCacheValidity.get(uri);
+        Long validity = _dependenciesCacheValidity.get(cssUri);
         if (validity == null || validity != fileLastModified)
         {
             // cache is outdated
@@ -405,7 +413,7 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
             
             if ("link".equals(tag))
             {
-                for (FileData cssDependency : _getCssFileDependencies(uri, fileSource, tag))
+                for (FileData cssDependency : _getCssFileDependencies(cssUri, fileSource, tag))
                 {
                     if (!dependenciesCache.contains(cssDependency.getUri()))
                     {
@@ -415,13 +423,13 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
                 }
             }
             
-            _dependenciesCache.put(uri, dependenciesCache);
-            _dependenciesCacheValidity.put(uri, fileLastModified);
+            _dependenciesCache.put(cssUri, dependenciesCache);
+            _dependenciesCacheValidity.put(cssUri, fileLastModified);
         }
         else
         {
             // cache is up to date
-            for (String dependencyCached : _dependenciesCache.get(uri))
+            for (String dependencyCached : _dependenciesCache.get(cssUri))
             {
                 dependencies.addAll(_getFileDependencies(dependencyCached, null, tag));
             }
@@ -454,8 +462,20 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
             
             if (!externalMatcher.find())
             {
-                String realUrl = FilenameUtils.normalize(FilenameUtils.concat(FilenameUtils.getFullPath(uri), cssUrl), true);
-                cssDependencies.addAll(_getFileDependencies(realUrl, null, tag));
+                try
+                {
+                    URI cssUri = new URI(cssUrl);
+                    if (!cssUri.isAbsolute())
+                    {
+                        cssUri = new URI(FilenameUtils.getFullPath(uri) + cssUrl);
+                    }
+                    cssDependencies.addAll(_getFileDependencies(cssUri.normalize().toString(), null, tag));
+                }
+                catch (URISyntaxException e)
+                {
+                    // Invalid URI inside a file, but should not be blocking
+                    getLogger().warn("Invalid URI in a file, could not calculate dependancies for file : " + uri , e);
+                }
             }
         }
         

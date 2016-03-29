@@ -172,6 +172,8 @@ public class MinimizeTransformerTestCase extends AbstractRuntimeTestCase
         _assertMinimizedEquals(hashModified + "." + extension, "/** ERROR Index: 0, Size: 0*/"
                 + "/** File : /plugins/test/resources/js/minimize/" + fileToModify + " */\nconsole.log(\"test\");\n");
 
+        String hashNoChange = _getHashFromSourceFile(htmlFile);
+        assertEquals("Hash must not change when there is no modifications", hashModified, hashNoChange);
         
         // Delete temporary file created at the end
         if (file.exists())
