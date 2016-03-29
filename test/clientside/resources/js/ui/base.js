@@ -16,6 +16,8 @@
 var ribbon, layout;
 function onreadyfunction() {
     ribbon = Ext.create("Ametys.ui.fluent.ribbon.Ribbon", {
+                    id: 'ribbon',
+        
                     quickToolbar: { 
                         items: [ 
                             { icon:'resources/img/editpaste_16.gif' } 
@@ -31,7 +33,15 @@ function onreadyfunction() {
                     }, {
                         title: "Hi Buddy",
                         text: "You are seeing something wonderful",
+                        type: 'question'
+                    }, {
+                        title: "Hi Buddy",
+                        text: "You are seeing something wonderful",
                         type: 'info'
+                    }, {
+                        title: "Hi Buddy",
+                        text: "You are seeing something wonderful",
+                        type: 'error'
                     }],
                     
                     searchMenu: {  // to activate a Tell me what you want to do feature
