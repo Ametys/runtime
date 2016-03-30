@@ -78,8 +78,8 @@ Ext.define('Ametys.plugins.coreui.log.ServerLogTool', {
     {
         this._store = Ext.create("Ext.data.ArrayStore",{
             autoDestroy: true,
-            autoSync: true,
-            proxy: { type: 'memory' },              
+            trackRemoved: false,
+            proxy: { type: 'memory' },
             sorters: [{property: 'timestamp', direction: 'DESC'}],
             model: "Ametys.plugins.coreui.log.ServerLogTool.ServerLogEntry"
         });
@@ -357,13 +357,6 @@ Ext.define('Ametys.plugins.coreui.log.ServerLogTool', {
      */
     clearLogs: function()
     {
-        /*
-         * FIXME
-         * The following line "clearFilter" is a workaround for the following bug : https://www.sencha.com/forum/showthread.php?309523
-         * It should be removed when this bug is fixed.
-         */
-        this._store.clearFilter();
-        
         this._store.removeAll();
         this._logsQueue = [];
     },
