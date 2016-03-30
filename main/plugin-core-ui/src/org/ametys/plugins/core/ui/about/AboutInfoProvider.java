@@ -78,11 +78,10 @@ public class AboutInfoProvider extends AbstractLogEnabled implements Serviceable
      * @param lang the lang
      * @return A map of information needed for "About Ametys" feature.
      * Contains the application name, the versions of the application and the license text.
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @throws IOException if there are issue while reading the license file
      */
     @Callable
-    public Map<String, Object> getInfo(String lang) throws FileNotFoundException, IOException
+    public Map<String, Object> getInfo(String lang) throws IOException
     {
         Map<String, Object> result = new LinkedHashMap<>();
         
@@ -150,11 +149,10 @@ public class AboutInfoProvider extends AbstractLogEnabled implements Serviceable
     /**
      * Gets the content of the license text.
      * @return The content of the license text.
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @throws IOException If the license file cannot be read
      */
     @Callable
-    public String getLicenseText() throws FileNotFoundException, IOException
+    public String getLicenseText() throws IOException
     {
         String path = _cocoonContext.getRealPath(NOTICE_FILE_PATH);
         File licenseFile = new File(path);
@@ -170,6 +168,11 @@ public class AboutInfoProvider extends AbstractLogEnabled implements Serviceable
                     sb.append(line);
                     sb.append("<br/>");
                 }
+            }
+            catch (FileNotFoundException e)
+            {
+                getLogger().warn("License file {} is not present at {}", NOTICE_FILE_PATH, path);
+                return "";
             }
             
             return sb.toString();
