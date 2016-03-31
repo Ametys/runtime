@@ -279,7 +279,8 @@ Ext.define(
                 }
                 else if (target && target.is(".x-tab"))
                 {
-                    if (target.is(".x-tab-top"))
+                    var atBottom = Ext.getCmp(target.id).ownerCt.ownerCt.ownerCt.collapsed == "bottom";
+                    if (target.is(".x-tab-top") && !atBottom)
                     {
                         anchor = "tl-bl"
                     }
@@ -291,7 +292,7 @@ Ext.define(
                     {
                         anchor = "tr-tl"
                     }
-                    else if (target.is(".x-tab-bottom"))
+                    else if (target.is(".x-tab-bottom") || atBottom)
                     {
                         anchor = "bl-tl"
                     }
