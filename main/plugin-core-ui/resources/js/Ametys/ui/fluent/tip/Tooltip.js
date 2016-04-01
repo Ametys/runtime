@@ -279,8 +279,7 @@ Ext.define(
                 }
                 else if (target && target.is(".x-tab"))
                 {
-                    var atBottom = Ext.getCmp(target.id).ownerCt.ownerCt.ownerCt.collapsed == "bottom";
-                    if (target.is(".x-tab-top") && !atBottom)
+                    if (target.is(".x-tab-top"))
                     {
                         anchor = "tl-bl"
                     }
@@ -292,13 +291,14 @@ Ext.define(
                     {
                         anchor = "tr-tl"
                     }
-                    else if (target.is(".x-tab-bottom") || atBottom)
+                    else if (target.is(".x-tab-bottom"))
                     {
                         anchor = "bl-tl"
                     }
                 }
                 
-                if (anchor)
+                var maxLoop = 2;
+                while (anchor && maxLoop > 0)
                 {
                     var targetCorner = anchor.substring(anchor.indexOf("-") + 1);
                     if (targetCorner.indexOf("l") != -1)
@@ -354,11 +354,23 @@ Ext.define(
                             newY -= this.getHeight() / 2;
                     }
                     
-                    var currentXY = tip.getPosition();
-                    if (currentXY[0] != newX || currentXY[1] != newY)
+                    var constrainedNewXY = tip.calculateConstrainedPosition(null, [newX, newY]) || [newX, newY]; // Let's avoid an infinite loop
+                    
+                    if (constrainedNewXY[1] != newY && anchor == "tl-bl")
                     {
-                        tip.setPagePosition(newX, newY);
+                        // We tried to put tooltip under the element, but it is not fitting, let's loop and try above
+                        maxLoop--;
+                        anchor = "bl-tl";
+                        continue;
                     }
+                    
+                    var currentXY = tip.getPosition();
+                    if (currentXY[0] != constrainedNewXY[0] || currentXY[1] != constrainedNewXY[1])
+                    {
+                        tip.setPagePosition(constrainedNewXY[0], constrainedNewXY[1]);
+                    }
+
+                    break;
                 }
             }
         }
