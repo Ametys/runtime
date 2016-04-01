@@ -57,9 +57,14 @@ public final class LambdaUtils
             {
                 return function.apply(value);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                throw new RuntimeException(ex);
+                if (e instanceof RuntimeException)
+                {
+                    throw (RuntimeException) e;
+                }
+                
+                throw new RuntimeException(e);
             }
         };
     }
