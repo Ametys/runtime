@@ -132,7 +132,6 @@
     <message key="PLUGINS_CORE_USERS_STATIC_LABEL">Static</message>
     <message key="PLUGINS_CORE_USERS_STATIC_DESCRIPTION">Static directory</message>
     <message key="PLUGINS_CORE_USERS_STATIC_PARAM_USERS_LABEL">Users</message>
-    <message key="PLUGINS_CORE_USERS_STATIC_PARAM_USERS_DESCRIPTION">&lt;b&gt;Utilisateurs&lt;/b&gt;&lt;br/&gt;Renseignez ici les utilisateurs qui seront utilisés de manière statique. Un utilisateur par ligne, selon le format &lt;i&gt;login:nom:prénom:email&lt;/i&gt;. Seul le login est obligatoire.</message>
     <message key="PLUGINS_CORE_USERS_STATIC_PARAM_USERS_DESCRIPTION">&lt;b&gt;Users&lt;/b&gt;&lt;br/&gt;Write here the users who will be used in a static way. One user per line, under the following format: &lt;i&gt;login:lastname:firstname:email&lt;/i&gt;. Only the login is mandatory.</message>
     
     <message key="PLUGINS_CORE_USERS_JDBC_LABEL">SQL database</message>
@@ -156,7 +155,7 @@
     
     <message key="PLUGINS_CORE_AUTHENTICATION_FORMBASED_LABEL">Form</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_FORMBASED_DESCRIPTION">Form</message>
-    <message key="PLUGINS_CORE_AUTHENTICATION_FORMBASED_CONNETION_LABEL">Connect with form</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_FORMBASED_CONNECTION_LABEL">Connect with form</message>
     
     <message key="PLUGINS_CORE_AUTHENTICATION_REMOTE_LABEL">Request header</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_REMOTE_DESCRIPTION">Request header</message>
@@ -180,7 +179,6 @@
     <message key="PLUGINS_CORE_GROUPS_LDAP_DATASOURCE_LABEL">LDAP server</message>
     <message key="PLUGINS_CORE_GROUPS_LDAP_DATASOURCE_DESCRIPTION">LDAP server to use</message>
     <message key="PLUGINS_CORE_GROUPS_LDAP_POPULATION_LABEL">Associated population</message>
-    <message key="PLUGINS_CORE_GROUPS_LDAP_POPULATION_DESCRIPTION">User population the users of the group belongs to. This user population must contain a LDAP user directory.</message>
     <message key="PLUGINS_CORE_GROUPS_LDAP_POPULATION_DESCRIPTION">Population containing the users listed by this LDAP directory.&lt;br/&gt;Thus, it is necessary this population uses the same LDAP directory than this group.</message>
     
     <message key="PLUGINS_CORE_GROUPS_LDAP_GROUP_DRIVEN_LABEL">LDAP directory ('Group' entity lists its users)</message>
