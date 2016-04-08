@@ -28,13 +28,15 @@ CREATE CACHED TABLE Rights_ProfileRights (
 CREATE CACHED TABLE Rights_GroupRights (
         Profile_Id int NOT NULL,
         Group_Id VARCHAR(200) NOT NULL,
+		GroupDirectory_Id VARCHAR(200) NOT NULL,
         Context VARCHAR(200) NOT NULL,
-        PRIMARY KEY(Profile_Id, Group_Id, Context)
+        PRIMARY KEY(Profile_Id, Group_Id, GroupDirectory_Id, Context)
 );
 
 CREATE CACHED TABLE Rights_UserRights (
         Profile_Id int NOT NULL,
         Login VARCHAR(200) NOT NULL,
+		UserPopulation_Id VARCHAR(200) NOT NULL,
         Context VARCHAR(200) NOT NULL,
-        PRIMARY KEY(Profile_Id, Login, Context)
+        PRIMARY KEY(Profile_Id, Login, UserPopulation_Id, Context)
 );

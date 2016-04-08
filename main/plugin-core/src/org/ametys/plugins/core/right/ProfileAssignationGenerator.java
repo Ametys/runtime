@@ -86,7 +86,8 @@ public class ProfileAssignationGenerator extends ServiceableGenerator
         for (User user : users)
         {
             AttributesImpl attr = new AttributesImpl();
-            attr.addCDATAAttribute("login", user.getName());
+            attr.addCDATAAttribute("login", user.getIdentity().getLogin());
+            attr.addCDATAAttribute("population", user.getIdentity().getPopulationId());
             XMLUtils.createElement(contentHandler, "user", attr, user.getFullName());
         }
         
@@ -100,7 +101,8 @@ public class ProfileAssignationGenerator extends ServiceableGenerator
         for (Group group : groups)
         {
             AttributesImpl attr = new AttributesImpl();
-            attr.addCDATAAttribute("id", group.getId());
+            attr.addCDATAAttribute("id", group.getIdentity().getId());
+            attr.addCDATAAttribute("groupDirectory", group.getIdentity().getDirectoryId());
             XMLUtils.createElement(contentHandler, "group", attr, group.getLabel());
         }
         

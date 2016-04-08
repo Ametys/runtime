@@ -22,7 +22,7 @@
 <config>
     <runtime.usersprefs.datasource>SQL-test</runtime.usersprefs.datasource>
 	<runtime.rights.datasource>SQL-test</runtime.rights.datasource>
-	<runtime.authentication.basic.realm>realm</runtime.authentication.basic.realm>
+	<runtime.login.form.datasource>SQL-test</runtime.login.form.datasource>
 	<runtime.upload.max-size>10000000</runtime.upload.max-size>
 	<runtime.mode.dev>false</runtime.mode.dev>
 	<runtime.log.abnormal.time>false</runtime.log.abnormal.time>
@@ -38,4 +38,5 @@
 	<runtime.captcha.type>jcaptcha</runtime.captcha.type>
     <runtime.captcha.recaptcha.publickey/>
     <runtime.captcha.recaptcha.secretkey/>
+	<runtime.ametys.public>true</runtime.ametys.public>
 </config>

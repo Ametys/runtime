@@ -58,7 +58,8 @@ import org.xml.sax.SAXException;
 import org.ametys.core.upload.Upload;
 import org.ametys.core.upload.UploadManager;
 import org.ametys.core.user.User;
-import org.ametys.core.user.UsersManager;
+import org.ametys.core.user.UserIdentity;
+import org.ametys.core.user.UserManager;
 import org.ametys.core.userpref.UserPreferencesManager;
 import org.ametys.core.util.ImageHelper;
 import org.ametys.core.util.JSONUtils;
@@ -122,7 +123,7 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
     protected SourceResolver _sourceResolver;
     
     /** Users manager */
-    protected UsersManager _usersManager;
+    protected UserManager _userManager;
     
     /** Upload manager */
     protected UploadManager _uploadManager;
@@ -140,7 +141,7 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
     public void service(ServiceManager smanager) throws ServiceException
     {
         _sourceResolver = (SourceResolver) smanager.lookup(SourceResolver.ROLE);
-        _usersManager = (UsersManager) smanager.lookup(UsersManager.ROLE);
+        _userManager = (UserManager) smanager.lookup(UserManager.ROLE);
         _uploadManager = (UploadManager) smanager.lookup(UploadManager.ROLE);
         _userPreferencesManager = (UserPreferencesManager) smanager.lookup(UserPreferencesManager.ROLE); 
         _jsonUtils = (JSONUtils) smanager.lookup(JSONUtils.ROLE);
@@ -215,26 +216,26 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
     /**
      * Get the image input stream
      * @param source The image source type
-     * @param login The user login
+     * @param user The user
      * @param sourceParams The parameters used by the source
      * @return The {@link UserProfileImage} for the image or null if not found
      */
-    public UserProfileImage getImage(ProfileImageSource source, String login, Map<String, Object> sourceParams)
+    public UserProfileImage getImage(ProfileImageSource source, UserIdentity user, Map<String, Object> sourceParams)
     {
         switch (source)
         {
             case USERPREF:
-                return getUserPrefImage(login, sourceParams);
+                return getUserPrefImage(user, sourceParams);
             case GRAVATAR:
-                return getGravatarImage(login, _getGravatarSize(sourceParams));
+                return getGravatarImage(user, _getGravatarSize(sourceParams));
             case UPLOAD:
-                return getUploadedImage(login, (String) sourceParams.get("id"));
+                return getUploadedImage(user, (String) sourceParams.get("id"));
             case LOCALIMAGE:
-                return getLocalImage(login, (String) sourceParams.get("id"));
+                return getLocalImage(user, (String) sourceParams.get("id"));
             case INITIALS:
-                return getInitialsImage(login);
+                return getInitialsImage(user);
             case BASE64:
-                return getBase64Image(login, (String) sourceParams.get("data"), (String) sourceParams.get("filename"));
+                return getBase64Image(user, (String) sourceParams.get("data"), (String) sourceParams.get("filename"));
             case DEFAULT:
                 return getDefaultImage();
             case USERSMANAGER:
@@ -242,7 +243,7 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
             default:
                 if (getLogger().isWarnEnabled())
                 {
-                    getLogger().warn(String.format("Cannot get image for user '%s'. Unhandled profile image source '%s'", login, source));
+                    getLogger().warn(String.format("Cannot get image for user '%s'. Unhandled profile image source '%s'", user, source));
                 }
         }
         
@@ -251,18 +252,18 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
     
     /**
      * Get the image from a base 64 string
-     * @param login The user login
+     * @param user The user
      * @param data The base64 data representing the image
      * @param filename The filename or null if not known
      * @return The {@link UserProfileImage} for the image or null if not set
      */
-    public UserProfileImage getBase64Image(String login, String data, String filename)
+    public UserProfileImage getBase64Image(UserIdentity user, String data, String filename)
     {
         if (StringUtils.isEmpty(data))
         {
             if (getLogger().isWarnEnabled())
             {
-                getLogger().warn(String.format("No data provided. Unable to retrieve the base64 image for user '%s'.", login));
+                getLogger().warn(String.format("No data provided. Unable to retrieve the base64 image for user '%s'.", user));
             }
             return null;
         }
@@ -273,13 +274,13 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
     
     /**
      * Get the image from the user pref
-     * @param login The user login
+     * @param user The user
      * @param baseSourceParams The base source params to be merge with the params stored in the user pref
      * @return The {@link UserProfileImage} for the image or null if not set
      */
-    public UserProfileImage getUserPrefImage(String login, Map<String, Object> baseSourceParams)
+    public UserProfileImage getUserPrefImage(UserIdentity user, Map<String, Object> baseSourceParams)
     {
-        Map<String, Object> userPrefImgData = _getRawUserPrefImage(login);
+        Map<String, Object> userPrefImgData = _getRawUserPrefImage(user);
         if (userPrefImgData != null)
         {
             String rawImageSource = (String) userPrefImgData.remove("source");
@@ -305,7 +306,7 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
                 sourceParams = new HashMap<>(baseSourceParams);
             }
             
-            return getImage(profileImageSource, login, sourceParams);
+            return getImage(profileImageSource, user, sourceParams);
         }
         
         return null;
@@ -313,12 +314,12 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
     
     /**
      * Test this user as a profile image set in its user pref
-     * @param login The user login
+     * @param user The user
      * @return The map stored in the user pref
      */
-    public Map<String, Object> hasUserPrefImage(String login)
+    public Map<String, Object> hasUserPrefImage(UserIdentity user)
     {
-        Map<String, Object> userPrefImgData = _getRawUserPrefImage(login);
+        Map<String, Object> userPrefImgData = _getRawUserPrefImage(user);
         if (userPrefImgData != null)
         {
             String rawImageSource = (String) userPrefImgData.get("source");
@@ -334,14 +335,14 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
     
     /**
      * Get the profile image user pref
-     * @param login The user login
+     * @param user The user
      * @return The map stored in the user pref
      */
-    public Map<String, Object> _getRawUserPrefImage(String login)
+    public Map<String, Object> _getRawUserPrefImage(UserIdentity user)
     {
         try
         {
-            String userPrefImgJson = _userPreferencesManager.getUserPreferenceAsString(login, USER_PROFILE_PREF_CONTEXT, Collections.EMPTY_MAP, USERPREF_PROFILE_IMAGE);
+            String userPrefImgJson = _userPreferencesManager.getUserPreferenceAsString(user, USER_PROFILE_PREF_CONTEXT, Collections.EMPTY_MAP, USERPREF_PROFILE_IMAGE);
             if (StringUtils.isNotEmpty(userPrefImgJson))
             {
                 return _jsonUtils.convertJsonToMap(userPrefImgJson);
@@ -349,7 +350,7 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
         }
         catch (Exception e)
         {
-            getLogger().error(String.format("Unable to retrieve the '%s' userpref on context '%s' for user '%s'", USERPREF_PROFILE_IMAGE, USER_PROFILE_PREF_CONTEXT, login), e);
+            getLogger().error(String.format("Unable to retrieve the '%s' userpref on context '%s' for user '%s'", USERPREF_PROFILE_IMAGE, USER_PROFILE_PREF_CONTEXT, user), e);
         }
         
         return null;
@@ -379,20 +380,20 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
     
     /**
      * Test if the gravatar image exists
-     * @param login The user login
+     * @param user The user
      * @return True if the image exists
      */
-    public boolean hasGravatarImage(String login)
+    public boolean hasGravatarImage(UserIdentity user)
     {
         Source httpSource = null;
         try
         {
-            httpSource = _getGravatarImageSource(login, null);
+            httpSource = _getGravatarImageSource(user, null);
             return httpSource != null && httpSource.exists();
         }
         catch (IOException e)
         {
-            getLogger().error("Unable to test the gravatar image for user '" + login + "'.", e);
+            getLogger().error("Unable to test the gravatar image for user '" + user + "'.", e);
         }
         finally
         {
@@ -407,17 +408,17 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
     
     /**
      * Get gravatar image
-     * @param login The user login
+     * @param user The user
      * @param size The requested size
      * @return The {@link UserProfileImage} or null if not found
      */
-    public UserProfileImage getGravatarImage(String login, Integer size)
+    public UserProfileImage getGravatarImage(UserIdentity user, Integer size)
     {
         // Resolve an http source
         Source httpSource = null;
         try
         {
-            httpSource = _getGravatarImageSource(login, size);
+            httpSource = _getGravatarImageSource(user, size);
             if (httpSource != null && httpSource.exists())
             {
                 return new UserProfileImage(httpSource.getInputStream());
@@ -425,7 +426,7 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
         }
         catch (IOException e)
         {
-            getLogger().error("Unable to retrieve gravatar image for user '" + login + "'.", e);
+            getLogger().error("Unable to retrieve gravatar image for user '" + user + "'.", e);
         }
         finally
         {
@@ -440,19 +441,19 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
     
     /**
      * Get the source of a gravatar image
-     * @param login The user login
+     * @param userIdentity The user
      * @param size The requested size
      * @return The source or null
      * @throws IOException If an error occurs while resolving the source uri
      */
-    protected Source _getGravatarImageSource(String login, Integer size) throws IOException
+    protected Source _getGravatarImageSource(UserIdentity userIdentity, Integer size) throws IOException
     {
-        User user = _usersManager.getUser(login);
+        User user = _userManager.getUser(userIdentity.getPopulationId(), userIdentity.getLogin());
         if (user == null)
         {
             if (getLogger().isWarnEnabled())
             {
-                getLogger().warn("Unable to get gravatar image source - user not found " + login);
+                getLogger().warn("Unable to get gravatar image source - user not found " + userIdentity);
             }
             return null;
         }
@@ -462,7 +463,7 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
         {
             if (getLogger().isInfoEnabled())
             {
-                getLogger().info(String.format("Unable to get gravatar image for user '%s' - an email is mandatory", login));
+                getLogger().info(String.format("Unable to get gravatar image for user '%s' - an email is mandatory", userIdentity));
             }
             return null;
         }
@@ -501,7 +502,7 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
         
         if (getLogger().isDebugEnabled())
         {
-            getLogger().debug(String.format("Build gravatar uri for user '%s' : %s", login, uri));
+            getLogger().debug(String.format("Build gravatar uri for user '%s' : %s", userIdentity, uri));
         }
         
         return _sourceResolver.resolveURI(uri);
@@ -509,11 +510,11 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
     
     /**
      * Get the uploaded image
-     * @param login The user login
+     * @param user The user
      * @param uploadId The upload identifier
      * @return The {@link UserProfileImage} for the image or null if not found
      */
-    public UserProfileImage getUploadedImage(String login, String uploadId)
+    public UserProfileImage getUploadedImage(UserIdentity user, String uploadId)
     {
         if (StringUtils.isEmpty(uploadId))
         {
@@ -523,7 +524,7 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
         Upload upload = null;
         try
         {
-            upload = _uploadManager.getUpload(login, uploadId);
+            upload = _uploadManager.getUpload(user, uploadId);
             try (InputStream is = upload.getInputStream())
             {
                 BufferedImage croppedImage = cropUploadedImage(is);
@@ -540,13 +541,13 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
             }
             catch (IOException e)
             {
-                getLogger().error(String.format("Unable to provide the uploaded cropped image for user '%s'and upload id '%s'.", login, uploadId), e); 
+                getLogger().error(String.format("Unable to provide the uploaded cropped image for user '%s'and upload id '%s'.", user, uploadId), e); 
             }
         }
         catch (NoSuchElementException e)
         {
             // Invalid upload id
-            getLogger().error(String.format("Cannot find the temporary uploaded file for id '%s' and login '%s'.", uploadId, login), e);
+            getLogger().error(String.format("Cannot find the temporary uploaded file for id '%s' and login '%s'.", uploadId, user), e);
         }
         
         return null;
@@ -613,11 +614,11 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
     
     /**
      * Get the local image
-     * @param login The user login
+     * @param user The user
      * @param localFileId The local file identifier
      * @return The {@link UserProfileImage} for the image or null if not found
      */
-    public UserProfileImage getLocalImage(String login, String localFileId)
+    public UserProfileImage getLocalImage(UserIdentity user, String localFileId)
     {
         Source imgSource = null;
         
@@ -629,7 +630,7 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
             {
                 if (getLogger().isWarnEnabled())
                 {
-                    getLogger().warn(String.format("Unable to retrieve the local image for id '%s' and login '%s'.", localFileId, login));
+                    getLogger().warn(String.format("Unable to retrieve the local image for id '%s' and login '%s'.", localFileId, user));
                 }
                 return null;
             }
@@ -641,12 +642,12 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
             
             if (getLogger().isWarnEnabled())
             {
-                getLogger().warn(String.format("Unable to find any local image with id '%s' for user '%s'", localFileId, login));
+                getLogger().warn(String.format("Unable to find any local image with id '%s' for user '%s'", localFileId, user));
             }
         }
         catch (IOException e)
         {
-            getLogger().error(String.format("Unable to retrieve the local image for id '%s' and login '%s'.", localFileId, login), e);
+            getLogger().error(String.format("Unable to retrieve the local image for id '%s' and login '%s'.", localFileId, user), e);
         }
         finally
         {
@@ -742,15 +743,15 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
     
     /**
      * Test if the initials image is available for a given user
-     * @param login The user login
+     * @param userIdentity The user
      * @return True if the image exists
      */
-    public boolean hasInitialsImage(String login)
+    public boolean hasInitialsImage(UserIdentity userIdentity)
     {
-        User user = _usersManager.getUser(login);
+        User user = _userManager.getUser(userIdentity.getPopulationId(), userIdentity.getLogin());
         if (user == null)
         {
-            getLogger().warn("Unable to test the initials image - user not found " + login);
+            getLogger().warn("Unable to test the initials image - user not found " + userIdentity);
             return false;
         }
         
@@ -764,7 +765,7 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
         }
         catch (IOException e)
         {
-            getLogger().error(String.format("Unable to test initials image for user '%s' with fullname '%s'.", login, user.getFullName()), e);
+            getLogger().error(String.format("Unable to test initials image for user '%s' with fullname '%s'.", userIdentity, user.getFullName()), e);
         }
         finally
         {
@@ -779,15 +780,15 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
     
     /**
      * Get the image with user initials
-     * @param login The user login
+     * @param userIdentity The user
      * @return The {@link UserProfileImage} for the image or null if not found
      */
-    public UserProfileImage getInitialsImage(String login)
+    public UserProfileImage getInitialsImage(UserIdentity userIdentity)
     {
-        User user = _usersManager.getUser(login);
+        User user = _userManager.getUser(userIdentity.getPopulationId(), userIdentity.getLogin());
         if (user == null)
         {
-            getLogger().warn("Unable to get initials image - user not found " + login);
+            getLogger().warn("Unable to get initials image - user not found " + userIdentity);
             return null;
         }
         
@@ -804,14 +805,14 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
                 {
                     try
                     {
-                        InputStream imageIsWithBackground = _addImageBackground(login, is);
+                        InputStream imageIsWithBackground = _addImageBackground(userIdentity, is);
                         return new UserProfileImage(imageIsWithBackground, filename, null);
                     }
                     catch (IOException e)
                     {
                         getLogger().error(
                                 String.format("Unable to add the background image to the initials image for user '%s' with fullname '%s'. Only the initial image will be used.",
-                                        login, user.getFullName()), e);
+                                        userIdentity, user.getFullName()), e);
                         
                         
                         // Return image without background
@@ -824,12 +825,12 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
             
             if (getLogger().isWarnEnabled())
             {
-                getLogger().warn(String.format("Unable to find the initials image for user '%s' with fullname '%s'", login, user.getFullName()));
+                getLogger().warn(String.format("Unable to find the initials image for user '%s' with fullname '%s'", userIdentity, user.getFullName()));
             }
         }
         catch (IOException e)
         {
-            getLogger().error(String.format("Unable to retrieve the initials image for user '%s' with fullname '%s'.", login, user.getFullName()), e);
+            getLogger().error(String.format("Unable to retrieve the initials image for user '%s' with fullname '%s'.", userIdentity, user.getFullName()), e);
         }
         finally
         {
@@ -856,18 +857,18 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
     
     /**
      * Add a background to an initials image
-     * @param login The login used to determine which background will be used (based on a hash representation of the login)
+     * @param user The user used to determine which background will be used (based on a hash representation of the login)
      * @param is The inputstream of the image
      * @return The inputstream of the final image with the background
      * @throws IOException If any sort of IO error occurs during the process 
      */
-    protected InputStream _addImageBackground(String login, InputStream is) throws IOException
+    protected InputStream _addImageBackground(UserIdentity user, InputStream is) throws IOException
     {
         BufferedImage image = ImageIO.read(is);
         Source bgSource = null;
         try
         {
-            bgSource = _getInitialsBackgroundSource(login);
+            bgSource = _getInitialsBackgroundSource(user);
             BufferedImage background = null;
             
             try (InputStream backgroundIs = bgSource.getInputStream())
@@ -892,14 +893,14 @@ public class ProfileImageProvider extends AbstractLogEnabled implements Componen
     /**
      * Get the background image for the initials source.
      * The chosen background depend on the user login 
-     * @param login The user login.
+     * @param user The user
      * @return The source
      * @throws IOException If an error occurs while resolving the source uri
      */
-    protected Source _getInitialsBackgroundSource(String login) throws IOException
+    protected Source _getInitialsBackgroundSource(UserIdentity user) throws IOException
     {
         // Hashing the login then choose a background given the available ones.
-        long hash = Math.abs(HashUtil.hash(login));
+        long hash = Math.abs(HashUtil.hash(user.getLogin()));
         
         // Perform a modulo on the hash given number of available background
         _initializeInitialsBackgroundPaths();

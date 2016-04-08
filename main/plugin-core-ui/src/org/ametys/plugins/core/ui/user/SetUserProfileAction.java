@@ -35,6 +35,7 @@ import org.apache.commons.lang.StringUtils;
 
 import org.ametys.core.upload.Upload;
 import org.ametys.core.upload.UploadManager;
+import org.ametys.core.user.UserIdentity;
 import org.ametys.core.userpref.UserPreferencesErrors;
 import org.ametys.core.util.JSONUtils;
 import org.ametys.plugins.core.ui.user.ProfileImageProvider.ProfileImageSource;
@@ -62,7 +63,7 @@ public class SetUserProfileAction extends SetUserPreferencesAction
     }
     
     @Override
-    protected Map<String, String> _getValues(Request request, Map<String, String> contextVars, String username, Collection<String> preferenceIds, UserPreferencesErrors errors)
+    protected Map<String, String> _getValues(Request request, Map<String, String> contextVars, UserIdentity user, Collection<String> preferenceIds, UserPreferencesErrors errors)
     {
         // Delayed initialized to ensure safe mode do not fail to load
         if (_profileImageProvider == null)
@@ -78,7 +79,7 @@ public class SetUserProfileAction extends SetUserPreferencesAction
             }
         }
         
-        Map<String, String> preferences = super._getValues(request, contextVars, username, preferenceIds, errors);
+        Map<String, String> preferences = super._getValues(request, contextVars, user, preferenceIds, errors);
         
         String userPrefImageJson = preferences.get(ProfileImageProvider.USERPREF_PROFILE_IMAGE);
         if (StringUtils.isNotEmpty(userPrefImageJson))
@@ -92,7 +93,7 @@ public class SetUserProfileAction extends SetUserPreferencesAction
             }
             catch (Exception e)
             {
-                getLogger().error(String.format("Unable to extract image user pref for user '%s'.", username), e);
+                getLogger().error(String.format("Unable to extract image user pref for user '%s'.", user), e);
             }
             
             if (userPrefImage != null)
@@ -117,7 +118,7 @@ public class SetUserProfileAction extends SetUserPreferencesAction
                         Upload upload = null;
                         try
                         {
-                            upload = _uploadManager.getUpload(username, uploadId);
+                            upload = _uploadManager.getUpload(user, uploadId);
                             
                             base64SourceParams = new HashMap<>();
                             try (InputStream is = upload.getInputStream())
@@ -132,13 +133,13 @@ public class SetUserProfileAction extends SetUserPreferencesAction
                                 
                                 getLogger().error(
                                         String.format("Unable to store the profile image user pref for user '%s'. Error while trying to convert the uploaded file '%s' to base64.",
-                                                username, uploadId), e); 
+                                                user, uploadId), e); 
                             }
                         }
                         catch (NoSuchElementException e)
                         {
                             // Invalid upload id
-                            getLogger().error(String.format("Cannot find the temporary uploaded file for id '%s' and login '%s'.", uploadId, username), e);
+                            getLogger().error(String.format("Cannot find the temporary uploaded file for id '%s' and login '%s'.", uploadId, user), e);
                         }
                     }
                     

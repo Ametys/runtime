@@ -29,7 +29,7 @@
     <xsl:template name="text-additionnal">
         <xsl:call-template name="button">
             <xsl:with-param name="text"><i18n:text i18n:key='PLUGINS_CORE_UI_ERROR_401_LINK' i18n:catalogue='plugin.core-ui'/></xsl:with-param>
-            <xsl:with-param name="action">location.reload(true);</xsl:with-param>
+            <xsl:with-param name="href"></xsl:with-param>
         </xsl:call-template>
     </xsl:template>
     

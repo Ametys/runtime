@@ -22,23 +22,21 @@ import org.apache.avalon.framework.service.Serviceable;
 
 import org.ametys.core.authentication.Authentication;
 import org.ametys.core.authentication.Credentials;
-import org.ametys.core.user.CredentialsAwareUsersManager;
-import org.ametys.core.user.UsersManager;
-import org.ametys.plugins.core.impl.authentication.token.TokenCredentials;
 
 
 /**
  * Authenticate http request with the current base users extension (which must
  * implements AuthenticatingBaseUsers).
  */
+//FIXME
 public class UsersManagerAuthentication extends AbstractLogEnabled implements Authentication, Serviceable
 {
     /** The users manager */
-    protected UsersManager _users;
+//    protected UsersManager _users;
     
     public void service(ServiceManager manager) throws ServiceException
     {
-        _users = (UsersManager) manager.lookup(UsersManager.ROLE);
+//        _users = (UsersManager) manager.lookup(UsersManager.ROLE);
     }
     
     /**
@@ -48,22 +46,22 @@ public class UsersManagerAuthentication extends AbstractLogEnabled implements Au
      */
     public boolean login(Credentials credentials)
     {
-        // Check users manager can authenticate
-        if (_users instanceof CredentialsAwareUsersManager)
-        {
-            // If the credentials come from a SSO (like CAS), they are already authenticated : grant access.
-            if (credentials instanceof TokenCredentials)
-            {
-                return ((TokenCredentials) credentials).checkToken();
-            }
-            
-            // Do authenticate encrypting password
-            CredentialsAwareUsersManager auth = (CredentialsAwareUsersManager) _users;
-            return auth.checkCredentials(credentials);
-            
-        }
-        
-        getLogger().error("UsersManager cannot authenticate");
+//        // Check users manager can authenticate
+//        if (_users instanceof CredentialsAwareUsersManager)
+//        {
+//            // If the credentials come from a SSO (like CAS), they are already authenticated : grant access.
+//            if (credentials instanceof TokenCredentials)
+//            {
+//                return ((TokenCredentials) credentials).checkToken();
+//            }
+//            
+//            // Do authenticate encrypting password
+//            CredentialsAwareUsersManager auth = (CredentialsAwareUsersManager) _users;
+//            return auth.checkCredentials(credentials);
+//            
+//        }
+//        
+//        getLogger().error("UsersManager cannot authenticate");
         
         // Invalid authentication class, forbid access
         return false;

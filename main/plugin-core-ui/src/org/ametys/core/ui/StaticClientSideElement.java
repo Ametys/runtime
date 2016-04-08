@@ -33,6 +33,7 @@ import org.ametys.core.right.RightsContextPrefixExtensionPoint;
 import org.ametys.core.right.RightsManager;
 import org.ametys.core.right.RightsManager.RightResult;
 import org.ametys.core.user.CurrentUserProvider;
+import org.ametys.core.user.UserIdentity;
 import org.ametys.plugins.core.ui.util.ConfigurationHelper;
 import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 import org.ametys.runtime.plugin.component.PluginAware;
@@ -263,67 +264,65 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
         }
         else
         {
-            
-            if (_currentUserProvider.isSuperUser())
+            UserIdentity user = _currentUserProvider.getUser();
+            Set<String> rightsToCheck = rights.keySet();
+            for (String rightToCheck : rightsToCheck)
             {
-                return true;
-            }
-            else
-            {
-                String userLogin = _currentUserProvider.getUser();
-                Set<String> rightsToCheck = rights.keySet();
-                for (String rightToCheck : rightsToCheck)
+                if (StringUtils.isNotEmpty(rightToCheck))
                 {
-                    if (StringUtils.isNotEmpty(rightToCheck))
+                    String rightContext = rights.get(rightToCheck) != null ? rights.get(rightToCheck) : "";
+                    if (_rightsManager instanceof HierarchicalRightsManager)
                     {
-                        String rightContext = rights.get(rightToCheck) != null ? rights.get(rightToCheck) : "";
-                        if (_rightsManager instanceof HierarchicalRightsManager)
+                        // Check right on context/*
+                        if (((HierarchicalRightsManager) _rightsManager).hasRightOnContextPrefix(user, rightToCheck, rightContext) == RightResult.RIGHT_OK)
                         {
-                            // Check right on context/*
-                            if (((HierarchicalRightsManager) _rightsManager).hasRightOnContextPrefix(userLogin, rightToCheck, rightContext) == RightResult.RIGHT_OK)
+                            if ("OR".equals(_rightsMode))
                             {
-                                if ("OR".equals(_rightsMode))
-                                {
-                                    return true;
-                                }
-                            }
-                            else
-                            {
-                                if ("AND".equals(_rightsMode))
-                                {
-                                    return false;
-                                }
+                                return true;
                             }
                         }
                         else
                         {
-                            // Check right on exact context
-                            if (_rightsManager.hasRight(userLogin, rightToCheck, rightContext) == RightResult.RIGHT_OK)
+                            if ("AND".equals(_rightsMode))
                             {
-                                if ("OR".equals(_rightsMode))
-                                {
-                                    return true;
-                                }
+                                return false;
                             }
-                            else
+                        }
+                    }
+                    else
+                    {
+                        // Check right on exact context
+                        if (_rightsManager.hasRight(user, rightToCheck, rightContext) == RightResult.RIGHT_OK)
+                        {
+                            if ("OR".equals(_rightsMode))
                             {
-                                if ("AND".equals(_rightsMode))
-                                {
-                                    return false;
-                                }
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            if ("AND".equals(_rightsMode))
+                            {
+                                return false;
                             }
                         }
                     }
                 }
-                
-                return "AND".equals(_rightsMode);
             }
+            
+            return "AND".equals(_rightsMode);
         }
     }
     
     @Override
     public Script getScript(Map<String, Object> contextParameters)
     {
+        // FIXME handle rights for workspace admin, here is a temporary workaround
+        if (contextParameters != null && "admin".equals(contextParameters.get("workspace")))
+        {
+            return _script;
+        }
+        
         if (!hasRight(getRights(contextParameters)))
         {
             return null;

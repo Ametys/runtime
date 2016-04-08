@@ -16,6 +16,7 @@
 package org.ametys.core.right;
 
 import org.ametys.core.right.RightsManager.RightResult;
+import org.ametys.core.user.UserIdentity;
 
 
 /**
@@ -36,7 +37,7 @@ public interface HierarchicalRightsManager
      *     to the application.
      * </ul>
      * The implementations of {@link RightsManager} must concat the given context by the context prefix.
-     * @param userLogin The user's login. Cannot be null.
+     * @param user The user. Cannot be null.
      * @param right the name of the right to check. Cannot be null.
      * @param contextPrefix a String representing the context prefix of the call.<br>
      * It may be a path within a hierarchy tree, a keyword, ...<br>
@@ -45,5 +46,5 @@ public interface HierarchicalRightsManager
      * @return RIGHT_OK, RIGHT_NOK or RIGHT_UNKNOWN
      * @throws RightsException if an error occurs.
      */
-    public RightResult hasRightOnContextPrefix(String userLogin, String right, String contextPrefix) throws RightsException;
+    public RightResult hasRightOnContextPrefix(UserIdentity user, String right, String contextPrefix) throws RightsException;
 }

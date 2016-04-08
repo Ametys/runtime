@@ -175,9 +175,11 @@
                 
                 <script type="text/javascript">
                     Ametys.setAppParameter("debug.mode", "<xsl:value-of select="$debug-mode"/>");        
+                    Ametys.setAppParameter("context", "<xsl:call-template name="app-context"/>");
 
                     Ametys.setAppParameter("user", {
                         login: "<xsl:value-of select="user/@login"/>",
+                        population: "<xsl:value-of select="user/population"/>",
                         firstname: "<xsl:value-of select="user/firstname"/>",
                         lastname: "<xsl:value-of select="user/lastname"/>",
                         fullname: "<xsl:value-of select="user/fullname"/>",
@@ -655,6 +657,8 @@
     
     
     <xsl:template name="splashscreen-color">804080</xsl:template>
+    
+    <xsl:template name="app-context">/admin</xsl:template>
     
 <!--     <xsl:template name="theme-scripts"> -->
 <!--         <script absolute="true">/~cmd/extensions/sencha-fashion/fashion/fashion.js</script> -->

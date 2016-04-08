@@ -20,15 +20,9 @@
  * This widget is the default widget registered for fields of type Ametys.form.WidgetManager#TYPE_USER.<br>
  */
 Ext.define('Ametys.form.widget.User', {
-    extend: 'Ametys.form.widget.AbstractQueryableComboBox',
+    extend: 'Ametys.form.AbstractQueryableComboBox',
   
-    /**
-	 * @private
-	 * @property {String} usersManagerRole The currently selected UsersManager to use to list the user. The string is the role name on the server-side. Null/Empty means the default users manager.
-	 */
-	usersManagerRole: null,
-	
-	valueField: 'login',
+	valueField: 'value',
 	displayField: 'displayName',
 	
     getStore: function()
@@ -41,26 +35,28 @@ Ext.define('Ametys.form.widget.User', {
 	    		         {name: 'firstname', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
 	    		         {name: 'lastname', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
 	    		         {name: 'login', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+	    		         {name: 'population', type: 'string'},
+	    		         {name: 'populationLabel', type: 'string'},
+	    		         {
+                            name: 'value', 
+                            type: 'string',
+                            calculate: function(data)
+                            {
+                                return data.login + '#' + data.population;
+                            }
+                         },
 	    		         {name: 'fullname', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
 	    		         {name: 'sortablename', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
 	    		         {
 	    		             name: 'displayName',
 	    		             type: 'string',
 	    		             sortType: Ext.data.SortTypes.asNonAccentedUCString,
-	    		             depends: ['sortablename', 'login'],
 	    		             calculate: function (data)
 	    		             {
-	    		                 if (data.sortablename != data.login)
-	    		                 {
-	    		                     return data.sortablename + ' (' + data.login + ')';
-	    		                 }
-	    		                 
-	    		                 return data.login;
-	    		             }
+                                return Ametys.plugins.core.users.UsersDAO.renderUser(data.login, data.populationLabel, data.sortablename);
+                             }
 	    		         }
-	    		],
-	
-	    		idProperty: 'login'
+	    		]
     		});
     	}
 
@@ -98,24 +94,17 @@ Ext.define('Ametys.form.widget.User', {
             criteria: operation.getParams().query,
             login: operation.getParams().login ? operation.getParams().login.split(',') : null,
             count: this.maxResult, 
-            offset: 0, 
-            usersManagerRole: this.usersManagerRole
+            offset: 0 ,
+            context: Ametys.getAppParameter('context')
         }));
     },
     
     getLabelTpl: function ()
     {
     	var tpl = [];
-        if (!this.usersManagerRole || this.usersManagerRole == 'org.ametys.core.user.UsersManager.ROLE')
-        {
-            tpl.push('<img src="' + Ametys.getPluginDirectPrefix('core-ui') + '/user/{login}/image_16" style="float: left; margin-right: 3px; width: 16px; height: 16px;"/>');
-        }
-        else
-        {
-            tpl.push('<img src="' + Ametys.getPluginDirectPrefix('core-ui') + '/user/default-image_16" style="float: left; margin-right: 3px; width: 16px; height: 16px;"/>');
-        }
+        tpl.push('<img src="' + Ametys.getPluginDirectPrefix('core-ui') + '/user/{population}/{login}/image_16" style="float: left; margin-right: 3px; width: 16px; height: 16px;"/>');
         
-    	tpl.push('{fullname}');
+    	tpl.push('{displayName}');
     	return tpl;
     }
 });

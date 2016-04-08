@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
-import org.apache.cocoon.ProcessingException;
+import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.acting.ServiceableAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
@@ -30,7 +30,9 @@ import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
 
 import org.ametys.core.cocoon.JSonReader;
-import org.ametys.core.group.GroupsManager;
+import org.ametys.core.group.GroupDirectoryContextHelper;
+import org.ametys.core.group.GroupDirectoryDAO;
+import org.ametys.core.group.directory.GroupDirectory;
 
 /**
  * Get groups 
@@ -40,56 +42,35 @@ public class GroupSearchAction extends ServiceableAction
 {
     private static final int _DEFAULT_COUNT_VALUE = 100;
     private static final int _DEFAULT_OFFSET_VALUE = 0;
+    
+    private GroupDirectoryDAO _groupDirectoryDAO;
+    private GroupDirectoryContextHelper _directoryContextHelper;
+    
+    @Override
+    public void service(ServiceManager smanager) throws ServiceException
+    {
+        super.service(smanager);
+        _groupDirectoryDAO = (GroupDirectoryDAO) smanager.lookup(GroupDirectoryDAO.ROLE);
+        _directoryContextHelper = (GroupDirectoryContextHelper) smanager.lookup(GroupDirectoryContextHelper.ROLE);
+    }
 
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
         @SuppressWarnings("unchecked")
         Map<String, Object> jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
         
-        // Get the wanted UsersManager avalon role, defaults to runtime-declared UsersManager.
-        String role = parameters.getParameter("groupsManagerRole", GroupsManager.ROLE);
-        if (role.length() == 0)
-        {
-            role = GroupsManager.ROLE;
-        }
-        
         List<Map<String, Object>> groups = new ArrayList<>();
-        GroupsManager groupsManager = null;
         
-        try
+        String context = (String) jsParameters.get("context");
+        
+        if (context != null)
         {
-            groupsManager = (GroupsManager) manager.lookup(role);
-            
-            if (jsParameters.get("id") != null)
-            {
-                @SuppressWarnings("unchecked")
-                List<String> ids = (List<String>) jsParameters.get("id");
-                for (String id : ids)
-                {
-                    groups.add(groupsManager.group2JSON(id));
-                }
-            }
-            else
-            {
-                int count = parameters.getParameterAsInteger("limit", _DEFAULT_COUNT_VALUE);
-                if (count == -1)
-                {
-                    count = Integer.MAX_VALUE;
-                }
-
-                int offset = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
-                
-                groups.addAll(groupsManager.groups2JSON(count, offset, _getSearchParameters(source)));
-            }
+            _searchGroupsByContext(groups, jsParameters, source, parameters, context);
         }
-        catch (ServiceException e)
+        else
         {
-            getLogger().error("Error looking up GroupsManager of role " + role, e);
-            throw new ProcessingException("Error looking up GroupsManager of role " + role, e);
-        }
-        finally
-        {
-            manager.release(groupsManager);
+            String groupDirectoryId = (String) jsParameters.get("groupDirectoryId");
+            _searchGroupsByDirectory(groups, jsParameters, source, parameters, groupDirectoryId);
         }
         
         Map<String, Object> result = new HashMap<>();
@@ -111,6 +92,64 @@ public class GroupSearchAction extends ServiceableAction
         Map<String, String> params = new HashMap<>();
         params.put("pattern", source);
         return params;
+    }
+    
+    private void _searchGroupsByContext(List<Map<String, Object>> groups, Map<String, Object> jsParameters, String source, Parameters parameters, String context)
+    {
+        List<String> groupIds = (List) jsParameters.get("id");
+        
+        if (groupIds != null)
+        {
+            for (String groupDirectoryId : _directoryContextHelper.getGroupDirectoriesOnContext(context))
+            {
+                GroupDirectory groupDirectory = _groupDirectoryDAO.getGroupDirectory(groupDirectoryId);
+                for (String groupId : groupIds)
+                {
+                    groups.add(groupDirectory.group2JSON(groupId));
+                }
+            }
+        }
+        else
+        {
+            int count = parameters.getParameterAsInteger("limit", _DEFAULT_COUNT_VALUE);
+            if (count == -1)
+            {
+                count = Integer.MAX_VALUE;
+            }
+            int offset = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
+            
+            for (String groupDirectoryId : _directoryContextHelper.getGroupDirectoriesOnContext(context))
+            {
+                GroupDirectory groupDirectory = _groupDirectoryDAO.getGroupDirectory(groupDirectoryId);
+                groups.addAll(groupDirectory.groups2JSON(count, offset, _getSearchParameters(source)));
+            }
+        }
+    }
+    
+    private void _searchGroupsByDirectory(List<Map<String, Object>> groups, Map<String, Object> jsParameters, String source, Parameters parameters, String groupDirectoryId)
+    {
+        List<String> groupIds = (List) jsParameters.get("id");
+        
+        if (groupIds != null)
+        {
+            GroupDirectory groupDirectory = _groupDirectoryDAO.getGroupDirectory(groupDirectoryId);
+            for (String groupId : groupIds)
+            {
+                groups.add(groupDirectory.group2JSON(groupId));
+            }
+        }
+        else
+        {
+            int count = parameters.getParameterAsInteger("limit", _DEFAULT_COUNT_VALUE);
+            if (count == -1)
+            {
+                count = Integer.MAX_VALUE;
+            }
+            int offset = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
+            
+            GroupDirectory groupDirectory = _groupDirectoryDAO.getGroupDirectory(groupDirectoryId);
+            groups.addAll(groupDirectory.groups2JSON(count, offset, _getSearchParameters(source)));
+        }
     }
 
 }

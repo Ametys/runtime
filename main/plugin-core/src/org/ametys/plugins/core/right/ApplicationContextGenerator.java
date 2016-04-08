@@ -34,7 +34,7 @@ public class ApplicationContextGenerator extends AbstractCurrentUserProviderServ
         contentHandler.startDocument();
         XMLUtils.startElement(contentHandler, "Application");
         
-        XMLUtils.createElement(contentHandler, "AdministratorUI", _isSuperUser() ? "true" : "false");
+        XMLUtils.createElement(contentHandler, "AdministratorUI", "false");
         
         XMLUtils.endElement(contentHandler, "Application");
         contentHandler.endDocument();

@@ -88,7 +88,7 @@ Ext.define('Ametys.form.WidgetManager', {
 	 */
 	TYPE_FILE: 'file',
 	/**
-	 * @property {String} TYPE_USER The type 'user'. A widget of such type should get/set values using the js type "string" representing the login of the user
+	 * @property {String} TYPE_USER The type 'user'. A widget of such type should get/set values using the js type "object" representing the login and population of the user: { 'login': 'X', 'population': 'Y' }
 	 * @readonly 
 	 */
 	TYPE_USER: 'user',

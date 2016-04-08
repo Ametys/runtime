@@ -36,6 +36,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.commons.lang.StringUtils;
 
 import org.ametys.core.datasource.ConnectionHelper;
+import org.ametys.core.user.UserIdentity;
 import org.ametys.core.userpref.DefaultUserPreferencesStorage;
 import org.ametys.core.userpref.UserPreferencesException;
 import org.ametys.core.userpref.UserPreferencesStorage;
@@ -80,6 +81,9 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
     /** The login column, cannot be null. */
     protected String _loginColumn;
     
+    /** The population id column, cannot be null. */
+    protected String _populationColumn;
+    
     /** The context column, can be null if the database is not context-dependent. */
     protected String _contextColumn;
     
@@ -118,6 +122,8 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
         _databaseTable = configuration.getChild("table").getValue();
         // Default to "login".
         _loginColumn = configuration.getChild("loginColumn").getValue("login").toLowerCase();
+        // Default to "population"
+        _populationColumn = configuration.getChild("populationColumn").getValue("population").toLowerCase();
         // Default to null (no context column).
         _contextColumn = configuration.getChild("contextColumn").getValue(null);
         if (_contextColumn != null)
@@ -155,7 +161,7 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
     }
     
     @Override
-    public Map<String, String> getUnTypedUserPrefs(String login, String storageContext, Map<String, String> contextVars) throws UserPreferencesException
+    public Map<String, String> getUnTypedUserPrefs(UserIdentity user, String storageContext, Map<String, String> contextVars) throws UserPreferencesException
     {
         Map<String, String> prefs = new HashMap<>();
         
@@ -168,7 +174,7 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
             connection = ConnectionHelper.getConnection(_dataSourceId);
             
             StringBuilder query = new StringBuilder();
-            query.append("SELECT * FROM ").append(_databaseTable).append(" WHERE ").append(_loginColumn).append(" = ?");
+            query.append("SELECT * FROM ").append(_databaseTable).append(" WHERE ").append(_loginColumn).append(" = ? AND ").append(_populationColumn).append(" = ?");
             if (StringUtils.isNotBlank(_contextColumn))
             {
                 query.append(" AND ").append(_contextColumn).append(" = ?");
@@ -176,7 +182,8 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
             
             stmt = connection.prepareStatement(query.toString());
             
-            stmt.setString(1, login);
+            stmt.setString(1, user.getLogin());
+            stmt.setString(2, user.getPopulationId());
             if (StringUtils.isNotBlank(_contextColumn))
             {
                 stmt.setString(2, storageContext);
@@ -212,7 +219,7 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
         }
         catch (SQLException e)
         {
-            String message = "Database error trying to access the preferences of user '" + login + "' in context '" + storageContext + "'.";
+            String message = "Database error trying to access the preferences of user '" + user + "' in context '" + storageContext + "'.";
             getLogger().error(message, e);
             throw new UserPreferencesException(message, e);
         }
@@ -225,7 +232,7 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
     }
     
     @Override
-    public void removeUserPreferences(String login, String storageContext, Map<String, String> contextVars) throws UserPreferencesException
+    public void removeUserPreferences(UserIdentity user, String storageContext, Map<String, String> contextVars) throws UserPreferencesException
     {
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -235,7 +242,7 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
             connection = ConnectionHelper.getConnection(_dataSourceId);
             
             StringBuilder query = new StringBuilder();
-            query.append("DELETE FROM ").append(_databaseTable).append(" WHERE ").append(_loginColumn).append(" = ?");
+            query.append("DELETE FROM ").append(_databaseTable).append(" WHERE ").append(_loginColumn).append(" = ? AND ").append(_populationColumn).append(" = ?");
             if (StringUtils.isNotBlank(_contextColumn))
             {
                 query.append(" AND ").append(_contextColumn).append(" = ?");
@@ -243,7 +250,8 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
             
             stmt = connection.prepareStatement(query.toString());
             
-            stmt.setString(1, login);
+            stmt.setString(1, user.getLogin());
+            stmt.setString(2, user.getPopulationId());
             if (StringUtils.isNotBlank(_contextColumn))
             {
                 stmt.setString(2, storageContext);
@@ -253,7 +261,7 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
         }
         catch (SQLException e)
         {
-            String message = "Database error trying to remove preferences for login '" + login + "' in context '" + storageContext + "'.";
+            String message = "Database error trying to remove preferences for login '" + user + "' in context '" + storageContext + "'.";
             getLogger().error(message, e);
             throw new UserPreferencesException(message, e);
         }
@@ -265,7 +273,7 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
     }
     
     @Override
-    public void setUserPreferences(String login, String storageContext, Map<String, String> contextVars, Map<String, String> preferences) throws UserPreferencesException
+    public void setUserPreferences(UserIdentity user, String storageContext, Map<String, String> contextVars, Map<String, String> preferences) throws UserPreferencesException
     {
         Connection connection = null;
         try
@@ -273,18 +281,18 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
             connection = ConnectionHelper.getConnection(_dataSourceId);
             
             // Test if the preferences already exist.
-            if (dataExists(connection, login, storageContext))
+            if (dataExists(connection, user, storageContext))
             {
-                updatePreferences(connection, preferences, login, storageContext);
+                updatePreferences(connection, preferences, user, storageContext);
             }
             else
             {
-                insertPreferences(connection, preferences, login, storageContext);
+                insertPreferences(connection, preferences, user, storageContext);
             }
         }
         catch (SQLException e)
         {
-            String message = "Database error trying to set the preferences of user '" + login + "' in context '" + storageContext + "'.";
+            String message = "Database error trying to set the preferences of user '" + user + "' in context '" + storageContext + "'.";
             getLogger().error(message, e);
             throw new UserPreferencesException(message, e);
         }
@@ -295,7 +303,7 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
     }
     
     @Override
-    public String getUserPreferenceAsString(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
+    public String getUserPreferenceAsString(UserIdentity user, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -309,7 +317,7 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
             if (isColumnValid(column))
             {
                 StringBuilder query = new StringBuilder();
-                query.append("SELECT ? FROM ").append(_databaseTable).append(" WHERE ").append(_loginColumn).append(" = ?");
+                query.append("SELECT ? FROM ").append(_databaseTable).append(" WHERE ").append(_loginColumn).append(" = ? AND ").append(_populationColumn).append(" = ?");
                 if (StringUtils.isNotBlank(_contextColumn))
                 {
                     query.append(" AND ").append(_contextColumn).append(" = ?");
@@ -319,10 +327,11 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
                 
                 statement = connection.prepareStatement(query.toString());
                 statement.setString(1, column);
-                statement.setString(2, login);
+                statement.setString(2, user.getLogin());
+                statement.setString(3, user.getPopulationId());
                 if (StringUtils.isNotBlank(_contextColumn))
                 {
-                    statement.setString(3, storageContext);
+                    statement.setString(4, storageContext);
                 }
                 
                 rs = statement.executeQuery();
@@ -335,7 +344,7 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
         }
         catch (SQLException e)
         {
-            String message = "Database error trying to get the preferences of user '" + login + "' in context '" + storageContext + "'.";
+            String message = "Database error trying to get the preferences of user '" + user + "' in context '" + storageContext + "'.";
             getLogger().error(message, e);
             throw new UserPreferencesException(message, e);
         }
@@ -350,12 +359,12 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
     }
     
     @Override
-    public Long getUserPreferenceAsLong(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
+    public Long getUserPreferenceAsLong(UserIdentity user, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         // TODO Single select
         Long value = null;
         
-        Map<String, String> values = getUnTypedUserPrefs(login, storageContext, contextVars);
+        Map<String, String> values = getUnTypedUserPrefs(user, storageContext, contextVars);
         if (values.containsKey(id))
         {
             value = (Long) ParameterHelper.castValue(values.get(id), ParameterType.LONG);
@@ -365,12 +374,12 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
     }
     
     @Override
-    public Date getUserPreferenceAsDate(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
+    public Date getUserPreferenceAsDate(UserIdentity user, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         // TODO Single select
         Date value = null;
         
-        Map<String, String> values = getUnTypedUserPrefs(login, storageContext, contextVars);
+        Map<String, String> values = getUnTypedUserPrefs(user, storageContext, contextVars);
         if (values.containsKey(id))
         {
             value = (Date) ParameterHelper.castValue(values.get(id), ParameterType.DATE);
@@ -380,12 +389,12 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
     }
     
     @Override
-    public Boolean getUserPreferenceAsBoolean(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
+    public Boolean getUserPreferenceAsBoolean(UserIdentity user, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         // TODO Single select
         Boolean value = null;
         
-        Map<String, String> values = getUnTypedUserPrefs(login, storageContext, contextVars);
+        Map<String, String> values = getUnTypedUserPrefs(user, storageContext, contextVars);
         if (values.containsKey(id))
         {
             value = (Boolean) ParameterHelper.castValue(values.get(id), ParameterType.BOOLEAN);
@@ -395,12 +404,12 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
     }
     
     @Override
-    public Double getUserPreferenceAsDouble(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
+    public Double getUserPreferenceAsDouble(UserIdentity user, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         // TODO Single select
         Double value = null;
         
-        Map<String, String> values = getUnTypedUserPrefs(login, storageContext, contextVars);
+        Map<String, String> values = getUnTypedUserPrefs(user, storageContext, contextVars);
         if (values.containsKey(id))
         {
             value = (Double) ParameterHelper.castValue(values.get(id), ParameterType.DOUBLE);
@@ -467,12 +476,12 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
     /**
      * Test if a record exists for this user and context.
      * @param connection The database connection.
-     * @param login The user login.
+     * @param user The user.
      * @param storageContext The storage context.
      * @return true if data exists, false otherwise.
      * @throws SQLException if an error occurs.
      */
-    protected boolean dataExists(Connection connection, String login, String storageContext) throws SQLException
+    protected boolean dataExists(Connection connection, UserIdentity user, String storageContext) throws SQLException
     {
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -480,7 +489,7 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
         try
         {
             StringBuilder query = new StringBuilder();
-            query.append("SELECT count(*) FROM ").append(_databaseTable).append(" WHERE ").append(_loginColumn).append(" = ?");
+            query.append("SELECT count(*) FROM ").append(_databaseTable).append(" WHERE ").append(_loginColumn).append(" = ? AND ").append(_populationColumn).append(" = ?");
             if (StringUtils.isNotBlank(_contextColumn))
             {
                 query.append(" AND ").append(_contextColumn).append(" = ?");
@@ -488,10 +497,11 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
             
             stmt = connection.prepareStatement(query.toString());
             
-            stmt.setString(1, login);
+            stmt.setString(1, user.getLogin());
+            stmt.setString(2, user.getPopulationId());
             if (StringUtils.isNotBlank(_contextColumn))
             {
-                stmt.setString(2, storageContext);
+                stmt.setString(3, storageContext);
             }
             
             rs = stmt.executeQuery();
@@ -510,11 +520,11 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
      * Insert preferences into the database.
      * @param connection The database connection.
      * @param preferences The preference values, indexed by preference id.
-     * @param login The user login.
+     * @param user The user.
      * @param storageContext The preference storage context.
      * @throws SQLException if an error occurs.
      */
-    protected void insertPreferences(Connection connection, Map<String, String> preferences, String login, String storageContext) throws SQLException
+    protected void insertPreferences(Connection connection, Map<String, String> preferences, UserIdentity user, String storageContext) throws SQLException
     {
         PreparedStatement stmt = null;
         
@@ -522,8 +532,8 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
         {
             StringBuilder query = new StringBuilder();
             StringBuilder values = new StringBuilder();
-            query.append("INSERT INTO ").append(_databaseTable).append("(").append(_loginColumn);
-            values.append('?');
+            query.append("INSERT INTO ").append(_databaseTable).append("(").append(_loginColumn).append(", ").append(_populationColumn);
+            values.append("?, ?");
             if (StringUtils.isNotBlank(_contextColumn))
             {
                 query.append(", ").append(_contextColumn);
@@ -556,7 +566,8 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
                 
                 stmt = connection.prepareStatement(query.toString());
                 
-                stmt.setString(i++, login);
+                stmt.setString(i++, user.getLogin());
+                stmt.setString(i++, user.getPopulationId());
                 if (StringUtils.isNotBlank(_contextColumn))
                 {
                     stmt.setString(i++, storageContext);
@@ -581,11 +592,11 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
      * Update existing preferences.
      * @param connection The database connection.
      * @param preferences The preference values, indexed by preference id.
-     * @param login The user login.
+     * @param user The user.
      * @param storageContext The preference storage context.
      * @throws SQLException if an error occurs.
      */
-    protected void updatePreferences(Connection connection, Map<String, String> preferences, String login, String storageContext) throws SQLException
+    protected void updatePreferences(Connection connection, Map<String, String> preferences, UserIdentity user, String storageContext) throws SQLException
     {
         PreparedStatement stmt = null;
         
@@ -616,7 +627,7 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
                 }
             }
             
-            query.append(" WHERE ").append(_loginColumn).append(" = ?");
+            query.append(" WHERE ").append(_loginColumn).append(" = ?").append(" AND ").append(_populationColumn).append(" = ?");
             if (StringUtils.isNotBlank(_contextColumn))
             {
                 query.append(" AND ").append(_contextColumn).append(" = ?");
@@ -633,7 +644,8 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
                     i++;
                 }
                 
-                stmt.setString(i++, login);
+                stmt.setString(i++, user.getLogin());
+                stmt.setString(i++, user.getPopulationId());
                 if (StringUtils.isNotBlank(_contextColumn))
                 {
                     stmt.setString(i++, storageContext);

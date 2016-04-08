@@ -36,6 +36,7 @@ import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.commons.lang.StringUtils;
 
+import org.ametys.core.user.UserIdentity;
 import org.ametys.runtime.parameter.ParameterHelper;
 
 /**
@@ -80,13 +81,13 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Thread
     
     /**
      * Get a user's preference values (as String) for a given context.
-     * @param login the user login.
+     * @param user the user.
      * @param storageContext the preferences context.
      * @param contextVars the context variables.
      * @return the user preference values as a Map of String indexed by preference ID.
      * @throws UserPreferencesException if an error occurs getting the preferences.
      */
-    public Map<String, String> getUnTypedUserPrefs(String login, String storageContext, Map<String, String> contextVars) throws UserPreferencesException
+    public Map<String, String> getUnTypedUserPrefs(UserIdentity user, String storageContext, Map<String, String> contextVars) throws UserPreferencesException
     {
         Map<String, String> preferences = new HashMap<>();
         
@@ -97,7 +98,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Thread
         {
             UserPreferencesStorage storageManager = getStorageManager(storageRole);
             
-            preferences.putAll(storageManager.getUnTypedUserPrefs(login, storageContext, contextVars));
+            preferences.putAll(storageManager.getUnTypedUserPrefs(user, storageContext, contextVars));
         }
         
         return preferences;
@@ -106,78 +107,78 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Thread
     
     /**
      * Get a user's preference values cast as their own type for a given context.
-     * @param login the user login.
+     * @param user the user.
      * @param storageContext the preferences context.
      * @param contextVars the context variables.
      * @return the user preference values as a Map of Object indexed by preference ID.
      * @throws UserPreferencesException if an error occurs getting the preferences.
      */
-    public Map<String, Object> getTypedUserPrefs(String login, String storageContext, Map<String, String> contextVars) throws UserPreferencesException
+    public Map<String, Object> getTypedUserPrefs(UserIdentity user, String storageContext, Map<String, String> contextVars) throws UserPreferencesException
     {
-        Map<String, String> unTypedUserPrefs = getUnTypedUserPrefs(login, storageContext, contextVars);
+        Map<String, String> unTypedUserPrefs = getUnTypedUserPrefs(user, storageContext, contextVars);
         
         return _castValues(unTypedUserPrefs, contextVars);
     }
     
     /**
      * Add a user preference 
-     * @param login the user login
+     * @param user the user.
      * @param storageContext the preferences context.
      * @param contextVars the context variables.
      * @param name the user pref name
      * @param value the user pref value
      * @throws UserPreferencesException if an error occurred
      */
-    public void addUserPreference(String login, String storageContext, Map<String, String> contextVars, String name, String value) throws UserPreferencesException
+    public void addUserPreference(UserIdentity user, String storageContext, Map<String, String> contextVars, String name, String value) throws UserPreferencesException
     {
-        Map<String, String> userPrefs = getUnTypedUserPrefs(login, storageContext, contextVars);
+        Map<String, String> userPrefs = getUnTypedUserPrefs(user, storageContext, contextVars);
         userPrefs.put(name, value);
         
-        setUserPreferences(login, storageContext, contextVars, userPrefs);
+        setUserPreferences(user, storageContext, contextVars, userPrefs);
     }
     
     /**
      * Add a user preference 
-     * @param login the user login
+     * @param user the user.
      * @param storageContext the preferences context.
      * @param contextVars the context variables.
      * @param values the user prefs to add
      * @throws UserPreferencesException if an error occurred
      */
-    public void addUserPreferences(String login, String storageContext, Map<String, String> contextVars, Map<String, String> values) throws UserPreferencesException
+    public void addUserPreferences(UserIdentity user, String storageContext, Map<String, String> contextVars, Map<String, String> values) throws UserPreferencesException
     {
-        Map<String, String> userPrefs = getUnTypedUserPrefs(login, storageContext, contextVars);
+        Map<String, String> userPrefs = getUnTypedUserPrefs(user, storageContext, contextVars);
         userPrefs.putAll(values);
         
-        setUserPreferences(login, storageContext, contextVars, userPrefs);
+        setUserPreferences(user, storageContext, contextVars, userPrefs);
     }
     
     /**
      * Remove a user preference 
-     * @param login the user login
+     * @param user the user.
      * @param storageContext the preferences context.
      * @param contextVars the context variables.
      * @param name the user pref name
      * @throws UserPreferencesException if an error occurred
      */
-    public void removeUserPreference(String login, String storageContext, Map<String, String> contextVars, String name) throws UserPreferencesException
+    public void removeUserPreference(UserIdentity user, String storageContext, Map<String, String> contextVars, String name) throws UserPreferencesException
     {
-        Map<String, String> userPrefs = getUnTypedUserPrefs(login, storageContext, contextVars);
+        Map<String, String> userPrefs = getUnTypedUserPrefs(user, storageContext, contextVars);
         if (userPrefs.containsKey(name))
         {
             userPrefs.remove(name);
         }
-        setUserPreferences(login, storageContext, contextVars, userPrefs);
+        setUserPreferences(user, storageContext, contextVars, userPrefs);
     }
     
     /**
      * Remove all user preferences. 
-     * @param login the user login.
+     * @param user the user.
      * @param storageContext the preferences context.
      * @param contextVars the context variables.
      * @throws UserPreferencesException if an error occurred
      */
-    public void removeAllUserPreferences(String login, String storageContext, Map<String, String> contextVars) throws UserPreferencesException
+    public void removeAllUserPreferences(UserIdentity user, String storageContext, Map<String, String> contextVars) throws UserPreferencesException
     {
         Set<String> storageRoles = getStorageRoles(contextVars);
         
@@ -185,19 +186,19 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Thread
         {
             UserPreferencesStorage storageManager = getStorageManager(storageRole);
             
-            storageManager.removeUserPreferences(login, storageContext, contextVars);
+            storageManager.removeUserPreferences(user, storageContext, contextVars);
         }
     }
     
     /**
      * Set a user's preferences for a given context.
-     * @param login the user login.
+     * @param user the user.
      * @param storageContext the preferences context.
      * @param contextVars the context variables.
      * @param preferenceValues a Map of the preference values indexed by ID.
      * @throws UserPreferencesException if an error occurred
      */
-    public void setUserPreferences(String login, String storageContext, Map<String, String> contextVars, Map<String, String> preferenceValues) throws UserPreferencesException
+    public void setUserPreferences(UserIdentity user, String storageContext, Map<String, String> contextVars, Map<String, String> preferenceValues) throws UserPreferencesException
     {
         Map<String, Map<String, String>> preferenceValuesByStorage = getUserPrefsValuesByStorage(contextVars, preferenceValues);
         
@@ -209,88 +210,88 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Thread
             UserPreferencesStorage storageManager = getStorageManager(managerRole);
             
             // Call set on the storage manager.
-            storageManager.setUserPreferences(login, storageContext, contextVars, storagePrefValues);
+            storageManager.setUserPreferences(user, storageContext, contextVars, storagePrefValues);
         }
     }
     
     /**
      * Get a single string user preference value for a given context.
-     * @param login the user login.
+     * @param user the user.
      * @param storageContext the preferences context.
      * @param contextVars the context variables.
      * @param id the preference ID.
      * @return the user preference value as a String.
      * @throws UserPreferencesException if an error occurred
      */
-    public String getUserPreferenceAsString(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
+    public String getUserPreferenceAsString(UserIdentity user, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         UserPreferencesStorage storageManager = getStorageManager(contextVars, id);
         
-        return storageManager.getUserPreferenceAsString(login, storageContext, contextVars, id);
+        return storageManager.getUserPreferenceAsString(user, storageContext, contextVars, id);
     }
     
     /**
      * Get a single long user preference value for a given context.
-     * @param login the user login.
+     * @param user the user.
      * @param storageContext the preferences context.
      * @param contextVars the context variables.
      * @param id the preference ID.
      * @return the user preference value as a Long.
      * @throws UserPreferencesException if an error occurred
      */
-    public Long getUserPreferenceAsLong(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
+    public Long getUserPreferenceAsLong(UserIdentity user, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         UserPreferencesStorage storageManager = getStorageManager(contextVars, id);
         
-        return storageManager.getUserPreferenceAsLong(login, storageContext, contextVars, id);
+        return storageManager.getUserPreferenceAsLong(user, storageContext, contextVars, id);
     }
     
     /**
      * Get a single date user preference value for a given context.
-     * @param login the user login.
+     * @param user the user.
      * @param storageContext the preferences context.
      * @param contextVars the context variables.
      * @param id the preference ID.
      * @return the user preference value as a Date.
      * @throws UserPreferencesException if an error occurred
      */
-    public Date getUserPreferenceAsDate(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
+    public Date getUserPreferenceAsDate(UserIdentity user, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         UserPreferencesStorage storageManager = getStorageManager(contextVars, id);
         
-        return storageManager.getUserPreferenceAsDate(login, storageContext, contextVars, id);
+        return storageManager.getUserPreferenceAsDate(user, storageContext, contextVars, id);
     }
     
     /**
      * Get a single boolean user preference value for a given context.
-     * @param login the user login.
+     * @param user the user.
      * @param storageContext the preferences context.
      * @param contextVars the context variables.
      * @param id the preference ID.
      * @return the user preference value as a Boolean.
      * @throws UserPreferencesException if an error occurred
      */
-    public Boolean getUserPreferenceAsBoolean(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
+    public Boolean getUserPreferenceAsBoolean(UserIdentity user, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         UserPreferencesStorage storageManager = getStorageManager(contextVars, id);
         
-        return storageManager.getUserPreferenceAsBoolean(login, storageContext, contextVars, id);
+        return storageManager.getUserPreferenceAsBoolean(user, storageContext, contextVars, id);
     }
     
     /**
      * Get a single double user preference value for a given context.
-     * @param login the user login.
+     * @param user the user.
      * @param storageContext the preferences context.
      * @param contextVars the context variables.
      * @param id the preference ID.
      * @return the user preference value as a Double.
      * @throws UserPreferencesException if an error occurred
      */
-    public Double getUserPreferenceAsDouble(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
+    public Double getUserPreferenceAsDouble(UserIdentity user, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         UserPreferencesStorage storageManager = getStorageManager(contextVars, id);
         
-        return storageManager.getUserPreferenceAsDouble(login, storageContext, contextVars, id);
+        return storageManager.getUserPreferenceAsDouble(user, storageContext, contextVars, id);
     }
     
     /**

@@ -15,6 +15,7 @@
  */
 package org.ametys.plugins.core.right.profile;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -27,11 +28,13 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.commons.lang3.StringUtils;
 
+import org.ametys.core.group.GroupIdentity;
 import org.ametys.core.group.InvalidModificationException;
 import org.ametys.core.right.RightsManager;
 import org.ametys.core.right.profile.Profile;
 import org.ametys.core.ui.Callable;
 import org.ametys.core.user.CurrentUserProvider;
+import org.ametys.core.user.UserIdentity;
 import org.ametys.plugins.core.impl.right.profile.ProfileBasedRightsManager;
 
 /**
@@ -44,13 +47,10 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
     protected ServiceManager _smanager;
     /** The current user provider. */
     protected CurrentUserProvider _currentUserProvider;
-    /** The profile base impl of rights'manager*/
-    //protected ProfileBasedRightsManager _rightsManager;
 
     public void service(ServiceManager smanager) throws ServiceException
     {
         _smanager = smanager;
-        //_rightsManager = (ProfileBasedRightsManager) smanager.lookup(RightsManager.ROLE);
     }
     
     /**
@@ -114,7 +114,7 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
         
         if (getLogger().isInfoEnabled())
         {
-            getLogger().info(String.format("User %s is adding a new profile '%s'", _isSuperUser() ? "Administrator" : _getCurrentUser(), name));
+            getLogger().info(String.format("User %s is adding a new profile '%s'", _getCurrentUser(), name));
         }
         
         Profile profile = profiles.addProfile(name, context);
@@ -159,7 +159,7 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
         
         if (getLogger().isInfoEnabled())
         {
-            getLogger().info(String.format("User %s is renaming the profile '%s' to '%s'", _isSuperUser() ? "Administrator" : _getCurrentUser(), id, name));
+            getLogger().info(String.format("User %s is renaming the profile '%s' to '%s'", _getCurrentUser(), id, name));
         }
         
         Profile profile = profiles.getProfile(id);
@@ -209,7 +209,7 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
         
         if (getLogger().isInfoEnabled())
         {
-            getLogger().info(String.format("User %s is edit rights of profile '%s'", _isSuperUser() ? "Administrator" : _getCurrentUser(), id));
+            getLogger().info(String.format("User %s is edit rights of profile '%s'", _getCurrentUser(), id));
         }
         
         Profile profile = profiles.getProfile(id);
@@ -274,7 +274,7 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
         {
             if (getLogger().isInfoEnabled())
             {
-                getLogger().info(String.format("User %s is is removing profile '%s'", _isSuperUser() ? "Administrator" : _getCurrentUser(), id));
+                getLogger().info(String.format("User %s is is removing profile '%s'", _getCurrentUser(), id));
             }
             
             Profile profile = profiles.getProfile(id);
@@ -284,7 +284,7 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
             }
             else if (getLogger().isWarnEnabled())
             {
-                getLogger().info(String.format("User %s is trying to remove an unexisting profile '%s'", _isSuperUser() ? "Administrator" : _getCurrentUser(), id));
+                getLogger().info(String.format("User %s is trying to remove an unexisting profile '%s'", _getCurrentUser(), id));
             }
         }
 
@@ -296,42 +296,56 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
     
     /**
      * Assigns profiles to users.
-     * @param usersLogins The logins of the users to add
+     * @param users The users to add
      * @param profilesIds The ids of profiles
      * @param context The context
      * @throws InvalidModificationException If modification are not possible
      * @throws ServiceException If there is an issue with the service manager
      */
     @Callable
-    public void addUsers(List<String> usersLogins, List<String> profilesIds, String context) throws ServiceException, InvalidModificationException
+    public void addUsers(List<Map<String, String>> users, List<String> profilesIds, String context) throws ServiceException, InvalidModificationException
     {
-        assignProfiles(usersLogins, Collections.EMPTY_LIST, profilesIds, context);
+        List<UserIdentity> userIdentities = new ArrayList<>();
+        for (Map<String, String> user : users)
+        {
+            String login = user.get("login");
+            String populationId = user.get("population");
+            userIdentities.add(new UserIdentity(login, populationId));
+        }
+        assignProfiles(userIdentities, Collections.EMPTY_LIST, profilesIds, context);
     }
     
     /**
      * Assigns profiles to groups.
-     * @param groupsIds The ids of the groups to add
+     * @param groups The groups to add
      * @param profilesIds The ids of profiles
      * @param context The context
      * @throws InvalidModificationException If modification are not possible
      * @throws ServiceException If there is an issue with the service manager
      */
     @Callable
-    public void addGroups(List<String> groupsIds, List<String> profilesIds, String context) throws ServiceException, InvalidModificationException
+    public void addGroups(List<Map<String, String>> groups, List<String> profilesIds, String context) throws ServiceException, InvalidModificationException
     {
-        assignProfiles(Collections.EMPTY_LIST, groupsIds, profilesIds, context);
+        List<GroupIdentity> groupIdentities = new ArrayList<>();
+        for (Map<String, String> group : groups)
+        {
+            String id = group.get("id");
+            String groupDirectory = group.get("groupDirectory");
+            groupIdentities.add(new GroupIdentity(id, groupDirectory));
+        }
+        assignProfiles(Collections.EMPTY_LIST, groupIdentities, profilesIds, context);
     }
     
     /**
      * Assigns profiles to users and groups.
-     * @param usersLogins The logins of the users to add
-     * @param groupsIds The ids of the groups to add
+     * @param users The users to add
+     * @param groupsIds The groups to add
      * @param profilesIds The ids of profiles
      * @param context The context
      * @throws InvalidModificationException If modification are not possible
      * @throws ServiceException If there is an issue with the service manager
      */
-    public void assignProfiles(List<String> usersLogins, List<String> groupsIds, List<String> profilesIds, String context) throws ServiceException, InvalidModificationException
+    public void assignProfiles(List<UserIdentity> users, List<GroupIdentity> groupsIds, List<String> profilesIds, String context) throws ServiceException, InvalidModificationException
     {
         if (getLogger().isDebugEnabled())
         {
@@ -342,24 +356,16 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
         {
             String userMessage = null;
             String endMessage = "is modifying the rights'assignment on context '" + context 
-                + "'. New assignment concerns Users [" + _stringListToString(usersLogins) + "]"
-                + "'. and Groups [" + _stringListToString(groupsIds) + "]"
+                + "'. New assignment concerns Users [" + _userListToString(users) + "]"
+                + "'. and Groups [" + _groupListToString(groupsIds) + "]"
                 + "'. with profiles [" + _stringListToString(profilesIds) + "]";
-            if (_isSuperUser())
-            {
-                userMessage = "Administrator";
-            }
-            else
-            {
-                String currentUserLogin = _getCurrentUser();
-                userMessage = "User '" + currentUserLogin + "'";
-            }
+            userMessage = "User '" + _getCurrentUser() + "'";
             
             getLogger().info(userMessage + " " + endMessage);
         }
         
         // Ajoute les nouveau profils
-        _addProfiles (usersLogins, groupsIds, context, profilesIds);
+        _addProfiles (users, groupsIds, context, profilesIds);
 
         if (getLogger().isDebugEnabled())
         {
@@ -369,16 +375,32 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
     
     /**
      * Removes profile's assignment from users and groups for a given context
-     * @param usersLogins The logins of the users to remove
-     * @param groupsIds The ids of the groups to remove
+     * @param users The users to add
+     * @param groups The groups to remove
      * @param profileId The id of the profile
      * @param context The context
      * @throws InvalidModificationException If modification are not possible
      * @throws ServiceException If there is an issue with the service manager
      */
     @Callable
-    public void removeAssignment(List<String> usersLogins, List<String> groupsIds, String profileId, String context) throws ServiceException, InvalidModificationException
+    public void removeAssignment(List<Map<String, String>> users, List<Map<String, String>> groups, String profileId, String context) throws ServiceException, InvalidModificationException
     {
+        List<UserIdentity> userIdentities = new ArrayList<>();
+        for (Map<String, String> user : users)
+        {
+            String login = user.get("login");
+            String populationId = user.get("population");
+            userIdentities.add(new UserIdentity(login, populationId));
+        }
+        
+        List<GroupIdentity> groupIdentities = new ArrayList<>();
+        for (Map<String, String> group : groups)
+        {
+            String id = group.get("id");
+            String groupDirectory = group.get("groupDirectory");
+            groupIdentities.add(new GroupIdentity(id, groupDirectory));
+        }
+        
         if (getLogger().isDebugEnabled())
         {
             getLogger().debug("Starting removing assignment");
@@ -387,22 +409,14 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
         if (getLogger().isInfoEnabled())
         {
             String userMessage = null;
-            String endMessage = "is removing all the rights'assignment on context '" + context + "' for Users [" + _stringListToString(usersLogins) + "] and Groups [" + _stringListToString(groupsIds) + "]";
-            if (_isSuperUser())
-            {
-                userMessage = "Administrator";
-            }
-            else
-            {
-                String currentUserLogin = _getCurrentUser();
-                userMessage = "User '" + currentUserLogin + "'";
-            }
+            String endMessage = "is removing all the rights'assignment on context '" + context + "' for Users [" + _userListToString(userIdentities) + "] and Groups [" + _groupListToString(groupIdentities) + "]";
+            userMessage = "User '" + _getCurrentUser() + "'";
             
             getLogger().info(userMessage + " " + endMessage);
         }
         
         // Retire les profils existants
-        _removeProfile (usersLogins, groupsIds, profileId, context);
+        _removeProfile (userIdentities, groupIdentities, profileId, context);
 
         if (getLogger().isDebugEnabled())
         {
@@ -428,7 +442,7 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
      * Provides the login of the current user.
      * @return the login which cannot be <code>null</code>.
      */
-    protected String _getCurrentUser()
+    protected UserIdentity _getCurrentUser()
     {
         if (_currentUserProvider == null)
         {
@@ -442,34 +456,7 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
             }
         }
         
-        if (!_currentUserProvider.isSuperUser())
-        {
-            return _currentUserProvider.getUser();
-        }
-        
-        return "admin";
-    }
-    
-    /**
-     * Determine if current user is the super user.
-     * @return <code>true</code> if the super user is logged in,
-     *         <code>false</code> otherwise.
-     */
-    protected boolean _isSuperUser()
-    {
-        if (_currentUserProvider == null)
-        {
-            try
-            {
-                _currentUserProvider = (CurrentUserProvider) _smanager.lookup(CurrentUserProvider.ROLE);
-            }
-            catch (ServiceException e)
-            {
-                throw new IllegalStateException(e);
-            }
-        }
-        
-        return _currentUserProvider.isSuperUser();
+        return _currentUserProvider.getUser();
     }
     
     private String _stringListToString(List<String> string)
@@ -486,7 +473,39 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
         return result;
     }
     
-    private void _addProfiles(List<String> users, List<String> groups, String context, List<String> profiles) throws ServiceException, InvalidModificationException
+    private String _userListToString(List<UserIdentity> userList)
+    {
+        String result = "";
+        for (int i = 0; userList != null && i < userList.size(); i++)
+        {
+            if (i > 0)
+            {
+                result += ", ";
+            }
+            String login = userList.get(i).getLogin();
+            String populationId = userList.get(i).getPopulationId();
+            result += login + '(' + populationId + ')';
+        }
+        return result;
+    }
+    
+    private String _groupListToString(List<GroupIdentity> groupList)
+    {
+        String result = "";
+        for (int i = 0; groupList != null && i < groupList.size(); i++)
+        {
+            if (i > 0)
+            {
+                result += ", ";
+            }
+            String id = groupList.get(i).getId();
+            String groupDirectory = groupList.get(i).getDirectoryId();
+            result += id + '(' + groupDirectory + ')';
+        }
+        return result;
+    }
+    
+    private void _addProfiles(List<UserIdentity> users, List<GroupIdentity> groups, String context, List<String> profiles) throws ServiceException, InvalidModificationException
     {
         RightsManager p = (RightsManager) _smanager.lookup(RightsManager.ROLE);
         
@@ -515,7 +534,7 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
         }
     }
     
-    private void _removeProfile(List<String> users, List<String> groups, String profileId, String context) throws ServiceException, InvalidModificationException
+    private void _removeProfile(List<UserIdentity> users, List<GroupIdentity> groups, String profileId, String context) throws ServiceException, InvalidModificationException
     {
         RightsManager p = (RightsManager) _smanager.lookup(RightsManager.ROLE);
         

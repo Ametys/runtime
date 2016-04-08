@@ -96,6 +96,7 @@
                 <link id="common-css" rel="stylesheet" type="text/css">
                     <xsl:attribute name="href"><xsl:value-of select="$contextPath"/><xsl:call-template name="css-file"/></xsl:attribute>
                 </link>
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
     </xsl:template>
     <xsl:template name="css-file">/plugins/core-ui/resources/css/special/common.css</xsl:template>
     <xsl:template name="head"/>

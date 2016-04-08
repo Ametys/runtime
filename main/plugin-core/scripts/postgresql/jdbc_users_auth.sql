@@ -25,4 +25,5 @@ CREATE TABLE Users (
   password varchar(128) NOT NULL,
   salt varchar(128) DEFAULT NULL
 );
+
 COMMIT;

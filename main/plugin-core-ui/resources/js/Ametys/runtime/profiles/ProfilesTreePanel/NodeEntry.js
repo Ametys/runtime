@@ -33,7 +33,6 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel.NodeEntry', {
 		{
 			name: 'text', 
 			sortType: Ext.data.SortTypes.asNonAccentedUCString,
-			depends: ['name', 'type', 'sortablename', 'login'],
 			calculate: function (data) 
             {
                 if (data && data.type == 'profile')
@@ -42,7 +41,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel.NodeEntry', {
 				}
 				else if (data && data.type == 'user')
 				{
-					return data.sortablename + ' (' + data.login + ')';
+					return Ametys.plugins.core.users.UsersDAO.renderUser(data.login, data.populationLabel, data.sortablename);
 				}
 				else
 				{
@@ -56,12 +55,11 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel.NodeEntry', {
 		{
             name: 'displayName', // only for users
             sortType: Ext.data.SortTypes.asNonAccentedUCString,
-            depends: ['name', 'type', 'login'],
             calculate: function (data) 
             {
                 if (data && data.type == 'user')
                 {
-                    return data.name + ' (' + data.login + ')';
+                    return Ametys.plugins.core.users.UsersDAO.renderUser(data.login, data.populationLabel, data.sortablename);
                 }
                 else
                 {
@@ -70,7 +68,10 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel.NodeEntry', {
             }
         },
 		{name: 'login', mapping:'@login'},
+		{name: 'population', mapping:'@population'},
+		{name: 'populationLabel', mapping:'@populationLabel'},
 		{name: 'groupId', mapping:'@groupId'},
+		{name: 'groupDirectory', mapping:'@groupDirectory'},
 		{
 			name: 'profileId', 
 			mapping:'@profileId',
@@ -99,11 +100,10 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel.NodeEntry', {
 		},
 		{
 			name: 'icon', 
-			depends: ['type', 'login'],
 			calculate: function(data) {
 				if (data && data.type == 'user')
 		        {
-		            return Ametys.getPluginDirectPrefix('core-ui') + '/user/' + data.login + '/image_16';
+		            return Ametys.getPluginDirectPrefix('core-ui') + '/user/' + data.population + '/' + data.login + '/image_16';
 		        }
 		        else
 		        {

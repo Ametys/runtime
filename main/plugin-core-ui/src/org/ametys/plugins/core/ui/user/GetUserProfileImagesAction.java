@@ -32,6 +32,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import org.ametys.core.cocoon.JSonReader;
 import org.ametys.core.user.CurrentUserProvider;
+import org.ametys.core.user.UserIdentity;
 import org.ametys.core.util.ServerCommHelper;
 import org.ametys.plugins.core.ui.user.ProfileImageProvider.ProfileImageSource;
 
@@ -75,7 +76,17 @@ public class GetUserProfileImagesAction extends ServiceableAction
         
         Map<String, Object> jsParameters = _serverCommHelper.getJsParameters();
 
-        String login = StringUtils.defaultIfEmpty((String) jsParameters.get("login"), _currentUserProvider.getUser());
+        UserIdentity user;
+        String login = (String) jsParameters.get("login");
+        String populationId = (String) jsParameters.get("population");
+        if (StringUtils.isEmpty(login) || StringUtils.isEmpty(populationId))
+        {
+            user = _currentUserProvider.getUser();
+        }
+        else
+        {
+            user = new UserIdentity(login, populationId);
+        }
         
         Map<String, Object> result = new HashMap<>();
         
@@ -83,13 +94,13 @@ public class GetUserProfileImagesAction extends ServiceableAction
         result.put("images", images);
         
         // Stored image (from upload)
-        _addStoredImage(images, login);
+        _addStoredImage(images, user);
         
         // Gravatar
-        _addGravatarImage(images, login);
+        _addGravatarImage(images, user);
         
         // Initials
-        _addInitialsImage(images, login);
+        _addInitialsImage(images, user);
         
         // Local images
         _addLocalImages(images, login);
@@ -106,11 +117,11 @@ public class GetUserProfileImagesAction extends ServiceableAction
     /**
      * Add the stored image from the userpref (uploaded image are stored in the userpref)
      * @param images The image list accumulator
-     * @param login The user login
+     * @param user The user
      */
-    protected void _addStoredImage(List<Map<String, Object>> images, String login)
+    protected void _addStoredImage(List<Map<String, Object>> images, UserIdentity user)
     {
-        Map<String, Object> rawUserPrefImage = _profileImageProvider.hasUserPrefImage(login);
+        Map<String, Object> rawUserPrefImage = _profileImageProvider.hasUserPrefImage(user);
         
         // Only add image physically stored in userprefs (ie. coming from an upload)
         String base64Source = ProfileImageSource.BASE64.name().toLowerCase();
@@ -126,13 +137,13 @@ public class GetUserProfileImagesAction extends ServiceableAction
     /**
      * Add the gravatar image to the list if existing
      * @param images The image list accumulator
-     * @param login The user login
+     * @param user The user
      */
-    protected void _addGravatarImage(List<Map<String, Object>> images, String login)
+    protected void _addGravatarImage(List<Map<String, Object>> images, UserIdentity user)
     {
         String gravatarSource = ProfileImageSource.GRAVATAR.name().toLowerCase();
         
-        if (_profileImageProvider.hasGravatarImage(login))
+        if (_profileImageProvider.hasGravatarImage(user))
         {
             Map<String, Object> image = new HashMap<>();
             image.put("source", gravatarSource);
@@ -144,13 +155,13 @@ public class GetUserProfileImagesAction extends ServiceableAction
     /**
      * Add the image with initials to the list
      * @param images The image list accumulator
-     * @param login The user login
+     * @param user The user
      */
-    protected void _addInitialsImage(List<Map<String, Object>> images, String login)
+    protected void _addInitialsImage(List<Map<String, Object>> images, UserIdentity user)
     {
         String initialsSource = ProfileImageSource.INITIALS.name().toLowerCase();
         
-        if (_profileImageProvider.hasInitialsImage(login))
+        if (_profileImageProvider.hasInitialsImage(user))
         {
             Map<String, Object> image = new HashMap<>();
             image.put("source", initialsSource);

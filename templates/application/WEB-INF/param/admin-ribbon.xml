@@ -30,7 +30,7 @@
                 <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_SUPERUSER_LABEL" icon="">
                     <large/>
                     <medium>
-                        <control id="org.ametys.core.superuser.Affect"/>
+                        <control id="org.ametys.runtime.plugins.admin.superuser.Affect"/>
                     </medium>
                     <small/>
                 </group>

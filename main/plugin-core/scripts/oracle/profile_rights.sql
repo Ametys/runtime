@@ -32,16 +32,18 @@ CREATE TABLE Rights_GroupRights
 (
 	Profile_Id number NOT NULL, 
 	Group_Id VARCHAR(200) NOT NULL,
+	GroupDirectory_Id VARCHAR(200) NOT NULL,
 	Context VARCHAR(200) NOT NULL, 
-	PRIMARY KEY(Profile_Id, Group_Id, Context)
+	PRIMARY KEY(Profile_Id, Group_Id, GroupDirectory_Id, Context)
 );
 
 CREATE TABLE Rights_UserRights
 (
 	Profile_Id number NOT NULL, 
 	Login VARCHAR(200) NOT NULL, 
+	UserPopulation_Id VARCHAR(200) NOT NULL, 
 	Context VARCHAR(200) NOT NULL, 
-	PRIMARY KEY(Profile_Id, Login, Context)
+	PRIMARY KEY(Profile_Id, Login, UserPopulation_Id, Context)
 );
 
 create sequence seq_rights_profile;

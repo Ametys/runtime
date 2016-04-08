@@ -15,7 +15,11 @@
  */
 package org.ametys.runtime.test;
 
+import org.ametys.runtime.test.groups.jdbc.OracleJdbcGroupsTestCase;
+import org.ametys.runtime.test.rights.profile.OracleProfileBasedRightsManagerTestCase;
+import org.ametys.runtime.test.rights.profile.hierarchical.OracleHierarchicalProfileBasedRightsManagerTestCase;
 import org.ametys.runtime.test.userpref.OracleUserPreferencesTestCase;
+import org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware.OracleModifiableCredentialsAwareJdbcUsersTestCase;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -38,18 +42,13 @@ public final class AllOracleTestSuite
     {
         TestSuite suite = new TestSuite("All Oracle-based tests");
         
-        // FIXME to uncomment
         //$JUnit-BEGIN$
+        suite.addTestSuite(OracleModifiableCredentialsAwareJdbcUsersTestCase.class);
         
-//        suite.addTestSuite(OracleJdbcUsersTestCase.class);
-//        suite.addTestSuite(OracleModifiableJdbcUsersTestCase.class);
-//        suite.addTestSuite(OracleCredentialsAwareJdbcUsersTestCase.class);
-//        suite.addTestSuite(OracleModifiableCredentialsAwareJdbcUsersTestCase.class);
+        suite.addTestSuite(OracleJdbcGroupsTestCase.class);
         
-//        suite.addTestSuite(OracleJdbcGroupsTestCase.class);
-        
-//        suite.addTestSuite(OracleProfileBasedRightsManagerTestCase.class);
-//        suite.addTestSuite(OracleHierarchicalProfileBasedRightsManagerTestCase.class);
+        suite.addTestSuite(OracleProfileBasedRightsManagerTestCase.class);
+        suite.addTestSuite(OracleHierarchicalProfileBasedRightsManagerTestCase.class);
         
         suite.addTestSuite(OracleUserPreferencesTestCase.class);
         //$JUnit-END$

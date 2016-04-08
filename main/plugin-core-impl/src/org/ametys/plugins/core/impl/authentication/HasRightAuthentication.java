@@ -15,8 +15,6 @@
  */
 package org.ametys.plugins.core.impl.authentication;
 
-import java.util.Set;
-
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
@@ -31,6 +29,7 @@ import org.ametys.core.right.RightsManager;
  * Authenticate http request with the current base users extension (which must
  * implements AuthenticatingBaseUsers).
  */
+// FIXME
 public class HasRightAuthentication extends AbstractLogEnabled implements Authentication, Serviceable
 {
     private RightsManager _rightMgr;
@@ -47,8 +46,9 @@ public class HasRightAuthentication extends AbstractLogEnabled implements Authen
      */
     public boolean login(Credentials credentials)
     {
-        String login = credentials.getLogin();
-        Set<String> userRightsSet = _rightMgr.getUserRights(login, null);
-        return !(userRightsSet == null || userRightsSet.size() == 0);
+//        String login = credentials.getLogin();
+//        Set<String> userRightsSet = _rightMgr.getUserRights(login, null);
+//        return !(userRightsSet == null || userRightsSet.size() == 0);
+        return false;
     }
 }

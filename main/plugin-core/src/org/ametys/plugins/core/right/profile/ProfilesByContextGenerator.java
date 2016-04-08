@@ -34,6 +34,8 @@ import org.ametys.core.right.HierarchicalRightsHelper;
 import org.ametys.core.right.RightsManager;
 import org.ametys.core.right.profile.Profile;
 import org.ametys.core.user.User;
+import org.ametys.core.user.population.UserPopulationDAO;
+import org.ametys.core.util.I18nUtils;
 import org.ametys.plugins.core.impl.right.profile.DefaultProfileBasedRightsManager;
 import org.ametys.plugins.core.impl.right.profile.ProfileBasedRightsManager;
 
@@ -44,12 +46,16 @@ public class ProfilesByContextGenerator extends ServiceableGenerator
 {
     /** The rights manager */
     protected DefaultProfileBasedRightsManager _rightsManager;
+    
+    /** The user population DAO */
+    private UserPopulationDAO _userPopulationDAO;
 
     @Override
     public void service(ServiceManager m) throws ServiceException
     {
         super.service(m);
         _rightsManager = (DefaultProfileBasedRightsManager) m.lookup(RightsManager.ROLE);
+        _userPopulationDAO = (UserPopulationDAO) m.lookup(UserPopulationDAO.ROLE);
     }
 
     @Override
@@ -180,7 +186,11 @@ public class ProfilesByContextGenerator extends ServiceableGenerator
     
     private void _addUserAttributes (AttributesImpl attrs, User user, String context, boolean inherit)
     {
-        attrs.addCDATAAttribute("login", user.getName());
+        String populationId = user.getIdentity().getPopulationId();
+        
+        attrs.addCDATAAttribute("login", user.getIdentity().getLogin());
+        attrs.addCDATAAttribute("population", populationId);
+        attrs.addCDATAAttribute("populationLabel", I18nUtils.getInstance().translate(_userPopulationDAO.getUserPopulation(populationId).getLabel()));
         attrs.addCDATAAttribute("name", user.getFullName());
         attrs.addCDATAAttribute("sortablename", user.getSortableName());
         attrs.addCDATAAttribute("context", context);
@@ -190,7 +200,8 @@ public class ProfilesByContextGenerator extends ServiceableGenerator
     
     private void _addGroupAttributes(AttributesImpl attrs, Group group, String context, boolean inherit)
     {
-        attrs.addCDATAAttribute("groupId", "group-" + group.getId());
+        attrs.addCDATAAttribute("groupId", "group-" + group.getIdentity().getId());
+        attrs.addCDATAAttribute("groupDirectory", group.getIdentity().getDirectoryId());
         attrs.addCDATAAttribute("name", group.getLabel());
         attrs.addCDATAAttribute("context", context);
         attrs.addCDATAAttribute("inherit", String.valueOf(inherit));

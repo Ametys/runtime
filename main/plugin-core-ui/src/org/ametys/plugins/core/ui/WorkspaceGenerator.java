@@ -51,7 +51,7 @@ import org.ametys.core.ui.widgets.ClientSideWidget;
 import org.ametys.core.ui.widgets.WidgetsManager;
 import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.core.user.User;
-import org.ametys.core.user.UsersManager;
+import org.ametys.core.user.UserManager;
 import org.ametys.core.util.JSONUtils;
 import org.ametys.plugins.core.user.UserHelper;
 import org.ametys.runtime.plugin.PluginsManager;
@@ -84,9 +84,11 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
     /** The current user provider component */
     protected CurrentUserProvider _currentUserProvider;
     /** The users manager instance */
-    protected UsersManager _usersManager;
+    protected UserManager _userManager;
     /** The json utils component */
     protected JSONUtils _jsonUtils;
+    /** The User Helper */
+    protected UserHelper _userHelper;
     
     @Override
     public void service(ServiceManager smanager) throws ServiceException
@@ -102,8 +104,9 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
         _fileImportsManager = (StaticFileImportsManager) smanager.lookup(StaticFileImportsManager.ROLE);
         _resolver = (SourceResolver) smanager.lookup(SourceResolver.ROLE);
         _currentUserProvider = (CurrentUserProvider) smanager.lookup(CurrentUserProvider.ROLE);
-        _usersManager = (UsersManager) smanager.lookup(UsersManager.ROLE);
+        _userManager = (UserManager) smanager.lookup(UserManager.ROLE);
         _jsonUtils = (JSONUtils) smanager.lookup(JSONUtils.ROLE);
+        _userHelper = (UserHelper) smanager.lookup(UserHelper.ROLE);
     }
     
     @Override
@@ -130,14 +133,12 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
         contentHandler.startDocument();
         XMLUtils.startElement(contentHandler, "workspace");
         
-        if (!_currentUserProvider.isSuperUser())
+        String login = _currentUserProvider.getUser().getLogin();
+        String userPopulationId = _currentUserProvider.getUser().getPopulationId();
+        if (StringUtils.isNotBlank(login))
         {
-            String login = _currentUserProvider.getUser();
-            if (StringUtils.isNotBlank(login))
-            {
-                User user = _usersManager.getUser(login);
-                UserHelper.saxUser(user, contentHandler);
-            }
+            User user = _userManager.getUser(userPopulationId, login);
+            _userHelper.saxUser(user, contentHandler);
         }
         
         try (InputStream config = getRibbonConfiguration())

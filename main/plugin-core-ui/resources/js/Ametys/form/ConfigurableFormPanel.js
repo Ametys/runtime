@@ -208,7 +208,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     fieldNamePrefix: '',
     
     /**
-     * @cfg {String} hideDisabledFields=false Set to true to hide the disabled fields
+     * @cfg {Boolean} hideDisabledFields=false Set to true to hide the disabled fields
      */
     hideDisabledFields: false,
     
@@ -328,8 +328,10 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         this._tabPanels = [];
         this._notInFirstEditionPanels = [];
 
+        this.hideDisabledFields = config.hideDisabledFields === true;
         this._fieldCheckersManager = Ext.create('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
-            form: this
+            form: this,
+            hideDisabledButtons: this.hideDisabledFields
         });
 
         // Message bus listeners.
@@ -354,7 +356,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         {
 	        this.defaultPathSeparator = config.defaultPathSeparator;
         }
-        this.hideDisabledFields = config.hideDisabledFields === true;
     },
     
     /**
@@ -2632,7 +2633,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                     for (var j = 0; j < itemsDifference; j++)
                     {
                         var collapsed = j < (itemsDifference-1);
-                        repeaterPanel.addRepeaterItem({animate: false, collapsed: collapsed});
+                        repeaterPanel.addRepeaterItem({animate: false, collapsed: collapsed, fireRepeaterEntryReadyEvent: true});
                     }
                 }
             }
@@ -2742,7 +2743,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                     {
                         // Expand the last item.
                         var collapsed = (i < childNodes.length-1);
-                        repeaterPanel.addRepeaterItem({previousPosition: i, animate: false, collapsed: collapsed});
+                        repeaterPanel.addRepeaterItem({previousPosition: i, animate: false, collapsed: collapsed, fireRepeaterEntryReadyEvent: true});
                     }
                     else
                     {

@@ -54,6 +54,7 @@ import org.xml.sax.SAXException;
 
 import org.ametys.core.datasource.ConnectionHelper;
 import org.ametys.core.datasource.ConnectionHelper.DatabaseType;
+import org.ametys.core.user.UserIdentity;
 import org.ametys.core.userpref.DefaultUserPreferencesStorage;
 import org.ametys.core.userpref.UserPreferencesException;
 import org.ametys.core.userpref.UserPrefsHandler;
@@ -108,7 +109,7 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
     }
     
     @Override
-    public Map<String, String> getUnTypedUserPrefs(String login, String storageContext, Map<String, String> contextVars) throws UserPreferencesException
+    public Map<String, String> getUnTypedUserPrefs(UserIdentity user, String storageContext, Map<String, String> contextVars) throws UserPreferencesException
     {
         Map<String, String> prefs = new HashMap<>();
         
@@ -122,10 +123,11 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
             connection = ConnectionHelper.getConnection(_dataSourceId);
             DatabaseType dbType = ConnectionHelper.getDatabaseType(connection);
             
-            stmt = connection.prepareStatement("SELECT * FROM " + _databaseTable + " WHERE login = ? AND context = ?");
+            stmt = connection.prepareStatement("SELECT * FROM " + _databaseTable + " WHERE login = ? AND population = ? AND context = ?");
             
-            stmt.setString(1, login);
-            stmt.setString(2, storageContext);
+            stmt.setString(1, user.getLogin());
+            stmt.setString(2, user.getPopulationId());
+            stmt.setString(3, storageContext);
             
             rs = stmt.executeQuery();
             
@@ -150,13 +152,13 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
         }
         catch (SQLException e)
         {
-            String message = "Database error trying to access the preferences of user '" + login + "' in context '" + storageContext + "'.";
+            String message = "Database error trying to access the preferences of user '" + user + "' in context '" + storageContext + "'.";
             getLogger().error(message, e);
             throw new UserPreferencesException(message, e);
         }
         catch (SAXException | IOException e)
         {
-            String message = "Error parsing the preferences of user '" + login + "' in context '" + storageContext + "'.";
+            String message = "Error parsing the preferences of user '" + user + "' in context '" + storageContext + "'.";
             getLogger().error(message, e);
             throw new UserPreferencesException(message, e);
         }
@@ -170,7 +172,7 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
     }
     
     @Override
-    public void removeUserPreferences(String login, String storageContext, Map<String, String> contextVars) throws UserPreferencesException
+    public void removeUserPreferences(UserIdentity user, String storageContext, Map<String, String> contextVars) throws UserPreferencesException
     {
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -179,15 +181,16 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
         {
             connection = ConnectionHelper.getConnection(_dataSourceId);
             
-            stmt = connection.prepareStatement("DELETE FROM " + _databaseTable + " WHERE login = ? AND context = ?");
-            stmt.setString(1, login);
-            stmt.setString(2, storageContext);
+            stmt = connection.prepareStatement("DELETE FROM " + _databaseTable + " WHERE login = ? AND population = ? AND context = ?");
+            stmt.setString(1, user.getLogin());
+            stmt.setString(2, user.getPopulationId());
+            stmt.setString(3, storageContext);
             
             stmt.executeUpdate();
         }
         catch (SQLException e)
         {
-            String message = "Database error trying to remove preferences for login '" + login + "' in context '" + storageContext + "'.";
+            String message = "Database error trying to remove preferences for login '" + user + "' in context '" + storageContext + "'.";
             getLogger().error(message, e);
             throw new UserPreferencesException(message, e);
         }
@@ -199,7 +202,7 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
     }
     
     @Override
-    public void setUserPreferences(String login, String storageContext, Map<String, String> contextVars, Map<String, String> preferences) throws UserPreferencesException
+    public void setUserPreferences(UserIdentity user, String storageContext, Map<String, String> contextVars, Map<String, String> preferences) throws UserPreferencesException
     {
         byte[] prefBytes = _getPreferencesXmlBytes(preferences);
         Connection connection = null;
@@ -213,10 +216,11 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
             
             // Test if the preferences already exist.
             boolean dataExists;
-            try (PreparedStatement stmt = connection.prepareStatement("SELECT count(*) FROM " + _databaseTable + " WHERE login = ? AND context = ?"))
+            try (PreparedStatement stmt = connection.prepareStatement("SELECT count(*) FROM " + _databaseTable + " WHERE login = ? AND population = ? AND context = ?"))
             {
-                stmt.setString(1, login);
-                stmt.setString(2, storageContext);
+                stmt.setString(1, user.getLogin());
+                stmt.setString(2, user.getPopulationId());
+                stmt.setString(3, storageContext);
                 
                 try (ResultSet rs = stmt.executeQuery())
                 {
@@ -228,7 +232,7 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
             if (dataExists)
             {
                 // If there's already a record, update it with the new data.
-                try (PreparedStatement stmt = connection.prepareStatement("UPDATE " + _databaseTable + " SET data = ? WHERE login = ? AND context = ?"))
+                try (PreparedStatement stmt = connection.prepareStatement("UPDATE " + _databaseTable + " SET data = ? WHERE login = ? AND population = ? AND context = ?"))
                 {
                     if (DatabaseType.DATABASE_POSTGRES.equals(dbType) || DatabaseType.DATABASE_ORACLE.equals(dbType))
                     {
@@ -239,8 +243,9 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
                         stmt.setBlob(1, dataIs, prefBytes.length);
                     }
                     
-                    stmt.setString(2, login);
-                    stmt.setString(3, storageContext);
+                    stmt.setString(2, user.getLogin());
+                    stmt.setString(3, user.getPopulationId());
+                    stmt.setString(4, storageContext);
                     
                     stmt.executeUpdate();
                 }
@@ -248,17 +253,18 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
             else
             {
                 // If not, insert the data.
-                try (PreparedStatement stmt = connection.prepareStatement("INSERT INTO " + _databaseTable + "(login, context, data) VALUES(?, ?, ?)"))
+                try (PreparedStatement stmt = connection.prepareStatement("INSERT INTO " + _databaseTable + "(login, population, context, data) VALUES(?, ?, ?, ?)"))
                 {
-                    stmt.setString(1, login);
-                    stmt.setString(2, storageContext);
+                    stmt.setString(1, user.getLogin());
+                    stmt.setString(2, user.getPopulationId());
+                    stmt.setString(3, storageContext);
                     if (DatabaseType.DATABASE_POSTGRES.equals(dbType) || DatabaseType.DATABASE_ORACLE.equals(dbType))
                     {
-                        stmt.setBinaryStream(3, dataIs, prefBytes.length);
+                        stmt.setBinaryStream(4, dataIs, prefBytes.length);
                     }
                     else
                     {
-                        stmt.setBlob(3, dataIs);
+                        stmt.setBlob(4, dataIs);
                     }
                     
                     stmt.executeUpdate();
@@ -268,7 +274,7 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
         }
         catch (SQLException | IOException e)
         {
-            String message = "Database error trying to access the preferences of user '" + login + "' in context '" + storageContext + "'.";
+            String message = "Database error trying to access the preferences of user '" + user + "' in context '" + storageContext + "'.";
             getLogger().error(message, e);
             throw new UserPreferencesException(message, e);
         }
@@ -279,11 +285,11 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
     }
 
     @Override
-    public String getUserPreferenceAsString(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
+    public String getUserPreferenceAsString(UserIdentity user, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         String value = null;
         
-        Map<String, String> values = getUnTypedUserPrefs(login, storageContext, contextVars);
+        Map<String, String> values = getUnTypedUserPrefs(user, storageContext, contextVars);
         if (values.containsKey(id))
         {
             value = values.get(id);
@@ -293,11 +299,11 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
     }
     
     @Override
-    public Long getUserPreferenceAsLong(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
+    public Long getUserPreferenceAsLong(UserIdentity user, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         Long value = null;
         
-        Map<String, String> values = getUnTypedUserPrefs(login, storageContext, contextVars);
+        Map<String, String> values = getUnTypedUserPrefs(user, storageContext, contextVars);
         if (values.containsKey(id))
         {
             value = (Long) ParameterHelper.castValue(values.get(id), ParameterType.LONG);
@@ -308,11 +314,11 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
     }
     
     @Override
-    public Date getUserPreferenceAsDate(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
+    public Date getUserPreferenceAsDate(UserIdentity user, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         Date value = null;
         
-        Map<String, String> values = getUnTypedUserPrefs(login, storageContext, contextVars);
+        Map<String, String> values = getUnTypedUserPrefs(user, storageContext, contextVars);
         if (values.containsKey(id))
         {
             value = (Date) ParameterHelper.castValue(values.get(id), ParameterType.DATE);
@@ -322,11 +328,11 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
     }
     
     @Override
-    public Boolean getUserPreferenceAsBoolean(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
+    public Boolean getUserPreferenceAsBoolean(UserIdentity user, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         Boolean value = null;
         
-        Map<String, String> values = getUnTypedUserPrefs(login, storageContext, contextVars);
+        Map<String, String> values = getUnTypedUserPrefs(user, storageContext, contextVars);
         if (values.containsKey(id))
         {
             value = (Boolean) ParameterHelper.castValue(values.get(id), ParameterType.BOOLEAN);
@@ -336,11 +342,11 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
     }
     
     @Override
-    public Double getUserPreferenceAsDouble(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
+    public Double getUserPreferenceAsDouble(UserIdentity user, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         Double value = null;
         
-        Map<String, String> values = getUnTypedUserPrefs(login, storageContext, contextVars);
+        Map<String, String> values = getUnTypedUserPrefs(user, storageContext, contextVars);
         if (values.containsKey(id))
         {
             value = (Double) ParameterHelper.castValue(values.get(id), ParameterType.DOUBLE);

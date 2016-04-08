@@ -22,19 +22,19 @@ public interface UserListener
 {
     /**
      * When an user is removed
-     * @param login the user's login
+     * @param user the user
      */
-    public void userRemoved(String login);
+    public void userRemoved(UserIdentity user);
     
     /**
      * When an user is added
-     * @param login the user's login
+     * @param user the user
      */
-    public void userAdded(String login);
+    public void userAdded(UserIdentity user);
     
     /**
      * When an user is updated
-     * @param login the user's login
+     * @param user the user
      */
-    public void userUpdated(String login);
+    public void userUpdated(UserIdentity user);
 }

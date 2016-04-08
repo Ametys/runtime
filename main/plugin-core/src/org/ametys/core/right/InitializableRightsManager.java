@@ -15,6 +15,8 @@
  */
 package org.ametys.core.right;
 
+import org.ametys.core.user.UserIdentity;
+
 /**
  * This right manager support an initialisation that grant all privileges to a user .<br>
  * Extends this implementation if you want that the administrator to be able to initialize your right manager.<br>
@@ -24,9 +26,9 @@ public interface InitializableRightsManager extends RightsManager
 {
     /**
      * This method has to ensure that the user identified by its login will have all power.
-     * @param login The login of the user that will obtain all privilege on the right manager.
+     * @param user The user that will obtain all privilege on the right manager.
      * @param context The context of the right (cannot be null)
      * @throws RightsException if an error occurs.
      */
-    public void grantAllPrivileges(String login, String context) throws RightsException;
+    public void grantAllPrivileges(UserIdentity user, String context) throws RightsException;
 }

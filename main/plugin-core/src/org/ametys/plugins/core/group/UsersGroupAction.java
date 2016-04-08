@@ -26,6 +26,7 @@ import java.util.Set;
 
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.acting.ServiceableAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
@@ -35,9 +36,10 @@ import org.apache.cocoon.environment.SourceResolver;
 
 import org.ametys.core.cocoon.JSonReader;
 import org.ametys.core.group.Group;
-import org.ametys.core.group.GroupsManager;
+import org.ametys.core.group.GroupManager;
 import org.ametys.core.user.User;
-import org.ametys.core.user.UsersManager;
+import org.ametys.core.user.UserIdentity;
+import org.ametys.core.user.UserManager;
 import org.ametys.plugins.core.user.UserHelper;
 
 /**
@@ -49,29 +51,28 @@ public class UsersGroupAction extends ServiceableAction
     private static final int _DEFAULT_COUNT_VALUE = Integer.MAX_VALUE;
     private static final int _DEFAULT_OFFSET_VALUE = 0;
     
+    private UserHelper _userHelper;
+    
+    @Override
+    public void service(ServiceManager smanager) throws ServiceException
+    {
+        super.service(smanager);
+        _userHelper = (UserHelper) smanager.lookup(UserHelper.ROLE);
+    }
+    
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
-        String role = parameters.getParameter("groupsManagerRole", GroupsManager.ROLE);
-        if (role.length() == 0)
-        {
-            role = GroupsManager.ROLE;
-        }
-        
-        String usersrole = parameters.getParameter("usersManagerRole", UsersManager.ROLE);
-        if (usersrole.length() == 0)
-        {
-            usersrole = UsersManager.ROLE;
-        }
-        
-        GroupsManager groupsManager = null;
-        UsersManager usersManager = null;
+        GroupManager groupManager = null;
+        UserManager userManager = null;
         
         List<Map<String, Object>> users = new ArrayList<>();
         
         try
         {
-            groupsManager = (GroupsManager) manager.lookup(role);
-            usersManager = (UsersManager) manager.lookup(usersrole);
+            groupManager = (GroupManager) manager.lookup(GroupManager.ROLE);
+            userManager = (UserManager) manager.lookup(UserManager.ROLE);
+            Map<String, Object> jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
+            String groupDirectoryId = (String) jsParameters.get("groupDirectoryId");
 
             int offset = parameters.getParameterAsInteger("limit", _DEFAULT_COUNT_VALUE);
             if (offset == -1)
@@ -81,10 +82,10 @@ public class UsersGroupAction extends ServiceableAction
     
             int begin = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
             
-            Group group = groupsManager.getGroup(source);
+            Group group = groupManager.getGroup(groupDirectoryId, source);
             if (group != null)
             {
-                List<User> sortedUsers = _getSortedUsers(group, usersManager);
+                List<User> sortedUsers = _getSortedUsers(group, userManager);
                 Iterator<User> it = sortedUsers.iterator();
                 
                 int index = 0;
@@ -94,7 +95,7 @@ public class UsersGroupAction extends ServiceableAction
                     
                     if (index >= begin)
                     {
-                        users.add(UserHelper.user2Map(user));
+                        users.add(_userHelper.user2Map(user));
                         
                     }
                     index++;
@@ -113,24 +114,26 @@ public class UsersGroupAction extends ServiceableAction
         }
         catch (ServiceException e)
         {
-            getLogger().error("Error looking up GroupsManager of role " + role + " or UsersManager of role " + usersrole, e);
-            throw new ProcessingException("Error looking up GroupsManager of role " + role + " or UsersManager of role " + usersrole, e);
+            getLogger().error("Error looking up GroupManager or UserManager", e);
+            throw new ProcessingException("Error looking up GroupManager or UserManager", e);
         }
         finally
         {
-            manager.release(groupsManager);
-            manager.release(usersManager);
+            manager.release(groupManager);
+            manager.release(userManager);
         }
     }
     
-    private List<User> _getSortedUsers (Group group, UsersManager usersManager)
+    private List<User> _getSortedUsers (Group group, UserManager userManager)
     {
         List<User> users = new ArrayList<>();
         
-        Set<String> logins = group.getUsers();
-        for (String login : logins)
+        Set<UserIdentity> groupUsers = group.getUsers();
+        for (UserIdentity identity : groupUsers)
         {
-            User user = usersManager.getUser(login);
+            String login = identity.getLogin();
+            String populationId = identity.getPopulationId();
+            User user = userManager.getUser(populationId, login);
             if (user != null)
             {
                 users.add(user);

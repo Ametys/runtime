@@ -30,13 +30,6 @@ public class HsqlProfileBasedRightsManagerTestCase extends AbstractProfileBasedR
     }
     
     @Override
-    protected void tearDown() throws Exception
-    {
-        _cocoon.dispose();
-        super.tearDown();
-    }
-    
-    @Override
     protected File[] getScripts()
     {
         return new File[] {

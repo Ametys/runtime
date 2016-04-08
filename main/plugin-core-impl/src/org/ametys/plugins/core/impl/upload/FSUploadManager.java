@@ -53,6 +53,7 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import org.ametys.core.upload.Upload;
 import org.ametys.core.upload.UploadManager;
+import org.ametys.core.user.UserIdentity;
 import org.ametys.runtime.util.AmetysHomeHelper;
 
 /**
@@ -181,7 +182,7 @@ public class FSUploadManager extends TimerTask implements UploadManager, ThreadS
     }
     
     @Override
-    public Upload storeUpload(String login, String filename, InputStream is) throws IOException
+    public Upload storeUpload(UserIdentity user, String filename, InputStream is) throws IOException
     {
         if (!_globalUploadsDir.exists())
         {
@@ -198,7 +199,7 @@ public class FSUploadManager extends TimerTask implements UploadManager, ThreadS
 
         try
         {
-            uploadFile = new File(_getUploadDir(login, id), URLEncoder.encode(filename, "UTF-8"));
+            uploadFile = new File(_getUploadDir(user.getLogin(), id), URLEncoder.encode(filename, "UTF-8"));
         }
         catch (UnsupportedEncodingException e)
         {
@@ -228,9 +229,9 @@ public class FSUploadManager extends TimerTask implements UploadManager, ThreadS
     }
     
     @Override
-    public Upload getUpload(String login, String id) throws NoSuchElementException
+    public Upload getUpload(UserIdentity user, String id) throws NoSuchElementException
     {
-        File uploadDir = _getUploadDir(login, id);
+        File uploadDir = _getUploadDir(user.getLogin(), id);
         
         if (_logger.isDebugEnabled())
         {

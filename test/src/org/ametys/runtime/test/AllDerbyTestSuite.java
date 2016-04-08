@@ -19,9 +19,6 @@ import org.ametys.runtime.test.groups.jdbc.DerbyJdbcGroupsTestCase;
 import org.ametys.runtime.test.rights.profile.DerbyProfileBasedRightsManagerTestCase;
 import org.ametys.runtime.test.rights.profile.hierarchical.DerbyHierarchicalProfileBasedRightsManagerTestCase;
 import org.ametys.runtime.test.userpref.DerbyUserPreferencesTestCase;
-import org.ametys.runtime.test.users.jdbc.DerbyJdbcUsersTestCase;
-import org.ametys.runtime.test.users.jdbc.credentialsaware.DerbyCredentialsAwareJdbcUsersTestCase;
-import org.ametys.runtime.test.users.jdbc.modifiable.DerbyModifiableJdbcUsersTestCase;
 import org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware.DerbyModifiableCredentialsAwareJdbcUsersTestCase;
 
 import junit.framework.Test;
@@ -46,9 +43,6 @@ public final class AllDerbyTestSuite
         TestSuite suite = new TestSuite("All Derby-based tests");
         
         //$JUnit-BEGIN$
-        suite.addTestSuite(DerbyJdbcUsersTestCase.class);
-        suite.addTestSuite(DerbyModifiableJdbcUsersTestCase.class);
-        suite.addTestSuite(DerbyCredentialsAwareJdbcUsersTestCase.class);
         suite.addTestSuite(DerbyModifiableCredentialsAwareJdbcUsersTestCase.class);
         
         suite.addTestSuite(DerbyJdbcGroupsTestCase.class);

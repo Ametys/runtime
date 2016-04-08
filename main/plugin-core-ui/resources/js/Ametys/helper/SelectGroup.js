@@ -18,7 +18,7 @@
  * This is a helper to select one or more groups from the group manager. See {@link #act} method
  * 
  * 		Ametys.helper.SelectGroup.act({
- *			callback: Ext.bind(function (groups) { console.info(groups); }, this), 
+ *			callback: Ext.bind(function (groups) { console.info(groups[0].id + ', ' + groups[0].groupDirectory); }, this), 
  *			allowMultiselection: false,
  *		});	
  */
@@ -44,16 +44,28 @@ Ext.define('Ametys.helper.SelectGroup', {
 	 */
 	
 	/**
-	 * @property {String} groupsManagerRole The currently selected groupsManager to use to list the group. The string is the role name on the server-side. Null/Empty means the default groups manager. The current group manager role registered by the {@link #act} call.
-	 */
-	groupsManagerRole: null,
-	
-	/**
 	 * @property {String} pluginName=core The name of the currently selected plugin to use for requests. Selected by the {@link #act} call.
 	 */
 	/**
 	 * @property {String} url=groups/search.json The url of the currently selected plugin to use for requests. Selected by the {@link #act} call.
 	 */
+    /**
+     * @property {String} [context] The context for the group directories to display in the combobox. All group directories will be displayed if not provided.
+     */
+    /**
+     * @private
+     * @property {Ext.form.field.ComboBox} _groupDirectoriesField The combobox of the dialog box that displays the group directories where to search
+     */
+    /**
+     * @property {Boolean} _enableAllDirectoriesOption True to add an option in the group directories combobx for searching over all the directories.
+     * @private
+     */
+    /**
+     * @property {Boolean} _allDirectoriesOptionId The id of the 'all directories' options.
+     * @private
+     * @readonly
+     */
+    _allDirectoriesOptionId: '#all',
 	
 	/**
 	 * @private
@@ -81,12 +93,17 @@ Ext.define('Ametys.helper.SelectGroup', {
 	 * Open the dialog box to select a group
 	 * @param {Object} config The configuration options:
 	 * @param {Function} config.callback The callback function that is called when the group has been selected
-	 * @param {Object} config.callback.groups A Map String-String of the selected groups. The key is the group identifier and the value is the associated group name.
+	 * @param {Object[]} config.callback.groups An array of groups.
+	 * @param {String} config.callback.groups.id The id of the group
+	 * @param {String} config.callback.groups.groupDirectory The group directory id of the group
+	 * @param {String} config.callback.groups.label The name of the group
+	 * @param {String} config.callback.groups.groupDirectoryName The name of the group directory
 	 * @param {Function} config.cancelCallback The callback function if the group cancel the dialog box. Can be null.
-	 * @param {String} [config.groupsManagerRole] the avalon role of the groups manager which will be called to get the group list, or null to call the default groups manager.
 	 * @param {Boolean} [config.allowMultiselection=true] Set to false to disable multiple selection of users.
 	 * @param {String} [config.plugin=core] The plugin to use for search request.
 	 * @param {String} [config.url=groups/search.json] The url to use for search request.
+     * @param {String} [config.context] The context for the group directories to display in the combobox. Default to the current context.
+     * @param {Boolean} [config.enableAllDirectoriesOption=true] True to add an option in the directory combobx for searching over all the directories.
 	 */
 	act: function (config)
 	{
@@ -94,13 +111,15 @@ Ext.define('Ametys.helper.SelectGroup', {
 		
 		this.callback = config.callback || function () {};
 		this.cancelCallback = config.cancelCallback || function () {};
-	    this.groupsManagerRole = config.groupsManagerRole || '';
 	    this.allowMultiselection = config.allowMultiselection || true;
 	    this.pluginName = config.plugin || 'core';
 	    this.url = config.url || 'groups/search.json';
+        this.context = config.context != null ? config.context : Ametys.getAppParameter('context');
+        this._enableAllDirectoriesOption = config.enableAllDirectoriesOption !== false;
 	    
 		this.delayedInitialize();
 		
+        this._groupDirectoriesField.clearValue();
 		this._searchField.setValue("");
 		this._groupList.getSelectionModel().setSelectionMode(this.allowMultiselection ? 'SIMPLE' : 'SINGLE');
 		this._groupList.getSelectionModel().deselectAll();
@@ -114,13 +133,12 @@ Ext.define('Ametys.helper.SelectGroup', {
 			url: this.url,
 			
 			extraParams: {
-				groupsManagerRole: this.groupsManagerRole,
 				limit: this.RESULT_LIMIT
 			}
 		});
 		
 		this._box.show();
-		this.load();
+		this._loadDirectories();
 	},
 	
 	/**
@@ -134,6 +152,39 @@ Ext.define('Ametys.helper.SelectGroup', {
 			return true;
 		}
 		this._initialized = true;
+        
+        this._groupDirectoriesField = Ext.create('Ext.form.field.ComboBox', {
+            xtype: 'combobox',
+            fieldLabel: "{{i18n PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_DIRECTORY}}",
+            name: "groupDirectories",
+            cls: 'ametys',
+            labelWidth: 150,
+            
+            store: {
+                fields: ['id', {name: 'label', sortType: Ext.data.SortTypes.asNonAccentedUCString}],
+                proxy: {
+                    type: 'ametys',
+                    plugin: 'core-ui',
+                    url: 'group-directories.json',
+                    reader: {
+                        type: 'json',
+                        rootProperty: 'groupDirectories'
+                    }
+                },
+                sorters: [{property: 'label', direction: 'ASC'}],
+                listeners: {
+                    'beforeload': {fn: this._onBeforeLoadDirectories, scope: this},
+                    'load': {fn: this._onLoadDirectories, scope: this}
+                }
+            },
+            valueField: 'id',
+            displayField: 'label',
+            queryMode: 'local',
+            forceSelection: true,
+            triggerAction: 'all',
+            
+            listeners: {change: Ext.bind(this._onGroupDirectoryChange, this)}
+        });
 
 		this._searchField = Ext.create('Ext.form.TextField', {
 			cls: 'ametys',
@@ -152,7 +203,17 @@ Ext.define('Ametys.helper.SelectGroup', {
 		    extend: 'Ext.data.Model',
 		    fields: [
 	     		{name: 'id'},
-	     		{name: 'label', sortType: Ext.data.SortTypes.asNonAccentedUCString}
+	     		{name: 'label', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+	     		{name: 'groupDirectory'},
+	     		{name: 'groupDirectoryLabel', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+                {
+                    name: 'displayName',
+                    sortType: Ext.data.SortTypes.asNonAccentedUCString,
+                    calculate: function(data)
+                    {
+                        return data.label + ' (' + data.id + ', ' + data.groupDirectoryLabel + ')';
+                    }
+                }
 	     	]
 		});
 
@@ -171,7 +232,7 @@ Ext.define('Ametys.helper.SelectGroup', {
 			flex: 1,
 			store : store,
 			hideHeaders : true,
-			columns: [{header: "Label", width : 240, menuDisabled : true, sortable: true, dataIndex: 'label'}]
+			columns: [{header: "Label", flex: 1, menuDisabled : true, sortable: true, dataIndex: 'displayName'}]
 		});	
 		
 		this._box = Ext.create('Ametys.window.DialogBox', {
@@ -181,11 +242,13 @@ Ext.define('Ametys.helper.SelectGroup', {
 			    align : 'stretch',
 			    pack  : 'start'
 			},
-			width: 280,
-			height: 340,
-			icon: Ametys.getPluginResourcesPrefix('core') + '/img/groups/group_16.png',
+			width: 450,
+			height: 600,
+			//icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/groups/group_16.png',
+            iconCls: 'flaticon-multiple25',
 			
 			items : [
+                     this._groupDirectoriesField,
 			         this._searchField, 
 			         this._groupList, 
 			         {
@@ -210,6 +273,71 @@ Ext.define('Ametys.helper.SelectGroup', {
 			} ]
 		});
 	},
+    
+    /**
+     * @private
+     * Load the groups when the current group directory has changed 
+     */
+    _onGroupDirectoryChange: function()
+    {
+        this.load();
+    },
+    
+    /**
+     * Function called before loading the group directory store
+     * @param {Ext.data.Store} store The store
+     * @param {Ext.data.operation.Operation} operation The object that will be passed to the Proxy to load the store
+     * @private
+     */
+    _onBeforeLoadDirectories: function(store, operation)
+    {
+        operation.setParams( Ext.apply(operation.getParams() || {}, {
+            context: this.context
+        }));
+    },
+    
+    /**
+     * @private
+     * Listener invoked after loading group directories
+     * @param {Ext.data.Store} store The store
+     * @param {Ext.data.Model[]} records The records of the store
+     */
+    _onLoadDirectories: function(store, records)
+    {
+        if (this._enableAllDirectoriesOption)
+        {
+            // Add an option in the directories combobox for searching over all the directories
+            store.add({
+                id: this._allDirectoriesOptionId,
+                label: "{{i18n PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_DIRECTORY_OPTION_ALL}}"
+            });
+        }
+    },
+    
+    /**
+     * @private
+     * Load the group directories
+     */
+    _loadDirectories: function()
+    {
+        this._groupDirectoriesField.getStore().load({
+            scope: this,
+            callback: function(records) {
+                // When store loaded, select the 'all' option if it is available
+                if (this._enableAllDirectoriesOption)
+                {
+                    this._groupDirectoriesField.select(this._allDirectoriesOptionId);
+                }
+                // Otherwise select the fist data
+                else if (records.length > 0)
+                {
+                    this._groupDirectoriesField.select(records[0].get('id'));
+                }
+                // If there is one and only one directory, hide the combobox
+                this._groupDirectoriesField.setHidden(records.length == 1);
+            }
+        });
+    },
 	
 	/**
 	 * This method is called to apply the current filter immediately
@@ -230,10 +358,26 @@ Ext.define('Ametys.helper.SelectGroup', {
 	 */
 	_onBeforeLoad: function(store, operation, eOpts)
 	{
-		operation.setParams( operation.getParams() || {} );
-		operation.setParams( Ext.apply(operation.getParams(), {
-			criteria: this._searchField.getValue()
-		}));
+        // If the directory combobox value is invalid, cancel the loading
+        if (this._groupDirectoriesField.getValue() == null)
+        {
+            return false;
+        }
+        
+        // 'all' option is selected
+        if (this._groupDirectoriesField.getValue() == this._allDirectoriesOptionId)
+        {
+            operation.setParams( Ext.apply(operation.getParams() || {}, {
+                context: this.context,
+                criteria: this._searchField.getValue()
+            }));
+            return true;
+        }
+        
+        operation.setParams( Ext.apply(operation.getParams() || {}, {
+            groupDirectoryId: this._groupDirectoriesField.getValue(),
+            criteria: this._searchField.getValue()
+        }));
 	},
 	
 	/**
@@ -275,7 +419,7 @@ Ext.define('Ametys.helper.SelectGroup', {
 	 */
 	ok: function ()
 	{
-		var addedgroups = {}
+		var addedgroups = [];
 		
 		var selection = this._groupList.getSelectionModel().getSelection();
 		if (selection.length == 0)
@@ -294,7 +438,12 @@ Ext.define('Ametys.helper.SelectGroup', {
 		for (var i=0; i < selection.length; i++)
 		{
 			var opt = selection[i];
-			addedgroups[opt.get('id')] = opt.get('label');
+			addedgroups.push({
+               id: opt.get('id'),
+               groupDirectory: opt.get('groupDirectory'),
+               label: opt.get('label'),
+               groupDirectoryName: opt.get('groupDirectoryLabel')
+            });
 		}
 	
 		this.callback(addedgroups);

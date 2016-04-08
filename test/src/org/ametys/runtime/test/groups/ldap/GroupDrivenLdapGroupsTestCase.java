@@ -15,9 +15,16 @@
  */
 package org.ametys.runtime.test.groups.ldap;
 
-import org.ametys.core.group.GroupsManager;
-import org.ametys.core.group.ModifiableGroupsManager;
-import org.ametys.plugins.core.impl.group.ldap.GroupDrivenLdapGroupsManager;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import org.ametys.core.group.directory.GroupDirectory;
+import org.ametys.core.group.directory.GroupDirectoryFactory;
+import org.ametys.core.group.directory.ModifiableGroupDirectory;
+import org.ametys.core.user.population.UserPopulationDAO;
+import org.ametys.plugins.core.impl.group.directory.ldap.GroupDrivenLdapGroupDirectory;
+import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.test.Init;
 
 /**
@@ -32,12 +39,13 @@ public class GroupDrivenLdapGroupsTestCase extends AbstractLdapGroupsTestCase
         
         _startApplication("test/environments/runtimes/runtime8.xml", "test/environments/configs/config3.xml", "test/environments/datasources/datasource-mysql.xml", "test/environments/datasources/datasource-ldap.xml", "test/environments/webapp1");
         
-        _groupsManager = (GroupsManager) Init.getPluginServiceManager().lookup(GroupsManager.ROLE);
+        _groupDirectory = _createGroupDrivenLdapGroupDirectory();
     }
     
     @Override
     protected void tearDown() throws Exception
     {
+        _deletePopulation();
         _cocoon.dispose();
         super.tearDown();
     }
@@ -49,9 +57,57 @@ public class GroupDrivenLdapGroupsTestCase extends AbstractLdapGroupsTestCase
     public void testType() throws Exception
     {
         // DEFAULT IMPL
-        assertTrue(_groupsManager instanceof GroupDrivenLdapGroupsManager);
+        assertTrue(_groupDirectory instanceof GroupDrivenLdapGroupDirectory);
 
         // MODIFIABLE
-        assertFalse(_groupsManager instanceof ModifiableGroupsManager);
+        assertFalse(_groupDirectory instanceof ModifiableGroupDirectory);
+    }
+    
+    private GroupDirectory _createGroupDrivenLdapGroupDirectory() throws Exception
+    {
+        // We need a LDAP User Directory where to retrieve the users
+        String populationId = _createPopulation();
+        
+        // Create the Group Directory
+        String modelId = "org.ametys.plugins.core.group.directory.GroupDrivenLdap";
+        Map<String, Object> parameters = new LinkedHashMap<>();
+        parameters.put("runtime.groups.ldap.datasource", "LDAP-test-groups");
+        parameters.put("runtime.groups.ldap.population", populationId);
+        parameters.put("runtime.groups.ldap.groupDN", "ou=groups");
+        parameters.put("runtime.groups.ldap.filter", "(objectclass=groupOfNames)");
+        parameters.put("runtime.groups.ldap.scope", "sub");
+        parameters.put("runtime.groups.ldap.id", "cn");
+        parameters.put("runtime.groups.ldap.description", "description");
+        parameters.put("runtime.groups.ldap.member", "member");
+        parameters.put("runtime.users.ldap.peopleDN", "ou=people");
+        parameters.put("runtime.users.ldap.loginAttr", "uid");
+        return ((GroupDirectoryFactory) Init.getPluginServiceManager().lookup(GroupDirectoryFactory.ROLE)).createGroupDirectory("directory", new I18nizableText("Group Driven LDAP"), modelId, parameters);
+    }
+    
+    private String _createPopulation() throws Exception
+    {
+        Map<String, String> userDirectoryParameters = new LinkedHashMap<>();
+        userDirectoryParameters.put("udModelId", "org.ametys.plugins.core.user.directory.Ldap");
+        userDirectoryParameters.put("runtime.users.ldap.datasource", "LDAP-test-users");
+        userDirectoryParameters.put("runtime.users.ldap.peopleDN", "ou=people");
+        userDirectoryParameters.put("runtime.users.ldap.baseFilter", "(objectclass=inetOrgPerson)");
+        userDirectoryParameters.put("runtime.users.ldap.scope", "sub");
+        userDirectoryParameters.put("runtime.users.ldap.loginAttr", "uid");
+        userDirectoryParameters.put("runtime.users.ldap.firstnameAttr", "givenName");
+        userDirectoryParameters.put("runtime.users.ldap.lastnameAttr", "sn");
+        userDirectoryParameters.put("runtime.users.ldap.emailAttr", "mail");
+        userDirectoryParameters.put("runtime.users.ldap.emailMandatory", "false");
+        userDirectoryParameters.put("runtime.users.ldap.serverSideSorting", "true");
+        
+        Map<String, String> credentialProviderParameters = new LinkedHashMap<>();
+        credentialProviderParameters.put("cpModelId", "org.ametys.core.authentication.Defined");
+        credentialProviderParameters.put("runtime.authentication.defined.user", "anonymous");
+        
+        return ((UserPopulationDAO) Init.getPluginServiceManager().lookup(UserPopulationDAO.ROLE)).add("ldap_population", "LDAP Population", Collections.singletonList(userDirectoryParameters), Collections.singletonList(credentialProviderParameters));
+    }
+    
+    private void _deletePopulation() throws Exception
+    {
+        ((UserPopulationDAO) Init.getPluginServiceManager().lookup(UserPopulationDAO.ROLE)).remove("ldap_population");
     }
 }

@@ -31,60 +31,72 @@ import org.ametys.core.right.RightsException;
 import org.ametys.core.right.RightsExtensionPoint;
 import org.ametys.core.right.RightsManager;
 import org.ametys.core.user.User;
-import org.ametys.core.user.UsersManager;
-
+import org.ametys.core.user.UserIdentity;
+import org.ametys.core.user.UserManager;
+import org.ametys.core.user.population.UserPopulation;
+import org.ametys.core.user.population.UserPopulationDAO;
 
 /**
  * This rights manager always answers OK. 
  */
 public class BasicRightsManager implements RightsManager, Serviceable, ThreadSafe, Component
 {
-    private UsersManager _users;
+    private UserManager _userManager;
+    private UserPopulationDAO _userPopulationDAO;
     private RightsExtensionPoint _rightsExtensionPoint;
     
     @Override
     public void service(ServiceManager manager) throws ServiceException
     {
-        _users = (UsersManager) manager.lookup(UsersManager.ROLE);
+        _userManager = (UserManager) manager.lookup(UserManager.ROLE);
+        _userPopulationDAO = (UserPopulationDAO) manager.lookup(UserPopulationDAO.ROLE);
         _rightsExtensionPoint = (RightsExtensionPoint) manager.lookup(RightsExtensionPoint.ROLE);
     }
     
     @Override
-    public Set<String> getGrantedUsers(String right, String context) throws RightsException
+    public Set<UserIdentity> getGrantedUsers(String right, String context) throws RightsException
     {
-        Set<String> usersLogin = new HashSet<>();
+        Set<UserIdentity> result = new HashSet<>();
         
-        Collection<User> users = _users.getUsers();
-        for (User user : users)
+        // We want to return all the users, iterate over the populations
+        for (UserPopulation userPopulation : _userPopulationDAO.getUserPopulations(true))
         {
-            usersLogin.add(user.getName());
+            Collection<User> users = _userManager.getUsers(userPopulation);
+            for (User user : users)
+            {
+                result.add(user.getIdentity());
+            }
         }
         
-        return usersLogin;
+        return result;
     }
     
     @Override
-    public Set<String> getGrantedUsers(String context) throws RightsException
+    public Set<UserIdentity> getGrantedUsers(String context) throws RightsException
     {
-        Set<String> usersLogin = new HashSet<>();
+        Set<UserIdentity> result = new HashSet<>();
 
-        Collection<User> users = _users.getUsers();
-        for (User user : users)
+        // We want to return all the users, iterate over the populations
+        for (UserPopulation userPopulation : _userPopulationDAO.getUserPopulations(true))
         {
-            usersLogin.add(user.getName());
+            Collection<User> users = _userManager.getUsers(userPopulation);
+            for (User user : users)
+            {
+                result.add(user.getIdentity());
+            }
         }
 
-        return usersLogin;
+        return result;
     }
     
     @Override
-    public Set<String> getUserRights(String login, String context)
+    public Set<String> getUserRights(UserIdentity user, String context)
     {
         return _rightsExtensionPoint.getExtensionsIds();
     }
     
     @Override
-    public Map<String, Set<String>> getUserRights(String login) throws RightsException
+    public Map<String, Set<String>> getUserRights(UserIdentity user) throws RightsException
     {
         Map<String, Set<String>> rights = new HashMap<>();
         rights.put("/", _rightsExtensionPoint.getExtensionsIds());
@@ -92,7 +104,7 @@ public class BasicRightsManager implements RightsManager, Serviceable, ThreadSaf
     }
     
     @Override
-    public RightResult hasRight(String userLogin, String right, String context) throws RightsException
+    public RightResult hasRight(UserIdentity user, String right, String context) throws RightsException
     {
         return RightsManager.RightResult.RIGHT_OK;
     }

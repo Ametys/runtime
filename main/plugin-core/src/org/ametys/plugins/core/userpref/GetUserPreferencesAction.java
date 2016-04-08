@@ -34,6 +34,7 @@ import org.apache.commons.lang.StringUtils;
 
 import org.ametys.core.cocoon.JSonReader;
 import org.ametys.core.user.CurrentUserProvider;
+import org.ametys.core.user.UserIdentity;
 import org.ametys.core.userpref.UserPreference;
 import org.ametys.core.userpref.UserPreferencesException;
 import org.ametys.core.userpref.UserPreferencesExtensionPoint;
@@ -71,7 +72,7 @@ public class GetUserPreferencesAction extends ServiceableAction
         boolean excludePrivate = parameters.getParameterAsBoolean("excludePrivate", false);
         
         Map<String, String> contextVars = getContextVars(request);
-        String username = getUsername(parameters);
+        UserIdentity user = getUser(parameters);
         
         if (StringUtils.isBlank(storageContext))
         {
@@ -79,9 +80,10 @@ public class GetUserPreferencesAction extends ServiceableAction
         }
         
         Map<String, Object> jsonObject = new HashMap<>();
-        jsonObject.put("username", username);
+        jsonObject.put("username", user.getLogin());
+        jsonObject.put("userpopulation", user.getPopulationId());
         jsonObject.put("context", storageContext);
-        jsonObject.put("preferences", userPrefs2JsonObject(storageContext, contextVars, username, excludePrivate));
+        jsonObject.put("preferences", userPrefs2JsonObject(storageContext, contextVars, user, excludePrivate));
         
         request.setAttribute(JSonReader.OBJECT_TO_READ, jsonObject);
         return EMPTY_MAP;
@@ -91,20 +93,20 @@ public class GetUserPreferencesAction extends ServiceableAction
      * Convert user preferences to JSON object
      * @param storageContext the preferences context.
      * @param contextVars The context vars
-     * @param username the user name
+     * @param user the user
      * @param excludePrivate true to exclude private preferences
      * @return The JSON object representing the user preferences
      * @throws ProcessingException if an error occurred
      * @throws UserPreferencesException if an error occurred
      */
     @SuppressWarnings("unchecked")
-    protected Map<String, Object> userPrefs2JsonObject (String storageContext, Map<String, String> contextVars, String username, boolean excludePrivate) throws ProcessingException, UserPreferencesException
+    protected Map<String, Object> userPrefs2JsonObject (String storageContext, Map<String, String> contextVars, UserIdentity user, boolean excludePrivate) throws ProcessingException, UserPreferencesException
     {
         Map<String, Object> jsonObject = new LinkedHashMap<>();
         jsonObject.put("fieldsets", new ArrayList<Map<String, Object>>());
         
         Map<I18nizableText, List<UserPreference>> groups = _userPrefEP.getCategorizedPreferences(contextVars);
-        Map<String, String> prefValues = _userPrefManager.getUnTypedUserPrefs(username, storageContext, contextVars);
+        Map<String, String> prefValues = _userPrefManager.getUnTypedUserPrefs(user, storageContext, contextVars);
         
         for (Entry<I18nizableText, List<UserPreference>> groupEntry : groups.entrySet())
         {
@@ -227,13 +229,24 @@ public class GetUserPreferencesAction extends ServiceableAction
     }
     
     /**
-     * Get the user name in the user manager.
+     * Get the user in the user manager.
      * @param parameters The parameters
-     * @return the user name (login).
+     * @return the user .
      */
-    protected String getUsername(Parameters parameters)
+    protected UserIdentity getUser(Parameters parameters)
     {
-        return parameters.getParameter("username", _currentUserProvider.getUser());
+        String login = parameters.getParameter("username", "");
+        String populationId = parameters.getParameter("population", "");
+        UserIdentity user;
+        if (StringUtils.isEmpty(login) || StringUtils.isEmpty(populationId))
+        {
+            user = _currentUserProvider.getUser();
+        }
+        else
+        {
+            user = new UserIdentity(login, populationId);
+        }
+        return user;
     }
     
 

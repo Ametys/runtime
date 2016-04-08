@@ -29,6 +29,10 @@
             <map:action name="client-call" src="org.ametys.core.ui.ExecuteClientCallsAction"/>
             <map:action name="user-profile-image-list" src="org.ametys.plugins.core.ui.user.GetUserProfileImagesAction"/>
             <map:action name="save-userprofile" src="org.ametys.plugins.core.ui.user.SetUserProfileAction" />
+            <map:action name="user-populations" src="org.ametys.plugins.core.ui.populations.GetUserPopulationsAction"/>
+            <map:action name="modifiable-user-populations" src="org.ametys.plugins.core.ui.populations.GetModifiableUserPopulationsAction"/>
+            <map:action name="group-directories" src="org.ametys.plugins.core.ui.groupdirectories.GetGroupDirectoriesAction"/>
+            <map:action name="modifiable-group-directories" src="org.ametys.plugins.core.ui.groupdirectories.GetModifiableGroupDirectoriesAction"/>
         </map:actions>
         
         <map:readers>
@@ -92,10 +96,11 @@
                     </map:read>
                 </map:match>
                 
-                <map:match pattern="user/*/image_*">
+                <map:match pattern="user/*/*/image_*">
                     <map:read type="user-profile-image">
-                        <map:parameter name="login" value="{1}"/>
-                        <map:parameter name="size" value="{2}"/>
+                        <map:parameter name="population" value="{1}"/>
+                        <map:parameter name="login" value="{2}"/>
+                        <map:parameter name="size" value="{3}"/>
                         <map:parameter name="download" value="{request-param:download}"/>
                         <map:parameter name="maxSize" value="{request-param:maxSize}"/>
                     </map:read>
@@ -148,6 +153,30 @@
                         </map:read>
 	                </map:act>
                     <map:read src="resources/img/Ametys/common/logo.png"/>
+	            </map:match>
+
+	            <map:match pattern="populations.json">
+	                <map:act type="user-populations">
+					    <map:read type="json"/>
+					</map:act>
+	            </map:match>
+	            
+	            <map:match pattern="modifiable-populations.json">
+	                <map:act type="modifiable-user-populations">
+					    <map:read type="json"/>
+					</map:act>
+	            </map:match>
+	            
+	            <map:match pattern="group-directories.json">
+	                <map:act type="group-directories">
+					    <map:read type="json"/>
+					</map:act>
+	            </map:match>
+	            
+	            <map:match pattern="modifiable-group-directories.json">
+	                <map:act type="modifiable-group-directories">
+					    <map:read type="json"/>
+					</map:act>
 	            </map:match>
             </map:pipeline>
             

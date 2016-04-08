@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.ametys.core.right.RightsManager.RightResult;
+import org.ametys.core.user.UserIdentity;
 
 
 /**
@@ -39,12 +40,12 @@ public final class HierarchicalRightsHelper
     /**
      * Check a permission for a user, in a given context and its parents' context.
      * @param rightsManager the RightManager of this application
-     * @param userLogin The user's login
+     * @param user The user
      * @param right the name of the right to check.
      * @param context The context to test the right as document URI.
      * @return true if the user is allowed to use this rigth in the context, false otherwise.
      */
-    public static boolean hasRight(RightsManager rightsManager, String userLogin, String right, String context)
+    public static boolean hasRight(RightsManager rightsManager, UserIdentity user, String right, String context)
     {
         boolean rightUnknown = true;
         String currentContext = context;
@@ -52,7 +53,7 @@ public final class HierarchicalRightsHelper
         // Remonter dans les contextes parents tant que le droit est inconnu
         while (rightUnknown && currentContext != null)
         {
-            RightResult res = rightsManager.hasRight(userLogin, right, currentContext);
+            RightResult res = rightsManager.hasRight(user, right, currentContext);
             
             if (res == RightResult.RIGHT_OK)
             {
@@ -76,16 +77,16 @@ public final class HierarchicalRightsHelper
      * @param rightsManager the RightManager of this application
      * @param right the name of the right to use.
      * @param context The context to test the right as document URI.
-     * @return The set of users with that right as a Set of String (login).
+     * @return The set of users with that right as a Set of String.
      */
-    public static Set<String> getGrantedUsers(RightsManager rightsManager, String right, String context)
+    public static Set<UserIdentity> getGrantedUsers(RightsManager rightsManager, String right, String context)
     {
         String currentContext = context;
-        Set<String> grantedUsers = new HashSet<>();
+        Set<UserIdentity> grantedUsers = new HashSet<>();
 
         while (currentContext != null)
         {
-            Set<String> currentGrantedUsers = rightsManager.getGrantedUsers(right, currentContext);
+            Set<UserIdentity> currentGrantedUsers = rightsManager.getGrantedUsers(right, currentContext);
             
             // Ajouter les utilisateurs autorisés dans le contexte courant
             grantedUsers.addAll(currentGrantedUsers);
@@ -101,19 +102,19 @@ public final class HierarchicalRightsHelper
      * Get the list of a user's rights in a particular context (and its parents' context).
      * The user's rights and the rights of the user's groups are returned.
      * @param rightsManager the RightManager of this application
-     * @param login the user's login.
+     * @param user the user.
      * @param context The context to test the right.<br>May be null, in which case the returned Set contains all granted rights, whatever the context.
      * <br>Wilcards may also be used (eg. "ctx/*") to get all granted rights in the given context and all subcontexts.
      * @return The list of rights as a Set of String (id).
      */
-    public static Set<String> getUserRights(RightsManager rightsManager, String login, String context)
+    public static Set<String> getUserRights(RightsManager rightsManager, UserIdentity user, String context)
     {
         String currentContext = context;
         Set<String> userRights = new HashSet<>();
 
         while (currentContext != null)
         {
-            Set<String> currentUserRights = rightsManager.getUserRights(login, currentContext);
+            Set<String> currentUserRights = rightsManager.getUserRights(user, currentContext);
             
             // Ajouter les utilisateurs autorisés dans le contexte courant
             userRights.addAll(currentUserRights);

@@ -20,6 +20,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.acting.ServiceableAction;
 
 import org.ametys.core.user.CurrentUserProvider;
+import org.ametys.core.user.UserIdentity;
 
 /**
  * {@link ServiceableAction} which provides the current user if necessary.
@@ -30,11 +31,10 @@ public abstract class AbstractCurrentUserProviderServiceableAction extends Servi
     private CurrentUserProvider _currentUserProvider;
 
     /**
-     * Determine if current user is the super user.
-     * @return <code>true</code> if the super user is logged in,
-     *         <code>false</code> otherwise.
+     * Provides the current user.
+     * @return the user which cannot be <code>null</code>.
      */
-    protected boolean _isSuperUser()
+    protected UserIdentity _getCurrentUser()
     {
         if (_currentUserProvider == null)
         {
@@ -48,32 +48,6 @@ public abstract class AbstractCurrentUserProviderServiceableAction extends Servi
             }
         }
         
-        return _currentUserProvider.isSuperUser();
-    }
-    
-    /**
-     * Provides the login of the current user.
-     * @return the login which cannot be <code>null</code>.
-     */
-    protected String _getCurrentUser()
-    {
-        if (_currentUserProvider == null)
-        {
-            try
-            {
-                _currentUserProvider = (CurrentUserProvider) manager.lookup(CurrentUserProvider.ROLE);
-            }
-            catch (ServiceException e)
-            {
-                throw new IllegalStateException(e);
-            }
-        }
-        
-        if (!_currentUserProvider.isSuperUser())
-        {
-            return _currentUserProvider.getUser();
-        }
-        
-        return "admin";
+        return _currentUserProvider.getUser();
     }
 }

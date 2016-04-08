@@ -21,21 +21,37 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.avalon.framework.component.Component;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
 import org.ametys.core.user.User;
+import org.ametys.core.user.directory.UserDirectoryFactory;
+import org.ametys.core.user.population.UserPopulationDAO;
 
 /**
  * Simple user helper, for common function working on {@link User}
  */
-public final class UserHelper
+public final class UserHelper implements Component, Serviceable
 {
-    private UserHelper()
+    /** The avalon role */
+    public static final String ROLE = UserHelper.class.getName();
+    
+    /** The user population DAO */
+    private UserPopulationDAO _userPopulationDAO;
+
+    /** The user directory factory */
+    private UserDirectoryFactory _userDirectoryFactory;
+    
+    public void service(ServiceManager smanager) throws ServiceException
     {
-        // cannot instantiate
+        _userPopulationDAO = (UserPopulationDAO) smanager.lookup(UserPopulationDAO.ROLE);
+        _userDirectoryFactory = (UserDirectoryFactory) smanager.lookup(UserDirectoryFactory.ROLE);
     }
     
     /**
@@ -43,7 +59,7 @@ public final class UserHelper
      * @param users The list of users
      * @return The list of map.
      */
-    public static List<Map<String, Object>> users2MapList(Collection<User> users)
+    public List<Map<String, Object>> users2MapList(Collection<User> users)
     {
         List<Map<String, Object>> userList = new ArrayList<>();
         
@@ -60,11 +76,17 @@ public final class UserHelper
      * @param user The user
      * @return The extracted map
      */
-    public static Map<String, Object> user2Map(User user)
+    public Map<String, Object> user2Map(User user)
     {
         Map<String, Object> userInfos = new HashMap<>();
         
-        userInfos.put("login", user.getName());
+        String populationId = user.getIdentity().getPopulationId();
+        String udModelId = user.getUserDirectory() != null ? user.getUserDirectory().getUserDirectoryModelId() : "";
+        
+        userInfos.put("login", user.getIdentity().getLogin());
+        userInfos.put("population", populationId);
+        userInfos.put("populationLabel", _userPopulationDAO.getUserPopulation(populationId).getLabel());
+        userInfos.put("directory", _userDirectoryFactory.hasExtension(udModelId) ? _userDirectoryFactory.getExtension(udModelId).getLabel() : "");
         userInfos.put("lastname", user.getLastName());
         userInfos.put("firstname", user.getFirstName());
         userInfos.put("email", user.getEmail());
@@ -81,13 +103,14 @@ public final class UserHelper
      * @param handler The content handler
      * @throws SAXException If a SAX error occurs
      */
-    public static void saxUser(User user, ContentHandler handler) throws SAXException
+    public void saxUser(User user, ContentHandler handler) throws SAXException
     {
         AttributesImpl attr = new AttributesImpl();
-        attr.addCDATAAttribute("login", user.getName());
+        attr.addCDATAAttribute("login", user.getIdentity().getLogin());
         
         XMLUtils.startElement(handler, "user", attr);
         
+        XMLUtils.createElement(handler, "population", user.getIdentity().getPopulationId());
         XMLUtils.createElement(handler, "lastname", user.getLastName());
         XMLUtils.createElement(handler, "firstname", user.getFirstName());
         XMLUtils.createElement(handler, "email", user.getEmail());

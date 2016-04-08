@@ -18,20 +18,15 @@ package org.ametys.runtime.test.users.ldap;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.excalibur.xml.dom.DOMHandler;
-import org.apache.excalibur.xml.dom.DOMHandlerFactory;
-import org.apache.excalibur.xml.xpath.XPathProcessor;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
-import org.ametys.core.user.CredentialsAwareUsersManager;
-import org.ametys.core.user.ModifiableUsersManager;
 import org.ametys.core.user.User;
-import org.ametys.core.user.UsersManager;
-import org.ametys.plugins.core.impl.user.ldap.LdapUsersManager;
+import org.ametys.core.user.directory.ModifiableUserDirectory;
+import org.ametys.core.user.directory.UserDirectory;
+import org.ametys.core.user.directory.UserDirectoryFactory;
+import org.ametys.plugins.core.impl.user.directory.LdapUserDirectory;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.Init;
 
@@ -40,8 +35,8 @@ import org.ametys.runtime.test.Init;
  */
 public class LdapUsersTestCase extends AbstractRuntimeTestCase
 {
-    /** the user manager */
-    protected UsersManager _usersManager;
+    /** the user directory */
+    protected UserDirectory _userDirectory;
     
     @Override
     protected void setUp() throws Exception
@@ -58,7 +53,7 @@ public class LdapUsersTestCase extends AbstractRuntimeTestCase
     protected void _startApp() throws Exception
     {
         _startApplication("test/environments/runtimes/runtime8.xml", "test/environments/configs/config3.xml", "test/environments/datasources/datasource-mysql.xml", "test/environments/datasources/datasource-ldap.xml", "test/environments/webapp1");
-        _usersManager = (UsersManager) Init.getPluginServiceManager().lookup(UsersManager.ROLE);
+        _userDirectory = _createLdapUserDirectory();
     }
     
     @Override
@@ -74,14 +69,14 @@ public class LdapUsersTestCase extends AbstractRuntimeTestCase
      */
     public void testType() throws Exception
     {
-        // JDBC IMPL
-        assertTrue(_usersManager instanceof LdapUsersManager);
+        // LDAP IMPL
+        assertTrue(_userDirectory instanceof LdapUserDirectory);
 
         // NOT MODIFIABLE
-        assertFalse(_usersManager instanceof ModifiableUsersManager);
+        assertFalse(_userDirectory instanceof ModifiableUserDirectory);
         
-        // NOT CREDENTIAL AWARE
-        assertFalse(_usersManager instanceof CredentialsAwareUsersManager);
+        // CREDENTIAL AWARE
+        assertTrue(_userDirectory instanceof UserDirectory);
     }
     
     /**
@@ -94,142 +89,70 @@ public class LdapUsersTestCase extends AbstractRuntimeTestCase
         Collection<User> users = null;
 
         // Get unexisting user
-        user = _usersManager.getUser("foo");
+        user = _userDirectory.getUser("foo");
         assertNull(user);
 
         // Get existing user
-        user = _usersManager.getUser("user1");
-        assertNotNull(user);
-        assertEquals(user.getName(), "user1");
-        assertEquals(user.getLastName(), "USER1");
-        assertEquals(user.getFirstName(), "User1");
-        assertEquals(user.getFullName(), "User1 USER1");
-        assertEquals(user.getSortableName(), "USER1 User1");
-        assertEquals(user.getEmail(), "user1@ametys.org");
+        User user1 = _userDirectory.getUser("user1");
+        assertNotNull(user1);
+        assertEquals(user1.getIdentity().getLogin(), "user1");
+        assertEquals(user1.getLastName(), "USER1");
+        assertEquals(user1.getFirstName(), "User1");
+        assertEquals(user1.getFullName(), "User1 USER1");
+        assertEquals(user1.getSortableName(), "USER1 User1");
+        assertEquals(user1.getEmail(), "user1@ametys.org");
+        
+        User user10 = _userDirectory.getUser("user10");
+        assertNotNull(user10);
+        assertEquals(user10.getIdentity().getLogin(), "user10");
+        assertEquals(user10.getLastName(), "USER10");
+        assertEquals(user10.getFirstName(), "User10");
+        assertEquals(user10.getFullName(), "User10 USER10");
+        assertEquals(user10.getSortableName(), "USER10 User10");
+        assertEquals(user10.getEmail(), "user10@ametys.org");
 
         // Get users
-        users = _usersManager.getUsers();
+        users = _userDirectory.getUsers();
         assertEquals(10, users.size());
-        assertTrue(users.contains(user));
+        assertTrue(users.contains(user1));
+        assertTrue(users.contains(user10));
         
-        // SAX USERS
-        DOMHandlerFactory dom = (DOMHandlerFactory) Init.getPluginServiceManager().lookup(DOMHandlerFactory.ROLE);
-        DOMHandler handler;
-        XPathProcessor xpath = (XPathProcessor) Init.getPluginServiceManager().lookup(XPathProcessor.ROLE);
-        Node testNode;
-
-        // Sax none
-        handler = dom.createDOMHandler();
-        handler.startDocument();
-        _usersManager.toSAX(handler, 0, 0, new HashMap<String, String>());
-        handler.endDocument();
-
-        assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/*)"));
-        assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users)"));
-        assertEquals(0.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users/*)"));
-
-        // Sax all
-        handler = dom.createDOMHandler();
-        handler.startDocument();
-        _usersManager.toSAX(handler, -1, 0, new HashMap<String, String>());
-        handler.endDocument();
-
-        assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/*)"));
-        assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users)"));
-        assertEquals(11.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users/*)"));
-        assertEquals(10.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users/user)"));
-        assertEquals(0.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users/user[count(@*) != 1])"));
-        assertEquals(0.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users/user[count(*) != 3])"));
+        // Get users with parameters
+        users = _userDirectory.getUsers(-1, 0, new HashMap<>());
+        assertEquals(10, users.size());
+        assertTrue(users.contains(user1));
+        assertTrue(users.contains(user10));
         
-        testNode = xpath.selectSingleNode(handler.getDocument(), "/users/user[@login = 'user1']");
-        assertNotNull(testNode);
-        assertEquals("USER1", xpath.evaluateAsString(testNode, "lastname"));
-        assertEquals("User1", xpath.evaluateAsString(testNode, "firstname"));
-        assertEquals("user1@ametys.org", xpath.evaluateAsString(testNode, "email"));
-        
-        testNode = xpath.selectSingleNode(handler.getDocument(), "/users/user[@login = 'user10']");
-        assertNotNull(testNode);
-        assertEquals("USER10", xpath.evaluateAsString(testNode, "lastname"));
-        assertEquals("User10", xpath.evaluateAsString(testNode, "firstname"));
-        assertEquals("user10@ametys.org", xpath.evaluateAsString(testNode, "email"));
-        
-        assertEquals("10", xpath.evaluateAsString(handler.getDocument(), "/users/total"));
-
-        // Sax any
-        handler = dom.createDOMHandler();
-        handler.startDocument();
-        Map<String, String> parameters = new HashMap<>();
+        // Get users with pattern "user1"
+        Map<String, Object> parameters = new HashMap<>();
         parameters.put("pattern", "user1");
-        _usersManager.toSAX(handler, -1, 0, parameters);
-        handler.endDocument();
-
-        assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/*)"));
-        assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users)"));
-        assertEquals(3.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users/*)"));
-        assertEquals(2.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users/user)"));
-        assertEquals(0.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users/user[count(@*) != 1])"));
-        assertEquals(0.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users/user[count(*) != 3])"));
+        users = _userDirectory.getUsers(-1, 0, parameters);
+        assertEquals(2, users.size());
+        assertTrue(users.contains(user1));
+        assertTrue(users.contains(user10));
         
-        testNode = xpath.selectSingleNode(handler.getDocument(), "/users/user[@login = 'user1']");
-        assertNotNull(testNode);
-        assertEquals("USER1", xpath.evaluateAsString(testNode, "lastname"));
-        assertEquals("User1", xpath.evaluateAsString(testNode, "firstname"));
-        assertEquals("user1@ametys.org", xpath.evaluateAsString(testNode, "email"));
+        // Get users with parameters by part
+        Set<String> results = new HashSet<String>();
         
-        assertEquals("2", xpath.evaluateAsString(handler.getDocument(), "/users/total"));
-
-        // Sax all by part
-        Set<String> results = new HashSet<>();
-        
-        handler = dom.createDOMHandler();
-        handler.startDocument();
-        _usersManager.toSAX(handler, 4, 0, new HashMap<String, String>());
-        handler.endDocument();
-
-        assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/*)"));
-        assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users)"));
-        assertEquals(4.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users/*)"));
-        assertEquals(4.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users/user)"));
-        
-        NodeList list = xpath.selectNodeList(handler.getDocument(), "/users/user");
-        for (int i = 0; i < list.getLength(); i++)
+        users = _userDirectory.getUsers(4, 0, new HashMap<>());
+        assertEquals(4, users.size());
+        for (User theUser : users)
         {
-            Node node = list.item(i);
-            results.add(node.getAttributes().getNamedItem("login").getNodeValue());
+            results.add(theUser.getIdentity().getLogin());
         }
         
-        handler = dom.createDOMHandler();
-        handler.startDocument();
-        _usersManager.toSAX(handler, 4, 4, new HashMap<String, String>());
-        handler.endDocument();
-
-        assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/*)"));
-        assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users)"));
-        assertEquals(4.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users/*)"));
-        assertEquals(4.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users/user)"));
-        
-        list = xpath.selectNodeList(handler.getDocument(), "/users/user");
-        for (int i = 0; i < list.getLength(); i++)
+        users = _userDirectory.getUsers(4, 4, new HashMap<>());
+        assertEquals(4, users.size());
+        for (User theUser : users)
         {
-            Node node = list.item(i);
-            results.add(node.getAttributes().getNamedItem("login").getNodeValue());
+            results.add(theUser.getIdentity().getLogin());
         }
-
-        handler = dom.createDOMHandler();
-        handler.startDocument();
-        _usersManager.toSAX(handler, 4, 8, new HashMap<String, String>());
-        handler.endDocument();
-
-        assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/*)"));
-        assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users)"));
-        assertEquals(2.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users/*)"));
-        assertEquals(2.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users/user)"));
         
-        list = xpath.selectNodeList(handler.getDocument(), "/users/user");
-        for (int i = 0; i < list.getLength(); i++)
+        users = _userDirectory.getUsers(4, 8, new HashMap<>());
+        assertEquals(2, users.size());
+        for (User theUser : users)
         {
-            Node node = list.item(i);
-            results.add(node.getAttributes().getNamedItem("login").getNodeValue());
+            results.add(theUser.getIdentity().getLogin());
         }
         
         assertEquals(10, results.size());
@@ -243,5 +166,30 @@ public class LdapUsersTestCase extends AbstractRuntimeTestCase
         assertTrue(results.contains("user8"));
         assertTrue(results.contains("user9"));
         assertTrue(results.contains("user10"));
+    }
+    
+    /**
+     * Create the user directory
+     * @return The user directory
+     * @throws Exception
+     */
+    protected UserDirectory _createLdapUserDirectory() throws Exception
+    {
+        String modelId = "org.ametys.plugins.core.user.directory.Ldap";
+        
+        Map<String, Object> parameters = new LinkedHashMap<>();
+        parameters.put("runtime.users.ldap.datasource", "LDAP-test-users");
+        
+        parameters.put("runtime.users.ldap.peopleDN", "ou=people");
+        parameters.put("runtime.users.ldap.baseFilter", "(objectclass=inetOrgPerson)");
+        parameters.put("runtime.users.ldap.scope", "sub");
+        parameters.put("runtime.users.ldap.loginAttr", "uid");
+        parameters.put("runtime.users.ldap.firstnameAttr", "givenName");
+        parameters.put("runtime.users.ldap.lastnameAttr", "sn");
+        parameters.put("runtime.users.ldap.emailAttr", "mail");
+        parameters.put("runtime.users.ldap.emailMandatory", false);
+        parameters.put("runtime.users.ldap.serverSideSorting", true);
+        
+        return ((UserDirectoryFactory) Init.getPluginServiceManager().lookup(UserDirectoryFactory.ROLE)).createUserDirectory(modelId, parameters, "foo");
     }
 }

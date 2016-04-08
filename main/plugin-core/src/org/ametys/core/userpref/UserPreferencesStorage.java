@@ -18,6 +18,8 @@ package org.ametys.core.userpref;
 import java.util.Date;
 import java.util.Map;
 
+import org.ametys.core.user.UserIdentity;
+
 /**
  * Manager for handling user preferences.
  */
@@ -26,85 +28,85 @@ public interface UserPreferencesStorage
 
     /**
      * Get a user's preference values (as String) for a given context.
-     * @param login the user login.
+     * @param user the user.
      * @param storageContext the preferences storage context.
      * @param contextVars The context variables including environment elements 
      * @return the user preference values as a Map of String indexed by preference ID.
      * @throws UserPreferencesException if an error occurs getting the preferences.
      */
-    public Map<String, String> getUnTypedUserPrefs(String login, String storageContext, Map<String, String> contextVars) throws UserPreferencesException;
+    public Map<String, String> getUnTypedUserPrefs(UserIdentity user, String storageContext, Map<String, String> contextVars) throws UserPreferencesException;
     
     /**
      * Remove the stored user preferences for a login in a given context.
-     * @param login the user login.
+     * @param user the user.
      * @param storageContext the preferences storage context.
      * @param contextVars the context variables.
      * @throws UserPreferencesException if an error occurred
      */
-    public void removeUserPreferences(String login, String storageContext, Map<String, String> contextVars) throws UserPreferencesException;
+    public void removeUserPreferences(UserIdentity user, String storageContext, Map<String, String> contextVars) throws UserPreferencesException;
     
     /**
      * Set a user's preferences for a given context.
-     * @param login the user login.
+     * @param user the user.
      * @param storageContext the preferences storage context.
      * @param contextVars The context variables including environment elements 
      * @param preferences a Map of the preference values indexed by ID.
      * @throws UserPreferencesException if an error occurred
      */
-    public void setUserPreferences(String login, String storageContext, Map<String, String> contextVars, Map<String, String> preferences) throws UserPreferencesException;
+    public void setUserPreferences(UserIdentity user, String storageContext, Map<String, String> contextVars, Map<String, String> preferences) throws UserPreferencesException;
     
     /**
      * Get a single string user preference value for a given context.
-     * @param login the user login.
+     * @param user the user.
      * @param storageContext the preferences storage context.
      * @param contextVars The context variables including environment elements 
      * @param id the preference ID.
      * @return the user preference value as a String.
      * @throws UserPreferencesException if an error occurred
      */
-    public String getUserPreferenceAsString(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException;
+    public String getUserPreferenceAsString(UserIdentity user, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException;
     
     /**
      * Get a single long user preference value for a given context.
-     * @param login the user login.
+     * @param user the user.
      * @param storageContext the preferences storage context.
      * @param contextVars The context variables including environment elements 
      * @param id the preference ID.
      * @return the user preference value as a Long.
      * @throws UserPreferencesException if an error occurred
      */
-    public Long getUserPreferenceAsLong(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException;
+    public Long getUserPreferenceAsLong(UserIdentity user, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException;
     
     /**
      * Get a single date user preference value for a given context.
-     * @param login the user login.
+     * @param user the user.
      * @param storageContext the preferences storage context.
      * @param contextVars The context variables including environment elements 
      * @param id the preference ID.
      * @return the user preference value as a Date.
      * @throws UserPreferencesException if an error occurred
      */
-    public Date getUserPreferenceAsDate(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException;
+    public Date getUserPreferenceAsDate(UserIdentity user, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException;
     
     /**
      * Get a single boolean user preference value for a given context.
-     * @param login the user login.
+     * @param user the user.
      * @param storageContext the preferences storage context.
      * @param contextVars The context variables including environment elements 
      * @param id the preference ID.
      * @return the user preference value as a Boolean.
      * @throws UserPreferencesException if an error occurred
      */
-    public Boolean getUserPreferenceAsBoolean(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException;
+    public Boolean getUserPreferenceAsBoolean(UserIdentity user, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException;
     
     /**
      * Get a single double user preference value for a given context.
-     * @param login the user login.
+     * @param user the user.
      * @param storageContext the preferences storage context.
      * @param contextVars The context variables including environment elements 
      * @param id the preference ID.
      * @return the user preference value as a Double.
      * @throws UserPreferencesException if an error occurred
      */
-    public Double getUserPreferenceAsDouble(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException;
+    public Double getUserPreferenceAsDouble(UserIdentity user, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException;
 }

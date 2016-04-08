@@ -74,8 +74,12 @@
     <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_LASTNAME_DESCRIPTION">Nom de l'attribut contenant le nom de l'utilisateur dans l'objet de la recherche</message>
     <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_EMAIL_LABEL">Attribut email</message>
     <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_EMAIL_DESCRIPTION">Nom de l'attribut contenant l'email de l'utilisateur dans l'objet de la recherche</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_EMAIL_MANDATORY_LABEL">Email obligatoire</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_EMAIL_MANDATORY_DESCRIPTION">Cochez la case si l'attribut email est obligatoire</message>
     <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SERVER_SIDE_SORTING_LABEL">Tri des résultats</message>
     <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SERVER_SIDE_SORTING_DESCRIPTION">Ce paramètre définit si les utilisateurs sont triés dans les résultats de recherche (par nom puis prénom).&lt;br/&gt;Décochez cette option si la recherche d'utilisateur est très lente.</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CHECKER_LABEL">Connexion au répertoire d'utilisateurs LDAP</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CHECKER_DESCRIPTION">Ce test vérifie que les informations rentrées sont correctes et qu'au moins un utilisateur est renvoyé par l'annuaire LDAP.</message>
     
     <!-- GROUP LDAP -->
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_GROUPS">Groupes</message>
@@ -100,10 +104,14 @@
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_REMOTE">Automatique</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_JCIFS">Domaine Windows NT</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_CAS">Serveur CAS</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_DEFINED_CONFIG_USER_LABEL">Utilisateur</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_DEFINED_CONFIG_USER_DESCRIPTION">Login de l'utilisateur</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_BASIC_CONFIG_REALM_LABEL">Domaine</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_BASIC_CONFIG_REALM_DESCRIPTION">Nom du domaine (ou 'Realm') d'authentification</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_REMOTE_CONFIG_HEADER_NAME_LABEL">Nom de l'en-tête</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_REMOTE_CONFIG_HEADER_NAME_DESCRIPTION">Valeur de l'en-tête de requête où se trouve l'utilisateur</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_REMOTE_CONFIG_REALM_LABEL">Domaine</message>
-    <message key="PLUGINS_CORE_AUTHENTICATION_REMOTE_CONFIG_REALM_DESCRIPTION">Nom du domaine distant d'authentification</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_REMOTE_CONFIG_REALM_DESCRIPTION">Valeur par laquelle les domaines sont préfixés</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_PRODUCTION_LABEL">Mode production</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_PRODUCTION_DESCRIPTION">En mode production les valeurs Netbios et client domaine sont utilisées au lieu de domain controlleur</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_CLIENTDOMAIN_LABEL">Nom du domaine</message>
@@ -118,7 +126,64 @@
     <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_AUTHORIZEDPROXY_DESCRIPTION">Chaîne de serveurs proxy autorisée par CAS</message>
     
     <message key="PLUGINS_CORE_CAS_SERVER_CHECKER_LABEL">Vérifier l'url du serveur CAS</message>
-    <message key="PLUGINS_CORE_CAS_SERVER_CHECKER_DESC">Ce test vérifie que le l'url spécifiée est valide en essayant d'établir une connexion.</message>    
+    <message key="PLUGINS_CORE_CAS_SERVER_CHECKER_DESC">Ce test vérifie que le l'url spécifiée est valide en essayant d'établir une connexion.</message>
+    
+    <!-- USER POPULATIONS -->
+    <message key="PLUGINS_CORE_USERS_STATIC_LABEL">Statique</message>
+    <message key="PLUGINS_CORE_USERS_STATIC_DESCRIPTION">Répertoire statique</message>
+    <message key="PLUGINS_CORE_USERS_STATIC_PARAM_USERS_LABEL">Utilisateurs</message>
+    <message key="PLUGINS_CORE_USERS_STATIC_PARAM_USERS_DESCRIPTION">&lt;b&gt;Utilisateurs&lt;/b&gt;&lt;br/&gt;Renseignez ici les utilisateurs qui seront utilisés de manière statique. Un utilisateur par ligne, selon le format &lt;i&gt;login:nom:prénom:email&lt;/i&gt;. Seul le login est obligatoire.</message>
+    
+    <message key="PLUGINS_CORE_USERS_JDBC_LABEL">Base de données SQL</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_DESCRIPTION">Base de données SQL</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_DATASOURCE_LABEL">Base de données</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_DATASOURCE_DESCRIPTION">Base de données à utiliser</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_DATASOURCE_TABLE_LABEL">Table des utilisateurs</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_DATASOURCE_TABLE_DESCRIPTION">Nom de la table contenant les utilisateurs</message>
+    
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_LABEL">Annuaire LDAP</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_DESCRIPTION">Annuaire LDAP</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_DATASOURCE_LABEL">Serveur LDAP</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_DATASOURCE_DESCRIPTION">Serveur LDAP à utiliser</message>
+    
+    <message key="PLUGINS_CORE_AUTHENTICATION_DEFINED_LABEL">Identification automatique (à des fins de démonstration)</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_DEFINED_DESCRIPTION">Identification automatique (à des fins de démonstration)</message>
+    
+    <message key="PLUGINS_CORE_AUTHENTICATION_BASIC_LABEL">Popup navigateur (Protocole BASIC)</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_BASIC_DESCRIPTION">Popup navigateur (Protocole BASIC)</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_BASIC_CONNECTION_LABEL">Se connecter par popup</message>
+    
+    <message key="PLUGINS_CORE_AUTHENTICATION_FORMBASED_LABEL">Formulaire</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_FORMBASED_DESCRIPTION">Formulaire</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_FORMBASED_CONNECTION_LABEL">Se connecter par formulaire</message>
+    
+    <message key="PLUGINS_CORE_AUTHENTICATION_REMOTE_LABEL">En-tête de requête</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_REMOTE_DESCRIPTION">En-tête de requête</message>
+    
+    <message key="PLUGINS_CORE_AUTHENTICATION_CAS_LABEL">Serveur C.A.S.</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_CAS_DESCRIPTION">Serveur C.A.S.</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONNECTION_LABEL">Se connecter avec CAS</message>
+    
+    <!-- GROUP DIRECTORY -->
+    <message key="PLUGINS_CORE_GROUPS_JDBC_LABEL">Base de données SQL</message>
+    <message key="PLUGINS_CORE_GROUPS_JDBC_DESCRIPTION">Base de données SQL</message>
+    <message key="PLUGINS_CORE_GROUPS_JDBC_DATASOURCE_LABEL">Base de données</message>
+    <message key="PLUGINS_CORE_GROUPS_JDBC_DATASOURCE_DESCRIPTION">Base de données à utiliser</message>
+    <message key="PLUGINS_CORE_GROUPS_JDBC_DATASOURCE_LIST_TABLE_LABEL">Table des groupes</message>
+    <message key="PLUGINS_CORE_GROUPS_JDBC_DATASOURCE_LIST_TABLE_DESCRIPTION">Nom de la table contenant la liste des groupes</message>
+    <message key="PLUGINS_CORE_GROUPS_JDBC_DATASOURCE_COMPOSITION_TABLE_LABEL">Table de composition des groupes</message>
+    <message key="PLUGINS_CORE_GROUPS_JDBC_DATASOURCE_COMPOSITION_TABLE_DESCRIPTION">Nom de la table contenant la relation multiple entre groupes et utilisateurs</message>
+    
+    <message key="PLUGINS_CORE_GROUPS_LDAP_USERS_DRIVEN_LABEL">Annuaire LDAP (Entité 'Utilisateur' liste ses groupes)</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAP_USERS_DRIVEN_DESCRIPTION">Annuaire LDAP (Entité 'Utilisateur' liste ses groupes)</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAP_DATASOURCE_LABEL">Serveur LDAP</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAP_DATASOURCE_DESCRIPTION">Serveur LDAP à utiliser</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAP_POPULATION_LABEL">Population associée</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAP_POPULATION_DESCRIPTION">Population contenant les utilisateurs listés par cet annuaire LDAP.&lt;br/&gt;Il est donc nécessaire que cette population utilise le même annuaire LDAP que ce groupe.</message>
+    
+    <message key="PLUGINS_CORE_GROUPS_LDAP_GROUP_DRIVEN_LABEL">Annuaire LDAP (Entité 'Groupe' liste ses utilisateurs)</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAP_GROUP_DRIVEN_DESCRIPTION">Annuaire LDAP (Entité 'Groupe' liste ses utilisateurs)</message>
+    
     <!-- +
          | SQL DATABASE TYPES 
          + -->

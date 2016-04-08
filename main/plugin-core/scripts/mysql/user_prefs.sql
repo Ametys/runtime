@@ -16,9 +16,10 @@
 drop table if exists UserPreferences;
 CREATE TABLE UserPreferences(
   login varchar(32) NOT NULL, 
+  population varchar(200) NOT NULL, 
   context varchar(128) NOT NULL,
   data LONGBLOB,
-  PRIMARY KEY(login, context),
+  PRIMARY KEY(login, population, context),
   KEY login(login),
   KEY context(context)
 ) ENGINE=innodb;

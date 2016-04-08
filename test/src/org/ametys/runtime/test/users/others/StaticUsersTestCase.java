@@ -16,17 +16,15 @@
 package org.ametys.runtime.test.users.others;
 
 import java.util.Collection;
-
-import org.apache.excalibur.xml.dom.DOMHandler;
-import org.apache.excalibur.xml.dom.DOMHandlerFactory;
-import org.apache.excalibur.xml.xpath.XPathProcessor;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.ametys.core.authentication.Credentials;
-import org.ametys.core.user.CredentialsAwareUsersManager;
 import org.ametys.core.user.User;
-import org.ametys.core.user.UsersManager;
-import org.ametys.plugins.core.impl.user.StaticUsersManager;
-import org.ametys.plugins.core.impl.user.jdbc.ModifiableJdbcUsersManager;
+import org.ametys.core.user.directory.ModifiableUserDirectory;
+import org.ametys.core.user.directory.UserDirectory;
+import org.ametys.core.user.directory.UserDirectoryFactory;
+import org.ametys.plugins.core.impl.user.directory.StaticUserDirectory;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.Init;
 
@@ -52,40 +50,40 @@ public class StaticUsersTestCase extends AbstractRuntimeTestCase
     }
     
     /**
-     * Tests that the <code>StaticUsersTestCase</code> is the default <code>UsersManager</code><br/>
+     * Tests that the <code>StaticUsersTestCase</code> is the default <code>UserDirectory</code><br/>
      * Tests the values returned by it
      * @throws Exception if an error occurs
      */
     public void testStaticUsers() throws Exception
     {
-        UsersManager usersManager = (UsersManager) Init.getPluginServiceManager().lookup(UsersManager.ROLE);
+        UserDirectory userDirectory = _createStaticUserDirectory();
         
         // DEFAULT IMPL
-        assertTrue(usersManager instanceof StaticUsersManager);
+        assertTrue(userDirectory instanceof StaticUserDirectory);
         
         // NOT MODIFIABLE
-        assertFalse(usersManager instanceof ModifiableJdbcUsersManager);
+        assertFalse(userDirectory instanceof ModifiableUserDirectory);
         
         // CREDENTIAL AWARE
-        assertTrue(usersManager instanceof CredentialsAwareUsersManager);
+        assertTrue(userDirectory instanceof UserDirectory);
         
         // ONE USER
         User user;
         
-        user = usersManager.getUser("foo");
+        user = userDirectory.getUser("foo");
         assertNull(user);
         
-        user = usersManager.getUser("anonymous");
+        user = userDirectory.getUser("anonymous");
         assertNotNull(user);
-        assertEquals(user.getName(), "anonymous");
+        assertEquals(user.getIdentity().getLogin(), "anonymous");
         assertEquals(user.getLastName(), "Anonymous");
         assertEquals(user.getFirstName(), "user");
         assertEquals(user.getFullName(), "user Anonymous");
         assertEquals(user.getSortableName(), "Anonymous user");
-        assertEquals(user.getEmail(), "");
+        assertEquals(user.getEmail(), "user@ametys.org");
         
         // ALL USERS
-        Collection<User> users = usersManager.getUsers();
+        Collection<User> users = userDirectory.getUsers();
         assertEquals(users.size(), 1);
         assertEquals(users.iterator().next(), user);
         
@@ -93,30 +91,17 @@ public class StaticUsersTestCase extends AbstractRuntimeTestCase
         Credentials credentials;
         
         credentials = new Credentials("foo", null);
-        assertFalse(((CredentialsAwareUsersManager) usersManager).checkCredentials(credentials));
+        assertFalse(((UserDirectory) userDirectory).checkCredentials(credentials));
 
         credentials = new Credentials("anonymous", null);
-        assertTrue(((CredentialsAwareUsersManager) usersManager).checkCredentials(credentials));
-
-        // SAX USERS
-        DOMHandlerFactory dom = (DOMHandlerFactory) Init.getPluginServiceManager().lookup(DOMHandlerFactory.ROLE);
-        DOMHandler handler = dom.createDOMHandler();
-        handler.startDocument();
-        usersManager.toSAX(handler, 0, 0, null);
-        handler.endDocument();
-
-        XPathProcessor xpath = (XPathProcessor) Init.getPluginServiceManager().lookup(XPathProcessor.ROLE);
-        assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/*)"));
-        assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users)"));
-        assertEquals(2.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users/*)"));
-        assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users/user)"));
-        assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users/user/@*)"));
-        assertEquals(5.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users/user/*)"));
-        assertEquals("anonymous", xpath.evaluateAsString(handler.getDocument(), "/users/user/@login"));
-        assertEquals("Anonymous", xpath.evaluateAsString(handler.getDocument(), "/users/user/lastname"));
-        assertEquals("user", xpath.evaluateAsString(handler.getDocument(), "/users/user/firstname"));
-        assertEquals("user Anonymous", xpath.evaluateAsString(handler.getDocument(), "/users/user/fullname"));
-        assertEquals("", xpath.evaluateAsString(handler.getDocument(), "/users/user/email"));
-        assertEquals("1", xpath.evaluateAsString(handler.getDocument(), "/users/total"));
+        assertTrue(((UserDirectory) userDirectory).checkCredentials(credentials));
+    }
+    
+    private UserDirectory _createStaticUserDirectory() throws Exception
+    {
+        String modelId = "org.ametys.plugins.core.user.directory.Static";
+        Map<String, Object> parameters = new LinkedHashMap<>();
+        parameters.put("runtime.users.static.users", "anonymous:Anonymous:user:user@ametys.org");
+        return ((UserDirectoryFactory) Init.getPluginServiceManager().lookup(UserDirectoryFactory.ROLE)).createUserDirectory(modelId, parameters, "foo");
     }
 }

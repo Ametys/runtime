@@ -30,13 +30,6 @@ public class DerbyProfileBasedRightsManagerTestCase extends AbstractProfileBased
     }
     
     @Override
-    protected void tearDown() throws Exception
-    {
-        _cocoon.dispose();
-        super.tearDown();
-    }
-    
-    @Override
     protected File[] getScripts()
     {
         return new File[] {

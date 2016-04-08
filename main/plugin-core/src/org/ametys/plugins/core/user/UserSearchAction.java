@@ -22,74 +22,61 @@ import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
-import org.apache.cocoon.ProcessingException;
-import org.apache.cocoon.acting.ServiceableAction;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.cocoon.acting.AbstractAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
 
 import org.ametys.core.cocoon.JSonReader;
-import org.ametys.core.user.UsersManager;
+import org.ametys.core.user.UserManager;
 
 /**
- * Get users 
- *
+ * Get users.
  */
-public class UserSearchAction extends ServiceableAction
+public class UserSearchAction extends AbstractAction implements ThreadSafe, Serviceable
 {
     private static final int _DEFAULT_COUNT_VALUE = 100;
     private static final int _DEFAULT_OFFSET_VALUE = 0;
     
+    private UserManager _userManager;
+    private UserHelper _userHelper;
+    
+    @Override
+    public void service(ServiceManager manager) throws ServiceException
+    {
+        _userManager = (UserManager) manager.lookup(UserManager.ROLE);
+        _userHelper = (UserHelper) manager.lookup(UserHelper.ROLE);
+    }
+    
+    @Override
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
         @SuppressWarnings("unchecked")
         Map<String, Object> jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
         
-        // Get the wanted UsersManager avalon role, defaults to runtime-declared UsersManager.
-        String role = parameters.getParameter("usersManagerRole", UsersManager.ROLE);
-        if (role.length() == 0)
-        {
-            role = UsersManager.ROLE;
-        }
-        
         List<Map<String, Object>> users = new ArrayList<>();
-        UsersManager usersManager = null;
         
-        try
+        String context = (String) jsParameters.get("context");
+        
+        if (context != null)
         {
-            usersManager = (UsersManager) manager.lookup(role);
-            
-            if (jsParameters.get("login") != null)
-            {
-                @SuppressWarnings("unchecked")
-                List<String> logins = (List<String>) jsParameters.get("login");
-                for (String login : logins)
-                {
-                    users.add(UserHelper.user2Map(usersManager.getUser(login)));
-                }
-            }
-            else
-            {
-                int count = parameters.getParameterAsInteger("limit", _DEFAULT_COUNT_VALUE);
-                if (count == -1)
-                {
-                    count = Integer.MAX_VALUE;
-                }
-
-                int offset = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
-                
-                users.addAll(UserHelper.users2MapList(usersManager.getUsers(count, offset, _getSearchParameters(source))));
-            }
+            // search over the populations of the given context
+            _searchUsersByContext(users, jsParameters, source, parameters, context);
         }
-        catch (ServiceException e)
+        else
         {
-            getLogger().error("Error looking up UsersManager of role " + role, e);
-            throw new ProcessingException("Error looking up UsersManager of role " + role, e);
-        }
-        finally
-        {
-            manager.release(usersManager);
+            // search over the given population
+            String userPopulationId = (String) jsParameters.get("userPopulationId");
+            int userDirectoryIndex = -1;
+            if (jsParameters.get("userDirectoryIndex") != null)
+            {
+                userDirectoryIndex = (int) jsParameters.get("userDirectoryIndex");
+            }
+            _searchUsersByPopulation(users, jsParameters, source, parameters, userPopulationId, userDirectoryIndex);
         }
         
         Map<String, Object> result = new HashMap<>();
@@ -111,5 +98,75 @@ public class UserSearchAction extends ServiceableAction
         Map<String, Object> params = new HashMap<>();
         params.put("pattern", source);
         return params;
+    }
+    
+    private void _searchUsersByContext(List<Map<String, Object>> users, Map<String, Object> jsParameters, String source, Parameters parameters, String context)
+    {
+        if (jsParameters.get("login") != null)
+        {
+            @SuppressWarnings("unchecked")
+            List<String> logins = (List<String>) jsParameters.get("login");
+            for (String login : logins)
+            {
+                users.add(_userHelper.user2Map(_userManager.getUserByContext(context, login)));
+            }
+        }
+        else
+        {
+            int count = parameters.getParameterAsInteger("limit", _DEFAULT_COUNT_VALUE);
+            if (count == -1)
+            {
+                count = Integer.MAX_VALUE;
+            }
+            int offset = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
+            
+            users.addAll(_userHelper.users2MapList(_userManager.getUsersByContext(context, count, offset, _getSearchParameters(source))));
+        }
+    }
+    
+    private void _searchUsersByPopulation(List<Map<String, Object>> users, Map<String, Object> jsParameters, String source, Parameters parameters, String userPopulationId, int userDirectoryIndex)
+    {
+        if (jsParameters.get("login") != null && userDirectoryIndex != -1)
+        {
+            @SuppressWarnings("unchecked")
+            List<String> logins = (List<String>) jsParameters.get("login");
+            for (String login : logins)
+            {
+                users.add(_userHelper.user2Map(_userManager.getUserByDirectory(userPopulationId, userDirectoryIndex, login)));
+            }
+        }
+        else if (jsParameters.get("login") != null)
+        {
+            // userDirectoryIndex = -1 => take account of all the user directories
+            @SuppressWarnings("unchecked")
+            List<String> logins = (List<String>) jsParameters.get("login");
+            for (String login : logins)
+            {
+                users.add(_userHelper.user2Map(_userManager.getUser(userPopulationId, login)));
+            }
+        }
+        else if (userDirectoryIndex != -1)
+        {
+            int count = parameters.getParameterAsInteger("limit", _DEFAULT_COUNT_VALUE);
+            if (count == -1)
+            {
+                count = Integer.MAX_VALUE;
+            }
+            int offset = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
+            
+            users.addAll(_userHelper.users2MapList(_userManager.getUsersByDirectory(userPopulationId, userDirectoryIndex, count, offset, _getSearchParameters(source))));
+        }
+        else
+        {
+            // userDirectoryIndex = -1 => take account of all the user directories
+            int count = parameters.getParameterAsInteger("limit", _DEFAULT_COUNT_VALUE);
+            if (count == -1)
+            {
+                count = Integer.MAX_VALUE;
+            }
+            int offset = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
+            
+            users.addAll(_userHelper.users2MapList(_userManager.getUsers(userPopulationId, count, offset, _getSearchParameters(source))));
+        }
     }
 }

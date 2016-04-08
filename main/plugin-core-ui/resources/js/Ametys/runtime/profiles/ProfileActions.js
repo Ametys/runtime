@@ -23,7 +23,9 @@ Ext.define('Ametys.runtime.profiles.ProfileActions', {
 	/**
 	 * Affects a profile to users 
 	 * @param {String} profileId The profile id
-	 * @param {String[]} users The users' logins in a Array
+	 * @param {Object[]} users The users.
+     * @param {String} users.login The login of the user
+     * @param {String} users.population The population id of the user
 	 * @param {String} context The context right
 	 * @param {Function} callback The callback function
 	 * @param {Object} additionalParams The optional additional parameters. Can be null.
@@ -43,7 +45,9 @@ Ext.define('Ametys.runtime.profiles.ProfileActions', {
 	/**
 	 * Affects a profile to groups 
 	 * @param {String} profileId The profile id
-	 * @param {String[]} groups The groups' ids in a Array
+	 * @param {Object[]} groups The groups.
+     * @param {String} groups.id The id of the group
+     * @param {String} groups.groupDirectory The group directory id of the group
 	 * @param {String} context The context right
 	 * @param {Function} callback The callback function
 	 * @param {Object} additionalParams The optional additional parameters. Can be null.
@@ -64,15 +68,19 @@ Ext.define('Ametys.runtime.profiles.ProfileActions', {
 	 * Removes assignment
 	 * @param {String} profileId The profile id
 	 * @param {String} context The context right
-	 * @param {String[]} users The users' ids to remove
-	 * @param {String[]} groups The groups' ids to remove
+	 * @param {Object[]} users The users to remove.
+     * @param {String} users.login The login of the user
+     * @param {String} users.population The population id of the user
+     * @param {Object[]} groups The groups to remove
+     * @param {String} groups.id The id of the group
+     * @param {String} groups.groupDirectory The group directory id of the group
 	 * @param {Function} callback The callback function
 	 * @param {Object} additionalParams The optional additional parameters. Can be null.
 	 */
 	remove: function(profileId, context, users, groups, callback, additionalParams) 
 	{
-		Ametys.Msg.confirm("{{i18n plugin.core:PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_LABEL}}", 
-			"{{i18n plugin.core:PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_CONFIRM}}", 
+		Ametys.Msg.confirm("{{i18n plugin.core-ui:PLUGINS_CORE_UI_RIGHTS_ASSIGNMENT_REMOVE_LABEL}}", 
+			"{{i18n plugin.core-ui:PLUGINS_CORE_UI_RIGHTS_ASSIGNMENT_REMOVE_CONFIRM}}", 
 			Ext.bind(this._doRemove, this, [profileId, context, users, groups, callback, additionalParams], 1),
 			this);
 	},
@@ -83,8 +91,12 @@ Ext.define('Ametys.runtime.profiles.ProfileActions', {
 	 * @param {String} btn the ID of the button pressed
 	 * @param {String} profileId The profile id
 	 * @param {String} context The context right
-	 * @param {String[]} users  The users' ids to remove
-	 * @param {String[]} groups The groups' ids to remove
+	 * @param {Object[]} users The users to remove.
+     * @param {String} users.login The login of the user
+     * @param {String} users.population The population id of the user
+	 * @param {Object[]} groups The groups to remove
+     * @param {String} groups.id The id of the group
+     * @param {String} groups.groupDirectory The group directory id of the group
 	 * @param {Function} callback The callback function
 	 * @param {Object} additionalParams The optional additional parameters. Can be null.
 	 */

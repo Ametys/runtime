@@ -27,11 +27,14 @@ import org.apache.avalon.framework.service.Serviceable;
 import org.apache.commons.lang3.StringUtils;
 
 import org.ametys.core.group.Group;
-import org.ametys.core.group.GroupsManager;
+import org.ametys.core.group.GroupDirectoryDAO;
+import org.ametys.core.group.GroupManager;
 import org.ametys.core.group.InvalidModificationException;
-import org.ametys.core.group.ModifiableGroupsManager;
+import org.ametys.core.group.directory.GroupDirectory;
+import org.ametys.core.group.directory.ModifiableGroupDirectory;
 import org.ametys.core.ui.Callable;
 import org.ametys.core.user.CurrentUserProvider;
+import org.ametys.core.user.UserIdentity;
 
 /**
  * DAO for manipulating {@link Group}
@@ -43,44 +46,37 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
     protected ServiceManager _smanager;
     /** The current user provider. */
     protected CurrentUserProvider _currentUserProvider;
+    /** The group manager */
+    protected GroupManager _groupManager;
+    /** The DAO for group directories */
+    protected GroupDirectoryDAO _groupDirectoryDAO;
 
     public void service(ServiceManager smanager) throws ServiceException
     {
         _smanager = smanager;
+        _groupManager = (GroupManager) smanager.lookup(GroupManager.ROLE);
+        _groupDirectoryDAO = (GroupDirectoryDAO) smanager.lookup(GroupDirectoryDAO.ROLE);
     }
     
     /**
      * Creates a new group
+     * @param groupDirectoryId The id of the group directory
      * @param name The group's name
      * @return The group's information
      * @throws InvalidModificationException If modification are not possible
-     * @throws ServiceException If a service error occurred
      */
     @Callable
-    public Map<String, Object> addGroup(String name) throws InvalidModificationException, ServiceException
+    public Map<String, Object> addGroup(String groupDirectoryId, String name) throws InvalidModificationException
     {
-        return addGroup(name, null);
-    }
-    
-    /**
-     * Creates a new group
-     * @param name The group's name
-     * @param groupManagerRole The groups manager's role. Can be null or empty to use the default one.
-     * @return The group's information
-     * @throws InvalidModificationException If modification are not possible
-     * @throws ServiceException If a service error occurred
-     */
-    @Callable
-    public Map<String, Object> addGroup(String name, String groupManagerRole) throws InvalidModificationException, ServiceException
-    {
-        GroupsManager g = (GroupsManager) _smanager.lookup(StringUtils.isEmpty(groupManagerRole) ? GroupsManager.ROLE : groupManagerRole);
-        if (!(g instanceof ModifiableGroupsManager))
+        GroupDirectory groupDirectory = _groupDirectoryDAO.getGroupDirectory(groupDirectoryId);
+        
+        if (!(groupDirectory instanceof ModifiableGroupDirectory))
         {
             getLogger().error("Groups are not modifiable !");
             throw new InvalidModificationException("Groups are not modifiable !");
         }
         
-        ModifiableGroupsManager groups = (ModifiableGroupsManager) g;
+        ModifiableGroupDirectory modifiableGroupDirectory = (ModifiableGroupDirectory) groupDirectory;
         
         if (getLogger().isDebugEnabled())
         {
@@ -94,10 +90,10 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
         
         if (getLogger().isInfoEnabled())
         {
-            getLogger().info(String.format("User %s is adding a new group '%s'", _isSuperUser() ? "Administrator" : _getCurrentUser(), name));
+            getLogger().info(String.format("User %s is adding a new group '%s'", _getCurrentUser(), name));
         }
 
-        Group group = groups.add(name);
+        Group group = modifiableGroupDirectory.add(name);
         
         if (getLogger().isDebugEnabled())
         {
@@ -107,41 +103,26 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
         return group2Json(group);
     }
     
-    
     /**
      * Set the users' group
+     * @param groupDirectoryId The id of the group directory
      * @param groupId The group's id
      * @param users The group's users
      * @return The group's information
      * @throws InvalidModificationException If modification are not possible
-     * @throws ServiceException If a service error occurred
      */
     @Callable
-    public Map<String, Object> setUsersGroup (String groupId, List<String> users) throws InvalidModificationException, ServiceException
+    public Map<String, Object> setUsersGroup (String groupDirectoryId, String groupId, List<List<String>> users) throws InvalidModificationException
     {
-        return setUsersGroup(groupId, users, null);
-    }
-    
-    /**
-     * Set the users' group
-     * @param groupId The group's id
-     * @param users The group's users
-     * @param groupManagerRole groupManagerRole The groups manager's role. Can be null or empty to use the default one.
-     * @return The group's information
-     * @throws InvalidModificationException If modification are not possible
-     * @throws ServiceException If a service error occurred
-     */
-    @Callable
-    public Map<String, Object> setUsersGroup (String groupId, List<String> users, String groupManagerRole) throws InvalidModificationException, ServiceException
-    {
-        GroupsManager g = (GroupsManager) _smanager.lookup(StringUtils.isEmpty(groupManagerRole) ? GroupsManager.ROLE : groupManagerRole);
-        if (!(g instanceof ModifiableGroupsManager))
+        GroupDirectory groupDirectory = _groupDirectoryDAO.getGroupDirectory(groupDirectoryId);
+        
+        if (!(groupDirectory instanceof ModifiableGroupDirectory))
         {
             getLogger().error("Groups are not modifiable !");
             throw new InvalidModificationException("Groups are not modifiable !");
         }
         
-        ModifiableGroupsManager groups = (ModifiableGroupsManager) g;
+        ModifiableGroupDirectory modifiableGroupDirectory = (ModifiableGroupDirectory) groupDirectory;
         
         if (getLogger().isDebugEnabled())
         {
@@ -150,13 +131,13 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
         
         if (getLogger().isInfoEnabled())
         {
-            getLogger().info(String.format("User %s is editing the group '%s'", _isSuperUser() ? "Administrator" : _getCurrentUser(), groupId));
+            getLogger().info(String.format("User %s is editing the group '%s'", _getCurrentUser(), groupId));
         }
 
-        Group group = groups.getGroup(groupId);
+        Group group = modifiableGroupDirectory.getGroup(groupId);
         if (group == null)
         {
-            getLogger().warn(String.format("User %s tries to edit the group '%s' but the group does not exist.", _isSuperUser() ? "Administrator" : _getCurrentUser(), groupId));
+            getLogger().warn(String.format("User %s tries to edit the group '%s' but the group does not exist.", _getCurrentUser(), groupId));
             
             Map<String, Object> result = new HashMap<>();
             result.put("error", "unknown-group");
@@ -165,16 +146,18 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
         else
         {
             // Edit users
-            Group newUserGroup = new Group(group.getId(), group.getLabel());
+            Group newUserGroup = new Group(group.getIdentity(), group.getLabel(), group.getGroupDirectory());
 
-            for (String login : users)
+            for (List<String> user : users)
             {
-                if (StringUtils.isNotBlank(login))
+                String login = user.get(0);
+                String populationId = user.get(1);
+                if (StringUtils.isNotBlank(login) && StringUtils.isNotBlank(populationId))
                 {
-                    newUserGroup.addUser(login);
+                    newUserGroup.addUser(new UserIdentity(login, populationId));
                 }
             }
-            groups.update(newUserGroup);
+            modifiableGroupDirectory.update(newUserGroup);
         }
         
         if (getLogger().isDebugEnabled())
@@ -187,72 +170,43 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
     
     /**
      * Add users to group
+     * @param groupDirectoryId The id of the group directory
      * @param groupId The group's id
      * @param users The users to add
      * @return The group's information
      * @throws InvalidModificationException If modification are not possible
-     * @throws ServiceException If a service error occurred
      */
     @Callable
-    public Map<String, Object> addUsersGroup (String groupId, List<String> users) throws InvalidModificationException, ServiceException
+    public Map<String, Object> addUsersGroup (String groupDirectoryId, String groupId, List<Map<String, String>> users) throws InvalidModificationException
     {
-        return addUsersGroup(groupId, users, null);
-    }
-    
-    /**
-     * Add users to group
-     * @param groupId The group's id
-     * @param users The users to add
-     * @param groupManagerRole groupManagerRole groupManagerRole The groups manager's role. Can be null or empty to use the default one.
-     * @return The group's information
-     * @throws InvalidModificationException If modification are not possible
-     * @throws ServiceException If a service error occurred
-     */
-    @Callable
-    public Map<String, Object> addUsersGroup (String groupId, List<String> users, String groupManagerRole) throws InvalidModificationException, ServiceException
-    {
-        return _updateUsersGroup(groupId, users, groupManagerRole, false);
+        return _updateUsersGroup(groupDirectoryId, groupId, users, false);
     }
     
     /**
      * Remove users from group
+     * @param groupDirectoryId The id of the group directory
      * @param groupId The group's id
      * @param users The users to add
      * @return The group's information
      * @throws InvalidModificationException If modification are not possible
-     * @throws ServiceException If a service error occurred
      */
     @Callable
-    public Map<String, Object> removeUsersGroup (String groupId, List<String> users) throws InvalidModificationException, ServiceException
+    public Map<String, Object> removeUsersGroup (String groupDirectoryId, String groupId, List<Map<String, String>> users) throws InvalidModificationException
     {
-        return removeUsersGroup(groupId, users, null);
+        return _updateUsersGroup(groupDirectoryId, groupId, users, true);
     }
     
-    /**
-     * Remove users from group
-     * @param groupId The group's id
-     * @param users The users to add
-     * @param groupManagerRole groupManagerRole groupManagerRole The groups manager's role. Can be null or empty to use the default one.
-     * @return The group's information
-     * @throws InvalidModificationException If modification are not possible
-     * @throws ServiceException If a service error occurred
-     */
-    @Callable
-    public Map<String, Object> removeUsersGroup (String groupId, List<String> users, String groupManagerRole) throws InvalidModificationException, ServiceException
+    private Map<String, Object> _updateUsersGroup (String groupDirectoryId, String groupId, List<Map<String, String>> users, boolean remove) throws InvalidModificationException
     {
-        return _updateUsersGroup(groupId, users, groupManagerRole, true);
-    }
-    
-    private Map<String, Object> _updateUsersGroup (String groupId, List<String> users, String groupManagerRole, boolean remove) throws InvalidModificationException, ServiceException
-    {
-        GroupsManager g = (GroupsManager) _smanager.lookup(StringUtils.isEmpty(groupManagerRole) ? GroupsManager.ROLE : groupManagerRole);
-        if (!(g instanceof ModifiableGroupsManager))
+        GroupDirectory groupDirectory = _groupDirectoryDAO.getGroupDirectory(groupDirectoryId);
+        
+        if (!(groupDirectory instanceof ModifiableGroupDirectory))
         {
             getLogger().error("Groups are not modifiable !");
             throw new InvalidModificationException("Groups are not modifiable !");
         }
         
-        ModifiableGroupsManager groups = (ModifiableGroupsManager) g;
+        ModifiableGroupDirectory modifiableGroupDirectory = (ModifiableGroupDirectory) groupDirectory;
         
         if (getLogger().isDebugEnabled())
         {
@@ -261,13 +215,13 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
         
         if (getLogger().isInfoEnabled())
         {
-            getLogger().info(String.format("User %s is editing the group '%s'", _isSuperUser() ? "Administrator" : _getCurrentUser(), groupId));
+            getLogger().info(String.format("User %s is editing the group '%s'", _getCurrentUser(), groupId));
         }
 
-        Group group = groups.getGroup(groupId);
+        Group group = modifiableGroupDirectory.getGroup(groupId);
         if (group == null)
         {
-            getLogger().warn(String.format("User %s tries to edit the group '%s' but the group does not exist.", _isSuperUser() ? "Administrator" : _getCurrentUser(), groupId));
+            getLogger().warn(String.format("User %s tries to edit the group '%s' but the group does not exist.", _getCurrentUser(), groupId));
             
             Map<String, Object> result = new HashMap<>();
             result.put("error", "unknown-group");
@@ -275,21 +229,23 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
         }
         else
         {
-            for (String login : users)
+            for (Map<String, String> user : users)
             {
-                if (StringUtils.isNotBlank(login))
+                String login = user.get("login");
+                String populationId = user.get("population");
+                if (StringUtils.isNotBlank(login) && StringUtils.isNotBlank(populationId))
                 {
                     if (remove)
                     {
-                        group.removeUser(login);
+                        group.removeUser(new UserIdentity(login, populationId));
                     }
                     else
                     {
-                        group.addUser(login);
+                        group.addUser(new UserIdentity(login, populationId));
                     }
                 }
             }
-            groups.update(group);
+            modifiableGroupDirectory.update(group);
         }
         
         if (getLogger().isDebugEnabled())
@@ -302,38 +258,24 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
     
     /**
      * Renames a group
-     * @param id The group's id
-     * @param name The group's new name
-     * @return The group's information
-     * @throws InvalidModificationException If modification are not possible
-     * @throws ServiceException If a service error occurred
-     */
-    @Callable
-    public Map<String, Object> renameGroup(String id, String name) throws InvalidModificationException, ServiceException
-    {
-        return renameGroup(id, name, null);
-    }
-    
-    /**
-     * Renames a group
+     * @param groupDirectoryId The id of the group directory
      * @param groupId The group'sid
      * @param name The new name
-     * @param groupManagerRole groupManagerRole The groups manager's role. Can be null or empty to use the default one.
      * @return The group's information
      * @throws InvalidModificationException If modification are not possible
-     * @throws ServiceException If a service error occurred
      */
     @Callable
-    public Map<String, Object> renameGroup (String groupId, String name, String groupManagerRole) throws ServiceException, InvalidModificationException
+    public Map<String, Object> renameGroup (String groupDirectoryId, String groupId, String name) throws InvalidModificationException
     {
-        GroupsManager g = (GroupsManager) _smanager.lookup(StringUtils.isEmpty(groupManagerRole) ? GroupsManager.ROLE : groupManagerRole);
-        if (!(g instanceof ModifiableGroupsManager))
+        GroupDirectory groupDirectory = _groupDirectoryDAO.getGroupDirectory(groupDirectoryId);
+        
+        if (!(groupDirectory instanceof ModifiableGroupDirectory))
         {
             getLogger().error("Groups are not modifiable !");
             throw new InvalidModificationException("Groups are not modifiable !");
         }
         
-        ModifiableGroupsManager groups = (ModifiableGroupsManager) g;
+        ModifiableGroupDirectory modifiableGroupDirectory = (ModifiableGroupDirectory) groupDirectory;
         
         if (getLogger().isDebugEnabled())
         {
@@ -347,13 +289,13 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
         
         if (getLogger().isInfoEnabled())
         {
-            getLogger().info(String.format("User %s is renaming the group '%s' to '%s'", _isSuperUser() ? "Administrator" : _getCurrentUser(), groupId, name));
+            getLogger().info(String.format("User %s is renaming the group '%s' to '%s'", _getCurrentUser(), groupId, name));
         }
         
-        Group group = groups.getGroup(groupId);
+        Group group = modifiableGroupDirectory.getGroup(groupId);
         if (group == null)
         {
-            getLogger().warn(String.format("User %s tries to rename the group '%s' but the group does not exist.", _isSuperUser() ? "Administrator" : _getCurrentUser(), groupId));
+            getLogger().warn(String.format("User %s tries to rename the group '%s' but the group does not exist.", _getCurrentUser(), groupId));
             
             Map<String, Object> result = new HashMap<>();
             result.put("error", "unknown-group");
@@ -362,7 +304,7 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
         else
         {
             group.setLabel(name);
-            groups.update(group);
+            modifiableGroupDirectory.update(group);
         }
         
         if (getLogger().isDebugEnabled())
@@ -375,22 +317,22 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
     
     /**
      * Deletes groups
+     * @param groupDirectoryId The id of the group directory
      * @param groupIds The ids of groups to delete
-     * @param groupManagerRole The group manager's role. Can be null or empty to use the default one.
      * @throws InvalidModificationException If modification are not possible
-     * @throws ServiceException If a service error occurred
      */
     @Callable
-    public void deleteGroups (List<String> groupIds, String groupManagerRole) throws InvalidModificationException, ServiceException
+    public void deleteGroups (String groupDirectoryId, List<String> groupIds) throws InvalidModificationException
     {
-        GroupsManager g = (GroupsManager) _smanager.lookup(StringUtils.isEmpty(groupManagerRole) ? GroupsManager.ROLE : groupManagerRole);
-        if (!(g instanceof ModifiableGroupsManager))
+        GroupDirectory groupDirectory = _groupDirectoryDAO.getGroupDirectory(groupDirectoryId);
+        
+        if (!(groupDirectory instanceof ModifiableGroupDirectory))
         {
             getLogger().error("Groups are not modifiable !");
             throw new InvalidModificationException("Groups are not modifiable !");
         }
         
-        ModifiableGroupsManager groups = (ModifiableGroupsManager) g;
+        ModifiableGroupDirectory modifiableGroupDirectory = (ModifiableGroupDirectory) groupDirectory;
         
         if (getLogger().isDebugEnabled())
         {
@@ -401,10 +343,10 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
         {
             if (getLogger().isInfoEnabled())
             {
-                getLogger().info(String.format("User %s is is removing group '%s'", _isSuperUser() ? "Administrator" : _getCurrentUser(), groupId));
+                getLogger().info(String.format("User %s is is removing group '%s'", _getCurrentUser(), groupId));
             }
             
-            groups.remove(groupId);
+            modifiableGroupDirectory.remove(groupId);
         }
 
         if (getLogger().isDebugEnabled())
@@ -415,33 +357,33 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
     
     /**
      * Get group's information
+     * @param groupDirectoryId The id of the group directory
      * @param id the group id
      * @return group's information
-     * @throws ServiceException If a service error occurred
      */
     @Callable
-    public Map<String, Object> getGroup (String id) throws ServiceException
+    public Map<String, Object> getGroup (String groupDirectoryId, String id)
     {
-        return getGroup(id, null);
-    }
-    
-    /**
-     * Get group's information
-     * @param id the group id
-     * @param groupManagerRole The group manager's role. Can be null or empty to use the default one.
-     * @return group's information
-     * @throws ServiceException If a service error occurred
-     */
-    @Callable
-    public Map<String, Object> getGroup (String id, String groupManagerRole) throws ServiceException
-    {
-        GroupsManager groups = (GroupsManager) _smanager.lookup(StringUtils.isEmpty(groupManagerRole) ? GroupsManager.ROLE : groupManagerRole);
-        Group group = groups.getGroup(id);
+        GroupDirectory groupDirectory = _groupDirectoryDAO.getGroupDirectory(groupDirectoryId);
+        
+        Group group = groupDirectory.getGroup(id);
         if (group != null)
         {
             return group2Json(group);
         }
         return null;
+    }
+    
+    /**
+     * Checks if the group is modifiable
+     * @param groupDirectoryId The id of the group directory
+     * @param id The group id
+     * @return True if the group is modifiable
+     */
+    @Callable
+    public boolean isModifiable (String groupDirectoryId, String id)
+    {
+        return _groupDirectoryDAO.getGroupDirectory(groupDirectoryId) instanceof ModifiableGroupDirectory;
     }
     
     /**
@@ -452,16 +394,17 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
     protected Map<String, Object> group2Json (Group group)
     {
         Map<String, Object> infos = new HashMap<>();
-        infos.put("id", group.getId());
+        infos.put("id", group.getIdentity().getId());
         infos.put("label", group.getLabel());
+        infos.put("groupDirectory", group.getIdentity().getDirectoryId());
         return infos;
     }
     
     /**
-     * Provides the login of the current user.
-     * @return the login which cannot be <code>null</code>.
+     * Provides the current user.
+     * @return the user which cannot be <code>null</code>.
      */
-    protected String _getCurrentUser()
+    protected UserIdentity _getCurrentUser()
     {
         if (_currentUserProvider == null)
         {
@@ -475,33 +418,6 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
             }
         }
         
-        if (!_currentUserProvider.isSuperUser())
-        {
-            return _currentUserProvider.getUser();
-        }
-        
-        return "admin";
-    }
-    
-    /**
-     * Determine if current user is the super user.
-     * @return <code>true</code> if the super user is logged in,
-     *         <code>false</code> otherwise.
-     */
-    protected boolean _isSuperUser()
-    {
-        if (_currentUserProvider == null)
-        {
-            try
-            {
-                _currentUserProvider = (CurrentUserProvider) _smanager.lookup(CurrentUserProvider.ROLE);
-            }
-            catch (ServiceException e)
-            {
-                throw new IllegalStateException(e);
-            }
-        }
-        
-        return _currentUserProvider.isSuperUser();
+        return _currentUserProvider.getUser();
     }
 }

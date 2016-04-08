@@ -51,16 +51,27 @@
     <message key="PLUGINS_CORE_UI_EDIT_PROFILE_IMAGE_DESCRIPTION">Cliquez ici pour modifier votre image de profil</message>
     
     <!-- +
+         | Logout
+         + -->
+         
+    <message key="PLUGINS_CORE_UI_USER_LOGOUT_LABEL">Se déconnecter</message>
+    <message key="PLUGINS_CORE_UI_USER_LOGOUT_DESCRIPTION">Cliquez ici pour vous déconnecter</message>
+    
+    <!-- +
          | Login screen
          + -->
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_TITLE">Connexion</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_LABEL">Entrez vos identifiants</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_LOGIN">Identifiant</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_PASSWORD">Mot de passe</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_POPULATION">Population</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_SUBMIT">Se connecter</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FORGOT_PASSWORD">Mot de passe oublié ?</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_PERSIST">Se souvenir de moi</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_SEPARATOR">ou</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_BACK">Retour</message>
     
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_INVALID_POPULATION">Identifiant de population invalide</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_AUTH_FAILURE">Identifiant ou mot de passe incorrect</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_WITH_CAPTCHA">Nom d'utilisateur, mot de passe ou captcha incorrect</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_MANY_TIME">Veuillez valider le captcha car il y a eu trop d'erreurs de connexion avec ce nom d'utilisateur</message>
@@ -167,7 +178,7 @@
     <message key="PLUGINS_CORE_UI_SERVERCOMM_ERROR_DESC">Une erreur est survenue dans le traitement de la réponse serveur</message>
     <message key="PLUGINS_CORE_UI_SERVERCOMM_BADRESPONSE_TITLE">Pas de réponse du serveur</message>
     <message key="PLUGINS_CORE_UI_SERVERCOMM_BADRESPONSE_DESC">La réponse du serveur est incomplète et ne contient pas les informations permettant de continuer le traitement correctement.</message>
-    <message key="PLUGINS_CORE_UI_SERVERCOMM_NOTXML_DESC">La réponse du serveur est incohérente et cela peut provenir :\n* soit de l'expiration de votre authentification,\n* soit d'une anomalie imprévue sur le serveur.\nVous pouvez essayer de vous authentifier à nouveau avant de ré-essayer.\n\nSi toutes vos données sont enregistrées, cliquez sur Annuler.\n\nSinon cliquez sur Ok pour essayer de sauver vos modifications en cours à nouveau mais votre application sera dans un état instable (Si ce message apparaît plusieurs fois, contactez votre administrateur système pour connaitre la durée du problème).</message>
+    <message key="PLUGINS_CORE_UI_SERVERCOMM_NOTXML_DESC">La réponse du serveur est incohérente et cela peut provenir :\n* soit de l'expiration de votre identification,\n* soit d'une anomalie imprévue sur le serveur.\nVous pouvez essayer de vous identifier à nouveau avant de ré-essayer.\n\nSi toutes vos données sont enregistrées, cliquez sur Annuler.\n\nSinon cliquez sur Ok pour essayer de sauver vos modifications en cours à nouveau mais votre application sera dans un état instable (Si ce message apparaît plusieurs fois, contactez votre administrateur système pour connaitre la durée du problème).</message>
     <message key="PLUGINS_CORE_UI_SERVERCOMM_SERVER_FAILED_DESC">Le serveur a échoué (code </message>
     <message key="PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE">La connexion avec le serveur a été perdue mais le serveur est peut-être toujours en train de traiter votre requête.\n\nSi toutes vos données sont enregistrées, cliquez sur Annuler.\n\nSinon cliquez sur Ok pour essayer de sauver vos modifications en cours à nouveau mais votre application sera dans un état instable (Si ce message apparaît plusieurs fois, contactez votre administrateur système pour connaitre la durée du problème).</message>
     <message key="PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1">La connexion avec le serveur a été perdue</message>
@@ -395,6 +406,10 @@
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CAPTION">Sélectionner un utilisateur</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_OK">Ok</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CANCEL">Annuler</message>
+	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_POPULATION">Population</message>
+	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_POPULATION_OPTION_ALL">- Tous -</message>
+	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_USER_DIRECTORY">Répertoire d'utilisateurs</message>
+	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_USER_DIRECTORY_OPTION_ALL">- Tous -</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_FIND">Chercher</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_WARN100">Au maximum 100 utilisateurs sont listés</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_ERROR_EMPTY">Vous devez sélectionner au moins un utilisateur dans la liste avant de continuer.</message>
@@ -405,6 +420,8 @@
     <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CAPTION">Sélectionner un groupe</message>
     <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_OK">Ok</message>
     <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CANCEL">Annuler</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_DIRECTORY">Répertoire de groupes</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_DIRECTORY_OPTION_ALL">- Tous -</message>
     <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_FIND">Chercher</message>
     <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_WARN100">Au maximum 100 groupes sont listés</message>
     <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_ERROR_EMPTY">Vous devez sélectionner au moins un groupe dans la liste avant de continuer.</message>
@@ -580,8 +597,8 @@
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_SOUND_HINT">Sélectionnez un fichier audio sur votre disque dur, puis cliquez sur 'Ok'.</message>
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_SOUND">Télécharger le fichier audio</message>
     
-    <message key="PLUGINS_CORE_UI_WIDGET_QUERYABLE_COMBOBOX_NO_RESULT">La recherche n'a renvoyé aucun résultat</message>
-    <message key="PLUGINS_CORE_UI_WIDGET_QUERYABLE_COMBOBOX_LOADING">Recherche en cours...</message>
+    <message key="PLUGINS_CORE_UI_FORM_QUERYABLE_COMBOBOX_NO_RESULT">La recherche n'a renvoyé aucun résultat</message>
+    <message key="PLUGINS_CORE_UI_FORM_QUERYABLE_COMBOBOX_LOADING">Recherche en cours...</message>
     
     <message key="PLUGINS_CORE_UI_WIDGET_GEOCODE_SHOW_MAP_BUTTON_TOOLTIP">Situer sur la carte</message>
     <message key="PLUGINS_CORE_UI_WIDGET_GEOCODE_DELETE_BUTTON">Supprimer</message>
@@ -881,4 +898,293 @@
     <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_VERSIONS_VERSION_PREFIX">Version: </message>
     <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_VERSIONS_DATE_PREFIX"> du </message>
     <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_DAO_ERROR">Une erreur est survenue lors de la récupération des informations de versions et de licence.</message>
+    
+    <!-- +
+         | POPULATIONS
+         + -->
+    <message key="RIBBON_TABS_TAB_POPULATIONS_LABEL">Populations</message>
+    <message key="RIBBON_TABS_TAB_POPULATION_LABEL">Population</message>
+    <message key="RIBBON_TABS_TAB_POPULATIONS_GROUPS_GROUP_ACTION_LABEL">Actions</message>
+    
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_ADD_LABEL">Ajouter</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_ADD_DESCRIPTION">Ajoute une nouvelle population d'utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_EDIT_LABEL">Modifier</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_EDIT_DESCRIPTION">Edite une population d'utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_REMOVE_LABEL">Supprimer</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_REMOVE_DESCRIPTION">Supprime une population d'utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_REMOVE_UNABLE_DESCRIPTION">Cette population ne peut pas être supprimée car elle est liée à un contexte d'utilisation</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_ENABLE_LABEL">Population activée</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_ENABLE_DESCRIPTION">Active une population d'utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DISABLE_DESCRIPTION">Désactive une population d'utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_LINK_LABEL">Populations autorisées à se connecter</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_LINK_DESCRIPTION">Permet de choisir les populations d'utilisateurs autorisées à se connecter à l'application</message>
+    
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_TOOL_LABEL">Populations</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_TOOL_DESCRIPTION">Affiche les populations d'utilisateurs de l'application</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_TOOL_COLUMN_TITLE">Libellé</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_TOOL_COLUMN_ID">Identifiant</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_TOOL_COLUMN_USER_DIRECTORIES">Répertoires d'utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_TOOL_COLUMN_CREDENTIAL_PROVIDERS">Modes d'identification</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_TOOL_COLUMN_IS_IN_USE">Utilisée</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_TOOL_GROUP_ENABLED_LABEL">Activée(s)</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_TOOL_GROUP_DISABLED_LABEL">Désactivée(s)</message>
+    
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_ADD_TITLE">Nouvelle population d'utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_EDIT_TITLE">Modifier la population d'utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_ACTIONS_PREVIOUS">&lt; Précédent</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_ACTIONS_NEXT">Suivant &gt;</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_ACTIONS_VALIDATE">Terminer</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_ACTIONS_CANCEL">Annuler</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_HINT">Une population d'utilisateurs est le regroupement de répertoires d'utilisateurs issus de différentes sources de données (LDAP, SQL...) avec les méthodes utilisées pour les identifier.&lt;br/&gt;Par exemple, utilisateurs issus d'un LDAP et identifiés via CAS.&lt;br/&gt;&lt;br/&gt;Une fois votre population créée, vous pourrez l'affecter à un ou plusieurs contextes d'utilisation.&lt;br/&gt;&lt;br/&gt;</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_HINT2">Il n'est pas nécessaire de regrouper le plus grand nombre d'utilisateurs dans une seule population.&lt;br/&gt;Par exemple, si vous souhaitez avoir des utilisateurs issus de LDAP et identifiés avec CAS, et des utilisateurs stockés en base de données SQL et identifiés avec un formulaire, il est recommandé de créer deux populations distinctes.&lt;br/&gt;&lt;br/&gt;</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_HINT3">Choisissez le libellé de la nouvelle population d'utilisateurs que vous souhaitez créer.</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_POPULATION_LABEL_LABEL">Libellé</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_POPULATION_LABEL_DESC">Libellé de la population d'utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_ADVANCED_BUTTON_COLLAPSED">Avancé &gt;</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_ADVANCED_BUTTON_EXPANDED">Avancé &lt;</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_HINT4">Vous pouvez choisir l'identifiant associé à cette population ou utiliser celui proposé par défaut.&lt;br/&gt;L'identifiant doit être unique afin de différencier les utilisateurs partageant un même 'login' dans deux populations différentes. Par exemple, 'ldap/admin' et 'mysql/admin' sont deux utilisateurs distincts avec des droits distincts ayant pour login 'admin' (l'un dans le LDAP et l'autre dans la base MySQL).&lt;br/&gt;Une fois créé, cet identifiant ne sera plus modifiable.&lt;br/&gt;&lt;br/&gt;</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_POPULATION_ID_LABEL">Identifiant</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_POPULATION_ID_DESC">Identifiant unqiue de la population d'utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_POPULATION_ID_INVALID">L'identifiant n'est pas valide. Il doit commencer par une lettre et ne peut pas contenir d'espaces, de caractères spéciaux ou de majuscules.</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_POPULATION_ID_EXISTING">L'identifiant existe déjà pour une autre population. Veuillez en choisir un autre.</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_SECOND_CARD_HINT">Sélectionnez et paramétrez le (ou les) répertoire(s) d'utilisateurs qui composeront votre population.&lt;br/&gt;&lt;br/&gt;A l'intérieur d'une population d'utilisateurs, un login doit être unique. Ainsi, si vous configurez les répertoires d'utilisateurs ActiveDirectory + Oracle, il faut vous assurer que les logins contenus dans l'ActiveDirectory sont distincts de ceux de la base SQL.&lt;br/&gt;En cas de doute sur l'unicité, il est recommandé de créer des populations distinctes.</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_USER_DIRECTORY_ENTRY_LABEL">Répertoire d'utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_USER_DIRECTORY_ENTRY_DESCRIPTION">Répertoire d'utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_ADD_USER_DIRECTORY_LABEL">Ajouter un répertoire d'utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_DELETE_USER_DIRECTORY_LABEL">Enlever le répertoire d'utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_USER_DIRECTORY_TYPE_LABEL">Répertoire d'utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_USER_DIRECTORY_TYPE_DESCRIPTION">Type de répertoire d'utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_CREDENTIAL_PROVIDER_ENTRY_LABEL">Identification des utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_CREDENTIAL_PROVIDER_ENTRY_DESCRIPTION">Identification des utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_ADD_CREDENTIAL_PROVIDER_LABEL">Ajouter un mode d'identification</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_DELETE_CREDENTIAL_PROVIDER_LABEL">Enlever le mode d'identification</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_CREDENTIAL_PROVIDER_TYPE_LABEL">Mode d'identification</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_CREDENTIAL_PROVIDER_TYPE_DESCRIPTION">Mode d'identification</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_THIRD_CARD_HINT">Sélectionnez et paramétrez les modes d'identification des utilisateurs associés aux répertoires précédemment sélectionnés.&lt;br/&gt;&lt;br/&gt;Vous devez vous assurer de la cohérence des informations saisies. Par exemple, si vous avez sélectionné des utilisateurs en base de données MySQL, et que vous souhaitez les identifier avec un CAS, il est nécessaire que le CAS utilise la même base de données.&lt;br/&gt;Si vous proposez plusieurs modes d'identification, l'utilisateur aura le choix : par exemple CAS ou Formulaire.</message>
+    
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_REMOVE_CONFIRM_TITLE">Supprimer la population d'utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_REMOVE_CONFIRM_MSG">Êtes-vous sûr de vouloir supprimer cette population d'utilisateurs ?</message>
+    
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_CHOOSE_POPULATIONS_TITLE">Choix des populations d'utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_CHOOSE_POPULATIONS_HINT">Sélectionnez ci-après la ou les populations d'utilisateurs autorisées à se connecter à l'application :</message>
+    
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_CHOOSE_POPULATIONS_HELPER_POPULATIONS_LABEL">Populations</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_CHOOSE_POPULATIONS_HELPER_POPULATIONS_DESCRIPTION">Populations d'utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_CHOOSE_POPULATIONS_HELPER_OK_BUTTON">OK</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_CHOOSE_POPULATIONS_HELPER_CANCEL_BUTTON">Annuler</message>
+    
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_SELECT_POPULATIONS_WIDGET_CREATEBUTTON_TOOLTIP">Créer une nouvelle population</message>
+    
+    <!-- +
+         | USERS
+         + -->
+    <!-- Tool -->
+	<message key="PLUGINS_CORE_UI_TOOL_USERS_LABEL">Utilisateurs</message>
+	<message key="PLUGINS_CORE_UI_TOOL_USERS_DESCRIPTION">Gestion des utilisateurs de l'application&lt;br/&gt;Cet outil vous permet de créer, modifier, rechercher les utilisateurs.&lt;br/&gt;Attention ! La recherche ne renvoie que 100 résultats.</message>
+	<message key="PLUGINS_CORE_UI_TOOL_USERS_POPULATION_FIELD">Population</message>
+	<message key="PLUGINS_CORE_UI_TOOL_USERS_POPULATION_FIELD_OPTION_ALL">- Tous -</message>
+	<message key="PLUGINS_CORE_UI_TOOL_USERS_USER_DIRECTORY_FIELD">Répertoire d'utilisateurs</message>
+	<message key="PLUGINS_CORE_UI_TOOL_USERS_USER_DIRECTORY_FIELD_OPTION_ALL">- Tous -</message>
+	<message key="PLUGINS_CORE_UI_TOOL_USERS_SEARCH_EMPTY_TEXT">Nom ou identifiant</message>
+    <message key="PLUGINS_CORE_UI_TOOL_USERS_SEARCH_LIMIT_HELPTEXT">Attention ! La recherche ne renvoie que les 100 premiers résultats.</message>
+	<message key="PLUGINS_CORE_UI_TOOL_USERS_COL_NAME">Nom</message>
+	<message key="PLUGINS_CORE_UI_TOOL_USERS_COL_LOGIN">Nom d'utilisateur</message>
+	<message key="PLUGINS_CORE_UI_TOOL_USERS_COL_POPULATION">Population</message>
+	<message key="PLUGINS_CORE_UI_TOOL_USERS_COL_EMAIL">Email</message>
+	<message key="PLUGINS_CORE_UI_TOOL_USERS_COL_DIRECTORY">Répertoire d'utilisateurs</message>
+	
+	<!-- Action -->
+    <message key="PLUGINS_CORE_UI_USERS_ADD_LABEL">Nouvel utilisateur</message>
+    <message key="PLUGINS_CORE_UI_USERS_ADD_DESCRIPTION">Ajoute un nouvel utilisateur dans la base des utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_USERS_EDIT_LABEL">Modifier</message>
+    <message key="PLUGINS_CORE_UI_USERS_EDIT_DESCRIPTION">Modifie l'utilisateur sélectionné</message>
+    <message key="PLUGINS_CORE_UI_USERS_EDIT_NO_MODIFIABLE_DESCRIPTION">Cet utilisateur ne peut pas être modifié car son répertoire d'utilisateurs n'est pas modifiable</message>
+    <message key="PLUGINS_CORE_UI_USERS_DELETE_LABEL">Supprimer</message>
+    <message key="PLUGINS_CORE_UI_USERS_DELETE_DESCRIPTION">Supprime le ou les utilisateurs sélectionnés</message>
+    <message key="PLUGINS_CORE_UI_USERS_DELETE_NO_MODIFIABLE_DESCRIPTION">Cet utilisateur ne peut pas être supprimé car son répertoire d'utilisateurs n'est pas modifiable</message>
+    <message key="PLUGINS_CORE_UI_USERS_DELETE_LAST_ADMIN_DESCRIPTION">Cet utilisateur ne peut pas être supprimé car il est impossible de supprimer le dernier utilisateur de la population admin</message>
+    <message key="PLUGINS_CORE_UI_USERS_DELETE_CONFIRM">Etes-vous sûr de vouloir supprimer ce ou ces utilisateur(s) ?</message>
+    <message key="PLUGINS_CORE_UI_USERS_NOTIFY_CREATION">Création d'utilisateur</message>
+    <message key="PLUGINS_CORE_UI_USERS_NOTIFY_CREATION_DESC">L'utilisateur \{0\} a bien été créé.</message>
+    
+    <!-- Helper -->
+    <message key="PLUGINS_CORE_UI_USERS_DIALOG_ADD_TITLE">Nouvel utilisateur</message>
+    <message key="PLUGINS_CORE_UI_USERS_DIALOG_EDIT_TITLE">Modifier</message>
+    <message key="PLUGINS_CORE_UI_USERS_DIALOG_NO_MODIFIABLE_POPULATION_WARNING_TITLE">Pas de population modifiable</message>
+    <message key="PLUGINS_CORE_UI_USERS_DIALOG_NO_MODIFIABLE_POPULATION_WARNING_MSG">Vous ne pouvez pas ajouter un nouvel utilisateur car il n'y a actuellement aucune population avec au moins un répertoire d'utilisateurs modifiable.&lt;br/&gt;Pour ajouter un nouvel utilisateur, veuillez d'abord créer une population avec au moins un répertoire d'utilisateurs modifiable.</message>
+    <message key="PLUGINS_CORE_UI_USERS_DIALOG_CHOOSE_USER_DIRECTORY_HINT">Veuillez choisir le répertoire d'utilisateurs où créer le nouvel utilisateur :</message>
+    <message key="PLUGINS_CORE_UI_USERS_DIALOG_OK">Ok</message>
+    <message key="PLUGINS_CORE_UI_USERS_DIALOG_CANCEL">Annuler</message>
+    <message key="PLUGINS_CORE_UI_USERS_DIALOG_NEXT">Suivant ></message>
+    <message key="PLUGINS_CORE_UI_USERS_DIALOG_INVALID_FIELD">Ce champ est invalide</message>
+    
+    <!-- User Rights -->
+    <message key="PLUGINS_CORE_UI_TOOL_USER_RIGHTS_LABEL">Voir les droits</message>
+    <message key="PLUGINS_CORE_UI_TOOL_USER_RIGHTS_DESCRIPTION">Droits de l'utilisateur sélectionné</message>
+    <message key="PLUGINS_CORE_UI_TOOL_USER_RIGHTS_EMPTY">Aucun utilisateur n'est actuellement sélectionné.&lt;br/&gt;Sélectionnez un utilisateur pour visualiser ses droits.</message>
+    <message key="PLUGINS_CORE_UI_TOOL_USER_RIGHTS_MULTI_FORBIDDEN">Plusieurs utilisateurs sont actuellement sélectionnés.&lt;br/&gt;Sélectionnez un utilisateur pour visualiser ses droits.</message>
+    <message key="PLUGINS_CORE_UI_TOOL_USER_RIGHTS_TITLE">Droits de </message>
+    <message key="PLUGINS_CORE_UI_TOOL_USER_RIGHTS_TOOLTIPTEXT">Liste des droits de l'utilisateur</message>
+    <message key="PLUGINS_CORE_UI_TOOL_USER_RIGHTS_CONTEXT_BY_PROFILE_HINT_1">Vous visualisez la liste des profils de droits de l'utilisateur &lt;b&gt;</message>
+    <message key="PLUGINS_CORE_UI_TOOL_USER_RIGHTS_CONTEXT_BY_PROFILE_HINT_2">&lt;/b&gt;.&lt;br/&gt;Chaque profil est affecté sur un ou plusieurs contextes.&lt;br/&gt;Survolez le profil pour voir les droits associés à ce profil.</message>
+    <message key="PLUGINS_CORE_UI_TOOL_USER_RIGHTS_RIGHTS_BY_CONTEXT_HINT_1">Vous visualisez la liste des droits de l'utilisateur &lt;b&gt;</message>
+    <message key="PLUGINS_CORE_UI_TOOL_USER_RIGHTS_RIGHTS_BY_CONTEXT_HINT_2">&lt;/b&gt;.&lt;br/&gt;Chaque droit peut-être affecté sur un ou plusieurs contextes.</message>
+    <message key="PLUGINS_CORE_UI_TOOL_USER_RIGHTS_ERROR">Une erreur est survenue : elle a empêchée l'affichage des droits de l'utilisateur</message>
+    
+    <!-- Impersonate user -->
+    <message key="PLUGINS_CORE_UI_USERS_IMPERSONATE_LABEL">Prendre le contrôle</message>
+    <message key="PLUGINS_CORE_UI_USERS_IMPERSONATE_DESCRIPTION">Se connecter au CMS avec les identifiants de l'utilisateur sélectionné.</message> 
+    <message key="PLUGINS_CORE_UI_USERS_IMPERSONATE_MULTI_FORBIDDEN">Plusieurs utilisateurs sont actuellement sélectionnés.&lt;br/&gt;Sélectionnez un seul utilisateur afin de pouvoir se connecter avec ses identifiants.</message>
+         
+    <!-- +
+         | GROUP DIRECTORIES
+         + -->
+    <message key="RIBBON_TABS_TAB_GROUP_DIRECTORIES_LABEL">Répertoires de groupes</message>
+    <message key="RIBBON_TABS_TAB_GROUP_DIRECTORY_LABEL">Répertoire de groupes</message>
+    <message key="RIBBON_TABS_TAB_GROUP_DIRECTORIES_GROUPS_GROUP_ACTION_LABEL">Actions</message>
+    
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_ADD_LABEL">Ajouter</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_ADD_DESCRIPTION">Ajoute un nouveau répertoire de groupes</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_EDIT_LABEL">Modifier</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_EDIT_DESCRIPTION">Edite un répertoire de groupes</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_REMOVE_LABEL">Supprimer</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_REMOVE_DESCRIPTION">Supprime un répertoire de groupes</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_LINK_LABEL">Répertoires disponibles</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_LINK_DESCRIPTION">Permet de choisir les répertoires de groupes disponibles depuis l'application</message>
+    
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_TOOL_LABEL">Répertoires de groupes</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_TOOL_DESCRIPTION">Affiche les répertoires de groupes de l'application</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_TOOL_COLUMN_TITLE">Libellé</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_TOOL_COLUMN_ID">Identifiant</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_TOOL_COLUMN_TYPE">Type</message>
+    
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ADD_TITLE">Nouveau répertoire de groupes</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_EDIT_TITLE">Modifier le répertoire de groupes</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ACTIONS_VALIDATE">OK</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ACTIONS_CANCEL">Annuler</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_LABEL_LABEL">Libellé</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_LABEL_DESC">Libellé du répertoire de groupes</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ID_LABEL">Identifiant</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ID_DESC">Identifiant unique du répertoire de groupes</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ID_INVALID">L'identifiant n'est pas valide. Il doit commencer par une lettre et ne peut pas contenir d'espaces, de caractères spéciaux ou de majuscules.</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ID_EXISTING">L'identifiant existe déjà pour un autre répertoire de groupes. Veuillez en choisir un autre.</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_MODEL_LABEL">Type de répertoire de groupes</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_MODEL_DESCRIPTION">Type de répertoire de groupes</message>.
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_HINT">Sélectionnez et paramétrez le répertoire de groupes d'utilisateurs.</message>
+    
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_REMOVE_CONFIRM_TITLE">Supprimer le répertoire de groupes</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_REMOVE_CONFIRM_MSG">Êtes-vous sûr de vouloir supprimer ce répertoire de groupes ?</message>
+    
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_CHOOSE_GROUP_DIRECTORIES_TITLE">Choix des répertoires de groupes</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_CHOOSE_GROUP_DIRECTORIES_HINT">Sélectionnez ci-après le ou les répertoires de groupes disponibles depuis l'application :</message>
+    
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_CHOOSE_GROUP_DIRECTORIES_HELPER_DIRECTORIES_LABEL">Répertoires de groupes</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_CHOOSE_GROUP_DIRECTORIES_HELPER_DIRECTORIES_DESCRIPTION">Répertoires de groupes</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_CHOOSE_GROUP_DIRECTORIES_HELPER_OK_BUTTON">OK</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_CHOOSE_GROUP_DIRECTORIES_HELPER_CANCEL_BUTTON">Annuler</message>
+    
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_SELECT_GROUP_DIRECTORIES_WIDGET_CREATEBUTTON_TOOLTIP">Créer un nouveau répertoire de groupes</message>
+    
+    <!-- +
+         | GROUPS 
+         + -->
+   	<!-- Tool -->
+    <message key="PLUGINS_CORE_UI_TOOL_GROUPS_LABEL">Groupes d'utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_TOOL_GROUPS_ID">Identifiant</message>
+    <message key="PLUGINS_CORE_UI_TOOL_GROUPS_DIRECTORY">Répertoire de groupes</message>
+    <message key="PLUGINS_CORE_UI_TOOL_GROUPS_DESCRIPTION">Liste des groupes et de leurs utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_TOOL_GROUPS_GROUP_DIRECTORY_COMBOBOX">Répertoire de groupes</message>
+    <message key="PLUGINS_CORE_UI_TOOL_GROUPS_GROUP_DIRECTORY_COMBOBOX_OPTION_ALL">- Tous -</message>
+    <message key="PLUGINS_CORE_UI_TOOL_GROUPS_USER_GRID_NAME">Utilisateurs du groupe</message>
+    <message key="PLUGINS_CORE_UI_TOOL_GROUPS_USER_GRID_LOGIN">Nom d'utilisateur</message>
+    <message key="PLUGINS_CORE_UI_TOOL_GROUPS_USER_GRID_POPULATION">Population</message>
+    <message key="PLUGINS_CORE_UI_TOOL_GROUPS_USER_GRID_EMAIl">Email</message>
+    
+    <!-- Actions -->
+    <message key="PLUGINS_CORE_UI_GROUPS_ADD_LABEL">Nouveau groupe</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_ADD_DESCRIPTION">Crée un nouveau groupe</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_RENAME_LABEL">Renommer</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_RENAME_DESCRIPTION">Renomme le groupe sélectionné</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_DELETE_LABEL">Supprimer</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_DELETE_DESCRIPTION">Supprime le groupe sélectionné</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_DELETE_CONFIRM">Etes vous sûr de vouloir supprimer ce ou ces groupes ?</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_ADDUSERS_LABEL">Ajouter des utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_ADDUSERS_DESCRIPTION">Ajouter des utilisateurs au groupe sélectionné</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_REMOVEUSERS_LABEL">Enlever des utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_REMOVEUSERS_DESCRIPTION">Enleve du groupe le ou les utilisateurs sélectionnés</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_REMOVEUSERS_CONFIRM">Etes-vous surs de vouloir supprimer ce ou ces utilisateurs du groupe ?</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_NO_MODIFIABLE_GROUP_DESCRIPTION">Ce groupe ne peut pas être modifié ou supprimé car son répertoire de groupes n'est pas modifiable</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_UNKNOWN_GROUP_TITLE">Groupe inconnu</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_UNKNOWN_GROUP_ERROR">Le groupe n'existe plus. Il est conseillé de fermer puis de réouvrir l'outil.</message>
+    
+    <!-- Helper -->
+    <message key="PLUGINS_CORE_UI_GROUPS_DIALOG_ADD_TITLE">Nouveau groupe</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_DIALOG_EDIT_TITLE">Renommer</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_DIALOG_NO_MODIFIABLE_DIRECTORY_WARNING_TITLE">Pas de répertoire modifiable</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_DIALOG_NO_MODIFIABLE_DIRECTORY_WARNING_MSG">Vous ne pouvez pas ajouter un nouveau groupe car il n'y a actuellement aucun répertoire de groupes modifiable.&lt;br/&gt;Pour ajouter un nouveau groupe, veuillez d'abord créer un répertoire de groupes modifiable.</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_DIALOG_CHOOSE_GROUP_DIRECTORY_HINT">Veuillez choisir le répertoire de groupes où créer le groupe :</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_DIALOG_NAME">Nom du groupe</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_DIALOG_OK">Ok</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_DIALOG_CANCEL">Annuler</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_DIALOG_NEXT">Suivant ></message>
+    
+    <!-- +
+         | PROFILES
+         + -->
+    <!-- Tool -->
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILES_LABEL">Profils de droits</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILES_DESCRIPTION">Gestion des profils de droits.&lt;br/&gt;Un profil est un ensemble de droits. Chaque utilisateur possède un profil qui permet de connaître la liste de ses droits.</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILES_CATEGORY_SELECT_ALL">Sélectionner tous les droits de la catégorie</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILES_CATEGORY_UNSELECT_ALL">Désélectionner tous les droits de la catégorie</message>
+    
+    <!-- Actions -->
+    <message key="PLUGINS_CORE_UI_PROFILES_ADD_LABEL">Nouveau profil</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_ADD_DESCRIPTION">Crée un nouveau profil</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_RENAME_LABEL">Renommer</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_RENAME_DESCRIPTION">Renomme le profil sélectionné</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_DELETE_LABEL">Supprimer</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_DELETE_DESCRIPTION">Supprime le profil sélectionné</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_DELETE_CONFIRM">Etes vous sûr de vouloir supprimer ce ou ces profils ?</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_UNKNOWN_PROFILE_TITLE">Groupe inconnu</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_UNKNOWN_PROFILE_ERROR">Le profil n'existe plus. Il est conseillé de fermer puis de réouvrir l'outil.</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_SWITCH_TO_EDITION">Mode édition</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_SWITCH_TO_EDITION_DESCRIPTION">Passe en mode d'édition des droits (ajout ou suppression) du profil sélectionné</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_SAVE_MODIFICATIONS">Sauvegarder</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_SAVE_MODIFICATIONS_DESCRIPTION">Sauvegarder les modifications effectuées sur ce profil.</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_DONT_SAVE_MODIFICATIONS">Annuler</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_DONT_SAVE_MODIFICATIONS_DESCRIPTION">Annuler les modifications en cours du profil.</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_RIGHTS_CONFIRM_DESCRIPTION">Vous avez fait des modifications dans les droits attribués. Souhaitez-vous les sauvegarder ?</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_UNSELECTED">Selectionnez ou créez un profil avant de pouvoir voir ou modifier les droits qui le compose</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_EMPTY">Ce profil ne dispose d'aucun droit</message>
+    
+    <message key="PLUGINS_CORE_UI_PROFILES_SELECT_ALL">Sélectionner tout</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_SELECT_ALL_DESCRIPTION">Sélectionne tous les droits</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_UNSELECT_ALL">Désélectionner tout</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_UNSELECT_ALL_DESCRIPTION">Désélectionne tous les droits</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_DESCRIPTION_NO_SELECTION">Ce bouton est désactivé car aucun profil n'est sélectionné ou le profil sélectionné n'est pas modifiable via cette interface.</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_DESCRIPTION_NO_RIGHT">Ce bouton est désactivé car vos droits sont insuffisants.</message>
+    
+    <!-- Helper -->
+    <message key="PLUGINS_CORE_UI_PROFILES_DIALOG_ADD_TITLE">Nouveau profil</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_DIALOG_EDIT_TITLE">Renommer</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_DIALOG_NAME">Nom du profil</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_DIALOG_OK">Ok</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_DIALOG_CANCEL">Annuler</message>
+    
+    <!-- PROFILES ACTIONS -->
+	<message key="PLUGINS_CORE_UI_RIGHTS_ASSIGNMENT_ADDUSER_LABEL">Affecter à un utilisateur</message>
+    <message key="PLUGINS_CORE_UI_RIGHTS_ASSIGNMENT_ADDUSER_DESCRIPTION">Ajoute une nouvelle affectation au profil sélectionné sur le contexte courant</message>
+    <message key="PLUGINS_CORE_UI_RIGHTS_ASSIGNMENT_ADDGROUP_LABEL">Affecter à un groupe</message>
+    <message key="PLUGINS_CORE_UI_RIGHTS_ASSIGNMENT_ADDGROUP_DESCRIPTION">Ajoute une nouvelle affectation au profil sélectionné sur le contexte courant</message>
+    <message key="PLUGINS_CORE_UI_RIGHTS_ASSIGNMENT_REMOVE_LABEL">Supprimer l'affectation</message>
+    <message key="PLUGINS_CORE_UI_RIGHTS_ASSIGNMENT_REMOVE_DESCRIPTION">Supprimer l'affectation sur le profil sélectionné</message>
+    <message key="PLUGINS_CORE_UI_RIGHTS_ASSIGNMENT_REMOVE_CONFIRM">Etes-vous sûr de vouloir supprimer cette ou ces affectation(s) ?</message>
+    
+    <!-- +
+         | LOGOUT
+         + -->
+         
+    <message key="PLUGINS_CORE_UI_LOGOUT_ERROR_TITLE">Une erreur est survenue</message>
+    <message key="PLUGINS_CORE_UI_LOGOUT_ERROR_TEXT">Une erreur est survenue. Impossible de vous déconnecter.</message>
+         
 </catalogue>

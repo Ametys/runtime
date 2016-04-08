@@ -21,23 +21,23 @@ insert into Users (login, firstname, lastname, email) values
 
 delete from Groups;
 insert into Groups (Label) values ('Group 1');
-insert into Groups_Users (Group_Id, Login) values 
-(IDENTITY(), 'test');
+insert into Groups_Users (Group_Id, Login, UserPopulation_Id) values 
+(IDENTITY(), 'test', 'population');
 
 insert into Rights_Profile(Label) values ('Profil 1');
 insert into Rights_ProfileRights (Profile_Id, Right_Id) values 
 (IDENTITY(), 'right1'),
 (IDENTITY(), 'right2');
-insert into Rights_UserRights (Profile_Id, Login, Context) values
-(IDENTITY(), 'test', '/application/test'),
-(IDENTITY(), 'test', '/application/test2/test2');
-insert into Rights_GroupRights (Profile_Id, Group_Id, Context) values
-((select max(Id) from Rights_Profile), TRIM(CAST(CAST((select max(Id) from Groups) AS CHAR(200)) AS VARCHAR(200))), '/application/test3');
+insert into Rights_UserRights (Profile_Id, Login, UserPopulation_Id, Context) values
+(IDENTITY(), 'test', 'population', '/application/test'),
+(IDENTITY(), 'test', 'population', '/application/test2/test2');
+insert into Rights_GroupRights (Profile_Id, Group_Id, GroupDirectory_Id, Context) values
+((select max(Id) from Rights_Profile), TRIM(CAST(CAST((select max(Id) from Groups) AS CHAR(200)) AS VARCHAR(200))), 'sql_group_directory', '/application/test3');
 
 insert into Rights_Profile(Label) values ('Profil 2');
 insert into Rights_ProfileRights (Profile_Id, Right_Id) values 
 (IDENTITY(), 'right3');
-insert into Rights_UserRights (Profile_Id, Login, Context) values
-((select max(Id) from Rights_Profile), 'test2', '/application/test2/test2'),
-((select max(Id) from Rights_Profile), 'test', '/application/test3');
+insert into Rights_UserRights (Profile_Id, Login, UserPopulation_Id, Context) values
+((select max(Id) from Rights_Profile), 'test2', 'population', '/application/test2/test2'),
+((select max(Id) from Rights_Profile), 'test', 'population', '/application/test3');
 

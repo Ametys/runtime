@@ -29,15 +29,20 @@ public interface CurrentUserProvider
     public static final String ROLE = CurrentUserProvider.class.getName();
 
     /**
-     * Determine if current user is the super user.
-     * @return <code>true</code> if the super user is logged in,
-     *         <code>false</code> otherwise.
+     * Provides the current logged user.
+     * @return the current user or <code>null</code> if there is no logged user.
      */
-    boolean isSuperUser();
+    UserIdentity getUser();
     
     /**
-     * Provides the login of the current logged user.
-     * @return the login of current user or <code>null</code> if there is no logged user.
+     * Checks if the current logged user can logout
+     * @return True if the current logged user can logout
      */
-    String getUser();
+    boolean canLogout();
+    
+    /**
+     * Logout the current user if he can be.
+     * @return True if the logging out succeeded
+     */
+    boolean logout();
 }

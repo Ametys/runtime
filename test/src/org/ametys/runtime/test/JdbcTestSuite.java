@@ -19,9 +19,6 @@ import org.ametys.runtime.test.groups.jdbc.AllGroupsTestSuite;
 import org.ametys.runtime.test.rights.profile.AllProfileBasedRightsManagerTestSuite;
 import org.ametys.runtime.test.rights.profile.hierarchical.AllHierarchicalProfileBasedRightsManagerTestSuite;
 import org.ametys.runtime.test.userpref.AllUserPreferencesTestSuite;
-import org.ametys.runtime.test.users.jdbc.AllUsersTestSuite;
-import org.ametys.runtime.test.users.jdbc.credentialsaware.AllCredentialsAwareJdbcUsersTestSuite;
-import org.ametys.runtime.test.users.jdbc.modifiable.AllModifiableUsersTestSuite;
 import org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware.AllModifiableCredentialsAwareJdbcUsersTestSuite;
 
 import junit.framework.Test;
@@ -47,9 +44,6 @@ public final class JdbcTestSuite
         
         //$JUnit-BEGIN$
         
-        suite.addTest(AllUsersTestSuite.suite());
-        suite.addTest(AllModifiableUsersTestSuite.suite());
-        suite.addTest(AllCredentialsAwareJdbcUsersTestSuite.suite());
         suite.addTest(AllModifiableCredentialsAwareJdbcUsersTestSuite.suite());
         
         suite.addTest(AllGroupsTestSuite.suite());

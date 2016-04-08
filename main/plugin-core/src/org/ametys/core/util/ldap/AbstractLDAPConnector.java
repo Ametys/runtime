@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -35,8 +35,8 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 
-import org.ametys.core.datasource.AbstractDataSourceManager.DataSourceDefinition;
 import org.ametys.core.datasource.LDAPDataSourceManager;
+import org.ametys.core.datasource.AbstractDataSourceManager.DataSourceDefinition;
 import org.ametys.core.util.CachingComponent;
 import org.ametys.runtime.config.Config;
 
@@ -47,9 +47,9 @@ public abstract class AbstractLDAPConnector extends CachingComponent<Object> imp
 {
     // Check filter look
     private static final Pattern __FILTER = Pattern.compile("\\s*\\(.*\\)\\s*");
-    
+
     /** URL connection to the ldap server. */
-    protected String _ldapUrl;  
+    protected String _ldapUrl; 
     /** Base DN to the ldap server. */
     protected String _ldapBaseDN;
     /** Distinguished name of the admin used for searching. */
@@ -71,12 +71,13 @@ public abstract class AbstractLDAPConnector extends CachingComponent<Object> imp
     /** The LDAP data source manager */
     private LDAPDataSourceManager _ldapDataSourceManager;
     
-    @Override
-    public void initialize() throws Exception
+    /**
+     * Call this method with the datasource id to initialize this component
+     * @param dataSourceId The id of the datasource
+     * @throws Exception
+     */
+    protected void _delayedInitialize(String dataSourceId) throws Exception
     {
-        super.initialize();
-        
-        String dataSourceId = getDataSourceId();
         DataSourceDefinition ldapDefinition = _ldapDataSourceManager.getDataSourceDefinition(dataSourceId);
         
         Map<String, String> ldapParameters = ldapDefinition.getParameters();
@@ -98,13 +99,6 @@ public abstract class AbstractLDAPConnector extends CachingComponent<Object> imp
     {
         _ldapDataSourceManager = (LDAPDataSourceManager) serviceManager.lookup(LDAPDataSourceManager.ROLE); 
     }
-    
-    /**
-     * Get the id of LDAP data source
-     * @return the id of data source
-     */
-    protected abstract String getDataSourceId ();
-    
     
     /**
      * Get the filter from configuration key and check it
@@ -144,7 +138,7 @@ public abstract class AbstractLDAPConnector extends CachingComponent<Object> imp
             throw new ConfigurationException("Unable to parse scope", e);
         }
     }
-    
+
     /**
      * Test if paging is supported by the underlying directory server.
      * @return true if the server supports paging.
@@ -196,7 +190,7 @@ public abstract class AbstractLDAPConnector extends CachingComponent<Object> imp
 
         if (_ldapUseSSL)
         {
-            // Chiffrer la connexion au serveur avec SSL
+            // Encrypt the connection to the server with SSL
             env.put(Context.SECURITY_PROTOCOL, "ssl");
         }
         
@@ -212,7 +206,7 @@ public abstract class AbstractLDAPConnector extends CachingComponent<Object> imp
         
         env.put("java.naming.ldap.derefAliases", _ldapAliasDerefMode);
         
-        // Utiliser le pool de connexion ldap
+        // Use ldap pool connection
         env.put("com.sun.jndi.ldap.connect.pool", "true");
 
         return env;

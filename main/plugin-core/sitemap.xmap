@@ -28,6 +28,8 @@
             <map:generator name="user-prefs" src="org.ametys.plugins.core.userpref.UserPreferencesValuesGenerator" logger="org.ametys.plugins.core.userpref.UserPreferencesValuesGenerator"/>
             <map:generator name="user-prefs-errors" src="org.ametys.plugins.core.userpref.UserPreferencesErrorsGenerator" logger="org.ametys.plugins.core.userpref.UserPreferencesErrorsGenerator"/>
             
+            <map:generator name="login-screen" src="org.ametys.plugins.core.authentication.LoginScreenGenerator"/>
+            
         </map:generators>
         
 		<map:actions>
@@ -63,6 +65,10 @@
             <map:reader name="json" src="org.ametys.core.cocoon.JSonReader"/>
         </map:readers>
         
+        <map:selectors>
+        	<map:selector name="resource-exists" src="org.apache.cocoon.selection.ResourceExistsSelector"/>
+        </map:selectors>
+        
 	</map:components>
 	
 	<map:views>
@@ -73,6 +79,62 @@
 
 	
 	<map:pipelines>
+		<map:pipeline internal-only="true">
+            <map:match pattern="login.html">
+            	<map:select type="resource-exists">
+            		<map:when test="context://WEB-INF/param/login.xsl">
+		            	<map:generate type="login-screen" label="content"/>
+		            	<map:transform type="xslt" src="context://WEB-INF/param/login.xsl"/>
+		                <map:transform type="i18n" label="xml">
+		                    <map:parameter name="locale" value="{locale:locale}"/>
+		                    <map:parameter name="default-catalogue-id" value="application"/>
+		                </map:transform>
+            		</map:when>
+            		<map:otherwise>
+		            	<map:generate type="login-screen" label="content"/>
+		            	<map:transform type="xslt" src="plugin:core-ui://pages/login/login.xsl"/>
+		                <map:transform type="i18n" label="xml">
+		                    <map:parameter name="locale" value="{locale:locale}"/>
+		                    <map:parameter name="default-catalogue-id" value="plugin.core-ui"/>
+		                </map:transform>
+            		</map:otherwise>
+            	</map:select>
+                <map:serialize/>
+            </map:match>
+            
+            <map:match pattern="login_failed.html">
+            	<map:select type="resource-exists">
+            		<map:when test="context://WEB-INF/param/login.xsl">
+		                <map:generate type="login-screen" label="content"/>
+		                <map:transform type="xslt" src="context://WEB-INF/param/login.xsl">
+		                    <map:parameter name="authFailure" value="true"/>
+		                    <map:parameter name="login" value="{request-param:login}"/>
+		                    <map:parameter name="tooManyAttempts" value="{request-param:tooManyAttempts}"/>
+		                    <map:parameter name="cookieFailure" value="{request-param:cookieFailure}"/>
+		                </map:transform>
+		                <map:transform type="i18n" label="xml">
+		                    <map:parameter name="locale" value="{locale:locale}"/>
+		                    <map:parameter name="default-catalogue-id" value="application"/>
+		                </map:transform>
+	                </map:when>
+	           		<map:otherwise>
+		                <map:generate type="login-screen" label="content"/>
+		                <map:transform type="xslt" src="plugin:core-ui://pages/login/login.xsl">
+		                    <map:parameter name="authFailure" value="true"/>
+		                    <map:parameter name="login" value="{request-param:login}"/>
+		                    <map:parameter name="tooManyAttempts" value="{request-param:tooManyAttempts}"/>
+		                    <map:parameter name="cookieFailure" value="{request-param:cookieFailure}"/>
+		                </map:transform>
+		                <map:transform type="i18n" label="xml">
+		                    <map:parameter name="locale" value="{locale:locale}"/>
+		                    <map:parameter name="default-catalogue-id" value="plugin.core-ui"/>
+		                </map:transform>
+	           		</map:otherwise>
+           		</map:select>
+                <map:serialize/>
+            </map:match>
+        </map:pipeline>
+        
 		<map:pipeline>
             <!-- +
                  | USERS
@@ -81,7 +143,6 @@
                 <map:act type="users-search" src="{request-param:criteria}">
                     <map:parameter name="limit" value="{request-param:limit}"/>
                     <map:parameter name="start" value="{request-param:start}"/>
-                    <map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
                     
                     <map:read type="json"/>
                 </map:act>
@@ -94,7 +155,6 @@
                 <map:act type="groups-search" src="{request-param:criteria}">
                     <map:parameter name="start" value="{request-param:start}"/>
                     <map:parameter name="limit" value="{request-param:limit}"/>
-                    <map:parameter name="groupsManagerRole" value="{request-param:groupsManagerRole}"/>
                     
                     <map:read type="json"/>
                 </map:act>
@@ -104,8 +164,6 @@
 				<map:act type="group-users" src="{request-param:groupID}">
                     <map:parameter name="limit" value="{request-param:limit}"/>
                     <map:parameter name="start" value="{request-param:start}"/>
-                    <map:parameter name="groupsManagerRole" value="{request-param:groupsManagerRole}"/>
-                    <map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
                     
                     <map:read type="json"/>
                 </map:act>

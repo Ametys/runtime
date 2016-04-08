@@ -20,7 +20,7 @@
  * This widget is registered for fields of type Ametys.form.WidgetManager#TYPE_STRING.<br>
  */
 Ext.define('Ametys.form.widget.Group', {
-    extend: 'Ametys.form.widget.AbstractQueryableComboBox',
+    extend: 'Ametys.form.AbstractQueryableComboBox',
   
     /**
 	 * @private
@@ -88,7 +88,7 @@ Ext.define('Ametys.form.widget.Group', {
     getLabelTpl: function ()
     {
     	var tpl = [];
-    	tpl.push('<img width="16" height="16" src="' + Ametys.getPluginResourcesPrefix('core') + '/img/groups/group_16.png"/>');
+    	tpl.push('<img width="16" height="16" src="' + Ametys.getPluginResourcesPrefix('core-ui') + '/img/groups/group_16.png"/>');
     	tpl.push('{' + this.displayField + '}');
     	return tpl;
     }

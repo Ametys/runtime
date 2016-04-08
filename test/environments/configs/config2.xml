@@ -31,4 +31,6 @@
 <runtime.captcha.type>jcaptcha</runtime.captcha.type>
 <runtime.captcha.recaptcha.publickey/>
 <runtime.captcha.recaptcha.secretkey/>
+<runtime.ametys.public>true</runtime.ametys.public>
+<runtime.login.form.datasource>SQL-test</runtime.login.form.datasource>
 </config>

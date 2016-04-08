@@ -17,6 +17,8 @@ package org.ametys.core.user;
 
 import org.apache.commons.lang3.StringUtils;
 
+import org.ametys.core.user.directory.UserDirectory;
+
 /**
  * Implementation of the principal abstraction to represent an user with a login
  * and eventually a fullname and an email.
@@ -24,9 +26,9 @@ import org.apache.commons.lang3.StringUtils;
 public class User implements java.security.Principal
 {
     /**
-     * The login of this principal.
+     * The identity of this principal.
      */
-    protected String _login;
+    protected UserIdentity _identity;
 
     /**
      * The last name of this principal.
@@ -39,44 +41,67 @@ public class User implements java.security.Principal
     protected String _firstName;
 
     /**
-     * The first name of this principal.
+     * The email of this principal.
      */
     protected String _email;
 
     /**
-     * Construct a new UserPrincipal, associated with the specified login.
+     * The user directory this user belongs to.
+     */
+    protected UserDirectory _userDirectory;
+
+    /**
+     * Construct a new UserPrincipal, associated with the specified login et population id.
      * 
      * @param login The login of the principal.
+     * @param populationId The id of the population
      */
-    public User(String login)
+    public User(String login, String populationId)
     {
-        this(login, null, null, null);
+        this(new UserIdentity(login, populationId));
+    }
+    
+    /**
+     * Construct a new UserPrincipal, associated with the specified identity.
+     * @param identity The identity of this user. Cannot be null
+     */
+    public User(UserIdentity identity)
+    {
+        this(identity, null, null, null, null);
     }
 
     /**
      * Construct a new UserPrincipal, associated with a last name, a first name,
      * an email and identified by a login.
-     * @param login The login
+     * @param identity The identity of this user. Cannot be null
      * @param lastName The last name
      * @param firstName The first name 
      * @param email The email
+     * @param userDirectory The user directory the use rbelongs to. Can be null.
      */
-    public User(String login, String lastName, String firstName, String email)
+    public User(UserIdentity identity, String lastName, String firstName, String email, UserDirectory userDirectory)
     {
-        _login = login;
+        _identity = identity;
         _lastName = StringUtils.defaultString(lastName);
         _firstName = StringUtils.defaultString(firstName);
         _email = StringUtils.defaultString(email);
+        _userDirectory = userDirectory;
     }
 
     /**
-     * The login of the user represented by this Principal.
+     * The identity of the user.
      * 
-     * @return The login. 
+     * @return The identity. 
      */
+    public UserIdentity getIdentity()
+    {
+        return _identity;
+    }
+    
+    @Override
     public String getName()
     {
-        return _login;
+        return UserIdentity.toString(_identity);
     }
     
     /**
@@ -127,6 +152,15 @@ public class User implements java.security.Principal
     }
     
     /**
+     * The user directory this user belongs to.
+     * @return The user directory
+     */
+    public UserDirectory getUserDirectory()
+    {
+        return _userDirectory;
+    }
+    
+    /**
      * The full name of the user represented by this Principal.
      * @param firstLast Define the name order if the full name. If true, first name then last name. If false, the contrary.
      * @return The full name.
@@ -160,7 +194,7 @@ public class User implements java.security.Principal
             sb.append(_firstName);
         }
         
-        return StringUtils.defaultIfEmpty(sb.toString(), _login);
+        return StringUtils.defaultIfEmpty(sb.toString(), _identity.getLogin());
     }
     
     /**
@@ -172,8 +206,8 @@ public class User implements java.security.Principal
     @Override
     public String toString()
     {
-        StringBuffer sb = new StringBuffer("Principal[");
-        sb.append(_login);
+        StringBuilder sb = new StringBuilder("Principal[");
+        sb.append(_identity.toString());
         sb.append(" : ");
         sb.append(getFullName());
         sb.append(", ");
@@ -196,12 +230,12 @@ public class User implements java.security.Principal
         
         User otherUser = (User) another;
         
-        return _login != null  || _login.equals(otherUser.getName());
+        return _identity != null  && _identity.equals(otherUser.getIdentity());
     }
     
     @Override
     public int hashCode()
     {
-        return _login.hashCode();
+        return _identity.hashCode();
     }
 }

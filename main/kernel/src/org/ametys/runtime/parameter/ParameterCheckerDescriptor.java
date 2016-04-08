@@ -15,6 +15,8 @@
  */
 package org.ametys.runtime.parameter;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -88,6 +90,31 @@ public class ParameterCheckerDescriptor extends AbstractLogEnabled
         }
 
         XMLUtils.createElement(handler, "order", Integer.toString(getUiRefOrder()));
+    }
+    
+    /**
+     * Get the description information to JSON format
+     * @return The information as a map
+     */
+    public Map<String, Object> toJSON()
+    {
+        Map<String, Object> result = new LinkedHashMap<>();
+        
+        result.put("id", getId());
+        result.put("label", getLabel());
+        result.put("description", getDescription());
+        result.put("small-icon-path", getSmallIconPath());
+        result.put("medium-icon-path", getMediumIconPath());
+        result.put("large-icon-path", getLargeIconPath());
+        
+        if (getLinkedParamsPaths() != null)
+        {
+            result.put("linked-fields", getLinkedParamsPaths());
+        }
+        
+        result.put("order", getUiRefOrder());
+        
+        return result;
     }
     
     /**

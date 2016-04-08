@@ -51,7 +51,8 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
     /** Avalon Role */
     public static final String ROLE = SQLDataSourceManager.class.getName();
     
-    private static final String __AMETYS_INTERNAL_DATASOURCE_ID = "SQL-ametys-internal";
+    /** The id of the internal DataSource */
+    public static final String AMETYS_INTERNAL_DATASOURCE_ID = "SQL-ametys-internal";
     private static final I18nizableText __AMETYS_INTERNAL_DATASOURCE_NAME = new I18nizableText("plugin.core", "PLUGINS_CORE_INTERNAL_DATASOURCE_LABEL");
     private static final I18nizableText __AMETYS_INTERNAL_DATASOURCE_DESCRIPTION = new I18nizableText("plugin.core", "PLUGINS_CORE_INTERNAL_DATASOURCE_LABEL");
     private static final String __AMETYS_INTERNAL_DATASOURCE_DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
@@ -99,7 +100,7 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
         parameters.put ("user", ""); 
         parameters.put ("password", ""); 
         
-        _internalDataSource = new DataSourceDefinition(__AMETYS_INTERNAL_DATASOURCE_ID, __AMETYS_INTERNAL_DATASOURCE_NAME, __AMETYS_INTERNAL_DATASOURCE_DESCRIPTION, parameters, true);
+        _internalDataSource = new DataSourceDefinition(AMETYS_INTERNAL_DATASOURCE_ID, __AMETYS_INTERNAL_DATASOURCE_NAME, __AMETYS_INTERNAL_DATASOURCE_DESCRIPTION, parameters, true);
 
         super.initialize();
         
@@ -111,7 +112,7 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
     {
         readConfiguration(false);
         
-        if (__AMETYS_INTERNAL_DATASOURCE_ID.equals(id))
+        if (AMETYS_INTERNAL_DATASOURCE_ID.equals(id))
         {
             return _internalDataSource;
         }
@@ -129,7 +130,7 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
         if (includePrivate && includeInternal)
         {
             // Include the internal db
-            datasources.put(__AMETYS_INTERNAL_DATASOURCE_ID, _internalDataSource);
+            datasources.put(AMETYS_INTERNAL_DATASOURCE_ID, _internalDataSource);
         }
         
         datasources.putAll(super.getDataSourceDefinitions(includePrivate, includeInternal));
@@ -152,7 +153,7 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
         Connection connection = null;
         try
         {
-            dataSource =  getSQLDataSource(__AMETYS_INTERNAL_DATASOURCE_ID);
+            dataSource =  getSQLDataSource(AMETYS_INTERNAL_DATASOURCE_ID);
             connection = dataSource.getConnection();
         }
         catch (SQLException e)

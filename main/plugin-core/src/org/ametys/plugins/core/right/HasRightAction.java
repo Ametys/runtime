@@ -25,6 +25,7 @@ import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.SourceResolver;
 
 import org.ametys.core.right.RightsManager;
+import org.ametys.core.user.UserIdentity;
 import org.ametys.core.util.cocoon.AbstractCurrentUserProviderServiceableAction;
 
 
@@ -66,11 +67,6 @@ public class HasRightAction extends AbstractCurrentUserProviderServiceableAction
             _rightsManager = (RightsManager) manager.lookup(RightsManager.ROLE);
         }
 
-        if (_isSuperUser())
-        {
-            return _hasRight ? EMPTY_MAP : null;
-        }
-
         boolean hasRight = false;
         String context = parameters.getParameter("context", null);
         if (context == null || "".equals(context))
@@ -78,8 +74,8 @@ public class HasRightAction extends AbstractCurrentUserProviderServiceableAction
             context = getBaseContext(parameters, objectModel);
         }
         
-        String userLogin = _getCurrentUser();
-        if (userLogin == null)
+        UserIdentity user = _getCurrentUser();
+        if (user == null)
         {
             getLogger().error("Anonymous user tried to access a privileged feature without convenient right. Should have in right between those : '" + source + "' on context '" + context + "'");
             throw new IllegalStateException("You have no right to access this feature.");
@@ -91,7 +87,7 @@ public class HasRightAction extends AbstractCurrentUserProviderServiceableAction
             {
                 String right = rigths[i].trim();
 
-                if (_rightsManager.hasRight(userLogin, right, context) == RightsManager.RightResult.RIGHT_OK)
+                if (_rightsManager.hasRight(user, right, context) == RightsManager.RightResult.RIGHT_OK)
                 {
                     hasRight = true;
                 }
@@ -117,7 +113,7 @@ public class HasRightAction extends AbstractCurrentUserProviderServiceableAction
             }
             else
             {
-                getLogger().error("User '" + userLogin + "' tried to access a privileged feature without convenient right. Should have in right between those : '" + source + "' on context '" + context + "'");
+                getLogger().error("User '" + user + "' tried to access a privileged feature without convenient right. Should have in right between those : '" + source + "' on context '" + context + "'");
                 throw new IllegalStateException("You have no right to access this feature.");
             }
         }

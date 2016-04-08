@@ -21,5 +21,6 @@ CREATE TABLE Groups(
 CREATE TABLE Groups_Users(
   Group_Id int NOT NULL, 
   Login VARCHAR (200) NOT NULL, 
-  PRIMARY KEY (Group_Id, Login)
+  UserPopulation_Id VARCHAR (200) NOT NULL,
+  PRIMARY KEY (Group_Id, Login, UserPopulation_Id)
  );

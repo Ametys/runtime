@@ -54,9 +54,12 @@ import org.xml.sax.helpers.AttributesImpl;
 import org.ametys.core.datasource.ConnectionHelper;
 import org.ametys.core.datasource.ConnectionHelper.DatabaseType;
 import org.ametys.core.group.Group;
+import org.ametys.core.group.GroupDirectoryDAO;
+import org.ametys.core.group.GroupIdentity;
 import org.ametys.core.group.GroupListener;
-import org.ametys.core.group.GroupsManager;
-import org.ametys.core.group.ModifiableGroupsManager;
+import org.ametys.core.group.GroupManager;
+import org.ametys.core.group.directory.GroupDirectory;
+import org.ametys.core.group.directory.ModifiableGroupDirectory;
 import org.ametys.core.right.HierarchicalRightsHelper;
 import org.ametys.core.right.InitializableRightsManager;
 import org.ametys.core.right.RightContextConvertor;
@@ -65,10 +68,14 @@ import org.ametys.core.right.RightsContextPrefixExtensionPoint;
 import org.ametys.core.right.RightsException;
 import org.ametys.core.right.RightsExtensionPoint;
 import org.ametys.core.right.profile.Profile;
-import org.ametys.core.user.ModifiableUsersManager;
 import org.ametys.core.user.User;
+import org.ametys.core.user.UserIdentity;
 import org.ametys.core.user.UserListener;
-import org.ametys.core.user.UsersManager;
+import org.ametys.core.user.UserManager;
+import org.ametys.core.user.directory.ModifiableUserDirectory;
+import org.ametys.core.user.directory.UserDirectory;
+import org.ametys.core.user.population.UserPopulation;
+import org.ametys.core.user.population.UserPopulationDAO;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.request.RequestListener;
@@ -87,6 +94,12 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     
     /** Avalon SourceResolver */
     protected SourceResolver _resolver;
+    
+    /** The DAO for user populations */
+    protected UserPopulationDAO _userPopulationDAO;
+    
+    /** The DAO for group directories */
+    protected GroupDirectoryDAO _groupDirectoryDAO;
 
     /** The rights' list container */
     protected RightsExtensionPoint _rightsEP;
@@ -95,10 +108,10 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     /** The rights' alias manager */
     protected RightContextConvertorExtentionPoint _rightContextConvertorExtPt;
     /** The users manager */
-    protected UsersManager _usersManager;
+    protected UserManager _userManager;
 
     /** The groups manager */
-    protected GroupsManager _groupsManager;
+    protected GroupManager _groupManager;
 
     /** The id of the data source to use */
     protected String _dataSourceId;
@@ -116,11 +129,11 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     protected String _tableGroupRights;
 
     /* Rights cache
-     *  { Login : { Right : { Context : List(SubContext)
+     *  { UserIdentity : { Right : { Context : List(SubContext)
      *                      }
      *            }
      *  }
-     *  Si il y a une entrée login,right,context+subcontext on a le droit
+     *  Si il y a une entrée user,right,context+subcontext on a le droit
      *  La décomposition context+subcontext n'est pas connue : 
      *  Quand on cherche le context /pages/default/default/fr/toto,
      *  il faut cherche le combos suivantes :
@@ -131,10 +144,10 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      *  "/pages" + "default/default/fr/toto"
      *  "" + "pages/default/default/fr/toto"
      */
-    private final ThreadLocal<Map<String, Map<String, Map<String, List<String>>>>> _cacheTL = new ThreadLocal<>();
+    private final ThreadLocal<Map<UserIdentity, Map<String, Map<String, List<String>>>>> _cacheTL = new ThreadLocal<>();
 
     /* Identique au précédent si ce n'est qu'il ne traite pas les sous-contextes
-     *  { Login : { Right : { Context : Boolean
+     *  { UserIdentity : { Right : { Context : Boolean
      *                      }
      *            }
      *  }
@@ -144,30 +157,32 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      *  On ne peut pas mettre ces infos là dans le 1er cache on ne demande pas /* dans les parents
      *  sinon ça reviendrait à tout lire à chaque fois !
      */
-    private final ThreadLocal<Map<String, Map<String, Map<String, Boolean>>>> _cache2TL = new ThreadLocal<>();
+    private final ThreadLocal<Map<UserIdentity, Map<String, Map<String, Boolean>>>> _cache2TL = new ThreadLocal<>();
     
     /*
      * Cache des droits par utilisateur (droits affectés à l'utilisateur uniquement) sur un contexte donné.
-     * Login -> Contexte -> Set<RightId>
+     * UserIdentity -> Contexte -> Set<RightId>
      */
-    private final ThreadLocal<Map<String, Map<String, Set<String>>>> _userRightCache = new ThreadLocal<>();
+    private final ThreadLocal<Map<UserIdentity, Map<String, Set<String>>>> _userRightCache = new ThreadLocal<>();
     
     /*
      * Cache des droits par utilisateur (droits issus des groupes uniquement) sur un contexte donné.
-     * Login -> Contexte -> Set<RightId>
+     * UserIdentity -> Contexte -> Set<RightId>
      */
-    private final ThreadLocal<Map<String, Map<String, Set<String>>>> _groupRightCache = new ThreadLocal<>();
-    
+    private final ThreadLocal<Map<UserIdentity, Map<String, Set<String>>>> _groupRightCache = new ThreadLocal<>();
+
     @Override
     public void service(ServiceManager manager) throws ServiceException
     {
         _manager = manager;
         _rightsEP = (RightsExtensionPoint) _manager.lookup(RightsExtensionPoint.ROLE);
         _rightsContextPrefixEP = (RightsContextPrefixExtensionPoint) manager.lookup(RightsContextPrefixExtensionPoint.ROLE);
-        _usersManager = (UsersManager) _manager.lookup(UsersManager.ROLE);
-        _groupsManager = (GroupsManager) _manager.lookup(GroupsManager.ROLE);
+        _userManager = (UserManager) _manager.lookup(UserManager.ROLE);
+        _groupManager = (GroupManager) _manager.lookup(GroupManager.ROLE);
         _rightContextConvertorExtPt = (RightContextConvertorExtentionPoint) _manager.lookup(RightContextConvertorExtentionPoint.ROLE);
         _resolver = (SourceResolver) _manager.lookup(SourceResolver.ROLE);
+        _userPopulationDAO = (UserPopulationDAO) _manager.lookup(UserPopulationDAO.ROLE);
+        _groupDirectoryDAO = (GroupDirectoryDAO) _manager.lookup(GroupDirectoryDAO.ROLE);
     }
 
     @Override
@@ -307,16 +322,25 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     @Override
     public void initialize() throws Exception
     {
-        if (_usersManager instanceof ModifiableUsersManager)
+        for (UserPopulation userPopulation : _userPopulationDAO.getUserPopulations(true))
         {
-            ModifiableUsersManager mbu = (ModifiableUsersManager) _usersManager;
-            mbu.registerListener(this);
+            for (UserDirectory userDirectory : userPopulation.getUserDirectories())
+            {
+                if (userDirectory instanceof ModifiableUserDirectory)
+                {
+                    ModifiableUserDirectory modifiableUserDirectory = (ModifiableUserDirectory) userDirectory;
+                    modifiableUserDirectory.registerListener(this);
+                }
+            }
         }
-
-        if (_groupsManager instanceof ModifiableGroupsManager)
+        
+        for (GroupDirectory groupDirectory : _groupDirectoryDAO.getGroupDirectories())
         {
-            ModifiableGroupsManager dgm = (ModifiableGroupsManager) _groupsManager;
-            dgm.registerListener(this);
+            if (groupDirectory instanceof ModifiableGroupDirectory)
+            {
+                ModifiableGroupDirectory modifiableGroupDirectory = (ModifiableGroupDirectory) groupDirectory;
+                modifiableGroupDirectory.registerListener(this);
+            }
         }
 
         RequestListenerManager rlm = (RequestListenerManager) _manager.lookup(RequestListenerManager.ROLE);
@@ -324,16 +348,16 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     }
 
     @Override
-    public Set<String> getGrantedUsers(String right, String context) throws RightsException
+    public Set<UserIdentity> getGrantedUsers(String right, String context) throws RightsException
     {
         try
         {
-            Set<String> users = new HashSet<>();
+            Set<UserIdentity> users = new HashSet<>();
 
             Set<String> convertedContexts = getAliasContext(context);
             for (String convertContext : convertedContexts)
             {
-                Set<String> addUsers = internalGetGrantedUsers(right, convertContext);
+                Set<UserIdentity> addUsers = internalGetGrantedUsers(right, convertContext);
                 users.addAll(addUsers);
             }
 
@@ -350,14 +374,14 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      * Get the list of users that have the given right on the given context.
      * @param right The name of the right to use. Cannot be null.
      * @param context The context to test the right.<br>May be null, in which case the returned Set contains all granted users, whatever the context.
-     * @return The list of users granted with that right as a Set of String (login).
+     * @return The list of users granted with that right as a Set of {@link UserIdentity}.
      * @throws SQLException if an error occurs retrieving the rights from the database.
      */
-    protected Set<String> internalGetGrantedUsers(String right, String context) throws SQLException
+    protected Set<UserIdentity> internalGetGrantedUsers(String right, String context) throws SQLException
     {
         String lcContext = getFullContext (context);
 
-        Set<String> logins = new HashSet<>();
+        Set<UserIdentity> logins = new HashSet<>();
 
         logins.addAll(getGrantedUsersOnly(right, lcContext));
         logins.addAll(getGrantedGroupsOnly(right, lcContext));
@@ -366,16 +390,16 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     }
 
     @Override
-    public Set<String> getGrantedUsers(String context) throws RightsException
+    public Set<UserIdentity> getGrantedUsers(String context) throws RightsException
     {
         try
         {
-            Set<String> users = new HashSet<>();
+            Set<UserIdentity> users = new HashSet<>();
             
             Set<String> convertedContexts = getAliasContext(context);
             for (String convertContext : convertedContexts)
             {
-                Set<String> addUsers = internalGetGrantedUsers(convertContext);
+                Set<UserIdentity> addUsers = internalGetGrantedUsers(convertContext);
                 users.addAll(addUsers);
             }
             
@@ -391,29 +415,29 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     /**
      * Get the list of users that have at least one right on the given context.
      * @param context The context to test the right.<br>May be null, in which case the returned Set contains all granted users, whatever the context.
-     * @return The list of users granted that have a least one right as a Set of String (login).
+     * @return The list of users granted that have a least one right as a Set of {@link UserIdentity}.
      * @throws SQLException if an error occurs retrieving the rights from the database.
      */
-    protected Set<String> internalGetGrantedUsers(String context) throws SQLException
+    protected Set<UserIdentity> internalGetGrantedUsers(String context) throws SQLException
     {
         String lcContext = getFullContext (context);
 
-        Set<String> logins = new HashSet<>();
+        Set<UserIdentity> users = new HashSet<>();
         
-        logins.addAll(getGrantedUsersOnly(lcContext));
-        logins.addAll(getGrantedGroupsOnly(lcContext));
+        users.addAll(getGrantedUsersOnly(lcContext));
+        users.addAll(getGrantedGroupsOnly(lcContext));
         
-        return logins;
+        return users;
     }
     
     @Override
-    public Set<String> getUserRights(String login, String context) throws RightsException
+    public Set<String> getUserRights(UserIdentity user, String context) throws RightsException
     {
         try
         {
             Set<String> rights = new HashSet<>();
 
-            if (login == null)
+            if (user == null)
             {
                 return rights;
             }
@@ -421,7 +445,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             Set<String> convertedContexts = getAliasContext(context);
             for (String convertContext : convertedContexts)
             {
-                Set<String> addUsers = internalGetUserRights(login, convertContext);
+                Set<String> addUsers = internalGetUserRights(user, convertContext);
                 rights.addAll(addUsers);
             }
 
@@ -436,35 +460,35 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
     /**
      * Get the list of a user's rights in a particular context.
-     * @param login the user's login. Cannot be null.
+     * @param user the user. Cannot be null.
      * @param context The context to test the right
      * @return The list of rights as a Set of String (id).
      * @throws SQLException if an error occurs executing the queries.
      */
-    protected Set<String> internalGetUserRights(String login, String context) throws SQLException
+    protected Set<String> internalGetUserRights(UserIdentity user, String context) throws SQLException
     {
         String lcContext = getFullContext (context);
 
         Set<String> rights = new HashSet<>();
 
-        rights.addAll(getUsersOnlyRights(login, lcContext));
-        rights.addAll(getGroupsOnlyRights(login, lcContext));
+        rights.addAll(getUsersOnlyRights(user, lcContext));
+        rights.addAll(getGroupsOnlyRights(user, lcContext));
 
         return rights;
     }
 
     @Override
-    public Map<String, Set<String>> getUserRights(String login) throws RightsException
+    public Map<String, Set<String>> getUserRights(UserIdentity user) throws RightsException
     {
-        if (login == null)
+        if (user == null)
         {
             return new HashMap<>();
         }
 
         try
         {
-            Map<String, Set<String>> rights = getUsersOnlyRights(login);
-            Map<String, Set<String>> groupRights = getGroupsOnlyRights(login);
+            Map<String, Set<String>> rights = getUsersOnlyRights(user);
+            Map<String, Set<String>> groupRights = getGroupsOnlyRights(user);
 
             for (String context : groupRights.keySet())
             {
@@ -485,7 +509,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     }
 
     @Override
-    public void grantAllPrivileges(String login, String context, String profileName)
+    public void grantAllPrivileges(UserIdentity user, String context, String profileName)
     {
         // Create or get the temporary admin profile
         Profile adminProfile = null;
@@ -518,20 +542,20 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         adminProfile.endUpdate();
 
         // Assign the profile
-        addUserRight(login, context, adminProfile.getId());
+        addUserRight(user, context, adminProfile.getId());
 
     }
 
     @Override
-    public void grantAllPrivileges(String login, String context)
+    public void grantAllPrivileges(UserIdentity user, String context)
     {
-        grantAllPrivileges(login, context, __INITIAL_PROFILE_ID);
+        grantAllPrivileges(user, context, __INITIAL_PROFILE_ID);
     }
 
     @Override
-    public RightResult hasRight(String userLogin, String right, String context)
+    public RightResult hasRight(UserIdentity user, String right, String context)
     {
-        if (userLogin == null)
+        if (user == null)
         {
             return RightResult.RIGHT_NOK;
         }
@@ -539,7 +563,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         Set<String> convertedContexts = getAliasContext(context);
         for (String convertContext : convertedContexts)
         {
-            RightResult hasRight = internalHasRight(userLogin, right, convertContext);
+            RightResult hasRight = internalHasRight(user, right, convertContext);
             if (hasRight == RightResult.RIGHT_OK)
             {
                 return RightResult.RIGHT_OK;
@@ -551,39 +575,39 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
     /**
      * Check a permission for a user, in a given context.<br>
-     * @param userLogin The user's login. Cannot be null.
+     * @param user The user. Cannot be null.
      * @param right the name of the right to check. Cannot be null.
      * @param context the right context
      * @return RIGHT_OK, RIGHT_NOK or RIGHT_UNKNOWN
      * @throws RightsException if an error occurs.
      */
-    protected RightResult internalHasRight(String userLogin, String right, String context) throws RightsException
+    protected RightResult internalHasRight(UserIdentity user, String right, String context) throws RightsException
     {
         String lcContext = getFullContext (context);
 
         try
         {
-            return hasUserRightInCache(userLogin, right, lcContext, "");
+            return hasUserRightInCache(user, right, lcContext, "");
         }
         catch (RightOnContextNotInCacheException e)
         {
-            getLogger().debug("No find entry in cache for [" + userLogin + ", " + right + ", " + lcContext + "]");
+            getLogger().debug("No find entry in cache for [" + user + ", " + right + ", " + lcContext + "]");
         }
 
         try
         {
-            return hasUserRightInCache2(userLogin, right, lcContext);
+            return hasUserRightInCache2(user, right, lcContext);
         }
         catch (RightOnContextNotInCacheException e)
         {
-            getLogger().debug("No find entry in cache2 for [" + userLogin + ", " + right + ", " + lcContext + "]");
+            getLogger().debug("No find entry in cache2 for [" + user + ", " + right + ", " + lcContext + "]");
         }
 
         try
         {
             // On regarde d'abord parmi les droits affectés directement aux
             // utilisateurs
-            RightResult userResult = lcContext != null ? hasUserOnlyRight(userLogin, right, lcContext) : hasUserOnlyRight(userLogin, right);
+            RightResult userResult = lcContext != null ? hasUserOnlyRight(user, right, lcContext) : hasUserOnlyRight(user, right);
             if (userResult == RightResult.RIGHT_OK)
             {
                 // Droit en tant qu'utilisateur
@@ -592,7 +616,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
             // Puis parmi les droits affectés aux groupes auxquels
             // appartient l'utilisateur
-            RightResult groupResult = lcContext != null ? hasGroupOnlyRight(userLogin, right, lcContext) : hasGroupOnlyRight(userLogin, right);
+            RightResult groupResult = lcContext != null ? hasGroupOnlyRight(user, right, lcContext) : hasGroupOnlyRight(user, right);
             if (groupResult == RightResult.RIGHT_OK)
             {
                 // Droit en tant que groupe d'utilisateurs
@@ -633,18 +657,18 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     /**
      * Returns a Set containing all profiles for a given user and a context
      * 
-     * @param login the login of the concerned user
+     * @param user the concerned user
      * @param context the context
      * @return a Set containing all profiles for a given user and a context
      * @throws RightsException if an error occurs.
      */
-    public Set<String> getProfilesByUser(String login, String context) throws RightsException
+    public Set<String> getProfilesByUser(UserIdentity user, String context) throws RightsException
     {
         String lcContext = getFullContext (context);
 
         Set<String> profiles = new HashSet<>();
 
-        if (login == null)
+        if (user == null)
         {
             return new HashSet<>();
         }
@@ -658,15 +682,16 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         {
             // On regarde d'abord parmi les droits affectés directement aux
             // utilisateurs
-            String sql = "SELECT UR.Profile_Id " + "FROM " + _tableUserRights + " UR WHERE UR.Login = ? AND LOWER(UR.Context) = ?";
+            String sql = "SELECT UR.Profile_Id " + "FROM " + _tableUserRights + " UR WHERE UR.Login = ? AND UR.UserPopulation_Id = ? AND LOWER(UR.Context) = ?";
 
             stmt = connection.prepareStatement(sql);
 
-            stmt.setString(1, login);
-            stmt.setString(2, lcContext);
+            stmt.setString(1, user.getLogin());
+            stmt.setString(2, user.getPopulationId());
+            stmt.setString(3, lcContext);
 
             // Logger la requête
-            getLogger().debug(sql + "\n[" + login + ", " + lcContext + "]");
+            getLogger().debug(sql + "\n[" + user.getLogin() + ", " + user.getPopulationId() + ", " + lcContext + "]");
 
             rs = stmt.executeQuery();
 
@@ -712,7 +737,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         try
         {
-            String sql = "SELECT DISTINCT Login " + "FROM " + _tableUserRights + " WHERE Profile_Id = ? AND LOWER(Context) = ?";
+            String sql = "SELECT DISTINCT Login, UserPopulation_Id " + "FROM " + _tableUserRights + " WHERE Profile_Id = ? AND LOWER(Context) = ?";
 
             stmt = connection.prepareStatement(sql);
 
@@ -727,7 +752,8 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             while (rs.next())
             {
                 String login = rs.getString(1);
-                User user = _usersManager.getUser(login);
+                String populationId = rs.getString(2);
+                User user = _userManager.getUser(populationId, login);
                 if (user != null)
                 {
                     users.add(user);
@@ -775,7 +801,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         try
         {
-            String sql = "SELECT DISTINCT Group_Id " + "FROM " + _tableGroupRights + " WHERE Profile_Id = ? AND LOWER(Context) = ? ";
+            String sql = "SELECT DISTINCT Group_Id, GroupDirectory_Id " + "FROM " + _tableGroupRights + " WHERE Profile_Id = ? AND LOWER(Context) = ? ";
 
             stmt = connection.prepareStatement(sql);
 
@@ -790,7 +816,8 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             while (rs.next())
             {
                 String groupId = rs.getString(1);
-                Group group = _groupsManager.getGroup(groupId);
+                String groupDirectoryId = rs.getString(2);
+                Group group = _groupManager.getGroup(groupDirectoryId, groupId);
                 if (group != null)
                 {
                     groups.add(group);
@@ -818,18 +845,18 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     }
 
     /**
-     * Returns a Set containing all contexts for an user and a profile
+     * Returns a Set containing all contexts for a user and a profile
      * 
-     * @param login The user's login
+     * @param user The user
      * @param profileID The profile
-     * @return a Set containing all contexts for an user and a profile
+     * @return a Set containing all contexts for a user and a profile
      * @throws RightsException if an error occurs.
      */
-    public Set<String> getContextByUserAndProfile(String login, String profileID) throws RightsException
+    public Set<String> getContextByUserAndProfile(UserIdentity user, String profileID) throws RightsException
     {
         Set<String> contexts = new HashSet<>();
 
-        if (login == null)
+        if (user == null)
         {
             return contexts;
         }
@@ -841,15 +868,16 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         try
         {
-            String sql = "SELECT UR.Context " + "FROM " + _tableUserRights + " UR WHERE UR.Login = ? AND UR.Profile_Id = ?";
+            String sql = "SELECT UR.Context " + "FROM " + _tableUserRights + " UR WHERE UR.Login = ? AND UR.UserPopulation_Id = ? AND UR.Profile_Id = ?";
 
             stmt = connection.prepareStatement(sql);
 
-            stmt.setString(1, login);
-            stmt.setInt(2, Integer.parseInt(profileID));
+            stmt.setString(1, user.getLogin());
+            stmt.setString(2, user.getPopulationId());
+            stmt.setInt(3, Integer.parseInt(profileID));
 
             // Logger la requête
-            getLogger().debug(sql + "\n[" + login + ", " + profileID + "]");
+            getLogger().debug(sql + "\n[" + user.getLogin() + ", " + user.getPopulationId() + ", " + profileID + "]");
 
             rs = stmt.executeQuery();
 
@@ -882,21 +910,21 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     /**
      * Returns a Map containing all profiles and context for a given user
      * 
-     * @param login the login of the concerned user
+     * @param user the concerned user
      * @return a Map as (Profile Id, set of context)
      * @throws RightsException if an error occurs.
      */
-    public Map<String, Set<String>> getProfilesAndContextByUser (String login) throws RightsException
+    public Map<String, Set<String>> getProfilesAndContextByUser (UserIdentity user) throws RightsException
     {
         try
         {
-            if (login == null)
+            if (user == null)
             {
                 return new HashMap<>();
             }
 
-            Map<String, Set<String>> userProfiles = getUsersOnlyProfiles(login);
-            Map<String, Set<String>> groupProfiles = getGroupsOnlyProfiles(login);
+            Map<String, Set<String>> userProfiles = getUsersOnlyProfiles(user);
+            Map<String, Set<String>> groupProfiles = getGroupsOnlyProfiles(user);
 
             for (String context : groupProfiles.keySet())
             {
@@ -920,12 +948,12 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     /**
      * Returns a Set containing all profiles for a group and a context
      * 
-     * @param groupId the group
+     * @param group the group
      * @param context the context
      * @return a Set containing all profiles for a group and a context
      * @throws RightsException if an error occurs.
      */
-    public Set<String> getProfilesByGroup(String groupId, String context) throws RightsException
+    public Set<String> getProfilesByGroup(GroupIdentity group, String context) throws RightsException
     {
         String lcContext = getFullContext (context);
 
@@ -940,15 +968,16 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         {
             // On regarde d'abord parmi les droits affectés directement aux
             // utilisateurs
-            String sql = "SELECT GR.Profile_Id " + "FROM " + _tableGroupRights + " GR WHERE GR.Group_Id = ? AND LOWER(GR.Context) = ?";
+            String sql = "SELECT GR.Profile_Id " + "FROM " + _tableGroupRights + " GR WHERE GR.Group_Id = ? AND GR.GroupDirectory_Id = ? AND LOWER(GR.Context) = ?";
 
             stmt = connection.prepareStatement(sql);
 
-            stmt.setString(1, groupId);
-            stmt.setString(2, lcContext);
+            stmt.setString(1, group.getId());
+            stmt.setString(2, group.getDirectoryId());
+            stmt.setString(3, lcContext);
 
             // Logger la requête
-            getLogger().debug(sql + "\n[" + groupId + ", " + lcContext + "]");
+            getLogger().debug(sql + "\n[" + group.getId() + ", " + group.getDirectoryId() + ", " + lcContext + "]");
 
             rs = stmt.executeQuery();
 
@@ -976,12 +1005,12 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     /**
      * Returns a Set containing all contexts for a user and a profile
      * 
-     * @param groupID The group ID
+     * @param group The group
      * @param profileID The profile
      * @return a Set containing all contexts for a user and a profile
      * @throws RightsException if an error occurs.
      */
-    public Set<String> getContextByGroupAndProfile(String groupID, String profileID) throws RightsException
+    public Set<String> getContextByGroupAndProfile(GroupIdentity group, String profileID) throws RightsException
     {
         Set<String> contexts = new HashSet<>();
 
@@ -991,16 +1020,17 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         try
         {
-            String sql = "SELECT GR.Context " + "FROM " + _tableGroupRights + " GR WHERE GR.Group_Id = ? AND GR.Profile_Id = ?";
+            String sql = "SELECT GR.Context " + "FROM " + _tableGroupRights + " GR WHERE GR.Group_Id = ? AND GR.GroupDirectory_Id = ? AND GR.Profile_Id = ?";
 
             stmt = connection.prepareStatement(sql);
-            stmt.setString(1, groupID);
-            stmt.setInt(2, Integer.parseInt(profileID));
+            stmt.setString(1, group.getId());
+            stmt.setString(2, group.getDirectoryId());
+            stmt.setInt(3, Integer.parseInt(profileID));
 
             // Logger la requête
             if (getLogger().isInfoEnabled())
             {
-                getLogger().debug(sql + "\n[" + groupID + ", " + profileID + "]");
+                getLogger().debug(sql + "\n[" + group.getId() + ", " + group.getDirectoryId() + ", " + profileID + "]");
             }
 
             rs = stmt.executeQuery();
@@ -1031,7 +1061,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     }
 
     @Override
-    public void addUserRight(String login, String context, String profileId) throws RightsException
+    public void addUserRight(UserIdentity user, String context, String profileId) throws RightsException
     {
         String lcContext = getFullContext (context);
 
@@ -1041,34 +1071,36 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         try
         {
             // Check if already exists
-            String sql = "SELECT Profile_Id FROM " + _tableUserRights + " WHERE Profile_Id=? and Login=? and Context=?";
+            String sql = "SELECT Profile_Id FROM " + _tableUserRights + " WHERE Profile_Id=? and Login=? AND UserPopulation_Id=? and Context=?";
             stmt = connection.prepareStatement(sql);
             stmt.setInt(1, Integer.parseInt(profileId));
-            stmt.setString(2, login);
-            stmt.setString(3, lcContext);
+            stmt.setString(2, user.getLogin());
+            stmt.setString(3, user.getPopulationId());
+            stmt.setString(4, lcContext);
 
             rs = stmt.executeQuery();
             if (rs.next())
             {
                 if (getLogger().isDebugEnabled())
                 {
-                    getLogger().debug("Login " + login + " has already profile " + profileId + " on context " +  lcContext + "");
+                    getLogger().debug("Login " + user + " has already profile " + profileId + " on context " +  lcContext + "");
                 }
                 return;
             }
 
             ConnectionHelper.cleanup(stmt);
 
-            sql = "INSERT INTO " + _tableUserRights + " (Profile_Id, Login, Context) VALUES(?, ?, ?)";
+            sql = "INSERT INTO " + _tableUserRights + " (Profile_Id, Login, UserPopulation_Id, Context) VALUES(?, ?, ?, ?)";
 
             stmt = connection.prepareStatement(sql);
 
             stmt.setInt(1, Integer.parseInt(profileId));
-            stmt.setString(2, login);
-            stmt.setString(3, lcContext);
+            stmt.setString(2, user.getLogin());
+            stmt.setString(3, user.getPopulationId());
+            stmt.setString(4, lcContext);
 
             // Logger la requête
-            getLogger().debug(sql + "\n[" + profileId + ", " + login + ", " + lcContext + "]");
+            getLogger().debug(sql + "\n[" + profileId + ", " + user.getLogin() + ", " + user.getPopulationId() + ", " + lcContext + "]");
 
             stmt.executeUpdate();
             
@@ -1094,7 +1126,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     }
 
     @Override
-    public void addGroupRight(String groupId, String context, String profileId) throws RightsException
+    public void addGroupRight(GroupIdentity group, String context, String profileId) throws RightsException
     {
         String lcContext = getFullContext (context);
 
@@ -1104,34 +1136,36 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         try
         {
             // Check if already exists
-            String sql = "SELECT Profile_Id FROM " + _tableGroupRights + " WHERE Profile_Id=? and Group_Id=? and Context=?";
+            String sql = "SELECT Profile_Id FROM " + _tableGroupRights + " WHERE Profile_Id=? and Group_Id=? and GroupDirectory_Id=? and Context=?";
             stmt = connection.prepareStatement(sql);
             stmt.setInt(1, Integer.parseInt(profileId));
-            stmt.setString(2, groupId);
-            stmt.setString(3, lcContext);
+            stmt.setString(2, group.getId());
+            stmt.setString(3, group.getDirectoryId());
+            stmt.setString(4, lcContext);
 
             rs = stmt.executeQuery();
             if (rs.next())
             {
                 if (getLogger().isDebugEnabled())
                 {
-                    getLogger().debug("Group of id " + groupId + " has already profile " + profileId + " on context " +  lcContext + "");
+                    getLogger().debug("Group of id " + group + " has already profile " + profileId + " on context " +  lcContext + "");
                 }
                 return;
             }
 
             ConnectionHelper.cleanup(stmt);
 
-            sql = "INSERT INTO " + _tableGroupRights + " (Profile_Id, Group_Id, Context) VALUES(?, ?, ?)";
+            sql = "INSERT INTO " + _tableGroupRights + " (Profile_Id, Group_Id, GroupDirectory_Id, Context) VALUES(?, ?, ?, ?)";
 
             stmt = connection.prepareStatement(sql);
 
             stmt.setInt(1, Integer.parseInt(profileId));
-            stmt.setString(2, groupId);
-            stmt.setString(3, lcContext);
+            stmt.setString(2, group.getId());
+            stmt.setString(3, group.getDirectoryId());
+            stmt.setString(4, lcContext);
 
             // Logger la requête
-            getLogger().debug(sql + "\n[" + profileId + ", " + groupId + ", " + lcContext + "]");
+            getLogger().debug(sql + "\n[" + profileId + ", " + group.getId() + ", " + group.getDirectoryId() + ", " + lcContext + "]");
 
             stmt.executeUpdate();
             
@@ -1157,7 +1191,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     }
 
     @Override
-    public void removeUserProfile(String login, String profileId, String context) throws RightsException
+    public void removeUserProfile(UserIdentity user, String profileId, String context) throws RightsException
     {
         String lcContext = getFullContext (context);
 
@@ -1168,16 +1202,17 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         {
             // On regarde d'abord parmi les droits affectés directement aux
             // utilisateurs
-            String sql = "DELETE FROM " + _tableUserRights + " WHERE Login = ? AND Profile_Id = ? AND LOWER(Context) = ? ";
+            String sql = "DELETE FROM " + _tableUserRights + " WHERE Login = ? AND UserPopulation_Id = ? AND Profile_Id = ? AND LOWER(Context) = ? ";
 
             stmt = connection.prepareStatement(sql);
 
-            stmt.setString(1, login);
-            stmt.setInt(2, Integer.parseInt(profileId));
-            stmt.setString(3, lcContext);
+            stmt.setString(1, user.getLogin());
+            stmt.setString(2, user.getPopulationId());
+            stmt.setInt(3, Integer.parseInt(profileId));
+            stmt.setString(4, lcContext);
 
             // Logger la requête
-            getLogger().debug(sql + "\n[" + login + ", " + profileId + ", " + lcContext + "]");
+            getLogger().debug(sql + "\n[" + user.getLogin() + ", " + user.getPopulationId() + ", " + profileId + ", " + lcContext + "]");
 
             stmt.executeUpdate();
             
@@ -1202,7 +1237,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     }
 
     @Override
-    public void removeUserProfiles(String login, String context) throws RightsException
+    public void removeUserProfiles(UserIdentity user, String context) throws RightsException
     {
         String lcContext = getFullContext (context);
 
@@ -1213,7 +1248,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         {
             // On regarde d'abord parmi les droits affectés directement aux
             // utilisateurs
-            String sql = "DELETE FROM " + _tableUserRights + " WHERE Login = ?";
+            String sql = "DELETE FROM " + _tableUserRights + " WHERE Login = ? AND UserPopulation_Id = ?";
             if (lcContext != null)
             {
                 sql += " AND LOWER(Context) = ?";
@@ -1221,14 +1256,15 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
             stmt = connection.prepareStatement(sql);
 
-            stmt.setString(1, login);
+            stmt.setString(1, user.getLogin());
+            stmt.setString(2, user.getPopulationId());
             if (lcContext != null)
             {
-                stmt.setString(2, lcContext);
+                stmt.setString(3, lcContext);
             }
 
             // Logger la requête
-            getLogger().debug(sql + "\n[" + login + ", " + lcContext + "]");
+            getLogger().debug(sql + "\n[" + user.getLogin() + ", " + user.getPopulationId() + ", " + lcContext + "]");
 
             stmt.executeUpdate();
             
@@ -1293,7 +1329,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     }
 
     @Override
-    public void removeGroupProfile(String groupId, String profileId, String context) throws RightsException
+    public void removeGroupProfile(GroupIdentity group, String profileId, String context) throws RightsException
     {
         String lcContext = getFullContext (context);
 
@@ -1302,16 +1338,17 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         try
         {
-            String sql = "DELETE FROM " + _tableGroupRights + " WHERE Group_Id = ? AND Profile_Id = ? AND LOWER(Context) = ?";
+            String sql = "DELETE FROM " + _tableGroupRights + " WHERE Group_Id = ? AND GroupDirectory_Id = ? AND Profile_Id = ? AND LOWER(Context) = ?";
 
             stmt = connection.prepareStatement(sql);
 
-            stmt.setString(1, groupId);
-            stmt.setInt(2, Integer.parseInt(profileId));
-            stmt.setString(3, lcContext);
+            stmt.setString(1, group.getId());
+            stmt.setString(2, group.getDirectoryId());
+            stmt.setInt(3, Integer.parseInt(profileId));
+            stmt.setString(4, lcContext);
 
             // Logger la requête
-            getLogger().debug(sql + "\n[" + groupId + ", " + profileId + ", " + lcContext + "]");
+            getLogger().debug(sql + "\n[" + group.getId() + ", " + group.getDirectoryId() + ", " + profileId + ", " + lcContext + "]");
 
             stmt.executeUpdate();
             
@@ -1336,7 +1373,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     }
 
     @Override
-    public void removeGroupProfiles(String groupId, String context) throws RightsException
+    public void removeGroupProfiles(GroupIdentity group, String context) throws RightsException
     {
         String lcContext = getFullContext (context);
 
@@ -1347,7 +1384,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         {
             // On regarde d'abord parmi les droits affectés directement aux
             // utilisateurs
-            String sql = "DELETE FROM " + _tableGroupRights + " WHERE Group_Id = ?";
+            String sql = "DELETE FROM " + _tableGroupRights + " WHERE Group_Id = ? AND groupDirectory_Id = ?";
 
             if (lcContext != null)
             {
@@ -1356,14 +1393,15 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
             stmt = connection.prepareStatement(sql);
 
-            stmt.setString(1, groupId);
+            stmt.setString(1, group.getId());
+            stmt.setString(2, group.getDirectoryId());
             if (lcContext != null)
             {
-                stmt.setString(2, lcContext);
+                stmt.setString(3, lcContext);
             }
 
             // Logger la requête
-            getLogger().debug(sql + "\n[" + groupId + ", " + lcContext + "]");
+            getLogger().debug(sql + "\n[" + group.getId() + ", " + group.getDirectoryId() + ", " + lcContext + "]");
 
             stmt.executeUpdate();
             
@@ -1402,7 +1440,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         {
             // On regarde d'abord parmi les droits affectés directement aux
             // utilisateurs
-            String sql = "SELECT DISTINCT Login " + "FROM " + _tableUserRights + " WHERE LOWER(Context) = ? ";
+            String sql = "SELECT DISTINCT Login, UserPopulation_Id " + "FROM " + _tableUserRights + " WHERE LOWER(Context) = ? ";
 
             stmt = connection.prepareStatement(sql);
 
@@ -1416,7 +1454,8 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             while (rs.next())
             {
                 String login = rs.getString(1);
-                User principal = _usersManager.getUser(login);
+                String populationId = rs.getString(2);
+                User principal = _userManager.getUser(populationId, login);
                 if (principal != null)
                 {
                     users.add(principal);
@@ -1459,7 +1498,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         {
             // On regarde d'abord parmi les droits affectés directement aux
             // utilisateurs
-            String sql = "SELECT DISTINCT Group_Id " + "FROM " + _tableGroupRights + " WHERE LOWER(Context) = ? ";
+            String sql = "SELECT DISTINCT Group_Id, GroupDirectory_Id " + "FROM " + _tableGroupRights + " WHERE LOWER(Context) = ? ";
 
             stmt = connection.prepareStatement(sql);
 
@@ -1473,7 +1512,8 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             while (rs.next())
             {
                 String groupId = rs.getString(1);
-                Group group = _groupsManager.getGroup(groupId);
+                String groupDirectoryId = rs.getString(2);
+                Group group = _groupManager.getGroup(groupDirectoryId, groupId);
                 if (group != null)
                 {
                     groups.add(group);
@@ -1602,9 +1642,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      * 
      * @return RIGHT_OK, RIGHT_NOK or RIGHT_UNKNOWN
      * 
-     * @throws SQLException in case of connection error with the databse
+     * @throws SQLException in case of connection error with the database
      */
-    private RightResult hasUserOnlyRight(String login, String right) throws SQLException
+    private RightResult hasUserOnlyRight(UserIdentity user, String right) throws SQLException
     {
         Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
@@ -1612,17 +1652,18 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         try
         {
-            String sql = "SELECT UR.Login " + "FROM " + _tableProfileRights + " PR, " + _tableUserRights + " UR WHERE PR.Right_Id = ? " + "AND UR.Profile_Id = PR.Profile_Id " + "AND UR.Login = ?";
+            String sql = "SELECT UR.Login " + "FROM " + _tableProfileRights + " PR, " + _tableUserRights + " UR WHERE PR.Right_Id = ? " + "AND UR.Profile_Id = PR.Profile_Id " + "AND UR.Login = ? AND UR.UserPopulation_Id = ?";
 
             stmt = connection.prepareStatement(sql);
 
             stmt.setString(1, right);
-            stmt.setString(2, login);
+            stmt.setString(2, user.getLogin());
+            stmt.setString(3, user.getPopulationId());
 
             // Logger la requête
             if (getLogger().isInfoEnabled())
             {
-                getLogger().debug(sql + "\n[" + right + ", " + login + "]");
+                getLogger().debug(sql + "\n[" + right + ", " + user.getLogin() + ", " + user.getPopulationId() + "]");
             }
 
             rs = stmt.executeQuery();
@@ -1648,7 +1689,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         sql.append("SELECT LOWER(UR.Context) ");
         sql.append("FROM " + _tableProfileRights + " PR, " + _tableUserRights + " UR ");
         sql.append("WHERE PR.Right_Id = ? ");
-        sql.append("AND UR.Profile_Id = PR.Profile_Id AND UR.Login = ? ");
+        sql.append("AND UR.Profile_Id = PR.Profile_Id AND UR.Login = ? AND UR.UserPopulation_Id = ?");
         sql.append("AND (LOWER(UR.Context) = ? OR LOWER(UR.Context) LIKE ? ");
 
         String currentContext = HierarchicalRightsHelper.getParentContext(context);
@@ -1676,7 +1717,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      * 
      * @throws SQLException in case of connection error with the databse
      */
-    private RightResult hasUserOnlyRight(String login, String right, String context) throws SQLException
+    private RightResult hasUserOnlyRight(UserIdentity user, String right, String context) throws SQLException
     {
         Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
@@ -1688,15 +1729,16 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             stmt = connection.prepareStatement(sql);
 
             stmt.setString(1, right);
-            stmt.setString(2, login);
-            stmt.setString(3, context);
-            stmt.setString(4, context + "/%");
+            stmt.setString(2, user.getLogin());
+            stmt.setString(3, user.getPopulationId());
+            stmt.setString(4, context);
+            stmt.setString(5, context + "/%");
 
             int i = 0;
             String currentContext = HierarchicalRightsHelper.getParentContext(context);
             while (currentContext != null)
             {
-                stmt.setString (5 + i, currentContext);
+                stmt.setString (6 + i, currentContext);
                 currentContext = HierarchicalRightsHelper.getParentContext(currentContext);
                 i++;
             }
@@ -1704,12 +1746,12 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             // Logger la requête
             if (getLogger().isInfoEnabled())
             {
-                getLogger().debug(sql + "\n[" + right + ", " + login + (context != null ? "," + context : "") + "]");
+                getLogger().debug(sql + "\n[" + right + ", " + user.getLogin() + ", " + user.getPopulationId() + (context != null ? "," + context : "") + "]");
             }
 
             rs = stmt.executeQuery();
 
-            Map<String, List<String>> mapContext = getCacheContext(login, right);
+            Map<String, List<String>> mapContext = getCacheContext(user, right);
             List<String> contextList = mapContext.get(context);
             if (contextList == null)
             {
@@ -1717,7 +1759,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                 mapContext.put(context, contextList);
             }
 
-            Map<String, Boolean> mapContext2 = _prepareCache2(login, right, context);
+            Map<String, Boolean> mapContext2 = _prepareCache2(user, right, context);
 
             boolean hasRight = false;
             while (rs.next())
@@ -1755,9 +1797,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
     }
 
-    private Map<String, Boolean> _prepareCache2(String login, String right, String context)
+    private Map<String, Boolean> _prepareCache2(UserIdentity user, String right, String context)
     {
-        Map<String, Boolean> mapContext2 = getCache2Context(login, right);
+        Map<String, Boolean> mapContext2 = getCache2Context(user, right);
 
         String currentContext = HierarchicalRightsHelper.getParentContext(context);
         while (currentContext != null)
@@ -1772,9 +1814,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         return mapContext2;
     }
 
-    private Set<String> getGrantedUsersOnly(String right, String context) throws SQLException
+    private Set<UserIdentity> getGrantedUsersOnly(String right, String context) throws SQLException
     {
-        Set<String> logins = new HashSet<>();
+        Set<UserIdentity> users = new HashSet<>();
 
         Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
@@ -1784,7 +1826,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         {
             // On regarde d'abord parmi les droits affectés directement aux
             // utilisateurs
-            String sql = "SELECT DISTINCT UR.Login " + "FROM " + _tableProfileRights + " PR, " + _tableUserRights + " UR WHERE UR.Profile_Id = PR.Profile_Id " + "AND PR.Right_Id = ? ";
+            String sql = "SELECT DISTINCT UR.Login, UR.UserPopulation_Id " + "FROM " + _tableProfileRights + " PR, " + _tableUserRights + " UR WHERE UR.Profile_Id = PR.Profile_Id " + "AND PR.Right_Id = ? ";
 
             if (context != null)
             {
@@ -1807,10 +1849,11 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
             while (rs.next())
             {
-                logins.add(rs.getString(1));
+                UserIdentity user = new UserIdentity(rs.getString(1), rs.getString(2));
+                users.add(user);
             }
 
-            return logins;
+            return users;
         }
         finally
         {
@@ -1820,9 +1863,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
     }
     
-    private Set<String> getGrantedUsersOnly(String context) throws SQLException
+    private Set<UserIdentity> getGrantedUsersOnly(String context) throws SQLException
     {
-        Set<String> logins = new HashSet<>();
+        Set<UserIdentity> users = new HashSet<>();
         
         Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
@@ -1832,7 +1875,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         {
             // On regarde d'abord parmi les droits affectés directement aux
             // utilisateurs
-            StringBuilder sql = new StringBuilder("SELECT DISTINCT UR.Login " + "FROM " + _tableProfileRights + " PR, " + _tableUserRights + " UR WHERE UR.Profile_Id = PR.Profile_Id ");
+            StringBuilder sql = new StringBuilder("SELECT DISTINCT UR.Login, UR.UserPopulation_Id " + "FROM " + _tableProfileRights + " PR, " + _tableUserRights + " UR WHERE UR.Profile_Id = PR.Profile_Id ");
 
             if (context != null)
             {
@@ -1856,10 +1899,11 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
             while (rs.next())
             {
-                logins.add(rs.getString(1));
+                UserIdentity user = new UserIdentity(rs.getString(1), rs.getString(2));
+                users.add(user);
             }
 
-            return logins;
+            return users;
         }
         finally
         {
@@ -1869,31 +1913,31 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
     }
     
-    private Set<String> getUsersOnlyRights(String login, String context) throws SQLException
+    private Set<String> getUsersOnlyRights(UserIdentity user, String context) throws SQLException
     {
         Set<String> rights = new HashSet<>();
         
-        if (login == null)
+        if (user == null)
         {
             return rights;
         }
         
-        rights = _getUserRightsInCache(login, context);
+        rights = _getUserRightsInCache(user, context);
         if (rights == null)
         {
-            rights = _getUsersOnlyRightsFromDb(login, context);
+            rights = _getUsersOnlyRightsFromDb(user, context);
             
-            _setUserRightsInCache(login, context, rights);
+            _setUserRightsInCache(user, context, rights);
         }
         
         return rights;
     }
 
-    private Set<String> _getUsersOnlyRightsFromDb(String login, String context) throws SQLException
+    private Set<String> _getUsersOnlyRightsFromDb(UserIdentity user, String context) throws SQLException
     {
         Set<String> rights = new HashSet<>();
 
-        if (login == null)
+        if (user == null)
         {
             return rights;
         }
@@ -1910,7 +1954,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             sql.append("SELECT DISTINCT PR.Right_id ");
             sql.append("FROM " + _tableProfileRights  + " PR, " + _tableUserRights + " UR ");
             sql.append("WHERE UR.Profile_Id = PR.Profile_Id ");
-            sql.append("AND UR.Login = ? ");
+            sql.append("AND UR.Login = ? AND UR.UserPopulation_Id = ?");
 
             if (context != null)
             {
@@ -1921,16 +1965,17 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
             stmt = connection.prepareStatement(sql.toString());
 
-            stmt.setString(1, login);
+            stmt.setString(1, user.getLogin());
+            stmt.setString(2, user.getPopulationId());
 
             if (context != null)
             {
                 // LIKE query
-                stmt.setString(2, context.replace('*', '%'));
+                stmt.setString(3, context.replace('*', '%'));
             }
 
             // Logger la requête
-            getLogger().debug(sql + "\n[" + login + (context != null ? "," + context : "") + "]");
+            getLogger().debug(sql + "\n[" + user.getLogin() + "," + user.getPopulationId() + (context != null ? "," + context : "") + "]");
 
             rs = stmt.executeQuery();
 
@@ -1949,27 +1994,27 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
     }
 
-    private Map<String, Set<String>> getUsersOnlyRights(String login) throws SQLException
+    private Map<String, Set<String>> getUsersOnlyRights(UserIdentity user) throws SQLException
     {
         Map<String, Set<String>> rights = new HashMap<>();
         
-        if (login == null)
+        if (user == null)
         {
             return rights;
         }
         
-        rights = _getUserRightsInCache(login);
+        rights = _getUserRightsInCache(user);
         if (rights == null)
         {
-            rights = _getUsersOnlyRightsFromDb(login);
+            rights = _getUsersOnlyRightsFromDb(user);
             
-            _setUserRightsInCache(login, rights);
+            _setUserRightsInCache(user, rights);
         }
         
         return rights;
     }
     
-    private Map<String, Set<String>> _getUsersOnlyRightsFromDb(String login) throws SQLException
+    private Map<String, Set<String>> _getUsersOnlyRightsFromDb(UserIdentity user) throws SQLException
     {
         Map<String, Set<String>> rights = new HashMap<>();
         Connection connection = getSQLConnection();
@@ -1984,13 +2029,14 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             sql.append("SELECT DISTINCT PR.Right_id, UR.Context ");
             sql.append("FROM " + _tableProfileRights  + " PR, " + _tableUserRights + " UR ");
             sql.append("WHERE UR.Profile_Id = PR.Profile_Id ");
-            sql.append("AND UR.Login = ? ");
+            sql.append("AND UR.Login = ? AND UR.UserPopulation_Id = ?");
 
             stmt = connection.prepareStatement(sql.toString());
-            stmt.setString(1, login);
+            stmt.setString(1, user.getLogin());
+            stmt.setString(2, user.getPopulationId());
 
             // Logger la requête
-            getLogger().debug(sql + "\n[" + login + "]");
+            getLogger().debug(sql + "\n[" + user.getLogin() + ", " + user.getPopulationId() + "]");
 
             rs = stmt.executeQuery();
 
@@ -2016,7 +2062,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
     }
 
-    private Map<String, Set<String>> getUsersOnlyProfiles(String login) throws SQLException
+    private Map<String, Set<String>> getUsersOnlyProfiles(UserIdentity user) throws SQLException
     {
         Map<String, Set<String>> profiles = new HashMap<>();
 
@@ -2031,13 +2077,14 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
             sql.append("SELECT DISTINCT Profile_Id, Context ");
             sql.append("FROM " + _tableUserRights  + " ");
-            sql.append("WHERE Login = ?");
+            sql.append("WHERE Login = ? AND UserPopulation_Id = ?");
 
             stmt = connection.prepareStatement(sql.toString());
-            stmt.setString(1, login);
+            stmt.setString(1, user.getLogin());
+            stmt.setString(2, user.getPopulationId());
 
             // Logger la requête
-            getLogger().debug(sql + "\n[" + login + "]");
+            getLogger().debug(sql + "\n[" + user.getLogin() + ", " + user.getPopulationId() + "]");
 
             rs = stmt.executeQuery();
 
@@ -2078,7 +2125,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      * 
      * @throws SQLException in case of connection error with the databse
      */
-    private RightResult hasGroupOnlyRight(String login, String right) throws SQLException
+    private RightResult hasGroupOnlyRight(UserIdentity user, String right) throws SQLException
     {
         Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
@@ -2086,8 +2133,8 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         try
         {
-            Set<String> groupsId = getGroupId(login);
-            String groupSql = createGroupIdRequest(groupsId);
+            Set<GroupIdentity> groups = getGroupId(user);
+            String groupSql = createGroupIdRequest(groups);
 
             if (groupSql != null)
             {
@@ -2097,12 +2144,12 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
                 int i = 1;
                 stmt.setString(i++, right);
-                fillStatement(stmt, null, groupsId, i);
+                fillStatement(stmt, null, groups, i);
 
                 // Logger la requête
                 if (getLogger().isDebugEnabled())
                 {
-                    getLogger().debug(sql + "\n[" + right + ", " + login + "]");
+                    getLogger().debug(sql + "\n[" + right + ", " + user + "]");
                 }
 
                 rs = stmt.executeQuery();
@@ -2155,7 +2202,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      * @return RIGHT_OK or RIGHT_UNKNOWN
      * @throws SQLException in case of connection error with the databse
      */
-    private RightResult hasGroupOnlyRight(String login, String right, String context) throws SQLException
+    private RightResult hasGroupOnlyRight(UserIdentity user, String right, String context) throws SQLException
     {
         Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
@@ -2164,8 +2211,8 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         try
         {
             // Récupère la liste des groupes du user
-            Set<String> groupsId = getGroupId(login);
-            String groupSql = createGroupIdRequest(groupsId);
+            Set<GroupIdentity> groups = getGroupId(user);
+            String groupSql = createGroupIdRequest(groups);
 
             if (groupSql != null)
             { // Construit le bout de sql pour tous les groupes
@@ -2177,7 +2224,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                 stmt.setString(i++, right);
                 stmt.setString(i++, context);
                 stmt.setString(i++, context + "/%");
-                fillStatement(stmt, context, groupsId, i);
+                fillStatement(stmt, context, groups, i);
 
                 // Logger la requête
                 if (getLogger().isDebugEnabled())
@@ -2185,7 +2232,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                     getLogger().debug(sql + "\n[" + right + ", " + (context != null ? "," + context : "") + "]");
                 }
 
-                Map<String, List<String>> mapContext = getCacheContext(login, right);
+                Map<String, List<String>> mapContext = getCacheContext(user, right);
                 List<String> contextList = mapContext.get(context);
                 if (contextList == null)
                 {
@@ -2193,7 +2240,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                     mapContext.put(context, contextList);
                 }
 
-                Map<String, Boolean> mapContext2 = _prepareCache2(login, right, context);
+                Map<String, Boolean> mapContext2 = _prepareCache2(user, right, context);
 
                 rs = stmt.executeQuery();
                 boolean hasRight = false;
@@ -2235,9 +2282,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
     }
 
-    private Set<String> getGrantedGroupsOnly(String right, String context) throws SQLException
+    private Set<UserIdentity> getGrantedGroupsOnly(String right, String context) throws SQLException
     {
-        Set<String> logins = new HashSet<>();
+        Set<UserIdentity> users = new HashSet<>();
 
         Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
@@ -2247,7 +2294,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         {
             // Puis parmi les droits affectés aux groups auxquels appartient
             // l'utilisateur
-            String sql = "SELECT DISTINCT GR.Group_Id " + "FROM " + _tableProfileRights + " PR, " + _tableGroupRights + " GR WHERE GR.Profile_Id = PR.Profile_Id " + "AND PR.Right_Id = ? ";
+            String sql = "SELECT DISTINCT GR.Group_Id, GR.GroupDirectory_Id " + "FROM " + _tableProfileRights + " PR, " + _tableGroupRights + " GR WHERE GR.Profile_Id = PR.Profile_Id " + "AND PR.Right_Id = ? ";
 
             if (context != null)
             {
@@ -2271,22 +2318,20 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             while (rs.next())
             {
                 String groupId = rs.getString(1);
+                String groupDirectoryId = rs.getString(2);
 
-                Group group = _groupsManager.getGroup(groupId);
+                Group group = _groupManager.getGroup(groupDirectoryId, groupId);
                 if (group != null)
                 {
-                    for (String login : group.getUsers())
-                    {
-                        logins.add(login);
-                    }
+                    users.addAll(group.getUsers());
                 }
                 else if (getLogger().isWarnEnabled())
                 {
-                    getLogger().warn("The group '" + groupId + "' is referenced in profile tables, but cannot be retrieve by GroupsManager. The database may be inconsistant.");
+                    getLogger().warn("The group ('" + groupId + "', '" + groupDirectoryId + "') is referenced in profile tables, but cannot be retrieve by GroupsManager. The database may be inconsistant.");
                 }
             }
 
-            return logins;
+            return users;
         }
         finally
         {
@@ -2296,9 +2341,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
     }
     
-    private Set<String> getGrantedGroupsOnly(String context) throws SQLException
+    private Set<UserIdentity> getGrantedGroupsOnly(String context) throws SQLException
     {
-        Set<String> logins = new HashSet<>();
+        Set<UserIdentity> users = new HashSet<>();
 
         Connection connection = getSQLConnection();
         PreparedStatement stmt = null;
@@ -2308,7 +2353,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         {
             // Puis parmi les droits affectés aux groups auxquels appartient
             // l'utilisateur
-            StringBuilder sql = new StringBuilder("SELECT DISTINCT GR.Group_Id " + "FROM " + _tableProfileRights + " PR, " + _tableGroupRights + " GR WHERE GR.Profile_Id = PR.Profile_Id ");
+            StringBuilder sql = new StringBuilder("SELECT DISTINCT GR.Group_Id, GR.GroupDirectory_Id " + "FROM " + _tableProfileRights + " PR, " + _tableGroupRights + " GR WHERE GR.Profile_Id = PR.Profile_Id ");
 
             if (context != null)
             {
@@ -2333,22 +2378,20 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             while (rs.next())
             {
                 String groupId = rs.getString(1);
+                String groupDirectoryId = rs.getString(2);
                 
-                Group group = _groupsManager.getGroup(groupId);
+                Group group = _groupManager.getGroup(groupDirectoryId, groupId);
                 if (group != null)
                 {
-                    for (String login : group.getUsers())
-                    {
-                        logins.add(login);
-                    }
+                    users.addAll(group.getUsers());
                 }
                 else if (getLogger().isWarnEnabled())
                 {
-                    getLogger().warn("The group '" + groupId + "' is referenced in profile tables, but cannot be retrieve by GroupsManager. The database may be inconsistant.");
+                    getLogger().warn("The group ('" + groupId + "', '" + groupDirectoryId + "') is referenced in profile tables, but cannot be retrieve by GroupsManager. The database may be inconsistant.");
                 }
             }
 
-            return logins;
+            return users;
         }
         finally
         {
@@ -2358,27 +2401,27 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
     }
 
-    private Set<String> getGroupsOnlyRights(String login, String context) throws SQLException
+    private Set<String> getGroupsOnlyRights(UserIdentity user, String context) throws SQLException
     {
         Set<String> rights = new HashSet<>();
         
-        if (login == null)
+        if (user == null)
         {
             return rights;
         }
         
-        rights = _getGroupRightsInCache(login, context);
+        rights = _getGroupRightsInCache(user, context);
         if (rights == null)
         {
-            rights = _getGroupsOnlyRightsFromDb(login, context);
+            rights = _getGroupsOnlyRightsFromDb(user, context);
             
-            _setGroupRightsInCache(login, context, rights);
+            _setGroupRightsInCache(user, context, rights);
         }
         
         return rights;
     }
     
-    private Set<String> _getGroupsOnlyRightsFromDb(String login, String context) throws SQLException
+    private Set<String> _getGroupsOnlyRightsFromDb(UserIdentity user, String context) throws SQLException
     {
         Set<String> rights = new HashSet<>();
         Connection connection = getSQLConnection();
@@ -2388,20 +2431,20 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         try
         {
             // Récupère la liste des groupes du user
-            Set<String> userSGroup = _groupsManager.getUserGroups(login);
-            if (userSGroup != null && userSGroup.size() != 0)
+            Set<GroupIdentity> userGroups = _groupManager.getUserGroups(user.getLogin(), user.getPopulationId());
+            if (userGroups != null && userGroups.size() != 0)
             {
                 // Construit le bout de sql pour tous les groupes
                 StringBuffer groupSql = new StringBuffer();
 
-                for (int i = 0; i < userSGroup.size(); i++)
+                for (int i = 0; i < userGroups.size(); i++)
                 {
                     if (i != 0)
                     {
                         groupSql.append(" OR ");
                     }
 
-                    groupSql.append("GR.Group_Id = ?");
+                    groupSql.append("(GR.Group_Id = ? AND GR.GroupDirectory_Id = ?)");
                 }
 
                 // Puis parmi les droits affectés aux groupes auxquels appartient l'utilisateur
@@ -2423,7 +2466,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
                 stmt = connection.prepareStatement(sql.toString());
 
-                Iterator groupSqlIterator = userSGroup.iterator();
+                Iterator<GroupIdentity>groupSqlIterator = userGroups.iterator();
                 int i = 1;
 
                 if (context != null)
@@ -2435,13 +2478,13 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
                 while (groupSqlIterator.hasNext())
                 {
-                    String groupId = (String) groupSqlIterator.next();
-                    stmt.setString(i, groupId);
-                    i++;
+                    GroupIdentity group = groupSqlIterator.next();
+                    stmt.setString(i++, group.getId());
+                    stmt.setString(i++, group.getDirectoryId());
                 }
 
                 // Logger la requête
-                getLogger().debug(sql + "\n[" + login + (context == null ? "" : "," + context) + "]");
+                getLogger().debug(sql + "\n[" + (context == null ? "" : context) + "]");
 
                 rs = stmt.executeQuery();
 
@@ -2461,27 +2504,27 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
     }
 
-    private Map<String, Set<String>> getGroupsOnlyRights(String login) throws SQLException
+    private Map<String, Set<String>> getGroupsOnlyRights(UserIdentity user) throws SQLException
     {
         Map<String, Set<String>> rights = new HashMap<>();
         
-        if (login == null)
+        if (user == null)
         {
             return rights;
         }
         
-        rights = _getGroupRightsInCache(login);
+        rights = _getGroupRightsInCache(user);
         if (rights == null)
         {
-            rights = _getGroupsOnlyRightsFromDb(login);
+            rights = _getGroupsOnlyRightsFromDb(user);
             
-            _setGroupRightsInCache(login, rights);
+            _setGroupRightsInCache(user, rights);
         }
         
         return rights;
     }
     
-    private Map<String, Set<String>> _getGroupsOnlyRightsFromDb(String login) throws SQLException
+    private Map<String, Set<String>> _getGroupsOnlyRightsFromDb(UserIdentity user) throws SQLException
     {
         Map<String, Set<String>> rights = new HashMap<>();
         Connection connection = getSQLConnection();
@@ -2491,20 +2534,20 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         try
         {
             // Récupère la liste des groupes du user
-            Set<String> userSGroup = _groupsManager.getUserGroups(login);
-            if (userSGroup != null && userSGroup.size() != 0)
+            Set<GroupIdentity> users = _groupManager.getUserGroups(user.getLogin(), user.getPopulationId());
+            if (users != null && users.size() != 0)
             {
                 // Construit le bout de sql pour tous les groupes
                 StringBuffer groupSql = new StringBuffer();
 
-                for (int i = 0; i < userSGroup.size(); i++)
+                for (int i = 0; i < users.size(); i++)
                 {
                     if (i != 0)
                     {
                         groupSql.append(" OR ");
                     }
 
-                    groupSql.append("GR.Group_Id = ?");
+                    groupSql.append("(GR.Group_Id = ? AND GR.GroupDirectory_Id = ?)");
                 }
 
                 // Puis parmi les droits affectés aux groupes auxquels appartient l'utilisateur
@@ -2519,18 +2562,18 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
                 stmt = connection.prepareStatement(sql.toString());
 
-                Iterator groupSqlIterator = userSGroup.iterator();
+                Iterator<GroupIdentity> groupSqlIterator = users.iterator();
                 int i = 1;
 
                 while (groupSqlIterator.hasNext())
                 {
-                    String groupId = (String) groupSqlIterator.next();
-                    stmt.setString(i, groupId);
-                    i++;
+                    GroupIdentity group = groupSqlIterator.next();
+                    stmt.setString(i++, group.getId());
+                    stmt.setString(i++, group.getDirectoryId());
                 }
 
                 // Logger la requête
-                getLogger().debug(sql + "\n[" + login + "]");
+                getLogger().debug(sql.toString());
 
                 rs = stmt.executeQuery();
 
@@ -2557,7 +2600,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
     }
 
-    private Map<String, Set<String>> getGroupsOnlyProfiles(String login) throws SQLException
+    private Map<String, Set<String>> getGroupsOnlyProfiles(UserIdentity user) throws SQLException
     {
         Map<String, Set<String>> profiles = new HashMap<>();
 
@@ -2568,20 +2611,20 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         try
         {
             // Récupère la liste des groupes du user
-            Set<String> userSGroup = _groupsManager.getUserGroups(login);
-            if (userSGroup != null && userSGroup.size() != 0)
+            Set<GroupIdentity> userGroups = _groupManager.getUserGroups(user.getLogin(), user.getPopulationId());
+            if (userGroups != null && userGroups.size() != 0)
             {
                 // Construit le bout de sql pour tous les groupes
                 StringBuffer groupSql = new StringBuffer();
 
-                for (int i = 0; i < userSGroup.size(); i++)
+                for (int i = 0; i < userGroups.size(); i++)
                 {
                     if (i != 0)
                     {
                         groupSql.append(" OR ");
                     }
 
-                    groupSql.append("GR.Group_Id = ?");
+                    groupSql.append("(GR.Group_Id = ? AND GR.GroupDirectory_Id)");
                 }
 
                 // Puis parmi les profils affectés aux groupes auxquels appartient l'utilisateur
@@ -2594,18 +2637,18 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
                 stmt = connection.prepareStatement(sql.toString());
 
-                Iterator groupSqlIterator = userSGroup.iterator();
+                Iterator<GroupIdentity> groupSqlIterator = userGroups.iterator();
                 int i = 1;
 
                 while (groupSqlIterator.hasNext())
                 {
-                    String groupId = (String) groupSqlIterator.next();
-                    stmt.setString(i, groupId);
-                    i++;
+                    GroupIdentity group = groupSqlIterator.next();
+                    stmt.setString(i++, group.getId());
+                    stmt.setString(i++, group.getDirectoryId());
                 }
 
                 // Logger la requête
-                getLogger().debug(sql + "\n[" + login + "]");
+                getLogger().debug(sql.toString());
 
                 rs = stmt.executeQuery();
 
@@ -2657,9 +2700,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      * @throws RightOnContextNotInCacheException if the right on this context is
      *             not in cache
      */
-    private RightResult hasUserRightInCache(String login, String right, String rootContext, String endContext) throws RightOnContextNotInCacheException
+    private RightResult hasUserRightInCache(UserIdentity user, String right, String rootContext, String endContext) throws RightOnContextNotInCacheException
     {
-        Map<String, Map<String, Map<String, List<String>>>> mapCache = _cacheTL.get();
+        Map<UserIdentity, Map<String, Map<String, List<String>>>> mapCache = _cacheTL.get();
 
         if (mapCache == null)
         {
@@ -2667,9 +2710,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             _cacheTL.set(mapCache);
         }
 
-        if (mapCache.containsKey(login) && rootContext != null)
+        if (mapCache.containsKey(user) && rootContext != null)
         {
-            Map<String, Map<String, List<String>>> mapRight = mapCache.get(login);
+            Map<String, Map<String, List<String>>> mapRight = mapCache.get(user);
             if (mapRight.containsKey(right))
             {
                 Map<String, List<String>> mapContext = mapRight.get(right);
@@ -2679,12 +2722,12 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                     List<String> contextList = mapContext.get(rootContext);
                     if (contextList != null && contextList.contains(endContext))
                     {
-                        getLogger().debug("Find in cache the right " + right + "for user " + login + " on context [" + rootContext + ", " + endContext + "]");
+                        getLogger().debug("Find in cache the right " + right + "for user " + user + " on context [" + rootContext + ", " + endContext + "]");
                         return RightResult.RIGHT_OK;
                     }
                     else
                     {
-                        getLogger().debug("In cache, user " + login + " has not the right " + right + " on context [" + rootContext + ", " + endContext + "]");
+                        getLogger().debug("In cache, user " + user + " has not the right " + user + " on context [" + rootContext + ", " + endContext + "]");
                         return RightResult.RIGHT_UNKNOWN;
                     }
                 }
@@ -2695,16 +2738,16 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                     String newRootContext = rootContext.substring(0, rootContext.lastIndexOf("/"));
                     String newEndContext = rootContext.substring(rootContext.lastIndexOf("/") + 1);
                     newEndContext = endContext.equals("") ? newEndContext : newEndContext + "/" + endContext;
-                    return hasUserRightInCache(login, right, newRootContext, newEndContext);
+                    return hasUserRightInCache(user, right, newRootContext, newEndContext);
                 }
             }
         }
         throw new RightOnContextNotInCacheException();
     }
 
-    private RightResult hasUserRightInCache2(String login, String right, String context) throws RightOnContextNotInCacheException
+    private RightResult hasUserRightInCache2(UserIdentity user, String right, String context) throws RightOnContextNotInCacheException
     {
-        Map<String, Map<String, Map<String, Boolean>>> mapCache = _cache2TL.get();
+        Map<UserIdentity, Map<String, Map<String, Boolean>>> mapCache = _cache2TL.get();
 
         if (mapCache == null)
         {
@@ -2712,9 +2755,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             _cache2TL.set(mapCache);
         }
 
-        if (mapCache.containsKey(login) && context != null)
+        if (mapCache.containsKey(user) && context != null)
         {
-            Map<String, Map<String, Boolean>> mapRight = mapCache.get(login);
+            Map<String, Map<String, Boolean>> mapRight = mapCache.get(user);
             if (mapRight.containsKey(right))
             {
                 Map<String, Boolean> mapContext = mapRight.get(right);
@@ -2723,12 +2766,12 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                     Boolean hasRight = mapContext.get(context);
                     if (hasRight.booleanValue())
                     {
-                        getLogger().debug("Find in cache2 the right " + right + "for user " + login + " on context [" + context + "]");
+                        getLogger().debug("Find in cache2 the right " + right + "for user " + user + " on context [" + context + "]");
                         return RightResult.RIGHT_OK;
                     }
                     else
                     {
-                        getLogger().debug("In cache2, user " + login + " has not the right " + right + " on context [" + context + "]");
+                        getLogger().debug("In cache2, user " + user + " has not the right " + right + " on context [" + context + "]");
                         return RightResult.RIGHT_UNKNOWN;
                     }
                 }
@@ -2737,23 +2780,23 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         throw new RightOnContextNotInCacheException();
     }
 
-    private Set<String> getGroupId(String login)
+    private Set<GroupIdentity> getGroupId(UserIdentity user)
     {
         // Récupère la liste des groupes du user
-        Set<String> userSGroup = _groupsManager.getUserGroups(login);
-        if (userSGroup == null || userSGroup.size() == 0)
+        Set<GroupIdentity> userGroups = _groupManager.getUserGroups(user.getLogin(), user.getPopulationId());
+        if (userGroups == null || userGroups.size() == 0)
         {
             return null;
         }
         else
         {
-            return userSGroup;
+            return userGroups;
         }
     }
 
-    private String createGroupIdRequest(Set userSGroup)
+    private String createGroupIdRequest(Set<GroupIdentity> userGroups)
     {
-        if (userSGroup == null || userSGroup.size() == 0)
+        if (userGroups == null || userGroups.size() == 0)
         {
             return null;
         }
@@ -2761,19 +2804,19 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         // Construit le bout de sql pour tous les groupes
         StringBuffer groupSql = new StringBuffer();
 
-        for (int i = 0; i < userSGroup.size(); i++)
+        for (int i = 0; i < userGroups.size(); i++)
         {
             if (i != 0)
             {
                 groupSql.append(" OR ");
             }
-            groupSql.append("GR.Group_Id = ?");
+            groupSql.append("(GR.Group_Id = ? AND GR.GroupDirectory_Id = ?)");
         }
 
         return "(" + groupSql.toString() + ")";
     }
 
-    private void fillStatement(PreparedStatement stmt, String context, Set<String> userSGroup, int startIndex) throws SQLException
+    private void fillStatement(PreparedStatement stmt, String context, Set<GroupIdentity> userGroups, int startIndex) throws SQLException
     {
         int i = startIndex;
 
@@ -2784,22 +2827,23 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             currentContext = HierarchicalRightsHelper.getParentContext(currentContext);
         }
 
-        for (String groupId : userSGroup)
+        for (GroupIdentity group : userGroups)
         {
-            stmt.setString(i++, groupId);
+            stmt.setString(i++, group.getId());
+            stmt.setString(i++, group.getDirectoryId());
         }
 
     }
 
-    private Map<String, List<String>> getCacheContext(String login, String right)
+    private Map<String, List<String>> getCacheContext(UserIdentity user, String right)
     {
-        Map<String, Map<String, Map<String, List<String>>>> mapCache = _cacheTL.get();
+        Map<UserIdentity, Map<String, Map<String, List<String>>>> mapCache = _cacheTL.get();
 
-        Map<String, Map<String, List<String>>> mapRight = mapCache.get(login);
+        Map<String, Map<String, List<String>>> mapRight = mapCache.get(user);
         if (mapRight == null)
         {
             mapRight = new HashMap<>();
-            mapCache.put(login, mapRight);
+            mapCache.put(user, mapRight);
         }
 
         Map<String, List<String>> mapContext = mapRight.get(right);
@@ -2812,15 +2856,15 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         return mapContext;
     }
 
-    private Map<String, Boolean> getCache2Context(String login, String right)
+    private Map<String, Boolean> getCache2Context(UserIdentity user, String right)
     {
-        Map<String, Map<String, Map<String, Boolean>>> mapCache = _cache2TL.get();
+        Map<UserIdentity, Map<String, Map<String, Boolean>>> mapCache = _cache2TL.get();
 
-        Map<String, Map<String, Boolean>> mapRight = mapCache.get(login);
+        Map<String, Map<String, Boolean>> mapRight = mapCache.get(user);
         if (mapRight == null)
         {
             mapRight = new HashMap<>();
-            mapCache.put(login, mapRight);
+            mapCache.put(user, mapRight);
         }
 
         Map<String, Boolean> mapContext = mapRight.get(right);
@@ -2833,72 +2877,72 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         return mapContext;
     }
     
-    private Set<String> _getUserRightsInCache(String login, String context)
+    private Set<String> _getUserRightsInCache(UserIdentity user, String context)
     {
-        Set<String> rights = _getRightsInCache(_userRightCache, login, context);
+        Set<String> rights = _getRightsInCache(_userRightCache, user, context);
         
         if (getLogger().isDebugEnabled())
         {
-            getLogger().debug("User rights cache " + (rights == null ? "miss" : "hit") + " for login '" + login + "' in context '" + context + "'.");
+            getLogger().debug("User rights cache " + (rights == null ? "miss" : "hit") + " for login '" + user + "' in context '" + context + "'.");
         }
         
         return rights;
     }
     
-    private void _setUserRightsInCache(String login, String context, Set<String> rights)
+    private void _setUserRightsInCache(UserIdentity user, String context, Set<String> rights)
     {
-        _setRightsInCache(_userRightCache, login, context, rights);
+        _setRightsInCache(_userRightCache, user, context, rights);
     }
     
-    private Map<String, Set<String>> _getUserRightsInCache(String login)
+    private Map<String, Set<String>> _getUserRightsInCache(UserIdentity user)
     {
-        Map<String, Set<String>> rights = _getRightsInCache(_userRightCache, login);
+        Map<String, Set<String>> rights = _getRightsInCache(_userRightCache, user);
         
         if (getLogger().isDebugEnabled())
         {
-            getLogger().debug("User rights cache " + (rights == null ? "miss" : "hit") + " for login '" + login + "'.");
+            getLogger().debug("User rights cache " + (rights == null ? "miss" : "hit") + " for login '" + user + "'.");
         }
         
         return rights;
     }
     
-    private void _setUserRightsInCache(String login, Map<String, Set<String>> rights)
+    private void _setUserRightsInCache(UserIdentity user, Map<String, Set<String>> rights)
     {
-        _setRightsInCache(_userRightCache, login, rights);
+        _setRightsInCache(_userRightCache, user, rights);
     }
     
-    private Set<String> _getGroupRightsInCache(String login, String context)
+    private Set<String> _getGroupRightsInCache(UserIdentity user, String context)
     {
-        Set<String> rights = _getRightsInCache(_groupRightCache, login, context);
+        Set<String> rights = _getRightsInCache(_groupRightCache, user, context);
         
         if (getLogger().isDebugEnabled())
         {
-            getLogger().debug("Group rights cache " + (rights == null ? "miss" : "hit") + " for login '" + login + "' in context '" + context + "'.");
+            getLogger().debug("Group rights cache " + (rights == null ? "miss" : "hit") + " for login '" + user + "' in context '" + context + "'.");
         }
         
         return rights;
     }
     
-    private void _setGroupRightsInCache(String login, String context, Set<String> rights)
+    private void _setGroupRightsInCache(UserIdentity user, String context, Set<String> rights)
     {
-        _setRightsInCache(_groupRightCache, login, context, rights);
+        _setRightsInCache(_groupRightCache, user, context, rights);
     }
     
-    private Map<String, Set<String>> _getGroupRightsInCache(String login)
+    private Map<String, Set<String>> _getGroupRightsInCache(UserIdentity user)
     {
-        Map<String, Set<String>> rights = _getRightsInCache(_groupRightCache, login);
+        Map<String, Set<String>> rights = _getRightsInCache(_groupRightCache, user);
         
         if (getLogger().isDebugEnabled())
         {
-            getLogger().debug("Group rights cache " + (rights == null ? "miss" : "hit") + " for login '" + login + "'.");
+            getLogger().debug("Group rights cache " + (rights == null ? "miss" : "hit") + " for login '" + user + "'.");
         }
         
         return rights;
     }
     
-    private void _setGroupRightsInCache(String login, Map<String, Set<String>> rights)
+    private void _setGroupRightsInCache(UserIdentity user, Map<String, Set<String>> rights)
     {
-        _setRightsInCache(_groupRightCache, login, rights);
+        _setRightsInCache(_groupRightCache, user, rights);
     }
     
     /**
@@ -2906,7 +2950,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      */
     protected void _clearUserRightCache()
     {
-        Map<String, Map<String, Set<String>>> cache = _userRightCache.get();
+        Map<UserIdentity, Map<String, Set<String>>> cache = _userRightCache.get();
         if (cache != null)
         {
             cache.clear();
@@ -2923,7 +2967,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      */
     protected void _clearGroupRightCache()
     {
-        Map<String, Map<String, Set<String>>> cache = _groupRightCache.get();
+        Map<UserIdentity, Map<String, Set<String>>> cache = _groupRightCache.get();
         if (cache != null)
         {
             cache.clear();
@@ -2935,9 +2979,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
     }
     
-    private Set<String> _getRightsInCache(ThreadLocal<Map<String, Map<String, Set<String>>>> cacheTL, String login, String context)
+    private Set<String> _getRightsInCache(ThreadLocal<Map<UserIdentity, Map<String, Set<String>>>> cacheTL, UserIdentity user, String context)
     {
-        Map<String, Map<String, Set<String>>> cache = cacheTL.get();
+        Map<UserIdentity, Map<String, Set<String>>> cache = cacheTL.get();
         
         if (cache == null)
         {
@@ -2945,17 +2989,17 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             cacheTL.set(cache);
         }
         
-        if (cache.containsKey(login))
+        if (cache.containsKey(user))
         {
-            return cache.get(login).get(context);
+            return cache.get(user).get(context);
         }
         
         return null;
     }
     
-    private void _setRightsInCache(ThreadLocal<Map<String, Map<String, Set<String>>>> cacheTL, String login, String context, Set<String> rights)
+    private void _setRightsInCache(ThreadLocal<Map<UserIdentity, Map<String, Set<String>>>> cacheTL, UserIdentity user, String context, Set<String> rights)
     {
-        Map<String, Map<String, Set<String>>> cache = cacheTL.get();
+        Map<UserIdentity, Map<String, Set<String>>> cache = cacheTL.get();
 
         if (cache == null)
         {
@@ -2964,22 +3008,22 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
         
         Map<String, Set<String>> userCache;
-        if (cache.containsKey(login))
+        if (cache.containsKey(user))
         {
-            userCache = cache.get(login);
+            userCache = cache.get(user);
         }
         else
         {
             userCache = new HashMap<>();
-            cache.put(login, userCache);
+            cache.put(user, userCache);
         }
         
         userCache.put(context, rights);
     }
     
-    private Map<String, Set<String>> _getRightsInCache(ThreadLocal<Map<String, Map<String, Set<String>>>> cacheTL, String login)
+    private Map<String, Set<String>> _getRightsInCache(ThreadLocal<Map<UserIdentity, Map<String, Set<String>>>> cacheTL, UserIdentity user)
     {
-        Map<String, Map<String, Set<String>>> cache = cacheTL.get();
+        Map<UserIdentity, Map<String, Set<String>>> cache = cacheTL.get();
         
         if (cache == null)
         {
@@ -2987,12 +3031,12 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             cacheTL.set(cache);
         }
         
-        return cache.get(login);
+        return cache.get(user);
     }
     
-    private void _setRightsInCache(ThreadLocal<Map<String, Map<String, Set<String>>>> cacheTL, String login, Map<String, Set<String>> rights)
+    private void _setRightsInCache(ThreadLocal<Map<UserIdentity, Map<String, Set<String>>>> cacheTL, UserIdentity user, Map<String, Set<String>> rights)
     {
-        Map<String, Map<String, Set<String>>> cache = cacheTL.get();
+        Map<UserIdentity, Map<String, Set<String>>> cache = cacheTL.get();
         
         if (cache == null)
         {
@@ -3000,22 +3044,22 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             cacheTL.set(cache);
         }
         
-        cache.put(login, rights);
+        cache.put(user, rights);
     }
     
     /**
      * Get the list of declared contexts on which an user has the given right
-     * @param login The user's login. Cannot be null.
+     * @param user The user. Cannot be null.
      * @param rightId the id of the right to check. Cannot be null.
      * @param initialContext the initial context to filter the results. Cannot be null.
      * @return The Set containing the contexts
      * @throws RightsException if an error occurs.
      */
-    protected Set<String> getDeclaredContexts(String login, String rightId, String initialContext)
+    protected Set<String> getDeclaredContexts(UserIdentity user, String rightId, String initialContext)
     {
         HashSet<String> contexts = new HashSet<>();
 
-        RightResult result = hasRight(login, rightId, initialContext);
+        RightResult result = hasRight(user, rightId, initialContext);
         if (result == RightResult.RIGHT_OK)
         {
             contexts.add(initialContext);
@@ -3023,7 +3067,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         String prefix = _rightsContextPrefixEP.getContextPrefix() + "/" + (StringUtils.isNotEmpty(initialContext) ? initialContext + "/" : "");
         // The cache is necessarily filled has we first call 'hasRight' method
-        Map<String, List<String>> cacheContext = getCacheContext(login, rightId);
+        Map<String, List<String>> cacheContext = getCacheContext(user, rightId);
         for (String rootCtx : cacheContext.keySet())
         {
             List<String> subContexts = cacheContext.get(rootCtx);
@@ -3296,39 +3340,39 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     }
 
     @Override
-    public void userAdded(String login)
+    public void userAdded(UserIdentity user)
     {
         // Nothing
     }
 
     @Override
-    public void userUpdated(String login)
+    public void userUpdated(UserIdentity user)
     {
         // Nothing
     }
 
     @Override
-    public void userRemoved(String login)
+    public void userRemoved(UserIdentity user)
     {
-        removeUserProfiles(login, null);
+        removeUserProfiles(user, null);
     }
 
     @Override
-    public void groupAdded(String groupID)
+    public void groupAdded(GroupIdentity group)
     {
         // Nothing
     }
 
     @Override
-    public void groupUpdated(String groupID)
+    public void groupUpdated(GroupIdentity group)
     {
         // Nothing
     }
 
     @Override
-    public void groupRemoved(String groupID)
+    public void groupRemoved(GroupIdentity group)
     {
-        removeGroupProfiles(groupID, null);
+        removeGroupProfiles(group, null);
     }
 
     /**

@@ -16,9 +16,12 @@
 package org.ametys.runtime.parameter;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.cocoon.ProcessingException;
@@ -337,5 +340,49 @@ public final class ParameterHelper
             validator.saxConfiguration(handler);
             XMLUtils.endElement(handler, "validation");
         }
+    }
+    
+    /**
+     * Convert the parameter in a JSON map
+     * @param parameter The parameter to convert
+     * @return The Parameter as a map
+     * @throws Exception If an error occured when converting the parameter
+     */
+    public static Map<String, Object> toJSON(Parameter parameter) throws Exception
+    {
+        Map<String, Object> result = new HashMap<>();
+        
+        result.put("id", parameter.getId());
+        result.put("type", parameter.getType());
+        result.put("default-value", parameter.getDefaultValue());
+        result.put("description", parameter.getDescription());
+        result.put("label", parameter.getLabel());
+        result.put("plugin", parameter.getPluginName());
+        
+        if (parameter.getValidator() != null)
+        {
+            result.put("validation", parameter.getValidator().toJson());
+        }
+        
+        if (parameter.getEnumerator() != null)
+        {
+            List<Map<String, Object>> enumeration = new ArrayList<>();
+            
+            Map<Object, I18nizableText> entries = parameter.getEnumerator().getEntries();
+            for (Object entryKey : entries.keySet())
+            {
+                Map<String, Object> option = new HashMap<>();
+                option.put("value", entryKey);
+                option.put("label", entries.get(entryKey));
+                enumeration.add(option);
+            }
+            
+            result.put("enumeration", enumeration);
+        }
+        
+        result.put("widget", parameter.getWidget());
+        result.put("widget-params", parameter.getWidgetParameters());
+        
+        return result;
     }
 }

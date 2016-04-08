@@ -80,10 +80,13 @@ Ext.define('Ametys.plugins.core.relations.UserGroupRelationHandler', {
 	{
 		var sourceIds = [];
 		Ext.Array.forEach(Ametys.message.MessageTargetHelper.findTargets(sourceTargets, Ametys.message.MessageTarget.USER, 1), function(target) {
-			sourceIds.push(target.getParameters().id);
+			sourceIds.push({
+                login: target.getParameters().id,
+                population: target.getParameters().population
+            });
 		});
 		
-		Ametys.plugins.core.groups.GroupsDAO.addUsersGroup([target.getParameters().id, sourceIds, null, Ametys.message.MessageTarget.GROUP], null, {});
+		Ametys.plugins.core.groups.GroupsDAO.addUsersGroup([target.getParameters().groupDirectory, target.getParameters().id, sourceIds, null, Ametys.message.MessageTarget.GROUP], null, {});
 	},
 	
 	link: function(source, target, callback, relationType)

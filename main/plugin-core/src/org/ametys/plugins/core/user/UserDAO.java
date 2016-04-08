@@ -39,9 +39,13 @@ import org.ametys.core.authentication.AuthenticateAction;
 import org.ametys.core.ui.Callable;
 import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.core.user.InvalidModificationException;
-import org.ametys.core.user.ModifiableUsersManager;
 import org.ametys.core.user.User;
-import org.ametys.core.user.UsersManager;
+import org.ametys.core.user.UserIdentity;
+import org.ametys.core.user.UserManager;
+import org.ametys.core.user.directory.ModifiableUserDirectory;
+import org.ametys.core.user.directory.UserDirectory;
+import org.ametys.core.user.population.UserPopulation;
+import org.ametys.core.user.population.UserPopulationDAO;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.Enumerator;
 import org.ametys.runtime.parameter.Errors;
@@ -61,11 +65,17 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
     
     /** The service manager */
     protected ServiceManager _smanager;
+    /** The user manager */
+    protected UserManager _userManager;
+    /** The user population DAO */
+    private UserPopulationDAO _userPopulationDAO;
     /** The current user provider. */
     protected CurrentUserProvider _currentUserProvider;
     /** The Avalon context */
     protected Context _context;
-    
+    /** The user helper */
+    protected UserHelper _userHelper;
+
     public void contextualize(Context context) throws ContextException
     {
         _context = context;
@@ -74,68 +84,87 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
     public void service(ServiceManager smanager) throws ServiceException
     {
         _smanager = smanager;
+        _userManager = (UserManager) smanager.lookup(UserManager.ROLE);
+        _userPopulationDAO = (UserPopulationDAO) smanager.lookup(UserPopulationDAO.ROLE);
+        _userHelper = (UserHelper) smanager.lookup(UserHelper.ROLE);
     }
     
     /**
      * Get user's information
      * @param login The user's login
+     * @param populationId The id of the population
      * @return The user's information
-     * @throws ServiceException If there is an issue with the service manager
      */
     @Callable
-    public Map<String, Object> getUser (String login) throws ServiceException
+    public Map<String, Object> getUser (String login, String populationId)
     {
-        return getUser(login, null);
+        return _userHelper.user2Map(_userManager.getUser(populationId, login));
     }
     
     /**
-     * Get user's information
-     * @param login The user's login
-     * @param userManagerRole The users manager's role. Can be null or empty to use the default one.
-     * @return The user's information
-     * @throws ServiceException If there is an issue with the service manager
+     * Checks if the user is modifiable
+     * @param login The users's login
+     * @param populationId The id of the population of the user
+     * @return A map with the "isModifiable" at true if the user is modifiable
      */
     @Callable
-    public Map<String, Object> getUser (String login, String userManagerRole) throws ServiceException
+    public Map<String, Object> isModifiable (String login, String populationId)
     {
-        UsersManager users = (UsersManager) _smanager.lookup(StringUtils.isEmpty(userManagerRole) ? UsersManager.ROLE : userManagerRole);
-        return UserHelper.user2Map(users.getUser(login));
+        Map<String, Object> result = new HashMap<>();
+        result.put("isModifiable", _userManager.getUserDirectory(populationId, login) instanceof ModifiableUserDirectory);
+        result.put("additionalDescription", new I18nizableText("plugin.core-ui", "PLUGINS_CORE_UI_USERS_EDIT_NO_MODIFIABLE_DESCRIPTION"));
+        return result;
     }
     
     /**
-     * Creates a User
-     * @param untypedValues The untyped user's parameters
-     * @return The created user as JSON object
-     * @throws ServiceException If there is an issue with the service manager
-     * @throws InvalidModificationException If modification is not possible 
+     * Checks if the user is removable
+     * @param login The users's login
+     * @param populationId The id of the population of the user
+     * @return A map with the "isRemovable" at true if the user is removable
      */
     @Callable
-    public Map<String, Object> addUser (Map<String, String> untypedValues) throws ServiceException, InvalidModificationException
-    {
-        return addUser(untypedValues, null);
-    }
-    
-    /**
-     * Creates a User
-     * @param untypedValues The untyped user's parameters
-     * @param userManagerRole The users manager's role. Can be null or empty to use the default one.
-     * @return The created user as JSON object
-     * @throws ServiceException If there is an issue with the service manager
-     * @throws InvalidModificationException If modification is not possible 
-     */
-    @Callable
-    public Map<String, Object> addUser (Map<String, String> untypedValues, String userManagerRole) throws ServiceException, InvalidModificationException
+    public Map<String, Object> isRemovable (String login, String populationId)
     {
         Map<String, Object> result = new HashMap<>();
         
-        UsersManager u = (UsersManager) _smanager.lookup(StringUtils.isEmpty(userManagerRole) ? UsersManager.ROLE : userManagerRole);
-        if (!(u instanceof ModifiableUsersManager))
+        UserDirectory userDirectory = _userManager.getUserDirectory(populationId, login);
+        if ( userDirectory != null && populationId.equals(UserPopulationDAO.ADMIN_POPULATION_ID) && userDirectory.getUsers().size() == 1 )
+        {
+            // Impossible to delete the last user of the admin population
+            result.put("isRemovable", false);
+            result.put("additionalDescription", new I18nizableText("plugin.core-ui", "PLUGINS_CORE_UI_USERS_DELETE_LAST_ADMIN_DESCRIPTION"));
+        }
+        else
+        {
+            result.put("isRemovable", userDirectory instanceof ModifiableUserDirectory);
+            result.put("additionalDescription", new I18nizableText("plugin.core-ui", "PLUGINS_CORE_UI_USERS_DELETE_NO_MODIFIABLE_DESCRIPTION"));
+        }
+        return result;
+    }
+    
+    /**
+     * Creates a User
+     * @param populationId The id of the user population
+     * @param userDirectoryIndex The index of the user directory
+     * @param untypedValues The untyped user's parameters
+     * @return The created user as JSON object
+     * @throws InvalidModificationException If modification is not possible 
+     */
+    @Callable
+    public Map<String, Object> addUser (String populationId, int userDirectoryIndex, Map<String, String> untypedValues) throws InvalidModificationException
+    {
+        Map<String, Object> result = new HashMap<>();
+        
+        UserPopulation userPopulation = _userPopulationDAO.getUserPopulation(populationId);
+        UserDirectory userDirectory = userPopulation.getUserDirectories().get(userDirectoryIndex);
+        
+        if (!(userDirectory instanceof ModifiableUserDirectory))
         {
             getLogger().error("Users are not modifiable !");
             throw new InvalidModificationException("Users are not modifiable !");
         }
         
-        ModifiableUsersManager users = (ModifiableUsersManager) u;
+        ModifiableUserDirectory modifiableUserDirectory = (ModifiableUserDirectory) userDirectory;
         
         String login = untypedValues.get("login");
         
@@ -143,11 +172,11 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
         {
             if (getLogger().isInfoEnabled())
             {
-                getLogger().info(String.format("User %s is adding a new user '%s'", _isSuperUser() ? "Administrator" : _getCurrentUser(), login));
+                getLogger().info(String.format("User %s is adding a new user '%s'", _getCurrentUser(), login));
             }
 
-            users.add(untypedValues);
-            return UserHelper.user2Map(users.getUser(login));
+            modifiableUserDirectory.add(untypedValues);
+            return _userHelper.user2Map(modifiableUserDirectory.getUser(login));
         }
         catch (InvalidModificationException e)
         {
@@ -173,50 +202,36 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
     
     /**
      * Edits a User
+     * @param populationId The id of the population of the user to edit
      * @param untypedValues The untyped user's parameters
      * @return The update user as JSON object
-     * @throws ServiceException If there is an issue with the service manager
      * @throws InvalidModificationException If modification is not possible 
      */
     @Callable
-    public Map<String, Object> editUser (Map<String, String> untypedValues) throws ServiceException, InvalidModificationException
-    {
-        return editUser(untypedValues, null);
-    }
-    
-    /**
-     * Edits a User
-     * @param untypedValues The untyped user's parameters
-     * @param userManagerRole The users manager's role. Can be null or empty to use the default one.
-     * @return The update user as JSON object
-     * @throws ServiceException If there is an issue with the service manager
-     * @throws InvalidModificationException If modification is not possible 
-     */
-    @Callable
-    public Map<String, Object> editUser (Map<String, String> untypedValues, String userManagerRole) throws ServiceException, InvalidModificationException
+    public Map<String, Object> editUser (String populationId, Map<String, String> untypedValues) throws InvalidModificationException
     {
         Map<String, Object> result = new HashMap<>();
         
-        UsersManager u = (UsersManager) _smanager.lookup(StringUtils.isEmpty(userManagerRole) ? UsersManager.ROLE : userManagerRole);
-        if (!(u instanceof ModifiableUsersManager))
+        String login = untypedValues.get("login");
+        UserDirectory userDirectory = _userManager.getUserDirectory(populationId, login);
+        
+        if (!(userDirectory instanceof ModifiableUserDirectory))
         {
             getLogger().error("Users are not modifiable !");
             throw new InvalidModificationException("Users are not modifiable !");
         }
         
-        ModifiableUsersManager users = (ModifiableUsersManager) u;
-        
-        String login = untypedValues.get("login");
+        ModifiableUserDirectory modifiableUserDirectory = (ModifiableUserDirectory) userDirectory;
         
         try
         {
             if (getLogger().isInfoEnabled())
             {
-                getLogger().info(String.format("User %s is updating information about user '%s'", _isSuperUser() ? "Administrator" : _getCurrentUser(), login));
+                getLogger().info(String.format("User %s is updating information about user '%s'", _getCurrentUser(), login));
             }
 
-            users.update(untypedValues);
-            return UserHelper.user2Map(users.getUser(login));
+            modifiableUserDirectory.update(untypedValues);
+            return _userHelper.user2Map(modifiableUserDirectory.getUser(login));
         }
         catch (InvalidModificationException e)
         {
@@ -242,43 +257,17 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
     
     /**
      * Deletes users
-     * @param logins The logins of users to delete
-     * @throws ServiceException If there is an issue with the service manager
+     * @param users The users to delete
      * @throws InvalidModificationException If modification is not possible 
      */
     @Callable
-    public void deleteUsers (List<String> logins) throws ServiceException, InvalidModificationException
+    public void deleteUsers (List<Map<String, String>> users) throws InvalidModificationException
     {
-        deleteUsers(logins, null);
-    }
-    
-    /**
-     * Deletes users
-     * @param logins The logins of users to delete
-     * @param userManagerRole The users manager's role. Can be null or empty to use the default one.
-     * @throws ServiceException If there is an issue with the service manager
-     * @throws InvalidModificationException If modification is not possible 
-     */
-    @Callable
-    public void deleteUsers (List<String> logins, String userManagerRole) throws ServiceException, InvalidModificationException
-    {
-        UsersManager u = (UsersManager) _smanager.lookup(StringUtils.isEmpty(userManagerRole) ? UsersManager.ROLE : userManagerRole);
-        if (!(u instanceof ModifiableUsersManager))
+        for (Map<String, String> user : users)
         {
-            getLogger().error("Users are not modifiable !");
-            throw new InvalidModificationException("Users are not modifiable !");
-        }
-        
-        ModifiableUsersManager users = (ModifiableUsersManager) u;
-        
-        for (String login : logins)
-        {
-            if (getLogger().isInfoEnabled())
-            {
-                getLogger().info(String.format("User %s is is removing user '%s'", _isSuperUser() ? "Administrator" : _getCurrentUser(), login));
-            }
-            
-            users.remove(login);
+            String login = user.get("login");
+            String populationId = user.get("population");
+            _deleteUser(login, populationId);
         }
        
         if (getLogger().isDebugEnabled())
@@ -287,41 +276,75 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
         }
     }
     
-    /**
-     * Get the users edition model 
-     * @throws ServiceException If there is an issue with the service manager
-     * @throws InvalidModificationException If modification is not possible 
-     * @throws ProcessingException If there is another exception
-     * @return the users edition model as an object
-     */
-    @Callable
-    public Map<String, Object> getEditionModel () throws ServiceException, InvalidModificationException, ProcessingException
+    private void _deleteUser(String login, String populationId) throws InvalidModificationException
     {
-        return getEditionModel(null);
-    }
-    
-    /**
-     * Get the users edition model 
-     * @param userManagerRole The users manager's role. Can be null or empty to use the default one.
-     * @throws ServiceException If there is an issue with the service manager
-     * @throws InvalidModificationException If modification is not possible 
-     * @throws ProcessingException If there is another exception
-     * @return The edition model as an object
-     */
-    @Callable
-    public Map<String, Object> getEditionModel (String userManagerRole) throws ServiceException, InvalidModificationException, ProcessingException
-    {
-        Map<String, Object> model = new LinkedHashMap<>();
+        UserDirectory userDirectory = _userManager.getUserDirectory(populationId, login);
         
-        UsersManager u = (UsersManager) _smanager.lookup(StringUtils.isEmpty(userManagerRole) ? UsersManager.ROLE : userManagerRole);
-        if (!(u instanceof ModifiableUsersManager))
+        if (!(userDirectory instanceof ModifiableUserDirectory))
         {
             getLogger().error("Users are not modifiable !");
             throw new InvalidModificationException("Users are not modifiable !");
         }
         
-        ModifiableUsersManager users = (ModifiableUsersManager) u;
-        Collection< ? extends Parameter<ParameterType>> parameters = users.getModel();
+        if (populationId.equals(UserPopulationDAO.ADMIN_POPULATION_ID) && userDirectory.getUsers().size() == 1)
+        {
+            // Impossible to delete the last user of the admin population
+            getLogger().error("Deletion forbidden: last user of the 'admin' population.");
+            throw new InvalidModificationException("You cannot delete the last user of the 'admin' population !");
+        }
+        
+        ModifiableUserDirectory modifiableUserDirectory = (ModifiableUserDirectory) userDirectory;
+        
+        if (getLogger().isInfoEnabled())
+        {
+            getLogger().info(String.format("User %s is removing user '%s'", _getCurrentUser(), login));
+        }
+        
+        modifiableUserDirectory.remove(login);
+    }
+    
+    /**
+     * Get the users edition model 
+     * @param login The user's login to edit
+     * @param populationId The id of the population of the user to edit
+     * @throws InvalidModificationException If modification is not possible 
+     * @throws ProcessingException If there is another exception
+     * @return The edition model as an object
+     */
+    @Callable
+    public Map<String, Object> getEditionModel (String login, String populationId) throws InvalidModificationException, ProcessingException
+    {
+        UserDirectory userDirectory = _userManager.getUserDirectory(populationId, login);
+        return _getEditionModel(userDirectory);
+    }
+    
+    /**
+     * Get the users edition model 
+     * @param populationId The id of the population where to add a user
+     * @param userDirectoryIndex The index of the user directory where to add a user
+     * @throws InvalidModificationException If modification is not possible 
+     * @throws ProcessingException If there is another exception
+     * @return The edition model as an object
+     */
+    @Callable
+    public Map<String, Object> getEditionModel (String populationId, int userDirectoryIndex) throws InvalidModificationException, ProcessingException
+    {
+        UserDirectory userDirectory = _userPopulationDAO.getUserPopulation(populationId).getUserDirectories().get(userDirectoryIndex);
+        return _getEditionModel(userDirectory);
+    }
+    
+    private Map<String, Object> _getEditionModel (UserDirectory userDirectory) throws InvalidModificationException, ProcessingException
+    {
+        Map<String, Object> model = new LinkedHashMap<>();
+        
+        if (!(userDirectory instanceof ModifiableUserDirectory))
+        {
+            getLogger().error("Users are not modifiable !");
+            throw new InvalidModificationException("Users are not modifiable !");
+        }
+        
+        ModifiableUserDirectory modifiableUserDirectory = (ModifiableUserDirectory) userDirectory;
+        Collection< ? extends Parameter<ParameterType>> parameters = modifiableUserDirectory.getModel();
         for (Parameter<ParameterType> parameter : parameters)
         {
             Map<String, Object> param2json = new HashMap<>();
@@ -394,11 +417,12 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
     /**
      * Impersonate the selected user
      * @param login the login of the user to impersonate
+     * @param populationId The id of the population
      * @throws ServiceException If there is an issue with the service manager
      * @return a map of information on the user
      */
     @Callable
-    public Map<String, String> impersonate(String login) throws ServiceException
+    public Map<String, String> impersonate(String login, String populationId) throws ServiceException
     {
         Map<String, String> result = new HashMap<>();
         if (_currentUserProvider == null)
@@ -413,18 +437,15 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
             }
         }
         
-        if (!_currentUserProvider.isSuperUser())
-        {
-            throw new IllegalStateException("Current user is not logged as administrator");
-        }
+        // FIXME add a right to impersonate
 
         if (StringUtils.isEmpty(login))
         {
             throw new IllegalArgumentException("'login' parameter is null or empty");
         }
         
-        UsersManager usersManager = (UsersManager) _smanager.lookup(UsersManager.ROLE);
-        User user = usersManager.getUser(login);
+        UserManager usersManager = (UserManager) _smanager.lookup(UserManager.ROLE);
+        User user = usersManager.getUser(populationId, login);
         if (user == null)
         {
             result.put("error", "unknown-user");   
@@ -433,9 +454,11 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
         {
             Request request = ContextHelper.getRequest(_context);
             
-            request.getSession(true).setAttribute(AuthenticateAction.SESSION_USERLOGIN, login);
+            request.getSession(true).setAttribute(AuthenticateAction.SESSION_USERIDENTITY, new UserIdentity(login, populationId));
+            request.getSession(true).setAttribute(AuthenticateAction.SESSION_CREDENTIALPROVIDER, null);
             
             result.put("login", login);
+            result.put("population", populationId);
             result.put("name", user.getFullName());
             
             if (getLogger().isInfoEnabled())
@@ -451,7 +474,7 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
      * Provides the login of the current user.
      * @return the login which cannot be <code>null</code>.
      */
-    protected String _getCurrentUser()
+    protected UserIdentity _getCurrentUser()
     {
         if (_currentUserProvider == null)
         {
@@ -465,34 +488,7 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
             }
         }
         
-        if (!_currentUserProvider.isSuperUser())
-        {
-            return _currentUserProvider.getUser();
-        }
-        
-        return "admin";
-    }
-    
-    /**
-     * Determine if current user is the super user.
-     * @return <code>true</code> if the super user is logged in,
-     *         <code>false</code> otherwise.
-     */
-    protected boolean _isSuperUser()
-    {
-        if (_currentUserProvider == null)
-        {
-            try
-            {
-                _currentUserProvider = (CurrentUserProvider) _smanager.lookup(CurrentUserProvider.ROLE);
-            }
-            catch (ServiceException e)
-            {
-                throw new IllegalStateException(e);
-            }
-        }
-        
-        return _currentUserProvider.isSuperUser();
+        return _currentUserProvider.getUser();
     }
     
     

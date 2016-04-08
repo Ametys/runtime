@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -32,179 +32,14 @@ div.wrapin {
     text-align: left;
 }
 
-div.connection, div.intro {
+div.connection {
     background-color: rgba(255, 255, 255, 0.8);
     border: 1px solid #804080;
     
-    margin: 0 auto;
+    margin: 0 auto 20px auto;
     
     padding: 0.7em;
     width: 20em;
-}
-
-/**
- * INTRO
- */
-div.intro {
-   width: 28em;
-}
-div.intro .textin {
-    font-size: 0.8em;
-    
-    max-height: 29em;
-    
-    display: inline-block;
-    width: 50%;
-    box-sizing: border-box;
-    vertical-align: top;
-}
-div.intro .textin:first-child {
-    padding-right: 0.8em;
-}
-div.intro .textin:last-child {
-    padding-left: 0.8em;
-}
-div.intro .twitter-timeline-wrapper {
-    overflow: auto;
-    height: 21em;
-}
-div.intro .textin h1 {
-    margin: 0.5em 0;
-    padding-bottom: 0.2em;
-    border-bottom: 1px solid #acacac;
-    line-height: 1em;
-    color: #9266CC;
-    font-size: 1.4em;
-    font-weight: normal;
-}
-div.intro .textin p {
-    margin: 0 0 0.2em 0;
-}
-div.intro .textin ul {
-    margin: 0 0 0 0;
-}
-
-
-
-div.intro .links a {
-    display: inline-block;
-    margin-left: 0.25em;
-    width: 1.6em;
-    height: 1.6em;
-    line-height: 1.6em;
-    text-align: center;
-    vertical-align: middle;
-    font-size: 2em;
-    text-decoration: none;
-    background-color: #804080;
-    border: 1px solid #804080;
-}
-div.intro .links :first-child {
-    margin-left: 0;
-}
-div.intro .links a span {
-    position: absolute;
-    top: -200em;
-    left: -200em;
-}
-div.intro .links a:after {
-    color: #FFFFFF;
-    text-indent: 0;
-    font-family: "FontAwesome";
-}
-div.intro .links a:hover {
-    background-color: #9d57b3;
-    border-color: #9d57b3;
-}
-div.intro .links a:active {
-    background-color: #613171;
-    border-color: #613171;
-}
-div.intro .links a:focus {
-    -webkit-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
-    -moz-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
-    box-shadow: inset 0px 0px 0px 1px #F0F0F0;
-}
-
-
-/** website */
-div.intro a.website:after {
-    content: "\f0ac";
-}
-div.intro a.doc:after {
-    content: "\f02d";
-}
-div.intro a.forum:after {
-    content: "\f086";
-}
-div.intro a.issues:after {
-    content: "\f071";
-}
-
-/** Facebook */
-div.intro a.facebook {
-    background-color: #4c8ffe;
-    border: 1px solid #4c8ffe;
-}
-div.intro a.facebook:after {
-    content: "\f09a";
-    }
-div.intro a.facebook:hover {
-    background-color: #2d4876;
-    border-color: #2d4876;
-}
-div.intro a.facebook:active {
-    background-color: #23395b;
-    border-color: #23395b;
-}
-div.intro a.facebook:focus {
-    -webkit-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
-    -moz-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
-    box-shadow: inset 0px 0px 0px 1px #F0F0F0;
-}
-
-/* Twitter */
-div.intro a.twitter {
-    background-color: #55acee;
-    border: 1px solid #55acee;
-}
-div.intro a.twitter:after {
-    content: "\f099";
-}
-div.intro a.twitter:hover {
-    background-color: #25a0e9;
-    border-color: #25a0e9;
-}
-div.intro a.twitter:active {
-    background-color: #148dd4;
-    border-color: #148dd4;
-}
-div.intro a.twitter:focus {
-    -webkit-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
-    -moz-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
-    box-shadow: inset 0px 0px 0px 1px #F0F0F0;
-}
-
-/** Google+ */
-div.intro a.googleplus {
-    background-color: #dc4e42;
-    border: 1px solid #dc4e42;
-}
-div.intro a.googleplus:after {
-    content: "\f0d5";
-}
-div.intro a.googleplus:hover {
-    background-color: #ca2f24;
-    border-color: #ca2f24;
-}
-div.intro a.googleplus:active {
-    background-color: #9f221d;
-    border-color: #9f221d;
-}
-div.intro a.googleplus:focus {
-    -webkit-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
-    -moz-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
-    box-shadow: inset 0px 0px 0px 1px #F0F0F0;
 }
 
 
@@ -249,13 +84,19 @@ div.connection button {
     outline-style: none;
 }
 
-div.connection button:after {
+div.connection button:after,
+div.connection button:before {
     font-family: "FontAwesome";
     font-size: 2em;
     line-height: 1.39em;
     position: absolute;
-    right: 0.5em;
     top: 0;
+}
+div.connection button:after {
+    right: 0.5em;
+}
+div.connection button:before {
+    left: 0.5em;
 }
 
 /**
@@ -269,7 +110,6 @@ div.connection div.error {
 
 div.connection table.input {
     width: 100%;
-    border: 1px solid #7f7f7f;
     border: 1px solid #7f7f7f;
     background-color: #FFF;
     border-collapse: collapse;
@@ -291,11 +131,15 @@ div.connection table.input td.image {
    width: 3.1em;
    padding: 0 0.7em;
 }
-div.connection table.input td.image:after {
+div.connection table.input td.image:after,
+div.connection div.combo:after {
     font-family: "FontAwesome";
     font-size: 1.7em;
     color: #E4E4E4;
     vertical-align: middle;
+}
+div.connection table.input.population td.image:after {
+    content: "\f277";
 }
 div.connection table.input.login td.image:after {
     content: "\f007";
@@ -326,148 +170,114 @@ div.connection div.forgotten a {
     cursor: pointer;
 }
 
-div.connection .formbased button {
+div.connection .formbased button,
+div.connection .choosepopulation button,
+div.connection .back button {
     clear: both;
     
     background-color: #804080;
     border: 1px solid #804080;
 }
 
-div.connection .formbased button:after {
+div.connection .formbased button:after,
+div.connection .choosepopulation button:after {
     content: "\f105";
 }
 
-div.connection .formbased button:hover {
+div.connection .back button:before {
+    content: "\f104";
+}
+
+div.connection .back {
+	margin-top: 2.375em;
+}
+
+div.connection .formbased button:hover,
+div.connection .choosepopulation button:hover,
+div.connection .back button:hover {
     background-color: #9d57b3;
     border-color: #9d57b3;
 }
-div.connection .formbased button:active {
+div.connection .formbased button:active,
+div.connection .choosepopulation button:active,
+div.connection .back button:active {
     background-color: #613171;
     border-color: #613171;
 }
-div.connection .formbased button:focus {
+div.connection .formbased button:focus,
+div.connection .choosepopulation button:focus,
+div.connection .back button:focus {
     -webkit-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
     -moz-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
     box-shadow: inset 0px 0px 0px 1px #F0F0F0;
 }
 
-
+div.connection .formbased button:disabled:hover,
+div.connection .formbased button:disabled:active {
+	background-color: #804080;
+    border-color: #804080;
+}
 
 /**
- * FACEBOOK
+ * CONNECTION BUTTONS
  */
-div.connection button.facebook {
-    background-color: #395795;
-    border: 1px solid #395795;
-}
-div.connection button.facebook:after {
-    content: "\f09a";
-}
-div.connection button.facebook:hover {
-    background-color: #2d4876;
-    border-color: #2d4876;
-}
-div.connection button.facebook:active {
-    background-color: #23395b;
-    border-color: #23395b;
-}
-div.connection button.facebook:focus {
+div.connection button.otherauth:focus {
     -webkit-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
     -moz-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
     box-shadow: inset 0px 0px 0px 1px #F0F0F0;
 }
 
+div.connection button.otherauth:hover {
+	opacity: 0.9;
+}
+
+div.connection button.otherauth:active {
+	opacity: 0.85;
+}
+
+div.connection button.otherauth:disabled:hover,
+div.connection button.otherauth:disabled:active {
+	opacity: 1;
+}
 
 /**
- * TWITTER
+ * SELECTION OF POPULATION
  */
-div.connection button.twitter {
-    background-color: #55acee;
-    border: 1px solid #55acee;
+div.connection table.population td.input {
+	position: relative;
 }
-div.connection button.twitter:after {
-    content: "\f099";
+div.connection table.population td.input select {
+	border: none;
+	width: 100%;
+	padding: 0;
+    background-color: transparent;
 }
-div.connection button.twitter:hover {
-    background-color: #25a0e9;
-    border-color: #25a0e9;
-}
-div.connection button.twitter:active {
-    background-color: #148dd4;
-    border-color: #148dd4;
-}
-div.connection button.twitter:focus {
-    -webkit-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
-    -moz-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
-    box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+div.connection table.population td.input.empty:before {
+    color: #999;
+    font-size: 13px;
+    position: absolute;
+    height: 17px;
+    left: 11px;
+    top: 15px;
 }
 
-
-/**
- * GOOGLE
- */
-div.connection button.google {
-    background-color: #4c8ffe;
-    border: 1px solid #4c8ffe;
-}
-div.connection button.google:after {
-    content: "\f1a0";
-}
-div.connection button.google:hover {
-    background-color: #1e77fe;
-    border-color: #1e77fe;
-}
-div.connection button.google:active {
-    background-color: #005ce8;
-    border-color: #005ce8;
-}
-button.google:focus {
-    -webkit-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
-    -moz-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
-    box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+table.disabled {
+	background-color: #F0F0F0 !important;
 }
 
-
-/**
- * CAS
- */
-div.connection button.cas {
-    background-color: #2d7149;
-    border: 1px solid #2d7149;
+form fieldset {
+	border: none;
+	margin: 0;
+	padding: 0;
 }
-div.connection button.cas:after {
-    content: "CAS";
-    font-size: 1em;
-    padding: 0.5em 0;
+form fieldset[disabled] { /* 'form fieldset:disabled' not compatible with IE */
+	position: relative;
+	opacity: 0.8;
 }
-div.connection button.cas:hover {
-    background-color: #27633f;
-    border-color: #27633f;
-}
-div.connection button.cas:active {
-    background-color: #205134;
-    border-color: #205134;
-}
-div.connection button.cas:focus {
-    -webkit-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
-    -moz-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
-    box-shadow: inset 0px 0px 0px 1px #F0F0F0;
-}
-
-
-/**
- * MOBILE
- */
- 
-@media screen and (max-width: 960px), screen and (max-height: 360px)) {
-    div.intro {
-        width: 15em;
-    }
-    div.intro .textin {
-        display: block;
-        width: 100%;
-    }
-    .twitter-timeline-wrapper {
-        display: none;
-    }
+_:-ms-lang(x), form fieldset[disabled]:after { /* for IE10 and above,  disabled fieldsets do not work (see https://connect.microsoft.com/IE/feedbackdetail/view/962368/can-still-edit-input-type-text-within-fieldset-disabled#) */
+    content: ' ';
+    position: absolute;
+    z-index: 100;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background: url( data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==);
 }

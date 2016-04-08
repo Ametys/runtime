@@ -18,12 +18,14 @@ package org.ametys.core.observation;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.ametys.core.user.UserIdentity;
+
 /**
  * Abstraction of an event.
  */
 public class Event
 {
-    private String _issuer;
+    private UserIdentity _issuer;
     private String _id;
     private Map<String, Object> _args;
 
@@ -33,7 +35,7 @@ public class Event
      * @param issuer the issuer responsible of this event.
      * @param args the event arguments.
      */
-    public Event(String eventId, String issuer, Map<String, Object> args)
+    public Event(String eventId, UserIdentity issuer, Map<String, Object> args)
     {
         _issuer = issuer;
         _id = eventId;
@@ -44,7 +46,7 @@ public class Event
      * Retrieves the issuer responsible of this event.
      * @return the issuer.
      */
-    public String getIssuer()
+    public UserIdentity getIssuer()
     {
         return _issuer;
     }

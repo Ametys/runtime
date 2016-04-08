@@ -18,35 +18,41 @@ package org.ametys.core.group;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.ametys.core.group.directory.GroupDirectory;
+import org.ametys.core.user.UserIdentity;
+
 /**
- * A user group is a set of logins, representing a group of users.<br>
+ * A user group is a set of {@link UserIdentity} , representing a group of users.<br>
  * A group contains any number of users, and a single user may belong to any number of groups.
  */
 public class Group
 {
-    private Set<String> _users;
-    private String _id;
+    private Set<UserIdentity> _users;
+    private GroupIdentity _identity;
     private String _label;
+    private GroupDirectory _groupDirectory;
     
     /**
      * Constructor.
-     * @param id the unique id of this profile
+     * @param identity the identity of this group
      * @param label the label of this group
+     * @param groupDirectory the group directory this group belongs to
      */
-    public Group(String id, String label)
+    public Group(GroupIdentity identity, String label, GroupDirectory groupDirectory)
     {
-        _id = id;
+        _identity = identity;
         _label = label;
+        _groupDirectory = groupDirectory;
         _users = new HashSet<>();
     }
     
     /**
-     * Returns the unique Id of this group
-     * @return the unique Id of this group
+     * Returns the identity of this group
+     * @return the identity of this group
      */
-    public String getId()
+    public GroupIdentity getIdentity()
     {
-        return _id;
+        return _identity;
     }
     
     /**
@@ -59,6 +65,15 @@ public class Group
     }
     
     /**
+     * Returns the group directory this group belongs to
+     * @return the group directory this group belongs to
+     */
+    public GroupDirectory getGroupDirectory()
+    {
+        return _groupDirectory;
+    }
+    
+    /**
      * Set the label of this group
      * @param label The new label of the group
      */
@@ -68,28 +83,28 @@ public class Group
     }
     
     /**
-     * Adds an user to this group
-     * @param login the login of the user to add to this group
+     * Adds a user to this group
+     * @param user The user to add
      */
-    public void addUser(String login)
+    public void addUser(UserIdentity user)
     {
-        _users.add(login);
+        _users.add(user);
     }
     
     /**
-     * Removes an user to this group
-     * @param login the login of the user to remove to this group
+     * Removes a user to this group
+     * @param user The user to add
      */
-    public void removeUser(String login)
+    public void removeUser(UserIdentity user)
     {
-        _users.remove(login);
+        _users.remove(user);
     }
     
     /**
      * Returns all users of this group.
-     * @return Users as a Set of String (login).
+     * @return Users as a Set of {@link UserIdentity}
      */
-    public Set<String> getUsers()
+    public Set<UserIdentity> getUsers()
     {
         return _users;
     }
@@ -98,7 +113,7 @@ public class Group
     public String toString()
     {
         StringBuffer sb = new StringBuffer("UserGroup[");
-        sb.append(_id);
+        sb.append(_identity);
         sb.append(" (");
         sb.append(_label);
         sb.append(") => ");
@@ -117,12 +132,12 @@ public class Group
         
         Group otherGroup = (Group) another;
         
-        return _id != null  || _id.equals(otherGroup.getId());
+        return _identity != null && _identity.equals(otherGroup.getIdentity());
     }
     
     @Override
     public int hashCode()
     {
-        return _id.hashCode();
+        return _identity.hashCode();
     }
 }

@@ -36,6 +36,7 @@ import org.ametys.core.observation.Event;
 import org.ametys.core.observation.ObservationManager;
 import org.ametys.core.observation.Observer;
 import org.ametys.core.observation.ObserverExtensionPoint;
+import org.ametys.core.user.UserIdentity;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.Init;
 
@@ -83,13 +84,13 @@ public class ObserversTestCase extends AbstractRuntimeTestCase
         assertTrue("AcceptObserver is not registered", testObserverIds.contains(AcceptObserver.class.getName()));
         
         // Send a basic event
-        Event event = new Event("basic", "john", new HashMap<String, Object>());
+        Event event = new Event("basic", new UserIdentity("john", "pop"), new HashMap<String, Object>());
         _observationManager.notify(event);
         
         assertTrue("Event args should contains a success key with a true value", (boolean) event.getArguments().get("success"));
         
         // Test priority
-        event = new Event("priority", "john", new HashMap<String, Object>());
+        event = new Event("priority", new UserIdentity("john", "pop"), new HashMap<String, Object>());
         _observationManager.notify(event);
         
         assertTrue("Event args should contains a success key with a true value", (boolean) event.getArguments().get("success"));
@@ -115,7 +116,7 @@ public class ObserversTestCase extends AbstractRuntimeTestCase
         AtomicInteger asyncCount = new AtomicInteger();
         params.put("asyncCount", asyncCount);
         
-        Event event = new Event("async", "john", params);
+        Event event = new Event("async", new UserIdentity("john", "pop"), params);
         _observationManager.notify(event);
         
         // AcceptObserver should already have been observed, but not the async observers
@@ -148,7 +149,7 @@ public class ObserversTestCase extends AbstractRuntimeTestCase
         AtomicInteger asyncCount = new AtomicInteger();
         params.put("asyncCount", asyncCount);
         
-        Event event = new Event("non-parallelizable-async", "john", params);
+        Event event = new Event("non-parallelizable-async", new UserIdentity("john", "pop"), params);
         _observationManager.notify(event);
         
         // AcceptObserver should already have been observed, but not the async observers
@@ -204,7 +205,7 @@ public class ObserversTestCase extends AbstractRuntimeTestCase
             AtomicInteger syncCount = new AtomicInteger();
             params.put("syncCount", syncCount);
             
-            Event event = new Event("pressure", "john", params);
+            Event event = new Event("pressure", new UserIdentity("john", "pop"), params);
             _observationManager.notify(event);
             
             assertTrue("Event args should contains a success key with a true value", (boolean) params.get("success"));
@@ -234,7 +235,7 @@ public class ObserversTestCase extends AbstractRuntimeTestCase
         
         public void observe(Event event, Map<String, Object> transientVars) throws Exception
         {
-            assertTrue("Issuer must be john", "john".equals(event.getIssuer()));
+            assertTrue("Issuer must be john", new UserIdentity("john", "pop").equals(event.getIssuer()));
             assertNotNull("Transient vars cannot be null", transientVars);
             
             // visited test map

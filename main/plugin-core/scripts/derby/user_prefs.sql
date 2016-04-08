@@ -15,7 +15,8 @@
 --
 CREATE TABLE UserPreferences(
   login varchar(32) NOT NULL, 
+  population varchar(200) NOT NULL, 
   context varchar(128) NOT NULL,
   data BLOB,
-  PRIMARY KEY(login, context)
+  PRIMARY KEY(login, population, context)
 )

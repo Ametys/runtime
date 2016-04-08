@@ -27,11 +27,7 @@ public class ImpersonateUserClientSideElement extends StaticClientSideElement
     @Override
     public Script getScript(Map<String, Object> contextParameters)
     {
-        if (_currentUserProvider.isSuperUser())
-        {
-            return super.getScript(contextParameters);
-        }
-        
-        return null;
+        // FIXME add a right to impersonate
+         return super.getScript(contextParameters);
     }
 }

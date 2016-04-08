@@ -20,7 +20,9 @@ import java.util.Set;
 
 import org.ametys.core.right.RightsManager;
 import org.ametys.core.user.User;
-import org.ametys.core.user.UsersManager;
+import org.ametys.core.user.UserIdentity;
+import org.ametys.core.user.UserManager;
+import org.ametys.core.user.population.PopulationContextHelper;
 import org.ametys.plugins.core.impl.right.BasicRightsManager;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.Init;
@@ -56,21 +58,23 @@ public class BasicRightsManagerTestCase extends AbstractRuntimeTestCase
         assertTrue(rightsManager instanceof BasicRightsManager);
         
         // GET USER RIGHTS
-        Set<String> rightsIds = rightsManager.getUserRights("any", "any");
+        UserIdentity userIdentity = new UserIdentity("anyLogin", "anyPopulation");
+        
+        Set<String> rightsIds = rightsManager.getUserRights(userIdentity, "any");
         // one right from a test feature, and two from the plugin core
         assertEquals(11, rightsIds.size());
         assertTrue(rightsIds.contains("Test_Right"));
         
         // GET GRANTED USERS
-        Set<String> usersIds = rightsManager.getGrantedUsers("any", "any");
+        Set<UserIdentity> usersIdentities = rightsManager.getGrantedUsers("any", "any");
 
-        UsersManager usersManager = (UsersManager) Init.getPluginServiceManager().lookup(UsersManager.ROLE);
-        Collection<User> users = usersManager.getUsers();
+        UserManager userManager = (UserManager) Init.getPluginServiceManager().lookup(UserManager.ROLE);
+        Collection<User> users = userManager.getUsersByContext(PopulationContextHelper.ADMIN_CONTEXT);
         for (User user : users)
         {
-            assertTrue(usersIds.contains(user.getName()));
+            assertTrue(usersIdentities.contains(user.getIdentity()));
         }
         
-        assertEquals(usersIds.size(), users.size());
+        assertEquals(usersIdentities.size(), users.size());
     }
 }

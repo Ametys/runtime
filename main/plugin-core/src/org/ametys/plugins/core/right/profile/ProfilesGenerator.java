@@ -71,7 +71,7 @@ public class ProfilesGenerator extends AbstractCurrentUserProviderServiceableGen
         }
         
         
-        XMLUtils.createElement(contentHandler, "AdministratorUI", _isSuperUser() ? "true" : "false");
+        XMLUtils.createElement(contentHandler, "AdministratorUI", "false");
         
         XMLUtils.endElement(contentHandler, "ProfilesManager");
         

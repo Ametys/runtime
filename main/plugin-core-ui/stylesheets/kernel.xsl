@@ -169,6 +169,7 @@
         
         <script>/plugins/core-ui/resources/js/Ametys/form/AbstractField.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/form/AbstractFieldsWrapper.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/form/AbstractQueryableCombobox.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/form/field/DateTime.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/form/field/StringTime.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/form/field/Password.js</script>
@@ -178,6 +179,7 @@
         <script>/plugins/core-ui/resources/js/Ametys/form/field/RichText/SplitterTracker.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/form/field/TextArea.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/form/field/ColorSelector.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/form/field/SelectGroupDirectories.js</script>
         <script debug="true">/plugins/tiny_mce/resources/js/tinymce.js</script>
         <script debug="false">/plugins/tiny_mce/resources/js/tinymce.min.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/form/field/Code.js</script>

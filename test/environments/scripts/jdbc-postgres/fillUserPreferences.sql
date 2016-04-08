@@ -14,11 +14,11 @@
 --  limitations under the License.
 --
 
-insert into UserPreferences(login, context, data) values 
-('user', '/empty', '<?xml version="1.0" encoding="UTF-8"?><UserPreferences></UserPreferences>'),
-('user', '/one', '<?xml version="1.0" encoding="UTF-8"?><UserPreferences><pref1>one</pref1></UserPreferences>'),
-('user', '/two', '<?xml version="1.0" encoding="UTF-8"?><UserPreferences><pref1>one</pref1><pref2>two</pref2></UserPreferences>'),
-('user', '/all', '<?xml version="1.0" encoding="UTF-8"?>
+insert into UserPreferences(login, population, context, data) values 
+('user', 'population', '/empty', '<?xml version="1.0" encoding="UTF-8"?><UserPreferences></UserPreferences>'),
+('user', 'population', '/one', '<?xml version="1.0" encoding="UTF-8"?><UserPreferences><pref1>one</pref1></UserPreferences>'),
+('user', 'population', '/two', '<?xml version="1.0" encoding="UTF-8"?><UserPreferences><pref1>one</pref1><pref2>two</pref2></UserPreferences>'),
+('user', 'population', '/all', '<?xml version="1.0" encoding="UTF-8"?>
 <UserPreferences>
 <pref1>one</pref1>
 <pref2>two</pref2>

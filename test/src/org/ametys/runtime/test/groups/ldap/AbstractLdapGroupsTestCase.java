@@ -15,18 +15,17 @@
  */
 package org.ametys.runtime.test.groups.ldap;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-import org.apache.excalibur.xml.dom.DOMHandler;
-import org.apache.excalibur.xml.dom.DOMHandlerFactory;
-import org.apache.excalibur.xml.xpath.XPathProcessor;
-import org.w3c.dom.Node;
-
 import org.ametys.core.group.Group;
-import org.ametys.core.group.GroupsManager;
+import org.ametys.core.group.GroupIdentity;
+import org.ametys.core.group.directory.GroupDirectory;
+import org.ametys.core.user.UserIdentity;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
-import org.ametys.runtime.test.Init;
 
 /**
  * Ldap groups' tests 
@@ -34,7 +33,7 @@ import org.ametys.runtime.test.Init;
 public abstract class AbstractLdapGroupsTestCase extends AbstractRuntimeTestCase
 {
     /** the user manager */
-    protected GroupsManager _groupsManager;
+    protected GroupDirectory _groupDirectory;
     
     /**
      * To avoid alltest failure
@@ -43,101 +42,127 @@ public abstract class AbstractLdapGroupsTestCase extends AbstractRuntimeTestCase
     public void testFilled() throws Exception
     {
         Group group;
-        Set<String> users;
+        Set<UserIdentity> users;
+        
+        // IDENTITIES
+        String populationId = "ldap_population";
+        UserIdentity user1 = new UserIdentity("user1", populationId);
+        UserIdentity user2 = new UserIdentity("user2", populationId);
+        UserIdentity user3 = new UserIdentity("user3", populationId);
+        UserIdentity user4 = new UserIdentity("user4", populationId);
+        UserIdentity user5 = new UserIdentity("user5", populationId);
+        UserIdentity user6 = new UserIdentity("user6", populationId);
+        UserIdentity user7 = new UserIdentity("user7", populationId);
+        UserIdentity user8 = new UserIdentity("user8", populationId);
         
         // GET GROUP
-        assertNull(_groupsManager.getGroup("foo"));
+        assertNull(_groupDirectory.getGroup("foo"));
         
-        group = _groupsManager.getGroup("group1");
+        group = _groupDirectory.getGroup("group1");
         assertNotNull(group);
-        assertEquals("group1", group.getId());
+        assertEquals("group1", group.getIdentity().getId());
         assertEquals("Group 1", group.getLabel());
         users = group.getUsers();
         assertEquals(1, users.size());
-        assertEquals("user1", users.iterator().next());
+        assertEquals(user1, users.iterator().next());
         
-        group = _groupsManager.getGroup("group2");
+        group = _groupDirectory.getGroup("group2");
         assertNotNull(group);
-        assertEquals("group2", group.getId());
+        assertEquals("group2", group.getIdentity().getId());
         assertEquals("Group 2", group.getLabel());
         users = group.getUsers();
         assertEquals(4, users.size());
-        assertTrue(users.contains("user1"));
-        assertTrue(users.contains("user2"));
-        assertTrue(users.contains("user3"));
-        assertTrue(users.contains("user4"));
+        assertTrue(users.contains(user1));
+        assertTrue(users.contains(user2));
+        assertTrue(users.contains(user3));
+        assertTrue(users.contains(user4));
         
-        group = _groupsManager.getGroup("group3");
+        group = _groupDirectory.getGroup("group3");
         assertNotNull(group);
-        assertEquals("group3", group.getId());
+        assertEquals("group3", group.getIdentity().getId());
         assertEquals("Group 3", group.getLabel());
         users = group.getUsers();
         assertEquals(4, users.size());
-        assertTrue(users.contains("user5"));
-        assertTrue(users.contains("user6"));
-        assertTrue(users.contains("user7"));
-        assertTrue(users.contains("user8"));
+        assertTrue(users.contains(user5));
+        assertTrue(users.contains(user6));
+        assertTrue(users.contains(user7));
+        assertTrue(users.contains(user8));
         
         // GET GROUPS
-        Set<Group> groups = _groupsManager.getGroups();
+        Set<Group> groups = _groupDirectory.getGroups();
+        GroupIdentity group1 = new GroupIdentity("group1", "groupDirectory");
+        GroupIdentity group2 = new GroupIdentity("group2", "groupDirectory");
+        
         assertNotNull(groups);
         assertEquals(3, groups.size());        
-        assertTrue("group1 not found", groups.contains(new Group("group1", "")));
-        assertTrue("group2 not found", groups.contains(new Group("group2", "")));
+        assertTrue("group1 not found", groups.contains(new Group(group1, "", null)));
+        assertTrue("group2 not found", groups.contains(new Group(group2, "", null)));
         // assertTrue("group3 not found", groups.contains(new Group("group3", "")));
         
         // GET USER GROUPS
-        Set<String> groupsName;
-        groupsName = _groupsManager.getUserGroups("user1");
-        assertEquals(2, groupsName.size());
-        assertTrue(groupsName.contains("group1"));
-        assertTrue(groupsName.contains("group2"));
+        Set<String> groupsIds;
+        groupsIds = _groupDirectory.getUserGroups("user1", populationId);
+        assertEquals(2, groupsIds.size());
+        assertTrue(groupsIds.contains("group1"));
+        assertTrue(groupsIds.contains("group2"));
         
-        groupsName = _groupsManager.getUserGroups("user2");
-        assertEquals(1, groupsName.size());
-        assertTrue(groupsName.contains("group2"));
+        groupsIds = _groupDirectory.getUserGroups("user2", populationId);
+        assertEquals(1, groupsIds.size());
+        assertTrue(groupsIds.contains("group2"));
 
-        groupsName = _groupsManager.getUserGroups("user10");
-        assertEquals(0, groupsName.size());
+        groupsIds = _groupDirectory.getUserGroups("user10", populationId);
+        assertEquals(0, groupsIds.size());
 
-        // SAX GROUPS
-        DOMHandlerFactory dom = (DOMHandlerFactory) Init.getPluginServiceManager().lookup(DOMHandlerFactory.ROLE);
-        DOMHandler handler = dom.createDOMHandler();
-        handler.startDocument();
-        _groupsManager.toSAX(handler, -1, 0, new HashMap<String, String>());
-        handler.endDocument();
+        // GROUPS to JSON
+        List<Map<String, Object>> jsonGroups = _groupDirectory.groups2JSON(-1, 0, new HashMap<String, String>());
+        
+        assertEquals(3, jsonGroups.size());
+        
+        List<Map<String, Object>> filteredJsonGroups;
+        Set<UserIdentity> jsonUsers;
+        UserIdentity jsonUser;
+        filteredJsonGroups = _filterJsonGroupsById(jsonGroups, "group1");
+        assertEquals(1, filteredJsonGroups.size());
+        assertEquals("Group 1", filteredJsonGroups.iterator().next().get("label"));
+        jsonUsers = (Set) filteredJsonGroups.iterator().next().get("users");
+        assertEquals(1, jsonUsers.size());
+        jsonUser = jsonUsers.iterator().next();
+        assertEquals("user1", jsonUser.getLogin());
+        assertEquals(populationId, jsonUser.getPopulationId());
 
-        XPathProcessor xpath = (XPathProcessor) Init.getPluginServiceManager().lookup(XPathProcessor.ROLE);
-        assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/*)"));
-        assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/groups)"));
-        assertEquals(4.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/groups/*)")); // +1.0 for total property
-        assertEquals(3.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/groups/group)"));
-        assertEquals(3.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/groups/group[count(@*) = 1])"));
-        assertEquals(3.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/groups/group[count(label) = 1 and count(users) = 1])"));
+        filteredJsonGroups = _filterJsonGroupsById(jsonGroups, "group2");
+        assertEquals(1, filteredJsonGroups.size());
+        assertEquals("Group 2", filteredJsonGroups.iterator().next().get("label"));
+        jsonUsers = (Set) filteredJsonGroups.iterator().next().get("users");
+        assertEquals(4, jsonUsers.size());
+        assertTrue(jsonUsers.contains(user1));
+        assertTrue(jsonUsers.contains(user2));
+        assertTrue(jsonUsers.contains(user3));
+        assertTrue(jsonUsers.contains(user4));
         
-        Node groupNode;
-        groupNode = xpath.selectSingleNode(handler.getDocument(), "/groups/group[@id='group1']");
-        assertEquals("Group 1", xpath.evaluateAsString(groupNode, "label"));
-        assertEquals(1.0, xpath.evaluateAsNumber(groupNode, "count(users/*)"));
-        assertEquals(1.0, xpath.evaluateAsNumber(groupNode, "count(users/user)"));
-        assertTrue(xpath.evaluateAsBoolean(groupNode, "users/user[text() = 'user1']"));
+        filteredJsonGroups = _filterJsonGroupsById(jsonGroups, "group3");
+        assertEquals(1, filteredJsonGroups.size());
+        assertEquals("Group 3", filteredJsonGroups.iterator().next().get("label"));
+        jsonUsers = (Set) filteredJsonGroups.iterator().next().get("users");
+        assertEquals(4, jsonUsers.size());
+        assertTrue(jsonUsers.contains(user5));
+        assertTrue(jsonUsers.contains(user6));
+        assertTrue(jsonUsers.contains(user7));
+        assertTrue(jsonUsers.contains(user8));
+    }
+    
+    private List<Map<String, Object>> _filterJsonGroupsById(List<Map<String, Object>> jsonGroups, String id)
+    {
+        List<Map<String, Object>> results = new ArrayList<>();
         
-        groupNode = xpath.selectSingleNode(handler.getDocument(), "/groups/group[@id='group2']");
-        assertEquals("Group 2", xpath.evaluateAsString(groupNode, "label"));
-        assertEquals(4.0, xpath.evaluateAsNumber(groupNode, "count(users/*)"));
-        assertEquals(4.0, xpath.evaluateAsNumber(groupNode, "count(users/user)"));
-        assertTrue(xpath.evaluateAsBoolean(groupNode, "users/user[text() = 'user1']"));
-        assertTrue(xpath.evaluateAsBoolean(groupNode, "users/user[text() = 'user2']"));
-        assertTrue(xpath.evaluateAsBoolean(groupNode, "users/user[text() = 'user3']"));
-        assertTrue(xpath.evaluateAsBoolean(groupNode, "users/user[text() = 'user4']"));
+        for (Map<String, Object> jsonGroup : jsonGroups)
+        {
+            if (id.equals(jsonGroup.get("id")))
+            {
+                results.add(jsonGroup);
+            }
+        }
         
-        groupNode = xpath.selectSingleNode(handler.getDocument(), "/groups/group[@id='group3']");
-        assertEquals("Group 3", xpath.evaluateAsString(groupNode, "label"));
-        assertEquals(4.0, xpath.evaluateAsNumber(groupNode, "count(users/*)"));
-        assertEquals(4.0, xpath.evaluateAsNumber(groupNode, "count(users/user)"));
-        assertTrue(xpath.evaluateAsBoolean(groupNode, "users/user[text() = 'user5']"));
-        assertTrue(xpath.evaluateAsBoolean(groupNode, "users/user[text() = 'user6']"));
-        assertTrue(xpath.evaluateAsBoolean(groupNode, "users/user[text() = 'user7']"));
-        assertTrue(xpath.evaluateAsBoolean(groupNode, "users/user[text() = 'user8']"));
+        return results;
     }
 }

@@ -31,6 +31,7 @@ import org.apache.cocoon.xml.XMLUtils;
 import org.apache.commons.lang.StringUtils;
 import org.xml.sax.SAXException;
 
+import org.ametys.core.user.UserIdentity;
 import org.ametys.core.userpref.UserPreference;
 import org.ametys.core.userpref.UserPreferencesException;
 import org.ametys.core.userpref.UserPreferencesExtensionPoint;
@@ -70,7 +71,7 @@ public class UserPreferencesGenerator extends AbstractCurrentUserProviderService
         boolean excludePrivate = parameters.getParameterAsBoolean("excludePrivate", false);
         
         Map<String, String> contextVars = getContextVars(request);
-        String username = getUsername();
+        UserIdentity user = getUser();
         
         if (StringUtils.isBlank(storageContext))
         {
@@ -82,11 +83,12 @@ public class UserPreferencesGenerator extends AbstractCurrentUserProviderService
             contentHandler.startDocument();
             
             AttributesImpl atts = new AttributesImpl();
-            atts.addCDATAAttribute("username", username);
+            atts.addCDATAAttribute("username", user.getLogin());
+            atts.addCDATAAttribute("userpopulation", user.getPopulationId());
             atts.addCDATAAttribute("context", storageContext);
             XMLUtils.startElement(contentHandler, "UserPreferences", atts);
             
-            _saxPreferences(storageContext, contextVars, username, excludePrivate);
+            _saxPreferences(storageContext, contextVars, user, excludePrivate);
             
             XMLUtils.endElement(contentHandler, "UserPreferences");
             
@@ -100,12 +102,23 @@ public class UserPreferencesGenerator extends AbstractCurrentUserProviderService
     }
     
     /**
-     * Get the user name in the user manager.
-     * @return the user name (login).
+     * Get the user in the user manager.
+     * @return the user .
      */
-    protected String getUsername()
+    protected UserIdentity getUser()
     {
-        return parameters.getParameter("username", _getCurrentUser());
+        String login = parameters.getParameter("username", "");
+        String populationId = parameters.getParameter("population", "");
+        UserIdentity user;
+        if (StringUtils.isEmpty(login) || StringUtils.isEmpty(populationId))
+        {
+            user = _currentUserProvider.getUser();
+        }
+        else
+        {
+            user = new UserIdentity(login, populationId);
+        }
+        return user;
     }
     
     /**
@@ -122,16 +135,16 @@ public class UserPreferencesGenerator extends AbstractCurrentUserProviderService
      * Generate the list of user preferences for a given user and context.
      * @param storageContext the preferences context.
      * @param contextVars The context vars
-     * @param username the user name.
+     * @param user the user.
      * @param excludePrivate true to exclude private user preferences
      * @throws ProcessingException if an error occurred
      * @throws SAXException if an error occurred
      * @throws UserPreferencesException if an error occurred
      */
-    protected void _saxPreferences(String storageContext, Map<String, String> contextVars, String username, boolean excludePrivate) throws ProcessingException, SAXException, UserPreferencesException
+    protected void _saxPreferences(String storageContext, Map<String, String> contextVars, UserIdentity user, boolean excludePrivate) throws ProcessingException, SAXException, UserPreferencesException
     {
         Map<I18nizableText, List<UserPreference>> groups = _userPrefEP.getCategorizedPreferences(contextVars);
-        Map<String, String> prefValues = _userPrefManager.getUnTypedUserPrefs(username, storageContext, contextVars);
+        Map<String, String> prefValues = _userPrefManager.getUnTypedUserPrefs(user, storageContext, contextVars);
         
         XMLUtils.startElement(contentHandler, "groups");
         

@@ -22,19 +22,19 @@ public interface GroupListener
 {
     /**
      * When a group is removed
-     * @param groupID the group id
+     * @param group the group
      */
-    public void groupRemoved(String groupID);
+    public void groupRemoved(GroupIdentity group);
     
     /**
      * When a group is added
-     * @param groupID the group id
+     * @param group the group
      */
-    public void groupAdded(String groupID);
+    public void groupAdded(GroupIdentity group);
     
     /**
      * When a group is updated
-     * @param groupID the group id
+     * @param group the group
      */
-    public void groupUpdated(String groupID);
+    public void groupUpdated(GroupIdentity group);
 }

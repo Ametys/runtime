@@ -47,6 +47,9 @@
 	<message key="PLUGINS_CORE_LOGGING_GROUP">Logging</message>
     <message key="PLUGINS_CORE_TRACE_LOG_ABNORMAL_TIME_LABEL">Log long process</message>
     <message key="PLUGINS_CORE_TRACE_LOG_ABNORMAL_TIME_DESCRIPTION">Check this box to activate tracing in logs (in 'warn' severity) of the process taking an unusually long time</message>
+    <message key="PLUGINS_CORE_PUBLIC_CONFIG_LABEL">Ametys public</message>
+    <message key="PLUGINS_CORE_PUBLIC_CONFIG_DESCRIPTION">Check this box to declare this instance of Ametys as 'public'.</message>
+    <message key="PLUGINS_CORE_PRIVACY_CONFIG_GROUP">Privacy</message>
     
     <!-- Upload -->
     <message key="PLUGINS_CORE_UPLOAD_CONFIG_GROUP">Uploads management</message>
@@ -65,70 +68,29 @@
     
     <!-- Ribbon -->
     <message key="RIBBON_TABS_TAB_RIGHTS_HANDLE_LABEL">Users, groups and rights</message>
-    <message key="RIBBON_TABS_TAB_USERS_GROUPS_GROUP_USERS_LABEL">CMS users</message>
+    <message key="RIBBON_TABS_TAB_USERS_GROUPS_GROUP_USERS_LABEL">Application users</message>
+    <message key="RIBBON_TABS_TAB_USERS_GROUPS_GROUP_GROUPS_LABEL">Application groups</message>
+    <message key="RIBBON_TABS_TAB_USERS_GROUPS_GROUP_RIGHTS_LABEL">Rights</message>
     <message key="RIBBON_TABS_TAB_USERS_LABEL">Users</message>
     <message key="RIBBON_TABS_TAB_USERS_GROUP_LABEL">Users</message>
     <message key="RIBBON_TABS_TAB_USERS_GROUPS_GROUP_ACTION_LABEL">Actions</message>
-    <!-- Tool -->
-	<message key="PLUGINS_CORE_UITOOL_USERS_LABEL">Users</message>
-	<message key="PLUGINS_CORE_UITOOL_USERS_DESCRIPTION">Users management&lt;br/&gt;This tool allows you to create, modify or search users.&lt;br/&gt;Be careful : searches only return the 100 first results.</message>
-	<message key="PLUGINS_CORE_UITOOL_USERS_SEARCH_EMPTY_TEXT">Name or login</message>
-    <message key="PLUGINS_CORE_UITOOL_USERS_SEARCH_LIMIT_HELPTEXT">Be careful : searches only return the 100 first results.</message>
-	<message key="PLUGINS_CORE_UITOOL_USERS_COL_NAME">Name</message>
-	<message key="PLUGINS_CORE_UITOOL_USERS_COL_EMAIL">Email</message>
-    <!-- Action -->
-    <message key="PLUGINS_CORE_USERS_ADD_LABEL">New user</message>
-    <message key="PLUGINS_CORE_USERS_ADD_DESCRIPTION">Add a new user</message>
+    
+    <!-- DAO -->
     <message key="PLUGINS_CORE_USERS_ADD_ERROR">An error occurred: unable to create user.&lt;br/&gt;The login may already exist.</message>
-    <message key="PLUGINS_CORE_USERS_EDIT_LABEL">Edit</message>
-    <message key="PLUGINS_CORE_USERS_EDIT_DESCRIPTION">Edit selected user</message>
     <message key="PLUGINS_CORE_USERS_EDIT_ERROR">An error occurred: unable to edit user.</message>
-    <message key="PLUGINS_CORE_USERS_DELETE_LABEL">Delete</message>
-    <message key="PLUGINS_CORE_USERS_DELETE_DESCRIPTION">Delete the selected user(s)</message>
-    <message key="PLUGINS_CORE_USERS_DELETE_CONFIRM">Are you sure you want to delete these(s) user(s)?</message>
     <message key="PLUGINS_CORE_USERS_DELETE_ERROR">An error occurred: unable to delete user(s)</message>
     <message key="PLUGINS_CORE_USERS_INFOS_ERROR">An error occurred while retrieving user's information</message>
+    <message key="PLUGINS_CORE_USERS_IS_MODIFIABLE_ERROR">An error occured: unable to determine if the user is editable</message>
     <message key="PLUGINS_CORE_USERS_IMPERSONATE_ERROR">An error occurred: unable to connect with the login of the selected user.</message>
-    <message key="PLUGINS_CORE_USERS_NOTIFY_CREATION">User creation</message>
-    <message key="PLUGINS_CORE_USERS_NOTIFY_CREATION_DESC">The user \{0\} has been created successfully.</message>
-    
-    <!-- Helper -->
-    <message key="PLUGINS_CORE_USERS_DIALOG_ADD_TITLE">New user</message>
-    <message key="PLUGINS_CORE_USERS_DIALOG_EDIT_TITLE">Edit</message>
-    <message key="PLUGINS_CORE_USERS_DIALOG_OK">Ok</message>
-    <message key="PLUGINS_CORE_USERS_DIALOG_CANCEL">Cancel</message>
-    <message key="PLUGINS_CORE_USERS_DIALOG_INVALID_FIELD">This field is invalid.&lt;br/&gt;See help for details.</message>
-    <!-- Relations -->
-    <message key="PLUGINS_CORE_RELATIONS_ADD_USER_LABEL">Add</message>
-    <message key="PLUGINS_CORE_RELATIONS_ADD_USER_DESCRIPTION">Add the selected user in a group.</message>
-
-    <!-- +
-         | USER RIGHTS
-         + -->
-    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_LABEL">See user rights</message>
-    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_DESCRIPTION">See the rights of the selected user</message>
-    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_TITLE">Rights for user </message>
-    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_TOOLTIPTEXT">List of the rights for user </message>
-    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_EMPTY">No user is currently selected.&lt;br/&gt;Select a user to see his rights.</message>
-    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_MULTI_FORBIDDEN">Several users are currently selected.&lt;br/&gt;Select a user to see his rights.</message>
-    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_CONTEXT_BY_PROFILE_HINT_1">Here are listed the profiles assigned to user &lt;b&gt;</message>
-    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_CONTEXT_BY_PROFILE_HINT_2">&lt;/b&gt;.&lt;br/&gt;Each profile is assigned on one or more contexts.&lt;br/&gt;Mouseover the profile's name to see the associated rights.</message>
-    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_RIGHTS_BY_CONTEXT_HINT_1">Here are listed the rights to user &lt;b&gt;</message>
-    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_RIGHTS_BY_CONTEXT_HINT_2">&lt;/b&gt;.&lt;br/&gt;Each right is assigned on one or more contexts.</message>
-    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_ERROR">An error occurred : the user rights can not be displayed</message>
-    
-    <!-- +
-         | IMPERSONATE USER
-         + -->
-    <message key="PLUGINS_CORE_USERS_IMPERSONATE_LABEL">Impersonate</message>
-    <message key="PLUGINS_CORE_USERS_IMPERSONATE_DESCRIPTION">Connect to the CMS with the login of the selected user.</message> 
-    <message key="PLUGINS_CORE_USERS_IMPERSONATE_MULTI_FORBIDDEN">Several users are currently selected.&lt;br/&gt;Select a single user in order to be able to connect with his login</message>
     <message key="PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_TITLE">Impersonation success</message>
     <message key="PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS">You are now connected with the following credentials: </message>
     <message key="PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_2">You are going to be redirected to the application.</message>
     <message key="PLUGINS_CORE_USERS_IMPERSONATE_FAILURE_TITLE">Impersonation failure</message>
     <message key="PLUGINS_CORE_USERS_IMPERSONATE_FAILURE">The impersonation failed because the selected user was not found.</message>
     
+    <!-- Relations -->
+    <message key="PLUGINS_CORE_RELATIONS_ADD_USER_LABEL">Add</message>
+    <message key="PLUGINS_CORE_RELATIONS_ADD_USER_DESCRIPTION">Add the selected user in a group.</message>
     
 	<!-- USER JDBC -->
 	<message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_LABEL">Login ID</message>
@@ -154,38 +116,16 @@
     <message key="RIBBON_TABS_TAB_GROUPS_GROUP_LABEL">Groups</message>
     <message key="RIBBON_TABS_TAB_GROUPS_GROUPS_GROUP_ACTION_LABEL">Actions</message>
     <message key="RIBBON_TABS_TAB_GROUPS_GROUPS_GROUP_USER_LABEL">Users</message>
-    <!-- Tool -->
-    <message key="PLUGINS_CORE_UITOOL_GROUPS_LABEL">User groups</message>
-    <message key="PLUGINS_CORE_UITOOL_GROUPS_DESCRIPTION">User groups</message>
-    <message key="PLUGINS_CORE_UITOOL_GROUPS_USERSGROUP">Group users</message>
-    <!-- Actions -->
-    <message key="PLUGINS_CORE_GROUPS_ADD_LABEL">Create group</message>
-    <message key="PLUGINS_CORE_GROUPS_ADD_DESCRIPTION">Create a new group</message>
+    
+    <!-- DAO -->
     <message key="PLUGINS_CORE_GROUPS_ADD_ERROR">An error occurred: the group was not created.</message>
     <message key="PLUGINS_CORE_GROUPS_ADD_NOTIFY">The group  \{0\} has been created successfully.</message>
-    <message key="PLUGINS_CORE_GROUPS_RENAME_LABEL">Rename</message>
-    <message key="PLUGINS_CORE_GROUPS_RENAME_DESCRIPTION">Rename the selected group.</message>
     <message key="PLUGINS_CORE_GROUPS_RENAME_ERROR">An error occurred: the group was not renamed.</message>
-    <message key="PLUGINS_CORE_GROUPS_DELETE_LABEL">Delete</message>
-    <message key="PLUGINS_CORE_GROUPS_DELETE_DESCRIPTION">Delete selected group</message>
-    <message key="PLUGINS_CORE_GROUPS_DELETE_CONFIRM">Do you really want to delete these groups ?</message>
     <message key="PLUGINS_CORE_GROUPS_DELETE_ERROR">An error occurred: the groups were not deleted.</message>
-    <message key="PLUGINS_CORE_GROUPS_ADDUSERS_LABEL">Add user(s)</message>
-    <message key="PLUGINS_CORE_GROUPS_ADDUSERS_DESCRIPTION">Add users to selected group</message>
-    <message key="PLUGINS_CORE_GROUPS_REMOVEUSERS_LABEL">Remove user(s)</message>
-    <message key="PLUGINS_CORE_GROUPS_REMOVEUSERS_DESCRIPTION">Remove user(s) from group</message>
-    <message key="PLUGINS_CORE_GROUPS_REMOVEUSERS_CONFIRM">Do you really want to delete this or these user(s) from group</message>
     <message key="PLUGINS_CORE_GROUPS_UPDATEUSERS_ERROR">An error occurred during groups' edition</message>
     <message key="PLUGINS_CORE_GROUPS_INFOS_ERROR">An error occurred: unable to get information on group</message>
-    <message key="PLUGINS_CORE_GROUPS_UNKNOWN_GROUP_TITLE">Unknown group</message>
-    <message key="PLUGINS_CORE_GROUPS_UNKNOWN_GROUP_ERROR">The group is no longer available. It is advise to close then re-open the groups tool.</message>
-    <!-- Helper -->
-    <message key="PLUGINS_CORE_GROUPS_DIALOG_ADD_TITLE">New group</message>
-    <message key="PLUGINS_CORE_GROUPS_DIALOG_EDIT_TITLE">Rename</message>
-    <message key="PLUGINS_CORE_GROUPS_DIALOG_NAME">Name</message>
-    <message key="PLUGINS_CORE_GROUPS_DIALOG_OK">Ok</message>
-    <message key="PLUGINS_CORE_GROUPS_DIALOG_CANCEL">Cancel</message>
-	
+    <message key="PLUGINS_CORE_GROUPS_IS_MODIFIABLE_ERROR">An error occured: unable to determine if the group is modifiable</message>
+    
     <!-- +
          | PROFILES
          + -->
@@ -200,77 +140,26 @@
     <message key="RIBBON_TABS_TAB_PROFILES_GROUPS_GROUP_ACTION_LABEL">Actions</message>
     <message key="RIBBON_TABS_TAB_PROFILES_GROUPS_GROUP_PROFILE_LABEL">Profile</message>
     <message key="RIBBON_TABS_TAB_PROFILES_GROUPS_GROUP_RIGHTS_LABEL">Rights</message>
-    <!-- Tool -->
-    <message key="PLUGINS_CORE_UITOOL_PROFILES_LABEL">Rights profiles</message>
-    <message key="PLUGINS_CORE_UITOOL_PROFILES_DESCRIPTION">Rights profiles administration.&lt;br/&gt;A profile consists of a set of rights. Each user is assigned a profile which grants particular rights.</message>
-    <message key="PLUGINS_CORE_UITOOL_PROFILES_CATEGORY_SELECT_ALL">Select all the rights of the category</message>
-    <message key="PLUGINS_CORE_UITOOL_PROFILES_CATEGORY_UNSELECT_ALL">Unselect all the rights of the category</message>
-    <!-- Actions -->
-    <message key="PLUGINS_CORE_PROFILES_ADD_LABEL">New profile</message>
-    <message key="PLUGINS_CORE_PROFILES_ADD_DESCRIPTION">Create a new profile</message>
+    
+    <!-- DAO -->
     <message key="PLUGINS_CORE_PROFILES_ADD_ERROR">An error occurred: the profile was not created.</message>
-    <message key="PLUGINS_CORE_PROFILES_RENAME_LABEL">Rename</message>
-    <message key="PLUGINS_CORE_PROFILES_RENAME_DESCRIPTION">Rename the selected profile</message>
     <message key="PLUGINS_CORE_PROFILES_RENAME_ERROR">An error occurred: the profile was not renamed.</message>
-    <message key="PLUGINS_CORE_PROFILES_DELETE_LABEL">Delete</message>
-    <message key="PLUGINS_CORE_PROFILES_DELETE_DESCRIPTION">Supprime le profil sélectionné</message>
-    <message key="PLUGINS_CORE_PROFILES_DELETE_CONFIRM">Do you really want to delete these profiles ?</message>
     <message key="PLUGINS_CORE_PROFILES_DELETE_ERROR">An error occurred: the profile was not deleted.</message>
     <message key="PLUGINS_CORE_PROFILES_INFOS_ERROR">An error occurred: unable to get information on profile</message>
-    <message key="PLUGINS_CORE_PROFILES_UNKNOWN_PROFILE_TITLE">Unknown profile</message>
-    <message key="PLUGINS_CORE_PROFILES_UNKNOWN_PROFILE_ERROR">The profile is no longer available. It is advise to close then re-open the groups tool.</message>
-    <message key="PLUGINS_CORE_PROFILES_SWITCH_TO_EDITION">Edition view</message>
-    <message key="PLUGINS_CORE_PROFILES_SWITCH_TO_EDITION_DESCRIPTION">Switches to editing mode to edit rights (addition or deletion) of the selected profile</message>
-    <message key="PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS">Save</message>
-    <message key="PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS_DESCRIPTION">Save changes on profile</message>
-    <message key="PLUGINS_CORE_PROFILES_DONT_SAVE_MODIFICATIONS">Discard changes</message>
-    <message key="PLUGINS_CORE_PROFILES_DONT_SAVE_MODIFICATIONS_DESCRIPTION">Discard the current changes of the profile.</message>
     <message key="PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS_ERROR">An error occurred while saving the profile's rights.</message>
-    
-    <message key="PLUGINS_CORE_PROFILES_RIGHTS_CONFIRM_DESCRIPTION">The attributed rights have been modified. Do you wish to save those changes ?</message>
-    <message key="PLUGINS_CORE_PROFILES_UNSELECTED">Select or create a profile before you can see or edit its rights</message>
-    <message key="PLUGINS_CORE_PROFILES_EMPTY">This profile has no right</message>
-    
-    <message key="PLUGINS_CORE_PROFILES_SELECT_ALL">Select all</message>
-    <message key="PLUGINS_CORE_PROFILES_SELECT_ALL_DESCRIPTION">Select all rights</message>
-    <message key="PLUGINS_CORE_PROFILES_UNSELECT_ALL">Unselect all</message>
-    <message key="PLUGINS_CORE_PROFILES_UNSELECT_ALL_DESCRIPTION">Unselect all rights</message>
-    <message key="PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION">This button is disabled because no profile is selected or the selected profile can not be changed through this interface.</message>
-    <message key="PLUGINS_CORE_PROFILES_DESCRIPTION_NO_RIGHT">This button is disabled because your rights are insufficient.</message>
-    
-    <!-- Helper -->
-    <message key="PLUGINS_CORE_PROFILES_DIALOG_ADD_TITLE">New profile</message>
-    <message key="PLUGINS_CORE_PROFILES_DIALOG_EDIT_TITLE">Rename</message>
-    <message key="PLUGINS_CORE_PROFILES_DIALOG_NAME">Name</message>
-    <message key="PLUGINS_CORE_PROFILES_DIALOG_OK">Ok</message>
-    <message key="PLUGINS_CORE_PROFILES_DIALOG_CANCEL">Cancel</message>
     
 	<!-- PARAMETER CHECKERS -->
 	<message key="PLUGINS_CORE_MAIL_CONNECTION_CHECKER_LABEL">Check the connection to the mail server</message>
 	<message key="PLUGINS_CORE_MAIL_CONNECTION_CHECKER_DESC">This test checks if the given information allows the connection to the mail server.</message>
     
-	<!-- PROFILES ACTIONS -->
-	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_LABEL">Add profile to user</message>
-	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_DESCRIPTION">Grant selected profile privileges to user on current context</message>
+    <!-- DAO -->
 	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_ERROR">An error occured : unable to grant profile privileges.</message>
-	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDGROUP_LABEL">Add right to group</message>
-	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDGROUP_DESCRIPTION">Grant selected profile privileges to group on current context</message>
 	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDGROUP_ERROR">An error occured : unable to grant profile privileges.</message>
-	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_LABEL">Delete assignment</message>
-	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_DESCRIPTION">Deletete profile assignement</message>
-	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_CONFIRM">Do you really want to remove this or these assignment(s) ?</message>
 	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_ERROR">An error occured during removing.</message>
 
 	<!-- RIGHTS -->
 	<message key="PLUGINS_CORE_RIGHTS_HANDLE_LABEL">Profiles assignment</message>
 	<message key="PLUGINS_CORE_RIGHTS_HANDLE_DESCRIPTION">Window for profile assignment administration</message>
-
-    <!-- SUPER USER -->
-    <message key="PLUGINS_CORE_SUPERUSER_LABEL">Assign super user</message>
-    <message key="PLUGINS_CORE_SUPERUSER_DESCRIPTION">Set the administrator of the site.</message>
-    <message key="PLUGINS_CORE_SUPERUSER_AFFECT_ERROR">An error occurred: the allocation has failed.</message>
-    <message key="PLUGINS_CORE_SUPERUSER_AFFECT_TITLE">Assign super user</message>
-    <message key="PLUGINS_CORE_SUPERUSER_AFFECT_SUCCESS">The allocation has been completed.</message>
 
 	<!-- RegExp -->
 	<message key="PLUGINS_CORE_REGEXP_INVALID_MAIL">The address is not a valid email address</message>
@@ -296,6 +185,43 @@
     <message key="PLUGINS_CORE_CAPTCHA_CONFIG_SECRET_KEY_DESCRIPTION">If you use reCaptcha, you must specify the secret key provided by Google.</message>
     
     <!-- +
+         | USER POPULATIONS
+         + -->
+    <message key="PLUGINS_CORE_USER_POPULATION_DAO_GET_POPULATIONS_IDS_ERROR">An error occured when retrieving the identifiers of the populations of the application</message>
+    <message key="PLUGINS_CORE_USER_POPULATION_DAO_GET_EDITION_CONFIGURATION_ERROR">An error occured when retrieving the configuration for creating/editing a population</message>
+    <message key="PLUGINS_CORE_USER_POPULATION_DAO_GET_POPULATION_PARAMETERS_VALUES_ERROR">An error occured when retrieving the values of parameters of the population</message>
+    <message key="PLUGINS_CORE_USER_POPULATION_DAO_ADD_ERROR">An error occured when creating a population</message>
+    <message key="PLUGINS_CORE_USER_POPULATION_DAO_EDIT_ERROR">An error occured when editing a population</message>
+    <message key="PLUGINS_CORE_USER_POPULATION_DAO_REMOVE_ERROR">An error occured when removing a population</message>
+    <message key="PLUGINS_CORE_USER_POPULATION_DAO_ENABLE_ERROR">An error occured when enabling/disabling a population</message>
+    <message key="PLUGINS_CORE_USER_POPULATION_DAO_IS_ENABLED_ERROR">An error occured when checking the enabling of a population</message>
+    <message key="PLUGINS_CORE_USER_POPULATION_DAO_IS_IN_USE_ERROR">An error occured when checking the use of a population</message>
+    <message key="PLUGINS_CORE_USER_POPULATION_DAO_GET_USER_POPULATIONS_ON_CONTEXT_ERROR">An error occured when retrieving the populations linked to a context</message>
+    <message key="PLUGINS_CORE_USER_POPULATION_DAO_LINK_ERROR">An error occured when linking populations to a context</message>
+    
+    <message key="PLUGINS_CORE_USER_POPULATION_DAO_ERROR_UNKNOWN_TITLE">Unknown population</message>
+    <message key="PLUGINS_CORE_USER_POPULATION_DAO_ERROR_UNKNOWN">Error: the population does not exist.</message>
+    <message key="PLUGINS_CORE_USER_POPULATION_DAO_ERROR_IS_USED_TITLE">Used population</message>
+    <message key="PLUGINS_CORE_USER_POPULATION_DAO_ERROR_IS_USED">Error: the population is linked to a context.</message>
+    <message key="PLUGINS_CORE_USER_POPULATION_DAO_ERROR_SERVER_TITLE">Server error</message>
+    <message key="PLUGINS_CORE_USER_POPULATION_DAO_ERROR_SERVER">A server error occured. Contact your administrator to fix the problem.</message>
+    
+    <!-- +
+         | GROUP DIRECTORIES
+         + -->
+         <message key="PLUGINS_CORE_GROUP_DIRECTORY_DAO_GET_DIRECTORIES_IDS_ERROR">An error occured when retrieving the identifiers of the group directories of the application</message>
+    <message key="PLUGINS_CORE_GROUP_DIRECTORY_DAO_GET_EDITION_CONFIGURATION_ERROR">An error occured when retrieving the configuration for creating/editing a group directory</message>
+    <message key="PLUGINS_CORE_GROUP_DIRECTORY_DAO_GET_PARAMETERS_VALUES_ERROR">An error occured when retrieving the values of parameters of the group directory</message>
+    <message key="PLUGINS_CORE_GROUP_DIRECTORY_DAO_ADD_ERROR">An error occured when creating a group directory</message>
+    <message key="PLUGINS_CORE_GROUP_DIRECTORY_DAO_EDIT_ERROR">An error occured when editing a group directory</message>
+    <message key="PLUGINS_CORE_GROUP_DIRECTORY_DAO_REMOVE_ERROR">An error occured when removing a group directory</message>
+    <message key="PLUGINS_CORE_GROUP_DIRECTORY_DAO_GET_GROUP_DIRECTORIES_ON_CONTEXT_ERROR">An error occured when retrieving the group directories linked to a context</message>
+    <message key="PLUGINS_CORE_GROUP_DIRECTORY_DAO_LINK_ERROR">An error occured when linking group directories to a context</message>
+    
+    <message key="PLUGINS_CORE_GROUP_DIRECTORY_DAO_ERROR_UNKNOWN_TITLE">Unknown group directory</message>
+    <message key="PLUGINS_CORE_GROUP_DIRECTORY_DAO_ERROR_UNKNOWN">Error: the group directory does not exist.</message>
+    
+    <!-- +
          | DATA SOURCE
          + -->
     <message key="PLUGINS_CORE_INTERNAL_DATASOURCE_LABEL">Internal database</message>
@@ -305,4 +231,13 @@
     <message key="PLUGINS_CORE_DATASOURCEDAO_ADD_DATASOURCE_ERROR">An error occurred : the data source has not been created.</message>
     <message key="PLUGINS_CORE_DATASOURCEDAO_EDIT_DATASOURCE_ERROR">An error occurred : the data source has not been edited.</message>
     <message key="PLUGINS_CORE_DATASOURCEDAO_DELETE_DATASOURCE_ERROR">An error occurred : the data sources have not been deleted.</message>
+    
+    <!-- ADMIN PASSWORD --> 
+    <message key="PLUGINS_ADMIN_CHANGE_PASSWORD_LABEL">Asministrator password</message>
+    <message key="PLUGINS_ADMIN_CHANGE_PASSWORD_DESCRIPTION">Edit the administrator password</message>
+    <message key="PLUGINS_ADMIN_CHANGE_PASSWORD_DIALOG_TITLE">Edit the administrator password</message>
+    <message key="PLUGINS_ADMIN_CHANGE_PASSWORD_DIALOG_OLD_PASSWORD">Old password</message>
+    <message key="PLUGINS_ADMIN_CHANGE_PASSWORD_DIALOG_NEW_PASSWORD">new password</message>
+    <message key="PLUGINS_ADMIN_CHANGE_PASSWORD_DIALOG_OK">OK</message>
+    <message key="PLUGINS_ADMIN_CHANGE_PASSWORD_DIALOG_CANCEL">Cancel</message>
 </catalogue>

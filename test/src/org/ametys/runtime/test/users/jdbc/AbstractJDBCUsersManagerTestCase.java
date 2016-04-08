@@ -17,8 +17,11 @@ package org.ametys.runtime.test.users.jdbc;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-import org.ametys.core.user.UsersManager;
+import org.ametys.core.user.directory.UserDirectory;
+import org.ametys.core.user.directory.UserDirectoryFactory;
 import org.ametys.runtime.test.AbstractJDBCTestCase;
 import org.ametys.runtime.test.Init;
 
@@ -28,7 +31,7 @@ import org.ametys.runtime.test.Init;
 public abstract class AbstractJDBCUsersManagerTestCase extends AbstractJDBCTestCase
 {
     /** the user manager */
-    protected UsersManager _usersManager;
+    protected UserDirectory _userDirectory;
     
     /**
      * Reset the db
@@ -43,7 +46,7 @@ public abstract class AbstractJDBCUsersManagerTestCase extends AbstractJDBCTestC
 
         _setDatabase(Arrays.asList(getScripts()));
         
-        _usersManager = (UsersManager) Init.getPluginServiceManager().lookup(UsersManager.ROLE);
+        _userDirectory = _createUserDirectory();
     }
 
     /**
@@ -51,5 +54,17 @@ public abstract class AbstractJDBCUsersManagerTestCase extends AbstractJDBCTestC
      * @return the scripts to run.
      */
     protected abstract File[] getScripts();
+    
+    private UserDirectory _createUserDirectory() throws Exception
+    {
+        String modelId = "org.ametys.plugins.core.user.directory.Jdbc";
+        
+        Map<String, Object> parameters = new LinkedHashMap<>();
+        parameters.put("runtime.users.jdbc.datasource", "SQL-test");
+        parameters.put("runtime.users.jdbc.table", "Users");
+        
+        
+        return ((UserDirectoryFactory) Init.getPluginServiceManager().lookup(UserDirectoryFactory.ROLE)).createUserDirectory(modelId, parameters, "foo");
+    }
     
 }

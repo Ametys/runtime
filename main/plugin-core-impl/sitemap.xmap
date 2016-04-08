@@ -19,41 +19,22 @@
     <!-- =========================== Components ================================= -->
 
     <map:components>
-        <map:generators>
-            <map:generator name="login-form" src="org.ametys.cms.workspace.LoginFormGenerator"/>
-        </map:generators>
+    	<map:actions>
+    		<map:action name="user-directory-test" src="org.ametys.plugins.core.impl.user.directory.actions.CheckUserDirectoryAction" />
+    	</map:actions>
     </map:components>
     
     <!-- =========================== Pipelines ================================= -->
     
     <map:pipelines>
-
-        <map:pipeline internal-only="true">
-            <map:match pattern="login.html">
-                <map:generate type="login-form" label="content"/>
-                <map:transform type="xslt" src="plugin:core-ui://pages/login/login.xsl"/>
-                <map:transform type="i18n" label="xml">
-                    <map:parameter name="locale" value="{locale:locale}"/>
-                    <map:parameter name="default-catalogue-id" value="plugin.cms"/>
-                </map:transform>
-                <map:serialize/>
+    	<map:pipeline>
+    		<map:match pattern="userdirectory/test">
+                <map:act type="user-directory-test">
+                    <map:generate type="action-result"/>
+                    <map:serialize type="xml"/>
+                </map:act>
             </map:match>
-            
-            <map:match pattern="login_failed.html">
-                <map:generate type="login-form" label="content"/>
-                <map:transform type="xslt" src="plugin:core-ui://pages/login/login.xsl">
-                    <map:parameter name="authFailure" value="true"/>
-                    <map:parameter name="tooManyAttempts" value="{request-param:tooManyAttempts}"/>
-                    <map:parameter name="cookieFailure" value="{request-param:cookieFailure}"/>
-                </map:transform>
-                <map:transform type="i18n" label="xml">
-                    <map:parameter name="locale" value="{locale:locale}"/>
-                    <map:parameter name="default-catalogue-id" value="plugin.cms"/>
-                </map:transform>
-                <map:serialize/>
-            </map:match>
-        </map:pipeline>
-        
+    	</map:pipeline>
     </map:pipelines>
             
 </map:sitemap>

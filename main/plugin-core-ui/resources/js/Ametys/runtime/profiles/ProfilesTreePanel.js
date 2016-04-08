@@ -215,7 +215,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 					enableToggle: true,
 					toggleHandler: Ext.bind (this._seeInheritance, this),
 					pressed: true,
-					icon: Ametys.getPluginResourcesPrefix('core') + '/img/profiles/actions/inheritance_16.gif',
+					icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/profiles/actions/inheritance_16.gif',
 					cls: 'a-btn-light'
 				}, 
 				{
@@ -224,7 +224,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 					tooltip: "{{i18n PLUGINS_CORE_UI_PROFILES_TREE_BTN_UPTOCONTEXT_TOOLTIP}}",
 					handler: Ext.bind (this._upToContext, this),
 					disabled : true,
-					icon: Ametys.getPluginResourcesPrefix('core') + '/img/profiles/actions/up_16.png',
+					icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/profiles/actions/up_16.png',
 					cls: 'a-btn-light'
 				},
 				'-', 
@@ -232,14 +232,14 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 					// Expand tool
 					tooltip: "{{i18n PLUGINS_CORE_UI_PROFILES_TREE_BTN_EXPAND_TOOTIP}}",
 					handler: Ext.bind (this._expandAll, this),
-					icon: Ametys.getPluginResourcesPrefix('core') + '/img/profiles/actions/expand-all.gif',
+					icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/profiles/actions/expand-all.gif',
 					cls: 'a-btn-light'
 				}, 
 				{
 					// Collapse tool
 					tooltip: "{{i18n PLUGINS_CORE_UI_PROFILES_TREE_BTN_COLLAPSE_TOOTIP}}",
 					handler: Ext.bind (this._collapseAll, this),
-					icon: Ametys.getPluginResourcesPrefix('core') + '/img/profiles/actions/collapse-all.gif',
+					icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/profiles/actions/collapse-all.gif',
 					cls: 'a-btn-light'
 				}
 			]

@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.apache.avalon.framework.thread.ThreadSafe;
 
+import org.ametys.core.user.UserIdentity;
 import org.ametys.core.userpref.DefaultUserPreferencesStorage;
 import org.ametys.core.userpref.UserPreferencesException;
 
@@ -30,49 +31,49 @@ import org.ametys.core.userpref.UserPreferencesException;
 public class EmptyUserPreferencesStorage implements DefaultUserPreferencesStorage, ThreadSafe
 {
     @Override
-    public Map<String, String> getUnTypedUserPrefs(String login, String storageContext, Map<String, String> contextVars) throws UserPreferencesException
+    public Map<String, String> getUnTypedUserPrefs(UserIdentity user, String storageContext, Map<String, String> contextVars) throws UserPreferencesException
     {
         return new HashMap<>();
     }
     
     @Override
-    public void removeUserPreferences(String login, String storageContext, Map<String, String> contextVars) throws UserPreferencesException
+    public void removeUserPreferences(UserIdentity user, String storageContext, Map<String, String> contextVars) throws UserPreferencesException
     {
         // Do nothing.
     }
     
     @Override
-    public void setUserPreferences(String login, String storageContext, Map<String, String> contextVars, Map<String, String> preferences) throws UserPreferencesException
+    public void setUserPreferences(UserIdentity user, String storageContext, Map<String, String> contextVars, Map<String, String> preferences) throws UserPreferencesException
     {
         // Do nothing
     }
 
     @Override
-    public String getUserPreferenceAsString(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
+    public String getUserPreferenceAsString(UserIdentity user, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         return null;
     }
     
     @Override
-    public Long getUserPreferenceAsLong(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
+    public Long getUserPreferenceAsLong(UserIdentity user, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         return null;
     }
     
     @Override
-    public Date getUserPreferenceAsDate(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
+    public Date getUserPreferenceAsDate(UserIdentity user, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         return null;
     }
     
     @Override
-    public Boolean getUserPreferenceAsBoolean(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
+    public Boolean getUserPreferenceAsBoolean(UserIdentity user, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         return null;
     }
     
     @Override
-    public Double getUserPreferenceAsDouble(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
+    public Double getUserPreferenceAsDouble(UserIdentity user, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         return null;
     }

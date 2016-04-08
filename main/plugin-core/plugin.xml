@@ -68,6 +68,25 @@
         </param>
         
         <!-- +
+             | AMETYS PUBLIC
+             + -->
+        
+        <param id="runtime.ametys.public" type="boolean">
+        	<!-- 
+        		This parameter indicates if the instance of Ametys is a public instance.
+        	 -->
+        	<label i18n="true">PLUGINS_CORE_PUBLIC_CONFIG_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_PUBLIC_CONFIG_DESCRIPTION</description>
+        	<validation>
+                <mandatory/>
+            </validation>
+        	<default-value>true</default-value>
+        	<category i18n="true">PLUGINS_CORE_SYSTEM_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_PRIVACY_CONFIG_GROUP</group>
+            <order>1</order>
+        </param>
+        
+        <!-- +
              | MAIL - ADDRESSES
              + -->
         <param type="string" id="smtp.mail.from">
@@ -259,10 +278,26 @@
         <extension-point id="org.ametys.runtime.plugin.InitExtensionPoint"
                          class="org.ametys.runtime.plugin.InitExtensionPoint"/>
                          
-        <extension-point id="org.ametys.core.authentication.AuthenticationManager"
+        <!-- <extension-point id="org.ametys.core.authentication.AuthenticationManager"
                          class="org.ametys.core.authentication.AuthenticationManager"
+                         safe="true"/> -->
+
+		<extension-point id="org.ametys.core.user.directory.UserDirectoryFactory"
+						 class="org.ametys.core.user.directory.UserDirectoryFactory"
+						 safe="true"/>
+						         				 
+        <extension-point id="org.ametys.core.authentication.CredentialProviderFactory"
+        				 class="org.ametys.core.authentication.CredentialProviderFactory"
+        				 safe="true"/>
+        				 
+        <extension-point id="org.ametys.core.user.population.PopulationConsumerExtensionPoint"
+                         class="org.ametys.core.user.population.PopulationConsumerExtensionPoint"
                          safe="true"/>
-                         
+        				 
+        <extension-point id="org.ametys.core.group.directory.GroupDirectoryFactory"
+						 class="org.ametys.core.group.directory.GroupDirectoryFactory"
+						 safe="true"/>
+        				                  
         <extension-point id="org.ametys.core.right.RightsExtensionPoint"
                          class="org.ametys.core.right.RightsExtensionPoint"
                          safe="true"/>
@@ -453,21 +488,21 @@
                 <generator name="action-result" src="org.ametys.core.cocoon.ActionResultGenerator" label="content" logger="org.ametys.runtime.kernel.sitemap.generator.actionresult" pool-grow="4" pool-max="32" pool-min="8"/>
             </extension>
             
-            <extension point="org.ametys.core.authentication.AuthenticationManager"
+            <!-- <extension point="org.ametys.core.authentication.AuthenticationManager"
                        id="org.ametys.plugins.core.impl.authentication.UsersManagerAuthentication"
                        class="org.ametys.plugins.core.impl.authentication.UsersManagerAuthentication"
-                       logger="org.ametys.plugins.core.impl.authentication.UsersManagerAuthentication"/>
+                       logger="org.ametys.plugins.core.impl.authentication.UsersManagerAuthentication"/> -->
                        
             <!-- Mixed source users manager authentication. To be used with CASBasicCredentialsProvider. -->
-            <extension point="org.ametys.core.authentication.AuthenticationManager"
+            <!-- <extension point="org.ametys.core.authentication.AuthenticationManager"
                        id="org.ametys.plugins.core.impl.authentication.mixed.MixedSourceUsersManagerAuthentication"
                        class="org.ametys.plugins.core.impl.authentication.mixed.MixedSourceUsersManagerAuthentication"
-                       logger="org.ametys.plugins.core.impl.authentication.mixed.MixedSourceUsersManagerAuthentication"/>
+                       logger="org.ametys.plugins.core.impl.authentication.mixed.MixedSourceUsersManagerAuthentication"/> -->
                        
-            <extension point="org.ametys.core.authentication.AuthenticationManager"
+            <!-- <extension point="org.ametys.core.authentication.AuthenticationManager"
                        id="org.ametys.plugins.core.impl.authentication.HasRightAuthentication"
                        class="org.ametys.plugins.core.impl.authentication.HasRightAuthentication"
-                       logger="org.ametys.plugins.core.impl.authentication.HasRightAuthentication"/>
+                       logger="org.ametys.plugins.core.impl.authentication.HasRightAuthentication"/> -->
         </extensions>
     </feature>
     
@@ -504,6 +539,52 @@
 		</config>
 	</feature>
     
+    <feature name="runtime.users.manager" safe="true">
+    	<components>
+    		<component role="org.ametys.core.user.UserManager"
+    				   id="org.ametys.core.user.UserManager"
+    				   class="org.ametys.core.user.UserManager"/>
+    				   
+    		<component role="org.ametys.core.user.population.UserPopulationDAO"
+    				   id="org.ametys.core.user.population.UserPopulationDAO"
+    				   class="org.ametys.core.user.population.UserPopulationDAO"/>
+    				   
+    		<component role="org.ametys.core.user.population.PopulationContextHelper"
+    				   id="org.ametys.core.user.population.PopulationContextHelper"
+    				   class="org.ametys.core.user.population.PopulationContextHelper"/>
+    	</components>
+    </feature>
+    
+    <feature name="runtime.groups.manager" safe="true">
+    	<components>
+    		<component role="org.ametys.core.group.GroupManager"
+    				   id="org.ametys.core.group.GroupManager"
+    				   class="org.ametys.core.group.GroupManager"/>
+    				   
+    		<component role="org.ametys.core.group.GroupDirectoryDAO"
+    				   id="org.ametys.core.group.GroupDirectoryDAO"
+    				   class="org.ametys.core.group.GroupDirectoryDAO"/>
+    				   
+    		<component role="org.ametys.core.group.GroupDirectoryContextHelper"
+    				   id="org.ametys.core.group.GroupDirectoryContextHelper"
+    				   class="org.ametys.core.group.GroupDirectoryContextHelper"/>
+    	</components>
+    </feature>
+    
+    <feature name="runtime.groupdirectories.datasource.client" safe="true">
+        <extensions>
+            <extension point="org.ametys.core.datasource.DataSourceConsumerExtensionPoint"
+                       id="org.ametys.core.group.GroupDirectoriesDataSourceConsumer"
+                       class="org.ametys.core.group.GroupDirectoriesDataSourceConsumer">
+            </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="runtime.authentication">
+    	<config>
+    		<param-ref id="runtime.ametys.public"/>
+    	</config>
+    </feature>
     
     <feature name="runtime.util.ldap.scope.enumerator">
         <!-- 
@@ -593,6 +674,10 @@
     <feature name="core.users">
 
         <components>
+        	<component role="org.ametys.plugins.core.user.UserHelper"
+                       id="org.ametys.plugins.core.user.UserHelper"
+                       class="org.ametys.plugins.core.user.UserHelper"/>
+                       
             <component class="org.ametys.plugins.core.user.UserDAO" 
                        role="org.ametys.plugins.core.user.UserDAO" 
                        id="org.ametys.plugins.core.user.UserDAO"/>
@@ -606,194 +691,6 @@
                     <description>PLUGINS_CORE_RIGHTS_USERS_DESCRIPTION</description>
                     <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
                 </right>
-            </extension>
-            
-            <extension id="org.ametys.core.Users"
-                       point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.core.ui.StaticClientSideElement">
-                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
-                    <opentool-role>uitool-users</opentool-role>
-                    <label i18n="true">PLUGINS_CORE_UITOOL_USERS_LABEL</label>
-                    <description i18n="true">PLUGINS_CORE_UITOOL_USERS_DESCRIPTION</description>
-                    <help>org.ametys.core.users</help>
-                    <icon-glyph>flaticon-black302</icon-glyph>
-                    <icon-small file="true">img/users/user_16.png</icon-small>
-                    <icon-medium file="true">img/users/user_32.png</icon-medium>
-                    <icon-large file="true">img/users/user_48.png</icon-large>
-                </class>
-                <right>Runtime_Rights_User_Handle</right>
-            </extension>
-            
-            <extension id="org.ametys.core.UsersFactory"
-                       point="org.ametys.core.ui.UIToolsFactoriesManager"
-                       class="org.ametys.core.ui.StaticClientSideElement">
-                <class name="Ametys.tool.factory.UniqueToolFactory">
-                    <role>uitool-users</role>
-                    <toolClass>Ametys.plugins.core.users.UsersTool</toolClass>
-                    
-                    <title i18n="true">PLUGINS_CORE_UITOOL_USERS_LABEL</title>
-                    <description i18n="true">PLUGINS_CORE_UITOOL_USERS_DESCRIPTION</description>
-                    <help>org.ametys.core.users</help>
-                    <icon-glyph>flaticon-black302</icon-glyph>
-                    <icon-small file="true">img/users/user_16.png</icon-small>
-                    <icon-medium file="true">img/users/user_32.png</icon-medium>
-                    <icon-large file="true">img/users/user_48.png</icon-large>
-                    <default-location></default-location>
-                </class>
-                <scripts>
-                    <file>js/Ametys/plugins/core/users/UsersDAO.js</file>
-                    <file>js/Ametys/plugins/core/users/UsersTool.js</file>
-                    <file>js/Ametys/plugins/core/users/UsersTool/User.js</file>
-                </scripts>
-            </extension>
-            
-            <extension id="org.ametys.core.rights.UserTab"
-                       point="org.ametys.core.ui.RibbonTabsManager"
-                       class="org.ametys.core.ui.StaticClientSideElement">
-                <class name="Ametys.ribbon.element.tab.TabController">
-                    <tool-role>^(uitool-users|user-rights-.+)$</tool-role>
-                </class> 
-            </extension> 
-            
-            <extension id="org.ametys.core.users.Add"
-                       point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.plugins.core.user.ModifiableUsersClientSideElement">
-                <class name="Ametys.ribbon.element.ui.ButtonController">
-                    <action>Ametys.plugins.core.users.UsersActions.add</action>
-                    <users-tool-role>uitool-users</users-tool-role>
-                    <label i18n="true">PLUGINS_CORE_USERS_ADD_LABEL</label>
-                    <default-description i18n="true">PLUGINS_CORE_USERS_ADD_DESCRIPTION</default-description>
-                    
-                    <icon-glyph>flaticon-black302</icon-glyph>
-                    <icon-decorator>decorator-flaticon-add64</icon-decorator>
-                    <icon-small file="true">img/users/add_16.png</icon-small>
-                    <icon-medium file="true">img/users/add_32.png</icon-medium>
-                    <icon-large file="true">img/users/add_48.png</icon-large>
-                </class>
-                <scripts>
-                    <file>js/Ametys/plugins/core/users/UsersDAO.js</file>
-                    <file>js/Ametys/plugins/core/users/UsersActions.js</file>
-                    <file>js/Ametys/plugins/core/users/EditUserHelper.js</file>
-                </scripts>
-                <right>Runtime_Rights_User_Handle</right>
-            </extension>
-            
-            <extension id="org.ametys.core.users.Edit"
-                       point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.plugins.core.user.ModifiableUsersClientSideElement">
-                <class name="Ametys.ribbon.element.ui.ButtonController">
-                    <action>Ametys.plugins.core.users.UsersActions.modify</action>
-                    <selection-target-type>^user$</selection-target-type>
-                    
-                    <label i18n="true">PLUGINS_CORE_USERS_EDIT_LABEL</label>
-                    <default-description i18n="true">PLUGINS_CORE_USERS_EDIT_DESCRIPTION</default-description>
-                    
-                    <icon-glyph>flaticon-black302</icon-glyph>
-                    <icon-decorator>decorator-flaticon-edit45</icon-decorator>
-                    <icon-small file="true">img/users/modify_16.png</icon-small>
-                    <icon-medium file="true">img/users/modify_32.png</icon-medium>
-                    <icon-large file="true">img/users/modify_48.png</icon-large>
-                </class>
-                <scripts>
-                    <file>js/Ametys/plugins/core/users/UsersDAO.js</file>
-                    <file>js/Ametys/plugins/core/users/UsersActions.js</file>
-                    <file>js/Ametys/plugins/core/users/EditUserHelper.js</file>
-                </scripts>
-                <right>Runtime_Rights_User_Handle</right>
-            </extension>
-            
-            <extension id="org.ametys.core.users.Delete"
-                       point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.plugins.core.user.ModifiableUsersClientSideElement">
-                <class name="Ametys.ribbon.element.ui.ButtonController">
-                    <action>Ametys.plugins.core.users.UsersActions.delete</action>
-                    <selection-target-type>^user$</selection-target-type>
-
-                    <label i18n="true">PLUGINS_CORE_USERS_DELETE_LABEL</label>
-                    <default-description i18n="true">PLUGINS_CORE_USERS_DELETE_DESCRIPTION</default-description>
-                    
-                    <icon-glyph>flaticon-black302</icon-glyph>
-                    <icon-decorator>decorator-flaticon-remove11</icon-decorator>
-                    <icon-small file="true">img/users/delete_16.png</icon-small>
-                    <icon-medium file="true">img/users/delete_32.png</icon-medium>
-                    <icon-large file="true">img/users/delete_48.png</icon-large>
-                </class>
-                <scripts>
-                    <file>js/Ametys/plugins/core/users/UsersDAO.js</file>
-                    <file>js/Ametys/plugins/core/users/UsersActions.js</file>
-                </scripts>
-                <right>Runtime_Rights_User_Handle</right>
-            </extension>
-            
-            <extension id="org.ametys.core.users.Rights"
-                       point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.core.ui.StaticClientSideElement">
-                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
-                    <opentool-role>uitool-user-rights</opentool-role>
-                    <label i18n="true">PLUGINS_CORE_UITOOL_USER_RIGHTS_LABEL</label>
-                    <description i18n="true">PLUGINS_CORE_UITOOL_USER_RIGHTS_DESCRIPTION</description>
-                    <selection-target-type>^user$</selection-target-type>
-                    <selection-description-empty i18n="true">PLUGINS_CORE_UITOOL_USER_RIGHTS_EMPTY</selection-description-empty>
-                    <selection-description-nomatch i18n="true">PLUGINS_CORE_UITOOL_USER_RIGHTS_EMPTY</selection-description-nomatch>
-                    <selection-description-multiselectionforbidden i18n="true">PLUGINS_CORE_UITOOL_USER_RIGHTS_MULTI_FORBIDDEN</selection-description-multiselectionforbidden>
-                    <help>org.ametys.core.users.rights</help>
-                    
-                    <icon-glyph>flaticon-id17</icon-glyph>
-                    <icon-small file="true">img/users/rights_16.png</icon-small>
-                    <icon-medium file="true">img/users/rights_32.png</icon-medium>
-                    <icon-large file="true">img/users/rights_48.png</icon-large>
-                </class>
-                <right>Runtime_Rights_User_Handle</right>
-            </extension>
-            
-            <extension id="org.ametys.core.users.Impersonate"
-                       point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.plugins.core.user.ImpersonateUserClientSideElement">
-                <class name="Ametys.ribbon.element.ui.ButtonController">
-                    <action>Ametys.plugins.core.users.UsersActions.impersonate</action>
-
-                    <label i18n="true">PLUGINS_CORE_USERS_IMPERSONATE_LABEL</label>
-                    <description i18n="true">PLUGINS_CORE_USERS_IMPERSONATE_DESCRIPTION</description>
-                    
-                    <selection-target-type>^user$</selection-target-type>
-                    <selection-enable-multiselection>false</selection-enable-multiselection>
-                    <selection-description-multiselectionforbidden i18n="true">PLUGINS_CORE_USERS_IMPERSONATE_MULTI_FORBIDDEN</selection-description-multiselectionforbidden>
-
-                    <help>org.ametys.core.users.rights</help>
-                    
-                    <icon-glyph>flaticon-carnival23</icon-glyph>
-                    <icon-small file="true">img/users/impersonate_16.png</icon-small>
-                    <icon-medium file="true">img/users/impersonate_32.png</icon-medium>
-                    <icon-large file="true">img/users/impersonate_48.png</icon-large>
-                </class>
-                <script>
-                    <file>js/Ametys/plugins/core/users/UsersActions.js</file>
-                </script>
-            </extension>
-            
-            <extension id="org.ametys.core.UserRightsFactory"
-                       point="org.ametys.core.ui.UIToolsFactoriesManager"
-                       class="org.ametys.core.ui.StaticClientSideElement">
-                <class name="Ametys.tool.factory.UniqueToolFactory">
-                    <role>uitool-user-rights</role>
-                    <toolClass>Ametys.plugins.core.users.UserRightsTool</toolClass>
-                    
-                    <title i18n="true">PLUGINS_CORE_UITOOL_USER_RIGHTS_LABEL</title>
-                    <description i18n="true">PLUGINS_CORE_UITOOL_USER_RIGHTS_DESCRIPTION</description>
-                    <selection-target-type>^user$</selection-target-type>
-                    <selection-description-empty i18n="true">PLUGINS_CORE_UITOOL_USER_RIGHTS_EMPTY</selection-description-empty>
-                    <selection-description-nomatch i18n="true">PLUGINS_CORE_UITOOL_USER_RIGHTS_EMPTY</selection-description-nomatch>
-                    <selection-description-multiselectionforbidden i18n="true">PLUGINS_CORE_UITOOL_USER_RIGHTS_MULTI_FORBIDDEN</selection-description-multiselectionforbidden>
-                    <help>org.ametys.core.users.rights</help>
-                    <icon-glyph>flaticon-id17</icon-glyph>
-                    <icon-small file="true">img/users/rights_16.png</icon-small>
-                    <icon-medium file="true">img/users/rights_32.png</icon-medium>
-                    <icon-large file="true">img/users/rights_48.png</icon-large>
-                    <default-location>r</default-location>
-                </class>
-                <scripts>
-                    <file>js/Ametys/plugins/core/users/UserRightsTool.js</file>
-                </scripts>
             </extension>
             
             <extension id="org.ametys.core.relations.addusers"
@@ -830,170 +727,6 @@
                     <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
                 </right>
             </extension>
-            
-            <extension id="org.ametys.core.Groups"
-                       point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.core.ui.StaticClientSideElement">
-                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
-                    <opentool-role>uitool-groups</opentool-role>
-                    <label i18n="true">PLUGINS_CORE_UITOOL_GROUPS_LABEL</label>
-                    <description i18n="true">PLUGINS_CORE_UITOOL_GROUPS_DESCRIPTION</description>
-                    <help>org.ametys.core.groups</help>
-                    <icon-glyph>flaticon-multiple25</icon-glyph>
-                    <icon-small file="true">img/groups/group_16.png</icon-small>
-                    <icon-medium file="true">img/groups/group_32.png</icon-medium>
-                    <icon-large file="true">img/groups/group_50.png</icon-large>
-                </class>
-                <right context-prefix="/contributor">Runtime_Rights_Group_Handle</right>
-            </extension>
-            
-            <extension id="org.ametys.core.GroupsFactory"
-                       point="org.ametys.core.ui.UIToolsFactoriesManager"
-                       class="org.ametys.core.ui.StaticClientSideElement">
-                <class name="Ametys.tool.factory.UniqueToolFactory">
-                    <role>uitool-groups</role>
-                    <toolClass>Ametys.plugins.core.groups.GroupsTool</toolClass>
-                    
-                    <title i18n="true">PLUGINS_CORE_UITOOL_GROUPS_LABEL</title>
-                    <description i18n="true">PLUGINS_CORE_UITOOL_GROUPS_DESCRIPTION</description>
-                    <help>org.ametys.core.groups</help>
-                    <icon-glyph>flaticon-multiple25</icon-glyph>
-                    <icon-small file="true">img/groups/group_16.png</icon-small>
-                    <icon-medium file="true">img/groups/group_32.png</icon-medium>
-                    <icon-large file="true">img/groups/group_50.png</icon-large>
-                    <default-location></default-location>
-                </class>
-                <scripts>
-                    <file>js/Ametys/plugins/core/groups/GroupsDAO.js</file>
-                    <file>js/Ametys/plugins/core/groups/GroupsTool.js</file>
-                    <file>js/Ametys/plugins/core/groups/GroupsTool/Group.js</file>
-                    <file>js/Ametys/plugins/core/groups/GroupsTool/UserGroup.js</file>
-                </scripts>
-            </extension>
-            
-            <extension id="org.ametys.core.rights.GroupTab"
-                       point="org.ametys.core.ui.RibbonTabsManager"
-                       class="org.ametys.core.ui.StaticClientSideElement">
-                <class name="Ametys.ribbon.element.tab.TabController">
-                    <tool-role>uitool-groups</tool-role>
-                </class> 
-            </extension>
-            
-            <extension id="org.ametys.core.groups.Add"
-                       point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.plugins.core.group.ModifiableGroupsClientSideElement">
-                <class name="Ametys.ribbon.element.ui.ButtonController">
-                    <action>Ametys.plugins.core.groups.GroupsActions.add</action>
-                    <label i18n="true">PLUGINS_CORE_GROUPS_ADD_LABEL</label>
-                    <description i18n="true">PLUGINS_CORE_GROUPS_ADD_DESCRIPTION</description>
-                    
-                    <icon-glyph>flaticon-multiple25</icon-glyph>
-                    <icon-decorator>decorator-flaticon-add64</icon-decorator>
-                    <icon-small file="true">img/groups/add_16.png</icon-small>
-                    <icon-medium file="true">img/groups/add_32.png</icon-medium>
-                    <icon-large file="true">img/groups/add_50.png</icon-large>
-                </class>
-                <scripts>
-                    <file>js/Ametys/plugins/core/groups/GroupsDAO.js</file>
-                    <file>js/Ametys/plugins/core/groups/GroupsActions.js</file>
-                    <file>js/Ametys/plugins/core/groups/EditGroupHelper.js</file>
-                </scripts>
-                <right>Runtime_Rights_Group_Handle</right>
-            </extension>
-            
-            <extension id="org.ametys.core.groups.Edit"
-                       point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.plugins.core.group.ModifiableGroupsClientSideElement">
-                <class name="Ametys.ribbon.element.ui.ButtonController">
-                    <action>Ametys.plugins.core.groups.GroupsActions.edit</action>
-                    <selection-target-type>^group$</selection-target-type>
-                    
-                    <label i18n="true">PLUGINS_CORE_GROUPS_RENAME_LABEL</label>
-                    <description i18n="true">PLUGINS_CORE_GROUPS_RENAME_DESCRIPTION</description>
-                    
-                    <icon-glyph>flaticon-multiple25</icon-glyph>
-                    <icon-decorator>decorator-flaticon-edit45</icon-decorator>
-                    <icon-small file="true">img/groups/rename_16.png</icon-small>
-                    <icon-medium file="true">img/groups/rename_32.png</icon-medium>
-                    <icon-large file="true">img/groups/rename_50.png</icon-large>
-                </class>
-                <scripts>   
-                    <file>js/Ametys/plugins/core/groups/GroupsDAO.js</file>
-                    <file>js/Ametys/plugins/core/groups/GroupsActions.js</file>
-                    <file>js/Ametys/plugins/core/groups/EditGroupHelper.js</file>
-                </scripts>
-                <right>Runtime_Rights_Group_Handle</right>
-            </extension>
-            
-            <extension id="org.ametys.core.groups.Delete"
-                       point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.plugins.core.group.ModifiableGroupsClientSideElement">
-                <class name="Ametys.ribbon.element.ui.ButtonController">
-                    <action>Ametys.plugins.core.groups.GroupsActions.delete</action>
-                    <selection-target-type>^group$</selection-target-type>
-                    
-                    <label i18n="true">PLUGINS_CORE_GROUPS_DELETE_LABEL</label>
-                    <description i18n="true">PLUGINS_CORE_GROUPS_DELETE_DESCRIPTION</description>
-                    
-                    <icon-glyph>flaticon-multiple25</icon-glyph>
-                    <icon-decorator>decorator-flaticon-remove11</icon-decorator>
-                    <icon-small file="true">img/groups/delete_16.png</icon-small>
-                    <icon-medium file="true">img/groups/delete_32.png</icon-medium>
-                    <icon-large file="true">img/groups/delete_50.png</icon-large>
-                </class>
-                <scripts>
-                    <file>js/Ametys/plugins/core/groups/GroupsDAO.js</file>
-                    <file>js/Ametys/plugins/core/groups/GroupsActions.js</file>
-                </scripts>
-                <right>Runtime_Rights_Group_Handle</right>
-            </extension>
-            
-            <extension id="org.ametys.core.groups.AddUsers"
-                       point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.plugins.core.group.ModifiableGroupsClientSideElement">
-                <class name="Ametys.ribbon.element.ui.ButtonController">
-                    <action>Ametys.plugins.core.groups.GroupsActions.addUsers</action>
-                    <selection-target-type>^group$</selection-target-type>
-
-                    <label i18n="true">PLUGINS_CORE_GROUPS_ADDUSERS_LABEL</label>
-                    <description i18n="true">PLUGINS_CORE_GROUPS_ADDUSERS_DESCRIPTION</description>
-                    
-                    <icon-glyph>flaticon-black302</icon-glyph>
-                    <icon-decorator>decorator-flaticon-add64</icon-decorator>
-                    <icon-small file="true">img/users/add_16.png</icon-small>
-                    <icon-medium file="true">img/users/add_32.png</icon-medium>
-                    <icon-large file="true">img/users/add_48.png</icon-large>
-                </class>
-                <scripts>
-                    <file>js/Ametys/plugins/core/groups/GroupsDAO.js</file>
-                    <file>js/Ametys/plugins/core/groups/GroupsActions.js</file>
-                </scripts>
-                <right>Runtime_Rights_Group_Handle</right>
-            </extension>
-            
-            <extension id="org.ametys.core.groups.RemoveUsers"
-                       point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.plugins.core.group.ModifiableGroupsClientSideElement">
-                <class name="Ametys.ribbon.element.ui.ButtonController">
-                    <action>Ametys.plugins.core.groups.GroupsActions.removeUsers</action>
-                    <selection-target-type>^group$</selection-target-type>
-                    <selection-subtarget-type>^user$</selection-subtarget-type>
-                    
-                    <label i18n="true">PLUGINS_CORE_GROUPS_REMOVEUSERS_LABEL</label>
-                    <description i18n="true">PLUGINS_CORE_GROUPS_REMOVEUSERS_DESCRIPTION</description>
-                    
-                    <icon-glyph>flaticon-black302</icon-glyph>
-                    <icon-decorator>decorator-flaticon-remove11</icon-decorator>
-                    <icon-small file="true">img/users/delete_16.png</icon-small>
-                    <icon-medium file="true">img/users/delete_32.png</icon-medium>
-                    <icon-large file="true">img/users/delete_48.png</icon-large>
-                </class>
-                <scripts>
-                    <file>js/Ametys/plugins/core/groups/GroupsDAO.js</file>
-                    <file>js/Ametys/plugins/core/groups/GroupsActions.js</file>
-                </scripts>
-                <right>Runtime_Rights_Group_Handle</right>
-            </extension>
         </extensions>
     </feature>
     
@@ -1024,299 +757,8 @@
                     <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
                 </right>
             </extension>
-            
-            <extension id="org.ametys.core.Profiles"
-                       point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.core.ui.StaticClientSideElement">
-                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
-                    <opentool-role>uitool-profiles</opentool-role>
-                    <label i18n="true">PLUGINS_CORE_UITOOL_PROFILES_LABEL</label>
-                    <description i18n="true">PLUGINS_CORE_UITOOL_PROFILES_DESCRIPTION</description>
-                    <help>org.ametys.core.rights.profiles</help>
-                    <icon-glyph>flaticon-id16</icon-glyph>
-                    <icon-small file="true">img/profiles/profile_16.gif</icon-small>
-                    <icon-medium file="true">img/profiles/profile_32.gif</icon-medium>
-                    <icon-large file="true">img/profiles/profile_50.gif</icon-large>
-                </class>
-                <right context-prefix="/contributor">Runtime_Rights_Rights_Profile_See</right>
-            </extension>
-            
-            <extension id="org.ametys.core.ProfilesFactory"
-                       point="org.ametys.core.ui.UIToolsFactoriesManager"
-                       class="org.ametys.core.ui.StaticClientSideElement">
-                <class name="Ametys.tool.factory.UniqueToolFactory">
-                    <role>uitool-profiles</role>
-                    <toolClass>Ametys.plugins.core.profiles.ProfilesTool</toolClass>
-                    
-                    <title i18n="true">PLUGINS_CORE_UITOOL_PROFILES_LABEL</title>
-                    <description i18n="true">PLUGINS_CORE_UITOOL_PROFILES_DESCRIPTION</description>
-                    <help>org.ametys.core.rights.profiles</help>
-                    <icon-glyph>flaticon-id16</icon-glyph>
-                    <icon-small file="true">img/profiles/profile_16.gif</icon-small>
-                    <icon-medium file="true">img/profiles/profile_32.gif</icon-medium>
-                    <icon-large file="true">img/profiles/profile_50.gif</icon-large>
-                    <default-location></default-location>
-                </class>
-                <scripts>
-                    <file>js/Ametys/plugins/core/profiles/ProfilesDAO.js</file>
-                    <file>js/Ametys/plugins/core/profiles/ProfilesTool.js</file>
-                    <file>js/Ametys/plugins/core/profiles/ProfilesTool/Profile.js</file>
-                    <file>js/Ametys/plugins/core/profiles/ProfilesTool/Right.js</file>
-                </scripts>
-            </extension>
-            
-            <extension id="org.ametys.core.rights.ProfileTab"
-                       point="org.ametys.core.ui.RibbonTabsManager"
-                       class="org.ametys.core.ui.StaticClientSideElement">
-                <class name="Ametys.ribbon.element.tab.TabController">
-                    <tool-role>uitool-profiles</tool-role>
-                </class> 
-            </extension>
-            
-            <extension id="org.ametys.core.profiles.Add"
-                       point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.plugins.core.right.profile.ProfileBasedClientSideElement">
-                <class name="Ametys.ribbon.element.ui.ButtonController">
-                    <action>Ametys.plugins.core.profiles.ProfilesActions.add</action>
-                    
-                    <label i18n="true">PLUGINS_CORE_PROFILES_ADD_LABEL</label>
-                    <description i18n="true">PLUGINS_CORE_PROFILES_ADD_DESCRIPTION</description>
-                    <no-right-description>PLUGINS_CORE_PROFILES_DESCRIPTION_NO_RIGHT</no-right-description>
-                    
-                    <icon-glyph>flaticon-id16</icon-glyph>
-                    <icon-decorator>decorator-flaticon-add64</icon-decorator>
-                    <icon-small file="true">img/profiles/add_16.gif</icon-small>
-                    <icon-medium file="true">img/profiles/add_32.gif</icon-medium>
-                    <icon-large file="true">img/profiles/add_50.gif</icon-large>
-                </class>
-                <scripts>
-                    <file>js/Ametys/plugins/core/profiles/ProfilesDAO.js</file>
-                    <file>js/Ametys/plugins/core/profiles/ProfilesActions.js</file>
-                    <file>js/Ametys/plugins/core/profiles/EditProfileHelper.js</file>
-                </scripts>
-                <right>Runtime_Rights_Rights_Profile_Handle</right>
-            </extension>
-            
-            <extension id="org.ametys.core.profiles.Edit"
-                       point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.plugins.core.right.profile.ProfileBasedClientSideElement">
-                <class name="Ametys.ribbon.element.ui.ButtonController">
-                    <action>Ametys.plugins.core.profiles.ProfilesActions.edit</action>
-                    <selection-target-type>^profile$</selection-target-type>
-                    
-                    <label i18n="true">PLUGINS_CORE_PROFILES_RENAME_LABEL</label>
-                    <description i18n="true">PLUGINS_CORE_PROFILES_RENAME_DESCRIPTION</description>
-                    <no-selection-description i18n="true">PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
-                    
-                    <icon-glyph>flaticon-id16</icon-glyph>
-                    <icon-decorator>decorator-flaticon-text1</icon-decorator>
-                    <icon-small file="true">img/profiles/rename_16.gif</icon-small>
-                    <icon-medium file="true">img/profiles/rename_32.gif</icon-medium>
-                    <icon-large file="true">img/profiles/rename_50.gif</icon-large>
-                </class>
-                <scripts>
-                    <file>js/Ametys/plugins/core/profiles/ProfilesDAO.js</file>
-                    <file>js/Ametys/plugins/core/profiles/ProfilesActions.js</file>
-                    <file>js/Ametys/plugins/core/profiles/EditProfileHelper.js</file>
-                </scripts>
-                <right>Runtime_Rights_Rights_Profile_Handle</right>
-            </extension>
-            
-            <extension id="org.ametys.core.profiles.Delete"
-                       point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.plugins.core.right.profile.ProfileBasedClientSideElement">
-                <class name="Ametys.ribbon.element.ui.ButtonController">
-                    <action>Ametys.plugins.core.profiles.ProfilesActions.delete</action>
-                    <selection-target-type>^profile$</selection-target-type>
-                    
-                    <label i18n="true">PLUGINS_CORE_PROFILES_DELETE_LABEL</label>
-                    <description i18n="true">PLUGINS_CORE_PROFILES_DELETE_DESCRIPTION</description>
-                    <no-selection-description i18n="true">PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
-                    
-                    <icon-glyph>flaticon-id16</icon-glyph>
-                    <icon-decorator>decorator-flaticon-remove11</icon-decorator>
-                    <icon-small file="true">img/profiles/delete_16.gif</icon-small>
-                    <icon-medium file="true">img/profiles/delete_32.gif</icon-medium>
-                    <icon-large file="true">img/profiles/delete_50.gif</icon-large>
-                </class>
-                <scripts>
-                    <file>js/Ametys/plugins/core/profiles/ProfilesDAO.js</file>
-                    <file>js/Ametys/plugins/core/profiles/ProfilesActions.js</file>
-                </scripts>
-                <right>Runtime_Rights_Rights_Profile_Handle</right>
-            </extension>
-            
-            <extension id="org.ametys.core.profiles.SwitchMode"
-                       point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.core.ui.StaticClientSideElement">
-                <class name="Ametys.plugins.core.profiles.controller.ViewModeController">
-                    <action>Ametys.plugins.core.profiles.ProfilesTool.switchMode</action>
-                    
-                    <enable-toggle>true</enable-toggle>
-                    <tool-role>uitool-profile</tool-role>
-                    <tool-enable-on-status>focus</tool-enable-on-status>
-                    <selection-target-type>^profile$</selection-target-type>
-                                        
-                    <label i18n="true">PLUGINS_CORE_PROFILES_SWITCH_TO_EDITION</label>
-                    <description i18n="true">PLUGINS_CORE_PROFILES_SWITCH_TO_EDITION_DESCRIPTION</description>
-                    <no-selection-description i18n="true">PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
-                    
-                    <icon-glyph>flaticon-edit5</icon-glyph>
-                    <icon-small file="true">img/profiles/edit_16.png</icon-small>
-                    <icon-medium file="true">img/profiles/edit_32.png</icon-medium>
-                    <icon-large file="true">img/profiles/edit_48.png</icon-large>
-                </class>
-                <scripts>
-                    <file>js/Ametys/plugins/core/profiles/ProfilesDAO.js</file>
-                    <file>js/Ametys/plugins/core/profiles/ProfilesTool.js</file>
-                    <file>js/Ametys/plugins/core/profiles/controller/ViewModeController.js</file>
-                </scripts>
-                <right>Runtime_Rights_Rights_Profile_Handle</right>
-           </extension>
-           
-           <extension id="org.ametys.core.profiles.SaveRights"
-                       point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.core.ui.StaticClientSideElement">
-                <class name="Ametys.ribbon.element.ui.ButtonController">
-                    <action>Ametys.plugins.core.profiles.ProfilesTool.save</action>
-                   
-                    <disabled>true</disabled>
-                    <selection-target-type>^profile$</selection-target-type>
-                    <selection-subtarget-type>^form$</selection-subtarget-type>
-                    <selection-subtarget-parameter>
-                        <name>isDirty</name>
-                        <value>true</value>
-                    </selection-subtarget-parameter>
-                    
-                    <label i18n="true">PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS</label>
-                    <description i18n="true">PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS_DESCRIPTION</description>
-                    <no-selection-description i18n="true">PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
-                    
-                    <icon-glyph>editor-save31</icon-glyph>
-                    <icon-small file="true">img/profiles/save_16.png</icon-small>
-                    <icon-medium file="true">img/profiles/save_32.png</icon-medium>
-                    <icon-large file="true">img/profiles/save_48.png</icon-large>
-                </class>
-                <scripts>
-                    <file>js/Ametys/plugins/core/profiles/ProfilesDAO.js</file>
-                    <file>js/Ametys/plugins/core/profiles/ProfilesActions.js</file>
-                </scripts>
-                <right>Runtime_Rights_Rights_Profile_Handle</right>
-            </extension>
-            
-            <extension id="org.ametys.core.profiles.Discard"
-                       point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.core.ui.StaticClientSideElement">
-                <class name="Ametys.ribbon.element.ui.ButtonController">
-                    <action>Ametys.plugins.core.profiles.ProfilesTool.discardChanges</action>
-                   
-                    <disabled>true</disabled>
-                    <selection-target-type>^profile$</selection-target-type>
-                    <selection-subtarget-type>^form$</selection-subtarget-type>
-                    <selection-subtarget-parameter>
-                        <name>isDirty</name>
-                        <value>true</value>
-                    </selection-subtarget-parameter>
-                    
-                    <label i18n="true">PLUGINS_CORE_PROFILES_DONT_SAVE_MODIFICATIONS</label>
-                    <description i18n="true">PLUGINS_CORE_PROFILES_DONT_SAVE_MODIFICATIONS_DESCRIPTION</description>
-                    <no-selection-description i18n="true">PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
-                    
-                    <icon-glyph>editor-save31</icon-glyph>
-                    <icon-decorator>decorator-flaticon-remove11</icon-decorator>
-                    <icon-small file="true">img/profiles/unsave_16.png</icon-small>
-                    <icon-medium file="true">img/profiles/unsave_32.png</icon-medium>
-                    <icon-large file="true">img/profiles/unsave_48.png</icon-large>
-                </class>
-                <scripts>
-                    <file>js/Ametys/plugins/core/profiles/ProfilesDAO.js</file>
-                    <file>js/Ametys/plugins/core/profiles/ProfilesActions.js</file>
-                </scripts>
-                <right>Runtime_Rights_Rights_Profile_Handle</right>
-            </extension>
-           
-           <extension id="org.ametys.core.profiles.SelectAll"
-                       point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.core.ui.StaticClientSideElement">
-                <class name="Ametys.plugins.core.profiles.controller.SelectRightsController">
-                    <action>Ametys.plugins.core.profiles.ProfilesTool.selectAll</action>
-                    
-                    <disabled>true</disabled>
-                    <selection-target-type>^profile$</selection-target-type>
-                    <selection-subtarget-type>^form$</selection-subtarget-type>
-                                        
-                    <label i18n="true">PLUGINS_CORE_PROFILES_SELECT_ALL</label>
-                    <description i18n="true">PLUGINS_CORE_PROFILES_SELECT_ALL_DESCRIPTION</description>
-                    <no-selection-description i18n="true">PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
-                    
-                    <icon-glyph>flaticon-check51</icon-glyph>
-                    <icon-small file="true">img/profiles/select_16.png</icon-small>
-                    <icon-medium file="true">img/profiles/select_32.png</icon-medium>
-                    <icon-large file="true">img/profiles/select_48.png</icon-large>
-                </class>
-                <scripts>
-                    <file>js/Ametys/plugins/core/profiles/controller/SelectRightsController.js</file>
-                    <file>js/Ametys/plugins/core/profiles/ProfilesDAO.js</file>
-                    <file>js/Ametys/plugins/core/profiles/ProfilesActions.js</file>
-                    <file>js/Ametys/plugins/core/profiles/ProfilesTool.js</file>
-                </scripts>
-                <right>Runtime_Rights_Rights_Profile_Handle</right>
-            </extension>
-            
-           <extension id="org.ametys.core.profiles.UnselectAll"
-                       point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.core.ui.StaticClientSideElement">
-                <class name="Ametys.plugins.core.profiles.controller.SelectRightsController">
-                    <action>Ametys.plugins.core.profiles.ProfilesTool.unselectAll</action>
-                    
-                    <disabled>true</disabled>
-                    <selection-target-type>^profile$</selection-target-type>
-                    <selection-subtarget-type>^form$</selection-subtarget-type>
-                    
-                    <label i18n="true">PLUGINS_CORE_PROFILES_UNSELECT_ALL</label>
-                    <description i18n="true">PLUGINS_CORE_PROFILES_UNSELECT_ALL_DESCRIPTION</description>
-                    <no-selection-description i18n="true">PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
-                    
-                    <icon-glyph>flaticon-blank32</icon-glyph>
-                    <icon-small file="true">img/profiles/unselect_16.png</icon-small>
-                    <icon-medium file="true">img/profiles/unselect_32.png</icon-medium>
-                    <icon-large file="true">img/profiles/unselect_48.png</icon-large>
-                </class>
-                <scripts>
-                    <file>js/Ametys/plugins/core/profiles/controller/SelectRightsController.js</file>
-                    <file>js/Ametys/plugins/core/profiles/ProfilesDAO.js</file>
-                    <file>js/Ametys/plugins/core/profiles/ProfilesActions.js</file>
-                    <file>js/Ametys/plugins/core/profiles/ProfilesTool.js</file>
-                </scripts>
-                <right>Runtime_Rights_Rights_Profile_Handle</right>
-            </extension>
         </extensions>
     </feature>
-    
-    <!-- +
-         | SUPER USER
-         + -->
-     <feature name="core.superuser">
-        <extensions>
-            <extension id="org.ametys.core.superuser.Affect"
-                       point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.plugins.core.superuser.SuperUserClientSideElement">
-                <class name="Ametys.ribbon.element.ui.ButtonController">
-                    <action>Ametys.plugins.core.superuser.SuperUserActions.affectSuperUser</action>
-                    
-                    <label i18n="true">PLUGINS_CORE_SUPERUSER_LABEL</label>
-                    <description i18n="true">PLUGINS_CORE_SUPERUSER_DESCRIPTION</description>
-                    <icon-glyph>flaticon-tie6</icon-glyph>                    
-                    <icon-small file="true">img/superuser/super_user_16.png</icon-small>
-                    <icon-medium file="true">img/superuser/super_user_32.png</icon-medium>
-                    <icon-large file="true">img/superuser/super_user_48.png</icon-large>
-                </class>
-                <scripts>
-                    <file>js/Ametys/plugins/core/superuser/SuperUserActions.js</file>
-                </scripts>
-            </extension>
-        </extensions>
-     </feature>
     
     <feature name="runtime.core.datasource.client-interaction" safe="true">
         <components>
@@ -1356,8 +798,29 @@
         </components>
     </feature>
     
-    
     <!-- SQL Table creation -->
+    <feature name="runtime.core.sql.userpopulations.init">
+        <extensions>
+            <extension point="org.ametys.runtime.plugin.InitExtensionPoint"
+                       id="org.ametys.core.script.userpopulations.SqlTablesInit"
+                       class="org.ametys.core.script.SqlTablesInit">
+                <datasource type="id">SQL-ametys-internal</datasource>
+                <script testTable="UserPopulationsByContext">jdbc_user_populations.sql</script>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="runtime.core.sql.groupdirectories.init">
+        <extensions>
+            <extension point="org.ametys.runtime.plugin.InitExtensionPoint"
+                       id="org.ametys.core.script.groupdirectories.SqlTablesInit"
+                       class="org.ametys.core.script.SqlTablesInit">
+                <datasource type="id">SQL-ametys-internal</datasource>
+                <script testTable="GroupDirectoriesByContext">jdbc_group_directories.sql</script>
+            </extension>
+        </extensions>
+    </feature>
+    
     <feature name="runtime.core.sql.users.and.groups.init">
         <extensions>
             <extension point="org.ametys.runtime.plugin.InitExtensionPoint"
@@ -1365,6 +828,7 @@
                        class="org.ametys.core.script.SqlTablesInit">
                 <datasource type="id">SQL-ametys-internal</datasource>
                 <script testTable="Users">jdbc_users_auth.sql</script>
+                <script testTable="AdminUsers">jdbc_admin_users.sql</script>
                 <script testTable="Groups">jdbc_groups.sql</script>
             </extension>
         </extensions>
@@ -1402,6 +866,22 @@
                 <script testTable="UsersToken">users_token.sql</script>
             </extension>
         </extensions>
+    </feature>
+    
+    <feature name="runtime.core.login.form">
+        <config>
+            <param-ref id="runtime.login.form.datasource" />
+        </config>
+    
+        <components>
+            <component role="org.ametys.plugins.core.authentication.LoginFormManager"
+                       id="org.ametys.plugins.core.authentication.LoginFormManager"
+                       class="org.ametys.plugins.core.authentication.LoginFormManager"
+                       logger="org.ametys.plugins.core.authentication">
+                <datasource type="config">runtime.login.form.datasource</datasource>
+                <sqlMap resource="/org/ametys/plugins/core/authentication/login-form-manager.xml" />
+            </component>
+        </components>
     </feature>
     
 </plugin>

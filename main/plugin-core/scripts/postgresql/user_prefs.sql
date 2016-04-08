@@ -19,9 +19,10 @@ DROP TABLE IF EXISTS UserPreferences;
 
 CREATE TABLE UserPreferences(
   login varchar(32) NOT NULL, 
+  population varchar(200) NOT NULL, 
   context varchar(128) NOT NULL,
   data bytea,
-  PRIMARY KEY(login, context)
+  PRIMARY KEY(login, population, context)
 );
 
 COMMIT;

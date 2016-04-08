@@ -28,8 +28,10 @@ import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
+import org.apache.commons.lang.StringUtils;
 import org.xml.sax.SAXException;
 
+import org.ametys.core.user.UserIdentity;
 import org.ametys.core.userpref.UserPreference;
 import org.ametys.core.userpref.UserPreferencesException;
 import org.ametys.core.userpref.UserPreferencesExtensionPoint;
@@ -67,7 +69,7 @@ public class UserPreferencesValuesGenerator extends AbstractCurrentUserProviderS
             storageContext = parameters.getParameter("prefContext", null);
         }
 
-        String username = getUsername();
+        UserIdentity user = getUser();
         Map<String, String> contextVars = getContextVars(request);
         
         contentHandler.startDocument();
@@ -78,7 +80,7 @@ public class UserPreferencesValuesGenerator extends AbstractCurrentUserProviderS
         
         try
         {
-            Map<String, String> prefValues = _userPrefManager.getUnTypedUserPrefs(username, storageContext, contextVars);
+            Map<String, String> prefValues = _userPrefManager.getUnTypedUserPrefs(user, storageContext, contextVars);
             Map<String, UserPreference> userPrefsDefinitions = _userPrefEP.getUserPreferences(contextVars);
             
             Map<String, Object> jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
@@ -126,12 +128,23 @@ public class UserPreferencesValuesGenerator extends AbstractCurrentUserProviderS
     }
     
     /**
-     * Get the user name in the user manager.
-     * @return the user name (login).
+     * Get the user in the user manager.
+     * @return the user.
      */
-    protected String getUsername()
+    protected UserIdentity getUser()
     {
-        return parameters.getParameter("username", _getCurrentUser());
+        String login = parameters.getParameter("username", "");
+        String populationId = parameters.getParameter("population", "");
+        UserIdentity user;
+        if (StringUtils.isEmpty(login) || StringUtils.isEmpty(populationId))
+        {
+            user = _currentUserProvider.getUser();
+        }
+        else
+        {
+            user = new UserIdentity(login, populationId);
+        }
+        return user;
     }
     
     /**

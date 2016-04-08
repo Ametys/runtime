@@ -15,23 +15,19 @@
  */
 package org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.ametys.core.authentication.Credentials;
-import org.ametys.core.datasource.ConnectionHelper;
-import org.ametys.core.script.ScriptRunner;
-import org.ametys.core.user.CredentialsAwareUsersManager;
 import org.ametys.core.user.InvalidModificationException;
-import org.ametys.core.user.ModifiableUsersManager;
 import org.ametys.core.user.User;
+import org.ametys.core.user.UserIdentity;
 import org.ametys.core.user.UserListener;
-import org.ametys.plugins.core.impl.user.jdbc.ModifiableCredentialsAwareJdbcUsersManager;
+import org.ametys.core.user.directory.ModifiableUserDirectory;
+import org.ametys.core.user.directory.UserDirectory;
+import org.ametys.plugins.core.impl.user.directory.JdbcUserDirectory;
 import org.ametys.runtime.test.users.jdbc.AbstractJDBCUsersManagerTestCase;
 
 /**
@@ -39,28 +35,6 @@ import org.ametys.runtime.test.users.jdbc.AbstractJDBCUsersManagerTestCase;
  */
 public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extends AbstractJDBCUsersManagerTestCase
 {
-    
- // FIXME to remove
-    @Override
-    protected void _setDatabase(List<File> scripts) throws Exception
-    {
-        Connection connection = null;
-        
-        try
-        {
-            connection = ConnectionHelper.getInternalSQLDataSourceConnection();
-            
-            for (File script : scripts)
-            {
-                ScriptRunner.runScript(connection, new FileInputStream(script));
-            }
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(connection);
-        }
-    }
-    
     /**
      * Test the getting of users on mysql
      * @throws Exception if an error occurs
@@ -68,13 +42,13 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
     public void testType() throws Exception
     {
         // JDBC IMPL
-        assertTrue(_usersManager instanceof ModifiableCredentialsAwareJdbcUsersManager);
+        assertTrue(_userDirectory instanceof JdbcUserDirectory);
 
         // MODIFIABLE
-        assertTrue(_usersManager instanceof ModifiableUsersManager);
+        assertTrue(_userDirectory instanceof ModifiableUserDirectory);
         
         // CREDENTIAL AWARE
-        assertTrue(_usersManager instanceof CredentialsAwareUsersManager);
+        assertTrue(_userDirectory instanceof UserDirectory);
     }
     
     /**
@@ -83,12 +57,12 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
      */
     public void testIncorrectAdd() throws Exception
     {
-        ModifiableUsersManager modifiableUsersManager = (ModifiableUsersManager) _usersManager;
+        ModifiableUserDirectory modifiableUserDirectory = (ModifiableUserDirectory) _userDirectory;
         
         MyUserListener listener1 = new MyUserListener();
         MyUserListener listener2 = new MyUserListener();
-        modifiableUsersManager.registerListener(listener1);
-        modifiableUsersManager.registerListener(listener2);
+        modifiableUserDirectory.registerListener(listener1);
+        modifiableUserDirectory.registerListener(listener2);
         
         // Incorrect additions
         Map<String, String> userInformation;
@@ -96,7 +70,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         try
         {
             userInformation = new HashMap<>();
-            modifiableUsersManager.add(userInformation);
+            modifiableUserDirectory.add(userInformation);
             fail("An empty addition should fail");
         }
         catch (InvalidModificationException e)
@@ -110,7 +84,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
             userInformation = new HashMap<>();
             userInformation.put("login", "test");
             userInformation.put("firstname", "test");
-            modifiableUsersManager.add(userInformation);
+            modifiableUserDirectory.add(userInformation);
             fail("A non complete addition should fail");
         }
         catch (InvalidModificationException e)
@@ -126,7 +100,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
             userInformation.put("firstname", "test");
             userInformation.put("lastname", "test");
             userInformation.put("email", "");
-            modifiableUsersManager.add(userInformation);
+            modifiableUserDirectory.add(userInformation);
             fail("A non complete addition should fail");
         }
         catch (InvalidModificationException e)
@@ -143,7 +117,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
             userInformation.put("lastname", "test");
             userInformation.put("password", "test");
             userInformation.put("email", "testthatisnotacorrectemail");
-            modifiableUsersManager.add(userInformation);
+            modifiableUserDirectory.add(userInformation);
             fail("An incorrect addition should fail");
         }
         catch (InvalidModificationException e)
@@ -159,14 +133,14 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
      */
     public void testCorrectAdd() throws Exception
     {
-        ModifiableUsersManager modifiableUsersManager = (ModifiableUsersManager) _usersManager;
-        CredentialsAwareUsersManager credentialsAwareUsersManager = (CredentialsAwareUsersManager) _usersManager;
+        ModifiableUserDirectory modifiableUserDirectory = (ModifiableUserDirectory) _userDirectory;
+        UserDirectory credentialsAwareUserDirectory = (UserDirectory) _userDirectory;
         User user;
         
         MyUserListener listener1 = new MyUserListener();
         MyUserListener listener2 = new MyUserListener();
-        modifiableUsersManager.registerListener(listener1);
-        modifiableUsersManager.registerListener(listener2);
+        modifiableUserDirectory.registerListener(listener1);
+        modifiableUserDirectory.registerListener(listener2);
         
         // Correct additions
         Map<String, String> userInformation;
@@ -177,11 +151,11 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         userInformation.put("lastname", "TEST");
         userInformation.put("email", "");
         userInformation.put("password", "testpassword");
-        modifiableUsersManager.add(userInformation);
+        modifiableUserDirectory.add(userInformation);
         _checkListener(listener1, listener2, 1, 0, 0);
-        assertTrue(credentialsAwareUsersManager.checkCredentials(new Credentials("test", "testpassword")));
-        assertFalse(credentialsAwareUsersManager.checkCredentials(new Credentials("test", "wrongpassword")));
-        assertFalse(credentialsAwareUsersManager.checkCredentials(new Credentials("test2", "testpassword")));
+        assertTrue(credentialsAwareUserDirectory.checkCredentials(new Credentials("test", "testpassword")));
+        assertFalse(credentialsAwareUserDirectory.checkCredentials(new Credentials("test", "wrongpassword")));
+        assertFalse(credentialsAwareUserDirectory.checkCredentials(new Credentials("test2", "testpassword")));
         
         userInformation = new HashMap<>();
         userInformation.put("login", "test2");
@@ -189,24 +163,24 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         userInformation.put("lastname", "TEST2");
         userInformation.put("email", "test2@test.te");
         userInformation.put("password", "testpassword");
-        modifiableUsersManager.add(userInformation);
+        modifiableUserDirectory.add(userInformation);
         _checkListener(listener1, listener2, 2, 0, 0);
-        assertTrue(credentialsAwareUsersManager.checkCredentials(new Credentials("test", "testpassword")));
-        assertFalse(credentialsAwareUsersManager.checkCredentials(new Credentials("test", "wrongpassword")));
-        assertTrue(credentialsAwareUsersManager.checkCredentials(new Credentials("test2", "testpassword")));
+        assertTrue(credentialsAwareUserDirectory.checkCredentials(new Credentials("test", "testpassword")));
+        assertFalse(credentialsAwareUserDirectory.checkCredentials(new Credentials("test", "wrongpassword")));
+        assertTrue(credentialsAwareUserDirectory.checkCredentials(new Credentials("test2", "testpassword")));
         
-        user = _usersManager.getUser("test");
+        user = _userDirectory.getUser("test");
         assertNotNull(user);
-        assertEquals(user.getName(), "test");
+        assertEquals(user.getIdentity().getLogin(), "test");
         assertEquals(user.getLastName(), "TEST"); 
         assertEquals(user.getFirstName(), "Test"); 
         assertEquals(user.getFullName(), "Test TEST");
         assertEquals(user.getSortableName(), "TEST Test");
         assertEquals(user.getEmail(), "");
 
-        user = _usersManager.getUser("test2");
+        user = _userDirectory.getUser("test2");
         assertNotNull(user);
-        assertEquals(user.getName(), "test2");
+        assertEquals(user.getIdentity().getLogin(), "test2");
         assertEquals(user.getLastName(), "TEST2"); 
         assertEquals(user.getFirstName(), "Test2"); 
         assertEquals(user.getFullName(), "Test2 TEST2");
@@ -221,7 +195,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
             userInformation.put("lastname", "TEST");
             userInformation.put("email", "");
             userInformation.put("password", "testpassword");
-            modifiableUsersManager.add(userInformation);
+            modifiableUserDirectory.add(userInformation);
             fail("Add should have failed");
         }
         catch (InvalidModificationException e)
@@ -237,13 +211,13 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
      */
     public void testIncorrectUpdate() throws Exception
     {
-        ModifiableUsersManager modifiableUsersManager = (ModifiableUsersManager) _usersManager;
-        CredentialsAwareUsersManager credentialsAwareUsersManager = (CredentialsAwareUsersManager) _usersManager;
+        ModifiableUserDirectory modifiableUserDirectory = (ModifiableUserDirectory) _userDirectory;
+        UserDirectory credentialsAwareUserDirectory = (UserDirectory) _userDirectory;
         
         MyUserListener listener1 = new MyUserListener();
         MyUserListener listener2 = new MyUserListener();
-        modifiableUsersManager.registerListener(listener1);
-        modifiableUsersManager.registerListener(listener2);
+        modifiableUserDirectory.registerListener(listener1);
+        modifiableUserDirectory.registerListener(listener2);
         
         // Incorrect modification
         Map<String, String> userInformation;
@@ -256,7 +230,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
             userInformation.put("lastname", "TEST");
             userInformation.put("email", "");
             userInformation.put("password", "testpassword");
-            modifiableUsersManager.update(userInformation);
+            modifiableUserDirectory.update(userInformation);
             fail("Update should have failed");
         }
         catch (InvalidModificationException e)
@@ -271,7 +245,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         userInformation.put("lastname", "TEST");
         userInformation.put("email", "");
         userInformation.put("password", "testpassword");
-        modifiableUsersManager.add(userInformation);
+        modifiableUserDirectory.add(userInformation);
         _checkListener(listener1, listener2, 1, 0, 0);
         
         try
@@ -281,7 +255,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
             userInformation.put("lastname", "TEST");
             userInformation.put("email", "");
             userInformation.put("password", "testpassword");
-            modifiableUsersManager.update(userInformation);
+            modifiableUserDirectory.update(userInformation);
             fail("Update should have failed");
         }
         catch (InvalidModificationException e)
@@ -298,7 +272,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
             userInformation.put("lastname", "TEST");
             userInformation.put("email", "incorrectemail");
             userInformation.put("password", "testpassword");
-            modifiableUsersManager.update(userInformation);
+            modifiableUserDirectory.update(userInformation);
             fail("Update should have failed");
         }
         catch (InvalidModificationException e)
@@ -314,7 +288,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
             userInformation.put("firstname", "Test");
             userInformation.put("lastname", "TEST");
             userInformation.put("password", "");
-            modifiableUsersManager.update(userInformation);
+            modifiableUserDirectory.update(userInformation);
             fail("Update should have failed");
         }
         catch (InvalidModificationException e)
@@ -323,9 +297,9 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
             _checkListener(listener1, listener2, 1, 0, 0);
         }
         
-        assertTrue(credentialsAwareUsersManager.checkCredentials(new Credentials("test", "testpassword")));
-        assertFalse(credentialsAwareUsersManager.checkCredentials(new Credentials("test", "wrongpassword")));
-        assertFalse(credentialsAwareUsersManager.checkCredentials(new Credentials("test2", "testpassword")));
+        assertTrue(credentialsAwareUserDirectory.checkCredentials(new Credentials("test", "testpassword")));
+        assertFalse(credentialsAwareUserDirectory.checkCredentials(new Credentials("test", "wrongpassword")));
+        assertFalse(credentialsAwareUserDirectory.checkCredentials(new Credentials("test2", "testpassword")));
     }
     
     /**
@@ -334,14 +308,14 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
      */
     public void testCorrectUpdate() throws Exception
     {
-        ModifiableUsersManager modifiableUsersManager = (ModifiableUsersManager) _usersManager;
-        CredentialsAwareUsersManager credentialsAwareUsersManager = (CredentialsAwareUsersManager) _usersManager;
+        ModifiableUserDirectory modifiableUserDirectory = (ModifiableUserDirectory) _userDirectory;
+        UserDirectory credentialsAwareUserDirectory = (UserDirectory) _userDirectory;
         User user;
         
         MyUserListener listener1 = new MyUserListener();
         MyUserListener listener2 = new MyUserListener();
-        modifiableUsersManager.registerListener(listener1);
-        modifiableUsersManager.registerListener(listener2);
+        modifiableUserDirectory.registerListener(listener1);
+        modifiableUserDirectory.registerListener(listener2);
         
         Map<String, String> userInformation;
         userInformation = new HashMap<>();
@@ -350,7 +324,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         userInformation.put("lastname", "TEST");
         userInformation.put("email", "");
         userInformation.put("password", "testpassword");
-        modifiableUsersManager.add(userInformation);
+        modifiableUserDirectory.add(userInformation);
         _checkListener(listener1, listener2, 1, 0, 0);
 
         // Correct modification
@@ -360,14 +334,14 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         userInformation.put("lastname", "TESTMODIFIED");
         userInformation.put("email", "testModified@test.te");
         userInformation.put("password", "testpassword2");
-        modifiableUsersManager.update(userInformation);
+        modifiableUserDirectory.update(userInformation);
         _checkListener(listener1, listener2, 1, 1, 0);
-        assertFalse(credentialsAwareUsersManager.checkCredentials(new Credentials("test", "testpassword")));
-        assertTrue(credentialsAwareUsersManager.checkCredentials(new Credentials("test", "testpassword2")));
+        assertFalse(credentialsAwareUserDirectory.checkCredentials(new Credentials("test", "testpassword")));
+        assertTrue(credentialsAwareUserDirectory.checkCredentials(new Credentials("test", "testpassword2")));
         
-        user = _usersManager.getUser("test");
+        user = _userDirectory.getUser("test");
         assertNotNull(user);
-        assertEquals(user.getName(), "test");
+        assertEquals(user.getIdentity().getLogin(), "test");
         assertEquals(user.getLastName(), "TESTMODIFIED"); 
         assertEquals(user.getFirstName(), "Testmodified"); 
         assertEquals(user.getFullName(), "Testmodified TESTMODIFIED");
@@ -378,14 +352,14 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         userInformation = new HashMap<>();
         userInformation.put("login", "test");
         userInformation.put("firstname", "Testmodifiedtwice");
-        modifiableUsersManager.update(userInformation);
+        modifiableUserDirectory.update(userInformation);
         _checkListener(listener1, listener2, 1, 2, 0);
-        assertFalse(credentialsAwareUsersManager.checkCredentials(new Credentials("test", "testpassword")));
-        assertTrue(credentialsAwareUsersManager.checkCredentials(new Credentials("test", "testpassword2")));
+        assertFalse(credentialsAwareUserDirectory.checkCredentials(new Credentials("test", "testpassword")));
+        assertTrue(credentialsAwareUserDirectory.checkCredentials(new Credentials("test", "testpassword2")));
         
-        user = _usersManager.getUser("test");
+        user = _userDirectory.getUser("test");
         assertNotNull(user);
-        assertEquals(user.getName(), "test");
+        assertEquals(user.getIdentity().getLogin(), "test");
         assertEquals(user.getLastName(), "TESTMODIFIED"); 
         assertEquals(user.getFirstName(), "Testmodifiedtwice"); 
         assertEquals(user.getFullName(), "Testmodifiedtwice TESTMODIFIED");
@@ -399,17 +373,17 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
      */
     public void testIncorrectRemove() throws Exception
     {
-        ModifiableUsersManager modifiableUsersManager = (ModifiableUsersManager) _usersManager;
-        CredentialsAwareUsersManager credentialsAwareUsersManager = (CredentialsAwareUsersManager) _usersManager;
+        ModifiableUserDirectory modifiableUserDirectory = (ModifiableUserDirectory) _userDirectory;
+        UserDirectory credentialsAwareUserDirectory = (UserDirectory) _userDirectory;
         
         MyUserListener listener1 = new MyUserListener();
         MyUserListener listener2 = new MyUserListener();
-        modifiableUsersManager.registerListener(listener1);
-        modifiableUsersManager.registerListener(listener2);
+        modifiableUserDirectory.registerListener(listener1);
+        modifiableUserDirectory.registerListener(listener2);
 
         try
         {
-            modifiableUsersManager.remove("foo");
+            modifiableUserDirectory.remove("foo");
             fail("Remove should fail");
         }
         catch (InvalidModificationException e)
@@ -425,19 +399,19 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         userInformation.put("lastname", "TEST");
         userInformation.put("password", "testpassword");
         userInformation.put("email", "");
-        modifiableUsersManager.add(userInformation);
+        modifiableUserDirectory.add(userInformation);
         _checkListener(listener1, listener2, 1, 0, 0);
 
         try
         {
-            modifiableUsersManager.remove("foo");
+            modifiableUserDirectory.remove("foo");
             fail("Remove should fail");
         }
         catch (InvalidModificationException e)
         {
             // normal behavior
             _checkListener(listener1, listener2, 1, 0, 0);
-            User user = _usersManager.getUser("test");
+            User user = _userDirectory.getUser("test");
             assertNotNull(user);
         }
 
@@ -447,23 +421,23 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         userInformation.put("lastname", "TESTMODIFIED");
         userInformation.put("email", "testModified@test.te");
         userInformation.put("password", "testpassword2");
-        modifiableUsersManager.update(userInformation);
+        modifiableUserDirectory.update(userInformation);
         _checkListener(listener1, listener2, 1, 1, 0);
 
         try
         {
-            modifiableUsersManager.remove("foo");
+            modifiableUserDirectory.remove("foo");
             fail("Remove should fail");
         }
         catch (InvalidModificationException e)
         {
             // normal behavior
             _checkListener(listener1, listener2, 1, 1, 0);
-            User user = _usersManager.getUser("test");
+            User user = _userDirectory.getUser("test");
             assertNotNull(user);
         }
 
-        assertTrue(credentialsAwareUsersManager.checkCredentials(new Credentials("test", "testpassword2")));
+        assertTrue(credentialsAwareUserDirectory.checkCredentials(new Credentials("test", "testpassword2")));
     }
     
     /**
@@ -472,13 +446,13 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
      */
     public void testCorrectRemove() throws Exception
     {
-        ModifiableUsersManager modifiableUsersManager = (ModifiableUsersManager) _usersManager;
-        CredentialsAwareUsersManager credentialsAwareUsersManager = (CredentialsAwareUsersManager) _usersManager;
+        ModifiableUserDirectory modifiableUserDirectory = (ModifiableUserDirectory) _userDirectory;
+        UserDirectory credentialsAwareUserDirectory = (UserDirectory) _userDirectory;
         
         MyUserListener listener1 = new MyUserListener();
         MyUserListener listener2 = new MyUserListener();
-        modifiableUsersManager.registerListener(listener1);
-        modifiableUsersManager.registerListener(listener2);
+        modifiableUserDirectory.registerListener(listener1);
+        modifiableUserDirectory.registerListener(listener2);
 
         Map<String, String> userInformation;
         userInformation = new HashMap<>();
@@ -487,7 +461,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         userInformation.put("lastname", "TEST");
         userInformation.put("email", "");
         userInformation.put("password", "testpassword");
-        modifiableUsersManager.add(userInformation);
+        modifiableUserDirectory.add(userInformation);
         _checkListener(listener1, listener2, 1, 0, 0);
 
         userInformation = new HashMap<>();
@@ -496,17 +470,17 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         userInformation.put("lastname", "TEST2");
         userInformation.put("email", "email@email.ma");
         userInformation.put("password", "test2password");
-        modifiableUsersManager.add(userInformation);
+        modifiableUserDirectory.add(userInformation);
         _checkListener(listener1, listener2, 2, 0, 0);
 
-        modifiableUsersManager.remove("test");
+        modifiableUserDirectory.remove("test");
         _checkListener(listener1, listener2, 2, 0, 1);
-        assertFalse(credentialsAwareUsersManager.checkCredentials(new Credentials("test", "testpassword")));
-        assertTrue(credentialsAwareUsersManager.checkCredentials(new Credentials("test2", "test2password")));
+        assertFalse(credentialsAwareUserDirectory.checkCredentials(new Credentials("test", "testpassword")));
+        assertTrue(credentialsAwareUserDirectory.checkCredentials(new Credentials("test2", "test2password")));
         
-        User user = _usersManager.getUser("test2");
+        User user = _userDirectory.getUser("test2");
         assertNotNull(user);
-        assertEquals(user.getName(), "test2");
+        assertEquals(user.getIdentity().getLogin(), "test2");
         assertEquals(user.getLastName(), "TEST2"); 
         assertEquals(user.getFirstName(), "Test2"); 
         assertEquals(user.getFullName(), "Test2 TEST2");
@@ -530,15 +504,15 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
      */
     public class MyUserListener implements UserListener
     {
-        private List<String> _addedUsers = new ArrayList<>();
-        private List<String> _removedUsers = new ArrayList<>();
-        private List<String> _updatedUsers = new ArrayList<>();
+        private List<UserIdentity> _addedUsers = new ArrayList<>();
+        private List<UserIdentity> _removedUsers = new ArrayList<>();
+        private List<UserIdentity> _updatedUsers = new ArrayList<>();
 
         /**
          * Returns the added users'list
          * @return the added users'list
          */
-        public List<String> getAddedUsers()
+        public List<UserIdentity> getAddedUsers()
         {
             return _addedUsers;
         }
@@ -547,7 +521,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
          * Returns the removed users'list
          * @return the removed users'list
          */
-        public List<String> getRemovedUsers()
+        public List<UserIdentity> getRemovedUsers()
         {
             return _removedUsers;
         }
@@ -556,36 +530,36 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
          * Returns the updated users'list
          * @return the updated users'list
          */
-        public List<String> getUpdatedUsers()
+        public List<UserIdentity> getUpdatedUsers()
         {
             return _updatedUsers;
         }
         
-        public void userAdded(String login)
+        public void userAdded(UserIdentity user)
         {
-            if (login == null)
+            if (user == null)
             {
                 throw new RuntimeException("Listener detected a null login addition");
             }
-            _addedUsers.add(login);
+            _addedUsers.add(user);
         }
 
-        public void userRemoved(String login)
+        public void userRemoved(UserIdentity user)
         {
-            if (login == null)
+            if (user == null)
             {
                 throw new RuntimeException("Listener detected a null login removal");
             }
-            _removedUsers.add(login);
+            _removedUsers.add(user);
         }
 
-        public void userUpdated(String login)
+        public void userUpdated(UserIdentity user)
         {
-            if (login == null)
+            if (user == null)
             {
                 throw new RuntimeException("Listener detected a null login update");
             }
-            _updatedUsers.add(login);
+            _updatedUsers.add(user);
         }
         
     }

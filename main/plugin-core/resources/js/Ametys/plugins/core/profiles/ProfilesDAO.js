@@ -191,7 +191,9 @@ Ext.define(
 	    	 * Add users to given profiles
 	    	 * This calls the method 'addUsers' of the server DAO 'org.ametys.plugins.core.right.profile.ProfileDAO'.
 	    	 * @param {Object[]} parameters The parameters to transmit to the server method
-	    	 * @param {String[]} parameters.usersLogins The logins of the users to add
+	    	 * @param {Object[]} parameters.users The users to add
+	    	 * @param {String} parameters.users.login The login of the user
+	    	 * @param {String} parameters.users.population The population id of the user
 	    	 * @param {String[]} parameters.profilesIds The ids of profiles
 	    	 * @param {String} parameters.profileContext The context
 	    	 * @param {Function} callback The function to call when the java process is over. Use options.scope for the scope. 
@@ -225,7 +227,9 @@ Ext.define(
              * Add groups to given profiles
              * This calls the method 'addGroups' of the server DAO 'org.ametys.plugins.core.right.profile.ProfileDAO'.
              * @param {Object[]} parameters The parameters to transmit to the server method
-             * @param {String[]} parameters.groupsIds The ids of the groups to add
+             * @param {Object[]} parameters.groups The groups to add
+             * @param {String} parameters.groups.id The id of the group
+             * @param {String} parameters.groups.groupDirectory The group directory id of the group
              * @param {String[]} parameters.profilesIds The ids of profiles
              * @param {String} parameters.profileContext The context
              * @param {Function} callback The function to call when the java process is over. Use options.scope for the scope. 
@@ -259,8 +263,12 @@ Ext.define(
 	    	 * Remove profile assignment for given users and groups
 	    	 * This calls the method 'removeAssignment' of the server DAO 'org.ametys.plugins.core.right.profile.ProfileDAO'.
 	    	 * @param {Object[]} parameters The parameters to transmit to the server method
-	    	 * @param {String[]} parameters.usersLogins The logins of the users to remove
-	    	 * @param {String[]} parameters.groupsIds The ids of the groups to remove
+	    	 * @param {Object[]} parameters.users The users to remove
+	    	 * @param {String} parameters.users.login The login of the user
+	    	 * @param {String} parameters.users.population The population id of the user
+	    	 * @param {Object[]} parameters.groups The groups to remove
+	    	 * @param {String} parameters.groups.id The id of the group
+	    	 * @param {String} parameters.groups.groupDirectory The group directory id of the group
 	    	 * @param {String} parameters.profileId The id of the profile
 	    	 * @param {String} parameters.profileContext The context
 	    	 * @param {Function} callback The function to call when the java process is over. Use options.scope for the scope. 

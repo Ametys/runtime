@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.joda.time.format.ISODateTimeFormat;
 
+import org.ametys.core.user.UserIdentity;
 import org.ametys.core.userpref.UserPreferencesExtensionPoint;
 import org.ametys.core.userpref.UserPreferencesManager;
 import org.ametys.runtime.test.AbstractJDBCTestCase;
@@ -80,7 +81,8 @@ public abstract class AbstractUserPreferencesTestCase extends AbstractJDBCTestCa
         assertEquals(5, _userPrefsEP.getUserPreferences(contextVars).size());
         
         // User prefs in database.
-        assertEquals(0, _userPrefs.getUnTypedUserPrefs("anonymous", "/", contextVars).size());
+        UserIdentity user = new UserIdentity("anonymous", "foo");
+        assertEquals(0, _userPrefs.getUnTypedUserPrefs(user, "/", contextVars).size());
     }
     
     /**
@@ -89,6 +91,9 @@ public abstract class AbstractUserPreferencesTestCase extends AbstractJDBCTestCa
      */
     public void testFilled() throws Exception
     {
+        // Create the user identity
+        UserIdentity userIdentity = new UserIdentity("user", "population");
+        
         // Fill DB
         _setDatabase(Arrays.asList(getPopulateScripts()));
         
@@ -96,30 +101,30 @@ public abstract class AbstractUserPreferencesTestCase extends AbstractJDBCTestCa
         
         Map<String, String> prefs;
         
-        prefs = _userPrefs.getUnTypedUserPrefs("user", "/empty", contextVars);
+        prefs = _userPrefs.getUnTypedUserPrefs(userIdentity, "/empty", contextVars);
         
         assertEquals(0, prefs.size());
-        assertNull(_userPrefs.getUserPreferenceAsString("user", "/empty", contextVars, "nopref"));
+        assertNull(_userPrefs.getUserPreferenceAsString(userIdentity, "/empty", contextVars, "nopref"));
         
-        prefs = _userPrefs.getUnTypedUserPrefs("user", "/one", contextVars);
+        prefs = _userPrefs.getUnTypedUserPrefs(userIdentity, "/one", contextVars);
         
         assertEquals(1, prefs.size());
         assertEquals("one", prefs.get("pref1"));
         
-        assertEquals("one", _userPrefs.getUserPreferenceAsString("user", "/one", contextVars, "pref1"));
-        assertNull(_userPrefs.getUserPreferenceAsString("user", "/one", contextVars, "nopref"));
+        assertEquals("one", _userPrefs.getUserPreferenceAsString(userIdentity, "/one", contextVars, "pref1"));
+        assertNull(_userPrefs.getUserPreferenceAsString(userIdentity, "/one", contextVars, "nopref"));
         
-        prefs = _userPrefs.getUnTypedUserPrefs("user", "/two", contextVars);
+        prefs = _userPrefs.getUnTypedUserPrefs(userIdentity, "/two", contextVars);
         
         assertEquals(2, prefs.size());
         assertEquals("one", prefs.get("pref1"));
         assertEquals("two", prefs.get("pref2"));
         
-        assertEquals("one", _userPrefs.getUserPreferenceAsString("user", "/two", contextVars, "pref1"));
-        assertEquals("two", _userPrefs.getUserPreferenceAsString("user", "/two", contextVars, "pref2"));
-        assertNull(_userPrefs.getUserPreferenceAsString("user", "/two", contextVars, "nopref"));
+        assertEquals("one", _userPrefs.getUserPreferenceAsString(userIdentity, "/two", contextVars, "pref1"));
+        assertEquals("two", _userPrefs.getUserPreferenceAsString(userIdentity, "/two", contextVars, "pref2"));
+        assertNull(_userPrefs.getUserPreferenceAsString(userIdentity, "/two", contextVars, "nopref"));
         
-        prefs = _userPrefs.getUnTypedUserPrefs("user", "/all", contextVars);
+        prefs = _userPrefs.getUnTypedUserPrefs(userIdentity, "/all", contextVars);
         
         assertEquals(6, prefs.size());
         assertEquals("one", prefs.get("pref1"));
@@ -131,14 +136,14 @@ public abstract class AbstractUserPreferencesTestCase extends AbstractJDBCTestCa
         
         Date date = ISODateTimeFormat.dateTime().parseDateTime("1987-10-09T00:00:00.000+02:00").toDate();
         
-        assertEquals("one", _userPrefs.getUserPreferenceAsString("user", "/all", contextVars, "pref1"));
-        assertEquals("two", _userPrefs.getUserPreferenceAsString("user", "/all", contextVars, "pref2"));
-        assertEquals(27L, _userPrefs.getUserPreferenceAsLong("user", "/all", contextVars, "long").longValue());
-        assertEquals(3.14, _userPrefs.getUserPreferenceAsDouble("user", "/all", contextVars, "double").doubleValue());
-        assertEquals(date, _userPrefs.getUserPreferenceAsDate("user", "/all", contextVars, "date"));
-        assertEquals(true, _userPrefs.getUserPreferenceAsBoolean("user", "/all", contextVars, "boolean").booleanValue());
+        assertEquals("one", _userPrefs.getUserPreferenceAsString(userIdentity, "/all", contextVars, "pref1"));
+        assertEquals("two", _userPrefs.getUserPreferenceAsString(userIdentity, "/all", contextVars, "pref2"));
+        assertEquals(27L, _userPrefs.getUserPreferenceAsLong(userIdentity, "/all", contextVars, "long").longValue());
+        assertEquals(3.14, _userPrefs.getUserPreferenceAsDouble(userIdentity, "/all", contextVars, "double").doubleValue());
+        assertEquals(date, _userPrefs.getUserPreferenceAsDate(userIdentity, "/all", contextVars, "date"));
+        assertEquals(true, _userPrefs.getUserPreferenceAsBoolean(userIdentity, "/all", contextVars, "boolean").booleanValue());
         
-        assertNull(_userPrefs.getUserPreferenceAsString("user", "/all", contextVars, "nopref"));
+        assertNull(_userPrefs.getUserPreferenceAsString(userIdentity, "/all", contextVars, "nopref"));
     }
     
     /**
@@ -147,14 +152,17 @@ public abstract class AbstractUserPreferencesTestCase extends AbstractJDBCTestCa
      */
     public void testSet() throws Exception
     {
+        // Create the user identity
+        UserIdentity userIdentity = new UserIdentity("user", "foo");
+        
         Map<String, String> contextVars = Collections.emptyMap();
         
         Map<String, String> prefs;
         
-        prefs = _userPrefs.getUnTypedUserPrefs("user", "/all", contextVars);
+        prefs = _userPrefs.getUnTypedUserPrefs(userIdentity, "/all", contextVars);
         
         assertEquals(0, prefs.size());
-        assertNull(_userPrefs.getUserPreferenceAsString("user", "/empty", contextVars, "nopref"));
+        assertNull(_userPrefs.getUserPreferenceAsString(userIdentity, "/empty", contextVars, "nopref"));
                 
         Map<String, String> prefsToSet = new HashMap<>();
         
@@ -165,10 +173,10 @@ public abstract class AbstractUserPreferencesTestCase extends AbstractJDBCTestCa
         prefsToSet.put("date", "1987-10-09T00:00:00.000+02:00");
         prefsToSet.put("boolean", "true");
         
-        _userPrefs.setUserPreferences("user", "/all", contextVars, prefsToSet);
+        _userPrefs.setUserPreferences(userIdentity, "/all", contextVars, prefsToSet);
         
         prefsToSet.clear();
-        prefsToSet = _userPrefs.getUnTypedUserPrefs("user", "/all", contextVars);
+        prefsToSet = _userPrefs.getUnTypedUserPrefs(userIdentity, "/all", contextVars);
         
         assertEquals(6, prefsToSet.size());
         assertEquals("one", prefsToSet.get("pref1"));
@@ -180,26 +188,26 @@ public abstract class AbstractUserPreferencesTestCase extends AbstractJDBCTestCa
         
         Date date = ISODateTimeFormat.dateTime().parseDateTime("1987-10-09T00:00:00.000+02:00").toDate();
         
-        assertEquals("one", _userPrefs.getUserPreferenceAsString("user", "/all", contextVars, "pref1"));
-        assertEquals("two", _userPrefs.getUserPreferenceAsString("user", "/all", contextVars, "pref2"));
-        assertEquals(27L, _userPrefs.getUserPreferenceAsLong("user", "/all", contextVars, "long").longValue());
-        assertEquals(3.14, _userPrefs.getUserPreferenceAsDouble("user", "/all", contextVars, "double").doubleValue());
-        assertEquals(date, _userPrefs.getUserPreferenceAsDate("user", "/all", contextVars, "date"));
-        assertEquals(true, _userPrefs.getUserPreferenceAsBoolean("user", "/all", contextVars, "boolean").booleanValue());
+        assertEquals("one", _userPrefs.getUserPreferenceAsString(userIdentity, "/all", contextVars, "pref1"));
+        assertEquals("two", _userPrefs.getUserPreferenceAsString(userIdentity, "/all", contextVars, "pref2"));
+        assertEquals(27L, _userPrefs.getUserPreferenceAsLong(userIdentity, "/all", contextVars, "long").longValue());
+        assertEquals(3.14, _userPrefs.getUserPreferenceAsDouble(userIdentity, "/all", contextVars, "double").doubleValue());
+        assertEquals(date, _userPrefs.getUserPreferenceAsDate(userIdentity, "/all", contextVars, "date"));
+        assertEquals(true, _userPrefs.getUserPreferenceAsBoolean(userIdentity, "/all", contextVars, "boolean").booleanValue());
         
-        assertNull(_userPrefs.getUserPreferenceAsString("user", "/all", contextVars, "nopref"));
+        assertNull(_userPrefs.getUserPreferenceAsString(userIdentity, "/all", contextVars, "nopref"));
         
         // Remove a preference and test if it is null.
-        _userPrefs.removeUserPreference("user", "/all", contextVars, "pref2");
+        _userPrefs.removeUserPreference(userIdentity, "/all", contextVars, "pref2");
         
-        assertNull(_userPrefs.getUserPreferenceAsString("user", "/all", contextVars, "pref2"));
+        assertNull(_userPrefs.getUserPreferenceAsString(userIdentity, "/all", contextVars, "pref2"));
         
         // Remove all preferences and test if the values are null and the value map is empty.
-        _userPrefs.removeAllUserPreferences("user", "/all", contextVars);
+        _userPrefs.removeAllUserPreferences(userIdentity, "/all", contextVars);
         
-        assertNull(_userPrefs.getUserPreferenceAsString("user", "/all", contextVars, "pref1"));
-        assertNull(_userPrefs.getUserPreferenceAsString("user", "/all", contextVars, "boolean"));
-        assertEquals(0, _userPrefs.getUnTypedUserPrefs("user", "/all", contextVars).size());
+        assertNull(_userPrefs.getUserPreferenceAsString(userIdentity, "/all", contextVars, "pref1"));
+        assertNull(_userPrefs.getUserPreferenceAsString(userIdentity, "/all", contextVars, "boolean"));
+        assertEquals(0, _userPrefs.getUnTypedUserPrefs(userIdentity, "/all", contextVars).size());
     }
     
 }

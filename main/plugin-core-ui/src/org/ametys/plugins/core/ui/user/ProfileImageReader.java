@@ -37,6 +37,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
 import org.ametys.core.user.CurrentUserProvider;
+import org.ametys.core.user.UserIdentity;
 import org.ametys.core.util.ImageHelper;
 import org.ametys.plugins.core.ui.user.ProfileImageProvider.ProfileImageSource;
 import org.ametys.plugins.core.ui.user.ProfileImageProvider.UserProfileImage;
@@ -91,10 +92,16 @@ public class ProfileImageReader extends ServiceableReader
         }
         
         String login =  parameters.getParameter("login", StringUtils.EMPTY);
-        // Default to current user is login not provided, except for the default source for which a login is not needed.
-        if (!ProfileImageSource.DEFAULT.equals(profileImageSource) && StringUtils.isEmpty(login))
+        String populationId =  parameters.getParameter("population", StringUtils.EMPTY);
+        UserIdentity user;
+        // Default to current user if login not provided, except for the default source for which a login is not needed.
+        if (!ProfileImageSource.DEFAULT.equals(profileImageSource) && (StringUtils.isEmpty(login) || StringUtils.isEmpty(populationId)))
         {
-            login =  _currentUserProvider.getUser();
+            user =  _currentUserProvider.getUser();
+        }
+        else
+        {
+            user = new UserIdentity(login, populationId);
         }
         
         boolean download = parameters.getParameterAsBoolean("download", false);
@@ -104,7 +111,7 @@ public class ProfileImageReader extends ServiceableReader
         int maxSize = parameters.getParameterAsInteger("maxSize", 0);
         
         // Get parameters for source
-        Map<String, Object> sourceParams = _extractSourceParameters(request, login, profileImageSource);
+        Map<String, Object> sourceParams = _extractSourceParameters(request, user, profileImageSource);
         
         UserProfileImage image = null;
         if (sourceParams != null)
@@ -119,16 +126,16 @@ public class ProfileImageReader extends ServiceableReader
                 sourceParams.put("maxSize", maxSize);
             }
             
-            image = _profileImageProvider.getImage(profileImageSource, login, sourceParams);
+            image = _profileImageProvider.getImage(profileImageSource, user, sourceParams);
             
             if (image == null && ProfileImageSource.USERPREF.equals(profileImageSource))
             {
                 // Reading from userpref, but no userpref set.
                 // Try gravatar, then initials
-                image = _profileImageProvider.getGravatarImage(login, size > 0 ? size : maxSize);
+                image = _profileImageProvider.getGravatarImage(user, size > 0 ? size : maxSize);
                 if (image == null)
                 {
-                    image = _profileImageProvider.getInitialsImage(login);
+                    image = _profileImageProvider.getInitialsImage(user);
                 }
             }
         }
@@ -140,14 +147,14 @@ public class ProfileImageReader extends ServiceableReader
             // still null?
             if (image == null)
             {
-                throw new ProcessingException(String.format("Not able to provide an image from source '%s' for user '%s' because no image was found.", profileImageSource, login));
+                throw new ProcessingException(String.format("Not able to provide an image from source '%s' for user '%s' because no image was found.", profileImageSource, user));
             }
         }
         
         // Read the image
         try
         {
-            _readImage(response, login, image, download, size, maxSize);
+            _readImage(response, user, image, download, size, maxSize);
         }
         finally
         {
@@ -158,22 +165,22 @@ public class ProfileImageReader extends ServiceableReader
     /**
      * Provides the necessary parameters to retrieves the image from a given source.
      * @param request The request
-     * @param login The user login
+     * @param user The user
      * @param profileImageSource The image source type
      * @return A map of parameters
      * @throws ResourceNotFoundException In case of a unhandled source type or if parameters could not be extracted 
      */
     
-    protected Map<String, Object> _extractSourceParameters(Request request, String login, ProfileImageSource profileImageSource) throws ResourceNotFoundException
+    protected Map<String, Object> _extractSourceParameters(Request request, UserIdentity user, ProfileImageSource profileImageSource) throws ResourceNotFoundException
     {
         switch (profileImageSource)
         {
             case UPLOAD:
-                return _extractUploadParameters(request, login);
+                return _extractUploadParameters(request, user);
             case LOCALIMAGE:
-                return _extractLocalImageParameters(request, login);
+                return _extractLocalImageParameters(request, user);
             case BASE64:
-                return _extractBase64Parameters(request, login);
+                return _extractBase64Parameters(request, user);
             case INITIALS:
             case USERSMANAGER:
             case USERPREF:
@@ -184,7 +191,7 @@ public class ProfileImageReader extends ServiceableReader
             default:
                 if (getLogger().isWarnEnabled())
                 {
-                    getLogger().warn(String.format("Cannot extract image source parameters for user '%s'. Unhandled profile image source '%s'", login, source));
+                    getLogger().warn(String.format("Cannot extract image source parameters for user '%s'. Unhandled profile image source '%s'", user, source));
                 }
                 return null;
         }
@@ -193,16 +200,16 @@ public class ProfileImageReader extends ServiceableReader
     /**
      * Extracts parameters for an uploaded image
      * @param request The request
-     * @param login The user login
+     * @param user The user
      * @return A map containing the uploaded file id (key=id)
      */
-    protected Map<String, Object> _extractUploadParameters(Request request, String login)
+    protected Map<String, Object> _extractUploadParameters(Request request, UserIdentity user)
     {
         String uploadId = request.getParameter("id");
         
         if (StringUtils.isEmpty(uploadId))
         {
-            getLogger().error("Missing mandatory uploaded file id parameter to retrieve the uploaded file for user " + login + ".");
+            getLogger().error("Missing mandatory uploaded file id parameter to retrieve the uploaded file for user " + user + ".");
             return null;
         }
         
@@ -215,16 +222,16 @@ public class ProfileImageReader extends ServiceableReader
     /**
      * Extracts parameters for a local image
      * @param request The request
-     * @param login The user login
+     * @param user The user
      * @return A map containing the local image id (key=id)
      */
-    protected Map<String, Object> _extractLocalImageParameters(Request request, String login)
+    protected Map<String, Object> _extractLocalImageParameters(Request request, UserIdentity user)
     {
         String localFileId = request.getParameter("id");
         
         if (StringUtils.isEmpty(localFileId))
         {
-            getLogger().error("Missing mandatory local file id parameter to retrieve the local file for user " + login + ".");
+            getLogger().error("Missing mandatory local file id parameter to retrieve the local file for user " + user + ".");
             return null;
         }
         
@@ -237,16 +244,16 @@ public class ProfileImageReader extends ServiceableReader
     /**
      * Extracts parameters for a local image
      * @param request The request
-     * @param login The user login
+     * @param user The user
      * @return A map containing the local image id (key=id)
      */
-    protected Map<String, Object> _extractBase64Parameters(Request request, String login)
+    protected Map<String, Object> _extractBase64Parameters(Request request, UserIdentity user)
     {
         String data = request.getParameter("data");
         
         if (StringUtils.isEmpty(data))
         {
-            getLogger().error("Missing mandatory data parameter for user image of type base 64 user " + login + ".");
+            getLogger().error("Missing mandatory data parameter for user image of type base 64 user " + user + ".");
             return null;
         }
         
@@ -265,18 +272,18 @@ public class ProfileImageReader extends ServiceableReader
     /**
      * Read the image from an input stream
      * @param response The response
-     * @param login The user login
+     * @param user The user
      * @param image The user profile image to read
      * @param download To request a download
      * @param size The desired size
      * @param maxSize The max size
      * @throws IOException If an I/O error occurs while manipulating streams
      */
-    protected void _readImage(Response response, String login, UserProfileImage image, boolean download, int size, int maxSize) throws IOException
+    protected void _readImage(Response response, UserIdentity user, UserProfileImage image, boolean download, int size, int maxSize) throws IOException
     {
         try (InputStream is = image.getInputstream())
         {
-            String filename = StringUtils.defaultIfEmpty(image.getFilename(), login + ".png");
+            String filename = StringUtils.defaultIfEmpty(image.getFilename(), user.getLogin() + ".png");
             String format = FilenameUtils.getExtension(filename);
             
             format = ALLOWED_IMG_FORMATS.contains(format) ? format : "png";

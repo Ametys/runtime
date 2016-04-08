@@ -17,9 +17,11 @@ package org.ametys.plugins.core.impl.right.profile;
 
 import java.util.Set;
 
+import org.ametys.core.group.GroupIdentity;
 import org.ametys.core.right.RightsException;
 import org.ametys.core.right.RightsManager;
 import org.ametys.core.right.profile.Profile;
+import org.ametys.core.user.UserIdentity;
 
 
 /**
@@ -77,60 +79,60 @@ public interface ProfileBasedRightsManager extends RightsManager
     /**
      * Associates a profile with a group for a given Context
      * 
-     * @param groupId the id of the group
+     * @param group the group
      * @param context the current context
      * @param profileId the id of the profile to link with the user
      * @throws RightsException if an error occurs.
      */
-    public void addGroupRight(String groupId, String context, String profileId) throws RightsException;
+    public void addGroupRight(GroupIdentity group, String context, String profileId) throws RightsException;
 
     /**
      * Associates a profile with a user for a given Context
      * 
-     * @param login the login of the user
+     * @param user the user
      * @param context the current context
      * @param profileId the id of the profile to link with the user
      * @throws RightsException if an error occurs.
      */
-    public void addUserRight(String login, String context, String profileId) throws RightsException;
+    public void addUserRight(UserIdentity user, String context, String profileId) throws RightsException;
 
     /**
      * Removes a profile associated with a user for a given context
      * 
-     * @param login the login of the user
+     * @param user the user
      * @param profile the profile to remove
      * @param context the current context
      * @throws RightsException if an error occurs.
      */
-    public void removeUserProfile(String login, String profile, String context) throws RightsException;
+    public void removeUserProfile(UserIdentity user, String profile, String context) throws RightsException;
 
     /**
      * Removes all profiles associated with a user for a given context
      * 
-     * @param login the login of the user
+     * @param user the user
      * @param context the current context
      * @throws RightsException if an error occurs.
      */
-    public void removeUserProfiles(String login, String context) throws RightsException;
+    public void removeUserProfiles(UserIdentity user, String context) throws RightsException;
     
     /**
      * Removes all profiles associated with a group for a given context
      * 
-     * @param groupId the if of the group
+     * @param group the group
      * @param profile the profile to remove
      * @param context the current context
      * @throws RightsException if an error occurs.
      */
-    public void removeGroupProfile(String groupId, String profile, String context) throws RightsException;
+    public void removeGroupProfile(GroupIdentity group, String profile, String context) throws RightsException;
     
     /**
      * Removes all profiles associated with a group for a given context
      * 
-     * @param groupId the if of the group
+     * @param group the group
      * @param context the current context
      * @throws RightsException if an error occurs.
      */
-    public void removeGroupProfiles(String groupId, String context) throws RightsException;
+    public void removeGroupProfiles(GroupIdentity group, String context) throws RightsException;
     
     /**
      * Move all profiles on a given context to a new context.
@@ -151,11 +153,11 @@ public interface ProfileBasedRightsManager extends RightsManager
     
     /**
      * This method has to ensure that the user identified by its login will have all power by assigning a profile containing all rights.
-     * @param login The login of the user that will obtain all privilege on the right manager.
+     * @param user The user that will obtain all privilege on the right manager.
      * @param context The context of the right (cannot be null)
      * @param profileName The name of the profile to affect
      * @throws RightsException if an error occurs.
      */
-    public void grantAllPrivileges(String login, String context, String profileName) throws RightsException;
+    public void grantAllPrivileges(UserIdentity user, String context, String profileName) throws RightsException;
 
 }

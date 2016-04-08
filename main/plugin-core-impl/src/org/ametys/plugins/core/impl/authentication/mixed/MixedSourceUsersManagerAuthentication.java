@@ -16,30 +16,30 @@
 package org.ametys.plugins.core.impl.authentication.mixed;
 
 import org.ametys.core.authentication.Credentials;
-import org.ametys.core.user.CredentialsAwareUsersManager;
 import org.ametys.plugins.core.impl.authentication.UsersManagerAuthentication;
 
 /**
  * Authenticate Credentials with the current UsersManager (which must implement CredentialsAwareUsersManager).
  * Replace standard UsersManagerAuthentication with this one when using CASBasicCredentialsProvider.
  */
+// FIXME
 public class MixedSourceUsersManagerAuthentication extends UsersManagerAuthentication
 {
     @Override
     public boolean login(Credentials credentials)
     {
         // Check that the UsersManager knows how to authenticate credentials.
-        if (_users instanceof CredentialsAwareUsersManager)
-        {
-            // If the credentials come from a SSO (like CAS), they are already authenticated : grant access.
-            if (credentials instanceof MixedSourceCredentials)
-            {
-                if (((MixedSourceCredentials) credentials).isAuthenticated())
-                {
-                    return true;
-                }
-            }
-        }
+//        if (_users instanceof CredentialsAwareUsersManager)
+//        {
+//            // If the credentials come from a SSO (like CAS), they are already authenticated : grant access.
+//            if (credentials instanceof MixedSourceCredentials)
+//            {
+//                if (((MixedSourceCredentials) credentials).isAuthenticated())
+//                {
+//                    return true;
+//                }
+//            }
+//        }
         
         return super.login(credentials);
     }

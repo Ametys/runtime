@@ -342,4 +342,11 @@
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_ADMINPASSWORD_DESCRIPTION">The password for the administration user to use when connecting to the LDAP server.</message>   
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_PRIVATE">Private source</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_PRIVATE_DESCRIPTION">>Check this box if you want this data source is private.&lt;br/&gt;A private source is only be visible in the administration interface.</message>
+    
+    <!-- SUPER USER -->
+    <message key="PLUGINS_ADMIN_SUPERUSER_LABEL">Assign super user</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_DESCRIPTION">Set the administrator of the site.</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_ERROR">An error occurred: the allocation has failed.</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_TITLE">Assign super user</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_SUCCESS">The allocation has been completed.</message>
 </catalogue>

@@ -28,8 +28,10 @@ import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.Session;
 
 import org.ametys.core.authentication.AuthenticateAction;
+import org.ametys.core.authentication.CredentialProvider;
+import org.ametys.core.authentication.LogoutCapable;
 import org.ametys.core.user.CurrentUserProvider;
-import org.ametys.runtime.workspaces.admin.authentication.AdminAuthenticateAction;
+import org.ametys.core.user.UserIdentity;
 
 /**
  * Provides the current user by searching into the object model.<br>
@@ -45,35 +47,9 @@ public class AvalonCurrentUserProvider extends AbstractLogEnabled implements Cur
         _context = context;        
     }
     
-    
-    public boolean isSuperUser()
+    public UserIdentity getUser()
     {
-        try
-        {
-            Map objectModel = ContextHelper.getObjectModel(_context);
-            Request request = ObjectModelHelper.getRequest(objectModel);
-            return request.getAttribute(AdminAuthenticateAction.REQUEST_ATTRIBUTE_SUPER_USER) != null;
-        }
-        catch (Exception e)
-        {
-            if (getLogger().isInfoEnabled())
-            {
-                getLogger().info("Unable to retrieve object model", e);
-            }
-        }
-        
-        // No object model, no super user
-        return false;
-    }
-    
-    public String getUser()
-    {
-        if (isSuperUser())
-        {
-            return "admin"; // FIXME throw new IllegalStateException("The current user is the super user");
-        }
-        
-        String user = null;
+        UserIdentity user = null;
         
         try
         {
@@ -83,7 +59,7 @@ public class AvalonCurrentUserProvider extends AbstractLogEnabled implements Cur
             
             if (session != null)
             {
-                user = (String) session.getAttribute(AuthenticateAction.SESSION_USERLOGIN);
+                user = (UserIdentity) session.getAttribute(AuthenticateAction.SESSION_USERIDENTITY);
             }
         }
         catch (Exception e)
@@ -110,5 +86,43 @@ public class AvalonCurrentUserProvider extends AbstractLogEnabled implements Cur
         }
         
         return user;
+    }
+    
+    @Override
+    public boolean canLogout()
+    {
+        Map objectModel = ContextHelper.getObjectModel(_context);
+        Request request = ObjectModelHelper.getRequest(objectModel);
+        Session session = request.getSession(false);
+        
+        if (session != null)
+        {
+            CredentialProvider cp = (CredentialProvider) session.getAttribute(AuthenticateAction.SESSION_CREDENTIALPROVIDER);
+            return cp instanceof LogoutCapable;
+        }
+        
+        return false;
+    }
+    
+    @Override
+    public boolean logout()
+    {
+        Map objectModel = ContextHelper.getObjectModel(_context);
+        Request request = ObjectModelHelper.getRequest(objectModel);
+        Session session = request.getSession(false);
+        
+        if (session != null)
+        {
+            CredentialProvider cp = (CredentialProvider) session.getAttribute(AuthenticateAction.SESSION_CREDENTIALPROVIDER);
+            if (cp instanceof LogoutCapable)
+            {
+                // Invalidate session
+                session.invalidate();
+                // Logout process
+                return ((LogoutCapable) cp).logout();
+            }
+        }
+        
+        return false;
     }
 }

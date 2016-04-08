@@ -34,7 +34,8 @@ import org.ametys.core.right.RightsManager;
 import org.ametys.core.right.profile.Profile;
 import org.ametys.core.ui.Callable;
 import org.ametys.core.user.User;
-import org.ametys.core.user.UsersManager;
+import org.ametys.core.user.UserIdentity;
+import org.ametys.core.user.UserManager;
 import org.ametys.plugins.core.impl.right.profile.DefaultProfileBasedRightsManager;
 import org.ametys.plugins.core.impl.right.profile.ProfileBasedRightsManager;
 import org.ametys.plugins.core.user.UserHelper;
@@ -47,42 +48,45 @@ public class UsersClientInteraction extends AbstractLogEnabled implements Servic
 {
     private RightsExtensionPoint _rights;
     private RightsManager _rightsManager;
-    private UsersManager _usersManager;
+    private UserManager _userManager;
+    private UserHelper _userHelper;
 
     @Override
     public void service(ServiceManager m) throws ServiceException
     {
         _rights = (RightsExtensionPoint) m.lookup(RightsExtensionPoint.ROLE);
         _rightsManager = (RightsManager) m.lookup(RightsManager.ROLE);
-        _usersManager = (UsersManager) m.lookup(UsersManager.ROLE);
+        _userManager = (UserManager) m.lookup(UserManager.ROLE);
+        _userHelper = (UserHelper) m.lookup(UserHelper.ROLE);
     }
 
     /**
      * Structuring information about the user's rights in the JSON format
      * @param login the login of the user
+     * @param populationId The id of the population of the user
      * @return result the user's rights as JSON object
      */
     @Callable
-    public Map<String, Object> getUserRights(String login) 
+    public Map<String, Object> getUserRights(String login, String populationId) 
     {
         Map<String, Object> result = new HashMap<>();
 
         result.put("user", new ArrayList<Map<String, Object>>());
 
-        User user = _usersManager.getUser(login);
+        User user = _userManager.getUser(populationId, login);
         if (user == null)
         {
-            throw new IllegalStateException("The user with login '" + login + "' does not exist");
+            throw new IllegalStateException("The user ('" + login + "', '" + populationId + "') does not exist");
         }
         
         Map<String, Object> userInfo = new HashMap<>();
-        userInfo.putAll(UserHelper.user2Map(user));
+        userInfo.putAll(_userHelper.user2Map(user));
 
         if (_rightsManager instanceof DefaultProfileBasedRightsManager)
         {
             List<Object> profiles = new ArrayList<>();
             
-            Map<String, Set<String>> userProfiles = ((DefaultProfileBasedRightsManager) _rightsManager).getProfilesAndContextByUser(login);
+            Map<String, Set<String>> userProfiles = ((DefaultProfileBasedRightsManager) _rightsManager).getProfilesAndContextByUser(new UserIdentity(login, populationId));
             for (String profileId : userProfiles.keySet())
             {
                 Map<String, Object> profileInfo = new HashMap<>();
@@ -105,7 +109,7 @@ public class UsersClientInteraction extends AbstractLogEnabled implements Servic
         else
         {
             // The rights
-            Map<String, Set<String>> rightsByContext = _rightsManager.getUserRights(login);
+            Map<String, Set<String>> rightsByContext = _rightsManager.getUserRights(new UserIdentity(login, populationId));
             List<Object> rightsByContextToJSON = new ArrayList<>();
 
             for (String context : rightsByContext.keySet())

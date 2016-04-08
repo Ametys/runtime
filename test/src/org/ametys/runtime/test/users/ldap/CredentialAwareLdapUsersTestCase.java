@@ -16,14 +16,12 @@
 package org.ametys.runtime.test.users.ldap;
 
 import org.ametys.core.authentication.Credentials;
-import org.ametys.core.user.CredentialsAwareUsersManager;
-import org.ametys.core.user.ModifiableUsersManager;
-import org.ametys.core.user.UsersManager;
-import org.ametys.plugins.core.impl.user.ldap.CredentialsAwareLdapUsersManager;
-import org.ametys.runtime.test.Init;
+import org.ametys.core.user.directory.ModifiableUserDirectory;
+import org.ametys.core.user.directory.UserDirectory;
+import org.ametys.plugins.core.impl.user.directory.LdapUserDirectory;
 
 /**
- * Tests the LdapUsersManager
+ * Tests the LdapUserDirectory
  */
 public class CredentialAwareLdapUsersTestCase extends LdapUsersTestCase
 {
@@ -32,20 +30,20 @@ public class CredentialAwareLdapUsersTestCase extends LdapUsersTestCase
     {
         _startApplication("test/environments/runtimes/runtime9.xml", "test/environments/configs/config4.xml", "test/environments/datasources/datasource-mysql.xml", "test/environments/datasources/datasource-ldap.xml", "test/environments/webapp1");
         
-        _usersManager = (UsersManager) Init.getPluginServiceManager().lookup(UsersManager.ROLE);
+        _userDirectory = _createLdapUserDirectory();
     }
     
     @Override
     public void testType() throws Exception
     {
-        // JDBC IMPL
-        assertTrue(_usersManager instanceof CredentialsAwareLdapUsersManager);
+        // LDAP IMPL
+        assertTrue(_userDirectory instanceof LdapUserDirectory);
 
         // NOT MODIFIABLE
-        assertFalse(_usersManager instanceof ModifiableUsersManager);
+        assertFalse(_userDirectory instanceof ModifiableUserDirectory);
         
-        // NOT CREDENTIAL AWARE
-        assertTrue(_usersManager instanceof CredentialsAwareUsersManager);
+        // CREDENTIAL AWARE
+        assertTrue(_userDirectory instanceof UserDirectory);
     }
     
     /**
@@ -54,17 +52,17 @@ public class CredentialAwareLdapUsersTestCase extends LdapUsersTestCase
      */
     public void testIncorrectAuthentication() throws Exception
     {
-        CredentialsAwareUsersManager credentialAwareUSersManager = (CredentialsAwareUsersManager) _usersManager;
+        UserDirectory credentialAwareUserDirectory = (UserDirectory) _userDirectory;
 
         Credentials credentials;
         boolean result;
 
         credentials = new Credentials("foo", "foo");
-        result = credentialAwareUSersManager.checkCredentials(credentials);
+        result = credentialAwareUserDirectory.checkCredentials(credentials);
         assertFalse(result);
 
         credentials = new Credentials("user1", "wrongpassword");
-        result = credentialAwareUSersManager.checkCredentials(credentials);
+        result = credentialAwareUserDirectory.checkCredentials(credentials);
         assertFalse(result);
     }
 
@@ -74,13 +72,13 @@ public class CredentialAwareLdapUsersTestCase extends LdapUsersTestCase
      */
     public void testCorrectAuthentication() throws Exception
     {
-        CredentialsAwareUsersManager credentialAwareUSersManager = (CredentialsAwareUsersManager) _usersManager;
+        UserDirectory credentialAwareUserDirectory = (UserDirectory) _userDirectory;
 
         Credentials credentials;
         boolean result;
 
         credentials = new Credentials("user1", "user1");
-        result = credentialAwareUSersManager.checkCredentials(credentials);
+        result = credentialAwareUserDirectory.checkCredentials(credentials);
         assertTrue(result);
     }
 }

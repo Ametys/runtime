@@ -28,6 +28,7 @@ import org.ametys.core.datasource.ConnectionHelper;
 import org.ametys.core.right.HierarchicalRightsHelper;
 import org.ametys.core.right.HierarchicalRightsManager;
 import org.ametys.core.right.RightsException;
+import org.ametys.core.user.UserIdentity;
 
 /**
  * This right manager looks for right in content and in parent context 
@@ -35,14 +36,14 @@ import org.ametys.core.right.RightsException;
 public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRightsManager implements HierarchicalRightsManager
 {
     @Override
-    public RightResult hasRightOnContextPrefix(String userLogin, String right, String contextPrefix) throws RightsException
+    public RightResult hasRightOnContextPrefix(UserIdentity user, String right, String contextPrefix) throws RightsException
     {
-        if (userLogin == null)
+        if (user == null)
         {
             return RightResult.RIGHT_NOK;
         }
         
-        if (getDeclaredContexts(userLogin, right, contextPrefix).isEmpty())
+        if (getDeclaredContexts(user, right, contextPrefix).isEmpty())
         {
             return RightResult.RIGHT_NOK;
         }
@@ -50,7 +51,7 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
     }
     
     @Override
-    public Set<String> getGrantedUsers(String context) throws RightsException
+    public Set<UserIdentity> getGrantedUsers(String context) throws RightsException
     {
         try
         {
@@ -60,7 +61,7 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
             }
             else
             {
-                Set<String> users = new HashSet<>();
+                Set<UserIdentity> users = new HashSet<>();
     
                 Set<String> convertedContexts = getAliasContext(context);
                 for (String convertContext : convertedContexts)
@@ -69,7 +70,7 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
                     
                     while (transiantContext != null)
                     {
-                        Set<String> addUsers = internalGetGrantedUsers(transiantContext);
+                        Set<UserIdentity> addUsers = internalGetGrantedUsers(transiantContext);
                         users.addAll(addUsers);
                         
                         transiantContext = HierarchicalRightsHelper.getParentContext(transiantContext);
@@ -87,7 +88,7 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
     }
     
     @Override
-    public Set<String> getGrantedUsers(String right, String context) throws RightsException
+    public Set<UserIdentity> getGrantedUsers(String right, String context) throws RightsException
     {
         try
         {
@@ -97,7 +98,7 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
             }
             else
             {
-                Set<String> users = new HashSet<>();
+                Set<UserIdentity> users = new HashSet<>();
     
                 Set<String> convertedContexts = getAliasContext(context);
                 for (String convertContext : convertedContexts)
@@ -106,7 +107,7 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
                     
                     while (transiantContext != null)
                     {
-                        Set<String> addUsers = internalGetGrantedUsers(right, transiantContext);
+                        Set<UserIdentity> addUsers = internalGetGrantedUsers(right, transiantContext);
                         users.addAll(addUsers);
                         
                         transiantContext = HierarchicalRightsHelper.getParentContext(transiantContext);
@@ -124,17 +125,17 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
     }
     
     @Override
-    public Set<String> getUserRights(String login, String context) throws RightsException
+    public Set<String> getUserRights(UserIdentity user, String context) throws RightsException
     {
         try
         {
-            if (login == null)
+            if (user == null)
             {
                 return new HashSet<>();
             }
             else if (context == null)
             {
-                return super.getUserRights(login, context);
+                return super.getUserRights(user, context);
             }
             else
             {
@@ -147,7 +148,7 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
                     
                     while (transiantContext != null)
                     {
-                        Set<String> addRights = internalGetUserRights(login, transiantContext);
+                        Set<String> addRights = internalGetUserRights(user, transiantContext);
                         rights.addAll(addRights);
             
                         transiantContext = HierarchicalRightsHelper.getParentContext(transiantContext);
@@ -165,9 +166,9 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
     }
     
     @Override
-    public RightResult hasRight(String userLogin, String right, String context) throws RightsException
+    public RightResult hasRight(UserIdentity user, String right, String context) throws RightsException
     {
-        if (userLogin == null)
+        if (user == null)
         {
             return RightResult.RIGHT_NOK;
         }
@@ -179,7 +180,7 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
             
             while (transiantContext != null) // && transiantContext.length() != 0)
             {
-                RightResult hasRight = internalHasRight(userLogin, right, transiantContext);
+                RightResult hasRight = internalHasRight(user, right, transiantContext);
                 
                 if (hasRight == RightResult.RIGHT_OK)
                 {

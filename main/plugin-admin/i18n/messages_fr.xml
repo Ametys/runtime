@@ -341,4 +341,11 @@
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_ADMINPASSWORD_DESCRIPTION">Le mot de passe de cet utilisateur.</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_PRIVATE">Source privée</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_PRIVATE_DESCRIPTION">Cochez cette case si vous souhaitez que cette source de données soit privée. Elle ne sera visible que dans l'espace administrateur si c'est le cas.</message>
+    
+    <!-- SUPER USER -->
+    <message key="PLUGINS_ADMIN_SUPERUSER_LABEL">Affecter un gestionnaire</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_DESCRIPTION">Affecte un gestionnaire</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_TITLE">Affecter un gestionnaire</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_ERROR">Une erreur est survenue. Impossible d'affecter ce ou ces utilisateurs.</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_SUCCESS">L'affectation a été effectuée.</message>
 </catalogue>

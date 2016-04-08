@@ -48,6 +48,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 	/**
 	 * @cfg {Ametys.form.ConfigurableFormPanel} form The form panel the field checkers are attached to
 	 */
+    
+    /**
+     * @cfg {Boolean} hideDisabledButtons=false Set to true to hide the disabled buttons
+     */
+    hideDisabledButtons: false,
 	
 	constructor: function(config)
 	{
@@ -55,6 +60,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 		this._form.on('formready', Ext.bind(this._resumeEvents, this));
 		
 		this._fieldCheckers = [];
+        
+        this.hideDisabledButtons = config.hideDisabledButtons === true;
 	},
 	
 	/**
@@ -448,11 +455,13 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 	    if (!allLinkedFieldsDisabled && !invalidLinkedField)
     	{
 	    	btn.enable();
+            btn.up('container').setVisible(true);
 	    	fieldChecker.setStatus(Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_WARNING);
     	}
 	    else
     	{
 	    	btn.disable();
+            btn.up('container').setHidden(this.hideDisabledButtons);
 	    	fieldChecker.setStatus(Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_DEACTIVATED);
     	}
 	    

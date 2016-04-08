@@ -21,7 +21,6 @@ import org.ametys.runtime.test.cocoon.XHTMLSerializerTestCase;
 import org.ametys.runtime.test.groups.jdbc.AllGroupsTestSuite;
 import org.ametys.runtime.test.groups.ldap.GroupDrivenLdapGroupsTestCase;
 import org.ametys.runtime.test.groups.ldap.UserDrivenLdapGroupsTestCase;
-import org.ametys.runtime.test.groups.others.EmptyGroupsTestCase;
 import org.ametys.runtime.test.minimize.MinimizeTransformerTestCase;
 import org.ametys.runtime.test.observers.ObserversTestCase;
 import org.ametys.runtime.test.plugins.PluginsTestCase;
@@ -30,9 +29,6 @@ import org.ametys.runtime.test.rights.profile.AllProfileBasedRightsManagerTestSu
 import org.ametys.runtime.test.rights.profile.hierarchical.AllHierarchicalProfileBasedRightsManagerTestSuite;
 import org.ametys.runtime.test.ui.StaticUIItemFactoryTestCase;
 import org.ametys.runtime.test.userpref.AllUserPreferencesTestSuite;
-import org.ametys.runtime.test.users.jdbc.AllUsersTestSuite;
-import org.ametys.runtime.test.users.jdbc.credentialsaware.AllCredentialsAwareJdbcUsersTestSuite;
-import org.ametys.runtime.test.users.jdbc.modifiable.AllModifiableUsersTestSuite;
 import org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware.AllModifiableCredentialsAwareJdbcUsersTestSuite;
 import org.ametys.runtime.test.users.ldap.CredentialAwareLdapUsersTestCase;
 import org.ametys.runtime.test.users.ldap.LdapUsersTestCase;
@@ -76,14 +72,10 @@ public final class AllTests
         suite.addTestSuite(XHTMLSerializerTestCase.class);
         
         suite.addTestSuite(StaticUsersTestCase.class);
-        suite.addTest(AllUsersTestSuite.suite());
-        suite.addTest(AllModifiableUsersTestSuite.suite());
-        suite.addTest(AllCredentialsAwareJdbcUsersTestSuite.suite());
         suite.addTest(AllModifiableCredentialsAwareJdbcUsersTestSuite.suite());
         suite.addTestSuite(LdapUsersTestCase.class);
         suite.addTestSuite(CredentialAwareLdapUsersTestCase.class);
 
-        suite.addTestSuite(EmptyGroupsTestCase.class);
         suite.addTest(AllGroupsTestSuite.suite());
         suite.addTestSuite(GroupDrivenLdapGroupsTestCase.class);
         suite.addTestSuite(UserDrivenLdapGroupsTestCase.class);

@@ -15,7 +15,11 @@
  */
 package org.ametys.runtime.test;
 
+import org.ametys.runtime.test.groups.jdbc.MysqlJdbcGroupsTestCase;
+import org.ametys.runtime.test.rights.profile.MysqlProfileBasedRightsManagerTestCase;
+import org.ametys.runtime.test.rights.profile.hierarchical.MysqlHierarchicalProfileBasedRightsManagerTestCase;
 import org.ametys.runtime.test.userpref.MysqlUserPreferencesTestCase;
+import org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware.MysqlModifiableCredentialsAwareJdbcUsersTestCase;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -38,17 +42,13 @@ public final class AllMysqlTestSuite
     {
         TestSuite suite = new TestSuite("All MySQL tests");
         
-        // FIXME to uncomment
         //$JUnit-BEGIN$
-//        suite.addTestSuite(MysqlJdbcUsersTestCase.class);
-//        suite.addTestSuite(MysqlModifiableJdbcUsersTestCase.class);
-//        suite.addTestSuite(MysqlCredentialsAwareJdbcUsersTestCase.class);
-//        suite.addTestSuite(MysqlModifiableCredentialsAwareJdbcUsersTestCase.class);
+        suite.addTestSuite(MysqlModifiableCredentialsAwareJdbcUsersTestCase.class);
         
-//        suite.addTestSuite(MysqlJdbcGroupsTestCase.class);
+        suite.addTestSuite(MysqlJdbcGroupsTestCase.class);
         
-//        suite.addTestSuite(MysqlProfileBasedRightsManagerTestCase.class);
-//       suite.addTestSuite(MysqlHierarchicalProfileBasedRightsManagerTestCase.class);
+        suite.addTestSuite(MysqlProfileBasedRightsManagerTestCase.class);
+        suite.addTestSuite(MysqlHierarchicalProfileBasedRightsManagerTestCase.class);
         
         suite.addTestSuite(MysqlUserPreferencesTestCase.class);
         //$JUnit-END$
