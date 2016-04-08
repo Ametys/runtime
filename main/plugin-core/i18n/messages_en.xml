@@ -231,13 +231,5 @@
     <message key="PLUGINS_CORE_DATASOURCEDAO_ADD_DATASOURCE_ERROR">An error occurred : the data source has not been created.</message>
     <message key="PLUGINS_CORE_DATASOURCEDAO_EDIT_DATASOURCE_ERROR">An error occurred : the data source has not been edited.</message>
     <message key="PLUGINS_CORE_DATASOURCEDAO_DELETE_DATASOURCE_ERROR">An error occurred : the data sources have not been deleted.</message>
-    
-    <!-- ADMIN PASSWORD --> 
-    <message key="PLUGINS_ADMIN_CHANGE_PASSWORD_LABEL">Asministrator password</message>
-    <message key="PLUGINS_ADMIN_CHANGE_PASSWORD_DESCRIPTION">Edit the administrator password</message>
-    <message key="PLUGINS_ADMIN_CHANGE_PASSWORD_DIALOG_TITLE">Edit the administrator password</message>
-    <message key="PLUGINS_ADMIN_CHANGE_PASSWORD_DIALOG_OLD_PASSWORD">Old password</message>
-    <message key="PLUGINS_ADMIN_CHANGE_PASSWORD_DIALOG_NEW_PASSWORD">new password</message>
-    <message key="PLUGINS_ADMIN_CHANGE_PASSWORD_DIALOG_OK">OK</message>
-    <message key="PLUGINS_ADMIN_CHANGE_PASSWORD_DIALOG_CANCEL">Cancel</message>
+
 </catalogue>
