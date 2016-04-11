@@ -39,7 +39,14 @@ public class UserIdentity
      */
     public static String toString(UserIdentity userIdentity)
     {
-        return userIdentity.getLogin() + __SEPARATOR + userIdentity.getPopulationId();
+        if (userIdentity != null)
+        {
+            return userIdentity.getLogin() + __SEPARATOR + userIdentity.getPopulationId();
+        }
+        else
+        {
+            return null;
+        }
     }
     
     /**
@@ -49,10 +56,17 @@ public class UserIdentity
      */
     public static UserIdentity fromString(String string)
     {
-        String[] fields = StringUtils.split(string, __SEPARATOR);
-        String login = fields[0];
-        String populationId = fields[1];
-        return new UserIdentity(login, populationId);
+        if (string != null)
+        {
+            String[] fields = StringUtils.split(string, __SEPARATOR);
+            String login = fields[0];
+            String populationId = fields[1];
+            return new UserIdentity(login, populationId);
+        }
+        else
+        {
+            return null;
+        }
     }
     
     /**
