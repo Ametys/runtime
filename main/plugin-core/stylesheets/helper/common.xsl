@@ -30,6 +30,8 @@
 		<xsl:param name="value-style"/>
 		<xsl:param name="value-class"/>
 		
+        <xsl:param name="placeholder"/>
+        
 		<xsl:param name="image-id" select="concat('id', substring-after(math:random(), '.'))"/>
 		<xsl:param name="image-alt"/>
 		<xsl:param name="image-alt-i18n" select="false()"/>
@@ -58,6 +60,7 @@
                 <xsl:call-template name="captcha_impl">
                     <xsl:with-param name="key-name" select="$key-name"/>
                     <xsl:with-param name="key-id" select="$key-id"/>
+                    <xsl:with-param name="placeholder" select="$placeholder"/>
                     <xsl:with-param name="value-name" select="$value-name"/>
                     <xsl:with-param name="value-id" select="$value-id"/>
                     <xsl:with-param name="value-style" select="$value-style"/>
@@ -96,6 +99,7 @@
     <xsl:template name="captcha_impl">
         <xsl:param name="key-name"/>
         <xsl:param name="key-id"/>
+        <xsl:param name="placeholder"/>
         <xsl:param name="value-name"/>
         <xsl:param name="value-id"/>
         <xsl:param name="value-style"/>
@@ -118,7 +122,9 @@
         
             <input type="hidden" name="{$key-name}" id="{$key-id}" value="{$id}"/>
             
-            <input type="text" name="{$value-name}" maxlength="6" id="{$value-id}" style="{$value-style}" class="{$value-class}"/>
+            <input type="text" name="{$value-name}" maxlength="6" id="{$value-id}" style="{$value-style}" class="{$value-class}">
+                <xsl:if test="$placeholder != ''"><xsl:attribute name="placeholder"><xsl:value-of select="$placeholder"/></xsl:attribute></xsl:if>
+            </input>
             
             <img style="{$image-style}" class="{$image-class}" src="{$contextPath}/plugins/{$plugin}/captcha/{$id}/image.png?width={$image-width}&amp;height={$image-height}" id="{$image-id}">
                 <xsl:attribute name="alt">
@@ -136,7 +142,7 @@
         
         <script type="text/javascript">
             document.write("&lt;input type=\"hidden\" name=\"<xsl:value-of select='$key-name'/>\" id=\"<xsl:value-of select="$key-id"/>\"/&gt;")
-            document.write("&lt;input type=\"text\" name=\"<xsl:value-of select='$value-name'/>\" id=\"<xsl:value-of select="$value-id"/>\" style=\"<xsl:value-of select="$value-style"/>\" class=\"<xsl:value-of select="$value-class"/>\"/ autocomplete=\"off\"&gt;")
+            document.write("&lt;input type=\"text\" placeholder=\"<xsl:value-of select="$placeholder"/>\" name=\"<xsl:value-of select='$value-name'/>\" id=\"<xsl:value-of select="$value-id"/>\" style=\"<xsl:value-of select="$value-style"/>\" class=\"<xsl:value-of select="$value-class"/>\"/ autocomplete=\"off\"&gt;")
             document.write("&lt;img style=\"<xsl:value-of select="$image-style"/>\" class=\"<xsl:value-of select="$image-class"/>\" alt=\"<xsl:choose><xsl:when test="$image-alt-i18n"><i18n:text i18n:key="{$image-alt}"><xsl:if test="$image-alt-catalogue != ''"><xsl:attribute name="i18n:catalogue"><xsl:value-of select="$image-alt-catalogue"/></xsl:attribute></xsl:if></i18n:text></xsl:when><xsl:otherwise><xsl:value-of select="$image-alt"/></xsl:otherwise></xsl:choose>\" id=\"<xsl:value-of select="$image-id"/>\" src=\"\"/&gt;");
             <xsl:if test="$allow-refresh = true()">
                 document.write("&lt;button type=\"button\" title=\"<i18n:text i18n:key="PLUGINS_CMS_CONTENT_CAPTCHA_REFRESH_ALT" i18n:catalogue="plugin.cms"/>\" class=\"captcha-refresh-btn\" onclick=\"<xsl:value-of select="$js-funcname-torefresh"/>(false); return false;\"&gt;&lt;span&gt;<i18n:text i18n:key="PLUGINS_CMS_CONTENT_CAPTCHA_REFRESH" i18n:catalogue="plugin.cms"/>&lt;/span&gt;&lt;/button&gt;");
