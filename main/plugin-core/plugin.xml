@@ -276,7 +276,9 @@
     <extension-points>
 
         <extension-point id="org.ametys.runtime.plugin.InitExtensionPoint"
-                         class="org.ametys.runtime.plugin.InitExtensionPoint"/>
+                         class="org.ametys.runtime.plugin.InitExtensionPoint"
+                         safe="true"/>
+        <!-- FIXME InitEP was temporary set safe for creating admin users SQL table in feature 'runtime.core.sql.users.and.groups.init' -->
                          
         <!-- <extension-point id="org.ametys.core.authentication.AuthenticationManager"
                          class="org.ametys.core.authentication.AuthenticationManager"
@@ -671,7 +673,7 @@
         </components>
     </feature>
     
-    <feature name="core.users">
+    <feature name="core.users" safe="true">
 
         <components>
         	<component role="org.ametys.plugins.core.user.UserHelper"
@@ -821,7 +823,8 @@
         </extensions>
     </feature>
     
-    <feature name="runtime.core.sql.users.and.groups.init">
+    <feature name="runtime.core.sql.users.and.groups.init" safe="true">
+    <!-- FIXME InitEP and this feature were temporary set safe for creating admin users SQL table  -->
         <extensions>
             <extension point="org.ametys.runtime.plugin.InitExtensionPoint"
                        id="org.ametys.core.script.users.and.groups.SqlTablesInit"

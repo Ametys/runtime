@@ -37,7 +37,7 @@ import org.ametys.core.user.population.UserPopulationDAO;
 /**
  * Simple user helper, for common function working on {@link User}
  */
-public final class UserHelper implements Component, Serviceable
+public class UserHelper implements Component, Serviceable
 {
     /** The avalon role */
     public static final String ROLE = UserHelper.class.getName();
