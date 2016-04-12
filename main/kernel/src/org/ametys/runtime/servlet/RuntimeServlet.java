@@ -357,8 +357,9 @@ public class RuntimeServlet extends HttpServlet
         PluginsComponentManager pluginCM = (PluginsComponentManager) _servletContext.getAttribute("PluginsComponentManager");
         
         // If we're in safe mode 
-        if (!PluginsManager.getInstance().isSafeMode())
-        {
+//        if (!PluginsManager.getInstance().isSafeMode())
+//        {
+        // FIXME the conditional was commented temporary for creating admin users SQL table even in safe mode
             // Plugins Init class execution
             InitExtensionPoint initExtensionPoint = (InitExtensionPoint) pluginCM.lookup(InitExtensionPoint.ROLE);
             for (String id : initExtensionPoint.getExtensionsIds())
@@ -373,7 +374,7 @@ public class RuntimeServlet extends HttpServlet
                 Init init = (Init) pluginCM.lookup(Init.ROLE);
                 init.init();
             }
-        }
+//        }
     }
     
     private void _loadRuntimeConfig() throws ServletException
