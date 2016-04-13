@@ -152,7 +152,8 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
     /** The security level */
     protected String _securityLevel;
     
-    private Context _context;
+    /** Context */
+    protected Context _context;
 
     @Override
     public void contextualize(Context context) throws ContextException
