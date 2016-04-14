@@ -83,41 +83,46 @@ public class CheckDataSourceAction extends ServiceableAction
 
         String fieldCheckersInfoJSON = request.getParameter("fieldCheckersInfo");
         Map<String, Object> fieldCheckersInfo = _jsonUtils.convertJsonToMap(fieldCheckersInfoJSON);
+        
         Iterator<String> fieldCheckersIds = fieldCheckersInfo.keySet().iterator();
-        String fieldCheckerId = fieldCheckersIds.next();
         
-        @SuppressWarnings("unchecked")
-        Map<String, List<String>> fieldCheckerInfo = (Map<String, List<String>>) fieldCheckersInfo.get(fieldCheckerId);
-        List<String> values = fieldCheckerInfo.get("rawTestValues");
-        
-        String type = fieldCheckerId.equals(__SQL_DATASOURCE_CHECKER_ID) ? "SQL" : "LDAP";
-        
-        DataSourceType dsType = DataSourceType.valueOf(type);
-        try 
+        while (fieldCheckersIds.hasNext())
         {
-            switch (dsType)
+            String fieldCheckerId = fieldCheckersIds.next();
+            
+            @SuppressWarnings("unchecked")
+            Map<String, List<String>> fieldCheckerInfo = (Map<String, List<String>>) fieldCheckersInfo.get(fieldCheckerId);
+            List<String> values = fieldCheckerInfo.get("rawTestValues");
+            
+            String type = fieldCheckerId.equals(__SQL_DATASOURCE_CHECKER_ID) ? "SQL" : "LDAP";
+            
+            DataSourceType dsType = DataSourceType.valueOf(type);
+            try 
             {
-                case SQL:
-                    _checkSQLParameters(values);
-                    break;
+                switch (dsType)
+                {
+                    case SQL:
+                        _checkSQLParameters(values);
+                        break;
+                        
+                    case LDAP:
+                        _checkLDAPParameters(values);
+                        break;
                     
-                case LDAP:
-                    _checkLDAPParameters(values);
-                    break;
+                    default:
+                        throw new IllegalArgumentException("Unknow data source of type '" + type + "'. Unable to check data source parameters.");
+                }
+            }
+            catch (Throwable t)
+            {
+                getLogger().error("Data source test failed: \n" + t.getMessage(), t);
+                String msg = t.getMessage() != null ? t.getMessage() : "Unknown error";
                 
-                default:
-                    throw new IllegalArgumentException("Unknow data source of type '" + type + "'. Unable to check data source parameters.");
+                // We know we only have one parameter checker here
+                result.put(fieldCheckerId, msg);
             }
         }
-        catch (Throwable t)
-        {
-            getLogger().error("Data source test failed: \n" + t.getMessage(), t);
-            String msg = t.getMessage() != null ? t.getMessage() : "Unknown error";
             
-            // We know we only have one parameter checker here
-            result.put(fieldCheckerId, msg);
-        }
-        
         request.setAttribute(ActionResultGenerator.MAP_REQUEST_ATTR, result);
         return result;
     }

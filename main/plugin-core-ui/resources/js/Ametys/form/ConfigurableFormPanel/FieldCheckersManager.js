@@ -614,10 +614,10 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
         // Add information concerning the involved field checkers 
         var fieldCheckersInfo = {};
         Ext.Array.each(fieldCheckers, function(fieldChecker) {
-            var btn = Ext.getCmp(fieldChecker.buttonId);
-            btn.disable();
             if (forceTest || fieldChecker.getStatus() != Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_SUCCESS)
             {
+            	var btn = Ext.getCmp(fieldChecker.buttonId);
+            	btn.disable();
                 btn.getEl().mask("");
                 
                 var fieldCheckerId = fieldChecker.id;
@@ -637,12 +637,23 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
             }
         });
         
-        // Server call
-        Ext.Ajax.request({
-        	url: this._form.getTestURL(),  
-            params: "fieldCheckersInfo=" + encodeURIComponent(Ext.JSON.encode(fieldCheckersInfo)) + "&formValues=" + encodeURIComponent(Ext.JSON.encode(formValues)), 
-            callback: Ext.bind(this._checkCb, this, [fieldCheckers, callback, displayErrors], true)
-        }); 
+        // Don't run tests if there is no test to run... 
+        if (Ext.Object.isEmpty(fieldCheckersInfo))
+    	{
+        	if (callback && typeof callback === 'function') 
+            {
+                callback(true);
+            }
+    	}
+        else
+    	{
+	        // Server call
+	        Ext.Ajax.request({
+	        	url: this._form.getTestURL(),  
+	            params: "fieldCheckersInfo=" + encodeURIComponent(Ext.JSON.encode(fieldCheckersInfo)) + "&formValues=" + encodeURIComponent(Ext.JSON.encode(formValues)), 
+	            callback: Ext.bind(this._checkCb, this, [fieldCheckers, callback, displayErrors], true)
+	        });
+    	}
     },
     
     /**

@@ -233,6 +233,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldChecker', {
 	{
 		this.setStatus(this.self.STATUS_NOT_TESTED);
 		
+		Ext.getCmp(this.buttonId).enable();
 		var statusCmp = Ext.getCmp(this.statusCmpId);
 		if (statusCmp)
 		{
