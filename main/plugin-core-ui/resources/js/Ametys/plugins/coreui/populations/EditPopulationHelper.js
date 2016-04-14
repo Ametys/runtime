@@ -59,7 +59,7 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
     /**
      * Open the helper for creating/editing a user population
      * @param {Object} [valuesToFill] If in edit mode, an object containing the data to fill the form
-     * @param {String} mode The edition mode for the dialog box. Can only be 'add' (for creation) or 'edit' (for edition).
+     * @param {String} [mode='add'] The edition mode for the dialog box. Can only be 'add' (for creation) or 'edit' (for edition).
      * @param {String} [populationId] If in edition mode, the id of the population being edited.
      */
     open: function(valuesToFill, mode, populationId)
