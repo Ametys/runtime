@@ -469,6 +469,23 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
             return false;
         }
 
+        /* FIXME
+        for (String authId : _authManager.getExtensionsIds())
+        {
+            Authentication authentication = _authManager.getExtension(authId);
+            if (!authentication.login(credentials))
+            {
+                _credentialsProvider.notAllowed(redirector);
+                if (redirector.hasRedirected())
+                {
+                    return true;
+                }
+                
+                return false;
+            }
+        }
+        */
+
         // The user must be known by the UserManager
         User user = _userManager.getUser(userPopulation, credentials.getLogin());
         if (user == null)
