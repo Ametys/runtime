@@ -28,6 +28,7 @@ Ext.define('Ametys.plugins.admin.superuser.SuperUserActions', {
 	affectSuperUser: function (controller)
 	{
 		Ametys.helper.SelectUser.act({
+            context: this._getAppContext(controller),
 			callback: Ext.bind(this._affectSuperUser, this, [controller], 1), 
 			cancelCallback: null, 
 			allowMultiselection: true, 
@@ -46,7 +47,7 @@ Ext.define('Ametys.plugins.admin.superuser.SuperUserActions', {
 	_affectSuperUser: function (users, controller) 
 	{
 		// Transmit the controller to get the context
-		var context = controller.getInitialConfig('context') || this._getContext(controller);
+		var context = controller.getInitialConfig('context') || this._getRightContext(controller);
 		
 		controller.serverCall
 		(
@@ -78,14 +79,25 @@ Ext.define('Ametys.plugins.admin.superuser.SuperUserActions', {
 			icon: Ext.MessageBox.INFO
 		});
 	},
+    
+    /**
+     * @protected
+     * Get the context for the populations to display in the SelectUser dialog box 
+     * @param {Ametys.ribbon.element.ui.ButtonController} controller the button's controller
+     * @return {String} the application context
+     */
+    _getAppContext: function(controller)
+    {
+        return "/application";
+    },
 	
 	/**
 	 * @protected
 	 * Get the context the user will be granted all rights to
 	 * @param {Ametys.ribbon.element.ui.ButtonController} controller the button's controller
-	 * @return the context
+	 * @return {String} the right context
 	 */
-	_getContext: function(controller)
+	_getRightContext: function(controller)
 	{
 		return "";
 	}
