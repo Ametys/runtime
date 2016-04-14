@@ -360,20 +360,20 @@ public class RuntimeServlet extends HttpServlet
 //        if (!PluginsManager.getInstance().isSafeMode())
 //        {
         // FIXME the conditional was commented temporary for creating admin users SQL table even in safe mode
-            // Plugins Init class execution
-            InitExtensionPoint initExtensionPoint = (InitExtensionPoint) pluginCM.lookup(InitExtensionPoint.ROLE);
-            for (String id : initExtensionPoint.getExtensionsIds())
-            {
-                Init init = initExtensionPoint.getExtension(id);
-                init.init();
-            }
-            
-            // Application Init class execution if available
-            if (pluginCM.hasComponent(Init.ROLE))
-            {
-                Init init = (Init) pluginCM.lookup(Init.ROLE);
-                init.init();
-            }
+        // Plugins Init class execution
+        InitExtensionPoint initExtensionPoint = (InitExtensionPoint) pluginCM.lookup(InitExtensionPoint.ROLE);
+        for (String id : initExtensionPoint.getExtensionsIds())
+        {
+            Init init = initExtensionPoint.getExtension(id);
+            init.init();
+        }
+        
+        // Application Init class execution if available
+        if (pluginCM.hasComponent(Init.ROLE))
+        {
+            Init init = (Init) pluginCM.lookup(Init.ROLE);
+            init.init();
+        }
 //        }
     }
     

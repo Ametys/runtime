@@ -68,7 +68,7 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
     /** The user manager */
     protected UserManager _userManager;
     /** The user population DAO */
-    private UserPopulationDAO _userPopulationDAO;
+    protected UserPopulationDAO _userPopulationDAO;
     /** The current user provider. */
     protected CurrentUserProvider _currentUserProvider;
     /** The Avalon context */
@@ -128,7 +128,7 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
         Map<String, Object> result = new HashMap<>();
         
         UserDirectory userDirectory = _userManager.getUserDirectory(populationId, login);
-        if ( userDirectory != null && populationId.equals(UserPopulationDAO.ADMIN_POPULATION_ID) && userDirectory.getUsers().size() == 1 )
+        if (userDirectory != null && populationId.equals(UserPopulationDAO.ADMIN_POPULATION_ID) && userDirectory.getUsers().size() == 1)
         {
             // Impossible to delete the last user of the admin population
             result.put("isRemovable", false);

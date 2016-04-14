@@ -40,11 +40,11 @@ public class PopulationContextHelper extends AbstractLogEnabled implements Compo
     /** Avalon Role */
     public static final String ROLE = PopulationContextHelper.class.getName();
     
-    /** The name of the JDBC table for user populations by context */
-    private static final String __USER_POPULATIONS_TABLE = "UserPopulationsByContext";
-    
     /** The "admin" context */
     public static final String ADMIN_CONTEXT = "/admin";
+    
+    /** The name of the JDBC table for user populations by context */
+    private static final String __USER_POPULATIONS_TABLE = "UserPopulationsByContext";
 
     /** The DAO for {@link UserPopulation}s */
     private UserPopulationDAO _userPopulationDAO;

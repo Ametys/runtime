@@ -57,13 +57,19 @@ import org.ametys.core.user.UserIdentity;
  */
 public class CASCredentialProvider extends AbstractCredentialProvider implements NonBlockingCredentialProvider, BlockingCredentialProvider, Initializable, Contextualizable
 {
+    /** Parameter name for server url  */
+    private static final String __PARAM_SERVER_URL = "runtime.authentication.cas.serverUrl";
+    
+    /** Parameter name for authorized proxy chains */
+    private static final String __PARAM_AUTHORIZED_PROXY_CHAINS = "runtime.authentication.cas.authorizedProxyChain";
+    
+    /** Cas server URL with context (https://cas-server ou https://cas-server/cas) */
+    protected String _serverUrl;
+    
     /** List of filter wrappers for a server. */
     private Map<String, List<RuntimeFilter>> _filters;
 
     private Context _context;
-
-    /** Cas server URL with context (https://cas-server ou https://cas-server/cas) */
-    protected String _serverUrl;
 
     /**
      * Authorized proxy chains, which is
@@ -72,12 +78,6 @@ public class CASCredentialProvider extends AbstractCredentialProvider implements
      *  Only one proxy chain needs to match for the login to be successful.
      */
     private String _authorizedProxyChains;
-
-    /** Parameter name for server url  */
-    private static final String __PARAM_SERVER_URL = "runtime.authentication.cas.serverUrl";
-    
-    /** Parameter name for authorized proxy chains */
-    private static final String __PARAM_AUTHORIZED_PROXY_CHAINS = "runtime.authentication.cas.authorizedProxyChain";
     
     @Override
     public void initialize() throws Exception

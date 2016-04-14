@@ -61,7 +61,7 @@ public class GroupDrivenLdapGroupDirectory extends AbstractLdapGroupDirectory
     protected String _usersLoginAttribute;
     
     @Override
-    public void init(String groupDirectoryModelId, Map<String,Object> paramValues)
+    public void init(String groupDirectoryModelId, Map<String, Object> paramValues)
     {
         super.init(groupDirectoryModelId, paramValues);
         

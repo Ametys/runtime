@@ -118,7 +118,7 @@ public abstract class AbstractLdapGroupDirectory extends AbstractLDAPConnector i
         
         _groupsRelativeDN = (String) paramValues.get(__PARAM_GROUPS_RELATIVE_DN);
         _groupsObjectFilter = (String) paramValues.get(__PARAM_GROUPS_OBJECT_FILTER);
-        _groupsSearchScope = ScopeEnumerator.parseScope( (String) paramValues.get(__PARAM_GROUPS_SEARCH_SCOPE) );
+        _groupsSearchScope = ScopeEnumerator.parseScope((String) paramValues.get(__PARAM_GROUPS_SEARCH_SCOPE));
         _groupsIdAttribute = (String) paramValues.get(__PARAM_GROUPS_ID_ATTRIBUTE);
         _groupsDescriptionAttribute = (String) paramValues.get(__PARAM_GROUPS_DESCRIPTION_ATTRIBUTE);
         

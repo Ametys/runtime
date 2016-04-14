@@ -43,14 +43,14 @@ public class RemoteUserCredentialProvider extends AbstractCredentialProvider imp
     
     /** Name of the parameter holding the header name */
     private static final String __PARAM_HEADER_NAME = "runtime.authentication.remote.header.name";
-    
-    private Context _context;
 
     /** The realm */
     protected String _realm;
 
     /** The header name */
     protected String _headerName;
+    
+    private Context _context;
     
     @Override
     public void contextualize(Context context) throws ContextException

@@ -22,7 +22,6 @@ import org.apache.avalon.framework.service.Serviceable;
 
 import org.ametys.core.authentication.Authentication;
 import org.ametys.core.authentication.Credentials;
-import org.ametys.core.right.RightsManager;
 
 
 /**
@@ -32,11 +31,11 @@ import org.ametys.core.right.RightsManager;
 // FIXME
 public class HasRightAuthentication extends AbstractLogEnabled implements Authentication, Serviceable
 {
-    private RightsManager _rightMgr;
+//    private RightsManager _rightMgr;
     
     public void service(ServiceManager manager) throws ServiceException
     {
-        _rightMgr = (RightsManager) manager.lookup(RightsManager.ROLE);
+//        _rightMgr = (RightsManager) manager.lookup(RightsManager.ROLE);
     }
     
     /**

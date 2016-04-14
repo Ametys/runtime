@@ -192,7 +192,7 @@ public class CredentialProviderFactory extends AbstractLogEnabled implements Ext
         }
         catch (ClassNotFoundException | ConfigurationException e)
         {
-            throw new ConfigurationException("Credential provider model with id '" + id + "' has an invalid configuration for class name '" + (className != null ? className + " <class not found>": "<missing tag <class>") + "'", e);
+            throw new ConfigurationException("Credential provider model with id '" + id + "' has an invalid configuration for class name '" + (className != null ? className + " <class not found>" : "<missing tag <class>") + "'", e);
         }
         
         if (!CredentialProvider.class.isAssignableFrom(cpClass))

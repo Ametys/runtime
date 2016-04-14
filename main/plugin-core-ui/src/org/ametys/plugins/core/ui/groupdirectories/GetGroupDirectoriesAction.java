@@ -39,10 +39,10 @@ import org.ametys.core.group.directory.GroupDirectory;
  */
 public class GetGroupDirectoriesAction extends ServiceableAction
 {
-    /** The DAO for group directories */
-    private GroupDirectoryDAO _groupDirectoryDAO;
     /** The helper for the associations group directory/context */
     protected GroupDirectoryContextHelper _directoryContextHelper;
+    /** The DAO for group directories */
+    private GroupDirectoryDAO _groupDirectoryDAO;
 
     @Override
     public void service(ServiceManager smanager) throws ServiceException

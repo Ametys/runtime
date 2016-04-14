@@ -33,6 +33,17 @@ public class UserIdentity
     private String _populationId;
     
     /**
+     * Constructs a user identity
+     * @param login The login of the user
+     * @param populationId The id of the user population the user belongs to
+     */
+    public UserIdentity(String login, String populationId)
+    {
+        _login = login;
+        _populationId = populationId;
+    }
+    
+    /**
      * Gets a string representation of a {@link UserIdentity}
      * @param userIdentity The user identity
      * @return The string representation of the user identity.
@@ -69,16 +80,6 @@ public class UserIdentity
         }
     }
     
-    /**
-     * Constructs a user identity
-     * @param login The login of the user
-     * @param populationId The id of the user population the user belongs to
-     */
-    public UserIdentity(String login, String populationId)
-    {
-        _login = login;
-        _populationId = populationId;
-    }
 
     /**
      * Get the login of the user

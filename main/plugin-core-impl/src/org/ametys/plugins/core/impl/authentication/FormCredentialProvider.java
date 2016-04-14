@@ -90,9 +90,6 @@ import org.ametys.runtime.workspace.WorkspaceMatcher;
  */
 public class FormCredentialProvider extends AbstractCredentialProvider implements NonBlockingCredentialProvider, BlockingCredentialProvider, LogoutCapable, Contextualizable, Configurable
 {
-    /** Name of the parameter holding the security level */
-    private static final String __PARAM_SECURITY_LEVEL = "runtime.authentication.form.security.level";
-    
     /** Password value in case of info retrieved from cookie */
     public static final String AUTHENTICATION_BY_COOKIE = "authentication_by_cookie";
     /** Low security level */
@@ -103,6 +100,9 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
     public static final Integer NB_CONNECTION_ATTEMPTS = 3;
     /** Default cookie lifetime (15 days in seconds) */
     public static final int DEFAULT_COOKIE_LIFETIME = 1209600;
+    
+    /** Name of the parameter holding the security level */
+    private static final String __PARAM_SECURITY_LEVEL = "runtime.authentication.form.security.level";
     
     /** Name of the user name html field */
     protected String _usernameField;
@@ -732,23 +732,23 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
       * @param cookieSearchedName the cookie name
       * @return the value of the cookie or null if not
       */
-     public static String getCookieValue(Request request, String cookieSearchedName)
-     {
-         Cookie[] cookies = request.getCookies();
+    public static String getCookieValue(Request request, String cookieSearchedName)
+    {
+        Cookie[] cookies = request.getCookies();
 
-         if (cookies != null)
-         {
-             for (Cookie cookie : cookies)
-             {
-                 if (cookieSearchedName.equals(cookie.getName()))
-                 {
-                     return cookie.getValue();
-                 }
-             }
-         }
+        if (cookies != null)
+        {
+            for (Cookie cookie : cookies)
+            {
+                if (cookieSearchedName.equals(cookie.getName()))
+                {
+                    return cookie.getValue();
+                }
+            }
+        }
 
-         return null;
-     }
+        return null;
+    }
 
      /**
       * Checks if cookie already exists
@@ -756,23 +756,23 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
       * @param cookieSearchedName the cookie name
       * @return boolean
       */
-     public static boolean isCookieAlreadySet(Request request, String cookieSearchedName)
-     {
-         Cookie[] cookies = request.getCookies();
+    public static boolean isCookieAlreadySet(Request request, String cookieSearchedName)
+    {
+        Cookie[] cookies = request.getCookies();
 
-         if (cookies != null)
-         {
-             for (Cookie cookie : cookies)
-             {
-                 if (cookieSearchedName.equals(cookie.getName()))
-                 {
-                     return true;
-                 }
-             }
-         }
+        if (cookies != null)
+        {
+            for (Cookie cookie : cookies)
+            {
+                if (cookieSearchedName.equals(cookie.getName()))
+                {
+                    return true;
+                }
+            }
+        }
 
-         return false;
-     }
+        return false;
+    }
      
      /**
       * Update the cookie for client-side purpose
@@ -781,15 +781,15 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
       * @param cookieDuration the cookie duration
       * @param context the avalon Context
       */
-     public static void updateCookie(String value, String cookieName, int cookieDuration, Context context)
-     {
-         Response response = ObjectModelHelper.getResponse(ContextHelper.getObjectModel(context));
-         Request request = ObjectModelHelper.getRequest(ContextHelper.getObjectModel(context));
-         Cookie cookie = new HttpCookie(cookieName, value);
-         cookie.setPath(request.getContextPath());
-         cookie.setMaxAge(cookieDuration);
-         response.addCookie(cookie);
-     }
+    public static void updateCookie(String value, String cookieName, int cookieDuration, Context context)
+    {
+        Response response = ObjectModelHelper.getResponse(ContextHelper.getObjectModel(context));
+        Request request = ObjectModelHelper.getRequest(ContextHelper.getObjectModel(context));
+        Cookie cookie = new HttpCookie(cookieName, value);
+        cookie.setPath(request.getContextPath());
+        cookie.setMaxAge(cookieDuration);
+        response.addCookie(cookie);
+    }
      
      /**
       * Delete the cookie
@@ -798,12 +798,12 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
       * @param cookieName the cookie name 
       * @param cookieDuration the cookie duration
       */
-     public static void deleteCookie(Request request, Response response, String cookieName, int cookieDuration)
-     {
-         Cookie cookie = new HttpCookie(cookieName, "");
-         cookie.setPath(request.getContextPath());
-         cookie.setMaxAge(cookieDuration);
-         response.addCookie(cookie);
-     }
+    public static void deleteCookie(Request request, Response response, String cookieName, int cookieDuration)
+    {
+        Cookie cookie = new HttpCookie(cookieName, "");
+        cookie.setPath(request.getContextPath());
+        cookie.setMaxAge(cookieDuration);
+        response.addCookie(cookie);
+    }
 
 }

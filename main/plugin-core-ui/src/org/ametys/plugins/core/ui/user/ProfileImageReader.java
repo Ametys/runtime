@@ -80,6 +80,11 @@ public class ProfileImageReader extends ServiceableReader
             }
         }
         
+        _generate();
+    }
+    
+    private void _generate() throws IOException, ProcessingException
+    {
         Request request = ObjectModelHelper.getRequest(objectModel);
         Response response = ObjectModelHelper.getResponse(objectModel);
         

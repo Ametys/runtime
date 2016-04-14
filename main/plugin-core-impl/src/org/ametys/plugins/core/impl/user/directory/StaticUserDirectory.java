@@ -117,6 +117,7 @@ public class StaticUserDirectory extends AbstractLogEnabled implements UserDirec
         return _staticUsers.containsKey(credentials.getLogin());
     }
     
+    @SuppressWarnings("fallthrough")
     private User _createUser(String userLine)
     {
         String[] userInfo = userLine.split(":");
@@ -130,8 +131,10 @@ public class StaticUserDirectory extends AbstractLogEnabled implements UserDirec
         {
             case 4:
                 email = userInfo[3];
+                //fall through
             case 3:
                 firstName = userInfo[2];
+                //fall through
             case 2:
                 lastName = userInfo[1];
                 login = userInfo[0];

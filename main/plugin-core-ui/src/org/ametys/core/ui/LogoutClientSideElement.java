@@ -46,7 +46,7 @@ public class LogoutClientSideElement extends StaticClientSideElement
     {
         if (canLogout())
         {
-           return super.getScript(contextParameters);
+            return super.getScript(contextParameters);
         }
         else
         {

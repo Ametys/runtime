@@ -28,6 +28,6 @@ public class ImpersonateUserClientSideElement extends StaticClientSideElement
     public Script getScript(Map<String, Object> contextParameters)
     {
         // FIXME add a right to impersonate
-         return super.getScript(contextParameters);
+        return super.getScript(contextParameters);
     }
 }

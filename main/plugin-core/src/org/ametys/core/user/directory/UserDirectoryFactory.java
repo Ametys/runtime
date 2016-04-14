@@ -178,7 +178,7 @@ public class UserDirectoryFactory extends AbstractLogEnabled implements Extensio
         }
         catch (ClassNotFoundException | ConfigurationException e)
         {
-            throw new ConfigurationException("User directory model with id '" + id + "' has an invalid configuration for class name " + (className != null ? className + " <class not found>": "<missing tag <class>") + "'", e);
+            throw new ConfigurationException("User directory model with id '" + id + "' has an invalid configuration for class name " + (className != null ? className + " <class not found>" : "<missing tag <class>") + "'", e);
         }
         
         if (!UserDirectory.class.isAssignableFrom(udClass))

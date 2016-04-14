@@ -200,7 +200,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
                 userPopulations.removeIf(up -> !userPopulation.equals(up));
                 
                 // The CPs are not known, there are multiple candidates
-                credentialProviders.addAll( userPopulation.getCredentialProviders() );
+                credentialProviders.addAll(userPopulation.getCredentialProviders());
                 return false;
             }
             else
@@ -297,11 +297,11 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
             
             if (!wasSubmitted && currentCp instanceof NonBlockingCredentialProvider)
             {
-               if (_checkAuth(request, redirector, currentCp, false, userPopulations))
-               {
-                   // The execution of the CredentialProvider succeeded, the user is authenticated.
-                   return true;
-               }
+                if (_checkAuth(request, redirector, currentCp, false, userPopulations))
+                {
+                    // The execution of the CredentialProvider succeeded, the user is authenticated.
+                    return true;
+                }
             }
         }
         
@@ -408,14 +408,14 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
      */
     protected boolean _checkAuth(Request request, Redirector redirector, CredentialProvider credentialProvider, boolean blocking, List<UserPopulation> userPopulations) throws Exception
     {
-        boolean isValid = blocking ? ((BlockingCredentialProvider)credentialProvider).validateBlocking(redirector) : ((NonBlockingCredentialProvider)credentialProvider).validateNonBlocking(redirector);
+        boolean isValid = _validate(credentialProvider, blocking, redirector);
         
         if (redirector.hasRedirected())
         {
             return true;
         }
         
-        boolean accept = blocking ? ((BlockingCredentialProvider)credentialProvider).acceptBlocking() : ((NonBlockingCredentialProvider)credentialProvider).acceptNonBlocking();
+        boolean accept = _accept(credentialProvider, blocking);
         if (accept)
         {
             // The request does not need authentication, don't ask for credentials
@@ -441,7 +441,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         }
         
         // Unknown user, looking for his credentials
-        Credentials credentials = blocking ? ((BlockingCredentialProvider)credentialProvider).getCredentialsBlocking(redirector) : ((NonBlockingCredentialProvider)credentialProvider).getCredentialsNonBlocking(redirector);
+        Credentials credentials = _getCredentials(credentialProvider, blocking, redirector);
         if (redirector.hasRedirected())
         {
             return true;
@@ -449,14 +449,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         
         if (credentials == null)
         {
-            if (blocking)
-            {
-                ((BlockingCredentialProvider)credentialProvider).notAllowedBlocking(redirector);
-            }
-            else
-            {
-                ((NonBlockingCredentialProvider)credentialProvider).notAllowedNonBlocking(redirector);
-            }
+            _notAllowed(credentialProvider, blocking, redirector);
             if (redirector.hasRedirected())
             {
                 return true;
@@ -465,27 +458,10 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
             return false;
         }
 
-        UserPopulation userPopulation = null;
-        User user = null;
-        for (UserPopulation up : userPopulations)
-        {
-            if (_userManager.getUser(up, credentials.getLogin()) != null && _login(credentials, up))
-            {
-                userPopulation = up;
-                user = _userManager.getUser(userPopulation, credentials.getLogin());
-                break;
-            }
-        }
+        UserPopulation userPopulation = _determinePopulation(userPopulations, credentials);
         if (userPopulation == null)
         {
-            if (blocking)
-            {
-                ((BlockingCredentialProvider)credentialProvider).notAllowedBlocking(redirector);
-            }
-            else
-            {
-                ((NonBlockingCredentialProvider)credentialProvider).notAllowedNonBlocking(redirector);
-            }
+            _notAllowed(credentialProvider, blocking, redirector);
             if (redirector.hasRedirected())
             {
                 return true;
@@ -494,6 +470,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         }
 
         // The user must be known by the UserManager
+        User user = _userManager.getUser(userPopulation, credentials.getLogin());
         if (user == null)
         {
             if (getLogger().isWarnEnabled())
@@ -505,14 +482,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         }
 
         // Authentication succeeded
-        if (blocking)
-        {
-            ((BlockingCredentialProvider)credentialProvider).allowedBlocking(redirector);
-        }
-        else
-        {
-            ((NonBlockingCredentialProvider)credentialProvider).allowedNonBlocking(redirector);
-        }
+        _allowed(credentialProvider, blocking, redirector);
 
         // Then register the user in the HTTP Session
         Session session = request.getSession(true);
@@ -521,6 +491,19 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         session.setAttribute(SESSION_CREDENTIALPROVIDER, credentialProvider);
         
         return true;
+    }
+    
+    private UserPopulation _determinePopulation(List<UserPopulation> userPopulations, Credentials credentials)
+    {
+        for (UserPopulation up : userPopulations)
+        {
+            if (_userManager.getUser(up, credentials.getLogin()) != null && _login(credentials, up))
+            {
+                return up;
+            }
+        }
+        
+        return null;
     }
     
     /**
@@ -549,5 +532,44 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         }
         
         return false;
+    }
+    
+    private boolean _validate(CredentialProvider credentialProvider, boolean blocking, Redirector redirector) throws Exception
+    {
+        return blocking ? ((BlockingCredentialProvider) credentialProvider).validateBlocking(redirector) : ((NonBlockingCredentialProvider) credentialProvider).validateNonBlocking(redirector);
+    }
+    
+    private boolean _accept(CredentialProvider credentialProvider, boolean blocking)
+    {
+        return blocking ? ((BlockingCredentialProvider) credentialProvider).acceptBlocking() : ((NonBlockingCredentialProvider) credentialProvider).acceptNonBlocking();
+    }
+    
+    private Credentials _getCredentials(CredentialProvider credentialProvider, boolean blocking, Redirector redirector) throws Exception
+    {
+        return blocking ? ((BlockingCredentialProvider) credentialProvider).getCredentialsBlocking(redirector) : ((NonBlockingCredentialProvider) credentialProvider).getCredentialsNonBlocking(redirector);
+    }
+    
+    private void _notAllowed(CredentialProvider credentialProvider, boolean blocking, Redirector redirector) throws Exception
+    {
+        if (blocking)
+        {
+            ((BlockingCredentialProvider) credentialProvider).notAllowedBlocking(redirector);
+        }
+        else
+        {
+            ((NonBlockingCredentialProvider) credentialProvider).notAllowedNonBlocking(redirector);
+        }
+    }
+    
+    private void _allowed(CredentialProvider credentialProvider, boolean blocking, Redirector redirector)
+    {
+        if (blocking)
+        {
+            ((BlockingCredentialProvider) credentialProvider).allowedBlocking(redirector);
+        }
+        else
+        {
+            ((NonBlockingCredentialProvider) credentialProvider).allowedNonBlocking(redirector);
+        }
     }
 }

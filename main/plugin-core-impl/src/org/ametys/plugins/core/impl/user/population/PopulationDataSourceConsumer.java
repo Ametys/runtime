@@ -67,6 +67,11 @@ public class PopulationDataSourceConsumer implements DataSourceConsumer, Compone
     @Override
     public boolean isInUse(String id)
     {
+        return _isInUseByUserDirectories(id) || _isInUseByCredentialProviders(id);
+    }
+    
+    private boolean _isInUseByUserDirectories(String id)
+    {
         for (String udModelId : _userDirectoryFactory.getExtensionsIds())
         {
             UserDirectoryModel udModel = _userDirectoryFactory.getExtension(udModelId);
@@ -102,7 +107,11 @@ public class PopulationDataSourceConsumer implements DataSourceConsumer, Compone
             }
         }
         
-        // same procedure for credential providers
+        return false;
+    }
+    
+    private boolean _isInUseByCredentialProviders(String id)
+    {
         for (String cpModelId : _credentialProviderFactory.getExtensionsIds())
         {
             CredentialProviderModel cpModel = _credentialProviderFactory.getExtension(cpModelId);

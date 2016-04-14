@@ -180,7 +180,7 @@ public class GroupDirectoryFactory extends AbstractLogEnabled implements Extensi
         }
         catch (ClassNotFoundException | ConfigurationException e)
         {
-            throw new ConfigurationException("Group directory model with id '" + id + "' has an invalid configuration for class name " + (className != null ? className + " <class not found>": "<missing tag <class>") + "'", e);
+            throw new ConfigurationException("Group directory model with id '" + id + "' has an invalid configuration for class name " + (className != null ? className + " <class not found>" : "<missing tag <class>") + "'", e);
         }
         
         if (!GroupDirectory.class.isAssignableFrom(groupDirectoryClass))

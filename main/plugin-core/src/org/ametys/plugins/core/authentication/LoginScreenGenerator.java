@@ -181,7 +181,7 @@ public class LoginScreenGenerator extends ServiceableGenerator
             captcha = false;
         }
         
-        boolean showErrors = !"true".equals(request.getAttribute((String)AuthenticateAction.REQUEST_INVALID_POPULATION));
+        boolean showErrors = !"true".equals(request.getAttribute((String) AuthenticateAction.REQUEST_INVALID_POPULATION));
         
         XMLUtils.startElement(contentHandler, "LoginForm");
         

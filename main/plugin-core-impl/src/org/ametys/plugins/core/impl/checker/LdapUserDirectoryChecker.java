@@ -76,7 +76,7 @@ public class LdapUserDirectoryChecker extends AbstractLogEnabled implements Para
         String datasourceId = values.get(0);
         String usersRelativeDN = values.get(1);
         String usersObjectFilter = values.get(2);
-        int usersSearchScope = ScopeEnumerator.parseScope( values.get(3) );
+        int usersSearchScope = ScopeEnumerator.parseScope(values.get(3));
         String usersLoginAttribute = values.get(4);
         String usersFirstnameAttribute = values.get(5);
         if (usersFirstnameAttribute != null && usersFirstnameAttribute.length() == 0)

@@ -40,11 +40,11 @@ public class GroupDirectoryContextHelper extends AbstractLogEnabled implements C
     /** Avalon Role */
     public static final String ROLE = GroupDirectoryContextHelper.class.getName();
     
-    /** The name of the JDBC table for group directories by context */
-    private static final String __GROUP_DIRECTORIES_TABLE = "GroupDirectoriesByContext";
-    
     /** The "admin" context */
     public static final String ADMIN_CONTEXT = "/admin";
+    
+    /** The name of the JDBC table for group directories by context */
+    private static final String __GROUP_DIRECTORIES_TABLE = "GroupDirectoriesByContext";
 
     /** The DAO for {@link GroupDirectory}(ies) */
     private GroupDirectoryDAO _groupDirectoryDAO;

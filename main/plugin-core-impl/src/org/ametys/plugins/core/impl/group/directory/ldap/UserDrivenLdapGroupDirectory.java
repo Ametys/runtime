@@ -51,10 +51,6 @@ import org.ametys.core.util.ldap.ScopeEnumerator;
  */
 public class UserDrivenLdapGroupDirectory extends AbstractLdapGroupDirectory
 {
-    private static final GroupComparator _GROUP_COMPARATOR = new GroupComparator();
-    
-    private static int _DEFAULT_PAGE_SIZE = 1000;
-    
     /** Relative DN for users. */
     protected static final String __PARAM_USERS_RELATIVE_DN = "runtime.users.ldap.peopleDN";
     /** Filter for limiting the search. */
@@ -65,6 +61,9 @@ public class UserDrivenLdapGroupDirectory extends AbstractLdapGroupDirectory
     protected static final String __PARAM_USERS_LOGIN_ATTRIBUTE = "runtime.users.ldap.loginAttr";
     /** Name of the member DN attribute. */
     protected static final String __PARAM_GROUPS_MEMBER_ATTRIBUTE = "runtime.groups.ldap.memberof";
+    
+    private static final GroupComparator _GROUP_COMPARATOR = new GroupComparator();
+    private static int _DEFAULT_PAGE_SIZE = 1000;
     
     /** The attribut which contains the groups of a user */
     protected String _usersMemberOfAttribute;
@@ -82,13 +81,13 @@ public class UserDrivenLdapGroupDirectory extends AbstractLdapGroupDirectory
     private Pattern _groupExtractionPattern;
     
     @Override
-    public void init(String groupDirectoryModelId, Map<String,Object> paramValues)
+    public void init(String groupDirectoryModelId, Map<String, Object> paramValues)
     {
         super.init(groupDirectoryModelId, paramValues);
         
         _usersRelativeDN = (String) paramValues.get(__PARAM_USERS_RELATIVE_DN);
         _usersObjectFilter = (String) paramValues.get(__PARAM_USERS_OBJECT_FILTER);
-        _usersSearchScope = ScopeEnumerator.parseScope(  (String) paramValues.get(__PARAM_USERS_SEARCH_SCOPE));
+        _usersSearchScope = ScopeEnumerator.parseScope((String) paramValues.get(__PARAM_USERS_SEARCH_SCOPE));
         _usersLoginAttribute = (String) paramValues.get(__PARAM_USERS_LOGIN_ATTRIBUTE);
         _usersMemberOfAttribute = (String) paramValues.get(__PARAM_GROUPS_MEMBER_ATTRIBUTE);
         

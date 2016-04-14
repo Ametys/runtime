@@ -109,7 +109,7 @@ public class LdapUserDirectory extends AbstractLDAPConnector implements UserDire
         
         _usersRelativeDN = (String) paramValues.get(__PARAM_USERS_RELATIVE_DN);
         _usersObjectFilter = (String) paramValues.get(__PARAM_USERS_OBJECT_FILTER);
-        _usersSearchScope = ScopeEnumerator.parseScope( (String) paramValues.get(__PARAM_USERS_SEARCH_SCOPE) );
+        _usersSearchScope = ScopeEnumerator.parseScope((String) paramValues.get(__PARAM_USERS_SEARCH_SCOPE));
         _usersLoginAttribute = (String) paramValues.get(__PARAM_USERS_LOGIN_ATTRIBUTE);
         
         _usersFirstnameAttribute = (String) paramValues.get(__PARAM_USERS_FIRSTNAME_ATTRIBUTE);

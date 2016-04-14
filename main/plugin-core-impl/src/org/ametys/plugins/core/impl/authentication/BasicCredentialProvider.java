@@ -36,15 +36,15 @@ import org.ametys.runtime.authentication.AuthorizationRequiredException;
  */
 public class BasicCredentialProvider extends AbstractCredentialProvider implements BlockingCredentialProvider, Contextualizable
 {
-    private static final String BASIC_AUTHENTICATION_KEY = "BASIC ";
-    
     /** Name of the parameter holding the authentication realm */
     protected static final String __PARAM_REALM = "runtime.authentication.basic.realm";
-
-    private Context _context;
+    
+    private static final String BASIC_AUTHENTICATION_KEY = "BASIC ";
 
     /** The realm */
     protected String _realm;
+    
+    private Context _context;
 
     @Override
     public void contextualize(Context context) throws ContextException

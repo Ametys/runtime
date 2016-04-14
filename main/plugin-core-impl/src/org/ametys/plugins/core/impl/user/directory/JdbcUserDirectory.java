@@ -72,6 +72,11 @@ import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
  */
 public class JdbcUserDirectory extends CachingComponent<User> implements ModifiableUserDirectory, Component, Serviceable, Contextualizable, PluginAware, Disposable
 {
+    /** The base plugin (for i18n key) */
+    protected static final String BASE_PLUGIN_NAME = "core";
+    
+    static final String[] __COLUMNS = new String[] {"login", "password", "firstname", "lastname", "email"};
+    
     /** Name of the parameter holding the datasource id */
     private static final String __DATASOURCE_PARAM_NAME = "runtime.users.jdbc.datasource";
     /** Name of the parameter holding the table users' name */
@@ -83,11 +88,6 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
     private static final String __COLUMN_LASTNAME = "lastname";
     private static final String __COLUMN_EMAIL = "email";
     private static final String __COLUMN_SALT = "salt";
-    
-    static final String[] __COLUMNS = new String[] {"login", "password", "firstname", "lastname", "email"};
-    
-    /** The base plugin (for i18n key) */
-    protected static final String BASE_PLUGIN_NAME = "core";
     
     /** List on user listener */
     protected List<UserListener> _listeners = new ArrayList<>();
@@ -694,44 +694,44 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
      * @param login The user login
      * @param password The user pasword
      */
-     protected void _updateToSSHAPassword(String login, String password)
-     {
-         Connection con = null;
-         PreparedStatement stmt = null;
-         ResultSet rs = null;
+    protected void _updateToSSHAPassword(String login, String password)
+    {
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
 
-         try
-         {
-             con = ConnectionHelper.getConnection(_dataSourceId);
+        try
+        {
+            con = ConnectionHelper.getConnection(_dataSourceId);
 
-             String generateSaltKey = RandomStringUtils.randomAlphanumeric(48);
-             String newEncryptedPassword = DigestUtils.sha512Hex(generateSaltKey + password);
+            String generateSaltKey = RandomStringUtils.randomAlphanumeric(48);
+            String newEncryptedPassword = DigestUtils.sha512Hex(generateSaltKey + password);
 
-             String sqlUpdate = "UPDATE " + _userTableName + " SET " + __COLUMN_PASSWORD + " = ?, " + __COLUMN_SALT + " = ? WHERE " + __COLUMN_LOGIN + " = ?";
-             if (getLogger().isDebugEnabled())
-             {
-                 getLogger().debug(sqlUpdate);
-             }
+            String sqlUpdate = "UPDATE " + _userTableName + " SET " + __COLUMN_PASSWORD + " = ?, " + __COLUMN_SALT + " = ? WHERE " + __COLUMN_LOGIN + " = ?";
+            if (getLogger().isDebugEnabled())
+            {
+                getLogger().debug(sqlUpdate);
+            }
 
-             stmt = con.prepareStatement(sqlUpdate);
-             stmt.setString(1, newEncryptedPassword);
-             stmt.setString(2, generateSaltKey);
-             stmt.setString(3, login);
-             
-             stmt.execute();
-         }
-         catch (SQLException e)
-         {
-             getLogger().error("Error during the connection to the database", e);
-         }
-         finally
-         {
-             // Close connections
-             ConnectionHelper.cleanup(rs);
-             ConnectionHelper.cleanup(stmt);
-             ConnectionHelper.cleanup(con);
-         }
-     }
+            stmt = con.prepareStatement(sqlUpdate);
+            stmt.setString(1, newEncryptedPassword);
+            stmt.setString(2, generateSaltKey);
+            stmt.setString(3, login);
+
+            stmt.execute();
+        }
+        catch (SQLException e)
+        {
+            getLogger().error("Error during the connection to the database", e);
+        }
+        finally
+        {
+            // Close connections
+            ConnectionHelper.cleanup(rs);
+            ConnectionHelper.cleanup(stmt);
+            ConnectionHelper.cleanup(con);
+        }
+    }
      
      /**
       * Create Add statement
@@ -740,57 +740,57 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
       * @return The statement
       * @throws SQLException if an error occurred
       */
-     protected PreparedStatement createAddStatement(Connection con, Map<String, String> userInformation) throws SQLException
-     {
-         String beginClause = "INSERT INTO " + _userTableName + " (";
-         String middleClause = ") VALUES (";
-         String endClause = ")";
-         
-         StringBuffer intoClause = new StringBuffer();
-         StringBuffer valueClause = new StringBuffer();
-         
-         intoClause.append(__COLUMN_SALT);
-         valueClause.append("?");
-         
-         for (String column : __COLUMNS)
-         {
-             intoClause.append(", " + column);
-             valueClause.append(", ?");
-         }
-         
-         String sqlRequest = beginClause + intoClause.toString() + middleClause + valueClause + endClause;
-         if (getLogger().isDebugEnabled())
-         {
-             getLogger().debug(sqlRequest);
-         }
-         
-         PreparedStatement stmt = con.prepareStatement(sqlRequest);
+    protected PreparedStatement createAddStatement(Connection con, Map<String, String> userInformation) throws SQLException
+    {
+        String beginClause = "INSERT INTO " + _userTableName + " (";
+        String middleClause = ") VALUES (";
+        String endClause = ")";
 
-         int i = 1;
-         String generatedSaltKey = RandomStringUtils.randomAlphanumeric(48);
-         stmt.setString(i++, generatedSaltKey);
-         
-         for (String column : __COLUMNS)
-         {
-             if ("password".equals(column))
-             {
-                 String encryptedPassword = DigestUtils.sha512Hex(generatedSaltKey + userInformation.get(column));
-                 if (encryptedPassword == null)
-                 {
-                     String message = "Cannot encode password";
-                     getLogger().error(message);
-                     throw new SQLException(message);
-                 }
-                 stmt.setString(i++, encryptedPassword);
-             }
-             else
-             {
-                 stmt.setString(i++, userInformation.get(column));
-             }
-         }
-         
-         return stmt;
-     }
+        StringBuffer intoClause = new StringBuffer();
+        StringBuffer valueClause = new StringBuffer();
+
+        intoClause.append(__COLUMN_SALT);
+        valueClause.append("?");
+
+        for (String column : __COLUMNS)
+        {
+            intoClause.append(", " + column);
+            valueClause.append(", ?");
+        }
+
+        String sqlRequest = beginClause + intoClause.toString() + middleClause + valueClause + endClause;
+        if (getLogger().isDebugEnabled())
+        {
+            getLogger().debug(sqlRequest);
+        }
+
+        PreparedStatement stmt = con.prepareStatement(sqlRequest);
+
+        int i = 1;
+        String generatedSaltKey = RandomStringUtils.randomAlphanumeric(48);
+        stmt.setString(i++, generatedSaltKey);
+
+        for (String column : __COLUMNS)
+        {
+            if ("password".equals(column))
+            {
+                String encryptedPassword = DigestUtils.sha512Hex(generatedSaltKey + userInformation.get(column));
+                if (encryptedPassword == null)
+                {
+                    String message = "Cannot encode password";
+                    getLogger().error(message);
+                    throw new SQLException(message);
+                }
+                stmt.setString(i++, encryptedPassword);
+            }
+            else
+            {
+                stmt.setString(i++, userInformation.get(column));
+            }
+        }
+
+        return stmt;
+    }
      
      /**
       * Create statement to update database
@@ -799,48 +799,48 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
       * @return The statement
       * @throws SQLException if an error occurred
       */
-     protected PreparedStatement createModifyStatement(Connection con, Map<String, String> userInformation) throws SQLException
-     {
-         // Build request for editing the user
-         String beginClause = "UPDATE " + _userTableName + " SET ";
-         String endClause = " WHERE " + __COLUMN_LOGIN + " = ?";
+    protected PreparedStatement createModifyStatement(Connection con, Map<String, String> userInformation) throws SQLException
+    {
+        // Build request for editing the user
+        String beginClause = "UPDATE " + _userTableName + " SET ";
+        String endClause = " WHERE " + __COLUMN_LOGIN + " = ?";
 
-         StringBuffer columnNames = new StringBuffer("");
-         
-         boolean passwordUpdate = false;
-         for (String id : userInformation.keySet())
-         {
-             if (ArrayUtils.contains(__COLUMNS, id) && !"login".equals(id) && !("password".equals(id) && (userInformation.get(id) == null)))
-             {
-                 if ("password".equals(id))
-                 {
-                     passwordUpdate = true;
-                 }
-                 
-                 if (columnNames.length() > 0)
-                 {
-                     columnNames.append(", ");
-                 }
-                 columnNames.append(id + " = ?");
-             }
-         }
-         
-         if (passwordUpdate)
-         {
-             columnNames.append(", " + __COLUMN_SALT + " = ?");
-         }
-         
-         String sqlRequest = beginClause + columnNames.toString() + endClause;
-         if (getLogger().isDebugEnabled())
-         {
-             getLogger().debug(sqlRequest);
-         }
+        StringBuffer columnNames = new StringBuffer("");
 
-         PreparedStatement stmt = con.prepareStatement(sqlRequest);
-         _fillModifyStatement(stmt, userInformation);
+        boolean passwordUpdate = false;
+        for (String id : userInformation.keySet())
+        {
+            if (ArrayUtils.contains(__COLUMNS, id) && !"login".equals(id) && !("password".equals(id) && (userInformation.get(id) == null)))
+            {
+                if ("password".equals(id))
+                {
+                    passwordUpdate = true;
+                }
 
-         return stmt;
-     }
+                if (columnNames.length() > 0)
+                {
+                    columnNames.append(", ");
+                }
+                columnNames.append(id + " = ?");
+            }
+        }
+
+        if (passwordUpdate)
+        {
+            columnNames.append(", " + __COLUMN_SALT + " = ?");
+        }
+
+        String sqlRequest = beginClause + columnNames.toString() + endClause;
+        if (getLogger().isDebugEnabled())
+        {
+            getLogger().debug(sqlRequest);
+        }
+
+        PreparedStatement stmt = con.prepareStatement(sqlRequest);
+        _fillModifyStatement(stmt, userInformation);
+
+        return stmt;
+    }
      
      /**
       * Fill the statement with the user informations
@@ -848,46 +848,46 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
       * @param userInformation the user informations
       * @throws SQLException if an error occurred
       */
-     protected void _fillModifyStatement(PreparedStatement stmt, Map<String, String> userInformation) throws SQLException
-     {
-         int index = 1;
-         
-         String generateSaltKey = RandomStringUtils.randomAlphanumeric(48);
-         boolean passwordUpdate = false;
-         
-         for (String id : userInformation.keySet())
-         {
-             if (ArrayUtils.contains(__COLUMNS, id) && !"login".equals(id))
-             {
-                 if ("password".equals(id))
-                 {
-                     if (userInformation.get(id) != null)
-                     {
-                         String encryptedPassword = DigestUtils.sha512Hex(generateSaltKey + userInformation.get(id));
-                         if (encryptedPassword == null)
-                         {
-                             String message = "Cannot encrypt password";
-                             getLogger().error(message);
-                             throw new SQLException(message);
-                         }
-                         stmt.setString(index++, encryptedPassword);
-                         passwordUpdate = true;
-                     }
-                 }
-                 else
-                 {
-                     stmt.setString(index++, userInformation.get(id));
-                 }
-             }
-         }
-         
-         if (passwordUpdate)
-         {
-             stmt.setString(index++, generateSaltKey);
-         }
-         
-         stmt.setString(index++, userInformation.get("login"));
-     }
+    protected void _fillModifyStatement(PreparedStatement stmt, Map<String, String> userInformation) throws SQLException
+    {
+        int index = 1;
+
+        String generateSaltKey = RandomStringUtils.randomAlphanumeric(48);
+        boolean passwordUpdate = false;
+
+        for (String id : userInformation.keySet())
+        {
+            if (ArrayUtils.contains(__COLUMNS, id) && !"login".equals(id))
+            {
+                if ("password".equals(id))
+                {
+                    if (userInformation.get(id) != null)
+                    {
+                        String encryptedPassword = DigestUtils.sha512Hex(generateSaltKey + userInformation.get(id));
+                        if (encryptedPassword == null)
+                        {
+                            String message = "Cannot encrypt password";
+                            getLogger().error(message);
+                            throw new SQLException(message);
+                        }
+                        stmt.setString(index++, encryptedPassword);
+                        passwordUpdate = true;
+                    }
+                }
+                else
+                {
+                    stmt.setString(index++, userInformation.get(id));
+                }
+            }
+        }
+
+        if (passwordUpdate)
+        {
+            stmt.setString(index++, generateSaltKey);
+        }
+
+        stmt.setString(index++, userInformation.get("login"));
+    }
      
      /**
       * Populate the user list with the result set
@@ -895,37 +895,37 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
       * @return The user list
       * @throws SQLException If an SQL exception occurs
       */
-     protected List<User> _getUsersProcessResultSet(ResultSet rs) throws SQLException
-     {
-         List<User> users = new ArrayList<>();
-         
-         while (rs.next())
-         {
-             User user = null;
-             
-             // Try to get in cache
-             if (isCacheEnabled())
-             {
-                 String login = rs.getString(__COLUMN_LOGIN);
-                 user = getObjectFromCache(login);
-             }
-             
-             // Or create from result set
-             if (user == null)
-             {
-                 user = _createUserFromResultSet(rs);
-                 
-                 if (isCacheEnabled())
-                 {
-                     addObjectInCache(user.getIdentity().getLogin(), user);
-                 }
-             }
-             
-             users.add(user);
-         }
-         
-         return users;
-     }
+    protected List<User> _getUsersProcessResultSet(ResultSet rs) throws SQLException
+    {
+        List<User> users = new ArrayList<>();
+
+        while (rs.next())
+        {
+            User user = null;
+
+            // Try to get in cache
+            if (isCacheEnabled())
+            {
+                String login = rs.getString(__COLUMN_LOGIN);
+                user = getObjectFromCache(login);
+            }
+
+            // Or create from result set
+            if (user == null)
+            {
+                user = _createUserFromResultSet(rs);
+
+                if (isCacheEnabled())
+                {
+                    addObjectInCache(user.getIdentity().getLogin(), user);
+                }
+            }
+
+            users.add(user);
+        }
+
+        return users;
+    }
      
      /**
       * Create the user implementation from the result set of the request
@@ -934,15 +934,15 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
       * @return The user refleting the current cursor position in the result set
       * @throws SQLException if an error occurred
       */
-     protected User _createUserFromResultSet(ResultSet rs) throws SQLException
-     {
-         String login = rs.getString(__COLUMN_LOGIN);
-         String lastName = rs.getString(__COLUMN_LASTNAME);
-         String firstName = rs.getString(__COLUMN_FIRSTNAME);
-         String email = rs.getString(__COLUMN_EMAIL);
+    protected User _createUserFromResultSet(ResultSet rs) throws SQLException
+    {
+        String login = rs.getString(__COLUMN_LOGIN);
+        String lastName = rs.getString(__COLUMN_LASTNAME);
+        String firstName = rs.getString(__COLUMN_FIRSTNAME);
+        String email = rs.getString(__COLUMN_EMAIL);
 
-         return new User(new UserIdentity(login, _populationId), lastName, firstName, email, this);
-     }
+        return new User(new UserIdentity(login, _populationId), lastName, firstName, email, this);
+    }
      
      /**
       * Retrieve an user from a result set
@@ -951,26 +951,26 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
       * @return The retrieved user or null if not found
       * @throws SQLException If an SQL Exception occurs
       */
-     protected User _getUserProcessResultSet(ResultSet rs, String login) throws SQLException
-     {
-         if (rs.next())
-         {
-             // Retrieve information of the user
-             User user = _createUserFromResultSet(rs);
-             
-             if (isCacheEnabled())
-             {
-                 addObjectInCache(login, user);
-             }
-             
-             return user;
-         }
-         else
-         {
-             // no user with this login in the database
-             return null;
-         }
-     }
+    protected User _getUserProcessResultSet(ResultSet rs, String login) throws SQLException
+    {
+        if (rs.next())
+        {
+            // Retrieve information of the user
+            User user = _createUserFromResultSet(rs);
+
+            if (isCacheEnabled())
+            {
+                addObjectInCache(login, user);
+            }
+
+            return user;
+        }
+        else
+        {
+            // no user with this login in the database
+            return null;
+        }
+    }
      
      // ------------------------------
      //          INNER CLASSE
@@ -979,423 +979,423 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
       * An internal query executor.
       * @param <T> The type of the queried object
       */
-     protected abstract class AbstractJdbcQueryExecutor<T>
-     {
-         /**
-          * Main function, run the query process. Will not throw exception. Use
-          * runWithException to catch non SQL exception thrown by
-          * {@link #processResultSet(ResultSet)}
-          * @return The queried object or null
-          */
-         @SuppressWarnings("synthetic-access")
-         public T run()
-         {
-             try
-             {
-                 return runWithException();
-             }
-             catch (Exception e)
-             {
-                 getLogger().error("Exception during a query execution", e);
-                 throw new RuntimeException("Exception during a query execution", e);
-             }
-         }
-         
-         /**
-          * Main function, run the query process.
-          * @return The queried object or null
-          * @throws Exception All non SQLException will be thrown
-          */
-         @SuppressWarnings("synthetic-access")
-         public T runWithException() throws Exception
-         {
-             Connection connection = ConnectionHelper.getConnection(_dataSourceId);
-             PreparedStatement stmt = null;
-             ResultSet rs = null;
-             
-             try
-             {
-                 String sql = getSqlQuery(connection);
-                 
-                 if (getLogger().isDebugEnabled())
-                 {
-                     getLogger().debug("Executing SQL query: " + sql);
-                 }
-                 
-                 stmt = prepareStatement(connection, sql);
-                 rs = executeQuery(stmt);
-                 
-                 return processResultSet(rs);
-             }
-             catch (SQLException e)
-             {
-                 getLogger().error("Error during the communication with the database", e);
-                 throw new RuntimeException("Error during the communication with the database", e);
-             }
-             finally
-             {
-                 ConnectionHelper.cleanup(rs);
-                 ConnectionHelper.cleanup(stmt);
-                 ConnectionHelper.cleanup(connection);
-             }
-         }
-         
-         /**
-          * Must return the SQL query to execute
-          * @param connection The pool connection
-          * @return The SQL query
-          */
-         protected abstract String getSqlQuery(Connection connection);
-         
-         /**
-          * Prepare the statement to execute
-          * @param connection The pool connection
-          * @param sql The SQL query
-          * @return The prepared statement, ready to be executed
-          * @throws SQLException If an SQL Exception occurs
-          */
-         protected PreparedStatement prepareStatement(Connection connection, String sql) throws SQLException
-         {
-             return connection.prepareStatement(sql);
-         }
-         
-         /**
-          * Execute the prepared statement and retrieves the result set.
-          * @param stmt The prepared statement
-          * @return The result set
-          * @throws SQLException If an SQL Exception occurs 
-          */
-         protected ResultSet executeQuery(PreparedStatement stmt) throws SQLException
-         {
-             return stmt.executeQuery();
-         }
-         
-         /**
-          * Process the result set
-          * @param rs The result set
-          * @return The queried object or null
-          * @throws SQLException If an SQL exception occurs
-          * @throws Exception Other exception will be thrown when using {@link #runWithException()}
-          */
-         protected T processResultSet(ResultSet rs) throws SQLException, Exception
-         {
-             return null;
-         }
-     }
-     
-     /**
-      * Query executor in order to select an user
-      * @param <T> The type of the queried object
-      */
-     protected class SelectUserJdbcQueryExecutor<T> extends AbstractJdbcQueryExecutor<T>
-     {
-         /** The user login */
-         protected String _login;
-         
-         /** 
-          * The constructor
-          * @param login The user login
-          */
-         protected SelectUserJdbcQueryExecutor(String login)
-         {
-             _login = login;
-         }
-         
-         @Override
-         protected String getSqlQuery(Connection connection)
-         {
-             // Build SQL request
-             StringBuilder selectClause = new StringBuilder();
-             for (String id : __COLUMNS)
-             {
-                 if (selectClause.length() > 0)
-                 {
-                     selectClause.append(", ");
-                 }
-                 selectClause.append(id);
-             }
+    protected abstract class AbstractJdbcQueryExecutor<T>
+    {
+        /**
+         * Main function, run the query process. Will not throw exception. Use
+         * runWithException to catch non SQL exception thrown by
+         * {@link #processResultSet(ResultSet)}
+         * @return The queried object or null
+         */
+        @SuppressWarnings("synthetic-access")
+        public T run()
+        {
+            try
+            {
+                return runWithException();
+            }
+            catch (Exception e)
+            {
+                getLogger().error("Exception during a query execution", e);
+                throw new RuntimeException("Exception during a query execution", e);
+            }
+        }
 
-             StringBuilder sql = new StringBuilder("SELECT ");
-             sql.append(selectClause).append(" FROM ").append(_userTableName);
-             sql.append(" WHERE login = ?");
-             
-             return sql.toString();
-         }
-         
-         @Override
-         protected PreparedStatement prepareStatement(Connection connection, String sql) throws SQLException
-         {
-             PreparedStatement stmt = super.prepareStatement(connection, sql);
-             
-             stmt.setString(1, _login);
-             return stmt;
-         }
-     }
-     
-     /**
-      * Query executor in order to select users
-      * @param <T> The type of the queried object
-      */
-     protected class SelectUsersJdbcQueryExecutor<T> extends AbstractJdbcQueryExecutor<T>
-     {
-         /** The pattern to match (none if null) */
-         protected String _pattern;
-         /** The maximum number of users to select */
-         protected int _length;
-         /** The offset to start with, first is 0 */
-         protected int _offset;
-         
-         /** The mandatory predicate to use when querying users by pattern */
-         protected JdbcPredicate _mandatoryPredicate;
-         /** The pattern to match, extracted from the pattern */
-         protected String _patternToMatch;
-         
-         /** 
-          * The constructor
-          * @param pattern The pattern to match (none if null).
-          * @param length The maximum number of users to select.
-          * @param offset The offset to start with, first is 0.
-          */
-         protected SelectUsersJdbcQueryExecutor(String pattern, int length, int offset)
-         {
-             _pattern = pattern;
-             _length = length;
-             _offset = offset;
-         }
-         
-         @Override
-         protected String getSqlQuery(Connection connection)
-         {
-             // Build SQL request
-             StringBuilder selectClause = new StringBuilder();
-             for (String column : __COLUMNS)
-             {
-                 if (selectClause.length() > 0)
-                 {
-                     selectClause.append(", ");
-                 }
-                 selectClause.append(column);
-             }
+        /**
+         * Main function, run the query process.
+         * @return The queried object or null
+         * @throws Exception All non SQLException will be thrown
+         */
+        @SuppressWarnings("synthetic-access")
+        public T runWithException() throws Exception
+        {
+            Connection connection = ConnectionHelper.getConnection(_dataSourceId);
+            PreparedStatement stmt = null;
+            ResultSet rs = null;
 
-             StringBuilder sql = new StringBuilder("SELECT ");
-             sql.append(selectClause).append(" FROM ").append(_userTableName);
-             
-             // Add the pattern
-             _mandatoryPredicate = _getMandatoryPredicate(_pattern);
-             if (_mandatoryPredicate != null)
-             {
-                 sql.append(" WHERE ").append(_mandatoryPredicate.getPredicate());
-             }
-             
-             _patternToMatch = _getPatternToMatch(_pattern);
-             if (_patternToMatch != null)
-             {
-                 if (ConnectionHelper.getDatabaseType(connection) == DatabaseType.DATABASE_DERBY)
-                 {
-                     // The LIKE operator in Derby is case sensitive
-                     sql.append(_mandatoryPredicate != null ? " AND (" : " WHERE ")
-                     .append("UPPER(").append(__COLUMN_LOGIN).append(") LIKE UPPER(?) OR ")
-                     .append("UPPER(").append(__COLUMN_LASTNAME).append(") LIKE UPPER(?) OR ")
-                     .append("UPPER(").append(__COLUMN_FIRSTNAME).append(") LIKE UPPER(?)");
-                 }
-                 else
-                 {
-                     sql.append(_mandatoryPredicate != null ? " AND (" : " WHERE ")
-                     .append(__COLUMN_LOGIN).append(" LIKE ? OR ")
-                     .append(__COLUMN_LASTNAME).append(" LIKE ? OR ")
-                     .append(__COLUMN_FIRSTNAME).append(" LIKE ?");
-                 }
-                 
-                 if (_mandatoryPredicate != null)
-                 {
-                     sql.append(')');
-                 }
-             }
-             
-             // Add length filters
-             sql = _addQuerySize(_length, _offset, connection, selectClause, sql);
+            try
+            {
+                String sql = getSqlQuery(connection);
 
-             return sql.toString();
-         }
-         
-         @SuppressWarnings("synthetic-access")
-         private StringBuilder _addQuerySize(int length, int offset, Connection con, StringBuilder selectClause, StringBuilder sql)
-         {
-             // Do not add anything if not necessary
-             if (length == Integer.MAX_VALUE && offset == 0)
-             {
-                 return sql;
-             }
-             
-             DatabaseType datatype = ConnectionHelper.getDatabaseType(con);
-             
-             if (datatype == DatabaseType.DATABASE_MYSQL || datatype == DatabaseType.DATABASE_POSTGRES || datatype == DatabaseType.DATABASE_HSQLDB)
-             {
-                 sql.append(" LIMIT " + length + " OFFSET " + offset);
-                 return sql;
-             }
-             else if (datatype == DatabaseType.DATABASE_ORACLE)
-             {
-                 return new StringBuilder("select " + selectClause.toString() + " from (select rownum r, " + selectClause.toString() + " from (" + sql.toString()
-                         + ")) where r BETWEEN " + (offset + 1) + " AND " + (offset + length));
-             }
-             else if (datatype == DatabaseType.DATABASE_DERBY)
-             {
-                 return new StringBuilder("select ").append(selectClause)
-                         .append(" from (select ROW_NUMBER() OVER () AS ROWNUM, ").append(selectClause.toString())
-                         .append(" from (").append(sql.toString()).append(") AS TR ) AS TRR where ROWNUM BETWEEN ")
-                         .append(offset + 1).append(" AND ").append(offset + length);
-             }
-             else if (getLogger().isWarnEnabled())
-             {
-                 getLogger().warn("The request will not have the limit and offset set, since its type is unknown");
-             }
-             
-             return sql;
-         }
-         
-         @Override
-         protected PreparedStatement prepareStatement(Connection connection, String sql) throws SQLException
-         {
-             PreparedStatement stmt = super.prepareStatement(connection, sql);
-             
-             int i = 1;
-             // Value the parameters if there is a pattern
-             if (_mandatoryPredicate != null)
-             {
-                 for (String value : _mandatoryPredicate.getValues())
-                 {
-                     stmt.setString(i++, value);
-                 }
-             }
-             
-             if (_patternToMatch != null)
-             {
-                 // One for the login, one for the lastname.
-                 stmt.setString(i++, _patternToMatch);
-                 stmt.setString(i++, _patternToMatch);
-                 // FIXME
-                 //if (_parameters.containsKey("firstname"))
-                 //{
-                     stmt.setString(i++, _patternToMatch);
-                 //}
-             }
-             
-             return stmt;
-         }
-     }
+                if (getLogger().isDebugEnabled())
+                {
+                    getLogger().debug("Executing SQL query: " + sql);
+                }
+
+                stmt = prepareStatement(connection, sql);
+                rs = executeQuery(stmt);
+
+                return processResultSet(rs);
+            }
+            catch (SQLException e)
+            {
+                getLogger().error("Error during the communication with the database", e);
+                throw new RuntimeException("Error during the communication with the database", e);
+            }
+            finally
+            {
+                ConnectionHelper.cleanup(rs);
+                ConnectionHelper.cleanup(stmt);
+                ConnectionHelper.cleanup(connection);
+            }
+        }
+
+        /**
+         * Must return the SQL query to execute
+         * @param connection The pool connection
+         * @return The SQL query
+         */
+        protected abstract String getSqlQuery(Connection connection);
+
+        /**
+         * Prepare the statement to execute
+         * @param connection The pool connection
+         * @param sql The SQL query
+         * @return The prepared statement, ready to be executed
+         * @throws SQLException If an SQL Exception occurs
+         */
+        protected PreparedStatement prepareStatement(Connection connection, String sql) throws SQLException
+        {
+            return connection.prepareStatement(sql);
+        }
+
+        /**
+         * Execute the prepared statement and retrieves the result set.
+         * @param stmt The prepared statement
+         * @return The result set
+         * @throws SQLException If an SQL Exception occurs 
+         */
+        protected ResultSet executeQuery(PreparedStatement stmt) throws SQLException
+        {
+            return stmt.executeQuery();
+        }
+
+        /**
+         * Process the result set
+         * @param rs The result set
+         * @return The queried object or null
+         * @throws SQLException If an SQL exception occurs
+         * @throws Exception Other exception will be thrown when using {@link #runWithException()}
+         */
+        protected T processResultSet(ResultSet rs) throws SQLException, Exception
+        {
+            return null;
+        }
+    }
+
+    /**
+     * Query executor in order to select an user
+     * @param <T> The type of the queried object
+     */
+    protected class SelectUserJdbcQueryExecutor<T> extends AbstractJdbcQueryExecutor<T>
+    {
+        /** The user login */
+        protected String _login;
+
+        /** 
+         * The constructor
+         * @param login The user login
+         */
+        protected SelectUserJdbcQueryExecutor(String login)
+        {
+            _login = login;
+        }
+
+        @Override
+        protected String getSqlQuery(Connection connection)
+        {
+            // Build SQL request
+            StringBuilder selectClause = new StringBuilder();
+            for (String id : __COLUMNS)
+            {
+                if (selectClause.length() > 0)
+                {
+                    selectClause.append(", ");
+                }
+                selectClause.append(id);
+            }
+
+            StringBuilder sql = new StringBuilder("SELECT ");
+            sql.append(selectClause).append(" FROM ").append(_userTableName);
+            sql.append(" WHERE login = ?");
+
+            return sql.toString();
+        }
+
+        @Override
+        protected PreparedStatement prepareStatement(Connection connection, String sql) throws SQLException
+        {
+            PreparedStatement stmt = super.prepareStatement(connection, sql);
+
+            stmt.setString(1, _login);
+            return stmt;
+        }
+    }
      
-     /**
-      * {@link AbstractParameterParser} for parsing {@link JdbcParameter}.
-      */
-     protected static class JdbcParameterParser extends AbstractParameterParser<JdbcParameter, ParameterType>
-     {
-         JdbcParameterParser(ThreadSafeComponentManager<Enumerator> enumeratorManager, ThreadSafeComponentManager<Validator> validatorManager)
-         {
-             super(enumeratorManager, validatorManager);
-         }
-         
-         @Override
-         protected JdbcParameter _createParameter(Configuration parameterConfig) throws ConfigurationException
-         {
-             return new JdbcParameter();
-         }
-         
-         @Override
-         protected String _parseId(Configuration parameterConfig) throws ConfigurationException
-         {
-             return parameterConfig.getAttribute("id");
-         }
-         
-         @Override
-         protected ParameterType _parseType(Configuration parameterConfig) throws ConfigurationException
-         {
-             try
-             {
-                 return ParameterType.valueOf(parameterConfig.getAttribute("type").toUpperCase());
-             }
-             catch (IllegalArgumentException e)
-             {
-                 throw new ConfigurationException("Invalid type", parameterConfig, e);
-             }
-         }
-         
-         @Override
-         protected Object _parseDefaultValue(Configuration parameterConfig, JdbcParameter jdbcParameter)
-         {
-             String defaultValue = parameterConfig.getChild("default-value").getValue(null);
-             return ParameterHelper.castValue(defaultValue, jdbcParameter.getType());
-         }
-     }
-     
-     /**
-      * Class representing a SQL predicate (to use in a WHERE or HAVING clause),
-      * with optional string parameters.
-      */
-     public class JdbcPredicate
-     {
-         
-         /** The predicate string with optional "?" placeholders. */
-         protected String _predicate;
-         /** The predicate parameter values. */
-         protected List<String> _predicateParamValues;
-         
-         /**
-          * Build a JDBC predicate.
-          * @param predicate the predicate string.
-          * @param values the parameter values.
-          */
-         public JdbcPredicate(String predicate, String... values)
-         {
-             this(predicate, Arrays.asList(values));
-         }
-         
-         /**
-          * Build a JDBC predicate.
-          * @param predicate the predicate string.
-          * @param values the parameter values.
-          */
-         public JdbcPredicate(String predicate, List<String> values)
-         {
-             this._predicate = predicate;
-             this._predicateParamValues = values;
-         }
-         
-         /**
-          * Get the predicate.
-          * @return the predicate
-          */
-         public String getPredicate()
-         {
-             return _predicate;
-         }
-         
-         /**
-          * Set the predicate.
-          * @param predicate the predicate to set
-          */
-         public void setPredicate(String predicate)
-         {
-             this._predicate = predicate;
-         }
-         
-         /**
-          * Get the parameter values.
-          * @return the parameter values.
-          */
-         public List<String> getValues()
-         {
-             return _predicateParamValues;
-         }
-         
-         /**
-          * Set the parameter values.
-          * @param values the parameter values to set.
-          */
-         public void setValues(List<String> values)
-         {
-             this._predicateParamValues = values;
-         }
-     }
+    /**
+     * Query executor in order to select users
+     * @param <T> The type of the queried object
+     */
+    protected class SelectUsersJdbcQueryExecutor<T> extends AbstractJdbcQueryExecutor<T>
+    {
+        /** The pattern to match (none if null) */
+        protected String _pattern;
+        /** The maximum number of users to select */
+        protected int _length;
+        /** The offset to start with, first is 0 */
+        protected int _offset;
+
+        /** The mandatory predicate to use when querying users by pattern */
+        protected JdbcPredicate _mandatoryPredicate;
+        /** The pattern to match, extracted from the pattern */
+        protected String _patternToMatch;
+
+        /** 
+         * The constructor
+         * @param pattern The pattern to match (none if null).
+         * @param length The maximum number of users to select.
+         * @param offset The offset to start with, first is 0.
+         */
+        protected SelectUsersJdbcQueryExecutor(String pattern, int length, int offset)
+        {
+            _pattern = pattern;
+            _length = length;
+            _offset = offset;
+        }
+
+        @Override
+        protected String getSqlQuery(Connection connection)
+        {
+            // Build SQL request
+            StringBuilder selectClause = new StringBuilder();
+            for (String column : __COLUMNS)
+            {
+                if (selectClause.length() > 0)
+                {
+                    selectClause.append(", ");
+                }
+                selectClause.append(column);
+            }
+
+            StringBuilder sql = new StringBuilder("SELECT ");
+            sql.append(selectClause).append(" FROM ").append(_userTableName);
+
+            // Add the pattern
+            _mandatoryPredicate = _getMandatoryPredicate(_pattern);
+            if (_mandatoryPredicate != null)
+            {
+                sql.append(" WHERE ").append(_mandatoryPredicate.getPredicate());
+            }
+
+            _patternToMatch = _getPatternToMatch(_pattern);
+            if (_patternToMatch != null)
+            {
+                if (ConnectionHelper.getDatabaseType(connection) == DatabaseType.DATABASE_DERBY)
+                {
+                    // The LIKE operator in Derby is case sensitive
+                    sql.append(_mandatoryPredicate != null ? " AND (" : " WHERE ")
+                    .append("UPPER(").append(__COLUMN_LOGIN).append(") LIKE UPPER(?) OR ")
+                    .append("UPPER(").append(__COLUMN_LASTNAME).append(") LIKE UPPER(?) OR ")
+                    .append("UPPER(").append(__COLUMN_FIRSTNAME).append(") LIKE UPPER(?)");
+                }
+                else
+                {
+                    sql.append(_mandatoryPredicate != null ? " AND (" : " WHERE ")
+                    .append(__COLUMN_LOGIN).append(" LIKE ? OR ")
+                    .append(__COLUMN_LASTNAME).append(" LIKE ? OR ")
+                    .append(__COLUMN_FIRSTNAME).append(" LIKE ?");
+                }
+
+                if (_mandatoryPredicate != null)
+                {
+                    sql.append(')');
+                }
+            }
+
+            // Add length filters
+            sql = _addQuerySize(_length, _offset, connection, selectClause, sql);
+
+            return sql.toString();
+        }
+
+        @SuppressWarnings("synthetic-access")
+        private StringBuilder _addQuerySize(int length, int offset, Connection con, StringBuilder selectClause, StringBuilder sql)
+        {
+            // Do not add anything if not necessary
+            if (length == Integer.MAX_VALUE && offset == 0)
+            {
+                return sql;
+            }
+
+            DatabaseType datatype = ConnectionHelper.getDatabaseType(con);
+
+            if (datatype == DatabaseType.DATABASE_MYSQL || datatype == DatabaseType.DATABASE_POSTGRES || datatype == DatabaseType.DATABASE_HSQLDB)
+            {
+                sql.append(" LIMIT " + length + " OFFSET " + offset);
+                return sql;
+            }
+            else if (datatype == DatabaseType.DATABASE_ORACLE)
+            {
+                return new StringBuilder("select " + selectClause.toString() + " from (select rownum r, " + selectClause.toString() + " from (" + sql.toString()
+                        + ")) where r BETWEEN " + (offset + 1) + " AND " + (offset + length));
+            }
+            else if (datatype == DatabaseType.DATABASE_DERBY)
+            {
+                return new StringBuilder("select ").append(selectClause)
+                        .append(" from (select ROW_NUMBER() OVER () AS ROWNUM, ").append(selectClause.toString())
+                        .append(" from (").append(sql.toString()).append(") AS TR ) AS TRR where ROWNUM BETWEEN ")
+                        .append(offset + 1).append(" AND ").append(offset + length);
+            }
+            else if (getLogger().isWarnEnabled())
+            {
+                getLogger().warn("The request will not have the limit and offset set, since its type is unknown");
+            }
+
+            return sql;
+        }
+
+        @Override
+        protected PreparedStatement prepareStatement(Connection connection, String sql) throws SQLException
+        {
+            PreparedStatement stmt = super.prepareStatement(connection, sql);
+
+            int i = 1;
+            // Value the parameters if there is a pattern
+            if (_mandatoryPredicate != null)
+            {
+                for (String value : _mandatoryPredicate.getValues())
+                {
+                    stmt.setString(i++, value);
+                }
+            }
+
+            if (_patternToMatch != null)
+            {
+                // One for the login, one for the lastname.
+                stmt.setString(i++, _patternToMatch);
+                stmt.setString(i++, _patternToMatch);
+                // FIXME
+                //if (_parameters.containsKey("firstname"))
+                //{
+                stmt.setString(i++, _patternToMatch);
+                //}
+            }
+
+            return stmt;
+        }
+    }
+
+    /**
+     * {@link AbstractParameterParser} for parsing {@link JdbcParameter}.
+     */
+    protected static class JdbcParameterParser extends AbstractParameterParser<JdbcParameter, ParameterType>
+    {
+        JdbcParameterParser(ThreadSafeComponentManager<Enumerator> enumeratorManager, ThreadSafeComponentManager<Validator> validatorManager)
+        {
+            super(enumeratorManager, validatorManager);
+        }
+
+        @Override
+        protected JdbcParameter _createParameter(Configuration parameterConfig) throws ConfigurationException
+        {
+            return new JdbcParameter();
+        }
+
+        @Override
+        protected String _parseId(Configuration parameterConfig) throws ConfigurationException
+        {
+            return parameterConfig.getAttribute("id");
+        }
+
+        @Override
+        protected ParameterType _parseType(Configuration parameterConfig) throws ConfigurationException
+        {
+            try
+            {
+                return ParameterType.valueOf(parameterConfig.getAttribute("type").toUpperCase());
+            }
+            catch (IllegalArgumentException e)
+            {
+                throw new ConfigurationException("Invalid type", parameterConfig, e);
+            }
+        }
+
+        @Override
+        protected Object _parseDefaultValue(Configuration parameterConfig, JdbcParameter jdbcParameter)
+        {
+            String defaultValue = parameterConfig.getChild("default-value").getValue(null);
+            return ParameterHelper.castValue(defaultValue, jdbcParameter.getType());
+        }
+    }
+
+    /**
+     * Class representing a SQL predicate (to use in a WHERE or HAVING clause),
+     * with optional string parameters.
+     */
+    public class JdbcPredicate
+    {
+
+        /** The predicate string with optional "?" placeholders. */
+        protected String _predicate;
+        /** The predicate parameter values. */
+        protected List<String> _predicateParamValues;
+
+        /**
+         * Build a JDBC predicate.
+         * @param predicate the predicate string.
+         * @param values the parameter values.
+         */
+        public JdbcPredicate(String predicate, String... values)
+        {
+            this(predicate, Arrays.asList(values));
+        }
+
+        /**
+         * Build a JDBC predicate.
+         * @param predicate the predicate string.
+         * @param values the parameter values.
+         */
+        public JdbcPredicate(String predicate, List<String> values)
+        {
+            this._predicate = predicate;
+            this._predicateParamValues = values;
+        }
+
+        /**
+         * Get the predicate.
+         * @return the predicate
+         */
+        public String getPredicate()
+        {
+            return _predicate;
+        }
+
+        /**
+         * Set the predicate.
+         * @param predicate the predicate to set
+         */
+        public void setPredicate(String predicate)
+        {
+            this._predicate = predicate;
+        }
+
+        /**
+         * Get the parameter values.
+         * @return the parameter values.
+         */
+        public List<String> getValues()
+        {
+            return _predicateParamValues;
+        }
+
+        /**
+         * Set the parameter values.
+         * @param values the parameter values to set.
+         */
+        public void setValues(List<String> values)
+        {
+            this._predicateParamValues = values;
+        }
+    }
 
 }

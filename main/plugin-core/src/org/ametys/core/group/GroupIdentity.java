@@ -33,6 +33,17 @@ public class GroupIdentity
     private String _directoryId;
     
     /**
+     * Constructs a group identity
+     * @param id The id of the group
+     * @param directoryId The id of the group directory the group belongs to
+     */
+    public GroupIdentity(String id, String directoryId)
+    {
+        _id = id;
+        _directoryId = directoryId;
+    }
+    
+    /**
      * Gets a string representation of a {@link GroupIdentity}
      * @param groupIdentity The group identity
      * @return The string representation of the group identity.
@@ -55,16 +66,6 @@ public class GroupIdentity
         return new GroupIdentity(id, groupDirectoryId);
     }
     
-    /**
-     * Constructs a group identity
-     * @param id The id of the group
-     * @param directoryId The id of the group directory the group belongs to
-     */
-    public GroupIdentity(String id, String directoryId)
-    {
-        _id = id;
-        _directoryId = directoryId;
-    }
 
     /**
      * Get the if of the group
