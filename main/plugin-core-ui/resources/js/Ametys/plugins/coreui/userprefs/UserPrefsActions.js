@@ -236,7 +236,7 @@ Ext.define('Ametys.plugins.coreui.userprefs.UserPrefsActions', {
                 type: Ametys.message.Message.MODIFIED,
                 
                 targets: {
-                    type: Ametys.message.MessageTarget.USER_PREFS,
+                    id: Ametys.message.MessageTarget.USER_PREFS,
                     parameters: {
                         context: Ametys.userprefs.UserPrefsDAO.getDefaultPrefContext()
                     }

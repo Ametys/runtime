@@ -15,12 +15,10 @@
  */
 package org.ametys.core.ui;
 
-import org.ametys.runtime.plugin.component.AbstractThreadSafeComponentExtensionPoint;
-
 /**
  * This extension point handle the existing ribbon controls.
  */
-public class RibbonTabsManager extends AbstractThreadSafeComponentExtensionPoint<ClientSideElement>
+public class RibbonTabsManager extends ClientSideElementManager
 {
     /** Avalon role */
     public static final String ROLE = RibbonTabsManager.class.getName();

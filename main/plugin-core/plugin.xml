@@ -286,8 +286,8 @@
 
 		<extension-point id="org.ametys.core.user.directory.UserDirectoryFactory"
 						 class="org.ametys.core.user.directory.UserDirectoryFactory"
-						 safe="true"/>
-						         				 
+                         safe="true"/>
+                         
         <extension-point id="org.ametys.core.authentication.CredentialProviderFactory"
         				 class="org.ametys.core.authentication.CredentialProviderFactory"
         				 safe="true"/>
@@ -697,7 +697,7 @@
             
             <extension id="org.ametys.core.relations.addusers"
                    point="org.ametys.core.ui.RelationsManager"
-                   class="org.ametys.core.ui.StaticClientSideElement">
+                   class="org.ametys.core.ui.StaticClientSideRelation">
                 <class name="Ametys.plugins.core.relations.UserGroupRelationHandler">
                     <label i18n="true">PLUGINS_CORE_RELATIONS_ADD_USER_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_RELATIONS_ADD_USER_DESCRIPTION</description>
@@ -705,6 +705,10 @@
                     <icon-medium file="true">img/users/add_32.png</icon-medium>
                     <icon-large file="true">img/users/add_48.png</icon-large>
                 </class>
+                <relations>
+                    <source>user</source>
+                    <target>group</target>
+                </relations>
                 <scripts>
                     <file>js/Ametys/plugins/core/relations/UserGroupRelationHandler.js</file>
                 </scripts>
@@ -760,7 +764,7 @@
                 </right>
             </extension>
         </extensions>
-    </feature>
+     </feature>
     
     <feature name="runtime.core.datasource.client-interaction" safe="true">
         <components>

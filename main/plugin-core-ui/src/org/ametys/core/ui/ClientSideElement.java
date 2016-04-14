@@ -66,6 +66,12 @@ public interface ClientSideElement
      * @return The plugin name. Can not be null.
      */
     public String getPluginName();
+    
+    /**
+     * This method returns the list of dependencies, sorted by extension point. 
+     * @return a map of dependencies ids by extension point.
+     */
+    public Map<String, List<String>> getDependencies();
 
     /**
      * This class represents a script file

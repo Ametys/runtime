@@ -263,7 +263,7 @@ Ext.define('Ametys.plugins.admin.logs.LogsActions', {
 	{
 		var targets = [];
 		var target = Ext.create('Ametys.message.MessageTarget', {
-				type: Ametys.message.MessageTarget.LOG_CATEGORY,
+		        id: Ametys.message.MessageTarget.LOG_CATEGORY,
 				parameters: {id: args.id, level: args.level, name: args.name}
 			});
 		

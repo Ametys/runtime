@@ -222,7 +222,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfilesTool', {
 			if (this.getMode() == 'edit')
 			{
 				subtargets.push({
-		            type: Ametys.message.MessageTarget.FORM,
+		            id: Ametys.message.MessageTarget.FORM,
 		            parameters: {
 		                isDirty: this.isDirty()
 		            }
@@ -230,7 +230,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfilesTool', {
 			}
 			
 			targets.push ({
-				type: Ametys.message.MessageTarget.PROFILE,
+				id: Ametys.message.MessageTarget.PROFILE,
 				parameters: {id: currentProfileId},
 				subtargets: subtargets
 			});

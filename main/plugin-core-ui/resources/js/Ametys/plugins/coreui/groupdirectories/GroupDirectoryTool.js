@@ -108,7 +108,7 @@ Ext.define('Ametys.plugins.coreui.groupdirectories.GroupDirectoryTool', {
         var targets = [];
         Ext.Array.forEach(selection, function(directory) {
             targets.push({
-                type: Ametys.message.MessageTarget.GROUP_DIRECTORY,
+                id: Ametys.message.MessageTarget.GROUP_DIRECTORY,
                 parameters: {
                     id: directory.get('id')
                 }

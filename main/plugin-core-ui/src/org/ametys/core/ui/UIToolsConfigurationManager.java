@@ -17,6 +17,7 @@ package org.ametys.core.ui;
 
 import java.io.InputStream;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.avalon.framework.configuration.Configuration;
@@ -103,9 +104,10 @@ public class UIToolsConfigurationManager
      * SAX the default state of uitools to know which ones are opened
      * @param handler Where to SAX
      * @param contextualParameters Contextuals parameters transmitted by the environment.
+     * @param dependenciesList The list of dependencies 
      * @throws SAXException if an error occurs
      */
-    public void saxDefaultState(ContentHandler handler, Map<String, Object> contextualParameters) throws SAXException
+    public void saxDefaultState(ContentHandler handler, Map<String, Object> contextualParameters, List<ClientSideElement> dependenciesList) throws SAXException
     {
         handler.startPrefixMapping("i18n", "http://apache.org/cocoon/i18n/2.1");
         XMLUtils.startElement(handler, "uitools-factories");
@@ -143,10 +145,12 @@ public class UIToolsConfigurationManager
         }
         XMLUtils.endElement(handler, "additionnal");
 
-        for (String factoryId : _uitoolsFactoriesManager.getExtensionsIds())
+        if (dependenciesList != null)
         {
-            ClientSideElement factory = _uitoolsFactoriesManager.getExtension(factoryId);
-            _saxClientSideElementHelper.saxDefinition(factoryId, "uitool-factory", factory, handler, contextualParameters);
+            for (ClientSideElement factory : dependenciesList)
+            {
+                _saxClientSideElementHelper.saxDefinition(factory.getId(), "uitool-factory", factory, handler, contextualParameters);
+            }
         }
         
         XMLUtils.endElement(handler, "uitools-factories");

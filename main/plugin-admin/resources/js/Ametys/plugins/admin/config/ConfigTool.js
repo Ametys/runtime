@@ -60,7 +60,7 @@ Ext.define('Ametys.plugins.admin.config.ConfigTool', {
             type: Ametys.message.Message.SELECTION_CHANGED,
             parameters: {},
             targets: {
-                type: Ametys.message.MessageTarget.CONFIGURATION,
+                id: Ametys.message.MessageTarget.CONFIGURATION,
                 parameters: {},
                 subtargets: [ this._formPanel.getMessageTargetConf() ]
             }

@@ -25,59 +25,59 @@ Ext.define(
 		extend: "Ametys.ribbon.element.RibbonTabController",
 
 		/**
-		 * @cfg {String} selection-target-type Specify this configuration to obtain a tab that show/hide depending on the current selection type. The string is a regexp that have to match the current selection type. A leading '!' will reverse the regexp condition. See #cfg-subtarget-type. 
+		 * @cfg {String} selection-target-id Specify this configuration to obtain a tab that show/hide depending on the current selection type. The string is a regexp that have to match the current selection type. A leading '!' will reverse the regexp condition. See #cfg-subtarget-id. 
 		 */
 		/**
-		 * @cfg {String} selection-subtarget-type When specified as the same time as #cfg-selection-target-type is, the tab will be show/hide only if the selection target is matching #cfg-selection-target-type AND if there is a subtarget that matched this regexp. A leading '!' will reverse the regexp condition. See #cfg-subtarget-type.
+		 * @cfg {String} selection-subtarget-id When specified as the same time as #cfg-selection-target-id is, the tab will be show/hide only if the selection target is matching #cfg-selection-target-id AND if there is a subtarget that matched this regexp. A leading '!' will reverse the regexp condition. See #cfg-subtarget-id.
 		 */
 		/**
-		 * @cfg {String} selection-subsubtarget-type Same as #cfg-subtarget-type at a third level.
+		 * @cfg {String} selection-subsubtarget-id Same as #cfg-subtarget-id at a third level.
 		 */
 		/**
-		 * @cfg {String} selection-subsubsubtarget-type Same as #cfg-subtarget-type at a fourth level.
+		 * @cfg {String} selection-subsubsubtarget-id Same as #cfg-subtarget-id at a fourth level.
 		 */
 		/**
 		 * @cfg {Boolean/String} only-first-level-target Specify to true to restrict the depth for filtering the selection target to the first level only. Otherwise it will search in all subtargets.
 		 */
 		
 		/**
-		 * @property {Boolean} _selection See #cfg-selection-target-type. True means the tab takes care of the selection
+		 * @property {Boolean} _selection See #cfg-selection-target-id. True means the tab takes care of the selection
 		 * @private
 		 */
 		/**
-		 * @property {Ametys.message.MessageTarget[]} _matchingTargets The array of currently selected target matching the desired target type. See {@ link#cfg-selection-target-type}.
+		 * @property {Ametys.message.MessageTarget[]} _matchingTargets The array of currently selected target matching the desired target type. See {@ link#cfg-selection-target-id}.
 		 * @private
 		 */
 		/**
-		 * @property {RegExp} _selectionTargetType See #cfg-selection-target-type converted as a regexp. The leading '!' is transmitted to {@link #_reversedSelectionTargetType}
+		 * @property {RegExp} _selectionTargetId See #cfg-selection-target-id converted as a regexp. The leading '!' is transmitted to {@link #_reversedSelectionTargetId}
 		 * @private
 		 */
 		/**
-		 * @property {Boolean} _reversedSelectionTargetType The leading '!' from {@link #cfg-selection-target-type} converted to true.
+		 * @property {Boolean} _reversedSelectionTargetId The leading '!' from {@link #cfg-selection-target-id} converted to true.
 		 * @private
 		 */
 		/**
-		 * @property {RegExp} _selectionSubtargetType See #cfg-selection-subtarget-type converted as a regexp. The leading '!' is transmitted to #_selectionReversedSubtargetType
+		 * @property {RegExp} _selectionSubtargetId See #cfg-selection-subtarget-id converted as a regexp. The leading '!' is transmitted to #_selectionReversedSubtargetId
 		 * @private
 		 */
 		/**
-		 * @property {Boolean} _selectionReversedSubtargetType The leading '!' from #cfg-subtarget-type converted to true.
+		 * @property {Boolean} _selectionReversedSubtargetId The leading '!' from #cfg-subtarget-id converted to true.
 		 * @private
 		 */	
 		/**
-		 * @property {RegExp} _selectionSubsubtargetType See #cfg-selection-subsubtarget-type converted as a regexp. The leading '!' is transmitted to #_selectionReversedSubsubtargetType
+		 * @property {RegExp} _selectionSubsubtargetId See #cfg-selection-subsubtarget-id converted as a regexp. The leading '!' is transmitted to #_selectionReversedSubsubtargetId
 		 * @private
 		 */
 		/**
-		 * @property {Boolean} _selectionReversedSubsubtargetType The leading '!' from #cfg-subsubtarget-type converted to true.
+		 * @property {Boolean} _selectionReversedSubsubtargetId The leading '!' from #cfg-subsubtarget-id converted to true.
 		 * @private
 		 */	
 		/**
-		 * @property {RegExp} _selectionSubsubsubtargetType See #cfg-selection-subsubsubtarget-type converted as a regexp. The leading '!' is transmitted to #_selectionReversedSubsubsubtargetType
+		 * @property {RegExp} _selectionSubsubsubtargetId See #cfg-selection-subsubsubtarget-id converted as a regexp. The leading '!' is transmitted to #_selectionReversedSubsubsubtargetId
 		 * @private
 		 */
 		/**
-		 * @property {Boolean} _selectionReversedSubsubsubtargetType The leading '!' from #cfg-subsubsubtarget-type converted to true.
+		 * @property {Boolean} _selectionReversedSubsubsubtargetId The leading '!' from #cfg-subsubsubtarget-id converted to true.
 		 * @private
 		 */	
 		/**
@@ -86,28 +86,28 @@ Ext.define(
 		 */
 		
 		/**
-		 * @cfg {String} tool-role When specified, the tab will only be visible if a tool with this role is focused. This is a regexp. A leading '!' will reverse the regexp condition.
+		 * @cfg {String} tool-id When specified, the tab will only be visible if a tool with this id is focused. This is a regexp. A leading '!' will reverse the regexp condition.
 		 */
 		/**
-		 * @property {RegExp} _toolRole The #cfg-tool-role converted as a regexp. The '!' condition is available in #_toolReveredRole.
+		 * @property {RegExp} _toolId The #cfg-tool-id converted as a regexp. The '!' condition is available in #_toolReveredRole.
 		 * @private
 		 */
 		/**
-		 * @property {Boolean} _toolReveredRole The #cfg-tool-role converted as a regexp and this boolean stands for the '!' condition.
+		 * @property {Boolean} _toolReveredRole The #cfg-tool-id converted as a regexp and this boolean stands for the '!' condition.
 		 * @private
 		 */
 		/**
-		 * @property {Boolean} _toolFocused When using #cfg-tool-role this boolean reflects the focus state of the associated tool.
+		 * @property {Boolean} _toolFocused When using #cfg-tool-id this boolean reflects the focus state of the associated tool.
 		 */
 		
 		constructor: function(config)
 		{
 			this.callParent(arguments);
 			
-			var targetType = this.getInitialConfig("selection-target-type") || this.getInitialConfig("target-type"); 
+			var targetId = this.getInitialConfig("selection-target-id") || this.getInitialConfig("target-id"); 
 			this._matchingTargets = [];
 			
-			if (targetType)
+			if (targetId)
 			{
 				this._selection = true;
 				Ametys.message.MessageBus.on(Ametys.message.Message.SELECTION_CHANGING, this._onSelectionChanging, this);
@@ -115,84 +115,84 @@ Ext.define(
 				
 				this._onlyFirstLevelTarget = String(this.getInitialConfig("only-first-level-target")) == "true";
 				
-				var i = targetType.indexOf('!');
+				var i = targetId.indexOf('!');
 				if (i == 0)
 				{
-					this._selectionTargetType = new RegExp(targetType.substring(1));
-					this._reversedSelectionTargetType = true;
+					this._selectionTargetId = new RegExp(targetId.substring(1));
+					this._reversedSelectionTargetId = true;
 				}
 				else
 				{
-					this._selectionTargetType = new RegExp(targetType);
-					this._reversedSelectionTargetType = false;
+					this._selectionTargetId = new RegExp(targetId);
+					this._reversedSelectionTargetId = false;
 				}
 				
-				var subtargetType = this.getInitialConfig("selection-subtarget-type") || this.getInitialConfig("subtarget-type"); 
-				if (subtargetType)
+				var subtargetId = this.getInitialConfig("selection-subtarget-id") || this.getInitialConfig("subtarget-id"); 
+				if (subtargetId)
 				{
-					var i = subtargetType.indexOf('!');
+					var i = subtargetId.indexOf('!');
 					if (i == 0)
 					{
-						this._selectionSubtargetType = new RegExp(subtargetType.substring(1));
-						this._selectionReversedSubtargetType = true;
+						this._selectionSubtargetId = new RegExp(subtargetId.substring(1));
+						this._selectionReversedSubtargetId = true;
 					}
 					else
 					{
-						this._selectionSubtargetType = new RegExp(subtargetType);
-						this._selectionReversedSubtargetType = false;
+						this._selectionSubtargetId = new RegExp(subtargetId);
+						this._selectionReversedSubtargetId = false;
 					}
 					 
-					var subsubtargetType = this.getInitialConfig("selection-subsubtarget-type") || this.getInitialConfig("subsubtarget-type"); 
-					if (subsubtargetType)
+					var subsubtargetId = this.getInitialConfig("selection-subsubtarget-id") || this.getInitialConfig("subsubtarget-id"); 
+					if (subsubtargetId)
 					{
-						var i = subsubtargetType.indexOf('!');
+						var i = subsubtargetId.indexOf('!');
 						if (i == 0)
 						{
-							this._selectionSubsubtargetType = new RegExp(subsubtargetType.substring(1));
-							this._selectionReversedSubsubtargetType = true;
+							this._selectionSubsubtargetId = new RegExp(subsubtargetId.substring(1));
+							this._selectionReversedSubsubtargetId = true;
 						}
 						else
 						{
-							this._selectionSubsubtargetType = new RegExp(subsubtargetType);
-							this._selectionReversedSubsubtargetType = false;
+							this._selectionSubsubtargetId = new RegExp(subsubtargetId);
+							this._selectionReversedSubsubtargetId = false;
 						}
 						
-						var subsubsubtargetType = this.getInitialConfig("selection-subsubsubtarget-type") || this.getInitialConfig("subsubsubtarget-type"); 
-						if (subsubsubtargetType)
+						var subsubsubtargetId = this.getInitialConfig("selection-subsubsubtarget-id") || this.getInitialConfig("subsubsubtarget-id"); 
+						if (subsubsubtargetId)
 						{
-							var i = subsubsubtargetType.indexOf('!');
+							var i = subsubsubtargetId.indexOf('!');
 							if (i == 0)
 							{
-								this._selectionSubsubsubtargetType = new RegExp(subsubsubtargetType.substring(1));
-								this._selectionReversedSubsubsubtargetType = true;
+								this._selectionSubsubsubtargetId = new RegExp(subsubsubtargetId.substring(1));
+								this._selectionReversedSubsubsubtargetId = true;
 							}
 							else
 							{
-								this._selectionSubsubsubtargetType = new RegExp(subsubsubtargetType);
-								this._selectionReversedSubsubsubtargetType = false;
+								this._selectionSubsubsubtargetId = new RegExp(subsubsubtargetId);
+								this._selectionReversedSubsubsubtargetId = false;
 							}
 						}
 					}
 				}
 			}
 			
-			var toolRole = this.getInitialConfig("tool-role");
-			if (toolRole)
+			var toolId = this.getInitialConfig("tool-id");
+			if (toolId)
 			{
 				this._toolFocused = false;
 				
 				Ametys.message.MessageBus.on(Ametys.message.Message.TOOL_FOCUSED, this._onAnyToolFocused, this);
 				Ametys.message.MessageBus.on(Ametys.message.Message.TOOL_BLURRED, this._onAnyToolBlurred, this);
 
-				var i = toolRole.indexOf('!');
+				var i = toolId.indexOf('!');
 				if (i == 0)
 				{
-					this._toolRole = new RegExp(toolRole.substring(1));
+					this._toolId = new RegExp(toolId.substring(1));
 					this._toolReveredRole = true;
 				}
 				else
 				{
-					this._toolRole = new RegExp(toolRole);
+					this._toolId = new RegExp(toolId);
 					this._toolReveredRole = false;
 				}
 			}
@@ -214,8 +214,8 @@ Ext.define(
 				var targets = message.getParameters()['targets'];
 				
 				Ext.Array.each(targets, function(target) {
-					if (!me._reversedSelectionTargetType && me._selectionTargetType.test(target)
-							|| me._reversedSelectionTargetType && !me._selectionTargetType.test(target))
+					if (!me._reversedSelectionTargetId && me._selectionTargetId.test(target)
+							|| me._reversedSelectionTargetId && !me._selectionTargetId.test(target))
 					{
 						matchingTargets = true;
 					}
@@ -229,7 +229,7 @@ Ext.define(
 		},
 
 		/**
-		 * Listener when the selection has changed. Registered only if #cfg-selection-target-type is specified, but can always be called manually. 
+		 * Listener when the selection has changed. Registered only if #cfg-selection-target-id is specified, but can always be called manually. 
 		 * Will show or hide the tab effectively upon the current selection.
 		 * @param {Ametys.message.Message} [message] The selection message. Can be null to get the last selection message
 		 * @protected
@@ -240,7 +240,7 @@ Ext.define(
 			
 			if (this._toolFocused === false)
 			{
-				// this tab works only with a tool #cfg-tool-role; when the tool is not focused selection message need to be ignored
+				// this tab works only with a tool #cfg-tool-id; when the tool is not focused selection message need to be ignored
 				return;
 			}
 			
@@ -261,7 +261,7 @@ Ext.define(
 		},
 		
 		/**
-		 * Listener when a tool has been focused. Registered only if #cfg-tool-role is specified. Will enable the buttons effectively.
+		 * Listener when a tool has been focused. Registered only if #cfg-tool-id is specified. Will enable the buttons effectively.
 		 * @param {Ametys.message.Message} message The focus message
 		 * @protected
 		 */
@@ -275,7 +275,7 @@ Ext.define(
 		},
 
 		/**
-		 * Listener when a tool has been blurred. Registered only if #cfg-tool-role is specified. Will disable the buttons effectively.
+		 * Listener when a tool has been blurred. Registered only if #cfg-tool-id is specified. Will disable the buttons effectively.
 		 * @param {Ametys.message.Message} message The focus message
 		 * @protected
 		 */
@@ -290,7 +290,7 @@ Ext.define(
 		
 		/**
 		 * Get the matching targets in the message
-		 * Test if the message if matching upon the #_selectionTargetType, #_selectionSubtargetType and #_selectionSubsubtargetType
+		 * Test if the message if matching upon the #_selectionTargetId, #_selectionSubtargetId and #_selectionSubsubtargetId
 		 * @param {Ametys.message.Message} message The message to test
 		 * @return {Ametys.message.MessageTarget[]} The non-null array of matching targets
 		 * @private
@@ -304,7 +304,7 @@ Ext.define(
 			{
 				var targets = message.getTargets(Ext.bind(this._testTargetLevel0, this), this._onlyFirstLevelTarget ? 1 : 0);
 				
-				if (!me._selectionSubtargetType)
+				if (!me._selectionSubtargetId)
 				{
 					finalTargets = targets;
 				}
@@ -314,9 +314,9 @@ Ext.define(
 					{
 						var stargets = targets[i].getSubtargets(Ext.bind(this._testTargetLevel1, this), 1);
 						
-						if (!me._selectionSubsubtargetType)
+						if (!me._selectionSubsubtargetId)
 						{
-							if (stargets.length > 0 || (me._selectionReversedSubtargetType && targets[i].getSubtargets().length == 0))
+							if (stargets.length > 0 || (me._selectionReversedSubtargetId && targets[i].getSubtargets().length == 0))
 							{
 								finalTargets.push(targets[i]);
 							}
@@ -327,9 +327,9 @@ Ext.define(
 							{
 								var sstargets = stargets[j].getSubtargets(Ext.bind(this._testTargetLevel2, this), 1);
 								
-								if (!me._selectionSubsubsubtargetType)
+								if (!me._selectionSubsubsubtargetId)
 								{
-									if (sstargets.length > 0 || (me._selectionReversedSubsubtargetType && stargets[j].getSubtargets().length == 0))
+									if (sstargets.length > 0 || (me._selectionReversedSubsubtargetId && stargets[j].getSubtargets().length == 0))
 									{
 										finalTargets.push(targets[i]);
 									}
@@ -356,51 +356,51 @@ Ext.define(
 		
 		/**
 		 * @private
-		 * Tests if the target of level 0 matches the configured #cfg-selection-target-type
+		 * Tests if the target of level 0 matches the configured #cfg-selection-target-id
 		 * @return true if the target matches
 		 */
 		_testTargetLevel0: function (target)
 		{
-			return !this._reversedSelectionTargetType && this._selectionTargetType.test(target.getType())
-			|| this._reversedSelectionTargetType && !this._selectionTargetType.test(target.getType());
+			return !this._reversedSelectionTargetId && this._selectionTargetId.test(target.getId())
+			|| this._reversedSelectionTargetId && !this._selectionTargetId.test(target.getId());
 		},
 		
 		/**
 		 * @private
-		 * Tests if the target of level 1 matches the configured #cfg-selection-subtarget-type
+		 * Tests if the target of level 1 matches the configured #cfg-selection-subtarget-id
 		 * @return true if the target matches
 		 */
 		_testTargetLevel1: function (target)
 		{
-			return !this._selectionReversedSubtargetType && this._selectionSubtargetType.test(target.getType())
-			|| this._selectionReversedSubtargetType && !this._selectionSubtargetType.test(target.getType());
+			return !this._selectionReversedSubtargetId && this._selectionSubtargetId.test(target.getId())
+			|| this._selectionReversedSubtargetId && !this._selectionSubtargetId.test(target.getId());
 		},
 		
 		/**
 		 * @private
-		 * Tests if the target of level 2 matches the configured #cfg-selection-subsubtarget-type
+		 * Tests if the target of level 2 matches the configured #cfg-selection-subsubtarget-id
 		 * @return true if the target matches
 		 */
 		_testTargetLevel2: function (target)
 		{
-			return !this._selectionReversedSubsubtargetType && this._selectionSubsubtargetType.test(target.getType())
-			|| this._selectionReversedSubsubtargetType && !this._selectionSubsubtargetType.test(target.getType());
+			return !this._selectionReversedSubsubtargetId && this._selectionSubsubtargetId.test(target.getId())
+			|| this._selectionReversedSubsubtargetId && !this._selectionSubsubtargetId.test(target.getId());
 		},
 		
 		/**
 		 * @private
-		 * Tests if the target of level 3 matches the configured #cfg-selection-subsubsubtarget-type
+		 * Tests if the target of level 3 matches the configured #cfg-selection-subsubsubtarget-id
 		 * @return true if the target matches
 		 */
 		_testTargetLevel3: function (target)
 		{
-			return !this._selectionReversedSubsubsubtargetType && this._selectionSubsubsubtargetType.test(target.getType())
-			|| this._selectionReversedSubsubsubtargetType && !this._selectionSubsubsubtargetType.test(target.getType());
+			return !this._selectionReversedSubsubsubtargetId && this._selectionSubsubsubtargetId.test(target.getId())
+			|| this._selectionReversedSubsubsubtargetId && !this._selectionSubsubsubtargetId.test(target.getId());
 		},
 		
 		/**
 		 * Get the matching targets in the message
-		 * Test if the message if matching upon the #_toolRole
+		 * Test if the message if matching upon the #_toolId
 		 * @param {Ametys.message.Message} message The message to test
 		 * @returns {Ametys.message.MessageTarget[]} The non-null array of matching targets
 		 * @private
@@ -409,13 +409,13 @@ Ext.define(
 		{
 			var me = this;
 			
-			if (this._toolRole)
+			if (this._toolId)
 			{
 				return message.getTargets(
 						function (target)
 						{
-							return !me._toolReveredRole && me._toolRole.test(target.getParameters()['id'])
-							|| me._toolReveredRole && !me._toolRole.test(target.getParameters()['id']);
+							return !me._toolReveredRole && me._toolId.test(target.getParameters()['id'])
+							|| me._toolReveredRole && !me._toolId.test(target.getParameters()['id']);
 						}
 				);
 			}

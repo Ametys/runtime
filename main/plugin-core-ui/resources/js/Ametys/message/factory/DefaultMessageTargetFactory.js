@@ -29,13 +29,13 @@ Ext.define("Ametys.message.factory.DefaultMessageTargetFactory",
 		 * @param {Object} parameters Can be anything but require type 
 		 * @param {String} parameters.type The message target type
 		 * @param {Function} callback The callback function called when the targets are created. Parameters are
-         * @param {String} targetType The type of target specified. Useful for gerneric MessageTargetFactories.
+         * @param {String} targetId The id of target specified. Useful for gerneric MessageTargetFactories.
 		 * @param {Ametys.message.MessageTarget[]} callback.targets The targets created. Cannot be null.
 		 */
-		createTargets: function(parameters, callback, targetType)
+		createTargets: function(parameters, callback, targetId)
 		{
 			var target = Ext.create("Ametys.message.MessageTarget", {
-				type: targetType,
+				id: targetId,
 				parameters: parameters
 			});		
 

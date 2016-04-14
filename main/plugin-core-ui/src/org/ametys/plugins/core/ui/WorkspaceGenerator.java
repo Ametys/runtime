@@ -20,6 +20,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.avalon.framework.context.Context;
@@ -38,6 +39,8 @@ import org.apache.excalibur.source.SourceResolver;
 import org.xml.sax.SAXException;
 
 import org.ametys.core.ui.ClientSideElement;
+import org.ametys.core.ui.ClientSideElementDependenciesManager;
+import org.ametys.core.ui.ClientSideElementManager;
 import org.ametys.core.ui.MessageTargetFactoriesManager;
 import org.ametys.core.ui.RelationsManager;
 import org.ametys.core.ui.RibbonConfigurationManager;
@@ -141,28 +144,78 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
             _userHelper.saxUser(user, contentHandler);
         }
         
-        try (InputStream config = getRibbonConfiguration())
+        ClientSideElementDependenciesManager dependenciesManager = new ClientSideElementDependenciesManager(this.manager);
+        
+        RibbonConfigurationManager ribbonManager;
+        try (InputStream ribbonConfig = getRibbonConfiguration())
         {
-            RibbonConfigurationManager ribbonManager = new RibbonConfigurationManager (_ribbonControlManager, _ribbonTabManager, _saxClientSideElementHelper, _resolver, config);
-            ribbonManager.saxRibbonDefinition(contentHandler, contextParameters);
+            ribbonManager = new RibbonConfigurationManager(_ribbonControlManager, _ribbonTabManager, _saxClientSideElementHelper, _resolver, dependenciesManager, ribbonConfig);
         }
         
-        try (InputStream config = getUIToolsConfiguration())
-        {
-            UIToolsConfigurationManager uitoolsManager = new UIToolsConfigurationManager(_uitoolsFactoriesManager, _saxClientSideElementHelper, getUIToolsConfiguration(), ObjectModelHelper.getRequest(objectModel));
-            uitoolsManager.saxDefaultState(contentHandler, contextParameters);
-        }
+        Map<String, List<ClientSideElement>> elementsToSax = getElementsToSax(dependenciesManager, ribbonManager);
         
-        saxMessageTargetFactories(contextParameters);
-        saxRelationsHandlers(contextParameters);
+        ribbonManager.saxRibbonDefinition(contentHandler, contextParameters);
+        
+        saxUITools(contextParameters, elementsToSax.get(UIToolsFactoriesManager.ROLE));
+        saxMessageTargetFactories(contextParameters, elementsToSax.get(MessageTargetFactoriesManager.ROLE));
+        saxRelationsHandlers(contextParameters, elementsToSax.get(RelationsManager.ROLE));
         saxWidgets(contextParameters);
-        saxStaticFileImports (contextParameters);
+        saxStaticFileImports (contextParameters, elementsToSax.get(StaticFileImportsManager.ROLE));
         saxAdditionnalInfo(contextParameters);
         
         XMLUtils.endElement(contentHandler, "workspace");
         contentHandler.endDocument();
     }
-    
+
+    /**
+     * Retrieve the list of elements to generate the Workspace
+     * @param dependenciesManager The dependencies manager
+     * @param ribbonManager The ribbon manager for this workspace
+     * @return The list of elements, mapped by extension points.
+     * @throws SAXException If an error occurs
+     */
+    protected Map<String, List<ClientSideElement>> getElementsToSax(ClientSideElementDependenciesManager dependenciesManager, RibbonConfigurationManager ribbonManager) throws SAXException
+    {
+        List<ClientSideElement> ribbonControls = ribbonManager.getControls();
+        for (ClientSideElement control : ribbonControls)
+        {
+            dependenciesManager.register(control);
+        }
+        
+        for (String extensionId: _widgetsManager.getExtensionsIds())
+        {
+            ClientSideWidget element = _widgetsManager.getExtension(extensionId);
+            dependenciesManager.register(element);
+        }
+        
+        registerStaticDependencies(dependenciesManager);
+        
+        try
+        {
+            return dependenciesManager.computeDependencies();
+        }
+        catch (ServiceException e)
+        {
+            throw new SAXException("Unable to compute dependencies", e);
+        }
+    }
+
+    /**
+     * SAX the UI Tools
+     * @param contextParameters the context parameters
+     * @param elements The list of elements to sax
+     * @throws IOException if an error occurred
+     * @throws SAXException if an error occurred
+     */
+    protected void saxUITools(Map<String, Object> contextParameters, List<ClientSideElement> elements) throws IOException, SAXException
+    {
+        try (InputStream config = getUIToolsConfiguration())
+        {
+            UIToolsConfigurationManager uitoolsManager = new UIToolsConfigurationManager(_uitoolsFactoriesManager, _saxClientSideElementHelper, getUIToolsConfiguration(), ObjectModelHelper.getRequest(objectModel));
+            uitoolsManager.saxDefaultState(contentHandler, contextParameters, elements);
+        }
+    }
+
     /**
      * Get the ribbon configuration
      * @return the ribbon configuration
@@ -192,17 +245,20 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
     /**
      * SAX the message target factories
      * @param contextParameters the context parameters
+     * @param elements The list of elements for the message target factories 
      * @throws SAXException if an error occurred
      */
-    protected void saxMessageTargetFactories(Map<String, Object> contextParameters) throws SAXException
+    protected void saxMessageTargetFactories(Map<String, Object> contextParameters, List<ClientSideElement> elements) throws SAXException
     {
         contentHandler.startPrefixMapping("i18n", "http://apache.org/cocoon/i18n/2.1");
         XMLUtils.startElement(contentHandler, "messagetarget-factories");
 
-        for (String extensionId : _messageTargetFactoriesManager.getExtensionsIds())
+        if (elements != null)
         {
-            ClientSideElement element = _messageTargetFactoriesManager.getExtension(extensionId);
-            _saxClientSideElementHelper.saxDefinition(extensionId, "messagetarget-factory", element, contentHandler, contextParameters);
+            for (ClientSideElement element : elements)
+            {
+                _saxClientSideElementHelper.saxDefinition(element.getId(), "messagetarget-factory", element, contentHandler, contextParameters);
+            }
         }
         
         XMLUtils.endElement(contentHandler, "messagetarget-factories");
@@ -212,17 +268,20 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
     /**
      * SAX the relations handlers
      * @param contextParameters the context parameters
+     * @param elements The list of relation handlers
      * @throws SAXException if an error occurred
      */
-    protected void saxRelationsHandlers(Map<String, Object> contextParameters) throws SAXException
+    protected void saxRelationsHandlers(Map<String, Object> contextParameters, List<ClientSideElement> elements) throws SAXException
     {
         contentHandler.startPrefixMapping("i18n", "http://apache.org/cocoon/i18n/2.1");
         XMLUtils.startElement(contentHandler, "relations-handlers");
 
-        for (String extensionId: _relationsManager.getExtensionsIds())
+        if (elements != null)
         {
-            ClientSideElement element = _relationsManager.getExtension(extensionId);
-            _saxClientSideElementHelper.saxDefinition(extensionId, "relation-handler", element, contentHandler, contextParameters);
+            for (ClientSideElement element: elements)
+            {
+                _saxClientSideElementHelper.saxDefinition(element.getId(), "relation-handler", element, contentHandler, contextParameters);
+            }
         }
         
         XMLUtils.endElement(contentHandler, "relations-handlers");
@@ -268,21 +327,24 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
     /**
      * SAX the static file imports
      * @param contextParameters the context parameters
+     * @param elements The list of static file imports elements
      * @throws SAXException if an error occurred
      */
-    protected void saxStaticFileImports (Map<String, Object> contextParameters) throws SAXException
+    protected void saxStaticFileImports (Map<String, Object> contextParameters, List<ClientSideElement> elements) throws SAXException
     {
         XMLUtils.startElement(contentHandler, "static-imports");
-        for (String extensionId : _fileImportsManager.getExtensionsIds())
+        if (elements != null)
         {
-            ClientSideElement element = _fileImportsManager.getExtension(extensionId);
-            _saxClientSideElementHelper.saxDefinition(extensionId, "import", element, contentHandler, contextParameters);
+            for (ClientSideElement element : elements)
+            {
+                _saxClientSideElementHelper.saxDefinition(element.getId(), "import", element, contentHandler, contextParameters);
+            }
         }
         XMLUtils.endElement(contentHandler, "static-imports");
     }
 
     /**
-     * Use this method when inheritng the WorkspaceGenerator to sax additionnal data 
+     * Use this method when inheriting the WorkspaceGenerator to sax additional data 
      * @param contextParameters the context parameters
      * @throws SAXException if an error occurred
      */
@@ -291,6 +353,47 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
         if (PluginsManager.getInstance().isSafeMode())
         {
             XMLUtils.createElement(contentHandler, "safe-mode", PluginsManager.getInstance().getStatus().toString());
+        }
+    }
+    
+    /**
+     * Add dependencies to sax, to the dependencies manager.
+     * @param dependenciesManager The dependencies manager
+     * @throws SAXException If an error occurs
+     */
+    protected void registerStaticDependencies(ClientSideElementDependenciesManager dependenciesManager) throws SAXException
+    {
+        try
+        {
+            ClientSideElementManager uitoolsManager = (ClientSideElementManager) this.manager.lookup(UIToolsFactoriesManager.ROLE);
+            // Hardcoded dependency from this class XSLT file workspace.xsl
+            if (uitoolsManager.hasExtension("uitool-notification"))
+            {
+                dependenciesManager.register(UIToolsFactoriesManager.ROLE, "uitool-notification");
+            }
+            
+            ClientSideElementManager staticImportManager = (ClientSideElementManager) this.manager.lookup(StaticFileImportsManager.ROLE);
+            if (staticImportManager.hasExtension("Ametys.plugins.coreui.system.Announce"))
+            {
+                dependenciesManager.register(StaticFileImportsManager.ROLE, "Ametys.plugins.coreui.system.Announce");
+            }
+            else
+            {
+                getLogger().warn("Unable to add static core-ui dependency to the extension 'Ametys.plugins.coreui.system.Announce'");
+            }
+            
+            if (staticImportManager.hasExtension("Ametys.plugins.coreui.system.StartTimeChecker"))
+            {
+                dependenciesManager.register(StaticFileImportsManager.ROLE, "Ametys.plugins.coreui.system.StartTimeChecker");
+            }
+            else
+            {
+                getLogger().warn("Unable to add static core-ui dependency to the extension 'Ametys.plugins.coreui.system.StartTimeChecker'");
+            }
+        }
+        catch (ServiceException e)
+        {
+            throw new SAXException("An error occurred while retrieving a ClientSideElementManager", e);
         }
     }
 }

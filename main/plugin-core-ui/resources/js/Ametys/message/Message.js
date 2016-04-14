@@ -22,7 +22,7 @@
  * 			type: Ametys.message.Message.SELECTION_CHANGED,
  * 
  *			targets: {
- *				type: Ametys.message.MessageTarget.TOOL,
+ *				id: Ametys.message.MessageTarget.TOOL,
  *				parameters: { ids: ['search-tool'] }
  *			}
  * 		});
@@ -227,7 +227,7 @@ Ext.define("Ametys.message.Message",
 					{
 						if (Ext.isObject(targets[i]))
 						{
-							targetsTypes.push(targets[i].type);
+							targetsTypes.push(targets[i].id);
 							addTargetsType(Ext.Array.from(targets[i].subtargets));
 						}
 					}
@@ -347,7 +347,7 @@ Ext.define("Ametys.message.Message",
 		 * The following examples will return a content target or null
 		 * 		msg.getTarget("content");
 		 * 		msg.getTarget(/^content$/);
-		 * 		msg.getTarget(function (target) { return target.getType() == 'content' });
+		 * 		msg.getTarget(function (target) { return target.getId() == 'content' });
 		 */
 		getTarget: function(filter, depth)
 		{
@@ -372,7 +372,7 @@ Ext.define("Ametys.message.Message",
 		 * The following examples will return an array of PageTarget or an empty array
 		 * 		msg.getTargets("page");
 		 * 		msg.getTargets(/^page$/);
-		 * 		msg.getTargets(function (target) { return target.getType() == 'page' });
+		 * 		msg.getTargets(function (target) { return target.getId() == 'page' });
 		 */
 		getTargets: function(filter, depth)
 		{

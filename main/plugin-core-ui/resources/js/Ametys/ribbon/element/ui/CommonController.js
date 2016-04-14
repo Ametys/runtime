@@ -18,8 +18,8 @@
  * This class is a common class for ribbon controllers (such as button or field). 
  * Use it as a mixin class in your {@link Ametys.ribbon.element.RibbonUIController} implementation.
  * 
- * - It supports enabling/disabling upon the current selection (see {@link #cfg-selection-target-type}) and associated rights (see {@link #cfg-rights}).
- * - It supports enabling/disabling upon a focused/activated/opened tool (see {@link #cfg-tool-role} and {@link #cfg-tool-enable-on-status})
+ * - It supports enabling/disabling upon the current selection (see {@link #cfg-selection-target-id}) and associated rights (see {@link #cfg-rights}).
+ * - It supports enabling/disabling upon a focused/activated/opened tool (see {@link #cfg-tool-id} and {@link #cfg-tool-enable-on-status})
  */
 Ext.define(
 	"Ametys.ribbon.element.ui.CommonController",
@@ -93,7 +93,7 @@ Ext.define(
 		 */
 		
 		/**
-		 * @cfg {String} rights The identifier of rights to check on the current selection (require #cfg-selection-target-type): a '|' separated list to consider as OR. The rights will be tested against the parameters "rights" of the target that have to be an String array of right ids.
+		 * @cfg {String} rights The identifier of rights to check on the current selection (require #cfg-selection-target-id): a '|' separated list to consider as OR. The rights will be tested against the parameters "rights" of the target that have to be an String array of right ids.
 		 */
 		/**
 		 * @cfg {String} rights-description-no The description when no rights are ok on the matching selection
@@ -103,58 +103,58 @@ Ext.define(
 		 * @cfg {String} selection-description-empty The description when the selection is empty
 		 */
 		/**
-		 * @cfg {String} selection-description-nomatch The description when the selection does not match the awaited #cfg-selection-target-type
+		 * @cfg {String} selection-description-nomatch The description when the selection does not match the awaited #cfg-selection-target-id
 		 */
 		/**
 		 * @cfg {String} selection-description-multiselectionforbidden The description when the selection is multiple but #cfg-selection-enable-multiselection is false.
 		 */
 		/**
-		 * @cfg {String} selection-enable-multiselection=true If 'false' the button will be disabled as soon as the are many elements selected. Works only when #cfg-selection-target-type is specified. See #cfg-selection-description-multiselectionforbidden
+		 * @cfg {String} selection-enable-multiselection=true If 'false' the button will be disabled as soon as the are many elements selected. Works only when #cfg-selection-target-id is specified. See #cfg-selection-description-multiselectionforbidden
 		 */
 		/**
-		 * @cfg {String} selection-target-type Specify this configuration to obtain a button that enable/disable depending on the current selection type. The string is a regexp that have to match the current selection type. A leading '!' will reverse the regexp condition. See #cfg-subtarget-type. See #cfg-selection-description-nomatch
+		 * @cfg {String} selection-target-id Specify this configuration to obtain a button that enable/disable depending on the current selection type. The string is a regexp that have to match the current selection type. A leading '!' will reverse the regexp condition. See #cfg-subtarget-id. See #cfg-selection-description-nomatch
 		 */
 		/**
-		 * @cfg {Object} selection-target-parameter Use this configuration in addition to #cfg-selection-target-type in order to be more specific. This allow to check a target parameter.
+		 * @cfg {Object} selection-target-parameter Use this configuration in addition to #cfg-selection-target-id in order to be more specific. This allow to check a target parameter.
 		 * @cfg {String} selection-target-parameter.name The name of the parameter to check. The string is a regexp that have to match the current selection type. A leading '!' will reverse the regexp condition. 
 		 * @cfg {String} selection-target-parameter.value The value of the parameter to check. The string is a regexp that have to match the current selection type. A leading '!' will reverse the regexp condition. If the parameter is an array, it will check if the value is part of the array (using Ext.Array.contains)
 		 */
 		/**
-		 * @cfg {String} selection-subtarget-type When specified as the same time as #cfg-selection-target-type is, the button will be enable/disabled only if the selection target is matching #cfg-selection-target-type AND if there is a subtarget that matched this regexp. A leading '!' will reverse the regexp condition. See #cfg-subtarget-type.
+		 * @cfg {String} selection-subtarget-id When specified as the same time as #cfg-selection-target-id is, the button will be enable/disabled only if the selection target is matching #cfg-selection-target-id AND if there is a subtarget that matched this regexp. A leading '!' will reverse the regexp condition. See #cfg-subtarget-id.
 		 */
 		/**
-		 * @cfg {Object} selection-subtarget-parameter Same as #cfg-selection-target-parameter but applying to #cfg-selection-subtarget-type
+		 * @cfg {Object} selection-subtarget-parameter Same as #cfg-selection-target-parameter but applying to #cfg-selection-subtarget-id
 		 */
 		/**
-		 * @cfg {String} selection-subsubtarget-type Same as #cfg-subtarget-type at a third level.
+		 * @cfg {String} selection-subsubtarget-id Same as #cfg-subtarget-id at a third level.
 		 */
 		/**
-		 * @cfg {Object} selection-subsubtarget-parameter Same as #cfg-selection-target-parameter but applying to #cfg-selection-subsubtarget-type
+		 * @cfg {Object} selection-subsubtarget-parameter Same as #cfg-selection-target-parameter but applying to #cfg-selection-subsubtarget-id
 		 */
 		/**
-		 * @cfg {String} selection-subsubsubtarget-type Same as #cfg-subtarget-type at a fourth level.
+		 * @cfg {String} selection-subsubsubtarget-id Same as #cfg-subtarget-id at a fourth level.
 		 */
 		/**
-		 * @cfg {Object} selection-subsubsubtarget-parameter Same as #cfg-selection-target-parameter but applying to #cfg-selection-subsubsubtarget-type
+		 * @cfg {Object} selection-subsubsubtarget-parameter Same as #cfg-selection-target-parameter but applying to #cfg-selection-subsubsubtarget-id
 		 */
 			
 		/**
-		 * @property {Boolean} _selection See #cfg-selection-target-type. True means the button takes care of the selection
+		 * @property {Boolean} _selection See #cfg-selection-target-id. True means the button takes care of the selection
 		 * @private
 		 */
 		/**
 		 * @property {Boolean} _selectionMatch Boolean indicating if the current selection matches the prerequisite of the controller. Only used if #_selection is true
 		 */
 		/**
-		 * @property {Ametys.message.MessageTarget[]} _selectionMatchingTargets The array of currently selected target matching the desired target type. See {@ link#cfg-selection-target-type}.
+		 * @property {Ametys.message.MessageTarget[]} _selectionMatchingTargets The array of currently selected target matching the desired target type. See {@ link#cfg-selection-target-id}.
 		 * @private
 		 */
 		/**
-		 * @property {RegExp} _selectionTargetType See #cfg-selection-target-type converted as a regexp. The leading '!' is transmitted to {@link #_reversedSelectionTargetType}
+		 * @property {RegExp} _selectionTargetId See #cfg-selection-target-id converted as a regexp. The leading '!' is transmitted to {@link #_reversedSelectionTargetId}
 		 * @private
 		 */
 		/**
-		 * @property {Boolean} _reversedSelectionTargetType The leading '!' from {@link #cfg-selection-target-type} converted to true.
+		 * @property {Boolean} _reversedSelectionTargetId The leading '!' from {@link #cfg-selection-target-id} converted to true.
 		 * @private
 		 */
 		/**
@@ -174,11 +174,11 @@ Ext.define(
 		 * @private
 		 */
 		/**
-		 * @property {RegExp} _selectionSubtargetType See #cfg-selection-subtarget-type converted as a regexp. The leading '!' is transmitted to #_selectionReversedSubtargetType
+		 * @property {RegExp} _selectionSubtargetId See #cfg-selection-subtarget-id converted as a regexp. The leading '!' is transmitted to #_selectionReversedSubtargetId
 		 * @private
 		 */
 		/**
-		 * @property {Boolean} _selectionReversedSubtargetType The leading '!' from #cfg-subtarget-type converted to true.
+		 * @property {Boolean} _selectionReversedSubtargetId The leading '!' from #cfg-subtarget-id converted to true.
 		 * @private
 		 */	
 		/**
@@ -198,11 +198,11 @@ Ext.define(
 		 * @private
 		 */
 		/**
-		 * @property {RegExp} _selectionSubsubtargetType See #cfg-selection-subsubtarget-type converted as a regexp. The leading '!' is transmitted to #_selectionReversedSubsubtargetType
+		 * @property {RegExp} _selectionSubsubtargetId See #cfg-selection-subsubtarget-id converted as a regexp. The leading '!' is transmitted to #_selectionReversedSubsubtargetId
 		 * @private
 		 */
 		/**
-		 * @property {Boolean} _selectionReversedSubsubtargetType The leading '!' from #cfg-subsubtarget-type converted to true.
+		 * @property {Boolean} _selectionReversedSubsubtargetId The leading '!' from #cfg-subsubtarget-id converted to true.
 		 * @private
 		 */		
 		/**
@@ -222,11 +222,11 @@ Ext.define(
 		 * @private
 		 */
 		/**
-		 * @property {RegExp} _selectionSubsubsubtargetType See #cfg-selection-subsubsubtarget-type converted as a regexp. The leading '!' is transmitted to #_selectionReversedSubsubsubtargetType
+		 * @property {RegExp} _selectionSubsubsubtargetId See #cfg-selection-subsubsubtarget-id converted as a regexp. The leading '!' is transmitted to #_selectionReversedSubsubsubtargetId
 		 * @private
 		 */
 		/**
-		 * @property {Boolean} _selectionReversedSubsubsubtargetType The leading '!' from #cfg-subsubsubtarget-type converted to true.
+		 * @property {Boolean} _selectionReversedSubsubsubtargetId The leading '!' from #cfg-subsubsubtarget-id converted to true.
 		 * @private
 		 */
 		/**
@@ -251,53 +251,53 @@ Ext.define(
 		 */
 		
 		/**
-		 * @cfg {String} tool-role When specified, the button will only be enabled if a tool with this role is focused/activated or opened (see #tool-enable-on-status). This is a regexp. A leading '!' will reverse the regexp condition.
+		 * @cfg {String} tool-id When specified, the button will only be enabled if a tool with this role is focused/activated or opened (see #tool-enable-on-status). This is a regexp. A leading '!' will reverse the regexp condition.
 		 */
 		/**
-		 * @cfg {String} [tool-enable-on-status=focus] Will determine the tool-role mode.
+		 * @cfg {String} [tool-enable-on-status=focus] Will determine the tool-id mode.
 		 * Can take the following value: focus, active, open. Focus by default, which means that the button will be disabled is a matching tool is not focused.
 		 */
 		/**
-		 * @cfg {String} tool-description-inactive When a #cfg-tool-role is specified, this description is used to explain why the button is inactive.
+		 * @cfg {String} tool-description-inactive When a #cfg-tool-id is specified, this description is used to explain why the button is inactive.
 		 */
 		
 		/**
-		 * @property {Boolean} _toolStatus See #cfg-tool-role. True means the button takes care of the status of some tools.
+		 * @property {Boolean} _toolStatus See #cfg-tool-id. True means the button takes care of the status of some tools.
 		 * @private
 		 */
 		/**
 		 * @property {Boolean} _toolStatusMatch Boolean indicating if the current state of the controller  matches the prerequisite towards the tool status. Only used if #_toolStatus is true
 		 */
 		/**
-		 * @property {RegExp} _toolRole The #cfg-tool-role converted as a regexp. The '!' condition is available in #_toolReveredRole.
+		 * @property {RegExp} _toolId The #cfg-tool-id converted as a regexp. The '!' condition is available in #_toolReveredRole.
 		 * @private
 		 */
 		/**
-		 * @property {Boolean} _toolReveredRole The #cfg-tool-role converted as a regexp and this boolean stands for the '!' condition.
+		 * @property {Boolean} _toolReveredRole The #cfg-tool-id converted as a regexp and this boolean stands for the '!' condition.
 		 * @private
 		 */
 		/**
-		 * @property {Boolean} _toolFocused When using #cfg-tool-role this boolean reflects the focus state of the associated tool.
+		 * @property {Boolean} _toolFocused When using #cfg-tool-id this boolean reflects the focus state of the associated tool.
 		 * @private
 		 */
 		/**
-		 * @property {Boolean} _toolActivated When using #cfg-tool-role this boolean reflects the activated state of the associated tool.
+		 * @property {Boolean} _toolActivated When using #cfg-tool-id this boolean reflects the activated state of the associated tool.
 		 * @private
 		 */
 		/**
-		 * @property {Boolean} _toolOpened When using #cfg-tool-role this boolean reflects the opened state of the associated tool.
+		 * @property {Boolean} _toolOpened When using #cfg-tool-id this boolean reflects the opened state of the associated tool.
 		 * @private
 		 */
 		/**
-		 * @property {Boolean} _enableOnToolActive Indicates that this controllers must react to activate event for the matching tools (see #tool-role and #tool-enable-on-status)
+		 * @property {Boolean} _enableOnToolActive Indicates that this controllers must react to activate event for the matching tools (see #tool-id and #tool-enable-on-status)
 		 * @private
 		 */
 		/**
-		 * @property {Boolean} _enableOnToolOpen Indicates that this controllers must react to open event for the matching tools (see #tool-role and #tool-enable-on-status)
+		 * @property {Boolean} _enableOnToolOpen Indicates that this controllers must react to open event for the matching tools (see #tool-id and #tool-enable-on-status)
 		 * @private
 		 */
 		/**
-		 * @property {Boolean} _enableOnToolFocus Indicates that this controllers must react to focus event for the matching tools (see #tool-role and #tool-enable-on-status)
+		 * @property {Boolean} _enableOnToolFocus Indicates that this controllers must react to focus event for the matching tools (see #tool-id and #tool-enable-on-status)
 		 * @private
 		 */
 		
@@ -329,9 +329,9 @@ Ext.define(
 			this._iconLarge = this.getInitialConfig("icon-large");
 			this._disabled = this.getInitialConfig("disabled") == true || this.getInitialConfig("disabled") == 'true';
 			
-			var targetType = this.getInitialConfig("selection-target-type") || this.getInitialConfig("target-type"); 
+			var targetId = this.getInitialConfig("selection-target-id") || this.getInitialConfig("target-type"); 
 			
-			if (targetType)
+			if (targetId)
 			{
 				this._selection = true;
 				
@@ -344,16 +344,16 @@ Ext.define(
 				
 				Ametys.message.MessageBus.on(Ametys.message.Message.SELECTION_CHANGED, this._onSelectionChanged, this);
 				
-				var i = targetType.indexOf('!');
+				var i = targetId.indexOf('!');
 				if (i == 0)
 				{
-					this._selectionTargetType = new RegExp(targetType.substring(1));
-					this._reversedSelectionTargetType = true;
+					this._selectionTargetId = new RegExp(targetId.substring(1));
+					this._reversedSelectionTargetId = true;
 				}
 				else
 				{
-					this._selectionTargetType = new RegExp(targetType);
-					this._reversedSelectionTargetType = false;
+					this._selectionTargetId = new RegExp(targetId);
+					this._reversedSelectionTargetId = false;
 				}
 				
 				// Has an associated target-parameter check?
@@ -385,19 +385,19 @@ Ext.define(
 				}
 				
 				// Has a sub target?
-				var subtargetType = this.getInitialConfig("selection-subtarget-type") || this.getInitialConfig("subtarget-type"); 
-				if (subtargetType)
+				var subtargetId = this.getInitialConfig("selection-subtarget-id") || this.getInitialConfig("subtarget-id"); 
+				if (subtargetId)
 				{
-					var i = subtargetType.indexOf('!');
+					var i = subtargetId.indexOf('!');
 					if (i == 0)
 					{
-						this._selectionSubtargetType = new RegExp(subtargetType.substring(1));
-						this._selectionReversedSubtargetType = true;
+						this._selectionSubtargetId = new RegExp(subtargetId.substring(1));
+						this._selectionReversedSubtargetId = true;
 					}
 					else
 					{
-						this._selectionSubtargetType = new RegExp(subtargetType);
-						this._selectionReversedSubtargetType = false;
+						this._selectionSubtargetId = new RegExp(subtargetId);
+						this._selectionReversedSubtargetId = false;
 					}
 					
 					// Has an associated subtarget-parameter check?
@@ -429,19 +429,19 @@ Ext.define(
 					}
 					 
 					// Has a sub sub target?
-					var subsubtargetType = this.getInitialConfig("selection-subsubtarget-type") || this.getInitialConfig("subsubtarget-type"); 
-					if (subsubtargetType)
+					var subsubtargetId = this.getInitialConfig("selection-subsubtarget-id") || this.getInitialConfig("subsubtarget-type"); 
+					if (subsubtargetId)
 					{
-						var i = subsubtargetType.indexOf('!');
+						var i = subsubtargetId.indexOf('!');
 						if (i == 0)
 						{
-							this._selectionSubsubtargetType = new RegExp(subsubtargetType.substring(1));
-							this._selectionReversedSubsubtargetType = true;
+							this._selectionSubsubtargetId = new RegExp(subsubtargetId.substring(1));
+							this._selectionReversedSubsubtargetId = true;
 						}
 						else
 						{
-							this._selectionSubsubtargetType = new RegExp(subsubtargetType);
-							this._selectionReversedSubsubtargetType = false;
+							this._selectionSubsubtargetId = new RegExp(subsubtargetId);
+							this._selectionReversedSubsubtargetId = false;
 						}
 						
 						// Has an associated subsubtarget-parameter check?
@@ -473,19 +473,19 @@ Ext.define(
 						}
 						
 						// Has a sub sub sub target?
-						var subsubsubtargetType = this.getInitialConfig("selection-subsubsubtarget-type") || this.getInitialConfig("subsubsubtarget-type"); 
-						if (subsubsubtargetType)
+						var subsubsubtargetId = this.getInitialConfig("selection-subsubsubtarget-id") || this.getInitialConfig("subsubsubtarget-type"); 
+						if (subsubsubtargetId)
 						{
-							var i = subsubsubtargetType.indexOf('!');
+							var i = subsubsubtargetId.indexOf('!');
 							if (i == 0)
 							{
-								this._selectionSubsubsubtargetType = new RegExp(subsubsubtargetType.substring(1));
-								this._selectionReversedSubsubsubtargetType = true;
+								this._selectionSubsubsubtargetId = new RegExp(subsubsubtargetId.substring(1));
+								this._selectionReversedSubsubsubtargetId = true;
 							}
 							else
 							{
-								this._selectionSubsubsubtargetType = new RegExp(subsubsubtargetType);
-								this._selectionReversedSubsubsubtargetType = false;
+								this._selectionSubsubsubtargetId = new RegExp(subsubsubtargetId);
+								this._selectionReversedSubsubsubtargetId = false;
 							}
 							
 							// Has an associated subsubsubtarget-parameter check?
@@ -520,8 +520,8 @@ Ext.define(
 				}
 			}
 			
-			var toolRole = this.getInitialConfig("tool-role");
-			if (toolRole)
+			var toolId = this.getInitialConfig("tool-id");
+			if (toolId)
 			{	
 				this._toolStatus = true;
 				
@@ -551,15 +551,15 @@ Ext.define(
 						Ametys.message.MessageBus.on(Ametys.message.Message.TOOL_BLURRED, this._onAnyToolStatusChange, this);
 				}
 				
-				var i = toolRole.indexOf('!');
+				var i = toolId.indexOf('!');
 				if (i == 0)
 				{
-					this._toolRole = new RegExp(toolRole.substring(1));
+					this._toolId = new RegExp(toolId.substring(1));
 					this._toolReveredRole = true;
 				}
 				else
 				{
-					this._toolRole = new RegExp(toolRole);
+					this._toolId = new RegExp(toolId);
 					this._toolReveredRole = false;
 				}
 			}
@@ -699,7 +699,7 @@ Ext.define(
 		
 		/**
 		 * Get the matching selection targets of the current selection.
-		 * Always empty if {@ link#cfg-selection-target-type} is not specified.
+		 * Always empty if {@ link#cfg-selection-target-id} is not specified.
 		 */
 		getMatchingTargets: function()
 		{
@@ -708,7 +708,7 @@ Ext.define(
 		
 		/**
 		 * Get the matching targets in the message
-		 * Test if the message if matching upon the #_selectionTargetType, #_selectionSubtargetType, #_selectionSubsubtargetType and #_selectionSubsubsubtargetType.
+		 * Test if the message if matching upon the #_selectionTargetId, #_selectionSubtargetId, #_selectionSubsubtargetId and #_selectionSubsubsubtargetId.
 		 * It also checks for #_selectionTargetParameter, #_selectionSubtargetParameter, #_selectionSubsubTargetParameter and #_selectionSubsubsubTargetParameter
 		 * @return {Ametys.message.MessageTarget[]} the matching targets 
 		 * @private
@@ -730,7 +730,7 @@ Ext.define(
 			{
 				var targets = this._getMatchingSubtargets(message, 0);
 				
-				if (!me._selectionSubtargetType)
+				if (!me._selectionSubtargetId)
 				{
 					finalTargets = targets;
 				}
@@ -740,9 +740,9 @@ Ext.define(
 					{
 						var stargets = this._getMatchingSubtargets(targets[i], 1); 
 							
-						if (!me._selectionSubsubtargetType)
+						if (!me._selectionSubsubtargetId)
 						{
-							if (stargets.length > 0 || (me._selectionReversedSubtargetType && targets[i].getSubtargets().length == 0))
+							if (stargets.length > 0 || (me._selectionReversedSubtargetId && targets[i].getSubtargets().length == 0))
 							{
 								finalTargets.push(targets[i]);
 							}
@@ -753,9 +753,9 @@ Ext.define(
 							{
 								var sstargets = this._getMatchingSubtargets(stargets[j], 2); 
 								
-								if (!me._selectionSubsubsubtargetType)
+								if (!me._selectionSubsubsubtargetId)
 								{
-									if (sstargets.length > 0 || (me._selectionReversedSubsubtargetType && stargets[j].getSubtargets().length == 0))
+									if (sstargets.length > 0 || (me._selectionReversedSubsubtargetId && stargets[j].getSubtargets().length == 0))
 									{
 										finalTargets.push(targets[i]);
 									}
@@ -782,7 +782,7 @@ Ext.define(
 		
 		/**
 		 * Get the matching targets in the message
-		 * Test if the message if matching upon the #_toolRole
+		 * Test if the message if matching upon the #_toolId
 		 * @param {Ametys.message.Message} message The message to test
 		 * @returns {Ametys.message.MessageTarget[]} The non-null array of matching targets
 		 * @private
@@ -791,13 +791,13 @@ Ext.define(
 		{
 			var me = this;
 			
-			if (this._toolRole)
+			if (this._toolId)
 			{
 				return message.getTargets(
 						function (target)
 						{
-							return !me._reversedSelectionTargetType && me._toolRole.test(target.getParameters()['id'])
-							|| me._reversedSelectionTargetType && !me._toolRole.test(target.getParameters()['id']);
+							return !me._reversedSelectionTargetId && me._toolId.test(target.getParameters()['id'])
+							|| me._reversedSelectionTargetId && !me._toolId.test(target.getParameters()['id']);
 						}
 				);
 			}
@@ -808,7 +808,7 @@ Ext.define(
 		},
 		
 		/**
-		 * Listener when a tool has changed (from the point of view of the tool manager, ie focus/activation...). Registered only if #cfg-tool-role is specified. Will enable the buttons effectively.
+		 * Listener when a tool has changed (from the point of view of the tool manager, ie focus/activation...). Registered only if #cfg-tool-id is specified. Will enable the buttons effectively.
 		 * @param {Ametys.message.Message} message The tool message
 		 * @private
 		 */
@@ -841,7 +841,7 @@ Ext.define(
 		},
 
 		/**
-		 * Listener when the selection has changed. Registered only if #cfg-selection-target-type is specified. 
+		 * Listener when the selection has changed. Registered only if #cfg-selection-target-id is specified. 
 		 * Will enable or disable the buttons effectively upon the current selection.
 		 * @param {Ametys.message.Message} message The selection message.
 		 * @private
@@ -1176,11 +1176,11 @@ Ext.define(
 			switch (level) 
 			{
 				case 0:
-					return this._selectionSubtargetType;
+					return this._selectionSubtargetId;
 				case 1:
-					return this._selectionSubsubtargetType;
+					return this._selectionSubsubtargetId;
 				case 2:
-					return this._selectionSubsubsubtargetType;
+					return this._selectionSubsubsubtargetId;
 				default:
 					return false;
 			}
@@ -1222,19 +1222,19 @@ Ext.define(
 		{
 			switch (level) {
 				case 0:
-					return target.getTargets(Ext.bind(this._testTarget, this, [this._selectionTargetType, this._reversedSelectionTargetType, this._selectionTargetParameterName, this._reversedSelectionTargetParameterName, this._selectionTargetParameterValue, this._reversedSelectionTargetParameterValue], true));
+					return target.getTargets(Ext.bind(this._testTarget, this, [this._selectionTargetId, this._reversedSelectionTargetId, this._selectionTargetParameterName, this._reversedSelectionTargetParameterName, this._selectionTargetParameterValue, this._reversedSelectionTargetParameterValue], true));
 					break;
 					
 				case 1:
-					return target.getSubtargets(Ext.bind(this._testTarget, this, [this._selectionSubtargetType, this._selectionReversedSubtargetType, this._selectionSubtargetParameterName, this._reversedSelectionSubTargetParameterName, this._selectionSubtargetParameterValue, this._reversedSelectionSubTargetParameterValue], true), 1);
+					return target.getSubtargets(Ext.bind(this._testTarget, this, [this._selectionSubtargetId, this._selectionReversedSubtargetId, this._selectionSubtargetParameterName, this._reversedSelectionSubTargetParameterName, this._selectionSubtargetParameterValue, this._reversedSelectionSubTargetParameterValue], true), 1);
 					break;
 					
 				case 2:
-					return target.getSubtargets(Ext.bind(this._testTarget, this, [this._selectionSubsubtargetType, this._selectionReversedSubsubtargetType, this._selectionSubsubTargetParameterName, this._reversedSelectionSubsubTargetParameterName, this._selectionSubsubTargetParameterValue, this._reversedSelectionSubsubTargetParameterValue], true), 1);
+					return target.getSubtargets(Ext.bind(this._testTarget, this, [this._selectionSubsubtargetId, this._selectionReversedSubsubtargetId, this._selectionSubsubTargetParameterName, this._reversedSelectionSubsubTargetParameterName, this._selectionSubsubTargetParameterValue, this._reversedSelectionSubsubTargetParameterValue], true), 1);
 					break;
 					
 				case 3:
-					return target.getSubtargets(Ext.bind(this._testTarget, this, [this._selectionSubsubsubtargetType, this._selectionReversedSubsubsubtargetType, this._selectionSubsubsubTargetParameterName, this._reversedSelectionSubsubsubTargetParameterName, this._selectionSubsubsubTargetParameterValue, this._reversedSelectionSubsubsubTargetParameterValue], true), 1);
+					return target.getSubtargets(Ext.bind(this._testTarget, this, [this._selectionSubsubsubtargetId, this._selectionReversedSubsubsubtargetId, this._selectionSubsubsubTargetParameterName, this._reversedSelectionSubsubsubTargetParameterName, this._selectionSubsubsubTargetParameterValue, this._reversedSelectionSubsubsubTargetParameterValue], true), 1);
 					break;
 					
 				default:
@@ -1245,9 +1245,9 @@ Ext.define(
 		
 		/**
 		 * @private
-		 * Tests if the target of level 0 matches the configured #cfg-selection-target-type
+		 * Tests if the target of level 0 matches the configured #cfg-selection-target-id
 		 * @param {Ametys.message.MessageTarget} target The target to test
-		 * @param {RegExp} selectionTypeRegexp The regular expression to pass on targetType
+		 * @param {RegExp} selectionTypeRegexp The regular expression to pass on targetId
 		 * @param {Boolean} selectionTypeReverseRegexp True is the preceding regular expression test shoul be reversed
 		 * @param {RegExp} selectionParameterNameRegexp If non-empty, this will test all target's parameters name and a least one must match, with a correct value (see following parameters)
 		 * @param {Boolean} selectionParameterNameReverseRegexp True is the preceding regular expression test shoul be reversed
@@ -1298,8 +1298,8 @@ Ext.define(
 				return gotOne;
 			}
 			
-			return (!selectionTypeReverseRegexp && selectionTypeRegexp.test(target.getType())
-						|| selectionTypeReverseRegexp && !selectionTypeRegexp.test(target.getType()))
+			return (!selectionTypeReverseRegexp && selectionTypeRegexp.test(target.getId())
+						|| selectionTypeReverseRegexp && !selectionTypeRegexp.test(target.getId()))
 					&& checkParameters();
 		},
 		

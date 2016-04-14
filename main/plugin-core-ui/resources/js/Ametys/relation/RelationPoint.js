@@ -144,7 +144,7 @@ Ext.define("Ametys.relation.RelationPoint",
 		 * The following examples will return a content target or null
 		 * 		msg.getTarget("content");
 		 * 		msg.getTarget(/^content$/);
-		 * 		msg.getTarget(function (target) { return target.getType() == 'content' });
+		 * 		msg.getTarget(function (target) { return target.getId() == 'content' });
 		 */
 		getTarget: function(filter, depth)
 		{
@@ -169,7 +169,7 @@ Ext.define("Ametys.relation.RelationPoint",
 		 * The following examples will return an array of PageTarget or an empty array
 		 * 		msg.getTargets("page");
 		 * 		msg.getTargets(/^page$/);
-		 * 		msg.getTargets(function (target) { return target.getType() == 'page' });
+		 * 		msg.getTargets(function (target) { return target.getId() == 'page' });
 		 */
 		getTargets: function(filter, depth)
 		{

@@ -34,9 +34,9 @@ Ext.define("Ametys.message.MessageTarget",
 		config: 
 		{
 			/**
-			 * @cfg {String} type (required) The message target type. A non null and non empty string. You must use a constant defined in this class.
+			 * @cfg {String} id (required) The message target id. A non null and non empty string. You must use a constant defined in this class.
 			 */
-			type: null,
+			id: null,
 			/**
 			 * @cfg {Object} parameters The parameter associated to the target, the value to set here depends on the specification of the constant you are using for the type. Cannot be null, but may be empty.
 			 */
@@ -71,7 +71,7 @@ Ext.define("Ametys.message.MessageTarget",
 		 * The following examples will return a content target or null
 		 * 		msg.getTarget("content");
 		 * 		msg.getTarget(/^content$/);
-		 * 		msg.getTarget(function (target) { return target.getType() == 'content' });
+		 * 		msg.getTarget(function (target) { return target.getId() == 'content' });
 		 */
 		getSubtarget: function(filter, depth)
 		{
@@ -89,7 +89,7 @@ Ext.define("Ametys.message.MessageTarget",
 		 * The following examples will return an array of PageTarget or an empty array
 		 * 		msg.getTargets("page");
 		 * 		msg.getTargets(/^page$/);
-		 * 		msg.getTargets(function (target) { return target.getType() == 'page' });
+		 * 		msg.getTargets(function (target) { return target.getId() == 'page' });
 		 */
 		getSubtargets: function(filter, depth)
 		{

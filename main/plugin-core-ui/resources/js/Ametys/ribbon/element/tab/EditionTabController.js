@@ -31,19 +31,19 @@ Ext.define(
 		extend: "Ametys.ribbon.element.tab.TabController",
 
 		/**
-		 * @cfg {String} selection-target-type="^.*$" The default value is to accept any target type
+		 * @cfg {String} selection-target-id="^.*$" The default value is to accept any target type
 		 * @inheritdoc
 		 */
 		/**
-		 * @cfg {String} selection-subtarget-type="^form$" The default value is to accept any target type
+		 * @cfg {String} selection-subtarget-id="^form$" The default value is to accept any target type
 		 * @inheritdoc
 		 */
 		/**
-		 * @cfg {String} selection-subsubtarget-type="^field$" The default value is to accept any target type
+		 * @cfg {String} selection-subsubtarget-id="^field$" The default value is to accept any target type
 		 * @inheritdoc
 		 */
 		/**
-		 * @cfg {String} selection-subsubsubtarget-type="^node$" The default value is to accept any target type
+		 * @cfg {String} selection-subsubsubtarget-id="^node$" The default value is to accept any target type
 		 * @inheritdoc
 		 */
 		
@@ -72,10 +72,10 @@ Ext.define(
 		constructor: function(config)
 		{
 			config = Ext.applyIf({
-				"selection-target-type": "^.*$",
-				"selection-subtarget-type": "^form$",
-				"selection-subsubtarget-type": "^field$",
-				"selection-subsubsubtarget-type": "^node$"
+				"selection-target-id": "^.*$",
+				"selection-subtarget-id": "^form$",
+				"selection-subsubtarget-id": "^field$",
+				"selection-subsubsubtarget-id": "^node$"
 			}, config);
 			
 			this.callParent(arguments);
@@ -113,7 +113,7 @@ Ext.define(
 			
 			if (this._toolFocused === false)
 			{
-				// this tab works only with a tool #cfg-tool-role; when the tool is not focused selection message need to be ignored
+				// this tab works only with a tool #cfg-tool-id; when the tool is not focused selection message need to be ignored
 				return;
 			}
 			

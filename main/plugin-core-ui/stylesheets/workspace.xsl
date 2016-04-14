@@ -447,6 +447,7 @@
                                         text: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_RIBBON_TIP_DESCRIPTION' i18n:catalogue='plugin.core-ui'/>",
                                         image: Ametys.getPluginResourcesPrefix("core-ui") + "/img/uitool-notification/notification_48.png"
                                     },
+                                    /* uitool-notification dependency is hard-coded in WorkspaceGenerator class */
                                     handler: function() { Ametys.tool.ToolsManager.openTool('uitool-notification'); }
                                 },
                                 searchMenu: {
@@ -490,9 +491,9 @@
                             
                             /** Message target factories */<xsl:text/>
                             var mtFactory;
-                            mtFactory = Ext.create("Ametys.message.factory.DefaultMessageTargetFactory", Ext.apply({type: "*"}, {pluginName: "core", id: null}));
+                            mtFactory = Ext.create("Ametys.message.factory.DefaultMessageTargetFactory", {pluginName: "core", id: "*"});
                             Ametys.message.MessageTargetFactory.registerTargetFactory(mtFactory);
-                            mtFactory = Ext.create("Ametys.tool.ToolMessageTargetFactory", Ext.apply({type: "tool"}, {pluginName: "core"}));
+                            mtFactory = Ext.create("Ametys.tool.ToolMessageTargetFactory", {pluginName: "core", id: "tool"});
                             Ametys.message.MessageTargetFactory.registerTargetFactory(mtFactory);
                     <xsl:for-each select="messagetarget-factories/messagetarget-factory">
                             mtFactory = Ext.create("<xsl:value-of select="action/@class"/>",  Ext.apply(<xsl:value-of select="action"/>, {pluginName: "<xsl:value-of select="@plugin"/>", id: "<xsl:value-of select="@id"/>"}));
@@ -577,7 +578,7 @@
                                                              <xsl:text/>"<xsl:value-of select="@id"/>"<xsl:if test="position() != last()">,</xsl:if>
                                                         </xsl:for-each> ],
                                                         autoOpenedTools: [ <xsl:for-each select="uitools-factories/default/uitool-factory">
-                                                             <xsl:text/>{ role: "<xsl:value-of select="@id"/>", toolParams: {<xsl:value-of select="."/>} }<xsl:if test="position() != last()">,</xsl:if>
+                                                             <xsl:text/>{ toolId: "<xsl:value-of select="@id"/>", toolParams: {<xsl:value-of select="."/>} }<xsl:if test="position() != last()">,</xsl:if>
                                                         </xsl:for-each> ]
                                                     });
                                                     

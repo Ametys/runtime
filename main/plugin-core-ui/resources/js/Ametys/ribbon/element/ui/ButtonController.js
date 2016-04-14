@@ -18,8 +18,8 @@
  * This class controls a ribbon button.
  * 
  * - It can call a configured function when pressed.
- * - It supports enabling/disabling upon the current selection (see {@link #cfg-selection-target-type}) and associated rights (see {@link #cfg-rights}).
- * - It supports enabling/disabling upon a focused tool (see {@link #cfg-tool-role})
+ * - It supports enabling/disabling upon the current selection (see {@link #cfg-selection-target-id}) and associated rights (see {@link #cfg-rights}).
+ * - It supports enabling/disabling upon a focused tool (see {@link #cfg-tool-id})
  * - It can be a toggle button (see {@link #cfg-toggle-enabled}).
  * 
  * Note that a property "controlId" is available on the created button. This string references this controller id, that can be retrieve with {@link Ametys.ribbon.RibbonManager#getElement}

@@ -27,20 +27,20 @@ Ext.define('Ametys.plugins.coreui.users.UsersActions', {
 	 */
 	add: function (controller)
 	{
-		var userTargetType = controller.getInitialConfig('message-target-type') || Ametys.message.MessageTarget.USER;
-		var userToolRole = controller.getInitialConfig('users-tool-role');
+		var userTargetId = controller.getInitialConfig('message-target-id') || Ametys.message.MessageTarget.USER;
+		var userToolId = controller.getInitialConfig('users-tool-id');
         var context = Ametys.getAppParameter('context');
 		
-		Ametys.plugins.coreui.users.EditUserHelper.add(context, userTargetType, userToolRole, Ext.bind (this._addCb, this, [userToolRole], 1));
+		Ametys.plugins.coreui.users.EditUserHelper.add(context, userTargetId, userToolId, Ext.bind (this._addCb, this, [userToolId], 1));
 	},
 	
 	/**
      * @private
 	 * Callback function invoked after user creation
 	 * @param {Object} user The created user
-	 * @param {String} userToolRole The role of users tool
+	 * @param {String} userToolId The id of users tool
 	 */
-	_addCb: function (user, userToolRole)
+	_addCb: function (user, userToolId)
 	{
 		Ametys.notify({
 	        type: 'info',
@@ -49,12 +49,12 @@ Ext.define('Ametys.plugins.coreui.users.UsersActions', {
 	        description: Ext.String.format("{{i18n PLUGINS_CORE_UI_USERS_NOTIFY_CREATION_DESC}}", user.fullname)
 	    });
 		
-		if (userToolRole)
+		if (userToolId)
 		{
-			var tool = Ametys.tool.ToolsManager.getTool(userToolRole);
+			var tool = Ametys.tool.ToolsManager.getTool(userToolId);
 	    	if (tool == null)
 	    	{
-	    		Ametys.tool.ToolsManager.openTool(userToolRole, {selectedUsers: [user.login]}); //FIXME context for the UserTool ?
+	    		Ametys.tool.ToolsManager.openTool(userToolId, {selectedUsers: [user.login]}); //FIXME context for the UserTool ?
 	    	}
 		}
 	},
@@ -68,9 +68,9 @@ Ext.define('Ametys.plugins.coreui.users.UsersActions', {
 		var userTarget = controller.getMatchingTargets()[0];
 		if (userTarget != null)
 		{
-			var userTargetType = controller.getInitialConfig('message-target-type') || Ametys.message.MessageTarget.USER;
+			var userTargetId = controller.getInitialConfig('message-target-id') || Ametys.message.MessageTarget.USER;
 			
-			Ametys.plugins.coreui.users.EditUserHelper.edit(userTarget.getParameters().id, userTarget.getParameters().population, userTargetType)
+			Ametys.plugins.coreui.users.EditUserHelper.edit(userTarget.getParameters().id, userTarget.getParameters().population, userTargetId)
 		}
 	},
 	
@@ -115,7 +115,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersActions', {
 	{
 		if (buttonId == 'yes')
 		{
-			var userTargetType = controller.getInitialConfig('message-target-type') || Ametys.message.MessageTarget.USER;
+			var userTargetId = controller.getInitialConfig('message-target-id') || Ametys.message.MessageTarget.USER;
 			
             var users = [];
             Ext.Array.forEach(targets, function(target) {
@@ -127,7 +127,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersActions', {
 			
 			if (targets.length > 0)
 			{
-				Ametys.plugins.core.users.UsersDAO.deleteUsers([users, userTargetType], null, {});
+				Ametys.plugins.core.users.UsersDAO.deleteUsers([users, userTargetId], null, {});
 			}
 		}
 	}

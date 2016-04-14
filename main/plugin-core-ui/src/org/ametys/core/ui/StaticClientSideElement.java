@@ -15,6 +15,7 @@
  */
 package org.ametys.core.ui;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +60,8 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
     protected String _rightsMode;
     /** The parameters configured for initial element creation */
     protected Map<String, Object> _initialParameters;
+    /** The dependencies, as an associ*/
+    protected Map<String, List<String>> _dependencies;
     
     /** The name of the plugin that declared the element */
     protected String _pluginName;
@@ -92,6 +95,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
         _script = _configureScript(configuration);
         _rights = _configureRights(configuration);
         _rightsMode = _configureRightsMode(configuration);
+        _dependencies = _configureDependencies(configuration);
         
         _initialParameters = configureInitialParameters(configuration);
     }
@@ -251,6 +255,46 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
     }
     
     /**
+     * Configure the dependencies following the configuration
+     * 
+     * @param configuration The root configuration
+     * @return The list of dependencies, by extension point.
+     * @throws ConfigurationException if a dependency element is present but empty
+     */
+    protected Map<String, List<String>> _configureDependencies(Configuration configuration) throws ConfigurationException
+    {
+        Map<String, List<String>> dependencies = new HashMap<>();
+        
+        if (configuration.getChild("depends", false) != null)
+        {
+            for (Configuration dependency : configuration.getChild("depends").getChildren())
+            {
+                String extensionPointName = dependency.getName();
+                String dependencyValue = dependency.getValue();
+                
+                if (StringUtils.isEmpty(dependencyValue) || StringUtils.isEmpty(extensionPointName))
+                {
+                    throw new ConfigurationException("Invalid configuration for dependencies", configuration);
+                }
+                
+                if (dependencies.containsKey(extensionPointName))
+                {
+                    List<String> extensions = dependencies.get(extensionPointName);
+                    extensions.add(dependencyValue);
+                }
+                else
+                {
+                    List<String> extensions = new ArrayList<>();
+                    extensions.add(dependencyValue);
+                    dependencies.put(extensionPointName, extensions);
+                }
+            }
+        }
+        
+        return dependencies;
+    }
+    
+    /**
      * Determine following the right parameter if the user has right to access this feature
      * 
      * @param rights The rights (name, context) to check. Can be empty.
@@ -352,5 +396,11 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
     public String getId()
     {
         return _id;
+    }
+    
+    @Override
+    public Map<String, List<String>> getDependencies()
+    {
+        return _dependencies;
     }
 }

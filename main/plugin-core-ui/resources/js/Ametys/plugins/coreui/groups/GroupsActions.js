@@ -27,10 +27,10 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsActions', {
      */
     add: function (controller)
     {
-        var groupMessageTargetType = controller.getInitialConfig('group-message-target-type') || Ametys.message.MessageTarget.GROUP;
+        var groupMessageTargetId = controller.getInitialConfig('group-message-target-id') || Ametys.message.MessageTarget.GROUP;
         var context = Ametys.getAppParameter('context');
         
-        Ametys.plugins.coreui.groups.EditGroupHelper.add(context, groupMessageTargetType);
+        Ametys.plugins.coreui.groups.EditGroupHelper.add(context, groupMessageTargetId);
     },
     
     /**
@@ -42,9 +42,9 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsActions', {
         var groupTarget = controller.getMatchingTargets()[0];
         if (groupTarget != null)
         {
-            var groupMessageTargetType = controller.getInitialConfig('group-message-target-type') || Ametys.message.MessageTarget.GROUP;
+            var groupMessageTargetId = controller.getInitialConfig('group-message-target-id') || Ametys.message.MessageTarget.GROUP;
             
-            Ametys.plugins.coreui.groups.EditGroupHelper.edit(groupTarget.getParameters().groupDirectory, groupTarget.getParameters().id, groupMessageTargetType);
+            Ametys.plugins.coreui.groups.EditGroupHelper.edit(groupTarget.getParameters().groupDirectory, groupTarget.getParameters().id, groupMessageTargetId);
         }
     },
     
@@ -76,7 +76,7 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsActions', {
     {
         if (buttonId == 'yes')
         {
-            var groupMessageTargetType = controller.getInitialConfig('group-message-target-type') || Ametys.message.MessageTarget.GROUP;
+            var groupMessageTargetId = controller.getInitialConfig('group-message-target-id') || Ametys.message.MessageTarget.GROUP;
             
             var ids = Ext.Array.map(targets, function(target) {
                 return target.getParameters().id;
@@ -84,7 +84,7 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsActions', {
             
             if (ids.length > 0)
             {
-                Ametys.plugins.core.groups.GroupsDAO.deleteGroups([targets[0].getParameters().groupDirectory, ids, groupMessageTargetType], null, {});
+                Ametys.plugins.core.groups.GroupsDAO.deleteGroups([targets[0].getParameters().groupDirectory, ids, groupMessageTargetId], null, {});
             }
         }
     },
@@ -115,9 +115,9 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsActions', {
      */
     _selectUsersCb: function(users, groupTarget, controller)
     {
-        var groupMessageTargetType = controller.getInitialConfig('group-message-target-type') || Ametys.message.MessageTarget.GROUP;
+        var groupMessageTargetId = controller.getInitialConfig('group-message-target-id') || Ametys.message.MessageTarget.GROUP;
         
-        Ametys.plugins.core.groups.GroupsDAO.addUsersGroup([groupTarget.getParameters().groupDirectory, groupTarget.getParameters().id, users, groupMessageTargetType], null, {});
+        Ametys.plugins.core.groups.GroupsDAO.addUsersGroup([groupTarget.getParameters().groupDirectory, groupTarget.getParameters().id, users, groupMessageTargetId], null, {});
     },
     
     /**
@@ -148,10 +148,10 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsActions', {
     {
         if (buttonId == 'yes')
         {
-            var groupMessageTargetType = controller.getInitialConfig('group-message-target-type') || Ametys.message.MessageTarget.GROUP;
-            var userMessageTargetType = controller.getInitialConfig('user-message-target-type') || Ametys.message.MessageTarget.USER;
+            var groupMessageTargetId = controller.getInitialConfig('group-message-target-id') || Ametys.message.MessageTarget.GROUP;
+            var userMessageTargetId = controller.getInitialConfig('user-message-target-id') || Ametys.message.MessageTarget.USER;
             
-            var userTargets = groupTarget.getSubtargets(userMessageTargetType);
+            var userTargets = groupTarget.getSubtargets(userMessageTargetId);
             var users = Ext.Array.map(userTargets, function(target) {
                 return {
                     login: target.getParameters().id, 
@@ -161,7 +161,7 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsActions', {
             
             if (users.length > 0)
             {
-                Ametys.plugins.core.groups.GroupsDAO.removeUsersGroup([groupTarget.getParameters().groupDirectory, groupTarget.getParameters().id, users, groupMessageTargetType], null, {});
+                Ametys.plugins.core.groups.GroupsDAO.removeUsersGroup([groupTarget.getParameters().groupDirectory, groupTarget.getParameters().id, users, groupMessageTargetId], null, {});
             }
         }
     }

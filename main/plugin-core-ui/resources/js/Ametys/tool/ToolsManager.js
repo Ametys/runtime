@@ -19,7 +19,7 @@
  * This class is also the entry point to get and set the tools layout implementation #getToolsLayout.
  * 
  * 		Ametys.tool.ToolsManager.addFactory(MyFactory);
- * 		Ametys.tool.ToolsManager.openTool(MyFactory.getRole(), { ... });
+ * 		Ametys.tool.ToolsManager.openTool(MyFactory.getId(), { ... });
  */
 Ext.define("Ametys.tool.ToolsManager", 
 	{
@@ -29,7 +29,7 @@ Ext.define("Ametys.tool.ToolsManager",
 		},
 		
 		/**
-		 * @property {Object} _factories The registered factories stored by role name
+		 * @property {Object} _factories The registered factories stored by id
 		 * @private
 		 */
 		_factories: {},
@@ -77,7 +77,7 @@ Ext.define("Ametys.tool.ToolsManager",
 		 * This method is called automatically during startup and should not be called after. 
 		 * @param {Object} config The config object may have the following subobjects
 		 * @param {Object[]} config.autoOpenedTools The tools to open
-		 * @param {String} config.autoOpenedTools.role The factory role of the tool. See #openTool.
+		 * @param {String} config.autoOpenedTools.toolId The factory id of the tool. See #openTool.
 		 * @param {Object} config.autoOpenedTools.toolParams The parameters to open the tool. See #openTool.
 		 * @param {String} [config.autoOpenedTools.forceToolLocation] The parameters where to open the tool. See #openTool.
 		 */
@@ -107,10 +107,10 @@ Ext.define("Ametys.tool.ToolsManager",
             
 			for (var i = 0; i < this._autoOpenedTools.length; i++)
 			{
-				var tool = this.openTool(this._autoOpenedTools[i].role, this._autoOpenedTools[i].toolParams, this._autoOpenedTools[i].forceToolLocation);
+				var tool = this.openTool(this._autoOpenedTools[i].toolId, this._autoOpenedTools[i].toolParams, this._autoOpenedTools[i].forceToolLocation);
                 if (tool == null)
                 {
-                    throw new Error("Cannot load tool '" + this._autoOpenedTools[i].role + "' at location '" + this._autoOpenedTools[i].forceToolLocation + "'")
+                    throw new Error("Cannot load tool '" + this._autoOpenedTools[i].toolId + "' at location '" + this._autoOpenedTools[i].forceToolLocation + "'")
                 }
 			}
 			
@@ -157,7 +157,7 @@ Ext.define("Ametys.tool.ToolsManager",
                         var tool = this.getTool(toolPanel.uiTool);
 						
 						state._autoOpenedTools.push({
-							role: tool.getFactory().getRole(),
+							toolId: tool.getFactory().getId(),
 							toolParams: tool.getParams(),
 							forceToolLocation: location
 						});
@@ -174,16 +174,16 @@ Ext.define("Ametys.tool.ToolsManager",
 		 */
 		addFactory: function(factory)
 		{
-			if (this._factories[factory.getRole()] != null && this.getLogger().isWarnEnabled())
+			if (this._factories[factory.getId()] != null && this.getLogger().isWarnEnabled())
 			{
-				this.getLogger().warn("Replacing factory '" + factory.getRole() + "' with a new one");
+				this.getLogger().warn("Replacing factory '" + factory.getId() + "' with a new one");
 			}
 			else if (this.getLogger().isDebugEnabled())
 			{
-				this.getLogger().debug("Adding factory '" + factory.getRole() + "'");
+				this.getLogger().debug("Adding factory '" + factory.getId() + "'");
 			}
 			
-			this._factories[factory.getRole()] = factory;
+			this._factories[factory.getId()] = factory;
 		},
 		
 		/**
@@ -233,26 +233,26 @@ Ext.define("Ametys.tool.ToolsManager",
 		},	
 		
 		/**
-		 * Open a tool given a role name and parameters. Ask the factory to open the tool : the tool may already be existing (even already opened) or created now.
+		 * Open a tool given an id and parameters. Ask the factory to open the tool : the tool may already be existing (even already opened) or created now.
 		 * This is the main method to call when you want to open a tool.
 		 * 
 		 * This method creates or gets the tool through Ametys.tool.ToolFactory#openTool
 		 * If the tool is new, it will add it to the graphic layout #getToolsLayout Ametys.ui.tool.ToolsLayout#addTool
 		 * In all cases, it will then call Ametys.tool.Tool#setParams and Ametys.tool.Tool#activate
 		 * 
-		 * @param {String} role The role of the factory which will create the tool to open
+		 * @param {String} toolId The id of the factory which will create the tool to open
 		 * @param {Object} toolParams The parameters needed to open the tool. See the factory documentation for further details.
 		 * @param {String} [forceToolLocation] A tool location (see Ametys.tool.ToolsLayout) to replace the Ametys.tool.Tool#getDefaultLocation.
 		 * @returns {Ametys.tool.Tool} The new tool or undefined if an error occured while opening the tool
 		 */
-		openTool: function (role, toolParams, forceToolLocation)
+		openTool: function (toolId, toolParams, forceToolLocation)
 		{
 			try
 			{
-				var factory = this._factories[role];
+				var factory = this._factories[toolId];
 				if (factory == null)
 				{
-					throw new Error("The factory '" + role + "' is not registered");
+					throw new Error("The factory '" + toolId + "' is not registered");
 				}
 				
 				var tool = factory.openTool(toolParams);
@@ -265,7 +265,7 @@ Ext.define("Ametys.tool.ToolsManager",
 					// Add a new tool
 					if (this.getLogger().isInfoEnabled())
 					{
-						this.getLogger().info({message: "Opening a tool '" + tool.getId() + "' from factory '" + role + "'", details: "Parameters are " + toolParams});
+						this.getLogger().info({message: "Opening a tool '" + tool.getId() + "' from factory '" + toolId + "'", details: "Parameters are " + toolParams});
 					}
 					
 					this._tools[tool.getId()] =  tool;
@@ -275,9 +275,9 @@ Ext.define("Ametys.tool.ToolsManager",
                     {
                         effectiveLocation = forceToolLocation;
                     }
-                    else if (this._overridenDefaultLocation[tool.getFactory().getRole()] != null)
+                    else if (this._overridenDefaultLocation[tool.getFactory().getId()] != null)
                     {
-                        effectiveLocation = this._overridenDefaultLocation[tool.getFactory().getRole()];
+                        effectiveLocation = this._overridenDefaultLocation[tool.getFactory().getId()];
                     }
                     else
                     {
@@ -287,7 +287,7 @@ Ext.define("Ametys.tool.ToolsManager",
                     effectiveLocation = this.getToolsLayout().getNearestSupportedLocation(effectiveLocation);
                     
                     // change the default location for tools of that kind
-                    this._overridenDefaultLocation[tool.getFactory().getRole()] = effectiveLocation;
+                    this._overridenDefaultLocation[tool.getFactory().getId()] = effectiveLocation;
                     if (this.isInitialized())
                     {
                         this.saveState();
@@ -307,7 +307,7 @@ Ext.define("Ametys.tool.ToolsManager",
 					
 					if (this.getLogger().isInfoEnabled())
 					{
-						this.getLogger().info({message: "Reopening a tool '" + tool.getId() + "' from factory '" + role + "'", details: "Parameters are " + toolParams});
+						this.getLogger().info({message: "Reopening a tool '" + tool.getId() + "' from factory '" + toolId + "'", details: "Parameters are " + toolParams});
 					}
 				}
 				
@@ -350,7 +350,7 @@ Ext.define("Ametys.tool.ToolsManager",
             if (this.isInitialized())
             {
                 var tool = this.getTool(eOpts.toolId); 
-                this._overridenDefaultLocation[tool.getFactory().getRole()] = newLocation;
+                this._overridenDefaultLocation[tool.getFactory().getId()] = newLocation;
                 this.saveState();
             }
         },
@@ -366,14 +366,14 @@ Ext.define("Ametys.tool.ToolsManager",
 		},
 		
 		/**
-		 * Get the factory by its role.
+		 * Get the factory by its id.
 		 * Use this #openTool instead to create a tool.
-		 * @param {String} role The role of the factory which will creates the tool to open
-		 * @returns {Ametys.tool.ToolFactory} The factory registered for this role. Can be null.
+		 * @param {String} toolId The id of the factory which will creates the tool to open
+		 * @returns {Ametys.tool.ToolFactory} The factory registered for this id. Can be null.
 		 */
-		getFactory: function(role)
+		getFactory: function(toolId)
 		{
-			return this._factories[role];
+			return this._factories[toolId];
 		},
 		
 		/**

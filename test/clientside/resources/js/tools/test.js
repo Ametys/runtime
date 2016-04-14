@@ -105,7 +105,7 @@ Ext.define('Ametys.test.tool.Tool2', {
 
 var control = Ext.create("Ametys.ribbon.element.ui.button.OpenToolButtonController", {
     'id':               "button1",
-    'opentool-role':    "uitool-tool1",
+    'opentool-id':    "uitool-tool1",
     'label':            "Tool one",
     'description':      "Open tool number one",
     'icon-small' :      "/test/resources/img/editpaste_16.gif",

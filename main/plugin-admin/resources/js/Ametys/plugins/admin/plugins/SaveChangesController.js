@@ -51,7 +51,7 @@ Ext.define('Ametys.plugins.admin.plugins.SaveChangesController', {
 		var targets = message.getTargets();
 		for (var i=0; i < targets.length; i++)
 		{
-			if (targets[i].getType() == Ametys.message.MessageTarget.AMETYS_PLUGIN)
+			if (targets[i].getId() == Ametys.message.MessageTarget.AMETYS_PLUGIN)
 			{
 				this.setDisabled(false);
 				return;

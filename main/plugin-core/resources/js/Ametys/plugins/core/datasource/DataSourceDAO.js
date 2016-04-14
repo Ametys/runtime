@@ -176,7 +176,7 @@ Ext.define('Ametys.plugins.core.datasource.DataSourceDAO', {
 		Ext.create('Ametys.message.Message', {
 			type: Ametys.message.Message.CREATED,
 			targets: {
-				type: Ametys.message.MessageTarget.DATASOURCE,
+				id: Ametys.message.MessageTarget.DATASOURCE,
 				parameters: {
 					id: datasource.id,
 					type: params[0]
@@ -197,7 +197,7 @@ Ext.define('Ametys.plugins.core.datasource.DataSourceDAO', {
 		Ext.create('Ametys.message.Message', {
 			type: Ametys.message.Message.MODIFIED,
 			targets: {
-				type: Ametys.message.MessageTarget.DATASOURCE,
+				id: Ametys.message.MessageTarget.DATASOURCE,
 				parameters: {
 					id: datasource.id,
 					type: params[0]
@@ -221,7 +221,7 @@ Ext.define('Ametys.plugins.core.datasource.DataSourceDAO', {
         
 		Ext.Array.each(ids, function(id){
 			targets.push({
-                type: Ametys.message.MessageTarget.DATASOURCE,
+                id: Ametys.message.MessageTarget.DATASOURCE,
                 parameters: {
                     id: id,
                     type: params[0]

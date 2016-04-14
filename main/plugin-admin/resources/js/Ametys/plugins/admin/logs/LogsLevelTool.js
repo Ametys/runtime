@@ -56,7 +56,7 @@ Ext.define('Ametys.plugins.admin.logs.LogsLevelTool', {
 		Ext.Array.forEach(selectedCategories, function(selectedCategory) {
 			
 			target = Ext.create('Ametys.message.MessageTarget', {
-				type: Ametys.message.MessageTarget.LOG_CATEGORY,
+				id: Ametys.message.MessageTarget.LOG_CATEGORY,
 				parameters: {id: selectedCategory.getId(), level: selectedCategory.data.level, name: selectedCategory.data.category}
 			});
 			

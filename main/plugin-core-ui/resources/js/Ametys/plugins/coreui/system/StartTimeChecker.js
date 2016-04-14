@@ -101,7 +101,7 @@ Ext.define('Ametys.plugins.coreui.system.StartTimeChecker', {
             Ext.create("Ametys.message.Message", {
                 type: Ametys.message.Message.MODIFIED,
                 targets: {
-                    type: Ametys.message.MessageTarget.APPLICATION,
+                    id: Ametys.message.MessageTarget.APPLICATION,
                     parameters: {
                         status: {
                             current: newStatus,

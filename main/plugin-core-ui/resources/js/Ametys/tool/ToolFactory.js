@@ -18,17 +18,16 @@
  * A tool factory is mainly in charge for creating a tool throught the #openTool method.
  * This class is an abstract class and cannot be used. Use one of its subclasses or create your own one.
  * 
- * A factory is defined by a role and registrer at the Ametys.tool.ToolsManager, which is in charge of handling tools.
+ * A factory is defined by an id and registrer at the Ametys.tool.ToolsManager, which is in charge of handling tools.
  * 
  * Here is an example to declare a factory in a plugin.xml
  * 
  *        <feature name="userinterface.messages-tracker">
  *           <extensions>
- *               <extension id="org.ametys.cms.userinterface.MessageTrackerFactory"
+ *               <extension id="uitool-messagestracker"
  *                         point="org.ametys.runtime.ui.UIToolsFactoriesManager"
  *                         class="org.ametys.runtime.ui.StaticClientSideElement">
  *                  <class name="Ametys.tool.factory.UniqueToolFactory">
- *                      <role>uitool-messagestracker</role>
  *                      <toolClass>Ametys.plugins.cms.system.messagetracker.MessageTrackerTool</toolClass>
  *                  
  *                      <title i18n="true">PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_LABEL</title>
@@ -62,9 +61,6 @@ Ext.define("Ametys.tool.ToolFactory",
          * @cfg {String} pluginName (required) The plugin name where the factory was declared.
          */
         /**
-         * @cfg {String} role (required) The role of the factory. Has to be unique.
-         */
-        /**
          * @cfg {String} autoRefresh=true When "true", the tools made by this factory will automatically refresh after an Ametys.tool.Tool#outOfDate. "false" will ask the user to refresh the tool.
          */
         
@@ -74,10 +70,6 @@ Ext.define("Ametys.tool.ToolFactory",
          */
         /**
          * @property {String} _pluginName See {@link #cfg-pluginName}
-         * @private
-         */
-        /**
-         * @property {String} _role See {@link #cfg-role}
          * @private
          */
         /**
@@ -93,7 +85,6 @@ Ext.define("Ametys.tool.ToolFactory",
         {
             this._id = config.id;
             this._pluginName = config.pluginName;
-            this._role = config.role;
             this._autoRefresh = config.autoRefresh != "false";
             
             this._initConfig = config;
@@ -119,21 +110,12 @@ Ext.define("Ametys.tool.ToolFactory",
         },
         
         /**
-         * Get the identifier of the factory. Do not confuse with #getRole
+         * Get the identifier of the factory.
          * @returns {String} The unique plugin identifier for this factory instance
          */
         getId: function()
         {
             return this._id;
-        },
-        
-        /**
-         * Get the role of the factory. Do not confuse with #getId
-         * @returns {String} The unique role for this factory instance
-         */
-        getRole: function()
-        {
-            return this._role;
         },
         
         /**

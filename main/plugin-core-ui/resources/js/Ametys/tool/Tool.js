@@ -604,7 +604,7 @@ Ext.define("Ametys.tool.Tool",
 				type: Ametys.message.Message.TOOL_PARAMS_UPDATED,
 				
 				targets: {
-					type: Ametys.message.MessageTarget.TOOL,
+					id: Ametys.message.MessageTarget.TOOL,
 					parameters: { tools: [this] }
 				}
 			});
@@ -1005,11 +1005,11 @@ Ext.define("Ametys.tool.Tool",
 			Ext.create("Ametys.message.Message", {
 				type: Ametys.message.Message.TOOL_FOCUSED,
 				parameters: {
-					creation: this._focusedOnce ? null : this.getFactory().getRole()
+					creation: this._focusedOnce ? null : this.getFactory().getId()
 				},
 				
 				targets: {
-					type: Ametys.message.MessageTarget.TOOL,
+					id: Ametys.message.MessageTarget.TOOL,
 					parameters: { tools: [this] }
 				}
 			});
@@ -1031,7 +1031,7 @@ Ext.define("Ametys.tool.Tool",
 				type: Ametys.message.Message.TOOL_BLURRED,
 				
 				targets: {
-					type: Ametys.message.MessageTarget.TOOL,
+					id: Ametys.message.MessageTarget.TOOL,
 					parameters: { tools: [this] }
 				}
 			});
@@ -1047,7 +1047,7 @@ Ext.define("Ametys.tool.Tool",
 				type: Ametys.message.Message.TOOL_ACTIVATED,
 				
 				targets: {
-					type: Ametys.message.MessageTarget.TOOL,
+					id: Ametys.message.MessageTarget.TOOL,
 					parameters: { tools: [this] }
 				}
 			});
@@ -1063,7 +1063,7 @@ Ext.define("Ametys.tool.Tool",
 				type: Ametys.message.Message.TOOL_DEACTIVATED,
 				
 				targets: {
-					type: Ametys.message.MessageTarget.TOOL,
+					id: Ametys.message.MessageTarget.TOOL,
 					parameters: { tools: [this] }
 				}
 			});
@@ -1080,7 +1080,7 @@ Ext.define("Ametys.tool.Tool",
 				type: Ametys.message.Message.TOOL_OPENED,
 				
 				targets: {
-					type: Ametys.message.MessageTarget.TOOL,
+					id: Ametys.message.MessageTarget.TOOL,
 					parameters: { tools: [this] }
 				}
 			});
@@ -1104,7 +1104,7 @@ Ext.define("Ametys.tool.Tool",
 				type: Ametys.message.Message.TOOL_CLOSED,
 				
 				targets: {
-					type: Ametys.message.MessageTarget.TOOL,
+					id: Ametys.message.MessageTarget.TOOL,
 					parameters: { tools: [this] }
 				}
 			});

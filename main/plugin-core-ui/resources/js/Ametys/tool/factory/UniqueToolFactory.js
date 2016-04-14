@@ -19,15 +19,15 @@
  * On first call a tool is created, but on a second call it is just parametrized.
  * If the tool was closed in between it is recreated.
  * 
- * The tool do receive as id : the factory class name + $ + the factory role.
+ * The tool do receive as id : the factory class name + $ + the factory id.
  * 
  * 		var myFactory = Ext.create("Ametys.tool.factory.UniqueToolFactory", {
+ * 			id: 'history',
  * 			pluginName: 'myplugin',
  * 			toolClass: "MyHistoryTool",
  * 			parameters: {
  * 				...
  * 			},
- * 			role: 'history'
  * 		});
  * 
  * 		Ametys.tool.ToolsManager.openTool('history', {})
@@ -63,7 +63,7 @@ Ext.define("Ametys.tool.factory.UniqueToolFactory",
 		openTool: function(toolParams)
 		{
 			// The id of the associated unique tool
-			var toolId = this.getRole();
+			var toolId = this.getId();
 			
 			var tool = Ametys.tool.ToolsManager.getTool(toolId); 
 			if (tool == null)

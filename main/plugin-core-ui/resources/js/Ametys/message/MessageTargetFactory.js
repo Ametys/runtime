@@ -20,7 +20,7 @@
  * 
  * The default implementation is to be used for simple messages that does not need any calculation nor server requests.
  * You have to implement this class if you need a complex message bus, that will autofill: e.g. a content message that get the content automatically using the given id.
- * Beware when implementing this class taht you are in charge for creating subtargets provided if necessary throught #createTargets
+ * Beware when implementing this class that you are in charge for creating subtargets provided if necessary throught #createTargets
  * 
  * You do not have to call theses methods.
  */
@@ -42,16 +42,16 @@ Ext.define("Ametys.message.MessageTargetFactory",
 			 */
 			registerTargetFactory: function(factory)
 			{
-				if (this._targetFactories[factory.getType()] != null && this.getLogger().isWarnEnabled())
+				if (this._targetFactories[factory.getId()] != null && this.getLogger().isWarnEnabled())
 				{
-					this.getLogger().warn("Replacing factory '" + factory.getType() + "' with a new one");
+					this.getLogger().warn("Replacing factory '" + factory.getId() + "' with a new one");
 				}
 				else if (this.getLogger().isDebugEnabled())
 				{
-					this.getLogger().debug("Adding factory '" + factory.getType() + "'");
+					this.getLogger().debug("Adding factory '" + factory.getId() + "'");
 				}
 				
-				this._targetFactories[factory.getType()] = factory;
+				this._targetFactories[factory.getId()] = factory;
 			},
 			
 			/**
@@ -107,7 +107,7 @@ Ext.define("Ametys.message.MessageTargetFactory",
 				{
 					var targetConfig = targets[i];
 					
-					var factory = this._targetFactories[targetConfig.type];
+					var factory = this._targetFactories[targetConfig.id];
 					if (!factory)
 					{
 						factory = this._targetFactories['*'];
@@ -131,7 +131,7 @@ Ext.define("Ametys.message.MessageTargetFactory",
 						}
 					}
 					
-					factory.createTargets(targetConfig.parameters, createTargetsCallback, targetConfig.type)
+					factory.createTargets(targetConfig.parameters, createTargetsCallback, targetConfig.id)
 				}
 			}
 		},
@@ -169,18 +169,8 @@ Ext.define("Ametys.message.MessageTargetFactory",
 		 */
 		constructor: function(config)
 		{
-			this._type = config.type;
 			this._pluginName = config.pluginName;
 			this._id = config.id;
-		},
-		
-		/**
-		 * Get the type. See {@link #cfg-type}
-		 * @returns {String} The type
-		 */
-		getType: function()
-		{
-			return this._type;
 		},
 		
 		/**
@@ -206,10 +196,10 @@ Ext.define("Ametys.message.MessageTargetFactory",
 		 * @param {Object} parameters The parameters needed by the factory to create the messages. Can not be null. See implementation for details.
 		 * @param {Function} callback The callback function called when the targets are created. Parameters are
 		 * @param {Ametys.message.MessageTarget[]} callback.targets The targets created. Cannot be null.
-         * @param {String} targetType The type of target specified. Useful for gerneric MessageTargetFactories.
+         * @param {String} targetId The id of target specified. Useful for gerneric MessageTargetFactories.
 		 * @template
 		 */
-		createTargets: function(parameters, callback, targetType)
+		createTargets: function(parameters, callback, targetId)
 		{
 			throw new Error("This method is not implemented in " + this.self.getName());
 		},

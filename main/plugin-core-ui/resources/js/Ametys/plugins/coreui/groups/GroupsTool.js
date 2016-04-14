@@ -36,11 +36,11 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsTool', {
 	 * @private
 	 */
 	/**
-	 * @property {String} [_userTargetType=user] The target type for users
+	 * @property {String} [_userTargetId=user] The target for users
 	 * @private
 	 */
 	/**
-	 * @property {String} [_groupTargetType=group] The target type for groups
+	 * @property {String} [_groupTargetId=group] The target for groups
 	 * @private
 	 */
     /**
@@ -82,8 +82,8 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsTool', {
 		this.callParent(arguments);
 		
 		// Set the role and the message target type
-		this._groupTargetType = config['group-target-type'] || Ametys.message.MessageTarget.GROUP;
-		this._userTargetType = config['user-target-type'] || Ametys.message.MessageTarget.USER;
+		this._groupTargetId = config['group-target-id'] || Ametys.message.MessageTarget.GROUP;
+		this._userTargetId = config['user-target-id'] || Ametys.message.MessageTarget.USER;
 		
 		// Bus messages listeners
 		Ametys.message.MessageBus.on(Ametys.message.Message.CREATED, this._onMessageCreated, this);
@@ -198,7 +198,7 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsTool', {
 		var me = this;
 		Ext.Array.forEach(users, function(user) {
 			userTarget = Ext.create('Ametys.message.MessageTarget', {
-				type: me._userTargetType,
+				id: me._userTargetId,
 				parameters: {
                     id: user.get('login'),
                     population: user.get('population')
@@ -213,7 +213,7 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsTool', {
 		if (group)
 		{
 			var groupTarget = {
-				type: this._groupTargetType,
+				id: this._groupTargetId,
 				parameters: {
 					id: group.get('groupId'),
                     groupDirectory: group.get('groupDirectory')
@@ -455,7 +455,7 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsTool', {
 			item.target = {
 				relationTypes: [Ametys.relation.Relation.REFERENCE], 
 				targets: {
-					type: me._groupTargetType,
+					type: me._groupTargetId,
 					parameters: { 
 						id: groups[0].get('groupId'),
                         groupDirectory: groups[0].get('groupDirectory')
@@ -477,7 +477,7 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsTool', {
         
         Ext.Array.each(item.records, function(record) {
         	targets.push({
-        		type: this._userTargetType,
+        		type: this._userTargetId,
         		parameters: {
         			id: record.get('login'),
                     population: record.get('population')
@@ -509,7 +509,7 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsTool', {
 			item.target = {
 				relationTypes: [Ametys.relation.Relation.REFERENCE], 
 				targets: {
-					type: me._groupTargetType,
+					type: me._groupTargetId,
 					parameters: { 
 						id: selectedGroup.get('groupId'),
                         groupDirectory: selectedGroup.get('groupDirectory')
@@ -542,7 +542,7 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsTool', {
 	 */
 	_renderUserName: function(value, metaData, record)
 	{
-	    if (this._userTargetType == Ametys.message.MessageTarget.USER)
+	    if (this._userTargetId == Ametys.message.MessageTarget.USER)
         {
 	        return '<img src="' + Ametys.getPluginDirectPrefix('core-ui') + '/user/' + record.get('population') + '/' + record.get('login') + '/image_16" class="a-grid-icon a-grid-icon-user"/>' + value;
         }
@@ -656,7 +656,7 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsTool', {
 	 */
 	_onMessageCreated: function(message)
 	{
-		var groupTarget = message.getTarget(new RegExp('^' + this._groupTargetType + '$'), 1);
+		var groupTarget = message.getTarget(new RegExp('^' + this._groupTargetId + '$'), 1);
 		if (groupTarget)
 		{
 			var groupDirectoryId = groupTarget.getParameters().groupDirectory;

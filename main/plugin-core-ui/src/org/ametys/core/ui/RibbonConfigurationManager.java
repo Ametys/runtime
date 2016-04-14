@@ -157,10 +157,11 @@ public class RibbonConfigurationManager
      * @param ribbonTabManager the ribbon tab manager
      * @param saxClientSideElementHelper the helper to SAX client side element
      * @param resolver the excalibur source resolver
+     * @param dependenciesManager The dependencies manager
      * @param config the ribbon configuration
      * @throws RuntimeException if an error occurred
      */
-    public RibbonConfigurationManager (RibbonControlsManager ribbonControlManager, RibbonTabsManager ribbonTabManager, SAXClientSideElementHelper saxClientSideElementHelper, SourceResolver resolver, InputStream config)
+    public RibbonConfigurationManager (RibbonControlsManager ribbonControlManager, RibbonTabsManager ribbonTabManager, SAXClientSideElementHelper saxClientSideElementHelper, SourceResolver resolver, ClientSideElementDependenciesManager dependenciesManager, InputStream config)
     {
         _ribbonControlManager = ribbonControlManager;
         _ribbonTabManager = ribbonTabManager;
@@ -170,7 +171,7 @@ public class RibbonConfigurationManager
         try
         {
             Configuration configuration = new DefaultConfigurationBuilder().build(config);
-            _configure(configuration);
+            _configure(configuration, dependenciesManager);
         }
         catch (Exception e)
         {
@@ -178,7 +179,7 @@ public class RibbonConfigurationManager
         }
     }
 
-    private void _configure(Configuration configuration) throws ConfigurationException
+    private void _configure(Configuration configuration, ClientSideElementDependenciesManager dependenciesManager) throws ConfigurationException
     {
         if (_logger.isDebugEnabled())
         {
@@ -191,6 +192,15 @@ public class RibbonConfigurationManager
         Configuration[] userMenuConfigurations = configuration.getChild("user-menu").getChildren();
         this._userMenu.addAll(_configureElement(userMenuConfigurations));
         
+        Configuration[] dependenciesConfigurations = configuration.getChild("depends").getChildren();
+        for (Configuration dependencyConfigurations : dependenciesConfigurations)
+        {
+            String extensionPoint = dependencyConfigurations.getName();
+            String extensionId = dependencyConfigurations.getValue();
+            
+            dependenciesManager.register(extensionPoint, extensionId);
+        }
+            
         Configuration[] tabsConfigurations = configuration.getChild("tabs").getChildren();
         for (Configuration tabConfiguration : tabsConfigurations)
         {
@@ -215,7 +225,7 @@ public class RibbonConfigurationManager
                         try (InputStream is = src.getInputStream())
                         {
                             Configuration importedConfiguration = new DefaultConfigurationBuilder().build(is);
-                            _configure(importedConfiguration);
+                            _configure(importedConfiguration, dependenciesManager);
                         }
                     }
                 }
@@ -354,6 +364,47 @@ public class RibbonConfigurationManager
         }
     }
     
+    /**
+     * Retrieve the list of controls referenced by the ribbon
+     * @return The list of controls
+     */
+    public List<ClientSideElement> getControls()
+    {
+        _lazyInitialize();
+        _lazyInitialize(this._appMenu);
+        _lazyInitialize(this._userMenu);
+        
+        List<ClientSideElement> controlsList = new ArrayList<>();
+        for (String controlId : this._controlsReferences)
+        {
+            ClientSideElement control = _ribbonControlManager.getExtension(controlId);
+            controlsList.add(control);
+            
+            if (control instanceof MenuClientSideElement)
+            {
+                controlsList.addAll(_getMenuControls((MenuClientSideElement) control));
+            }
+
+        }
+        
+        return controlsList;
+    }
+    
+    private List<ClientSideElement> _getMenuControls(MenuClientSideElement menu)
+    {
+        List<ClientSideElement> controlsList = new ArrayList<>();
+        for (ClientSideElement element : menu.getReferencedClientSideElements())
+        {
+            controlsList.add(element);
+            
+            if (element instanceof MenuClientSideElement)
+            {
+                controlsList.addAll(_getMenuControls((MenuClientSideElement) element));
+            }
+        }
+        return controlsList;
+    }
+
     /**
      * Sax the the initial configuration of the ribbon.
      * @param handler The content handler where to sax

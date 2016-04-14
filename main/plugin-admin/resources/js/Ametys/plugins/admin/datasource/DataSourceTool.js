@@ -134,7 +134,7 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceTool', {
 		Ext.Array.forEach(selectedDataSources, function(selectedDataSource) {
 			
 			target = Ext.create('Ametys.message.MessageTarget', {
-				type: Ametys.message.MessageTarget.DATASOURCE,
+				id: Ametys.message.MessageTarget.DATASOURCE,
 				parameters: {
 					id: selectedDataSource.get('id'),
 					type: selectedDataSource.get('type')

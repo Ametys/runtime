@@ -75,7 +75,7 @@ Ext.define('Ametys.clipboard.Clipboard', {
 		Ext.create("Ametys.message.Message", {
 			type: Ametys.message.Message.MODIFIED,
 			targets: {
-				type: Ametys.message.MessageTarget.CLIPBOARD,
+				id: Ametys.message.MessageTarget.CLIPBOARD,
 				parameters: {}
 			}
 		});

@@ -26,7 +26,7 @@
  *				type: Ametys.message.Message.TOOL_CLOSED,
  *				
  *				targets: {
- *					type: Ametys.message.MessageTarget.TOOL,
+ *					id: Ametys.message.MessageTarget.TOOL,
  *					parameters: { tools: [this] }
  *				}
  *			});
@@ -55,7 +55,7 @@ Ext.define("Ametys.tool.ToolMessageTargetFactory",
 					var tool = Ametys.tool.ToolsManager.getTool(id);
 					
 					var target = Ext.create("Ametys.message.MessageTarget", {
-						type: this.getType(),
+						id: this.getId(),
 						parameters: {
 							id: id,
 							tool: tool
@@ -72,7 +72,7 @@ Ext.define("Ametys.tool.ToolMessageTargetFactory",
 					var id = tool.getId();
 					
 					var target = Ext.create("Ametys.message.MessageTarget", {
-						type: this.getType(),
+						id: this.getId(),
 						parameters: {
 							id: id,
 							tool: tool
@@ -96,7 +96,7 @@ Ext.define("Ametys.message.ToolMessageTarget",
 			/**
 			 * @member Ametys.message.MessageTarget
 			 * @readonly
-			 * @property {String} TOOL The target type is a tool. See Ametys.tool.ToolMessageTargetFactory#createTargets parameters to know more of the associated parameters. 
+			 * @property {String} TOOL The target id is a tool. See Ametys.tool.ToolMessageTargetFactory#createTargets parameters to know more of the associated parameters. 
 			 */
 			TOOL: "tool"
 		}

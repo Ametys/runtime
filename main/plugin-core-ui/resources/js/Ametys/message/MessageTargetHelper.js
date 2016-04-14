@@ -25,7 +25,7 @@ Ext.define("Ametys.message.MessageTargetHelper",
 		/**
 		 * Filter an array of target and returns the first matching one
 		 * @param {Object/Object[]/Ametys.message.MessageTarget/Ametys.message.MessageTarget[]} targets The targets to test (or the target config) 
-		 * @param {String/RegExp/Function} [filter] The filter uppon the target type. If the filter is a function, it must return a boolean true to match, and it has the target as single parameter.
+		 * @param {String/RegExp/Function} [filter] The filter uppon the target id. If the filter is a function, it must return a boolean true to match, and it has the target as single parameter.
 		 * @param {Number} [depth=0] The depth for filtering. 0 means it will dig all subtargets what ever the level is. 1 means it will only seek in the first level targets. And so on.
 		 * @returns {Ametys.message.MessageTarget} The matching target, or the array of type hierarchy (or the target config if config was provided). Can be null.
 		 */
@@ -52,20 +52,20 @@ Ext.define("Ametys.message.MessageTargetHelper",
 				for (var i=0; i < targets.length; i++)
 				{
 					var target = targets[i];
-					// Getting type and subtargets from either an object or a MessageTarget
-					var type;
+					// Getting id and subtargets from either an object or a MessageTarget
+					var targetId;
 					if (Ext.getClassName(target) == "Ametys.message.MessageTarget")
 					{
-						type = target.getType();
+						targetId = target.getId();
 					}
 					else
 					{
-						type = target.type;
+					    targetId = target.id;
 					}
 					
-					if ((typeof filter.test == "function" && filter.test(type))
+					if ((typeof filter.test == "function" && filter.test(targetId))
 							|| (typeof filter == "function" && filter(target))
-							|| (filter.toString() == type))
+							|| (filter.toString() == targetId))
 					{
 						return target;
 					}
@@ -138,18 +138,18 @@ Ext.define("Ametys.message.MessageTargetHelper",
 					var type, subtargets;
 					if (Ext.getClassName(target) == "Ametys.message.MessageTarget")
 					{
-						type = target.getType();
+						targetId = target.getId();
 						subtargets = target.getSubtargets();
 					}
 					else
 					{
-						type = target.type;
+						targetId = target.id;
 						subtargets = target.subtargets;
 					}
 					
-					if ((typeof filter.test == "function" && filter.test(type))
+					if ((typeof filter.test == "function" && filter.test(targetId))
 							|| (typeof filter == "function" && filter(target))
-							|| (filter.toString() == type))
+							|| (filter.toString() == targetId))
 					{
 						matchingTargets.push(target);
 					}

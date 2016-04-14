@@ -223,7 +223,7 @@ Ext.define("Ametys.plugins.coreui.system.messagetracker.MessageTrackerTool",
                 {
                     s += "&#160;&#160;&#160;&#160;";
                 }
-                s += "<span style='font-weight: bold'>" + target.getType() + "</span>";
+                s += "<span style='font-weight: bold'>" + target.getId() + "</span>";
                 if (shortVersion !== true) 
                 {
                     s += "<br/>" + Ext.JSON.prettyEncode(target.getParameters(), offset, null, 0);

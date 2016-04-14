@@ -52,7 +52,7 @@
                        point="org.ametys.core.ui.RibbonTabsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.tab.TabController">
-                    <tool-role>^(uitool-admin-system)$</tool-role>
+                    <tool-id>^(uitool-admin-system)$</tool-id>
                 </class>
             </extension>
             
@@ -63,7 +63,7 @@
                     This interaction allows the administrator to handle the system welcoming message
                  -->
                  <class name="Ametys.plugins.admin.system.SystemAnnouncementController">
-                    <opentool-role>uitool-admin-system</opentool-role>
+                    <opentool-id>uitool-admin-system</opentool-id>
                     
                     <label i18n="true">PLUGINS_ADMIN_SYSTEM_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_SYSTEM_DESCRIPTION</description>
@@ -88,13 +88,15 @@
                     <file>js/Ametys/plugins/admin/system/SystemTool.js</file>
                     <file>js/Ametys/plugins/admin/system/SystemAnnouncementController.js</file>
                 </scripts>
+                <depends>
+                    <org.ametys.core.ui.UIToolsFactoriesManager>uitool-admin-system</org.ametys.core.ui.UIToolsFactoriesManager>
+                </depends>
             </extension> 
             
-            <extension id="org.ametys.plugins.admin.system.SystemFactory"
+            <extension id="uitool-admin-system"
                        point="org.ametys.core.ui.UIToolsFactoriesManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.tool.factory.UniqueToolFactory">
-                    <role>uitool-admin-system</role>
                     <toolClass>Ametys.plugins.admin.tool.SystemTool</toolClass>
                     
                     <title i18n="true">PLUGINS_ADMIN_SYSTEM_LABEL</title>
@@ -138,7 +140,7 @@
                 <class name="Ametys.ribbon.element.ui.ButtonController">
                     <action>Ametys.plugins.admin.system.SystemActions.editMessage</action>
                 
-                    <selection-target-type>^system-announcement-message</selection-target-type>
+                    <selection-target-id>^system-announcement-message</selection-target-id>
                 
                     <label i18n="true">PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_EDIT_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_EDIT_DESC</description>
@@ -160,7 +162,7 @@
                 <class name="Ametys.ribbon.element.ui.ButtonController">
                     <action>Ametys.plugins.admin.system.SystemActions.deleteMessage</action>
                 
-                    <selection-target-type>^system-announcement-message$</selection-target-type>
+                    <selection-target-id>^system-announcement-message$</selection-target-id>
                     <selection-target-parameter>
                         <name>^language$</name>
                         <value>!\*</value>
@@ -220,7 +222,7 @@
                        point="org.ametys.core.ui.RibbonTabsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.tab.TabController">
-                    <tool-role>^(uitool-admin-pluginsbyfile)$</tool-role>
+                    <tool-id>^(uitool-admin-pluginsbyfile)$</tool-id>
                 </class>
             </extension>
             
@@ -228,7 +230,7 @@
                        point="org.ametys.core.ui.RibbonTabsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.tab.TabController">
-                    <tool-role>^(uitool-admin-pluginsbyextensionpoint)$</tool-role>
+                    <tool-id>^(uitool-admin-pluginsbyextensionpoint)$</tool-id>
                 </class>
             </extension>
             
@@ -240,7 +242,7 @@
                     This interaction allows the administrator to see plugins by file. Useful for developers.
                  -->
                 <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
-                    <opentool-role>uitool-admin-pluginsbyfile</opentool-role>
+                    <opentool-id>uitool-admin-pluginsbyfile</opentool-id>
                     
                     <label i18n="true">PLUGINS_ADMIN_TOOL_PLUGINSBYFILE_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_PLUGINSBYFILE_DESC</description>
@@ -253,13 +255,15 @@
                 <scripts>
                     <file>js/Ametys/plugins/admin/plugins/PluginsTool.js</file>
                 </scripts>
+                <depends>
+                    <org.ametys.core.ui.UIToolsFactoriesManager>uitool-admin-pluginsbyfile</org.ametys.core.ui.UIToolsFactoriesManager>
+                </depends>
             </extension>
             
-            <extension id="org.ametys.plugins.admin.PluginsByFileFactory"  
+            <extension id="uitool-admin-pluginsbyfile"  
                        point="org.ametys.core.ui.UIToolsFactoriesManager" 
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.tool.factory.UniqueToolFactory">
-                    <role>uitool-admin-pluginsbyfile</role>
                     <toolClass>Ametys.plugins.admin.plugins.PluginsTool</toolClass>
                     
                     <proxyUrl>plugins-by-file</proxyUrl>
@@ -287,7 +291,7 @@
                     This interaction allows the administrator to see plugins by file. Useful for developers.
                  -->
                 <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
-                    <opentool-role>uitool-admin-pluginsbyextensionpoint</opentool-role>
+                    <opentool-id>uitool-admin-pluginsbyextensionpoint</opentool-id>
                     
                     <label i18n="true">PLUGINS_ADMIN_TOOL_PLUGINSBYEXTENSIONPOINT_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_PLUGINSBYEXTENSIONPOINT_DESC</description>
@@ -301,13 +305,15 @@
                     <file>js/Ametys/plugins/admin/plugins/PluginsTool/Plugin.js</file>
                     <file>js/Ametys/plugins/admin/plugins/PluginsTool.js</file>
                 </scripts>
+                <depends>
+                    <org.ametys.core.ui.UIToolsFactoriesManager>uitool-admin-pluginsbyextensionpoint</org.ametys.core.ui.UIToolsFactoriesManager>
+                </depends>
             </extension>
             
-            <extension id="org.ametys.plugins.admin.PluginsByExtensionPointFactory"  
+            <extension id="uitool-admin-pluginsbyextensionpoint"  
                        point="org.ametys.core.ui.UIToolsFactoriesManager" 
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.tool.factory.UniqueToolFactory">
-                    <role>uitool-admin-pluginsbyextensionpoint</role>
                     <toolClass>Ametys.plugins.admin.plugins.PluginsTool</toolClass>
                         
                     <proxyUrl>plugins-by-extension-point</proxyUrl>
@@ -346,7 +352,7 @@
                     This interaction allows the administrator to see workspaces. Useful for developers.
                  -->
                 <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
-                    <opentool-role>uitool-admin-workspaces</opentool-role>
+                    <opentool-id>uitool-admin-workspaces</opentool-id>
                     
                     <label i18n="true">PLUGINS_ADMIN_TOOL_WORKSPACES_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_WORKSPACES_DESC</description>
@@ -360,16 +366,18 @@
                     <file>js/Ametys/plugins/admin/plugins/WorkspacesTool/Workspace.js</file>
                     <file>js/Ametys/plugins/admin/plugins/WorkspacesTool.js</file>
                 </scripts>
+                <depends>
+                    <org.ametys.core.ui.UIToolsFactoriesManager>uitool-admin-workspaces</org.ametys.core.ui.UIToolsFactoriesManager>
+                </depends>
             </extension>
             
-            <extension id="org.ametys.plugins.admin.WorkspacesFactory"  
+            <extension id="uitool-admin-workspaces"  
                        point="org.ametys.core.ui.UIToolsFactoriesManager" 
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <!-- 
                     This interaction allows the administrator to see plugins by file. Useful for developers.
                  -->
                 <class name="Ametys.tool.factory.UniqueToolFactory">
-                    <role>uitool-admin-workspaces</role>
                     <toolClass>Ametys.plugins.admin.tool.WorkspacesTool</toolClass>
                     
                     <title i18n="true">PLUGINS_ADMIN_TOOL_WORKSPACES_LABEL</title>
@@ -392,7 +400,7 @@
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.ui.ButtonController">
                     <action>Ametys.plugins.admin.plugins.PluginsActions.showDocumentation</action>
-                    <selection-target-type>^(plugin-by-file-node|plugin-by-extension-point-node)$</selection-target-type>
+                    <selection-target-id>^(plugin-by-file-node|plugin-by-extension-point-node)$</selection-target-id>
                 
                     <label i18n="true">PLUGINS_ADMIN_PLUGINS_DOCUMENTATION_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_PLUGINS_DOCUMENTATION_DESC</description>
@@ -414,7 +422,7 @@
                 <class name="Ametys.ribbon.element.ui.ButtonController">
                     <action>Ametys.plugins.admin.plugins.PluginsActions.activate</action>
                     
-                    <selection-target-type>^(plugin-by-file-node|plugin-by-extension-point-node)$</selection-target-type>
+                    <selection-target-id>^(plugin-by-file-node|plugin-by-extension-point-node)$</selection-target-id>
                     <selection-target-parameter>
                         <name>^inactiveFeature$</name>
                         <value>true</value>
@@ -440,7 +448,7 @@
                 <class name="Ametys.ribbon.element.ui.ButtonController">
                     <action>Ametys.plugins.admin.plugins.PluginsActions.deactivate</action>
                     
-                    <selection-target-type>^(plugin-by-file-node|plugin-by-extension-point-node)$</selection-target-type>
+                    <selection-target-id>^(plugin-by-file-node|plugin-by-extension-point-node)$</selection-target-id>
                     <selection-target-parameter>
                         <name>^activeFeature$</name>
                         <value>true</value>
@@ -466,7 +474,7 @@
                 <class name="Ametys.ribbon.element.ui.ButtonController">
                     <action>Ametys.plugins.admin.plugins.PluginsActions.select</action>
                     
-                    <selection-target-type>^(plugin-by-file-node|plugin-by-extension-point-node)$</selection-target-type>
+                    <selection-target-id>^(plugin-by-file-node|plugin-by-extension-point-node)$</selection-target-id>
                     <selection-target-parameter>
                         <name>selectable</name>
                         <value>true</value>
@@ -545,7 +553,7 @@
                        point="org.ametys.core.ui.RibbonTabsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.tab.TabController">
-                    <tool-role>^(uitool-admin-logs)$</tool-role>
+                    <tool-id>^(uitool-admin-logs)$</tool-id>
                 </class>
             </extension>
             
@@ -553,7 +561,7 @@
                        point="org.ametys.core.ui.RibbonTabsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.tab.TabController">
-                    <tool-role>^(uitool-admin-logslevel)$</tool-role>
+                    <tool-id>^(uitool-admin-logslevel)$</tool-id>
                 </class>
             </extension>
             
@@ -564,7 +572,7 @@
                     This button opens the logs' visualization tool
                  -->
                 <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
-                    <opentool-role>uitool-admin-logs</opentool-role>
+                    <opentool-id>uitool-admin-logs</opentool-id>
                     
                     <label i18n="true">PLUGINS_ADMIN_TOOL_LOGS_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_LOGS_DESC</description>
@@ -578,13 +586,15 @@
                     <file>js/Ametys/plugins/admin/logs/LogsTool/Log.js</file>
                     <file>js/Ametys/plugins/admin/logs/LogsTool.js</file>
                 </scripts>
+                <depends>
+                    <org.ametys.core.ui.UIToolsFactoriesManager>uitool-admin-logs</org.ametys.core.ui.UIToolsFactoriesManager>
+                </depends>
             </extension>
             
-            <extension id="org.ametys.plugins.admin.logs.LogsFactory"
+            <extension id="uitool-admin-logs"
                        point="org.ametys.core.ui.UIToolsFactoriesManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.tool.factory.UniqueToolFactory">
-                    <role>uitool-admin-logs</role>
                     <toolClass>Ametys.plugins.admin.logs.LogsTool</toolClass>
                     
                     <title i18n="true">PLUGINS_ADMIN_TOOL_LOGS_LABEL</title>
@@ -609,7 +619,7 @@
                     This button opens the logs' configuration tool
                  -->
                 <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
-                    <opentool-role>uitool-admin-logslevel</opentool-role>
+                    <opentool-id>uitool-admin-logslevel</opentool-id>
                     
                     <label i18n="true">PLUGINS_ADMIN_TOOL_LOGS_LEVEL_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_LOGS_LEVEL_DESC</description>
@@ -624,13 +634,15 @@
                     <file>js/Ametys/plugins/admin/logs/LogsLevelTool/Category.js</file>
                     <file>js/Ametys/plugins/admin/logs/LogsLevelTool.js</file>
                 </scripts>
+                <depends>
+                    <org.ametys.core.ui.UIToolsFactoriesManager>uitool-admin-logslevel</org.ametys.core.ui.UIToolsFactoriesManager>
+                </depends>
             </extension>
             
-            <extension id="org.ametys.plugins.admin.logs.LogsLevelFactory"
+            <extension id="uitool-admin-logslevel"
                        point="org.ametys.core.ui.UIToolsFactoriesManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.tool.factory.UniqueToolFactory">
-                    <role>uitool-admin-logslevel</role>
                     <toolClass>Ametys.plugins.admin.logs.LogsLevelTool</toolClass>
                     
                     <title i18n="true">PLUGINS_ADMIN_TOOL_LOGS_LEVEL_LABEL</title>
@@ -654,7 +666,7 @@
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.ui.ButtonController">
                     <action>Ametys.plugins.admin.logs.LogsActions.view</action>
-                    <selection-target-type>^logfile$</selection-target-type>
+                    <selection-target-id>^logfile$</selection-target-id>
                     <selection-enable-multiselection>false</selection-enable-multiselection>
 
                     <label i18n="true">PLUGINS_ADMIN_LOGS_VIEW_LABEL</label>
@@ -675,7 +687,7 @@
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.ui.ButtonController">
                     <action>Ametys.plugins.admin.logs.LogsActions.download</action>
-                    <selection-target-type>^logfile$</selection-target-type>
+                    <selection-target-id>^logfile$</selection-target-id>
 
                     <label i18n="true">PLUGINS_ADMIN_LOGS_DOWNLOAD_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_LOGS_DOWNLOAD_DESC</description>
@@ -695,7 +707,7 @@
                        class="org.ametys.runtime.plugins.admin.logs.LogsClientSideElement">
                 <class name="Ametys.ribbon.element.ui.ButtonController">
                     <action>Ametys.plugins.admin.logs.LogsActions.deleteFile</action>
-                    <selection-target-type>^logfile$</selection-target-type>
+                    <selection-target-id>^logfile$</selection-target-id>
                     
                     <label i18n="true">PLUGINS_ADMIN_LOGS_DELETE_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_LOGS_DELETE_DESC</description>
@@ -735,7 +747,7 @@
                        class="org.ametys.runtime.plugins.admin.logs.LogsClientSideElement">
                 <class name="Ametys.plugins.admin.logs.LogLevelController">
                     <action>Ametys.plugins.admin.logs.LogsActions.changeLogLevel</action>
-                    <selection-target-type>^(log-category)$</selection-target-type>
+                    <selection-target-id>^(log-category)$</selection-target-id>
                     <selection-enable-multiselection>false</selection-enable-multiselection>
                     
                     <level>DEBUG</level>
@@ -758,7 +770,7 @@
                        class="org.ametys.runtime.plugins.admin.logs.LogsClientSideElement">
                 <class name="Ametys.plugins.admin.logs.LogLevelController">
                     <action>Ametys.plugins.admin.logs.LogsActions.changeLogLevel</action>
-                    <selection-target-type>^(log-category)$</selection-target-type>
+                    <selection-target-id>^(log-category)$</selection-target-id>
                     <selection-enable-multiselection>false</selection-enable-multiselection>
                     
                     <level>INFO</level>
@@ -781,7 +793,7 @@
                        class="org.ametys.runtime.plugins.admin.logs.LogsClientSideElement">
                 <class name="Ametys.plugins.admin.logs.LogLevelController">
                     <action>Ametys.plugins.admin.logs.LogsActions.changeLogLevel</action>
-                    <selection-target-type>^(log-category)$</selection-target-type>
+                    <selection-target-id>^(log-category)$</selection-target-id>
                     <selection-enable-multiselection>false</selection-enable-multiselection>
                     
                     <level>WARN</level>
@@ -804,7 +816,7 @@
                        class="org.ametys.runtime.plugins.admin.logs.LogsClientSideElement">
                 <class name="Ametys.plugins.admin.logs.LogLevelController">
                     <action>Ametys.plugins.admin.logs.LogsActions.changeLogLevel</action>
-                    <selection-target-type>^(log-category)$</selection-target-type>
+                    <selection-target-id>^(log-category)$</selection-target-id>
                     <selection-enable-multiselection>false</selection-enable-multiselection>
                     
                     <level>ERROR</level>
@@ -827,7 +839,7 @@
                        class="org.ametys.runtime.plugins.admin.logs.LogsClientSideElement">
                 <class name="Ametys.plugins.admin.logs.LogLevelController">
                     <action>Ametys.plugins.admin.logs.LogsActions.changeLogLevel</action>
-                    <selection-target-type>^(log-category)$</selection-target-type>
+                    <selection-target-id>^(log-category)$</selection-target-id>
                     <selection-enable-multiselection>false</selection-enable-multiselection>
                     
                     <level>INHERIT</level>
@@ -850,7 +862,7 @@
                        class="org.ametys.runtime.plugins.admin.logs.LogsClientSideElement">
                 <class name="Ametys.plugins.admin.logs.LogLevelController">
                     <action>Ametys.plugins.admin.logs.LogsActions.changeLogLevel</action>
-                    <selection-target-type>^(log-category)$</selection-target-type>
+                    <selection-target-id>^(log-category)$</selection-target-id>
                     <selection-enable-multiselection>false</selection-enable-multiselection>
                     
                     <level>FORCE</level>
@@ -888,7 +900,7 @@
                     This button opens the JVM status tool
                  -->
                 <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
-                    <opentool-role>uitool-admin-jvmstatus</opentool-role>
+                    <opentool-id>uitool-admin-jvmstatus</opentool-id>
                     
                     <label i18n="true">PLUGINS_ADMIN_TOOL_JVMSTATUS_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_JVMSTATUS_DESC</description>
@@ -901,13 +913,15 @@
                 <scripts>
                     <file>js/Ametys/plugins/admin/jvmstatus/JVMStatusTool.js</file>
                 </scripts>
+                <depends>
+                    <org.ametys.core.ui.UIToolsFactoriesManager>uitool-admin-jvmstatus</org.ametys.core.ui.UIToolsFactoriesManager>
+                </depends>
             </extension>
             
-            <extension id="org.ametys.plugins.admin.JVMStatusFactory"
+            <extension id="uitool-admin-jvmstatus"
                        point="org.ametys.core.ui.UIToolsFactoriesManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.tool.factory.UniqueToolFactory">
-                    <role>uitool-admin-jvmstatus</role>
                     <toolClass>Ametys.plugins.admin.jvmstatus.JVMStatusTool</toolClass>
                     
                     <title i18n="true">PLUGINS_ADMIN_TOOL_JVMSTATUS_LABEL</title>
@@ -932,7 +946,7 @@
                     This button opens the system properties tool
                  -->
                 <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
-                    <opentool-role>uitool-admin-systemproperties</opentool-role>
+                    <opentool-id>uitool-admin-systemproperties</opentool-id>
                     
                     <label i18n="true">PLUGINS_ADMIN_TOOL_SYSTEMPROPERTIES_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_SYSTEMPROPERTIES_DESC</description>
@@ -945,13 +959,15 @@
                 <scripts>
                     <file>js/Ametys/plugins/admin/jvmstatus/SystemPropertiesTool.js</file>
                 </scripts>
+                <depends>
+                    <org.ametys.core.ui.UIToolsFactoriesManager>uitool-admin-systemproperties</org.ametys.core.ui.UIToolsFactoriesManager>
+                </depends>
             </extension>
             
-            <extension id="org.ametys.plugins.admin.SystemPropertiesFactory"
+            <extension id="uitool-admin-systemproperties"
                        point="org.ametys.core.ui.UIToolsFactoriesManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.tool.factory.UniqueToolFactory">
-                    <role>uitool-admin-systemproperties</role>
                     <toolClass>Ametys.plugins.admin.jvmstatus.SystemPropertiesTool</toolClass>
                     
                     <title i18n="true">PLUGINS_ADMIN_TOOL_SYSTEMPROPERTIES_FACTORY_LABEL</title>
@@ -976,7 +992,7 @@
                     This button opens the monitoring tool
                  -->
                 <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
-                    <opentool-role>uitool-admin-monitoring</opentool-role>
+                    <opentool-id>uitool-admin-monitoring</opentool-id>
                     
                     <label i18n="true">PLUGINS_ADMIN_TOOL_MONITORING_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_MONITORING_DESC</description>
@@ -989,13 +1005,15 @@
                 <scripts>
                     <file>js/Ametys/plugins/admin/jvmstatus/MonitoringTool.js</file>
                 </scripts>
+                <depends>
+                    <org.ametys.core.ui.UIToolsFactoriesManager>uitool-admin-monitoring</org.ametys.core.ui.UIToolsFactoriesManager>
+                </depends>
             </extension>
             
-            <extension id="org.ametys.plugins.admin.MonitoringFactory"
+            <extension id="uitool-admin-monitoring"
                        point="org.ametys.core.ui.UIToolsFactoriesManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.tool.factory.UniqueToolFactory">
-                    <role>uitool-admin-monitoring</role>
                     <toolClass>Ametys.plugins.admin.jvmstatus.MonitoringTool</toolClass>
                     
                     <title i18n="true">PLUGINS_ADMIN_TOOL_MONITORING_LABEL</title>
@@ -1023,7 +1041,7 @@
                        point="org.ametys.core.ui.RibbonTabsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.tab.TabController">
-                    <tool-role>^(uitool-admin-config)$</tool-role>
+                    <tool-id>^(uitool-admin-config)$</tool-id>
                 </class>
             </extension>
         
@@ -1034,7 +1052,7 @@
                     This button opens the configuration tool 
                  -->
                 <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
-                    <opentool-role>uitool-admin-config</opentool-role>
+                    <opentool-id>uitool-admin-config</opentool-id>
                     
                     <label i18n="true">PLUGINS_ADMIN_CONFIG_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_CONFIG_DESCRIPTION</description>
@@ -1044,13 +1062,15 @@
                     <icon-medium file="true">img/config/config_32.png</icon-medium>
                     <icon-large file="true">img/config/config_48.png</icon-large>
                 </class>
+                <depends>
+                    <org.ametys.core.ui.UIToolsFactoriesManager>uitool-admin-config</org.ametys.core.ui.UIToolsFactoriesManager>
+                </depends>
             </extension>
             
-            <extension id="org.ametys.plugins.admin.config.ConfigToolFactory"
+            <extension id="uitool-admin-config"
                        point="org.ametys.core.ui.UIToolsFactoriesManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.tool.factory.UniqueToolFactory">
-                    <role>uitool-admin-config</role>
                     <toolClass>Ametys.plugins.admin.config.ConfigTool</toolClass>
                     
                     <title i18n="true">PLUGINS_ADMIN_CONFIG_LABEL</title>
@@ -1073,8 +1093,8 @@
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.ui.ButtonController">
                     <action>Ametys.plugins.admin.config.SaveConfigAction.save</action>
-                    <tool-role>uitool-admin-config</tool-role>
-                    <selection-target-type>^configuration$</selection-target-type>
+                    <tool-id>uitool-admin-config</tool-id>
+                    <selection-target-id>^configuration$</selection-target-id>
 
                     <label i18n="true">PLUGINS_ADMIN_CONFIG_HANDLE_SAVE</label>
                     <description i18n="true">PLUGINS_ADMIN_CONFIG_HANDLE_SAVE_DESC</description>
@@ -1164,6 +1184,9 @@
                 <scripts>
                     <file>js/Ametys/plugins/admin/superuser/SuperUserActions.js</file>
                 </scripts>
+                <depends>
+                    <org.ametys.core.ui.StaticFileImportsManager>org.ametys.runtime.helpers</org.ametys.core.ui.StaticFileImportsManager>
+                </depends>
             </extension>
         </extensions>
      </feature>
@@ -1267,20 +1290,22 @@
                    point="org.ametys.core.ui.RibbonControlsManager"
                    class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
-                    <opentool-role>uitool-datasource</opentool-role>
+                    <opentool-id>uitool-datasource</opentool-id>
                     <label i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_DESCRIPTION</description>
                     
                     <help>org.ametys.plugins.admin.datasource</help>
                     <icon-glyph>flaticon-data112</icon-glyph>
                 </class>
+                <depends>
+                    <org.ametys.core.ui.UIToolsFactoriesManager>uitool-datasource</org.ametys.core.ui.UIToolsFactoriesManager>
+                </depends>
             </extension>
                 
-            <extension id="org.ametys.plugins.admin.DataSourceFactory"
+            <extension id="uitool-datasource"
                        point="org.ametys.core.ui.UIToolsFactoriesManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.tool.factory.UniqueToolFactory">
-                    <role>uitool-datasource</role>
                     <toolClass>Ametys.plugins.admin.datasource.DataSourceTool</toolClass>
                     
                     <title i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_LABEL</title>
@@ -1300,7 +1325,7 @@
                        point="org.ametys.core.ui.RibbonTabsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.tab.TabController">
-                    <tool-role>^(uitool-datasource)$</tool-role>
+                    <tool-id>^(uitool-datasource)$</tool-id>
                 </class>
             </extension>
 
@@ -1366,7 +1391,7 @@
                    <type>SQL</type>
 
                    <selection-enable-multiselection>false</selection-enable-multiselection>
-                   <selection-target-type>^datasource$</selection-target-type>
+                   <selection-target-id>^datasource$</selection-target-id>
                    
                    <label i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_EDIT_LABEL</label>
                    <description i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_EDIT_DESCRIPTION</description>
@@ -1386,7 +1411,7 @@
                        class="org.ametys.runtime.plugins.admin.datasource.DeleteDataSourceClientSideElement">
                <class name="Ametys.plugins.admin.datasource.DeleteDataSourceController">
                    <action>Ametys.plugins.admin.datasource.DataSourceActions.remove</action>
-                   <selection-target-type>^datasource$</selection-target-type>
+                   <selection-target-id>^datasource$</selection-target-id>
                    
                    <label i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_LABEL</label>
                    <description i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_DESCRIPTION</description>

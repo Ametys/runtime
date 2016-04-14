@@ -129,7 +129,7 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsActions', {
 	{
 		var targets = [];
 		var target = Ext.create('Ametys.message.MessageTarget', {
-				type: Ametys.message.MessageTarget.AMETYS_PLUGIN,
+				id: Ametys.message.MessageTarget.AMETYS_PLUGIN,
 				parameters: {name: pluginName}
 			});
 		
@@ -155,7 +155,7 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsActions', {
 		Ext.create('Ametys.message.Message', {
 			type: Ametys.message.Message.MODIFYING,
 			targets: [{
-				type: Ametys.message.MessageTarget.AMETYS_PLUGIN,
+				id: Ametys.message.MessageTarget.AMETYS_PLUGIN,
 				parameters: {}
 			}]
 		});

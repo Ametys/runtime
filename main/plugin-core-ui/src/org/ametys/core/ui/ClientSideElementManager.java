@@ -1,5 +1,5 @@
 /*
- *  Copyright 2010 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,27 +13,31 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+
 package org.ametys.core.ui;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.ametys.runtime.plugin.component.AbstractThreadSafeComponentExtensionPoint;
+
 /**
- * This extension point handle the existing ribbon controls.
+ * Implementation of an ExtensionPoint for client side elements.
  */
-public class MessageTargetFactoriesManager extends ClientSideElementManager
+public class ClientSideElementManager extends AbstractThreadSafeComponentExtensionPoint<ClientSideElement>
 {
-    /** Avalon role */
-    public static final String ROLE = MessageTargetFactoriesManager.class.getName();
-    
-    @Override
+    /**
+     * Find a dependency of this manager from the Client side elements it knows. 
+     * @param pattern The matching pattern to find the dependency.
+     * @return The dependency, or null if no Client side element matched.
+     */
     public List<ClientSideElement> findDependency(String pattern)
     {
         ClientSideElement extension = getExtension(pattern);
         
         if (extension == null)
         {
-            getLogger().info("Invalid message target factory id : " + pattern + ". Unable to find dependency.");
+            throw new IllegalArgumentException("Unable to find dependency with id : " + pattern + ".");
         }
         
         List<ClientSideElement> result = new ArrayList<>();

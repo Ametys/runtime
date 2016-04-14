@@ -133,7 +133,7 @@ Ext.define('Ametys.plugins.admin.tool.WorkspacesTool', {
 		var selections = this._workspacesTree.getSelectionModel().getSelection();
 		Ext.Array.forEach(selections, function(node) {
 			targets.push({
-				type: node.get('isRootWorkspaces') ? 'ametys-workspace-root' : 'ametys-workspace',
+				id: node.get('isRootWorkspaces') ? 'ametys-workspace-root' : 'ametys-workspace',
 				parameters: {
 					name: node.get('text')
 				}

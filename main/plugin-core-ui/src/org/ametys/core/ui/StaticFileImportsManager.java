@@ -15,13 +15,11 @@
  */
 package org.ametys.core.ui;
 
-import org.ametys.runtime.plugin.component.AbstractThreadSafeComponentExtensionPoint;
-
 /**
  *  This extension point handle the static import for JS or css files
  *
  */
-public class StaticFileImportsManager extends AbstractThreadSafeComponentExtensionPoint<ClientSideElement>
+public class StaticFileImportsManager extends ClientSideElementManager
 {
     /** Avalon role */
     public static final String ROLE = StaticFileImportsManager.class.getName();

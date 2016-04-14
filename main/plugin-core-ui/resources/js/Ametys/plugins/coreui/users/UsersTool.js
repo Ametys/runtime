@@ -49,7 +49,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
      * @private
      */
     /**
-     * @property {String} _userTargetType the message target type for users
+     * @property {String} _userTargetId the message target type for users
      * @private
      */
     /**
@@ -80,7 +80,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
         this.callParent(arguments);
         
         // Set the role and the message target type
-        this._userTargetType = config['message-target-type'] || Ametys.message.MessageTarget.USER;
+        this._userTargetId = config['message-target-id'] || Ametys.message.MessageTarget.USER;
         
         // Listening to some bus messages.
         Ametys.message.MessageBus.on(Ametys.message.Message.CREATED, this._onMessageCreated, this);
@@ -207,7 +207,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
         var me = this;
         Ext.Array.forEach(selection, function(record) {
             targets.push({
-                type: me._userTargetType,
+                id: me._userTargetId,
                 parameters: {
                     id: record.get('login'),
                     population: record.get('population')
@@ -359,7 +359,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
         
         Ext.Array.each(item.records, function(record) {
             targets.push({
-                type: this._userTargetType,
+                id: this._userTargetId,
                 parameters: {
                     id: record.get('login'),
                     population: record.get('population')
@@ -502,7 +502,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
      */
     _renderDisplayName: function(value, metaData, record)
     {
-        if (this._userTargetType == Ametys.message.MessageTarget.USER)
+        if (this._userTargetId == Ametys.message.MessageTarget.USER)
         {
             return '<img src="' + Ametys.getPluginDirectPrefix('core-ui') + '/user/' + record.get('population') + '/' + record.get('login') + '/image_16" class="a-grid-icon a-grid-icon-user"/>' + value;
         }
@@ -612,7 +612,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
      */
     _onMessageCreated: function(message)
     {
-        var userTarget = message.getTarget(new RegExp('^' + this._userTargetType + '$'), 1);
+        var userTarget = message.getTarget(new RegExp('^' + this._userTargetId + '$'), 1);
         if (userTarget)
         {
             var login = userTarget.getParameters().id;
@@ -634,7 +634,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
     {
         if (message != null && message.getParameters().major === true)
         {
-            var userTarget = message.getTarget(new RegExp('^' + this._userTargetType + '$'), 1);
+            var userTarget = message.getTarget(new RegExp('^' + this._userTargetId + '$'), 1);
             if (userTarget)
             {
                 var login = userTarget.getParameters().id;
@@ -655,7 +655,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
      */
     _onMessageDeleted: function(message)
     {
-        var userTargets = message.getTargets(new RegExp('^' + this._userTargetType + '$'), 1);
+        var userTargets = message.getTargets(new RegExp('^' + this._userTargetId + '$'), 1);
         
         var me = this;
         Ext.Array.forEach(userTargets, function(target) {

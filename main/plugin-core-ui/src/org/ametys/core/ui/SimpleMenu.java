@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -256,6 +257,9 @@ public class SimpleMenu extends StaticClientSideElement implements MenuClientSid
                 conf.setAttribute("id", id);
                 conf.addChild(itemConfig.getChild("class"));
                 
+                Map<String, List<String>> childDependencies = _configureDependencies(itemConfig);
+                _addDependencies(childDependencies);
+                
                 _galleryItemManager.addComponent(_pluginName, null, id, StaticClientSideElement.class, conf);
                 
                 galleryGroup.addItem(new UnresolvedItem(id, true));
@@ -289,6 +293,9 @@ public class SimpleMenu extends StaticClientSideElement implements MenuClientSid
                     DefaultConfiguration conf = new DefaultConfiguration("extension");
                     conf.setAttribute("id", id);
                     conf.addChild(itemConfig.getChild("class"));
+                    
+                    Map<String, List<String>> childDependencies = _configureDependencies(itemConfig);
+                    _addDependencies(childDependencies);
                     
                     if (itemConfig.getChild("menu-items", false) != null || itemConfig.getChild("gallery-item", false) != null)
                     {
@@ -348,10 +355,41 @@ public class SimpleMenu extends StaticClientSideElement implements MenuClientSid
                 
                 _menuItems.add(element);
                 _referencedClientSideElement.add(element);
+                
+                _addDependencies(element.getDependencies());
             }
         }
         
         _unresolvedMenuItems = null;
+    }
+    
+    /**
+     * Add additional dependencies to the Menu, such as dependencies inherited from its menu items or gallery items.
+     * @param additionalDependencies The dependencies to add
+     * @throws ConfigurationException If an error occurs
+     */
+    protected void _addDependencies(Map<String, List<String>> additionalDependencies) throws ConfigurationException
+    {
+        if (!additionalDependencies.isEmpty())
+        {
+            for (Entry<String, List<String>> additionalDependency : additionalDependencies.entrySet())
+            {
+                String key = additionalDependency.getKey();
+                if (!_dependencies.containsKey(key))
+                {
+                    _dependencies.put(key, new ArrayList<String>());
+                }
+                List<String> dependenciesList = _dependencies.get(key);
+                
+                for (String dependency : additionalDependency.getValue())
+                {
+                    if (!dependenciesList.contains(dependency))
+                    {
+                        dependenciesList.add(dependency);
+                    }
+                }
+            }
+        }
     }
     
     /**

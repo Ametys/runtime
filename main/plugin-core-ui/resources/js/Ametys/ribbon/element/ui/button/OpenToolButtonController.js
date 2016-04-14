@@ -35,7 +35,7 @@ Ext.define(
 		 */
 
 		/**
-		 * @cfg {String} opentool-role (required) This configuration is required to set the factory role to use. See Ametys.tool.ToolFactory. Parameters can be provided througth #cfg-tool-config
+		 * @cfg {String} opentool-id (required) This configuration is required to set the factory id to use. See Ametys.tool.ToolFactory. Parameters can be provided througth #cfg-tool-config
 		 */
 		/**
 		 * @cfg {Object} opentool-params This configuration is a json object that will be transmited to the method Ametys.tool.ToolsManager#openTool (and consequently to the factory Ametys.tool.ToolFactory#openTool and to the tool Ametys.tool.Tool#setParams.
@@ -45,8 +45,8 @@ Ext.define(
 		{
 			config.action =  config.action || "Ametys.ribbon.element.ui.button.OpenToolButtonController._act";
 			
-			var role = config["opentool-role"];
-			if (Ametys.tool.ToolsManager.getFactory(role) instanceof Ametys.tool.factory.UniqueToolFactory || Ametys.tool.ToolsManager.getFactory(role) instanceof Ametys.tool.factory.BasicToolFactory)
+			var toolId = config["opentool-id"];
+			if (Ametys.tool.ToolsManager.getFactory(toolId) instanceof Ametys.tool.factory.UniqueToolFactory || Ametys.tool.ToolsManager.getFactory(toolId) instanceof Ametys.tool.factory.BasicToolFactory)
 			{
 				config['toggle-enabled'] = true;
 	
@@ -65,22 +65,22 @@ Ext.define(
 		statics: {
 			/**
 			 * @protected
-			 * This action do open the tool using the given Ametys.tool.ToolFactory role. The following additional configuration are required: #cfg-opentool-role, #cfg-opentool-params.
+			 * This action do open the tool using the given Ametys.tool.ToolFactory id. The following additional configuration are required: #cfg-opentool-id, #cfg-opentool-params.
 			 * @param {Ametys.ribbon.element.ui.button.OpenToolButtonController} button This controller.
 			 */
 			_act: function (button)
 			{
-				var role = button.getInitialConfig("opentool-role");
+				var toolId = button.getInitialConfig("opentool-id");
 				var parameters = button.getInitialConfig("opentool-params") || {};
 				
 				var tool = null;
-				if (Ametys.tool.ToolsManager.getFactory(role) instanceof Ametys.tool.factory.UniqueToolFactory)
+				if (Ametys.tool.ToolsManager.getFactory(toolId) instanceof Ametys.tool.factory.UniqueToolFactory)
 				{
-					 tool = Ametys.tool.ToolsManager.getTool(role);
+					 tool = Ametys.tool.ToolsManager.getTool(toolId);
 				}
-				else if (Ametys.tool.ToolsManager.getFactory(role) instanceof Ametys.tool.factory.BasicToolFactory)
+				else if (Ametys.tool.ToolsManager.getFactory(toolId) instanceof Ametys.tool.factory.BasicToolFactory)
 				{
-					tool = Ametys.tool.ToolsManager.getTool(role + "$" + parameters.id)
+					tool = Ametys.tool.ToolsManager.getTool(toolId + "$" + parameters.id)
 				}
 				
 				if (tool != null && this._toolParametersMatch(tool, parameters))
@@ -99,7 +99,7 @@ Ext.define(
 				}
 				else
 				{
-					Ametys.tool.ToolsManager.openTool(role, parameters);
+					Ametys.tool.ToolsManager.openTool(toolId, parameters);
 				}
 			},
 			
@@ -136,10 +136,10 @@ Ext.define(
 		 */
 		_onToolOpenedOrClosed: function(message)
 		{
-			var role = this.getInitialConfig("opentool-role");
+			var toolId = this.getInitialConfig("opentool-id");
 			var parameters = this.getInitialConfig("opentool-params") || {};
 			
-			var thisToolTarget = message.getTarget(function (target) { return target.getParameters()['tool'].getFactory().getRole() == role; });
+			var thisToolTarget = message.getTarget(function (target) { return target.getParameters()['tool'].getFactory().getId() == toolId; });
 			
 			if (thisToolTarget)
 			{
@@ -160,10 +160,10 @@ Ext.define(
 		 */
 		_onToolParamsUpdated: function(message)
 		{	
-			var role = this.getInitialConfig("opentool-role");
+			var toolId = this.getInitialConfig("opentool-id");
 			var parameters = this.getInitialConfig("opentool-params") || {};
 			
-			var thisToolTarget = message.getTarget(function (target) { return target.getParameters()['tool'].getFactory().getRole() == role; });
+			var thisToolTarget = message.getTarget(function (target) { return target.getParameters()['tool'].getFactory().getId() == id; });
 			if (thisToolTarget)
 			{
 				// FIXME CMS-5743 Iterate on all tools

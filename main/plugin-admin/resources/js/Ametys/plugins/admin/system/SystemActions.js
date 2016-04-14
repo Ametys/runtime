@@ -75,7 +75,7 @@ Ext.define('Ametys.plugins.admin.system.SystemActions', {
 		Ext.create('Ametys.message.Message', {
 			type: Ametys.message.Message.MODIFIED,
 			targets: [{
-				type: 'system-announcement',
+				id: 'system-announcement',
 				parameters: {
 					state: args.state
 				}
@@ -175,7 +175,7 @@ Ext.define('Ametys.plugins.admin.system.SystemActions', {
 		Ext.create('Ametys.message.Message', {
 			type: Ametys.message.Message.DELETED,
 			targets: [{
-				type: 'system-announcement-message',
+				id: 'system-announcement-message',
 				parameters: {
 					language: args.language
 				}
@@ -372,7 +372,7 @@ Ext.define('Ametys.plugins.admin.system.SystemActions', {
 			Ext.create('Ametys.message.Message', {
 				type: this._mode == "new" ? Ametys.message.Message.CREATED : Ametys.message.Message.MODIFIED,
 				targets: [{
-					type: 'system-announcement-message',
+					id: 'system-announcement-message',
 					parameters: {
 						language: args.language,
 						message: args.message

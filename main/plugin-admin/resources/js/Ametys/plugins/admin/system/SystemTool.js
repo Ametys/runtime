@@ -124,7 +124,7 @@ Ext.define('Ametys.plugins.admin.tool.SystemTool', {
 		Ext.Array.forEach(selectedRecords, function(selectedRecord) {
 			
 			target = Ext.create('Ametys.message.MessageTarget', {
-				type: 'system-announcement-message',
+				id: 'system-announcement-message',
 				parameters: {
 					language: selectedRecord.get('language'), 
 					message: selectedRecord.get('message')

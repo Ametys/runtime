@@ -250,7 +250,7 @@ Ext.define('Ametys.userprefs.UserProfileDialog', {
                 type: Ametys.message.Message.MODIFIED,
                 
                 targets: {
-                    type: Ametys.message.MessageTarget.USER_PREFS,
+                    id: Ametys.message.MessageTarget.USER_PREFS,
                     parameters: {
                         context: Ametys.userprefs.UserProfileDialog.USERPREF_CONTEXT
                     }

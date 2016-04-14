@@ -16,8 +16,8 @@
  
 /** Message target factories */
 var mtFactory;
-mtFactory = Ext.create("Ametys.message.factory.DefaultMessageTargetFactory", {type: "*", pluginName: "test", id: null});
+mtFactory = Ext.create("Ametys.message.factory.DefaultMessageTargetFactory", {pluginName: "test", id: "*"});
 Ametys.message.MessageTargetFactory.registerTargetFactory(mtFactory);
 
-mtFactory = Ext.create("Ametys.tool.ToolMessageTargetFactory", {type: "tool", pluginName: "test"});
+mtFactory = Ext.create("Ametys.tool.ToolMessageTargetFactory", {id: "tool", pluginName: "test"});
 Ametys.message.MessageTargetFactory.registerTargetFactory(mtFactory);

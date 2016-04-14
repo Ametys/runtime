@@ -21,45 +21,45 @@ Ext.define('Ametys.tool.SelectionTool', {
 	extend: "Ametys.tool.Tool",
 	
 	/**
-	 * @cfg {String} selection-target-type Specify this configuration to obtain a tool that take care of the current selection type. The string is a regexp that have to match the current selection type. See #cfg-subtarget-type.
+	 * @cfg {String} selection-target-id Specify this configuration to obtain a tool that take care of the current selection type. The string is a regexp that have to match the current selection type. See #cfg-subtarget-id.
 	 */
 	/**
-	 * @cfg {String} selection-subtarget-type When specified as the same time as #cfg-selection-target-type is, the tool will be enable/disabled only if the selection target is matching #cfg-selection-target-type AND if there is a subtarget that matched this regexp. See #cfg-subsubtarget-type.
+	 * @cfg {String} selection-subtarget-id When specified as the same time as #cfg-selection-target-id is, the tool will be enable/disabled only if the selection target is matching #cfg-selection-target-id AND if there is a subtarget that matched this regexp. See #cfg-subsubtarget-id.
 	 */
 	/**
-	 * @cfg {String} selection-subsubtarget-type Same as #cfg-subtarget-type at a third level.
+	 * @cfg {String} selection-subsubtarget-id Same as #cfg-subtarget-id at a third level.
 	 */
 	/**
-	 * @cfg {String} selection-enable-multiselection=false If 'false' the tool will be in a "no match selection state" as soon as the are many elements selected. Works only when #cfg-selection-target-type is specified.
+	 * @cfg {String} selection-enable-multiselection=false If 'false' the tool will be in a "no match selection state" as soon as the are many elements selected. Works only when #cfg-selection-target-id is specified.
 	 */
 	/**
 	 * @cfg {String} selection-description-empty The description when the selection is empty
 	 */
 	/**
-	 * @cfg {String} selection-description-nomatch The description when the selection does not match the awaited #cfg-selection-target-type
+	 * @cfg {String} selection-description-nomatch The description when the selection does not match the awaited #cfg-selection-target-id
 	 */
 	/**
 	 * @cfg {String} selection-description-multiselectionforbidden The description when the selection is multiple but #cfg-selection-enable-multiselection is false.
 	 */
 	
 	/**
-	 * @property {Ametys.message.MessageTarget[]} _currentSelectionTargets The current selection targets matching to the tool configuration. See #cfg-selection-enable-multiselection. See #cfg-selection-target-type. See #cfg-selection-subtarget-type. See #cfg-selection-subsubtarget-type.
+	 * @property {Ametys.message.MessageTarget[]} _currentSelectionTargets The current selection targets matching to the tool configuration. See #cfg-selection-enable-multiselection. See #cfg-selection-target-id. See #cfg-selection-subtarget-id. See #cfg-selection-subsubtarget-id.
 	 * @private
 	 */
 	/**
-	 * @property {Boolean} _selection See #cfg-selection-target-type. True means the tool takes care of the selection
+	 * @property {Boolean} _selection See #cfg-selection-target-id. True means the tool takes care of the selection
 	 * @private
 	 */
 	/**
-	 * @property {RegExp} _selectionTargetType See #cfg-selection-target-type converted as a regexp.
+	 * @property {RegExp} _selectionTargetType See #cfg-selection-target-id converted as a regexp.
 	 * @private
 	 */
 	/**
-	 * @property {RegExp} _selectionSubtargetType See #cfg-selection-subtarget-type converted as a regexp.
+	 * @property {RegExp} _selectionSubtargetId See #cfg-selection-subtarget-id converted as a regexp.
 	 * @private
 	 */
 	/**
-	 * @property {RegExp} _selectionSubsubtargetType See #cfg-selection-subsubtarget-type converted as a regexp.
+	 * @property {RegExp} _selectionSubsubtargetId See #cfg-selection-subsubtarget-id converted as a regexp.
 	 * @private
 	 */
 	
@@ -67,23 +67,23 @@ Ext.define('Ametys.tool.SelectionTool', {
 	{
 		this.callParent(arguments);
 		
-		var targetType = this.getInitialConfig("selection-target-type"); 
-		if (targetType)
+		var targetId = this.getInitialConfig("selection-target-id"); 
+		if (targetId)
 		{
 			this._selection = true;
 			
 			Ametys.message.MessageBus.on(Ametys.message.Message.SELECTION_CHANGED, this._onSelectionChanged, this);
-			this._selectionTargetType = new RegExp(targetType);
+			this._selectionTargetType = new RegExp(targetId);
 			
-			var subtargetType = this.getInitialConfig("selection-subtarget-type"); 
-			if (subtargetType)
+			var subtargetId = this.getInitialConfig("selection-subtarget-id"); 
+			if (subtargetId)
 			{
-				this._selectionSubtargetType = new RegExp(subtargetType);
+				this._selectionSubtargetId = new RegExp(subtargetId);
 				
-				var subsubtargetType = this.getInitialConfig("selection-subsubtarget-type"); 
-				if (subsubtargetType)
+				var subsubtargetId = this.getInitialConfig("selection-subsubtarget-id"); 
+				if (subsubtargetId)
 				{
-					this._selectionSubsubtargetType = new RegExp(subsubtargetType);
+					this._selectionSubsubtargetId = new RegExp(subsubtargetId);
 				}
 			}
 		}
@@ -95,7 +95,7 @@ Ext.define('Ametys.tool.SelectionTool', {
 	},
 	
 	/**
-	 * Listener when the selection has changed. Registered only if #cfg-selection-target-type is specified, but can always be called manually. 
+	 * Listener when the selection has changed. Registered only if #cfg-selection-target-id is specified, but can always be called manually. 
 	 * @param {Ametys.message.Message} [message] The selection message. Can be null to get the last selection message
 	 * @protected
 	 */
@@ -267,7 +267,7 @@ Ext.define('Ametys.tool.SelectionTool', {
 	
 	/**
 	 * Get the matching targets in the message
-	 * Test if the message if matching upon the #_selectionTargetType, #_selectionSubtargetType and #_selectionSubsubtargetType
+	 * Test if the message if matching upon the #_selectionTargetType, #_selectionSubtargetId and #_selectionSubsubtargetId
 	 * @param {Ametys.message.Message} message The message to test
 	 * @returns {Ametys.message.MessageTarget[]} The non-null array of matching targets
 	 * @private
@@ -282,11 +282,11 @@ Ext.define('Ametys.tool.SelectionTool', {
 			var targets = message.getTargets(
 					function (target)
 					{
-						return me._selectionTargetType.test(target.getType());
+						return me._selectionTargetType.test(target.getId());
 					}
 			);
 			
-			if (!me._selectionSubtargetType)
+			if (!me._selectionSubtargetId)
 			{
 				finalTargets = targets;
 			}
@@ -297,11 +297,11 @@ Ext.define('Ametys.tool.SelectionTool', {
 					var stargets = targets[i].getSubtargets(
 							function (target)
 							{
-								return me._selectionSubtargetType.test(target.getType());
+								return me._selectionSubtargetId.test(target.getId());
 							}
 					);
 					
-					if (!me._selectionSubsubtargetType)
+					if (!me._selectionSubsubtargetId)
 					{
 						if (stargets.length > 0)
 						{
@@ -315,7 +315,7 @@ Ext.define('Ametys.tool.SelectionTool', {
 							var sstargets = stargets[j].getSubtargets(
 									function (target)
 									{
-										return me._selectionSubsubtargetType.test(target.getType());
+										return me._selectionSubsubtargetId.test(target.getId());
 									}
 							);
 						}

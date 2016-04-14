@@ -30,7 +30,7 @@ Ext.define('Ametys.form.SaveHelper', {
         var target = targets[0];
         if (target != null)
         {
-            var subtargets = target.getSubtargets(function(target) { return target.getType() ==  Ametys.message.MessageTarget.FORM }, 0);
+            var subtargets = target.getSubtargets(function(target) { return target.getId() ==  Ametys.message.MessageTarget.FORM }, 0);
             if (subtargets.length == 0)
             {
             	Ext.MessageBox.alert("{{i18n PLUGINS_CORE_UI_SAVE_NOFORM_TITLE}}", "{{i18n PLUGINS_CORE_UI_CONFIG_SAVE_NOFORM}}");

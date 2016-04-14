@@ -20,10 +20,10 @@
  * The tool do receive as id : the factory class name + $ + the id parameter.
  * 
  * 		var myFactory = Ext.create("Ametys.tool.factory.BasicToolFactory", {
+ * 			id: 'content',
  * 			pluginName: 'myplugin',
  * 			toolClass: "MyContentTool",
  *			...
- * 			role: 'content'
  * 		});
  * 
  * 		Ametys.tool.ToolsManager.openTool('content', {id: contentId})
@@ -60,7 +60,7 @@ Ext.define("Ametys.tool.factory.BasicToolFactory",
 		openTool: function(toolParams)
 		{
 			// The id of the associated unique tool
-			var toolId = this.getRole() + "$" + toolParams.id
+			var toolId = this.getId() + "$" + toolParams.id
 			
 			var tool = Ametys.tool.ToolsManager.getTool(toolId); 
 			if (tool == null)

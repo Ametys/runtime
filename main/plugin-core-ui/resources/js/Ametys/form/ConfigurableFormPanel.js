@@ -3027,7 +3027,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     {
     	var form = this.getForm();
         var messageTargets = {
-            'type': Ametys.message.MessageTarget.FORM,
+            'id': Ametys.message.MessageTarget.FORM,
             
             'parameters': {
                 'object': form,
@@ -3039,7 +3039,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         if (this._focusFieldId != null && (focusField = form.findField(this._focusFieldId)))
         {
             messageTargets['subtargets'] = {
-                'type': Ametys.message.MessageTarget.FORM_FIELD,
+                'id': Ametys.message.MessageTarget.FORM_FIELD,
                 
                 'parameters': {
                    name: focusField.getName()
@@ -3052,7 +3052,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                 if (node != null)
                 {
                     messageTargets['subtargets']['subtargets'] = {
-                        'type': Ametys.message.MessageTarget.FORM_FIELD_RICHTEXTNODE,
+                        'id': Ametys.message.MessageTarget.FORM_FIELD_RICHTEXTNODE,
                         
                         'parameters': {
                             'object': node

@@ -143,7 +143,7 @@ Ext.define('Ametys.plugins.coreui.populations.PopulationTool', {
         var targets = [];
         Ext.Array.forEach(selection, function(population) {
             targets.push({
-                type: Ametys.message.MessageTarget.USER_POPULATION,
+                id: Ametys.message.MessageTarget.USER_POPULATION,
                 parameters: {
                     id: population.get('id')
                 }

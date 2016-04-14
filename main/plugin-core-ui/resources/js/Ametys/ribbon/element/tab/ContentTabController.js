@@ -151,7 +151,7 @@ Ext.define(
 		 */
 		_isSelectionMatchedContentType: function (target)
 		{
-			if (this._selectionContentType != null && target.getType() == Ametys.message.MessageTarget.CONTENT)
+			if (this._selectionContentType != null && target.getId() == Ametys.message.MessageTarget.CONTENT)
 			{
 				var cTypes = target.getParameters().types;
 				for (var i=0; i < cTypes.length; i++)
@@ -165,7 +165,7 @@ Ext.define(
 				return false;
 			}
 			
-			if (target.getType() == Ametys.message.MessageTarget.CONTENT && Ametys.ribbon.element.tab.ContentTabController.isContentTypeHandled(target.getParameters().types))
+			if (target.getId() == Ametys.message.MessageTarget.CONTENT && Ametys.ribbon.element.tab.ContentTabController.isContentTypeHandled(target.getParameters().types))
 			{
 				// The content is handled by another ContentTabController
 				return false;
