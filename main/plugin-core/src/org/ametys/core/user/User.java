@@ -101,7 +101,7 @@ public class User implements java.security.Principal
     @Override
     public String getName()
     {
-        return UserIdentity.toString(_identity);
+        return UserIdentity.userIdentityToString(_identity);
     }
     
     /**

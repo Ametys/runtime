@@ -48,7 +48,7 @@ public class UserIdentity
      * @param userIdentity The user identity
      * @return The string representation of the user identity.
      */
-    public static String toString(UserIdentity userIdentity)
+    public static String userIdentityToString(UserIdentity userIdentity)
     {
         if (userIdentity != null)
         {
@@ -65,7 +65,7 @@ public class UserIdentity
      * @param string The string representation of the user identity
      * @return The user identity from its string representation
      */
-    public static UserIdentity fromString(String string)
+    public static UserIdentity stringToUserIdentity(String string)
     {
         if (string != null)
         {
