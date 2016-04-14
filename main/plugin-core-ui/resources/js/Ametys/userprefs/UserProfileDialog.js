@@ -40,8 +40,8 @@ Ext.define('Ametys.userprefs.UserProfileDialog', {
     _initialized: false,
     
     /**
-     * @property
-     * @private {Boolean} _userProfileDialogInitialized True if the dialog box is initialized
+     * @private
+     * @property {Boolean} _userProfileDialogInitialized True if the dialog box is initialized
      */
     /**
      * @property {Ametys.window.DialogBox} _box The dialog box
