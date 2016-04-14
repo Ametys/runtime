@@ -1637,7 +1637,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      * Search if the user has the specified right. This function search in the
      * rights assigned directly to the user.
      * 
-     * @param login the login of the user
+     * @param user the identity of the user
      * @param right the right to verify
      * 
      * @return RIGHT_OK, RIGHT_NOK or RIGHT_UNKNOWN
@@ -1709,7 +1709,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      * other subcontext where the user has this right. This function search in
      * the rights assigned directly to the user. The result is stored in cache.
      * 
-     * @param login the login of the user
+     * @param user the identity of the user
      * @param right the right to verify
      * @param context the context
      * 
@@ -2118,7 +2118,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      * Search if the user has the specified right. This function search in the
      * rights assigned to its owning groups.
      * 
-     * @param login the login of the user
+     * @param user the identity of the user
      * @param right the right to verify
      * 
      * @return RIGHT_OK, RIGHT_NOK or RIGHT_UNKNOWN
@@ -2691,7 +2691,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      * Search if the user has the specified right in the given context. This
      * function search in the rights assigned directly to the user.
      * 
-     * @param login the login of the user
+     * @param user the identity of the user
      * @param right the right to verify
      * @param rootContext the context beginning
      * @param endContext the context ending
