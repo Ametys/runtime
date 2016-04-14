@@ -49,7 +49,8 @@ Ext.define('Ametys.form.field.ColorSelector', {
 	 */
 	
 	/**
-	 * @cfg {String} value @inheritdoc Format is a 6 hex characters color value, or 'transparent'.
+     * @inheritdoc
+	 * @cfg {String} value Format is a 6 hex characters color value, or 'transparent'.
 	 */
 	
 	/**
