@@ -146,7 +146,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
      * @param request The request
      * @param context The context
      * @return True to stop the action or if the user is authenticated
-     * @throws Exception
+     * @throws Exception If an error occurs.
      */
     protected boolean _doAuthenticate(Redirector redirector, Request request, String context) throws Exception
     {
@@ -178,7 +178,12 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
      * @param redirector The redirector
      * @param request The request
      * @param context The context
+     * @param userPopulations The candidates user populations
+     * @param credentialProviders The candidates credential providers
      * @return true if the user is authenticated
+     * @throws AccessDeniedException If the access to the user is denied.
+     * @throws ProcessingException If an error occurs during processing the request.
+     * @throws IOException If an I/O error occurs.
      */
     private boolean _determineCandidatesCredentialProviders(Redirector redirector, Request request, String context, List<UserPopulation> userPopulations, List<CredentialProvider> credentialProviders) throws AccessDeniedException, ProcessingException, IOException
     {
@@ -247,6 +252,8 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
      * @param ametysPublic True if the instance of Ametys is public.
      * @param candidatesUserPopulations The possible user populations 
      * in a combobox (otherwise, the user will have to type the user population in a textarea field)
+     * @throws ProcessingException If an error occurs during processing the request.
+     * @throws IOException If an I/O error occurs.
      */
     private void _askUserHisPopulation(Redirector redirector, Request request, Boolean ametysPublic, List<UserPopulation> candidatesUserPopulations) throws ProcessingException, IOException
     {
@@ -269,8 +276,10 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
      * Determines what is the exact credential provider to use for authenticating the user.
      * @param redirector The redirector
      * @param request The request
+     * @param userPopulations The candidates user populations
+     * @param credentialProviders The candidates credential providers
      * @return True if the user is authenticated or to stop the action
-     * @throws Exception
+     * @throws Exception If an error occurs.
      */
     private boolean _determineAndExecuteExactCP(Redirector redirector, Request request, List<UserPopulation> userPopulations, List<CredentialProvider> credentialProviders) throws Exception
     {
@@ -353,6 +362,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
      * @param credentialProvider The credential provider to execute
      * @param candidatesUserPopulations The candidates user populations
      * @return True if the user is authenticated or to stop the action
+     * @throws Exception If an error occurs.
      */
     private boolean _execute(Redirector redirector, Request request, List<CredentialProvider> candidatesCredentialProviders, BlockingCredentialProvider credentialProvider, List<UserPopulation> candidatesUserPopulations) throws Exception
     {
@@ -376,6 +386,8 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
      * @param indexForm The index of the FormCredentialProvider under its parent population
      * @param linkedCP The {@link CredentialProvider}s we want to eventually use for authenticate.
      * @param candidatesUserPopulations The possible user populations
+     * @return True to stop the action or if the user is authenticated
+     * @throws Exception If an error occurs.
      */
     private boolean _checkFormAuth(Request request, Redirector redirector, FormCredentialProvider formCP, int indexForm, List<CredentialProvider> linkedCP, List<UserPopulation> candidatesUserPopulations) throws Exception
     {

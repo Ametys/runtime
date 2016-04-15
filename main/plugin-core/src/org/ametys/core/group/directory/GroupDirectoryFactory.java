@@ -161,7 +161,7 @@ public class GroupDirectoryFactory extends AbstractLogEnabled implements Extensi
      * Add a group directory model
      * @param pluginName The plugin name
      * @param configuration The configuration
-     * @throws ConfigurationException 
+     * @throws ConfigurationException  when a configuration problem occurs
      */
     protected void addGroupDirectoryModel (String pluginName, Configuration configuration) throws ConfigurationException
     {

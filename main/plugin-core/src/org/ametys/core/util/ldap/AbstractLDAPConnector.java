@@ -74,7 +74,7 @@ public abstract class AbstractLDAPConnector extends CachingComponent<Object> imp
     /**
      * Call this method with the datasource id to initialize this component
      * @param dataSourceId The id of the datasource
-     * @throws Exception
+     * @throws Exception If an error occurs.
      */
     protected void _delayedInitialize(String dataSourceId) throws Exception
     {

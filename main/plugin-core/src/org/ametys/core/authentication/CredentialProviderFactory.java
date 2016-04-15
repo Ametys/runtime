@@ -158,7 +158,7 @@ public class CredentialProviderFactory extends AbstractLogEnabled implements Ext
      * Add a credential provider model
      * @param pluginName The plugin name
      * @param configuration The configuration
-     * @throws ConfigurationException 
+     * @throws ConfigurationException when a configuration problem occurs
      */
     protected void addCredentialProviderModel (String pluginName, Configuration configuration) throws ConfigurationException
     {

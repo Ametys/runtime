@@ -223,7 +223,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
     /**
      * Gets the configuration for creating/editing a user population.
      * @return A map containing information about what is needed to create/edit a user population
-     * @throws Exception 
+     * @throws Exception If an error occurs.
      */
     @Callable
     public Map<String, Object> getEditionConfiguration() throws Exception

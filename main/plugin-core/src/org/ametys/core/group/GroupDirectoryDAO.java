@@ -164,7 +164,7 @@ public class GroupDirectoryDAO extends AbstractLogEnabled implements Component, 
     /**
      * Gets the configuration for creating/editing a group directory.
      * @return A mpa containing information about what is needed to create/edit a group directory
-     * @throws Exception 
+     * @throws Exception If an error occurs.
      */
     @Callable
     public Map<String, Object> getEditionConfiguration() throws Exception
