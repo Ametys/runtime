@@ -26,7 +26,6 @@ import org.ametys.core.user.User;
 import org.ametys.core.user.UserIdentity;
 import org.ametys.core.user.UserListener;
 import org.ametys.core.user.directory.ModifiableUserDirectory;
-import org.ametys.core.user.directory.UserDirectory;
 import org.ametys.plugins.core.impl.user.directory.JdbcUserDirectory;
 import org.ametys.runtime.test.users.jdbc.AbstractJDBCUsersManagerTestCase;
 
@@ -46,9 +45,6 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
 
         // MODIFIABLE
         assertTrue(_userDirectory instanceof ModifiableUserDirectory);
-        
-        // CREDENTIAL AWARE
-        assertTrue(_userDirectory instanceof UserDirectory);
     }
     
     /**
@@ -134,7 +130,6 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
     public void testCorrectAdd() throws Exception
     {
         ModifiableUserDirectory modifiableUserDirectory = (ModifiableUserDirectory) _userDirectory;
-        UserDirectory credentialsAwareUserDirectory = (UserDirectory) _userDirectory;
         User user;
         
         MyUserListener listener1 = new MyUserListener();
@@ -153,9 +148,9 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         userInformation.put("password", "testpassword");
         modifiableUserDirectory.add(userInformation);
         _checkListener(listener1, listener2, 1, 0, 0);
-        assertTrue(credentialsAwareUserDirectory.checkCredentials(new Credentials("test", "testpassword")));
-        assertFalse(credentialsAwareUserDirectory.checkCredentials(new Credentials("test", "wrongpassword")));
-        assertFalse(credentialsAwareUserDirectory.checkCredentials(new Credentials("test2", "testpassword")));
+        assertTrue(_userDirectory.checkCredentials(new Credentials("test", "testpassword")));
+        assertFalse(_userDirectory.checkCredentials(new Credentials("test", "wrongpassword")));
+        assertFalse(_userDirectory.checkCredentials(new Credentials("test2", "testpassword")));
         
         userInformation = new HashMap<>();
         userInformation.put("login", "test2");
@@ -165,9 +160,9 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         userInformation.put("password", "testpassword");
         modifiableUserDirectory.add(userInformation);
         _checkListener(listener1, listener2, 2, 0, 0);
-        assertTrue(credentialsAwareUserDirectory.checkCredentials(new Credentials("test", "testpassword")));
-        assertFalse(credentialsAwareUserDirectory.checkCredentials(new Credentials("test", "wrongpassword")));
-        assertTrue(credentialsAwareUserDirectory.checkCredentials(new Credentials("test2", "testpassword")));
+        assertTrue(_userDirectory.checkCredentials(new Credentials("test", "testpassword")));
+        assertFalse(_userDirectory.checkCredentials(new Credentials("test", "wrongpassword")));
+        assertTrue(_userDirectory.checkCredentials(new Credentials("test2", "testpassword")));
         
         user = _userDirectory.getUser("test");
         assertNotNull(user);
@@ -212,7 +207,6 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
     public void testIncorrectUpdate() throws Exception
     {
         ModifiableUserDirectory modifiableUserDirectory = (ModifiableUserDirectory) _userDirectory;
-        UserDirectory credentialsAwareUserDirectory = (UserDirectory) _userDirectory;
         
         MyUserListener listener1 = new MyUserListener();
         MyUserListener listener2 = new MyUserListener();
@@ -297,9 +291,9 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
             _checkListener(listener1, listener2, 1, 0, 0);
         }
         
-        assertTrue(credentialsAwareUserDirectory.checkCredentials(new Credentials("test", "testpassword")));
-        assertFalse(credentialsAwareUserDirectory.checkCredentials(new Credentials("test", "wrongpassword")));
-        assertFalse(credentialsAwareUserDirectory.checkCredentials(new Credentials("test2", "testpassword")));
+        assertTrue(_userDirectory.checkCredentials(new Credentials("test", "testpassword")));
+        assertFalse(_userDirectory.checkCredentials(new Credentials("test", "wrongpassword")));
+        assertFalse(_userDirectory.checkCredentials(new Credentials("test2", "testpassword")));
     }
     
     /**
@@ -309,7 +303,6 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
     public void testCorrectUpdate() throws Exception
     {
         ModifiableUserDirectory modifiableUserDirectory = (ModifiableUserDirectory) _userDirectory;
-        UserDirectory credentialsAwareUserDirectory = (UserDirectory) _userDirectory;
         User user;
         
         MyUserListener listener1 = new MyUserListener();
@@ -336,8 +329,8 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         userInformation.put("password", "testpassword2");
         modifiableUserDirectory.update(userInformation);
         _checkListener(listener1, listener2, 1, 1, 0);
-        assertFalse(credentialsAwareUserDirectory.checkCredentials(new Credentials("test", "testpassword")));
-        assertTrue(credentialsAwareUserDirectory.checkCredentials(new Credentials("test", "testpassword2")));
+        assertFalse(_userDirectory.checkCredentials(new Credentials("test", "testpassword")));
+        assertTrue(_userDirectory.checkCredentials(new Credentials("test", "testpassword2")));
         
         user = _userDirectory.getUser("test");
         assertNotNull(user);
@@ -354,8 +347,8 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         userInformation.put("firstname", "Testmodifiedtwice");
         modifiableUserDirectory.update(userInformation);
         _checkListener(listener1, listener2, 1, 2, 0);
-        assertFalse(credentialsAwareUserDirectory.checkCredentials(new Credentials("test", "testpassword")));
-        assertTrue(credentialsAwareUserDirectory.checkCredentials(new Credentials("test", "testpassword2")));
+        assertFalse(_userDirectory.checkCredentials(new Credentials("test", "testpassword")));
+        assertTrue(_userDirectory.checkCredentials(new Credentials("test", "testpassword2")));
         
         user = _userDirectory.getUser("test");
         assertNotNull(user);
@@ -374,7 +367,6 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
     public void testIncorrectRemove() throws Exception
     {
         ModifiableUserDirectory modifiableUserDirectory = (ModifiableUserDirectory) _userDirectory;
-        UserDirectory credentialsAwareUserDirectory = (UserDirectory) _userDirectory;
         
         MyUserListener listener1 = new MyUserListener();
         MyUserListener listener2 = new MyUserListener();
@@ -437,7 +429,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
             assertNotNull(user);
         }
 
-        assertTrue(credentialsAwareUserDirectory.checkCredentials(new Credentials("test", "testpassword2")));
+        assertTrue(_userDirectory.checkCredentials(new Credentials("test", "testpassword2")));
     }
     
     /**
@@ -447,7 +439,6 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
     public void testCorrectRemove() throws Exception
     {
         ModifiableUserDirectory modifiableUserDirectory = (ModifiableUserDirectory) _userDirectory;
-        UserDirectory credentialsAwareUserDirectory = (UserDirectory) _userDirectory;
         
         MyUserListener listener1 = new MyUserListener();
         MyUserListener listener2 = new MyUserListener();
@@ -475,8 +466,8 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
 
         modifiableUserDirectory.remove("test");
         _checkListener(listener1, listener2, 2, 0, 1);
-        assertFalse(credentialsAwareUserDirectory.checkCredentials(new Credentials("test", "testpassword")));
-        assertTrue(credentialsAwareUserDirectory.checkCredentials(new Credentials("test2", "test2password")));
+        assertFalse(_userDirectory.checkCredentials(new Credentials("test", "testpassword")));
+        assertTrue(_userDirectory.checkCredentials(new Credentials("test2", "test2password")));
         
         User user = _userDirectory.getUser("test2");
         assertNotNull(user);

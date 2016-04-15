@@ -97,7 +97,7 @@ public class PopulationDataSourceConsumer implements DataSourceConsumer, Compone
                         for (String datasourceParameter : datasourceParameters)
                         {
                             // return true if it is the datasource id we're looking for, continue otherwise
-                            if (id.equals((String) userDirectory.getParameterValues().get(datasourceParameter)))
+                            if (id.equals(userDirectory.getParameterValues().get(datasourceParameter)))
                             {
                                 return true;
                             }
@@ -137,7 +137,7 @@ public class PopulationDataSourceConsumer implements DataSourceConsumer, Compone
                         for (String datasourceParameter : datasourceParameters)
                         {
                             // return true if it is the datasource id we're looking for, continue otherwise
-                            if (id.equals((String) credentialProvider.getParameterValues().get(datasourceParameter)))
+                            if (id.equals(credentialProvider.getParameterValues().get(datasourceParameter)))
                             {
                                 return true;
                             }

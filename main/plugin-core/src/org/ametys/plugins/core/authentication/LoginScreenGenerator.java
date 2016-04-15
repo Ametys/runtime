@@ -69,6 +69,7 @@ public class LoginScreenGenerator extends ServiceableGenerator
         super.service(smanager);
     }
     
+    @SuppressWarnings("unchecked")
     @Override
     public void generate() throws IOException, SAXException, ProcessingException
     {
@@ -112,6 +113,7 @@ public class LoginScreenGenerator extends ServiceableGenerator
         XMLUtils.createElement(contentHandler, "populationCombobox", String.valueOf(withCombobox));
         if (withCombobox)
         {
+            @SuppressWarnings("unchecked")
             List<UserPopulation> ups = (List) request.getAttribute(AuthenticateAction.REQUEST_POPULATIONS);
             XMLUtils.startElement(contentHandler, "populations");
             for (UserPopulation up : ups)
@@ -128,6 +130,7 @@ public class LoginScreenGenerator extends ServiceableGenerator
     
     private void _generateCredentialProviders(Request request) throws SAXException
     {
+        @SuppressWarnings("unchecked")
         List<CredentialProvider> credentialProviders = (List<CredentialProvider>) request.getAttribute(AuthenticateAction.REQUEST_CHOOSE_CP_LIST);
         
         XMLUtils.startElement(contentHandler, "credentialProviders");
@@ -181,7 +184,7 @@ public class LoginScreenGenerator extends ServiceableGenerator
             captcha = false;
         }
         
-        boolean showErrors = !"true".equals(request.getAttribute((String) AuthenticateAction.REQUEST_INVALID_POPULATION));
+        boolean showErrors = !"true".equals(request.getAttribute(AuthenticateAction.REQUEST_INVALID_POPULATION));
         
         XMLUtils.startElement(contentHandler, "LoginForm");
         

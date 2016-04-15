@@ -189,6 +189,7 @@ public class GroupDrivenLdapGroupDirectory extends AbstractLdapGroupDirectory
         // Cache hit, return the results. 
         if (isCacheEnabled())
         {
+            @SuppressWarnings("unchecked")
             Set<String> userGroups = (Set<String>) getObjectFromCache(login);
             if (userGroups != null)
             {

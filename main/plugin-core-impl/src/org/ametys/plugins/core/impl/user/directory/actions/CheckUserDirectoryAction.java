@@ -56,6 +56,7 @@ public class CheckUserDirectoryAction extends ServiceableAction
         super.service(smanager);
     }
     
+    @SuppressWarnings("unchecked")
     @Override
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
@@ -88,6 +89,7 @@ public class CheckUserDirectoryAction extends ServiceableAction
         return result;
     }
     
+    @SuppressWarnings("unchecked")
     private Map<String, Object> _getValuesByParamCheckerId(Map<String, Object> paramCheckersInfo)
     {
         Map<String, Object> result = new HashMap<> ();

@@ -57,6 +57,7 @@ public class GetGroupDirectoriesAction extends ServiceableAction
     {
         List<Object> groupDirectories;
         
+        @SuppressWarnings("unchecked")
         Map jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
         
         String context = (String) jsParameters.get("context");
@@ -66,7 +67,7 @@ public class GetGroupDirectoriesAction extends ServiceableAction
         }
         else
         {
-            groupDirectories = new ArrayList<Object>();
+            groupDirectories = new ArrayList<>();
             
             List<String> groupDirectoryIds = _directoryContextHelper.getGroupDirectoriesOnContext(context);
             for (String gdId : groupDirectoryIds)

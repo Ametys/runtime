@@ -27,7 +27,6 @@ import java.util.Set;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.acting.ServiceableAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
@@ -52,79 +51,65 @@ public class UsersGroupAction extends ServiceableAction
     private static final int _DEFAULT_OFFSET_VALUE = 0;
     
     private UserHelper _userHelper;
+    private UserManager _userManager;
+    private GroupManager _groupManager;
     
     @Override
     public void service(ServiceManager smanager) throws ServiceException
     {
         super.service(smanager);
         _userHelper = (UserHelper) smanager.lookup(UserHelper.ROLE);
+        _userManager = (UserManager) smanager.lookup(UserManager.ROLE);
+        _groupManager = (GroupManager) smanager.lookup(GroupManager.ROLE);
     }
     
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
-        GroupManager groupManager = null;
-        UserManager userManager = null;
-        
         List<Map<String, Object>> users = new ArrayList<>();
         
-        try
-        {
-            groupManager = (GroupManager) manager.lookup(GroupManager.ROLE);
-            userManager = (UserManager) manager.lookup(UserManager.ROLE);
-            Map<String, Object> jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
-            String groupDirectoryId = (String) jsParameters.get("groupDirectoryId");
+        @SuppressWarnings("unchecked")
+        Map<String, Object> jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
+        String groupDirectoryId = (String) jsParameters.get("groupDirectoryId");
 
-            int offset = parameters.getParameterAsInteger("limit", _DEFAULT_COUNT_VALUE);
-            if (offset == -1)
-            {
-                offset = Integer.MAX_VALUE;
-            }
-    
-            int begin = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
+        int offset = parameters.getParameterAsInteger("limit", _DEFAULT_COUNT_VALUE);
+        if (offset == -1)
+        {
+            offset = Integer.MAX_VALUE;
+        }
+
+        int begin = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
+        
+        Group group = _groupManager.getGroup(groupDirectoryId, source);
+        if (group != null)
+        {
+            List<User> sortedUsers = _getSortedUsers(group);
+            Iterator<User> it = sortedUsers.iterator();
             
-            Group group = groupManager.getGroup(groupDirectoryId, source);
-            if (group != null)
+            int index = 0;
+            while (it.hasNext() && index < begin + offset)
             {
-                List<User> sortedUsers = _getSortedUsers(group, userManager);
-                Iterator<User> it = sortedUsers.iterator();
+                User user = it.next();
                 
-                int index = 0;
-                while (it.hasNext() && index < begin + offset)
+                if (index >= begin)
                 {
-                    User user = it.next();
+                    users.add(_userHelper.user2Map(user));
                     
-                    if (index >= begin)
-                    {
-                        users.add(_userHelper.user2Map(user));
-                        
-                    }
-                    index++;
                 }
+                index++;
             }
-            
-            Map<String, Object> result = new HashMap<>();
-            result.put("users", users);
-            result.put("group", source);
+        }
+        
+        Map<String, Object> result = new HashMap<>();
+        result.put("users", users);
+        result.put("group", source);
 
-            Request request = ObjectModelHelper.getRequest(objectModel);
-            request.setAttribute(JSonReader.OBJECT_TO_READ, result);
+        Request request = ObjectModelHelper.getRequest(objectModel);
+        request.setAttribute(JSonReader.OBJECT_TO_READ, result);
 
-            return EMPTY_MAP;
-            
-        }
-        catch (ServiceException e)
-        {
-            getLogger().error("Error looking up GroupManager or UserManager", e);
-            throw new ProcessingException("Error looking up GroupManager or UserManager", e);
-        }
-        finally
-        {
-            manager.release(groupManager);
-            manager.release(userManager);
-        }
+        return EMPTY_MAP;
     }
     
-    private List<User> _getSortedUsers (Group group, UserManager userManager)
+    private List<User> _getSortedUsers (Group group)
     {
         List<User> users = new ArrayList<>();
         
@@ -133,7 +118,7 @@ public class UsersGroupAction extends ServiceableAction
         {
             String login = identity.getLogin();
             String populationId = identity.getPopulationId();
-            User user = userManager.getUser(populationId, login);
+            User user = _userManager.getUser(populationId, login);
             if (user != null)
             {
                 users.add(user);

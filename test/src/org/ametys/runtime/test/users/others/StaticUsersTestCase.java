@@ -64,9 +64,6 @@ public class StaticUsersTestCase extends AbstractRuntimeTestCase
         // NOT MODIFIABLE
         assertFalse(userDirectory instanceof ModifiableUserDirectory);
         
-        // CREDENTIAL AWARE
-        assertTrue(userDirectory instanceof UserDirectory);
-        
         // ONE USER
         User user;
         
@@ -91,10 +88,10 @@ public class StaticUsersTestCase extends AbstractRuntimeTestCase
         Credentials credentials;
         
         credentials = new Credentials("foo", null);
-        assertFalse(((UserDirectory) userDirectory).checkCredentials(credentials));
+        assertFalse(userDirectory.checkCredentials(credentials));
 
         credentials = new Credentials("anonymous", null);
-        assertTrue(((UserDirectory) userDirectory).checkCredentials(credentials));
+        assertTrue(userDirectory.checkCredentials(credentials));
     }
     
     private UserDirectory _createStaticUserDirectory() throws Exception

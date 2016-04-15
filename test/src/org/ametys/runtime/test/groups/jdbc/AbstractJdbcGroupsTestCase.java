@@ -116,6 +116,7 @@ public abstract class AbstractJdbcGroupsTestCase extends AbstractJDBCTestCase
      * Check when the db is filled
      * @throws Exception if an error occurs
      */
+    @SuppressWarnings("unchecked")
     public void testFilled() throws Exception
     {
         Set<UserIdentity> users;

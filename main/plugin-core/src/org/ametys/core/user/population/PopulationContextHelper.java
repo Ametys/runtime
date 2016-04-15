@@ -70,6 +70,7 @@ public class PopulationContextHelper extends AbstractLogEnabled implements Compo
      * @param ids The ids of the populations to link
      * @return The ids of the changed user populations (the ones unlinked and the ones linked)
      */
+    @SuppressWarnings("resource")
     @Callable
     public List<String> link(String context, List<String> ids)
     {
@@ -115,7 +116,7 @@ public class PopulationContextHelper extends AbstractLogEnabled implements Compo
                 {
                     getLogger().warn("The UserPopulation with id '{}' does not exist. It will not be linked.", id);
                 }
-            }            
+            }
         }
         catch (SQLException e)
         {

@@ -56,8 +56,9 @@ public class GetModifiableGroupDirectoriesAction extends ServiceableAction
     @Override
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
-        List<Object> groupDirectories = new ArrayList<Object>();
+        List<Object> groupDirectories = new ArrayList<>();
         
+        @SuppressWarnings("unchecked")
         Map jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
         
         String context = (String) jsParameters.get("context");

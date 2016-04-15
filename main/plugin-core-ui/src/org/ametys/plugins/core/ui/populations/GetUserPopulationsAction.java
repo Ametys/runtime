@@ -57,6 +57,7 @@ public class GetUserPopulationsAction extends ServiceableAction
     {
         List<Object> populations;
         
+        @SuppressWarnings("unchecked")
         Map jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
         
         String context = (String) jsParameters.get("context");
@@ -71,7 +72,7 @@ public class GetUserPopulationsAction extends ServiceableAction
         }
         else
         {
-            populations = new ArrayList<Object>();
+            populations = new ArrayList<>();
             
             List<String> populationIds = _populationContextHelper.getUserPopulationsOnContext(context);
             for (String populationId : populationIds)

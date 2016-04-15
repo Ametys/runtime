@@ -96,6 +96,7 @@ public class GroupSearchAction extends ServiceableAction
     
     private void _searchGroupsByContext(List<Map<String, Object>> groups, Map<String, Object> jsParameters, String source, Parameters parameters, String context)
     {
+        @SuppressWarnings("unchecked")
         List<String> groupIds = (List) jsParameters.get("id");
         
         if (groupIds != null)
@@ -128,6 +129,7 @@ public class GroupSearchAction extends ServiceableAction
     
     private void _searchGroupsByDirectory(List<Map<String, Object>> groups, Map<String, Object> jsParameters, String source, Parameters parameters, String groupDirectoryId)
     {
+        @SuppressWarnings("unchecked")
         List<String> groupIds = (List) jsParameters.get("id");
         
         if (groupIds != null)

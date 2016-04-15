@@ -66,7 +66,7 @@ public class CredentialProviderFactory extends AbstractLogEnabled implements Ext
     @Override
     public void initialize() throws Exception
     {
-        _cpModels = new HashMap<String, CredentialProviderModel>();
+        _cpModels = new HashMap<>();
     }
     
     @Override
@@ -229,6 +229,7 @@ public class CredentialProviderFactory extends AbstractLogEnabled implements Ext
             throw new ConfigurationException("Unable to lookup parameter local components", configuration, e);
         }
         
+        @SuppressWarnings("unchecked")
         CredentialProviderModel cpModel = new DefaultCredentialProviderModel(id, (Class<CredentialProvider>) cpClass, classConfig, label, description, connectionLabel, iconGlyph, iconDecorator, iconSmallPath, iconMediumPath, iconLargePath, connectionColor, parameters, pluginName);
         if (_cpModels.containsKey(id))
         {
@@ -302,7 +303,7 @@ public class CredentialProviderFactory extends AbstractLogEnabled implements Ext
         @Override
         protected Parameter<ParameterType> _createParameter(Configuration parameterConfig) throws ConfigurationException
         {
-            return new Parameter();
+            return new Parameter<>();
         }
         
         @Override

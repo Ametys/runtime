@@ -17,7 +17,6 @@ package org.ametys.runtime.test.users.ldap;
 
 import org.ametys.core.authentication.Credentials;
 import org.ametys.core.user.directory.ModifiableUserDirectory;
-import org.ametys.core.user.directory.UserDirectory;
 import org.ametys.plugins.core.impl.user.directory.LdapUserDirectory;
 
 /**
@@ -41,9 +40,6 @@ public class CredentialAwareLdapUsersTestCase extends LdapUsersTestCase
 
         // NOT MODIFIABLE
         assertFalse(_userDirectory instanceof ModifiableUserDirectory);
-        
-        // CREDENTIAL AWARE
-        assertTrue(_userDirectory instanceof UserDirectory);
     }
     
     /**
@@ -52,17 +48,15 @@ public class CredentialAwareLdapUsersTestCase extends LdapUsersTestCase
      */
     public void testIncorrectAuthentication() throws Exception
     {
-        UserDirectory credentialAwareUserDirectory = (UserDirectory) _userDirectory;
-
         Credentials credentials;
         boolean result;
 
         credentials = new Credentials("foo", "foo");
-        result = credentialAwareUserDirectory.checkCredentials(credentials);
+        result = _userDirectory.checkCredentials(credentials);
         assertFalse(result);
 
         credentials = new Credentials("user1", "wrongpassword");
-        result = credentialAwareUserDirectory.checkCredentials(credentials);
+        result = _userDirectory.checkCredentials(credentials);
         assertFalse(result);
     }
 
@@ -72,13 +66,11 @@ public class CredentialAwareLdapUsersTestCase extends LdapUsersTestCase
      */
     public void testCorrectAuthentication() throws Exception
     {
-        UserDirectory credentialAwareUserDirectory = (UserDirectory) _userDirectory;
-
         Credentials credentials;
         boolean result;
 
         credentials = new Credentials("user1", "user1");
-        result = credentialAwareUserDirectory.checkCredentials(credentials);
+        result = _userDirectory.checkCredentials(credentials);
         assertTrue(result);
     }
 }

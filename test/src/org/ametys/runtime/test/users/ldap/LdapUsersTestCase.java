@@ -74,9 +74,6 @@ public class LdapUsersTestCase extends AbstractRuntimeTestCase
 
         // NOT MODIFIABLE
         assertFalse(_userDirectory instanceof ModifiableUserDirectory);
-        
-        // CREDENTIAL AWARE
-        assertTrue(_userDirectory instanceof UserDirectory);
     }
     
     /**
@@ -132,7 +129,7 @@ public class LdapUsersTestCase extends AbstractRuntimeTestCase
         assertTrue(users.contains(user10));
         
         // Get users with parameters by part
-        Set<String> results = new HashSet<String>();
+        Set<String> results = new HashSet<>();
         
         users = _userDirectory.getUsers(4, 0, new HashMap<>());
         assertEquals(4, users.size());

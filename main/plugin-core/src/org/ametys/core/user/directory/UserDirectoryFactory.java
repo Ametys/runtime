@@ -234,6 +234,7 @@ public class UserDirectoryFactory extends AbstractLogEnabled implements Extensio
         }
         
         // Create and reference the model
+        @SuppressWarnings("unchecked")
         UserDirectoryModel udModel = new DefaultUserDirectoryModel(id, (Class<UserDirectory>) udClass, classConfig, label, description, parameters, parameterCheckers, pluginName);
         if (_udModels.containsKey(id))
         {
@@ -328,7 +329,7 @@ public class UserDirectoryFactory extends AbstractLogEnabled implements Extensio
         @Override
         protected Parameter<ParameterType> _createParameter(Configuration parameterConfig) throws ConfigurationException
         {
-            return new Parameter();
+            return new Parameter<>();
         }
         
         @Override

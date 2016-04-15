@@ -136,7 +136,7 @@ public class GroupDirectoryDAO extends AbstractLogEnabled implements Component, 
     public List<GroupDirectory> getGroupDirectories()
     {
         _read(false);
-        return new ArrayList(_groupDirectories.values());
+        return new ArrayList<>(_groupDirectories.values());
     }
     
     /**

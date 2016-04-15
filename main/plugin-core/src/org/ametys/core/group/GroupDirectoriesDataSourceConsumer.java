@@ -74,7 +74,7 @@ public class GroupDirectoriesDataSourceConsumer implements DataSourceConsumer, C
                     for (String datasourceParameter : datasourceParameters)
                     {
                         // return true if it is the datasource id we're looking for, continue otherwise
-                        if (id.equals((String) groupDirectory.getParameterValues().get(datasourceParameter)))
+                        if (id.equals(groupDirectory.getParameterValues().get(datasourceParameter)))
                         {
                             return true;
                         }

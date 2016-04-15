@@ -39,6 +39,7 @@ public abstract class AbstractLdapGroupsTestCase extends AbstractRuntimeTestCase
      * To avoid alltest failure
      * @throws Exception if an error occurs
      */
+    @SuppressWarnings("unchecked")
     public void testFilled() throws Exception
     {
         Group group;

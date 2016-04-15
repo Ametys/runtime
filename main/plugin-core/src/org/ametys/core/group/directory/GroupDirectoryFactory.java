@@ -217,6 +217,7 @@ public class GroupDirectoryFactory extends AbstractLogEnabled implements Extensi
             throw new ConfigurationException("Unable to lookup parameter local components", configuration, e);
         }
         
+        @SuppressWarnings("unchecked")
         GroupDirectoryModel groupDirectoryModel = new DefaultGroupDirectoryModel(id, (Class<GroupDirectory>) groupDirectoryClass, classConfig, label, description, parameters, pluginName);
         if (_models.containsKey(id))
         {
@@ -290,7 +291,7 @@ public class GroupDirectoryFactory extends AbstractLogEnabled implements Extensi
         @Override
         protected Parameter<ParameterType> _createParameter(Configuration parameterConfig) throws ConfigurationException
         {
-            return new Parameter();
+            return new Parameter<>();
         }
         
         @Override

@@ -70,6 +70,7 @@ public class GroupDirectoryContextHelper extends AbstractLogEnabled implements C
      * @param ids The ids of the group directories to link
      * @return The ids of the linked group directories
      */
+    @SuppressWarnings("resource")
     @Callable
     public List<String> link(String context, List<String> ids)
     {
