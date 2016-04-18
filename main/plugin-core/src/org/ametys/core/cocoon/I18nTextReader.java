@@ -213,7 +213,7 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
                 // Escape '{'
                 else if (c == '\\' && i < srcLength && srcChars[i + 1] == '{')
                 {
-                    _append(outStringBuilder, srcChars, i - offset, i);
+                    outStringBuilder.append(srcChars, i - offset, offset);
                     outStringBuilder.append('{');
 
                     offset = 0;
@@ -225,10 +225,17 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
                 }
             }
             
+            // No i18n declarations to be found ! Simply copy srcChars to the output stream
+            if (offset == srcLength)
+            {
+                IOUtils.write(srcChars, out, "UTF-8");
+                return;
+            }
+            
             // Copy the last characters
             if (offset > 0)
             {
-                _append(outStringBuilder, srcChars, srcLength - offset, srcLength);
+                outStringBuilder.append(srcChars, srcLength - offset, offset);
             }
             
             IOUtils.write(outStringBuilder, out, "UTF-8");
@@ -256,13 +263,11 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
         boolean valid = false;
         int srcLength = srcChars.length;
         int j = keyBeginningIndex;
-        int offset = beginLength;
         _isDeclarationValid = false;
         
         while (j < srcLength && !invalid && !valid)
         {
             char c = srcChars[j];
-            offset++;
             switch (c)
             {
                 case '{':
@@ -272,7 +277,6 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
                         {
                             getLogger().warn("Invalid i18n declaration in the file  '" + _sourceURI + "': '{{' within an i18n declaration is forbidden.");
                         }
-                        offset++;
                         invalid = true;
                     }
                     break;  
@@ -280,7 +284,6 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
                 case '}':
                     if (srcChars[j + 1] == '}')
                     {
-                        offset++;
                         if (j == keyBeginningIndex)
                         {
                             if (getLogger().isWarnEnabled())
@@ -303,7 +306,6 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
                     {
                         getLogger().warn("Invalid i18n declaration in the file  '" + _sourceURI + "': '\\n' within an i18n declaration is forbidden. Make sure all i18n declarations are closed with the sequence '}}'.");
                     }
-                    offset++;
                     invalid = true;
                     break;
                     
@@ -314,37 +316,23 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
             j++;
         }
         
-        return _computeOutputAndSkip(srcChars, sb, candidateBeginIdx, invalid, valid, j + 1, offset, initialOffset);
+        return _processI18nDeclarationAnalysis(srcChars, candidateBeginIdx, sb, initialOffset, invalid, valid, j);
     }
 
     /**
-     * Write the output stream with the provided information
-     * @param srcChars the input source as characters
-     * @param sb the string builder where to write
-     * @param candidateBeginIdx the index at which the i18n declaration started
-     * @param invalid true if the declaration is invalid, false otherwise
-     * @param valid true if the declaration is valid, false otherwise
+     * Process the analysis of the i18n declaration, 
+     * @param srcChars the input file as characters
+     * @param candidateBeginIdx the index at which we started analyzing the i18n declaration
+     * @param sb the string builder where we store the output string
+     * @param initialOffset the initial offset 
+     * @param invalid is the declaration invalid?
+     * @param valid is the declaration valid?
      * @param lastIdx the last index analyzed
-     * @param offset the amount of analyzed characters after the valid i18n declaration beginning
-     * @param initialOffset the amount of characters that we have to write before the i18n declaration
-     * @return the amount of characters to skip
+     * @return the amount of analyzed characters
      */
-    private int _computeOutputAndSkip(char[] srcChars, StringBuilder sb, int candidateBeginIdx, boolean invalid, boolean valid, int lastIdx, int offset, int initialOffset)
+    private int _processI18nDeclarationAnalysis(char[] srcChars, int candidateBeginIdx, StringBuilder sb, int initialOffset, boolean invalid, boolean valid, int lastIdx)
     {
-        int srcLength = srcChars.length;
-        int beginningLength = __I18N_BEGINNING_CHARS.length; // "{{i18n"
-        int keyBeginningIndex = candidateBeginIdx + beginningLength + 1; 
-        
-        if (valid)
-        {
-            // Proper i18n declaration, write the 'offset' characters that are just copied 
-            _append(sb, srcChars, candidateBeginIdx - initialOffset + 1,  candidateBeginIdx);
-            
-            // extract the key, translate it and replace the i18n declaration with its translation
-            sb.append(_getTranslation(srcChars, keyBeginningIndex, lastIdx - 2)); // "}}"
-        }
-        
-        if (lastIdx == srcLength + 1 && !valid && !invalid)
+        if (lastIdx == srcChars.length && !valid && !invalid)
         {
             // We've reached the end of the file without encountering the closing sequence '}}', and the declaration has not been found valid
             // nor invalid yet
@@ -353,10 +341,37 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
                 getLogger().warn("Invalid i18n declaration in the file  '" + _sourceURI + "': Reached end of the file without finding the closing sequence of an i18n declaration.");
             }
             
-            return lastIdx - 1 - candidateBeginIdx;
+            return lastIdx - candidateBeginIdx;
         }
         
-        return lastIdx - candidateBeginIdx;
+        return _computeOutputAndSkip(srcChars, sb, candidateBeginIdx, valid, lastIdx, initialOffset);
+    }
+
+    /**
+     * Write the output stream with the provided information
+     * @param srcChars the input source as characters
+     * @param sb the string builder where to write
+     * @param candidateBeginIdx the index at which the i18n declaration started
+     * @param valid true if the declaration is valid, false otherwise
+     * @param lastIdx the last index analyzed
+     * @param initialOffset the amount of characters that we have to write before the i18n declaration
+     * @return the amount of characters to skip
+     */
+    private int _computeOutputAndSkip(char[] srcChars, StringBuilder sb, int candidateBeginIdx, boolean valid, int lastIdx, int initialOffset)
+    {
+        int beginningLength = __I18N_BEGINNING_CHARS.length; // "{{i18n"
+        int keyBeginningIndex = candidateBeginIdx + beginningLength + 1; 
+        
+        if (valid)
+        {
+            // Proper i18n declaration, write the 'offset' characters that are just copied 
+            sb.append(srcChars, candidateBeginIdx - initialOffset + 1, initialOffset - 1);
+            
+            // extract the key, translate it and replace the i18n declaration with its translation
+            sb.append(_getTranslation(srcChars, keyBeginningIndex, lastIdx - 1)); // "}}"
+        }
+        
+        return lastIdx - candidateBeginIdx + 1;
     }
 
     /**
@@ -418,21 +433,6 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
             char[] rawI18nDeclaration = new char[7 + keyLength + 2];
             System.arraycopy(srcChars, beginIndex - 7, rawI18nDeclaration, 0, 7 + keyLength + 2);
             return String.valueOf(rawI18nDeclaration);
-        }
-    }
-    
-    /**
-     * Append to the given string builder the characters from the given array in the selected range 
-     * @param sb the string builder to write in
-     * @param chars the characters' array
-     * @param beginIdx the begin index
-     * @param endIdx the end index
-     */
-    private void _append(StringBuilder sb, char[] chars, int beginIdx, int endIdx)
-    {
-        for (int i = beginIdx; i < endIdx; i++)
-        {
-            sb.append(chars[i]);
         }
     }
     
