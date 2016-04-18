@@ -421,7 +421,7 @@ Ext.define('Ametys.plugins.core.populations.UserPopulationDAO', {
             Ext.create('Ametys.message.Message', {
 		        type: Ametys.message.Message.CREATED,
 		        targets: [{
-                    type: Ametys.message.MessageTarget.USER_POPULATION,
+                    id: Ametys.message.MessageTarget.USER_POPULATION,
                     parameters: {
                         id: id
                     }
@@ -471,7 +471,7 @@ Ext.define('Ametys.plugins.core.populations.UserPopulationDAO', {
             Ext.create('Ametys.message.Message', {
 		        type: Ametys.message.Message.MODIFIED,
 		        targets: [{
-                    type: Ametys.message.MessageTarget.USER_POPULATION,
+                    id: Ametys.message.MessageTarget.USER_POPULATION,
                     parameters: {
                         id: id
                     }
@@ -491,7 +491,7 @@ Ext.define('Ametys.plugins.core.populations.UserPopulationDAO', {
         {
             var targets = Ext.Array.map(response, function(id) {
                 return {
-                    type: Ametys.message.MessageTarget.USER_POPULATION,
+                    id: Ametys.message.MessageTarget.USER_POPULATION,
                     parameters: {
                         id: id
                     }
@@ -546,7 +546,7 @@ Ext.define('Ametys.plugins.core.populations.UserPopulationDAO', {
             Ext.create('Ametys.message.Message', {
 		        type: Ametys.message.Message.DELETED,
 		        targets: [{
-                    type: Ametys.message.MessageTarget.USER_POPULATION,
+                    id: Ametys.message.MessageTarget.USER_POPULATION,
                     parameters: {
                         id: id
                     }

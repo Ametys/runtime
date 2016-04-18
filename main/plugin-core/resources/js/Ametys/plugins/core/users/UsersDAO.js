@@ -290,7 +290,7 @@ Ext.define(
 				Ext.create('Ametys.message.Message', {
 					type: Ametys.message.Message.CREATED,
 					targets: {
-						type: params[3] || Ametys.message.MessageTarget.USER,
+						id: params[3] || Ametys.message.MessageTarget.USER,
 						parameters: {
                             id: user.login,
                             population: user.population
@@ -315,7 +315,7 @@ Ext.define(
 					type: Ametys.message.Message.MODIFIED,
 					parameters: {major: true},
 					targets: {
-						type: params[2] || Ametys.message.MessageTarget.USER,
+						id: params[2] || Ametys.message.MessageTarget.USER,
 						parameters: {
                             id: user.login,
                             population: user.population
@@ -341,7 +341,7 @@ Ext.define(
 			
 			Ext.Array.forEach(users, function(user) {
 				targets.push({
-					type: params[1] || Ametys.message.MessageTarget.USER,
+					id: params[1] || Ametys.message.MessageTarget.USER,
 					parameters: {
                         id: user.login,
                         population: user.population

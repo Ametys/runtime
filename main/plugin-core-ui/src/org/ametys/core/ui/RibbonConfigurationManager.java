@@ -306,6 +306,9 @@ public class RibbonConfigurationManager
             }
         }
 
+        _lazyInitialize(this._appMenu);
+        _lazyInitialize(this._userMenu);
+        
         _initialized = true;
     }
 
@@ -371,8 +374,6 @@ public class RibbonConfigurationManager
     public List<ClientSideElement> getControls()
     {
         _lazyInitialize();
-        _lazyInitialize(this._appMenu);
-        _lazyInitialize(this._userMenu);
         
         List<ClientSideElement> controlsList = new ArrayList<>();
         for (String controlId : this._controlsReferences)
@@ -414,25 +415,9 @@ public class RibbonConfigurationManager
     public void saxRibbonDefinition(ContentHandler handler, Map<String, Object> contextualParameters) throws SAXException
     {
         _lazyInitialize();
-        _lazyInitialize(this._appMenu);
-        _lazyInitialize(this._userMenu);
         
         handler.startPrefixMapping("i18n", "http://apache.org/cocoon/i18n/2.1");
         XMLUtils.startElement(handler, "ribbon");
-        
-        XMLUtils.startElement(handler, "app-menu");
-        for (Element appMenu : this._appMenu)
-        {
-            appMenu.toSAX(handler);
-        }
-        XMLUtils.endElement(handler, "app-menu");
-        
-        XMLUtils.startElement(handler, "user-menu");
-        for (Element userMenu : this._userMenu)
-        {
-            userMenu.toSAX(handler);
-        }
-        XMLUtils.endElement(handler, "user-menu");
         
         XMLUtils.startElement(handler, "controls");
         for (String controlId : this._controlsReferences)
@@ -454,6 +439,20 @@ public class RibbonConfigurationManager
             _saxClientSideElementHelper.saxDefinition(tabId, "tab", tab, handler, contextualParameters);
         }
         XMLUtils.endElement(handler, "tabsControls");
+
+        XMLUtils.startElement(handler, "app-menu");
+        for (Element appMenu : this._appMenu)
+        {
+            appMenu.toSAX(handler);
+        }
+        XMLUtils.endElement(handler, "app-menu");
+        
+        XMLUtils.startElement(handler, "user-menu");
+        for (Element userMenu : this._userMenu)
+        {
+            userMenu.toSAX(handler);
+        }
+        XMLUtils.endElement(handler, "user-menu");
 
         XMLUtils.startElement(handler, "tabs");
         for (Tab tab : this._tabs)

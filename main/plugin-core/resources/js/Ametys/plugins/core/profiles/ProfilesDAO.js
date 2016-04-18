@@ -310,7 +310,7 @@ Ext.define(
 				Ext.create('Ametys.message.Message', {
 					type: Ametys.message.Message.CREATED,
 					targets: {
-						type: Ametys.message.MessageTarget.PROFILE,
+						id: Ametys.message.MessageTarget.PROFILE,
 						parameters: {id: profile.id}
 					}
 				});
@@ -332,7 +332,7 @@ Ext.define(
 					type: Ametys.message.Message.MODIFIED,
 					parameters: {major: true},
 					targets: {
-						type: Ametys.message.MessageTarget.PROFILE,
+						id: Ametys.message.MessageTarget.PROFILE,
 						parameters: {id: profile.id}
 					}
 				});
@@ -353,7 +353,7 @@ Ext.define(
 				Ext.create('Ametys.message.Message', {
 					type: Ametys.message.Message.MODIFIED,
 					targets: {
-						type: Ametys.message.MessageTarget.PROFILE,
+						id: Ametys.message.MessageTarget.PROFILE,
 						parameters: {id: profile.id}
 					}
 				});
@@ -376,7 +376,7 @@ Ext.define(
 			
 			Ext.Array.forEach(ids, function(id) {
 				targets.push({
-					type: Ametys.message.MessageTarget.PROFILE,
+					id: Ametys.message.MessageTarget.PROFILE,
 					parameters: {id: id}
 				});
 			}, this);
@@ -402,7 +402,7 @@ Ext.define(
             var targets = [];
             Ext.Array.forEach(ids, function(id) {
 		        targets.push({
-		            type: Ametys.message.MessageTarget.PROFILE,
+		            id: Ametys.message.MessageTarget.PROFILE,
 		            parameters: {id: id}
 		        });
 		        
@@ -429,7 +429,7 @@ Ext.define(
             var targets = [];
             Ext.Array.forEach(ids, function(id) {
 		        targets.push({
-		            type: Ametys.message.MessageTarget.PROFILE,
+		            id: Ametys.message.MessageTarget.PROFILE,
 		            parameters: {id: id}
 		        });
 		        
@@ -454,7 +454,7 @@ Ext.define(
             var id = params[2]; //profileId
             
             var target = {
-                type: Ametys.message.MessageTarget.PROFILE,
+                id: Ametys.message.MessageTarget.PROFILE,
                 parameters: {id: id}
             };
             

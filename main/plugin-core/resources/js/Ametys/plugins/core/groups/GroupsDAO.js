@@ -281,7 +281,7 @@ Ext.define(
 				Ext.create('Ametys.message.Message', {
 					type: Ametys.message.Message.CREATED,
 					targets: {
-						type: params[2] || Ametys.message.MessageTarget.GROUP,
+						id: params[2] || Ametys.message.MessageTarget.GROUP,
 						parameters: {
                             id: group.id,
                             groupDirectory: group.groupDirectory
@@ -313,7 +313,7 @@ Ext.define(
 					type: Ametys.message.Message.MODIFIED,
 					parameters: {major: true},
 					targets: {
-						type: params[3] || Ametys.message.MessageTarget.GROUP,
+						id: params[3] || Ametys.message.MessageTarget.GROUP,
 						parameters: {
                             id: group.id,
                             groupDirectory: group.groupDirectory
@@ -337,7 +337,7 @@ Ext.define(
 				Ext.create('Ametys.message.Message', {
 					type: Ametys.message.Message.MODIFIED,
 					targets: {
-						type: params[3] || Ametys.message.MessageTarget.GROUP,
+						id: params[3] || Ametys.message.MessageTarget.GROUP,
 						parameters: {
                             id: group.id,
                             groupDirectory: group.groupDirectory
@@ -363,7 +363,7 @@ Ext.define(
 			
 			Ext.Array.forEach(ids, function(id) {
 				targets.push({
-					type: params[2] || Ametys.message.MessageTarget.GROUP,
+					id: params[2] || Ametys.message.MessageTarget.GROUP,
 					parameters: {
                         id: id,
                         groupDirectory: params[0]
