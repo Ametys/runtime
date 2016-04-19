@@ -69,7 +69,7 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 	 */
 	/**
 	 * @private
-	 * @property {Ext.data.Record} _selectedRecord the record that is currently selected, null if none.
+	 * @property {String} _selectedRecordId the id of the record currently selected
 	 */
 	/**
 	 * @private
@@ -98,7 +98,7 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
   	    	    		    displayField: 'name',
   	    	    		    
   	    	    		    listeners: {
-  	    	    		    	select: Ext.bind(this._onSelect, this),
+  	    	    		    	change: Ext.bind(this._onChange, this),
   	    	    		    	click: {fn: Ext.bind(this._onClick, this), element: 'inputEl'},
   	    	    		    	scope: this
   	    	    		    }
@@ -128,7 +128,7 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 		config.allowCreation = Ext.isBoolean(config.allowCreation) ? config.allowCreation : config.allowCreation == 'true';
         config.allowInternal = Ext.isBoolean(config.allowInternal) ? config.allowInternal : config.allowInternal == 'true';
 		
-		this._selectedRecord = null;
+		this._selectedRecordId = null;
 		
 		// Bus messages listeners
 		Ametys.message.MessageBus.on(Ametys.message.Message.CREATED, this._onCreated, this);
@@ -190,8 +190,8 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 	},
     
     /**
-     * Function invoked when clicking on create button
      * @private
+     * Function invoked when clicking on create button
      */
     _createButtonHandler: function ()
     {
@@ -199,6 +199,7 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
     },
     
     /**
+     * @private
      * Select the created data source in the combo box
      * @param {String} id the id of the new data source
      */
@@ -231,6 +232,7 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 	},
 	
 	/**
+	 * @private
 	 * Function invoked right before the store is loaded
 	 * @param {Ext.data.Store} store the store
 	 * @param {Ext.data.operation.Operation} The {@link Ext.data.operation.Operation} object that will be passed to the Proxy to load the Store
@@ -247,14 +249,15 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 	},
 	
 	/**
-	 * Function invoked whenever a record is selected
+	 * @private
+	 * Function invoked whenever the value of the combo box changes
 	 * @param {Ext.form.field.ComboBox} comboBox the combo box
-	 * @param {Ext.data.Record} record the selected record
+	 * @param {String} newValue the new value of the combo box
 	 */
-	_onSelect: function(comboBox, record)
+	_onChange: function(comboBox, newValue)
 	{
-		this._selectedRecord = record;
-		this.setValue(record.get('id'));
+		this._selectedRecordId = newValue;
+		this.setValue(newValue);
 	},
 	
 	/**
@@ -273,6 +276,7 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 	},
 	
 	/**
+	 * @private
 	 * Handler function invoked whenever a {@link Ametys.message.Message.CREATED}
 	 * message is sent out on the message bus. Add the corresponding record to the grid panel's store.
 	 * @param {Ametys.message.Message} message the message
@@ -298,6 +302,7 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 	},
 	
 	/**
+	 * @private
 	 * Handler function invoked whenever a {@link Ametys.message.Message.MODIFIED}
 	 * message is sent out on the message bus. Add the corresponding record to the grid panel's store.
 	 * @param {Ametys.message.Message} message the message
@@ -308,12 +313,13 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 		if (target)
 		{
 			var id = target.getParameters().id;
-			if (this._selectedRecord && this._selectedRecord.get('id') == id)
+			if (this._selectedRecordId == id)
 			{
 				this._store.load({
 					callback: function() {
-						var record = this._store.getById(id);
-						this.setValue(record.get('name'));
+						// Reset the same value after the store is loaded because 
+						// the name, which is the displayed text, might have changed
+						this.setValue(id);
 					},
 					scope: this
 				});
@@ -326,6 +332,7 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 	},
 	
 	/**
+	 * @private
 	 * Handler function invoked whenever a {@link Ametys.message.Message.CREATED}
 	 * message is sent out on the message bus. Add the corresponding record to the grid panel's store.
 	 * @param {Ametys.message.Message} message the message
@@ -336,7 +343,7 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 		if (target)
 		{
 			var id = target.getParameters().id;
-			if (this._selectedRecord && this._selectedRecord.get('id') == id)
+			if (this._selectedRecordId == id)
 			{
 				this._store.load({
 					callback: function() {
