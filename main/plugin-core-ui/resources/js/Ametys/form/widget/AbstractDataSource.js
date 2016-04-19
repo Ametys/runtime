@@ -357,5 +357,11 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 				this._store.reload();
 			}
 		}
+	},
+	
+	destroy: function()
+	{
+        Ametys.message.MessageBus.unAll(this);
+        this.callParent(arguments);
 	}
 });
