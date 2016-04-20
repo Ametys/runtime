@@ -373,8 +373,6 @@ public class RibbonConfigurationManager
      */
     public List<ClientSideElement> getControls()
     {
-        _lazyInitialize();
-        
         List<ClientSideElement> controlsList = new ArrayList<>();
         for (String controlId : this._controlsReferences)
         {
@@ -385,7 +383,6 @@ public class RibbonConfigurationManager
             {
                 controlsList.addAll(_getMenuControls((MenuClientSideElement) control));
             }
-
         }
         
         return controlsList;

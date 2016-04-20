@@ -150,11 +150,10 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
         try (InputStream ribbonConfig = getRibbonConfiguration())
         {
             ribbonManager = new RibbonConfigurationManager(_ribbonControlManager, _ribbonTabManager, _saxClientSideElementHelper, _resolver, dependenciesManager, ribbonConfig);
+            ribbonManager.saxRibbonDefinition(contentHandler, contextParameters);
         }
-        
+
         Map<String, List<ClientSideElement>> elementsToSax = getElementsToSax(dependenciesManager, ribbonManager);
-        
-        ribbonManager.saxRibbonDefinition(contentHandler, contextParameters);
         
         saxUITools(contextParameters, elementsToSax.get(UIToolsFactoriesManager.ROLE));
         saxMessageTargetFactories(contextParameters, elementsToSax.get(MessageTargetFactoriesManager.ROLE));
