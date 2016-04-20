@@ -433,14 +433,15 @@
 	<message key="PLUGINS_CORE_UI_PROFILES_TREE_BTN_EXPAND_TOOTIP">Expand all</message>
 	<message key="PLUGINS_CORE_UI_PROFILES_TREE_BTN_COLLAPSE_TOOTIP">Collapse all</message>
 	<message key="PLUGINS_CORE_UI_PROFILES_TREE_CONTEXT_TOOLTIP">Context</message>
-	<message key="PLUGINS_CORE_UI_PROFILES_TREE_GET_PROFILES_RIGHTS_ERROR">An error occured : unable to get list of profiles</message>
+	<message key="PLUGINS_CORE_UI_PROFILES_TREE_GET_PROFILES_RIGHTS_ERROR">An error occurred : unable to get list of profiles</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_TREE_FILTER_INVALID">The search filter must contain at least 3 characters</message>
     
     <!-- DATASOURCES -->
     <message key="PLUGINS_CORE_UI_WIDGET_DATASOURCE_BUTTON_DEFAULT_TOOLTIP">Add a new data source</message>        
+    <message key="PLUGINS_CORE_UI_WIDGET_DATASOURCE_DATABASE_TRANSFER_WARNING">Caution! The data source has been changed. If you save this modification, the existing data will have to be transferred from the old database to the new one.</message> 
+
     <message key="PLUGINS_CORE_UI_WIDGET_SQL_DATASOURCE_BUTTON_TOOLTIP">Add a new SQL data source</message>   
     <message key="PLUGINS_CORE_UI_WIDGET_LDAP_DATASOURCE_BUTTON_TOOLTIP">Add a new LDAP data source</message>  
-
-    <message key="PLUGINS_CORE_UI_PROFILES_TREE_FILTER_INVALID">The search filter must contain at least 3 characters</message>
     
     <!-- +
          | Announce

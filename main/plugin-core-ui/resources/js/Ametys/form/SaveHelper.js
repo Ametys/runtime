@@ -211,7 +211,7 @@ Ext.define('Ametys.form.SaveHelper', {
 		        title: "{{i18n PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_TITLE}}",
 		        msg: "{{i18n PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_START}}" + message + "{{i18n PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_END}}",
 		        buttons: Ext.Msg.YESNO,
-		        icon: Ext.Msg.QUESTION,
+		        icon: Ext.Msg.WARNING,
 		        fn: function(answer) {callback(answer == 'yes');},
 		        scope: this
 		    });

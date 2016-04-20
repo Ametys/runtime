@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -79,6 +79,10 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 	 * @private
 	 * @property {String} _dataSourceToSelect The id of the data source to select 
 	 */
+    /**
+     * @private
+     * @property {String} _initialValue the initial value of the widget
+     */
 	
 	initComponent: function()
 	{
@@ -181,7 +185,8 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 				sorters: 'name',
 				
 				listeners: {
-					beforeload: {fn: this._onBeforeLoad, scope: this}
+					beforeload: {fn: this._onBeforeLoad, scope: this},
+					load: {fn: this._onLoad, scope: this, single: true}
 				}
 			});
 		}
@@ -250,12 +255,38 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 	
 	/**
 	 * @private
+	 * Function invoked once the store is loaded.
+	 * @param {Ext.data.Store} store the store
+	 */
+	_onLoad: function(store)
+	{
+		// This listener is invoked once, in order to store the initial value of the combo box
+		this._initialValue = this.getValue();
+	},
+	
+	/**
+	 * @private
 	 * Function invoked whenever the value of the combo box changes
 	 * @param {Ext.form.field.ComboBox} comboBox the combo box
 	 * @param {String} newValue the new value of the combo box
+	 * @param {String} oldValue the previous value of the combo box
 	 */
-	_onChange: function(comboBox, newValue)
+	_onChange: function(comboBox, newValue, oldValue)
 	{
+		if (this._initialValue != null && oldValue != null && newValue != oldValue)
+		{
+			if (newValue != this._initialValue)
+			{
+				// The value has switched: warn the administrator that the data will have to be transferred
+				this.markWarning("{{i18n PLUGINS_CORE_UI_WIDGET_DATASOURCE_DATABASE_TRANSFER_WARNING}}");
+			}
+			else if (this.hasActiveWarning())
+			{
+				// The user went back to the initial value: the warning does no longer need to be here
+				this.clearWarning();
+			}
+		}
+		
 		this._selectedRecordId = newValue;
 		this.setValue(newValue);
 	},

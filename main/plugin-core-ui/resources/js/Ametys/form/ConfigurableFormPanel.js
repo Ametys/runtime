@@ -2904,7 +2904,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             var fd = this.getForm().findField(this._fields[i]);
             if (!Ext.isEmpty(fd.getActiveWarning()))
             {
-            	warnedFields[fd.getFieldLabel()] = fd.getActiveWarnings();
+            	warnedFields[this._getFullLabel(fd)] = fd.getActiveWarnings();
             }
         }
         
