@@ -36,8 +36,10 @@ import org.apache.commons.io.IOUtils;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceValidity;
+import org.slf4j.Logger;
 import org.xml.sax.SAXException;
 
+import org.ametys.core.util.AvalonLoggerAdapter;
 import org.ametys.core.util.I18nUtils;
 import org.ametys.runtime.i18n.I18nizableText;
 
@@ -84,6 +86,9 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
     /** Is the last analyzed i18n declaration valid ? */
     private boolean _isDeclarationValid;
     
+    /** The SL4J logger */
+    private Logger _logger;
+    
     @Override
     public void service(ServiceManager serviceManager) throws ServiceException
     {
@@ -93,6 +98,8 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
     @Override
     public void setup(SourceResolver initalResolver, Map cocoonObjectModel, String src, Parameters par) throws ProcessingException, SAXException, IOException
     {
+        _logger = new AvalonLoggerAdapter(getLogger());
+        
         try 
         {
             _inputSource = initalResolver.resolveURI(src);
@@ -189,10 +196,7 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
                         char backspaceCandidate = srcChars[i + beginLength];
                         if (backspaceCandidate != ' ')
                         {
-                            if (getLogger().isWarnEnabled())
-                            {
-                                getLogger().warn("Invalid i18n declaration in the file  '" + _sourceURI + "': '{{i18n' must be followed by a backspace.");
-                            }
+                            _logger.warn("Invalid i18n declaration in the file  '{}': '{{i18n' must be followed by a backspace.", _sourceURI);
                             
                             // Update the amount of skipped characters for the next iteration
                             skip += beginLength;
@@ -211,7 +215,7 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
                     }
                 }
                 // Escape '{'
-                else if (c == '\\' && i < srcLength && srcChars[i + 1] == '{')
+                else if (c == '\\' && i + 1 != srcLength && srcChars[i + 1] == '{')
                 {
                     outStringBuilder.append(srcChars, i - offset, offset);
                     outStringBuilder.append('{');
@@ -257,40 +261,37 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
      */
     private int _analyzeI18nDeclaration(char[] srcChars, int candidateBeginIdx, StringBuilder sb, int initialOffset)
     {
+        _isDeclarationValid = false;
+
         int beginLength = __I18N_BEGINNING_CHARS.length; // "{{i18n"
-        int keyBeginningIndex = candidateBeginIdx + beginLength + 1; 
+        int keyBeginningIndex = candidateBeginIdx + beginLength + 1; // "...........{{i18n "
+        int srcLength = srcChars.length;
+        
         boolean invalid = false;
         boolean valid = false;
-        int srcLength = srcChars.length;
-        int j = keyBeginningIndex;
-        _isDeclarationValid = false;
         
+        int j = keyBeginningIndex;
         while (j < srcLength && !invalid && !valid)
         {
             char c = srcChars[j];
             switch (c)
             {
                 case '{':
-                    if (srcChars[j + 1] == '{')
+                    if (j + 1 != srcLength && srcChars[j + 1] == '{')
                     {                        
-                        if (getLogger().isWarnEnabled())
-                        {
-                            getLogger().warn("Invalid i18n declaration in the file  '" + _sourceURI + "': '{{' within an i18n declaration is forbidden.");
-                        }
+                        _logger.warn("Invalid i18n declaration in the file '{}': '{{' within an i18n declaration is forbidden.", _sourceURI);
                         invalid = true;
                     }
                     break;  
                     
                 case '}':
-                    if (srcChars[j + 1] == '}')
+                    if (j + 1 != srcLength && srcChars[j + 1] == '}')
                     {
                         if (j == keyBeginningIndex)
                         {
-                            if (getLogger().isWarnEnabled())
-                            {
-                                getLogger().warn("Invalid i18n declaration in the file  '" + _sourceURI + "': a key must be specified.");
-                            }
+                            _logger.warn("Invalid i18n declaration in the file  '{}': a key must be specified.", _sourceURI);
                             invalid = true;
+                            break;
                         }
                         else
                         {
@@ -302,10 +303,7 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
                     
                 case '\n':
                     
-                    if (getLogger().isWarnEnabled())
-                    {
-                        getLogger().warn("Invalid i18n declaration in the file  '" + _sourceURI + "': '\\n' within an i18n declaration is forbidden. Make sure all i18n declarations are closed with the sequence '}}'.");
-                    }
+                    _logger.warn("Invalid i18n declaration in the file  '{}': '\\n' within an i18n declaration is forbidden. Make sure all i18n declarations are closed with the sequence '}}'.", _sourceURI);
                     invalid = true;
                     break;
                     
@@ -316,80 +314,42 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
             j++;
         }
         
-        return _processI18nDeclarationAnalysis(srcChars, candidateBeginIdx, sb, initialOffset, invalid, valid, j);
-    }
-
-    /**
-     * Process the analysis of the i18n declaration, 
-     * @param srcChars the input file as characters
-     * @param candidateBeginIdx the index at which we started analyzing the i18n declaration
-     * @param sb the string builder where we store the output string
-     * @param initialOffset the initial offset 
-     * @param invalid is the declaration invalid?
-     * @param valid is the declaration valid?
-     * @param lastIdx the last index analyzed
-     * @return the amount of analyzed characters
-     */
-    private int _processI18nDeclarationAnalysis(char[] srcChars, int candidateBeginIdx, StringBuilder sb, int initialOffset, boolean invalid, boolean valid, int lastIdx)
-    {
-        if (lastIdx == srcChars.length && !valid && !invalid)
+        if (!valid && !invalid)
         {
             // We've reached the end of the file without encountering the closing sequence '}}', and the declaration has not been found valid
             // nor invalid yet
-            if (getLogger().isWarnEnabled())
-            {
-                getLogger().warn("Invalid i18n declaration in the file  '" + _sourceURI + "': Reached end of the file without finding the closing sequence of an i18n declaration.");
-            }
-            
-            return lastIdx - candidateBeginIdx;
+            _logger.warn("Invalid i18n declaration in the file  '{}': Reached end of the file without finding the closing sequence of an i18n declaration.", _sourceURI);
+            return j - candidateBeginIdx;
         }
-        
-        return _computeOutputAndSkip(srcChars, sb, candidateBeginIdx, valid, lastIdx, initialOffset);
+
+        if (valid)
+        {
+            // try to replace the key with its translation
+            _translateKey(srcChars, sb, candidateBeginIdx, j, initialOffset);
+        }
+            
+        return j - candidateBeginIdx + 1;
     }
 
     /**
-     * Write the output stream with the provided information
+     * Try to translate the key and write the output stream with its translation if found, the key itself if not
      * @param srcChars the input source as characters
      * @param sb the string builder where to write
      * @param candidateBeginIdx the index at which the i18n declaration started
-     * @param valid true if the declaration is valid, false otherwise
      * @param lastIdx the last index analyzed
      * @param initialOffset the amount of characters that we have to write before the i18n declaration
-     * @return the amount of characters to skip
      */
-    private int _computeOutputAndSkip(char[] srcChars, StringBuilder sb, int candidateBeginIdx, boolean valid, int lastIdx, int initialOffset)
+    private void _translateKey(char[] srcChars, StringBuilder sb, int candidateBeginIdx, int lastIdx, int initialOffset)
     {
-        int beginningLength = __I18N_BEGINNING_CHARS.length; // "{{i18n"
-        int keyBeginningIndex = candidateBeginIdx + beginningLength + 1; 
+        int keyBeginningIndex = candidateBeginIdx + __I18N_BEGINNING_CHARS.length + 1; // "...........{{i18n "
         
-        if (valid)
-        {
-            // Proper i18n declaration, write the 'offset' characters that are just copied 
-            sb.append(srcChars, candidateBeginIdx - initialOffset + 1, initialOffset - 1);
-            
-            // extract the key, translate it and replace the i18n declaration with its translation
-            sb.append(_getTranslation(srcChars, keyBeginningIndex, lastIdx - 1)); // "}}"
-        }
+        // Proper i18n declaration, write the 'offset' characters that are just copied 
+        sb.append(srcChars, candidateBeginIdx - initialOffset + 1, initialOffset - 1);
         
-        return lastIdx - candidateBeginIdx + 1;
-    }
-
-    /**
-     * Get the i18n key in the input characters and return its translation
-     * @param srcChars the source characters
-     * @param beginIndex the beginning index of the i18n key
-     * @param endIndex the end index of the i18n key
-     * @return the translated key
-     */
-    private String _getTranslation(char[] srcChars, int beginIndex, int endIndex)
-    {
         // Extract the key and the catalogue
-        int keyLength = endIndex - beginIndex;
-        char[] keyAsChars = new char[keyLength];
+        int keyLength = lastIdx - 1 - keyBeginningIndex;
+        String key = String.valueOf(srcChars, keyBeginningIndex, keyLength);
         
-        System.arraycopy(srcChars, beginIndex, keyAsChars, 0, keyLength);
-
-        String key = String.valueOf(keyAsChars);
         int indexOfSemiColon = key.indexOf(':');
         String catalogue = null;
         if (indexOfSemiColon != -1)
@@ -414,26 +374,22 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
             }
         }
         
-        // Attempt to translate and return either the translation or the i18n declaration
+        // Attempt to translate 
         String translation = _i18nUtils.translate(new I18nizableText(catalogue, key.trim()), _locale);
         if (translation == null)
         {
-            if (getLogger().isWarnEnabled())
-            {
-                getLogger().warn("Translation not found for key '" + key + "' in catalogue '" + catalogue + "'.");
-            }
+            _logger.warn("Translation not found for key '{}' in catalogue '{}'.", key, catalogue);
         }
         
-        if (translation != null)
+        if (translation == null)
         {
-            return translation;
+            char[] rawI18nDeclaration = new char[7 + keyLength + 2]; // "{{i18n "  + "KEY" + "}}"
+            System.arraycopy(srcChars, keyBeginningIndex - 7, rawI18nDeclaration, 0, 7 + keyLength + 2);
+            translation = String.valueOf(rawI18nDeclaration);
         }
-        else
-        {
-            char[] rawI18nDeclaration = new char[7 + keyLength + 2];
-            System.arraycopy(srcChars, beginIndex - 7, rawI18nDeclaration, 0, 7 + keyLength + 2);
-            return String.valueOf(rawI18nDeclaration);
-        }
+        
+        // replace the i18n declaration with its translation (can be the key itself if no translation found)
+        sb.append(translation);
     }
     
     @Override

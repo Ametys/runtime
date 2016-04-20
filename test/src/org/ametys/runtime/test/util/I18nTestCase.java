@@ -146,8 +146,8 @@ public class I18nTestCase extends AbstractRuntimeTestCase
         
         try 
         {
-            pluginSource = _srcResolver.resolveURI("cocoon://plugins/test/resources/js/input.en.js");
-            expectation = _srcResolver.resolveURI("plugin:test://resources/js/expectation.js");
+            pluginSource = _srcResolver.resolveURI("cocoon://plugins/test/resources/js/i18ntextreader/input.en.js");
+            expectation = _srcResolver.resolveURI("plugin:test://resources/js/i18ntextreader/expectation.js");
             
             is1 = pluginSource.getInputStream();
             is2 = expectation.getInputStream();
@@ -165,6 +165,54 @@ public class I18nTestCase extends AbstractRuntimeTestCase
             
             _srcResolver.release(expectation);
             _srcResolver.release(pluginSource);
+        }
+        
+        
+        _cocoon._leaveEnvironment(environmentInformation);
+    }
+    
+    /**
+     * Test the i18n text reader at the limits 
+     * limit1: file is ending with an escape sequence
+     * limit2: file is ending with a '}' within an unfinished i18n declaration
+     * limit3: file is ending with a '{' within an unfinished i18n declaration 
+     */
+    @SuppressWarnings("resource")
+    public void testI18nTextReaderLimits()
+    {
+        Map<String, Object> environmentInformation = _cocoon._enterEnvironment();
+        Source pluginSource1 = null;
+        Source pluginSource2 = null;
+        Source pluginSource3 = null;
+        
+        InputStream is1 = null;
+        InputStream is2 = null;
+        InputStream is3 = null;
+        
+        try 
+        {
+            pluginSource1 = _srcResolver.resolveURI("cocoon://plugins/test/resources/js/i18ntextreader/limit1.js");
+            is1 = pluginSource1.getInputStream();
+            
+            pluginSource2 = _srcResolver.resolveURI("cocoon://plugins/test/resources/js/i18ntextreader/limit2.js");
+            is2 = pluginSource2.getInputStream();
+            
+            pluginSource3 = _srcResolver.resolveURI("cocoon://plugins/test/resources/js/i18ntextreader/limit3.js");
+            is3 = pluginSource3.getInputStream();
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException("I/O exception", e);
+        }
+        finally
+        {
+            IOUtils.closeQuietly(is1);
+            IOUtils.closeQuietly(is2);
+            IOUtils.closeQuietly(is3);
+
+            _srcResolver.release(pluginSource1);
+            _srcResolver.release(pluginSource2);
+            _srcResolver.release(pluginSource3);
         }
         
         
