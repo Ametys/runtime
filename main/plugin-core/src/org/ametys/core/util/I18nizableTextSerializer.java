@@ -23,18 +23,19 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.map.SerializerProvider;
-import org.codehaus.jackson.map.ser.std.SerializerBase;
 
 import org.ametys.runtime.i18n.I18nizableText;
+
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 /**
  * Serializer for {@link I18nizableText} objects.
  * Returns the translated message for JSON value.
  */
-public class I18nizableTextSerializer extends SerializerBase<I18nizableText> implements Component, Serviceable, LogEnabled
+public class I18nizableTextSerializer extends StdSerializer<I18nizableText> implements Component, Serviceable, LogEnabled
 {
     /** The Avalon Role */
     public static final String ROLE = I18nizableTextSerializer.class.getName();

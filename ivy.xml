@@ -61,7 +61,7 @@ Open source web application framework based on Apache Cocoon.
     <dependency org="org.apache.httpcomponents" name="httpclient" rev="4.5" conf="common_dependencies->default"/>
 	
     <dependency org="org.mybatis" name="mybatis" rev="3.3.0" conf="common_dependencies->default"/>
-    <dependency org="org.codehaus.jackson" name="jackson-mapper-asl" rev="1.9.13" conf="common_dependencies->default"/>
+    <dependency org="com.fasterxml.jackson.core" name="jackson-databind" rev="2.7.3" conf="common_dependencies->default"/>
     <dependency org="net.coobird" name="thumbnailator" rev="0.4.8" conf="common_dependencies->default"/>
     <dependency org="javax.mail" name="mail" rev="1.4.7" conf="common_dependencies->default"/>
     <dependency org="joda-time" name="joda-time" rev="2.8.2" conf="common_dependencies->default"/>

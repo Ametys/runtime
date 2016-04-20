@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -23,13 +23,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.jackson.JsonFactory;
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.map.ObjectMapper;
-
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.Parameter;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
+
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * This class represents a configuration parameter
@@ -169,7 +169,7 @@ public class ConfigParameter extends Parameter<ParameterType> implements Compara
         {
             StringWriter writer = new StringWriter();
             
-            JsonGenerator jsonGenerator = _jsonFactory.createJsonGenerator(writer);
+            JsonGenerator jsonGenerator = _jsonFactory.createGenerator(writer);
             
             Map<String, Object> asJson = _disableConditionsAsMap(this.getDisableConditions());
             _objectMapper.writeValue(jsonGenerator, asJson);

@@ -34,13 +34,14 @@ import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.codehaus.jackson.JsonEncoding;
-import org.codehaus.jackson.JsonFactory;
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.Version;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.module.SimpleModule;
+
+import com.fasterxml.jackson.core.JsonEncoding;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
 /**
  * JSON helper
@@ -65,7 +66,7 @@ public class JSONUtils implements Component, ThreadSafe, Serviceable, Initializa
     public void initialize() throws Exception
     {
         // Register new serializer for I18nizableText
-        SimpleModule i18nModule = new SimpleModule("AmetysI18nModule", new Version(1, 0, 0, null));
+        SimpleModule i18nModule = new SimpleModule("AmetysI18nModule", new Version(1, 0, 0, null, null, null));
         i18nModule.addSerializer(_i18nizableTextSerializer);
         _objectMapper.registerModule(i18nModule);
     }
@@ -81,7 +82,7 @@ public class JSONUtils implements Component, ThreadSafe, Serviceable, Initializa
         {
             if (StringUtils.isNotBlank(jsonString)) 
             {
-                JsonParser jParser = _jsonFactory.createJsonParser(new StringReader(jsonString));
+                JsonParser jParser = _jsonFactory.createParser(new StringReader(jsonString));
                 Map<String, Object> map = _objectMapper.readValue(jParser, LinkedHashMap.class);
                 return map;
             } 
@@ -107,7 +108,7 @@ public class JSONUtils implements Component, ThreadSafe, Serviceable, Initializa
         {
             if (StringUtils.isNotBlank(jsonString)) 
             {
-                JsonParser jParser = _jsonFactory.createJsonParser(new StringReader(jsonString));
+                JsonParser jParser = _jsonFactory.createParser(new StringReader(jsonString));
                 List<Object> list = _objectMapper.readValue(jParser, ArrayList.class);
                 return list;
             }
@@ -133,7 +134,7 @@ public class JSONUtils implements Component, ThreadSafe, Serviceable, Initializa
         {
             if (StringUtils.isNotBlank(jsonString)) 
             {
-                JsonParser jParser = _jsonFactory.createJsonParser(new StringReader(jsonString));
+                JsonParser jParser = _jsonFactory.createParser(new StringReader(jsonString));
                 Object[] array = _objectMapper.readValue(jParser, Object[].class);
                 return array;
             }
@@ -159,7 +160,7 @@ public class JSONUtils implements Component, ThreadSafe, Serviceable, Initializa
         {
             if (StringUtils.isNotBlank(jsonString)) 
             {
-                JsonParser jParser = _jsonFactory.createJsonParser(new StringReader(jsonString));
+                JsonParser jParser = _jsonFactory.createParser(new StringReader(jsonString));
                 String[] array = _objectMapper.readValue(jParser, String[].class);
                 return array;
             }
@@ -184,7 +185,7 @@ public class JSONUtils implements Component, ThreadSafe, Serviceable, Initializa
     {
         try
         {
-            JsonGenerator jsonGenerator = _jsonFactory.createJsonGenerator(out, JsonEncoding.UTF8);
+            JsonGenerator jsonGenerator = _jsonFactory.createGenerator(out, JsonEncoding.UTF8);
             _objectMapper.writeValue(jsonGenerator, parameters);
             
             IOUtils.closeQuietly(out);
@@ -206,7 +207,7 @@ public class JSONUtils implements Component, ThreadSafe, Serviceable, Initializa
         {
             StringWriter writer = new StringWriter();
             
-            JsonGenerator jsonGenerator = _jsonFactory.createJsonGenerator(writer);
+            JsonGenerator jsonGenerator = _jsonFactory.createGenerator(writer);
             _objectMapper.writeValue(jsonGenerator, parameters);
             
             return writer.toString();
