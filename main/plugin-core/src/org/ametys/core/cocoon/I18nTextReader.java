@@ -15,10 +15,11 @@
  */
 package org.ametys.core.cocoon;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.Map;
 
@@ -88,7 +89,7 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
     
     /** The SL4J logger */
     private Logger _logger;
-    
+
     @Override
     public void service(ServiceManager serviceManager) throws ServiceException
     {
@@ -166,15 +167,17 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
             throw new ResourceNotFoundException("Resource not found for URI : " + _sourceURI);
         }
         
+        BufferedWriter outWriter = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
+        
         try (InputStream is = _inputSource.getInputStream())
         {
-            StringBuilder outStringBuilder = new StringBuilder (); // Use a StringBuilder to dynamically allocate memory
-            
+
             int beginLength = __I18N_BEGINNING_CHARS.length;
             int endLength = 2; // "}}"
             int minI18nDeclarationLength = beginLength + 1 + 1 + endLength; // 1 mandatory backspace and at least 1 character for the key
             
             char[] srcChars = IOUtils.toCharArray(is, "UTF-8");
+            
             int srcLength = srcChars.length;
             
             int skip = 0; // Avoid checkstyle warning : "Control variable 'i' is modified"
@@ -188,8 +191,8 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
                 if (c == '{' && i + minI18nDeclarationLength < srcLength)
                 {
                     offset++;
-                    char[] candidateBeginning = {c, srcChars[i + 1], srcChars[i + 2], srcChars[i + 3], srcChars[i + 4], srcChars[i + 5]};
-                    if (Arrays.equals(candidateBeginning, __I18N_BEGINNING_CHARS))
+                    
+                    if (_testI18nDeclarationPrefix(srcChars, i))
                     {
                         // Keep the analyzed characters to put them in the output stream 
                         // in case we know the character sequence won't make a viable candidate
@@ -208,7 +211,7 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
                         }
                         
                         // Valid candidate so far, check the end of the notation
-                        skip = _analyzeI18nDeclaration(srcChars, i, outStringBuilder, offset);
+                        skip = _analyzeI18nDeclaration(srcChars, i, outWriter, offset);
                         
                         // Reset the offset only when the declaration is valid (i.e. when a string from the input has been replaced by another)
                         offset = _isDeclarationValid ? 0 : offset + skip - 1;
@@ -217,8 +220,8 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
                 // Escape '{'
                 else if (c == '\\' && i + 1 != srcLength && srcChars[i + 1] == '{')
                 {
-                    outStringBuilder.append(srcChars, i - offset, offset);
-                    outStringBuilder.append('{');
+                    outWriter.write(srcChars, i - offset, offset);
+                    outWriter.write('{');
 
                     offset = 0;
                     skip++;
@@ -232,22 +235,31 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
             // No i18n declarations to be found ! Simply copy srcChars to the output stream
             if (offset == srcLength)
             {
-                IOUtils.write(srcChars, out, "UTF-8");
+                outWriter.write(srcChars, 0, srcChars.length);
                 return;
             }
             
             // Copy the last characters
             if (offset > 0)
             {
-                outStringBuilder.append(srcChars, srcLength - offset, offset);
+                outWriter.write(srcChars, srcLength - offset, offset);
             }
-            
-            IOUtils.write(outStringBuilder, out, "UTF-8");
         }
         finally
         {
-            out.flush();
+            outWriter.flush();
         }
+    }
+
+    /**
+     * Test if the given character is the start of an i18n declaration
+     * @param srcChars the input file as characters
+     * @param start the index of the given character
+     * @return true if this is a start of an i18n declaration, false otherwise
+     */
+    private boolean _testI18nDeclarationPrefix(char[] srcChars, int start)
+    {
+        return srcChars[start + 1] == '{' && srcChars[start + 2] == 'i' && srcChars[start + 3] == '1' && srcChars[start + 4] == '8'  && srcChars[start + 5] == 'n';
     }
 
     /**
@@ -255,11 +267,12 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
      * and write the appropriate replacement in the output string builder
      * @param srcChars the input file as characters
      * @param candidateBeginIdx the index at which we started analyzing a viable i18n declaration
-     * @param sb the string builder where we store the output string
+     * @param outWriter the buffered writer where we store the output string
      * @param initialOffset the initial offset 
      * @return the amount of analyzed characters
+     * @throws IOException if an error occurs while writing the output
      */
-    private int _analyzeI18nDeclaration(char[] srcChars, int candidateBeginIdx, StringBuilder sb, int initialOffset)
+    private int _analyzeI18nDeclaration(char[] srcChars, int candidateBeginIdx, BufferedWriter outWriter, int initialOffset) throws IOException
     {
         _isDeclarationValid = false;
 
@@ -321,11 +334,11 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
             _logger.warn("Invalid i18n declaration in the file  '{}': Reached end of the file without finding the closing sequence of an i18n declaration.", _sourceURI);
             return j - candidateBeginIdx;
         }
-
+        
         if (valid)
         {
             // try to replace the key with its translation
-            _translateKey(srcChars, sb, candidateBeginIdx, j, initialOffset);
+            _translateKey(srcChars, outWriter, candidateBeginIdx, j, initialOffset);
         }
             
         return j - candidateBeginIdx + 1;
@@ -338,13 +351,14 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
      * @param candidateBeginIdx the index at which the i18n declaration started
      * @param lastIdx the last index analyzed
      * @param initialOffset the amount of characters that we have to write before the i18n declaration
+     * @throws IOException if an error occurs while writing the output
      */
-    private void _translateKey(char[] srcChars, StringBuilder sb, int candidateBeginIdx, int lastIdx, int initialOffset)
+    private void _translateKey(char[] srcChars, BufferedWriter outWriter, int candidateBeginIdx, int lastIdx, int initialOffset) throws IOException
     {
         int keyBeginningIndex = candidateBeginIdx + __I18N_BEGINNING_CHARS.length + 1; // "...........{{i18n "
         
         // Proper i18n declaration, write the 'offset' characters that are just copied 
-        sb.append(srcChars, candidateBeginIdx - initialOffset + 1, initialOffset - 1);
+        outWriter.write(srcChars, candidateBeginIdx - initialOffset + 1, initialOffset - 1);
         
         // Extract the key and the catalogue
         int keyLength = lastIdx - 1 - keyBeginningIndex;
@@ -389,7 +403,7 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
         }
         
         // replace the i18n declaration with its translation (can be the key itself if no translation found)
-        sb.append(translation);
+        outWriter.write(translation);
     }
     
     @Override
