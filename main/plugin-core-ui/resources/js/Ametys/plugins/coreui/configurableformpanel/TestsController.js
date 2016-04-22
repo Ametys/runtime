@@ -54,7 +54,11 @@ Ext.define('Ametys.plugins.coreui.configurableformpanel.TestsController', {
 	updateState: function()
 	{
 		var formTarget = this.getMatchingTargets()[0];
-		this._updateDescriptions(formTarget.getParameters()['test-results']);
+		var testResults = formTarget.getParameters()['test-results'];
+		if (!Ext.Object.isEmpty(testResults))
+		{
+			this._updateDescriptions(testResults);
+		}
 	},
 	
 	/**

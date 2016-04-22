@@ -16,7 +16,7 @@
 
 /**
  * @private
- * This class controls a ribbon button representing the lock state of a content
+ * This class controls a ribbon button representing the edit or view mode of a rights profile
  */
 Ext.define('Ametys.plugins.coreui.profiles.controller.ViewModeController', {
 	extend: 'Ametys.ribbon.element.ui.ButtonController',
