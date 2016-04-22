@@ -352,8 +352,4 @@
     <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_ERROR">An error occurred: the allocation has failed.</message>
     <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_TITLE">Assign super user</message>
     <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_SUCCESS">The allocation has been completed.</message>
-    
-    <!-- Misconfigured site notification -->
-    <message key="PLUGINS_WEB_MISCONFIGURED_SITE_NOTIFICATION_TITLE">Misconfigured site</message>
-    <message key="PLUGINS_WEB_MISCONFIGURED_SITE_NOTIFICATION_MESSAGE">The site &lt;a&gt;{0}&lt;/a&gt; is not correctly configured.</message>
 </catalogue>
