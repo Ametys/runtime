@@ -93,6 +93,9 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
     /** The whole user populations of the application */
     private Map<String, UserPopulation> _userPopulations;
     
+    /** The list of population ids which are declared in the user population file but were not instanciated since their configuration led to an error */
+    private List<String> _ignoredPopulations;
+    
     /** The population admin */
     private UserPopulation _adminUserPopulation;
 
@@ -218,6 +221,16 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
     {
         _readPopulations(false);
         return new ArrayList<>(_userPopulations.keySet());
+    }
+    
+    /**
+     * Gets the list of population ids which are declared in the user population file but were not instanciated since their configuration led to an error
+     * @return The ignored populations
+     */
+    public List<String> getIgnoredPopulations()
+    {
+        _readPopulations(false);
+        return _ignoredPopulations;
     }
     
     /**
@@ -636,6 +649,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
             {
                 _lastUpdate = new Date().getTime();
                 _userPopulations = new LinkedHashMap<>();
+                _ignoredPopulations = new ArrayList<>();
                 
                 Configuration cfg = new DefaultConfigurationBuilder().buildFromFile(__USER_POPULATIONS_FILE);
                 for (Configuration childCfg : cfg.getChildren("userPopulation"))
@@ -647,6 +661,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
                     catch (ConfigurationException e)
                     {
                         getLogger().error("Error configuring the population '{}'. The population will be ignored.", childCfg.getAttribute("id", ""));
+                        _ignoredPopulations.add(childCfg.getAttribute("id", ""));
                     }
                 }
             }

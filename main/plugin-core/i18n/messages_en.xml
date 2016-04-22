@@ -206,6 +206,9 @@
     <message key="PLUGINS_CORE_USER_POPULATION_DAO_ERROR_SERVER_TITLE">Server error</message>
     <message key="PLUGINS_CORE_USER_POPULATION_DAO_ERROR_SERVER">A server error occured. Contact your administrator to fix the problem.</message>
     
+    <message key="PLUGINS_CORE_USER_POPULATION_MISCONFIGURED_NOTIFICATION_TITLE">Misconfigured populations</message>
+    <message key="PLUGINS_CORE_USER_POPULATION_MISCONFIGURED_NOTIFICATION_MESSAGE">The following populations are misconfigured : &#13;&lt;ul&gt;{0}&lt;/ul&gt;&#13;Please check the application logs for further details, and edit the &lt;i&gt;user-populations.xml&lt;/i&gt; file accordingly.</message>
+    
     <!-- +
          | GROUP DIRECTORIES
          + -->

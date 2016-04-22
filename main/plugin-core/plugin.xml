@@ -555,6 +555,17 @@
     				   id="org.ametys.core.user.population.PopulationContextHelper"
     				   class="org.ametys.core.user.population.PopulationContextHelper"/>
     	</components>
+    	
+    	<extensions>
+           <extension id="org.ametys.core.user.population.notificator.misconfigured"
+                       point="org.ametys.runtime.plugins.admin.notificator.AdministratorNotificatorExtensionPoint"
+                       class="org.ametys.core.user.population.MisconfiguredPopulationAdministratorNotificator">
+                <type>error</type>
+                <iconGlyph>flaticon-multiple25</iconGlyph>
+                <titleKey>plugin.core:PLUGINS_CORE_USER_POPULATION_MISCONFIGURED_NOTIFICATION_TITLE</titleKey>
+                <msgKey>plugin.core:PLUGINS_CORE_USER_POPULATION_MISCONFIGURED_NOTIFICATION_MESSAGE</msgKey>
+            </extension>
+        </extensions>
     </feature>
     
     <feature name="runtime.groups.manager" safe="true">

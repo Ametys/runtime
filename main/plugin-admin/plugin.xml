@@ -23,6 +23,10 @@
         <extension-point id="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.MonitoringExtensionPoint"
                          class="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.MonitoringExtensionPoint"
                          safe="true"/>
+        
+        <extension-point id="org.ametys.runtime.plugins.admin.notificator.AdministratorNotificatorExtensionPoint"
+                         class="org.ametys.runtime.plugins.admin.notificator.AdministratorNotificatorExtensionPoint"
+                         safe="true"/>
     </extension-points>
     
     <feature name="staticimports.misc" safe="true">
@@ -32,6 +36,18 @@
                        class="org.ametys.core.ui.StaticFileImportsClientSideElement">
                 <scripts>
                     <file>js/Ametys/plugins/admin/Constants.js</file>
+                </scripts>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="runtime.admin.notifications" safe="true">
+        <extensions>
+            <extension id="org.ametys.runtime.plugins.admin.AdministratorNotifications"
+                       point="org.ametys.core.ui.StaticFileImportsManager"
+                       class="org.ametys.core.ui.StaticFileImportsClientSideElement">
+                <scripts>
+                    <file>js/Ametys/plugins/admin/notificator/AdministratorNotificator.js</file>
                 </scripts>
             </extension>
         </extensions>
@@ -1427,6 +1443,16 @@
                    <file>js/Ametys/plugins/admin/datasource/DataSourceActions.js</file>
                    <file plugin="core">js/Ametys/plugins/core/datasource/DataSourceDAO.js</file>
                </scripts>                       
+            </extension>
+            
+            <extension id="org.ametys.plugins.admin.datasources.notificator.unexisting-databases"
+                       point="org.ametys.runtime.plugins.admin.notificator.AdministratorNotificatorExtensionPoint"
+                       class="org.ametys.runtime.plugins.admin.datasource.UnexistingDatabasesNotificator">
+                <type>error</type>
+                <iconGlyph>flaticon-data110</iconGlyph>
+                <titleKey>plugin.admin:PLUGINS_ADMIN_DATASOURCES_UNEXISTING_DATABASE_NOTIFICATION_TITLE</titleKey>
+                <msgKey>plugin.admin:PLUGINS_ADMIN_DATASOURCES_UNEXISTING_DATABASE_NOTIFICATION_MESSAGE</msgKey>
+                <action>Ext.bind(Ametys.tool.ToolsManager.openTool, Ametys.tool.ToolsManager, ['uitool-datasource', {}])</action>
             </extension>
         </extensions>
     </feature>

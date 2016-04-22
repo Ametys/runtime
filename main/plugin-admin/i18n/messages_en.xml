@@ -308,6 +308,9 @@
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PRIVATE_DESCRIPTION">Check this box if you want this data source is private.&lt;br/&gt;A private source is only be visible in the administration interface.</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_GET_DRIVERS_ERROR">An error occurred while retrieving the JDBC drivers.</message>
     
+    <message key="PLUGINS_ADMIN_DATASOURCES_UNEXISTING_DATABASE_NOTIFICATION_TITLE">Unexisting database</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_UNEXISTING_DATABASE_NOTIFICATION_MESSAGE">The datasource &lt;a&gt;{0}&lt;/a&gt; references a database which seems to not exist. please check its parameters.</message>
+    
     <!-- LDAP -->
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_ADD_TITLE">New LDAP directory</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_EDIT_TITLE">Edit LDAP directory</message>
@@ -349,4 +352,8 @@
     <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_ERROR">An error occurred: the allocation has failed.</message>
     <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_TITLE">Assign super user</message>
     <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_SUCCESS">The allocation has been completed.</message>
+    
+    <!-- Misconfigured site notification -->
+    <message key="PLUGINS_WEB_MISCONFIGURED_SITE_NOTIFICATION_TITLE">Misconfigured site</message>
+    <message key="PLUGINS_WEB_MISCONFIGURED_SITE_NOTIFICATION_MESSAGE">The site &lt;a&gt;{0}&lt;/a&gt; is not correctly configured.</message>
 </catalogue>

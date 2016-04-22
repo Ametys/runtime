@@ -659,7 +659,9 @@
     
     <xsl:template name="splashscreen-color">804080</xsl:template>
     
-    <xsl:template name="app-context">/admin</xsl:template>
+    <xsl:template name="app-context">
+        <!-- Keep empty. Here for inheritance purpose. -->
+    </xsl:template>
     
 <!--     <xsl:template name="theme-scripts"> -->
 <!--         <script absolute="true">/~cmd/extensions/sencha-fashion/fashion/fashion.js</script> -->
