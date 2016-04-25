@@ -66,7 +66,7 @@ public class UnexistingDatabasesNotificator extends AbstractConfigurableAdminist
         Map<String, DataSourceDefinition> ldapDataSources = _ldapDataSourceManager.getDataSourceDefinitions(true, true);
         for (String id : ldapDataSources.keySet())
         {
-            DataSourceDefinition datasource = sqlDataSources.get(id);
+            DataSourceDefinition datasource = ldapDataSources.get(id);
             if (!_dataSourceConsumerEP.isInUse(id))
             {
                 _checkLdapDatasource(datasource, notifications);
