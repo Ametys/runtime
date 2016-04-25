@@ -99,7 +99,7 @@
     });
     
     Ext.override(Ext.ux.IFrame, {
-        // Fix for CLS-6366 https://www.sencha.com/forum/showthread.php?304867-D-n-D-over-an-IFrame-issue
+        // Fix for CMS-6366 https://www.sencha.com/forum/showthread.php?304867-D-n-D-over-an-IFrame-issue
         onLoad: function()
         {
             var doc = this.getDoc();
@@ -125,89 +125,6 @@
                 extdoc._getPublisher('click').directEvents.click = 0;
                 extdoc._getPublisher('dblclick').directEvents.dblclick = 0;
             }
-        }
-    });
-    
-    Ext.override(Ext.form.field.Tag, {
-        // https://www.sencha.com/forum/showthread.php?305020-6.0.1-Tag-field-with-mulstiSelect-false&p=1114702#post1114702
-        setValue: function(value, /* private */ add, skipLoad) 
-        {
-            var me = this,
-                valueStore = me.valueStore,
-                valueField = me.valueField,
-                unknownValues = [],
-                store = me.store,
-                autoLoadOnValue = me.autoLoadOnValue,
-                isLoaded = store.getCount() > 0 || store.isLoaded(),
-                pendingLoad = store.hasPendingLoad(),
-                unloaded = autoLoadOnValue && !isLoaded && !pendingLoad,
-                record, len, i, valueRecord, cls, params;
-    
-            if (Ext.isEmpty(value)) {
-                value = null;
-            } else if (Ext.isString(value) && me.multiSelect) {
-                value = value.split(me.delimiter);
-            } else {
-                value = Ext.Array.from(value, true);
-            }
-    
-            if (value && me.queryMode === 'remote' && !store.isEmptyStore && skipLoad !== true && unloaded) {
-                for (i = 0, len = value.length; i < len; i++) {
-                    record = value[i];
-                    if (!record || !record.isModel) {
-                        valueRecord = valueStore.findExact(valueField, record);
-                        if (valueRecord > -1) {
-                            value[i] = valueStore.getAt(valueRecord);
-                        } else {
-                            valueRecord = me.findRecord(valueField, record);
-                            if (!valueRecord) {
-                                if (me.forceSelection) {
-                                    unknownValues.push(record);
-                                } else {
-                                    valueRecord = {};
-                                    valueRecord[me.valueField] = record;
-                                    valueRecord[me.displayField] = record;
-    
-                                    cls = me.valueStore.getModel();
-                                    valueRecord = new cls(valueRecord);
-                                }
-                            }
-                            if (valueRecord) {
-                                value[i] = valueRecord;
-                            }
-                        }
-                    }
-                }
-    
-                if (unknownValues.length) {
-                    params = {};
-                    params[me.valueParam || me.valueField] = unknownValues.join(me.delimiter);
-                    store.load({
-                        params: params,
-                        callback: function() {
-                            me.setValue(value, add, true);
-                            me.autoSize();
-                            me.lastQuery = false;
-                        }
-                    });
-                    return false;
-                }
-            }
-    
-            // For single-select boxes, use the last good (formal record) value if possible
-            if (!me.multiSelect && Ext.isArray(value) && value.length > 0) { // Ametys fix is here
-                for (i = value.length - 1; i >= 0; i--) {
-                    if (value[i].isModel) {
-                        value = value[i];
-                        break;
-                    }
-                }
-                if (Ext.isArray(value)) {
-                    value = value[value.length - 1];
-                }
-            }
-    
-            return me.callSuper([value, add]);
         }
     });
     

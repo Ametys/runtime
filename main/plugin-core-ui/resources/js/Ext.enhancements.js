@@ -1973,3 +1973,6 @@
     	toggleOnDblClick: false
     });
 })();
+
+// Avoid messages about closable tabs
+Ext.ariaWarn = Ext.emptyFn;
