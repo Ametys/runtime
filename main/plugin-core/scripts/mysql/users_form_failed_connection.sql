@@ -19,4 +19,4 @@ CREATE TABLE Users_FormConnectionFailed
     login VARCHAR(255) PRIMARY KEY NOT NULL,
     nb_connect INT,
     last_connect TIMESTAMP
-)
+) ENGINE=innodb;
