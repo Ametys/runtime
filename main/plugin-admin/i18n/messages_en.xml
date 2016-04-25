@@ -287,11 +287,13 @@
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_ALLRIGHT_END_DESCRIPTION">.</message>
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_INUSE_START_DESCRIPTION">The following data sources can not be deleted because they are currently in use: </message>
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_INUSE_END_DESCRIPTION">.</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_DEFAULT_START_DESCRIPTION">The following data sources can not be deleted because they are internal: </message>
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_DEFAULT_END_DESCRIPTION">.</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_INTERNAL_START_DESCRIPTION">The following data sources can not be deleted because they are internal: </message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_INTERNAL_END_DESCRIPTION">.</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_CONFIRM">Are you sure that you want to delete this or these datasources ?</message>
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SET_DEFAULT_LABEL">Default data source</message>
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SET_DEFAULT_DESCRIPTION">Click here to set the selected data source as the default data source. When having to pick a data source, this one will be selected automatically.</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SET_DEFAULT_IS_DEFAULT_DESCRIPTION">The selected data source is the default data source for the type </message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SET_DEFAULT_IS_DEFAULT_SQL_DESCRIPTION">The selected data source is the default data source for the SQL data bases.</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SET_DEFAULT_IS_DEFAULT_LDAP_DESCRIPTION">The selected data source is the default data source for the LDAP directories.</message>
         
     <!-- SQL data source dialog helper -->
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_ADD_TITLE">New SQL database</message>
