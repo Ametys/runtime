@@ -228,11 +228,15 @@
          | DATA SOURCE
          + -->
     <message key="PLUGINS_CORE_INTERNAL_DATASOURCE_LABEL">Base de données interne</message>
-    <message key="PLUGINS_CORE_INTERNAL_DATASOURCE_DESCRIPTION">Base de données SQL interne.</message>   
+    <message key="PLUGINS_CORE_INTERNAL_DATASOURCE_DESCRIPTION">Base de données SQL interne.</message>
+    
+    <message key="PLUGINS_CORE_DEFAULT_DATASOURCE_NAME_PREFIX">Valeur par défaut (</message>
+    <message key="PLUGINS_CORE_DEFAULT_DATASOURCE_NAME_SUFFIX">)</message>   
     
     <message key="PLUGINS_CORE_DATASOURCEDAO_GET_DATASOURCE_ERROR">Une erreur est survenue lors de la récupération de la source de données.</message>
     <message key="PLUGINS_CORE_DATASOURCEDAO_ADD_DATASOURCE_ERROR">Une erreur est survenue: la source de données n'a pas été ajoutée.</message>
     <message key="PLUGINS_CORE_DATASOURCEDAO_EDIT_DATASOURCE_ERROR">Une erreur est survenue: la source de données n'a pas été modifiée.</message>
     <message key="PLUGINS_CORE_DATASOURCEDAO_DELETE_DATASOURCE_ERROR">Une erreur est survenue: la ou les sources de données n'ont pas été supprimées.</message>
+    <message key="PLUGINS_CORE_DATASOURCEDAO_SET_DEFAULT_DATASOURCE_ERROR">Une erreur est survenue: la source de données n'a pas été changée en source de données par défaut.</message>
     
 </catalogue>

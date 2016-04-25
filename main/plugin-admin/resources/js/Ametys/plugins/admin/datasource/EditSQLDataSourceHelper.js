@@ -105,7 +105,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
             
 			this._box = Ext.create('Ametys.window.DialogBox', {
 				title: this._mode == 'new' ? "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_ADD_TITLE}}" : "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_EDIT_TITLE}}",
-				iconCls: "flaticon-data110 decorator-flaticon-add64",
+				iconCls: "flaticon-data110 " + (this._mode == 'new' ? "decorator-flaticon-add64" : "decorator-flaticon-edit45"),
 				
 				layout: 'fit',
 				width: 700,

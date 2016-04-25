@@ -15,7 +15,7 @@
  */
 
 /**
- * This class controls a ribbon button allowing to delete a data source if it not currently in use.
+ * This class controls a ribbon button allowing to delete a data source if it not currently in use or set as default
  * @private
  */
 Ext.define('Ametys.plugins.admin.datasource.DeleteDataSourceController', {
@@ -25,7 +25,22 @@ Ext.define('Ametys.plugins.admin.datasource.DeleteDataSourceController', {
     {
         this.callParent(arguments);
         this._allRightDataSourceIds = [];
-    },
+    	
+        Ametys.message.MessageBus.on(Ametys.message.Message.MODIFIED, this._onModified, this);
+	},
+
+	/**
+	 * @private
+	 * Listener on the {@link Ametys.message.Message#MODIFIED} bus message 
+	 * @param {Ametys.message.Message} message The modified message.
+	 */
+	_onModified: function (message)
+	{
+		if (this.updateTargetsInCurrentSelectionTargets (message))
+		{
+			this.refresh();
+		}
+	},
     
     updateState: function()
     {
@@ -99,6 +114,26 @@ Ext.define('Ametys.plugins.admin.datasource.DeleteDataSourceController', {
                 description += inUseDataSources[i].name;
             }
             description += this.getInitialConfig("inuse-end-description");
+        }
+        
+        var defaultDataSources = params["internal-datasources"];
+        if (defaultDataSources.length > 0)
+        {
+            if (description != "")
+            {
+                description += "<br/><br/>";
+            }
+            
+            description += this.getInitialConfig("internal-start-description");
+            for (var i=0; i < defaultDataSources.length; i++)
+            {
+                if (i != 0) 
+                {
+                    description += ", ";
+                }
+                description += defaultDataSources[i].name;
+            }
+            description += this.getInitialConfig("internal-end-description");
         }
         
         this.setDescription (description);

@@ -230,9 +230,13 @@
     <message key="PLUGINS_CORE_INTERNAL_DATASOURCE_LABEL">Internal database</message>
     <message key="PLUGINS_CORE_INTERNAL_DATASOURCE_DESCRIPTION">SQL database used for internal purpose</message>
     
+    <message key="PLUGINS_CORE_DEFAULT_DATASOURCE_NAME_PREFIX">Default value (</message>
+    <message key="PLUGINS_CORE_DEFAULT_DATASOURCE_NAME_SUFFIX">)</message>
+    
     <message key="PLUGINS_CORE_DATASOURCEDAO_GET_DATASOURCE_ERROR">An error occurred while retrieving the data source.</message>
-    <message key="PLUGINS_CORE_DATASOURCEDAO_ADD_DATASOURCE_ERROR">An error occurred : the data source has not been created.</message>
-    <message key="PLUGINS_CORE_DATASOURCEDAO_EDIT_DATASOURCE_ERROR">An error occurred : the data source has not been edited.</message>
-    <message key="PLUGINS_CORE_DATASOURCEDAO_DELETE_DATASOURCE_ERROR">An error occurred : the data sources have not been deleted.</message>
+    <message key="PLUGINS_CORE_DATASOURCEDAO_ADD_DATASOURCE_ERROR">An error occurred: the data source has not been created.</message>
+    <message key="PLUGINS_CORE_DATASOURCEDAO_EDIT_DATASOURCE_ERROR">An error occurred: the data source has not been edited.</message>
+    <message key="PLUGINS_CORE_DATASOURCEDAO_DELETE_DATASOURCE_ERROR">An error occurred: the data sources have not been deleted.</message>
+    <message key="PLUGINS_CORE_DATASOURCEDAO_SET_DEFAULT_DATASOURCE_ERROR">An error occurred: the data source has not been changed to the default data source.</message>
 
 </catalogue>

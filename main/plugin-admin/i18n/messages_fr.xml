@@ -266,10 +266,12 @@
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_ID">Identifiant</message>
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_NAME">Nom</message>
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_USED">Utilisée</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_DEFAULT">Par défaut</message>
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_PRIVATE">Privée</message>
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_TYPE">Type</message>
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_GROUP_SQL">Base de données</message>
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_GROUP_LDAP">Annuaire LDAP</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_CHECKED_TITLE">Oui</message>
     
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_ADD_LABEL">Nouvelle source de données</message>
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_ADD_DESCRIPTION">Ajoute une nouvelle source de données.</message>
@@ -283,10 +285,17 @@
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_DESCRIPTION">Supprime la ou les sources de données sélectionnées</message>
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_ALLRIGHT_START_DESCRIPTION">Cliquez ici pour supprimer les sources de données suivantes: </message>
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_ALLRIGHT_END_DESCRIPTION">.</message>
-    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_INUSE_START_DESCRIPTION">Les sources de données suivantes ne peuvent être supprimées car elles ont actuellement utilisées: </message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_INUSE_START_DESCRIPTION">Les sources de données suivantes ne peuvent être supprimées car elles sont actuellement utilisées : </message>
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_INUSE_END_DESCRIPTION">.</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_INTERNAL_START_DESCRIPTION">Les sources de données suivantes ne peuvent être supprimées car elles sont internes : </message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_INTERNAL_END_DESCRIPTION">.</message>
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_CONFIRM">Etes-vous sûr de vouloir supprimer ce ou ces sources de données ?</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SET_DEFAULT_LABEL">Source de données par défaut</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SET_DEFAULT_DESCRIPTION">Cliquez ici pour définir la source de données sélectionnée comme source par défaut. Lorsqu'il y'aura une source de données à choisir, cette dernière sera présélectionnée.</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SET_DEFAULT_IS_DEFAULT_SQL_DESCRIPTION">La source de données sélectionnée est la source de données par défaut pour les bases de données.</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SET_DEFAULT_IS_DEFAULT_LDAP_DESCRIPTION">La source de données sélectionnée est la source de données par défaut pour les annuaires LDAP.</message>
     
+    <!-- SQL data source dialog helper -->    
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_ADD_TITLE">Nouvelle source de données SQL</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_EDIT_TITLE">Modification d'une source de données</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_OK">Ok</message>
@@ -310,7 +319,7 @@
     <message key="PLUGINS_ADMIN_DATASOURCES_UNEXISTING_DATABASE_NOTIFICATION_TITLE">Base de données inexistante</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_UNEXISTING_DATABASE_NOTIFICATION_MESSAGE">La source de données &lt;a&gt;{0}&lt;/a&gt; pointe vers une base de données qui semble ne pas exister. Veuillez vérifier ses paramètres.</message>
     
-    <!-- LDAP -->   
+    <!-- LDAP data source dialog helper -->    
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_ADD_TITLE">Nouvel annuaire LDAP</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_EDIT_TITLE">Modification d'un annuaire LDAP</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_OK">Ok</message>

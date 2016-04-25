@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.MapUtils;
+
 import org.ametys.plugins.core.impl.checker.LDAPConnectionChecker;
 import org.ametys.runtime.parameter.ParameterChecker;
 import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
@@ -112,5 +114,21 @@ public class LDAPDataSourceManager extends AbstractDataSourceManager
     protected void editDataSource(DataSourceDefinition dataSource)
     {
         // Empty
+    }
+    
+    @Override
+    protected void internalSetDefaultDataSource()
+    {
+        // Arbitrarily set the LDAP default data source
+        if (MapUtils.isNotEmpty(_dataSourcesDef))
+        {
+            DataSourceDefinition defaultDataSourceDef = _dataSourcesDef.values().iterator().next();
+            defaultDataSourceDef.setDefault(true);
+            _dataSourcesDef.put(defaultDataSourceDef.getId(), defaultDataSourceDef);
+            
+            saveConfiguration();
+            editDataSource(defaultDataSourceDef);
+            
+        }
     }
 }

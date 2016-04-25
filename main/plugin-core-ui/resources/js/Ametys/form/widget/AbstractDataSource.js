@@ -22,6 +22,10 @@
 Ext.define('Ametys.form.widget.AbstractDataSource', {
     extend: 'Ametys.form.AbstractFieldsWrapper',
 	
+    statics: {
+    	DEFAULT_DATASOURCE_SUFFIX: '-default-datasource'
+    },
+    
     /**
      * @cfg {Boolean} [allowInternal=false] True to also show internal data sources
      */
@@ -36,6 +40,11 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
      * @cfg {Boolean} [allowCreation=false] True to allow the creation of new data sources
      */
 	allowCreation: false,
+	
+	/**
+     * @cfg {Boolean} [allowDefault=true] False to hide the default data sources
+     */
+	allowDefault: true,
 	
 	/**
 	 * @cfg {String} dataSourceType the type of the data source
@@ -83,6 +92,10 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
      * @private
      * @property {String} _initialValue the initial value of the widget
      */
+    /**
+     * @private
+     * @property {String} _defaultDataSourceId the id of the default data source
+     */
 	
 	initComponent: function()
 	{
@@ -95,7 +108,6 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
   	    	    		    store: this.getStore(),
   	    	    		    
   	    	    		    // FIXME set value => config tool dirty
-	  	    	            autoLoadOnValue: true,
 	  	    	            forceSelection: true,
 	  	    	            
 	  	    	            valueField: 'id',
@@ -131,8 +143,10 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 		config.allowPrivate = Ext.isBoolean(config.allowPrivate) ? config.allowPrivate : config.allowPrivate == 'true';
 		config.allowCreation = Ext.isBoolean(config.allowCreation) ? config.allowCreation : config.allowCreation == 'true';
         config.allowInternal = Ext.isBoolean(config.allowInternal) ? config.allowInternal : config.allowInternal == 'true';
+        config.allowDefault = Ext.isBoolean(config.allowDefault) ? config.allowDefault : config.allowDefault == 'true';
 		
 		this._selectedRecordId = null;
+		this._defaultDataSourceId = this.dataSourceType + Ametys.form.widget.AbstractDataSource.DEFAULT_DATASOURCE_SUFFIX;
 		
 		// Bus messages listeners
 		Ametys.message.MessageBus.on(Ametys.message.Message.CREATED, this._onCreated, this);
@@ -169,7 +183,9 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 		if (this._store == null)
 		{
 			this._store = Ext.create('Ext.data.Store',
-					{
+			{
+				autoLoad: true,
+				
 				fields: [ 'id', {name: 'name', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString}],
 				
 				proxy: {
@@ -249,6 +265,7 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 		operation.setParams(Ext.apply(operation.getParams() || {}, {
 			includePrivate: me.allowPrivate,
 			includeInternal: me.allowInternal,
+			includeDefault: me.allowDefault,
 			type: me.dataSourceType
 		}));
 	},
@@ -260,8 +277,16 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 	 */
 	_onLoad: function(store)
 	{
+		var initialValue = this.getValue();
+		
 		// This listener is invoked once, in order to store the initial value of the combo box
-		this._initialValue = this.getValue();
+		this._initialValue = initialValue;
+		
+		// Preselect default data source if there is no initial value
+		if (!initialValue)
+		{
+			this.setValue(this._defaultDataSourceId);
+		}
 	},
 	
 	/**
@@ -282,7 +307,7 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 			}
 			else if (this.hasActiveWarning())
 			{
-				// The user went back to the initial value: the warning does no longer need to be here
+				// The user went back to the initial value: the warning does no longer need to be displayed
 				this.clearWarning();
 			}
 		}
@@ -351,6 +376,18 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 						// Reset the same value after the store is loaded because 
 						// the name, which is the displayed text, might have changed
 						this.setValue(id);
+					},
+					scope: this
+				});
+			}
+			else if (this._selectedRecordId == this._defaultDataSourceId && target.getParameters().isDefault)
+			{
+				// The default data source has changed
+				this._store.load({
+					callback: function() {
+						// Reset the same value after the store is loaded because 
+						// the default data source has changed
+						this.setValue(this._defaultDataSourceId);
 					},
 					scope: this
 				});

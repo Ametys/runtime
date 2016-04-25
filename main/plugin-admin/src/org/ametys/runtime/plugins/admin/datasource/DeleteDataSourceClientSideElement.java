@@ -67,6 +67,7 @@ public class DeleteDataSourceClientSideElement extends StaticClientSideElement
         Map<String, Object> results = new HashMap<>();
         
         results.put("allright-datasources", new ArrayList<Map<String, Object>>());
+        results.put("internal-datasources", new ArrayList<Map<String, Object>>());
         results.put("inuse-datasources", new ArrayList<Map<String, Object>>());
         results.put("unknown-datasources", new ArrayList<String>());
         
@@ -80,11 +81,11 @@ public class DeleteDataSourceClientSideElement extends StaticClientSideElement
             {
                 case SQL:
                     dsDef = _sqlDataSourceManager.getDataSourceDefinition(id);
-                    isInUse = dsDef != null ? _dataSourceConsumerEP.isInUse(id) : false;
+                    isInUse = dsDef != null ? _dataSourceConsumerEP.isInUse(id) || (dsDef.isDefault() &&  _dataSourceConsumerEP.isInUse(_sqlDataSourceManager.getDefaultDataSourceId())) : false;
                     break;
                 case LDAP:
                     dsDef = _ldapSourceManager.getDataSourceDefinition(id);
-                    isInUse = dsDef != null ? _dataSourceConsumerEP.isInUse(id) : false;
+                    isInUse = dsDef != null ? _dataSourceConsumerEP.isInUse(id) || (dsDef.isDefault() &&  _dataSourceConsumerEP.isInUse(_ldapSourceManager.getDefaultDataSourceId())) : false;
                     break;
                 default:
                     break;
@@ -92,12 +93,17 @@ public class DeleteDataSourceClientSideElement extends StaticClientSideElement
             
             if (dsDef != null)
             {
-                if (isInUse)
+                if (dsDef.getId().equals(org.ametys.core.datasource.SQLDataSourceManager.AMETYS_INTERNAL_DATASOURCE_ID))
+                {
+                    List<Map<String, Object>> internalDataSource = (List<Map<String, Object>>) results.get("internal-datasources");
+                    internalDataSource.add(_getDataSourceParameters(dsDef));
+                }
+                else if (isInUse)
                 {
                     List<Map<String, Object>> inUseDataSources = (List<Map<String, Object>>) results.get("inuse-datasources");
                     inUseDataSources.add(_getDataSourceParameters(dsDef));
                 }
-                else
+                else      
                 {
                     List<Map<String, Object>> allRightDataSources = (List<Map<String, Object>>) results.get("allright-datasources");
                     allRightDataSources.add(_getDataSourceParameters(dsDef));

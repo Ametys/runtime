@@ -100,7 +100,7 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
         parameters.put ("user", ""); 
         parameters.put ("password", ""); 
         
-        _internalDataSource = new DataSourceDefinition(AMETYS_INTERNAL_DATASOURCE_ID, __AMETYS_INTERNAL_DATASOURCE_NAME, __AMETYS_INTERNAL_DATASOURCE_DESCRIPTION, parameters, true);
+        _internalDataSource = new DataSourceDefinition(AMETYS_INTERNAL_DATASOURCE_ID, __AMETYS_INTERNAL_DATASOURCE_NAME, __AMETYS_INTERNAL_DATASOURCE_DESCRIPTION, parameters, true, false);
 
         super.initialize();
         
@@ -121,7 +121,7 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
     }
 
     @Override
-    public Map<String, DataSourceDefinition> getDataSourceDefinitions(boolean includePrivate, boolean includeInternal)
+    public Map<String, DataSourceDefinition> getDataSourceDefinitions(boolean includePrivate, boolean includeInternal, boolean includeDefault)
     {
         readConfiguration(false);
         
@@ -133,7 +133,7 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
             datasources.put(AMETYS_INTERNAL_DATASOURCE_ID, _internalDataSource);
         }
         
-        datasources.putAll(super.getDataSourceDefinitions(includePrivate, includeInternal));
+        datasources.putAll(super.getDataSourceDefinitions(includePrivate, includeInternal, includeDefault));
         return datasources;
     }
     
@@ -181,12 +181,68 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
     public DataSource getSQLDataSource (String id)
     {
         DataSource dataSource = _sqlDataSources.get(id);
+        if (getDefaultDataSourceId().equals(id))
+        {
+            String actualDataSourceId = getDefaultDataSourceDefinition().getId(); 
+            dataSource = _sqlDataSources.get(actualDataSourceId);
+        }
+        
         if (dataSource == null)
         {
             throw new UnknownDataSourceException("The data source of id '" + id + "' was not found.");
         }
         
         return dataSource;
+    }
+    
+    
+    @Override
+    public DataSourceDefinition setDefaultDataSource(String id)
+    {
+        readConfiguration(false);
+        
+        // If the default data source was the internal data source, it is no longer the case
+        DataSourceDefinition oldDefaultDataSource = getDefaultDataSourceDefinition();
+        if (oldDefaultDataSource != null && oldDefaultDataSource.getId().equals(AMETYS_INTERNAL_DATASOURCE_ID))
+        {
+            _internalDataSource.setDefault(false);
+        }    
+        
+        try
+        {
+            return super.setDefaultDataSource(id);
+        }
+        catch (RuntimeException e)
+        {
+            if (id.equals(AMETYS_INTERNAL_DATASOURCE_ID))
+            {
+                _internalDataSource.setDefault(true);
+                return _internalDataSource;
+            }
+            else 
+            {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+    
+    @Override
+    public DataSourceDefinition getDefaultDataSourceDefinition()
+    {
+        if (_internalDataSource.isDefault())
+        {
+            return _internalDataSource;
+        }
+        else
+        {
+            return super.getDefaultDataSourceDefinition();
+        }
+    }
+    
+    @Override
+    protected void internalSetDefaultDataSource()
+    {
+        _internalDataSource.setDefault(true);
     }
     
     @Override

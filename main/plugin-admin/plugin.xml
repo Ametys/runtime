@@ -1374,7 +1374,7 @@
                    
                    <label i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_LDAP_ADD_LABEL</label>
                    <description i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_LDAP_ADD_DESCRIPTION</description>
-                   <icon-glyph>flaticon-data110</icon-glyph>
+                   <icon-glyph>flaticon-agenda3</icon-glyph>
                    <icon-decorator>decorator-flaticon-add64</icon-decorator>
                </class>             
                <scripts>
@@ -1408,7 +1408,11 @@
 
                    <selection-enable-multiselection>false</selection-enable-multiselection>
                    <selection-target-id>^datasource$</selection-target-id>
-                   
+                   <selection-target-parameter>
+                       <name>^id$</name>
+                       <value>!^(SQL-ametys-internal)$</value>
+                   </selection-target-parameter>
+
                    <label i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_EDIT_LABEL</label>
                    <description i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_EDIT_DESCRIPTION</description>
                    <icon-glyph>flaticon-data110</icon-glyph>
@@ -1435,11 +1439,36 @@
                    <allright-end-description i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_ALLRIGHT_END_DESCRIPTION</allright-end-description>
                    <inuse-start-description i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_INUSE_START_DESCRIPTION</inuse-start-description>
                    <inuse-end-description i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_INUSE_END_DESCRIPTION</inuse-end-description>
+                   <internal-start-description i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_INTERNAL_START_DESCRIPTION</internal-start-description>
+                   <internal-end-description i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_INTERNAL_END_DESCRIPTION</internal-end-description>
                    <icon-glyph>flaticon-data110</icon-glyph>
                    <icon-decorator>decorator-flaticon-remove11</icon-decorator>
                </class>             
                <scripts>
                     <file>js/Ametys/plugins/admin/datasource/DeleteDataSourceController.js</file>
+                   <file>js/Ametys/plugins/admin/datasource/DataSourceActions.js</file>
+                   <file plugin="core">js/Ametys/plugins/core/datasource/DataSourceDAO.js</file>
+               </scripts>                       
+            </extension>
+            
+            <extension id="org.ametys.plugins.admin.datasources.SetDefault"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+               <class name="Ametys.plugins.admin.datasource.SetDefaultDataSourceController">
+                   <action>Ametys.plugins.admin.datasource.DataSourceActions.setDefault</action>
+                   
+                   <selection-enable-multiselection>false</selection-enable-multiselection>
+                   <selection-target-id>^datasource$</selection-target-id>
+                   
+                   <label i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_SET_DEFAULT_LABEL</label>
+                   <description i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_SET_DEFAULT_DESCRIPTION</description>
+
+                   <icon-glyph>flaticon-data110</icon-glyph>
+                   <enabled-icon-decorator>decorator-flaticon-checked34</enabled-icon-decorator>
+                   <disabled-icon-decorator>decorator-flaticon-letterx5</disabled-icon-decorator>
+               </class>             
+               <scripts>
+                   <file>js/Ametys/plugins/admin/datasource/SetDefaultDataSourceController.js</file>
                    <file>js/Ametys/plugins/admin/datasource/DataSourceActions.js</file>
                    <file plugin="core">js/Ametys/plugins/core/datasource/DataSourceDAO.js</file>
                </scripts>                       

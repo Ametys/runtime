@@ -37,7 +37,7 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceActions', {
 				Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper.add();
 				break;
 			default:
-				throw 'Unrecognized data source type' + controller.getInitialConfig('type');
+				throw 'Unrecognized data source type ' + controller.getInitialConfig('type');
 		}
 	},
 	
@@ -79,6 +79,28 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceActions', {
 				Ext.bind(this._removeConfirm, this, [targets, controller._allRightDataSourceIds], 1),
 				this
 			);
+		}
+	},
+	
+	/**
+	 * Set the selected data source as the default data source
+	 * @param {Ametys.ribbon.element.ui.ButtonController} controller the controller calling this function
+	 */
+	setDefault: function(controller)
+	{
+		var target = controller.getMatchingTargets()[0];
+		if (target != null)
+		{
+			var type = target.getParameters().type;
+			
+			if (type != 'SQL' && type != 'LDAP')
+			{
+				throw 'Unrecognized data source type' + target.getParameters().type;
+			}
+			else
+			{
+				Ametys.plugins.core.datasource.DataSourceDAO.setDefaultDataSource([type, target.getParameters().id]);
+			}
 		}
 	},
 	

@@ -162,6 +162,39 @@ Ext.define('Ametys.plugins.core.datasource.DataSourceDAO', {
 				msg: "{{i18n PLUGINS_CORE_DATASOURCEDAO_DELETE_DATASOURCE_ERROR}}"
 			}
 		});
+		
+		/**
+    	 * @callable
+    	 * @member Ametys.plugins.core.datasource.DataSourceDAO
+    	 * @method setDefaultDataSource
+    	 * Set the default data source
+    	 * This calls the method 'setDefaultDataSource' of the server DAO 'org.ametys.core.datasource.DataSourceClientInteraction'.
+    	 * @param {Object[]} parameters The parameters to transmit to the server method
+    	 * @param {String} parameters.id (required) The id of the data source to set as default
+         * @param {String} parameters.type (required) The type of the data source to set as default
+    	 * @param {Function} callback The function to call when the java process is over. Can be null. Use options.scope for the scope. 
+		 * @param {Object} callback.args Other arguments specified in option.arguments with
+		 * @param {Object[]} callback.parameters the parameters the server was called with
+		 * @param {Object} [options] Advanced options for the call.
+		 * @param {Boolean/String/Object} [options.errorMessage] Display an error message. See Ametys.data.ServerCall#callMethod errorMessage.
+		 * @param {Boolean/String/Object} [options.waitMessage] Display a waiting message. See Ametys.data.ServerCall#callMethod waitMessage.
+		 * @param {Number} [options.scope] This parameter is the scope used to call the callback. Moreover is the given class is a mixin of Ametys.data.ServerCaller, its methods #beforeServerCall and #afterServerCall will be used so see their documentation to look for additional options (such a refreshing on Ametys.ribbon.element.ui.ButtonController#beforeServerCall).
+		 * @param {Number} [options.priority] The message priority. See Ametys.data.ServerCall#callMethod for more information on the priority. PRIORITY_SYNCHRONOUS cannot be used here.
+		 * @param {String} [options.cancelCode] Cancel similar unachieved read operations. See Ametys.data.ServerCall#callMethod cancelCode.
+		 * @param {Object} [options.arguments] Additional arguments set in the callback.arguments parameter.                  
+		 * @param {Boolean} [options.ignoreCallbackOnError] If the server throws an exception, should the callback be called with a null parameter. See Ametys.data.ServerCall#callMethod ignoreOnError.
+    	 */
+		this.addCallables({
+			role: "org.ametys.core.datasource.DataSourceClientInteraction",
+			methodName: "setDefaultDataSource",
+			callback: {
+         		handler: this._editDataSourceCb
+     		},
+     		errorMessage: {
+				category: this.self.getName(),
+				msg: "{{i18n PLUGINS_CORE_DATASOURCEDAO_SET_DEFAULT_DATASOURCE_ERROR}}"
+			}
+		});
 	},
 	
  	/**
@@ -179,7 +212,8 @@ Ext.define('Ametys.plugins.core.datasource.DataSourceDAO', {
 				id: Ametys.message.MessageTarget.DATASOURCE,
 				parameters: {
 					id: datasource.id,
-					type: params[0]
+					type: params[0],
+					isDefault: false
 				}
 			}
 		});
@@ -200,7 +234,8 @@ Ext.define('Ametys.plugins.core.datasource.DataSourceDAO', {
 				id: Ametys.message.MessageTarget.DATASOURCE,
 				parameters: {
 					id: datasource.id,
-					type: params[0]
+					type: params[0],
+					isDefault: datasource.isDefault
 				}
 			}
 		});
@@ -234,7 +269,6 @@ Ext.define('Ametys.plugins.core.datasource.DataSourceDAO', {
             targets: targets
         });
 	}
- 	
 });
 
 Ext.define('Ametys.message.DataSourceMessageTarget', {
@@ -248,6 +282,7 @@ Ext.define('Ametys.message.DataSourceMessageTarget', {
 		 * @property {String} DATASOURCE The target of the message is a data source. The expected parameters are: 
 	 	 * @property {String} DATASOURCE.id The id of the data source
 	 	 * @property {String} DATASOURCE.type The type of the data source
+	 	 * @property {Boolean} [DATASOURCE.default] is the data source a default data source ?
 		 */
 		DATASOURCE: "datasource"
 	}

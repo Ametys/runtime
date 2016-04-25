@@ -175,6 +175,7 @@
                         <control id="org.ametys.plugins.admin.datasources.Add"/>
                         <control id="org.ametys.plugins.admin.datasources.Edit"/>
                         <control id="org.ametys.plugins.admin.datasources.Delete"/>
+                        <control id="org.ametys.plugins.admin.datasources.SetDefault"/>
                     </medium>
                     <small/>
                 </group>

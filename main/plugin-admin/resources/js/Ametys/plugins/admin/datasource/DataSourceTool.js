@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -58,7 +58,7 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceTool', {
                 
                 extraParams: {
                     includePrivate: 'true',
-                    includeInternal: 'false'
+                    includeInternal: 'true'
                 }
 	        },
             
@@ -69,9 +69,9 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceTool', {
 			stateful: true,
 			stateId: this.self.getName() + "$grid",
 
-			store : store,
+			store: store,
 			
-			selModel : {
+			selModel: {
 		    	mode: 'MULTI'
 		    },
 		    
@@ -93,6 +93,7 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceTool', {
 					        		
 					        	case 'LDAP':
 					        		return "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_GROUP_LDAP}}";
+					        		
 					        	default:
 					        		throw 'Unrecognized type ' + name;
 				        	}
@@ -105,6 +106,7 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceTool', {
 		        {stateId: 'grid-name', header: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_NAME}}", flex: 0.8, sortable: true, dataIndex:'name', renderer: this._renderName},
 		        {stateId: 'grid-private', header: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_PRIVATE}}", width: 120, sortable: true, dataIndex: 'private', renderer: this._renderBoolean},
 		        {stateId: 'grid-inUse', header: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_USED}}", width: 120, sortable: true, dataIndex: 'isInUse', align :'center', renderer: this._renderBoolean},
+		        {stateId: 'grid-isDefault', header: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_DEFAULT}}", width: 120, sortable: true, dataIndex: 'isDefault', align :'center', renderer: this._renderBoolean},
 		        {stateId: 'grid-type', header: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_TYPE}}", width: 80, hidden: true, dataIndex: 'type'},
 		        {stateId: 'grid-id', header: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_ID}}", flex: 0.2, hidden: true, dataIndex: 'id'}
 		    ]
@@ -137,7 +139,8 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceTool', {
 				id: Ametys.message.MessageTarget.DATASOURCE,
 				parameters: {
 					id: selectedDataSource.get('id'),
-					type: selectedDataSource.get('type')
+					type: selectedDataSource.get('type'),
+					isDefault: selectedDataSource.get('isDefault')
 				}
 			});
 			
@@ -151,6 +154,7 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceTool', {
 	},
 	
 	/**
+	 * @private
 	 * Renderer function for the name column
 	 * @param {String} value the value of the name
 	 * @param {Object} md the metadata of the selected cell
@@ -174,7 +178,7 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceTool', {
         var isTrue = Ext.isBoolean(value) ? value : value == 'true';
         if (isTrue)
         {
-            return '<span class="a-grid-glyph flaticon-check34" title="' + "{{i18n plugin.cms:UITOOL_SEARCH_BOOLEAN_YES}}" + '"></span>';
+            return '<span class="a-grid-glyph flaticon-check34" title="' + "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_CHECKED_TITLE}}" + '"></span>';
         }
         else
         {
@@ -183,7 +187,8 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceTool', {
     },
 	
 	/**
-	 * Handler function invoked whenever a {@link Ametys.message.Message.CREATED} message is sent out on the 
+	 * @private
+	 * Handler function invoked whenever a {@link Ametys.message.Message#CREATED} message is sent out on the 
 	 * message bus. Add the corresponding record to the grid panel's store.
 	 * @param {Ametys.message.Message} message the message
 	 */
@@ -197,7 +202,8 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceTool', {
 	},
 	
 	/**
-	 * Handler function invoked whenever a {@link Ametys.message.Message.MODIFIED} message is sent out on the 
+	 * @private
+	 * Handler function invoked whenever a {@link Ametys.message.Message#MODIFIED} message is sent out on the 
 	 * message bus. Update the corresponding record of the grid panel's store.
 	 * @param {Ametys.message.Message} message the message
 	 */
@@ -211,7 +217,8 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceTool', {
 	},
 	
 	/**
-	 * Handler function invoked whenever a {@link Ametys.message.Message.DELETED} message 
+	 * @private
+	 * Handler function invoked whenever a {@link Ametys.message.Message#DELETED} message 
 	 * is sent out on the message bus. Delete the corresponding record from the grid panel's store.
 	 * @param {Ametys.message.Message} message the message
 	 */
@@ -222,6 +229,11 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceTool', {
         {
             var record = this._panel.getStore().getById(targets[i].getParameters().id);
             this._panel.getStore().remove(record);
+        }
+        
+        if (targets.length > 0)
+        {
+            this.showOutOfDate();
         }
 	}
 });

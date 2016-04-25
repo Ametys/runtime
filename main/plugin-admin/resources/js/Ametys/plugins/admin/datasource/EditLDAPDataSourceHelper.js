@@ -99,7 +99,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
 			
 			this._box = Ext.create('Ametys.window.DialogBox', {
 				title: this._mode == 'new' ? "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_ADD_TITLE}}" : "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_EDIT_TITLE}}",
-				icon: Ametys.getPluginResourcesPrefix('admin') + '/img/datasource/' + (this._mode == 'new' ? 'add_16.png' : 'edit_16.png'),
+				iconCls: "flaticon-agenda3 " + (this._mode == 'new' ? "decorator-flaticon-add64" : "decorator-flaticon-edit45"),
 				
 				layout: 'fit',
 				width: 700,
@@ -120,7 +120,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
 		else
 		{
 			this._box.setTitle(this._mode == 'new' ? "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_ADD_TITLE}}" : "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_EDIT_TITLE}}");
-			this._box.setIcon(Ametys.getPluginResourcesPrefix('admin') + '/img/datasource/' + (this._mode == 'new' ? 'add_16.png' : 'edit_16.png'));
+			this._box.setIconCls("flaticon-agenda3 " + (this._mode == 'new' ? "decorator-flaticon-add64" : "decorator-flaticon-edit45"));
 			callback(true);
 		}
 	},
@@ -358,7 +358,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
     
     /**
      * Callback function after adding or editing SQL data source
-     * @param {} datasource
+     * @param {Object} datasource the object representation of the added/edited datasource
      */
     _addOrEditDataSourceCb: function (datasource)
     {

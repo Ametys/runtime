@@ -54,7 +54,7 @@ public class UnexistingDatabasesNotificator extends AbstractConfigurableAdminist
     public List<Notification> getNotifications()
     {
         List<Notification> notifications = new ArrayList<>();
-        Map<String, DataSourceDefinition> sqlDataSources = _sqlDataSourceManager.getDataSourceDefinitions(true, true);
+        Map<String, DataSourceDefinition> sqlDataSources = _sqlDataSourceManager.getDataSourceDefinitions(true, true, false);
         for (String id : sqlDataSources.keySet())
         {
             DataSourceDefinition datasource = sqlDataSources.get(id);
@@ -63,7 +63,7 @@ public class UnexistingDatabasesNotificator extends AbstractConfigurableAdminist
                 _checkSqlDatasource(datasource, notifications);
             }
         }
-        Map<String, DataSourceDefinition> ldapDataSources = _ldapDataSourceManager.getDataSourceDefinitions(true, true);
+        Map<String, DataSourceDefinition> ldapDataSources = _ldapDataSourceManager.getDataSourceDefinitions(true, true, false);
         for (String id : ldapDataSources.keySet())
         {
             DataSourceDefinition datasource = ldapDataSources.get(id);

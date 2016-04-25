@@ -32,6 +32,7 @@ import org.xml.sax.SAXException;
 
 import org.ametys.core.datasource.AbstractDataSourceManager.DataSourceDefinition;
 import org.ametys.core.ui.Callable;
+import org.ametys.core.util.I18nUtils;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 
@@ -46,11 +47,14 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
     /** The SQL data source manager */
     private SQLDataSourceManager _sqlDataSourceManager;
     
-    /** The SQL data source manager */
+    /** The LDAP data source manager */
     private LDAPDataSourceManager _ldapDataSourceManager;
     
     /** The extension for data source clients */
     private DataSourceConsumerExtensionPoint _dataSourceConsumerEP;
+    
+    /** Component gathering utility method allowing to handle internationalizable text */
+    private I18nUtils _i18nUtils;
     
     /**
      * Enum for data source types
@@ -64,11 +68,12 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
     }
     
     @Override
-    public void service(ServiceManager manager) throws ServiceException
+    public void service(ServiceManager serviceManager) throws ServiceException
     {
-        _sqlDataSourceManager = (SQLDataSourceManager) manager.lookup(SQLDataSourceManager.ROLE);
-        _ldapDataSourceManager = (LDAPDataSourceManager) manager.lookup(LDAPDataSourceManager.ROLE);
-        _dataSourceConsumerEP = (DataSourceConsumerExtensionPoint) manager.lookup(DataSourceConsumerExtensionPoint.ROLE);
+        _sqlDataSourceManager = (SQLDataSourceManager) serviceManager.lookup(SQLDataSourceManager.ROLE);
+        _ldapDataSourceManager = (LDAPDataSourceManager) serviceManager.lookup(LDAPDataSourceManager.ROLE);
+        _dataSourceConsumerEP = (DataSourceConsumerExtensionPoint) serviceManager.lookup(DataSourceConsumerExtensionPoint.ROLE);
+        _i18nUtils = (I18nUtils) serviceManager.lookup(I18nUtils.ROLE);
     }
     
     /**
@@ -76,17 +81,18 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
      * @param type the data source type. Can be empty or null to get all data sources
      * @param includePrivate true to include private data sources
      * @param includeInternal true to include internal data sources
+     * @param includeDefault true to include the default data sources
      * @return the existing data sources
      * @throws Exception if an error occurred
      */
     @Callable
-    public List<Map<String, Object>> getDataSources (String type, boolean includePrivate, boolean includeInternal) throws Exception
+    public List<Map<String, Object>> getDataSources (String type, boolean includePrivate, boolean includeInternal, boolean includeDefault) throws Exception
     {
         List<Map<String, Object>> datasources = new ArrayList<>();
         
         if (StringUtils.isEmpty(type) || type.equals(DataSourceType.SQL.toString()))
         {
-            Map<String, DataSourceDefinition> sqlDataSources = _sqlDataSourceManager.getDataSourceDefinitions(includePrivate, includeInternal);
+            Map<String, DataSourceDefinition> sqlDataSources = _sqlDataSourceManager.getDataSourceDefinitions(includePrivate, includeInternal, includeDefault);
             for (String id : sqlDataSources.keySet())
             {
                 datasources.add(getSQLDataSource(id));
@@ -95,7 +101,7 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
         
         if (StringUtils.isEmpty(type) || type.equals(DataSourceType.LDAP.toString()))
         {
-            Map<String, DataSourceDefinition> ldapDataSources = _ldapDataSourceManager.getDataSourceDefinitions(includePrivate, includeInternal);
+            Map<String, DataSourceDefinition> ldapDataSources = _ldapDataSourceManager.getDataSourceDefinitions(includePrivate, includeInternal, includeDefault);
             for (String id : ldapDataSources.keySet())
             {
                 datasources.add(getLDAPDataSource(id));
@@ -106,16 +112,17 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
     }
     
     /**
-     * Get the existing data sources whatever their type
+     * Get the existing data sources regardless of their type
      * @param includePrivate true to include private data sources
      * @param includeInternal true to include internal data sources
+     * @param includeDefault true to include default data sources
      * @return the existing data sources
      * @throws Exception if an error occurred
      */
     @Callable
-    public List<Map<String, Object>> getDataSources (boolean includePrivate, boolean includeInternal) throws Exception
+    public List<Map<String, Object>> getDataSources (boolean includePrivate, boolean includeInternal, boolean includeDefault) throws Exception
     {
-        return getDataSources(null, includePrivate, includeInternal);
+        return getDataSources(null, includePrivate, includeInternal, includeDefault);
     }
     
     /**
@@ -137,7 +144,7 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
             case LDAP:
                 return getLDAPDataSource(id);
             default:
-                getLogger().error("Unable to get data source: unknown data source type '" + type + "'");
+                getLogger().error("Unable to get data source: unknown data source type '" + type + "'.");
                 return null;
         }
     }
@@ -155,8 +162,18 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
         DataSourceDefinition ldapDefinition = _ldapDataSourceManager.getDataSourceDefinition(id);
 
         Map<String, Object> def2json = _dataSourceDefinition2Json(ldapDefinition);
+        def2json.put("id", id); // Keep the 'LDAP-default-datasource' id
         def2json.put("type", "LDAP");
-        def2json.put("isInUse", _dataSourceConsumerEP.isInUse(ldapDefinition.getId()));
+        
+        // The configuration data source consumer refers to the stored values of the configuration
+        // For the default data source, it is "LDAP-default-datasource"
+        boolean isInUse = _dataSourceConsumerEP.isInUse(ldapDefinition.getId()) || (ldapDefinition.isDefault() && _dataSourceConsumerEP.isInUse(_ldapDataSourceManager.getDefaultDataSourceId()));
+        def2json.put("isInUse", isInUse);
+        
+        if ((_ldapDataSourceManager.getDataSourcePrefixId() + AbstractDataSourceManager.DEFAULT_DATASOURCE_SUFFIX).equals(id))
+        {
+            _setDefaultDataSourceName(def2json);
+        }
         
         return def2json;
     }
@@ -173,8 +190,18 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
         DataSourceDefinition sqlDefinition = _sqlDataSourceManager.getDataSourceDefinition(id);
         
         Map<String, Object> def2json = _dataSourceDefinition2Json(sqlDefinition);
+        def2json.put("id", id); // Keep the 'SQL-default-datasource' id
         def2json.put("type", "SQL");
-        def2json.put("isInUse", _dataSourceConsumerEP.isInUse(sqlDefinition.getId()));
+        
+        // The configuration data source consumer refers to the stored values of the configuration
+        // For the default data source, it is "SQL-default-datasource"
+        boolean isInUse = _dataSourceConsumerEP.isInUse(sqlDefinition.getId()) || (sqlDefinition.isDefault() && _dataSourceConsumerEP.isInUse(_sqlDataSourceManager.getDefaultDataSourceId()));
+        def2json.put("isInUse", isInUse);
+        
+        if (_sqlDataSourceManager.getDefaultDataSourceId().equals(id))
+        {
+            _setDefaultDataSourceName(def2json);
+        }
         
         return def2json;
     }
@@ -213,7 +240,7 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
         }
         else
         {
-            throw new IllegalArgumentException("Unable to add data source: unknown data source type '" + type + "'");
+            throw new IllegalArgumentException("Unable to add data source: unknown data source type '" + type + "'.");
         }
         
         return _dataSourceDefinition2Json(def);
@@ -272,7 +299,7 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
         }
         else
         {
-            throw new IllegalArgumentException("Unable to edit data source: unknown data source type '" + type + "'");
+            throw new IllegalArgumentException("Unable to edit data source: unknown data source type '" + type + "'.");
         }
         
         return _dataSourceDefinition2Json(def);
@@ -300,20 +327,56 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
         }
         else
         {
-            throw new IllegalArgumentException("Unable to delete data sources: unknown data source type '" + type + "'");
+            throw new IllegalArgumentException("Unable to delete data sources: unknown data source type '" + type + "'.");
         }
     }
     
-    private Map<String, Object> _dataSourceDefinition2Json (DataSourceDefinition dataSource)
+    /**
+     * Set the data source of the given id as the default data source for the given type
+     * @param type the type of the data source
+     * @param id the id of the data source
+     * @return the {@link DataSourceDefinition} of data source set as default in JSON
+     */
+    @Callable
+    public Map<String, Object> setDefaultDataSource(String type, String id)
+    {
+        DataSourceDefinition def = null;
+        if (type.equals(DataSourceType.SQL.toString()))
+        {
+            def = _sqlDataSourceManager.setDefaultDataSource(id);
+        }
+        else if (type.equals(DataSourceType.LDAP.toString()))
+        {
+            def = _ldapDataSourceManager.setDefaultDataSource(id);
+        }
+        else
+        {
+            throw new IllegalArgumentException("Unable set to default the data source: unknown data source type '" + type + "'.");
+        }
+        
+        return _dataSourceDefinition2Json(def);
+    }
+    
+    private void _setDefaultDataSourceName(Map<String, Object> dataSourceAsJSON)
+    {
+        String defaultDataSourceName = _i18nUtils.translate(new I18nizableText("plugin.core", "PLUGINS_CORE_DEFAULT_DATASOURCE_NAME_PREFIX"));
+        defaultDataSourceName += _i18nUtils.translate((I18nizableText) dataSourceAsJSON.get("name"));
+        defaultDataSourceName += _i18nUtils.translate(new I18nizableText("plugin.core", "PLUGINS_CORE_DEFAULT_DATASOURCE_NAME_SUFFIX"));
+        
+        dataSourceAsJSON.put("name", defaultDataSourceName);
+    }
+    
+    private Map<String, Object> _dataSourceDefinition2Json (DataSourceDefinition dataSourceDef)
     {
         Map<String, Object> infos = new HashMap<>();
         
-        infos.put("id", dataSource.getId());
-        infos.put("name", dataSource.getName());
-        infos.put("description", dataSource.getDescription());
-        infos.put("private", dataSource.isPrivate());
+        infos.put("id", dataSourceDef.getId());
+        infos.put("name", dataSourceDef.getName());
+        infos.put("description", dataSourceDef.getDescription());
+        infos.put("private", dataSourceDef.isPrivate());
+        infos.put("isDefault", dataSourceDef.isDefault());
         
-        Map<String, String> parameters = dataSource.getParameters();
+        Map<String, String> parameters = dataSourceDef.getParameters();
         for (String paramName : parameters.keySet())
         {
             infos.put(paramName, parameters.get(paramName));

@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -58,6 +59,9 @@ import org.ametys.runtime.plugin.component.AbstractLogEnabled;
  */
 public abstract class AbstractDataSourceManager extends AbstractLogEnabled implements Component, Initializable, Serviceable
 {
+    /** The suffix of any default data source */
+    public static final String DEFAULT_DATASOURCE_SUFFIX = "default-datasource";
+    
     /** The data source definitions */
     protected Map<String, DataSourceDefinition> _dataSourcesDef;
 
@@ -71,6 +75,13 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
         _dataSourcesDef = new HashMap<>();
         
         readConfiguration(true);
+
+        if (getDefaultDataSourceDefinition() == null)
+        {
+            // Force a default data source at start-up if not present
+            internalSetDefaultDataSource();
+        }
+        
         checkDataSources();
     }
     
@@ -118,18 +129,32 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
     protected abstract void deleteDataSource(DataSourceDefinition dataSource);
     
     /**
+     * Set a default data source internally
+     */
+    protected abstract void internalSetDefaultDataSource();
+    
+    /**
      * Get the data source definitions 
      * @param includePrivate true to include private data sources
      * @param includeInternal true to include internal data sources. Not used by default.
+     * @param includeDefault true to include an additional data source definition for each default data source
      * @return the data source definitions
      */
-    public Map<String, DataSourceDefinition> getDataSourceDefinitions(boolean includePrivate, boolean includeInternal)
+    public Map<String, DataSourceDefinition> getDataSourceDefinitions(boolean includePrivate, boolean includeInternal, boolean includeDefault)
     {
         readConfiguration(false);
         
+        Map<String, DataSourceDefinition> dataSourceDefinitions = new HashMap<> ();
+        if (includeDefault)
+        {
+            DataSourceDefinition defaultDataSourceDefinition = getDefaultDataSourceDefinition();
+            dataSourceDefinitions.put(getDefaultDataSourceId(), defaultDataSourceDefinition);
+        }
+        
         if (includePrivate)
         {
-            return _dataSourcesDef;
+            dataSourceDefinitions.putAll(_dataSourcesDef);
+            return dataSourceDefinitions;
         }
         else
         {
@@ -142,7 +167,8 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
                 }
             }
             
-            return publicDatasources;
+            dataSourceDefinitions.putAll(publicDatasources);
+            return dataSourceDefinitions;
         }
     }
     
@@ -154,6 +180,12 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
     public DataSourceDefinition getDataSourceDefinition(String id)
     {
         readConfiguration(false);
+        
+        if (getDefaultDataSourceId().equals(id))
+        {
+            return getDefaultDataSourceDefinition();
+        }
+        
         return _dataSourcesDef.get(id);
     }
     
@@ -163,7 +195,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
      * @param description the description 
      * @param parameters the parameters
      * @param isPrivate true if private
-     * @return the created data sourec definition
+     * @return the created data source definition
      */
     public DataSourceDefinition add(I18nizableText name, I18nizableText description, Map<String, Object> parameters, boolean isPrivate)
     {
@@ -176,12 +208,17 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
         }
         
         String id = getDataSourcePrefixId() + StringUtils.generateKey();
-        DataSourceDefinition ds = new DataSourceDefinition(id, name, description, rawParameters, isPrivate);
+        DataSourceDefinition ds = new DataSourceDefinition(id, name, description, rawParameters, isPrivate, false);
         _dataSourcesDef.put(id, ds);
         
         saveConfiguration();
         
         createDataSource(ds);
+        
+        if (getDataSourceDefinitions(true, true, false).size() == 1)
+        {
+            internalSetDefaultDataSource();
+        }
         
         return ds;
     }
@@ -207,7 +244,8 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
                 rawParameters.put(paramName, ParameterHelper.valueToString(parameters.get(paramName)));
             }
             
-            DataSourceDefinition ds = new DataSourceDefinition(id, name, description, rawParameters, isPrivate);
+            boolean isDefault = _dataSourcesDef.get(id).isDefault();
+            DataSourceDefinition ds = new DataSourceDefinition(id, name, description, rawParameters, isPrivate, isDefault);
             _dataSourcesDef.put(id, ds);
             
             saveConfiguration();
@@ -222,7 +260,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
     
     /**
      * Delete data sources
-     * @param dataSourceIds the ids of data sources to delete
+     * @param dataSourceIds the ids of the data sources to delete
      */
     public void delete(List<String> dataSourceIds)
     {
@@ -230,15 +268,106 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
         
         for (String id : dataSourceIds)
         {
-            if (_dataSourceConsumerEP.isInUse(id))
+            DataSourceDefinition dataSourceDef = _dataSourcesDef.get(id);
+            if (_dataSourceConsumerEP.isInUse(id) || (dataSourceDef.isDefault() && _dataSourceConsumerEP.isInUse(getDefaultDataSourceId())))
             {
-                throw new RuntimeException("The data source '" + id + "' is currently in use. The deletion process has been aborted.");
+                throw new IllegalStateException("The data source '" + id + "' is currently in use. The deletion process has been aborted.");
             }
-            deleteDataSource (_dataSourcesDef.get(id));
+            
+            if (id.equals(SQLDataSourceManager.AMETYS_INTERNAL_DATASOURCE_ID))
+            {
+                throw new IllegalStateException("The data source '" + id + "' is an internal data source. The deletion process has been aborted.");
+            }
+            
+            deleteDataSource (dataSourceDef);
             _dataSourcesDef.remove(id);
         }
         
         saveConfiguration();
+        
+        if (getDataSourceDefinitions(true, true, false).size() == 1)
+        {
+            internalSetDefaultDataSource();
+        }
+    }
+    
+    /**
+     * Set the data source with the given id as the default data source
+     * @param id the id of the data source
+     * @return the {@link DataSourceDefinition} of the data source set as default 
+     */
+    public DataSourceDefinition setDefaultDataSource(String id)
+    {
+        readConfiguration(false);
+        
+        if (!id.startsWith(getDataSourcePrefixId()))
+        {
+            throw new RuntimeException("The data source with id '" + id + "' is not of the appropriate type to set is as default.");
+        }
+
+        // Remove the default attribute from the previous default data source (if any)
+        DataSourceDefinition oldDefaultDataSource = getDefaultDataSourceDefinition();
+        if (oldDefaultDataSource != null)
+        {
+            oldDefaultDataSource.setDefault(false);
+            _dataSourcesDef.put(oldDefaultDataSource.getId(), oldDefaultDataSource);
+            
+            saveConfiguration();
+            editDataSource(oldDefaultDataSource);
+        } 
+        
+        if (_dataSourcesDef.containsKey(id))
+        {
+            // Set the data source as the default one
+            DataSourceDefinition newDefaultDataSource = getDataSourceDefinition(id);
+            newDefaultDataSource.setDefault(true);
+            _dataSourcesDef.put(id, newDefaultDataSource);
+            
+            saveConfiguration();
+            editDataSource(newDefaultDataSource);
+            
+            return newDefaultDataSource;
+        }
+        
+        throw new RuntimeException("The data source with id '" + id + "' was not found. Unable to set it as the default data source.");
+    }
+    
+    /**
+     * Get the default data source for this type
+     * @return the definition object of the default data source  
+     */
+    public DataSourceDefinition getDefaultDataSourceDefinition()
+    {
+        List<DataSourceDefinition> defaultDataSourceDefinitions = new ArrayList<> ();
+        for (DataSourceDefinition definition : _dataSourcesDef.values())
+        {
+            if (definition.getId().startsWith(getDataSourcePrefixId()) && definition.isDefault())
+            {
+                defaultDataSourceDefinitions.add(definition);
+            }
+        }
+        
+        if (defaultDataSourceDefinitions.isEmpty())
+        {
+            return null;
+        }
+        else if (defaultDataSourceDefinitions.size() > 1)
+        {
+            throw new IllegalStateException("Found more than one default data source definition.");
+        }
+        else
+        {
+            return defaultDataSourceDefinitions.get(0);
+        }
+    }
+    
+    /**
+     * Get the id of the default data source 
+     * @return the id of the default data source
+     */
+    public String getDefaultDataSourceId()
+    {
+        return getDataSourcePrefixId() + DEFAULT_DATASOURCE_SUFFIX;
     }
     
     /**
@@ -264,6 +393,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
                     I18nizableText description = I18nizableText.parseI18nizableText(dsConfig.getChild("description"), "plugin.core", "");
                     
                     boolean isPrivate = dsConfig.getAttributeAsBoolean("private", false);
+                    boolean isDefault = dsConfig.getAttributeAsBoolean("default", false);
                     
                     Map<String, String> parameters = new HashMap<>();
                     
@@ -274,11 +404,12 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
                         parameters.put(paramConfig.getName(), value);
                     }
                     
-                    DataSourceDefinition dataSource = new DataSourceDefinition(id, name, description, parameters, isPrivate);
+                    DataSourceDefinition dataSource = new DataSourceDefinition(id, name, description, parameters, isPrivate, isDefault);
                     _dataSourcesDef.put(id, dataSource);
                     
-                    // Validate the used SQL data sources if not already in safe mode
-                    if (checkParameters && !PluginsManager.getInstance().isSafeMode() && _dataSourceConsumerEP.isInUse(id))
+                    // Validate the used data sources if not already in safe mode
+                    boolean isInUse = _dataSourceConsumerEP.isInUse(id) || (isDefault && _dataSourceConsumerEP.isInUse(getDefaultDataSourceId()));
+                    if (checkParameters && !PluginsManager.getInstance().isSafeMode() && isInUse)
                     {
                         checkParameters (parameters);
                     }
@@ -355,6 +486,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
         
         attrs.addCDATAAttribute("id", dataSource.getId());
         attrs.addCDATAAttribute("private", String.valueOf(dataSource.isPrivate()));
+        attrs.addCDATAAttribute("default", String.valueOf(dataSource.isDefault()));
         
         XMLUtils.startElement(handler, "datasource", attrs);
         
@@ -398,6 +530,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
         private I18nizableText _description;
         private Map<String, String> _parameters;
         private boolean _isPrivate;
+        private boolean _isDefault;
         
         /**
          * Constructor
@@ -406,14 +539,16 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
          * @param description the description
          * @param parameters the parameters
          * @param isPrivate true if the data source is a private data source
+         * @param isDefault true if the data source is a default data source
          */
-        public DataSourceDefinition(String id, I18nizableText name, I18nizableText description, Map<String, String> parameters, boolean isPrivate)
+        public DataSourceDefinition(String id, I18nizableText name, I18nizableText description, Map<String, String> parameters, boolean isPrivate, boolean isDefault)
         {
             _id = id;
             _name = name;
             _description = description;
             _parameters = parameters;
             _isPrivate = isPrivate;
+            _isDefault = isDefault;
         }
         
         /**
@@ -447,9 +582,27 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
          * Returns true if this data source instance is private
          * @return true if is private
          */
-        public boolean isPrivate ()
+        public boolean isPrivate()
         {
             return _isPrivate;
+        }
+        
+        /**
+         * Returns true if this is a default data source
+         * @return true if this is a default data source
+         */
+        public boolean isDefault()
+        {
+            return _isDefault;
+        }
+        
+        /**
+         * Set default or not this data source 
+         * @param isDefault true to set this data source as the default one, false otherwise 
+         */
+        public void setDefault(boolean isDefault)
+        {
+            _isDefault = isDefault;
         }
         
         /**
