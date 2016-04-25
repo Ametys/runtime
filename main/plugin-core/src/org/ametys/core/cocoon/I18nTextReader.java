@@ -347,7 +347,6 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
     /**
      * Try to translate the key and write the output stream with its translation if found, the key itself if not
      * @param srcChars the input source as characters
-     * @param sb the string builder where to write
      * @param candidateBeginIdx the index at which the i18n declaration started
      * @param lastIdx the last index analyzed
      * @param initialOffset the amount of characters that we have to write before the i18n declaration
