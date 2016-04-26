@@ -30,7 +30,7 @@ Open source web application framework based on Apache Cocoon.
     <conf name="compile_dependencies" extends="compile_base" description="Dependencies for compiling this module when embedded into other Ametys projects"/>
     
     <conf name="runtime_dependencies" extends="common_dependencies" description="Dependencies for running this module (except any Ametys artefacts)"/>
-    <conf name="runtime" extends="common_dependencies" description="Artifact for runtime only, with runtime dependencies"/>
+    <conf name="runtime" extends="runtime_dependencies" description="Artifact for runtime only, with runtime dependencies"/>
     <conf name="default" extends="runtime" description="Artifact for runtime, with resources and runtime dependencies"/>
 
     <conf name="test-env" extends="runtime" description="Artifact for testing a runtime dependent application"/>
