@@ -1,3 +1,22 @@
+Runtime - Version 2.8 (April 28, 2016)
+
+Improvement:
+  RUNTIME-482 : Create a profile requires to delete the default text
+  RUNTIME-1459 : [RightsManager] Add a method to get granted users on a right context
+  RUNTIME-1470 : Add multiselect widget for enumeration in the configuration
+  RUNTIME-1494 : ReCaptcha - add the possibility to use reCaptcha
+  RUNTIME-1548 : Cache the results of getUserRights by login and context
+  RUNTIME-1700 : Handle "placeholder" attribute for captcha input
+
+Bug:
+  RUNTIME-1193 : When runtime.xml reference an unexisting extension poing it should be warned
+  RUNTIME-1218 : UserDrivenLDAPGroupsManager should handle pagination
+  RUNTIME-1243 : Groups list popup not displayed when doing affectation
+  RUNTIME-1254 : Add utility JS method to deemphasize a string value
+  RUNTIME-1289 : Mistakes on the message on the plugin management screen
+  RUNTIME-1654 : File descriptor leak due to Sun JVM
+
+-------------------------------------------------------------
 Runtime - Version 2.7 (April 08, 2015)
 
 New Feature:
