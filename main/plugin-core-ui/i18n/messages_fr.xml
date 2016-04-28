@@ -893,7 +893,7 @@
     <!-- +
          | ABOUT AMETYS
          + -->
-    <message key="PLUGINS_CORE_UI_ABOUT_LABEL">A propos ...</message>
+    <message key="PLUGINS_CORE_UI_ABOUT_LABEL">A propos...</message>
     <message key="PLUGINS_CORE_UI_ABOUT_DESCRIPTION">Obtenir des informations à propos de votre application Ametys.</message>
     <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_TITLE">A propos</message>
     <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_BUTTON_OK">OK</message>
