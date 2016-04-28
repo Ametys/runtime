@@ -350,17 +350,11 @@
                             var appMenuItems = [];
                             <xsl:for-each select="ribbon/app-menu/*">
                                 <xsl:choose>
-                                    <xsl:when test="local-name()='control'">
+                                    <xsl:when test="local-name()='control' and @id = /Ametys/workspace/ribbon/controls/control/@id">
                                         <xsl:variable name="id" select="@id"/>
-                                        (function () {
-                                        	var element = Ametys.ribbon.RibbonManager.getElement("<xsl:value-of select="$id"/>");
-                                        	if (element != null)
-                                            {
-                                            	appMenuItems.push(element.addMenuItemUI());
-                                            }
-                                        })();
+                                        appMenuItems.push(Ametys.ribbon.RibbonManager.getElement("<xsl:value-of select="$id"/>").addMenuItemUI());
                                     </xsl:when>
-                                    <xsl:when test="local-name()='separator' and following-sibling::control">
+                                    <xsl:when test="local-name()='separator' and following-sibling::control[@id = /Ametys/workspace/ribbon/controls/control/@id]">
                                         appMenuItems.push('-');
                                     </xsl:when>
                                 </xsl:choose>
@@ -373,17 +367,11 @@
                                 </xsl:if>
                                 <xsl:for-each select="ribbon/user-menu/*">
                                     <xsl:choose>
-                                        <xsl:when test="local-name()='control'">
+                                        <xsl:when test="local-name()='control' and @id = /Ametys/workspace/ribbon/controls/control/@id">
                                             <xsl:variable name="id" select="@id"/>
-                                            (function () {
-                                            	var element = Ametys.ribbon.RibbonManager.getElement("<xsl:value-of select="$id"/>");
-                                            	if (element != null)
-                                            	{
-		                                            userMenuItems.push(element.addMenuItemUI());
-                                            	}
-                                            })();
+                                            userMenuItems.push(Ametys.ribbon.RibbonManager.getElement("<xsl:value-of select="$id"/>").addMenuItemUI());
                                         </xsl:when>
-                                        <xsl:when test="local-name()='separator' and following-sibling::control">
+                                        <xsl:when test="local-name()='separator' and following-sibling::control[@id = /Ametys/workspace/ribbon/controls/control/@id]">
                                             userMenuItems.push('-');
                                         </xsl:when>
                                     </xsl:choose>
