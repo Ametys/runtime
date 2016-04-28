@@ -23,11 +23,10 @@
     <xsl:template name="ribbonTitle"><i18n:text i18n:key="WORKSPACE_ADMINISTRATION_TITLE" i18n:catalogue="workspace.admin"/></xsl:template>
     <xsl:variable name="theme">ametys-admin</xsl:variable>
     
-    <xsl:template name="after-workspace-load-hook">
-        <script type="text/javascript">
-            Ametys.plugins.admin.notificator.AdministratorNotificator.notify();
-        </script>
+    <xsl:template name="after-ametys-loaded-hook-js">
+        Ametys.plugins.admin.notificator.AdministratorNotificator.notify();
     </xsl:template>
+    
     <xsl:template name="splashscreen-color">2a5a9a</xsl:template>
     <xsl:template name="app-context">/admin</xsl:template>
     

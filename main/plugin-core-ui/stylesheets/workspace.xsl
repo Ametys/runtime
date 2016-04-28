@@ -559,6 +559,8 @@
                                                     window.onerror = null;
                                                     <xsl:if test="$splashscreen != 'no'">destroyLoader();</xsl:if>
                                                     this.show(); 
+                                                    
+                                                    <xsl:call-template name="after-ametys-loaded-hook-js"/>
                                                 } 
                                             }
                                         });
@@ -638,6 +640,9 @@
             <script type="text/javascript">
                 Ametys.tool.ToolsManager.setToolsLayout("Ametys.ui.tool.layout.ZonedTabsToolsLayout", { 
                     initialized: false,
+                    notoolselected: function () {
+                        Ext.create("Ametys.message.Message", { type: Ametys.message.Message.SELECTION_CHANGED, targets: [] });
+                    },
                     titleChangedCallback: function(title) {
                         // Ext.getCmp("ribbon").setTitle(title);
                     } 
@@ -653,6 +658,9 @@
         <!-- Keep empty. Here for inheritance purpose. -->
     </xsl:template>
     <xsl:template name="after-workspace-load-hook">
+        <!-- Keep empty. Here for inheritance purpose. -->
+    </xsl:template>
+    <xsl:template name="after-ametys-loaded-hook-js">
         <!-- Keep empty. Here for inheritance purpose. -->
     </xsl:template>
     
