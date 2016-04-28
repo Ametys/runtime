@@ -93,11 +93,11 @@
     <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TITLE_CONFIG_INCOMPLETE">Information</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TEXT_CONFIG_INCOMPLETE">The application configuration is incomplete or incorrect. Use the configuration tool to complete it.</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TITLE_WRONG_DEFINITIONS">Attention</message>
-    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TEXT_WRONG_DEFINITIONS">L'application est en mode sans-échec car un ou plusieurs plugins ont une configuration incorrecte. You can watch logs to know more.</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TEXT_WRONG_DEFINITIONS">The application is in safe mode because one or more plugins has an incorrect configuration. You can watch logs to know more.</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TITLE_NOT_INITIALIZED">Attention</message>
-    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TEXT_NOT_INITIALIZED">L'application est en mode sans-échec car elle n'a pas pu s'initialiser correctement suite à une erreur. You can watch logs to know more.</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TEXT_NOT_INITIALIZED">The application is in safe mode because it can not be initialized correctly due to an error. You can watch logs to know more.</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TITLE_RUNTIME_NOT_LOADED">Attention</message>
-    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TEXT_RUNTIME_NOT_LOADED">L'application est en mode sans-échec car le fichier de configuration 'WEB-INF/param/runtime.xml' n'a pas pu être chargé correctement. You can watch logs to know more.</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TEXT_RUNTIME_NOT_LOADED">The application is in safe mode because the configuration file 'WEB-INF/param/runtime.xml' was not loaded correctly. You can watch logs to know more.</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TITLE_SAFE_MODE_FORCED">Information</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TEXT_SAFE_MODE_FORCED">The application is in safe mode.</message>
     
@@ -165,15 +165,15 @@
     <message key="PLUGINS_CORE_UI_DATETIME_SHORTTIME">h:i:s A</message>
     <message key="PLUGINS_CORE_UI_DATETIME_LONGTIME">h:i:sP A</message>
     <message key="PLUGINS_CORE_UI_DATETIME_SHORTDATETIME">m/d/y h:i:s A</message>
-    <message key="PLUGINS_CORE_UI_DATETIME_FRIENDLYDATETIME">m/d/Y \\a\\t h:i A</message>
+    <message key="PLUGINS_CORE_UI_DATETIME_FRIENDLYDATETIME">m/d/Y \\\\a\\\\t h:i A</message>
     <message key="PLUGINS_CORE_UI_DATETIME_LONGDATETIME">m/d/Y h:i:s A P</message>
-    <message key="PLUGINS_CORE_UI_DATETIME_FULLDATETIME">l, F j, Y \\a\\t h:i:s A P</message>
+    <message key="PLUGINS_CORE_UI_DATETIME_FULLDATETIME">l, F j, Y \\\\a\\\\t h:i:s A P</message>
     
     <!-- +
          | ServerComm.js
          + -->
     <message key="PLUGINS_CORE_UI_SERVERCOMM_ERROR_TITLE">Process error</message>
-    <message key="PLUGINS_CORE_UI_SERVERCOMM_ERROR_DESC">An error occured while processing server response</message>
+    <message key="PLUGINS_CORE_UI_SERVERCOMM_ERROR_DESC">An error occurred while processing server response</message>
     <message key="PLUGINS_CORE_UI_SERVERCOMM_BADRESPONSE_TITLE">No response from the server</message>
     <message key="PLUGINS_CORE_UI_SERVERCOMM_BADRESPONSE_DESC">Server response is incomplete and has no information to continue the process correctly.</message>
     <message key="PLUGINS_CORE_UI_SERVERCOMM_NOTXML_DESC">Server response is inconsistent and that could come from:\n* your authentication that has expired,\n* an unknown issue on the server.\nYou can try to authenticate now before trying again.\n\nIf all your data are saved, click on Cancel.\n\nElse you can click on Ok to try to save again your running modifications but your application will be unstable (if you met this message several times, contact your administrator to have details on the problem duration).</message>
@@ -872,7 +872,7 @@
     <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_LABEL">Notifications</message>
     <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DESCRIPTION">List of issued notifications</message>
     <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DELETE_LABEL">Delete</message>
-    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DELETE_DESC">Delete allnotifications</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DELETE_DESC">Delete all notifications</message>
     <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_ALL_LABEL">All</message>
     <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_ALL_DESC">See all notifications</message>
     <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_FILTER_INFO_LABEL">Infos</message>
@@ -896,7 +896,7 @@
     <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_BUTTON_OK">Ok</message>
     <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_VERSIONS_VERSION_PREFIX">Version: </message>
     <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_VERSIONS_DATE_PREFIX"> at </message>
-    <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_DAO_ERROR">An error occurred while retreiving information of versions and licensing</message>
+    <message key="PLUGINS_CORE_UI_ABOUT_DIALOG_DAO_ERROR">An error occurred while retrieving information of versions and licensing</message>
     
     <!-- +
          | POPULATIONS
