@@ -103,7 +103,7 @@
     <message key="PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_DAY_LABEL">Zoom on a day</message>
     <message key="PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_DAY_DESCRIPTION">Set the zoom level at one day</message>
     <message key="PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_HOUR_LABEL">Zoom on an hour</message>
-    <message key="PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL__DESCRIPTION">Set the zoom level at one hour</message>
+    <message key="PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_HOUR_DESCRIPTION">Set the zoom level at one hour</message>
     <message key="PLUGINS_ADMIN_MONITORING_MOVE_TO_NOW_LABEL">Scroll to now</message>
     <message key="PLUGINS_ADMIN_MONITORING_MOVE_TO_NOW_DESCRIPTION">Scroll to now</message>
     <message key="PLUGINS_ADMIN_MONITORING_DRAW_MODE_LABEL">Annotate graphs</message>
