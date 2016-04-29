@@ -39,6 +39,10 @@ Ext.define("Ametys.ui.tool.ToolsLayout",
          * @cfg {String} titleChangedCallback.title The current title. Can be empty or null.
          */
         
+        /**
+         * @cfg {Function} notoolselected This function is called when no tool is currently focused
+         */
+        
 		/**
 		 * Create the layout instance
          * @param {Object} config The configuration
@@ -62,12 +66,20 @@ Ext.define("Ametys.ui.tool.ToolsLayout",
 		
 		/**
 		 * The layout will activate the tool by bringing back to visible if necessary, and will focus it.
-		 * @param {Ametys.ui.tool.ToolPanel} tool The tool to focus
+		 * @param {Ametys.ui.tool.ToolPanel} tool The tool to focus. Can be null to fire the #notoolselected event
 		 * @template
 		 */
 		focusTool: function(tool)
 		{
 			// Implement this in sub class
+            if (tool == null && Ext.isFunction(this.notoolselected))
+            {
+                this.notoolselected();
+            }
+            else if (Ext.isFunction(this.titleChangedCallback))
+            {
+                this.titleChangedCallback(tool.getTitle());
+            }
 		},
 		
 		/**

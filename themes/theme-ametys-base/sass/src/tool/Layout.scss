@@ -18,8 +18,22 @@
     background-color: $ametys-tool-background-color;
     padding: $ametys-tool-layout-padding;
     
-    .#{$prefix}container-tool-container {
+    .#{$prefix}container-tool-container, .#{$prefix}container-tool-placeholder {
         background-color: $ametys-tool-conrtainer-background-color;
+    }
+}
+
+.#{$prefix}panel-tool-layoutzone {
+    /** As of tool-layout place holder, some tool-layout are floating, but should stay close to the ground */
+    z-index: 0 !important;
+    
+    &.#{$prefix}panel-tool-layoutzone-floating {
+        z-index: 5 !important;
+        /* emulate slider */
+        &.#{$prefix}panel-tool-layoutzone-floating-t { border-bottom: 2px solid $ametys-tool-background-color; }
+        &.#{$prefix}panel-tool-layoutzone-floating-r { border-left: 2px solid $ametys-tool-background-color; }
+        &.#{$prefix}panel-tool-layoutzone-floating-b { border-top: 2px solid $ametys-tool-background-color; }
+        &.#{$prefix}panel-tool-layoutzone-floating-l { border-right: 2px solid $ametys-tool-background-color; }
     }
 }
 
@@ -72,14 +86,14 @@
 // Lateral tools
 .#{$prefix}tab-bar-left, .#{$prefix}tab-bar-right { 
     .#{$prefix}tab-inner-tool-layoutzone {
-        font-size: floor($ametys-tool-tab-font-size * 0.8);
-        line-height: floor($ametys-tool-tab-font-size * 0.8) / 12 * 14;
-        width: 5.5 * floor($ametys-tool-tab-font-size * 0.8);
+        font-size: $ametys-tool-tab-lateral-font-size;
+        line-height: $ametys-tool-tab-lateral-font-size / 12 * 14;
+        width: $ametys-tool-tab-lateral-width;
     }
 }
 .#{$prefix}tab-tool-layoutzone-left, .#{$prefix}tab-tool-layoutzone-right {
-    padding-left: floor($ametys-tool-tab-font-size * 0.8) / 4;
-    padding-right: floor($ametys-tool-tab-font-size * 0.8) / 4;
+    padding-left: $ametys-tool-tab-lateral-font-size / 4;
+    padding-right: $ametys-tool-tab-lateral-font-size / 4;
 }
 
 // Glyph position
@@ -157,8 +171,8 @@
 	&:before {
 	   	margin-left: 0px;
 	   	position: absolute;
-	   	font-size: 32px;
-	  	line-height: 32px;
+	   	font-size: $ametys-tool-tab-icon-height;
+	  	line-height: $ametys-tool-tab-icon-height;
         top:0;
         left: 0;
         height: 100%;
@@ -168,8 +182,8 @@
 	  	margin-left: 0px;
 	  	position: absolute;
 	  	bottom:0px;
-	  	font-size: 18px;
-	  	line-height: 18px;
+	  	font-size: $ametys-tool-tab-icon-height * 0.5625;
+	  	line-height: $ametys-tool-tab-icon-height * 0.5625;
 	  	text-shadow: 0px 0px 2px $ametys-ribbon-main-glyph-decorator-color-shadow;
 	}
 }
@@ -186,7 +200,7 @@
 @include extjs-panel-ui(
     $ui: 'tool-layoutzone',
     
-    $ui-header-padding: top($panel-header-padding) 0 bottom($panel-header-padding) 0,
+    $ui-header-padding: 0, 
     
     $ui-border-radius: 0,
     $ui-border-width: 0 right($ametys-tool-border-width) bottom($ametys-tool-border-width) left($ametys-tool-border-width)        
@@ -370,4 +384,99 @@
 }
 .a-tools-menu-close-all {
     background-image: theme-background-image('ui-tools/close_all_16');
+}
+
+/**
+ * Collapse button
+ */
+.#{$prefix}panel-header-tool-layoutzone.#{$prefix}panel-header-horizontal .#{$prefix}btn-default-small {
+    height: $ametys-tool-tab-icon-height;
+    
+    .#{$prefix}btn-button-default-small {
+        width: $ametys-tool-tab-collapse-size + 1px;
+        min-width: $ametys-tool-tab-collapse-size + 1px;
+
+        .#{$prefix}btn-inner-default-small {
+            // to handle line feed correctly
+            white-space: pre;
+            line-height: round($ametys-tool-tab-collapse-font-size * 9 / 12);
+            
+            &:before
+            {
+                // to handle line feed correctly
+                position: absolute;
+                top: 0;
+                left: 1px;
+            }
+        }
+    }
+}
+.#{$prefix}panel-header-tool-layoutzone.#{$prefix}panel-header-vertical .#{$prefix}btn-default-small {
+    width: $ametys-tool-tab-lateral-width;
+    
+    .#{$prefix}btn-button-default-small {
+        height: $ametys-tool-tab-collapse-size;
+        min-height: $ametys-tool-tab-collapse-size;
+        
+        .#{$prefix}btn-inner-default-small {
+            line-height: $ametys-tool-tab-collapse-font-size;
+        }
+    }
+}
+
+.#{$prefix}panel-header-tool-layoutzone .#{$prefix}btn-default-small {
+    padding: 0;
+    
+    .#{$prefix}btn-button-default-small {
+        .#{$prefix}btn-inner-default-small {
+            padding: 0;
+            
+            &:before {
+                font-family: FontAwesome;
+                font-size: $ametys-tool-tab-collapse-font-size;
+                
+                .#{$prefix}panel-tool-layoutzone-collapsible-left & {
+                    content: "\f053\00A0\f053\00A0\f053";
+                    
+                    .#{$prefix}panel-collapsed&, .#{$prefix}panel-tool-layoutzone-floating& {
+                        content: "\f054\00A0\f054\00A0\f054";
+                    }
+                }
+                
+                .#{$prefix}panel-tool-layoutzone-collapsible-right & {
+                    content: "\f054\00A0\f054\00A0\f054";
+                    
+                    .#{$prefix}panel-collapsed&, .#{$prefix}panel-tool-layoutzone-floating& {
+                        content: "\f053\00A0\f053\00A0\f053";
+                    }
+                }
+
+                .#{$prefix}panel-tool-layoutzone-collapsible-top & {
+                    content: "\f077\000A\f077\000A\f077\000A"; // extra line-feed for bug purposes
+                    
+                    .#{$prefix}panel-collapsed&, .#{$prefix}panel-tool-layoutzone-floating& {
+                        content: "\f078\000A\f078\000A\f078\000A"; // extra line-feed for bug purposes
+                    }
+                }
+
+                .#{$prefix}panel-tool-layoutzone-collapsible-bottom & {
+                    content: "\f078\000A\f078\000A\f078\000A"; // extra line-feed for bug purposes
+                    
+                    .#{$prefix}panel-collapsed&, .#{$prefix}panel-tool-layoutzone-floating& {
+                        content: "\f077\000A\f077\000A\f077\000A"; // extra line-feed for bug purposes
+                    }
+                }
+            }
+        }
+    }
+}
+
+.#{$prefix}panel-header-tool-layoutzone .#{$prefix}btn-default-small .#{$prefix}btn-button-default-small .#{$prefix}btn-inner-default-small:before {
+    color: $ametys-tool-tab-collapse-color;
+}
+.#{$prefix}panel-header-tool-layoutzone .#{$prefix}btn-default-small.#{$prefix}btn-over .#{$prefix}btn-button-default-small .#{$prefix}btn-inner-default-small:before {
+    color: $ametys-tool-tab-collapse-color-over;
+}
+.#{$prefix}panel-header-tool-layoutzone .#{$prefix}btn-default-small.#{$prefix}btn-pressed .#{$prefix}btn-button-default-small .#{$prefix}btn-inner-default-small:before {
+    color: $ametys-tool-tab-collapse-color-pressed;
 }

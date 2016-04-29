@@ -46,8 +46,32 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 		
         /** @cfg {String} typePrefixCls A css classname prefix. Concatenated with the type will give a CSS classname for the tool */
         typePrefixCls: "ametys-tab-color-",
+        /**
+         * @private
+         * @property {String} _floatingCls The css class added when floating
+         */        
+        _floatingCls: "x-panel-tool-layoutzone-floating",
+        
+        /**
+         * @private
+         * @property {String} _collapsibleDirectionCls The css class prefix added to collapsible panel upon its direction
+         */
+        _collapsibleDirectionCls: "x-panel-tool-layoutzone-collapsible",
+        
+        /**
+         * @property {Boolean} _floating=false Is the zone expanded over the others zones? 
+         */
+        _floating: false,
+        
+        /**
+         * @property {Object} _bodySizeBeforeCollapse The last known value of the size of the body when it was expanded. null if not collapsed.
+         * @property {Number} _bodySizeBeforeCollapse.width The width
+         * @property {Number} _bodySizeBeforeCollapse.height The height
+         */
 		
 		hidden: true,
+        
+        hideCollapseTool: true,
 		
 		deferredRender: false,
 		
@@ -99,12 +123,14 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 			config.stateful = true;
 			config.stateId = this.self.getName() + "$" + this._location;
             
+            config.cls = Ext.Array.from(config.cls);
+            config.cls.push(this._collapsibleDirectionCls + "-" + (config.collapseDirection || 'top'));
             
-            config.tabBarHeaderPosition = 0;
+            config.tabBarHeaderPosition = config.collapsible ? 1 : 0;
             config.tabBar = config.tabBar || {};
             config.tabBar.flex = 1;
             config.header = { 
-                titlePosition: 1
+                titlePosition: config.collapsible ? 2 : 1
             };
             config.title = {
                 text: '',
@@ -112,12 +138,50 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
                 flex: 0
             };
             
+            if (config.collapsible)
+            {
+                config.tools = Ext.Array.from(config.tools);
+                config.tools.push({
+                    xtype: 'button',
+                    cls: 'a-btn-lighter',
+                    glyph: '',
+                    handler: Ext.bind(this._expandOrCollapse, this)
+                });
+            }
+            
+            config.stateEvents
+            
 			this.callParent(arguments);
 
             this.on('beforeshow', this._onShow, this);
+            
+            this.on('collapse', this._onUnfloat, this);
 			this.on('unfloat', this._onUnfloat, this);
-            this.on('afterrender', this._onAfterRender, this);
 		},
+        
+        /**
+         * @private
+         * Function to expand or collapse the panel depending on its current #collapse state AND the #_floating state
+         */
+        _expandOrCollapse: function()
+        {
+            if (this._floating)
+            {
+                // Let's do a collapse/expand in a row with no animation
+                this.collapse(null, false);
+                this.expand(false);
+                // We also have to mannualy do what's slideOut do                
+                this.removeCls([this._floatingCls, this._floatingCls + "-" + this._location]);
+            }
+            else if (this.collapsed)
+            {
+                this.expand();
+            }
+            else
+            {
+                this.collapse();
+            }
+        },
         
         /**
          * @private
@@ -129,105 +193,12 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
             if (!this.flex)
             {
                 var brother;
-                if (brother = this.nextSibling("zoned-container") || this.previousSibling("zoned-container"))
-                {
-                    this.flex = brother.flex / 3;
-                }
-                else if (brother = this.nextSibling("zonetabpanel") || this.previousSibling("zonetabpanel"))
+                if (brother = this.nextSibling("zonetabpanel") || this.previousSibling("zonetabpanel"))
                 {
                     this.flex = brother.flex || 1;
                 }
             }
         },
-		
-		getState: function()
-		{
-			var state = this.callParent(arguments);
-			
-			if (!this._isMainArea())
-			{
-				state = this.addPropertyToState(state, 'collapsed', (this.getCollapsed() != false) || Boolean(this.floatedFromCollapse));
-			}
-			
-			return state;
-		},
-
-		/**
-		 * @private
-		 * Update the tabs buttons visible on the collapsed tab
-		 */
-		_updateCollapsePlaceHolder: function()
-		{
-            if (this._isMainArea())
-            {
-                return;
-            }
-            
-			Ext.suspendLayouts();
-			
-			var me = this;
-			Ext.Array.each(this.getPlaceholder().getTools(), function(item) {
-				me.getPlaceholder().remove(item);
-			});
-			
-			this.getPlaceholder().tools = [];
-
-            if (this.getPlaceholder().isVisible())
-            {
-                this.getPlaceholder().getTitle().hide();
-            }
-			
-			var size = this.items ? this.items.getCount() : 0;
-			if (size > 0)
-			{
-				var vertical = this._location == 'l' || this._location == 'r';
-				
-				me.getPlaceholder().addTool({
-					type: 'none',
-					cls: 'x-tool-first',
-					width: vertical ? 20 : 1,
-					height: vertical ? 1 : 20
-				});
-
-				for (var index = 0; index < size; index++)
-				{
-					var item = this.items.getAt(index);
-					
-					me.getPlaceholder().addTool({
-						type: 'none',
-						width: vertical ? 20 : 16,
-								height: vertical ? 16 : 20,
-										renderData: { blank: Ametys.CONTEXT_PATH + item.getSmallIcon() },
-										tooltip: this.getTabBar().items.get(index).tooltip,
-										handler: Ext.bind(this._onCollapsePlaceHolderClick, this, [item.id], false) 
-					});
-				}
-
-				me.getPlaceholder().addTool({
-					type: 'none',
-					cls: 'x-tool-last',
-					width: vertical ? 20 : 1,
-					height: vertical ? 1 : 20
-				});
-			}
-
-			if (!this.getPlaceholder().hasCls("ametys-tool-collapsed"))
-			{
-				this.getPlaceholder().addCls("ametys-tool-collapsed");
-			}
-			
-			Ext.resumeLayouts(true);
-		},
-		
-		/**
-		 * @private
-		 * Listener when a click is done on a button of the collapse panel
-		 * @param {String} toolId The tool to focus
-		 */
-		_onCollapsePlaceHolderClick: function(toolId)
-		{
-            this._toolsLayout.focusTool(Ext.getCmp(toolId));
-		},
 		
 	    /**
 	     * @private
@@ -242,102 +213,24 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 	    	}
 	    },
 
-        /**
-         * @private
-         * Listener after render
-         */
-	    _onAfterRender: function()
-	    {
+        afterRender: function() 
+        {
+            this.callParent(arguments);
+
 	    	// Context menu
 	    	this.getTabBar().mon(this.getTabBar().getEl(), {
 	            scope: this,
 	            contextmenu: this._onContextMenu,
 	            delegate: '.x-tab'
 	        });
-	    	this.getTabBar().mon(this.getTabBar().getEl(), 'click', this._onClickOnTabBar, this);
-	    	
-			/* TODO reimplement pin/unpin without border layout 
-            if (!this._isMainArea())
-			{
-				// Insert a spacer that will take only available space
-				this.getTabBar().add({
-					xtype: 'tbspacer',
-					flex: 0.000000001,
-					minWidth: 2
-				})
-				
-				this.getTabBar().add({
-                    xtype: 'tool',
-					itemId: 'unpin',
-					type: "unpin",
-				    qtip: "{{i18n PLUGINS_CORE_UI_MSG_TOOLS_UNPIN}}",
-				    handler: Ext.bind(this._onTabBarUnpinToolClick, this),
-				    width: 16,
-				    flex: 0
-				});
-				this.getTabBar().add({
-                    xtype: 'tool',
-					itemId: 'pin',
-					type: "pin",
-					hidden: true,
-				    qtip: "{{i18n PLUGINS_CORE_UI_MSG_TOOLS_PIN}}",
-				    handler: Ext.bind(this._onTabBarPinToolClick, this),
-				    width: 16,
-				    flex: 0
-				});
-				
-				this.on('collapse', this._onCollapse, this);
-				this.on('expand', this._onExpand, this);
-			}*/
-	    },
-	    
-	    /**
-	     * @private
-	     * Listener when clicking on the unpin button
-	     * @param {Ext.event.Event} event The click event.
-		 * @param {Ext.Element} toolEl The tool Element.
-		 * @param {Ext.panel.Header} bar The host panel header. 
-		 * @param {Ext.panel.Tool} tool The tool object
-	     */
-	    _onTabBarUnpinToolClick: function(event, toolEl, bar, tool)
-	    {
-	    	bar.ownerCt.collapse();
-	    },
 
-	    /**
-	     * @private
-	     * Listener when clicking on the pin button
-	     * @param {Ext.event.Event} event The click event.
-		 * @param {Ext.Element} toolEl The tool Element.
-		 * @param {Ext.panel.Header} bar The host panel header. 
-		 * @param {Ext.panel.Tool} tool The tool object
-	     */
-	    _onTabBarPinToolClick: function(event, toolEl, bar, tool)
-	    {
-	    	bar.ownerCt.expand(false);
-	    },
+            // Click the bar will focus the current active tool
+            this.getTabBar().mon(this.getTabBar().getEl(), 'click', this._onClickOnTabBar, this);
+	    },	    
 
 		/**
 		 * @private
-		 * Listener when the tabpanel is collapsed
-		 */
-		_onCollapse: function(animated)
-		{
-			this.getLogger().debug("Collapsing '" + this._location + "' zone")
-
-			this.getTabBar().getComponent("unpin").hide();
-			this.getTabBar().getComponent("pin").show()
-		
-			Ext.defer(this._updateCollapsePlaceHolder, 1, this);
-	    	
-	    	this._onUnfloat();
-	    	
-	    	this.saveState();
-		},
-		
-		/**
-		 * @private
-		 * Listener when the tabpanel is unfloated
+		 * Listener when the tabpanel is unfloated to focus another zone
 		 */
 		_onUnfloat: function()
 		{
@@ -346,7 +239,6 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 			var panel = this.getActiveTab()
 	    	if (panel != null)
 	    	{
-	    		this._toolsLayout._onToolDeactivated(panel);
 	    		if (this._toolsLayout.getFocusedTool() == panel)
 	    		{
 	    			this._toolsLayout._onToolBlurred(panel);
@@ -358,27 +250,12 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 	    			}
 	    			else
 	    			{
-                        // FIXME no link with such class
-	    				// Ext.create("Ametys.message.Message", { type: Ametys.message.Message.SELECTION_CHANGED, targets: [] });
+                        this._toolsLayout.focusTool(null);
 	    			}
 	    		}
 	    	}
 		},
 		
-		/**
-		 * @private
-		 * Listener when the tabpanel is expanded
-		 */
-		_onExpand: function()
-		{
-			this.getLogger().debug("Expanding '" + this._location + "' zone")
-
-			this.getTabBar().getComponent("unpin").show();
-			this.getTabBar().getComponent("pin").hide()
-
-	    	this.saveState();
-		},
-
 		onAdd: function(tool, index)
 		{
 			var me = this;
@@ -421,8 +298,6 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 			
 			// Ensure the owner tabpanel is visible
 			this.show();
-			
-			Ext.defer(this._updateCollapsePlaceHolder, 1, this);
 		},
 		
 		/**
@@ -444,8 +319,6 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 		onRemove: function(panel, autoDestroy)
 		{
 			this.callParent(arguments);
-
-			Ext.defer(this._updateCollapsePlaceHolder, 1, this);
 			
 			if (this.items.length == 0)
 			{
@@ -533,38 +406,33 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 			});
 			this._contextualMenuTargetToolId = null;
 		},
-		
-		/**
-		 * @private
-		 * Listener when mouse leave the float zone
-		 */
-		onMouseLeaveFloated: function()
-		{
-			// nothing, to avoid the default parent behavior that is to slideOut floating zone if mouse leave
-		},
-
-		/**
-		 * @private
-		 * Makes a collapse panel to slide in
-		 */
-		floatCollapsedPanel: function()
-		{
-			// Avoid recusive calls, since _slidInZone will call floatCollapsedPanel
-			if (this.isSliding)
-			{
-				return;
-			}
-			
-			this.callParent(arguments);
-			
-			this._toolsLayout._slideInZone(this);
-			
-	    	var panel = this.getActiveTab()
-	    	if (panel != null)
-	    	{
-	    		this._toolsLayout._onToolActivated(panel);
-                this._toolsLayout.focusTool(panel);
-	    	}
-		}
+        
+        /**
+         * @private
+         * For lateral zone, would display it over the others zones
+         */
+        _slideIn: function()
+        {
+            if (!this._isMainArea() && this.collapsed)
+            {
+                this.addCls([this._floatingCls, this._floatingCls + "-" + this._location]);
+                this._floating = true;
+                this.expand();
+            }
+        },
+        
+        /**
+         * @private
+         * For lateral zone, would display it over the others zones
+         */
+        _slideOut: function()
+        {
+            if (!this._isMainArea() && this._floating)
+            {
+                this.collapse();
+                // floating will be set to false in placeholder collapse listener because collapse is asynchronous
+                this.removeCls([this._floatingCls, this._floatingCls + "-" + this._location]);
+            }
+        }
 	}
 );

@@ -104,10 +104,26 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
         _onAnyMouseDown: function(e, t, eOpts) 
         {
             // We want to cancel right-click
-            if (e.button != 0 && this._panel && Ext.fly(t).findParent("#" + this._panel.getId()))
+            if (e.button != 0)
             {
-                e.preventDefault();
-            }       
+                if (this._panel && (Ext.fly(t).findParent("#" + this._panel.getId())))
+                {
+                    e.preventDefault();
+                    return;
+                }       
+                
+                // As tabpanels may not be nested, we need to test on each directly
+                var locs = this.getSupportedLocations();
+                for (var i = 0; i < locs.length; i++)
+                {
+                    var el = this._panelHierarchy[locs[i]].getEl();
+                    if (el && Ext.fly(t).findParent("#" + el.getId()))
+                    {
+                        e.preventDefault();
+                        return;
+                    }
+                }
+            }                
         },
 		
 		getSupportedLocations: function()
@@ -179,28 +195,48 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			this._panelHierarchy = {};
 			
 			var panelClass = "Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel";
+            var placeholderClass = "Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanelPlaceHolder";
+            var containerClass = "Ametys.ui.tool.layout.ZonedTabsToolsLayout.Container";
 			
 			var panels = [
-				this._panelHierarchy['t'] = Ext.create(panelClass, Ext.apply({ location: 't', toolsLayout: this, minHeight: this.self.__REGION_MINSIZE.height }, this.self.__ADDITIONNAL_ZONE_CONFIG_OTHER)),
-                {
-                    xtype: 'zoned-container',
+                Ext.create(placeholderClass, {
                     stateful: true,
-                    stateId: Ametys.ui.tool.layout.ZonedTabsToolsLayout.Container.getName() + "$",
+                    stateId: placeholderClass + "$t",
+                    minHeight: this.self.__REGION_MINSIZE.height,
+                    items: [ this._panelHierarchy['t'] = Ext.create(panelClass, Ext.apply({ location: 't', toolsLayout: this, collapsible: true, collapseMode: "header", collapseDirection: "top", floating: true, autoShow: true, shadow: false }, this.self.__ADDITIONNAL_ZONE_CONFIG_OTHER)) ]
+                }),
+                Ext.create(containerClass, {
+                    stateful: true,
+                    stateId: containerClass + "$",
                     items: [
-        				this._panelHierarchy['l'] = Ext.create(panelClass, Ext.apply({ location: 'l', toolsLayout: this, minWidth: this.self.__REGION_MINSIZE.width}, this.self.__ADDITIONNAL_ZONE_CONFIG_LEFT)),
-                        {
-                            xtype: 'zoned-container',
+                        Ext.create(placeholderClass, {
                             stateful: true,
-                            stateId: Ametys.ui.tool.layout.ZonedTabsToolsLayout.Container.getName() + "$c",
+                            stateId: placeholderClass + "$l",
+                            minWidth: this.self.__REGION_MINSIZE.width,
+                            items: [ this._panelHierarchy['l'] = Ext.create(panelClass, Ext.apply({ location: 'l', toolsLayout: this, collapsible: true, collapseMode: "header", collapseDirection: "left", floating: true, autoShow: true, shadow: false }, this.self.__ADDITIONNAL_ZONE_CONFIG_LEFT)) ]
+                        }),
+                        Ext.create(containerClass, {
+                            stateful: true,
+                            stateId: containerClass + "$c",
                             items: [
-        				        this._panelHierarchy['cl'] = Ext.create(panelClass, Ext.apply({ location: 'cl', toolsLayout: this }, this.self.__ADDITIONNAL_ZONE_CONFIG_OTHER)),
-        				        this._panelHierarchy['cr'] = Ext.create(panelClass, Ext.apply({ location: 'cr', toolsLayout: this }, this.self.__ADDITIONNAL_ZONE_CONFIG_OTHER))
+        				        this._panelHierarchy['cl'] = Ext.create(panelClass, Ext.apply({ location: 'cl', toolsLayout: this, stateful: true, stateId: panelClass + "$cl" }, this.self.__ADDITIONNAL_ZONE_CONFIG_OTHER)),
+        				        this._panelHierarchy['cr'] = Ext.create(panelClass, Ext.apply({ location: 'cr', toolsLayout: this, stateful: true, stateId: panelClass + "$cr" }, this.self.__ADDITIONNAL_ZONE_CONFIG_OTHER))
                             ]
-                        },
-        				this._panelHierarchy['r'] = Ext.create(panelClass, Ext.apply({ location: 'r', toolsLayout: this, minWidth: this.self.__REGION_MINSIZE.width }, this.self.__ADDITIONNAL_ZONE_CONFIG_RIGHT))
+                        }),
+                        Ext.create(placeholderClass, {
+                            stateful: true,
+                            stateId: placeholderClass + "$r",
+                            minWidth: this.self.__REGION_MINSIZE.width,
+                            items: [ this._panelHierarchy['r'] = Ext.create(panelClass, Ext.apply({ location: 'r', toolsLayout: this, collapsible: true, collapseMode: "header", collapseDirection: "right", floating: true, autoShow: true, shadow: false }, this.self.__ADDITIONNAL_ZONE_CONFIG_RIGHT)) ]
+                        })
                     ]
-                },
-                this._panelHierarchy['b'] = Ext.create(panelClass, Ext.apply({ location: 'b', toolsLayout: this, minHeight: this.self.__REGION_MINSIZE.height }, this.self.__ADDITIONNAL_ZONE_CONFIG_OTHER))
+                }),
+                Ext.create(placeholderClass, {
+                    stateful: true,
+                    stateId: placeholderClass + "$b",
+                    minHeight: this.self.__REGION_MINSIZE.height,
+                    items: [ this._panelHierarchy['b'] = Ext.create(panelClass, Ext.apply({ location: 'b', toolsLayout: this,collapsible: true, collapseMode: "header", collapseDirection: "bottom", floating: true, autoShow: true, shadow: false }, this.self.__ADDITIONNAL_ZONE_CONFIG_OTHER)) ]
+                })
 			];
 			
 			return panels;
@@ -208,6 +244,8 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 		
 		focusTool: function(tool)
 		{
+            this.callParent(arguments);
+            
 			var zoneTabsToolsPanel = tool.ownerCt;
 			
 			if (zoneTabsToolsPanel.getActiveTab() != tool)
@@ -230,14 +268,11 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 				var otherZone = this._panelHierarchy[loc];
 				if (otherZone == zone)
 				{
-					if (zone.getCollapsed())
-					{
-						zone.floatCollapsedPanel();
-					}
+    				zone._slideIn();
 				}
-				else if (!otherZone._isMainArea() && otherZone.getPlaceholder().isVisible() && !otherZone.getCollapsed())
+				else if (!otherZone._isMainArea())
 				{
-					otherZone.slideOutFloatedPanel();
+					otherZone._slideOut();
 				}
 			}
 		},
@@ -325,11 +360,6 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			{
 				tool.fireEvent("toolfocus", tool);
 			}
-            
-            if (Ext.isFunction(this.titleChangedCallback))
-            {
-                this.titleChangedCallback(tool.getTitle());
-            }
 		},
 		
 		/**
@@ -416,8 +446,6 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 				inribbon: false
 			});
 			
-			zoneTabsToolsPanel._updateCollapsePlaceHolder();
-            
             if (tool.ownerCt.hasCls(this.focusCls) && tool.ownerCt.getActiveTab() == tool && Ext.isFunction(this.titleChangedCallback))
             {
                 this.titleChangedCallback(tool.getTitle());
@@ -561,6 +589,11 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 						return false;
 					}
 				});
+                
+                if (this.getFocusedTool() == null)
+                {
+                    this.focusTool(null);
+                }
 			}
 			
 			Ext.resumeLayouts(true);

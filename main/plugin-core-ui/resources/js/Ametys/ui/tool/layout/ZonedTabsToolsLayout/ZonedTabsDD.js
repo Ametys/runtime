@@ -132,7 +132,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
                 var p = tabPanel;
                 if (!visible[loc])
                 {
-                    p = tabPanel.ownerCt;
+                    p = tabPanel.ownerCt || tabPanel.floatingOwnerCt;
                     while (!p.isVisible())
                     {
                         p = p.ownerCt;

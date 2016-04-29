@@ -35,7 +35,14 @@ $ametys-tool-tab-close-glyph-over: dynamic("\f057");
 $ametys-tool-tab-close-glyph-pressed: $ametys-tool-tab-close-glyph-over;
 $ametys-tool-tab-close-glyph-size: dynamic($ametys-tool-tab-close-icon-size * 10 / 16);
 $ametys-tool-tab-close-glyph-size-over: dynamic($ametys-tool-tab-close-icon-size);
-$ametys-tool-tab-close-glyph-size-pressed: $ametys-tool-tab-close-glyph-size-over; 
+$ametys-tool-tab-close-glyph-size-pressed: $ametys-tool-tab-close-glyph-size-over;
+$ametys-tool-tab-collapse-font-size: dynamic(floor($ametys-tool-tab-font-size * 0.8));  
+$ametys-tool-tab-collapse-size: dynamic($ametys-tool-tab-collapse-font-size + 2px);
+$ametys-tool-tab-collapse-color: dynamic(lighten($ametys-tool-tab-gray-superdark, 25%)); 
+$ametys-tool-tab-collapse-color-over: darken($ametys-tool-tab-collapse-color, 10%);
+$ametys-tool-tab-collapse-color-pressed: darken($ametys-tool-tab-collapse-color-over, 10%);
+$ametys-tool-tab-lateral-font-size: dynamic(floor($ametys-tool-tab-font-size * 0.8));  
+$ametys-tool-tab-lateral-width: dynamic(5.5 * $ametys-tool-tab-lateral-font-size); 
 
 $ametys-tool-border-width: dynamic(1px);
 $ametys-tool-inner-border-width: dynamic($font-size/3);
