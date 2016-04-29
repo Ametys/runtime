@@ -283,7 +283,8 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 		this._initialValue = initialValue;
 		
 		// Preselect default data source if there is no initial value
-		if (!initialValue)
+		// Or if the value has been removed (deleted data source when disabled)
+		if (!initialValue || !store.getById(initialValue))
 		{
 			this.setValue(this._defaultDataSourceId);
 		}

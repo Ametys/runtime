@@ -453,6 +453,25 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         this.callParent(arguments);
     },
     
+    /**
+     * Inherited to return the disabled/hidden values as well
+     */
+    getValues:  function(asString, dirtyOnly, includeEmptyText, useDataValues)
+    {
+    	var formValues = this.callParent(arguments);
+
+		Ext.Array.each(this._fields, function(fieldName){
+			var field = this.getField(fieldName);
+			if (field.isDisabled() || field.isHidden())
+			{
+				var fieldName = field.name;
+				formValues[fieldName] = field.getValue();
+			}
+		}, this);
+		
+		return formValues;
+    },
+    
     reset: function()
     {
     	// reset the fields
@@ -539,7 +558,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * @param {String} name The name (or id) of the searched field
      * @return {Ext.form.field.Field} The first matching field, or null if none was found.
      */
-    getField : function (name)
+    getField: function (name)
     {
         return this.getForm().findField(name);
     },

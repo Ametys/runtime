@@ -475,7 +475,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                         for (ConfigParameter parameter: group.getParams(true))
                         {
                             DisableConditions disableConditions = parameter.getDisableConditions();
-                            disabled = _evaluateDisableConditions(disableConditions, untypedValues);
+                            disabled = evaluateDisableConditions(disableConditions, untypedValues);
                             
                             if (!StringUtils.equals(parameter.getId(), group.getSwitch()) && !disabled)
                             {
@@ -563,7 +563,13 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         return value;
     }
 
-    private boolean _evaluateDisableConditions(DisableConditions disableConditions, Map<String, String> untypedValues)
+    /**
+     * Recursively evaluate the {@link DisableConditions} against the configuration values
+     * @param disableConditions the disable conditions to evaluate
+     * @param untypedValues the untyped configuration values
+     * @return true if the disable conditions are true, false otherwise
+     */
+    public boolean evaluateDisableConditions(DisableConditions disableConditions, Map<String, String> untypedValues)
     {
         if (disableConditions == null || disableConditions.getConditions().isEmpty() && disableConditions.getSubConditions().isEmpty())
         {
@@ -578,7 +584,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         
         for (DisableConditions subConditions : disableConditions.getSubConditions())
         {
-            boolean result = _evaluateDisableConditions(subConditions, untypedValues);
+            boolean result = evaluateDisableConditions(subConditions, untypedValues);
             disabled = andOperator ?  disabled && result : disabled || result;
         }
         

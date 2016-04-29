@@ -15,6 +15,7 @@
  */
 package org.ametys.plugins.core.impl.datasource;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -24,12 +25,13 @@ import org.ametys.runtime.config.Config;
 import org.ametys.runtime.config.ConfigManager;
 import org.ametys.runtime.config.ConfigParameter;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
+import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 
 /**
  * Implementation of {@link DataSourceConsumer} allowing to know whether a data source is used in the configuration or not.
  * It also allows to retrieve the data source ids that are currently in use.
  */
-public class ConfigurationDataSourceConsumer implements DataSourceConsumer
+public class ConfigurationDataSourceConsumer extends AbstractLogEnabled implements DataSourceConsumer
 {
     @Override
     public boolean isInUse(String id)
@@ -44,11 +46,23 @@ public class ConfigurationDataSourceConsumer implements DataSourceConsumer
         Config config = Config.getInstance();
         if (config != null)
         {
+            Map<String, String> untypedValues = new HashMap<> ();
+            try
+            {
+                untypedValues = Config.read();
+            }
+            catch (Exception e)
+            {
+                getLogger().error("Cannot read the configuration file.", e);
+            }
+            
             Map<String, ConfigParameter> parameters = ConfigManager.getInstance().getParameters();
             for (String paramName : parameters.keySet())
             {
-                if (parameters.get(paramName).getType() == ParameterType.DATASOURCE)
+                ConfigParameter configParam = parameters.get(paramName);
+                if (configParam.getType() == ParameterType.DATASOURCE && !ConfigManager.getInstance().evaluateDisableConditions(configParam.getDisableConditions(), untypedValues))
                 {
+                    // A data source is not considered used when it is disabled
                     usedDataSourceIds.add(config.getValueAsString(paramName));
                 }
             }
