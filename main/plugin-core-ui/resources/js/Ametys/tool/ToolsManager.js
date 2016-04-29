@@ -363,6 +363,11 @@ Ext.define("Ametys.tool.ToolsManager",
 		moveTool: function(tool, newLocation)
 		{
 			this.getToolsLayout().moveTool(tool.getWrapper(), newLocation);
+            
+            if (this.isInitialized())
+            {
+                this.saveState();
+            }
 		},
 		
 		/**
