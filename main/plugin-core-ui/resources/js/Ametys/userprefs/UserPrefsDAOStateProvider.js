@@ -62,6 +62,8 @@ Ext.define('Ametys.userprefs.UserPrefsDAOStateProvider', {
 	_onUnload: function(eOpts)
 	{
 		this._saveState(Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS);
+        
+        return null; // If there is no 'return' instruction, Chrome does not call this. WTF?!
 	},
 	
     set : function(name, value){
