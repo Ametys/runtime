@@ -43,12 +43,13 @@
 		  
 		    <map:action name="datasources" src="org.ametys.runtime.plugins.admin.datasource.GetDataSourcesAction" logger="org.ametys.plugins.admin.datasource.GetDataSourcesAction" />
 		    <map:action name="datasource-test" src="org.ametys.runtime.plugins.admin.datasource.CheckDataSourceAction" logger="org.ametys.runtime.plugins.admin.datasource.CheckDataSourceAction" />
+		    
+		    <map:action name="jvmstatus-monitoring-json" src="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.GetRRdDataAction" logger="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.GetRRdDataAction"/>
 		</map:actions>
         
         <map:readers>
             <map:reader name="jvmstatus-threadlog" src="org.ametys.runtime.plugins.admin.jvmstatus.ThreadLogReader" logger="org.ametys.runtime.plugins.admin.reader"/>
             <map:reader name="jvmstatus-monitoring-graph" src="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.RRDGraphReader" logger="org.ametys.runtime.plugins.admin.reader"/>
-            <map:reader name="jvmstatus-monitoring-export" src="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.RRDXmlExportReader" logger="org.ametys.runtime.plugins.admin.reader"/>
         </map:readers>
         
         <map:serializers>
@@ -138,9 +139,12 @@
                     <map:parameter name="period" value="{2}"/>
                 </map:read>
             </map:match>
-
-            <map:match pattern="jvmstatus/monitoring/*.xml">
-                <map:read type="jvmstatus-monitoring-export" src="{1}"/>
+            
+            <map:match pattern="jvmstatus/monitoring/*.json">
+                <map:act type="jvmstatus-monitoring-json">
+                    <map:parameter name="sampleId" value="{1}"/>
+                    <map:read type="json" />
+                </map:act>
             </map:match>
             
         </map:pipeline>

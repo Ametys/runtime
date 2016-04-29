@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -19,16 +19,248 @@
  */
 Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
 	extend: 'Ametys.tool.Tool',
-	
+    
+    statics: {
+        /**
+         * Downloads the given chart.
+         * @param {String} chartId The chart id
+         */
+        download: function(chartId)
+        {
+            var tool = this._getTool();
+            if (tool != null)
+            {
+                tool.download.call(tool, [chartId]);
+            }
+        },
+        
+        /**
+         * Sets the zoom of all the charts at year level.
+         */
+        setZoomYear: function()
+        {
+            this._setZoom(5);
+        },
+        
+        /**
+         * Sets the zoom of all the charts at month level.
+         */
+        setZoomMonth: function()
+        {
+            this._setZoom(12 * 5);
+        },
+        
+        /**
+         * Sets the zoom of all the charts at week level.
+         */
+        setZoomWeek: function()
+        {
+            this._setZoom(52 * 5);
+        },
+        
+        /**
+         * Sets the zoom of all the charts at day level.
+         */
+        setZoomDay: function()
+        {
+            this._setZoom(365 * 5);
+        },
+        
+        /**
+         * Sets the zoom of all the charts at hour level.
+         */
+        setZoomHour: function()
+        {
+            this._setZoom(365 * 24 * 5);
+        },
+        
+        /**
+         * Moves the time axis to now.
+         */
+        moveToNow: function()
+        {
+            var tool = this._getTool();
+            if (tool != null && !tool.getDrawMode())
+            {
+                tool.moveToNow.call(tool);
+            }
+        },
+        
+        /**
+         * Enables / disables the draw mode, which enables to annotate the graphs.
+         */
+        switchDrawMode: function()
+        {
+            var tool = this._getTool();
+            if (tool != null)
+            {
+                tool.setDrawMode.call(tool, !tool.getDrawMode());
+            }
+        },
+        
+        /**
+         * Reloads the graphs data
+         */
+        reloadGraphs: function()
+        {
+            var tool = this._getTool();
+            if (tool != null)
+            {
+                tool.reloadGraphs.call(tool);
+            }
+        },
+        
+        /**
+         * @private
+         * Sets the given zoom on the charts.
+         * @param {Number} zoomValue The zoom value. Must be between 0 (excluded) and 1 (included)
+         */
+        _setZoom: function(zoomValue)
+        {
+            var tool = this._getTool();
+            if (tool != null && !tool.getDrawMode())
+            {
+                tool.zoomOnTimeAxis.call(tool, [zoomValue]);
+            }
+        },
+        
+        /**
+         * @private
+         * Gets the monitoring tool.
+         * @return {Ametys.plugins.admin.jvmstatus.MonitoringTool} The tool if opened, null otherwise.
+         */
+        _getTool: function()
+        {
+            return Ametys.tool.ToolsManager.getTool("uitool-admin-monitoring");
+        }
+    },
+    
 	/**
 	 * @private
-	 * @property {Ext.Container} _monitoringPanel The JVM status main panel
+	 * @property {Ext.tab.Panel} _monitoringPanel The JVM status main panel
 	 */
+    
+    /**
+     * @private
+     * @property {Boolean} _drawMode true if the tool is in draw mode, false otherwise.
+     */
+    _drawMode: false,
 	
 	constructor: function(config)
 	{
 		this.callParent(arguments);
 	},
+    
+    /**
+     * Updates the time axis of the charts
+     * @param {Number} zoomValue The zoom value. Must greater or equals to 1.
+     */
+    zoomOnTimeAxis: function(zoomValue)
+    {
+        var chart = this._monitoringPanel.getActiveTab();
+        if (chart != null)
+        {
+            var axis = chart.getAxis(0), // time axis
+                range = axis.getVisibleRange(),
+                oldEnd = range[1];
+            axis.setVisibleRange([oldEnd - 1 / zoomValue, oldEnd]);
+            chart.redraw();
+        }
+    },
+    
+    /**
+     * Moves the end of the time axis to maximum
+     */
+    moveToNow: function()
+    {
+        var chart = this._monitoringPanel.getActiveTab();
+        if (chart != null)
+        {
+            var axis = chart.getAxis(0), // time axis
+                range = axis.getVisibleRange(),
+                oldStart = range[0],
+                oldEnd = range[1],
+                length = oldEnd - oldStart;
+            axis.setVisibleRange([1-length, 1]);
+            chart.redraw();
+        }
+    },
+    
+    reloadGraphs: function()
+    {
+        this._monitoringPanel.items.each(function(chart) {
+            var id = chart.getItemId(),
+                serverId = id.replace(/-/g, '.'),
+                toDate = new Date(),
+                fromDate = new Date(toDate.getTime() - (1000*60*60*24*365*5)), // 5 year range
+                toTime = toDate.getTime(),
+                fromTime = fromDate.getTime(),
+                axis = chart.getAxis(0),
+                range = axis.getVisibleRange();
+            axis.setFromDate(fromDate);
+            axis.setToDate(toDate);
+            
+            Ametys.data.ServerComm.send({
+                plugin: 'admin', 
+                url: 'jvmstatus/monitoring/' + serverId + '.json',
+                parameters: {
+                    startTime: fromTime + (toTime-fromTime) * range[0],
+                    endTime: fromTime + (toTime-fromTime) * range[1]
+                },
+                responseType: "text",
+                priority: Ametys.data.ServerComm.PRIORITY_MAJOR,
+                callback: {
+                    handler: this._populateGraphData,
+                    arguments: [id],
+                    scope: this
+                }
+            });
+        }, this);
+    },
+    
+    /**
+     * Sets the value of the draw mode, which enables to annotate the graphs.
+     */
+    setDrawMode: function(drawMode)
+    {
+        var chart = this._monitoringPanel.getActiveTab();
+        if (chart != null)
+        {
+            chart.setDraw(drawMode);
+            this.enableInteractions(chart, !drawMode);
+            chart.getSurface('chart').removeAll(true);
+            chart.renderFrame();
+        }
+        
+        this._drawMode = drawMode;
+        
+        Ext.create("Ametys.message.Message", {
+            type: Ametys.message.Message.MODIFIED,
+            
+            targets: {
+                id: Ametys.message.MessageTarget.TOOL,
+                parameters: { tools: [this] }
+            }
+        });
+    },
+    
+    /**
+     * Gets the draw mode state of the tool.
+     * @return {Boolean} true if the tool is in draw mode, false otherwise.
+     */
+    getDrawMode: function()
+    {
+        return this._drawMode;
+    },
+    
+    /**
+     * Function to render values on a pretier way.
+     * @param {String} value The value to render.
+     * @return {String} The label to display.
+     */
+    renderValue: function(value) {
+        return Ext.util.Format.number(value, '0,000.###'); // 3 digits max after decimal point, and will use the locale default separators for thousand and decimal
+    },
 	
 	getMBSelectionInteraction: function() 
 	{
@@ -37,12 +269,19 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
 	
 	createPanel: function ()
 	{
-		this._monitoringPanel = Ext.create('Ext.Container', {
-									border: false,
-									scrollable: true,
-									cls: ['uitool-admin-monitoring', 'a-panel-spacing'],
-									ui: 'panel-text'
-								});
+		this._monitoringPanel = Ext.create('Ext.tab.Panel', {
+            tabPosition: 'left',
+            tabRotation: 0,
+            listeners: {
+                'tabchange': Ext.bind(function(tabPanel, newChart, oldChart, eOpts) {
+                    if (oldChart != null)
+                    {
+                        newChart.getAxis(0).setVisibleRange(oldChart.getAxis(0).getVisibleRange());
+                    }
+                    this.setDrawMode(this.getDrawMode());
+                }, this)
+            }
+        });
 		
 		return this._monitoringPanel;
 	},
@@ -50,7 +289,7 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
 	setParams: function (params)
 	{
 		this.callParent(arguments);
-		this.refresh();
+		this.showOutOfDate();
 	},
 	
 	/**
@@ -84,83 +323,317 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
 	 */
 	_refreshCb: function (response, args)
 	{
-		var items = [];
-		for (var i = 0; i < response.samples.sampleList.length; i++)
-		{
-			var id = response.samples.sampleList[i].id;
-			var label = response.samples.sampleList[i].label;
-			var description = response.samples.sampleList[i].description;
-			
-		    items.push({
-		    	xtype: 'panel',
-		    	cls: 'a-panel-text',
-
-		    	title : label,
-		    	border: false,
-		    	
-				collapsible: true,
-				titleCollapse: true,
+        // Construct the graphs
+        var sampleList = response['samples']['sampleList'];
+        Ext.Array.forEach(sampleList, function(sample) {
+            var serverId = sample.id,
+                id = serverId.replace(/\./g, '-'), // no '.' in ExtJS ids
+                label = sample.label,
+                description = sample.description,
+                thresholds = sample.thresholds,
+            
+                toDate = new Date(),
+                fromDate = new Date(toDate.getTime() - (1000*60*60*24*365*5)), // 5 year range
+                chartCfg = this._getChartCfg(id, label, description, fromDate, toDate, thresholds);
                 
-                header: {
-                    titlePosition: 1
-                },
-				
-		    	html: '<div class="monitoring">'
-		    		+ '    <button style="border-left-style: none;" id="btn-' + id + '-left" onclick="Ametys.plugins.admin.jvmstatus.MonitoringTool.prototype._nextImg(\'' + id + '\', -1,\'' + response.samples.periods + '\'); return false;">&lt;&lt;</button>'
-		    		+ '    <img id="img-' + id + '" src="' + Ametys.getPluginDirectPrefix("admin") + '/jvmstatus/monitoring/' + id + '/' + response.samples.periods[1] + '.png" title="' + description + '"/>'
-		    		+ '    <button style="border-right-style: none;" id="btn-' + id + '-right"  onclick="Ametys.plugins.admin.jvmstatus.MonitoringTool.prototype._nextImg(\'' + id + '\', +1,\'' + response.samples.periods + '\'); return false;">&gt;&gt;</button>'
-		    		+ '<br/><a target="_blank" href="' + Ametys.getPluginDirectPrefix("admin") + '/jvmstatus/monitoring/' + id + '.xml">{{i18n PLUGINS_ADMIN_STATUS_TAB_MONITORING_EXPORT}}</a>'
-		    	    + '</div>'
-		    });
-		}
+	        this._monitoringPanel.add([chartCfg]);
+		}, this);
 		
-		this._monitoringPanel.add(items);
-		
+        var first = this._monitoringPanel.items.first();
+        if (first != null)
+        {
+            this._monitoringPanel.setActiveTab(first);
+            this.statics().setZoomDay();
+        }
+            
 		this.showRefreshed();
 	},
-	
-	/**
-	 * @private
-	 * This method is called to go to the next image in the monitoring panel 
-	 * @param {String} id the id of the image
-	 * @param {Number} dir the direction, -1 for left, 1 for right
-	 * @param {String} periods the coma separated string of available periods of time for the graph
-	 */
-	_nextImg: function(id, dir, periods)
-	{
-		periods = periods.split(",");
-		
-		var img = Ext.get('img-' + id);
-		var src = img.dom.src;
-		
-		var currentPeriod = src.substring(src.lastIndexOf("/") + 1, src.length - 4);
-		
-		src = src.substring(0, src.lastIndexOf("/") + 1);
-		for (var i = 0; i < periods.length; i++)
-		{
-			if (periods[i] == currentPeriod)
-			{
-				src += periods[i + dir]
-	            if (i + dir == 0)
-	            {
-	            	Ext.get("btn-" + id + "-left").hide();
-	            	Ext.get("btn-" + id + "-right").show();
-	            }
-	            else if (i + dir == periods.length - 1)
-	            {
-	            	Ext.get("btn-" + id + "-left").show();
-	            	Ext.get("btn-" + id + "-right").hide();
-	            }
-	            else
-	            {
-	            	Ext.get("btn-" + id + "-left").show();
-	            	Ext.get("btn-" + id + "-right").show();
-	            }
-				break;
-			}
-		}
-		src += '.png';
-			
-		img.dom.src = src;
-	},
+    
+    /**
+     * @private
+     * Callback after receiving data from the server to populate the graph.
+     * @param {Object} response the server response
+     * @param {Array} args The callback arguments
+     */
+    _populateGraphData: function(response, args)
+    {
+        if (this._monitoringPanel == null)
+        {
+            return;
+        }
+        
+        var id = args[0],
+            chart = this._monitoringPanel.getComponent(id),
+            store = chart.getStore();
+        
+        if (chart.rendered)
+        {
+            // The server returned a string json, decode it into an array of object
+            var stringData = response.firstChild.textContent;
+            var data = Ext.decode(stringData, true);
+            
+            // Compute the fields from data object
+            function getFields(data)
+            {
+                var fields = [];
+                Ext.Array.forEach(data, function(item) {
+                    Ext.Object.each(item, function(key, value) {
+                        if (!Ext.Array.contains(fields, key))
+                        {
+                            fields.push(key);
+                        }
+                    });
+                });
+                return fields;
+            };
+            var fields = getFields(data);
+            fields.sort().reverse(); //all MAX must be before AVERAGE for graphical purposes
+            
+            // Create the series
+            var series = [];
+            Ext.Array.forEach(fields, function(field) {
+                if (field != 'time')
+                {
+    	            series.push(this._getLineSerieCfg(field));
+                }
+            }, this);
+            
+            // Draw the series in the chart
+            chart.setSeries(series);
+            store.setFields(fields);
+            store.setData(data);
+            console.log("Store updated => new number of points per serie : " + data.length);
+        }
+    },
+    
+    /**
+     * @private
+     * Gets the object config for creating a graph
+     * @param {String} itemId The item id
+     * @param {String} label The title of the graph panel
+     * @param {Date} fromDate The start of the time axis
+     * @param {Date} toDate the end of the time axis
+     * @param {Object} thresholds the thresholds for the limits to display. Can be null.
+     * @return {Object} The configuration object for creating a graph
+     */
+    _getChartCfg: function(itemId, label, description, fromDate, toDate, thresholds)
+    {
+        return {
+            xtype: 'drawable-cartesian',
+            title: label,
+            border: false,
+            collapsible: true,
+            titleCollapse: true,
+            header: {
+                titlePosition: 1
+            },
+            itemId: itemId,
+            style: {
+                marginBottom: '50px'
+            },
+                
+            store: {
+                fields: ['time'],
+                data: []
+            },
+            
+            interactions: [this._getPanzoomInteractionCfg()],
+            
+            legend: {
+                docked: 'right'
+            },
+            shadow: false,
+            animation: false,
+            
+            axes: [{
+                type: 'time',
+                position: 'bottom',
+                grid: true,
+                dateFormat: Ext.Date.patterns.FriendlyDateTime,
+                fromDate: fromDate,
+                toDate: toDate,
+                maxZoom: 500000,
+                label: {
+                    rotate: {
+                        degrees: -45
+                    }
+                },
+                listeners: {
+                    'visiblerangechange': Ext.bind(this._onTimeAxisVisibleRangeChange, this)
+                }
+            }, {
+                type: 'numeric',
+                position: 'left',
+                grid: true,
+                minimum: 0,
+                limits: this._getLimitLineCfg(thresholds),
+                renderer: Ext.bind(function(axis, label, layoutContext) {
+                    var value = layoutContext.renderer(label);
+                    return this.renderValue(value);
+                }, this)
+            }],
+            
+            series: [],
+            
+            listeners: {
+                afterrender: Ext.bind(function(chart) {
+                    // Draw our components with the legend (in the rbar)
+                    var rbar = chart.getDockedItems('[dock="right"]')[0];
+                    rbar.insert(0, {
+                        xtype: 'component',
+                        html: description,
+                        maxWidth: 250,
+                        padding: '5px'
+                    });
+                    
+                    var onDownloadClickFn = Ext.ClassManager.getName(this) + ".download('" + itemId + "')";
+                    rbar.add({
+                        xtype: 'component',
+                        html: '<a href="javascript:void(0)" onclick="' + onDownloadClickFn + '">' + '{{i18n PLUGINS_ADMIN_TOOL_MONITORING_CHART_PREVIEW}}' + '</a>',
+                        platformConfig: {
+                            desktop: {
+                                html: '<a href="javascript:void(0)" onclick="' + onDownloadClickFn + '">' + '{{i18n PLUGINS_ADMIN_TOOL_MONITORING_CHART_DOWNLOAD}}' + '</a>'
+                            }
+                        }
+                    });
+                }, this)
+            }
+        };
+    },
+    
+    /**
+     * @private
+     * Gets the object config for the panzoom interaction
+     * @return {Object} The configuration object for creating our custom panzoom interaction
+     */
+    _getPanzoomInteractionCfg: function()
+    {
+        return {
+            xtype: 'timepanzoom'
+        };
+    },
+    
+    /**
+     * @private
+     * Gets the object config for the limit line
+     * @param {Object} thresholds the thresholds for the limits to display. Can be null.
+     * @return {Object[]} The configuration object for creating limit lines
+     */
+    _getLimitLineCfg: function(thresholds)
+    {
+        var limits = [];
+        thresholds = thresholds || {};
+        Ext.Object.each(thresholds, function(dsName, value) {
+            limits.push({
+                value: value,
+                line: {
+                    title: {
+                        text: Ext.util.Format.format('{{i18n PLUGINS_ADMIN_TOOL_MONITORING_CHART_THRESHOLD}}', dsName, value)
+                    },
+                    lineDash: [2,2]
+                }
+            });
+        }, this);
+        
+        return limits;
+    },
+    
+    /**
+     * @private
+     * Gets the object config for creating a serie.
+     * @param {String} field The name of the field for this serie
+     * @return {Object} The configuration object for the series
+     */
+    _getLineSerieCfg: function(field)
+    {
+        return {
+            type: 'line',
+            xField: 'time',
+            yField: field,
+            axis: 'bottom',
+            fill: true,
+            nullStyle: 'connect',
+            style: {
+                fillOpacity: .6
+            },
+//            marker: {
+//                type: 'circle',
+//                radius: 2,
+//                lineWidth: 1
+//            },
+//            ,highlight: {
+//                radius: 4,
+//                lineWidth: 1
+//            },
+            tooltip: {
+                trackMouse: true,
+                dismissDelay: 0,
+                renderer: Ext.bind(function (tooltip, record, item) {
+                    var date = Ext.Date.format(new Date(record.get('time')), Ext.Date.patterns.FriendlyDateTime);
+                    var value = this.renderValue(record.get(field));
+                    tooltip.setHtml(field + ' (' + date + '): ' + value);
+                }, this)
+            }
+        }
+    },
+    
+    /**
+     * @private
+     * Event fired when the visibleRange of the time axis changes.
+     * @param {Ext.chart.axis.Time} axis The time axis
+     * @param {Number[]} range The new visible range
+     * @param {Object} eOpts The options object
+     */
+    _onTimeAxisVisibleRangeChange: function(axis, range, eOpts)
+    {
+        var chart = axis.getChart(),
+            id = chart.getItemId(),
+            serverId = id.replace(/-/g, '.'),
+            fromTime = axis.getFromDate().getTime(),
+            toTime = axis.getToDate().getTime();
+        
+        Ametys.data.ServerComm.send({
+            plugin: 'admin', 
+            url: 'jvmstatus/monitoring/' + serverId + '.json',
+            parameters: {
+                startTime: fromTime + (toTime-fromTime) * range[0],
+                endTime: fromTime + (toTime-fromTime) * range[1]
+            },
+            responseType: "text",
+            priority: Ametys.data.ServerComm.PRIORITY_MAJOR,
+            callback: {
+                handler: this._populateGraphData,
+                arguments: [id],
+                scope: this
+            }
+        });
+    },
+    
+    /**
+     * Downloads the given chart.
+     * @param {String} chartId The chart id
+     */
+    download: function(chartId)
+    {
+        var chart = this._monitoringPanel.items.get(chartId);
+        if (Ext.os.is.Desktop) {
+            chart.download({
+                filename: chart.getTitle()
+            });
+        } else {
+            chart.preview();
+        }
+    },
+    
+    /**
+     * Enables or disables the interactions of the given chart
+     * @param {Ext.chart.CartesianChart} chart The chart
+     * @param {Boolean} enable true to enable the interactions, false otherwise.
+     */
+    enableInteractions: function(chart, enable)
+    {
+        Ext.Array.forEach(chart.getInteractions(), function (interaction) {
+            interaction.setEnabled(enable);
+        }, this);
+    }
 });

@@ -18,6 +18,8 @@ package org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample;
 import java.awt.Color;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.rrd4j.ConsolFun;
 import org.rrd4j.DsType;
@@ -43,14 +45,19 @@ public class CPUSampleManager extends AbstractSampleManager
     }
 
     @Override
-    protected void _internalCollect(Sample sample) throws IOException
+    protected Map<String, Object> _internalCollect(Sample sample) throws IOException
     {
+        Map<String, Object> result = new HashMap<>();
         if (_mxBeanCPUMonitor == null)
         {
             _mxBeanCPUMonitor = new MXBeanCPUMonitor();
         }
         
-        sample.setValue("current", _mxBeanCPUMonitor.getCpuUsage());
+        double cpuUsage = _mxBeanCPUMonitor.getCpuUsage();
+        sample.setValue("current", cpuUsage);
+        result.put("current", cpuUsage);
+        
+        return result;
     }
 
     @Override

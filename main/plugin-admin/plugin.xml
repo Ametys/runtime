@@ -18,6 +18,56 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.ametys.org/schema/plugin http://www.ametys.org/schema/plugin-4.0.xsd"
         runtimeVersion="4.0" version="2.0">
+    
+    <config>
+    	<!-- +
+             | ALLOW SYSTEM ALERTS
+             + -->
+    	<param id="runtime.system.alerts.enable" type="boolean" group-switch="true">
+        	<!-- 
+        		This parameter indicates if we enable the system alerts.
+        	 -->
+        	<label i18n="true">PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_ENABLE_LABEL</label>
+            <description i18n="true">PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_ENABLE_DESCRIPTION</description>
+        	<default-value>false</default-value>
+        	<category i18n="true">PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_GROUP</group>
+            <order>1</order>
+        </param>
+        
+        <!-- tmp test -->
+        <param id="runtime.test.long" type="long">
+            <label i18n="false">Test pour les seuils long</label>
+            <description i18n="false">Test pour les seuils long</description>      
+            <default-value>1</default-value>
+            <category i18n="true">PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_GROUP</group>
+            <order>3</order>
+        </param>
+        <param id="runtime.test.double" type="double">
+            <label i18n="false">Test pour les seuils double</label>
+            <description i18n="false">Test pour les seuils double</description>      
+            <default-value>1.5</default-value>
+            <category i18n="true">PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_GROUP</group>
+            <order>4</order>
+        </param>
+        
+        <!-- +
+             | AMETYS HOME THRESHOLD
+             + -->
+        <param id="runtime.system.alerts.diskspace.threshold" type="long">
+            <!-- 
+                The limit size of Ametys home folder (in MegaBytes).
+             -->
+            <label i18n="true">PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_AMETYSHOME_LIMIT_SIZE_LABEL</label>
+            <description i18n="true">PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_AMETYSHOME_LIMIT_SIZE_DESCRIPTION</description>      
+            <default-value>2048</default-value>
+            <category i18n="true">PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_GROUP</group>
+            <order>2</order>
+        </param>
+    </config>
         
     <extension-points>
         <extension-point id="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.MonitoringExtensionPoint"
@@ -1018,9 +1068,6 @@
                     <icon-medium file="true">img/jvmstatus/monitoring_32.png</icon-medium>
                     <icon-large file="true">img/jvmstatus/monitoring_48.png</icon-large>
                 </class>
-                <scripts>
-                    <file>js/Ametys/plugins/admin/jvmstatus/MonitoringTool.js</file>
-                </scripts>
                 <depends>
                     <org.ametys.core.ui.UIToolsFactoriesManager>uitool-admin-monitoring</org.ametys.core.ui.UIToolsFactoriesManager>
                 </depends>
@@ -1039,6 +1086,164 @@
                     <icon-small file="true">img/jvmstatus/monitoring_16.png</icon-small>
                     <icon-medium file="true">img/jvmstatus/monitoring_32.png</icon-medium>
                     <icon-large file="true">img/jvmstatus/monitoring_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file plugin="extjs6">packages/charts/classic/charts.js</file>
+                    <file>js/Ametys/plugins/admin/jvmstatus/MonitoringTool/DrawableCartesianChart.js</file>
+                    <file>js/Ametys/plugins/admin/jvmstatus/MonitoringTool/TimeAxisPanZoom.js</file>
+                    <file>js/Ametys/plugins/admin/jvmstatus/MonitoringTool.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.plugins.admin.monitoring.Tab"
+                       point="org.ametys.core.ui.RibbonTabsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.tab.TabController">
+                    <tool-id>^(uitool-admin-monitoring)$</tool-id>
+                </class>
+            </extension>
+            
+            <extension id="org.ametys.plugins.admin.monitoring.zoomLevel.Year"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.plugins.admin.jvmstatus.DrawModeAwareController">
+                    <action>Ametys.plugins.admin.jvmstatus.MonitoringTool.setZoomYear</action>
+                    <tool-id>^uitool-admin-monitoring$</tool-id>
+
+                    <label i18n="true">PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_YEAR_LABEL</label>
+                    <description i18n="true">PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_YEAR_DESCRIPTION</description>
+                    
+                    <icon-glyph>flaticon-calendar146</icon-glyph>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/admin/jvmstatus/DrawModeAwareController.js</file>
+                    <file>js/Ametys/plugins/admin/jvmstatus/MonitoringTool.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.plugins.admin.monitoring.zoomLevel.Month"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.plugins.admin.jvmstatus.DrawModeAwareController">
+                    <action>Ametys.plugins.admin.jvmstatus.MonitoringTool.setZoomMonth</action>
+                    <tool-id>^uitool-admin-monitoring$</tool-id>
+
+                    <label i18n="true">PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_MONTH_LABEL</label>
+                    <description i18n="true">PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_MONTH_DESCRIPTION</description>
+                    
+                    <icon-glyph>flaticon-calendar146</icon-glyph>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/admin/jvmstatus/DrawModeAwareController.js</file>
+                    <file>js/Ametys/plugins/admin/jvmstatus/MonitoringTool.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.plugins.admin.monitoring.zoomLevel.Week"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.plugins.admin.jvmstatus.DrawModeAwareController">
+                    <action>Ametys.plugins.admin.jvmstatus.MonitoringTool.setZoomWeek</action>
+                    <tool-id>^uitool-admin-monitoring$</tool-id>
+
+                    <label i18n="true">PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_WEEK_LABEL</label>
+                    <description i18n="true">PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_WEEK_DESCRIPTION</description>
+                    
+                    <icon-glyph>flaticon-calendar146</icon-glyph>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/admin/jvmstatus/DrawModeAwareController.js</file>
+                    <file>js/Ametys/plugins/admin/jvmstatus/MonitoringTool.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.plugins.admin.monitoring.zoomLevel.Day"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.plugins.admin.jvmstatus.DrawModeAwareController">
+                    <action>Ametys.plugins.admin.jvmstatus.MonitoringTool.setZoomDay</action>
+                    <tool-id>^uitool-admin-monitoring$</tool-id>
+
+                    <label i18n="true">PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_DAY_LABEL</label>
+                    <description i18n="true">PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_DAY_DESCRIPTION</description>
+                    
+                    <icon-glyph>flaticon-calendar146</icon-glyph>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/admin/jvmstatus/DrawModeAwareController.js</file>
+                    <file>js/Ametys/plugins/admin/jvmstatus/MonitoringTool.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.plugins.admin.monitoring.zoomLevel.Hour"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.plugins.admin.jvmstatus.DrawModeAwareController">
+                    <action>Ametys.plugins.admin.jvmstatus.MonitoringTool.setZoomHour</action>
+                    <tool-id>^uitool-admin-monitoring$</tool-id>
+
+                    <label i18n="true">PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_HOUR_LABEL</label>
+                    <description i18n="true">PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_HOUR_DESCRIPTION</description>
+                    
+                    <icon-glyph>flaticon-calendar146</icon-glyph>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/admin/jvmstatus/DrawModeAwareController.js</file>
+                    <file>js/Ametys/plugins/admin/jvmstatus/MonitoringTool.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.plugins.admin.monitoring.moveToNow"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.plugins.admin.jvmstatus.DrawModeAwareController">
+                    <action>Ametys.plugins.admin.jvmstatus.MonitoringTool.moveToNow</action>
+                    <tool-id>^uitool-admin-monitoring$</tool-id>
+
+                    <label i18n="true">PLUGINS_ADMIN_MONITORING_MOVE_TO_NOW_LABEL</label>
+                    <description i18n="true">PLUGINS_ADMIN_MONITORING_MOVE_TO_NOW_DESCRIPTION</description>
+                    
+                    <icon-glyph>flaticon-next25</icon-glyph>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/admin/jvmstatus/DrawModeAwareController.js</file>
+                    <file>js/Ametys/plugins/admin/jvmstatus/MonitoringTool.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.plugins.admin.monitoring.drawMode.Switch"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.plugins.admin.jvmstatus.SwitchDrawModeController">
+                    <toggle-enabled>true</toggle-enabled>
+                    <action>Ametys.plugins.admin.jvmstatus.MonitoringTool.switchDrawMode</action>
+                    <tool-id>^uitool-admin-monitoring$</tool-id>
+
+                    <label i18n="true">PLUGINS_ADMIN_MONITORING_DRAW_MODE_LABEL</label>
+                    <description i18n="true">PLUGINS_ADMIN_MONITORING_DRAW_MODE_DISABLE_DESCRIPTION</description>
+                    <enabled-description i18n="true">PLUGINS_ADMIN_MONITORING_DRAW_MODE_ENABLE_DESCRIPTION</enabled-description>
+                    <disabled-description i18n="true">PLUGINS_ADMIN_MONITORING_DRAW_MODE_DISABLE_DESCRIPTION</disabled-description>
+                    
+                    <icon-glyph>flaticon-edit5</icon-glyph>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/admin/jvmstatus/SwitchDrawModeController.js</file>
+                    <file>js/Ametys/plugins/admin/jvmstatus/MonitoringTool.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.plugins.admin.monitoring.reloadGraphs"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.admin.jvmstatus.MonitoringTool.reloadGraphs</action>
+                    <tool-id>^uitool-admin-monitoring$</tool-id>
+
+                    <label i18n="true">PLUGINS_ADMIN_MONITORING_RELOAD_GRAPHS_LABEL</label>
+                    <description i18n="true">PLUGINS_ADMIN_MONITORING_RELOAD_GRAPHS_DESCRIPTION</description>
+                    
+                    <icon-glyph>flaticon-stats144</icon-glyph>
+                    <icon-decorator>decorator-flaticon-arrows130</icon-decorator>
                 </class>
                 <scripts>
                     <file>js/Ametys/plugins/admin/jvmstatus/MonitoringTool.js</file>
@@ -1211,14 +1416,24 @@
          |  Monitoring
          + -->
     <feature name="runtime.monitoring">
-        <!-- 
-            Timer task for populating RRDs
-         -->
+    	<config>
+            <param-ref id="runtime.system.alerts.enable"/> 
+            <param-ref id="runtime.system.alerts.diskspace.threshold"/> 
+            <!-- <param-ref id="runtime.test.long"/> --> 
+            <!-- <param-ref id="runtime.test.double"/> --> 
+        </config>
         <components>
+	        <!-- 
+	            Timer task for populating RRDs
+	         -->
             <component role="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.RRDsFeederTimerTask"
                        id="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.RRDsFeederTimerTask"
                        class="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.RRDsFeederTimerTask"
                        logger="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.RRDsFeederTimerTask"/>
+                       
+            <component role="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.DiskSpaceHelper"
+            		   id="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.DiskSpaceHelper"
+            		   class="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.DiskSpaceHelper"/>
         </components>
         
         <extensions>
@@ -1293,6 +1508,28 @@
                 <id>disk-io</id>
                 <label i18n="true">PLUGINS_ADMIN_STATUS_MONITORING_DISKIO_LABEL</label>
                 <description i18n="true">PLUGINS_ADMIN_STATUS_MONITORING_DISKIO_DESCRIPTION</description>
+            </extension>
+            <!-- Monitor the disk space -->
+            <extension point="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.MonitoringExtensionPoint"
+                       id="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.DiskSpaceSampleManager"
+                       class="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.DiskSpaceSampleManager"
+                       logger="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.DiskSpaceSampleManager">
+                <id>disk-space</id>
+                <label i18n="true">PLUGINS_ADMIN_STATUS_MONITORING_DISKSPACE_LABEL</label>
+                <description i18n="true">PLUGINS_ADMIN_STATUS_MONITORING_DISKSPACE_DESCRIPTION</description>
+                <mailSubject i18n="true">PLUGINS_ADMIN_SYSTEM_ALERT_AMETYSHOME_LIMIT_SIZE_MAIL_SUBJECT</mailSubject>
+                <mailBody i18n="true">PLUGINS_ADMIN_SYSTEM_ALERT_AMETYSHOME_LIMIT_SIZE_MAIL_BODY</mailBody>
+            </extension>
+            
+            <!-- Warning on weak free disk space -->
+            <extension id="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.MonitoringExtensionPoint"
+                       point="org.ametys.runtime.plugins.admin.notificator.AdministratorNotificatorExtensionPoint"
+                       class="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.DiskSpaceAdministratorNotificator">
+                <type>warn</type>
+                <iconGlyph>flaticon-medical-equipment</iconGlyph>
+                <titleKey>plugin.admin:PLUGINS_ADMIN_STATUS_MONITORING_DISKSPACE_NOTIFICATION_TITLE</titleKey>
+                <msgKey>plugin.admin:PLUGINS_ADMIN_STATUS_MONITORING_DISKSPACE_NOTIFICATION_MESSAGE</msgKey>
+                <freeSpaceLimit>2147483648</freeSpaceLimit>
             </extension>
         </extensions>
     </feature>
@@ -1474,10 +1711,10 @@
                </scripts>                       
             </extension>
             
-            <extension id="org.ametys.plugins.admin.datasources.notificator.unexisting-databases"
+            <extension id="org.ametys.plugins.admin.datasources.notificator.unexisting"
                        point="org.ametys.runtime.plugins.admin.notificator.AdministratorNotificatorExtensionPoint"
                        class="org.ametys.runtime.plugins.admin.datasource.UnexistingDatabasesNotificator">
-                <type>error</type>
+                <type>warn</type>
                 <iconGlyph>flaticon-data110</iconGlyph>
                 <titleKey>plugin.admin:PLUGINS_ADMIN_DATASOURCES_UNEXISTING_DATABASE_NOTIFICATION_TITLE</titleKey>
                 <msgKey>plugin.admin:PLUGINS_ADMIN_DATASOURCES_UNEXISTING_DATABASE_NOTIFICATION_MESSAGE</msgKey>

@@ -16,6 +16,7 @@
 package org.ametys.runtime.plugins.admin.jvmstatus.monitoring;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.rrd4j.core.RrdDef;
 import org.rrd4j.core.Sample;
@@ -58,9 +59,10 @@ public interface SampleManager
     /**
      * Collect data into the Round Robin Database.
      * @param sample the sample to collect.
+     * @return The collected values for each datasource name.
      * @throws IOException thrown in case of I/O error.
      */
-    void collect(Sample sample) throws IOException;
+    Map<String, Object> collect(Sample sample) throws IOException;
     
     /**
      * Provides the graph definition to use for rendering a period.

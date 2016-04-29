@@ -18,6 +18,7 @@ package org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.Date;
+import java.util.Map;
 
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -139,25 +140,24 @@ public abstract class AbstractSampleManager implements SampleManager, Monitoring
         
         _configureDatasources(rrdDef);
         
-        // Keep 60 slots of data for storing data of the last hour
-        rrdDef.addArchive(ConsolFun.AVERAGE, 0.5, 1, 60);
-        rrdDef.addArchive(ConsolFun.MAX, 0.5, 1, 60);
-        // Keep an average of 30 minutes data in 72 slots for storing data
-        // of the last 24 hours
-        rrdDef.addArchive(ConsolFun.AVERAGE, 0.5, 30, 72);
-        rrdDef.addArchive(ConsolFun.MAX, 0.5, 20, 72);
-        // Keep an average of 2 hours data in 84 slots for storing data
-        // of the last 7 days
-        rrdDef.addArchive(ConsolFun.AVERAGE, 0.5, 120, 84);
-        rrdDef.addArchive(ConsolFun.MAX, 0.5, 240, 84);
-        // Keep an average of 12 hours data in 62 slots for storing data
-        // of the last 31 days
-        rrdDef.addArchive(ConsolFun.AVERAGE, 0.5, 720, 62);
-        rrdDef.addArchive(ConsolFun.MAX, 0.5, 720, 62);
-        // Keep an average of 6 days data in 61 slots for storing data
-        // of the last 12 months
-        rrdDef.addArchive(ConsolFun.AVERAGE, 0.5, 8640, 61);
-        rrdDef.addArchive(ConsolFun.MAX, 0.5, 8640, 61);
+        // Every minute for 24 hours
+        rrdDef.addArchive(ConsolFun.AVERAGE, 0.5, 1, 60 * 24);
+        rrdDef.addArchive(ConsolFun.MAX, 0.5, 1, 60 * 24);
+        // Every 10 minutes for 7 days
+        rrdDef.addArchive(ConsolFun.AVERAGE, 0.5, 10, 6 * 24 * 7);
+        rrdDef.addArchive(ConsolFun.MAX, 0.5, 10, 6 * 24 * 7);
+        // Every 2 hours for a month
+        rrdDef.addArchive(ConsolFun.AVERAGE, 0.5, 2 * 60, 12 * 30);
+        rrdDef.addArchive(ConsolFun.MAX, 0.5, 2 * 60, 12 * 30);
+        // Every 6 hours for 3 months
+        rrdDef.addArchive(ConsolFun.AVERAGE, 0.5, 6 * 60, 4 * 30 * 3);
+        rrdDef.addArchive(ConsolFun.MAX, 0.5, 6 * 60, 4 * 30 * 3);
+        // Every 24 hours for a year
+        rrdDef.addArchive(ConsolFun.AVERAGE, 0.5, 24 * 60, 365);
+        rrdDef.addArchive(ConsolFun.MAX, 0.5, 24 * 60, 365);
+        // Every week for 5 years
+        rrdDef.addArchive(ConsolFun.AVERAGE, 0.5, 24 * 60 * 7, 52 * 5);
+        rrdDef.addArchive(ConsolFun.MAX, 0.5, 24 * 60 * 7, 52 * 5);
     }
 
     /**
@@ -179,11 +179,11 @@ public abstract class AbstractSampleManager implements SampleManager, Monitoring
         rrdDef.addDatasource(dsName, dsType, FEEDING_PERIOD * 2, minValue, maxValue);
     }
 
-    public void collect(Sample sample) throws IOException
+    public Map<String, Object> collect(Sample sample) throws IOException
     {
         sample.setTime(Util.getTime());
         
-        _internalCollect(sample);
+        Map<String, Object> collectedValues = _internalCollect(sample);
         
         if (_logger.isDebugEnabled())
         {
@@ -191,14 +191,16 @@ public abstract class AbstractSampleManager implements SampleManager, Monitoring
         }
         
         sample.update();
+        return collectedValues;
     }
     
     /**
      * Collect data into the Round Robin Database.
      * @param sample the sample to collect.
+     * @return The collected values for each datasource name.
      * @throws IOException thrown in case of I/O error.
      */
-    protected abstract void _internalCollect(Sample sample) throws IOException;
+    protected abstract Map<String, Object> _internalCollect(Sample sample) throws IOException;
 
     public RrdGraphDef getGraph(String rrdFilePath, int width, int height, Period period)
     {

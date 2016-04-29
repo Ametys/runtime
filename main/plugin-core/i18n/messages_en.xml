@@ -207,12 +207,12 @@
     <message key="PLUGINS_CORE_USER_POPULATION_DAO_ERROR_SERVER">A server error occured. Contact your administrator to fix the problem.</message>
     
     <message key="PLUGINS_CORE_USER_POPULATION_MISCONFIGURED_NOTIFICATION_TITLE">Misconfigured populations</message>
-    <message key="PLUGINS_CORE_USER_POPULATION_MISCONFIGURED_NOTIFICATION_MESSAGE">The following populations are misconfigured : &#13;&lt;ul&gt;{0}&lt;/ul&gt;&#13;Please check the application logs for further details, and edit the &lt;i&gt;user-populations.xml&lt;/i&gt; file accordingly.</message>
+    <message key="PLUGINS_CORE_USER_POPULATION_MISCONFIGURED_NOTIFICATION_MESSAGE">The following populations are misconfigured in the the &lt;i&gt;user-populations.xml&lt;/i&gt; file: &#13;&lt;ul&gt;{0}&lt;/ul&gt;&#13;Please check the application logs for further details, and edit this file accordingly.</message>
     
     <!-- +
          | GROUP DIRECTORIES
          + -->
-         <message key="PLUGINS_CORE_GROUP_DIRECTORY_DAO_GET_DIRECTORIES_IDS_ERROR">An error occured when retrieving the identifiers of the group directories of the application</message>
+    <message key="PLUGINS_CORE_GROUP_DIRECTORY_DAO_GET_DIRECTORIES_IDS_ERROR">An error occured when retrieving the identifiers of the group directories of the application</message>
     <message key="PLUGINS_CORE_GROUP_DIRECTORY_DAO_GET_EDITION_CONFIGURATION_ERROR">An error occured when retrieving the configuration for creating/editing a group directory</message>
     <message key="PLUGINS_CORE_GROUP_DIRECTORY_DAO_GET_PARAMETERS_VALUES_ERROR">An error occured when retrieving the values of parameters of the group directory</message>
     <message key="PLUGINS_CORE_GROUP_DIRECTORY_DAO_ADD_ERROR">An error occured when creating a group directory</message>

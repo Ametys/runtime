@@ -207,7 +207,7 @@
     <message key="PLUGINS_CORE_USER_POPULATION_DAO_ERROR_SERVER">Une erreur serveur est apparue. Contactez l'administrateur pour résoudre le problème.</message>
     
     <message key="PLUGINS_CORE_USER_POPULATION_MISCONFIGURED_NOTIFICATION_TITLE">Populations mal configurées</message>
-    <message key="PLUGINS_CORE_USER_POPULATION_MISCONFIGURED_NOTIFICATION_MESSAGE">Les populations suivantes sont mal configurées : &#13;&lt;ul&gt;{0}&lt;/ul&gt;&#13;Veuillez consultez les journaux pour plus d'informations, et modifier le fichier &lt;i&gt;user-populations.xml&lt;/i&gt; en conséquence.</message>
+    <message key="PLUGINS_CORE_USER_POPULATION_MISCONFIGURED_NOTIFICATION_MESSAGE">Les populations suivantes sont mal configurées dans le fichier &lt;i&gt;user-populations.xml&lt;/i&gt; : &#13;&lt;ul&gt;{0}&lt;/ul&gt;&#13;Veuillez consultez les journaux pour plus d'informations, et modifier ce fichier en conséquence.</message>
     
     <!-- +
          | GROUP DIRECTORIES

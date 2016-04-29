@@ -15,6 +15,8 @@
  */
 package org.ametys.runtime.plugins.admin.jvmstatus;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.RuntimeMXBean;
@@ -23,38 +25,54 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+import org.apache.commons.io.FileUtils;
+import org.rrd4j.core.Archive;
+import org.rrd4j.core.RrdDb;
 
 import org.ametys.core.ui.Callable;
 import org.ametys.core.util.I18nUtils;
 import org.ametys.runtime.parameter.ParameterHelper;
-import org.ametys.runtime.plugins.admin.jvmstatus.monitoring.MonitoringConstants.Period;
+import org.ametys.runtime.plugins.admin.jvmstatus.monitoring.MonitoringConstants;
 import org.ametys.runtime.plugins.admin.jvmstatus.monitoring.MonitoringExtensionPoint;
 import org.ametys.runtime.plugins.admin.jvmstatus.monitoring.SampleManager;
+import org.ametys.runtime.plugins.admin.jvmstatus.monitoring.alerts.AlertSampleManager;
+import org.ametys.runtime.plugins.admin.jvmstatus.monitoring.alerts.AlertSampleManager.Threshold;
+import org.ametys.runtime.servlet.RuntimeConfig;
 
 /**
  * This helper allow to get information or runs some operations on JVM system
  */
-public class JVMStatusHelper extends AbstractLogEnabled implements Component, Serviceable
+public class JVMStatusHelper extends AbstractLogEnabled implements Component, Serviceable, Initializable, MonitoringConstants
 {
     /** The monitoring extension point */
     private MonitoringExtensionPoint _monitoringExtensionPoint;
     
     /** Component containing i18n utilitary methods */
     private I18nUtils _i18nUtils;
+
+    private String _rrdStoragePath;
     
     @Override
     public void service(ServiceManager manager) throws ServiceException
     {
         _monitoringExtensionPoint = (MonitoringExtensionPoint) manager.lookup(MonitoringExtensionPoint.ROLE);
         _i18nUtils = (I18nUtils) manager.lookup(I18nUtils.ROLE);
+    }
+    
+    public void initialize() throws Exception
+    {
+        _rrdStoragePath = FileUtils.getFile(RuntimeConfig.getInstance().getAmetysHome(), RRD_STORAGE_DIRECTORY).getPath();
     }
     
     /**
@@ -140,15 +158,67 @@ public class JVMStatusHelper extends AbstractLogEnabled implements Component, Se
         
         samples.put("periods", periods);
         
-        List<Map<String, String>> sampleList = new ArrayList<> ();
+        List<Map<String, Object>> sampleList = new ArrayList<> ();
         for (String extensionId : _monitoringExtensionPoint.getExtensionsIds())
         {
-            Map<String, String> sample = new HashMap<> ();
+            Map<String, Object> sample = new HashMap<> ();
             SampleManager sampleManager = _monitoringExtensionPoint.getExtension(extensionId);
 
             sample.put("id", sampleManager.getId());
             sample.put("label", _i18nUtils.translate(sampleManager.getLabel()));
             sample.put("description", _i18nUtils.translate(sampleManager.getDescription()));
+            if (sampleManager instanceof AlertSampleManager)
+            {
+                Map<String, Object> thresholdValues = new HashMap<>(); 
+                
+                Map<String, Threshold> thresholds = ((AlertSampleManager) sampleManager).getThresholdValues();
+                for (String datasourceName : thresholds.keySet())
+                {
+                    thresholdValues.put(datasourceName, thresholds.get(datasourceName).getValue());
+                }
+                
+                sample.put("thresholds", thresholdValues);
+            }
+
+            File rrdFile = new File(_rrdStoragePath, sampleManager.getId() + RRD_EXT);
+            if (getLogger().isDebugEnabled())
+            {
+                getLogger().debug("Using RRD file: " + rrdFile);
+            }
+            
+            RrdDb rrdDb = null;
+            try
+            {
+                rrdDb = new RrdDb(rrdFile.getPath());
+                
+                sample.put("ds", rrdDb.getDsNames());
+                
+                Set<String> consolidationFunction = new HashSet<>();
+                for (int i = 0; i < rrdDb.getArcCount(); i++)
+                {
+                    Archive archive = rrdDb.getArchive(i);
+                    consolidationFunction.add(archive.getConsolFun().toString());
+                }
+                sample.put("consolFun", consolidationFunction);
+            }
+            catch (Exception e)
+            {
+                getLogger().error("Unable to collect sample for: " + sampleManager.getId(), e);
+            }
+            finally
+            {
+                if (rrdDb != null)
+                {
+                    try
+                    {
+                        rrdDb.close();
+                    }
+                    catch (IOException e)
+                    {
+                        getLogger().warn("Unable to close RRD file: " + rrdFile, e);
+                    }
+                }
+            }
             
             sampleList.add(sample);
         }

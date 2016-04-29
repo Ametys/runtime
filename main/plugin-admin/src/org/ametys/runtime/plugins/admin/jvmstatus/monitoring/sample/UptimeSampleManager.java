@@ -18,6 +18,8 @@ package org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample;
 import java.awt.Color;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.rrd4j.ConsolFun;
 import org.rrd4j.DsType;
@@ -39,9 +41,13 @@ public class UptimeSampleManager extends AbstractSampleManager
     }
 
     @Override
-    protected void _internalCollect(Sample sample) throws IOException
+    protected Map<String, Object> _internalCollect(Sample sample) throws IOException
     {
-        sample.setValue("uptime", ManagementFactory.getRuntimeMXBean().getUptime());
+        Map<String, Object> result = new HashMap<>();
+        long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
+        sample.setValue("uptime", uptime);
+        result.put("uptime", uptime);
+        return result;
     }
 
     @Override

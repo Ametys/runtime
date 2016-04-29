@@ -19,6 +19,8 @@ import java.awt.Color;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.rrd4j.ConsolFun;
 import org.rrd4j.DsType;
@@ -41,12 +43,20 @@ public class ThreadSampleManager extends AbstractSampleManager
     }
 
     @Override
-    protected void _internalCollect(Sample sample) throws IOException
+    protected Map<String, Object> _internalCollect(Sample sample) throws IOException
     {
+        Map<String, Object> result = new HashMap<>();
         ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
 
-        sample.setValue("daemon", threadMXBean.getDaemonThreadCount());
-        sample.setValue("total", threadMXBean.getThreadCount());
+        int daemon = threadMXBean.getDaemonThreadCount();
+        sample.setValue("daemon", daemon);
+        result.put("daemon", daemon);
+        
+        int total = threadMXBean.getThreadCount();
+        sample.setValue("total", total);
+        result.put("total", total);
+        
+        return result;
     }
 
     @Override

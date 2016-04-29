@@ -17,6 +17,8 @@ package org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.rrd4j.ConsolFun;
 import org.rrd4j.DsType;
@@ -42,17 +44,21 @@ public class HttpRequestSampleManager extends AbstractSampleManager
     }
 
     @Override
-    protected void _internalCollect(Sample sample) throws IOException
+    protected Map<String, Object> _internalCollect(Sample sample) throws IOException
     {
+        Map<String, Object> result = new HashMap<>();
         try
         {
-            sample.setValue("processed", RequestCountListener.getTotalRequestCount() - _lastCount);
+            long processed = RequestCountListener.getTotalRequestCount() - _lastCount;
+            sample.setValue("processed", processed);
+            result.put("processed", processed);
             _lastCount = RequestCountListener.getTotalRequestCount();
         }
         catch (IllegalStateException e)
         {
             // empty : no value means an error
         }
+        return result;
     }
 
     @Override

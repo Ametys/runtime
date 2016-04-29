@@ -48,4 +48,8 @@
     
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_DATASOURCE_LABEL">Source de données</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_DATASOURCES_GROUPS_GROUP_ACTIONS">Actions</message>
+    
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_MONITORING_LABEL">Monitoring</message>
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_MONITORING_GROUPS_GROUP_ZOOM">Niveaux de zoom</message>
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_MONITORING_GROUPS_GROUP_ACTIONS">Actions</message>
 </catalogue>

@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.rrd4j.ConsolFun;
 import org.rrd4j.DsType;
@@ -43,14 +45,25 @@ public abstract class AbstractMemorySampleManager extends AbstractSampleManager
     }
 
     @Override
-    protected void _internalCollect(Sample sample) throws IOException
+    protected Map<String, Object> _internalCollect(Sample sample) throws IOException
     {
+        Map<String, Object> result = new HashMap<>();
         MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
         MemoryUsage memoryUsage = _getMemoryUsage(memoryMXBean);
         
-        sample.setValue("commited", memoryUsage.getCommitted());
-        sample.setValue("used", memoryUsage.getUsed());
-        sample.setValue("max", memoryUsage.getMax());
+        long commited = memoryUsage.getCommitted();
+        sample.setValue("commited", commited);
+        result.put("commited", commited);
+        
+        long used = memoryUsage.getUsed();
+        sample.setValue("used", used);
+        result.put("used", used);
+        
+        long max = memoryUsage.getMax();
+        sample.setValue("max", max);
+        result.put("max", max);
+        
+        return result;
     }
 
     /**

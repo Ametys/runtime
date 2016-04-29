@@ -89,24 +89,49 @@
     
     <!-- ADMINISTRATOR JVMSTATUS MONITORING -->
     <message key="PLUGINS_ADMIN_TOOL_MONITORING_LABEL">Monitoring</message>
-    <message key="PLUGINS_ADMIN_TOOL_MONITORING_DESC">this tool allows you to view system state graphs.</message>
+    <message key="PLUGINS_ADMIN_TOOL_MONITORING_DESC">This tool allows you to view system state graphs.</message>
     <message key="PLUGINS_ADMIN_TOOL_MONITORING_SERVER_ERROR">An error occurred: unable to get the monitoring data.</message>
+    <message key="PLUGINS_ADMIN_TOOL_MONITORING_CHART_DOWNLOAD">Download</message>
+    <message key="PLUGINS_ADMIN_TOOL_MONITORING_CHART_PREVIEW">Preview</message>
+    <message key="PLUGINS_ADMIN_TOOL_MONITORING_CHART_THRESHOLD">Threshold for {0} : {1}</message>
+    <message key="PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_YEAR_LABEL">Zoom on a year</message>
+    <message key="PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_YEAR_DESCRIPTION">Set the zoom level at one year</message>
+    <message key="PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_MONTH_LABEL">Zoom on a month</message>
+    <message key="PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_MONTH_DESCRIPTION">Set the zoom level at one month</message>
+    <message key="PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_WEEK_LABEL">Zoom on a week</message>
+    <message key="PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_WEEK_DESCRIPTION">Set the zoom level at one week</message>
+    <message key="PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_DAY_LABEL">Zoom on a day</message>
+    <message key="PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_DAY_DESCRIPTION">Set the zoom level at one day</message>
+    <message key="PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_HOUR_LABEL">Zoom on an hour</message>
+    <message key="PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL__DESCRIPTION">Set the zoom level at one hour</message>
+    <message key="PLUGINS_ADMIN_MONITORING_MOVE_TO_NOW_LABEL">Scroll to now</message>
+    <message key="PLUGINS_ADMIN_MONITORING_MOVE_TO_NOW_DESCRIPTION">Scroll to now</message>
+    <message key="PLUGINS_ADMIN_MONITORING_DRAW_MODE_LABEL">Annotate graphs</message>
+    <message key="PLUGINS_ADMIN_MONITORING_DRAW_MODE_ENABLE_DESCRIPTION">Graph annotation is enabled. You cannot zoom in this mode. Click here for disabling the annotations.</message>
+    <message key="PLUGINS_ADMIN_MONITORING_DRAW_MODE_DISABLE_DESCRIPTION">Graph annotation is disabled. Click here for being able to annotate the graph.</message>
+    <message key="PLUGINS_ADMIN_MONITORING_RELOAD_GRAPHS_LABEL">Reload graphs</message>
+    <message key="PLUGINS_ADMIN_MONITORING_RELOAD_GRAPHS_DESCRIPTION">Reload graphs data so as they are up-to-date.</message>
     <message key="PLUGINS_ADMIN_STATUS_MONITORING_UPTIME_LABEL">Time since application startup</message>
-    <message key="PLUGINS_ADMIN_STATUS_MONITORING_UPTIME_DESCRIPTION">This graph displays the time since the application has started up. It will increase regularly but is reset to 0 each time the application is started.</message>
+    <message key="PLUGINS_ADMIN_STATUS_MONITORING_UPTIME_DESCRIPTION">This graph displays the time since the application has started up. &lt;br/&gt;It will increase regularly but is reset to 0 each time the application is started.</message>
     <message key="PLUGINS_ADMIN_STATUS_MONITORING_HTTPREQUEST_LABEL">HTTP requests executed</message>
     <message key="PLUGINS_ADMIN_STATUS_MONITORING_HTTPREQUEST_DESCRIPTION">This graph displays the number of HTTP requests executed during a sample of time.</message>
     <message key="PLUGINS_ADMIN_STATUS_MONITORING_HTTPSESSION_LABEL">Running HTTP sessions</message>
-    <message key="PLUGINS_ADMIN_STATUS_MONITORING_HTTPSESSION_DESCRIPTION">This graph displays the running HTTP sessions count. A session is created each time a client connects (to the servlet engine in general and not particularly to this application) and is kept for X minutes after its last use (where X is a servlet engine configured value that worth 20 in general)</message>
+    <message key="PLUGINS_ADMIN_STATUS_MONITORING_HTTPSESSION_DESCRIPTION">This graph displays the running HTTP sessions count. &lt;br/&gt;A session is created each time a client connects (to the servlet engine in general and not particularly to this application) and is kept for X minutes after its last use (where X is a servlet engine configured value that worth 20 in general)</message>
     <message key="PLUGINS_ADMIN_STATUS_MONITORING_THREAD_LABEL">Running threads</message>
     <message key="PLUGINS_ADMIN_STATUS_MONITORING_THREAD_DESCRIPTION">This graph displays the count of running java thread (shared between the whole servlet engine). A thread is a request processing or background task. By default, most servlet engine create X threads in prevision : most threads are just idle.</message>
     <message key="PLUGINS_ADMIN_STATUS_MONITORING_MEMORYHEAP_LABEL">Main memory (HEAP)</message>
-    <message key="PLUGINS_ADMIN_STATUS_MONITORING_MEMORYHEAP_DESCRIPTION">This graph displays the main memory use by the application. It is divided in 3 parts: total memory (that is the memory used at OS level, it grows to its maximal configured value but is never released, used memory (that is the memory really used by the applciation of the engine) and free memory (thath is the differnce between the two preceding and that is the memory given by the OS but not used by the application)</message>
+    <message key="PLUGINS_ADMIN_STATUS_MONITORING_MEMORYHEAP_DESCRIPTION">This graph displays the main memory use by the application. &lt;br/&gt;It is divided in 3 parts: total memory (that is the memory used at OS level, it grows to its maximal configured value but is never released, used memory (that is the memory really used by the applciation of the engine) and free memory (thath is the differnce between the two preceding and that is the memory given by the OS but not used by the application)</message>
     <message key="PLUGINS_ADMIN_STATUS_MONITORING_MEMORYNONHEAP_LABEL">Internal memory (NON-HEAD)</message>
-    <message key="PLUGINS_ADMIN_STATUS_MONITORING_MEMORYNONHEAP_DESCRIPTION">This graph displays the internal memory use. This memory is static and contains the libraries: it is never free and may only grow until all libraries are loaded.</message>
+    <message key="PLUGINS_ADMIN_STATUS_MONITORING_MEMORYNONHEAP_DESCRIPTION">This graph displays the internal memory use. &lt;br/&gt;This memory is static and contains the libraries: it is never free and may only grow until all libraries are loaded.</message>
     <message key="PLUGINS_ADMIN_STATUS_MONITORING_CPU_LABEL">Processor use</message>
     <message key="PLUGINS_ADMIN_STATUS_MONITORING_CPU_DESCRIPTION">This graph displays the processor use (works only with Sun JVM).</message>
     <message key="PLUGINS_ADMIN_STATUS_MONITORING_DISKIO_LABEL">Disk I/O operations</message>
     <message key="PLUGINS_ADMIN_STATUS_MONITORING_DISKIO_DESCRIPTION">This graph displays the disk I/O operations over time (reads and writes).</message>
+    <message key="PLUGINS_ADMIN_STATUS_MONITORING_DISKSPACE_LABEL">Disk space (MB) used by Ametys</message>
+    <message key="PLUGINS_ADMIN_STATUS_MONITORING_DISKSPACE_DESCRIPTION">This graph displays the disk space used by the data repository of Ametys.</message>
+    
+    <message key="PLUGINS_ADMIN_STATUS_MONITORING_DISKSPACE_NOTIFICATION_TITLE">Weak free disk space</message>
+    <message key="PLUGINS_ADMIN_STATUS_MONITORING_DISKSPACE_NOTIFICATION_MESSAGE">The free disk space left is insufficient: it is below the indicated limit (in MB).</message>
 
     <!-- ADMINISTRATOR PLUGINS -->
     <message key="PLUGINS_ADMIN_TOOL_PLUGINS_LABEL">Plugins</message>
@@ -360,4 +385,16 @@
     <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_ERROR">An error occurred: the allocation has failed.</message>
     <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_TITLE">Assign super user</message>
     <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_SUCCESS">The allocation has been completed.</message>
+    
+    <!-- +
+         | ALERTS 
+         + -->
+    <message key="PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_CATEGORY">System alerts</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_GROUP">System alert thresholds</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_ENABLE_LABEL">Enable system alerts</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_ENABLE_DESCRIPTION">Check this box if you want to enable system alerts</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_AMETYSHOME_LIMIT_SIZE_LABEL">Threshold of data repository (in MB)</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_AMETYSHOME_LIMIT_SIZE_DESCRIPTION">Threshold of disk space used by Ametys data directory (in MB). Leave empty to disable this alert.</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ALERT_AMETYSHOME_LIMIT_SIZE_MAIL_SUBJECT">Disk space limit size reached</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ALERT_AMETYSHOME_LIMIT_SIZE_MAIL_BODY">The disk space used by the data repository is {0} MB. Thus it exceeded the configured limit ({1} MB).</message>
 </catalogue>

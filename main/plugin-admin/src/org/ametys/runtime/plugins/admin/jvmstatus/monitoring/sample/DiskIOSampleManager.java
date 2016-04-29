@@ -17,6 +17,7 @@ package org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.avalon.framework.activity.Initializable;
@@ -65,8 +66,9 @@ public class DiskIOSampleManager extends AbstractSampleManager implements Initia
     }
 
     @Override
-    protected void _internalCollect(Sample sample) throws IOException
+    protected  Map<String, Object> _internalCollect(Sample sample) throws IOException
     {
+        Map<String, Object> result = new HashMap<>();
         double reads = Double.NaN;
         double writes = Double.NaN;
 
@@ -81,7 +83,9 @@ public class DiskIOSampleManager extends AbstractSampleManager implements Initia
                 writes = Math.max(0, metrics.get(DiskIOMonitor.WRITES) - _previousMetrics.get(DiskIOMonitor.WRITES));
                 
                 sample.setValue("reads", reads);
+                result.put("reads", reads);
                 sample.setValue("writes", writes);
+                result.put("writes", writes);
             }
             
             _previousMetrics = metrics;
@@ -91,6 +95,8 @@ public class DiskIOSampleManager extends AbstractSampleManager implements Initia
         {
             _logger.debug("reads=" + reads + ", writes=" + writes);
         }
+        
+        return result;
     }
 
     @Override
