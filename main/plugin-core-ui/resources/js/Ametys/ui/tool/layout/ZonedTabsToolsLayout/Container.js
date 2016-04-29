@@ -26,6 +26,35 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.Container",
         layout: {
             type: 'hbox',
             align: 'stretch'
+        },
+        
+        constructor: function(config)
+        {
+            this.callParent(arguments);
+            
+            this.on('resize', this.saveBrotherState, this);
+        },
+        
+        /**
+         * @private
+         * Due to a ExtJS bug (RUNTIME-1680) when the container is resized, only the concerned lateral zone state is also saved
+         * but (especially at startup) the other lateral zone may be influenced and need to be saved
+         */
+        saveBrotherState: function()
+        {
+            var brother;
+            
+            brother = this.nextSibling("zonetabpanel-placeholder");
+            if (brother)
+            {
+                brother.saveState();
+            }
+            
+            brother = this.previousSibling("zonetabpanel-placeholder");
+            if (brother)
+            {
+                brother.saveState();
+            }
         }
     }
 );
