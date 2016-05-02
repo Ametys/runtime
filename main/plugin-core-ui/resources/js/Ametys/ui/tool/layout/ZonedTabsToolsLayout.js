@@ -246,14 +246,17 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 		{
             this.callParent(arguments);
             
-			var zoneTabsToolsPanel = tool.ownerCt;
-			
-			if (zoneTabsToolsPanel.getActiveTab() != tool)
-			{
-				zoneTabsToolsPanel.setActiveTab(tool);
-			}
-			
-			this._onToolFocused(tool);
+            if (tool != null)
+            {
+    			var zoneTabsToolsPanel = tool.ownerCt;
+    			
+    			if (zoneTabsToolsPanel.getActiveTab() != tool)
+    			{
+    				zoneTabsToolsPanel.setActiveTab(tool);
+    			}
+    			
+    			this._onToolFocused(tool);
+            }
 		},
 		
 		/**
@@ -347,7 +350,13 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			if (this.initialized)
 			{
     			// If not timeouted, a moved tool in a retracted zone will lead to graphical issues CMS-5912
-				window.setTimeout(Ext.bind(this._slideInZone, this, [zoneTabsToolsPanel]), 1);
+			    window.setTimeout(Ext.bind(this._slideInZone, this, [zoneTabsToolsPanel]), 1);
+                
+                // Moreover a tool added in a collapsed zone may have layout issues (especially grids)
+                if (zoneTabsToolsPanel.collapsed && tool.getWidth() < 10)
+                {
+                    zoneTabsToolsPanel.on('expand', tool.updateLayout, tool, { single: true});
+                }
 			}
 
 

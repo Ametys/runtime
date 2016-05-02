@@ -133,6 +133,23 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanelPlaceHo
             }
         },
         
+        getState: function()
+        {
+            if (this._panelCollapsed)
+            {
+                this.flex = this._originalFlex;
+            }
+            
+            var state = this.callParent();
+            
+            if (this._panelCollapsed)
+            {
+                this.flex = 0;
+            }
+            
+            return state;
+        },
+        
         /**
          * @private
          * Listener on underlying collapse to change size
@@ -205,8 +222,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanelPlaceHo
         {
             return this.floatingItems.items[0];
         },
-        
-        
+                
         /**
          * @private
          * Listener on show
@@ -214,10 +230,10 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanelPlaceHo
          */
         _onShow: function(me)
         {
-            if (this.getPanel().collapsed)
+            /*if (this.getPanel().collapsed)
             {
                 window.setTimeout(Ext.bind(this._onCollapse, this), 1);
-            }
+            }*/
             
             this._doLayoutPanel();
             

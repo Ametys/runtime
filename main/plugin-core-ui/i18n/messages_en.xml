@@ -212,8 +212,7 @@
     <message key="PLUGINS_CORE_UI_MSG_TOOLS_CLOSE_TAB">Close</message>
     <message key="PLUGINS_CORE_UI_MSG_TOOLS_CLOSE_OTHERS">Close Others</message>
     <message key="PLUGINS_CORE_UI_MSG_TOOLS_CLOSE_ALL">Close All</message>
-    <message key="PLUGINS_CORE_UI_MSG_TOOLS_UNPIN">Unpin panel</message>
-    <message key="PLUGINS_CORE_UI_MSG_TOOLS_PIN">Pin panel</message>
+    <message key="PLUGINS_CORE_UI_MSG_TOOLS_COLLAPSE">Collapse/Expand the panel</message>
     <message key="PLUGINS_CORE_UI_MSG_TOOLS_OPEN_ERROR_TITLE">Cannot open the tool</message>
     <message key="PLUGINS_CORE_UI_MSG_TOOLS_OPEN_ERROR_TEXT">An unexpected error prevents the required tool to open.</message> 
     <message key="PLUGINS_CORE_UI_MSG_TOOLS_REFRESHING">Refreshing...</message>

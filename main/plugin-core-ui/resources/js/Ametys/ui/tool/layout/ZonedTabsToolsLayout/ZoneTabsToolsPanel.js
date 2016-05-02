@@ -145,11 +145,10 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
                     xtype: 'button',
                     cls: 'a-btn-lighter',
                     glyph: '',
+                    tooltip: "{{i18n PLUGINS_CORE_UI_MSG_TOOLS_COLLAPSE}}",
                     handler: Ext.bind(this._expandOrCollapse, this)
                 });
             }
-            
-            config.stateEvents
             
 			this.callParent(arguments);
 
@@ -183,6 +182,22 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
             }
         },
         
+        getState: function() 
+        {
+            var collapsed = this.collapsed;
+            this.collapsed = false;
+            
+            var state = this.callParent();
+            if (this._floating || collapsed)
+            {
+                state.toCollapse = true;
+            }
+
+            this.collapsed = collapsed; 
+            
+            return state;
+        },
+        
         /**
          * @private
          * Listener on show
@@ -190,6 +205,12 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
          */
         _onShow: function(me)
         {
+            if (this.toCollapse)
+            {
+                this.toCollapse = false;
+                window.setTimeout(Ext.bind(this.collapse, this), 1);
+            }
+            
             if (!this.flex)
             {
                 var brother;

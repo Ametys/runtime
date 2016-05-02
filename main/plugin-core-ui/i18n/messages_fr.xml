@@ -214,8 +214,7 @@
     <message key="PLUGINS_CORE_UI_MSG_TOOLS_CLOSE_TAB">Fermer l'onglet</message>
     <message key="PLUGINS_CORE_UI_MSG_TOOLS_CLOSE_OTHERS">Fermer les autres onglets</message>
     <message key="PLUGINS_CORE_UI_MSG_TOOLS_CLOSE_ALL">Fermer tous les onglets</message>
-    <message key="PLUGINS_CORE_UI_MSG_TOOLS_UNPIN">Détacher le panneau</message>
-    <message key="PLUGINS_CORE_UI_MSG_TOOLS_PIN">Attacher le panneau</message>
+    <message key="PLUGINS_CORE_UI_MSG_TOOLS_COLLAPSE">Rétracter/Etendre le panneau</message>
     <message key="PLUGINS_CORE_UI_MSG_TOOLS_OPEN_ERROR_TITLE">Impossible d'ouvrir l'outil</message>
     <message key="PLUGINS_CORE_UI_MSG_TOOLS_OPEN_ERROR_TEXT">Une erreur inattendue est survenue et elle a empêché l'ouverture de l'outil demandé.</message>
     <message key="PLUGINS_CORE_UI_MSG_TOOLS_REFRESHING">Rafraichissement en cours...</message>
