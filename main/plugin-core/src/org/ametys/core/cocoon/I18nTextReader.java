@@ -89,7 +89,7 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
     
     /** The SL4J logger */
     private Logger _logger;
-
+    
     @Override
     public void service(ServiceManager serviceManager) throws ServiceException
     {
@@ -171,7 +171,6 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
         
         try (InputStream is = _inputSource.getInputStream())
         {
-
             int beginLength = __I18N_BEGINNING_CHARS.length;
             int endLength = 2; // "}}"
             int minI18nDeclarationLength = beginLength + 1 + 1 + endLength; // 1 mandatory backspace and at least 1 character for the key
@@ -217,12 +216,12 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
                         offset = _isDeclarationValid ? 0 : offset + skip - 1;
                     }
                 }
-                // Escape '{'
-                else if (c == '\\' && i + 1 != srcLength && srcChars[i + 1] == '{')
+                // Escape '{' when its preceding a valid i18n declaration
+                else if (c == '\\' && i + 1 + beginLength < srcLength && _testI18nDeclarationPrefix(srcChars, i + 1))
                 {
                     outWriter.write(srcChars, i - offset, offset);
                     outWriter.write('{');
-
+                    
                     offset = 0;
                     skip++;
                 }
@@ -259,7 +258,7 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
      */
     private boolean _testI18nDeclarationPrefix(char[] srcChars, int start)
     {
-        return srcChars[start + 1] == '{' && srcChars[start + 2] == 'i' && srcChars[start + 3] == '1' && srcChars[start + 4] == '8'  && srcChars[start + 5] == 'n';
+        return srcChars[start] == '{' && srcChars[start + 1] == '{' && srcChars[start + 2] == 'i' && srcChars[start + 3] == '1' && srcChars[start + 4] == '8'  && srcChars[start + 5] == 'n';
     }
 
     /**

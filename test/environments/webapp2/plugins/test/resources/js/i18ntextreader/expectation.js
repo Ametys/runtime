@@ -30,16 +30,20 @@ Ext.define('Ametys.plugins.cms.search.solr.EditSolrQueryExtension', {
 		1) "{{i18n test1}}"
 		2) "english text"
 		3) "english text"
-		4) "\{english text"
+		4) "\\{english text"
+		5) "{english text}"
 
 		// Invalid declarations
-		5) "{{i18n test4 } }"
-		6) "{{i18n {{ }}"
-		7) "{{i18n }}"
-		8) "{{i18n2 TEST_KEY}}"
-		9) "{{i18n TEST_KEY}"
-		10) "{{i18n TEST_KEY}}"
-		
+		6) "{{i18n test4 } }"
+		7) "{{i18n {{ }}"
+		8) "{{i18n }}"
+		9) "{{i18n2 TEST_KEY}}"
+		10) "{{i18n TEST_KEY}"
+		11) "{{i18n TEST_KEY}}"
+
+		// Do not escape these
+		12) \{
+
 		Ametys.plugins.cms.search.SearchToolExtensions.registerAdditionalButton({
 			icon: Ametys.getPluginResourcesPrefix('cms') + '/img/search/solr_16.png',
 			// text: "{{i18n PLUGINS_CMS_EDIT_SOLR_QUERY_SHORT}}",
