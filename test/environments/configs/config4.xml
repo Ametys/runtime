@@ -41,4 +41,5 @@
 	<runtime.captcha.recaptcha.secretkey/>
 
 	<runtime.ametys.public>true</runtime.ametys.public>
+    <runtime.system.alerts.enable>false</runtime.system.alerts.enable>
 </config>
