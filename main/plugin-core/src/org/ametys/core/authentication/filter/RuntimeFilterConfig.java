@@ -16,7 +16,6 @@
 package org.ametys.core.authentication.filter;
 
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -28,7 +27,7 @@ import javax.servlet.ServletContext;
  */
 public class RuntimeFilterConfig implements FilterConfig
 {
-    private HashMap _parameters;
+    private Map<String, String> _parameters;
     
     private ServletContext _servletContext;
     
@@ -37,9 +36,9 @@ public class RuntimeFilterConfig implements FilterConfig
      * @param map A hashmap of parameters 
      * @param servlet A reference to the servlet context
      * */
-    public RuntimeFilterConfig(ServletContext servlet, Map map)
+    public RuntimeFilterConfig(ServletContext servlet, Map<String, String> map)
     {
-        _parameters = (HashMap) map; 
+        _parameters = map; 
         _servletContext = servlet;
     }
     
@@ -61,7 +60,7 @@ public class RuntimeFilterConfig implements FilterConfig
 
     public String getInitParameter(String name)
     {
-        return (String) _parameters.get(name);
+        return _parameters.get(name);
     }
 
     public Enumeration<String> getInitParameterNames()
