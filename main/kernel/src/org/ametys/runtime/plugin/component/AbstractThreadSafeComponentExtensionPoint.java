@@ -79,16 +79,16 @@ public abstract class AbstractThreadSafeComponentExtensionPoint<T> extends Abstr
      * Adds a Component to the underlying ComponentManager. 
      * Each extension to this ExtensionPoint may be considered as a Component.<br>
      * @param pluginName Unique identifier for the plugin hosting the extension
-     * @param pluginId Unique plugin identifier (unique for a given pluginName)
+     * @param featureName The feature name (unique for a given pluginName).
      * @param role the Avalon role
      * @param clazz the class of the component
      * @param configuration the configuration of the component
      * @throws ComponentException if an error occured whil setting up components
      */
-    protected void addComponent(String pluginName, String pluginId, String role, Class<? extends T> clazz, Configuration configuration) throws ComponentException
+    protected void addComponent(String pluginName, String featureName, String role, Class<? extends T> clazz, Configuration configuration) throws ComponentException
     {
         _ids.add(role);
-        _manager.addComponent(pluginName, pluginId, role, clazz, configuration);
+        _manager.addComponent(pluginName, featureName, role, clazz, configuration);
     }
     
     public void initializeExtensions() throws Exception
