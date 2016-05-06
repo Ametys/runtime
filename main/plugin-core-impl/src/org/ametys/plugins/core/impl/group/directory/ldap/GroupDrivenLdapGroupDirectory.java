@@ -181,7 +181,7 @@ public class GroupDrivenLdapGroupDirectory extends AbstractLdapGroupDirectory
     @Override
     public Set<String> getUserGroups(String login, String populationId)
     {
-        if (populationId != _associatedPopulationId)
+        if (!populationId.equals(_associatedPopulationId))
         {
             return Collections.emptySet();
         }
