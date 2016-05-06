@@ -26,6 +26,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 
 import org.ametys.core.group.directory.GroupDirectory;
+import org.ametys.core.user.UserIdentity;
 import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 
 /**
@@ -129,7 +130,7 @@ public class GroupManager extends AbstractLogEnabled implements Component, Servi
         }
         else
         {
-            return Collections.EMPTY_SET;
+            return Collections.emptySet();
         }
     }
     
@@ -153,6 +154,16 @@ public class GroupManager extends AbstractLogEnabled implements Component, Servi
     // ------------------------------
     //    GET GROUPS A USER IS IN
     // ------------------------------
+    
+    /**
+     * Get all the groups the given user is in
+     * @param userId The user identity.
+     * @return The set of groups the user is in
+     */
+    public Set<GroupIdentity> getUserGroups(UserIdentity userId)
+    {
+        return getUserGroups(userId.getLogin(), userId.getPopulationId());
+    }
     
     /**
      * Get all the groups the given user is in
@@ -202,7 +213,7 @@ public class GroupManager extends AbstractLogEnabled implements Component, Servi
         }
         else
         {
-            return Collections.EMPTY_SET;
+            return Collections.emptySet();
         }
     }
 
