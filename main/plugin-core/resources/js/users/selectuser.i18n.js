@@ -64,7 +64,7 @@ RUNTIME_Plugin_Runtime_SelectUser.delayed_initialize = function ()
 	    columns: [
 	        {header: "Nom", width : 240, menuDisabled : true, sortable: true, dataIndex: 'name'}
 	    ],
-		id: 'select-user-list',
+		itemId: 'select-user-list',
 		baseCls: 'select-user-list',
 		autoScroll: true
 	});	
