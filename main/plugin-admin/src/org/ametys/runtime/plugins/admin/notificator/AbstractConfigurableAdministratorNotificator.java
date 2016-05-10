@@ -18,32 +18,70 @@ package org.ametys.runtime.plugins.admin.notificator;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.commons.lang.StringUtils;
 
+import org.ametys.runtime.i18n.I18nizableText;
+import org.ametys.runtime.plugin.component.PluginAware;
 import org.ametys.runtime.plugins.admin.notificator.Notification.NotificationType;
 
 /**
  * Abstract {@link AdministratorNotificator} which is {@link Configurable}.
  */
-public abstract class AbstractConfigurableAdministratorNotificator implements AdministratorNotificator, Configurable
+public abstract class AbstractConfigurableAdministratorNotificator implements AdministratorNotificator, Configurable, PluginAware
 {
+    /** The name of the plugin that has declared this component */
+    protected String _pluginName;
     /** The type of the notifications */
     protected NotificationType _type;
     /** The glyph icon of the  notifications */
     protected String _iconGlyph;
     /** The i18n key of the title of the notifications */
-    protected String _title;
+    protected I18nizableText _title;
     /** The i18n key of the description of the notifications */
-    protected String _message;
+    protected I18nizableText _message;
     /** The client-side action of the notifications */
     protected String _action;
+    
+    @Override
+    public void setPluginInfo(String pluginName, String featureName, String id)
+    {
+        _pluginName = pluginName;
+    }
     
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
         _type = _getType(configuration.getChild("type").getValue("warn"));
-        _iconGlyph = configuration.getChild("iconGlyph").getValue("");
-        _title = configuration.getChild("titleKey").getValue("");
-        _message = configuration.getChild("msgKey").getValue("");
+        _iconGlyph = configuration.getChild("icon-glyph").getValue("");
+        
+        boolean isTitleI18n = configuration.getChild("title").getAttributeAsBoolean("i18n", false);
+        String title =  configuration.getChild("title").getValue(null);
+        boolean isMessageI18n = configuration.getChild("message").getAttributeAsBoolean("i18n", false);
+        String message =  configuration.getChild("message").getValue(null);
+        
+        if (StringUtils.isEmpty(title) || StringUtils.isEmpty(message))
+        {
+            throw new ConfigurationException("Missing <title> or <message>", configuration);
+        }
+        
+        if (isTitleI18n)
+        {
+            _title = new I18nizableText("plugin." + _pluginName, title);
+        }
+        else
+        {
+            _title = new I18nizableText(title);
+        }
+
+        if (isMessageI18n)
+        {
+            _message = new I18nizableText("plugin." + _pluginName, message);
+        }
+        else
+        {
+            _message = new I18nizableText(message);
+        }
+        
         _action = configuration.getChild("action").getValue("Ext.emptyFn");
     }
     

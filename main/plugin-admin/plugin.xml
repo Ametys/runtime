@@ -1704,9 +1704,9 @@
                        point="org.ametys.runtime.plugins.admin.notificator.AdministratorNotificatorExtensionPoint"
                        class="org.ametys.runtime.plugins.admin.datasource.UnexistingDatabasesNotificator">
                 <type>warn</type>
-                <iconGlyph>flaticon-data110</iconGlyph>
-                <titleKey>plugin.admin:PLUGINS_ADMIN_DATASOURCES_UNEXISTING_DATABASE_NOTIFICATION_TITLE</titleKey>
-                <msgKey>plugin.admin:PLUGINS_ADMIN_DATASOURCES_UNEXISTING_DATABASE_NOTIFICATION_MESSAGE</msgKey>
+                <icon-glyph>flaticon-data110</icon-glyph>
+                <title i18n="true">PLUGINS_ADMIN_DATASOURCES_UNEXISTING_DATABASE_NOTIFICATION_TITLE</title>
+                <message i18n="true">PLUGINS_ADMIN_DATASOURCES_UNEXISTING_DATABASE_NOTIFICATION_MESSAGE</message>
                 <action>Ext.bind(Ametys.tool.ToolsManager.openTool, Ametys.tool.ToolsManager, ['uitool-datasource', {}])</action>
             </extension>
         </extensions>

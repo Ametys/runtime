@@ -46,8 +46,8 @@ public class MisconfiguredPopulationAdministratorNotificator extends AbstractCon
         if (misconfiguredPopulations.size() > 0)
         {
             String parameter = _getParameter(misconfiguredPopulations);
-            I18nizableText message = new I18nizableText(null, _message, Collections.singletonList(parameter));
-            Notification notification = new Notification(_type, new I18nizableText(null, _title), message, _iconGlyph, _action);
+            I18nizableText message = new I18nizableText(_message.getCatalogue(), _message.getKey(), Collections.singletonList(parameter));
+            Notification notification = new Notification(_type, new I18nizableText(_message.getCatalogue(), _message.getKey()), message, _iconGlyph, _action);
             return Collections.singletonList(notification);
         }
         else

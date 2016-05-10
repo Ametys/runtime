@@ -77,8 +77,8 @@ public class UnexistingDatabasesNotificator extends AbstractConfigurableAdminist
     
     private Notification _getNotification(String datasourceName)
     {
-        I18nizableText message = new I18nizableText(null, _message, Collections.singletonList(datasourceName));
-        return new Notification(_type, new I18nizableText(null, _title), message, _iconGlyph, _action);
+        I18nizableText message = new I18nizableText(_message.getCatalogue(), _message.getKey(), Collections.singletonList(datasourceName));
+        return new Notification(_type, new I18nizableText(_title.getCatalogue(), _title.getKey()), message, _iconGlyph, _action);
     }
     
     private void _checkSqlDatasource(DataSourceDefinition datasource, List<Notification> notifications)
