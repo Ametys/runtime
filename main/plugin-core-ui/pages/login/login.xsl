@@ -35,6 +35,8 @@
     <xsl:template name="head"><i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_TITLE" i18n:catalogue="plugin.core-ui"/></xsl:template>
     
     <xsl:template name="main">
+        <xsl:call-template name="login-left-column"/>
+        
     	<div class="wrapin">
 			<xsl:if test="/LoginScreen/PopulationsForm">
 				<div class="connection">
@@ -199,7 +201,7 @@
 			</xsl:if>
 		</div>
 		
-		<xsl:call-template name="login-intro"/>
+		<xsl:call-template name="login-right-column"/>
     </xsl:template>
     
     <xsl:template name="login-form">
@@ -304,10 +306,7 @@
     	</button>
     </xsl:template>
     
-    <xsl:template name="login-intro">
-    </xsl:template>
-    
-    <xsl:template name="head-more">
-    </xsl:template>
+    <xsl:template name="login-left-column"/>
+    <xsl:template name="login-right-column"/>
     
 </xsl:stylesheet>
