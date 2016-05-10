@@ -1520,17 +1520,6 @@
                 <mailSubject i18n="true">PLUGINS_ADMIN_SYSTEM_ALERT_AMETYSHOME_LIMIT_SIZE_MAIL_SUBJECT</mailSubject>
                 <mailBody i18n="true">PLUGINS_ADMIN_SYSTEM_ALERT_AMETYSHOME_LIMIT_SIZE_MAIL_BODY</mailBody>
             </extension>
-            
-            <!-- Warning on weak free disk space -->
-            <extension id="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.MonitoringExtensionPoint"
-                       point="org.ametys.runtime.plugins.admin.notificator.AdministratorNotificatorExtensionPoint"
-                       class="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.DiskSpaceAdministratorNotificator">
-                <type>warn</type>
-                <iconGlyph>flaticon-medical-equipment</iconGlyph>
-                <titleKey>plugin.admin:PLUGINS_ADMIN_STATUS_MONITORING_DISKSPACE_NOTIFICATION_TITLE</titleKey>
-                <msgKey>plugin.admin:PLUGINS_ADMIN_STATUS_MONITORING_DISKSPACE_NOTIFICATION_MESSAGE</msgKey>
-                <freeSpaceLimit>2147483648</freeSpaceLimit>
-            </extension>
         </extensions>
     </feature>
     

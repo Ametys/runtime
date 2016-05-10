@@ -130,9 +130,6 @@
     <message key="PLUGINS_ADMIN_STATUS_MONITORING_DISKSPACE_LABEL">Free disk space (MB)</message>
     <message key="PLUGINS_ADMIN_STATUS_MONITORING_DISKSPACE_DESCRIPTION">This graph displays the free space on the disk where the data repository of Ametys is.</message>
     
-    <message key="PLUGINS_ADMIN_STATUS_MONITORING_DISKSPACE_NOTIFICATION_TITLE">Weak free disk space</message>
-    <message key="PLUGINS_ADMIN_STATUS_MONITORING_DISKSPACE_NOTIFICATION_MESSAGE">The free disk space left is insufficient: it is below the indicated limit (in MB).</message>
-
     <!-- ADMINISTRATOR PLUGINS -->
     <message key="PLUGINS_ADMIN_TOOL_PLUGINS_LABEL">Plugins</message>
     <message key="PLUGINS_ADMIN_TOOL_PLUGINS_DESC">View plugins by files or by by extension points. Allows to activate/deactivate plugins.</message>
