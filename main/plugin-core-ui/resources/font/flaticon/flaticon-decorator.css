@@ -1,678 +1,250 @@
+	/*
+  	Flaticon icon font: Flaticon
+  	Creation date: 10/05/2016 15:56
+  	*/
+
 @font-face {
-	font-family: "Flaticon";
-	src: url("flaticon.eot");
-	src: url("flaticon.eot#iefix") format("embedded-opentype"),
-	url("flaticon.woff") format("woff"),
-	url("flaticon.ttf") format("truetype"),
-	url("flaticon.svg") format("svg");
-	font-weight: normal;
-	font-style: normal;
-}
-[class^="decorator-flaticon-"]:after, [class*=" decorator-flaticon-"]:after {   
-	font-family: Flaticon;
-}.decorator-flaticon-abecedary4:after {
-	content: "\e000";
-}
-.decorator-flaticon-add64:after {
-	content: "\e001";
-}
-.decorator-flaticon-agenda3:after {
-	content: "\e002";
-}
-.decorator-flaticon-alert9:after {
-	content: "\e003";
-}
-.decorator-flaticon-alphabetical2:after {
-	content: "\e004";
-}
-.decorator-flaticon-applicattion:after {
-	content: "\e005";
-}
-.decorator-flaticon-archive18:after {
-	content: "\e006";
-}
-.decorator-flaticon-arrow123:after {
-	content: "\e007";
-}
-.decorator-flaticon-arrow483:after {
-	content: "\e008";
-}
-.decorator-flaticon-arrow73:after {
-	content: "\e009";
-}
-.decorator-flaticon-arrow88:after {
-	content: "\e00a";
-}
-.decorator-flaticon-arrows130:after {
-	content: "\e00b";
-}
-.decorator-flaticon-bell72:after {
-	content: "\e00c";
-}
-.decorator-flaticon-bell84:after {
-	content: "\e00d";
-}
-.decorator-flaticon-black302:after {
-	content: "\e00e";
-}
-.decorator-flaticon-black391:after {
-	content: "\e00f";
-}
-.decorator-flaticon-blank32:after {
-	content: "\e010";
-}
-.decorator-flaticon-boc:after {
-	content: "\e011";
-}
-.decorator-flaticon-book255:after {
-	content: "\e012";
-}
-.decorator-flaticon-box6:after {
-	content: "\e013";
-}
-.decorator-flaticon-browser71:after {
-	content: "\e014";
-}
-.decorator-flaticon-bugs3:after {
-	content: "\e015";
-}
-.decorator-flaticon-business12:after {
-	content: "\e016";
-}
-.decorator-flaticon-calendar146:after {
-	content: "\e017";
-}
-.decorator-flaticon-camera3:after {
-	content: "\e018";
-}
-.decorator-flaticon-cancel32:after {
-	content: "\e019";
-}
-.decorator-flaticon-carnival23:after {
-	content: "\e01a";
-}
-.decorator-flaticon-catalog2:after {
-	content: "\e01b";
-}
-.decorator-flaticon-categories:after {
-	content: "\e01c";
-}
-.decorator-flaticon-caution9:after {
-	content: "\e01d";
-}
-.decorator-flaticon-check34:after {
-	content: "\e01e";
-}
-.decorator-flaticon-check51:after {
-	content: "\e01f";
-}
-.decorator-flaticon-checked34:after {
-	content: "\e020";
-}
-.decorator-flaticon-checking3:after {
-	content: "\e021";
-}
-.decorator-flaticon-chevron8:after {
-	content: "\e022";
-}
-.decorator-flaticon-clip26:after {
-	content: "\e023";
-}
-.decorator-flaticon-clock169:after {
-	content: "\e024";
-}
-.decorator-flaticon-clock56:after {
-	content: "\e025";
-}
-.decorator-flaticon-cogwheels12:after {
-	content: "\e026";
-}
-.decorator-flaticon-column3:after {
-	content: "\e027";
-}
-.decorator-flaticon-comments1:after {
-	content: "\e028";
-}
-.decorator-flaticon-computer196:after {
-	content: "\e029";
-}
-.decorator-flaticon-computing10:after {
-	content: "\e02a";
-}
-.decorator-flaticon-connection4:after {
-	content: "\e02b";
-}
-.decorator-flaticon-cpu6:after {
-	content: "\e02c";
-}
-.decorator-flaticon-css5:after {
-	content: "\e02d";
-}
-.decorator-flaticon-csv:after {
-	content: "\e02e";
-}
-.decorator-flaticon-dark4:after {
-	content: "\e02f";
-}
-.decorator-flaticon-data110:after {
-	content: "\e030";
-}
-.decorator-flaticon-data112:after {
-	content: "\e031";
-}
-.decorator-flaticon-delete30:after {
-	content: "\e032";
-}
-.decorator-flaticon-development:after {
-	content: "\e033";
-}
-.decorator-flaticon-doc:after {
-	content: "\e034";
-}
-.decorator-flaticon-document112:after {
-	content: "\e035";
-}
-.decorator-flaticon-document209:after {
-	content: "\e036";
-}
-.decorator-flaticon-document28:after {
-	content: "\e037";
-}
-.decorator-flaticon-document290:after {
-	content: "\e038";
-}
-.decorator-flaticon-document77:after {
-	content: "\e039";
-}
-.decorator-flaticon-document9:after {
-	content: "\e03a";
-}
-.decorator-flaticon-documents12:after {
-	content: "\e03b";
-}
-.decorator-flaticon-docx:after {
-	content: "\e03c";
-}
-.decorator-flaticon-earth1:after {
-	content: "\e03d";
-}
-.decorator-flaticon-earth23:after {
-	content: "\e03e";
-}
-.decorator-flaticon-edit-table:after {
-	content: "\e03f";
-}
-.decorator-flaticon-edit-table1:after {
-	content: "\e040";
-}
-.decorator-flaticon-edit45:after {
-	content: "\e041";
-}
-.decorator-flaticon-edit5:after {
-	content: "\e042";
-}
-.decorator-flaticon-electrocardiogram3:after {
-	content: "\e043";
-}
-.decorator-flaticon-envelope14:after {
-	content: "\e044";
-}
-.decorator-flaticon-envelope64:after {
-	content: "\e045";
-}
-.decorator-flaticon-eraser11:after {
-	content: "\e046";
-}
-.decorator-flaticon-facebook29:after {
-	content: "\e047";
-}
-.decorator-flaticon-file229:after {
-	content: "\e048";
-}
-.decorator-flaticon-file289:after {
-	content: "\e049";
-}
-.decorator-flaticon-file94:after {
-	content: "\e04a";
-}
-.decorator-flaticon-file98:after {
-	content: "\e04b";
-}
-.decorator-flaticon-flag28:after {
-	content: "\e04c";
-}
-.decorator-flaticon-folder249:after {
-	content: "\e04d";
-}
-.decorator-flaticon-folder250:after {
-	content: "\e04e";
-}
-.decorator-flaticon-forbidden1:after {
-	content: "\e04f";
-}
-.decorator-flaticon-gallery7:after {
-	content: "\e050";
-}
-.decorator-flaticon-garbage11:after {
-	content: "\e051";
-}
-.decorator-flaticon-gear39:after {
-	content: "\e052";
-}
-.decorator-flaticon-hammer2:after {
-	content: "\e053";
-}
-.decorator-flaticon-hammer23:after {
-	content: "\e054";
-}
-.decorator-flaticon-home153:after {
-	content: "\e055";
-}
-.decorator-flaticon-house3:after {
-	content: "\e056";
-}
-.decorator-flaticon-html8:after {
-	content: "\e057";
-}
-.decorator-flaticon-html9:after {
-	content: "\e058";
-}
-.decorator-flaticon-id16:after {
-	content: "\e059";
-}
-.decorator-flaticon-id17:after {
-	content: "\e05a";
-}
-.decorator-flaticon-identification63:after {
-	content: "\e05b";
-}
-.decorator-flaticon-import1:after {
-	content: "\e05c";
-}
-.decorator-flaticon-index-finger:after {
-	content: "\e05d";
-}
-.decorator-flaticon-info28:after {
-	content: "\e05e";
-}
-.decorator-flaticon-internet58:after {
-	content: "\e05f";
-}
-.decorator-flaticon-jar8:after {
-	content: "\e060";
-}
-.decorator-flaticon-jpg2:after {
-	content: "\e061";
-}
-.decorator-flaticon-key162:after {
-	content: "\e062";
-}
-.decorator-flaticon-keyword3:after {
-	content: "\e063";
-}
-.decorator-flaticon-kitchen-tools1:after {
-	content: "\e064";
-}
-.decorator-flaticon-label49:after {
-	content: "\e065";
-}
-.decorator-flaticon-layout29:after {
-	content: "\e066";
-}
-.decorator-flaticon-letterx5:after {
-	content: "\e067";
-}
-.decorator-flaticon-link55:after {
-	content: "\e068";
-}
-.decorator-flaticon-link95:after {
-	content: "\e069";
-}
-.decorator-flaticon-list24:after {
-	content: "\e06a";
-}
-.decorator-flaticon-list6:after {
-	content: "\e06b";
-}
-.decorator-flaticon-lock81:after {
-	content: "\e06c";
-}
-.decorator-flaticon-log1:after {
-	content: "\e06d";
-}
-.decorator-flaticon-logotype115:after {
-	content: "\e06e";
-}
-.decorator-flaticon-look9:after {
-	content: "\e06f";
-}
-.decorator-flaticon-magnifier12:after {
-	content: "\e070";
-}
-.decorator-flaticon-magnifier41:after {
-	content: "\e071";
-}
-.decorator-flaticon-magnifyingglass15:after {
-	content: "\e072";
-}
-.decorator-flaticon-map32:after {
-	content: "\e073";
-}
-.decorator-flaticon-map47:after {
-	content: "\e074";
-}
-.decorator-flaticon-marker20:after {
-	content: "\e075";
-}
-.decorator-flaticon-medical-equipment:after {
-	content: "\e076";
-}
-.decorator-flaticon-megaphone19:after {
-	content: "\e077";
-}
-.decorator-flaticon-minus-sign4:after {
-	content: "\e078";
-}
-.decorator-flaticon-mp34:after {
-	content: "\e079";
-}
-.decorator-flaticon-multiple25:after {
-	content: "\e07a";
-}
-.decorator-flaticon-music168:after {
-	content: "\e07b";
-}
-.decorator-flaticon-music178:after {
-	content: "\e07c";
-}
-.decorator-flaticon-music236:after {
-	content: "\e07d";
-}
-.decorator-flaticon-navigate2:after {
-	content: "\e07e";
-}
-.decorator-flaticon-navigate6:after {
-	content: "\e07f";
-}
-.decorator-flaticon-news15:after {
-	content: "\e080";
-}
-.decorator-flaticon-newspaper1:after {
-	content: "\e081";
-}
-.decorator-flaticon-next25:after {
-	content: "\e082";
-}
-.decorator-flaticon-note20:after {
-	content: "\e083";
-}
-.decorator-flaticon-odp2:after {
-	content: "\e084";
-}
-.decorator-flaticon-odt5:after {
-	content: "\e085";
-}
-.decorator-flaticon-opened29:after {
-	content: "\e086";
-}
-.decorator-flaticon-organization1:after {
-	content: "\e087";
-}
-.decorator-flaticon-padlock79:after {
-	content: "\e088";
-}
-.decorator-flaticon-paint88:after {
-	content: "\e089";
-}
-.decorator-flaticon-painter14:after {
-	content: "\e08a";
-}
-.decorator-flaticon-paper11:after {
-	content: "\e08b";
-}
-.decorator-flaticon-password13:after {
-	content: "\e08c";
-}
-.decorator-flaticon-pdf17:after {
-	content: "\e08d";
-}
-.decorator-flaticon-pdf28:after {
-	content: "\e08e";
-}
-.decorator-flaticon-picture62:after {
-	content: "\e08f";
-}
-.decorator-flaticon-placeholder19:after {
-	content: "\e090";
-}
-.decorator-flaticon-play109:after {
-	content: "\e091";
-}
-.decorator-flaticon-play124:after {
-	content: "\e092";
-}
-.decorator-flaticon-play7:after {
-	content: "\e093";
-}
-.decorator-flaticon-plus51:after {
-	content: "\e094";
-}
-.decorator-flaticon-png4:after {
-	content: "\e095";
-}
-.decorator-flaticon-portable-document-format:after {
-	content: "\e096";
-}
-.decorator-flaticon-power110:after {
-	content: "\e097";
-}
-.decorator-flaticon-pps2:after {
-	content: "\e098";
-}
-.decorator-flaticon-ppt:after {
-	content: "\e099";
-}
-.decorator-flaticon-pptx:after {
-	content: "\e09a";
-}
-.decorator-flaticon-previous14:after {
-	content: "\e09b";
-}
-.decorator-flaticon-previous16:after {
-	content: "\e09c";
-}
-.decorator-flaticon-printer67:after {
-	content: "\e09d";
-}
-.decorator-flaticon-psd3:after {
-	content: "\e09e";
-}
-.decorator-flaticon-puzzle-piece1:after {
-	content: "\e09f";
-}
-.decorator-flaticon-puzzle33:after {
-	content: "\e0a0";
-}
-.decorator-flaticon-question13:after {
-	content: "\e0a1";
-}
-.decorator-flaticon-questionmark1:after {
-	content: "\e0a2";
-}
-.decorator-flaticon-rar:after {
-	content: "\e0a3";
-}
-.decorator-flaticon-reload8:after {
-	content: "\e0a4";
-}
-.decorator-flaticon-remove11:after {
-	content: "\e0a5";
-}
-.decorator-flaticon-return10:after {
-	content: "\e0a6";
-}
-.decorator-flaticon-rubbish7:after {
-	content: "\e0a7";
-}
-.decorator-flaticon-save31:after {
-	content: "\e0a8";
-}
-.decorator-flaticon-search102:after {
-	content: "\e0a9";
-}
-.decorator-flaticon-search103:after {
-	content: "\e0aa";
-}
-.decorator-flaticon-search16:after {
-	content: "\e0ab";
-}
-.decorator-flaticon-search99:after {
-	content: "\e0ac";
-}
-.decorator-flaticon-server:after {
-	content: "\e0ad";
-}
-.decorator-flaticon-server19:after {
-	content: "\e0ae";
-}
-.decorator-flaticon-share40:after {
-	content: "\e0af";
-}
-.decorator-flaticon-sitemap1:after {
-	content: "\e0b0";
-}
-.decorator-flaticon-sort48:after {
-	content: "\e0b1";
-}
-.decorator-flaticon-sort51:after {
-	content: "\e0b2";
-}
-.decorator-flaticon-squares36:after {
-	content: "\e0b3";
-}
-.decorator-flaticon-star129:after {
-	content: "\e0b4";
-}
-.decorator-flaticon-stats144:after {
-	content: "\e0b5";
-}
-.decorator-flaticon-stop5:after {
-	content: "\e0b6";
-}
-.decorator-flaticon-tables:after {
-	content: "\e0b7";
-}
-.decorator-flaticon-tag25:after {
-	content: "\e0b8";
-}
-.decorator-flaticon-tar1:after {
-	content: "\e0b9";
-}
-.decorator-flaticon-tasks1:after {
-	content: "\e0ba";
-}
-.decorator-flaticon-test20:after {
-	content: "\e0bb";
-}
-.decorator-flaticon-text1:after {
-	content: "\e0bc";
-}
-.decorator-flaticon-text61:after {
-	content: "\e0bd";
-}
-.decorator-flaticon-text70:after {
-	content: "\e0be";
-}
-.decorator-flaticon-textfile10:after {
-	content: "\e0bf";
-}
-.decorator-flaticon-three103:after {
-	content: "\e0c0";
-}
-.decorator-flaticon-three115:after {
-	content: "\e0c1";
-}
-.decorator-flaticon-tie6:after {
-	content: "\e0c2";
-}
-.decorator-flaticon-time33:after {
-	content: "\e0c3";
-}
-.decorator-flaticon-time51:after {
-	content: "\e0c4";
-}
-.decorator-flaticon-translation:after {
-	content: "\e0c5";
-}
-.decorator-flaticon-transport10:after {
-	content: "\e0c6";
-}
-.decorator-flaticon-triangle1:after {
-	content: "\e0c7";
-}
-.decorator-flaticon-turn-right5:after {
-	content: "\e0c8";
-}
-.decorator-flaticon-twitter-button:after {
-	content: "\e0c9";
-}
-.decorator-flaticon-txt:after {
-	content: "\e0ca";
-}
-.decorator-flaticon-upload119:after {
-	content: "\e0cb";
-}
-.decorator-flaticon-users81:after {
-	content: "\e0cc";
-}
-.decorator-flaticon-verified9:after {
-	content: "\e0cd";
-}
-.decorator-flaticon-video34:after {
-	content: "\e0ce";
-}
-.decorator-flaticon-visibility1:after {
-	content: "\e0cf";
-}
-.decorator-flaticon-web62:after {
-	content: "\e0d0";
-}
-.decorator-flaticon-website17:after {
-	content: "\e0d1";
-}
-.decorator-flaticon-website2:after {
-	content: "\e0d2";
-}
-.decorator-flaticon-website38:after {
-	content: "\e0d3";
-}
-.decorator-flaticon-wiping16:after {
-	content: "\e0d4";
-}
-.decorator-flaticon-worker5:after {
-	content: "\e0d5";
-}
-.decorator-flaticon-world91:after {
-	content: "\e0d6";
-}
-.decorator-flaticon-write13:after {
-	content: "\e0d7";
-}
-.decorator-flaticon-xls1:after {
-	content: "\e0d8";
-}
-.decorator-flaticon-xlsx:after {
-	content: "\e0d9";
-}
-.decorator-flaticon-xml6:after {
-	content: "\e0da";
-}
-.decorator-flaticon-youtube18:after {
-	content: "\e0db";
-}
-.decorator-flaticon-zip14:after {
-	content: "\e0dc";
-}
-.decorator-flaticon-zip6:after {
-	content: "\e0dd";
-}
+  font-family: "Flaticon";
+  src: url("./Flaticon.eot");
+  src: url("./Flaticon.eot?#iefix") format("embedded-opentype"),
+       url("./Flaticon.woff") format("woff"),
+       url("./Flaticon.ttf") format("truetype"),
+       url("./Flaticon.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("./Flaticon.svg#Flaticon") format("svg");
+  }
+}
+
+[class^="decorator-decorator-flaticon-"]:after, [class*=" decorator-flaticon-"]:after {   
+  font-family: Flaticon;
+}
+
+.decorator-flaticon-abecedary4:after { content: "\f100"; }
+.decorator-flaticon-add64:after { content: "\f101"; }
+.decorator-flaticon-agenda3:after { content: "\f102"; }
+.decorator-flaticon-alert9:after { content: "\f103"; }
+.decorator-flaticon-alphabetical2:after { content: "\f104"; }
+.decorator-flaticon-applicattion:after { content: "\f105"; }
+.decorator-flaticon-archive18:after { content: "\f106"; }
+.decorator-flaticon-arrow123:after { content: "\f107"; }
+.decorator-flaticon-arrow483:after { content: "\f108"; }
+.decorator-flaticon-arrow73:after { content: "\f109"; }
+.decorator-flaticon-arrow88:after { content: "\f10a"; }
+.decorator-flaticon-arrows130:after { content: "\f10b"; }
+.decorator-flaticon-bell72:after { content: "\f10c"; }
+.decorator-flaticon-bell84:after { content: "\f10d"; }
+.decorator-flaticon-black302:after { content: "\f10e"; }
+.decorator-flaticon-black391:after { content: "\f10f"; }
+.decorator-flaticon-blank32:after { content: "\f110"; }
+.decorator-flaticon-boc:after { content: "\f111"; }
+.decorator-flaticon-book255:after { content: "\f112"; }
+.decorator-flaticon-box6:after { content: "\f113"; }
+.decorator-flaticon-browser71:after { content: "\f114"; }
+.decorator-flaticon-bugs3:after { content: "\f115"; }
+.decorator-flaticon-business12:after { content: "\f116"; }
+.decorator-flaticon-calendar-with-a-clock-time-tools:after { content: "\f117"; }
+.decorator-flaticon-calendar146:after { content: "\f118"; }
+.decorator-flaticon-camera3:after { content: "\f119"; }
+.decorator-flaticon-cancel32:after { content: "\f11a"; }
+.decorator-flaticon-carnival23:after { content: "\f11b"; }
+.decorator-flaticon-catalog2:after { content: "\f11c"; }
+.decorator-flaticon-categories:after { content: "\f11d"; }
+.decorator-flaticon-caution9:after { content: "\f11e"; }
+.decorator-flaticon-check34:after { content: "\f11f"; }
+.decorator-flaticon-check51:after { content: "\f120"; }
+.decorator-flaticon-checked34:after { content: "\f121"; }
+.decorator-flaticon-checking3:after { content: "\f122"; }
+.decorator-flaticon-chevron8:after { content: "\f123"; }
+.decorator-flaticon-clip26:after { content: "\f124"; }
+.decorator-flaticon-clock169:after { content: "\f125"; }
+.decorator-flaticon-clock56:after { content: "\f126"; }
+.decorator-flaticon-cogwheels12:after { content: "\f127"; }
+.decorator-flaticon-column3:after { content: "\f128"; }
+.decorator-flaticon-comments1:after { content: "\f129"; }
+.decorator-flaticon-computer196:after { content: "\f12a"; }
+.decorator-flaticon-computing10:after { content: "\f12b"; }
+.decorator-flaticon-connection4:after { content: "\f12c"; }
+.decorator-flaticon-cpu6:after { content: "\f12d"; }
+.decorator-flaticon-css5:after { content: "\f12e"; }
+.decorator-flaticon-csv:after { content: "\f12f"; }
+.decorator-flaticon-dark4:after { content: "\f130"; }
+.decorator-flaticon-data110:after { content: "\f131"; }
+.decorator-flaticon-data112:after { content: "\f132"; }
+.decorator-flaticon-delete30:after { content: "\f133"; }
+.decorator-flaticon-development:after { content: "\f134"; }
+.decorator-flaticon-doc:after { content: "\f135"; }
+.decorator-flaticon-document112:after { content: "\f136"; }
+.decorator-flaticon-document209:after { content: "\f137"; }
+.decorator-flaticon-document28:after { content: "\f138"; }
+.decorator-flaticon-document290:after { content: "\f139"; }
+.decorator-flaticon-document77:after { content: "\f13a"; }
+.decorator-flaticon-document9:after { content: "\f13b"; }
+.decorator-flaticon-documents12:after { content: "\f13c"; }
+.decorator-flaticon-docx:after { content: "\f13d"; }
+.decorator-flaticon-earth1:after { content: "\f13e"; }
+.decorator-flaticon-earth23:after { content: "\f13f"; }
+.decorator-flaticon-edit-table:after { content: "\f140"; }
+.decorator-flaticon-edit-table1:after { content: "\f141"; }
+.decorator-flaticon-edit45:after { content: "\f142"; }
+.decorator-flaticon-edit5:after { content: "\f143"; }
+.decorator-flaticon-electrocardiogram3:after { content: "\f144"; }
+.decorator-flaticon-envelope14:after { content: "\f145"; }
+.decorator-flaticon-envelope64:after { content: "\f146"; }
+.decorator-flaticon-eraser11:after { content: "\f147"; }
+.decorator-flaticon-expand16:after { content: "\f148"; }
+.decorator-flaticon-facebook29:after { content: "\f149"; }
+.decorator-flaticon-file229:after { content: "\f14a"; }
+.decorator-flaticon-file289:after { content: "\f14b"; }
+.decorator-flaticon-file94:after { content: "\f14c"; }
+.decorator-flaticon-file98:after { content: "\f14d"; }
+.decorator-flaticon-flag28:after { content: "\f14e"; }
+.decorator-flaticon-folder249:after { content: "\f14f"; }
+.decorator-flaticon-folder250:after { content: "\f150"; }
+.decorator-flaticon-forbidden1:after { content: "\f151"; }
+.decorator-flaticon-gallery7:after { content: "\f152"; }
+.decorator-flaticon-garbage11:after { content: "\f153"; }
+.decorator-flaticon-gear39:after { content: "\f154"; }
+.decorator-flaticon-hammer2:after { content: "\f155"; }
+.decorator-flaticon-hammer23:after { content: "\f156"; }
+.decorator-flaticon-house3:after { content: "\f157"; }
+.decorator-flaticon-html8:after { content: "\f158"; }
+.decorator-flaticon-html9:after { content: "\f159"; }
+.decorator-flaticon-id16:after { content: "\f15a"; }
+.decorator-flaticon-id17:after { content: "\f15b"; }
+.decorator-flaticon-identification63:after { content: "\f15c"; }
+.decorator-flaticon-import1:after { content: "\f15d"; }
+.decorator-flaticon-index-finger:after { content: "\f15e"; }
+.decorator-flaticon-info28:after { content: "\f15f"; }
+.decorator-flaticon-internet58:after { content: "\f160"; }
+.decorator-flaticon-jar8:after { content: "\f161"; }
+.decorator-flaticon-jpg2:after { content: "\f162"; }
+.decorator-flaticon-key162:after { content: "\f163"; }
+.decorator-flaticon-keyword3:after { content: "\f164"; }
+.decorator-flaticon-kitchen-tools1:after { content: "\f165"; }
+.decorator-flaticon-label49:after { content: "\f166"; }
+.decorator-flaticon-layout29:after { content: "\f167"; }
+.decorator-flaticon-letter-x5:after { content: "\f168"; }
+.decorator-flaticon-link55:after { content: "\f169"; }
+.decorator-flaticon-link95:after { content: "\f16a"; }
+.decorator-flaticon-list24:after { content: "\f16b"; }
+.decorator-flaticon-list6:after { content: "\f16c"; }
+.decorator-flaticon-lock81:after { content: "\f16d"; }
+.decorator-flaticon-log1:after { content: "\f16e"; }
+.decorator-flaticon-logotype115:after { content: "\f16f"; }
+.decorator-flaticon-magnifier12:after { content: "\f170"; }
+.decorator-flaticon-magnifier41:after { content: "\f171"; }
+.decorator-flaticon-magnifying-glass15:after { content: "\f172"; }
+.decorator-flaticon-map32:after { content: "\f173"; }
+.decorator-flaticon-map47:after { content: "\f174"; }
+.decorator-flaticon-marker20:after { content: "\f175"; }
+.decorator-flaticon-medical-equipment:after { content: "\f176"; }
+.decorator-flaticon-megaphone19:after { content: "\f177"; }
+.decorator-flaticon-minus-sign4:after { content: "\f178"; }
+.decorator-flaticon-mp34:after { content: "\f179"; }
+.decorator-flaticon-multiple25:after { content: "\f17a"; }
+.decorator-flaticon-music168:after { content: "\f17b"; }
+.decorator-flaticon-music178:after { content: "\f17c"; }
+.decorator-flaticon-music236:after { content: "\f17d"; }
+.decorator-flaticon-navigate2:after { content: "\f17e"; }
+.decorator-flaticon-navigate6:after { content: "\f17f"; }
+.decorator-flaticon-news15:after { content: "\f180"; }
+.decorator-flaticon-newspaper1:after { content: "\f181"; }
+.decorator-flaticon-next25:after { content: "\f182"; }
+.decorator-flaticon-note20:after { content: "\f183"; }
+.decorator-flaticon-odp2:after { content: "\f184"; }
+.decorator-flaticon-odt5:after { content: "\f185"; }
+.decorator-flaticon-opened29:after { content: "\f186"; }
+.decorator-flaticon-organization1:after { content: "\f187"; }
+.decorator-flaticon-padlock79:after { content: "\f188"; }
+.decorator-flaticon-paint88:after { content: "\f189"; }
+.decorator-flaticon-painter14:after { content: "\f18a"; }
+.decorator-flaticon-paper11:after { content: "\f18b"; }
+.decorator-flaticon-password13:after { content: "\f18c"; }
+.decorator-flaticon-pause:after { content: "\f18d"; }
+.decorator-flaticon-pdf17:after { content: "\f18e"; }
+.decorator-flaticon-pdf28:after { content: "\f18f"; }
+.decorator-flaticon-picture62:after { content: "\f190"; }
+.decorator-flaticon-placeholder19:after { content: "\f191"; }
+.decorator-flaticon-play109:after { content: "\f192"; }
+.decorator-flaticon-play124:after { content: "\f193"; }
+.decorator-flaticon-play7:after { content: "\f194"; }
+.decorator-flaticon-plus51:after { content: "\f195"; }
+.decorator-flaticon-png4:after { content: "\f196"; }
+.decorator-flaticon-portable-document-format:after { content: "\f197"; }
+.decorator-flaticon-power110:after { content: "\f198"; }
+.decorator-flaticon-pps2:after { content: "\f199"; }
+.decorator-flaticon-ppt:after { content: "\f19a"; }
+.decorator-flaticon-pptx:after { content: "\f19b"; }
+.decorator-flaticon-previous14:after { content: "\f19c"; }
+.decorator-flaticon-previous16:after { content: "\f19d"; }
+.decorator-flaticon-printer67:after { content: "\f19e"; }
+.decorator-flaticon-psd3:after { content: "\f19f"; }
+.decorator-flaticon-puzzle-piece1:after { content: "\f1a0"; }
+.decorator-flaticon-puzzle33:after { content: "\f1a1"; }
+.decorator-flaticon-question-mark1:after { content: "\f1a2"; }
+.decorator-flaticon-question13:after { content: "\f1a3"; }
+.decorator-flaticon-rar:after { content: "\f1a4"; }
+.decorator-flaticon-reload8:after { content: "\f1a5"; }
+.decorator-flaticon-remove11:after { content: "\f1a6"; }
+.decorator-flaticon-return10:after { content: "\f1a7"; }
+.decorator-flaticon-rubbish7:after { content: "\f1a8"; }
+.decorator-flaticon-save31:after { content: "\f1a9"; }
+.decorator-flaticon-search102:after { content: "\f1aa"; }
+.decorator-flaticon-search103:after { content: "\f1ab"; }
+.decorator-flaticon-search16:after { content: "\f1ac"; }
+.decorator-flaticon-search99:after { content: "\f1ad"; }
+.decorator-flaticon-server:after { content: "\f1ae"; }
+.decorator-flaticon-server19:after { content: "\f1af"; }
+.decorator-flaticon-share40:after { content: "\f1b0"; }
+.decorator-flaticon-sitemap1:after { content: "\f1b1"; }
+.decorator-flaticon-sort48:after { content: "\f1b2"; }
+.decorator-flaticon-sort51:after { content: "\f1b3"; }
+.decorator-flaticon-squares36:after { content: "\f1b4"; }
+.decorator-flaticon-star129:after { content: "\f1b5"; }
+.decorator-flaticon-stats144:after { content: "\f1b6"; }
+.decorator-flaticon-stop5:after { content: "\f1b7"; }
+.decorator-flaticon-tables:after { content: "\f1b8"; }
+.decorator-flaticon-tag25:after { content: "\f1b9"; }
+.decorator-flaticon-tar1:after { content: "\f1ba"; }
+.decorator-flaticon-tasks1:after { content: "\f1bb"; }
+.decorator-flaticon-test20:after { content: "\f1bc"; }
+.decorator-flaticon-text-file10:after { content: "\f1bd"; }
+.decorator-flaticon-text1:after { content: "\f1be"; }
+.decorator-flaticon-text61:after { content: "\f1bf"; }
+.decorator-flaticon-text70:after { content: "\f1c0"; }
+.decorator-flaticon-three103:after { content: "\f1c1"; }
+.decorator-flaticon-three115:after { content: "\f1c2"; }
+.decorator-flaticon-tie6:after { content: "\f1c3"; }
+.decorator-flaticon-time33:after { content: "\f1c4"; }
+.decorator-flaticon-time51:after { content: "\f1c5"; }
+.decorator-flaticon-translation:after { content: "\f1c6"; }
+.decorator-flaticon-transport10:after { content: "\f1c7"; }
+.decorator-flaticon-triangle1:after { content: "\f1c8"; }
+.decorator-flaticon-turn-right5:after { content: "\f1c9"; }
+.decorator-flaticon-twitter-button:after { content: "\f1ca"; }
+.decorator-flaticon-txt:after { content: "\f1cb"; }
+.decorator-flaticon-upload119:after { content: "\f1cc"; }
+.decorator-flaticon-users81:after { content: "\f1cd"; }
+.decorator-flaticon-verified9:after { content: "\f1ce"; }
+.decorator-flaticon-video34:after { content: "\f1cf"; }
+.decorator-flaticon-visibility1:after { content: "\f1d0"; }
+.decorator-flaticon-web62:after { content: "\f1d1"; }
+.decorator-flaticon-website17:after { content: "\f1d2"; }
+.decorator-flaticon-website2:after { content: "\f1d3"; }
+.decorator-flaticon-website38:after { content: "\f1d4"; }
+.decorator-flaticon-wiping16:after { content: "\f1d5"; }
+.decorator-flaticon-worker5:after { content: "\f1d6"; }
+.decorator-flaticon-world91:after { content: "\f1d7"; }
+.decorator-flaticon-write13:after { content: "\f1d8"; }
+.decorator-flaticon-xls1:after { content: "\f1d9"; }
+.decorator-flaticon-xlsx:after { content: "\f1da"; }
+.decorator-flaticon-xml6:after { content: "\f1db"; }
+.decorator-flaticon-youtube18:after { content: "\f1dc"; }
+.decorator-flaticon-zip14:after { content: "\f1dd"; }
+.decorator-flaticon-zip6:after { content: "\f1de"; }
