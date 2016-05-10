@@ -127,8 +127,8 @@
     <message key="PLUGINS_ADMIN_STATUS_MONITORING_CPU_DESCRIPTION">Ce graphique montre l'utilisation du processeur (ne fonctionne qu'avec la JVM de Sun).</message>
     <message key="PLUGINS_ADMIN_STATUS_MONITORING_DISKIO_LABEL">Activité des disques</message>
     <message key="PLUGINS_ADMIN_STATUS_MONITORING_DISKIO_DESCRIPTION">Ce graphique montre l'activé des disques (lectures et écritures).</message>
-    <message key="PLUGINS_ADMIN_STATUS_MONITORING_DISKSPACE_LABEL">Espace disque (Mo) utilisé par Ametys</message>
-    <message key="PLUGINS_ADMIN_STATUS_MONITORING_DISKSPACE_DESCRIPTION">Ce graphique montre l'espace utilisé sur le disque par le répertoire de données d'Ametys (en Mo).</message>
+    <message key="PLUGINS_ADMIN_STATUS_MONITORING_DISKSPACE_LABEL">Espace disque (Mo) libre</message>
+    <message key="PLUGINS_ADMIN_STATUS_MONITORING_DISKSPACE_DESCRIPTION">Ce graphique montre l'espace disponible sur le disque où se situe le répertoire de données d'Ametys (en Mo).</message>
     
     <message key="PLUGINS_ADMIN_STATUS_MONITORING_DISKSPACE_NOTIFICATION_TITLE">Espace disque restant faible</message>
     <message key="PLUGINS_ADMIN_STATUS_MONITORING_DISKSPACE_NOTIFICATION_MESSAGE">L'espace disque restant est inférieur à la limte indiquée.</message>
@@ -393,8 +393,8 @@
     <message key="PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_GROUP">Seuils d'alertes système</message>
     <message key="PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_ENABLE_LABEL">Activer les alertes système</message>
     <message key="PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_ENABLE_DESCRIPTION">Cochez cette case pour activer les alertes système</message>
-    <message key="PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_AMETYSHOME_LIMIT_SIZE_LABEL">Seuil limite du réperertoire de données (en Mo)</message>
-    <message key="PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_AMETYSHOME_LIMIT_SIZE_DESCRIPTION">Seuil limite de l'espace disque pris par le répertoire de données d'Ametys (indiqué en Mo). Laisser vide pour désactiver cette alerte.</message>
-    <message key="PLUGINS_ADMIN_SYSTEM_ALERT_AMETYSHOME_LIMIT_SIZE_MAIL_SUBJECT">Seuil d'espace disque utilisé atteint</message>
-    <message key="PLUGINS_ADMIN_SYSTEM_ALERT_AMETYSHOME_LIMIT_SIZE_MAIL_BODY">L'espace disque utilisé par le répertoire de données d'Ametys est de {0} Mo. Il a donc dépassé la limite indiquée dans la configuration ({1} Mo).</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_AMETYSHOME_LIMIT_SIZE_LABEL">Seuil d'espace disque manquant (en Mo)</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_AMETYSHOME_LIMIT_SIZE_DESCRIPTION">Valeur limite de l'espace restant sur le disque où se situe le répertoire de données d'Ametys (indiqué en Mo). Une alerte sera envoyée lorsque l'espace disponible passera sous cette valeur. Laisser vide pour désactiver cette alerte.</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ALERT_AMETYSHOME_LIMIT_SIZE_MAIL_SUBJECT">Espace disque manquant</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ALERT_AMETYSHOME_LIMIT_SIZE_MAIL_BODY">L'espace disque restant est de {0} Mo. Il est donc insuffisant car passé en dessous de la limite indiquée dans la configuration ({1} Mo).</message>
 </catalogue>

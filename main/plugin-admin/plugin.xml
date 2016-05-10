@@ -58,7 +58,7 @@
              + -->
         <param id="runtime.system.alerts.diskspace.threshold" type="long">
             <!-- 
-                The limit size of Ametys home folder (in MegaBytes).
+                The limit size of free disk space (in MegaBytes).
              -->
             <label i18n="true">PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_AMETYSHOME_LIMIT_SIZE_LABEL</label>
             <description i18n="true">PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_AMETYSHOME_LIMIT_SIZE_DESCRIPTION</description>      

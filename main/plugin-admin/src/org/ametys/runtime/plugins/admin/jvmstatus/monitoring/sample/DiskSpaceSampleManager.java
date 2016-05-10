@@ -36,7 +36,7 @@ import org.ametys.runtime.plugins.admin.jvmstatus.monitoring.alerts.AbstractAler
 import org.ametys.runtime.plugins.admin.jvmstatus.monitoring.alerts.AlertSampleManager.Threshold.Operator;
 
 /**
- * {@link SampleManager} for collecting the use of disk space (in MB).
+ * {@link SampleManager} for collecting the free disk space (in MB) on the disk where Ametys Home is.
  */
 public class DiskSpaceSampleManager extends AbstractAlertSampleManager implements Serviceable
 {
@@ -51,17 +51,17 @@ public class DiskSpaceSampleManager extends AbstractAlertSampleManager implement
     @Override
     protected void _configureDatasources(RrdDef rrdDef)
     {
-        _registerDatasources(rrdDef, "used", DsType.ABSOLUTE, 0, Double.NaN);
+        _registerDatasources(rrdDef, "free", DsType.GAUGE, 0, Double.NaN);
     }
 
     @Override
     protected Map<String, Object> _internalCollect(Sample sample) throws IOException
     {
         Map<String, Object> result = new HashMap<>();
-        long size = _diskSpaceHelper.getUsedSpace() / 1024 / 1024; //B to MB
+        long free = _diskSpaceHelper.getAvailableSpace() / 1024 / 1024; //B to MB
         
-        sample.setValue("used", size);
-        result.put("used", size);
+        sample.setValue("free", free);
+        result.put("free", free);
         
         return result;
     }
@@ -69,15 +69,15 @@ public class DiskSpaceSampleManager extends AbstractAlertSampleManager implement
     @Override
     protected String _getGraphTitle()
     {
-        return "Used space on disk";
+        return "Free space on disk";
     }
 
     @Override
     protected void _populateGraphDefinition(RrdGraphDef graphDef, String rrdFilePath)
     {
-        graphDef.datasource("used", rrdFilePath, "used", ConsolFun.AVERAGE);
+        graphDef.datasource("free", rrdFilePath, "free", ConsolFun.AVERAGE);
         
-        graphDef.area("used", new Color(148, 30, 109), "Used space on disk");
+        graphDef.area("free", new Color(148, 30, 109), "Free space on disk");
         
         graphDef.setVerticalLabel("bytes");
     }
@@ -85,12 +85,12 @@ public class DiskSpaceSampleManager extends AbstractAlertSampleManager implement
     @Override
     protected Map<String, String> getThresholdConfigNames()
     {
-        return Collections.singletonMap("used", "runtime.system.alerts.diskspace.threshold");
+        return Collections.singletonMap("free", "runtime.system.alerts.diskspace.threshold");
     }
     
     @Override
     protected Map<String, Operator> getOperators()
     {
-        return Collections.singletonMap("used", Operator.GEQ);
+        return Collections.singletonMap("free", Operator.LEQ);
     }
 }
