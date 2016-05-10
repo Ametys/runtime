@@ -1167,7 +1167,7 @@
                     <label i18n="true">PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_DAY_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_DAY_DESCRIPTION</description>
                     
-                    <icon-glyph>flaticon-calendar146</icon-glyph>
+                    <icon-glyph>flaticon-time33</icon-glyph>
                 </class>
                 <scripts>
                     <file>js/Ametys/plugins/admin/jvmstatus/DrawModeAwareController.js</file>
@@ -1185,7 +1185,7 @@
                     <label i18n="true">PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_HOUR_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_HOUR_DESCRIPTION</description>
                     
-                    <icon-glyph>flaticon-calendar146</icon-glyph>
+                    <icon-glyph>flaticon-calendar-with-a-clock-time-tools</icon-glyph>
                 </class>
                 <scripts>
                     <file>js/Ametys/plugins/admin/jvmstatus/DrawModeAwareController.js</file>
