@@ -112,7 +112,7 @@ Ext.define(
         setText: function(text)
         {
             this._rawText = text;
-            this.text = text;
+            this.text = text || '';
     
             if(this.el)
             {
