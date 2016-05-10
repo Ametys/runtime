@@ -130,6 +130,7 @@ Ext.define('Ametys.plugins.coreui.about.AboutActions', {
 	            xtype: "component",
                 itemId: "license",
                 flex: 1,
+                width: '100%',
                 cls: 'about-license',
                 html: "",
                 hidden: true,
