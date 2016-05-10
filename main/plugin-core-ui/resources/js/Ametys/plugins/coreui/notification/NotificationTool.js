@@ -284,7 +284,7 @@ Ext.define('Ametys.plugins.coreui.notification.NotificationTool', {
 			type: 'navhistory',
 			date: record.get('date'),
 			username: Ametys.getAppParameter('user').fullname,
-			profileImg: Ametys.CONTEXT_PATH + '/plugins/core-ui/current-user/image_32',
+			profileImg: Ametys.CONTEXT_PATH + '/plugins/core-ui/current-user/image_46',
 			icon: record.get('iconGlyph') != null ? null : Ametys.CONTEXT_PATH + record.get('iconMedium') ,
 			iconGlyph: record.get('iconGlyph'),
 			action: record.get('action'),
