@@ -39,7 +39,7 @@ public class ResourceHandlerExtensionPoint extends AbstractComponentExtensionPoi
         @Override
         public int compare(String s1, String s2)
         {
-            return s1.length() > s2.length() ? -1 : (s1.length() < s2.length() ? 1 : 0);
+            return s1.length() > s2.length() ? -1 : (s1.length() < s2.length() ? 1 : s1.compareTo(s2));
         }
     });
     
