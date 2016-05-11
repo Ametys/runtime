@@ -148,7 +148,12 @@ div.connection table.input.password td.image:after {
     content: "\f023";
 }
 
-
+div.connection form button span:before {
+	position: absolute;
+    right: 0.4em;
+    top: 0.6em;
+    font-size: 1.2em;
+}
 
 div.connection div.checkbox {
     margin-bottom: 1em;
@@ -247,10 +252,18 @@ div.connection table.population td.input {
 	position: relative;
 }
 div.connection table.population td.input select {
-	border: none;
+    font-family: 'Open Sans', 'Helvetica Neue', helvetica, arial, verdana, sans-serif;
 	width: 100%;
-	padding: 0;
+	border-style: none;
+    outline-style: none;
     background-color: transparent;
+}
+
+div.connection table.population td.input select option {
+	font-family: 'Open Sans', 'Helvetica Neue', helvetica, arial, verdana, sans-serif;
+	padding: 0 0.8em;
+    background-color: #FFF;
+    margin-bottom: 0.5em;
 }
 div.connection table.population td.input.empty:before {
     color: #999;

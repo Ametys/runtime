@@ -49,46 +49,6 @@
 	                        </xsl:if>
 							<xsl:choose>
 								<xsl:when test="/LoginScreen/PopulationsForm/populationCombobox = 'true'">
-									<script>
-									    window.onload = function() {
-									        document.getElementById("Population").selectedIndex = -1;
-									        
-									        var isIE = /*@cc_on!@*/false || !!document.documentMode;
-									        if (isIE)
-									        {
-												var elements = document.getElementsByTagName("fieldset");
-												for (i = 0; i &lt; elements.length; i++) {
-													elements[i].disabled=true;
-												}
-											}
-									        
-										    document.getElementById("Population").onchange = function() {
-										    	// Remove the placeholder for the select population field
-										    	this.parentNode.className='input';
-										    	
-										    	// Enable the HTML fields
-										    	var elements = document.getElementsByTagName("fieldset");
-												for (i = 0; i &lt; elements.length; i++) {
-													elements[i].disabled=false;
-												}
-												
-												var authFormsEl = document.getElementById("authForms");
-												if (authFormsEl != null)
-												{
-													elements = authFormsEl.getElementsByTagName("table");
-													for (i = 0; i &lt; elements.length; i++) {
-														elements[i].className = elements[i].className.replace('disabled', ''); 
-													}
-												} 
-												
-												// Update the value of the hidden fields hiddenPopulation
-												var fields = document.getElementsByName('hiddenPopulation');
-												for (i = 0; i &lt; fields.length; i++) {
-													fields[i].setAttribute('value', this.value);
-												}
-										    }
-									    }
-									</script>
 									<style type="text/css">
 										div.connection table.population td.input.empty:before {
 											content: "<i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_POPULATION" i18n:catalogue="plugin.core-ui" />"
@@ -106,35 +66,46 @@
 											<td class="image"></td>
 										</tr>
 									</table>
+                                    <script>
+                                        document.getElementById("Population").selectedIndex = -1;
+                                        
+                                        var isIE = /*@cc_on!@*/false || !!document.documentMode;
+                                        if (isIE)
+                                        {
+                                            var elements = document.getElementsByTagName("fieldset");
+                                            for (i = 0; i &lt; elements.length; i++) {
+                                                elements[i].disabled=true;
+                                            }
+                                        }
+                                        
+                                        document.getElementById("Population").onchange = function() {
+                                            // Remove the placeholder for the select population field
+                                            this.parentNode.className='input';
+                                            
+                                            // Enable the HTML fields
+                                            var elements = document.getElementsByTagName("fieldset");
+                                            for (i = 0; i &lt; elements.length; i++) {
+                                                elements[i].disabled=false;
+                                            }
+                                            
+                                            var authFormsEl = document.getElementById("authForms");
+                                            if (authFormsEl != null)
+                                            {
+                                                elements = authFormsEl.getElementsByTagName("table");
+                                                for (i = 0; i &lt; elements.length; i++) {
+                                                    elements[i].className = elements[i].className.replace('disabled', ''); 
+                                                }
+                                            } 
+                                            
+                                            // Update the value of the hidden fields hiddenPopulation
+                                            var fields = document.getElementsByName('hiddenPopulation');
+                                            for (i = 0; i &lt; fields.length; i++) {
+                                                fields[i].setAttribute('value', this.value);
+                                            }
+                                        }
+                                    </script>
 								</xsl:when>
 								<xsl:otherwise>
-									<script>
-										window.onload = function() {
-											document.getElementById("Population").oninput = function() {
-												// Enable the HTML fields
-										    	var elements = document.getElementsByTagName("fieldset");
-												for (i = 0; i &lt; elements.length; i++) {
-													elements[i].disabled=false;
-												}
-												
-												var authFormsEl = document.getElementById("authForms");
-												if (authFormsEl != null)
-												{
-													elements = authFormsEl.getElementsByTagName("table");
-													for (i = 0; i &lt; elements.length; i++) {
-														elements[i].className = elements[i].className.replace('disabled', ''); 
-													}
-												}
-											}
-											document.getElementById("Population").onchange = function() {
-												// Update the value of the hidden fields hiddenPopulation
-												var fields = document.getElementsByName('hiddenPopulation');
-												for (i = 0; i &lt; fields.length; i++) {
-													fields[i].setAttribute('value', this.value);
-												}
-											}
-										}
-									</script>
 									<table class="input inputtext population">
 										<tr>
 											<td class="input">
@@ -143,6 +114,31 @@
 											<td class="image"></td>
 										</tr>
 									</table>
+                                    <script>
+                                        document.getElementById("Population").oninput = function() {
+                                            // Enable the HTML fields
+                                            var elements = document.getElementsByTagName("fieldset");
+                                            for (i = 0; i &lt; elements.length; i++) {
+                                                elements[i].disabled=false;
+                                            }
+                                            
+                                            var authFormsEl = document.getElementById("authForms");
+                                            if (authFormsEl != null)
+                                            {
+                                                elements = authFormsEl.getElementsByTagName("table");
+                                                for (i = 0; i &lt; elements.length; i++) {
+                                                    elements[i].className = elements[i].className.replace('disabled', ''); 
+                                                }
+                                            }
+                                        }
+                                        document.getElementById("Population").onchange = function() {
+                                            // Update the value of the hidden fields hiddenPopulation
+                                            var fields = document.getElementsByName('hiddenPopulation');
+                                            for (i = 0; i &lt; fields.length; i++) {
+                                                fields[i].setAttribute('value', this.value);
+                                            }
+                                        }
+                                    </script>
 								</xsl:otherwise>
 							</xsl:choose>
 						</div>
@@ -182,7 +178,7 @@
 							    	<xsl:if test="/LoginScreen/populationId"><input type="hidden" name="hiddenPopulation" value="{/LoginScreen/populationId}"/></xsl:if>
 			                		<input type="hidden" name="CredentialProviderIndex" value="{index}"/>
 			                		<xsl:call-template name="submit-button">
-			                			<xsl:with-param name="text"><xsl:value-of select="label"/><i class="fa {iconGlyph}" style="position: absolute; right: 0.3em; top: 0.2em; font-size: 2em;"></i></xsl:with-param>
+			                			<xsl:with-param name="text"><xsl:value-of select="label"/><span class="{iconGlyph}"></span></xsl:with-param>
 			                			<xsl:with-param name="style">background-color: #<xsl:value-of select="color"/>; border: 1px solid #<xsl:value-of select="color"/>;</xsl:with-param>
 			                			<xsl:with-param name="class">otherauth</xsl:with-param>
 			                		</xsl:call-template>
