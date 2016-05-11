@@ -148,7 +148,10 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
         if (includeDefault)
         {
             DataSourceDefinition defaultDataSourceDefinition = getDefaultDataSourceDefinition();
-            dataSourceDefinitions.put(getDefaultDataSourceId(), defaultDataSourceDefinition);
+            if (defaultDataSourceDefinition != null)
+            {
+                dataSourceDefinitions.put(getDefaultDataSourceId(), defaultDataSourceDefinition);
+            }
         }
         
         if (includePrivate)
@@ -334,7 +337,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
     
     /**
      * Get the default data source for this type
-     * @return the definition object of the default data source  
+     * @return the definition object of the default data source. Can return null if no datasource is defined. 
      */
     public DataSourceDefinition getDefaultDataSourceDefinition()
     {
