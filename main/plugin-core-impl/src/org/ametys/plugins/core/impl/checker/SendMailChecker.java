@@ -68,7 +68,7 @@ public class SendMailChecker implements ParameterChecker, Configurable //, Conte
         {
             SendMailHelper.sendMail("[Ametys] Test email", null, 
                     "You are receving this email because a send mail test was launch on the Ametys server at: '" + /*request.getRequestURI()* +*/ "', and the following email address is set as the administrator address :'" + recipient + "'.", 
-                    null, recipient, sender, null, null, false, false, host, port, protocol, user, password);
+                    null, recipient, sender, null, null, false, false, host, port, protocol, user, password, false);
         }
         catch (Exception e)
         {

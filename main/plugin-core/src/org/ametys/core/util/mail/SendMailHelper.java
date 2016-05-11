@@ -24,6 +24,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,6 +40,8 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -51,7 +56,7 @@ import org.ametys.runtime.config.Config;
 /**
  * Helper for sending mail
  */
-public final class SendMailHelper
+public final class SendMailHelper extends AbstractLogEnabled implements Disposable
 {
     /** Logger */
     protected static final Logger _LOGGER = LoggerFactory.getLogger(SendMailHelper.class);
@@ -75,6 +80,8 @@ public final class SendMailHelper
     protected static final Pattern __CSS_SPECIFICITY_PSEUDO_CLASS_NOT_PATTERN = Pattern.compile(":not\\(([^\\)]*)\\)");
     /** Universal and separator characters pattern for CSS specificity processing */
     protected static final Pattern __CSS_SPECIFICITY_UNIVERSAL_AND_SEPARATOR_PATTERN = Pattern.compile("[\\*\\s\\+>~]");
+
+    private static final ExecutorService __SINGLE_THREAD_EXECUTOR = Executors.newSingleThreadExecutor(new MailSenderThreadFactory());
     
     private SendMailHelper ()
     {
@@ -96,9 +103,9 @@ public final class SendMailHelper
         long smtpPort = Config.getInstance().getValueAsLong("smtp.mail.port");
         String securityProtocol = Config.getInstance().getValueAsString("smtp.mail.security.protocol");
 
-        sendMail(subject, htmlBody, textBody, recipient, sender, smtpHost, smtpPort, securityProtocol);
+        sendMail(subject, htmlBody, textBody, recipient, sender, smtpHost, smtpPort, securityProtocol, false);
     }
-
+    
     /**
      * Sends mail without authentication or attachments.
      * @param subject The mail subject
@@ -109,11 +116,12 @@ public final class SendMailHelper
      * @param host The server mail host
      * @param port The server mail port
      * @param securityProtocol The server mail security protocol
+     * @param async True to use asynchronous mail sending
      * @throws MessagingException If an error occurred while preparing or sending email
      */
-    public static void sendMail(String subject, String htmlBody, String textBody, String recipient, String sender, String host, long port, String securityProtocol) throws MessagingException
+    public static void sendMail(String subject, String htmlBody, String textBody, String recipient, String sender, String host, long port, String securityProtocol, boolean async) throws MessagingException
     {
-        sendMail(subject, htmlBody, textBody, recipient, sender, host, port, securityProtocol, null, null);
+        sendMail(subject, htmlBody, textBody, recipient, sender, host, port, securityProtocol, null, null, async);
     }
 
 
@@ -129,14 +137,15 @@ public final class SendMailHelper
      * @param securityProtocol The server mail security protocol
      * @param user The user name
      * @param password The user password
+     * @param async True to use asynchronous mail sending
      * @throws MessagingException If an error occurred while preparing or sending email
      */
-    public static void sendMail(String subject, String htmlBody, String textBody, String recipient, String sender, String host, long port, String securityProtocol, String user, String password) throws MessagingException
+    public static void sendMail(String subject, String htmlBody, String textBody, String recipient, String sender, String host, long port, String securityProtocol, String user, String password, boolean async) throws MessagingException
     {
         try
         {
             String sp = StringUtils.defaultIfEmpty(securityProtocol, Config.getInstance().getValueAsString("smtp.mail.security.protocol"));
-            sendMail(subject, htmlBody, textBody, null, recipient, sender, null, null, false, false, host, port, sp, user, password);
+            sendMail(subject, htmlBody, textBody, null, recipient, sender, null, null, false, false, host, port, sp, user, password, async);
         }
         catch (IOException e)
         {
@@ -158,7 +167,7 @@ public final class SendMailHelper
      */
     public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender) throws MessagingException, IOException
     {
-        sendMail(subject, htmlBody, textBody, attachments, recipient, sender, null, null);
+        sendMail(subject, htmlBody, textBody, attachments, recipient, sender, null, null, false);
     }
     
     /**
@@ -169,14 +178,15 @@ public final class SendMailHelper
      * @param attachments the file attachments. Can be null.
      * @param recipient The recipient address
      * @param sender The sender address
-     * @param cc Carbon copy adress list. Can be null.
-     * @param bcc Blind carbon copy adress list. Can be null.
+     * @param cc Carbon copy address list. Can be null.
+     * @param bcc Blind carbon copy address list. Can be null.
+     * @param async True to use asynchronous mail sending
      * @throws MessagingException If an error occurred while preparing or sending email
      * @throws IOException if an error occurs while attaching a file.
      */
-    public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender, List<String> cc, List<String> bcc) throws MessagingException, IOException
+    public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender, List<String> cc, List<String> bcc, boolean async) throws MessagingException, IOException
     {
-        sendMail(subject, htmlBody, textBody, attachments, recipient, sender, cc, bcc, false, false);
+        sendMail(subject, htmlBody, textBody, attachments, recipient, sender, cc, bcc, false, false, async);
     }
     
     /**
@@ -187,20 +197,21 @@ public final class SendMailHelper
      * @param attachments the file attachments. Can be null.
      * @param recipient The recipient address
      * @param sender The sender address
-     * @param cc Carbon copy adress list. Can be null.
-     * @param bcc Blind carbon copy adress list. Can be null.
+     * @param cc Carbon copy address list. Can be null.
+     * @param bcc Blind carbon copy address list. Can be null.
      * @param deliveryReceipt true to request that the receiving mail server send a notification when the mail is received.
      * @param readReceipt true to request that the receiving mail client send a notification when the person opens the mail.
+     * @param async True to use asynchronous mail sending
      * @throws MessagingException If an error occurred while preparing or sending email
      * @throws IOException if an error occurs while attaching a file.
      */
-    public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender, List<String> cc, List<String> bcc, boolean deliveryReceipt, boolean readReceipt) throws MessagingException, IOException
+    public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender, List<String> cc, List<String> bcc, boolean deliveryReceipt, boolean readReceipt, boolean async) throws MessagingException, IOException
     {
         String smtpHost = Config.getInstance().getValueAsString("smtp.mail.host");
         long smtpPort = Config.getInstance().getValueAsLong("smtp.mail.port");
         String protocol = Config.getInstance().getValueAsString("smtp.mail.security.protocol");
         
-        sendMail(subject, htmlBody, textBody, attachments, recipient, sender, cc, bcc, deliveryReceipt, readReceipt, smtpHost, smtpPort, protocol, null, null);
+        sendMail(subject, htmlBody, textBody, attachments, recipient, sender, cc, bcc, deliveryReceipt, readReceipt, smtpHost, smtpPort, protocol, null, null, async);
     }
 
     /**
@@ -211,21 +222,23 @@ public final class SendMailHelper
      * @param attachments the file attachments. Can be null.
      * @param recipient The recipient address
      * @param sender The sender address
-     * @param cc Carbon copy adress list. Can be null.
-     * @param bcc Blind carbon copy adress list. Can be null.
+     * @param cc Carbon copy address list. Can be null.
+     * @param bcc Blind carbon copy address list. Can be null.
      * @param deliveryReceipt true to request that the receiving mail server send a notification when the mail is received.
      * @param readReceipt true to request that the receiving mail client send a notification when the person opens the mail.
      * @param host The server mail host
      * @param port The server port
      * @param securityProtocol The server mail security protocol
+     * @param async True to use asynchronous mail sending
      * @throws MessagingException If an error occurred while preparing or sending email
      * @throws IOException if an error occurs while attaching a file.
      */
-    public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender, List<String> cc, List<String> bcc, boolean deliveryReceipt, boolean readReceipt, String host, long port, String securityProtocol) throws MessagingException, IOException
+    public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender, List<String> cc, List<String> bcc, boolean deliveryReceipt, boolean readReceipt, String host, long port, String securityProtocol, boolean async) throws MessagingException, IOException
     {
         String protocol = Config.getInstance().getValueAsString("smtp.mail.security.protocol");
-        sendMail(subject, htmlBody, textBody, attachments, recipient, sender, cc, bcc, deliveryReceipt, readReceipt, host, port, protocol, null, null);
+        sendMail(subject, htmlBody, textBody, attachments, recipient, sender, cc, bcc, deliveryReceipt, readReceipt, host, port, protocol, null, null, async);
     }
+    
     /**
      * Sends mail with authentication and attachments.
      * @param subject The mail subject
@@ -234,8 +247,8 @@ public final class SendMailHelper
      * @param attachments the file attachments. Can be null.
      * @param recipient The recipient address
      * @param sender The sender address. Can be null when called by MailChecker.
-     * @param cc Carbon copy adress list. Can be null.
-     * @param bcc Blind carbon copy adress list. Can be null.
+     * @param cc Carbon copy address list. Can be null.
+     * @param bcc Blind carbon copy address list. Can be null.
      * @param deliveryReceipt true to request that the receiving mail server send a notification when the mail is received.
      * @param readReceipt true to request that the receiving mail client send a notification when the person opens the mail.
      * @param host The server mail host. Can be null when called by MailChecker.
@@ -243,122 +256,21 @@ public final class SendMailHelper
      * @param port The server port
      * @param user The user name
      * @param password The user password
+     * @param async True to use asynchronous mail sending
      * @throws MessagingException If an error occurred while preparing or sending email
      * @throws IOException if an error occurs while attaching a file.
      */
-    public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender, List<String> cc, List<String> bcc, boolean deliveryReceipt, boolean readReceipt, String host, long port, String securityProtocol, String user, String password) throws MessagingException, IOException
+    public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender, List<String> cc, List<String> bcc, boolean deliveryReceipt, boolean readReceipt, String host, long port, String securityProtocol, String user, String password, boolean async) throws MessagingException, IOException
     {
-        Properties props = new Properties();
-
-        // Setup mail server
-        props.put("mail.smtp.host", host);
-        props.put("mail.smtp.port", port);
+        MailSender mailSender = new MailSender(_LOGGER, subject, htmlBody, textBody, attachments, recipient, sender, cc, bcc, deliveryReceipt, readReceipt, host, port, securityProtocol, user, password);
         
-        // Security protocol
-        if (securityProtocol.equals("starttls"))
+        if (!async)
         {
-            props.put("mail.smtp.starttls.enable", "true"); 
+            mailSender.sendMail();
         }
-        else if (securityProtocol.equals("tlsssl"))
+        else
         {
-            props.put("mail.smtp.ssl.enable", "true");
-        }
-        
-        Session session = Session.getInstance(props, null);
-        
-        // Define message
-        MimeMessage message = new MimeMessage(session);
-        
-        if (sender != null)
-        {
-            message.setFrom(new InternetAddress(sender));
-        }
-        
-        message.setSentDate(new Date());
-        message.setSubject(subject);
-        
-        // Root multipart
-        Multipart multipart = new MimeMultipart("mixed");
-
-        // Message body part.
-        Multipart messageMultipart = new MimeMultipart("alternative");
-        MimeBodyPart messagePart = new MimeBodyPart();
-        messagePart.setContent(messageMultipart);
-        multipart.addBodyPart(messagePart);
-
-        if (textBody != null)
-        {
-            MimeBodyPart textBodyPart = new MimeBodyPart();
-            textBodyPart.setContent(textBody, "text/plain;charset=utf-8");
-            textBodyPart.addHeader("Content-Type", "text/plain;charset=utf-8");
-            messageMultipart.addBodyPart(textBodyPart);
-        }
-
-        if (htmlBody != null)
-        {
-            MimeBodyPart htmlBodyPart = new MimeBodyPart();
-            htmlBodyPart.setContent(inlineCSS(htmlBody), "text/html;charset=utf-8");
-            htmlBodyPart.addHeader("Content-Type", "text/html;charset=utf-8");
-            messageMultipart.addBodyPart(htmlBodyPart);
-        }
-
-        if (attachments != null)
-        {
-            for (File attachment : attachments)
-            {
-                MimeBodyPart fileBodyPart = new MimeBodyPart();
-                fileBodyPart.attachFile(attachment);
-                multipart.addBodyPart(fileBodyPart);
-            }
-        }
-        message.setContent(multipart);
-
-        // Recipients
-        if (recipient != null)
-        {
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient, false));
-        }
-        
-        // Carbon copies
-        if (cc != null)
-        {
-            message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(StringUtils.join(cc, ','), false));
-        }
-
-        // Blind carbon copies
-        if (bcc != null)
-        {
-            message.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(StringUtils.join(bcc, ','), false));
-        }
-        
-        // Delivery receipt : Return-Receipt-To
-        if (deliveryReceipt)
-        {
-            message.setHeader("Return-Receipt-To", sender);
-        }
-        
-        // Read receipt : Disposition-Notification-To
-        if (readReceipt)
-        {
-            message.setHeader("Disposition-Notification-To", sender);
-        }
-        
-        message.saveChanges();
-        
-        Transport tr = session.getTransport("smtp");
-        
-        try
-        {
-            tr.connect(host, (int) port, StringUtils.trimToNull(user), StringUtils.trimToNull(password));
-            
-            if (recipient != null && sender != null)
-            {
-                tr.sendMessage(message, message.getAllRecipients());
-            }
-        }
-        finally
-        {
-            tr.close();
+            __SINGLE_THREAD_EXECUTOR.execute(mailSender);
         }
     }
 
@@ -446,6 +358,12 @@ public final class SendMailHelper
         }
         return newProp + between + oldProp.trim(); // The existing (old) properties should take precedence. 
     } 
+    
+    @Override
+    public void dispose()
+    {
+        __SINGLE_THREAD_EXECUTOR.shutdownNow();
+    }
     
     private static class CssRule implements Comparable<CssRule>
     {
@@ -553,6 +471,212 @@ public final class SendMailHelper
             }
             
             return 0;
+        }
+    }
+    
+    private static class MailSender implements Runnable
+    {
+        private String _subject;
+        private String _htmlBody;
+        private String _textBody;
+        private Collection<File> _attachments;
+        private String _recipient;
+        private String _sender;
+        private List<String> _cc;
+        private List<String> _bcc;
+        private boolean _deliveryReceipt;
+        private boolean _readReceipt;
+        private String _host;
+        private long _port;
+        private String _securityProtocol;
+        private String _user;
+        private String _password;
+        private Logger _logger;
+
+        /**
+         * Initialize the mail sender with email parameters
+         * @param logger The logger
+         * @param subject The mail subject
+         * @param htmlBody The HTML mail body. Can be null.
+         * @param textBody The text mail body. Can be null.
+         * @param attachments the file attachments. Can be null.
+         * @param recipient The recipient address
+         * @param sender The sender address. Can be null when called by MailChecker.
+         * @param cc Carbon copy address list. Can be null.
+         * @param bcc Blind carbon copy address list. Can be null.
+         * @param deliveryReceipt true to request that the receiving mail server send a notification when the mail is received.
+         * @param readReceipt true to request that the receiving mail client send a notification when the person opens the mail.
+         * @param host The server mail host. Can be null when called by MailChecker.
+         * @param securityProtocol the security protocol to use when transporting the email
+         * @param port The server port
+         * @param user The user name
+         * @param password The user password
+         */
+        public MailSender(Logger logger, String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender, List<String> cc, List<String> bcc, boolean deliveryReceipt, boolean readReceipt, String host, long port, String securityProtocol, String user, String password)
+        {
+            _logger = logger;
+            _subject = subject;
+            _htmlBody = htmlBody;
+            _textBody = textBody;
+            _attachments = attachments;
+            _recipient = recipient;
+            _sender = sender;
+            _cc = cc;
+            _bcc = bcc;
+            _deliveryReceipt = deliveryReceipt;
+            _readReceipt = readReceipt;
+            _host = host;
+            _port = port;
+            _securityProtocol = securityProtocol;
+            _user = user;
+            _password = password;
+        }
+        
+        public void run()
+        {
+            try
+            {
+                sendMail();
+            }
+            catch (Exception e)
+            {
+                _logger.error("Unable to send mail: " + _subject + "", e);
+            }
+        }
+        
+        public void sendMail() throws MessagingException, IOException
+        {
+            Properties props = new Properties();
+
+            // Setup mail server
+            props.put("mail.smtp.host", _host);
+            props.put("mail.smtp.port", _port);
+            
+            // Security protocol
+            if (_securityProtocol.equals("starttls"))
+            {
+                props.put("mail.smtp.starttls.enable", "true"); 
+            }
+            else if (_securityProtocol.equals("tlsssl"))
+            {
+                props.put("mail.smtp.ssl.enable", "true");
+            }
+            
+            Session session = Session.getInstance(props, null);
+            
+            // Define message
+            MimeMessage message = new MimeMessage(session);
+            
+            if (_sender != null)
+            {
+                message.setFrom(new InternetAddress(_sender));
+            }
+            
+            message.setSentDate(new Date());
+            message.setSubject(_subject);
+            
+            // Root multipart
+            Multipart multipart = new MimeMultipart("mixed");
+
+            // Message body part.
+            Multipart messageMultipart = new MimeMultipart("alternative");
+            MimeBodyPart messagePart = new MimeBodyPart();
+            messagePart.setContent(messageMultipart);
+            multipart.addBodyPart(messagePart);
+
+            if (_textBody != null)
+            {
+                MimeBodyPart textBodyPart = new MimeBodyPart();
+                textBodyPart.setContent(_textBody, "text/plain;charset=utf-8");
+                textBodyPart.addHeader("Content-Type", "text/plain;charset=utf-8");
+                messageMultipart.addBodyPart(textBodyPart);
+            }
+
+            if (_htmlBody != null)
+            {
+                MimeBodyPart htmlBodyPart = new MimeBodyPart();
+                htmlBodyPart.setContent(inlineCSS(_htmlBody), "text/html;charset=utf-8");
+                htmlBodyPart.addHeader("Content-Type", "text/html;charset=utf-8");
+                messageMultipart.addBodyPart(htmlBodyPart);
+            }
+
+            if (_attachments != null)
+            {
+                for (File attachment : _attachments)
+                {
+                    MimeBodyPart fileBodyPart = new MimeBodyPart();
+                    fileBodyPart.attachFile(attachment);
+                    multipart.addBodyPart(fileBodyPart);
+                }
+            }
+            message.setContent(multipart);
+
+            // Recipients
+            if (_recipient != null)
+            {
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(_recipient, false));
+            }
+            
+            // Carbon copies
+            if (_cc != null)
+            {
+                message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(StringUtils.join(_cc, ','), false));
+            }
+
+            // Blind carbon copies
+            if (_bcc != null)
+            {
+                message.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(StringUtils.join(_bcc, ','), false));
+            }
+            
+            // Delivery receipt : Return-Receipt-To
+            if (_deliveryReceipt)
+            {
+                message.setHeader("Return-Receipt-To", _sender);
+            }
+            
+            // Read receipt : Disposition-Notification-To
+            if (_readReceipt)
+            {
+                message.setHeader("Disposition-Notification-To", _sender);
+            }
+            
+            message.saveChanges();
+            
+            Transport tr = session.getTransport("smtp");
+            
+            try
+            {
+                tr.connect(_host, (int) _port, StringUtils.trimToNull(_user), StringUtils.trimToNull(_password));
+                
+                if (_recipient != null && _sender != null)
+                {
+                    tr.sendMessage(message, message.getAllRecipients());
+                }
+            }
+            finally
+            {
+                tr.close();
+            }
+        }
+    }
+    
+    private static class MailSenderThreadFactory implements ThreadFactory
+    {
+        private ThreadFactory _defaultThreadFactory;
+
+        public MailSenderThreadFactory()
+        {
+            _defaultThreadFactory = Executors.defaultThreadFactory();
+        }
+        
+        public Thread newThread(Runnable r)
+        {
+            Thread thread = _defaultThreadFactory.newThread(r);
+            thread.setName("mail-sender-thread");
+            thread.setDaemon(true);
+            
+            return thread;
         }
     }
 }

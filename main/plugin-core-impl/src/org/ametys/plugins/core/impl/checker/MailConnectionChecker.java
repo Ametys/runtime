@@ -51,7 +51,7 @@ public class MailConnectionChecker implements ParameterChecker, Configurable
         
         try
         {
-            SendMailHelper.sendMail(null, null, null, null, null, null, null, null, false, false, host, Integer.parseInt(portAsString), protocol, user, password);
+            SendMailHelper.sendMail(null, null, null, null, null, null, null, null, false, false, host, Integer.parseInt(portAsString), protocol, user, password, false);
         }
         catch (Exception e)
         {
