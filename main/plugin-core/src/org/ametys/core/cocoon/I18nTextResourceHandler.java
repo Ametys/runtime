@@ -18,29 +18,28 @@ package org.ametys.core.cocoon;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.ResourceNotFoundException;
-import org.apache.cocoon.caching.CacheableProcessingComponent;
 import org.apache.cocoon.components.source.SourceUtil;
 import org.apache.cocoon.environment.ObjectModelHelper;
-import org.apache.cocoon.environment.SourceResolver;
-import org.apache.cocoon.reading.ServiceableReader;
 import org.apache.commons.io.IOUtils;
-import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
+import org.apache.excalibur.source.SourceResolver;
 import org.apache.excalibur.source.SourceValidity;
-import org.slf4j.Logger;
 import org.xml.sax.SAXException;
 
-import org.ametys.core.util.AvalonLoggerAdapter;
 import org.ametys.core.util.I18nUtils;
 import org.ametys.runtime.i18n.I18nizableText;
 
@@ -51,7 +50,7 @@ import org.ametys.runtime.i18n.I18nizableText;
  * with x and try to translate it. <br>
  * Unknown translations are logged and do not prevent the generation process from continuing.
  */
-public class I18nTextReader extends ServiceableReader implements CacheableProcessingComponent
+public class I18nTextResourceHandler extends AbstractResourceHandler implements Component
 {
     /**
      * This configuration parameter specifies the id of the catalogue to be used as
@@ -62,6 +61,8 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
     
     /** The beginning of a valid declaration for an internationalizable text as characters */
     private static final char[] __I18N_BEGINNING_CHARS = {'{', '{', 'i', '1', '8', 'n'};
+    
+    private static final Pattern _LOCALE_PATTERN = Pattern.compile("^(.*resources/.*)\\.([^/.]+)\\.js$");
     
     /** Avalon component gathering utility methods concerning {@link I18nizableText}, allowing their translation in several languages */
     private I18nUtils _i18nUtils;
@@ -78,99 +79,81 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
     /** The name of the workspace */
     private String _workspaceName; 
     
-    /** The input source */
-    private Source _inputSource;
-    
     /** The URI of the input source */
     private String _sourceURI; 
     
     /** Is the last analyzed i18n declaration valid ? */
     private boolean _isDeclarationValid;
-    
-    /** The SL4J logger */
-    private Logger _logger;
+
+    private SourceResolver _sourceResolver;
     
     @Override
     public void service(ServiceManager serviceManager) throws ServiceException
     {
         _i18nUtils = (I18nUtils) serviceManager.lookup(I18nUtils.ROLE);
+        _sourceResolver = (SourceResolver) serviceManager.lookup(SourceResolver.ROLE);
     }
     
     @Override
-    public void setup(SourceResolver initalResolver, Map cocoonObjectModel, String src, Parameters par) throws ProcessingException, SAXException, IOException
+    public void setup(org.apache.cocoon.environment.SourceResolver initalResolver, Map cocoonObjectModel, String src, Parameters par) throws ProcessingException, SAXException, IOException
     {
-        _logger = new AvalonLoggerAdapter(getLogger());
-        
         try 
         {
-            _inputSource = initalResolver.resolveURI(src);
+            _inputSource = _sourceResolver.resolveURI(src);
         } 
         catch (SourceException e) 
         {
             throw SourceUtil.handle("Error during resolving of '" + src + "'.", e);
         }
         
-        super.setup(initalResolver, cocoonObjectModel, src, par);
-        
-        _sourceURI = _inputSource.getURI();
-        
         // Compute the locale
-        _locale = par.getParameter("locale", null);
-        if (_locale == null)
+        if (_inputSource.exists())
         {
             Locale locale = org.apache.cocoon.i18n.I18nUtils.findLocale(cocoonObjectModel, "locale", null, Locale.getDefault(), true);
             _locale = locale.getLanguage();
         }
-        
-        int catalogueDefinitionAmount = 0;
-        String plugin = par.getParameter("plugin", null);
-        if (plugin != null)
+        else
         {
-            _pluginCatalogue = "plugin." + plugin;
-            catalogueDefinitionAmount++;
+            // Extract locale from the src
+            Matcher matcher = _LOCALE_PATTERN.matcher(src);
+            if (matcher.matches())
+            {
+                _locale = matcher.group(2);
+                String realSrc = matcher.group(1) + ".js";
+                _inputSource = initalResolver.resolveURI(realSrc);
+            }
         }
         
-        String workspaceName = par.getParameter("workspace", null);
-        if (workspaceName != null)
-        {
-            _workspaceName = "workspace." + workspaceName;
-            catalogueDefinitionAmount++;
-        }
-        
+        _sourceURI = _inputSource.getURI();
+
         String defaultCatalogue = par.getParameter(__I18N_DEFAULT_CATALOGUE_ID, null);
         if (defaultCatalogue != null)
         {
             _defaultCatalogue = par.getParameter(__I18N_DEFAULT_CATALOGUE_ID, null);
-            catalogueDefinitionAmount++;
-        }
-        
-        if (catalogueDefinitionAmount > 1)
-        {
-            throw new ProcessingException("There is a conflict for the selection of the catalogue to use. You can only pick one catalogue at a time, "
-                    + "either with the id of a default catalogue, the name of a plugin or of a workspace.");
         }
         
         @SuppressWarnings("unchecked")
-        Map<String, Object> params = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
+        Map<String, Object> params = (Map<String, Object>) cocoonObjectModel.get(ObjectModelHelper.PARENT_CONTEXT);
         
         if (params != null)
         {
-            params.put(RuntimeResourceReader.LAST_MODIFIED, _inputSource.getLastModified());
+            params.put(ImageResourceHandler.LAST_MODIFIED, _inputSource.getLastModified());
         }
     }
     
     @Override
-    public void generate() throws IOException, ProcessingException
+    public void generateResource(OutputStream out) throws IOException, ProcessingException
     {
         if (!_inputSource.exists())
         {
             throw new ResourceNotFoundException("Resource not found for URI : " + _sourceURI);
         }
         
-        BufferedWriter outWriter = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
-        
+        BufferedWriter outWriter = null;
         try (InputStream is = _inputSource.getInputStream())
         {
+            outWriter = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
+            
             int beginLength = __I18N_BEGINNING_CHARS.length;
             int endLength = 2; // "}}"
             int minI18nDeclarationLength = beginLength + 1 + 1 + endLength; // 1 mandatory backspace and at least 1 character for the key
@@ -185,7 +168,7 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
             {
                 skip = 1;
                 char c = srcChars[i];
-                
+                  
                 // Do not bother analyzing when there is no room for a valid declaration
                 if (c == '{' && i + minI18nDeclarationLength < srcLength)
                 {
@@ -198,7 +181,7 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
                         char backspaceCandidate = srcChars[i + beginLength];
                         if (backspaceCandidate != ' ')
                         {
-                            _logger.warn("Invalid i18n declaration in the file  '{}': '{{i18n' must be followed by a backspace.", _sourceURI);
+                            getLogger().warn("Invalid i18n declaration in the file  '{}': '{{i18n' must be followed by a backspace.", _sourceURI);
                             
                             // Update the amount of skipped characters for the next iteration
                             skip += beginLength;
@@ -221,7 +204,7 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
                 {
                     outWriter.write(srcChars, i - offset, offset);
                     outWriter.write('{');
-                    
+
                     offset = 0;
                     skip++;
                 }
@@ -231,21 +214,17 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
                 }
             }
             
-            // No i18n declarations to be found ! Simply copy srcChars to the output stream
             if (offset == srcLength)
             {
+                // No i18n declarations to be found ! Simply copy srcChars to the output stream
                 outWriter.write(srcChars, 0, srcChars.length);
-                return;
-            }
-            
-            // Copy the last characters
-            if (offset > 0)
+            } 
+            else if (offset > 0)
             {
+                // Copy the last characters
                 outWriter.write(srcChars, srcLength - offset, offset);
             }
-        }
-        finally
-        {
+            
             outWriter.flush();
         }
     }
@@ -291,7 +270,7 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
                 case '{':
                     if (j + 1 != srcLength && srcChars[j + 1] == '{')
                     {                        
-                        _logger.warn("Invalid i18n declaration in the file '{}': '{{' within an i18n declaration is forbidden.", _sourceURI);
+                        getLogger().warn("Invalid i18n declaration in the file '{}': '{{' within an i18n declaration is forbidden.", _sourceURI);
                         invalid = true;
                     }
                     break;  
@@ -301,7 +280,7 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
                     {
                         if (j == keyBeginningIndex)
                         {
-                            _logger.warn("Invalid i18n declaration in the file  '{}': a key must be specified.", _sourceURI);
+                            getLogger().warn("Invalid i18n declaration in the file  '{}': a key must be specified.", _sourceURI);
                             invalid = true;
                             break;
                         }
@@ -315,7 +294,7 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
                     
                 case '\n':
                     
-                    _logger.warn("Invalid i18n declaration in the file  '{}': '\\n' within an i18n declaration is forbidden. Make sure all i18n declarations are closed with the sequence '}}'.", _sourceURI);
+                    getLogger().warn("Invalid i18n declaration in the file  '{}': '\\n' within an i18n declaration is forbidden. Make sure all i18n declarations are closed with the sequence '}}'.", _sourceURI);
                     invalid = true;
                     break;
                     
@@ -330,7 +309,7 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
         {
             // We've reached the end of the file without encountering the closing sequence '}}', and the declaration has not been found valid
             // nor invalid yet
-            _logger.warn("Invalid i18n declaration in the file  '{}': Reached end of the file without finding the closing sequence of an i18n declaration.", _sourceURI);
+            getLogger().warn("Invalid i18n declaration in the file  '{}': Reached end of the file without finding the closing sequence of an i18n declaration.", _sourceURI);
             return j - candidateBeginIdx;
         }
         
@@ -346,6 +325,7 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
     /**
      * Try to translate the key and write the output stream with its translation if found, the key itself if not
      * @param srcChars the input source as characters
+     * @param outWriter the string builder where to write
      * @param candidateBeginIdx the index at which the i18n declaration started
      * @param lastIdx the last index analyzed
      * @param initialOffset the amount of characters that we have to write before the i18n declaration
@@ -390,7 +370,7 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
         String translation = _i18nUtils.translate(new I18nizableText(catalogue, key.trim()), _locale);
         if (translation == null)
         {
-            _logger.warn("Translation not found for key '{}' in catalogue '{}'.", key, catalogue);
+            getLogger().warn("Translation not found for key '{}' in catalogue '{}'.", key, catalogue);
         }
         
         if (translation == null)
@@ -420,5 +400,17 @@ public class I18nTextReader extends ServiceableReader implements CacheableProces
     public String getMimeType()
     {
         return "text/javascript;charset=utf-8";
+    }
+
+    @Override
+    public long getSize()
+    {
+        return _inputSource.getContentLength();
+    }
+
+    @Override
+    public long getLastModified()
+    {
+        return _inputSource.getLastModified();
     }
 }

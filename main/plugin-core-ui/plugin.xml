@@ -2563,4 +2563,27 @@
             </extension>
         </extensions>
     </feature>
+    
+    <feature name="runtime.core.ui.resources-handler" safe="true">
+        <extensions>
+            <extension point="org.ametys.core.cocoon.ResourceHandlerExtensionPoint"
+                       id="org.ametys.plugins.core.ui.resources.LessResourceHandler"
+                       class="org.ametys.plugins.core.ui.resources.LessResourceHandler"
+                       logger="org.ametys.plugins.core.ui.resources.LessResourceHandler">
+                <suffixes>
+                    <suffix>.less</suffix>
+                </suffixes>
+            </extension>
+
+            <extension point="org.ametys.core.cocoon.ResourceHandlerExtensionPoint"
+                       id="org.ametys.plugins.core.ui.resources.SassResourceHandler"
+                       class="org.ametys.plugins.core.ui.resources.SassResourceHandler"
+                       logger="org.ametys.plugins.core.ui.resources.SassResourceHandler">
+                <suffixes>
+                    <suffix>.sass</suffix>
+                    <suffix>.scss</suffix>
+                </suffixes>
+            </extension>
+        </extensions>
+    </feature>
 </plugin>

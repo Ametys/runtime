@@ -24,8 +24,7 @@
         <map:readers>
             <map:reader name="css" src="org.ametys.plugins.core.ui.minimize.MinimizeCSSReader"/>
             <map:reader name="js" src="org.ametys.plugins.core.ui.minimize.MinimizeJSReader"/>
-            <map:reader name="less" src="org.ametys.plugins.core.ui.resources.LessResourceReader"/>
-            <map:reader name="sass" src="org.ametys.plugins.core.ui.resources.SassResourceReader"/>
+            <map:reader name="resource" src="org.ametys.core.cocoon.ResourceReader"/>
         </map:readers>
     </map:components>
 
@@ -46,16 +45,8 @@
 	        </map:match>
 
             <!-- LESS Files -->
-            <map:match pattern="resources/**.less">
-                <map:read type="less" src="resources/{1}.less" />
-            </map:match>
-            
-            <!-- SASS Files -->
-            <map:match pattern="resources/**.sass">
-                <map:read type="sass" src="resources/{1}.sass" />
-            </map:match>
-            <map:match pattern="resources/**.scss">
-                <map:read type="sass" src="resources/{1}.scss" />
+            <map:match pattern="resources/**">
+                <map:read type="resource" src="resources/{1}" />
             </map:match>
             
         </map:pipeline>

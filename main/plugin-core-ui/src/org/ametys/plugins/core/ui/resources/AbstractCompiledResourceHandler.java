@@ -16,21 +16,22 @@
 
 package org.ametys.plugins.core.ui.resources;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.ResourceNotFoundException;
-import org.apache.cocoon.caching.CacheableProcessingComponent;
 import org.apache.cocoon.components.source.SourceUtil;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.SourceResolver;
-import org.apache.cocoon.reading.AbstractReader;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -40,24 +41,23 @@ import org.apache.excalibur.source.SourceValidity;
 import org.apache.excalibur.source.impl.validity.TimeStampValidity;
 import org.xml.sax.SAXException;
 
-import org.ametys.core.cocoon.RuntimeResourceReader;
+import org.ametys.core.cocoon.AbstractResourceHandler;
+import org.ametys.core.cocoon.ImageResourceHandler;
 
 /**
  * Abstract reader for resources compiled during runtime, such as SASS or LESS files compiled into CSS.
  */
-public abstract class AbstractCompiledResourceReader extends AbstractReader implements CacheableProcessingComponent
+public abstract class AbstractCompiledResourceHandler extends AbstractResourceHandler implements Component
 {
     /* Dependencies cache */
     private static Map<String, Long> _dependenciesCacheValidity = new HashMap<>();
     private static Map<String, List<String>> _dependenciesCache = new HashMap<>();
     
     /** The initial source resolver */
-    protected SourceResolver _resolver;
+    protected SourceResolver _sourceResolver;
     
     /** The uri of the file */
     protected String _uri;
-    
-    private Source _inputSource;
     
     /**
      * Compile the current resource, and returns its value.
@@ -75,10 +75,18 @@ public abstract class AbstractCompiledResourceReader extends AbstractReader impl
      */
     protected abstract List<String> getDependenciesList(Source inputSource);
     
+    /**
+     * Initialize the resource handler
+     * @param initalResolver The resolver
+     * @param cocoonObjectModel The object model
+     * @param src The source
+     * @throws ProcessingException If an error occurs
+     * @throws IOException If an error occurs
+     */
     @Override
-    public void setup(SourceResolver initalResolver, Map cocoonObjectModel, String src, Parameters par) throws ProcessingException, SAXException, IOException
+    public void setup(SourceResolver initalResolver, Map cocoonObjectModel, String src, Parameters par) throws IOException, ProcessingException, SAXException
     {
-        _resolver = initalResolver;
+        _sourceResolver = initalResolver;
         _uri = src;
         
         try 
@@ -90,33 +98,27 @@ public abstract class AbstractCompiledResourceReader extends AbstractReader impl
             throw SourceUtil.handle("Error during resolving of '" + src + "'.", e);
         }
         
-        super.setup(initalResolver, cocoonObjectModel, src, par);
-        
         @SuppressWarnings("unchecked")
-        Map<String, Object> params = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
+        Map<String, Object> params = (Map<String, Object>) cocoonObjectModel.get(ObjectModelHelper.PARENT_CONTEXT);
         
         if (params != null)
         {
-            params.put(RuntimeResourceReader.LAST_MODIFIED, _inputSource.getLastModified());
+            params.put(ImageResourceHandler.LAST_MODIFIED, _inputSource.getLastModified());
         }
     }
     
     @Override
-    public void generate() throws IOException, ProcessingException
+    public void generateResource(OutputStream out) throws IOException, ProcessingException
     {
         if (!_inputSource.exists())
         {
             throw new ResourceNotFoundException("Resource not found for URI : " + _inputSource.getURI());
         }
         
-        try
+        try (ByteArrayOutputStream os = new ByteArrayOutputStream())
         {
             String compiledResource = compileResource(_inputSource);
             IOUtils.write(compiledResource, out, "UTF-8");
-        }
-        finally
-        {
-            IOUtils.closeQuietly(out);
         }
     }
     
@@ -164,7 +166,7 @@ public abstract class AbstractCompiledResourceReader extends AbstractReader impl
                     uriToResolve = schema + FilenameUtils.normalize(StringUtils.removeStart(uriToResolve, schema));
                     
                     HashMap<String, Object> params = new HashMap<>();
-                    Source dependencySource = _resolver.resolveURI(uriToResolve, null, params);
+                    Source dependencySource = _sourceResolver.resolveURI(uriToResolve, null, params);
                     Long calculatedLastModified = getCalculatedLastModified(dependencySource, uriToResolve, dependencySource.getLastModified());
                     if (calculatedLastModified != null && calculatedLastModified > result)
                     {
@@ -180,5 +182,17 @@ public abstract class AbstractCompiledResourceReader extends AbstractReader impl
         }
         
         return result;
+    }
+
+    @Override
+    public long getSize()
+    {
+        return _inputSource.getContentLength();
+    }
+
+    @Override
+    public long getLastModified()
+    {
+        return _inputSource.getLastModified();
     }
 }

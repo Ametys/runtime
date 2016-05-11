@@ -43,14 +43,14 @@ import com.github.sommeri.less4j.core.DefaultLessCompiler;
 /**
  * Reader for LESS files, compile them on the fly into CSS files.
  */
-public class LessResourceReader extends AbstractCompiledResourceReader
+public class LessResourceHandler extends AbstractCompiledResourceHandler
 {
     private static final Pattern IMPORT_PATTERN = Pattern.compile("^@import\\b\\s*(?:(?:url)?\\(?\\s*[\"']?)([^)\"']*)[\"']?\\)?\\s*;?$", Pattern.MULTILINE | Pattern.CASE_INSENSITIVE);
 
     private DefaultLessCompiler _defaultLessCompiler;
     
     @Override
-    public void setup(SourceResolver initalResolver, Map cocoonObjectModel, String src, Parameters par) throws ProcessingException, SAXException, IOException
+    public void setup(SourceResolver initalResolver, Map cocoonObjectModel, String src, Parameters par) throws ProcessingException, IOException, SAXException
     {
         super.setup(initalResolver, cocoonObjectModel, src, par);
         
@@ -66,7 +66,7 @@ public class LessResourceReader extends AbstractCompiledResourceReader
         {
             URI uri = new URI(_uri);
             String lessContent = IOUtils.toString(is);
-            AmetysLessSource stringSource = new AmetysLessSource(_resolver, lessContent, uri);
+            AmetysLessSource stringSource = new AmetysLessSource(_sourceResolver, lessContent, uri);
             result = _defaultLessCompiler.compile(stringSource);
         }
         catch (Less4jException e)
@@ -124,7 +124,7 @@ public class LessResourceReader extends AbstractCompiledResourceReader
         private String _lessContent;
         private String _name;
         private URI _sourceUri;
-        private SourceResolver _sourceResolver;
+        private SourceResolver _sResolver;
     
         /**
          * Default constructor for Ametys less source
@@ -134,7 +134,7 @@ public class LessResourceReader extends AbstractCompiledResourceReader
          */
         public AmetysLessSource(SourceResolver sourceResolver, String lessContent, URI uri)
         {
-            _sourceResolver = sourceResolver;
+            _sResolver = sourceResolver;
             _lessContent = lessContent;
             _sourceUri = uri;
         }
@@ -153,10 +153,10 @@ public class LessResourceReader extends AbstractCompiledResourceReader
                 // SASS files can be .sass or .scss
                 Source importSource = null;
                 
-                importSource = _sourceResolver.resolveURI(relativeSourceUri.toString());
+                importSource = _sResolver.resolveURI(relativeSourceUri.toString());
     
                 String importText = IOUtils.toString(importSource.getInputStream(), "UTF-8");
-                return new AmetysLessSource(_sourceResolver, importText, relativeSourceUri);
+                return new AmetysLessSource(_sResolver, importText, relativeSourceUri);
             }
             catch (Exception e)
             {
@@ -188,6 +188,12 @@ public class LessResourceReader extends AbstractCompiledResourceReader
             return _name;
         }
     
+    }
+
+    @Override
+    public String getMimeType()
+    {
+        return "text/css";
     }
 
 }

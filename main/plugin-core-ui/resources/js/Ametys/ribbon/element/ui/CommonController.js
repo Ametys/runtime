@@ -329,7 +329,7 @@ Ext.define(
 			this._iconLarge = this.getInitialConfig("icon-large");
 			this._disabled = this.getInitialConfig("disabled") == true || this.getInitialConfig("disabled") == 'true';
 			
-			var targetId = this.getInitialConfig("selection-target-id") || this.getInitialConfig("target-type"); 
+			var targetId = this.getInitialConfig("selection-target-id") || this.getInitialConfig("target-id"); 
 			
 			if (targetId)
 			{
@@ -429,7 +429,7 @@ Ext.define(
 					}
 					 
 					// Has a sub sub target?
-					var subsubtargetId = this.getInitialConfig("selection-subsubtarget-id") || this.getInitialConfig("subsubtarget-type"); 
+					var subsubtargetId = this.getInitialConfig("selection-subsubtarget-id") || this.getInitialConfig("subsubtarget-id"); 
 					if (subsubtargetId)
 					{
 						var i = subsubtargetId.indexOf('!');
@@ -473,7 +473,7 @@ Ext.define(
 						}
 						
 						// Has a sub sub sub target?
-						var subsubsubtargetId = this.getInitialConfig("selection-subsubsubtarget-id") || this.getInitialConfig("subsubsubtarget-type"); 
+						var subsubsubtargetId = this.getInitialConfig("selection-subsubsubtarget-id") || this.getInitialConfig("subsubsubtarget-id"); 
 						if (subsubsubtargetId)
 						{
 							var i = subsubsubtargetId.indexOf('!');

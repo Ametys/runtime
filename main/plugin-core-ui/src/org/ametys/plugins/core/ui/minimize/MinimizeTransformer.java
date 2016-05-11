@@ -57,7 +57,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 import org.ametys.core.DevMode;
-import org.ametys.core.cocoon.RuntimeResourceReader;
+import org.ametys.core.cocoon.ImageResourceHandler;
 
 /**
  * This transformer will minimize every scripts together
@@ -398,7 +398,7 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
         {
             throw new SAXException("Unable to resolve the dependencies of specified uri", e);
         }
-        long fileLastModified = resolveParameters.get(RuntimeResourceReader.LAST_MODIFIED) != null ? (long) resolveParameters.get("lastModified") : -1;
+        long fileLastModified = resolveParameters.get(ImageResourceHandler.LAST_MODIFIED) != null ? (long) resolveParameters.get("lastModified") : -1;
          
         FileData fileInfos = new FileData(cssUri);
         fileInfos.setLastModified(fileLastModified);

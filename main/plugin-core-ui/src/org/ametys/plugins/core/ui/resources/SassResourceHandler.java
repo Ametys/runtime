@@ -47,14 +47,14 @@ import io.bit3.jsass.importer.Importer;
 /**
  * Reader for SASS files, compile them on the fly into CSS files.
  */
-public class SassResourceReader extends AbstractCompiledResourceReader
+public class SassResourceHandler extends AbstractCompiledResourceHandler
 {
     private static final Pattern IMPORT_PATTERN = Pattern.compile("^@import\\b\\s*(?:(?:url)?\\(?\\s*[\"']?)([^)\"']*)[\"']?\\)?\\s*;?$", Pattern.MULTILINE | Pattern.CASE_INSENSITIVE);
 
     private Compiler _jsassCompiler;
 
     @Override
-    public void setup(SourceResolver initalResolver, Map cocoonObjectModel, String src, Parameters par) throws ProcessingException, SAXException, IOException
+    public void setup(SourceResolver initalResolver, Map cocoonObjectModel, String src, Parameters par) throws ProcessingException, IOException, SAXException
     {
         super.setup(initalResolver, cocoonObjectModel, src, par);
         
@@ -66,7 +66,7 @@ public class SassResourceReader extends AbstractCompiledResourceReader
     {
         Output compiledString = null;
         Options options = new Options();
-        options.getImporters().add(new AmetysSassImporter(_resolver));
+        options.getImporters().add(new AmetysSassImporter(_sourceResolver));
         
         try (InputStream is = resource.getInputStream())
         {
@@ -126,7 +126,7 @@ public class SassResourceReader extends AbstractCompiledResourceReader
      */
     private class AmetysSassImporter implements Importer 
     {
-        private SourceResolver _sourceResolver;
+        private SourceResolver _sResolver;
     
         /**
          * Default constructor for the Ametys SassImporter. Provides information for resolving imported resources.
@@ -134,7 +134,7 @@ public class SassResourceReader extends AbstractCompiledResourceReader
          */
         public AmetysSassImporter(SourceResolver sourceResolver)
         {
-            _sourceResolver = sourceResolver;
+            _sResolver = sourceResolver;
         }
         
         public Collection<Import> apply(String url, Import previous)
@@ -157,14 +157,14 @@ public class SassResourceReader extends AbstractCompiledResourceReader
                 // SASS files can be .sass or .scss
                 Source importSource = null;
                 
-                importSource = _sourceResolver.resolveURI(currentUri.toString());
+                importSource = _sResolver.resolveURI(currentUri.toString());
                 if (!importSource.exists())
                 {
-                    importSource = _sourceResolver.resolveURI(currentUri.toString() + ".scss");
+                    importSource = _sResolver.resolveURI(currentUri.toString() + ".scss");
                 }
                 if (!importSource.exists())
                 {
-                    importSource = _sourceResolver.resolveURI(currentUri.toString() + ".sass");
+                    importSource = _sResolver.resolveURI(currentUri.toString() + ".sass");
                 }
     
                 if (importSource.getURI().endsWith(".scss") || importSource.getURI().endsWith(".sass"))
@@ -189,5 +189,11 @@ public class SassResourceReader extends AbstractCompiledResourceReader
     
             return list;
         }
+    }
+
+    @Override
+    public String getMimeType()
+    {
+        return "text/css";
     }
 }

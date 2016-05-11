@@ -38,12 +38,10 @@
 			</map:transformer>
 		</map:transformers>
   
-		<map:readers default="resource">
-			<map:reader name="resource" src="org.ametys.core.cocoon.RuntimeResourceReader" logger="org.ametys.runtime.kernel.sitemap.reader.resource"/>
+		<map:readers default="resource-default">
+            <map:reader name="resource-default" src="org.ametys.core.cocoon.RuntimeResourceReader" logger="org.ametys.runtime.kernel.sitemap.reader.resource"/>
+            <map:reader name="resource" src="org.ametys.core.cocoon.ResourceReader" logger="org.ametys.runtime.kernel.sitemap.reader.resource"/>
 			<map:reader name="json" src="org.ametys.core.cocoon.JSonReader" logger="org.ametys.runtime.kernel.sitemap.reader.json"/>
-			<map:reader name="i18n-text" src="org.ametys.core.cocoon.I18nTextReader" logger="org.ametys.runtime.kernel.sitemap.reader.i18ntext"/>
-            <map:reader name="less" src="org.ametys.plugins.core.ui.resources.LessResourceReader"  logger="org.ametys.runtime.kernel.sitemap.reader.less"/>
-            <map:reader name="sass" src="org.ametys.plugins.core.ui.resources.SassResourceReader"  logger="org.ametys.runtime.kernel.sitemap.reader.sass"/>
 		</map:readers>
     
 		<map:serializers default="xhtml">
@@ -158,51 +156,11 @@
                 <map:read src="resource:///org/ametys/runtime/servlet/favicon.ico"/>
             </map:match>
             					
-            <!-- Plugins dynamic resources (i18n aware JS) : forced language -->
-            <map:match pattern="plugins/*/resources/**.*.js">
-                <map:act type="plugin-exists" src="{1}">
-	                <map:act type="resource-not-exists" src="plugin:{../1}://resources/{../2}.{../3}.js">    
-	                    <map:read src="plugin:{../../1}://resources/{../../2}.js" type="i18n-text">
-	                        <map:parameter name="locale" value="{../../3}"/>
-	                        <map:parameter name="plugin" value="{../../1}"/>
-	                    </map:read>
-	                </map:act>
-                </map:act>
-            </map:match>
-            
-            <!-- Plugins dynamic resources (i18n aware JS) -->
-            <map:match pattern="plugins/*/resources/**.js">
-                <map:act type="plugin-exists" src="{1}">    
-                    <map:read src="plugin:{../1}://resources/{../2}.js" type="i18n-text">
-	                    <map:parameter name="locale" value="{locale:locale}"/>
-                        <map:parameter name="plugin" value="{../1}"/>
-                    </map:read>
-                </map:act>
-            </map:match>
-            
-            <!-- Plugins dynamic resources (LESS Files) -->
-            <map:match pattern="plugins/*/resources/**.less">
-                <map:act type="plugin-exists" src="{1}">
-                    <map:read type="less" src="plugin:{../1}://resources/{../2}.less" />
-                </map:act>
-            </map:match>
-            
-            <!-- Plugins dynamic resources (SASS Files) -->
-            <map:match pattern="plugins/*/resources/**.sass">
-                <map:act type="plugin-exists" src="{1}">
-                    <map:read type="sass" src="plugin:{../1}://resources/{../2}.sass" />
-                </map:act>
-            </map:match>
-            <map:match pattern="plugins/*/resources/**.scss">
-                <map:act type="plugin-exists" src="{1}">
-                    <map:read type="sass" src="plugin:{../1}://resources/{../2}.scss" />
-                </map:act>
-            </map:match>
-            
-            <!-- Other resources (css, images...) -->
             <map:match pattern="plugins/*/resources/**">
                 <map:act type="plugin-exists" src="{1}">
-                    <map:read src="plugin:{../1}://resources/{../2}"/>
+                    <map:read type="resource" src="plugin:{../1}://resources/{../2}">
+                        <map:parameter name="default-catalogue-id" value="plugin.{../1}"/>
+                    </map:read>
                 </map:act>
             </map:match>
             

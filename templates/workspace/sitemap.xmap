@@ -57,41 +57,12 @@
             <!-- +
                  | WORKSPACE RESOURCES
                  + -->
-
-            <!-- JS Files (Forced language) -->
-            <map:match pattern="resources/**.*.js">
-                <map:act type="resource-not-exists" src="resources/{1}.{2}.js">
-                    <map:read src="resources/{1}.js" type="i18n-text">
-                        <map:parameter name="locale" value="{2}"/>
-                        <map:parameter name="workspace" value="admin"/>
-                    </map:read>
-                </map:act>
-            </map:match>
         
-            <!-- JS Files -->
-            <map:match pattern="resources/**.js">
-                <map:read src="resources/{1}.js" type="i18n-text">
-                    <map:parameter name="locale" value="{locale:locale}"/>
-                    <map:parameter name="workspace" value="admin"/>
-                </map:read>
-            </map:match>
-            
-            <!-- LESS Files -->
-            <map:match pattern="resources/**.less">
-                <map:read type="less" src="resources/{1}.less" />
-            </map:match>
-            
-            <!-- SASS Files -->
-            <map:match pattern="resources/**.sass">
-                <map:read type="sass" src="resources/{1}.sass" />
-            </map:match>
-            <map:match pattern="resources/**.scss">
-                <map:read type="sass" src="resources/{1}.scss" />
-            </map:match>
-            
-            <!-- Other resources (css, images...) -->
+            <!-- Resources -->
             <map:match pattern="resources/**">
-                <map:read src="resources/{1}"/>
+                <map:read type="resource" src="resources/{1}">
+                    <map:parameter name="default-catalogue-id" value="workspace.admin"/>
+                </map:read>
             </map:match>
             
             <!-- base redirection -->

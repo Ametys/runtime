@@ -345,6 +345,10 @@
                          class="org.ametys.core.engine.BackgroundEngineHookExtensionPoint"
                          safe="true"/>
         
+        <extension-point id="org.ametys.core.cocoon.ResourceHandlerExtensionPoint"
+                         class="org.ametys.core.cocoon.ResourceHandlerExtensionPoint"
+                         safe="true"/>
+                        
     </extension-points>
     
     <feature name="util.servercommhelper" safe="true">
@@ -390,6 +394,7 @@
                        class="org.ametys.core.util.I18nUtils"/>
         </components>
     </feature>
+
     
     <!-- +
          |  EXCEPTION
@@ -902,6 +907,37 @@
                 <sqlMap resource="/org/ametys/plugins/core/authentication/login-form-manager.xml" />
             </component>
         </components>
+    </feature>
+    
+    <feature name="runtime.core.resources-handler" safe="true">
+        <extensions>
+            <extension point="org.ametys.core.cocoon.ResourceHandlerExtensionPoint"
+                       id="org.ametys.core.cocoon.DefaultResourceHandler"
+                       class="org.ametys.core.cocoon.DefaultResourceHandler"
+                       logger="org.ametys.core.cocoon.DefaultResourceHandler">
+            </extension>
+
+            <extension point="org.ametys.core.cocoon.ResourceHandlerExtensionPoint"
+                       id="org.ametys.core.cocoon.ImageResourceHandler"
+                       class="org.ametys.core.cocoon.ImageResourceHandler"
+                       logger="org.ametys.core.cocoon.ImageResourceHandler">
+                <suffixes>
+                    <suffix>.jpg</suffix> 
+                    <suffix>.jpeg</suffix> 
+                    <suffix>.png</suffix> 
+                    <suffix>.gif</suffix> 
+                </suffixes>
+            </extension>
+
+            <extension point="org.ametys.core.cocoon.ResourceHandlerExtensionPoint"
+                       id="org.ametys.core.cocoon.I18nTextResourceHandler"
+                       class="org.ametys.core.cocoon.I18nTextResourceHandler"
+                       logger="org.ametys.core.cocoon.I18nTextResourceHandler">
+                <suffixes>
+                    <suffix>.js</suffix>
+                </suffixes>
+            </extension>
+        </extensions>
     </feature>
     
 </plugin>
