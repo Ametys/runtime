@@ -16,7 +16,6 @@
 package org.ametys.runtime.plugins.admin.jvmstatus.monitoring;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +56,6 @@ public class GetRRdDataAction extends ServiceableAction implements Initializable
     {
         Request request = ObjectModelHelper.getRequest(objectModel);
         String sampleId = parameters.getParameter("sampleId");
-        long startTime = Double.valueOf(request.getParameter("startTime")).longValue();
         
         File rrdFile = new File(_rrdStoragePath, sampleId + RRD_EXT);
         if (getLogger().isDebugEnabled())
@@ -73,7 +71,7 @@ public class GetRRdDataAction extends ServiceableAction implements Initializable
         
         SortedMap<Long, Map<String, Object>> data = new TreeMap<>();
         
-        for (Archive archive : _getRelevantArchives(rrdDb, startTime))
+        for (Archive archive : _getRelevantArchives(rrdDb))
         {
             long archiveStartTime = archive.getStartTime();
             for (int row = 0; row < archive.getRows(); row++)
@@ -113,28 +111,16 @@ public class GetRRdDataAction extends ServiceableAction implements Initializable
         return EMPTY_MAP;
     }
     
-    private List<Archive> _getRelevantArchives(RrdDb rrdDb, long startTime) throws IOException
+    private List<Archive> _getRelevantArchives(RrdDb rrdDb)
     {
+        // Return all the archives, but in case of bad performance, it could
+        // be interesting to return jsut some of them
         List<Archive> result = new ArrayList<>();
-        int index = 0;
-        
-        // Loop backwards the archives to first have the older ones, but skip the
-        // oldest since we always want 2 archives, so start with the penultimate (length - 2)
-        for (int archiveIndex = rrdDb.getArcCount() - 2; archiveIndex >= 0; archiveIndex--)
+        for (int i = 0; i < rrdDb.getArcCount(); i++)
         {
-            Archive archive = rrdDb.getArchive(archiveIndex);
-            long archiveStartTime = archive.getStartTime() * 1000;
-            if (startTime < archiveStartTime)
-            {
-                index = archiveIndex;
-                break;
-            }
+            Archive archive = rrdDb.getArchive(i);
+            result.add(archive);
         }
-        
-        // Take the data from two archives : the one corresponding to the startTime
-        // and the one with more precision.
-        result.add(rrdDb.getArchive(index));
-        result.add(rrdDb.getArchive(index + 1));
         
         return result;
     }

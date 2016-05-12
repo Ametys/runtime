@@ -106,7 +106,7 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
             var tool = this._getTool();
             if (tool != null)
             {
-                tool.reloadGraphs.call(tool);
+                tool.reloadActiveGraph.call(tool);
             }
         },
         
@@ -186,36 +186,31 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
         }
     },
     
-    reloadGraphs: function()
+    /**
+     * Reloads the active graph data
+     */
+    reloadActiveGraph: function()
     {
-        this._monitoringPanel.items.each(function(chart) {
-            var id = chart.getItemId(),
-                serverId = id.replace(/-/g, '.'),
-                toDate = new Date(),
-                fromDate = new Date(toDate.getTime() - (1000*60*60*24*365*5)), // 5 year range
-                toTime = toDate.getTime(),
-                fromTime = fromDate.getTime(),
-                axis = chart.getAxis(0),
-                range = axis.getVisibleRange();
-            axis.setFromDate(fromDate);
-            axis.setToDate(toDate);
-            
-            Ametys.data.ServerComm.send({
-                plugin: 'admin', 
-                url: 'jvmstatus/monitoring/' + serverId + '.json',
-                parameters: {
-                    startTime: fromTime + (toTime-fromTime) * range[0],
-                    endTime: fromTime + (toTime-fromTime) * range[1]
-                },
-                responseType: "text",
-                priority: Ametys.data.ServerComm.PRIORITY_MAJOR,
-                callback: {
-                    handler: this._populateGraphData,
-                    arguments: [id],
-                    scope: this
-                }
-            });
-        }, this);
+        var chart = this._monitoringPanel.getActiveTab(),
+            id = chart.getItemId(),
+            serverId = id.replace(/-/g, '.'),
+            toDate = new Date(),
+            fromDate = new Date(toDate.getTime() - (1000*60*60*24*365*5)), // 5 year range
+            axis = chart.getAxis(0);
+        axis.setFromDate(fromDate);
+        axis.setToDate(toDate);
+        
+        Ametys.data.ServerComm.send({
+            plugin: 'admin', 
+            url: 'jvmstatus/monitoring/' + serverId + '.json',
+            responseType: "text",
+            priority: Ametys.data.ServerComm.PRIORITY_MAJOR,
+            callback: {
+                handler: this._populateGraphData,
+                arguments: [id],
+                scope: this
+            }
+        });
     },
     
     /**
@@ -279,6 +274,7 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
                         newChart.getAxis(0).setVisibleRange(oldChart.getAxis(0).getVisibleRange());
                     }
                     this.setDrawMode(this.getDrawMode());
+                    this.reloadActiveGraph();
                 }, this)
             }
         });
@@ -402,7 +398,6 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
             chart.setSeries(series);
             store.setFields(fields);
             store.setData(data);
-            console.log("Store updated => new number of points per serie : " + data.length);
         }
     },
     
@@ -443,7 +438,7 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
                 docked: 'right'
             },
             shadow: false,
-            animation: false,
+            animation: true,
             
             axes: [{
                 type: 'time',
@@ -457,9 +452,6 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
                     rotate: {
                         degrees: -45
                     }
-                },
-                listeners: {
-                    'visiblerangechange': Ext.bind(this._onTimeAxisVisibleRangeChange, this)
                 }
             }, {
                 type: 'numeric',
@@ -556,15 +548,6 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
             style: {
                 fillOpacity: .6
             },
-//            marker: {
-//                type: 'circle',
-//                radius: 2,
-//                lineWidth: 1
-//            },
-//            ,highlight: {
-//                radius: 4,
-//                lineWidth: 1
-//            },
             tooltip: {
                 trackMouse: true,
                 dismissDelay: 0,
@@ -575,38 +558,6 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
                 }, this)
             }
         }
-    },
-    
-    /**
-     * @private
-     * Event fired when the visibleRange of the time axis changes.
-     * @param {Ext.chart.axis.Time} axis The time axis
-     * @param {Number[]} range The new visible range
-     * @param {Object} eOpts The options object
-     */
-    _onTimeAxisVisibleRangeChange: function(axis, range, eOpts)
-    {
-        var chart = axis.getChart(),
-            id = chart.getItemId(),
-            serverId = id.replace(/-/g, '.'),
-            fromTime = axis.getFromDate().getTime(),
-            toTime = axis.getToDate().getTime();
-        
-        Ametys.data.ServerComm.send({
-            plugin: 'admin', 
-            url: 'jvmstatus/monitoring/' + serverId + '.json',
-            parameters: {
-                startTime: fromTime + (toTime-fromTime) * range[0],
-                endTime: fromTime + (toTime-fromTime) * range[1]
-            },
-            responseType: "text",
-            priority: Ametys.data.ServerComm.PRIORITY_MAJOR,
-            callback: {
-                handler: this._populateGraphData,
-                arguments: [id],
-                scope: this
-            }
-        });
     },
     
     /**

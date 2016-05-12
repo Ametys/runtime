@@ -49,7 +49,7 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool.TimeAxisPanZoom', {
             range = chart.getAxis(0).getVisibleRange(),
             element = e.getTarget();
         
-        // Bug => Wehn the double click does not occured on the graph but on the edges (docked elements, etc.)
+        // Bug => When the double click does not occured on the graph but on the edges (docked elements, etc.)
         // Here is a dirty workaround
         if (!Ext.String.endsWith(element.parentElement.parentElement.getAttribute('id'), '-overlay'))
         {
@@ -98,18 +98,9 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool.TimeAxisPanZoom', {
                 
             var panX = e.getX() - xy[0] - rect[0] - me.startX; //pan by horizontal dragging
             var sx = me.startY / (e.getY() - xy[1] - rect[1]); //zoom by vertical dragging
-            timeAxis.suspendEvent('visiblerangechange');
             me.transformAxesBy([timeAxis], panX, 0, sx, 1);
             me.sync();
-            timeAxis.resumeEvent('visiblerangechange');
             return false;
         }
-    }
-    
-    ,onPanGestureEnd: function(e)
-    {
-        var timeAxis = this.getChart().getAxes()[0];
-        timeAxis.fireEvent('visiblerangechange', timeAxis, timeAxis.getVisibleRange());
-        this.callParent(arguments);
     }
 });
