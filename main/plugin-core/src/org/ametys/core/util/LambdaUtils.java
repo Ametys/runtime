@@ -48,6 +48,8 @@ public final class LambdaUtils
     /**
      * Wraps a {@link Function} by catching its {@link Exception} and rethrowing them as {@link RuntimeException}.
      * @param function the {@link Function} to wrap.
+     * @param <T> The type of input to the function
+     * @param <R> The type of result of the function
      * @return the wrapped {@link Function}.
      */
     public static <T, R> Function<T, R> wrap(ThrowingFunction<T, R> function)
