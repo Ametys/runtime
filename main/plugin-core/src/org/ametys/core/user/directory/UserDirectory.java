@@ -65,8 +65,9 @@ public interface UserDirectory
      * Initialize the user's directory with given parameters' values.
      * @param udModelId The id of user directory extension point
      * @param paramValues The parameters' values
+     * @throws Exception If an error occured
      */
-    public void init(String udModelId, Map<String, Object> paramValues);
+    public void init(String udModelId, Map<String, Object> paramValues) throws Exception;
     
     /**
      * Set the value of the id of the population this user directory belong to.

@@ -128,8 +128,17 @@ public class UserDirectoryFactory extends AbstractLogEnabled implements Extensio
             {
                 getLogger().warn("An exception occured during the setup of the component " + id, e);
             }
+            
             ud.setPopulationId(populationId);
-            ud.init(id, paramsValues);
+            try
+            {
+                ud.init(id, paramsValues);
+            }
+            catch (Exception e)
+            {
+                getLogger().error("An error occured during the initialization of the UserDirectory " + id, e);
+                return null;
+            }
             
             return ud;
         }

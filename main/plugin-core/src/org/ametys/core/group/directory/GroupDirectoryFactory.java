@@ -126,9 +126,18 @@ public class GroupDirectoryFactory extends AbstractLogEnabled implements Extensi
             {
                 getLogger().warn("An exception occured during the setup of the component " + modelId, e);
             }
+            
             groupDirectory.setId(id);
             groupDirectory.setLabel(label);
-            groupDirectory.init(modelId, paramsValues);
+            try
+            {
+                groupDirectory.init(modelId, paramsValues);
+            }
+            catch (Exception e)
+            {
+                getLogger().error("An error occured during the initialization of the GroupDirectory " + id, e);
+                return null;
+            }
             
             return groupDirectory;
         }

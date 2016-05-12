@@ -29,7 +29,7 @@ public interface CredentialProvider
      * Get the id of the {@link CredentialProviderModel} extension point
      * @return the id of extension point
      */
-    public String getCredentialProviderModelId ();
+    public String getCredentialProviderModelId();
     
     /**
      * Get the values of parameters (from credential provider model)
@@ -41,6 +41,7 @@ public interface CredentialProvider
      * Initialize the credential provider with given parameters' values.
      * @param cpModelId The id of credential provider extension point
      * @param paramValues The parameters' values
+     * @throws Exception If an error occured
      */
-    public void init (String cpModelId, Map<String, Object> paramValues);
+    public void init(String cpModelId, Map<String, Object> paramValues) throws Exception;
 }

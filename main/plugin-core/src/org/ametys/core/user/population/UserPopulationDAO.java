@@ -660,7 +660,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
                     }
                     catch (ConfigurationException e)
                     {
-                        getLogger().error("Error configuring the population '{}'. The population will be ignored.", childCfg.getAttribute("id", ""));
+                        getLogger().error("Error configuring the population '" + childCfg.getAttribute("id", "") + "'. The population will be ignored.", e);
                         _ignoredPopulations.add(childCfg.getAttribute("id", ""));
                     }
                 }
@@ -716,7 +716,11 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
             Map<String, Object> paramValues = _getUDParametersFromConfiguration(userDirectoryConf, modelId, upId);
             if (paramValues != null)
             {
-                userDirectories.add(_userDirectoryFactory.createUserDirectory(modelId, paramValues, upId));
+                UserDirectory ud = _userDirectoryFactory.createUserDirectory(modelId, paramValues, upId);
+                if (ud != null)
+                {
+                    userDirectories.add(ud);
+                }
             }
         }
 
@@ -734,7 +738,11 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
             Map<String, Object>  paramValues = _getCPParametersFromConfiguration(credentialProviderConf, modelId, upId);
             if (paramValues != null)
             {
-                credentialProviders.add(_credentialProviderFactory.createCredentialProvider(modelId, paramValues));
+                CredentialProvider cp = _credentialProviderFactory.createCredentialProvider(modelId, paramValues);
+                if (cp != null)
+                {
+                    credentialProviders.add(cp);
+                }
             }
         }
         

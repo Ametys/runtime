@@ -386,7 +386,14 @@ public class GroupDirectoryDAO extends AbstractLogEnabled implements Component, 
                 Configuration cfg = new DefaultConfigurationBuilder().buildFromFile(__GROUP_DIRECTORIES_FILE);
                 for (Configuration childCfg : cfg.getChildren("groupDirectory"))
                 {
-                    _configureGroupDirectory(childCfg);
+                    try
+                    {
+                        _configureGroupDirectory(childCfg);
+                    }
+                    catch (ConfigurationException e)
+                    {
+                        getLogger().error("Error configuring the group directory '" + childCfg.getAttribute("id", "") + "'. The group directory will be ignored.", e);
+                    }
                 }
             }
         }
@@ -432,7 +439,10 @@ public class GroupDirectoryDAO extends AbstractLogEnabled implements Component, 
         if (paramValues != null)
         {
             GroupDirectory gd = _groupDirectoryFactory.createGroupDirectory(id, label, modelId, paramValues);
-            _groupDirectories.put(id, gd);
+            if (gd != null)
+            {
+                _groupDirectories.put(id, gd);
+            }
         }
     }
     

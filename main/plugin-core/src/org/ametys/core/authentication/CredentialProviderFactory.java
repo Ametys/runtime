@@ -125,7 +125,15 @@ public class CredentialProviderFactory extends AbstractLogEnabled implements Ext
             {
                 getLogger().warn("An exception occured during the setup of the component " + id, e);
             }
-            cp.init(id, paramsValues);
+            try
+            {
+                cp.init(id, paramsValues);
+            }
+            catch (Exception e)
+            {
+                getLogger().error("An error occured during the initialization of the CredentialProvider " + id, e);
+                return null;
+            }
             
             return cp;
         }

@@ -67,8 +67,9 @@ public interface GroupDirectory
      * Initialize the group directory with given parameter values.
      * @param groupDirectoryModelId The id of group directory extension point
      * @param paramValues The parameters' values
+     * @throws Exception If an error occured
      */
-    public void init(String groupDirectoryModelId, Map<String, Object> paramValues);
+    public void init(String groupDirectoryModelId, Map<String, Object> paramValues) throws Exception;
     
     /**
      * Returns a particular group.

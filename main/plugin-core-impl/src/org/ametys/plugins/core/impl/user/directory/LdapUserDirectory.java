@@ -102,7 +102,7 @@ public class LdapUserDirectory extends AbstractLDAPConnector implements UserDire
     private String _populationId;
     
     @Override
-    public void init(String udModelId, Map<String, Object> paramValues)
+    public void init(String udModelId, Map<String, Object> paramValues) throws Exception
     {
         _udModelId = udModelId;
         _paramValues = paramValues;
@@ -124,14 +124,7 @@ public class LdapUserDirectory extends AbstractLDAPConnector implements UserDire
         _serverSideSorting = (Boolean) paramValues.get(__PARAM_SERVER_SIDE_SORTING);
         
         String dataSourceId = (String) paramValues.get(__PARAM_DATASOURCE_ID);
-        try
-        {
-            _delayedInitialize(dataSourceId);
-        }
-        catch (Exception e)
-        {
-            getLogger().error("An error occured during the initialization of LDAPUserDirectory", e);
-        }
+        _delayedInitialize(dataSourceId);
     }
     
     @Override
