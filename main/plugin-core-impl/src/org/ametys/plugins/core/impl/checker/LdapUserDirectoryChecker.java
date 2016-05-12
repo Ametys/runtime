@@ -34,8 +34,8 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 
-import org.ametys.core.datasource.LDAPDataSourceManager;
 import org.ametys.core.datasource.AbstractDataSourceManager.DataSourceDefinition;
+import org.ametys.core.datasource.LDAPDataSourceManager;
 import org.ametys.core.util.ldap.ScopeEnumerator;
 import org.ametys.runtime.parameter.ParameterChecker;
 import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
@@ -88,54 +88,60 @@ public class LdapUserDirectoryChecker extends AbstractLogEnabled implements Para
         boolean userEmailIsMandatory = "true".equals(values.get(8));
         
         DataSourceDefinition ldapDefinition = _ldapDataSourceManager.getDataSourceDefinition(datasourceId);
-        
-        // Search some users
-        LdapContext context = null;
-        NamingEnumeration<SearchResult> results = null;
-
-        try
+        if (ldapDefinition == null)
         {
-            // Connection to the LDAP server
-            context = new InitialLdapContext(_getContextEnv(ldapDefinition), null);
-
-            // Execute ldap search
-            results = context.search(usersRelativeDN, 
-                                        usersObjectFilter, 
-                                        new Object[0], 
-                                        _getSearchConstraint(0, usersFirstnameAttribute, usersLoginAttribute, usersLastnameAttribute, usersEmailAttribute, usersSearchScope));
-            
-            boolean userFound = false;
-            while (results.hasMoreElements() && !userFound)
-            {
-                SearchResult result = results.nextElement();
-                Map<String, Object> attrs = _getAttributes(result, usersLoginAttribute, usersFirstnameAttribute, usersLastnameAttribute, usersEmailAttribute, userEmailIsMandatory);
-                if (attrs != null)
-                {
-                    // a user was found
-                    userFound = true;
-                }
-            }
-            
-            if (!userFound)
-            {
-                throw new ParameterCheckerTestFailureException("The LDAP repository does not return any user with the given parameters.");
-            }
+            throw new ParameterCheckerTestFailureException ("Unable to find the data source definition for the id '" + datasourceId + "'.");
         }
-        catch (IllegalArgumentException | NamingException e)
+        else
         {
-            throw new ParameterCheckerTestFailureException(e);
-        }
-        finally
-        {
-            // Close connections
+            // Search some users
+            LdapContext context = null;
+            NamingEnumeration<SearchResult> results = null;
+    
             try
             {
-                _cleanup(context, results);
+                // Connection to the LDAP server
+                context = new InitialLdapContext(_getContextEnv(ldapDefinition), null);
+    
+                // Execute ldap search
+                results = context.search(usersRelativeDN, 
+                                            usersObjectFilter, 
+                                            new Object[0], 
+                                            _getSearchConstraint(0, usersFirstnameAttribute, usersLoginAttribute, usersLastnameAttribute, usersEmailAttribute, usersSearchScope));
+                
+                boolean userFound = false;
+                while (results.hasMoreElements() && !userFound)
+                {
+                    SearchResult result = results.nextElement();
+                    Map<String, Object> attrs = _getAttributes(result, usersLoginAttribute, usersFirstnameAttribute, usersLastnameAttribute, usersEmailAttribute, userEmailIsMandatory);
+                    if (attrs != null)
+                    {
+                        // a user was found
+                        userFound = true;
+                    }
+                }
+                
+                if (!userFound)
+                {
+                    throw new ParameterCheckerTestFailureException("The LDAP repository does not return any user with the given parameters.");
+                }
             }
-            catch (NamingException e)
+            catch (IllegalArgumentException | NamingException e)
             {
-                getLogger().error("Cleaning the LDAP connection during test failed.", e);
                 throw new ParameterCheckerTestFailureException(e);
+            }
+            finally
+            {
+                // Close connections
+                try
+                {
+                    _cleanup(context, results);
+                }
+                catch (NamingException e)
+                {
+                    getLogger().error("Cleaning the LDAP connection during test failed.", e);
+                    throw new ParameterCheckerTestFailureException(e);
+                }
             }
         }
     }

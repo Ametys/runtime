@@ -160,19 +160,25 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
     public Map<String, Object> getLDAPDataSource (String id) throws Exception
     {
         DataSourceDefinition ldapDefinition = _ldapDataSourceManager.getDataSourceDefinition(id);
-
         Map<String, Object> def2json = _dataSourceDefinition2Json(ldapDefinition);
-        def2json.put("id", id); // Keep the 'LDAP-default-datasource' id
-        def2json.put("type", "LDAP");
-        
-        // The configuration data source consumer refers to the stored values of the configuration
-        // For the default data source, it is "LDAP-default-datasource"
-        boolean isInUse = _dataSourceConsumerEP.isInUse(ldapDefinition.getId()) || (ldapDefinition.isDefault() && _dataSourceConsumerEP.isInUse(_ldapDataSourceManager.getDefaultDataSourceId()));
-        def2json.put("isInUse", isInUse);
-        
-        if ((_ldapDataSourceManager.getDataSourcePrefixId() + AbstractDataSourceManager.DEFAULT_DATASOURCE_SUFFIX).equals(id))
+        if (ldapDefinition == null)
         {
-            _setDefaultDataSourceName(def2json);
+            getLogger().error("Unable to find the data source definition for the id '" + id + "'.");
+        }
+        else
+        {
+            def2json.put("id", id); // Keep the 'LDAP-default-datasource' id
+            def2json.put("type", "LDAP");
+            
+            // The configuration data source consumer refers to the stored values of the configuration
+            // For the default data source, it is "LDAP-default-datasource"
+            boolean isInUse = _dataSourceConsumerEP.isInUse(ldapDefinition.getId()) || (ldapDefinition.isDefault() && _dataSourceConsumerEP.isInUse(_ldapDataSourceManager.getDefaultDataSourceId()));
+            def2json.put("isInUse", isInUse);
+            
+            if ((_ldapDataSourceManager.getDataSourcePrefixId() + AbstractDataSourceManager.DEFAULT_DATASOURCE_SUFFIX).equals(id))
+            {
+                _setDefaultDataSourceName(def2json);
+            }
         }
         
         return def2json;
@@ -190,17 +196,24 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
         DataSourceDefinition sqlDefinition = _sqlDataSourceManager.getDataSourceDefinition(id);
         
         Map<String, Object> def2json = _dataSourceDefinition2Json(sqlDefinition);
-        def2json.put("id", id); // Keep the 'SQL-default-datasource' id
-        def2json.put("type", "SQL");
-        
-        // The configuration data source consumer refers to the stored values of the configuration
-        // For the default data source, it is "SQL-default-datasource"
-        boolean isInUse = _dataSourceConsumerEP.isInUse(sqlDefinition.getId()) || (sqlDefinition.isDefault() && _dataSourceConsumerEP.isInUse(_sqlDataSourceManager.getDefaultDataSourceId()));
-        def2json.put("isInUse", isInUse);
-        
-        if (_sqlDataSourceManager.getDefaultDataSourceId().equals(id))
+        if (sqlDefinition == null)
         {
-            _setDefaultDataSourceName(def2json);
+            getLogger().error("Unable to find the data source definition for the id '" + id + "'.");
+        }
+        else
+        {
+            def2json.put("id", id); // Keep the 'SQL-default-datasource' id
+            def2json.put("type", "SQL");
+            
+            // The configuration data source consumer refers to the stored values of the configuration
+            // For the default data source, it is "SQL-default-datasource"
+            boolean isInUse = _dataSourceConsumerEP.isInUse(sqlDefinition.getId()) || (sqlDefinition.isDefault() && _dataSourceConsumerEP.isInUse(_sqlDataSourceManager.getDefaultDataSourceId()));
+            def2json.put("isInUse", isInUse);
+            
+            if (_sqlDataSourceManager.getDefaultDataSourceId().equals(id))
+            {
+                _setDefaultDataSourceName(def2json);
+            }
         }
         
         return def2json;
@@ -274,12 +287,18 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
         if (type.equals(DataSourceType.SQL.toString()))
         {
             DataSourceDefinition previousdataSourceDefinition = _sqlDataSourceManager.getDataSourceDefinition(id); 
-            
-            // Inject the recorded password before overriding the existing data source (saved passwords are not sent)
-            String previousPassword = previousdataSourceDefinition.getParameters().get("password");
-            if (StringUtils.isNotEmpty(previousPassword))
+            if (previousdataSourceDefinition != null)
             {
-                parameters.put("password", previousPassword);
+                // Inject the recorded password before overriding the existing data source (saved passwords are not sent)
+                String previousPassword = previousdataSourceDefinition.getParameters().get("password");
+                if (StringUtils.isNotEmpty(previousPassword))
+                {
+                    parameters.put("password", previousPassword);
+                }
+            }
+            else
+            {
+                getLogger().error("The data source of id '" + id + "' was not found. Unable to get the previous password.");
             }
 
             def = _sqlDataSourceManager.edit(id, new I18nizableText(name), new I18nizableText(description), parameters, isPrivate);
@@ -287,12 +306,18 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
         else if (type.equals(DataSourceType.LDAP.toString()))
         {
             DataSourceDefinition previousdataSourceDefinition = _ldapDataSourceManager.getDataSourceDefinition(id);
-            
-            // Inject the recorded password before overriding the existing data source (saved passwords are not sent)
-            String previousPassword = previousdataSourceDefinition.getParameters().get(LDAPDataSourceManager.PARAM_ADMIN_PASSWORD);
-            if (StringUtils.isNotEmpty(previousPassword))
+            if (previousdataSourceDefinition != null)
             {
-                parameters.put(LDAPDataSourceManager.PARAM_ADMIN_PASSWORD, previousPassword);
+                // Inject the recorded password before overriding the existing data source (saved passwords are not sent)
+                String previousPassword = previousdataSourceDefinition.getParameters().get(LDAPDataSourceManager.PARAM_ADMIN_PASSWORD);
+                if (StringUtils.isNotEmpty(previousPassword))
+                {
+                    parameters.put(LDAPDataSourceManager.PARAM_ADMIN_PASSWORD, previousPassword);
+                }
+            }
+            else
+            {
+                getLogger().error("The data source of id '" + id + "' was not found. Unable to get the previous password.");
             }
             
             def = _ldapDataSourceManager.edit(id, new I18nizableText(name), new I18nizableText(description), parameters, isPrivate);
@@ -369,17 +394,19 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
     private Map<String, Object> _dataSourceDefinition2Json (DataSourceDefinition dataSourceDef)
     {
         Map<String, Object> infos = new HashMap<>();
-        
-        infos.put("id", dataSourceDef.getId());
-        infos.put("name", dataSourceDef.getName());
-        infos.put("description", dataSourceDef.getDescription());
-        infos.put("private", dataSourceDef.isPrivate());
-        infos.put("isDefault", dataSourceDef.isDefault());
-        
-        Map<String, String> parameters = dataSourceDef.getParameters();
-        for (String paramName : parameters.keySet())
+        if (dataSourceDef != null)
         {
-            infos.put(paramName, parameters.get(paramName));
+            infos.put("id", dataSourceDef.getId());
+            infos.put("name", dataSourceDef.getName());
+            infos.put("description", dataSourceDef.getDescription());
+            infos.put("private", dataSourceDef.isPrivate());
+            infos.put("isDefault", dataSourceDef.isDefault());
+            
+            Map<String, String> parameters = dataSourceDef.getParameters();
+            for (String paramName : parameters.keySet())
+            {
+                infos.put(paramName, parameters.get(paramName));
+            }
         }
         
         return infos;

@@ -35,8 +35,9 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 
-import org.ametys.core.datasource.LDAPDataSourceManager;
 import org.ametys.core.datasource.AbstractDataSourceManager.DataSourceDefinition;
+import org.ametys.core.datasource.LDAPDataSourceManager;
+import org.ametys.core.datasource.UnknownDataSourceException;
 import org.ametys.core.util.CachingComponent;
 import org.ametys.runtime.config.Config;
 
@@ -79,19 +80,25 @@ public abstract class AbstractLDAPConnector extends CachingComponent<Object> imp
     protected void _delayedInitialize(String dataSourceId) throws Exception
     {
         DataSourceDefinition ldapDefinition = _ldapDataSourceManager.getDataSourceDefinition(dataSourceId);
-        
-        Map<String, String> ldapParameters = ldapDefinition.getParameters();
-        
-        _ldapUrl = ldapParameters.get(LDAPDataSourceManager.PARAM_BASE_URL);
-        _ldapBaseDN = ldapParameters.get(LDAPDataSourceManager.PARAM_BASE_DN);
-        _ldapAdminRelativeDN = ldapParameters.get(LDAPDataSourceManager.PARAM_ADMIN_DN);
-        _ldapAdminPassword = ldapParameters.get(LDAPDataSourceManager.PARAM_ADMIN_PASSWORD);
-        _ldapAuthenticationMethod = ldapParameters.get(LDAPDataSourceManager.PARAM_AUTHENTICATION_METHOD);
-        _ldapUseSSL = "true".equals(ldapParameters.get(LDAPDataSourceManager.PARAM_USE_SSL));
-        _ldapFollowReferrals = "true".equals(ldapParameters.get(LDAPDataSourceManager.PARAM_FOLLOW_REFERRALS));
-        _ldapAliasDerefMode = ldapParameters.get(LDAPDataSourceManager.PARAM_ALIAS_DEREFERENCING);
-        
-        _pagingSupported = _testPagingSupported();
+        if (ldapDefinition != null)
+        {
+            Map<String, String> ldapParameters = ldapDefinition.getParameters();
+            
+            _ldapUrl = ldapParameters.get(LDAPDataSourceManager.PARAM_BASE_URL);
+            _ldapBaseDN = ldapParameters.get(LDAPDataSourceManager.PARAM_BASE_DN);
+            _ldapAdminRelativeDN = ldapParameters.get(LDAPDataSourceManager.PARAM_ADMIN_DN);
+            _ldapAdminPassword = ldapParameters.get(LDAPDataSourceManager.PARAM_ADMIN_PASSWORD);
+            _ldapAuthenticationMethod = ldapParameters.get(LDAPDataSourceManager.PARAM_AUTHENTICATION_METHOD);
+            _ldapUseSSL = "true".equals(ldapParameters.get(LDAPDataSourceManager.PARAM_USE_SSL));
+            _ldapFollowReferrals = "true".equals(ldapParameters.get(LDAPDataSourceManager.PARAM_FOLLOW_REFERRALS));
+            _ldapAliasDerefMode = ldapParameters.get(LDAPDataSourceManager.PARAM_ALIAS_DEREFERENCING);
+            
+            _pagingSupported = _testPagingSupported();
+        }
+        else
+        {
+            throw new UnknownDataSourceException("The data source of id '" + dataSourceId + "' is still referenced but no longer exists.");
+        }
     }
     
     @Override
