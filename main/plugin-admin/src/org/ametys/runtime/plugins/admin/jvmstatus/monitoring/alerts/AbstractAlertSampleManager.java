@@ -20,7 +20,6 @@ import java.util.Map;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.commons.lang.StringUtils;
 
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.i18n.I18nizableText;
@@ -45,33 +44,8 @@ public abstract class AbstractAlertSampleManager extends AbstractSampleManager i
     {
         super.configure(configuration);
         
-        boolean isSubjectI18n = configuration.getChild("mailSubject").getAttributeAsBoolean("i18n", false);
-        String subject =  configuration.getChild("mailSubject").getValue(null);
-        boolean isBodyI18n = configuration.getChild("mailBody").getAttributeAsBoolean("i18n", false);
-        String body =  configuration.getChild("mailBody").getValue(null);
-        
-        if (StringUtils.isEmpty(subject) || StringUtils.isEmpty(body))
-        {
-            throw new ConfigurationException("Missing <mailSubject> or <mailBody>", configuration);
-        }
-        
-        if (isSubjectI18n)
-        {
-            _subject = new I18nizableText("plugin." + _pluginName, subject);
-        }
-        else
-        {
-            _subject = new I18nizableText(subject);
-        }
-
-        if (isBodyI18n)
-        {
-            _body = new I18nizableText("plugin." + _pluginName, body);
-        }
-        else
-        {
-            _body = new I18nizableText(body);
-        }
+        _subject = I18nizableText.parseI18nizableText(configuration.getChild("mailSubject"), "plugin." + _pluginName);
+        _body = I18nizableText.parseI18nizableText(configuration.getChild("mailBody"), "plugin." + _pluginName);
     }
     
     @Override
