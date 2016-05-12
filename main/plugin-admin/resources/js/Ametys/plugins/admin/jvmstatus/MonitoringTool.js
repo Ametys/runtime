@@ -398,6 +398,21 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
             chart.setSeries(series);
             store.setFields(fields);
             store.setData(data);
+            
+            // depending on the series length, set the colors (AVERAGE will be same colors as MAX but a bit lighter)
+            var colorSet = ['#115fa6', '#ff8809', '#a61187', '#94ae0a', '#a61120', '#ffd13e', '#7c7474', '#a66111', '#24ad9a'],
+                offset = series.length / 2;
+            function shadeColor2(color, percent) { // see http://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors
+                var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
+                return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
+            }
+            
+            Ext.Array.erase(colorSet, offset, -1);
+            var newColors = colorSet;
+            Ext.Array.forEach(colorSet, function(color, index) {
+                newColors[index + offset] = shadeColor2(color, 0.5);
+            }, this);
+            chart.setColors(newColors);
         }
     },
     
@@ -546,6 +561,8 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
             fill: true,
             nullStyle: 'connect',
             style: {
+//                fillStyle: '#999999',
+//                strokeStyle: '#999999', // elsewehere because the legend remains auto colors
                 fillOpacity: .6
             },
             tooltip: {
