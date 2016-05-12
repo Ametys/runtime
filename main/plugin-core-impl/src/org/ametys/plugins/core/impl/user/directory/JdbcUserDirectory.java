@@ -60,8 +60,8 @@ import org.ametys.runtime.parameter.Enumerator;
 import org.ametys.runtime.parameter.Errors;
 import org.ametys.runtime.parameter.Parameter;
 import org.ametys.runtime.parameter.ParameterHelper;
-import org.ametys.runtime.parameter.Validator;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
+import org.ametys.runtime.parameter.Validator;
 import org.ametys.runtime.plugin.component.PluginAware;
 import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
 
@@ -196,7 +196,8 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
         int boundedCount = count >= 0 ? count : Integer.MAX_VALUE;
         int boundedOffset = offset >= 0 ? offset : 0;
         
-        SelectUsersJdbcQueryExecutor<List<User>> queryExecutor = new SelectUsersJdbcQueryExecutor<List<User>>(pattern, boundedCount, boundedOffset) {
+        SelectUsersJdbcQueryExecutor<List<User>> queryExecutor = new SelectUsersJdbcQueryExecutor<List<User>>(pattern, boundedCount, boundedOffset) 
+        {
             @Override
             protected List<User> processResultSet(ResultSet rs) throws SQLException
             {
@@ -219,7 +220,8 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
             }
         }
         
-        SelectUserJdbcQueryExecutor<User> queryExecutor = new SelectUserJdbcQueryExecutor<User>(login) {
+        SelectUserJdbcQueryExecutor<User> queryExecutor = new SelectUserJdbcQueryExecutor<User>(login)
+        {
             @Override
             protected User processResultSet(ResultSet rs) throws SQLException
             {
