@@ -107,6 +107,7 @@ public class ClientSideElementDependenciesManager
      * Recursively Compute the chain of dependency.
      * @param computedDependencies The list of dependencies that have already been computed from the chain. This map is filled with the full dependencies chain.
      * @param dependenciesToProcess The list of extensions to parse, mapped by extension points, that can have additional dependencies.
+     * @param knownElements The list of elements that were already handled (to avoid infinite loop)
      * @throws ServiceException If an error occurs
      */
     private void computeDependencies(Map<String, List<ClientSideElement>> computedDependencies, Map<String, List<String>> dependenciesToProcess, List<ClientSideElement> knownElements) throws ServiceException
