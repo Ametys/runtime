@@ -70,7 +70,7 @@ public class RRDsFeederTimerTask extends TimerTask implements Component, LogEnab
     private I18nUtils _i18nUtils;
     
     /** Tells if there is a current alert, i.e. if we already sent an alert email
-     * This is  a map {sampleManagerId -> datasourceName -> wasAlertedLastTime} */
+     * This is  a map {sampleManagerId -&gt; datasourceName -&gt; wasAlertedLastTime} */
     private Map<String, Map<String, Boolean>> _currentAlerts;
     
     public void enableLogging(Logger logger)
