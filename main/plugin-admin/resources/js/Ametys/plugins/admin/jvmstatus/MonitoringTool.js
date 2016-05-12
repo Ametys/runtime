@@ -561,8 +561,6 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
             fill: true,
             nullStyle: 'connect',
             style: {
-//                fillStyle: '#999999',
-//                strokeStyle: '#999999', // elsewehere because the legend remains auto colors
                 fillOpacity: .6
             },
             tooltip: {
