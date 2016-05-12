@@ -16,7 +16,6 @@
 package org.ametys.runtime.plugins.admin.notificator;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -42,10 +41,9 @@ public class AdministratorNotificatorExtensionPoint extends AbstractThreadSafeCo
     {
         List<Map<String, Object>> notifications = new ArrayList<>();
         
-        Iterator<String> it = getExtensionsIds().iterator();
-        while (it.hasNext())
+        for (String id : getExtensionsIds())
         {
-            AdministratorNotificator notificator = getExtension(it.next());
+            AdministratorNotificator notificator = getExtension(id);
             notifications.addAll(notificator.getNotifications().stream().map(Notification::toMap).collect(Collectors.toList()));
         }
         
