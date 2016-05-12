@@ -168,7 +168,7 @@ public class LdapUsersTestCase extends AbstractRuntimeTestCase
     /**
      * Create the user directory
      * @return The user directory
-     * @throws Exception
+     * @throws Exception If an error occured
      */
     protected UserDirectory _createLdapUserDirectory() throws Exception
     {
