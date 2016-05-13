@@ -2540,7 +2540,6 @@
                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_SERVERLOGS_PAUSE_DESCRIPTION</description>
                    <description-play i18n="true">PLUGINS_CORE_UI_TOOLS_SERVERLOGS_PLAY_DESCRIPTION</description-play>
                   
-                   <!-- FIXME use pause flaticon instead of stop (RUNTIME-1648) -->
                    <icon-glyph>flaticon-pause</icon-glyph>
                    <icon-glyph-play>flaticon-play124</icon-glyph-play>
                 </class>
@@ -2558,7 +2557,7 @@
                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CLEAR_LABEL</label>
                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CLEAR_DESCRIPTION</description>
                   
-                   <icon-glyph>flaticon-remove11</icon-glyph>
+                   <icon-glyph>flaticon-eraser11</icon-glyph>
                 </class>
                 <scripts>
                     <file>js/Ametys/plugins/coreui/log/ServerLogActions.js</file>
