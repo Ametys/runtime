@@ -1595,7 +1595,7 @@
 					
                     <icon-glyph>flaticon-multiple25</icon-glyph>
                     <enabled-icon-decorator>decorator-flaticon-checked34</enabled-icon-decorator>
-                    <disabled-icon-decorator>decorator-flaticon-letterx5</disabled-icon-decorator>
+                    <disabled-icon-decorator>decorator-flaticon-forbidden1</disabled-icon-decorator>
 				</class>
 				<scripts>
 					<file>js/Ametys/plugins/coreui/populations/EnablePopulationButtonController.js</file>
@@ -1638,6 +1638,9 @@
 					<file>js/Ametys/plugins/coreui/populations/PopulationTool.js</file>
 					<file plugin="core">js/Ametys/plugins/core/populations/UserPopulationDAO.js</file>
 				</scripts>
+                <css>
+                    <file>css/Ametys/ui/tool/population.css</file>
+                </css>
     		</extension>
     	</extensions>
     </feature>

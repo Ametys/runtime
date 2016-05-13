@@ -76,10 +76,36 @@ Ext.define('Ametys.plugins.coreui.populations.PopulationActions', {
     enablePopulation: function(controller)
     {
         var populationId = controller.getMatchingTargets()[0].getParameters().id;
-        var populationEnabled = controller.populationEnabled;
-        if (populationEnabled != null)
+        if (!controller.isPressed())
         {
-	        Ametys.plugins.core.populations.UserPopulationDAO.enable([populationId, /* reverse the current state */ !populationEnabled], controller.updateState, {scope: controller});
+            Ametys.plugins.core.populations.UserPopulationDAO.isValid([populationId], this._isValidCb, {arguments: {populationId: populationId, controller: controller}});
+        }
+        else
+        {
+            Ametys.plugins.core.populations.UserPopulationDAO.enable([populationId, /* reverse the current state */ !controller.isPressed()]);
+        }
+    },
+    
+    /**
+     * @private
+     * Callback function after retrieving the valid status
+     * @param {Boolean} valid true if the population is valid
+     * @param {Object} args The callback arguments
+     */
+    _isValidCb: function (valid, args)
+    {
+        if (!valid)
+        {
+            Ext.Msg.show({
+			    title: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_MISCONFIGURED_TITLE}}",
+			    message: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_CANNOT_ENABLE_MSG}}",
+			    buttons: Ext.Msg.OK,
+                icon: Ext.MessageBox.ERROR
+			});
+        }
+        else
+        {
+            Ametys.plugins.core.populations.UserPopulationDAO.enable([args.populationId, /* reverse the current state */ !args.controller.isPressed()]);
         }
     },
     

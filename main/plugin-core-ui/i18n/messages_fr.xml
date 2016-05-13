@@ -915,8 +915,9 @@
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_REMOVE_DESCRIPTION">Supprime une population d'utilisateurs</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_REMOVE_UNABLE_DESCRIPTION">Cette population ne peut pas être supprimée car elle est liée à un contexte d'utilisation</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_ENABLE_LABEL">Population activée</message>
-    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_ENABLE_DESCRIPTION">Active une population d'utilisateurs</message>
-    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DISABLE_DESCRIPTION">Désactive une population d'utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_ENABLE_DESCRIPTION_ERROR">Une erreur serveur est survenue et ne permet pas de connaitre le statut actuel de la population.</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_ENABLE_DESCRIPTION">La population est actuellement désactivée.&lt;br/&gt;Cliquez ici pour activer la population d'utilisateurs sélectionnée.</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DISABLE_DESCRIPTION">La population est actuellement activée.&lt;br/&gt;Cliquez ici pour désactiver la population d'utilisateurs sélectionnée.</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_LINK_LABEL">Populations autorisées à se connecter</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_LINK_DESCRIPTION">Permet de choisir les populations d'utilisateurs autorisées à se connecter à l'application</message>
     
@@ -965,6 +966,9 @@
     
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_REMOVE_CONFIRM_TITLE">Supprimer la population d'utilisateurs</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_REMOVE_CONFIRM_MSG">Êtes-vous sûr de vouloir supprimer cette population d'utilisateurs ?</message>
+    
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_MISCONFIGURED_TITLE">Population mal configurée</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_CANNOT_ENABLE_MSG">Cette population ne peut être activée car sa configuration est invalide.&lt;br/&gt;Veuillez corriger le problème pour pouvoir continuer.</message>
     
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_CHOOSE_POPULATIONS_TITLE">Choix des populations d'utilisateurs</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_CHOOSE_POPULATIONS_HINT">Sélectionnez ci-après la ou les populations d'utilisateurs autorisées à se connecter à l'application :</message>

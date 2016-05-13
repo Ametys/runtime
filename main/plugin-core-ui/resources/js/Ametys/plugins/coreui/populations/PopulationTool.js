@@ -69,7 +69,7 @@ Ext.define('Ametys.plugins.coreui.populations.PopulationTool', {
             ],
             
             columns: [
-                 {stateId: 'grid-title', header: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_TOOL_COLUMN_TITLE}}", flex: 1, sortable: true, dataIndex: 'label'},
+                 {stateId: 'grid-title', header: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_TOOL_COLUMN_TITLE}}", flex: 1, sortable: true, dataIndex: 'label', renderer: this._renderLabel},
                  {stateId: 'grid-id', header: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_TOOL_COLUMN_ID}}", width: 200, dataIndex: 'id'},
                  {stateId: 'grid-user-directories', header: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_TOOL_COLUMN_USER_DIRECTORIES}}", width: 350, dataIndex: 'userDirectories', renderer: this._renderArray},
                  {stateId: 'grid-credential-providers', header: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_TOOL_COLUMN_CREDENTIAL_PROVIDERS}}", width: 350, dataIndex: 'credentialProviders', renderer: this._renderArray},
@@ -154,6 +154,20 @@ Ext.define('Ametys.plugins.coreui.populations.PopulationTool', {
             type: Ametys.message.Message.SELECTION_CHANGED,
             targets: targets
         });
+    },
+    
+    /**
+     * @private
+     * Renderer for the population's title
+     * @param {String} title the title
+     * @param {Object} metadata A collection of metadata about the current cell
+     * @param {Ext.data.Model} record The record for the current row
+     * @return {String} the html string used for the rendering of the url
+     */
+    _renderLabel: function(url, metadata, record)
+    {
+        var decorator = record.get('valid') ? '' : ' decorator-flaticon-caution9 population-warning';
+        return '<span class="a-grid-glyph flaticon-agenda3' + decorator + '"></span>' + url;
     },
     
     /**
@@ -252,6 +266,7 @@ Ext.define("Ametys.plugins.coreui.populations.PopulationTool.PopulationEntry", {
         {name: 'id'},    
         {name: 'label', sortType: Ext.data.SortTypes.asNonAccentedUCString},
         {name: 'enabled'},
+        {name: 'valid', type: 'boolean'},
         {name: 'isInUse'},
         {name: 'userDirectories'},
         {name: 'credentialProviders'}

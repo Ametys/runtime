@@ -21,31 +21,53 @@
 Ext.define('Ametys.plugins.coreui.populations.EnablePopulationButtonController', {
     extend: 'Ametys.ribbon.element.ui.ButtonController',
     
+    constructor: function(config)
+    {
+        this.callParent(arguments);
+        Ametys.message.MessageBus.on(Ametys.message.Message.MODIFIED, this._onModified, this);
+    },
+    
     /**
-     * @property {Boolean} populationEnabled True if the population is enabled, false otherwise.
+     * Listener when the content has been modified
+     * Will update the state of the buttons effectively upon the current selection.
+     * @param {Ametys.message.Message} message The modified message.
+     * @protected
      */
+    _onModified: function (message)
+    {
+        this.refresh();
+    },
     
     updateState: function()
     {
+        this.disable();
+        
         var populationId = this.getMatchingTargets()[0].getParameters().id;
         Ametys.plugins.core.populations.UserPopulationDAO.isEnabled([populationId], this._isEnabledCb, {scope: this, refreshing: true});
     },
     
+    /**
+     * @private
+     * Callback function invoked after getting the population state
+     * @param {Object} response The server response
+     * @param {String} response.error if an error occurred
+     * @param {Boolean} response.eanbled if the current population target is activated
+     */
     _isEnabledCb: function(response)
     {
-        var enabled = response.enabled;
-        if (enabled != null)
+        if (response.error)
         {
-            this.setDescription(enabled ? "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_DISABLE_DESCRIPTION}}" : "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_ENABLE_DESCRIPTION}}");
-            this.setIconDecorator(enabled ? this.getInitialConfig("enabled-icon-decorator") : this.getInitialConfig("disabled-icon-decorator"));
-            this.toggle(enabled);
-            this.populationEnabled = enabled;
+            this.setDescription("{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_ENABLE_DESCRIPTION_ERROR}}");
+            this.setIconDecorator(null);
+            this.disable();
+            this.toggle(false);
         }
         else
         {
-            this.setDescription("{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_ENABLE_DESCRIPTION}}");
-            this.setIconDecorator(null);
-            this.toggle(false);
+            this.setDescription(response.enabled ? "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_DISABLE_DESCRIPTION}}" : "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_ENABLE_DESCRIPTION}}");
+            this.setIconDecorator(response.enabled ? this.getInitialConfig("enabled-icon-decorator") : this.getInitialConfig("disabled-icon-decorator"));
+            this.toggle(response.enabled);
+            this.enable();
         }
     }
     
