@@ -295,6 +295,36 @@ Ext.define('Ametys.plugins.core.populations.UserPopulationDAO', {
         /**
          * @callable
          * @member Ametys.plugins.core.populations.UserPopulationDAO
+         * @method isValid 
+         * Returns the enabled state of the given population
+         * This calls the method 'isValid' of the server DAO 'UserPopulationDAO'.
+         * @param {Object[]} parameters The parameters to transmit to the server method
+         * @param {String} parameters.id The id of the population to retrieve state
+         * @param {Function} callback The function to call when the java process is over. Use options.scope for the scope. 
+         * @param {Boolean} callback.returnedValue true if the population has a valid configuration                
+         * @param {Object} [options] Advanced options for the call.
+         * @param {Boolean/String/Object} [options.errorMessage] Display an error message. See Ametys.data.ServerCall#callMethod errorMessage.
+         * @param {Boolean/String/Object} [options.waitMessage] Display a waiting message. See Ametys.data.ServerCall#callMethod waitMessage.
+         * @param {Number} [options.scope] This parameter is the scope used to call the callback. Moreover is the given class is a mixin of Ametys.data.ServerCaller, its methods #beforeServerCall and #afterServerCall will be used so see their documentation to look for additional options (such a refreshing on Ametys.ribbon.element.ui.ButtonController#beforeServerCall).
+         * @param {Number} [options.priority] The message priority. See Ametys.data.ServerCall#callMethod for more information on the priority. PRIORITY_SYNCHRONOUS cannot be used here.
+         * @param {String} [options.cancelCode] Cancel similar unachieved read operations. See Ametys.data.ServerCall#callMethod cancelCode.
+         * @param {Object} [options.arguments] Additional arguments set in the callback.arguments parameter.                  
+         * @param {Boolean} [options.ignoreCallbackOnError] If the server throws an exception, should the callback beeing called with a null parameter. See Ametys.data.ServerCall#callMethod ignoreOnError.
+         */
+        this.addCallables(
+            {
+                role: "org.ametys.core.user.population.UserPopulationDAO",
+                methodName: "isValid",
+                errorMessage: {
+                    msg: "{{i18n PLUGINS_CORE_USER_POPULATION_DAO_IS_VALID_ERROR}}",
+                    category:Ext.getClassName(this)
+                }
+            }
+        );
+        
+        /**
+         * @callable
+         * @member Ametys.plugins.core.populations.UserPopulationDAO
          * @method isInUse 
          * Returns true if the user population is currently used.
          * This calls the method 'isInUse' of the server DAO 'PopulationConsumerExtensionPoint'.
@@ -571,6 +601,7 @@ Ext.define('Ametys.plugins.core.populations.UserPopulationDAO', {
                 buttons: Ext.Msg.OK,
                 icon: Ext.MessageBox.ERROR
             });
+            return;
         }
     }
     
