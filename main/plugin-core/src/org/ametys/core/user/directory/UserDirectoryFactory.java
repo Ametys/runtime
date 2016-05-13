@@ -136,8 +136,7 @@ public class UserDirectoryFactory extends AbstractLogEnabled implements Extensio
             }
             catch (Exception e)
             {
-                getLogger().error("An error occured during the initialization of the UserDirectory '" + id + "' of the UserPopulation '" + populationId + "'", e);
-                return null;
+                throw new IllegalStateException("An error occured during the initialization of the UserDirectory '" + id + "' of the UserPopulation '" + populationId + "'", e);
             }
             
             return ud;

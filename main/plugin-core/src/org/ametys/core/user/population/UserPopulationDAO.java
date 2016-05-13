@@ -696,7 +696,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
                 }
             }
         }
-        catch (IOException | TransformerConfigurationException | ConfigurationException | SAXException e)
+        catch (Exception e)
         {
             getLogger().error("Failed to retrieve user populations from the configuration file " + __USER_POPULATIONS_FILE, e);
         }
@@ -764,7 +764,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
                     userDirectories.add(ud);
                 }
             }
-            catch (IllegalArgumentException | ConfigurationException e)
+            catch (Exception e)
             {
                 getLogger().warn("The population of id '" + upId + "' declares a user directory with an invalid configuration", e);
                 _misconfiguredUserPopulations.add(upId);
