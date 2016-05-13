@@ -1700,9 +1700,9 @@
                </scripts>                       
             </extension>
             
-            <extension id="org.ametys.plugins.admin.datasources.notificator.unexisting"
+            <extension id="org.ametys.plugins.admin.datasources.notificator.invalid"
                        point="org.ametys.runtime.plugins.admin.notificator.AdministratorNotificatorExtensionPoint"
-                       class="org.ametys.runtime.plugins.admin.datasource.UnexistingDatabasesNotificator">
+                       class="org.ametys.runtime.plugins.admin.datasource.InvalidDataSourceNotificator">
                 <type>warn</type>
                 <icon-glyph>flaticon-data110</icon-glyph>
                 <title i18n="true">PLUGINS_ADMIN_DATASOURCES_UNEXISTING_DATABASE_NOTIFICATION_TITLE</title>

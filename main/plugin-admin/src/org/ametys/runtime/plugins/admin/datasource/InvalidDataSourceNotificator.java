@@ -34,9 +34,9 @@ import org.ametys.runtime.plugins.admin.notificator.AbstractConfigurableAdminist
 import org.ametys.runtime.plugins.admin.notificator.Notification;
 
 /**
- * Notificator for unused datasources which reference an unexisting database
+ * Notificator for unused datasources which have a invalid configuration
  */
-public class UnexistingDatabasesNotificator extends AbstractConfigurableAdministratorNotificator implements Serviceable
+public class InvalidDataSourceNotificator extends AbstractConfigurableAdministratorNotificator implements Serviceable
 {
     private SQLDataSourceManager _sqlDataSourceManager;
     private LDAPDataSourceManager _ldapDataSourceManager;

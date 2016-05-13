@@ -338,8 +338,8 @@
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PRIVATE_DESCRIPTION">Cochez cette case si vous souhaitez que cette source de données soit privée.&lt;br/&gt;Elle ne sera visible que dans l'interface d'administration si c'est le cas.</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_GET_DRIVERS_ERROR">Une erreur serveur s'est produit lors de la récupération des pilotes JDBC.</message>
     
-    <message key="PLUGINS_ADMIN_DATASOURCES_UNEXISTING_DATABASE_NOTIFICATION_TITLE">Base de données inexistante</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_UNEXISTING_DATABASE_NOTIFICATION_MESSAGE">La source de données &lt;a&gt;{0}&lt;/a&gt; pointe vers une base de données qui semble ne pas exister. Veuillez vérifier ses paramètres.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_UNEXISTING_DATABASE_NOTIFICATION_TITLE">Source de données invalide</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_UNEXISTING_DATABASE_NOTIFICATION_MESSAGE">La connection à la source de données &lt;a&gt;{0}&lt;/a&gt; est impossible. Veuillez vérifier ses paramètres.</message>
     
     <!-- LDAP data source dialog helper -->    
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_ADD_TITLE">Nouvel annuaire LDAP</message>
