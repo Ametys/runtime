@@ -828,7 +828,7 @@
         		<label i18n="true">PLUGINS_CORE_AUTHENTICATION_FORMBASED_LABEL</label>
         		<description i18n="true">PLUGINS_CORE_AUTHENTICATION_FORMBASED_DESCRIPTION</description>
         		<label-connection i18n="true">PLUGINS_CORE_AUTHENTICATION_FORMBASED_CONNECTION_LABEL</label-connection>
-        		<icon-glyph>flaticon-black-9</icon-glyph>
+        		<icon-glyph>flaticon-key162</icon-glyph>
         		<color>804080</color>
                 
         		<parameters>
@@ -935,7 +935,7 @@
         		<label i18n="true">PLUGINS_CORE_AUTHENTICATION_CAS_LABEL</label>
         		<description i18n="true">PLUGINS_CORE_AUTHENTICATION_CAS_DESCRIPTION</description>
         		<label-connection i18n="true">PLUGINS_CORE_AUTHENTICATION_CAS_CONNECTION_LABEL</label-connection>
-        		<icon-glyph>flaticon-black-9</icon-glyph>
+        		<icon-glyph>flaticon-key162</icon-glyph>
         		<color>2d7149</color>
         		<parameters>
         			<param id="runtime.authentication.cas.serverUrl" type="string">
