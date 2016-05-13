@@ -1439,82 +1439,73 @@
         <extensions>
             <!-- Monitor the uptime of the JVM -->
             <extension point="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.MonitoringExtensionPoint"
-                       id="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.UptimeSampleManager"
+                       id="uptime"
                        class="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.UptimeSampleManager"
                        logger="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.UptimeSampleManager">
-                <id>uptime</id>
                 <label i18n="true">PLUGINS_ADMIN_STATUS_MONITORING_UPTIME_LABEL</label>
                 <description i18n="true">PLUGINS_ADMIN_STATUS_MONITORING_UPTIME_DESCRIPTION</description>
             </extension>
             <!-- Monitor the throughput and the number of active HTTP requests -->
             <extension point="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.MonitoringExtensionPoint"
-                       id="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.HttpRequestSampleManager"
+                       id="http-request"
                        class="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.HttpRequestSampleManager"
                        logger="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.HttpRequestSampleManager">
-                <id>http-request</id>
                 <label i18n="true">PLUGINS_ADMIN_STATUS_MONITORING_HTTPREQUEST_LABEL</label>
                 <description i18n="true">PLUGINS_ADMIN_STATUS_MONITORING_HTTPREQUEST_DESCRIPTION</description>
             </extension>
             <!-- Monitor the number of active HTTP sessions -->
             <extension point="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.MonitoringExtensionPoint"
-                       id="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.HttpSessionSampleManager"
+                       id="http-session"
                        class="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.HttpSessionSampleManager"
                        logger="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.HttpSessionSampleManager">
-                <id>http-session</id>
                 <label i18n="true">PLUGINS_ADMIN_STATUS_MONITORING_HTTPSESSION_LABEL</label>
                 <description i18n="true">PLUGINS_ADMIN_STATUS_MONITORING_HTTPSESSION_DESCRIPTION</description>
             </extension>
             <!-- Monitor the number of live threads (total and daemon) -->
             <extension point="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.MonitoringExtensionPoint"
-                       id="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.ThreadSampleManager"
+                       id="thread"
                        class="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.ThreadSampleManager"
                        logger="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.ThreadSampleManager">
-                <id>thread</id>
                 <label i18n="true">PLUGINS_ADMIN_STATUS_MONITORING_THREAD_LABEL</label>
                 <description i18n="true">PLUGINS_ADMIN_STATUS_MONITORING_THREAD_DESCRIPTION</description>
             </extension>
             <!-- Monitor the JVM heap memory status -->
             <extension point="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.MonitoringExtensionPoint"
-                       id="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.HeapMemorySampleManager"
+                       id="memory-heap"
                        class="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.HeapMemorySampleManager"
                        logger="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.HeapMemorySampleManager">
-                <id>memory-heap</id>
                 <label i18n="true">PLUGINS_ADMIN_STATUS_MONITORING_MEMORYHEAP_LABEL</label>
                 <description i18n="true">PLUGINS_ADMIN_STATUS_MONITORING_MEMORYHEAP_DESCRIPTION</description>
             </extension>
             <!-- Monitor the JVM non heap memory status -->
             <extension point="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.MonitoringExtensionPoint"
-                       id="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.NonHeapMemorySampleManager"
+                       id="memory-non-heap"
                        class="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.NonHeapMemorySampleManager"
                        logger="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.NonHeapMemorySampleManager">
-                <id>memory-non-heap</id>
                 <label i18n="true">PLUGINS_ADMIN_STATUS_MONITORING_MEMORYNONHEAP_LABEL</label>
                 <description i18n="true">PLUGINS_ADMIN_STATUS_MONITORING_MEMORYNONHEAP_DESCRIPTION</description>
             </extension>
             <!-- Monitor the JVM non heap memory status -->
             <extension point="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.MonitoringExtensionPoint"
-                       id="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.CPUSampleManager"
+                       id="cpu"
                        class="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.CPUSampleManager"
                        logger="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.CPUSampleManager">
-                <id>cpu</id>
                 <label i18n="true">PLUGINS_ADMIN_STATUS_MONITORING_CPU_LABEL</label>
                 <description i18n="true">PLUGINS_ADMIN_STATUS_MONITORING_CPU_DESCRIPTION</description>
             </extension>
             <!-- Monitor the disk I/O operations -->
             <extension point="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.MonitoringExtensionPoint"
-                       id="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.DiskIOSampleManager"
+                       id="disk-io"
                        class="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.DiskIOSampleManager"
                        logger="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.DiskIOSampleManager">
-                <id>disk-io</id>
                 <label i18n="true">PLUGINS_ADMIN_STATUS_MONITORING_DISKIO_LABEL</label>
                 <description i18n="true">PLUGINS_ADMIN_STATUS_MONITORING_DISKIO_DESCRIPTION</description>
             </extension>
             <!-- Monitor the disk space -->
             <extension point="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.MonitoringExtensionPoint"
-                       id="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.DiskSpaceSampleManager"
+                       id="disk-space"
                        class="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.DiskSpaceSampleManager"
                        logger="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.sample.DiskSpaceSampleManager">
-                <id>disk-space</id>
                 <label i18n="true">PLUGINS_ADMIN_STATUS_MONITORING_DISKSPACE_LABEL</label>
                 <description i18n="true">PLUGINS_ADMIN_STATUS_MONITORING_DISKSPACE_DESCRIPTION</description>
                 <mailSubject i18n="true">PLUGINS_ADMIN_SYSTEM_ALERT_AMETYSHOME_LIMIT_SIZE_MAIL_SUBJECT</mailSubject>
