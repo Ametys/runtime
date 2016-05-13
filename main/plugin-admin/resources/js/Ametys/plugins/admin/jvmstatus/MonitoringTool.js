@@ -193,7 +193,7 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
     {
         var chart = this._monitoringPanel.getActiveTab(),
             id = chart.getItemId(),
-            serverId = id.replace(/-/g, '.'),
+            serverId = chart.serverId,
             toDate = new Date(),
             fromDate = new Date(toDate.getTime() - (1000*60*60*24*365*5)), // 5 year range
             axis = chart.getAxis(0);
@@ -209,7 +209,8 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
                 handler: this._populateGraphData,
                 arguments: [id],
                 scope: this
-            }
+            },
+            errorMessage: true
         });
     },
     
@@ -330,7 +331,7 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
             
                 toDate = new Date(),
                 fromDate = new Date(toDate.getTime() - (1000*60*60*24*365*5)), // 5 year range
-                chartCfg = this._getChartCfg(id, label, description, fromDate, toDate, thresholds);
+                chartCfg = this._getChartCfg(id, serverId, label, description, fromDate, toDate, thresholds);
                 
 	        this._monitoringPanel.add([chartCfg]);
 		}, this);
@@ -420,13 +421,14 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
      * @private
      * Gets the object config for creating a graph
      * @param {String} itemId The item id
+     * @param {String} serverId The id of server's sample manager
      * @param {String} label The title of the graph panel
      * @param {Date} fromDate The start of the time axis
      * @param {Date} toDate the end of the time axis
      * @param {Object} thresholds the thresholds for the limits to display. Can be null.
      * @return {Object} The configuration object for creating a graph
      */
-    _getChartCfg: function(itemId, label, description, fromDate, toDate, thresholds)
+    _getChartCfg: function(itemId, serverId, label, description, fromDate, toDate, thresholds)
     {
         return {
             xtype: 'drawable-cartesian',
@@ -438,6 +440,7 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
                 titlePosition: 1
             },
             itemId: itemId,
+            serverId: serverId,
             style: {
                 marginBottom: '50px'
             },
