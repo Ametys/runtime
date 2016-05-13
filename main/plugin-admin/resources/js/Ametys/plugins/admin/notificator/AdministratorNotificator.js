@@ -35,7 +35,8 @@ Ext.define('Ametys.plugins.admin.notificator.AdministratorNotificator', {
                 handler: this._getNotificationsCb,
                 scope: this
             },
-            waitMessage: false
+            waitMessage: false,
+            errorMessage: true
         });
     },
     
