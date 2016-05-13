@@ -2541,7 +2541,7 @@
                    <description-play i18n="true">PLUGINS_CORE_UI_TOOLS_SERVERLOGS_PLAY_DESCRIPTION</description-play>
                   
                    <!-- FIXME use pause flaticon instead of stop (RUNTIME-1648) -->
-                   <icon-glyph>flaticon-stop5</icon-glyph>
+                   <icon-glyph>flaticon-pause</icon-glyph>
                    <icon-glyph-play>flaticon-play124</icon-glyph-play>
                 </class>
                 <scripts>
