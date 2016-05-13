@@ -820,8 +820,8 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
      * @param modelId The id of user directory model
      * @param populationId The id of population
      * @return The typed parameters
-     * @throw IllegalArgumentException if the configured user directory references a non-existing user directory model
-     * @throw ConfigurationException if a parameter is missing
+     * @throws IllegalArgumentException if the configured user directory references a non-existing user directory model
+     * @throws ConfigurationException if a parameter is missing
      */
     private Map<String, Object> _getUDParametersFromConfiguration(Configuration conf, String modelId, String populationId) throws ConfigurationException, IllegalArgumentException
     {
@@ -862,8 +862,8 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
      * @param modelId The id of credential provider model
      * @param populationId The id of population
      * @return The typed parameters
-     * @throw IllegalArgumentException if the configured credential provider references a non-existing credential provider model
-     * @throw ConfigurationException if a parameter is missing
+     * @throws IllegalArgumentException if the configured credential provider references a non-existing credential provider model
+     * @throws ConfigurationException if a parameter is missing
      */
     private Map<String, Object> _getCPParametersFromConfiguration(Configuration conf, String modelId, String populationId) throws ConfigurationException, IllegalArgumentException
     {
