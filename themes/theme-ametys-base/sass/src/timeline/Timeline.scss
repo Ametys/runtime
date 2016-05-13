@@ -280,35 +280,43 @@
 					}
 		
 				}
-			}
-			
-			&.warn {
-				.contents-wrap {
-					border-color: $ametys-timeline-border-color-warn;
-					
-					:before {
-						border-right-color: $ametys-timeline-border-color-warn;
-					}
-					
-					.text {
-						strong {
-							 color: $ametys-timeline-color-warn;
+				
+				&.warn {
+					.contents-wrap {
+						border-color: $ametys-timeline-border-color-warn;
+						
+						:before {
+							border-right-color: $ametys-timeline-border-color-warn;
+						}
+						
+						.text {
+							strong {
+								 color: $ametys-timeline-color-warn;
+							}
+						}
+						
+						a {
+					    	color: $ametys-timeline-color-warn;
 						}
 					}
 				}
-			}
-			
-			&.error {
-				.contents-wrap {
-					border-color: $ametys-timeline-border-color-error;
-					
-					:before {
-						border-right-color: $ametys-timeline-border-color-error;
-					}
-					
-					.text {
-						strong {
-							 color: $ametys-timeline-color-error;
+				
+				&.error {
+					.contents-wrap {
+						border-color: $ametys-timeline-border-color-error;
+						
+						:before {
+							border-right-color: $ametys-timeline-border-color-error;
+						}
+						
+						.text {
+							strong {
+								 color: $ametys-timeline-color-error;
+							}
+						}
+						
+						a {
+					    	color: $ametys-timeline-color-warn;
 						}
 					}
 				}
