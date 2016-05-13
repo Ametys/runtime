@@ -23,35 +23,32 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 
-import org.ametys.core.util.I18nUtils;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.plugins.admin.notificator.AbstractConfigurableAdministratorNotificator;
 import org.ametys.runtime.plugins.admin.notificator.Notification;
-import org.ametys.runtime.plugins.admin.notificator.Notification.NotificationType;
 
 /**
- * Notificator for {@link UserPopulation}s in warning because of a invalid configuration (not fatal)
+ * Notificator for {@link UserPopulation}s which are ignored because their configuration is invalid.
  */
-public class MisconfiguredPopulationAdministratorNotificator extends AbstractConfigurableAdministratorNotificator implements Serviceable
+public class IgnoredPopulationAdministratorNotificator extends AbstractConfigurableAdministratorNotificator implements Serviceable
 {
     private UserPopulationDAO _userPopulationDAO;
-    private I18nUtils _i18nUtils;
-    
+
     @Override
     public void service(ServiceManager manager) throws ServiceException
     {
         _userPopulationDAO = (UserPopulationDAO) manager.lookup(UserPopulationDAO.ROLE);
-        _i18nUtils = (I18nUtils) manager.lookup(I18nUtils.ROLE);
     }
     
     @Override
     public List<Notification> getNotifications()
     {
-        Set<String> misconfiguredPopulations = _userPopulationDAO.getMisconfiguredPopulations();
+        Set<String> misconfiguredPopulations = _userPopulationDAO.getIgnoredPopulations();
         if (!misconfiguredPopulations.isEmpty())
         {
-            I18nizableText message = _getMessage (misconfiguredPopulations);
-            Notification notification = new Notification(_getType(misconfiguredPopulations), _title, message, _iconGlyph, _action);
+            String parameter = _getParameter(misconfiguredPopulations);
+            I18nizableText message = new I18nizableText(_message.getCatalogue(), _message.getKey(), Collections.singletonList(parameter));
+            Notification notification = new Notification(_type, _title, message, _iconGlyph, _action);
             return Collections.singletonList(notification);
         }
         else
@@ -60,33 +57,15 @@ public class MisconfiguredPopulationAdministratorNotificator extends AbstractCon
         }
     }
     
-    private NotificationType _getType (Set<String> upIds)
-    {
-        for (String id : upIds)
-        {
-            UserPopulation userPopulation = _userPopulationDAO.getUserPopulation(id);
-            if (userPopulation.isEnabled())
-            {
-                // If at least one misconfigured population is enabled, the notification should appear as a error
-                return NotificationType.ERROR;
-            }
-        }
-        return NotificationType.WARN;
-    }
-    
-    private I18nizableText _getMessage(Set<String> upIds)
+    private String _getParameter(Set<String> populations)
     {
         StringBuilder sb = new StringBuilder();
         
-        for (String id : upIds)
+        for (String id : populations)
         {
-            UserPopulation userPopulation = _userPopulationDAO.getUserPopulation(id);
-            
-            String upLabel = _i18nUtils.translate(userPopulation.getLabel());
-            sb.append("<li>").append(upLabel).append("</li>");
+            sb.append("<li>").append(id).append("</li>");
         }
         
-        String i18nParam = sb.toString();
-        return new I18nizableText(_message.getCatalogue(), _message.getKey(), Collections.singletonList(i18nParam));
+        return sb.toString();
     }
 }

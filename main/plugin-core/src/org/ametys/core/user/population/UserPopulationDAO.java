@@ -25,10 +25,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -92,9 +94,11 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
     
     /** The whole user populations of the application */
     private Map<String, UserPopulation> _userPopulations;
+    /** The misconfigured user populations */
+    private Set<String> _misconfiguredUserPopulations;
     
     /** The list of population ids which are declared in the user population file but were not instanciated since their configuration led to an error */
-    private List<String> _ignoredPopulations;
+    private Set<String> _ignoredPopulations;
     
     /** The population admin */
     private UserPopulation _adminUserPopulation;
@@ -112,6 +116,8 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
     public void initialize()
     {
         _userPopulations = new LinkedHashMap<>();
+        _misconfiguredUserPopulations = new HashSet<>();
+        _ignoredPopulations = new HashSet<>();
         _lastUpdate = 0;
     }
     
@@ -144,6 +150,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         result.put("id", userPopulation.getId());
         result.put("label", userPopulation.getLabel());
         result.put("enabled", userPopulation.isEnabled());
+        result.put("valid", isValid(userPopulation.getId()));
         result.put("isInUse", _populationConsumerEP.isInUse(userPopulation.getId()));
         
         List<I18nizableText> userDirectories = new ArrayList<>();
@@ -169,13 +176,13 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
     
     /**
      * Gets all the populations of this application
-     * @param withAdmin True to include the "admin" population
+     * @param includeAdminPopulation True to include the "admin" population
      * @return A list of {@link UserPopulation}
      */
-    public List<UserPopulation> getUserPopulations(boolean withAdmin)
+    public List<UserPopulation> getUserPopulations(boolean includeAdminPopulation)
     {
         List<UserPopulation> result = new ArrayList<>();
-        if (withAdmin)
+        if (includeAdminPopulation)
         {
             result.add(getAdminPopulation());
         }
@@ -224,13 +231,25 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
     }
     
     /**
-     * Gets the list of population ids which are declared in the user population file but were not instanciated since their configuration led to an error
+     * Returns the id of population which have a fatal invalid configuration.
+     * Theses populations can NOT be used by application.
      * @return The ignored populations
      */
-    public List<String> getIgnoredPopulations()
+    public Set<String> getIgnoredPopulations()
     {
         _readPopulations(false);
         return _ignoredPopulations;
+    }
+    
+    /**
+     * Returns the id of population which have at least one user directory or one credential provider misconfigured
+     * Theses populations can be used by application.
+     * @return The misconfigured populations.
+     */
+    public Set<String> getMisconfiguredPopulations()
+    {
+        _readPopulations(false);
+        return _misconfiguredUserPopulations;
     }
     
     /**
@@ -608,6 +627,17 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
     }
     
     /**
+     * Determines if a population has a valid configuration
+     * @param populationId The id of the population to retrieve state
+     * @return A map, with the response as a boolean, or an error.
+     */
+    @Callable
+    public boolean isValid(String populationId)
+    {
+        return !_misconfiguredUserPopulations.contains(populationId);
+    }
+    
+    /**
      * Returns the enabled state of the given population
      * @param populationId The id of the population to retrieve state
      * @return A map, with the response as a booolean, or an error.
@@ -624,7 +654,6 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         }
         else
         {
-            getLogger().error("The UserPopulation with id '{}' does not exist, unable to tell if it is enabled.", populationId);
             result.put("error", "unknown");
         }
         
@@ -649,7 +678,8 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
             {
                 _lastUpdate = new Date().getTime();
                 _userPopulations = new LinkedHashMap<>();
-                _ignoredPopulations = new ArrayList<>();
+                _ignoredPopulations = new HashSet<>();
+                _misconfiguredUserPopulations = new HashSet<>();
                 
                 Configuration cfg = new DefaultConfigurationBuilder().buildFromFile(__USER_POPULATIONS_FILE);
                 for (Configuration childCfg : cfg.getChildren("userPopulation"))
@@ -660,7 +690,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
                     }
                     catch (ConfigurationException e)
                     {
-                        getLogger().error("Error configuring the population '" + childCfg.getAttribute("id", "") + "'. The population will be ignored.", e);
+                        getLogger().error("Fatal configuration error for population of id '{}'. The population will be ignored.", childCfg.getAttribute("id", ""), e);
                         _ignoredPopulations.add(childCfg.getAttribute("id", ""));
                     }
                 }
@@ -668,10 +698,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         }
         catch (IOException | TransformerConfigurationException | ConfigurationException | SAXException e)
         {
-            if (getLogger().isErrorEnabled())
-            {
-                getLogger().error("Error retrieving user populations with the configuration file " + __USER_POPULATIONS_FILE, e);
-            }
+            getLogger().error("Failed to retrieve user populations from the configuration file " + __USER_POPULATIONS_FILE, e);
         }
     }
     
@@ -706,130 +733,169 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         String upId = configuration.getAttribute("id");
         up.setId(upId);
         up.setLabel(new I18nizableText(configuration.getChild("label").getValue()));
-        up.enable(Boolean.valueOf(configuration.getAttribute("enabled", "true")));
         
+        List<UserDirectory> userDirectories = _configureUserDirectories(configuration, upId);
+        up.setUserDirectory(userDirectories);
+        
+        List<CredentialProvider> credentialProviders = _configureCredentialProvider (configuration, upId);
+        up.setCredentialProvider(credentialProviders);
+        
+        boolean enabled = configuration.getAttributeAsBoolean("enabled", true) && userDirectories.size() > 0 && credentialProviders.size() > 0;
+        up.enable(enabled);
+        
+        _userPopulations.put(upId, up);
+    }
+    
+    private List<UserDirectory> _configureUserDirectories (Configuration configuration, String upId) throws ConfigurationException
+    {
         List<UserDirectory> userDirectories = new ArrayList<>();
+        
         Configuration[] userDirectoriesConf = configuration.getChild("userDirectories").getChildren("userDirectory");
         for (Configuration userDirectoryConf : userDirectoriesConf)
         {
             String modelId = userDirectoryConf.getAttribute("modelId");
-            Map<String, Object> paramValues = _getUDParametersFromConfiguration(userDirectoryConf, modelId, upId);
-            if (paramValues != null)
+            
+            try
             {
+                Map<String, Object> paramValues = _getUDParametersFromConfiguration(userDirectoryConf, modelId, upId);
                 UserDirectory ud = _userDirectoryFactory.createUserDirectory(modelId, paramValues, upId);
                 if (ud != null)
                 {
                     userDirectories.add(ud);
                 }
             }
+            catch (IllegalArgumentException | ConfigurationException e)
+            {
+                getLogger().warn("The population of id '" + upId + "' declares a user directory with an invalid configuration", e);
+                _misconfiguredUserPopulations.add(upId);
+            }
         }
 
         if (userDirectories.isEmpty())
         {
-            throw new ConfigurationException("The user population of id '" + upId + "' does not contain at least one valid user directory.", configuration);
+            _misconfiguredUserPopulations.add(upId);
+            getLogger().warn("The population of id '" + upId + "' does not have user directory with a valid configuration. It will be disabled until it will be fixed.");
         }
-        up.setUserDirectory(userDirectories);
         
+        return userDirectories;
+    }
+    
+    private List<CredentialProvider> _configureCredentialProvider (Configuration configuration, String upId) throws ConfigurationException
+    {
         List<CredentialProvider> credentialProviders = new ArrayList<>();
+        
         Configuration[] credentialProvidersConf = configuration.getChild("credentialProviders").getChildren("credentialProvider");
         for (Configuration credentialProviderConf : credentialProvidersConf)
         {
             String modelId = credentialProviderConf.getAttribute("modelId");
-            Map<String, Object>  paramValues = _getCPParametersFromConfiguration(credentialProviderConf, modelId, upId);
-            if (paramValues != null)
+            
+            try
             {
+                Map<String, Object> paramValues = _getCPParametersFromConfiguration(credentialProviderConf, modelId, upId);
                 CredentialProvider cp = _credentialProviderFactory.createCredentialProvider(modelId, paramValues);
                 if (cp != null)
                 {
                     credentialProviders.add(cp);
                 }
             }
+            catch (IllegalArgumentException | ConfigurationException e)
+            {
+                getLogger().warn("The population of id '" + upId + "' declares a user directory with an invalid configuration", e);
+                _misconfiguredUserPopulations.add(upId);
+            }
         }
         
         if (credentialProviders.isEmpty())
         {
-            throw new ConfigurationException("The user population of id '" + upId + "' does not contain at least one valid credential provider.", configuration);
+            _misconfiguredUserPopulations.add(upId);
+            getLogger().warn("The population of id '" + upId + "' does not have credential provider with a valid configuration. It will be disabled until it will be fixed.");
         }
-        up.setCredentialProvider(credentialProviders);
         
-        _userPopulations.put(upId, up);
+        return credentialProviders;
     }
     
-    private Map<String, Object> _getUDParametersFromConfiguration(Configuration conf, String modelId, String populationId)
+    /**
+     * Get the typed parameters of a user directory used by a population
+     * @param conf The user directory's configuration.
+     * @param modelId The id of user directory model
+     * @param populationId The id of population
+     * @return The typed parameters
+     * @throw IllegalArgumentException if the configured user directory references a non-existing user directory model
+     * @throw ConfigurationException if a parameter is missing
+     */
+    private Map<String, Object> _getUDParametersFromConfiguration(Configuration conf, String modelId, String populationId) throws ConfigurationException, IllegalArgumentException
     {
         Map<String, Object> parameters = new LinkedHashMap<>();
         
         if (!_userDirectoryFactory.hasExtension(modelId))
         {
-            getLogger().error("The model id '{}' is referenced in the file containing the populations for the population '{}' but seems to not exist.", modelId, populationId);
-            return null;
+            throw new IllegalArgumentException(String.format("The population of id '%s' declares a non-existing user directory model with id '%s'. It will be ignored.", populationId, modelId));
         }
         
         Map<String, ? extends Parameter<ParameterType>> declaredParameters = _userDirectoryFactory.getExtension(modelId).getParameters();
-        for (Configuration paramConf : conf.getChildren())
+        
+        for (String udParamName : declaredParameters.keySet())
         {
-            String paramName = paramConf.getName();
-            if (declaredParameters.containsKey(paramName))
+            Configuration paramConf = conf.getChild(udParamName, false);
+            if (paramConf == null)
             {
-                String valueAsString = paramConf.getValue("");
-                
-                Parameter<ParameterType> parameter = declaredParameters.get(paramName);
-                ParameterType type = parameter.getType();
-                
-                Object typedValue = ParameterHelper.castValue(valueAsString, type);
-                parameters.put(paramName, typedValue);
+                throw new ConfigurationException(String.format("The population of id '%s' declares a user directory model with id '%s' but the parameter '%s' is missing. This user directory will be ignored.", populationId, modelId, udParamName));
             }
             else
             {
-                getLogger().warn("The parameter '{}' is not declared in extension '{}' but was encountered for the population '{}'. It will be ignored", paramName, modelId, populationId);
+                String valueAsString = paramConf.getValue("");
+                
+                Parameter<ParameterType> parameter = declaredParameters.get(udParamName);
+                ParameterType type = parameter.getType();
+                
+                Object typedValue = ParameterHelper.castValue(valueAsString, type);
+                parameters.put(udParamName, typedValue);
             }
-        }
-        
-        if (parameters.size() != declaredParameters.size())
-        {
-            getLogger().error("Missing some parameters for the User Directory of model id '{}' in the population '{}'.", modelId, populationId);
-            return null;
         }
         
         return parameters;
     }
     
-    private Map<String, Object> _getCPParametersFromConfiguration(Configuration conf, String modelId, String populationId)
+    /**
+     * Get the typed parameters of a credential provider used by a population
+     * @param conf The credential provider's configuration.
+     * @param modelId The id of credential provider model
+     * @param populationId The id of population
+     * @return The typed parameters
+     * @throw IllegalArgumentException if the configured credential provider references a non-existing credential provider model
+     * @throw ConfigurationException if a parameter is missing
+     */
+    private Map<String, Object> _getCPParametersFromConfiguration(Configuration conf, String modelId, String populationId) throws ConfigurationException, IllegalArgumentException
     {
         Map<String, Object> parameters = new LinkedHashMap<>();
         
         if (!_credentialProviderFactory.hasExtension(modelId))
         {
-            getLogger().error("The model id '{}' is referenced in the file containing the populations for the population '{}' but seems to not exist.", modelId, populationId);
-            return null;
+            throw new IllegalArgumentException(String.format("The population of id '%s' declares a non-existing credential provider model with id '%s'. It will be ignored.", populationId, modelId));
         }
         
         Map<String, ? extends Parameter<ParameterType>> declaredParameters = _credentialProviderFactory.getExtension(modelId).getParameters();
-        for (Configuration paramConf : conf.getChildren())
+        
+        for (String cpParamName : declaredParameters.keySet())
         {
-            String paramName = paramConf.getName();
-            if (declaredParameters.containsKey(paramName))
+            Configuration paramConf = conf.getChild(cpParamName, false);
+            if (paramConf == null)
             {
-                String valueAsString = paramConf.getValue("");
-                
-                Parameter<ParameterType> parameter = declaredParameters.get(paramName);
-                ParameterType type = parameter.getType();
-                
-                Object typedValue = ParameterHelper.castValue(valueAsString, type);
-                parameters.put(paramName, typedValue);
+                throw new ConfigurationException(String.format("The population of id '%s' declares a credential provider model with id '%s' but the parameter '%s' is missing. This credential provider will be ignored.", populationId, modelId, cpParamName));
             }
             else
             {
-                getLogger().warn("The parameter {} is not declared in extension '{}' but was encountered for the population '{}'. It will be ignored", paramName, modelId, populationId);
+                String valueAsString = paramConf.getValue("");
+                
+                Parameter<ParameterType> parameter = declaredParameters.get(cpParamName);
+                ParameterType type = parameter.getType();
+                
+                Object typedValue = ParameterHelper.castValue(valueAsString, type);
+                parameters.put(cpParamName, typedValue);
+                
             }
         }
-        
-        if (parameters.size() != declaredParameters.size())
-        {
-            getLogger().error("Missing some parameters for a Credential Provider of model id '{}' in the population '{}'.", modelId, populationId);
-            return null;
-        }
-        
+
         return parameters;
     }
     
