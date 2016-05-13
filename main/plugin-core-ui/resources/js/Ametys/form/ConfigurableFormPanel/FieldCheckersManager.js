@@ -584,16 +584,26 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 	 */
 	_getTooltipConfig: function(fieldChecker, target)
 	{
-		return {
+		var tooltipCfg = 
+		{
 			target: target,
 			title: fieldChecker.label,
 			inribbon: false,
-			image: Ametys.CONTEXT_PATH + fieldChecker.largeIconPath,
 			text: '<emphasis>' + fieldChecker.description + '</emphasis><br /><br />' 
-			+ "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_TOOLTIP_TESTED_PARAMS}}" + fieldChecker.linkedFieldsLabels,
-			glyphIcon: fieldChecker.iconGlyph,
-			iconDecorator: fieldChecker.iconDecorator
+			+ "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_TOOLTIP_TESTED_PARAMS}}" + fieldChecker.linkedFieldsLabels
 		};
+		
+		if (fieldChecker.iconGlyph)
+		{
+			tooltipCfg.glyphIcon = fieldChecker.iconGlyph;
+			tooltipCfg.iconDecorator = fieldChecker.iconDecorator;
+		}
+		else if (fieldChecker.largeIconPath)
+		{
+			tooltipCfg.image = Ametys.CONTEXT_PATH + fieldChecker.largeIconPath;
+		}
+		
+		return tooltipCfg;
 	},
 	
     /**
