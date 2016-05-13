@@ -114,13 +114,13 @@ public class PopulationContextHelper extends AbstractLogEnabled implements Compo
                 }
                 else
                 {
-                    getLogger().warn("The UserPopulation with id '{}' does not exist. It will not be linked.", id);
+                    getLogger().warn("The user population with id '{}' does not exist. It will not be linked.", id);
                 }
             }
         }
         catch (SQLException e)
         {
-            getLogger().error("Error in sql query", e);
+            getLogger().error("SQL error while linking user populations to a context", e);
         }
         finally
         {
@@ -172,11 +172,11 @@ public class PopulationContextHelper extends AbstractLogEnabled implements Compo
                 String userPopulationId = rs.getString(3);
                 if (_userPopulationDAO.getUserPopulation(userPopulationId) == null)
                 {
-                    getLogger().warn("The population '{}' is referenced in the table for populations by context, but seem to not exist anymore.", userPopulationId);
+                    getLogger().warn("The population of id '{}' is linked to a context, but does not exist anymore.", userPopulationId);
                 }
                 else if (!_userPopulationDAO.getUserPopulation(userPopulationId).isEnabled())
                 {
-                    getLogger().warn("The population '{}' is referenced in the table for populations by context, but is disabled. It will not be returned.");
+                    getLogger().warn("The population of id '{}' is linked to a context but disabled. It will not be returned.", userPopulationId);
                 }
                 else
                 {
@@ -224,7 +224,7 @@ public class PopulationContextHelper extends AbstractLogEnabled implements Compo
         }
         catch (SQLException e)
         {
-            getLogger().error("Error in sql query", e);
+            getLogger().error("SQL error while checking if the population is linked to a context", e);
         }
         finally
         {
