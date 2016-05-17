@@ -6535,7 +6535,7 @@ div.x-form-text-grow .x-form-textarea {
 .x-layout-split-right {
     top: 50%;
     margin-top: -24px;
-    width: 8px;
+    width: 5px;
     height: 48px;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-neutral/sass/src/resizer/Splitter.scss:181 */
@@ -6543,14 +6543,14 @@ div.x-form-text-grow .x-form-textarea {
 .x-layout-split-bottom {
     left: 50%;
     width: 48px;
-    height: 8px;
+    height: 5px;
     margin-left: -24px;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-neutral/sass/src/resizer/Splitter.scss:193 */
 .x-layout-split-top:before,
 .x-layout-split-bottom:before {
     width: 100%;
-    line-height: 8px;
+    line-height: 5px;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/css-outline.scss:39 */
 .x-splitter-focus:after {

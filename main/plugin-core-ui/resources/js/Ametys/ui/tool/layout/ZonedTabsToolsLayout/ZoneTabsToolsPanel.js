@@ -64,6 +64,10 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
         _floating: false,
         
         /**
+         * @cfg {Ext.resize.Splitter} floatingSplit When non-null, the splitter to display on a floating panel
+         */
+        
+        /**
          * @property {Object} _bodySizeBeforeCollapse The last known value of the size of the body when it was expanded. null if not collapsed.
          * @property {Number} _bodySizeBeforeCollapse.width The width
          * @property {Number} _bodySizeBeforeCollapse.height The height
@@ -116,7 +120,6 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 		        }]
 		    });
 
-			
 			this._location = config.location;
 			this._toolsLayout = config.toolsLayout;
             
@@ -126,11 +129,11 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
             config.cls = Ext.Array.from(config.cls);
             config.cls.push(this._collapsibleDirectionCls + "-" + (config.collapseDirection || 'top'));
             
-            config.tabBarHeaderPosition = config.collapsible ? 1 : 0;
+            config.tabBarHeaderPosition = 0;
             config.tabBar = config.tabBar || {};
             config.tabBar.flex = 1;
             config.header = { 
-                titlePosition: config.collapsible ? 2 : 1
+                titlePosition: 1
             };
             config.title = {
                 text: '',
@@ -138,20 +141,33 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
                 flex: 0
             };
             
-            if (config.collapsible)
+            if (config.floatingSplit)
             {
-                config.tools = Ext.Array.from(config.tools);
-                config.tools.push({
-                    xtype: 'button',
-                    cls: 'a-btn-lighter',
-                    glyph: '',
-                    tooltip: "{{i18n PLUGINS_CORE_UI_MSG_TOOLS_COLLAPSE}}",
-                    handler: Ext.bind(this._expandOrCollapse, this)
-                });
+                config.floatingSplit.collapseTarget = this;
+                config.floatingSplit.dock = config.floatingSplit.renderData.collapseDir;
+                
+                if (config.floatingSplit.renderData.collapseDir != 'top')
+                {
+                    config.dockedItems = [config.floatingSplit];
+                }
+                else
+                {
+                    // Let's make some room and put the splitter in the header (as dockedItem top would be after the header :()
+                    config.tabBarHeaderPosition++;
+                    config.header.titlePosition++;
+                    config.header.itemPosition = 0;
+                    config.header.items = [config.floatingSplit];
+                    config.header.listeners = {
+                        'beforerender': function() {
+                            this.getLayout().setVertical(true);
+                            this.getLayout().setAlign("stretch");
+                        }
+                    }
+                }
             }
-            
+			
 			this.callParent(arguments);
-
+            
             this.on('beforeshow', this._onShow, this);
             
             this.on('collapse', this._onUnfloat, this);
@@ -169,8 +185,8 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
                 // Let's do a collapse/expand in a row with no animation
                 this.collapse(null, false);
                 this.expand(false);
-                // We also have to mannualy do what's slideOut do                
-                this.removeCls([this._floatingCls, this._floatingCls + "-" + this._location]);
+
+                this._removeFloatingStyle();
             }
             else if (this.collapsed)
             {
@@ -439,6 +455,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
                 this.addCls([this._floatingCls, this._floatingCls + "-" + this._location]);
                 this._floating = true;
                 this.expand();
+                this.floatingSplit && this.floatingSplit.show();
             }
         },
         
@@ -451,9 +468,18 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
             if (!this._isMainArea() && this._floating)
             {
                 this.collapse();
-                // floating will be set to false in placeholder collapse listener because collapse is asynchronous
-                this.removeCls([this._floatingCls, this._floatingCls + "-" + this._location]);
+                this._removeFloatingStyle();
             }
+        },
+        
+        /**
+         * @private
+         * Remove the graphical stuff making the panel floating
+         */
+        _removeFloatingStyle: function()
+        {
+                this.floatingSplit && this.floatingSplit.hide();
+                this.removeCls([this._floatingCls, this._floatingCls + "-" + this._location]);
         }
 	}
 );

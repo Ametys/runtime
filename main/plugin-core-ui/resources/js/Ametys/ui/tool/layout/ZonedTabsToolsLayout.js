@@ -202,22 +202,26 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
                 Ext.create(placeholderClass, {
                     stateful: true,
                     stateId: placeholderClass + "$t",
+                    split: this._createSplitConfig('top'),
                     minHeight: this.self.__REGION_MINSIZE.height,
-                    items: [ this._panelHierarchy['t'] = Ext.create(panelClass, Ext.apply({ location: 't', toolsLayout: this, collapsible: true, collapseMode: "header", collapseDirection: "top", floating: true, autoShow: true, shadow: false }, this.self.__ADDITIONNAL_ZONE_CONFIG_OTHER)) ]
+                    items: [ this._panelHierarchy['t'] = Ext.create(panelClass, Ext.apply({ location: 't', toolsLayout: this, collapsible: true, collapseMode: "header", collapseDirection: "top", floating: true, autoShow: true, shadow: false, floatingSplit: this._createFloatingSplit('top') }, this.self.__ADDITIONNAL_ZONE_CONFIG_OTHER)) ]
                 }),
                 Ext.create(containerClass, {
                     stateful: true,
                     stateId: containerClass + "$",
+                    split: this._createSplitConfig('bottom'),
                     items: [
                         Ext.create(placeholderClass, {
                             stateful: true,
                             stateId: placeholderClass + "$l",
+                            split: this._createSplitConfig('left'),
                             minWidth: this.self.__REGION_MINSIZE.width,
-                            items: [ this._panelHierarchy['l'] = Ext.create(panelClass, Ext.apply({ location: 'l', toolsLayout: this, collapsible: true, collapseMode: "header", collapseDirection: "left", floating: true, autoShow: true, shadow: false }, this.self.__ADDITIONNAL_ZONE_CONFIG_LEFT)) ]
+                            items: [ this._panelHierarchy['l'] = Ext.create(panelClass, Ext.apply({ location: 'l', toolsLayout: this, collapsible: true, collapseMode: "header", collapseDirection: "left", floating: true, autoShow: true, shadow: false, floatingSplit: this._createFloatingSplit('left') }, this.self.__ADDITIONNAL_ZONE_CONFIG_LEFT)) ]
                         }),
                         Ext.create(containerClass, {
                             stateful: true,
                             stateId: containerClass + "$c",
+                            split: this._createSplitConfig('right'),
                             items: [
         				        this._panelHierarchy['cl'] = Ext.create(panelClass, Ext.apply({ location: 'cl', toolsLayout: this, stateful: true, stateId: panelClass + "$cl" }, this.self.__ADDITIONNAL_ZONE_CONFIG_OTHER)),
         				        this._panelHierarchy['cr'] = Ext.create(panelClass, Ext.apply({ location: 'cr', toolsLayout: this, stateful: true, stateId: panelClass + "$cr" }, this.self.__ADDITIONNAL_ZONE_CONFIG_OTHER))
@@ -227,7 +231,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
                             stateful: true,
                             stateId: placeholderClass + "$r",
                             minWidth: this.self.__REGION_MINSIZE.width,
-                            items: [ this._panelHierarchy['r'] = Ext.create(panelClass, Ext.apply({ location: 'r', toolsLayout: this, collapsible: true, collapseMode: "header", collapseDirection: "right", floating: true, autoShow: true, shadow: false }, this.self.__ADDITIONNAL_ZONE_CONFIG_RIGHT)) ]
+                            items: [ this._panelHierarchy['r'] = Ext.create(panelClass, Ext.apply({ location: 'r', toolsLayout: this, collapsible: true, collapseMode: "header", collapseDirection: "right", floating: true, autoShow: true, shadow: false, floatingSplit: this._createFloatingSplit('right') }, this.self.__ADDITIONNAL_ZONE_CONFIG_RIGHT)) ]
                         })
                     ]
                 }),
@@ -235,12 +239,82 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
                     stateful: true,
                     stateId: placeholderClass + "$b",
                     minHeight: this.self.__REGION_MINSIZE.height,
-                    items: [ this._panelHierarchy['b'] = Ext.create(panelClass, Ext.apply({ location: 'b', toolsLayout: this,collapsible: true, collapseMode: "header", collapseDirection: "bottom", floating: true, autoShow: true, shadow: false }, this.self.__ADDITIONNAL_ZONE_CONFIG_OTHER)) ]
+                    items: [ this._panelHierarchy['b'] = Ext.create(panelClass, Ext.apply({ location: 'b', toolsLayout: this,collapsible: true, collapseMode: "header", collapseDirection: "bottom", floating: true, autoShow: true, shadow: false, floatingSplit: this._createFloatingSplit('bottom') }, this.self.__ADDITIONNAL_ZONE_CONFIG_OTHER)) ]
                 })
 			];
 			
 			return panels;
 		},
+        
+        /**
+         * @private
+         * Create the split configuration
+         * @param {String} direction The collapse direction between 'left', 'right', 'top' and 'bottom'.
+         * @return {Object} A split configuration  
+         */
+        _createSplitConfig: function(direction)
+        {
+            return { 
+                ui: 'tool-layout', 
+                performCollapse: false,
+                renderData: { 
+                    collapsible: true, 
+                    collapseDir: direction 
+                },
+                listeners: {
+                    'click': {
+                        element: 'collapseEl',
+                        fn: this._splitClickListener,
+                        args: [ direction ],
+                        scope: this
+                    }
+                }
+            };
+        },
+        
+        /**
+         * @private
+         * Create the split configuration for the floating panel
+         * @param {String} direction The collapse direction between 'left', 'right', 'top' and 'bottom'.
+         * @return {Ext.resize.Splitter} The splitter
+         */
+        _createFloatingSplit: function(direction)
+        {
+            return Ext.create({
+                xtype: 'splitter',
+                ui: 'tool-layout',
+                hidden: true,
+                performCollapse: false,
+                renderData: { 
+                    collapsible: true, 
+                    collapseDir: direction == 'top' ? 'bottom' : direction == 'bottom' ? 'top' : direction == 'left' ? 'right' : 'left' 
+                },
+                tracker: {
+                    xclass: 'Ametys.ui.tool.layout.ZonedTabsToolsLayout.FloatingSplitterTracker'
+                },
+                listeners: {
+                    'click': {
+                        element: 'collapseEl',
+                        fn: this._splitClickListener,
+                        args: [ direction ],
+                        scope: this
+                    }
+                }
+            });
+        },
+        
+        /**
+         * @private
+         * Click on the splitter
+         * @param {String} The direction used during #_createSplitConfig
+         * @param {Ext.event.Event} event The click event
+         * @param {HTMLElement} target The click target
+         * @param {Object} options The listener options
+         */
+        _splitClickListener: function(direction, event, target, options)
+        {
+            this._panelHierarchy[direction.substring(0, 1)]._expandOrCollapse()
+        },
 		
 		focusTool: function(tool)
 		{

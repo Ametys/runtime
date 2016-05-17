@@ -29,11 +29,6 @@
     
     &.#{$prefix}panel-tool-layoutzone-floating {
         z-index: 5 !important;
-        /* emulate slider */
-        &.#{$prefix}panel-tool-layoutzone-floating-t { border-bottom: 2px solid $ametys-tool-background-color; }
-        &.#{$prefix}panel-tool-layoutzone-floating-r { border-left: 2px solid $ametys-tool-background-color; }
-        &.#{$prefix}panel-tool-layoutzone-floating-b { border-top: 2px solid $ametys-tool-background-color; }
-        &.#{$prefix}panel-tool-layoutzone-floating-l { border-right: 2px solid $ametys-tool-background-color; }
     }
 }
 
@@ -384,99 +379,4 @@
 }
 .a-tools-menu-close-all {
     background-image: theme-background-image('ui-tools/close_all_16');
-}
-
-/**
- * Collapse button
- */
-.#{$prefix}panel-header-tool-layoutzone.#{$prefix}panel-header-horizontal .#{$prefix}btn-default-small {
-    height: $ametys-tool-tab-icon-height;
-    
-    .#{$prefix}btn-button-default-small {
-        width: $ametys-tool-tab-collapse-size + 1px;
-        min-width: $ametys-tool-tab-collapse-size + 1px;
-
-        .#{$prefix}btn-inner-default-small {
-            // to handle line feed correctly
-            white-space: pre;
-            line-height: round($ametys-tool-tab-collapse-font-size * 9 / 12);
-            
-            &:before
-            {
-                // to handle line feed correctly
-                position: absolute;
-                top: 0;
-                left: 1px;
-            }
-        }
-    }
-}
-.#{$prefix}panel-header-tool-layoutzone.#{$prefix}panel-header-vertical .#{$prefix}btn-default-small {
-    width: $ametys-tool-tab-lateral-width;
-    
-    .#{$prefix}btn-button-default-small {
-        height: $ametys-tool-tab-collapse-size;
-        min-height: $ametys-tool-tab-collapse-size;
-        
-        .#{$prefix}btn-inner-default-small {
-            line-height: $ametys-tool-tab-collapse-font-size;
-        }
-    }
-}
-
-.#{$prefix}panel-header-tool-layoutzone .#{$prefix}btn-default-small {
-    padding: 0;
-    
-    .#{$prefix}btn-button-default-small {
-        .#{$prefix}btn-inner-default-small {
-            padding: 0;
-            
-            &:before {
-                font-family: FontAwesome;
-                font-size: $ametys-tool-tab-collapse-font-size;
-                
-                .#{$prefix}panel-tool-layoutzone-collapsible-left & {
-                    content: "\f053\00A0\f053\00A0\f053";
-                    
-                    .#{$prefix}panel-collapsed&, .#{$prefix}panel-tool-layoutzone-floating& {
-                        content: "\f054\00A0\f054\00A0\f054";
-                    }
-                }
-                
-                .#{$prefix}panel-tool-layoutzone-collapsible-right & {
-                    content: "\f054\00A0\f054\00A0\f054";
-                    
-                    .#{$prefix}panel-collapsed&, .#{$prefix}panel-tool-layoutzone-floating& {
-                        content: "\f053\00A0\f053\00A0\f053";
-                    }
-                }
-
-                .#{$prefix}panel-tool-layoutzone-collapsible-top & {
-                    content: "\f077\000A\f077\000A\f077\000A"; // extra line-feed for bug purposes
-                    
-                    .#{$prefix}panel-collapsed&, .#{$prefix}panel-tool-layoutzone-floating& {
-                        content: "\f078\000A\f078\000A\f078\000A"; // extra line-feed for bug purposes
-                    }
-                }
-
-                .#{$prefix}panel-tool-layoutzone-collapsible-bottom & {
-                    content: "\f078\000A\f078\000A\f078\000A"; // extra line-feed for bug purposes
-                    
-                    .#{$prefix}panel-collapsed&, .#{$prefix}panel-tool-layoutzone-floating& {
-                        content: "\f077\000A\f077\000A\f077\000A"; // extra line-feed for bug purposes
-                    }
-                }
-            }
-        }
-    }
-}
-
-.#{$prefix}panel-header-tool-layoutzone .#{$prefix}btn-default-small .#{$prefix}btn-button-default-small .#{$prefix}btn-inner-default-small:before {
-    color: $ametys-tool-tab-collapse-color;
-}
-.#{$prefix}panel-header-tool-layoutzone .#{$prefix}btn-default-small.#{$prefix}btn-over .#{$prefix}btn-button-default-small .#{$prefix}btn-inner-default-small:before {
-    color: $ametys-tool-tab-collapse-color-over;
-}
-.#{$prefix}panel-header-tool-layoutzone .#{$prefix}btn-default-small.#{$prefix}btn-pressed .#{$prefix}btn-button-default-small .#{$prefix}btn-inner-default-small:before {
-    color: $ametys-tool-tab-collapse-color-pressed;
 }

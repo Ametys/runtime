@@ -41,6 +41,12 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanelPlaceHo
         
         /**
          * @private
+         * @property {String} collapsedCls The CSS class added to this component when it is collapsed
+         */
+        collapsedCls: "x-collapsed",
+        
+        /**
+         * @private
          * @property {Number} _originialMinSize The min width or height before collapsing
          */
         /**
@@ -51,8 +57,6 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanelPlaceHo
          * @private
          * @proeprty {Number} _originalFlex The flex value before collapsing 
          */
-        
-        split: { ui: 'tool-layout' },
         
         constructor: function(config)
         {
@@ -71,29 +75,6 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanelPlaceHo
             this.getPanel().on('expand', this._onExpand, this);
         },
         
-        /**
-         * @private
-         * Prepare the splitter to be intercepted
-         */
-        _prepareSplitter: function()
-        {
-            if (!this._splitterPrepared)
-            {
-                this.splitter.tracker.onBeforeStart = Ext.Function.createInterceptor(this.splitter.tracker.onBeforeStart, Ext.bind(this._shouldSplitterWorks, this), null, false);
-                
-                this._splitterPrepared = true;
-            }
-        },
-        
-        /**
-         * @private
-         * This is an interceptor for splitter on before drag 
-         */
-        _shouldSplitterWorks: function()
-        {
-            return !this._panelCollapsed;
-        },
-
         /**
          * @private
          * Listener on underlying collapse to change size
@@ -120,7 +101,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanelPlaceHo
                 this._originalFlex = this.flex;
                 this.flex = 0;
                 this._panelCollapsed = true;
-                this._prepareSplitter();
+                this.addCls(this.collapsedCls);
                 this.ownerCt.updateLayout();
             }
             else
@@ -131,23 +112,6 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanelPlaceHo
                     this.getPanel().setPagePosition(this.getPosition());
                 }
             }
-        },
-        
-        getState: function()
-        {
-            if (this._panelCollapsed)
-            {
-                this.flex = this._originalFlex;
-            }
-            
-            var state = this.callParent();
-            
-            if (this._panelCollapsed)
-            {
-                this.flex = 0;
-            }
-            
-            return state;
         },
         
         /**
@@ -170,6 +134,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanelPlaceHo
                 }
                 this.flex = this._originalFlex;
                 this._panelCollapsed = false;
+                this.removeCls(this.collapsedCls);
                 this.ownerCt.updateLayout();
             }
             else
@@ -179,6 +144,23 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanelPlaceHo
                     this.getPanel().alignTo(this, "br-br");
                 }
             }
+        },
+        
+        getState: function()
+        {
+            if (this._panelCollapsed)
+            {
+                this.flex = this._originalFlex;
+            }
+            
+            var state = this.callParent();
+            
+            if (this._panelCollapsed)
+            {
+                this.flex = 0;
+            }
+            
+            return state;
         },
         
         /**
@@ -222,7 +204,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanelPlaceHo
         {
             return this.floatingItems.items[0];
         },
-                
+        
         /**
          * @private
          * Listener on show
@@ -230,11 +212,6 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanelPlaceHo
          */
         _onShow: function(me)
         {
-            /*if (this.getPanel().collapsed)
-            {
-                window.setTimeout(Ext.bind(this._onCollapse, this), 1);
-            }*/
-            
             this._doLayoutPanel();
             
             if (!this.flex)

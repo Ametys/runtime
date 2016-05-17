@@ -14,6 +14,10 @@
  *  limitations under the License.
  */
 
+/**
+ * This class is a container of ZoneTabsToolPanel to group them
+ * @private
+ */
 Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.Container", 
     {
         extend: "Ext.container.Container",
@@ -22,7 +26,6 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.Container",
         flex: 1,
         ui: 'tool-container',
         
-        split: { ui: 'tool-layout' },
         layout: {
             type: 'hbox',
             align: 'stretch'

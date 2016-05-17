@@ -17,5 +17,5 @@
 Ext.define('Ext.theme.ametysbase.resizer.Splitter', {
     override: 'Ext.resizer.Splitter',
     
-    size: 2
+    size: 5
 });

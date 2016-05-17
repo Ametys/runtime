@@ -51,7 +51,7 @@ Ext.define('Ext.theme.neptune.resizer.Splitter', {
  */
 Ext.define('Ext.theme.ametysbase.resizer.Splitter', {
     override: 'Ext.resizer.Splitter',
-    size: 2
+    size: 5
 });
 
 Ext.define('Ext.theme.neptune.toolbar.Toolbar', {

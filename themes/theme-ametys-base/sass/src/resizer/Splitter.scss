@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -18,6 +18,33 @@
     background-color: $ametys-tool-tab-gray-light;
 }
 
-.#{$prefix}splitter-tool-layout {
+.#{$prefix}splitter-tool-layout,
+.#{$prefix}panel-tool-layoutzone .#{$prefix}splitter.#{$prefix}splitter-tool-layout {
     background-color: $ametys-tool-background-color;
+    
+    &.x-splitter-focus:after {
+        display: none;
+    }
+    
+    .#{$prefix}layout-split-top, .#{$prefix}layout-split-bottom {
+        border: 1px solid $ametys-tool-background-color;
+        background-color: #FFFFFF;
+        
+        &:before {
+            line-height: $splitter-size - 2px;
+            font-size: $splitter-size * 2.4;
+            color: $ametys-tool-background-color;
+        }
+    }
+
+    .#{$prefix}layout-split-left, .#{$prefix}layout-split-right {
+        border: 1px solid $ametys-tool-background-color;
+        background-color: #FFFFFF;
+        
+        &:before {
+            font-size: $splitter-size * 2.4;
+            color: $ametys-tool-background-color;
+        }
+    }
 }
+
