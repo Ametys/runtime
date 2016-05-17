@@ -15,8 +15,11 @@
  */
 package org.ametys.runtime.plugins.admin.superuser;
 
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
@@ -46,9 +49,10 @@ public class SuperUserClientSideElement extends StaticClientSideElement
      * Affect a user as super user on a given context
      * @param users the list of users to affect
      * @param context the context 
+     * @return A map containing the assigned profile ids
      */
     @Callable
-    public void affectSuperUser(List<Map<String, String>> users, String context)
+    public Map<String, Object> affectSuperUser(List<Map<String, String>> users, String context)
     {
         try
         {
@@ -72,13 +76,19 @@ public class SuperUserClientSideElement extends StaticClientSideElement
             throw new IllegalArgumentException("Right manager is not initializable !");
         }
         
+        Map<String, Object> result = new LinkedHashMap<>();
+        Set<String> profileIds = new HashSet<>();
+        result.put("profileIds", profileIds);
         InitializableRightsManager initRightsManager = (InitializableRightsManager) _rightsManager;
         for (Map<String, String> user : users)
         {
             String login = user.get("login");
             String populationId = user.get("population");
             UserIdentity userIdentity = new UserIdentity(login, populationId);
-            initRightsManager.grantAllPrivileges(userIdentity, context);
+            String profileId = initRightsManager.grantAllPrivileges(userIdentity, context);
+            profileIds.add(profileId);
         }
+        
+        return result;
     }
 }

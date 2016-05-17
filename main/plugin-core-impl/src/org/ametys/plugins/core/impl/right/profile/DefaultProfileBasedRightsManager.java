@@ -509,7 +509,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     }
 
     @Override
-    public void grantAllPrivileges(UserIdentity user, String context, String profileName)
+    public String grantAllPrivileges(UserIdentity user, String context, String profileName)
     {
         // Create or get the temporary admin profile
         Profile adminProfile = null;
@@ -544,12 +544,13 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         // Assign the profile
         addUserRight(user, context, adminProfile.getId());
 
+        return adminProfile.getId();
     }
 
     @Override
-    public void grantAllPrivileges(UserIdentity user, String context)
+    public String grantAllPrivileges(UserIdentity user, String context)
     {
-        grantAllPrivileges(user, context, __INITIAL_PROFILE_ID);
+        return grantAllPrivileges(user, context, __INITIAL_PROFILE_ID);
     }
 
     @Override

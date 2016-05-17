@@ -72,6 +72,19 @@ Ext.define('Ametys.plugins.admin.superuser.SuperUserActions', {
 	 */
 	_affectSuperUserCb: function(response, args)
 	{
+        var targets = [];
+        Ext.Array.forEach(response.profileIds || [], function(id) {
+            targets.push({
+                id: Ametys.message.MessageTarget.PROFILE,
+                parameters: {id: id}
+            });
+            
+        }, this);
+        Ext.create('Ametys.message.Message', {
+            type: Ametys.message.Message.MODIFIED,
+            targets: targets
+        });
+        
 		Ametys.Msg.show ({
 			title: "{{i18n PLUGINS_ADMIN_SUPERUSER_AFFECT_TITLE}}",
 			msg: "{{i18n PLUGINS_ADMIN_SUPERUSER_AFFECT_SUCCESS}}",

@@ -156,8 +156,9 @@ public interface ProfileBasedRightsManager extends RightsManager
      * @param user The user that will obtain all privilege on the right manager.
      * @param context The context of the right (cannot be null)
      * @param profileName The name of the profile to affect
+     * @return The assigned profile id
      * @throws RightsException if an error occurs.
      */
-    public void grantAllPrivileges(UserIdentity user, String context, String profileName) throws RightsException;
+    public String grantAllPrivileges(UserIdentity user, String context, String profileName) throws RightsException;
 
 }

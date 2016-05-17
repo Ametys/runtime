@@ -28,7 +28,8 @@ public interface InitializableRightsManager extends RightsManager
      * This method has to ensure that the user identified by its login will have all power.
      * @param user The user that will obtain all privilege on the right manager.
      * @param context The context of the right (cannot be null)
+     * @return The assigned profile id
      * @throws RightsException if an error occurs.
      */
-    public void grantAllPrivileges(UserIdentity user, String context) throws RightsException;
+    public String grantAllPrivileges(UserIdentity user, String context) throws RightsException;
 }
