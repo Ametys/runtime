@@ -140,7 +140,8 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceTool', {
 				parameters: {
 					id: selectedDataSource.get('id'),
 					type: selectedDataSource.get('type'),
-					isDefault: selectedDataSource.get('isDefault')
+					isDefault: selectedDataSource.get('isDefault'),
+					isInUse: selectedDataSource.get('isInUse')
 				}
 			});
 			
@@ -151,6 +152,26 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceTool', {
 			type: Ametys.message.Message.SELECTION_CHANGED,
 			targets: targets
 		});
+	},
+	
+	/**
+	 * Get the default data source object
+	 * @param {String} type the type of the desired default data source
+	 * @return {Object} the default data source object
+	 */
+	getDefaultDataSource: function(type)
+	{
+		var dataSources = this._panel.getStore().getRange();
+		var defaultDataSource = null;
+		Ext.Array.each(dataSources, function(dataSource){
+			if (dataSource.get('isDefault') && dataSource.get('type') == type)
+			{
+				defaultDataSource = dataSource;
+				return false;
+			}
+		});
+		
+		return defaultDataSource;
 	},
 	
 	/**

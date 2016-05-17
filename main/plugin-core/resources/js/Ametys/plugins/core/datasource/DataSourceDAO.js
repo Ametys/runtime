@@ -235,7 +235,8 @@ Ext.define('Ametys.plugins.core.datasource.DataSourceDAO', {
 				parameters: {
 					id: datasource.id,
 					type: params[0],
-					isDefault: datasource.isDefault
+					isDefault: datasource.isDefault,
+					isInUse: datasource.isInUse
 				}
 			}
 		});
@@ -282,7 +283,8 @@ Ext.define('Ametys.message.DataSourceMessageTarget', {
 		 * @property {String} DATASOURCE The target of the message is a data source. The expected parameters are: 
 	 	 * @property {String} DATASOURCE.id The id of the data source
 	 	 * @property {String} DATASOURCE.type The type of the data source
-	 	 * @property {Boolean} [DATASOURCE.default] is the data source a default data source ?
+	 	 * @property {Boolean} [DATASOURCE.isDefault] is the data source a default data source ?
+	 	 * @property {Boolean} [DATASOURCE.isInUse] is the data source currently in use ?
 		 */
 		DATASOURCE: "datasource"
 	}

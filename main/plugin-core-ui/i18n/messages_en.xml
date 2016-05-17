@@ -249,7 +249,7 @@
     <message key="PLUGINS_CORE_UI_DEFAULT_VALIDATOR_MANDATORY">This field is mandatory</message>
     <message key="PLUGINS_CORE_UI_DEFAULT_VALIDATOR_PATTERN_FAILED">The field's value is invalid</message>
     <message key="PLUGINS_CORE_UI_VALIDATOR_TEXT_MAXLENGTH">The value of this field is too long</message>
-    
+
     <!-- +
          | Repeater.js
          + -->                               
@@ -437,7 +437,7 @@
     
     <!-- DATASOURCES -->
     <message key="PLUGINS_CORE_UI_WIDGET_DATASOURCE_BUTTON_DEFAULT_TOOLTIP">Add a new data source</message>        
-    <message key="PLUGINS_CORE_UI_WIDGET_DATASOURCE_DATABASE_TRANSFER_WARNING">Caution! The data source has been changed. If you save this modification, the existing data will have to be transferred from the old database to the new one.</message> 
+    <message key="PLUGINS_CORE_UI_WIDGET_DATASOURCE_DATABASE_TRANSFER_WARNING">Caution! The data source has been changed. If you save this modification, the existing data will have to be manually transferred from the old database to the new one by the application's administrator.</message> 
 
     <message key="PLUGINS_CORE_UI_WIDGET_SQL_DATASOURCE_BUTTON_TOOLTIP">Add a new SQL data source</message>   
     <message key="PLUGINS_CORE_UI_WIDGET_LDAP_DATASOURCE_BUTTON_TOOLTIP">Add a new LDAP data source</message>  
@@ -452,9 +452,9 @@
          | Startup time
          + -->
     <message key="PLUGINS_CORE_UI_TOOL_STARTUPTIME_TITLE">Server reset</message>
-    <message key="PLUGINS_CORE_UI_TOOL_STARTUPTIME_MESSAGE">The Ametys server just reset and this can lead to your application unstability.&lt;br/&gt;&lt;br/&gt;You should also restart your application by reloading your browser.&lt;br/&gt;If you have work in progress, you can try to save it.</message>
+    <message key="PLUGINS_CORE_UI_TOOL_STARTUPTIME_MESSAGE">The Ametys server just reset and this can lead to your application instability.&lt;br/&gt;&lt;br/&gt;You should also restart your application by reloading your browser.&lt;br/&gt;If you have work in progress, you can try to save it.</message>
     <message key="PLUGINS_CORE_UI_TOOL_STARTUPTIME_TITLE2">Server update</message>
-    <message key="PLUGINS_CORE_UI_TOOL_STARTUPTIME_MESSAGE2">The Ametys server was updated and restarted. This can lead to your application unstability.&lt;br/&gt;&lt;br/&gt;It is STRONGLY recommanded to restart your application by reloading your browser.&lt;br/&gt;If you have work in progress, you can try to save it.</message>
+    <message key="PLUGINS_CORE_UI_TOOL_STARTUPTIME_MESSAGE2">The Ametys server was updated and restarted. This can lead to your application instability.&lt;br/&gt;&lt;br/&gt;It is STRONGLY recommended to restart your application by reloading your browser.&lt;br/&gt;If you have work in progress, you can try to save it.</message>
     <message key="PLUGINS_CORE_UI_TOOL_STARTUPTIME_ERROR_TITLE">Server reset</message>
     
     <!-- +

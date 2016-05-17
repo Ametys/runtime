@@ -316,7 +316,14 @@
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SET_DEFAULT_DESCRIPTION">Click here to set the selected data source as the default data source. When having to pick a data source, this one will be selected automatically.</message>
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SET_DEFAULT_IS_DEFAULT_SQL_DESCRIPTION">The selected data source is the default data source for the SQL data bases.</message>
     <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_SET_DEFAULT_IS_DEFAULT_LDAP_DESCRIPTION">The selected data source is the default data source for the LDAP directories.</message>
-        
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_MODIFICATION_WARNING_DIALOG_TITLE">Data source modification</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_DEFAULT_MODIFICATION_WARNING_DIALOG_TITLE">Default data source modification</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_MODIFICATION_WARNING_DIALOG_MSG_TRANSFER_DATA">The default data source has been modified whereas it is in use. There is no automatic process of the migration of the existing data. If need be, the transfer will have to be performed manually.</message> 
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_MODIFICATION_WARNING_DIALOG_MSG">The data source that you modified is currently in use.&lt;br/&gt;&lt;br/&gt;In order to avoid conflicts between the old and the new version of the data source, it is recommended to reload the application. Do you want to reload it now ?</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_INVALID_CREATION_TITLE">Invalid data source</message>
+    <message key="PLUGINS_ADMIN_UITOOL_DATASOURCE_INVALID_CREATION_MSG">It is impossible to establish a connection to a data source with the given parameters. Do you really want to save?&lt;br/&gt;&lt;br/&gt;A dysfunctioning data source can block the access to the application. If it happens, a reboot of Ametys will allow to access the application in safe mode.</message>
+    
+            
     <!-- SQL data source dialog helper -->
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_ADD_TITLE">New SQL database</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_EDIT_TITLE">Edit SQL database</message>
@@ -326,8 +333,8 @@
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_NAME_DESCRIPTION">The name of the data source.</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DESCRIPTION">Description</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DESCRIPTION_DESCRIPTION">Optional description of the data source.</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DRIVER">JDBC driver</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DRIVER_DESCRIPTION">JDBC driver to load to connect to the database.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DRIVER">Database type</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DRIVER_DESCRIPTION">Database type to load to connect to the database.</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_URL">Url</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_URL_DESCRIPTION">Url connection to the database server.</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_USER">User</message>
@@ -336,7 +343,7 @@
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PASSWORD_DESCRIPTION">The password for the user to use when connecting to the database server.</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PRIVATE">Private source</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PRIVATE_DESCRIPTION">Check this box if you want this data source is private.&lt;br/&gt;A private source is only be visible in the administration interface.</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_GET_DRIVERS_ERROR">An error occurred while retrieving the JDBC drivers.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_GET_DRIVERS_ERROR">An error occurred while retrieving the database types.</message>
     
     <message key="PLUGINS_ADMIN_DATASOURCES_UNEXISTING_DATABASE_NOTIFICATION_TITLE">Invalid data source</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_UNEXISTING_DATABASE_NOTIFICATION_MESSAGE">The connection to the datasource &lt;a&gt;{0}&lt;/a&gt; is impossible. Please check its parameters.</message>

@@ -56,9 +56,11 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
 	/**
 	 * Open dialog box to edit a LDAP data source
 	 * @param {String} id the id of the selected data source
+	 * @param {Function} [callback] a callback function to invoke after the data source was edited.
 	 */
-	edit: function (id)
+	edit: function (id, callback)
 	{
+		this._callback = callback;
 		this._mode = 'edit';
 		this._open (id);
 	},
@@ -319,20 +321,42 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
  			return;
 		}
  		
- 		// Test the data source
  		var fieldCheckersManager = this._form._fieldCheckersManager;
- 		
- 		Ext.getBody().mask("{{i18n plugin.core-ui:PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE}}");
- 		fieldCheckersManager.check(null,
-	 							   true, 
-						           Ext.bind(function(success) 
-					      		   { 
-						              Ext.getBody().unmask(); 
-						              if (success) 
-						              { 
-						            	  this._okCb();
-						              }
-					      	  		}, this), false); 
+ 		var ldapConnectionChecker = fieldCheckersManager._fieldCheckers[0];
+		if (ldapConnectionChecker.getStatus() == Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_SUCCESS)
+		{
+			this._okCb();
+		}
+		else if (ldapConnectionChecker.getStatus() == Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_FAILURE)
+		{
+			Ametys.Msg.show({
+				title: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_INVALID_CREATION_TITLE}}",
+				message: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_INVALID_CREATION_MSG}}",
+				icon: Ext.Msg.WARNING,
+				buttons: Ext.Msg.YESNO,
+				scope: this,
+				fn : function(btn) {
+					if (btn == 'yes') {
+						this._okCb();
+					}
+				}
+			});
+		}
+		else
+		{
+			// Test the data source
+			Ext.getBody().mask("{{i18n plugin.core-ui:PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE}}");
+	 	    fieldCheckersManager.check(null,
+					   true, 
+			           Ext.bind(function(success) 
+		      		   { 
+			              Ext.getBody().unmask(); 
+			              if (success) 
+			              { 
+			            	  this._okCb();
+			              }
+		      	  		}, this), false);  
+		}
  	},
  	
  	/**

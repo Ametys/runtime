@@ -440,7 +440,7 @@
     
     <!-- DATASOURCES -->
     <message key="PLUGINS_CORE_UI_WIDGET_DATASOURCE_BUTTON_DEFAULT_TOOLTIP">Ajouter une nouvelle source de données</message>        
-    <message key="PLUGINS_CORE_UI_WIDGET_DATASOURCE_DATABASE_TRANSFER_WARNING">Attention ! La source de données a été modifiée. Si vous sauvegardez cette modification, les données de l'ancienne base devront être transférées vers la nouvelle.</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_DATASOURCE_DATABASE_TRANSFER_WARNING">Attention ! La source de données a été modifiée. Si vous sauvegardez cette modification, les données de l'ancienne base devront être manuellement transférées vers la nouvelle par l'administrateur de l'application.</message>
 
     <message key="PLUGINS_CORE_UI_WIDGET_SQL_DATASOURCE_BUTTON_TOOLTIP">Ajouter une nouvelle source de données SQL</message>    
     <message key="PLUGINS_CORE_UI_WIDGET_LDAP_DATASOURCE_BUTTON_TOOLTIP">Ajouter une nouvelle source de données LDAP</message>    

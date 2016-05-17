@@ -401,7 +401,8 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
             infos.put("description", dataSourceDef.getDescription());
             infos.put("private", dataSourceDef.isPrivate());
             infos.put("isDefault", dataSourceDef.isDefault());
-            
+            infos.put("isInUse", _dataSourceConsumerEP.isInUse(dataSourceDef.getId()) || (dataSourceDef.isDefault() && _dataSourceConsumerEP.isInUse(_ldapDataSourceManager.getDefaultDataSourceId())));
+
             Map<String, String> parameters = dataSourceDef.getParameters();
             for (String paramName : parameters.keySet())
             {

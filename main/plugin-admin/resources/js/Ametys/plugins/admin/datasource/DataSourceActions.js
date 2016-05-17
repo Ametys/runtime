@@ -22,6 +22,18 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceActions', {
 	
 	singleton: true,
 	
+    /**
+     * @property {Boolean} _modifiedWarningDisplayed true if the warning pop-up for data source modification has already been displayed 
+     * @private
+     */
+	_modifiedWarningDisplayed: false,
+	
+	/**
+     * @property {Boolean} _defaultModifiedWarningDisplayed true if the warning pop-up for default data source modification has already been displayed 
+     * @private
+     */
+	_defaultModifiedWarningDisplayed: false,
+	
 	/**
 	 * Add a data source
 	 * @param {Ametys.ribbon.element.ui.ButtonController} controller the controller calling this function
@@ -50,16 +62,17 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceActions', {
 		var target = controller.getMatchingTargets()[0];
 		if (target != null)
 		{
+			var displayPopUp = !this._modifiedWarningDisplayed && target.getParameters().isInUse;
 			switch (target.getParameters().type)
 			{
 				case 'SQL':
-					Ametys.plugins.admin.datasource.EditSQLDataSourceHelper.edit(target.getParameters().id);
+					Ametys.plugins.admin.datasource.EditSQLDataSourceHelper.edit(target.getParameters().id, Ext.bind(this._editCb, this, [displayPopUp, false], 1));
 					break;
 				case 'LDAP': 
-					Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper.edit(target.getParameters().id);
+					Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper.edit(target.getParameters().id, Ext.bind(this._editCb, this, [displayPopUp, false], 1));
 					break;
 				default:
-					throw 'Unrecognized data source type' + target.getParameters().type;
+					throw 'Unrecognized data source type ' + target.getParameters().type;
 			}
 		}
 	},
@@ -92,14 +105,22 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceActions', {
 		if (target != null)
 		{
 			var type = target.getParameters().type;
+
+			var tool = Ametys.tool.ToolsManager.getTool('uitool-datasource');
+			var isDefaultDataSourceInUse = false;
+			if (tool != null)
+			{
+				isDefaultDataSourceInUse = tool.getDefaultDataSource(type).get('isInUse');
+			}
 			
 			if (type != 'SQL' && type != 'LDAP')
 			{
-				throw 'Unrecognized data source type' + target.getParameters().type;
+				throw 'Unrecognized data source type ' + target.getParameters().type;
 			}
 			else
 			{
-				Ametys.plugins.core.datasource.DataSourceDAO.setDefaultDataSource([type, target.getParameters().id]);
+				var displayPopUp = !this._defaultModifiedWarningDisplayed && isDefaultDataSourceInUse;
+				Ametys.plugins.core.datasource.DataSourceDAO.setDefaultDataSource([type, target.getParameters().id], Ext.bind(this._editCb, this, [displayPopUp, true], 1));
 			}
 		}
 	},
@@ -107,8 +128,9 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceActions', {
 	/**
      * @private
 	 * Callback function invoked when the 'Yes' or 'No' button of the dialog box was clicked
-	 * @param {String} answer the user answer
+	 * @param {String} answer the user's answer
 	 * @param {Ametys.message.MessageTarget[]} targets the data source message targets.
+	 * @param {String[]} the ids of the data sources that can be removed
 	 */
 	_removeConfirm: function(answer, targets, allRightSourceIds)
 	{
@@ -135,7 +157,69 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceActions', {
             {
                 Ametys.plugins.core.datasource.DataSourceDAO.removeDataSource([type, datasourceByType[type]], null, {});
             }
-            
+		}
+	},
+	
+	/**
+	 * @private
+	 * Callback function invoked after a data source has been edited. 
+	 * It offers to restart the application if the changes made might have led to an unstable state
+	 * @param {Object} datasource the data source as an object
+	 * @param {Boolean} displayPopUp true to display the warning pop-up, false otherwise
+	 * @param {Boolean} defaultChanged true if the default data source was changed
+	 */
+	_editCb: function(datasource, displayPopUp, defaultChanged)
+	{
+		if (!displayPopUp)
+		{
+			return;
+		}
+
+		if (defaultChanged && !this._defaultModifiedWarningDisplayed)
+		{
+			Ametys.Msg.show({
+				title: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_DEFAULT_MODIFICATION_WARNING_DIALOG_TITLE}}",
+				message: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_MODIFICATION_WARNING_DIALOG_MSG_TRANSFER_DATA}}",
+				icon: Ext.Msg.WARNING,
+				buttons: Ext.Msg.OK,
+				scope: this,
+				fn: this._showModifiedDataSourceDialog
+			}, this);
+			
+			this._defaultModifiedWarningDisplayed = true;
+		}
+		else
+		{
+			this._showModifiedDataSourceDialog();
+		}
+	},
+	
+	/**
+	 * Show the dialog box when a data source has been modified 
+	 */
+	_showModifiedDataSourceDialog: function()
+	{
+		if (!this._modifiedWarningDisplayed)
+		{
+			Ametys.Msg.show({
+				title: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_MODIFICATION_WARNING_DIALOG_TITLE}}",
+				message: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_MODIFICATION_WARNING_DIALOG_MSG}}",
+				icon: Ext.Msg.WARNING,
+				buttons: Ext.Msg.YESNO,
+				scope: this,
+				fn : function(btn) {
+					if (btn == 'yes') {
+						Ext.getBody().mask("{{i18n plugin.core-ui:PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE}}");
+						
+						// Restart
+						Ext.Ajax.request({url: Ametys.getPluginDirectPrefix('admin') + "/restart", params: "", async: false});
+						
+						Ametys.reload();
+					}
+				}
+			});
+			
+			this._modifiedWarningDisplayed = true;
 		}
 	}
 });

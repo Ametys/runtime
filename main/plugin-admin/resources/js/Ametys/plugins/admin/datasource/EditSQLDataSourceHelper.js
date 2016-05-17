@@ -201,7 +201,6 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
         return {
             // Data source id (for edition only)
             'id': {
-            	label: 'test',
 	            hidden: true,
 	            type: 'string'
 	        },
@@ -312,6 +311,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
  	
  	/**
  	 * @private
+ 	 * Handler when the "Ok" button is pressed
  	 * Check if the data source is valid
  	 */
  	_ok: function()
@@ -321,20 +321,42 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
  			return;
 		}
  		
- 		// Test the data source
  		var fieldCheckersManager = this._form._fieldCheckersManager;
- 		
- 		Ext.getBody().mask("{{i18n plugin.core-ui:PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE}}");
- 		fieldCheckersManager.check(null,
-	 							   true, 
-						           Ext.bind(function(success) 
-					      		   { 
-						              Ext.getBody().unmask(); 
-						              if (success) 
-						              { 
-						            	  this._okCb();
-						              }
-					      	  		}, this), false); 
+ 		var sqlConnectionChecker = fieldCheckersManager._fieldCheckers[0];
+		if (sqlConnectionChecker.getStatus() == Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_SUCCESS)
+		{
+			this._okCb();
+		}
+		else if (sqlConnectionChecker.getStatus() == Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_FAILURE)
+		{
+			Ametys.Msg.show({
+				title: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_INVALID_CREATION_TITLE}}",
+				message: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_INVALID_CREATION_MSG}}",
+				icon: Ext.Msg.WARNING,
+				buttons: Ext.Msg.YESNO,
+				scope: this,
+				fn : function(btn) {
+					if (btn == 'yes') {
+						this._okCb();
+					}
+				}
+			});
+		}
+		else
+		{
+			// Test the data source
+			Ext.getBody().mask("{{i18n plugin.core-ui:PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE}}");
+	 	    fieldCheckersManager.check(null,
+					   true, 
+			           Ext.bind(function(success) 
+		      		   { 
+			              Ext.getBody().unmask(); 
+			              if (success) 
+			              { 
+			            	  this._okCb();
+			              }
+		      	  		}, this), false); 
+		}
  	},
  	
  	/**
@@ -361,7 +383,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
     
     /**
      * Callback function after adding or editing SQL data source
-     * @param {} datasource
+     * @param {Object} datasource the datasource object
      */
     _addOrEditDataSourceCb: function (datasource)
     {
