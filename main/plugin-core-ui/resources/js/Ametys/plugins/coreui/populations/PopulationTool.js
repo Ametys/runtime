@@ -145,7 +145,8 @@ Ext.define('Ametys.plugins.coreui.populations.PopulationTool', {
             targets.push({
                 id: Ametys.message.MessageTarget.USER_POPULATION,
                 parameters: {
-                    id: population.get('id')
+                    id: population.get('id'),
+                    valid: population.get('valid')
                 }
             });
         }, this);
@@ -282,6 +283,7 @@ Ext.define("Ametys.message.PopulationMessageTarget",{
          * @readonly
          * @property {String} USER_POPULATION The target of the message is a user populations
          * @property {String} USER_POPULATION.id The id of the user population
+         * @property {Boolean} [USER_POPULATION.valid] true if the user population is valid
          */
         USER_POPULATION: "userPopulation"
     }

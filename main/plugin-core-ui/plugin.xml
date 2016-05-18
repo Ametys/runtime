@@ -1588,6 +1588,11 @@
 				<class name="Ametys.plugins.coreui.populations.EnablePopulationButtonController">
 					<action>Ametys.plugins.coreui.populations.PopulationActions.enablePopulation</action>
 					<selection-target-id>^userPopulation$</selection-target-id>
+					<selection-target-parameter>
+					   <name>valid</name>
+					   <value>true</value>
+					</selection-target-parameter>
+					<selection-description-nomatch i18n="true">PLUGINS_CORE_UI_USER_POPULATIONS_ENABLE_NO_VALID_DESCRIPTION</selection-description-nomatch>
 					<selection-enable-multiselection>false</selection-enable-multiselection>
 					
 					<label i18n="true">PLUGINS_CORE_UI_USER_POPULATIONS_ENABLE_LABEL</label>
