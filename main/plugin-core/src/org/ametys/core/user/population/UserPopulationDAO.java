@@ -232,7 +232,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
     
     /**
      * Returns the id of population which have a fatal invalid configuration.
-     * Theses populations can NOT be used by application.
+     * These populations can NOT be used by application.
      * @return The ignored populations
      */
     public Set<String> getIgnoredPopulations()
@@ -243,7 +243,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
     
     /**
      * Returns the id of population which have at least one user directory or one credential provider misconfigured
-     * Theses populations can be used by application.
+     * These populations can be used by application.
      * @return The misconfigured populations.
      */
     public Set<String> getMisconfiguredPopulations()
@@ -384,7 +384,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         userDirectory.put("runtime.users.jdbc.table", "AdminUsers");
         
         Map<String, String> credentialProvider = new HashMap<>();
-        credentialProvider.put("cpModelId", "org.ametys.core.authentication.Basic"); // TODO replace Basic by Form (need Form to be safe)
+        credentialProvider.put("cpModelId", "org.ametys.core.authentication.Basic"); // TODO replace Basic by Form (need Form to be safe) RUNTIME-1764
         credentialProvider.put("runtime.authentication.basic.realm", "Ametys workspace admin");
         
         _fillUserPopulation(_adminUserPopulation, "Admin Population", Collections.singletonList(userDirectory), Collections.singletonList(credentialProvider));
