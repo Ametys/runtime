@@ -914,6 +914,7 @@
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_ENABLE_LABEL">Population enabled</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_ENABLE_DESCRIPTION">Enable a user population</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DISABLE_DESCRIPTION">Disable a user population</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_ENABLE_NO_VALID_DESCRIPTION">This population can not be activated because its configuration is invalid.</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_ENABLE_DESCRIPTION_ERROR">A server error occurred preventing to know the current status of the population.</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_LINK_LABEL">Populations allowed to connect</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_LINK_DESCRIPTION">Allow to choose the user populations able to connect to the application</message>

@@ -915,9 +915,10 @@
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_REMOVE_DESCRIPTION">Supprime une population d'utilisateurs</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_REMOVE_UNABLE_DESCRIPTION">Cette population ne peut pas être supprimée car elle est liée à un contexte d'utilisation</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_ENABLE_LABEL">Population activée</message>
-    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_ENABLE_DESCRIPTION_ERROR">Une erreur serveur est survenue et ne permet pas de connaitre le statut actuel de la population.</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_ENABLE_DESCRIPTION">La population est actuellement désactivée.&lt;br/&gt;Cliquez ici pour activer la population d'utilisateurs sélectionnée.</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DISABLE_DESCRIPTION">La population est actuellement activée.&lt;br/&gt;Cliquez ici pour désactiver la population d'utilisateurs sélectionnée.</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_ENABLE_NO_VALID_DESCRIPTION">Cette population ne peut être activée car sa configuration est invalide.</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_ENABLE_DESCRIPTION_ERROR">Une erreur serveur est survenue et ne permet pas de connaitre le statut actuel de la population.</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_LINK_LABEL">Populations autorisées à se connecter</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_LINK_DESCRIPTION">Permet de choisir les populations d'utilisateurs autorisées à se connecter à l'application</message>
     
