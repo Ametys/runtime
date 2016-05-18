@@ -356,7 +356,7 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsTool', {
 			}
 			
 			target = Ext.create('Ametys.message.MessageTarget', {
-				type: 'plugin-by-file-node',
+				id: 'plugin-by-file-node',
 				parameters: {
 								id: selectedNode.getId(), 
 								type: nodeData.type,
