@@ -359,7 +359,7 @@
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_URL">Url</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_URL_DESCRIPTION">L'URL du serveur LDAP.</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_URL_REGEXP_TEXT">L'URL du serveur LDAP est invalide. Elle doit être de la forme ldap://server:389 ou ldaps://server:389.</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_USESSL">Connexon sécurisée</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_USESSL">Connexion sécurisée</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_USESSL_DESCRIPTION">Cochez cette case si vous souhaiter utiliser le protocole 'ldaps' plutôt que 'ldap' pour établir la connexion à l'annuaire.</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_BASEDN">DN de base</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_FIELD_BASEDN_DESCRIPTION">DN de base pour tous les accès à l'annuaire.</message>
