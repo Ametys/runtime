@@ -551,9 +551,9 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
         {
             operation.setParams( Ext.apply(operation.getParams() || {}, {
                 context: this._context,
-	            criteria: this._searchField.getValue(),
-	            limit: this.self.RESULT_LIMIT
-	        }));
+                criteria: this._searchField.getValue(),
+                limit: this.self.RESULT_LIMIT
+            }));
             return true;
         }
         
@@ -617,7 +617,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
         {
             var login = userTarget.getParameters().id;
             var population = userTarget.getParameters().population;
-            if (this.getPopulationComboValue() == population)
+            if (this.getPopulationComboValue() == population || this.getPopulationComboValue() == this._allPopulationsOptionId)
             {
                 // The tool is concerned by the message
                 this._search();
@@ -639,7 +639,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
             {
                 var login = userTarget.getParameters().id;
                 var population = userTarget.getParameters().population;
-                if (this.getPopulationComboValue() == population && this._findUserRecord(login, population))
+                if ((this.getPopulationComboValue() == population || this.getPopulationComboValue() == this._allPopulationsOptionId) && this._findUserRecord(login, population))
                 {
                     // The tool is concerned by the message
                     this._search();
@@ -660,7 +660,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
         var me = this;
         Ext.Array.forEach(userTargets, function(target) {
             var user = me._findUserRecord(target.getParameters().id, target.getParameters().population);
-            if (user && target.getParameters().population == this.getPopulationComboValue())
+            if (user && (target.getParameters().population == this.getPopulationComboValue() || this._allPopulationsOptionId == this.getPopulationComboValue()))
             {
                 me._store.remove(user);
             }
