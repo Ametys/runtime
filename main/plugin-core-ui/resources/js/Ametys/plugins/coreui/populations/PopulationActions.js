@@ -139,10 +139,11 @@ Ext.define('Ametys.plugins.coreui.populations.PopulationActions', {
      * Opens a dialog box to select the user populations to link to a context
      * @param {String} context The context
      * @param {String} hintText The hint text for the dialog box
+     * @param {Function} [callback] The callback function to call after the populations are effectively linked to the context
      */
-    linkToContext: function(context, hintText)
+    linkToContext: function(context, hintText, callback)
     {
-        Ametys.plugins.core.populations.UserPopulationDAO.getUserPopulationsOnContext([context], this._openChooseDialog, {scope: this, arguments: [hintText]});
+        Ametys.plugins.core.populations.UserPopulationDAO.getUserPopulationsOnContext([context], this._openChooseDialog, {scope: this, arguments: [hintText, callback]});
     },
     
     /**
@@ -156,13 +157,14 @@ Ext.define('Ametys.plugins.coreui.populations.PopulationActions', {
     {
         var context = parameters[0];
         var hintText = arguments[0];
+        var callback = arguments[1];
         
         Ametys.plugins.coreui.populations.ChooseUserPopulationsHelper.open({
             title: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_CHOOSE_POPULATIONS_TITLE}}",
             hintText: hintText,
             selectedIds: ids,
             allowCreation: true,
-            okAction: Ext.bind(this._doLinkPopulations, this, [context], 1)
+            okAction: Ext.bind(this._doLinkPopulations, this, [context, callback], 1)
         });
     },
     
@@ -171,10 +173,11 @@ Ext.define('Ametys.plugins.coreui.populations.PopulationActions', {
      * Links some user populations to a context
      * @param {String[]} ids The ids of the selected user populations
      * @param {String} context The context
+     * @param {Function} [context] The callback function
      */
-    _doLinkPopulations: function(ids, context)
+    _doLinkPopulations: function(ids, context, callback)
     {
-        Ametys.plugins.core.populations.UserPopulationDAO.link([context, ids]);
+        Ametys.plugins.core.populations.UserPopulationDAO.link([context, ids], callback || Ext.emptyFn, {scope: this});
     }
     
 });
