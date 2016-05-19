@@ -99,6 +99,9 @@ Ext.define('Ametys.plugins.coreui.populations.PopulationTool', {
                 reader: {
                     type: 'json',
                     rootProperty: 'userPopulations'
+                },
+                extraParams: {
+                    showDisabled: true
                 }
              },
              

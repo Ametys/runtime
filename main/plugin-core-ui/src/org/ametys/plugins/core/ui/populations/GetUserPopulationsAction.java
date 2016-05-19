@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
@@ -61,7 +62,8 @@ public class GetUserPopulationsAction extends ServiceableAction
         Map jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
         
         String context = (String) jsParameters.get("context");
-        if (context == null)
+        Boolean showDisabled = (Boolean) jsParameters.get("showDisabled");
+        if (context == null && showDisabled != null && showDisabled)
         {
             Boolean withAdmin = Boolean.FALSE;
             if (jsParameters.get("withAdmin") != null)
@@ -69,6 +71,15 @@ public class GetUserPopulationsAction extends ServiceableAction
                 withAdmin = (Boolean) jsParameters.get("withAdmin");
             }
             populations = _userPopulationDAO.getUserPopulationsAsJson(withAdmin);
+        }
+        else if (context == null)
+        {
+            Boolean withAdmin = Boolean.FALSE;
+            if (jsParameters.get("withAdmin") != null)
+            {
+                withAdmin = (Boolean) jsParameters.get("withAdmin");
+            }
+            populations = _userPopulationDAO.getEnabledUserPopulations(withAdmin).stream().map(_userPopulationDAO::getUserPopulationAsJson).collect(Collectors.toList());
         }
         else
         {
