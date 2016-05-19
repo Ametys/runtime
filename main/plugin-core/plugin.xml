@@ -500,12 +500,6 @@
                        class="org.ametys.plugins.core.impl.authentication.UsersManagerAuthentication"
                        logger="org.ametys.plugins.core.impl.authentication.UsersManagerAuthentication"/> -->
                        
-            <!-- Mixed source users manager authentication. To be used with CASBasicCredentialsProvider. -->
-            <!-- <extension point="org.ametys.core.authentication.AuthenticationManager"
-                       id="org.ametys.plugins.core.impl.authentication.mixed.MixedSourceUsersManagerAuthentication"
-                       class="org.ametys.plugins.core.impl.authentication.mixed.MixedSourceUsersManagerAuthentication"
-                       logger="org.ametys.plugins.core.impl.authentication.mixed.MixedSourceUsersManagerAuthentication"/> -->
-                       
             <!-- <extension point="org.ametys.core.authentication.AuthenticationManager"
                        id="org.ametys.plugins.core.impl.authentication.HasRightAuthentication"
                        class="org.ametys.plugins.core.impl.authentication.HasRightAuthentication"
