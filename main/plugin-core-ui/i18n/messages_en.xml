@@ -80,8 +80,16 @@
          + -->
     <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_HEAD">Incomplete configuration</message>
     <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_TITLE">Configuration required</message>
-    <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_TEXT">At first launch or after an update,<br/>it is necessary to configure the application.<br/>This message may also appear if<br/>your current configuration is incorrect.</message>
+    <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_TEXT">After an update,<br/>it is necessary to configure the application.<br/>This message may also appear if<br/>your current configuration is incorrect.</message>
     <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_LINK">Configure the application</message>
+    
+    <!-- +
+         | First start / no config
+         + -->
+    <message key="PLUGINS_CORE_UI_NO_CONFIG_HEAD">Welcome</message>
+    <message key="PLUGINS_CORE_UI_NO_CONFIG_TITLE">Welcome to Ametys</message>
+    <message key="PLUGINS_CORE_UI_NO_CONFIG_TEXT">Welcome. Thanks for installing Ametys.<br/><br/>At first launch, it is necessary to configure the application in the administrator workspace.</message>
+    <message key="PLUGINS_CORE_UI_NO_CONFIG_LINK">Click here for accessing the administrator workspace</message>
     
     <!-- +
          | Safe mode
@@ -90,6 +98,8 @@
     <message key="PLUGINS_CORE_UI_SAFE_MODE_TITLE">Safe mode</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_TEXT">The application could not initialize correctly and started in safe mode.<br/>You should check application's logs and settings.</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_LINK">Manage the application</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TITLE_NO_CONFIG">Information</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TEXT_NO_CONFIG">The application configuration is incomplete. Use the configuration tool to complete it.</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TITLE_CONFIG_INCOMPLETE">Information</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TEXT_CONFIG_INCOMPLETE">The application configuration is incomplete or incorrect. Use the configuration tool to complete it.</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TITLE_WRONG_DEFINITIONS">Attention</message>
