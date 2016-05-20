@@ -69,6 +69,8 @@ import org.ametys.runtime.parameter.Parameter;
 import org.ametys.runtime.parameter.ParameterCheckerDescriptor;
 import org.ametys.runtime.parameter.ParameterHelper;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
+import org.ametys.runtime.plugin.PluginsManager;
+import org.ametys.runtime.plugin.PluginsManager.Status;
 import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 import org.ametys.runtime.util.AmetysHomeHelper;
 
@@ -187,8 +189,12 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
             result.add(getAdminPopulation());
         }
         
-        _readPopulations(false);
-        result.addAll(_userPopulations.values());
+        // Don't read in safe mode, we know that only the admin population is needed in this case and we want to prevent some warnings in the logs for non-safe features not found
+        if (Status.OK.equals(PluginsManager.getInstance().getStatus()))
+        {
+            _readPopulations(false);
+            result.addAll(_userPopulations.values());
+        }
         
         return result;
     }
@@ -800,7 +806,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
             }
             catch (IllegalArgumentException | ConfigurationException e)
             {
-                getLogger().warn("The population of id '" + upId + "' declares a user directory with an invalid configuration", e);
+                getLogger().warn("The population of id '" + upId + "' declares a credential provider with an invalid configuration", e);
                 _misconfiguredUserPopulations.add(upId);
             }
         }
