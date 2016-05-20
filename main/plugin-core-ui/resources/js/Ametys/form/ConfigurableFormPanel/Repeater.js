@@ -331,7 +331,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
         
         if (this.fieldCheckers)
     	{
-        	this.form._fieldCheckersManager.addFieldCheckers(this.items.get(index), this.fieldCheckers, this.prefix + this.name + this.defaultPathSeparator + index + this.defaultPathSeparator, this.offset, this.roffset);
+        	this.form._fieldCheckersManager.addFieldCheckers(this.items.get(index), this.fieldCheckers, this.prefix + this.name + this.defaultPathSeparator + index + this.defaultPathSeparator, offset, roffset);
     	}
 
         // Default to true

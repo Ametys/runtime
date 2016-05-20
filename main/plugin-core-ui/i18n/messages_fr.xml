@@ -314,15 +314,12 @@
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_ERROR">Erreur lors de la vérification des paramètres</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_ERROR_TEXT">vérifications ont échoué.&lt;br/&gt;Appuyez sur 'Détails' pour en savoir plus ou consultez les journaux de l'application.</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_SINGLE_ERROR_TEXT">La vérification a échoué.&lt;br/&gt;Appuyez sur 'Détails' pour en savoir plus ou consultez les journaux de l'application.</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_STATUS_SUCCESS">Succès</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_STATUS_FAILURE">Echec</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_STATUS_NOT_TESTED">Non testé</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_STATUS_DEACTIVATED">Désactivé</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_STATUS_FAILURE">Echec :</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_STATUS_WARNING">Cette vérification dépend d'un ou plusieurs paramètres qui ont été modifiés. Il est conseillé d'effectuer ce test pour vérifier les nouvelles valeurs.</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_TOOLTIP_MESSAGE">Message :</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_TOOLTIP_MESSAGE2">Dernier message d'erreur:</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_TOOLTIP_LAST_MESSAGE">Dernier message d'erreur:</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_TOOLTIP_DEACTIVATED_MESSAGE">Cette vérification est désactivée car tous les paramètres qu'elle utilise sont désactivés ou au moins un des paramètres utilisés est invalide.</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_NO_LINKED_FIELD">Aucun</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_INVALID_LINKED_FIELD">Le test n'a pas pu être réalisé car il dépend d'au moins un paramètre invalide.</message>
     
     <!-- +
          | TestsController.js

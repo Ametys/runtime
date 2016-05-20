@@ -311,15 +311,12 @@
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_ERROR">Error while performing the parameter verification.</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_ERROR_TEXT">verification have failed.&lt;br/&gt;Press the 'Details' button for further information or see the application's logs.</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_SINGLE_ERROR_TEXT">The verification has failed.&lt;br/&gt;Press the 'Details' button for further information or see the application's logs.</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_STATUS_SUCCESS">Success</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_STATUS_FAILURE">Failure</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_STATUS_NOT_TESTED">Not tested</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_STATUS_DEACTIVATED">Deactivated</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_STATUS_FAILURE">Failure:</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_STATUS_WARNING">This verification depends on one or more modified parameters. Consider passing this verification to check the modifications.</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_TOOLTIP_MESSAGE">Message:</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_TOOLTIP_MESSAGE2">Last error message:</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_TOOLTIP_LAST_MESSAGE">Last error message:</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_TOOLTIP_DEACTIVATED_MESSAGE">This test is disabled because all of its linked parameters are disabled or at least one the linked parameters is invalid.</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_NO_LINKED_FIELD">None</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_INVALID_LINKED_FIELD">The test could not be performed because it depends on at least one invalid field.</message>
     
     <!-- +
          | TestsController.js

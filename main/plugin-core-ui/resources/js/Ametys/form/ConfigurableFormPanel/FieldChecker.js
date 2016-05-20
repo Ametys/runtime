@@ -108,7 +108,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldChecker', {
 		/** @cfg {String} fieldNamePrefix The optional prefix for field names */
 		fieldNamePrefix: null,
 		/** @cfg {String} pathSeparator The path separator */
-		pathSeparator: null
+		pathSeparator: null,
+		/** @cfg {Boolean} initialized is this field checker already initialized ? */
+		initialized: false
 	},
 	
 	constructor: function(fieldChecker, uiComponent, path, label, description, fieldNamePrefix, pathSeparator)
@@ -279,5 +281,23 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldChecker', {
 		}, this);
 		
 		return linkedFieldsPaths;
+	},
+	
+	/**
+	 * Set whether or not this field checker is initialized
+	 * @param {Boolean} initialized true to set this field checker initialized
+	 */
+	setInitialized: function(initialized)
+	{
+		this.initialized = initialized;
+	},
+	
+	/**
+	 * Is this field checker initialized ? 
+	 * @return true if the field checker is initialized, false otherwise
+	 */
+	isInitialized: function()
+	{
+		return this.initialized;
 	}
 });

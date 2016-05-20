@@ -196,11 +196,13 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 	{
 		// Field checkers listeners
 		Ext.Array.each(this._fieldCheckers, function(fieldChecker){
-			this._initializeFieldChecker(fieldChecker);
+			if (!fieldChecker.isInitialized())
+			{
+				this._initializeFieldChecker(fieldChecker);
+			}
 		}, this);
 		
-		
-		if (this._fieldCheckers.length > 1)
+		if (!Ext.isEmpty(this._fieldCheckers))
 		{
 			// Initialize test results if there is at least one field checker 
 			this._form.on({
@@ -245,6 +247,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 		        linkedFieldsLabels.push(fieldLabel);
 				
 		        linkedField.on('change', Ext.bind(this._updateTestButton, this, [fieldChecker], false)); 
+		        linkedField.on('errorchange', Ext.bind(this._updateTestButton, this, [fieldChecker], false)); 
 		        linkedField.on('disable', Ext.bind(this._updateTestButton, this, [fieldChecker], false));
 		        linkedField.on('enable', Ext.bind(this._updateTestButton, this, [fieldChecker], false)); 
 				
@@ -255,6 +258,29 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 		// Store the list of linked fields and their labels 
 		fieldChecker.setLinkedFields(linkedFields);
 		fieldChecker.setLinkedFieldsLabels(linkedFieldsLabels.length > 1 ? linkedFieldsLabels.join(', ') : "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_NO_LINKED_FIELD}}");
+		
+		if (!this._form.isFormReady())
+		{
+			// Update the test buttons once as soon as the form is ready
+			this._form.on({
+				formready: {fn: Ext.bind(this._updateTestButton, this, [fieldChecker], false), scope: this, single: true} 
+			});
+		}
+		else if (this._form._addingRepeaterEntry)
+		{
+			this._form.on({
+				// Update the test buttons once as soon as the repeater entry is ready
+				repeaterentryready: {fn: Ext.bind(this._updateTestButton, this, [fieldChecker], false), scope: this, single: true} 
+			});
+		}
+		else
+		{
+			this._updateTestButton(fieldChecker);
+		}
+		
+		// Complete initialization: the initialization of field checkers on repeater items is dynamic, and we don't want those
+		// to be initialized twice
+		fieldChecker.setInitialized(true);
 	},
 	
 	/**
@@ -335,7 +361,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 		    
 			listeners: {
 				'render': function() {
-					Ext.tip.QuickTipManager.register(me._getTooltipConfig(fieldChecker, this.getEl()));
+					Ext.tip.QuickTipManager.register(me._getAmetysDescriptionTooltipConfig(fieldChecker, this.getEl()));
 				}
 			}
 		});
@@ -353,7 +379,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 	},
 
 	/**
-	 * @private
 	 * Updates the test results panel in the actions' tooltips
 	 * Fires a 'testresultschange' event if the test results have changed
 	 */
@@ -414,127 +439,120 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 	
 	/**
 	 * @private
-	 * Sets the test button to the "warning" status if necessary, updates the button's tooltip and the test results panel
+	 * Run the update routine on the test button if the attached  {@link Ametys.form.ConfigurableFormPanel} is ready.
 	 * @param {Ametys.form.ConfigurableFormPanel.FieldChecker} fieldChecker the field checker to update
 	 */	
 	_updateTestButton: function(fieldChecker)
 	{
-		// Do nothing if the form has not been loaded or if the test wasn't launched at least once
-		if (this._isSuspended || fieldChecker.getStatus() == Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_NOT_TESTED)
+		if (this._isSuspended)
 		{
 			return;
 		}
 		
-		var btn = Ext.getCmp(fieldChecker.buttonId),
+		var isDeactivated = this._isDeactivated(fieldChecker),
 			statusCmp = Ext.getCmp(fieldChecker.statusCmpId),
-			helpBox = Ext.getCmp(fieldChecker.helpBoxId),
-			linkedFields = fieldChecker.getLinkedFields(),
-		    allLinkedFieldsDisabled = true,
-		    invalidLinkedField = false;
-	
-	    Ext.Array.each(linkedFields, function(linkedField) {
-	    	
-	    	// check if all linked fields are disabled
-			if (!linkedField.isDisabled())
-			{
-				allLinkedFieldsDisabled = false;
-			}
-			
-			// check for each field's validity and visibility
-			if (!linkedField.isDisabled() && linkedField.isVisible() && linkedField.getErrors().length != 0) 
-			{
-				invalidLinkedField = true;
-			}
-	    });
+			btn = Ext.getCmp(fieldChecker.buttonId);
 		
-	    // update the button's appearance 
-	    statusCmp.setVisible(true);
-	    statusCmp.removeCls(['success', 'failure']);
-	    statusCmp.addCls('warning');
-	    
-	    if (!allLinkedFieldsDisabled && !invalidLinkedField)
-    	{
-	    	btn.enable();
-            btn.up('container').setVisible(true);
-	    	fieldChecker.setStatus(Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_WARNING);
-    	}
-	    else
-    	{
+		if (fieldChecker.getStatus() != Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_NOT_TESTED)
+		{
+			if (isDeactivated)
+			{
+				statusCmp.setVisible(false);
+				fieldChecker.setStatus(Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_NOT_TESTED);
+			}
+			else
+			{
+				btn.enable();
+		    	btn.up('container').setVisible(true);
+		    	
+		    	statusCmp.removeCls(['success', 'failure', 'warning']);
+		    	statusCmp.setVisible(false);
+		    	if (fieldChecker.getStatus() != Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_DEACTIVATED)
+				{
+		    		statusCmp.addCls('warning');
+		    		statusCmp.setVisible(true);
+		    		fieldChecker.setStatus(Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_WARNING);
+				}
+			    
+			    // update the tooltip of the status component
+			    this._updateStatusCmpTooltip(fieldChecker);
+			    
+			    // update the test results 
+			    this._updateTestResults();
+		    	
+			    // update the warnings
+			    this._updateWarnings();
+			    
+			    // update the tabs of the attached form
+			    this._form._updateTabsStatus();
+			}
+		}
+		
+		// We want to be able to deactivate a field checker even when its status is 'not tested'
+	    if (isDeactivated)
+		{
 	    	btn.disable();
-            btn.up('container').setHidden(this.hideDisabledButtons);
-	    	fieldChecker.setStatus(Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_DEACTIVATED);
-    	}
-	    
-	    // update the tooltips
-	    this._generateStatusTip(statusCmp.getEl(), fieldChecker);
-	    Ext.tip.QuickTipManager.register(this._getTooltipConfig(fieldChecker, helpBox.getEl()));
-	    
-	    // update the test results 
-	    this._updateTestResults();
-	    this._form._updateTabsStatus();
+	        btn.up('container').setHidden(this.hideDisabledButtons);
+	        
+	        fieldChecker.setStatus(Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_DEACTIVATED);
+	        if (!this.hideDisabledButtons)
+        	{
+	        	statusCmp.removeCls(['success', 'failure']);
+	        	statusCmp.addCls('warning');
+	        	statusCmp.setVisible(true);
+        	}
+	        
+	        // update the tooltip of the status component
+	        this._updateStatusCmpTooltip(fieldChecker);
+		}
 	},
 	
 	/**
 	 * @private
-	 * Generates the HTML code for the field checker's status tooltip.
-	 * @param {Ext.Element} el The element to add tooltips on
-	 * @param {Ametys.form.ConfigurableFormPanel.FieldChecker} fieldChecker the field checker 
-	 */
-	_generateStatusTip: function(el, fieldChecker)
-    {
-		var tipHtml = [],
-			tpl = new Ext.XTemplate(
-			   					"<tpl if='status == " + Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_NOT_TESTED + "'>{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_STATUS_NOT_TESTED}}</tpl>" +
-					   			"<tpl if='status == " + Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_SUCCESS + "'>{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_STATUS_SUCCESS}}</tpl>" +
-					   			"<tpl if='status == " + Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_FAILURE + "'>{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_STATUS_FAILURE}}</br>" +
-					   				'<tr>' + 
-					   					'<td colspan="2">' +
-					   						"- {{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_TOOLTIP_MESSAGE}} <strong>" + fieldChecker.errorMsg + "</strong>" +
-				   						'</td>' +
-			   						'</tr>' +
-				   				"</tpl>" +
-				   				"<tpl if='status == " + Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_DEACTIVATED + "'>" +
-				   					"{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_STATUS_DEACTIVATED}} </br>" +
-				   					'<tr>' + 
-				   						'<td colspan="2">' +
-				   							"{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_TOOLTIP_MESSAGE}}" +
-				   							"<strong>{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_TOOLTIP_DEACTIVATED_MESSAGE}}</strong>" +
-										'</td>' +
-			   						'</tr>' +
-								"</tpl>" +
-			   					"<tpl if='status == " + Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_WARNING + "'>" +
-					   				"{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_STATUS_WARNING}} </br>" +
-					   				"<tpl if='errorMsg != null'>" +
-				  		   				'<tr>' + 
-				  		   					'<td colspan="2">' +
-				  		   						"{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_TOOLTIP_MESSAGE2}} <strong>" + fieldChecker.errorMsg + "</strong>" +
-					   						'</td>' +
-				   						'</tr>' +
-			   						'</tpl>' +
-			   					'</tpl>'
-				   				);
-		
-		tpl.applyOut(fieldChecker, tipHtml);
-		var tip = tipHtml.join("");
-		
-		el.set({"data-qtip": ""}); 
-		el.set({"data-warnqtip": ""}); 
-		el.set({"data-errorqtip": ""}); 
+	 * Test whether the given field checker is activated or not 
+	 * @param {Ametys.form.ConfigurableFormPanel.FieldChecker} fieldChecker the field checker to test
+	 * @return true if the field checker is deactivated, false otherwise
+	 */	
+	_isDeactivated: function(fieldChecker)
+	{
+		var linkedFields = fieldChecker.getLinkedFields(),
+		    isDeactivated = true;
 
-		if (fieldChecker.getStatus() == Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_WARNING)
+		Ext.Array.each(linkedFields, function(linkedField) {
+	    	
+	    	// check if all linked fields are disabled
+			if (!linkedField.isDisabled())
+			{
+				isDeactivated = false;
+			}
+    	});
+	
+		return isDeactivated;
+	},
+	
+	/**
+	 * @private
+	 * Test whether the given field checker has an invalid linked field 
+	 * @param {Ametys.form.ConfigurableFormPanel.FieldChecker} fieldChecker the field checker to test
+	 * @return true if the field checker has at least one invalid linked field, false otherwise
+	 */	
+	_hasInvalidField: function(fieldChecker)
+	{
+		var linkedFields = fieldChecker.getLinkedFields(),
+			hasInvalidField = false;
+	
+		Ext.Array.each(linkedFields, function(linkedField) 
 		{
-			el.set({"data-warnqtip": tip}); 
-		}
-		else if (fieldChecker.getStatus() == Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_FAILURE)
-		{
-			el.set({"data-errorqtip": tip});
-		}
-		else if (fieldChecker.getStatus() == Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_DEACTIVATED)
-		{
-			el.set({"data-warnqtip": tip}); 
-		}
-    },
-    
+			if (!linkedField.isDisabled() && linkedField.isVisible() && !Ext.isEmpty(linkedField.getActiveErrors())) 
+			{
+				hasInvalidField = true;
+				return false;
+			}
+		});
+		
+		return hasInvalidField;
+	},
+	
     /**
 	 * @private
 	 * Update the warnings on fields
@@ -547,7 +565,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 				notTested = fieldChecker.getStatus() == Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_NOT_TESTED,
 				success = fieldChecker.getStatus() == Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_SUCCESS,
 				failure = fieldChecker.getStatus() == Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_FAILURE,
-				warning = fieldChecker.getStatus() == Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_WARNING,
 				warningMsg = "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_WARNING_TEXT_BEGINNING}}" + fieldChecker.label + "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_WARNING_TEXT_END}}";	
 			
 			Ext.Array.each(fieldChecker.getLinkedFields(), function(linkedField){
@@ -577,12 +594,84 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 	
 	/**
 	 * @private
-	 * Get the tooltip configuration for a given field checker
+	 * Updates the tooltip for the status component of the given field checker
+	 * @param {Ametys.form.ConfigurableFormPanel.FieldChecker} the field checker
+	 */
+	_updateStatusCmpTooltip: function(fieldChecker)
+	{
+		var target = Ext.getCmp(fieldChecker.statusCmpId).getEl();
+			tooltipCfg = 
+			{
+				target: target,
+				inribbon: false
+			};
+
+		switch (fieldChecker.getStatus())
+		{
+			case Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_FAILURE: 
+				tooltipCfg.text = '<strong>{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_STATUS_FAILURE}}</strong> ' + fieldChecker.errorMsg
+				break;
+				
+			case Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_DEACTIVATED:
+				tooltipCfg.text = "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_TOOLTIP_DEACTIVATED_MESSAGE}}";
+				break;
+				
+			case Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_WARNING:
+				tooltipCfg.text = "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_STATUS_WARNING}}" + 
+					    (!fieldChecker.errorMsg ? "" : 
+				    	" </br></br>" +
+						"{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_TOOLTIP_LAST_MESSAGE}} " + "\"" + fieldChecker.errorMsg + "\"");
+				break;
+
+			case Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_SUCCESS: // no tooltip
+				tooltipCfg = {};
+				break;
+			
+			case Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_NOT_TESTED: // no tooltip
+				tooltipCfg = {};
+				break;
+				
+			case Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_HIDDEN: // no tooltip
+				tooltipCfg = {};
+				break;
+				
+			default:
+				throw 'Unknown status ' + status;
+		}
+		
+		if (fieldChecker.getStatus() == Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_WARNING || fieldChecker.getStatus() == Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_DEACTIVATED)
+		{
+			tooltipCfg.cls = 'x-tip-form-warning';
+			tooltipCfg.image = Ametys.getPluginResourcesPrefix('core-ui') + '/themes/theme-ametys-admin/images/form/field/warning.png';
+			tooltipCfg.imageHeight = 17;
+			tooltipCfg.imageWidth = 17;
+		}
+		else if (fieldChecker.getStatus() == Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_FAILURE)
+		{
+			tooltipCfg.cls = 'x-tip-form-invalid';
+			tooltipCfg.image = Ametys.getPluginResourcesPrefix('core-ui') + '/themes/theme-ametys-admin/images/form/exclamation.png';
+			tooltipCfg.imageHeight = 17;
+			tooltipCfg.imageWidth = 17;
+		}
+		
+		if (!Ext.Object.isEmpty(tooltipCfg))
+		{
+			Ext.tip.QuickTipManager.register(tooltipCfg);
+		}
+		else
+		{
+			Ext.tip.QuickTipManager.unregister(target);
+		}
+	},
+	
+	/**
+	 * @private
+	 * Get the tooltip configuration for a given field checker's ametys description
 	 * @param {Ametys.form.ConfigurableFormPanel.FieldChecker} the field checker
 	 * @param {Ext.dom.Element} target the target element of the tooltip
 	 * @return {Object} the configuration object for the tooltip
 	 */
-	_getTooltipConfig: function(fieldChecker, target)
+	_getAmetysDescriptionTooltipConfig: function(fieldChecker, target)
 	{
 		var tooltipCfg = 
 		{
@@ -608,7 +697,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 	
     /**
      * Calls the server-side with the configuration parameters.
-     * @param {Ametys.form.ConfigurableFormPanel.FieldChecker[]} fieldCheckers the field checkers to use
+     * @param {Ametys.form.ConfigurableFormPanel.FieldChecker[]} fieldCheckers the field checkers to use, can be null to run all the tests
      * @param {Boolean} displayErrors true if the errors have to be displayed at the end of the tests
      * @param {Function} [callback] the optional callback for this function.
      * @param {Boolean} [forceTest=true] to replay even successful tests
@@ -616,8 +705,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
     check: function(fieldCheckers, displayErrors, callback, forceTest)
     {
         var form = this._form;
-        forceTest = forceTest !== false ? true : false;
-        fieldCheckers = fieldCheckers != null ? fieldCheckers : this._fieldCheckers; 
+		    forceTest = forceTest !== false ? true : false;
+		    fieldCheckers = fieldCheckers != null ? fieldCheckers : this._fieldCheckers; 
         
         var formValues = {};
         
@@ -626,34 +715,41 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
         Ext.Array.each(fieldCheckers, function(fieldChecker) {
             if (forceTest || fieldChecker.getStatus() != Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_SUCCESS)
             {
-            	var btn = Ext.getCmp(fieldChecker.buttonId);
-            	btn.disable();
-                btn.getEl().mask("");
-                
-                var fieldCheckerId = fieldChecker.id;
-                fieldCheckersInfo[fieldCheckerId] = {};
-                
-                var	rawTestValues = [],
-                	testParamsNames = [];
-                
-                // Add the names and the raw values of the linked parameters
-                Ext.Array.each(fieldChecker.getLinkedFields(), function(linkedField){
-                	rawTestValues.push(linkedField.getValue());
-                	testParamsNames.push(linkedField.getName());
-                });
-                
-                fieldCheckersInfo[fieldCheckerId].rawTestValues = rawTestValues;
-                fieldCheckersInfo[fieldCheckerId].testParamsNames = testParamsNames;
+            	if (!this._hasInvalidField(fieldChecker))
+        		{
+            		// Reset the error message before the test
+            		fieldChecker.setErrorMsg(null);
+            		
+            		var btn = Ext.getCmp(fieldChecker.buttonId);
+	            		btn.disable();
+	            		btn.getEl().mask("");
+            		
+            		var fieldCheckerId = fieldChecker.id;
+            			fieldCheckersInfo[fieldCheckerId] = {};
+            		
+            		var	rawTestValues = [],
+            			testParamsNames = [];
+            		
+            		// Add the names and the raw values of the linked parameters
+            		Ext.Array.each(fieldChecker.getLinkedFields(), function(linkedField){
+            			rawTestValues.push(linkedField.getValue());
+            			testParamsNames.push(linkedField.getName());
+            		});
+            		
+            		fieldCheckersInfo[fieldCheckerId].rawTestValues = rawTestValues;
+            		fieldCheckersInfo[fieldCheckerId].testParamsNames = testParamsNames;
+        		}
+            	else
+        		{
+            		fieldChecker.setErrorMsg("{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_INVALID_LINKED_FIELD}}");
+        		}
             }
-        });
+        }, this);
         
-        // Don't run tests if there is no test to run... 
+        // Don't run tests if there is no test to run... go directly to the check callback routine instead 
         if (Ext.Object.isEmpty(fieldCheckersInfo))
     	{
-        	if (callback && typeof callback === 'function') 
-            {
-                callback(true);
-            }
+        	this._checkCb({}, true, {}, fieldCheckers, callback, displayErrors);
     	}
         else
     	{
@@ -679,8 +775,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
      */
     _checkCb: function(options, success, response, fieldCheckers, callback, displayErrors)
     {   
-        var form = this._form;
-        
         if (!success)
         {
             Ametys.log.ErrorDialog.display({
@@ -702,24 +796,22 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
             return;
         }
         
-        var params = options.params,
+        var form = this._form,
             result = response.responseXML,
+            errorMessages = Ext.dom.Query.selectDirectElements("* > *", result); // We cannot use a better selector because of possible "." in the tagName.
             errors = 0;
 
         // Server's response handler
         Ext.Array.each(fieldCheckers, function(fieldChecker) {
             var btn = Ext.getCmp(fieldChecker.buttonId),
                 helpBox = Ext.getCmp(fieldChecker.helpBoxId),
-                statusCmp = Ext.getCmp(fieldChecker.statusCmpId),
-                errorMessages = Ext.dom.Query.selectDirectElements("* > *", result); // We cannot make a better selector because of possible "." in the tagName.
+                statusCmp = Ext.getCmp(fieldChecker.statusCmpId);
                 
             // Compute the corresponding error message
-            var errorMsg = null;
             Ext.Array.each(errorMessages, function(errorMessage){
-            	
             	if (errorMessage.tagName == fieldChecker.id)
         		{
-            		errorMsg = errorMessage.childNodes[0].textContent; 
+            		fieldChecker.setErrorMsg(errorMessage.childNodes[0].textContent); 
         		}
             });
             
@@ -730,7 +822,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
             statusCmp.removeCls(['failure', 'warning', 'success']);
             
             // Update the field checker's component
-            if (errorMsg == null)
+            if (fieldChecker.getErrorMsg() == null)
             {
             	statusCmp.addCls('success');
             	fieldChecker.setStatus(Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_SUCCESS);
@@ -743,9 +835,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
                 fieldChecker.setStatus(Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_FAILURE);
             }
             
-            fieldChecker.setErrorMsg(errorMsg);
-            this._generateStatusTip(statusCmp.getEl(), fieldChecker);
-            Ext.tip.QuickTipManager.register(this._getTooltipConfig(fieldChecker, helpBox.getEl()));
+            this._updateStatusCmpTooltip(fieldChecker);
         }, this);
         
         this._updateTestResults();
