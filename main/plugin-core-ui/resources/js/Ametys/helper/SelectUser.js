@@ -57,6 +57,10 @@ Ext.define('Ametys.helper.SelectUser', {
      * @private
      */
     /**
+     * @property {String} _noPopulationMessage The message to display when there is no user population available for the context.
+     * @private
+     */
+    /**
      * @property {String} _allPopulationsOptionId The id of the 'all populations' options.
      * @private
      * @readonly
@@ -111,6 +115,7 @@ Ext.define('Ametys.helper.SelectUser', {
      * @param {String} [config.url=users/search.json] The url to use for search request.
      * @param {String} [config.context] The context for the populations to display in the combobox. Default to the current context.
      * @param {Boolean} [config.enableAllPopulationsOption=true] True to add an option in the populations combobx for searching over all the populations.
+     * @param {String} [config.noPopulationMessage] The message to display when there is no user population available for the context. There is a default message if not provided.
      * @param {Boolean} [config.showDirectoryCombobox] True to show the user directory combobox field (then it is possible to filter with user directories).
      */
     act: function (config)
@@ -124,6 +129,7 @@ Ext.define('Ametys.helper.SelectUser', {
         this.url = config.url || 'users/search.json';
         this.context = config.context != null ? config.context : Ametys.getAppParameter('context');
         this._enableAllPopulationsOption = config.enableAllPopulationsOption !== false;
+        this._noPopulationMessage = config.noPopulationMessage || "{{i18n PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_NO_POPULATION_DESCRIPTION}}";
         
         this._delayedInitialize();
         
@@ -340,6 +346,20 @@ Ext.define('Ametys.helper.SelectUser', {
      */
     _onLoadPopulations: function(store, records)
     {
+        if (records.length == 0)
+        {
+            Ext.Msg.show({
+                title: "{{i18n PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_NO_POPULATION_TITLE}}",
+                msg: this._noPopulationMessage,
+                buttons: Ext.Msg.OK,
+                icon: Ext.MessageBox.WARNING,
+                fn: Ext.bind(function() {
+                    this._box.close();
+                }, this)
+            });
+            return;
+        }
+        
         if (this._enableAllPopulationsOption)
         {
             // Add an option in the populations combobox for searching over all the populations

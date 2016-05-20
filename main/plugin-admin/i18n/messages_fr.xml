@@ -388,6 +388,7 @@
     <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_TITLE">Affecter un gestionnaire</message>
     <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_ERROR">Une erreur est survenue. Impossible d'affecter ce ou ces utilisateurs.</message>
     <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_SUCCESS">L'affectation a été effectuée.</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_NO_POPULATION_DESCRIPTION">Votre application ne possède pas de population d'utilisateurs autorisée. Veuillez choisir une population d'utilisateurs autorisée à accéder à l'espace contribution avant de pouvoir continuer.</message>
     
     <!-- +
          | ALERTS 

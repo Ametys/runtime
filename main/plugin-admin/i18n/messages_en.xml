@@ -389,6 +389,7 @@
     <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_ERROR">An error occurred: the allocation has failed.</message>
     <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_TITLE">Assign super user</message>
     <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_SUCCESS">The allocation has been completed.</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_NO_POPULATION_DESCRIPTION">Your application does not have any allowed user population. Please choose a user population allowed to access to the contributor area before being able to continue.</message>
     
     <!-- +
          | ALERTS 

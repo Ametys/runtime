@@ -29,6 +29,7 @@ Ext.define('Ametys.plugins.admin.superuser.SuperUserActions', {
 	{
 		Ametys.helper.SelectUser.act({
             context: this._getAppContext(controller),
+            noPopulationMessage: this._getNoPopulationMessage(),
 			callback: Ext.bind(this._affectSuperUser, this, [controller], 1), 
 			cancelCallback: null, 
 			allowMultiselection: true, 
@@ -113,5 +114,16 @@ Ext.define('Ametys.plugins.admin.superuser.SuperUserActions', {
 	_getRightContext: function(controller)
 	{
 		return "";
-	}
+	},
+    
+    /**
+     * @protected
+     * Get the message to display when no user population is linked to the context
+     * @param {Ametys.ribbon.element.ui.ButtonController} controller the button's controller
+     * @return {String} the message to display when no user population is linked to the context
+     */
+    _getNoPopulationMessage: function(controller)
+    {
+        return "{{i18n PLUGINS_ADMIN_SUPERUSER_AFFECT_NO_POPULATION_DESCRIPTION}}";
+    }
 });
