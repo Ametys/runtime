@@ -329,18 +329,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
 		}
 		else if (ldapConnectionChecker.getStatus() == Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_FAILURE)
 		{
-			Ametys.Msg.show({
-				title: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_INVALID_CREATION_TITLE}}",
-				message: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_INVALID_CREATION_MSG}}",
-				icon: Ext.Msg.WARNING,
-				buttons: Ext.Msg.YESNO,
-				scope: this,
-				fn : function(btn) {
-					if (btn == 'yes') {
-						this._okCb();
-					}
-				}
-			});
+			this._displayInvalidDataSourceDialog();
 		}
 		else
 		{
@@ -355,8 +344,31 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
 			              { 
 			            	  this._okCb();
 			              }
+			              else
+		            	  {
+			            	  this._displayInvalidDataSourceDialog();
+		            	  }
 		      	  		}, this), false);  
 		}
+ 	},
+ 	
+ 	/**
+ 	 * Display the warning dialog for the saving of invalid data sources
+ 	 */
+ 	_displayInvalidDataSourceDialog: function()
+ 	{
+ 		Ametys.Msg.show({
+			title: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_INVALID_CREATION_TITLE}}",
+			message: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_INVALID_CREATION_MSG}}",
+			icon: Ext.Msg.WARNING,
+			buttons: Ext.Msg.YESNO,
+			scope: this,
+			fn : function(btn) {
+				if (btn == 'yes') {
+					this._okCb();
+				}
+			}
+		});
  	},
  	
  	/**
