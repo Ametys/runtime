@@ -992,7 +992,7 @@
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_HINT4">You can choose the identifier associated to the population or use the one proposed by default.&lt;br/&gt;The identifier must be unique so as to distinguish the users sharing the same 'login' in two different populations For instance, 'ldap/admin' and 'mysql/admin' are two separate users with separate rights and with the same login 'admin' (one form the LDAP and one from the MySQl database).&lt;br/&gt;Once created, this identifier will no longer be editable.&lt;br/&gt;&lt;br/&gt;</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_POPULATION_ID_LABEL">Identifier</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_POPULATION_ID_DESC">Unique identifier of the user population</message>
-    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_POPULATION_ID_INVALID">Invalid identifier. It must begin with a lowercase letter and can only contain alphanumeric and underscore characters.</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_POPULATION_ID_INVALID">Invalid identifier. It must begin with a lowercase letter and can only contain alphanumeric characters, underscore and dash.</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_POPULATION_ID_EXISTING">The identifier already exists for another population. Please choose another one.</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_SECOND_CARD_HINT">Select and parameterize the user directory(ies) which compose your population.&lt;br/&gt;&lt;br/&gt;A login must be unique in a population. Thus, if you configure le user directories ActiveDirectory + Oracle, you have to make sure the logins of the ActiveDirectory are separate from the ones of the SQL database.&lt;br/&gt;In case of doubt about the unicity, it is recommended to create separate populations.</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_USER_DIRECTORY_ENTRY_LABEL">User directory</message>
@@ -1116,7 +1116,7 @@
     <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_LABEL_DESC">Group directory label</message>
     <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ID_LABEL">Identifier</message>
     <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ID_DESC">Unique identifier of the group directory</message>
-    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ID_INVALID">Invalid identifier. It must begin with a lowercase letter and can not contain spaces, special characters, or uppercase.</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ID_INVALID">Invalid identifier. It must begin with a lowercase letter and can only contain alphanumeric characters, underscore and dash.</message>
     <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ID_EXISTING">The identifier already exists for another group directory. Please choose another one.</message>
     <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_MODEL_LABEL">Type of group directory</message>
     <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_MODEL_DESCRIPTION">Type of group directory</message>.

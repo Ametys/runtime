@@ -995,7 +995,7 @@
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_HINT4">Vous pouvez choisir l'identifiant associé à cette population ou utiliser celui proposé par défaut.&lt;br/&gt;L'identifiant doit être unique afin de différencier les utilisateurs partageant un même 'login' dans deux populations différentes. Par exemple, 'ldap/admin' et 'mysql/admin' sont deux utilisateurs distincts avec des droits distincts ayant pour login 'admin' (l'un dans le LDAP et l'autre dans la base MySQL).&lt;br/&gt;Une fois créé, cet identifiant ne sera plus modifiable.&lt;br/&gt;&lt;br/&gt;</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_POPULATION_ID_LABEL">Identifiant</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_POPULATION_ID_DESC">Identifiant unqiue de la population d'utilisateurs</message>
-    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_POPULATION_ID_INVALID">L'identifiant n'est pas valide. Il doit commencer par une lettre et ne peut contenir que des caractères alphanumériques (dont le caractère &#171; _ &#187;).</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_POPULATION_ID_INVALID">L'identifiant n'est pas valide. Il doit commencer par une lettre et ne peut contenir que des caractères alphanumériques (ainsi que les caractères &#171; _ &#187; et &#171; - &#187;).</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_POPULATION_ID_EXISTING">L'identifiant existe déjà pour une autre population. Veuillez en choisir un autre.</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_SECOND_CARD_HINT">Sélectionnez et paramétrez le (ou les) répertoire(s) d'utilisateurs qui composeront votre population.&lt;br/&gt;&lt;br/&gt;A l'intérieur d'une population d'utilisateurs, un login doit être unique. Ainsi, si vous configurez les répertoires d'utilisateurs ActiveDirectory + Oracle, il faut vous assurer que les logins contenus dans l'ActiveDirectory sont distincts de ceux de la base SQL.&lt;br/&gt;En cas de doute sur l'unicité, il est recommandé de créer des populations distinctes.</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_USER_DIRECTORY_ENTRY_LABEL">Répertoire d'utilisateurs</message>
@@ -1119,7 +1119,7 @@
     <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_LABEL_DESC">Libellé du répertoire de groupes</message>
     <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ID_LABEL">Identifiant</message>
     <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ID_DESC">Identifiant unique du répertoire de groupes</message>
-    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ID_INVALID">L'identifiant n'est pas valide. Il doit commencer par une lettre et ne peut pas contenir d'espaces, de caractères spéciaux ou de majuscules.</message>
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ID_INVALID">L'identifiant n'est pas valide. Il doit commencer par une lettre et ne peut contenir que des caractères alphanumériques (ainsi que les caractères &#171; _ &#187; et &#171; - &#187;).</message>
     <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ID_EXISTING">L'identifiant existe déjà pour un autre répertoire de groupes. Veuillez en choisir un autre.</message>
     <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_MODEL_LABEL">Type de répertoire de groupes</message>
     <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_MODEL_DESCRIPTION">Type de répertoire de groupes</message>.

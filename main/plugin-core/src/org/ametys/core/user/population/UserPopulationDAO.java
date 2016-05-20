@@ -87,7 +87,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
     private static final File __USER_POPULATIONS_FILE = new File(AmetysHomeHelper.getAmetysHome(), "config" + File.separator + "user-populations.xml");
     
     /** The regular expression for an id of a user population */
-    private static final String __ID_REGEX = "^[a-z][a-z0-9_]*";
+    private static final String __ID_REGEX = "^[a-z][a-z0-9_-]*";
     
     /** The date of the last update of the XML file */
     private long _lastUpdate;

@@ -75,7 +75,7 @@ public class GroupDirectoryDAO extends AbstractLogEnabled implements Component, 
     private static final File __GROUP_DIRECTORIES_FILE = new File(AmetysHomeHelper.getAmetysHome(), "config" + File.separator + "group-directories.xml");
     
     /** The regular expression for an id of a group directory */
-    private static final String __ID_REGEX = "^[a-z][a-z0-9_]*";
+    private static final String __ID_REGEX = "^[a-z][a-z0-9_-]*";
     
     /** The date of the last update of the XML file */
     private long _lastUpdate;

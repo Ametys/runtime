@@ -54,7 +54,7 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
      * @private
      * @property {RegExp} _idRegex The regular expression the id of a population must match
      */
-    _idRegex: /^[a-z][a-z0-9_]*$/,
+    _idRegex: /^[a-z][a-z0-9_-]*$/,
     
     /**
      * Open the helper for creating/editing a user population
@@ -469,9 +469,9 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
      */
     _labelToId: function(value)
     {
-        // toLowerCase -> trim -> deemphasize -> all non valid characters become '_' 
-        // -> multiple '_' replaced by one -> do not start with '_' 
-        value = Ext.String.deemphasize(value.toLowerCase().trim()).replace(/\W/g, "_").replace(/_+/g, "_").replace(/^_/g, "");
+        // toLowerCase -> trim -> deemphasize -> all non valid characters become '-' 
+        // -> multiple '-' replaced by one -> do not start with '-' 
+        value = Ext.String.deemphasize(value.toLowerCase().trim()).replace(/\W/g, "-").replace(/-+/g, "-").replace(/^-/g, "");
         
         var i = 2;
         var suffixedValue = value;
