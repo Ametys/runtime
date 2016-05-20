@@ -36,6 +36,7 @@
                         <control id="org.ametys.plugins.admin.JVMStatus"/>
                         <control id="org.ametys.plugins.admin.SystemProperties"/>
                         <control id="org.ametys.plugins.admin.Monitoring"/>
+                        <control id="org.ametys.plugins.core.ui.Script"/>
                     </medium>
                     <small/>
                 </group>
@@ -212,6 +213,20 @@
                     <medium>
                         <control id="org.ametys.plugins.core.ui.log.ServerLogTool.Pause"/>
                         <control id="org.ametys.plugins.core.ui.log.ServerLogTool.Clear"/>
+                    </medium>
+                    <small/>
+                </group>
+            </groups>
+        </tab>
+        
+        <!-- Contextual tab for JS Console -->
+        <tab id="org.ametys.plugins.core.ui.ScriptTab" label="plugin.core-ui:PLUGINS_CORE_UI_TOOLS_SCRIPT_TAB_LABEL" contextualLabel="plugin.core-ui:PLUGINS_CORE_UI_TOOLS_SCRIPT_TAB_LABEL" contextualColor="4" contextualGroup="CONSOLE">
+            <groups>
+                <group label="plugin.core-ui:PLUGINS_CORE_UI_TOOLS_SCRIPT_TAB_LABEL" icon="">
+                    <large/>
+                    <medium>
+                        <control id="org.ametys.plugins.core.ui.Script.Execute"/>
+                        <control id="org.ametys.plugins.core.ui.Console.Clear"/>
                     </medium>
                     <small/>
                 </group>

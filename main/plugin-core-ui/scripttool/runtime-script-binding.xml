@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2016 Anyware Services
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
+<function class="org.ametys.plugins.core.ui.script.RuntimeScriptBinding">
+    <descriptions>
+        <description>
+            <name>sqlQuery</name>
+            <text i18n="true">plugin.core-ui:PLUGINS_CORE_UI_SCRIPT_FCT_SQLQUERY</text>
+        </description>
+    </descriptions>
+    <script>
+function sqlQuery(query, dataSource) {
+    var connection = dataSource.getConnection();
+    __cleanup_manager.register(function() {
+        org.ametys.core.datasource.ConnectionHelper.cleanup(connection);
+    });
+    
+    var stmt = connection.prepareStatement(query);
+    __cleanup_manager.register(function() {
+        org.ametys.core.datasource.ConnectionHelper.cleanup(stmt);
+    });
+    
+    var rs = stmt.executeQuery();
+    __cleanup_manager.register(function() {
+        rs.close();
+    });
+    
+    return rs;
+}
+    </script>
+</function>

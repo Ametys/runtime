@@ -129,6 +129,12 @@
                          safe="true">
             <!-- Handles the factories for message bus targets that are used on client side -->
         </extension-point>
+        
+        <extension-point id="org.ametys.plugins.core.ui.script.ScriptBindingExtensionPoint"
+                         class="org.ametys.plugins.core.ui.script.ScriptBindingExtensionPoint"
+                         safe="true">
+            <!-- Provided additional script binding for the admin JS scripts tool -->
+        </extension-point>
     </extension-points>
     
     <feature name="saxclienthelper" safe="true">
@@ -2590,6 +2596,177 @@
                     <suffix>.sass</suffix>
                     <suffix>.scss</suffix>
                 </suffixes>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="plugin.core.ui.scripts" safe="true">
+        <extensions>
+            <extension point="org.ametys.core.right.RightsExtensionPoint"
+                       id="core.script.rights.execute">
+                <right id="CORE_Rights_ExecuteScript">
+                    <label>PLUGINS_CORE_UI_RIGHTS_SCRIPT_EXECUTE_LABEL</label>
+                    <description>PLUGINS_CORE_UI_RIGHTS_SCRIPT_EXECUTE_DESCRIPTION</description>
+                    <category>PLUGINS_CORE_RIGHTS_SCRIPTS_CATEGORY</category>
+                </right>
+            </extension>
+        
+            <extension id="org.ametys.plugins.core.ui.ScriptTab"
+                       point="org.ametys.core.ui.RibbonTabsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.tab.TabController">
+                    <tool-id>^(uitool-admin-script|uitool-admin-console)$</tool-id>
+                </class>
+            </extension>
+            
+            <extension id="org.ametys.plugins.core.ui.Script.Execute"
+                     point="org.ametys.core.ui.RibbonControlsManager"
+                     class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                   <action>Ametys.plugins.coreui.script.ScriptActions.executeScript</action>
+                   <tool-id>^uitool-admin-script$</tool-id>
+                  
+                   <label i18n="true">PLUGINS_CORE_UI_TOOLS_SCRIPT_TAB_EXECUTE_LABEL</label>
+                   <description i18n="true">PLUGINS_CORE_UI_TOOLS_SCRIPT_TAB_EXECUTE_DESC</description>
+                  
+                   <icon-glyph>flaticon-play124</icon-glyph>
+                </class>
+                <scripts>
+                    <file>js/Ametys/script/ScriptActions.js</file>
+                </scripts>
+                <right>CORE_Rights_ExecuteScript</right>
+            </extension>
+        
+            <extension id="org.ametys.plugins.core.ui.Console.Clear"
+                     point="org.ametys.core.ui.RibbonControlsManager"
+                     class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                   <action>Ametys.plugins.coreui.script.ScriptActions.clearResults</action>
+                   <tool-id>^uitool-admin-console$</tool-id>
+                   <tool-enable-on-status>open</tool-enable-on-status>
+                  
+                   <label i18n="true">PLUGINS_CORE_UI_TOOLS_SCRIPT_TAB_CLEAR_LABEL</label>
+                   <description i18n="true">PLUGINS_CORE_UI_TOOLS_SCRIPT_TAB_CLEAR_DESC</description>
+                  
+                   <icon-glyph>flaticon-eraser11</icon-glyph>
+                </class>
+                <scripts>
+                    <file>js/Ametys/script/ScriptActions.js</file>
+                </scripts>
+                <right>CORE_Rights_ExecuteScript</right>
+            </extension>
+        
+            <extension id="org.ametys.plugins.core.ui.Script"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
+                    <opentool-id>uitool-admin-script</opentool-id>
+                    
+                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_SCRIPT_TITLE</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_SCRIPT_DESCRIPTION</description>
+                    <help>org.ametys.coreui.script</help>
+                    
+                    <icon-glyph>flaticon-computer196</icon-glyph>
+                    <icon-small file="true">img/console/console-16.png</icon-small>
+                    <icon-medium file="true">img/console/console-32.png</icon-medium>
+                    <icon-large file="true">img/console/console-48.png</icon-large>
+                </class>
+                <right>CORE_Rights_ExecuteScript</right>
+                <depends>
+                    <org.ametys.core.ui.UIToolsFactoriesManager>uitool-admin-script</org.ametys.core.ui.UIToolsFactoriesManager>
+                </depends>
+            </extension>
+            <extension id="uitool-admin-script"
+                       point="org.ametys.core.ui.UIToolsFactoriesManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.tool.factory.UniqueToolFactory">
+                    <toolClass>Ametys.plugins.coreui.script.ScriptTool</toolClass>
+                    
+                    <title i18n="true">PLUGINS_CORE_UI_TOOLS_SCRIPT_TITLE</title>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_SCRIPT_DESCRIPTION</description>
+                    <help>org.ametys.coreui.script</help>
+                    
+                    <icon-glyph>flaticon-computer196</icon-glyph>
+                    <icon-small file="true">img/console/console-16.png</icon-small>
+                    <icon-medium file="true">img/console/console-32.png</icon-medium>
+                    <icon-large file="true">img/console/console-48.png</icon-large>
+                    
+                    <default-location></default-location>
+                </class>
+                <scripts>
+                    <file>js/Ametys/script/ScriptTool.js</file>
+                </scripts>
+                <css>
+                    <file>css/Ametys/script/scripts.css</file>
+                </css>
+                <depends>
+                    <org.ametys.core.ui.UIToolsFactoriesManager>uitool-admin-console</org.ametys.core.ui.UIToolsFactoriesManager>
+                </depends>
+            </extension>
+            <extension id="org.ametys.core.ui.ConsoleResult"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
+                    <opentool-id>uitool-admin-console</opentool-id>
+                    
+                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_SCRIPT_RESULT_TITLE</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_SCRIPT_RESULT_DESCRIPTION</description>
+                    <help>org.ametys.coreui.console.result</help>
+                    
+                    <icon-small file="true">img/console/console-result-16.png</icon-small>
+                    <icon-medium file="true">img/console/console-result-32.png</icon-medium>
+                    <icon-large file="true">img/console/console-result-48.png</icon-large>
+                </class>
+                <depends>
+                    <org.ametys.core.ui.UIToolsFactoriesManager>uitool-admin-console</org.ametys.core.ui.UIToolsFactoriesManager>
+                </depends>
+            </extension>
+            <extension id="uitool-admin-console"
+                       point="org.ametys.core.ui.UIToolsFactoriesManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.tool.factory.UniqueToolFactory">
+                    <toolClass>Ametys.plugins.coreui.script.ConsoleTool</toolClass>
+                    
+                    <title i18n="true">PLUGINS_CORE_UI_TOOLS_SCRIPT_RESULT_TITLE</title>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_SCRIPT_RESULT_DESCRIPTION</description>
+                    <help>org.ametys.coreui.console.result</help>
+                    
+                    <icon-small file="true">img/console/console-result-16.png</icon-small>
+                    <icon-medium file="true">img/console/console-result-32.png</icon-medium>
+                    <icon-large file="true">img/console/console-result-48.png</icon-large>
+                    
+                    <default-location>r</default-location>
+                </class>
+                <scripts>
+                    <file>js/Ametys/script/ConsoleTool.js</file>
+                </scripts>
+                <css>
+                    <file>css/Ametys/script/scripts-result.css</file>
+                </css>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="plugin.core.ui.scriptshandler" safe="true">
+        <components>
+            <component role="org.ametys.plugins.core.ui.script.ScriptHandler"
+                       id="org.ametys.plugins.core.ui.script.ScriptHandler"
+                       class="org.ametys.plugins.core.ui.script.ScriptHandler"
+                       logger="org.ametys.plugins.core.ui.script.ScriptHandler" />
+        </components>
+    </feature>
+        
+    <feature name="plugin.core.ui.scripts.defaultbinding">
+        <extensions>
+            <extension point="org.ametys.plugins.core.ui.script.ScriptBindingExtensionPoint"
+                       id="org.ametys.plugins.core.ui.script.RuntimeScriptBinding"
+                       class="org.ametys.plugins.core.ui.script.RuntimeScriptBinding"
+                       config="scripttool/runtime-script-binding.xml">
+            </extension>
+            <extension point="org.ametys.plugins.core.ui.script.ScriptBindingExtensionPoint"
+                       id="org.ametys.plugins.core.ui.script.StaticConfigurableScriptBinding"
+                       class="org.ametys.plugins.core.ui.script.StaticConfigurableScriptBinding"
+                       config="/WEB-INF/param/scripts.xml">
             </extension>
         </extensions>
     </feature>

@@ -109,19 +109,6 @@ Ext.define('Ametys.form.field.Code', {
         return this._codeMirror;
     },
     
-    /**
-     * Get the field value (the CodeMirror area content).
-     * @return {String} The full CodeMirror area content.
-     */
-    getValue: function()
-    {
-        if (this._codeMirror) 
-        {
-            return this._codeMirror.getValue();
-        }
-        return this.initialConfig.value;
-    },
-    
     setReadOnly: function (readOnly)
     {
         this._readOnly = readOnly;
@@ -160,11 +147,32 @@ Ext.define('Ametys.form.field.Code', {
  		this.originalValue = this.originalValue || '';
  		this.callParent(arguments);
  	},
+    
+    getValue: function()
+    {
+        var value;
+        if (this._codeMirror) 
+        {
+            value = this._codeMirror.getValue();
+        }
+        else if (this._futureValue != null)
+        {
+            value = this._futureValue;
+        }
+        else
+        {
+            value = this.initialConfig.value;
+        }
+        
+        if (this.rendered)
+        {
+            this.inputEl.dom.value = value;
+            return this.callParent(arguments);
+        }
+        
+        return value;
+    },
 
-    /**
-     * Set the field value.
-     * @param {String} v The text to set.
-     */
     setValue: function (v)
     {
         this.callParent([v]);
@@ -188,6 +196,7 @@ Ext.define('Ametys.form.field.Code', {
         if (this._futureValue != '')
         {
             this.setValue(_futureValue);
+            this._futureValue = null;
         }
     },
     
@@ -270,10 +279,6 @@ Ext.define('Ametys.form.field.Code', {
                 initCallback: function() {
                     me._initialized = true;
                     me.fireEvent('initialize', true);
-                },
-                
-                onChange: function (n) { 
-                    me.fireEvent('change', true);
                 }
             };
             
@@ -288,6 +293,19 @@ Ext.define('Ametys.form.field.Code', {
             
             // Styling the current cursor line
             this._codeMirror.on("change", Ext.bind(this._onChange, this));
+            
+            /**
+             * @event befirechange
+             * Fires before the content is changed.
+             * @param {Object} codeMirror the current codeMirror instance
+             * @param {Object} changes The object with the current changes, with properties from, to and text, a cancel() and a update() method.
+             */            
+            this._codeMirror.on("beforeChange", function(cm, change) { 
+                me.fireEvent('beforechange', cm, change); 
+            });
+            
+            // Relay on change event
+            this._codeMirror.on("change", function() { me.fireEvent('change', true); });
         }
     },
     
@@ -328,6 +346,24 @@ Ext.define('Ametys.form.field.Code', {
     {
         this.callParent(arguments);
         this.onBlur(e);
+    },
+    
+    getState: function()
+    {
+        var state = this.callParent(arguments);
+        if (state && state.value)
+        {
+            state.value = Ext.JSON.encode(state.value);
+        }
+        return state;
+    },
+    
+    applyState: function(state)
+    {
+        if (state && state.value)
+        {
+            state.value = Ext.JSON.decode(state.value);
+        }
+        this.callParent(arguments);
     }
-
 });

@@ -898,6 +898,44 @@
     <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_RIBBON_TIP_TITLE">Notifications</message>
     <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_RIBBON_TIP_DESCRIPTION">Ouvrir l'outil des notifications.&lt;br/&gt;&lt;br/&gt;Le chiffre indique le nombre de message non lus. La couleur indique le type de message le plus grave parmi ces messages non lus : rouge pour erreur, orange pour avertissement et bleu pour simple information.</message>
     
+    <!--+
+        | Script tool
+        +-->
+    <message key="PLUGINS_CORE_UI_RIGHTS_SCRIPT_EXECUTE_LABEL">Exécuter un script</message>
+    <message key="PLUGINS_CORE_UI_RIGHTS_SCRIPT_EXECUTE_DESCRIPTION">Exécuter un script dans l'outil des scripts.</message>
+    <message key="PLUGINS_CORE_RIGHTS_SCRIPTS_CATEGORY">Scripts</message>
+    
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_TAB_LABEL">Scripts</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_TAB_EXECUTE_LABEL">Exécuter</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_TAB_EXECUTE_DESC">Exécuter le script qui a été écrit dans la console</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_TAB_CLEAR_LABEL">Effacer les résultats</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_TAB_CLEAR_DESC">Effacer les resultats des scripts affichés dans l'outil Console</message>
+    
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_TITLE">Scripts</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_DESCRIPTION">L'outil des scripts permet d'écrire et exécuter des scripts serveurs avec la syntaxe javascript.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_RESULT_TITLE">Console</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_RESULT_DESCRIPTION">Cet outil présente les résultats d'exécution des scripts.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_RESULTS_NO_RESULT">Aucun résultat.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_RESULT_MSG">Script terminé à </message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_RESULT_MSG_SEC">secondes</message>
+    
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_FOOTER_HINT_LINE1">// Du code supplémentaire généré automatiquement sera ajouté ci-dessous.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_FOOTER_HINT_LINE2">// Référez-vous à l'aide en haut à droite pour plus d'informations.</message>
+    
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_SCRIPT_HINT">Entrez votre code dans la fonction main ci-dessous. Elle sera exécutée par le serveur. Des variables et des fonctions prédéfinies sont également à votre disposition.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_SCRIPT_HINT_VARIABLES">Variables disponibles :</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_SCRIPT_HINT_FUNCTIONS">Fonctions disponibles :</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_SCRIPT_HINT_ADDITIONAL_SCRIPT">Vous pouvez également enrichir cette liste en définissant vos propres fonctions dans le fichier 'WEB-INF/param/scripts.xml'.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_SCRIPT_HINT_ERROR">Impossible de récupérer la liste des variables et fonctions disponibles.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_WAITING_MESSAGE">Veuillez patienter pendant l'exécution du script...</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_EXECUTE_ERROR">L'exécution du script a échoué</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_HELP_TITLE">Aide</message>
+
+    <message key="PLUGINS_CORE_UI_SCRIPT_VAR_SERVICEMANAGER">Permet de chercher et utiliser des composants</message>
+    <message key="PLUGINS_CORE_UI_SCRIPT_VAR_RESOLVER">Permet de résoudre les URI et de récupérer les ressources</message>
+    <message key="PLUGINS_CORE_UI_SCRIPT_VAR_AVALONCONTEXT">Contexte Avalon actuel</message>
+    <message key="PLUGINS_CORE_UI_SCRIPT_FCT_SQLQUERY">fonction permettant d'exécuter une requête SQL sur une dataSource (ex: sqlQuery("SELECT * FROM content WHERE title LIKE '%school%'", dataSource);).</message>
+    
     <!-- +
          | ABOUT AMETYS
          + -->

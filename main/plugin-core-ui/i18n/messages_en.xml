@@ -894,6 +894,44 @@
     <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_NO_NOTIFICATIONS">No notifications</message>
     <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_RIBBON_TIP_TITLE">Notifications</message>
     <message key="PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_RIBBON_TIP_DESCRIPTION">Open the notification tool.&lt;br/&gt;&lt;br/&gt;A figure on the ribbon icon displays the number of unread message. The color indicates the most serious message type among these unread messages: red for error, yellow for warning, and blue for simple information.</message>
+        
+    <!--+
+        | Script tool
+        +-->
+    <message key="PLUGINS_CORE_UI_RIGHTS_SCRIPT_EXECUTE_LABEL">Run a script</message>
+    <message key="PLUGINS_CORE_UI_RIGHTS_SCRIPT_EXECUTE_DESCRIPTION">Run a script through the script tool.</message>
+    <message key="PLUGINS_CORE_RIGHTS_SCRIPTS_CATEGORY">Scripts</message>
+    
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_TAB_LABEL">Scripts</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_TAB_EXECUTE_LABEL">Run</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_TAB_EXECUTE_DESC">Run the script typed in the tool.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_TAB_CLEAR_LABEL">Clear results</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_TAB_CLEAR_DESC">Clear the script results from the result tool.</message>
+        
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_TITLE">Scripts</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_DESCRIPTION">The scripts tool allows you to write and execute server scripts with the javascript syntax.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_RESULT_TITLE">Console</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_RESULT_DESCRIPTION">This tool displays the script execution results.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_RESULTS_NO_RESULT">No result.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_RESULT_MSG">Script ended at </message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_RESULT_MSG_SEC">seconds</message>
+    
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_FOOTER_HINT_LINE1">// Additional generated code will be added below.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_FOOTER_HINT_LINE2">// Please refers to the help in the top right corner for more informations.</message>
+    
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_SCRIPT_HINT">Enter the script to execute in the main function below, which will be executed by the server. Some functions and variables are predefined and available for use.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_SCRIPT_HINT_VARIABLES">Variables available :</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_SCRIPT_HINT_FUNCTIONS">Functions available :</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_SCRIPT_HINT_ADDITIONAL_SCRIPT">You can also define your own function by creating the file 'WEB-INF/param/scripts.xml'.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_SCRIPT_HINT_ERROR">Unable to fetch the list of variables and functions available.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_WAITING_MESSAGE">Please wait during script execution ...</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_EXECUTE_ERROR">The script execution has failed</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SCRIPT_HELP_TITLE">Help</message>
+    
+    <message key="PLUGINS_CORE_UI_SCRIPT_VAR_SERVICEMANAGER">Allows to lookup and use components</message>
+    <message key="PLUGINS_CORE_UI_SCRIPT_VAR_RESOLVER">Allows resolving URI to retrieve custom sources</message>
+    <message key="PLUGINS_CORE_UI_SCRIPT_VAR_AVALONCONTEXT">Current Avalon context</message>
+    <message key="PLUGINS_CORE_UI_SCRIPT_FCT_SQLQUERY">function allowing to execute SQL requests on a dataSource (ex: sqlQuery("SELECT * FROM content WHERE title LIKE '%school%'", dataSource);).</message>
     
     <!-- +
          | ABOUT AMETYS
