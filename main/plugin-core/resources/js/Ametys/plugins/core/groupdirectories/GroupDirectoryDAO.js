@@ -318,7 +318,7 @@ Ext.define('Ametys.plugins.core.groupdirectories.GroupDirectoryDAO', {
             Ext.create('Ametys.message.Message', {
 		        type: Ametys.message.Message.CREATED,
 		        targets: [{
-                    type: Ametys.message.MessageTarget.GROUP_DIRECTORY,
+                    id: Ametys.message.MessageTarget.GROUP_DIRECTORY,
                     parameters: {
                         id: id
                     }
@@ -350,7 +350,7 @@ Ext.define('Ametys.plugins.core.groupdirectories.GroupDirectoryDAO', {
             Ext.create('Ametys.message.Message', {
 		        type: Ametys.message.Message.MODIFIED,
 		        targets: [{
-                    type: Ametys.message.MessageTarget.GROUP_DIRECTORY,
+                    id: Ametys.message.MessageTarget.GROUP_DIRECTORY,
                     parameters: {
                         id: id
                     }
@@ -382,7 +382,7 @@ Ext.define('Ametys.plugins.core.groupdirectories.GroupDirectoryDAO', {
             Ext.create('Ametys.message.Message', {
 		        type: Ametys.message.Message.DELETED,
 		        targets: [{
-                    type: Ametys.message.MessageTarget.GROUP_DIRECTORY,
+                    id: Ametys.message.MessageTarget.GROUP_DIRECTORY,
                     parameters: {
                         id: id
                     }
