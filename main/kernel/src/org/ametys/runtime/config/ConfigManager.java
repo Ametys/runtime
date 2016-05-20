@@ -140,6 +140,15 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         return _isInitialized && _isComplete;
     }
     
+    /**
+     * Returns true if the config file does not exist
+     * @return true if the config file does not exist
+     */
+    public boolean isEmpty()
+    {
+        return !Config.getFileExists();
+    }
+    
     @Override
     public void contextualize(Context context)
     {

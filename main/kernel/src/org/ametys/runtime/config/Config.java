@@ -42,6 +42,9 @@ public final class Config
     // config file
     private static String __filename;
     
+    // true if the config file does exist
+    private static boolean __fileExists;
+    
     // shared instance for optimization
     private static Config __config;
     
@@ -107,6 +110,7 @@ public final class Config
     public static void setFilename(String filename)
     {
         __filename = filename;
+        __fileExists = new File(__filename).exists();
     }
     
     /**
@@ -116,6 +120,15 @@ public final class Config
     public static void setInitialized(boolean initialized)
     {
         _initialized = initialized;
+    }
+    /**
+     * Returns true if the config filename exists.
+     * @return true if the config filename exists.
+     */
+    
+    public static boolean getFileExists()
+    {
+        return __fileExists;
     }
 
     /**
@@ -188,7 +201,8 @@ public final class Config
         // Lit le fichier de déploiement pour déterminer les valeurs non typées
         File configFile = new File(__filename);
         
-        if (configFile.exists())
+        __fileExists = configFile.exists();
+        if (__fileExists)
         {
             SAXParserFactory.newInstance().newSAXParser().parse(configFile, new MapHandler(configValues));
         }

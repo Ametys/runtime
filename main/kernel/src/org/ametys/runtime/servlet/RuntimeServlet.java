@@ -485,7 +485,12 @@ public class RuntimeServlet extends HttpServlet
 
                 Status status = PluginsManager.getInstance().getStatus();
                 
-                if (status == Status.CONFIG_INCOMPLETE)
+                if (status == Status.NO_CONFIG)
+                {
+                    res.sendRedirect(req.getContextPath() + "/_admin/public/first-start.html");
+                    return;
+                }
+                else if (status == Status.CONFIG_INCOMPLETE)
                 {
                     res.sendRedirect(req.getContextPath() + "/_admin/public/load-config.html");
                     return;

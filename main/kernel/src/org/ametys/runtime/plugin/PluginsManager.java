@@ -378,6 +378,14 @@ public final class PluginsManager
             return safeManager;
         }
         
+        // config file does not exist
+        if (configManager.isEmpty())
+        {
+            _status = Status.NO_CONFIG;
+            PluginsComponentManager safeManager = _enterSafeMode(parentCM, context, contextPath);
+            return safeManager;
+        }
+        
         if (!configManager.isComplete())
         {
             _status = Status.CONFIG_INCOMPLETE;
@@ -1487,7 +1495,12 @@ public final class PluginsManager
         OK,
         
         /**
-         * There was no errors, but the configuration is missing or incomplete.
+         * There was no errors, but the configuration is missing.
+         */
+        NO_CONFIG,
+        
+        /**
+         * There was no errors, but the configuration is incomplete.
          */
         CONFIG_INCOMPLETE,
         

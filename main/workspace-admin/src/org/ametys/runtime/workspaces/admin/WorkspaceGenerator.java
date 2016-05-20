@@ -68,7 +68,7 @@ public class WorkspaceGenerator extends org.ametys.plugins.core.ui.WorkspaceGene
         if (PluginsManager.getInstance().isSafeMode())
         {
             Status status = PluginsManager.getInstance().getStatus();
-            if (status == Status.CONFIG_INCOMPLETE)
+            if (status == Status.CONFIG_INCOMPLETE || status == Status.NO_CONFIG)
             {
                 return getClass().getResourceAsStream("admin-safe-uitools-config.xml");
             }
