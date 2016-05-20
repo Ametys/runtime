@@ -492,6 +492,24 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 		});
     },
     
+    isValid: function()
+    {
+    	var isFormValid = this.callParent();
+    	var areAllRepeatersValid = true;
+    	
+    	// Are the repeaters of the form valid ?
+		Ext.Array.each(this._repeaters, function(repeaterId)
+		{
+			var repeaterCt = Ext.getCmp(repeaterId);
+			if (!repeaterCt.isValid())
+			{
+				areAllRepeatersValid = false;
+			}
+		});
+    	
+		return isFormValid && areAllRepeatersValid;
+    },
+    
     /**
      * Get the form container config to be used during its creation.
      * @protected
