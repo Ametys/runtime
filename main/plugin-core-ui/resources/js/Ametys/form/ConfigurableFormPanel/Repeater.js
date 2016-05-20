@@ -604,7 +604,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
     	if (errorTools != null)
     	{
     		errorTools.each (function (item) {
-    			Ext.Array.remove(tools, items);
+    			Ext.Array.remove(tools, item);
     			header.remove(item);
     		});
     	}
