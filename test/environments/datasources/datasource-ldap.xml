@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright 2015 Anyware Services
+   Copyright 2016 Anyware Services
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
    limitations under the License.
 -->
 <datasources>
-    <datasource id="LDAP-test-users">
+    <datasource id="LDAP-test-users" private="false" default="true">
         <name>LDAP Anyware Users</name>
         <description />
         <parameters>
@@ -29,7 +29,7 @@
             <adminPassword />
         </parameters>
     </datasource>
-    <datasource id="LDAP-test-groups">
+    <datasource id="LDAP-test-groups" private="false" default="false">
         <name>LDAP Anyware Users</name>
         <description />
         <parameters>
