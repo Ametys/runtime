@@ -410,6 +410,8 @@
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_WARN100">Only the first 100 users are displayed</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_ERROR_EMPTY">Please select a user, in order to proceed.</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_NORESULT">Sorry, your search produced no results</message>
+	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_NO_POPULATION_TITLE">No population available</message>
+    <message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_NO_POPULATION_DESCRIPTION">There is no available user population.</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSERS_DIALOG_CAPTION">Select users</message>
 	
 	<!-- SELECT GROUP -->

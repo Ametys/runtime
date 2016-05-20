@@ -413,6 +413,8 @@
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_WARN100">Au maximum 100 utilisateurs sont listés</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_ERROR_EMPTY">Vous devez sélectionner au moins un utilisateur dans la liste avant de continuer.</message>
     <message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_NORESULT">La recherche n'a renvoyé aucun résultat</message>
+    <message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_NO_POPULATION_TITLE">Pas de population disponible</message>
+    <message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_NO_POPULATION_DESCRIPTION">Il n'y a pas de population d'utilisateurs disponible.</message>
     <message key="PLUGINS_CORE_UI_USERS_SELECTUSERS_DIALOG_CAPTION">Sélectionner des utilisateurs</message>
     
     <!-- SELECT GROUP -->
