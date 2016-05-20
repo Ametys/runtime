@@ -1003,13 +1003,15 @@ Ext.define(
 		 * Update the matching selection target from the given targets
 		 * If the selection does not match, the controller will be disabled with a configured additional description.
 		 * @private
+         * @param {Ametys.mesage.MessageTarget[]} targets the matching targets
 		 */
 		_updateMatchingSelectionTargets: function (targets)
 		{
 			var match = false;
 			
-			var noSelection = targets.length == 0;
-			var singleSelection = targets.length == 1;
+            var nbAllTargets = Ametys.message.MessageBus.getCurrentSelectionMessage().getTargets().length;
+			var noSelection = nbAllTargets == 0;
+			var singleSelection = nbAllTargets == 1;
 			var multiSelectionEnabled = (this.getInitialConfig("selection-enable-multiselection") || this.getInitialConfig("enable-multiselection")) != 'false';
 
 			if (noSelection)
