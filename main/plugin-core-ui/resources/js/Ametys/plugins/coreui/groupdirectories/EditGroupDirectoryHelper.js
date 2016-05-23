@@ -308,8 +308,7 @@ Ext.define('Ametys.plugins.coreui.groupdirectories.EditGroupDirectoryHelper', {
                 parameter['disableCondition'] = this._generateDisableCondition(chooseModelFieldId, model.id);
                 
                 // The field is ready
-                var prefix = model.id + "$";
-                data[prefix + parameterId] = parameter; // prefix in case of two parameters from two different models have the same id
+                data[parameterId] = parameter;
             }, this);
             
         }, this);
@@ -389,16 +388,11 @@ Ext.define('Ametys.plugins.coreui.groupdirectories.EditGroupDirectoryHelper', {
         result['id'] = values.id;
         result['modelId'] = values.modelId;
         
-        // For parameters, remove the 'modelId$' prefix for sending to the server
-        var parameters = {};
-        Ext.Object.each(values, function(paramName, paramValue) {
-            if (paramName != 'label' && paramName != 'modelId')
-            {
-	            var newKey = paramName.split('$').length > 1 ? paramName.split('$')[1] : paramName;
-	            parameters[newKey] = paramValue;
-            }
-        }, this);
-        result['params'] = parameters;
+        // The parameters are the remaining entries
+        delete values['label'];
+        delete values['id'];
+        delete values['modelId'];
+        result['params'] = values;
         
         return result;
     },
@@ -429,8 +423,7 @@ Ext.define('Ametys.plugins.coreui.groupdirectories.EditGroupDirectoryHelper', {
         values['id'] = valuesToFill['id'];
         values['modelId'] = modelId;
         Ext.Object.each(valuesToFill['params'], function(paramName, paramValue) {
-            var paramPrefix = modelId + "$";
-            values[paramPrefix + paramName] = paramValue;
+            values[paramName] = paramValue;
         }, this);
         
         this._getFormPanel().setValues({values: values});

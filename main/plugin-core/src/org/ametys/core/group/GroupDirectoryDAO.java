@@ -23,6 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -183,7 +184,8 @@ public class GroupDirectoryDAO extends AbstractLogEnabled implements Component, 
             Map<String, Object> params = new LinkedHashMap<>();
             for (String paramId : model.getParameters().keySet())
             {
-                params.put(paramId, ParameterHelper.toJSON(model.getParameters().get(paramId)));
+                // prefix in case of two parameters from two different models have the same id which can lead to some errorsin client-side
+                params.put(extensionId + "$" + paramId, ParameterHelper.toJSON(model.getParameters().get(paramId)));
             }
             gdMap.put("parameters", params);
             
@@ -216,8 +218,14 @@ public class GroupDirectoryDAO extends AbstractLogEnabled implements Component, 
         
         result.put("label", gd.getLabel());
         result.put("id", gd.getId());
-        result.put("modelId", gd.getGroupDirectoryModelId());
-        result.put("params", gd.getParameterValues());
+        String modelId = gd.getGroupDirectoryModelId();
+        result.put("modelId", modelId);
+        Map<String, Object> params = new HashMap<>();
+        for (String key : gd.getParameterValues().keySet())
+        {
+            params.put(modelId + "$" + key, gd.getParameterValues().get(key));
+        }
+        result.put("params", params);
         
         return result;
     }
@@ -317,11 +325,14 @@ public class GroupDirectoryDAO extends AbstractLogEnabled implements Component, 
         Map<String, Object> resultParameters = new LinkedHashMap<>();
         
         Map<String, ? extends Parameter<ParameterType>> declaredParameters = _groupDirectoryFactory.getExtension(modelId).getParameters();
-        for (String paramName : params.keySet())
+        for (String paramNameWithPrefix : params.keySet())
         {
-            if (declaredParameters.containsKey(paramName))
+            String[] splitStr = paramNameWithPrefix.split("\\$", 2);
+            String prefix = splitStr[0];
+            String paramName = splitStr[1];
+            if (prefix.equals(modelId) && declaredParameters.containsKey(paramName))
             {
-                String originalValue = params.get(paramName);
+                String originalValue = params.get(paramNameWithPrefix);
                 
                 Parameter<ParameterType> parameter = declaredParameters.get(paramName);
                 ParameterType type = parameter.getType();
@@ -329,7 +340,7 @@ public class GroupDirectoryDAO extends AbstractLogEnabled implements Component, 
                 Object typedValue = ParameterHelper.castValue(originalValue, type);
                 resultParameters.put(paramName, typedValue);
             }
-            else
+            else if (prefix.equals(modelId))
             {
                 getLogger().warn("The parameter {} is not declared in extension {}. It will be ignored", paramName, modelId);
             }

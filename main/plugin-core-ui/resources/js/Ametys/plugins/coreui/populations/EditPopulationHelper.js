@@ -646,8 +646,7 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
                 parameter['disableCondition'] = this._generateDisableCondition(chooseModelFieldId, model.id);
                 
                 // The field is ready
-                var prefix = model.id + "$";
-                data[fieldName].repeater.composition[prefix + parameterId] = parameter; // prefix in case of two parameters from two different models have the same id
+                data[fieldName].repeater.composition[parameterId] = parameter;
             }, this);
             
             // Add the parameter checkers
@@ -736,14 +735,8 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
         var count = values['_' + fieldName + '.size'];
         for (var index = 1; index <= count; index++) { //the repeater begins its counter at 1
             // Retrieve parameters about the entry number 'index'
-            var filteredParameters = this._filterParametersByPrefix(values, fieldName + this._separator + index + this._separator);
-            // For those parameters, remove the 'modelId$' prefix for sending to the server
-            var parameters = {};
-            Ext.Object.each(filteredParameters, function(key, value) {
-                var newKey = key.split('$').length > 1 ? key.split('$')[1] : key;
-                parameters[newKey] = value;
-            }, this);
-            Ext.Array.push(result, parameters);
+            var parameters = this._filterParametersByPrefix(values, fieldName + this._separator + index + this._separator);
+            result.push(parameters);
         }
         
         return result;
@@ -832,8 +825,7 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
             
             values[fieldName + this._separator + realIndex + this._separator + idName] = modelId; // for combobox id field
             Ext.Object.each(parameters, function(paramName, paramValue) { // for parameter fields
-                var paramPrefix = modelId + "$";
-                values[fieldName + this._separator + realIndex + this._separator + paramPrefix + paramName] = paramValue;
+                values[fieldName + this._separator + realIndex + this._separator + paramName] = paramValue;
             }, this);
         }, this);
         

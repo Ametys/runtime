@@ -280,7 +280,8 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
             Map<String, Object> params = new LinkedHashMap<>();
             for (String paramId : udModel.getParameters().keySet())
             {
-                params.put(paramId, ParameterHelper.toJSON(udModel.getParameters().get(paramId)));
+                // prefix in case of two parameters from two different models have the same id which can lead to some errorsin client-side
+                params.put(extensionId + "$" + paramId, ParameterHelper.toJSON(udModel.getParameters().get(paramId)));
             }
             udMap.put("parameters", params);
             
@@ -288,7 +289,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
             for (String paramCheckerId : udModel.getParameterCheckers().keySet())
             {
                 ParameterCheckerDescriptor paramChecker = udModel.getParameterCheckers().get(paramCheckerId);
-                paramCheckers.put(paramCheckerId, paramChecker.toJSON());
+                paramCheckers.put(extensionId + "$" + paramCheckerId, paramChecker.toJSON());
             }
             udMap.put("parameterCheckers", paramCheckers);
             
@@ -308,7 +309,8 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
             Map<String, Object> params = new LinkedHashMap<>();
             for (String paramId : cpModel.getParameters().keySet())
             {
-                params.put(paramId, ParameterHelper.toJSON(cpModel.getParameters().get(paramId)));
+                // prefix in case of two parameters from two different models have the same id which can lead to some errorsin client-side
+                params.put(extensionId + "$" + paramId, ParameterHelper.toJSON(cpModel.getParameters().get(paramId)));
             }
             cpMap.put("parameters", params);
             
@@ -349,8 +351,14 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         for (UserDirectory ud : up.getUserDirectories())
         {
             Map<String, Object> ud2json = new HashMap<>();
-            ud2json.put("udModelId", ud.getUserDirectoryModelId());
-            ud2json.put("params", ud.getParameterValues());
+            String udModelId = ud.getUserDirectoryModelId();
+            ud2json.put("udModelId", udModelId);
+            Map<String, Object> params = new HashMap<>();
+            for (String key : ud.getParameterValues().keySet())
+            {
+                params.put(udModelId + "$" + key, ud.getParameterValues().get(key));
+            }
+            ud2json.put("params", params);
             userDirectories.add(ud2json);
         }
         result.put("userDirectories", userDirectories);
@@ -361,8 +369,14 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         for (CredentialProvider cp : up.getCredentialProviders())
         {
             Map<String, Object> cp2json = new HashMap<>();
-            cp2json.put("cpModelId", cp.getCredentialProviderModelId());
-            cp2json.put("params", cp.getParameterValues());
+            String cpModelId = cp.getCredentialProviderModelId();
+            cp2json.put("cpModelId", cpModelId);
+            Map<String, Object> params = new HashMap<>();
+            for (String key : cp.getParameterValues().keySet())
+            {
+                params.put(cpModelId + "$" + key, cp.getParameterValues().get(key));
+            }
+            cp2json.put("params", params);
             credentialProviders.add(cp2json);
         }
         result.put("credentialProviders", credentialProviders);
@@ -385,13 +399,15 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         _adminUserPopulation.setId(ADMIN_POPULATION_ID);
         
         Map<String, String> userDirectory = new HashMap<>();
-        userDirectory.put("udModelId", "org.ametys.plugins.core.user.directory.Jdbc");
-        userDirectory.put("runtime.users.jdbc.datasource", SQLDataSourceManager.AMETYS_INTERNAL_DATASOURCE_ID);
-        userDirectory.put("runtime.users.jdbc.table", "AdminUsers");
+        String udModelId = "org.ametys.plugins.core.user.directory.Jdbc";
+        userDirectory.put("udModelId", udModelId);
+        userDirectory.put(udModelId + "$" + "runtime.users.jdbc.datasource", SQLDataSourceManager.AMETYS_INTERNAL_DATASOURCE_ID);
+        userDirectory.put(udModelId + "$" + "runtime.users.jdbc.table", "AdminUsers");
         
         Map<String, String> credentialProvider = new HashMap<>();
-        credentialProvider.put("cpModelId", "org.ametys.core.authentication.Basic"); // TODO replace Basic by Form (need Form to be safe) RUNTIME-1764
-        credentialProvider.put("runtime.authentication.basic.realm", "Ametys workspace admin");
+        String cpModelId = "org.ametys.core.authentication.Basic";
+        credentialProvider.put("cpModelId", cpModelId); // TODO replace Basic by Form (need Form to be safe) RUNTIME-1764
+        credentialProvider.put(cpModelId + "$" + "runtime.authentication.basic.realm", "Ametys workspace admin");
         
         _fillUserPopulation(_adminUserPopulation, "Admin Population", Collections.singletonList(userDirectory), Collections.singletonList(credentialProvider));
         
@@ -512,11 +528,14 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         Map<String, Object> resultParameters = new LinkedHashMap<>();
         
         Map<String, ? extends Parameter<ParameterType>> declaredParameters = _userDirectoryFactory.getExtension(modelId).getParameters();
-        for (String paramName : parameters.keySet())
+        for (String paramNameWithPrefix : parameters.keySet())
         {
-            if (declaredParameters.containsKey(paramName))
+            String[] splitStr = paramNameWithPrefix.split("\\$", 2);
+            String prefix = splitStr[0];
+            String paramName = splitStr[1];
+            if (prefix.equals(modelId) && declaredParameters.containsKey(paramName))
             {
-                String originalValue = parameters.get(paramName);
+                String originalValue = parameters.get(paramNameWithPrefix);
                 
                 Parameter<ParameterType> parameter = declaredParameters.get(paramName);
                 ParameterType type = parameter.getType();
@@ -524,7 +543,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
                 Object typedValue = ParameterHelper.castValue(originalValue, type);
                 resultParameters.put(paramName, typedValue);
             }
-            else
+            else if (prefix.equals(modelId))
             {
                 getLogger().warn("The parameter {} is not declared in extension {}. It will be ignored", paramName, modelId);
             }
@@ -538,11 +557,14 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         Map<String, Object> resultParameters = new LinkedHashMap<>();
         
         Map<String, ? extends Parameter<ParameterType>> declaredParameters = _credentialProviderFactory.getExtension(modelId).getParameters();
-        for (String paramName : parameters.keySet())
+        for (String paramNameWithPrefix : parameters.keySet())
         {
-            if (declaredParameters.containsKey(paramName))
+            String[] splitStr = paramNameWithPrefix.split("\\$", 2);
+            String prefix = splitStr[0];
+            String paramName = splitStr[1];
+            if (prefix.equals(modelId) && declaredParameters.containsKey(paramName))
             {
-                String originalValue = parameters.get(paramName);
+                String originalValue = parameters.get(paramNameWithPrefix);
                 
                 Parameter<ParameterType> parameter = declaredParameters.get(paramName);
                 ParameterType type = parameter.getType();
@@ -550,7 +572,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
                 Object typedValue = ParameterHelper.castValue(originalValue, type);
                 resultParameters.put(paramName, typedValue);
             }
-            else
+            else if (prefix.equals(modelId))
             {
                 getLogger().warn("The parameter {} is not declared in extension {}. It will be ignored", paramName, modelId);
             }
