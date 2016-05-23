@@ -453,9 +453,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         this.callParent(arguments);
     },
     
-    /**
-     * Inherited to return the disabled/hidden values as well
-     */
+    // Inherited to return the disabled/hidden values as well
     getValues:  function(asString, dirtyOnly, includeEmptyText, useDataValues)
     {
     	var formValues = this.callParent(arguments);
