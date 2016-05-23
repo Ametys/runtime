@@ -146,6 +146,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     * @property {Ext.form.Field[]} _fields The configuration fields
     * @private
      */
+    
+    /**
+     * @property {String[]} _initiallyNotNullFieldNames the names of the fields that are initially not null 
+     * @private
+     */
 
     /**
      * @property {Ext.panel.Panel/Ext.tab.Panel} _tabPanel The main panel or tabpanel depending on policy.
@@ -158,14 +163,14 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
     
     /**
+     * @private
      * @property {String[]} _notInFirstEditionPanels the ids list of the root panels (tabs or panel) that have been edited at least once. 
      * We consider a tab edited once when the focus has switched from one field of one of the tabs fieldsets to a different fieldset, of this tab or of another tab.
-     * @private
      */
     
     /**
-     * @property {Ametys.form.ConfigurableFormPanel.FieldCheckersManager} _fieldCheckersManager The field checkers manager instance of this form
      * @private
+     * @property {Ametys.form.ConfigurableFormPanel.FieldCheckersManager} _fieldCheckersManager The field checkers manager instance of this form
      */
     
     /** @cfg {Object} itemsLayout The layout to use in the container. Default to { type: 'anchor' }. */
@@ -327,7 +332,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         this._repeaters = [];
         this._tabPanels = [];
         this._notInFirstEditionPanels = [];
-
+        this._initiallyNotNullFieldNames = [];
+        	
         this.hideDisabledFields = config.hideDisabledFields === true;
         this._fieldCheckersManager = Ext.create('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
             form: this,
@@ -443,9 +449,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 		}
     },
     
-    /**
-     * Inherited to unregister from the message bus
-     */
+    // Inherited to unregister from the message bus
     destroy: function()
     {
         this.destroyComponents();
@@ -2571,8 +2575,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * @param {String} [valuesTagName=values] the tag name for the values 
      * @param {String} [commentsTagName=comments] the tag name for the comments 
      * @param {String} [invalidFieldsTagName=invalid] the tag name for the invalid fields
+     * @param {String} [warnIfNullMessage] the warning message to display if there is no value
      */
-    setValues: function(data, valuesTagName, commentsTagName, invalidFieldsTagName)
+    setValues: function(data, valuesTagName, commentsTagName, invalidFieldsTagName, warnIfNullMessage)
     {
     	valuesTagName = valuesTagName || "values";
     	commentsTagName = commentsTagName || "comments";
@@ -2587,6 +2592,17 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             this._setValuesJSON(data, valuesTagName, commentsTagName, invalidFieldsTagName);
         }
         
+    	if (warnIfNullMessage)
+    	{
+    		Ext.Array.each(Ext.Array.difference(this.getFieldNames(), this._initiallyNotNullFieldNames), function(fieldName){
+    			var field = this.getField(fieldName);
+    			if (field.type != "password")
+    			{
+    				field.on('render', function() {field.markWarning(warnIfNullMessage)});
+    			}
+    		}, this);
+    	}
+    	
         this._formReady = true;
         this.fireEvent('formready', this);
         this._updateTabsStatus();
@@ -2674,8 +2690,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             }
         }
         
+        var values = data[valuesTagName];
+        this._initiallyNotNullFieldNames = Ext.Object.getKeys(values);
+        
         // Set the field values.
-        this._setValuesJSONForField(data[valuesTagName]);
+        this._setValuesJSONForField(values);
         
         // Set the invalid field values (raw mode) and validate the fields afterwards.
         this._setValuesJSONForField(data[invalidFieldsTagName], true, true);
@@ -2708,7 +2727,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             catch (e)
             {
                 // Ignore, just take the undecoded value.
-                // FIXME this do logs an error now!
+                // FIXME this is logging an error now!
             }
             
             var field = this.getForm().findField(this.getFieldNamePrefix() + name);
@@ -2796,6 +2815,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             var previousSibling = metadataNode.previousElementSibling || metadataNode.previousSibling;
             if (!previousSibling || previousSibling.tagName != metadataNode.tagName)
             {
+            	this._initiallyNotNullFieldNames.push(fieldName);
+            	
                 var values = this._getValues (metadataNode);
                 
                 var field = this.getForm().findField(fieldName);

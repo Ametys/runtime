@@ -127,16 +127,20 @@ Ext.define('Ametys.plugins.admin.config.ConfigTool', {
 	},
 	
 	/**
-	 * Callback for the retrieving of configuration parameters process
+	 * Callback for the retrieval of configuration parameters process
 	 * @param {Object} response the server's response
 	 * @param {Object} response.configuration the configuration for the form panel
-	 * @param {Object} response.values the values of the configuration parameters
+	 * @param {Object} response.configuration-values the values of the configuration parameters
 	 */
 	_getConfigurationParametersCb: function(response)
 	{
 		// Initialize the form panel
 		this._formPanel.configure(Ext.dom.Query.select("config/configuration", response)[0]);
-		this._formPanel.setValues(Ext.dom.Query.select("config/configuration-values", response)[0], "values", "comments", "invalid");
+		
+		var configValues = Ext.dom.Query.select("config/configuration-values", response)[0];
+		var isConfigEmpty = !configValues.getElementsByTagName("values")[0].hasChildNodes(); 
+		
+		this._formPanel.setValues(configValues, "values", "comments", "invalid", isConfigEmpty ? null : "{{i18n PLUGINS_ADMIN_CONFIG_EMPTY_WARNING_MESSAGE}}");
 	}
 });
 

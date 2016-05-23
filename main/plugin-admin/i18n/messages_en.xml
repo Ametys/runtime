@@ -20,6 +20,7 @@
     <message key="PLUGINS_ADMIN_CONFIG_LABEL">Configuration</message>
     <message key="PLUGINS_ADMIN_CONFIG_DESCRIPTION">Management of configuration parameters</message>
     <message key="PLUGINS_ADMIN_CONFIG_LOADING_ERROR">An error occurred and the configuration parameters were not loaded</message>
+    <message key="PLUGINS_ADMIN_CONFIG_EMPTY_WARNING_MESSAGE">This is a new configuration parameter.</message>
     <message key="PLUGINS_ADMIN_CONFIG_HANDLE">Management</message>
     <message key="PLUGINS_ADMIN_CONFIG_HANDLE_SAVE">Save and restart</message>
     <message key="PLUGINS_ADMIN_CONFIG_HANDLE_SAVE_DESC">Saves the form values and reboots the application.</message>

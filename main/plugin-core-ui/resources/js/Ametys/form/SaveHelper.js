@@ -108,7 +108,7 @@ Ext.define('Ametys.form.SaveHelper', {
                 {
                     if (answer == 'yes')
                     {
-                        callback(true);
+                    	this._handleWarnedFields(form, callback);
                     }
                     else if (answer == 'no')
                     {
@@ -124,7 +124,8 @@ Ext.define('Ametys.form.SaveHelper', {
 	    					            	  		 }  
 	    					            		   }, me), false);
                     }
-                }
+                },
+                scope: this
             });
         }
         // All tests passed, check the warning on fields
