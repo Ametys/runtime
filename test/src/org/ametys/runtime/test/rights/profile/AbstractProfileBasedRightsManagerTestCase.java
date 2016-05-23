@@ -358,12 +358,13 @@ public abstract class AbstractProfileBasedRightsManagerTestCase extends Abstract
     {
         GroupDirectoryDAO groupDirectoryDAO = (GroupDirectoryDAO) Init.getPluginServiceManager().lookup(GroupDirectoryDAO.ROLE);
         
+        String modelId = "org.ametys.plugins.core.group.directory.Jdbc";
         Map<String, String> parameters = new LinkedHashMap<>();
-        parameters.put("runtime.groups.jdbc.datasource", "SQL-test");
-        parameters.put("runtime.groups.jdbc.list.table", "Groups");
-        parameters.put("runtime.groups.jdbc.composition.table", "Groups_Users");
+        parameters.put(modelId + "$" + "runtime.groups.jdbc.datasource", "SQL-test");
+        parameters.put(modelId + "$" + "runtime.groups.jdbc.list.table", "Groups");
+        parameters.put(modelId + "$" + "runtime.groups.jdbc.composition.table", "Groups_Users");
         
-        String groupId = groupDirectoryDAO.add("sql_group_directory", "foo", "org.ametys.plugins.core.group.directory.Jdbc", parameters);
+        String groupId = groupDirectoryDAO.add("sql_group_directory", "foo", modelId, parameters);
         
         return groupDirectoryDAO.getGroupDirectory(groupId);
     }

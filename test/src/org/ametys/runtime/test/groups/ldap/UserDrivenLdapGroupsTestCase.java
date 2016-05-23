@@ -88,21 +88,23 @@ public class UserDrivenLdapGroupsTestCase extends AbstractLdapGroupsTestCase
     private String _createPopulation() throws Exception
     {
         Map<String, String> userDirectoryParameters = new LinkedHashMap<>();
-        userDirectoryParameters.put("udModelId", "org.ametys.plugins.core.user.directory.Ldap");
-        userDirectoryParameters.put("runtime.users.ldap.datasource", "LDAP-test-users");
-        userDirectoryParameters.put("runtime.users.ldap.peopleDN", "ou=people");
-        userDirectoryParameters.put("runtime.users.ldap.baseFilter", "(objectclass=inetOrgPerson)");
-        userDirectoryParameters.put("runtime.users.ldap.scope", "sub");
-        userDirectoryParameters.put("runtime.users.ldap.loginAttr", "uid");
-        userDirectoryParameters.put("runtime.users.ldap.firstnameAttr", "givenName");
-        userDirectoryParameters.put("runtime.users.ldap.lastnameAttr", "sn");
-        userDirectoryParameters.put("runtime.users.ldap.emailAttr", "mail");
-        userDirectoryParameters.put("runtime.users.ldap.emailMandatory", "false");
-        userDirectoryParameters.put("runtime.users.ldap.serverSideSorting", "true");
+        String udModelId = "org.ametys.plugins.core.user.directory.Ldap";
+        userDirectoryParameters.put("udModelId", udModelId);
+        userDirectoryParameters.put(udModelId + "$" + "runtime.users.ldap.datasource", "LDAP-test-users");
+        userDirectoryParameters.put(udModelId + "$" + "runtime.users.ldap.peopleDN", "ou=people");
+        userDirectoryParameters.put(udModelId + "$" + "runtime.users.ldap.baseFilter", "(objectclass=inetOrgPerson)");
+        userDirectoryParameters.put(udModelId + "$" + "runtime.users.ldap.scope", "sub");
+        userDirectoryParameters.put(udModelId + "$" + "runtime.users.ldap.loginAttr", "uid");
+        userDirectoryParameters.put(udModelId + "$" + "runtime.users.ldap.firstnameAttr", "givenName");
+        userDirectoryParameters.put(udModelId + "$" + "runtime.users.ldap.lastnameAttr", "sn");
+        userDirectoryParameters.put(udModelId + "$" + "runtime.users.ldap.emailAttr", "mail");
+        userDirectoryParameters.put(udModelId + "$" + "runtime.users.ldap.emailMandatory", "false");
+        userDirectoryParameters.put(udModelId + "$" + "runtime.users.ldap.serverSideSorting", "true");
         
         Map<String, String> credentialProviderParameters = new LinkedHashMap<>();
-        credentialProviderParameters.put("cpModelId", "org.ametys.core.authentication.Defined");
-        credentialProviderParameters.put("runtime.authentication.defined.user", "anonymous");
+        String cpModelId = "org.ametys.core.authentication.Defined";
+        credentialProviderParameters.put("cpModelId", cpModelId);
+        credentialProviderParameters.put(cpModelId + "$" + "runtime.authentication.defined.user", "anonymous");
         
         return ((UserPopulationDAO) Init.getPluginServiceManager().lookup(UserPopulationDAO.ROLE)).add("ldap_population", "LDAP Population", Collections.singletonList(userDirectoryParameters), Collections.singletonList(credentialProviderParameters));
     }
