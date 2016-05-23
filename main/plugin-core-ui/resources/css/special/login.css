@@ -250,10 +250,12 @@ div.connection button.otherauth:disabled:active {
  */
 div.connection table.population td.input {
 	position: relative;
+	padding: 0;
 }
 div.connection table.population td.input select {
     font-family: 'Open Sans', 'Helvetica Neue', helvetica, arial, verdana, sans-serif;
 	width: 100%;
+	padding: 0.9em 0 0.9em 0.6em;
 	border-style: none;
     outline-style: none;
     background-color: transparent;
@@ -267,11 +269,11 @@ div.connection table.population td.input select option {
 }
 div.connection table.population td.input.empty:before {
     color: #999;
+	font-family: 'Open Sans', 'Helvetica Neue', helvetica, arial, verdana, sans-serif;
     font-size: 13px;
     position: absolute;
-    height: 17px;
-    left: 11px;
-    top: 15px;
+    left: 0.91em;
+    top: 1em;
 }
 
 table.disabled {
