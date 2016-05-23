@@ -183,7 +183,7 @@
 			                <mandatory/>
 			            </validation>
 			            <widget>edition.textarea</widget>
-			            <default-value>anonymous:Anonymous:user:user@ametys.org</default-value>
+			            <default-value>anonymous:Anonymous:User:user@ametys.org</default-value>
 			        </param>
                 </parameters>
             </extension>
