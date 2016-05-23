@@ -22,6 +22,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -61,6 +62,8 @@ import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.Parameter;
 import org.ametys.runtime.parameter.ParameterHelper;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
+import org.ametys.runtime.plugin.PluginsManager;
+import org.ametys.runtime.plugin.PluginsManager.Status;
 import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 import org.ametys.runtime.util.AmetysHomeHelper;
 
@@ -136,8 +139,16 @@ public class GroupDirectoryDAO extends AbstractLogEnabled implements Component, 
      */
     public List<GroupDirectory> getGroupDirectories()
     {
-        _read(false);
-        return new ArrayList<>(_groupDirectories.values());
+        // Don't read in safe mode, we know that only the admin population is needed in this case and we want to prevent some warnings in the logs for non-safe features not found
+        if (Status.OK.equals(PluginsManager.getInstance().getStatus()))
+        {
+            _read(false);
+            return new ArrayList<>(_groupDirectories.values());
+        }
+        else
+        {
+            return Collections.EMPTY_LIST;
+        }
     }
     
     /**
