@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.service.ServiceException;
@@ -60,7 +61,7 @@ public class UserManager extends AbstractLogEnabled implements Component, Servic
     public Collection<User> getUsersByContext(String context)
     {
         List<UserPopulation> userPopulations = new ArrayList<>();
-        List<String> upIds = _populationContextHelper.getUserPopulationsOnContext(context);
+        Set<String> upIds = _populationContextHelper.getUserPopulationsOnContext(context);
         
         for (String upId : upIds)
         {
@@ -168,7 +169,7 @@ public class UserManager extends AbstractLogEnabled implements Component, Servic
     public List<User> getUsersByContext(String context, int count, int offset, Map<String, Object> parameters)
     {
         List<UserPopulation> userPopulations = new ArrayList<>();
-        List<String> upIds = _populationContextHelper.getUserPopulationsOnContext(context);
+        Set<String> upIds = _populationContextHelper.getUserPopulationsOnContext(context);
         
         for (String upId : upIds)
         {
@@ -321,7 +322,7 @@ public class UserManager extends AbstractLogEnabled implements Component, Servic
      */
     public User getUserByContext(String context, String login)
     {
-        List<String> upIds = _populationContextHelper.getUserPopulationsOnContext(context);
+        Set<String> upIds = _populationContextHelper.getUserPopulationsOnContext(context);
         for (String upId : upIds)
         {
             UserPopulation userPopulation = _userPopulationDAO.getUserPopulation(upId);

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.avalon.framework.parameters.Parameters;
@@ -85,7 +86,7 @@ public class GetUserPopulationsAction extends ServiceableAction
         {
             populations = new ArrayList<>();
             
-            List<String> populationIds = _populationContextHelper.getUserPopulationsOnContext(context);
+            Set<String> populationIds = _populationContextHelper.getUserPopulationsOnContext(context);
             for (String populationId : populationIds)
             {
                 UserPopulation up = _userPopulationDAO.getUserPopulation(populationId);

@@ -16,8 +16,8 @@
 package org.ametys.runtime.workspaces.admin.authentication;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.cocoon.environment.ObjectModelHelper;
@@ -50,12 +50,12 @@ public class AdminAuthenticateAction extends AuthenticateAction
     }
     
     @Override
-    protected List<String> _getUserPopulationsOnContext(String context)
+    protected Set<String> _getUserPopulationsOnContext(String context)
     {
         if (PluginsManager.getInstance().isSafeMode() || _userPopulationDAO.getEnabledUserPopulations(false).isEmpty())
         {
             String adminPopulationId = _userPopulationDAO.getAdminPopulation().getId();
-            return Collections.singletonList(adminPopulationId);
+            return Collections.singleton(adminPopulationId);
         }
         else
         {

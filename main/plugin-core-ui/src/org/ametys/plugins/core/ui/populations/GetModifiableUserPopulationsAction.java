@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
@@ -69,7 +70,7 @@ public class GetModifiableUserPopulationsAction extends ServiceableAction
         Map jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
         
         String context = (String) jsParameters.get("context");
-        List<String> populationIds = _populationContextHelper.getUserPopulationsOnContext(context);
+        Set<String> populationIds = _populationContextHelper.getUserPopulationsOnContext(context);
         for (String populationId : populationIds)
         {
             UserPopulation up = _userPopulationDAO.getUserPopulation(populationId);

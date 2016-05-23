@@ -19,8 +19,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.avalon.framework.component.Component;
@@ -72,9 +73,9 @@ public class PopulationContextHelper extends AbstractLogEnabled implements Compo
      */
     @SuppressWarnings("resource")
     @Callable
-    public List<String> link(String context, List<String> ids)
+    public Set<String> link(String context, List<String> ids)
     {
-        List<String> result = getUserPopulationsOnContext(context); // Get the already linked ids
+        Set<String> result = getUserPopulationsOnContext(context); // Get the already linked ids
         
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -137,12 +138,12 @@ public class PopulationContextHelper extends AbstractLogEnabled implements Compo
      * @return The ids of populations linked to the context
      */
     @Callable
-    public List<String> getUserPopulationsOnContext(String context)
+    public Set<String> getUserPopulationsOnContext(String context)
     {
         if (ADMIN_CONTEXT.equals(context))
         {
             // Return all the enabled populations
-            return _userPopulationDAO.getEnabledUserPopulations(true).stream().map(population -> population.getId()).collect(Collectors.toList());
+            return _userPopulationDAO.getEnabledUserPopulations(true).stream().map(population -> population.getId()).collect(Collectors.toSet());
         }
         else
         {
@@ -150,9 +151,9 @@ public class PopulationContextHelper extends AbstractLogEnabled implements Compo
         }
     }
     
-    private List<String> _getPopulationsOnContextFromDatabase(String context)
+    private Set<String> _getPopulationsOnContextFromDatabase(String context)
     {
-        List<String> result = new ArrayList<>();
+        Set<String> result = new HashSet<>();
         
         Connection connection = null;
         PreparedStatement stmt = null;

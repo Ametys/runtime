@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.parameters.Parameters;
@@ -187,7 +188,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
      */
     private boolean _determineCandidatesCredentialProviders(Redirector redirector, Request request, String context, List<UserPopulation> userPopulations, List<CredentialProvider> credentialProviders) throws AccessDeniedException, ProcessingException, IOException
     {
-        List<String> upIds = _getUserPopulationsOnContext(context);
+        Set<String> upIds = _getUserPopulationsOnContext(context);
         for (String upId : upIds)
         {
             userPopulations.add(_userPopulationDAO.getUserPopulation(upId));
@@ -240,7 +241,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
      * @param context The context
      * @return The ids of populations linked to the context
      */
-    protected List<String> _getUserPopulationsOnContext(String context)
+    protected Set<String> _getUserPopulationsOnContext(String context)
     {
         return _populationContextHelper.getUserPopulationsOnContext(context);
     }
