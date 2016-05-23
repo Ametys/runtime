@@ -104,7 +104,7 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceTool', {
 			
 		    columns: [
 		        {stateId: 'grid-name', header: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_NAME}}", flex: 0.8, sortable: true, dataIndex:'name', renderer: this._renderName},
-		        {stateId: 'grid-private', header: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_PRIVATE}}", width: 120, sortable: true, dataIndex: 'private', renderer: this._renderBoolean},
+		        {stateId: 'grid-private', header: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_PRIVATE}}", width: 120, sortable: true, dataIndex: 'private', align: 'center', renderer: this._renderBoolean},
 		        {stateId: 'grid-inUse', header: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_USED}}", width: 120, sortable: true, dataIndex: 'isInUse', align :'center', renderer: this._renderBoolean},
 		        {stateId: 'grid-isDefault', header: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_DEFAULT}}", width: 120, sortable: true, dataIndex: 'isDefault', align :'center', renderer: this._renderBoolean},
 		        {stateId: 'grid-type', header: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_COL_TYPE}}", width: 80, hidden: true, dataIndex: 'type'},
