@@ -765,7 +765,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         List<UserDirectory> userDirectories = _configureUserDirectories(configuration, upId);
         up.setUserDirectory(userDirectories);
         
-        List<CredentialProvider> credentialProviders = _configureCredentialProvider (configuration, upId);
+        List<CredentialProvider> credentialProviders = _configureCredentialProviders(configuration, upId);
         up.setCredentialProvider(credentialProviders);
         
         boolean enabled = configuration.getAttributeAsBoolean("enabled", true) && userDirectories.size() > 0 && credentialProviders.size() > 0;
@@ -774,7 +774,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         _userPopulations.put(upId, up);
     }
     
-    private List<UserDirectory> _configureUserDirectories (Configuration configuration, String upId) throws ConfigurationException
+    private List<UserDirectory> _configureUserDirectories(Configuration configuration, String upId) throws ConfigurationException
     {
         List<UserDirectory> userDirectories = new ArrayList<>();
         
@@ -808,7 +808,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         return userDirectories;
     }
     
-    private List<CredentialProvider> _configureCredentialProvider (Configuration configuration, String upId) throws ConfigurationException
+    private List<CredentialProvider> _configureCredentialProviders(Configuration configuration, String upId) throws ConfigurationException
     {
         List<CredentialProvider> credentialProviders = new ArrayList<>();
         
@@ -826,7 +826,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
                     credentialProviders.add(cp);
                 }
             }
-            catch (IllegalArgumentException | ConfigurationException e)
+            catch (Exception e)
             {
                 getLogger().warn("The population of id '" + upId + "' declares a credential provider with an invalid configuration", e);
                 _misconfiguredUserPopulations.add(upId);
