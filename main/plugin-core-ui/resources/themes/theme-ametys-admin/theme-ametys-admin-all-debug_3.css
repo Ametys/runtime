@@ -12432,6 +12432,34 @@
     font-size: 12px;
     color: #2a5a9a;
 }
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/resizer/Splitter.scss:51 */
+.x-splitter-tool-layout.x-collapsed > .x-layout-split-top:before,
+.x-splitter-tool-layout .x-layout-split-bottom:before,
+.x-panel-tool-layoutzone .x-splitter.x-splitter-tool-layout.x-collapsed > .x-layout-split-top:before,
+.x-panel-tool-layoutzone .x-splitter.x-splitter-tool-layout .x-layout-split-bottom:before {
+    content: "\f0d7";
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/resizer/Splitter.scss:56 */
+.x-splitter-tool-layout .x-layout-split-top:before,
+.x-splitter-tool-layout.x-collapsed > .x-layout-split-bottom:before,
+.x-panel-tool-layoutzone .x-splitter.x-splitter-tool-layout .x-layout-split-top:before,
+.x-panel-tool-layoutzone .x-splitter.x-splitter-tool-layout.x-collapsed > .x-layout-split-bottom:before {
+    content: "\f0d8";
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/resizer/Splitter.scss:61 */
+.x-splitter-tool-layout .x-layout-split-left:before,
+.x-splitter-tool-layout.x-collapsed > .x-layout-split-right:before,
+.x-panel-tool-layoutzone .x-splitter.x-splitter-tool-layout .x-layout-split-left:before,
+.x-panel-tool-layoutzone .x-splitter.x-splitter-tool-layout.x-collapsed > .x-layout-split-right:before {
+    content: "\f0d9";
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/resizer/Splitter.scss:66 */
+.x-splitter-tool-layout.x-collapsed > .x-layout-split-left:before,
+.x-splitter-tool-layout .x-layout-split-right:before,
+.x-panel-tool-layoutzone .x-splitter.x-splitter-tool-layout.x-collapsed > .x-layout-split-left:before,
+.x-panel-tool-layoutzone .x-splitter.x-splitter-tool-layout .x-layout-split-right:before {
+    content: "\f0da";
+}
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:232 */
 .a-tool-layout-zoned-notfocused .x-toolbar-default,
 .a-tool-layout-zoned-focused .x-toolbar-default {
@@ -13456,62 +13484,4 @@
     border-width: 5px;
     border-style: solid;
     background-color: #fff;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
-.x-panel-light-framed-mc {
-    background-color: #fff;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
-.x-nbr .x-panel-light-framed {
-    padding: 0 !important;
-    border-width: 0 !important;
-    -webkit-border-radius: 0px;
-    -moz-border-radius: 0px;
-    -ms-border-radius: 0px;
-    -o-border-radius: 0px;
-    border-radius: 0px;
-    background-color: transparent !important;
-    box-shadow: none !important;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:281 */
-.x-panel-light-framed-frameInfo {
-    font-family: dh-5-5-5-5-5-5-5-5-0-0-0-0;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:347 */
-.x-panel-light-framed-tl {
-    background-position: 0 -10px;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:351 */
-.x-panel-light-framed-tr {
-    background-position: right -15px;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:355 */
-.x-panel-light-framed-bl {
-    background-position: 0 -20px;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:359 */
-.x-panel-light-framed-br {
-    background-position: right -25px;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:363 */
-.x-panel-light-framed-ml {
-    background-position: 0 top;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:371 */
-.x-panel-light-framed-mr {
-    background-position: right top;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:379 */
-.x-panel-light-framed-tc {
-    background-position: 0 0;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:383 */
-.x-panel-light-framed-bc {
-    background-position: 0 -5px;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:388 */
-.x-panel-light-framed-tr,
-.x-panel-light-framed-br,
-.x-panel-light-framed-mr {
-    padding-right: 5px;
 }

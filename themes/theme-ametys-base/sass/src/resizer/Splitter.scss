@@ -46,5 +46,26 @@
             color: $ametys-tool-background-color;
         }
     }
+    
+    
+    &.#{$prefix}collapsed > .#{$prefix}layout-split-top:before,
+    .#{$prefix}layout-split-bottom:before {
+        content: "\f0d7";
+    }
+    
+    .#{$prefix}layout-split-top:before,
+    &.#{$prefix}collapsed > .#{$prefix}layout-split-bottom:before {
+        content: "\f0d8";
+    }
+
+    .#{$prefix}layout-split-left:before,
+    &.#{$prefix}collapsed > .#{$prefix}layout-split-right:before {
+        content: "\f0d9";
+    }
+    
+    &.#{$prefix}collapsed > .#{$prefix}layout-split-left:before,
+    .#{$prefix}layout-split-right:before {
+        content: "\f0da";
+    }
 }
 

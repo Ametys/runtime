@@ -29,12 +29,6 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanelPlaceHo
         
         /**
          * @private
-         * @property {Boolean} _splitterPrepared=false Is the splitter function intercepted? 
-         */
-        _splitterPrepared: false,
-        
-        /**
-         * @private
          * @property {Boolean} _panelCollapsed=false Is the panel collapsed (even if floating)?
          */
         _panelCollapsed: false,
@@ -77,6 +71,23 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanelPlaceHo
         
         /**
          * @private
+         * Get the corresponding splitter
+         * @return {Ext.resize.Splitter} The splitter
+         */
+        getSplitter: function()
+        {
+            if (this.getPanel().location == "b" || this.getPanel().location == "r")
+            {
+                return this.prev();
+            }
+            else
+            {
+                return this.next();
+            }
+        },
+        
+        /**
+         * @private
          * Listener on underlying collapse to change size
          */
         _onCollapse: function()
@@ -102,6 +113,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanelPlaceHo
                 this.flex = 0;
                 this._panelCollapsed = true;
                 this.addCls(this.collapsedCls);
+                this.getSplitter().addCls(this.collapsedCls);
                 this.ownerCt.updateLayout();
             }
             else
@@ -135,6 +147,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanelPlaceHo
                 this.flex = this._originalFlex;
                 this._panelCollapsed = false;
                 this.removeCls(this.collapsedCls);
+                this.getSplitter().removeCls(this.collapsedCls);
                 this.ownerCt.updateLayout();
             }
             else

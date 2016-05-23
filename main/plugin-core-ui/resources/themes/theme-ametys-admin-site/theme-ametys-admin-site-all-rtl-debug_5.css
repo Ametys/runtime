@@ -1,3 +1,39 @@
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:363 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-light-framed-collapsed-left-ml {
+    background-position: left 0;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:371 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-light-framed-collapsed-left-mr {
+    background-position: left 0;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:379 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-light-framed-collapsed-left-tc {
+    background-position: 0 0;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:383 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-light-framed-collapsed-left-bc {
+    background-position: 0 -5px;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:388 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-light-framed-collapsed-left-tr,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-light-framed-collapsed-left-br,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-light-framed-collapsed-left-mr {
+    padding-right: 5px;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:394 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-light-framed-collapsed-left-tl,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-light-framed-collapsed-left-bl,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-light-framed-collapsed-left-ml {
+    padding-left: 5px;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:400 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-light-framed-collapsed-left-tc {
+    height: 5px;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:403 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-light-framed-collapsed-left-bc {
+    height: 5px;
+}
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:407 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-light-framed-collapsed-left-tl,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-light-framed-collapsed-left-bl,
@@ -16729,50 +16765,4 @@ ul.ametys-tooltip-comment > li div.comment-text {
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/Table.scss:56 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-grid-item-selected {
     background-color: #fcf0f7;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/Table.scss:61 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-grid-with-row-lines .x-grid-item.x-grid-item-over {
-    border-color: #e4e4e4;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/Table.scss:64 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-grid-with-row-lines .x-grid-item-over + .x-grid-item {
-    border-top-color: #e4e4e4;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/Table.scss:79 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .a-visible-focus .x-grid-item-focused .x-grid-cell-inner:before {
-    border-color: #c9599c;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/Table.scss:89 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-column-header-over {
-    background-image: none;
-    background-color: #fcf0f7;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/Table.scss:94 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-column-header-sort-ASC .x-column-header-inner,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-column-header-sort-DESC .x-column-header-inner {
-    border-bottom-color: #c9599c;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/Table.scss:99 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-column-header.x-column-header-focus .x-column-header-inner:after {
-    border-color: #a1407a;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/Table.scss:53 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-grid-item-over {
-    background-color: #f1f1f1;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/Table.scss:56 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-grid-item-selected {
-    background-color: #fcf0f7;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/Table.scss:61 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-grid-with-row-lines .x-grid-item.x-grid-item-over {
-    border-color: #e4e4e4;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/Table.scss:64 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-grid-with-row-lines .x-grid-item-over + .x-grid-item {
-    border-top-color: #e4e4e4;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/Table.scss:79 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .a-visible-focus .x-grid-item-focused .x-grid-cell-inner:before {
-    border-color: #b060b0;
 }
