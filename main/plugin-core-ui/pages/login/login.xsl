@@ -56,7 +56,7 @@
 									</style>
 									<table class="input inputtext population">
 										<tr>
-											<td class="input empty">
+											<td class="input select empty">
 												<select id="Population" required="">
 													<xsl:for-each select="/LoginScreen/PopulationsForm/populations/population">
 														<option value='{id}'><xsl:value-of select="label" /></option>
@@ -80,7 +80,7 @@
                                         
                                         document.getElementById("Population").onchange = function() {
                                             // Remove the placeholder for the select population field
-                                            this.parentNode.className='input';
+                                            this.parentNode.className='input select';
                                             
                                             // Enable the HTML fields
                                             var elements = document.getElementsByTagName("fieldset");

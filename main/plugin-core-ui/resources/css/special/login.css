@@ -248,7 +248,7 @@ div.connection button.otherauth:disabled:active {
 /**
  * SELECTION OF POPULATION
  */
-div.connection table.population td.input {
+div.connection table.population td.input.select {
 	position: relative;
 	padding: 0;
 }
