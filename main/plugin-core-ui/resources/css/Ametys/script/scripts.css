@@ -26,11 +26,6 @@
     background: #FFF;
 }
 
-.uitool-script .uitool-script-help-tooltip:before {
-	content: "\f1a4";
-	font-family: Flaticon;
-}
-
 .uitool-script .uitool-admin-script-editor div.CodeMirror-code > div:first-child pre,
 .uitool-script .uitool-admin-script-editor div.CodeMirror-code > div:nth-last-child(1) pre,
 .uitool-script .uitool-admin-script-editor div.CodeMirror-code > div:nth-last-child(2) pre,
