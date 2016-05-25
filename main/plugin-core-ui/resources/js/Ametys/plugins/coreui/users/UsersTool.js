@@ -124,6 +124,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
         this._searchField = Ext.create('Ext.form.TextField', {
             xtype: 'textfield',
             cls: 'ametys',
+            minWidth: 100,
             maxWidth: 400,
             flex: 1,
             emptyText: "{{i18n PLUGINS_CORE_UI_TOOL_USERS_SEARCH_EMPTY_TEXT}}",
