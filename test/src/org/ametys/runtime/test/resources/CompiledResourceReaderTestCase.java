@@ -36,7 +36,25 @@ public class CompiledResourceReaderTestCase extends AbstractRuntimeTestCase
      * This test call the LESS reader and the SASS reader, and compare the result with the expected compiled value.
      * @throws Exception If an error occurs
      */
-    public void testCompiledResourceReader() throws Exception
+    public void testSASSCompiledResourceReader() throws Exception
+    {
+        CocoonWrapper cocoon = _startApplication("test/environments/runtimes/runtime01.xml", "test/environments/configs/config1.xml", "test/environments/webapp2");
+
+        Map<String, Object> environmentInformation = _cocoon._enterEnvironment();
+        
+        _resolver = (SourceResolver) Init.getPluginServiceManager().lookup(SourceResolver.ROLE);
+        
+        _assertCompiledResource("sass-file-1.scss", "sass-file-1-result.css", "Error with SASS reader");
+        
+        _cocoon._leaveEnvironment(environmentInformation);
+        cocoon.dispose();
+    }
+    
+    /**
+     * This test call the LESS reader and the SASS reader, and compare the result with the expected compiled value.
+     * @throws Exception If an error occurs
+     */
+    public void testLESSCompiledResourceReader() throws Exception
     {
         CocoonWrapper cocoon = _startApplication("test/environments/runtimes/runtime01.xml", "test/environments/configs/config1.xml", "test/environments/webapp2");
 
@@ -45,7 +63,6 @@ public class CompiledResourceReaderTestCase extends AbstractRuntimeTestCase
         _resolver = (SourceResolver) Init.getPluginServiceManager().lookup(SourceResolver.ROLE);
         
         _assertCompiledResource("less-file-1.less", "less-file-1-result.css", "Error with LESS reader");
-        _assertCompiledResource("sass-file-1.scss", "sass-file-1-result.css", "Error with SASS reader");
         
         _cocoon._leaveEnvironment(environmentInformation);
         cocoon.dispose();

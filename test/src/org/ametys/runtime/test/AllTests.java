@@ -24,6 +24,7 @@ import org.ametys.runtime.test.groups.ldap.UserDrivenLdapGroupsTestCase;
 import org.ametys.runtime.test.minimize.MinimizeTransformerTestCase;
 import org.ametys.runtime.test.observers.ObserversTestCase;
 import org.ametys.runtime.test.plugins.PluginsTestCase;
+import org.ametys.runtime.test.resources.CompiledResourceReaderTestCase;
 import org.ametys.runtime.test.rights.basic.BasicRightsManagerTestCase;
 import org.ametys.runtime.test.rights.profile.AllProfileBasedRightsManagerTestSuite;
 import org.ametys.runtime.test.rights.profile.hierarchical.AllHierarchicalProfileBasedRightsManagerTestSuite;
@@ -83,7 +84,9 @@ public final class AllTests
         suite.addTestSuite(BasicRightsManagerTestCase.class);
         suite.addTest(AllProfileBasedRightsManagerTestSuite.suite());
         suite.addTest(AllHierarchicalProfileBasedRightsManagerTestSuite.suite());
-        
+
+        suite.addTestSuite(CompiledResourceReaderTestCase.class);
+
         suite.addTest(AllUserPreferencesTestSuite.suite());
         
         suite.addTestSuite(StaticUIItemFactoryTestCase.class);
