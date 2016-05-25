@@ -125,6 +125,7 @@
     <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_NAME_op">Opera</message>
     <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_NAME_ed">Microsoft Edge</message>
     <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC">Consult the user manual of your application to know the recommended browsers.</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC_BTN">Access to manual</message>
     
     <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ALL">All versions</message>
     <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_LOWER">Versions {0} and lower</message>
