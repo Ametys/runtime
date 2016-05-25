@@ -18,6 +18,7 @@ package org.ametys.plugins.core.ui.resources;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ import io.bit3.jsass.importer.Importer;
  */
 public class SassResourceHandler extends AbstractCompiledResourceHandler
 {
-    private static final Pattern IMPORT_PATTERN = Pattern.compile("^@import\\b\\s*(?:(?:url)?\\(?\\s*[\"']?)([^)\"']*)[\"']?\\)?\\s*;?$", Pattern.MULTILINE | Pattern.CASE_INSENSITIVE);
+    private static final Pattern IMPORT_PATTERN = Pattern.compile("^\\s*@import\\s+(?:(?:url)?\\(?\\s*[\"']?)([^)\"']+)[\"']?\\)?\\s*;?\\s*$", Pattern.MULTILINE | Pattern.CASE_INSENSITIVE);
 
     private Compiler _jsassCompiler;
 
@@ -73,16 +74,18 @@ public class SassResourceHandler extends AbstractCompiledResourceHandler
             URI uri = new URI(_uri);
             String sassContent = IOUtils.toString(is);
             compiledString = _jsassCompiler.compileString(sassContent, uri, uri, options);
+            
+            if (compiledString.getErrorStatus() != 0)
+            {
+                throw new ProcessingException(compiledString.getErrorText());
+            }
         }
-        catch (CompilationException e)
+        catch (ImportException | CompilationException | URISyntaxException e)
         {
-            throw new ProcessingException("Unable to compile the SASS file : " + _uri, e);
+            throw new ProcessingException("Unable to compile the SASS file: " + _uri, e);
         }
-        catch (URISyntaxException e)
-        {
-            throw new ProcessingException("Unable to process SASS File, invalid uri : " + _uri, e);
-        }
-        return compiledString == null ? null : compiledString.getCss();
+        
+        return compiledString.getCss();
     }
     
     
@@ -114,7 +117,7 @@ public class SassResourceHandler extends AbstractCompiledResourceHandler
         }
         catch (IOException e)
         {
-            getLogger().warn("Invalid ");
+            getLogger().warn("Invalid " + inputSource.getURI(), e);
         }
         
         return result;
@@ -180,11 +183,11 @@ public class SassResourceHandler extends AbstractCompiledResourceHandler
             }
             catch (URISyntaxException e) 
             {
-                throw new RuntimeException(e);
+                throw new ImportException(e);
             }
             catch (IOException e)
             {
-                throw new RuntimeException(e);
+                throw new ImportException(e);
             }
     
             return list;
@@ -195,5 +198,26 @@ public class SassResourceHandler extends AbstractCompiledResourceHandler
     public String getMimeType()
     {
         return "text/css";
+    }
+
+    /**
+     * Hack because JSASS will always print the stacktrace to the standard error console 
+     */
+    protected final class ImportException extends RuntimeException
+    {
+        /**
+         * Create the exception
+         * @param e Internal wrapped exception
+         */
+        public ImportException(Exception e)
+        {
+            super(e); 
+        }
+
+        @Override
+        public void printStackTrace(PrintStream s)
+        {
+            // Empty
+        }
     }
 }
