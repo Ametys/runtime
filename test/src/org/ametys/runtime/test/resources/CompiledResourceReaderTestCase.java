@@ -71,7 +71,7 @@ public class CompiledResourceReaderTestCase extends AbstractRuntimeTestCase
     private void _assertCompiledResource(String inputFilename, String outputFilename, String error) throws Exception
     {
         Source expectedSource = _resolver.resolveURI("plugin:test://resources/css/sass-less-result/" + outputFilename);
-        Source resultSource = _resolver.resolveURI("cocoon://_plugins/test/resources/css/sass-less/" + inputFilename);
+        Source resultSource = _resolver.resolveURI("cocoon://plugins/test/resources/css/sass-less/" + inputFilename);
         
         String result = IOUtils.toString(resultSource.getInputStream(), "UTF-8");
         String expected = IOUtils.toString(expectedSource.getInputStream(), "UTF-8");

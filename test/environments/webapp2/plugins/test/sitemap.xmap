@@ -43,11 +43,6 @@
 	        <map:match pattern="resources-minimized/*.js">
 	            <map:read type="js" src="{1}" />
 	        </map:match>
-
-            <!-- LESS Files -->
-            <map:match pattern="resources/**">
-                <map:read type="resource" src="resources/{1}" />
-            </map:match>
             
         </map:pipeline>
     </map:pipelines>
