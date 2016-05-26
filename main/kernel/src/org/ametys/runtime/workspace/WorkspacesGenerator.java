@@ -48,9 +48,12 @@ public class WorkspacesGenerator extends AbstractGenerator
         attrs2.addCDATAAttribute("default", defaultWorkspace);
         XMLUtils.startElement(contentHandler, "workspaces", attrs2);
         
-        for (String workspaceName : WorkspaceManager.getInstance().getWorkspaceNames())
+        for (Workspace workspace : WorkspaceManager.getInstance().getWorkspaces().values())
         {
-            XMLUtils.createElement(contentHandler, "workspace", workspaceName);
+            XMLUtils.startElement(contentHandler, "workspace");
+            XMLUtils.createElement(contentHandler, "name", workspace.getName());
+            XMLUtils.createElement(contentHandler, "theme", workspace.getThemeName());
+            XMLUtils.endElement(contentHandler, "workspace");
         }
         
         Map<String, InactivityCause> inactiveWorkspaces = WorkspaceManager.getInstance().getInactiveWorkspaces();
