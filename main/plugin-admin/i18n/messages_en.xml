@@ -176,6 +176,10 @@
     <message key="PLUGINS_ADMIN_PLUGINS_INACTIVE_COMPONENT">(disabled due to not choosen component)</message>
     <message key="PLUGINS_ADMIN_PLUGINS_INACTIVE_INVALID_POINT">(disabled due to wrong referenced extension point)</message>
     <message key="PLUGINS_ADMIN_PLUGINS_INACTIVE_NOT_SAFE">(disabled by the safe mode)</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_INACTIVEWORKSPACE">(ERROR there is no reason for that workspace to be inactive)</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_INACTIVEWORKSPACE_EXCLUDED">(excluded)</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_INACTIVEWORKSPACE_MISDECLARED">(necessary files are missing)</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_INACTIVEWORKSPACE_MISCONFIGURED">(file workspace.xml is wrong)</message>
     <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_ALERT_TEXT">The change will be effective only when you confirm all the changes.&lt;br/&gt;To do so, please click on the 'Changes' action.&lt;br/&gt;&lt;br/&gt;No graphical element of the plugins tree will be modified until you validate your changes.</message>
     <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_ALERT_TITLE">Change...</message>
     <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_CONFIRM_TITLE">Changes...</message>
