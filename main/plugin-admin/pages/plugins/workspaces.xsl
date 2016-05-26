@@ -47,7 +47,7 @@
 		                    </xsl:when>
 		                    <xsl:otherwise>
 		                        <xsl:for-each select="workspaces/workspace">
-		                            <xsl:sort select="."/>
+		                            <xsl:sort select="name"/>
 		                            
 		                            <xsl:if test="position() != 1">,</xsl:if> 
 		                            <xsl:call-template name="tree-workspace"/>
@@ -63,8 +63,17 @@
     <xsl:template name="tree-workspace">
         {
             icon: "<xsl:value-of select="$resourcesPath"/>/img/plugins/workspace<xsl:if test="@inactive = 'true'">-inactive</xsl:if>.png",
-            text: "<xsl:value-of select="." /><xsl:if test="@inactive = 'true'"> &lt;span style='font-style: italic; color: #7f7f7f'&gt;<i18n:text i18n:key="PLUGINS_ADMIN_PLUGINS_INACTIVEWORKSPACE_{@cause}"/>&lt;/span&gt;</xsl:if><xsl:if test=". = ../@default"> &lt;span style='font-style: italic; color: #7f7f7f'&gt;<i18n:text i18n:key="PLUGINS_ADMIN_PLUGINS_WORKSPACE_DEFAULT"/>&lt;/span&gt;</xsl:if>",
-            leaf: true
+            text: "<xsl:value-of select="name" /><xsl:if test="@inactive = 'true'"> &lt;span style='font-style: italic; color: #7f7f7f'&gt;<i18n:text i18n:key="PLUGINS_ADMIN_PLUGINS_INACTIVEWORKSPACE_{@cause}"/>&lt;/span&gt;</xsl:if><xsl:if test="name = ../@default"> &lt;span style='font-style: italic; color: #7f7f7f'&gt;<i18n:text i18n:key="PLUGINS_ADMIN_PLUGINS_WORKSPACE_DEFAULT"/>&lt;/span&gt;</xsl:if>",
+            <xsl:choose>
+                <xsl:when test="@inactive = 'true'">leaf: true</xsl:when>
+                <xsl:otherwise>children: [
+                    {
+                        icon: "<xsl:value-of select="$resourcesPath"/>/img/plugins/workspace_theme_16.png",
+                        text: "<i18n:text i18n:key="PLUGINS_ADMIN_PLUGINS_WORKSPACE_THEME"/>&#160;<xsl:value-of select="theme"/>",
+                        leaf: true
+                    }
+                ]</xsl:otherwise>
+            </xsl:choose>
         }
     </xsl:template>
     
