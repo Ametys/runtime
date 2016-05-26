@@ -53,6 +53,22 @@ Ext.define(
 		 * @private
 		 */
 		
+        /**
+         * @cfg {Boolean/String} sort-menu-items=false When 'true', the items of a menu will be sorted by alphabetical order.
+         */
+        /**
+         * @property {Boolean} _sortMenuItems See ({@link #sort-menu-items})
+         * @private
+         */
+        
+        /**
+         * @cfg {Boolean/String} sort-gallery-items=false When 'true', the items of a gallery into a group will be sorted by alphabetical order.
+         */
+        /**
+         * @property {Boolean} _sortGalleryItems See ({@link #sort-gallery-items})
+         * @private
+         */
+        
 		/**
 		 * @property {Boolean/Object} _refreshing=false An object determining the refresh state or false if not refreshing
 		 * @property {Boolean} _refreshing.disabled The _disabled member before the refreshing starts
@@ -79,6 +95,9 @@ Ext.define(
 			this._toggleEnabled = this.getInitialConfig("toggle-enabled") == true || this.getInitialConfig("toggle-enabled") == 'true';
 			this._pressed = this.getInitialConfig("toggle-state") == true || this.getInitialConfig("toggle-state") == 'true';
 			this._refreshing = false;
+            
+            this._sortMenuItems = this.getInitialConfig("sort-menu-items") == true || this.getInitialConfig("sort-menu-items") == 'true';
+            this._sortGalleryItems = this.getInitialConfig("sort-gallery-items") == true || this.getInitialConfig("sort-gallery-items") == 'true';
 			
 			this._referencedControllerIds = [];
 
@@ -280,6 +299,11 @@ Ext.define(
 					
 					if (gpItems.length > 0)
 					{
+                        if (this._sortGalleryItems)
+                        {
+                            gpItems.sort(this._compareGalleryItemText);
+                        }
+                        
 						var menuPanelCfg = Ext.applyIf({
 							title: galleryGroupsCfg[i].label,
 							items: gpItems
@@ -292,7 +316,28 @@ Ext.define(
 			}
 			return menuPanels;
 		},
-		
+        
+        /**
+         * Comparison function for two gallery items based on item' text.
+         * @param {Ext.menu.Item} gpItem1 The first item to compare
+         * @param {Ext.menu.Item} gpItem2 The second item to compare with
+         * @return {Number}
+         */
+        _compareGalleryItemText: function (gpItem1, gpItem2)
+        {
+            var text1 = Ext.data.SortTypes.asNonAccentedUCString (gpItem1.text || '');   
+            var text2 = Ext.data.SortTypes.asNonAccentedUCString (gpItem2.text || '');  
+            
+            if (text1 == text2)
+            {
+                return 0;
+            }
+            else
+            {
+                return text1 < text2 ? -1 : 1;
+            }
+        },
+        
 		/**
 		 * Get the configuration of each menu panel from initial configuration if it exists. Called by #_getMenuPanels.
 		 * @return {Object} The menu panel configuration object
@@ -367,9 +412,36 @@ Ext.define(
 					}
 				}
 			}
-			
+            
+            if (this._sortMenuItems)
+            {
+                // Sort items by alphabetical order
+                menuItems.sort(this._compareMenuItemText);
+            }
+            
 			return menuItems;
 		},
+        
+        /**
+         * Comparison function for two menu items based on item' text.
+         * @param {Ext.menu.Item} item1 The first item to compare
+         * @param {Ext.menu.Item} item2 The second item to compare with
+         * @return {Number}
+         */
+        _compareMenuItemText: function (item1, item2)
+        {
+            var text1 = Ext.data.SortTypes.asNonAccentedUCString (item1.text || '');   
+            var text2 = Ext.data.SortTypes.asNonAccentedUCString (item2.text || '');  
+            
+            if (text1 == text2)
+            {
+                return 0;
+            }
+            else
+            {
+                return text1 < text2 ? -1 : 1;
+            }
+        },
 		
 		/**
 		 * Update the ui controls for images and tooltip
