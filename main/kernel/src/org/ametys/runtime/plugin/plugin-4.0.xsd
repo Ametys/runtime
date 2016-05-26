@@ -97,7 +97,7 @@
                 <xsd:documentation xml:lang="en">
                     <![CDATA[
                             Allows to specify the version of the plugin schema used by this plugin definition.<br/>
-                            This schema only accepts "2.0" as value.
+                            This schema only accepts "4.0" as value.
                         ]]>
                 </xsd:documentation>
             </xsd:annotation>
