@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.ametys.runtime.plugin;
+package org.ametys.runtime.workspace;
 
 import java.io.IOException;
 import java.util.Map;
@@ -25,7 +25,6 @@ import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.SAXException;
 
 import org.ametys.runtime.servlet.RuntimeConfig;
-import org.ametys.runtime.workspace.WorkspaceManager;
 import org.ametys.runtime.workspace.WorkspaceManager.InactivityCause;
 
 /**

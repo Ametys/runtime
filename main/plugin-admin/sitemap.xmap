@@ -25,7 +25,7 @@
             <map:generator name="logs-downloadzip" src="org.ametys.runtime.plugins.admin.logs.LogsDownloadGenerator" logger="org.ametys.runtime.plugins.admin.generator"/>
             <map:generator name="plugins-doc" src="org.ametys.runtime.plugins.admin.plugins.doc.PluginDocGenerator" logger="org.ametys.runtime.plugins.admin.generator"/>
             <map:generator name="plugins" src="org.ametys.runtime.plugin.PluginsGenerator" logger="org.ametys.runtime.plugins.admin.generator"/>
-            <map:generator name="workspaces" src="org.ametys.runtime.plugin.WorkspacesGenerator" logger="org.ametys.runtime.plugins.admin.generator"/>
+            <map:generator name="workspaces" src="org.ametys.runtime.workspace.WorkspacesGenerator" logger="org.ametys.runtime.plugins.admin.generator"/>
             <map:generator name="plugins-change-runtime" src="org.ametys.runtime.plugins.admin.plugins.ChangeRuntime" logger="org.ametys.runtime.plugins.admin.generator"/>
         </map:generators>
         

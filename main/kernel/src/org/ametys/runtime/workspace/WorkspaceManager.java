@@ -17,6 +17,7 @@ package org.ametys.runtime.workspace;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -25,12 +26,19 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.XMLConstants;
+import javax.xml.parsers.SAXParserFactory;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.XMLReader;
 
 import org.ametys.runtime.servlet.RuntimeConfig;
 
@@ -51,20 +59,21 @@ public final class WorkspaceManager
     public enum InactivityCause
     {
         /**
-         * Constant for excluded features
+         * Constant for excluded workspaces
          */
-        EXCLUDED
+        EXCLUDED,
+        /**
+         * Constant for workspaces having error in their declaration
+         */
+        MISDECLARED,
+        /**
+         * Constant for workspaces having error in their workspace.xml file
+         */
+        MISCONFIGURED
     }
     
     // Map<workspaceName, baseURI>
-    private Map<String, String> _workspaces = new HashMap<>(); 
-    
-    // workspaces/locations association
-    private Map<String, File> _locations = new HashMap<>();
-
-    // All workspaces' names
-    // _workspaceNames is NOT the same as _workspaces.keySet(), which only contains embedded workspaces
-    private Set<String> _workspaceNames = new HashSet<>();
+    private Map<String, Workspace> _workspaces = new HashMap<>(); 
     
     private Map<String, InactivityCause> _inactiveWorkspaces = new HashMap<>();
 
@@ -91,14 +100,23 @@ public final class WorkspaceManager
     }
     
     /**
-     * Returns all workspaces names
-     * @return all workspaces names
+     * Returns all active workspaces names
+     * @return all active workspaces names
      */
     public Set<String> getWorkspaceNames()
     {
-        return _workspaceNames;
+        return Collections.unmodifiableSet(_workspaces.keySet());
     }
     
+    /**
+     * Returns active workspaces declarations.
+     * @return active workspaces declarations.
+     */
+    public Map<String, Workspace> getWorkspaces()
+    {
+        return Collections.unmodifiableMap(_workspaces);
+    }
+
     /** 
      * Return the inactive workspaces
      * @return All the inactive workspaces
@@ -124,7 +142,7 @@ public final class WorkspaceManager
      */
     public String getBaseURI(String workspaceName)
     {
-        return _workspaces.get(workspaceName);
+        return _workspaces.get(workspaceName).getEmbededLocation();
     }
     
     /**
@@ -134,7 +152,7 @@ public final class WorkspaceManager
      */
     public File getLocation(String workspaceName)
     {
-        return _locations.get(workspaceName);
+        return _workspaces.get(workspaceName).getExternalLocation();
     }
 
     /**
@@ -147,7 +165,6 @@ public final class WorkspaceManager
     public void init(Collection<String> excludedWorkspace, String contextPath) throws IOException
     {
         _workspaces.clear();
-        _workspaceNames.clear();
         
         // Begin with workspace embedded in jars
         Enumeration<URL> workspaceResources = getClass().getClassLoader().getResources("META-INF/ametys-workspaces");
@@ -190,64 +207,137 @@ public final class WorkspaceManager
         try (InputStream is = workspaceResource.openStream();
              BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8")))
         {
-            String workspace;
-            while ((workspace = br.readLine()) != null)
+            String workspaceString;
+            while ((workspaceString = br.readLine()) != null)
             {
-                int i = workspace.indexOf(':');
+                int i = workspaceString.indexOf(':');
                 if (i != -1)
                 {
-                    String workspaceName = workspace.substring(0, i);       
-                    String workspaceBaseURI = workspace.substring(i + 1);
+                    String workspaceName = workspaceString.substring(0, i);       
+                    String workspaceBaseURI = workspaceString.substring(i + 1);
                     
                     if (!excludedWorkspace.contains(workspaceName))
                     {
-                        if (_workspaceNames.contains(workspaceName))
+                        if (_workspaces.containsKey(workspaceName))
                         {
                             String errorMessage = "The workspace named " + workspaceName + " already exists";
                             _logger.error(errorMessage);
                             throw new IllegalArgumentException(errorMessage);
                         }
                         
-                        if (getClass().getResource(workspaceBaseURI + "/" + __WORKSPACE_FILENAME) == null)
+                        URL workspaceConfigurationURL = getClass().getResource(workspaceBaseURI + "/" + __WORKSPACE_FILENAME); 
+                        if (workspaceConfigurationURL == null || getClass().getResource(workspaceBaseURI + "/" + __WORKSPACE_FILENAME) == null)
                         {
                             if (_logger.isWarnEnabled())
                             {
-                                _logger.warn("A workspace '" + workspaceName + "' is declared in a library, but no file '" + __WORKSPACE_FILENAME + "' can be found at '" + workspaceBaseURI + "'. Workspace will be ignored.");
-                                return;
+                                _logger.warn("A workspace '" + workspaceName + "' is declared in a library, but files '" + __WORKSPACE_FILENAME + "' and/or 'sitemap.xmap' are missing at '" + workspaceBaseURI + "'. Workspace will be ignored.");
+                            }
+                            _inactiveWorkspaces.put(workspaceName, InactivityCause.MISDECLARED);
+                            return;
+                        }
+
+                        Configuration workspaceConfiguration = null;
+                        try (InputStream is2 = workspaceConfigurationURL.openStream())
+                        {
+                            workspaceConfiguration = _getConfigurationFromStream(workspaceName, is2, workspaceBaseURI);
+                        }
+                        
+                        if (workspaceConfiguration != null)
+                        {
+                            Workspace workspace = new Workspace(workspaceName, workspaceBaseURI);
+                            workspace.configure(workspaceConfiguration);
+                            
+                            _workspaces.put(workspaceName, workspace);
+                            
+                            if (_logger.isInfoEnabled())
+                            {
+                                _logger.info("Workspace '" + workspaceName + "' registered at '" + workspaceBaseURI + "'");
                             }
                         }
-                        
-                        _workspaceNames.add(workspaceName);
-                        _workspaces.put(workspaceName, workspaceBaseURI);
-                        
-                        if (_logger.isInfoEnabled())
+                        else
                         {
-                            _logger.info("Workspace '" + workspaceName + "' registered at '" + workspaceBaseURI + "'");
+                            _inactiveWorkspaces.put(workspaceName, InactivityCause.MISCONFIGURED);
                         }
+                    }
+                    else
+                    {
+                        _inactiveWorkspaces.put(workspaceName, InactivityCause.EXCLUDED);
                     }
                 }
             }
         }
     }
     
-    private void _initFileWorkspaces(File workspace, String workspaceName, Collection<String> excludedWorkspace)
+    private void _initFileWorkspaces(File workspaceFile, String workspaceName, Collection<String> excludedWorkspace) throws IOException
     {
-        if (workspace.exists() && workspace.isDirectory() && new File(workspace, __WORKSPACE_FILENAME).exists() && new File(workspace, "sitemap.xmap").exists() && !excludedWorkspace.contains(workspaceName))
+        File workspaceConfigurationFile = new File(workspaceFile, __WORKSPACE_FILENAME);
+        if (excludedWorkspace.contains(workspaceName))
         {
-            if (_workspaceNames.contains(workspaceName))
+            _inactiveWorkspaces.put(workspaceName, InactivityCause.EXCLUDED);
+        }
+        else if (workspaceFile.exists() && workspaceFile.isDirectory() && workspaceConfigurationFile.exists() && new File(workspaceFile, "sitemap.xmap").exists())
+        {
+            if (_workspaces.containsKey(workspaceName))
             {
-                String errorMessage = "The workspace named " + workspace.getName() + " already exists";
+                String errorMessage = "The workspace named " + workspaceFile.getName() + " already exists";
                 _logger.error(errorMessage);
                 throw new IllegalArgumentException(errorMessage);
             }
             
-            _workspaceNames.add(workspaceName);
-            _locations.put(workspaceName, workspace);
-            
-            if (_logger.isInfoEnabled())
+            Configuration workspaceConfiguration = null;
+            try (InputStream is = new FileInputStream(workspaceConfigurationFile))
             {
-                _logger.info("Workspace '" + workspaceName + "' registered at 'context://workspaces/" + workspaceName + "'");
+                workspaceConfiguration = _getConfigurationFromStream(workspaceName, is, workspaceConfigurationFile.getAbsolutePath());
             }
-        }   
+            
+            if (workspaceConfiguration != null)
+            {
+                Workspace workspace = new Workspace(workspaceName, workspaceFile);
+                workspace.configure(workspaceConfiguration);
+                
+                _workspaces.put(workspaceName, workspace);
+                
+                if (_logger.isInfoEnabled())
+                {
+                    _logger.info("Workspace '" + workspaceName + "' registered at '" + workspaceConfigurationFile.getAbsolutePath() + "'");
+                }
+            }
+            else
+            {
+                _inactiveWorkspaces.put(workspaceName, InactivityCause.MISCONFIGURED);
+            }
+        }  
+        else
+        {
+            if (_logger.isWarnEnabled())
+            {
+                _logger.warn("Workspace '" + workspaceName + "' registered at '" + workspaceFile.getAbsolutePath() + "' has no '" + __WORKSPACE_FILENAME + "' file or no 'sitemap.xmap' file.");
+            }
+
+            _inactiveWorkspaces.put(workspaceName, InactivityCause.MISDECLARED);
+        }
     }
+    
+    private Configuration _getConfigurationFromStream(String workspaceName, InputStream is, String path)
+    {
+        try
+        {
+            SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            URL schemaURL = getClass().getResource("workspace-4.0.xsd");
+            Schema schema = schemaFactory.newSchema(schemaURL);
+            SAXParserFactory factory = SAXParserFactory.newInstance();
+            factory.setNamespaceAware(true);
+            factory.setSchema(schema);
+            XMLReader reader = factory.newSAXParser().getXMLReader();
+            DefaultConfigurationBuilder confBuilder = new DefaultConfigurationBuilder(reader);
+            
+            return confBuilder.build(is, path);
+        }
+        catch (Exception e)
+        {
+            _logger.error("Unable to access to workspace '" + workspaceName + "' at " + path, e);
+            return null;
+        }
+    }
+
 }
