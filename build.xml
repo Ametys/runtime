@@ -65,6 +65,7 @@
         PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_NAME_\w+,
         PLUGINS_CORE_RIGHTS_ASSIGNMENT_\w+,
         PLUGINS_ADMIN_PLUGINS_INACTIVE_\w+
+        PLUGINS_ADMIN_PLUGINS_INACTIVEWORKSPACE_\w+
     </property>
 
     <patternset id="check.additional.licenses">
