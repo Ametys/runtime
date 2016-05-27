@@ -150,7 +150,7 @@ public class SassResourceHandler extends AbstractCompiledResourceHandler
             if (StringUtils.contains(validUri, "://"))
             {
                 String schema =  validUri.substring(0, validUri.indexOf("://"));
-                String corruptedUri = schema + ":/" + FilenameUtils.normalize(StringUtils.removeStart(validUri, schema + "://"));
+                String corruptedUri = schema + ":/" + StringUtils.removeStart(validUri, schema + "://");
                 _validURIsRegistered.put(corruptedUri, validUri);
             }
         }
