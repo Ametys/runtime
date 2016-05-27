@@ -2717,19 +2717,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             var value = values[name];
             var decodedValue = value;
             
-            try
-            {
-                if (!Ext.isNumeric(value))
-                {
-                    decodedValue = Ext.JSON.decode(value);
-                }
-            }
-            catch (e)
-            {
-                // Ignore, just take the undecoded value.
-                // FIXME this is logging an error now!
-            }
-            
             var field = this.getForm().findField(this.getFieldNamePrefix() + name);
             if (field != null)
             {
