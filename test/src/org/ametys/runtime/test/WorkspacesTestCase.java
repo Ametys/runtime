@@ -33,12 +33,14 @@ public class WorkspacesTestCase extends AbstractRuntimeTestCase
         assertTrue(WorkspaceManager.getInstance().getWorkspaceNames().contains("admin"));
         
         assertTrue(WorkspaceManager.getInstance().getWorkspaceNames().contains("workspace-test"));
+        assertEquals(WorkspaceManager.getInstance().getWorkspaces().get("workspace-test").getThemeName(), "ametys-admin");
         
         // workspace-test2 don't have workspace.xml
         assertFalse(WorkspaceManager.getInstance().getWorkspaceNames().contains("workspace-test2"));
         
         // workspace-test3 has a dependency to an unexisting feature
         assertTrue(WorkspaceManager.getInstance().getWorkspaceNames().contains("workspace-test3"));
+        assertEquals(WorkspaceManager.getInstance().getWorkspaces().get("workspace-test3").getThemeName(), "ametys-base");
     
         cocoon.dispose();
     }
