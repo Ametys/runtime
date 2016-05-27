@@ -92,7 +92,7 @@ Open source web application framework based on Apache Cocoon.
     <dependency org="org.quartz-scheduler" name="quartz" rev="2.2.3" conf="common_dependencies->default"/>
     <dependency org="org.quartz-scheduler" name="quartz-jobs" rev="2.2.3" conf="common_dependencies->default"/>
     
-    <dependency org="io.bit3" name="jsass" rev="4.1.0" />
+    <dependency org="io.bit3" name="jsass" rev="5.1.1" />
     <dependency org="com.github.sommeri" name="less4j" rev="1.17.2" />
 
     <!-- Runtime -->

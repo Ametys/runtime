@@ -18,11 +18,11 @@ package org.ametys.plugins.core.ui.resources;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -67,20 +67,17 @@ public class SassResourceHandler extends AbstractCompiledResourceHandler
     {
         Output compiledString = null;
         Options options = new Options();
-        options.getImporters().add(new AmetysSassImporter(_sourceResolver));
+        AmetysSassImporter sassImporter = new AmetysSassImporter(_sourceResolver);
+        options.getImporters().add(sassImporter);
         
         try (InputStream is = resource.getInputStream())
         {
             URI uri = new URI(_uri);
+            sassImporter.registerValidURI(uri.toString());
             String sassContent = IOUtils.toString(is);
             compiledString = _jsassCompiler.compileString(sassContent, uri, uri, options);
-            
-            if (compiledString.getErrorStatus() != 0)
-            {
-                throw new ProcessingException(compiledString.getErrorText());
-            }
         }
-        catch (ImportException | CompilationException | URISyntaxException e)
+        catch (CompilationException | URISyntaxException e)
         {
             throw new ProcessingException("Unable to compile the SASS file: " + _uri, e);
         }
@@ -122,7 +119,6 @@ public class SassResourceHandler extends AbstractCompiledResourceHandler
         
         return result;
     }
-
     
     /**
      * Sass Importer which can resolve Ametys resources
@@ -130,6 +126,8 @@ public class SassResourceHandler extends AbstractCompiledResourceHandler
     private class AmetysSassImporter implements Importer 
     {
         private SourceResolver _sResolver;
+        
+        private Map<String, String> _validURIsRegistered;
     
         /**
          * Default constructor for the Ametys SassImporter. Provides information for resolving imported resources.
@@ -138,6 +136,23 @@ public class SassResourceHandler extends AbstractCompiledResourceHandler
         public AmetysSassImporter(SourceResolver sourceResolver)
         {
             _sResolver = sourceResolver;
+            _validURIsRegistered = new HashMap<>();
+        }
+        
+        /**
+         * Because Libsass does not fully respect URI schemes and can sometimes corrupt URIs, this method can be used to provide a URI known as valid.
+         * When resolving the URI received from Libsass, it will first be checked against valid URIs, to prevent common corruption.
+         * Example of known URI corruption : scheme of URI "plugin:*://" will be transformed into "plugin:*:/"  
+         * @param validUri A valid URI
+         */
+        public void registerValidURI(String validUri)
+        {
+            if (StringUtils.contains(validUri, "://"))
+            {
+                String schema =  validUri.substring(0, validUri.indexOf("://"));
+                String corruptedUri = schema + ":/" + FilenameUtils.normalize(StringUtils.removeStart(validUri, schema + "://"));
+                _validURIsRegistered.put(corruptedUri, validUri);
+            }
         }
         
         public Collection<Import> apply(String url, Import previous)
@@ -151,10 +166,19 @@ public class SassResourceHandler extends AbstractCompiledResourceHandler
                 if (importUrl.isAbsolute())
                 {
                     currentUri = importUrl;
+                    this.registerValidURI(currentUri.toString());
                 }
                 else
                 {
-                    currentUri = new URI(FilenameUtils.getFullPath(previous.getAbsoluteUri().toString()) + url);
+                    if (_validURIsRegistered.containsKey(previous.getAbsoluteUri().toString()))
+                    {
+                        // URI replaced with the registered matching valid URI, because of potential URI corruption.
+                        currentUri = new URI(FilenameUtils.getFullPath(_validURIsRegistered.get(previous.getAbsoluteUri().toString())) + url);
+                    }
+                    else
+                    {
+                        currentUri = new URI(FilenameUtils.getFullPath(previous.getAbsoluteUri().toString()) + url);
+                    }
                 }
                 
                 // SASS files can be .sass or .scss
@@ -183,11 +207,11 @@ public class SassResourceHandler extends AbstractCompiledResourceHandler
             }
             catch (URISyntaxException e) 
             {
-                throw new ImportException(e);
+                throw new RuntimeException(e);
             }
             catch (IOException e)
             {
-                throw new ImportException(e);
+                throw new RuntimeException(e);
             }
     
             return list;
@@ -198,26 +222,5 @@ public class SassResourceHandler extends AbstractCompiledResourceHandler
     public String getMimeType()
     {
         return "text/css";
-    }
-
-    /**
-     * Hack because JSASS will always print the stacktrace to the standard error console 
-     */
-    protected final class ImportException extends RuntimeException
-    {
-        /**
-         * Create the exception
-         * @param e Internal wrapped exception
-         */
-        public ImportException(Exception e)
-        {
-            super(e); 
-        }
-
-        @Override
-        public void printStackTrace(PrintStream s)
-        {
-            // Empty
-        }
     }
 }
