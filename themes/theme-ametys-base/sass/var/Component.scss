@@ -14,6 +14,8 @@
  *  limitations under the License.
  */
 
+@import 'Ametys';
+
 /**
  * General
  */
@@ -49,7 +51,7 @@ $ametys-color-hint: dynamic(#404040);
 /** @var {color} The color of information of 'hint' level */
 $ametys-background-color-hint: dynamic(#fcf0c0);
 
-$ametys-highlight-color: dynamic(#2a579a);
+$ametys-highlight-color: dynamic($ametys-color);
 
 // ROUGE
 // #c23249 #f6e8eb #960018

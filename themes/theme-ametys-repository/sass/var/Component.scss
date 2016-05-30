@@ -14,17 +14,19 @@
  *  limitations under the License.
  */
 
+@import 'Ametys';
+
 /**
  * General
  */
-$ametys-highlight-color: #a03939;
+$ametys-highlight-color: $ametys-color;
 
 /**
  * Ribbon
  */  
-$ametys-ribbon-base-color: #a03939;
+$ametys-ribbon-base-color: $ametys-color;
 $ametys-ribbon-main-color: #F0F0F0;
-$ametys-ribbon-main-text-color: #a03939;
+$ametys-ribbon-main-text-color: $ametys-color;
 $ametys-ribbon-tab-color: #F1F1F1;
 $ametys-ribbon-highlight-color: #c95959;
 
@@ -63,5 +65,5 @@ $ametys-ribbon-tabpanel-linkbutton-textdecoration-over: none;
 $ametys-ribbon-tabpanel-usercard-color: $ametys-ribbon-main-text-color;
 
 $ametys-ribbon-main-glyph-color: #717171;
-$ametys-ribbon-main-glyph-color-pressed: #a03939;
+$ametys-ribbon-main-glyph-color-pressed: $ametys-color;
 $ametys-ribbon-main-glyph-color-over: #c95959;
