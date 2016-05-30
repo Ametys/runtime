@@ -97,7 +97,108 @@ Ext.define('Ametys.form.AbstractQueryableComboBox', {
     getItems: function ()
     {
     	this.combobox = Ext.create('Ext.form.field.Tag', this.getComboBoxConfig());
+        this.combobox.on("afterrender", this._onComboboxRender, this);
     	return [this.combobox];
+    },
+    
+    _onComboboxRender: function()
+    {
+        if (this.multiple)
+        {
+            var me = this.combobox,
+                ddGroup = 'ametys-box-select-' + me.getId();
+
+            new Ext.dd.DragZone(me.listWrapper, { 
+                ddGroup: ddGroup,
+                
+                getDragData: function(e) 
+                {
+                    var sourceEl = e.getTarget(".x-tagfield-item", 10), d;
+                    if (sourceEl) 
+                    {
+                        d = sourceEl.cloneNode(true);
+                        d.id = Ext.id();
+                        return (me.dragData = {
+                                sourceEl: sourceEl,
+                                repairXY: Ext.fly(sourceEl).getXY(),
+                                ddel: d,
+                                rec: me.getRecordByListItemNode(sourceEl)
+                        });
+                    }               
+                },
+                getRepairXY: function() 
+                {
+                    return me.dragData.repairXY;
+                }
+            });
+            
+            new Ext.dd.DropZone(me.listWrapper, { 
+                ddGroup: ddGroup,
+                
+                getTargetFromEvent: function(e) 
+                {
+                    return e.getTarget('.x-tagfield-item') || e.getTarget('.x-tagfield-input') || e.getTarget('.x-tagfield-list');
+                },
+                
+                onNodeEnter : function(target, dd, e, data)
+                {
+                    var t = Ext.fly(target);
+                    var r = t.getRegion();
+                    
+                    if (t.hasCls('x-tagfield-item') && e.getX() > r.left + (r.right - r.left) / 2)
+                    {
+                        t.removeCls('x-tagfield-target-hoverbefore');
+                        t.addCls('x-tagfield-target-hoverafter');
+                    }
+                    else
+                    {
+                        t.addCls('x-tagfield-target-hoverbefore');
+                        t.removeCls('x-tagfield-target-hoverafter');
+                    }
+                },
+                
+                onNodeOut : function(target, dd, e, data)
+                {
+                    Ext.fly(target).removeCls(['x-tagfield-target-hoverbefore', 'x-tagfield-target-hoverafter']);
+                },
+                
+                onNodeOver : function(target, dd, e, data)
+                {
+                    this.onNodeEnter(target, dd, e, data);
+                    
+                    return Ext.dd.DropZone.prototype.dropAllowed;
+                },
+                
+                onNodeDrop : function(target, dd, e, data)
+                {
+                    var targetRecord;
+                    var t = Ext.get(target);
+                    if (t.hasCls("x-tagfield-item"))
+                    {
+                        targetRecord = me.getRecordByListItemNode(target)
+                    }
+                    
+                    var currentValue = me.getValue();
+
+                    var movedValue = data.rec.get(me.valueField);
+                    var newPosition = targetRecord != null ? currentValue.indexOf(targetRecord.get(me.valueField)) : currentValue.length;
+                    var currentPosition = currentValue.indexOf(movedValue);
+                    
+                    currentValue = Ext.Array.remove(currentValue, movedValue);
+                    newPosition += (newPosition <= currentPosition ? 0 : -1) + (newPosition != currentPosition && t.hasCls('x-tagfield-target-hoverafter') ? 1 : 0);
+                    currentValue = Ext.Array.insert(currentValue, newPosition, [movedValue]);
+                    
+                    // This is to avoid setValue to be pointless
+                    me.suspendEvents(false);
+                    me.setValue(null);
+                    me.resumeEvents();
+                    
+                    me.setValue(currentValue);
+                    
+                    return true;
+                }
+            });
+        }
     },
     
     /**
@@ -212,15 +313,6 @@ Ext.define('Ametys.form.AbstractQueryableComboBox', {
     },
     
     /**
-     * Listeners called when the combo box value change.<br>
-     * Update the internal value of the field
-     */
-    _onChange: function ()
-    {
-    	//this.value = this.combobox.getValue();
-    },
-    
-    /**
      * @inheritdoc
      * Sets a data value into the field and update the comboxbox field
      */
@@ -228,7 +320,6 @@ Ext.define('Ametys.form.AbstractQueryableComboBox', {
     {
     	value = Ext.Array.from(value);
     	
-    	//this.combobox.value = this.combobox.multiSelect ? value : value[0];
     	this.callParent([value]);
     	this.combobox.setValue(value);
     },

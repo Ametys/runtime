@@ -15065,7 +15065,7 @@
 .x-window .a-text-error a,
 .x-window .a-text-error a:link,
 .x-window .a-text-error a:active {
-    color: #2a579a;
+    color: #142d4e;
     text-decoration: underline;
     cursor: pointer;
 }
@@ -15073,14 +15073,14 @@
 .x-window .a-text a:hover,
 .x-window .a-text-warning a:hover,
 .x-window .a-text-error a:hover {
-    color: #356ec2;
+    color: #4070b0;
     text-decoration: underline;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/window/Window.scss:31 */
 .x-window .a-text a:visited,
 .x-window .a-text-warning a:visited,
 .x-window .a-text-error a:visited {
-    color: #2a579a;
+    color: #142d4e;
     text-decoration: underline;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/window/Window.scss:37 */
@@ -15472,8 +15472,8 @@ ul.ametys-tooltip-comment > li div.comment-text {
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/View.scss:59 */
 .x-window .x-component-view > *.x-item-selected,
 .x-window .x-component-view > *.x-item-selected.x-view-over {
-    background-color: #a9c2e7;
-    border-color: #81a5dc;
+    background-color: #598fd5;
+    border-color: #3373c8;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/View.scss:68 */
 .a-tool-layout-zoned-notfocused .x-component-view > *.x-item-selected,
@@ -15711,7 +15711,7 @@ ul.ametys-tooltip-comment > li div.comment-text {
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tip/Tip.scss:17 */
 .x-fluent-tooltip {
-    border: 1px solid #bfcde1;
+    border: 1px solid #c6d4e7;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tip/Tip.scss:22 */
 .x-fluent-tooltip .x-title-text {
@@ -15734,7 +15734,7 @@ ul.ametys-tooltip-comment > li div.comment-text {
     margin-bottom: 8px;
     margin-left: 0px;
     text-align: center;
-    border: 1px solid #dfe6f0;
+    border: 1px solid #e2eaf3;
     position: relative;
     background-position: center;
     background-repeat: no-repeat;
@@ -15742,7 +15742,7 @@ ul.ametys-tooltip-comment > li div.comment-text {
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tip/Tip.scss:51 */
 .x-fluent-tooltip-glyph:before {
     margin-left: 0px;
-    color: #616161;
+    color: #717171;
     position: absolute;
     top: 0;
     left: 0;
@@ -15754,7 +15754,7 @@ ul.ametys-tooltip-comment > li div.comment-text {
     position: absolute;
     right: -2px;
     bottom: -2px;
-    color: #4e4e4e;
+    color: #5a5a5a;
     font-size: 24px;
     line-height: 24px;
     text-shadow: 0px 0px 2px #eee;
@@ -15792,8 +15792,8 @@ ul.ametys-tooltip-comment > li div.comment-text {
     clear: both;
     line-height: 16px;
     font-weight: bold;
-    border-top: 1px solid #6a89b8;
-    color: #6a89b8;
+    border-top: 1px solid #799bc8;
+    color: #799bc8;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tip/Tip.scss:111 */
 .x-fluent-tooltip-footer a {
@@ -15817,7 +15817,7 @@ ul.ametys-tooltip-comment > li div.comment-text {
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-neutral/sass/src/tip/Tip.scss:112 */
 .x-tip-form-warning {
-    background-color: #f4f7fa;
+    background-color: #f3f5f6;
     border-color: #e1e1e1;
     -webkit-box-shadow: #ffae01 0 1px 0px 0 inset, #ffae01 0 -1px 0px 0 inset, #ffae01 -1px 0 0px 0 inset, #ffae01 1px 0 0px 0 inset;
     -moz-box-shadow: #ffae01 0 1px 0px 0 inset, #ffae01 0 -1px 0px 0 inset, #ffae01 -1px 0 0px 0 inset, #ffae01 1px 0 0px 0 inset;
@@ -15826,7 +15826,7 @@ ul.ametys-tooltip-comment > li div.comment-text {
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-neutral/sass/src/tip/Tip.scss:122 */
 .x-tip-form-warning .x-tool-img {
     background-image: url(images/tools/tool-sprites-dark.png);
-    background-color: #f4f7fa;
+    background-color: #f3f5f6;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-neutral/sass/src/tip/Tip.scss:137 */
 .x-tip-header-form-warning .x-tool-after-title {
@@ -15915,7 +15915,7 @@ ul.ametys-tooltip-comment > li div.comment-text {
     margin-left: 0px;
     font-size: 16px;
     line-height: 16px;
-    color: #616161;
+    color: #717171;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:52 */
 .x-tagfield ul.x-tagfield-list .x-tagfield-item .x-tagfield-item-text .x-tagfield-glyph:after {
@@ -15923,7 +15923,7 @@ ul.ametys-tooltip-comment > li div.comment-text {
     position: absolute;
     left: 8px;
     bottom: 0px;
-    color: #4e4e4e;
+    color: #5a5a5a;
     font-size: 11px;
     line-height: 11px;
     text-shadow: 0px 0px 2px #eee;
@@ -15994,8 +15994,8 @@ ul.ametys-tooltip-comment > li div.comment-text {
     -ms-border-radius: 0;
     -o-border-radius: 0;
     border-radius: 0;
-    background-color: #a9c2e7;
-    border: 1px solid #356ec2;
+    background-color: #598fd5;
+    border: 1px solid #1e4477;
     padding: 0 19px 0 5px;
     margin: 0 3px 1px 0;
     color: #000;
@@ -16009,8 +16009,8 @@ ul.ametys-tooltip-comment > li div.comment-text {
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-neutral/sass/var/form/field/Tag.scss:352 */
 .x-field-focus .x-form-text-default .x-tagfield-item.x-tagfield-item-selected {
-    background-color: #2a579a;
-    border-color: #1f4072;
+    background-color: #142d4e;
+    border-color: #0a1625;
     color: #fff;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-neutral/sass/var/form/field/Tag.scss:361 */
@@ -16565,6 +16565,35 @@ ul.ametys-tooltip-comment > li div.comment-text {
     line-height: 18px;
     padding-left: 5px;
 }
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:157 */
+.x-tagfield-item.x-tagfield-target-hoverbefore:before,
+.x-tagfield-input.x-tagfield-target-hoverbefore:before,
+.x-tagfield-target-hoverbefore .x-tagfield-input:before,
+.x-tagfield-item.x-tagfield-target-hoverafter:after {
+    font-family: FontAwesome;
+    font-size: 20px;
+    content: "\f246";
+    position: absolute;
+    z-index: 2;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:168 */
+.x-tagfield-item.x-tagfield-target-hoverbefore:before,
+.x-tagfield-input.x-tagfield-target-hoverbefore:before,
+.x-tagfield-target-hoverbefore .x-tagfield-input:before {
+    top: 0px;
+    left: -4px;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:174 */
+.x-tagfield-input.x-tagfield-target-hoverbefore:before,
+.x-tagfield-target-hoverbefore .x-tagfield-input:before {
+    top: 2px;
+    left: -4px;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Tag.scss:179 */
+.x-tagfield-item.x-tagfield-target-hoverafter:after {
+    top: 0px;
+    right: -12px;
+}
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/Table.scss:19 */
 .a-visible-focus .x-grid-item-focused .x-grid-cell-inner:before {
     border-color: dynamic(grey);
@@ -16727,42 +16756,4 @@ ul.ametys-tooltip-comment > li div.comment-text {
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/Table.scss:53 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-grid-item-over {
     background-color: #f1f1f1;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/Table.scss:56 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-grid-item-selected {
-    background-color: #e5f8ff;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/Table.scss:61 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-grid-with-row-lines .x-grid-item.x-grid-item-over {
-    border-color: #e4e4e4;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/Table.scss:64 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-grid-with-row-lines .x-grid-item-over + .x-grid-item {
-    border-top-color: #e4e4e4;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/Table.scss:79 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .a-visible-focus .x-grid-item-focused .x-grid-cell-inner:before {
-    border-color: #35baf6;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/Table.scss:89 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-column-header-over {
-    background-image: none;
-    background-color: #e5f8ff;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/Table.scss:94 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-column-header-sort-ASC .x-column-header-inner,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-column-header-sort-DESC .x-column-header-inner {
-    border-bottom-color: #35baf6;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/Table.scss:99 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-column-header.x-column-header-focus .x-column-header-inner:after {
-    border-color: #0a7fb2;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/Table.scss:53 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-grid-item-over {
-    background-color: #f1f1f1;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/Table.scss:56 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-grid-item-selected {
-    background-color: #fcf0f7;
 }
