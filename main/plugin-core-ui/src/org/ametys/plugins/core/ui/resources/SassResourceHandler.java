@@ -56,14 +56,14 @@ public class SassResourceHandler extends AbstractCompiledResourceHandler
 
     private Compiler _jsassCompiler;
 
-    private SASSAmetysHelper _sassAmetysHelper;
+    private AmetysSASSHelper _ametysSASSHelper;
     
     @Override
     public void service(ServiceManager serviceManager) throws ServiceException
     {
         super.service(serviceManager);
         
-        _sassAmetysHelper = (SASSAmetysHelper) serviceManager.lookup(SASSAmetysHelper.ROLE);
+        _ametysSASSHelper = (AmetysSASSHelper) serviceManager.lookup(AmetysSASSHelper.ROLE);
     }
     
     @Override
@@ -81,7 +81,7 @@ public class SassResourceHandler extends AbstractCompiledResourceHandler
         Options options = new Options();
         AmetysSassImporter sassImporter = new AmetysSassImporter(_sourceResolver);
         options.getImporters().add(sassImporter);
-        options.getFunctionProviders().add(_sassAmetysHelper);
+        options.getFunctionProviders().add(_ametysSASSHelper);
         
         try (InputStream is = resource.getInputStream())
         {

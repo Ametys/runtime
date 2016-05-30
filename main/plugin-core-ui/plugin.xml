@@ -2602,9 +2602,9 @@
     
     <feature name="sass.helpers" safe="true">
         <components>
-            <component id="org.ametys.plugins.core.ui.resources.SASSAmetysHelper"
-                       role="org.ametys.plugins.core.ui.resources.SASSAmetysHelper"
-                       class="org.ametys.plugins.core.ui.resources.SASSAmetysHelper"/>
+            <component id="org.ametys.plugins.core.ui.resources.AmetysSASSHelper"
+                       role="org.ametys.plugins.core.ui.resources.AmetysSASSHelper"
+                       class="org.ametys.plugins.core.ui.resources.AmetysSASSHelper"/>
         </components>
     </feature>
     
