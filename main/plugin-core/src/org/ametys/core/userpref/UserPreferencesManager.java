@@ -206,11 +206,14 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Thread
         {
             Map<String, String> storagePrefValues = preferenceValuesByStorage.get(managerRole);
             
-            // Retrieve the right storage manager.
-            UserPreferencesStorage storageManager = getStorageManager(managerRole);
-            
-            // Call set on the storage manager.
-            storageManager.setUserPreferences(user, storageContext, contextVars, storagePrefValues);
+            if (!storagePrefValues.isEmpty())
+            {
+                // Retrieve the right storage manager.
+                UserPreferencesStorage storageManager = getStorageManager(managerRole);
+                
+                // Call set on the storage manager.
+                storageManager.setUserPreferences(user, storageContext, contextVars, storagePrefValues);
+            }
         }
     }
     
