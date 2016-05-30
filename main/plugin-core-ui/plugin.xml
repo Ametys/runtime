@@ -2710,6 +2710,7 @@
                 <depends>
                     <org.ametys.core.ui.UIToolsFactoriesManager>uitool-admin-console</org.ametys.core.ui.UIToolsFactoriesManager>
                 </depends>
+                <right>CORE_Rights_ExecuteScript</right>
             </extension>
             <extension id="org.ametys.core.ui.ConsoleResult"
                        point="org.ametys.core.ui.RibbonControlsManager"
@@ -2728,6 +2729,7 @@
                 <depends>
                     <org.ametys.core.ui.UIToolsFactoriesManager>uitool-admin-console</org.ametys.core.ui.UIToolsFactoriesManager>
                 </depends>
+                <right>CORE_Rights_ExecuteScript</right>
             </extension>
             <extension id="uitool-admin-console"
                        point="org.ametys.core.ui.UIToolsFactoriesManager"
@@ -2751,6 +2753,7 @@
                 <css>
                     <file>css/Ametys/script/scripts-result.css</file>
                 </css>
+                <right>CORE_Rights_ExecuteScript</right>
             </extension>
         </extensions>
     </feature>
