@@ -991,6 +991,11 @@ Ext.define(
 				
 			if (!this._isCurrentSelectionChanged(targets))
 			{
+                if (targets.length == 0)
+                {
+                    // when noselection -> nomatch, we also need to update the additional description
+                    this._updateMatchingSelectionTargets(targets); 
+                }
 				this._updateCurrentSelectionMatchingTargets(targets);
 				return false;
 			}
