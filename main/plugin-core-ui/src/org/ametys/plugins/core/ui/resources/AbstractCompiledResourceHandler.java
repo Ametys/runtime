@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,6 +99,11 @@ public abstract class AbstractCompiledResourceHandler extends AbstractResourceHa
             throw SourceUtil.handle("Error during resolving of '" + src + "'.", e);
         }
         
+        if (!_inputSource.exists())
+        {
+            throw new ResourceNotFoundException("Resource not found for URI : " + _inputSource.getURI());
+        }
+        
         @SuppressWarnings("unchecked")
         Map<String, Object> params = (Map<String, Object>) cocoonObjectModel.get(ObjectModelHelper.PARENT_CONTEXT);
         
@@ -110,11 +116,6 @@ public abstract class AbstractCompiledResourceHandler extends AbstractResourceHa
     @Override
     public void generateResource(OutputStream out) throws IOException, ProcessingException
     {
-        if (!_inputSource.exists())
-        {
-            throw new ResourceNotFoundException("Resource not found for URI : " + _inputSource.getURI());
-        }
-        
         try (ByteArrayOutputStream os = new ByteArrayOutputStream())
         {
             String compiledResource = compileResource(_inputSource);
@@ -124,18 +125,108 @@ public abstract class AbstractCompiledResourceHandler extends AbstractResourceHa
     
     public Serializable getKey()
     {
-        return _inputSource != null ? _inputSource.getURI() : null;
+        return getDependenciesKeys(_inputSource, _uri, FilenameUtils.normalize(_inputSource.getURI()), _inputSource.getLastModified(), new HashMap<String, String>());
     }
 
     public SourceValidity getValidity()
     {
-        Long lastModified = getCalculatedLastModified(_inputSource, _uri, _inputSource.getLastModified());
+        Long lastModified = getCalculatedLastModified(_inputSource, _uri, _inputSource.getLastModified(), new HashMap<String, String>());
         return lastModified != null ? new TimeStampValidity(lastModified) : null;
     }
 
-    private Long getCalculatedLastModified(Source inputSource, String sourceUri, long lastModified)
+    private Long getCalculatedLastModified(Source inputSource, String sourceUri, long lastModified, HashMap<String, String> knowDependencies)
     {
         long result = lastModified;
+        List<String> dependencies = _getDependencies(inputSource, sourceUri, lastModified);
+        
+        for (String dependency : dependencies)
+        {
+            if (dependency != null && !StringUtils.startsWith(dependency, "http://") && !StringUtils.startsWith(dependency, "https://"))
+            {
+                try
+                {
+                    String uriToResolve = _getDependencyURI(sourceUri, dependency);
+                    
+                    HashMap<String, Object> params = new HashMap<>();
+                    Source dependencySource = _sourceResolver.resolveURI(uriToResolve, null, params);
+                    String fsURI = FilenameUtils.normalize(dependencySource.getURI());
+                    if (knowDependencies.containsKey(fsURI))
+                    {
+                        // error already logged by the getKey()
+                        return null;
+                    }
+                    knowDependencies.put(fsURI, sourceUri);
+                    
+                    Long calculatedLastModified = getCalculatedLastModified(dependencySource, uriToResolve, dependencySource.getLastModified(), knowDependencies);
+                    if (calculatedLastModified != null && calculatedLastModified > result)
+                    {
+                        result = calculatedLastModified;
+                    }
+                }
+                catch (Exception e)
+                {
+                    getLogger().warn("Unable to resolve the following uri : '" + dependency + "' while calculating dependencies for " + _inputSource.getURI(), e);
+                    return null;
+                }
+            }
+        }
+        
+        return result;
+    }
+    
+    private String getDependenciesKeys(Source inputSource, String sourceUri, String fileURI, long lastModified, HashMap<String, String> knowDependencies)
+    {
+        String result = fileURI;
+        List<String> dependencies = _getDependencies(inputSource, sourceUri, lastModified);
+        
+        for (String dependency : dependencies)
+        {
+            if (dependency != null && !StringUtils.startsWith(dependency, "http://") && !StringUtils.startsWith(dependency, "https://"))
+            {
+                try
+                {
+                    String uriToResolve = _getDependencyURI(sourceUri, dependency);
+                    
+                    HashMap<String, Object> params = new HashMap<>();
+                    Source dependencySource = _sourceResolver.resolveURI(uriToResolve, null, params);
+                    String fileDependencyURI = FilenameUtils.normalize(dependencySource.getURI());
+                    if (knowDependencies.containsKey(fileDependencyURI))
+                    {
+                        getLogger().error("A loop import was detected in a SASS file : '" + sourceUri + "' tried to import '" + fileDependencyURI 
+                                + "' but it was already previously imported by '" + knowDependencies.get(fileDependencyURI) + "'.");
+                        return null;
+                    }
+                    knowDependencies.put(fileDependencyURI, sourceUri);
+                    String dependenciesKeys = getDependenciesKeys(dependencySource, uriToResolve, fileDependencyURI, dependencySource.getLastModified(), knowDependencies);
+                    if (dependenciesKeys != null)
+                    {
+                        result = result + "#" + dependenciesKeys;
+                    }
+                }
+                catch (Exception e)
+                {
+                    getLogger().warn("Unable to resolve the following uri : '" + dependency + "' while calculating dependencies for " + _inputSource.getURI(), e);
+                    return null;
+                }
+            }
+        }
+        
+        return result;
+    }
+    
+    private String _getDependencyURI(String sourceUri, String dependency) throws URISyntaxException
+    {
+        URI uri = new URI(dependency);
+        String uriToResolve = uri.isAbsolute() ? dependency : FilenameUtils.getFullPath(sourceUri) + dependency;
+        
+        // Don't normalize the schema part of the uri
+        String schema = StringUtils.contains(uriToResolve, "://") ? uriToResolve.substring(0, uriToResolve.indexOf("://") + 3) : "";                    
+        uriToResolve = schema + FilenameUtils.normalize(StringUtils.removeStart(uriToResolve, schema));
+        return uriToResolve;
+    }
+
+    private List<String> _getDependencies(Source inputSource, String sourceUri, long lastModified)
+    {
         Long cachedValidity = _dependenciesCacheValidity.get(sourceUri);
         
         List<String> dependencies;
@@ -151,37 +242,7 @@ public abstract class AbstractCompiledResourceHandler extends AbstractResourceHa
         {
             dependencies = _dependenciesCache.get(sourceUri);
         }
-        
-        for (String dependency : dependencies)
-        {
-            if (dependency != null && !StringUtils.startsWith(dependency, "http://") && !StringUtils.startsWith(dependency, "https://"))
-            {
-                try
-                {
-                    URI uri = new URI(dependency);
-                    String uriToResolve = uri.isAbsolute() ? dependency : FilenameUtils.getFullPath(sourceUri) + dependency;
-                    
-                    // Don't normalize the schema part of the uri
-                    String schema = StringUtils.contains(uriToResolve, "://") ? uriToResolve.substring(0, uriToResolve.indexOf("://") + 3) : "";                    
-                    uriToResolve = schema + FilenameUtils.normalize(StringUtils.removeStart(uriToResolve, schema));
-                    
-                    HashMap<String, Object> params = new HashMap<>();
-                    Source dependencySource = _sourceResolver.resolveURI(uriToResolve, null, params);
-                    Long calculatedLastModified = getCalculatedLastModified(dependencySource, uriToResolve, dependencySource.getLastModified());
-                    if (calculatedLastModified != null && calculatedLastModified > result)
-                    {
-                        result = calculatedLastModified;
-                    }
-                }
-                catch (Exception e)
-                {
-                    getLogger().warn("Unable to resolve the following uri : '" + dependency + "' while calculating dependencies for " + _inputSource.getURI(), e);
-                    return null;
-                }
-            }
-        }
-        
-        return result;
+        return dependencies;
     }
 
     @Override

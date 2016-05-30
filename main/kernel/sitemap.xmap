@@ -158,6 +158,9 @@
             					
             <map:match pattern="plugins/*/resources/**">
                 <map:act type="plugin-exists" src="{1}">
+	                <map:act type="setter">
+	                    <map:parameter name="pluginName" value="{../1}"/>
+	                </map:act> 
                     <map:read type="resource" src="plugin:{../1}://resources/{../2}">
                         <map:parameter name="default-catalogue-id" value="plugin.{../1}"/>
                     </map:read>

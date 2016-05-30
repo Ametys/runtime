@@ -2600,6 +2600,14 @@
         </extensions>
     </feature>
     
+    <feature name="sass.helpers" safe="true">
+        <components>
+            <component id="org.ametys.plugins.core.ui.resources.SASSAmetysHelper"
+                       role="org.ametys.plugins.core.ui.resources.SASSAmetysHelper"
+                       class="org.ametys.plugins.core.ui.resources.SASSAmetysHelper"/>
+        </components>
+    </feature>
+    
     <feature name="plugin.core.ui.scripts" safe="true">
         <extensions>
             <extension point="org.ametys.core.right.RightsExtensionPoint"

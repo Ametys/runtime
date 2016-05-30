@@ -30,6 +30,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.environment.SourceResolver;
 import org.apache.commons.io.FilenameUtils;
@@ -54,6 +56,16 @@ public class SassResourceHandler extends AbstractCompiledResourceHandler
 
     private Compiler _jsassCompiler;
 
+    private SASSAmetysHelper _sassAmetysHelper;
+    
+    @Override
+    public void service(ServiceManager serviceManager) throws ServiceException
+    {
+        super.service(serviceManager);
+        
+        _sassAmetysHelper = (SASSAmetysHelper) serviceManager.lookup(SASSAmetysHelper.ROLE);
+    }
+    
     @Override
     public void setup(SourceResolver initalResolver, Map cocoonObjectModel, String src, Parameters par) throws ProcessingException, IOException, SAXException
     {
@@ -69,6 +81,7 @@ public class SassResourceHandler extends AbstractCompiledResourceHandler
         Options options = new Options();
         AmetysSassImporter sassImporter = new AmetysSassImporter(_sourceResolver);
         options.getImporters().add(sassImporter);
+        options.getFunctionProviders().add(_sassAmetysHelper);
         
         try (InputStream is = resource.getInputStream())
         {
