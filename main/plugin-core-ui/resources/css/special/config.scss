@@ -14,12 +14,12 @@
  *  limitations under the License.
  */
  
-@import 'common.css';
-@import 'code.css';
+@import 'common';
+@import 'code';
 
 body
 {
-    background-image: url('../../img/special/public/bg.jpg');
+    background-image: pluginUrl('/resources/img/special/public/bg.jpg');
 }
 
 div.code > div:before {

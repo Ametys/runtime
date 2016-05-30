@@ -125,6 +125,26 @@ public class AmetysXSLTHelper implements Contextualizable, Serviceable
     }
     
     /**
+     * Return the current workspace theme name
+     * @return The name
+     */
+    public static String workspaceTheme()
+    {
+        Request request = ContextHelper.getRequest(_context);
+        return (String) request.getAttribute(WorkspaceMatcher.WORKSPACE_THEME);
+    }
+
+    /**
+     * Return the current workspace theme url
+     * @return The url without any prefix
+     */
+    public static String workspaceThemeURL()
+    {
+        Request request = ContextHelper.getRequest(_context);
+        return (String) request.getAttribute(WorkspaceMatcher.WORKSPACE_THEME_URL);
+    }
+    
+    /**
      * Get the application context path. Can be empty if the application
      * resides in the root context. Use it to create a link beginning with
      * the application root.

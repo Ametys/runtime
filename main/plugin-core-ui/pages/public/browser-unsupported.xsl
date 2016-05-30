@@ -19,8 +19,8 @@
                 xmlns:ametys="org.ametys.core.util.AmetysXSLTHelper"
                 xmlns:escape="org.apache.commons.lang.StringEscapeUtils"
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
-    
-    <xsl:param name="doc" select="ametys:requestParameter('doc')"/><!-- absolute link to online doc -->
+                
+        <xsl:param name="doc" select="ametys:requestParameter('doc')"/><!-- absolute link to online doc -->
     <xsl:param name="browser" select="ametys:requestParameter('browser')"/><!-- current browser -->
     <xsl:param name="browserversion" select="ametys:requestParameter('browserversion')"/><!-- current version -->
     <xsl:param name="supported" select="ametys:requestParameter('supported')"/><!-- the json list of supported browsers -->
@@ -36,8 +36,8 @@
 
                 <link rel="icon" type="image/x-icon" href="{$contextPath}/favicon.ico" />
                 <link rel="shortcut icon" type="image/x-icon" href="{$contextPath}/favicon.ico" />
-                
-                <link rel="stylesheet" type="text/css" href="{$contextPath}/plugins/core-ui/resources/css/special/browsers.css"/>
+
+                <link rel="stylesheet" type="text/css" href="{$contextPath}{ametys:workspaceThemeURL()}/sass/special/browsers.scss"/>
             </head>
             <body>
                     <table class="main">

@@ -14,11 +14,11 @@
  *  limitations under the License.
  */
  
-@import 'common.css';
+@import 'common';
 
 .ametys-common body
 {
-    background-image: url('../../img/special/public/bg.jpg');
+    background-image: pluginUrl('/resources/img/special/public/bg.jpg');
 }
 
 .ametys-common .splashscreen {
@@ -28,7 +28,7 @@
     width: 16em;
     height: 16em;
     padding-top: 2em;
-    border: 1px solid transparent;
+    border: 1px solid $ametys-color;
     background-color: rgba(255, 255, 255, 0.8);
 }
 
@@ -43,6 +43,8 @@
 .ametys-common .splashscreen.noscript:after,
 .ametys-common.error .splashscreen:after {
     content: "\f071";
+    
+    color: $ametys-color;
     
     font-family: 'FontAwesome';
     font-size: 7em;
@@ -88,8 +90,8 @@
 .ametys-common .la-ball-spin-clockwise > div {
     display: inline-block;
     float: none;
-    background-color: currentColor;
-    border: 0 solid currentColor;
+    background-color: $ametys-color;
+    border: 0 solid $ametys-color;
 }
 .ametys-common .la-ball-spin-clockwise {
     width: 32px;

@@ -98,7 +98,7 @@
         </link>
         <link rel="stylesheet" href="{$contextPath}/plugins/core-ui/resources/font/flaticon/flaticon.css"/>
     </xsl:template>
-    <xsl:template name="css-file">/plugins/core-ui/resources/css/special/common.css</xsl:template>
+    <xsl:template name="css-file"><xsl:value-of select="ametys:workspaceThemeURL()"/>/sass/special/common.scss</xsl:template>
     <xsl:template name="head"/>
     <xsl:template name="head-more"/>
     <xsl:template name="body-start"/>

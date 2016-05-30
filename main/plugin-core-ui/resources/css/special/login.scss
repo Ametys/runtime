@@ -14,10 +14,10 @@
  *  limitations under the License.
  */
  
-@import 'common.css';
+@import 'common';
 
 body {
-    background-image: url('../../img/special/public/bg.jpg');
+    background-image: pluginUrl('/resources/img/special/public/bg.jpg');
 }
 
 div.wrapin {
@@ -34,7 +34,7 @@ div.wrapin {
 
 div.connection {
     background-color: rgba(255, 255, 255, 0.8);
-    border: 1px solid #804080;
+    border: 1px solid $ametys-color;
     
     margin: 0 auto 20px auto;
     
@@ -180,8 +180,8 @@ div.connection .choosepopulation button,
 div.connection .back button {
     clear: both;
     
-    background-color: #804080;
-    border: 1px solid #804080;
+    background-color: $ametys-color;
+    border: 1px solid $ametys-color;
 }
 
 div.connection .formbased button:after,
@@ -200,14 +200,14 @@ div.connection .back {
 div.connection .formbased button:hover,
 div.connection .choosepopulation button:hover,
 div.connection .back button:hover {
-    background-color: #9d57b3;
-    border-color: #9d57b3;
+    background-color: lighten($ametys-color, 8);
+    border-color: lighten($ametys-color, 8);
 }
 div.connection .formbased button:active,
 div.connection .choosepopulation button:active,
 div.connection .back button:active {
-    background-color: #613171;
-    border-color: #613171;
+    background-color: darken($ametys-color, 8);
+    border-color: darken($ametys-color, 8);
 }
 div.connection .formbased button:focus,
 div.connection .choosepopulation button:focus,
@@ -219,8 +219,8 @@ div.connection .back button:focus {
 
 div.connection .formbased button:disabled:hover,
 div.connection .formbased button:disabled:active {
-	background-color: #804080;
-    border-color: #804080;
+	background-color: $ametys-color;
+    border-color: $ametys-color;
 }
 
 /**
@@ -294,5 +294,5 @@ _:-ms-lang(x), form fieldset[disabled]:after { /* for IE10 and above,  disabled 
     position: absolute;
     z-index: 100;
     top: 0; right: 0; bottom: 0; left: 0;
-    background: url( data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==);
+    background: url(data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==);
 }

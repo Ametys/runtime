@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
+ 
 html {
     height: 100%;
     font-family: 'Helvetica Neue', helvetica, arial, verdana, sans-serif;
@@ -30,7 +30,7 @@ body {
  
 table
 {
-    background-image: url('../../img/special/browsers/bg.jpg');
+    background-image: pluginUrl('/resources/img/special/browsers/bg.jpg');
     width: 100%;
     height: 100%;
     background-repeat: no-repeat;
@@ -41,7 +41,7 @@ table
 }
 
 table thead td {
-    background-image: url('../../img/special/logo.png');
+    background-image: pluginUrl('/resources/img/special/logo.png');
     background-repeat: no-repeat;
     background-position: 1.5em center;
     background-color: #7f7f7f;
@@ -112,8 +112,8 @@ p.additionnal {
 }
 
 a {
-    background-color: #804080;
-    border: 1px solid #804080; 
+    background-color: $ametys-color;
+    border: 1px solid $ametys-color; 
     color: #F0F0F0;
     text-decoration: none;
     text-shadow: none;

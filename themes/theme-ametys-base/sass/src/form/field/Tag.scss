@@ -151,3 +151,32 @@
     line-height: $font-size / 12 * 18;
     padding-left: $font-size / 12 * 5;
 }
+
+
+
+.#{$prefix}tagfield-item.#{$prefix}tagfield-target-hoverbefore:before,
+.#{$prefix}tagfield-input.#{$prefix}tagfield-target-hoverbefore:before,
+.#{$prefix}tagfield-target-hoverbefore .#{$prefix}tagfield-input:before,
+.#{$prefix}tagfield-item.#{$prefix}tagfield-target-hoverafter:after {
+    font-family: FontAwesome;
+    font-size: 20px;
+    content: "\f246";
+    position: absolute;
+    z-index: 2;
+}
+
+.#{$prefix}tagfield-item.#{$prefix}tagfield-target-hoverbefore:before,
+.#{$prefix}tagfield-input.#{$prefix}tagfield-target-hoverbefore:before,
+.#{$prefix}tagfield-target-hoverbefore .#{$prefix}tagfield-input:before {
+    top: 0px;
+    left: -4px; 
+}
+.#{$prefix}tagfield-input.#{$prefix}tagfield-target-hoverbefore:before,
+.#{$prefix}tagfield-target-hoverbefore .#{$prefix}tagfield-input:before {
+    top: 2px;
+    left: -4px;
+}
+.#{$prefix}tagfield-item.#{$prefix}tagfield-target-hoverafter:after {
+    top: 0px;
+    right: -13px; 
+}

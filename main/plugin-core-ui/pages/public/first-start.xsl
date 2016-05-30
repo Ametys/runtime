@@ -21,7 +21,7 @@
     
     <xsl:import href="../common.xsl"/>    
     
-    <xsl:template name="css-file">/plugins/core-ui/resources/css/special/config.css</xsl:template>
+    <xsl:template name="css-file"><xsl:value-of select="ametys:workspaceThemeURL()"/>/sass/special/config.scss</xsl:template>
     
     <xsl:template name="head"><i18n:text i18n:key="PLUGINS_CORE_UI_NO_CONFIG_HEAD" i18n:catalogue="plugin.core-ui"/></xsl:template>
     <xsl:template name="title"><i18n:text i18n:key="PLUGINS_CORE_UI_NO_CONFIG_TITLE" i18n:catalogue="plugin.core-ui"/></xsl:template>

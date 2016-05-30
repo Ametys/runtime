@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
  
-@import 'fonts.css';
+@import 'fonts';  
 
 .ametys-common * {
     box-sizing: border-box;
@@ -47,7 +47,7 @@ html.ametys-common  {
 }
 
 .ametys-common a {
-    color: #9266CC;
+    color: lighten($ametys-color, 8);
     text-decoration: none;
 } 
 
@@ -74,7 +74,7 @@ html.ametys-common  {
     text-align: center;
     padding: 1.5em;
 
-    background-image: url('../../img/special/logo.png');
+    background-image: pluginUrl('/resources/img/special/logo.png');
     background-repeat: no-repeat;
     background-position: 1.5em center;
     
@@ -151,7 +151,7 @@ html.ametys-common  {
     margin: 0 auto;
     
     background-color: rgba(255, 255, 255, 0.8);
-    border: 1px solid #804080;
+    border: 1px solid $ametys-color;
     
     font-size: 0.8em;
     text-align: left;
@@ -162,7 +162,7 @@ html.ametys-common  {
     padding-bottom: 0.2em;
     border-bottom: 1px solid #acacac;
     line-height: 1em;
-    color: #9266CC;
+    color: lighten($ametys-color, 8);
     font-size: 2em;
     font-weight: normal;
 }
@@ -179,12 +179,12 @@ html.ametys-common  {
     margin-top: 0.75em;
 }
 .ametys-common .la-ball-pulse {
-    color: #804080 !important;
+    color: $ametys-color !important;
     margin-left: auto;
 }
 .ametys-common p.additionnal a {
-    background-color: #804080;
-    border: 1px solid #804080; 
+    background-color: $ametys-color;
+    border: 1px solid $ametys-color; 
     color: #F0F0F0;
     text-decoration: none;
     text-shadow: none;
@@ -208,23 +208,23 @@ html.ametys-common  {
     padding-right: 1em;
 }
 .ametys-common p.additionnal a.toggled {
-    background-color: #61336f;
-    border-color: #61336f; 
+    background-color: darken($ametys-color, 8);
+    border-color: darken($ametys-color, 8); 
 }
 
 .ametys-common p.additionnal a:hover {
-    background-color: #9d57b3;
-    border-color: #9d57b3;
+    background-color: lighten($ametys-color, 8); 
+    border-color: lighten($ametys-color, 8);
 }
 .ametys-common p.additionnal a.toggled:hover {
-    background-color: #804080;
-    border-color: #804080; 
+    background-color: $ametys-color;
+    border-color: $ametys-color; 
 }
 
 .ametys-common p.additionnal a:active,
 .ametys-common p.additionnal a.toggled:active {
-    background-color: #613171;
-    border-color: #613171;
+    background-color: darken($ametys-color, 9);
+    border-color: darken($ametys-color, 9);
 }
 
 .ametys-common p.additionnal a:focus {
@@ -334,7 +334,7 @@ html.ametys-common  {
  * MOBILE
  */
 
-@media screen and (max-width: 960px), screen and (max-height: 360px)) {
+@media screen and (max-width: 960px), screen and (max-height: 360px) {
     .ametys-common html {
         font-size: 12px;
     }

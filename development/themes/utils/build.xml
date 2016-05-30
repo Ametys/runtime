@@ -31,6 +31,10 @@
                 <include name="*.js"/>
             </fileset>
             <fileset dir="${ametys-themes-dir}/work/packages/local/${name}/build/resources"/>
+            <fileset dir="${ametys-themes-dir}/${name}">
+                <include name="sass/var/Ametys.scss"/>
+                <include name="sass/special/**"/>
+            </fileset>
         </copy>
         
         <!-- ensure consistent end-of-line style to avoir "svn commit" issue -->

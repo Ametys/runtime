@@ -22,7 +22,8 @@
     
 	<xsl:import href="kernel-browsers.xsl"/>
 	
-    <xsl:variable name="theme">ametys-base</xsl:variable>
+    <xsl:variable name="theme" select="ametys:workspaceTheme()"/>
+    <xsl:variable name="themeURL" select="ametys:workspaceThemeURL()"/>
     <xsl:variable name="uxtheme">neptune</xsl:variable>
 
 	<xsl:variable name="language-code" select="ametys:translate('plugin.core-ui:PLUGINS_CORE_UI_LANGUAGE_CODE')"/>
@@ -151,8 +152,8 @@
     </xsl:template>
     
     <xsl:template name="theme-scripts">
-        <script debug="false">/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/>.js</script>
-        <script debug="true">/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/>-debug.js</script>
+        <script debug="false"><xsl:value-of select="$themeURL"/>/theme-<xsl:value-of select="$theme"/>.js</script>
+        <script debug="true"><xsl:value-of select="$themeURL"/>/theme-<xsl:value-of select="$theme"/>-debug.js</script>
     </xsl:template>
     
     <xsl:template name="ametys-scripts">
@@ -286,10 +287,10 @@
     </xsl:template>
     
     <xsl:template name="theme-styles">
-        <css data-donotminimize="true" debug="false" rtl="false">/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/>-all.css</css>
-        <css data-donotminimize="true" debug="false" rtl="true">/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/>-all-rtl.css</css>
-        <css data-donotminimize="true" debug="true" rtl="false">/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/>-all-debug.css</css>
-        <css data-donotminimize="true" debug="true" rtl="true">/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/>-all-rtl-debug.css</css>
+        <css data-donotminimize="true" debug="false" rtl="false"><xsl:value-of select="$themeURL"/>/theme-<xsl:value-of select="$theme"/>-all.css</css>
+        <css data-donotminimize="true" debug="false" rtl="true"><xsl:value-of select="$themeURL"/>/theme-<xsl:value-of select="$theme"/>-all-rtl.css</css>
+        <css data-donotminimize="true" debug="true" rtl="false"><xsl:value-of select="$themeURL"/>/theme-<xsl:value-of select="$theme"/>-all-debug.css</css>
+        <css data-donotminimize="true" debug="true" rtl="true"><xsl:value-of select="$themeURL"/>/theme-<xsl:value-of select="$theme"/>-all-rtl-debug.css</css>
         <css debug="false" rtl="false">/plugins/extjs6/resources/packages/ux/classic/<xsl:value-of select="$uxtheme"/>/resources/ux-all.css</css>
         <css debug="false" rtl="true">/plugins/extjs6/resources/packages/ux/classic/<xsl:value-of select="$uxtheme"/>/resources/ux-all-rtl.css</css>
         <css debug="true" rtl="false">/plugins/extjs6/resources/packages/ux/classic/<xsl:value-of select="$uxtheme"/>/resources/ux-all-debug.css</css>

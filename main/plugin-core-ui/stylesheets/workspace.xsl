@@ -35,7 +35,7 @@
     <xsl:template name="head-title"><i18n:text i18n:catalogue='application' i18n:key='APPLICATION_PRODUCT_LABEL'/></xsl:template>
     <xsl:template name="applicationTitle"><i18n:text i18n:catalogue="application" i18n:key="APPLICATION_PRODUCT_LABEL"/></xsl:template>
     <xsl:template name="ribbonTitle"/>
-    <xsl:template name="css-file">/plugins/core-ui/resources/css/special/splashscreen.css</xsl:template>
+    <xsl:template name="css-file"><xsl:value-of select="$themeURL"/>/sass/special/splashscreen.scss</xsl:template>
     
     <xsl:template name="uicall-js">
         <xsl:call-template name="kernel-base-js"/>
@@ -48,21 +48,6 @@
     <xsl:template name="head-css">
         <xsl:if test="$splashscreen != 'no'">
             <xsl:call-template name="head-css-impl"/>
-            
-			<style type="text/css">
-				<xsl:variable name="color"><xsl:call-template name="splashscreen-color"/></xsl:variable>
-			
-				.ametys-common .splashscreen {
-		    		border-color: #<xsl:value-of select="$color"/>;
-		    	}
-		    	.ametys-common .splashscreen.noscript:after,
-				.ametys-common.error .splashscreen:after {
-					color: #<xsl:value-of select="$color"/>;
-				}
-				.ametys-common .la-ball-spin-clockwise {
-				    color: #<xsl:value-of select="$color"/> !important;
-				}
-			</style>            
         </xsl:if>
     </xsl:template>
     <xsl:template name="body">
@@ -653,25 +638,23 @@
     </xsl:template>
     
     
-    <xsl:template name="splashscreen-color">804080</xsl:template>
-    
     <xsl:template name="app-context">
         <!-- Keep empty. Here for inheritance purpose. -->
     </xsl:template>
     
-<!--     <xsl:template name="theme-scripts"> -->
-<!--         <script absolute="true">/~cmd/extensions/sencha-fashion/fashion/fashion.js</script> -->
-<!--         <script absolute="true">/~cmd/extensions/sencha-fashion/sass-compiler.js</script> -->
+    <xsl:template name="theme-scripts">
+        <script absolute="true">/~cmd/extensions/sencha-fashion/fashion/fashion.js</script>
+        <script absolute="true">/~cmd/extensions/sencha-fashion/sass-compiler.js</script>
         
-<!--         <script absolute="true">/ext/build/classic/theme-neptune/theme-neptune-debug.js</script> -->
-<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/Ribbon/ContextualTabGroup.js</script> -->
-<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/GroupScale.js</script> -->
-<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/TabPanel.js</script> -->
-<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/tool/layout/ZonedTabsToolsLayout.js</script> -->
-<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/grid/plugin/Multisort.js</script> -->
+        <script absolute="true">/ext/build/classic/theme-neptune/theme-neptune-debug.js</script>
+        <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/Ribbon/ContextualTabGroup.js</script>
+        <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/GroupScale.js</script>
+        <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/TabPanel.js</script>
+        <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/tool/layout/ZonedTabsToolsLayout.js</script>
+        <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/grid/plugin/Multisort.js</script>
 
-<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ext/tree/Panel.js</script> -->
-<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ext/resizer/Splitter.js</script> -->
-<!--     </xsl:template> -->
-<!--     <xsl:template name="theme-styles"/>      -->
+        <script absolute="true">/packages/local/theme-ametys-base/overrides/Ext/tree/Panel.js</script>
+        <script absolute="true">/packages/local/theme-ametys-base/overrides/Ext/resizer/Splitter.js</script>
+    </xsl:template>
+    <xsl:template name="theme-styles"/>     
 </xsl:stylesheet>

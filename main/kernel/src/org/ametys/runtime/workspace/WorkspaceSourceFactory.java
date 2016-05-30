@@ -20,13 +20,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Map;
 
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.cocoon.Constants;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceFactory;
 import org.apache.excalibur.source.SourceResolver;
@@ -36,11 +32,9 @@ import org.apache.excalibur.source.impl.FileSource;
  * SourceFactory handling resources URIs for workspaces.
  * Workspace resources can be found of File System, in a JAR, ...
  */
-public class WorkspaceSourceFactory implements SourceFactory, Contextualizable, Serviceable
+public class WorkspaceSourceFactory implements SourceFactory, Serviceable
 {
     private static final String __PROTOCOL_SEPARATOR = "://"; 
-    
-    private String _path;
     
     private SourceResolver _resolver;
     
@@ -83,16 +77,6 @@ public class WorkspaceSourceFactory implements SourceFactory, Contextualizable, 
         // empty method
     }
 
-    public void contextualize(Context context) throws ContextException
-    {
-        org.apache.cocoon.environment.Context cocoonContext = (org.apache.cocoon.environment.Context) context.get(Constants.CONTEXT_ENVIRONMENT_CONTEXT);
-        _path = cocoonContext.getRealPath("/");
-        if (!_path.endsWith(File.separator))
-        {
-            _path += File.separator;
-        }
-    }
-    
     public void service(ServiceManager manager) throws ServiceException
     {
         _resolver = (SourceResolver) manager.lookup(SourceResolver.ROLE);

@@ -30,7 +30,7 @@
     
     <xsl:variable name="uniqueId" select="substring-after(math:random(), '.')"/>
     
-    <xsl:template name="css-file">/plugins/core-ui/resources/css/special/login.css</xsl:template>
+    <xsl:template name="css-file"><xsl:value-of select="ametys:workspaceThemeURL()"/>/sass/special/login.scss</xsl:template>
     
     <xsl:template name="head"><i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_TITLE" i18n:catalogue="plugin.core-ui"/></xsl:template>
     

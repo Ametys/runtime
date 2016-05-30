@@ -28,6 +28,6 @@
         <div class="code"><div><xsl:value-of select="$code"/></div></div>
     </xsl:template>
 
-    <xsl:template name="css-file">/plugins/core-ui/resources/css/special/error.css</xsl:template>
+    <xsl:template name="css-file"><xsl:value-of select="ametys:workspaceThemeURL()"/>/sass/special/error.scss</xsl:template>
     
 </xsl:stylesheet>
