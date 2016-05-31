@@ -20,7 +20,7 @@
 
 body
 {
-    background-image: pluginUrl('/resources/img/special/errors/bg.jpg', 'core-ui');
+    background-image: pluginUrl('core-ui', '/resources/img/special/errors/bg.jpg');
 }
 
 /**

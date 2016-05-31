@@ -18,9 +18,7 @@ package org.ametys.plugins.core.ui.resources;
 import org.apache.avalon.framework.component.Component;
 import org.apache.cocoon.components.ContextHelper;
 import org.apache.cocoon.environment.Request;
-import org.apache.commons.lang3.StringUtils;
 
-import io.bit3.jsass.annotation.DefaultStringValue;
 import io.bit3.jsass.annotation.Name;
 import io.bit3.jsass.type.SassString;
 
@@ -35,15 +33,14 @@ public class AmetysSASSHelper extends AbstractAmetysSASSHelper implements Compon
     
     /**
      * Resolve url path inside plugins
-     * @param path the path relative to the current plugin
      * @param plugin The plugin name. If omitted, the current plugin name will be used.
+     * @param path the path relative to the current plugin
      * @return the absolute path
      */
-    public SassString pluginUrl(@Name("path") String path, @Name("plugin") @DefaultStringValue("") String plugin)
+    public SassString pluginUrl(@Name("plugin") String plugin, @Name("path") String path)
     {
         Request request = ContextHelper.getRequest(_context);
-        String pluginName = StringUtils.isNotEmpty(plugin) ? plugin : (String) request.getAttribute("pluginName");
-        String resourcePath = "/plugins/" + pluginName + path;
+        String resourcePath = "/plugins/" + plugin + path;
         SassString url = new SassString("url(\"" + request.getContextPath() + resourcePath + "\")", false);
         return url;
     }

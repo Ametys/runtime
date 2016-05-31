@@ -133,6 +133,12 @@ public class SassResourceHandler extends AbstractCompiledResourceHandler
         return result;
     }
     
+    @Override
+    public String getMimeType()
+    {
+        return "text/css";
+    }
+
     /**
      * Sass Importer which can resolve Ametys resources
      */
@@ -229,11 +235,5 @@ public class SassResourceHandler extends AbstractCompiledResourceHandler
     
             return list;
         }
-    }
-
-    @Override
-    public String getMimeType()
-    {
-        return "text/css";
     }
 }
