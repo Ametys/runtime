@@ -568,14 +568,14 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
                 if ((this._tabPolicy == 'color' && item.getPriority() == newToolPriority) // Tab policy color mean, a single tool per color 
                         || (this._tabPolicy == 'tool' && item.getPriority() == newToolPriority && item.getPriority() != 0)) // Tab policy tool mean, a single tool per color if color is different from default
                 {
-                    this.removeTool(item);
+                    item.close();
                 }
-                else if (this.getPriority() > newToolPriority)
+                else if (item.getPriority() > newToolPriority)
                 {
                     insertBeforeTabIndex = zonedTabsToolPanel.items.indexOf(item);
                     return false;
                 }
-            });
+            }, this);
             
             if (insertBeforeTabIndex != null)
             {
@@ -689,7 +689,14 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
         
         setToolPolicy: function(policy)
         {
-            this._tabPolicy = policy;
+            if (Ext.Array.contains(this.getSupportedToolPolicies(), policy))
+            {
+                this._tabPolicy = policy;
+            }
+            else
+            {
+                this._tabPolicy =  this.getSupportedToolPolicies()[0];
+            }
         }
 
 	}

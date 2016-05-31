@@ -518,6 +518,14 @@
                                     launch: function() {
                                         if (window.errorMode) { return; }
                                         
+                                        Ametys.tool.ToolsManager.getToolsLayout().setToolPolicy(Ametys.userprefs.UserPrefsDAO.getValue("tab-policy"));
+                                        Ametys.message.MessageBus.on(Ametys.message.Message.MODIFIED, function(message) {
+                                            if (message.getTargets(Ametys.message.MessageTarget.USER_PREFS).length > 0)
+                                            {
+                                                Ametys.tool.ToolsManager.getToolsLayout().setToolPolicy(Ametys.userprefs.UserPrefsDAO.getValue("tab-policy"));
+                                            }
+                                        }, window);
+                                        
                                         Ext.create('Ext.container.Viewport', {
                                             hidden: true,
                                             hideMode: 'offsets',
