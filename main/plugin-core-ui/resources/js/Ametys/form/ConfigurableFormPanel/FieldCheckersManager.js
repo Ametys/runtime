@@ -143,7 +143,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 	    if (container.isRepeater || (parentContainer && parentContainer.isRepeater) || (parentParentContainer && parentParentContainer.isRepeater))
     	{
 	    	this._initializeFieldChecker(fieldChecker);
-	    	this._updateTestResults();
+	    	this.updateTestResults();
     	}
 	    
 		this._fieldCheckers.push(fieldChecker);
@@ -207,7 +207,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 			// Initialize test results if there is at least one field checker 
 			this._form.on({
 				// Update test results after the field checkers are created
-				formready: {fn: this._updateTestResults, scope: this, single: true, order: 'after'} 
+				formready: {fn: this.updateTestResults, scope: this, single: true, order: 'after'} 
 			});
 		}
 	},
@@ -382,7 +382,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 	 * Updates the test results panel in the actions' tooltips
 	 * Fires a 'testresultschange' event if the test results have changed
 	 */
-	_updateTestResults: function()
+	updateTestResults: function()
 	{
 		var notTested = 0,
 			failures = 0,
@@ -478,7 +478,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 			    this._updateStatusCmpTooltip(fieldChecker);
 			    
 			    // update the test results 
-			    this._updateTestResults();
+			    this.updateTestResults();
 		    	
 			    // update the warnings
 			    this._updateWarnings();
@@ -696,7 +696,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 	},
 	
     /**
-     * Calls the server-side with the configuration parameters.
+     * Calls the server-side with the values of the linked fields.
      * @param {Ametys.form.ConfigurableFormPanel.FieldChecker[]} fieldCheckers the field checkers to use, can be null to run all the tests
      * @param {Boolean} displayErrors true if the errors have to be displayed at the end of the tests
      * @param {Function} [callback] the optional callback for this function.
@@ -838,7 +838,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
             this._updateStatusCmpTooltip(fieldChecker);
         }, this);
         
-        this._updateTestResults();
+        this.updateTestResults();
         this._form._updateTabsStatus(); 
         this._updateWarnings();
         
@@ -860,7 +860,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 	_displayErrorDialog: function()
 	{
 		var nbErrors = 0,
-			mainFormContainerId = this._form._getFormContainer().getId();
+			mainFormContainerId = this._form.getFormContainer().getId();
 			details = '';
 		
 		for (var i = 0; i < this._fieldCheckers.length; i++)

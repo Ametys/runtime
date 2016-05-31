@@ -301,6 +301,8 @@
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER">The parameter checker</message>
     
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_GLOBAL_FIELD_CHECKER">Global check</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_OUTOFTAB_FIELDSET">No thumbnail</message>
+    
     <!-- +
          | FieldCheckersManager.js
          + -->
@@ -319,6 +321,11 @@
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_NO_LINKED_FIELD">None</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_INVALID_LINKED_FIELD">The test could not be performed because it depends on at least one invalid field.</message>
     
+     <!-- +
+         | TableOfContents.js
+         + -->
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TABLE_OF_CONTENTS_TITLE">Table of contents</message>
+        
     <!-- +
          | TestsController.js
          + -->

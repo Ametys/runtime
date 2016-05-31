@@ -64,7 +64,14 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
          * @private
          * @readonly 
          */
-        FIELD_MINWIDTH: 150
+        FIELD_MINWIDTH: 150,
+        
+        /**
+         * @private
+         * @property {String} OUTOFTAB_FIELDSET_ID The id referencing the fields that do not belong to any fieldset 
+         * @readonly
+         */
+        OUTOFTAB_FIELDSET_ID: 'out-of-tab-fieldset'
     },
     
     /**
@@ -123,6 +130,13 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     autoFocus: true,
     
     /**
+     * @cfg {Boolean} tableOfContents=false 
+     * True to display a table of contents panel at the left of the form summarizing the first level fieldsets. 
+     * This can only be applied with a form in linear mode. See #cfg-tab-policy-mode.
+     */
+    tableOfContents: false,
+    
+    /**
      * @cfg {Object} defaultFieldConfig Default config to apply to all form fields
      */
     
@@ -133,12 +147,19 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     /**
      * @cfg {String} testURL The url to use to run the verifications. see {@link Ametys.form.ConfigurableFormPanel.FieldCheckersManager#check}
      */
+    
     /**
      * @private
      * @property {String} _testURL See #cfg-testURL.
      */
+    
     /**
      * @property {String} _tabPolicy The current display tab policy name.
+     * @private
+     */
+    
+    /**
+     * @property {Ametys.form.ConfigurableFormPanel.TableOfContents} _tableOfContents The table of contents instance attached to this form
      * @private
      */
     
@@ -171,6 +192,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     /**
      * @private
      * @property {Ametys.form.ConfigurableFormPanel.FieldCheckersManager} _fieldCheckersManager The field checkers manager instance of this form
+     */
+    
+    /**
+     * @private
+     * @property {Ext.container.Container} _formContainer The container of this form
      */
     
     /** @cfg {Object} itemsLayout The layout to use in the container. Default to { type: 'anchor' }. */
@@ -289,43 +315,57 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         config.cls.push("a-configurable-form-panel");
         config.cls.push("a-panel-spacing");
         
-        config.dockedItems = Ext.Array.from(config.dockedItems);
-        config.dockedItems.push({
-            itemId: 'inline-toolbar',
-            dock: 'top',
-            
-            xtype: 'toolbar',
-            style: {
-                borderWidth: '0 0 1px 0 !important'
-            },
-            hidden: true,
+        // Display tab policy. The 'tab-policy-mode' configuration parameter passed
+        // during the form edition panel instantiation has priority over the
+        // userprefs value.
+        this._tabPolicy = config['tab-policy-mode'] || Ametys.userprefs.UserPrefsDAO.getValue('edition-tab-policy') || 'default';
+        this.tableOfContents = config.tableOfContents === true;
 
-            items:[
-                {
-                    text: "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_COLLAPSE_ALL}}",
-                    handler: function (btn) { 
-                        me._expandOrCollapseAllInlineTab(me._tabPanel, btn, true)
-                    }
-                },
-                {
-                    text: "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_EXPAND_ALL}}",
-                    handler: function (btn) { 
-                        me._expandOrCollapseAllInlineTab(me._tabPanel, btn, false)
-                    }
-                }
-            ]
-        });
+    	config.dockedItems = Ext.Array.from(config.dockedItems);
+    	config.dockedItems.push({
+    		itemId: 'inline-toolbar',
+    		dock: 'top',
+    		
+    		xtype: 'toolbar',
+    		style: {
+    			borderWidth: '0 0 1px 0 !important'
+    		},
+    		hidden: true,
+    		
+    		items:[
+    		       {
+    		    	   text: "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_COLLAPSE_ALL}}",
+    		    	   handler: function (btn) { 
+    		    		   me._expandOrCollapseAllInlineTab(me._tabPanel, btn, true)
+    		    	   }
+    		       },
+    		       {
+    		    	   text: "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_EXPAND_ALL}}",
+    		    	   handler: function (btn) { 
+    		    		   me._expandOrCollapseAllInlineTab(me._tabPanel, btn, false)
+    		    	   }
+    		       }
+		       ]
+    	});
         
     	this.defaultFieldConfig = config.defaultFieldConfig || {};
     	
-        config.items = this._getFormContainerCfg(config);
+    	if (this.tableOfContents && this._tabPolicy == 'inline')
+		{
+    		config.layout = {
+    	    	type: 'hbox'
+    	    };
+    		
+    		config.scrollable = false;
+		}
         
         this._additionalWidgetsConf = config.additionalWidgetsConf || {};
         this._additionalWidgetsConfFromParams = config.additionalWidgetsConfFromParams || {};
         this._testURL = config.testURL;
         
+        config.items = this._getFormItems(config);
         config.autoFocus = false; 
-        
+
         this.callParent(arguments);
         
         this._fields = [];  
@@ -347,11 +387,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             Ametys.message.MessageBus.on(Ametys.message.Message.MODIFIED, this._onUserPrefsChanged, this);
         }
         
-        // Display tab policy. The 'tab-policy-mode' configuration parameter passed
-        // during the form edition panel instantiation has priority over the
-        // userprefs value.
-        this._tabPolicy = config['tab-policy-mode'] || Ametys.userprefs.UserPrefsDAO.getValue('edition-tab-policy') || 'default';
-        
         this._fieldNamePrefix = config["fieldNamePrefix"] || '';
         
         this.showAmetysComments = config.showAmetysComments === true;
@@ -360,7 +395,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         
         if (config.defaultPathSeparator)
         {
-	        this.defaultPathSeparator = config.defaultPathSeparator;
+        	this.defaultPathSeparator = config.defaultPathSeparator;
         }
     },
     
@@ -431,6 +466,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 				// The previous panel and/or the current panel can be null if it is outside of the thumbnails
 				if (!previousPanel && currentPanel)
 				{
+					this._notInFirstEditionPanels.push(this.self.OUTOFTAB_FIELDSET_ID);
+					
 					// The previous panel is outside of the thumbnails 
 					this._validateTabOrPanelFields(null);
 				}
@@ -513,39 +550,49 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     },
     
     /**
-     * Get the form container config to be used during its creation.
      * @protected
+     * Get the items of the form to be used during its creation.
+     * @return {Object[]} the array of objects items of the form container 
      */
-    _getFormContainerCfg: function(config)
+    _getFormItems: function(config)
     {
-        return {
-            xtype: 'container',
-            scrollable: false,
-            border: false,
-            
-            layout: config.itemsLayout || { type: 'anchor' },
-            
-            items: config.items,
-            
-            // minWidth is a minWidth of a field + a number of repeaters margins
-            minWidth: (this.defaultFieldConfig.labelWidth || Ametys.form.ConfigurableFormPanel.LABEL_WIDTH)
-                + Ametys.form.ConfigurableFormPanel.FIELD_MINWIDTH
-                + 20 // ametysDescription
-                + (config.showAmetysComments ? 20 : 0)
-                + (Ametys.form.ConfigurableFormPanel.Repeater.NESTED_OFFSET+1) * 3 // 3 level of repeaters
-        };
+    	var formItems = [];
+    	var formContainerCfg = {
+			scrollable: true,
+			border: false,
+			
+			layout: config.itemsLayout || { type: 'anchor' },
+			
+			items: config.items,
+			
+			// minWidth is a minWidth of a field + a number of repeaters margins
+			minWidth: (this.defaultFieldConfig.labelWidth || Ametys.form.ConfigurableFormPanel.LABEL_WIDTH)
+				+ Ametys.form.ConfigurableFormPanel.FIELD_MINWIDTH
+				+ 20 // ametysDescription
+				+ (config.showAmetysComments ? 20 : 0)
+				+ (Ametys.form.ConfigurableFormPanel.Repeater.NESTED_OFFSET + 1) * 3 // 3 level of repeaters
+    	};
+
+    	if (this.tableOfContents && this._tabPolicy == 'inline')
+    	{
+        	this._tableOfContents = Ext.create('Ametys.form.ConfigurableFormPanel.TableOfContents', {
+    			form: this,
+    			width: 350,
+    			height: '100%',
+    			scrollable: 'vertical'
+        	});
+        	
+        	formItems.push(this._tableOfContents);
+        	formContainerCfg.flex = 1;
+        	formContainerCfg.height = '100%';
+    	}
+    	
+    	this._formContainer = Ext.create('Ext.container.Container', formContainerCfg);
+    	
+    	formItems.push(this._formContainer);
+        return formItems;
     },
-    
-    /**
-     * Get the form container in which the edition form must be drawn.
-     * By default it is the first child item of this panel.
-     * @protected
-     */
-    _getFormContainer: function()
-    {
-        return this.items.get(0);
-    },
-    
+       
     /**
      * Get the names of fields handle by the form panel
      * @return {String[]} The fields' names
@@ -562,6 +609,15 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     getFieldNamePrefix: function ()
     {
         return this._fieldNamePrefix;
+    },
+    
+    /**
+     * Get the panel wrapping the form
+     * @return {Ext.container.Container} the form's panel
+     */
+    getFormContainer: function ()
+    {
+    	return this._formContainer;
     },
     
     /**
@@ -646,7 +702,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     {
         if (this.items && this.items.length > 0)
         {
-            this._getFormContainer().removeAll();
+            this._formContainer.removeAll();
+            if (this._tableOfContents)
+        	{
+            	this._tableOfContents.removeAll();
+        	}
         }
     },
     
@@ -741,7 +801,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             this.getDockedComponent('inline-toolbar').hide();
         }
         
-        this._getFormContainer().add(tabPanel);
+        this._formContainer.add(tabPanel);
         this._tabPanels.push(tabPanel);
         
         this._tabPanel = tabPanel; 
@@ -801,7 +861,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     	if (oldCard != null)
 		{
 	    	// Focus the first field of the newly selected tab
-	    	var fields = this._getFields(newCard);
+	    	var fields = this._getFields(newCard != null ? newCard.getId() : this.self.OUTOFTAB_FIELDSET_ID);
 	    	fields[0].focus();
 		}
     },
@@ -841,6 +901,12 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             
             ct.add(fieldset);
             
+            if (this.tableOfContents)
+        	{
+            	// Add the tab item in the table of contents
+            	this._tableOfContents.addNavigationItem(label, fieldset.getId());
+        	}
+            
             return fieldset;
         }
         else
@@ -873,43 +939,40 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
     _validateTabOrPanelFields: function(previousPanel)
     {
-        var fields = this._getFields(previousPanel);
+    	var panelId = previousPanel != null ? previousPanel.getId() : this.self.OUTOFTAB_FIELDSET_ID;
+        var fields = this._getFields(panelId);
         Ext.Array.each(fields, function(field)
         {
-        	if (previousPanel != null ||  field.up('panel[cls~=ametys-form-tab-item], panel[cls~=ametys-form-tab-inline-item]') == null)
+        	if (previousPanel != null || field.up('panel[cls~=ametys-form-tab-item], panel[cls~=ametys-form-tab-inline-item]') == null)
     		{
         		// Trigger internal validation without firing validity change.
         		field.isValid();
     		}
         });
         
-        var repeaters = this.getRepeaters(previousPanel);
+        var repeaters = this.getRepeaters(panelId);
         Ext.Array.each(repeaters, function(repeater)
         {
-        	if (previousPanel != null ||  repeater.up('panel[cls~=ametys-form-tab-item], panel[cls~=ametys-form-tab-inline-item]') == null)
+        	if (previousPanel != null || repeater.up('panel[cls~=ametys-form-tab-item], panel[cls~=ametys-form-tab-inline-item]') == null)
     		{
         		// Trigger internal validation without firing validity change.
         		repeater.isValid();
     		}
         });
         
-        if (previousPanel != null)
-        {
-        	// No tab status when outside of the thumbnails
-        	this._updateTabStatus(previousPanel);
-    	}
+    	// No tab status when outside of the thumbnails 
+    	this._updateTabStatus(previousPanel);
     },
     
     /**
      * @private
      * Get the list of fields in a container (any level) or all the fields
-     * @param {Ext.container.Container} container The container, can be null
+     * @param {String} componentId The id of the component to get the field from, can be null to get all the fields
      * @return {Ext.Component[]} An array of components which have the field mixin.
      */
-    _getFields: function(container)
+    _getFields: function(componentId)
     {
     	var fields = [];
-    	container = container || this;
         
         // Function walking the component tree and adding fields to the array.
         var fieldWalker = function(component)
@@ -918,46 +981,104 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             {
                 fields.push(component);
             }
-            else if (component.isXType('container'))
+            else if (component.isXType('container') && component.isVisible())
             {
                 component.items.each(fieldWalker);
             }
         }
-        container.items.each(fieldWalker);
+        
+        if (componentId != this.self.OUTOFTAB_FIELDSET_ID)
+    	{
+        	var component = componentId != null ? Ext.getCmp(componentId) : this;
+        	if (component.isFormField)
+        	{
+        		fields.push(component);
+        	}
+        	else if (component.items)
+    		{
+        		component.items.each(fieldWalker);
+    		}
+    	}
+        else
+    	{
+        	this._formContainer.items.each(function(formItem) {
+        		// Do not consider the fields within tabs
+        		if (!formItem.hasCls('ametys-form-tab-inline') && !formItem.hasCls('ametys-form-tab'))
+    			{
+        			fields = Ext.Array.union(fields, this._getFields(formItem.getId()));
+    			}
+        	}, this);
+    	}
         
         return fields;
     },
     
     /**
      * @private
-     * Get the list of field checkers contained in the given tab
-     * @param {Ext.panel.Panel} panel the panel
-     * @return {Ametys.form.ConfigurableFormPanel.FieldChecker[]} The array of field checkers contained in the panel
+     * Get the list of field checkers contained in the given tab or outside of the tabs (will return the global field checkers)
+     * @param {String} componentId the id of the component to get the field checkers from, can be null to get all field checkers
+     * @return {Ametys.form.ConfigurableFormPanel.FieldChecker[]} The array of field checkers contained in the panel, in the whole form, or outside the tabs
      */
-    _getFieldCheckers: function(panel)
+    _getFieldCheckers: function(componentId)
     {
-        var panelContainers = panel.query('container'),
-            fieldCheckers = [];
-
-        Ext.Array.each(panelContainers, function(container){
-            if (container.hasCls('param-checker-container'))
-            {
-            	fieldCheckers.push(container.down('button').fieldChecker);
-            }
-        });
+    	var fieldCheckers = [];
+    	if (componentId != this.self.OUTOFTAB_FIELDSET_ID)
+		{
+    		var parentCmp = componentId != null ? Ext.getCmp(componentId) : this._formContainer;
+    		if (parentCmp.items)
+			{
+    			var nestedContainers = parentCmp.query('container');
+    			Ext.Array.each(nestedContainers, function(container){
+    				if (container.hasCls('param-checker-container'))
+    				{
+    					fieldCheckers.push(container.down('button').fieldChecker);
+    				}
+    			});
+			}
+		}
+    	else
+		{
+    		this._formContainer.items.each(function(formItem) {
+        		// Do not consider the field checkers within tabs
+        		if (!formItem.hasCls('ametys-form-tab-inline') && !formItem.hasCls('ametys-form-tab'))
+    			{
+        			fieldCheckers = Ext.Array.union(fieldCheckers, this._getFieldCheckers(formItem.getId()));
+    			}
+    		}, this);
+		}
         
         return fieldCheckers;
     },
     
     /**
-     * Get the list of repeaters in a container (any level) or all repeaters.
-     * @param {Ext.container.Container} [container] The container of repeaters. The form if not specified
+     * Get the list of repeaters in a container (any level) or the first level repeaters exclusively
+     * @param {String} componentId The id of the component to get the repeaters from. Can be null to get all the repeaters of the form
      * @return {Ext.Component[]} An array of components which have the field mixin.
      */
-    getRepeaters: function (container)
+    getRepeaters: function (componentId)
     {
-        container = container || this;
-        return container.query('panel[isRepeater]');
+    	var repeaters = [];
+    	if (componentId != this.self.OUTOFTAB_FIELDSET_ID)
+		{
+    		var component = componentId != null ? Ext.getCmp(componentId) : this._formContainer;
+    		if (component != null && !component .isFormField)
+			{
+    			repeaters = component.query('panel[isRepeater]');
+			}
+		}
+    	else
+		{
+    		var repeaters = [];
+    		this._formContainer.items.each(function(formItem) {
+    			// Do not consider the repeaters within tabs
+    			if (!formItem.hasCls('ametys-form-tab-inline') && !formItem.hasCls('ametys-form-tab'))
+    			{
+    				repeaters = Ext.Array.union(repeaters, this.getRepeaters(formItem.getId()));
+    			}
+    		}, this);
+		}
+    	
+    	return repeaters;
     },
     
     /**
@@ -991,8 +1112,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     /**
      * @private
      * Update the status of all tabs
+     * @param {Boolean} startup True if this is the first update of the tabs, false otherwise
      */
-    _updateTabsStatus: function()
+    _updateTabsStatus: function(startup)
     {
         if (this._tabPanels.length > 0)
         {
@@ -1002,7 +1124,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             for (var i=0; i < this._tabPanels.length; i++)
             {
                 this._tabPanels[i].items.each (function (item) {
-                    me._updateTabStatus (item);
+                    me._updateTabStatus (item, startup);
                 })
             }
             
@@ -1012,24 +1134,31 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     
     /**
      * @private
-     * Update the tab status.
+     * Update the tab status. Possibly the table of contents status as well
      * @param {Ext.panel.Panel} panel The panel (tab card or fieldset panel).
+     * @param {Boolean} startup True if this is the first update of the tabs, false otherwise
      */
-    _updateTabStatus: function(panel)
+    _updateTabStatus: function(panel, startup)
     {
         // The header is the tab when in tab mode or the header in linear mode. 
-        var header = panel.tab ? panel.tab : (panel.getHeader().isHeader ? panel.getHeader() : null);
+        var header = null;
+        if (panel)
+    	{
+        	header = panel.tab ? panel.tab : (panel.getHeader().isHeader ? panel.getHeader() : null);
+    	}
         
-        if (header != null)
+        if (header != null || (this.tableOfContents && this._tabPolicy == 'inline'))
         {
-            // Let's get all errors and warning from the field checkers
-            var tabFieldCheckers = this._getFieldCheckers(panel),
+        	var panelId = panel != null ? panel.getId() : this.self.OUTOFTAB_FIELDSET_ID;
+        	
+            // Let's get all errors and warnings from the field checkers
+            var fieldCheckers = this._getFieldCheckers(panelId),
                 testsErrorMessages = [],
                 testsWarnMessages = [];
 
-            if (!Ext.isEmpty(tabFieldCheckers))
+            if (!Ext.isEmpty(fieldCheckers))
             {
-                Ext.Array.each(tabFieldCheckers, function(fieldChecker){
+                Ext.Array.each(fieldCheckers, function(fieldChecker){
                     var status = fieldChecker.getStatus();
                     if (status != Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_HIDDEN)
                     {
@@ -1046,52 +1175,66 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                 });
             }
             
-            var tabFields = this._getFields(panel);
+            var fields = this._getFields(panelId);
 
             var errorFields = [];
             var warnFields = [];
             var commentFields = [];
             
-            for (var i = 0; i < tabFields.length; i++)
+            for (var i = 0; i < fields.length; i++)
             {
-            	var tabField = tabFields[i];
-                if (tabField.getErrors().length > 0)
+            	var field = fields[i];
+                if (field.getActiveErrors().length > 0)
                 {
-                    errorFields.push("{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD}}" +  " " + this._getFieldLabel(tabField, panel));
+                    errorFields.push("{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD}}" +  " " + this._getFieldLabel(field, panel));
                 }
                 
-                if (Ext.isFunction(tabField.hasActiveWarning) && tabField.hasActiveWarning())
+                if (Ext.isFunction(field.hasActiveWarning) && field.hasActiveWarning())
                 {
-                    warnFields.push("{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD}}" + " " + this._getFieldLabel(tabField, panel));
+                    warnFields.push("{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD}}" + " " + this._getFieldLabel(field, panel));
                 }
                 
-                if (Ext.isFunction(tabField.getComments) && tabField.getComments().length > 0)
+                if (Ext.isFunction(field.getComments) && field.getComments().length > 0)
                 {
-                    var comment = tabField.getComments()[0];
+                    var comment = field.getComments()[0];
                     var commentValue = Ext.String.format('<em>{0} ({1}, le {2})</em>', comment.text, comment.author, Ext.Date.format(comment.date, Ext.Date.patterns.FriendlyDateTime));
                              
-                    commentFields.push(this._getFieldLabel(tabField, panel) + " : " + commentValue);
+                    commentFields.push(this._getFieldLabel(field, panel) + " : " + commentValue);
                 }
             }
             
             // Invalidate repeaters
-            var tabRepeaters = this.getRepeaters(panel);
-            for (var i = 0; i < tabRepeaters.length; i++)
-            {
-                if (tabRepeaters[i].getErrors().length > 0)
+            var repeaters = this.getRepeaters(panel);
+        	Ext.Array.each(repeaters, function(repeater){
+        		if (repeater.getErrors().length > 0)
                 {
-                    errorFields.push(this._getRepeaterLabel(tabRepeaters[i], panel));
+                    errorFields.push(this._getRepeaterLabel(repeater, panel));
                 }
-            }
+        	});
             
             // var isActive = panel.tab ? panel.ownerCt.getActiveItem() == panel : true;
             // header[isActive ? 'addCls' : 'removeCls']('active');
             
-            var firstEdition = !Ext.Array.contains(this._notInFirstEditionPanels, panel.id);
+            var firstEdition = !Ext.Array.contains(this._notInFirstEditionPanels, panelId);
+            var navigationItem = null;
+            if (this.tableOfContents && this._tabPolicy == 'inline')
+        	{
+            	navigationItem = this._tableOfContents.getNavigationItem(panelId);
+        	}
             
-            // When not in first edition mode, remove the startup class.
-            header[firstEdition ? 'addCls' : 'removeCls']('startup');
-            header[firstEdition ? 'removeCls' : 'addCls']('not-startup');
+            if (header && !firstEdition)
+        	{
+            	// When not in first edition mode, remove the startup class.
+            	header.removeCls('startup');
+            	header.addCls('not-startup');
+        	}
+            
+            if (navigationItem && !firstEdition)
+        	{
+                // When not in first edition mode, remove the startup class.
+            	navigationItem.removeCls('startup');
+            	navigationItem.addCls('not-startup');
+        	}
             
             var errors = Ext.Array.union(errorFields, testsErrorMessages);
             var warnings = Ext.Array.union(warnFields, testsWarnMessages);
@@ -1100,56 +1243,113 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             var hasWarn = warnings.length > 0;
             var hasComment = commentFields.length > 0;
             
-            header.removeCls(['error', 'warning', 'comment']);
+            if (startup && (hasError || hasWarn || hasComment))
+        	{
+            	// Remove the startup class as well if there is something to report at startup
+            	if (header)
+        		{
+            		header.addCls('not-startup');
+            		header.removeCls('startup');
+        		}
+                
+                if (navigationItem)
+            	{
+                	navigationItem.addCls('not-startup');
+                	navigationItem.removeCls('startup');
+            	}
+        	}
+            
+            if (header)
+        	{
+            	header.removeCls(['error', 'warning', 'comment']);
+        	}
+            
+            if (navigationItem)
+        	{
+            	navigationItem.removeCls(['error', 'warning', 'comment']);
+        	}
+            
             if (hasError)
             {
-                header.addCls('error');
+            	if (header)
+        		{
+            		header.addCls('error');
+        		}
+
+            	if (navigationItem)
+            	{
+                	navigationItem.addCls('error');
+            	}
             }
             else if (hasWarn)
             {
-                header.addCls('warning');
+            	if (header)
+        		{
+            		header.addCls('warning');
+        		}
+
+            	if (navigationItem)
+            	{
+                	navigationItem.addCls('warning');
+            	}
             }
             else if (hasComment)
             {
-                header.addCls('comment');
+            	if (header)
+    			{
+            		header.addCls('comment');
+    			}
+
+            	if (navigationItem)
+            	{
+                    navigationItem.addCls('comment');
+            	}
             }
             
-            if (header.rendered)
-            {
-            	// As we change width with CSS we have to prevent tabs from overlapping one another
-            	header.updateLayout();
-            	
-                this._createTabTooltip (header, panel, errors, warnings, commentFields);
-            }
-            else
-            {
-                header.on ('afterrender', Ext.bind (this._createTabTooltip, this, [header, panel, errorFields, warnFields, commentFields], false), this, {single: true});
-            }
+            if (panel)
+        	{
+            	if (header.rendered)
+            	{
+            		// As we change width with CSS we have to prevent tabs from overlapping one another
+            		header.updateLayout();
+            		
+            		this._createStatusTooltip (header.getEl(), panel, errors, warnings, commentFields);
+            	}
+            	else
+            	{
+            		header.on ('afterrender', Ext.bind (this._createStatusTooltip, this, [header.getEl(), panel, errorFields, warnFields, commentFields], false), this, {single: true});
+            	}
+        	}
+            
+            if (navigationItem)
+        	{
+            	this._createStatusTooltip (navigationItem.getEl(), navigationItem, errors, warnings, commentFields);
+        	}
         }
     },
     
     /**
      * @private
      * Create tab tooltip
-     * @param {Ext.tab.Tab} header the tab panel's header
-     * @param {Ext.panel.Panel} panel The panel
+     * @param {Ext.dom.Element} el the element to whom bound the tooltip
+     * @param {Ext.Component} cmp The component
      * @param {String[]} errors the list of errors
      * @param {String[]} warnings the list of warnings
      * @param {String[]} comments the list of comments
      */
-    _createTabTooltip : function (header, panel, errors, warnings, comments)
+    _createStatusTooltip : function (el, cmp, errors, warnings, comments)
     {
-        Ext.tip.QuickTipManager.unregister(header.getEl());
+        Ext.tip.QuickTipManager.unregister(el);
         
         if (errors.length > 0 || warnings.length > 0 || comments.length > 0)
         {
             // Set the tooltip.
-            var title = panel.title;
+            var title = cmp.title;
             
-            var text = this._getTabTooltipText(panel, errors, warnings, comments);
+            var text = this._getStatusTooltipText(errors, warnings, comments);
             
             Ext.tip.QuickTipManager.register({
-                target: header.getEl().id,
+                target: el.id,
                 title: title,
                 text: text,
                 cls: ['x-fluent-tooltip', 'a-configurable-form-panel-tooltip'],
@@ -1157,6 +1357,28 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                 dismissDelay: 0
             });
         }
+    },
+    
+    /**
+     * @private
+     * Get the tooltip message.
+     * @param {String[]} errorFields The error fields' labels.
+     * @param {String[]} warnFields The warning fields' labels.
+     * @param {String[]} commentFields The commented fields' labels and their comment.
+     * @return {String} the tooltip message markup.
+     */
+    _getStatusTooltipText: function(errorFields, warnFields, commentFields)
+    {
+        var html = '';
+        if (errorFields.length > 0 || warnFields.length > 0 || commentFields.length > 0)
+        {
+            html += Ext.XTemplate.getTpl(this, 'tabErrorFieldsTpl').apply({
+                errors: errorFields,
+                warns: warnFields,
+                comments: commentFields
+            });
+        }
+        return html;
     },
     
     /**
@@ -1169,13 +1391,15 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     _getFieldLabel: function(field, tabpanel)
     {
         var label = '';
-        
-        var ownerCt = field.ownerCt;
-        while (ownerCt != null && ownerCt.title && ownerCt.id != tabpanel.id)
-        {
-            label = ownerCt.title + " > " + label;
-            ownerCt = ownerCt.ownerCt;
-        }
+        if (tabpanel)
+    	{
+        	var ownerCt = field.ownerCt;
+        	while (ownerCt != null && ownerCt.title && ownerCt.id != tabpanel.id)
+        	{
+        		label = ownerCt.title + " > " + label;
+        		ownerCt = ownerCt.ownerCt;
+        	}
+    	}
         
         // Remove the starting or trailing '*' character
         var fieldLabel = field.getFieldLabel();
@@ -1258,29 +1482,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     
     /**
      * @private
-     * Get the tooltip message.
-     * @param {Ext.panel.Panel} panel The panel to which the component was added.
-     * @param {String[]} errorFields The error fields' labels.
-     * @param {String[]} warnFields The warning fields' labels.
-     * @param {String[]} commentFields The commented fields' labels and their comment.
-     * @return {String} the tooltip message markup.
-     */
-    _getTabTooltipText: function(panel, errorFields, warnFields, commentFields)
-    {
-        var html = '';
-        if (errorFields.length > 0 || warnFields.length > 0 || commentFields.length > 0)
-        {
-            html += Ext.XTemplate.getTpl(this, 'tabErrorFieldsTpl').apply({
-                errors: errorFields,
-                warns: warnFields,
-                comments: commentFields
-            });
-        }
-        return html;
-    },
-    
-    /**
-     * @private
      * Listens when a repeater validity changes.
      * @param {Ametys.form.ConfigurableFormPanel.Repeater} repeater The repeater.
      * @param {Boolean} isValid Whether or not the repeater is now valid.
@@ -1312,16 +1513,16 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         if (this._formReady)
         {
              // Find the tab card (panel) to which belongs the field.
-            var card = field.up('panel[cls~=ametys-form-tab-item], panel[cls~=ametys-form-tab-inline-item]');
-
+            var panel = field.up('panel[cls~=ametys-form-tab-item], panel[cls~=ametys-form-tab-inline-item]');
+            
             // Do not update the card status if the tab is still in first edition mode
-            if (card == null || !Ext.Array.contains(this._notInFirstEditionPanels, card.id))
+            if (panel && !Ext.Array.contains(this._notInFirstEditionPanels, panel.id))
             {
                 return;
             }
             
             // Update the tab status and tooltip.
-            this._updateTabStatus(card);
+            this._updateTabStatus(panel);
         }
     },
     
@@ -1402,7 +1603,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         
         if (!startup)
         {
-            this._fieldCheckersManager._updateTestResults();
+            this._fieldCheckersManager.updateTestResults();
         }
         
         Ext.resumeLayouts(true);
@@ -1903,7 +2104,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     _configureJSON: function (data, prefix, ct, offset, roffset)
     {
         prefix = prefix || this.getFieldNamePrefix();
-        ct = ct || this._getFormContainer();
+        ct = ct || this._formContainer;
         offset = offset || 0;
         roffset = roffset || 0;
         
@@ -1969,6 +2170,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             }
             else if (!type && name == 'field-checker' && nestingLevel == 1)
         	{
+            	// Global field checker
             	 var fieldCheckers = data[name];
                  if (!Ext.isEmpty(fieldCheckers))
                  {
@@ -2168,7 +2370,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     _configureXML: function (data, prefix, ct, offset, roffset)
     {
         prefix = prefix || this.getFieldNamePrefix();
-        ct = ct || this._getFormContainer();
+        ct = ct || this._formContainer;
         offset = offset || 0;
         roffset = roffset || 0;
         
@@ -2250,6 +2452,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             }
             else if (!type && name == 'field-checker' && nestingLevel == 1)
         	{
+            	 // Global field checker
                  this._fieldCheckersManager.addFieldCheckers(ct, data[name], prefix, offset, roffset);
         	}
             else if (type == 'composite')
@@ -2603,11 +2806,28 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     		}, this);
     	}
     	
+    	if (this.tableOfContents && this._tabPolicy == 'inline')
+    	{
+    		// Add the "Out of tabs" navigation item if necessary
+    		var outOfTabFields = this._getFields(this.self.OUTOFTAB_FIELDSET_ID),
+    			outOfTabRepeaters = this.getRepeaters(this.self.OUTOFTAB_FIELDSET_ID);	
+    		if (!Ext.isEmpty(Ext.Array.union(outOfTabFields, outOfTabRepeaters)))
+    		{
+    			this._tableOfContents.addNavigationItem("{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_OUTOFTAB_FIELDSET}}", this.self.OUTOFTAB_FIELDSET_ID);
+    		}
+    		
+    		// Initialize scroll handling
+    		this._tableOfContents.initializeListeners();
+    	}
+    	
         this._formReady = true;
         this.fireEvent('formready', this);
-        this._updateTabsStatus();
         
         this._setFocusIfReady();
+        
+        // Possible warning/errors at startup
+        this._formContainer.on('afterlayout', Ext.bind(this._updateTabsStatus, this, [true], false), this, {single: 'true'});
+        
     },
     
     /**
@@ -2894,7 +3114,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     {
         var invalidRepeaters = [];
         
-        var repeaters = this.getRepeaters();
+        var repeaters = this.getRepeaters(null);
         for (var i = 0; i < repeaters.length; i++)
         {
             var repeater = repeaters[i];
@@ -3322,7 +3542,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         }, this);
         
         // Add new panel / Remove the old one.
-        this._getFormContainer().remove(oldPanel);
+        this._formContainer.remove(oldPanel);
         
         return newPanel;
     },

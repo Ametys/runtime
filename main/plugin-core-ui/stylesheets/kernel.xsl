@@ -196,6 +196,7 @@
         <script>/plugins/core-ui/resources/js/Ametys/form/ConfigurableFormPanel/Repeater.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/form/ConfigurableFormPanel/FieldChecker.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/form/ConfigurableFormPanel/FieldCheckersManager.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/form/ConfigurableFormPanel/TableOfContents.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/form/SaveHelper.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/form/SaveHelper/SaveErrorDialog.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/form/SaveHelper/SaveBeforeQuitDialog.js</script>

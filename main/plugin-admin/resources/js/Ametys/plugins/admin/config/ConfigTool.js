@@ -39,6 +39,7 @@ Ext.define('Ametys.plugins.admin.config.ConfigTool', {
 			cls: 'uitool-admin-config',
 			'tab-policy-mode': 'inline',
 			testURL: Ametys.getPluginDirectPrefix('admin') + '/config/test',
+			tableOfContents: true,
 			
             autoFocus: Ext.bind(this.hasFocus, this),
             

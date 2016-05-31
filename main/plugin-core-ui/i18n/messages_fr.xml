@@ -303,6 +303,7 @@
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER">La vérification</message>
     
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_GLOBAL_FIELD_CHECKER">Vérification globale</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_OUTOFTAB_FIELDSET">Hors onglets</message>
     
     <!-- +
          | FieldCheckersManager.js
@@ -321,6 +322,11 @@
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_TOOLTIP_DEACTIVATED_MESSAGE">Cette vérification est désactivée car tous les paramètres qu'elle utilise sont désactivés ou au moins un des paramètres utilisés est invalide.</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_NO_LINKED_FIELD">Aucun</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_INVALID_LINKED_FIELD">Le test n'a pas pu être réalisé car il dépend d'au moins un paramètre invalide.</message>
+    
+    <!-- +
+         | TableOfContents.js
+         + -->
+   <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TABLE_OF_CONTENTS_TITLE">Sommaire</message>
     
     <!-- +
          | TestsController.js
