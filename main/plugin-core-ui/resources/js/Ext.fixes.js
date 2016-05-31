@@ -177,4 +177,15 @@
             }
         }    
     });
+    
+    Ext.override(Ext.form.field.Base, {
+        // Fix for https://issues.ametys.org/browse/RUNTIME-1858
+        // See https://www.sencha.com/forum/showthread.php?311209-Autocomplete-with-Chrome&p=1136279#post1136279
+        getSubTplMarkup: function(fieldDate)
+        {
+            var value = this.callParent(arguments);
+            value = value.replace('autocomplete="off"', 'autocomplete="new-password"');
+            return value;
+        }
+    })
 })();
