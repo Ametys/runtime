@@ -26,7 +26,6 @@ import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.caching.CacheableProcessingComponent;
 import org.apache.cocoon.environment.SourceResolver;
 import org.apache.cocoon.reading.ServiceableReader;
-import org.apache.commons.io.IOUtils;
 import org.apache.excalibur.source.SourceValidity;
 import org.xml.sax.SAXException;
 
@@ -63,14 +62,8 @@ public class ResourceReader extends ServiceableReader implements CacheableProces
     @Override
     public void generate() throws IOException, ProcessingException
     {
-        try
-        {
-            _resourceHandler.generateResource(out);
-        }
-        finally
-        {
-            IOUtils.closeQuietly(out);
-        }
+        _resourceHandler.generateResource(out);
+        out.flush();
     }
 
     @Override
