@@ -144,6 +144,10 @@
         <xsl:param name="accept-ff-43.0">false</xsl:param>
         <xsl:param name="accept-ff-44.0">false</xsl:param>
         <xsl:param name="accept-ff-45.0">false</xsl:param>
+        <xsl:param name="accept-ff-46.0">false</xsl:param>
+        <xsl:param name="accept-ff-47.0">false</xsl:param>
+        <xsl:param name="accept-ff-48.0">false</xsl:param>
+        <xsl:param name="accept-ff-49.0">false</xsl:param>
         <xsl:param name="accept-sa-3">false</xsl:param>
         <xsl:param name="accept-sa-4">false</xsl:param>
         <xsl:param name="accept-sa-5.0">false</xsl:param>
