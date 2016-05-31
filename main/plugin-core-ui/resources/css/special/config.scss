@@ -19,7 +19,7 @@
 
 body
 {
-    background-image: pluginUrl('/resources/img/special/public/bg.jpg');
+    background-image: pluginUrl('/resources/img/special/public/bg.jpg', 'core-ui');
 }
 
 div.code > div:before {

@@ -74,7 +74,7 @@ html.ametys-common  {
     text-align: center;
     padding: 1.5em;
 
-    background-image: pluginUrl('/resources/img/special/logo.png');
+    background-image: pluginUrl('/resources/img/special/logo.png', 'core-ui');
     background-repeat: no-repeat;
     background-position: 1.5em center;
     
