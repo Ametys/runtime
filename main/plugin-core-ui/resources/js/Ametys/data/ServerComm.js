@@ -209,7 +209,7 @@ Ext.define(
 		 * @param {Object[]} message.callback.handler.callbackarguments Is the 'callback.arguments' array
 		 * @param {Object} [message.callback.scope] The scope of the function call. Optional.
 		 * @param {String[]} [message.callback.arguments] An array of string that will be given as arguments of the callback. Optional.
-         * @param {String[]} [message.callback.ignoreOnError=true] Is the callback called with a null or empty response?
+         * @param {Boolean} [message.callback.ignoreOnError=true] Is the callback called with a null or empty response?
 		 * 
 		 * @param {String} [message.responseType=xml] Can be "xml" (default) to have a xml response, "text" to have a single text node response or "xml2text" to have a single text node response where xml prologue as text is removed
 		 *
@@ -346,10 +346,13 @@ Ext.define(
 		 * 
 		 * @param {Object/Object[]} config.callback The callback configuration.
 		 * @param {Function} config.callback.handler Called after method execution.
-		 * @param {Object} config.callback.handler.response The server response.
+		 * @param {Object} config.callback.handler.response The server response. Can be null for a void response or undefined if an error occurred when ignoreOnError is false.
 		 * @param {Object[]} config.callback.handler.arguments Is the 'callback.arguments' array
-		 * @param {Object} config.callback.scope The scope of the function call. Optional.
-		 * @param {String[]} config.callback.arguments An array of Objects that will be passed to the callback as second argument. Optional.
+		 * @param {Object} [config.callback.scope] The scope of the function call. Optional.
+		 * @param {String[]} [config.callback.arguments] An array of Objects that will be passed to the callback as second argument. Optional.
+         * @param {Boolean} [config.callback.ignoreOnError=true] Is the callback called with a null or empty response?
+         * 
+         * @param {Object} [message.cancellationCallback] Use this parameter to be informed and do some action when the message was cancelled or ignored by the client. See #send for more information about this parameter.
 		 * 
 		 * @param {String} [config.cancelCode] This allow to cancel a previous unfinished request. See #send for more information on the cancelCode.
 		 * @param {Boolean/String/Object} [config.waitMessage] Display a waiting message while the request is running. See #send for more information on the waitingMessage.
@@ -370,6 +373,7 @@ Ext.define(
 				callback: {
 					handler: this._callProcessed,
 					scope: this,
+                    ignoreOnError: false,
 					arguments: {cb: config.callback}
 				},
 				responseType: 'text',
@@ -410,7 +414,7 @@ Ext.define(
 		{
 			var callback = arguments.cb;
 			
-			var responseAsObject = null;
+			var responseAsObject = undefined;
 			if (!this.isBadResponse(response))
 			{
 				responseAsObject = Ext.JSON.decode(response.textContent || response.text);
@@ -418,7 +422,10 @@ Ext.define(
 			
             callback = Ext.Array.from(callback);
             Ext.Array.forEach(callback, function (cb) {
-    			cb.handler.apply(cb.scope || this, [responseAsObject, cb.arguments]);
+                if (responseAsObject !== undefined || cb.ignoreOnError === false)
+                {
+    			     cb.handler.apply(cb.scope || this, [responseAsObject, cb.arguments]);
+                }
             }, this);
 		},
 		
