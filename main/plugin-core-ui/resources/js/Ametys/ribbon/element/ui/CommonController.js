@@ -1014,9 +1014,7 @@ Ext.define(
 		{
 			var match = false;
 			
-            var nbAllTargets = Ametys.message.MessageBus.getCurrentSelectionMessage().getTargets().length;
-			var noSelection = nbAllTargets == 0;
-			var singleSelection = nbAllTargets == 1;
+			var noSelection = Ametys.message.MessageBus.getCurrentSelectionMessage().getTargets().length == 0;
 			var multiSelectionEnabled = (this.getInitialConfig("selection-enable-multiselection") || this.getInitialConfig("enable-multiselection")) != 'false';
 
 			if (noSelection)
@@ -1024,15 +1022,15 @@ Ext.define(
 				// noselection
 				this.setAdditionalDescription(this.getInitialConfig("selection-description-empty") || this.getInitialConfig("no-selection-description"));
 			}
-			else if (!singleSelection && !multiSelectionEnabled)
-			{
-				// selectionsize
-				this.setAdditionalDescription(this.getInitialConfig("selection-description-multiselectionforbidden") || this.getInitialConfig("multiselection-disabled-description"));
-			}
 			else if (targets.length == 0)
 			{
 				// nomatch
 				this.setAdditionalDescription(this.getInitialConfig("selection-description-nomatch"));
+			}
+			else if (targets.length != 1 && !multiSelectionEnabled)
+			{
+				// selectionsize
+				this.setAdditionalDescription(this.getInitialConfig("selection-description-multiselectionforbidden") || this.getInitialConfig("multiselection-disabled-description"));
 			}
 			else if (!this.hasRightOnAny(targets))
 			{
