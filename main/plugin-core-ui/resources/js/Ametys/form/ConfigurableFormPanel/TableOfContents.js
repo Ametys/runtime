@@ -20,16 +20,36 @@
  */
 Ext.define('Ametys.form.ConfigurableFormPanel.TableOfContents', {
     extend: 'Ext.panel.Panel',
+    
+    alias: 'widget.configurable-form-panel.toc',
 	
     statics: {
         /**
-         * @property {Number} NAVIGATION_ITEM_HEIGHT The height of a navigation item
+         * @property {Number} DEFAULT_NAVIGATION_ITEM_HEIGHT=40 The default height of a navigation item
          * @private
          * @readonly 
          */
-    	NAVIGATION_ITEM_HEIGHT: 40
-    },
+    	DEFAULT_NAVIGATION_ITEM_HEIGHT: 40,
         
+         /**
+         * @property {Number} DEFAULT_MAX_WIDTH=350 The default max width of table of contents
+         * @private
+         * @readonly 
+         */
+        DEFAULT_MAX_WIDTH: 500,
+        
+        /**
+         * @property {Number} DEFAULT_MIN_WIDTH=350 The default min width of table of contents
+         * @private
+         * @readonly 
+         */
+        DEFAULT_MIN_WIDTH: 150
+    },
+    
+    /**
+     * @cfg {Number} navItemHeight=Ametys.form.ConfigurableFormPanel.TableOfContents#DEFAULT_NAVIGATION_ITEM_HEIGHT The height of navigation items in the table of contents.
+     */
+    
     /**
      * @private
      * @property {Object} _navigationMap the mapping of fieldset ids with their corresponding navigation item ids
@@ -77,7 +97,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.TableOfContents', {
             border: true,
             shadow: false,
             
-            cls: 'table-of-contents',
+            cls: 'a-configurable-form-panel-toc',
             
             header: {
             	title: '{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_TABLE_OF_CONTENTS_TITLE}}',
@@ -90,19 +110,36 @@ Ext.define('Ametys.form.ConfigurableFormPanel.TableOfContents', {
 	
 	constructor: function(config)
 	{
+        config = Ext.applyIf (config, {
+            scrollable: 'vertical',
+            maxWidth: Ametys.form.ConfigurableFormPanel.TableOfContents.DEFAULT_MAX_WIDTH,
+            minWidth: Ametys.form.ConfigurableFormPanel.TableOfContents.DEFAULT_MIN_WIDTH,
+            defaults: {
+                xtype: 'button',
+                textAlign: 'left',
+                border: false,
+                width: '100%',
+                enableToggle: true,
+                toggleGroup: Ext.id() + '-toc',
+                height: config.navItemHeight || Ametys.form.ConfigurableFormPanel.TableOfContents.DEFAULT_NAVIGATION_ITEM_HEIGHT
+            }
+        });
+        
 		this._navigationMap = {};
 		this._bound = true;
 		this._scrollingHandled = false;
 		
 		this.callParent(arguments);
+        
+        this.form.on('formready', this._initializeListeners, this, {single: true});
 	},
 	
 	/**
 	 * Set up the listeners on the scroll and select the current navigation item
 	 */
-	initializeListeners: function()
+	_initializeListeners: function()
 	{
-		this.form.getFormContainer().on('afterlayout', Ext.bind(this._updateScrollPosition, this), undefined, {single: true});
+		this.form._getFormContainer().on('afterlayout', this._updateScrollPosition, this, {single: true});
 	},
 	
 	/**
@@ -116,14 +153,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel.TableOfContents', {
 		var navigationItemCfg = 
 		{
 			id: navigationItemId, 
-			title : label, 
-			width: 350,
-			padding: '0 0 0 10',
-			height: this.self.NAVIGATION_ITEM_HEIGHT,
-			
-			listeners: {
-				'render': {fn: Ext.bind(this._setClickListener, this, [fieldsetId], 1), scope: this}
-			}
+			text : label, 
+			handler: Ext.bind(this._scrollToFieldset, this, [fieldsetId], 1)
 		};
 		
 		if (fieldsetId != Ametys.form.ConfigurableFormPanel.OUTOFTAB_FIELDSET_ID)
@@ -157,27 +188,16 @@ Ext.define('Ametys.form.ConfigurableFormPanel.TableOfContents', {
 		}
 	},
 	
-    /**
-     * @private
-     * Set the click listener on the component to scroll to the corresponding fieldset
-     * @param {Ext.Component} component the component of the navigation item
-     * @param {String} fieldsetId the id of the fieldset to set a click listener on to 
-     */
-	_setClickListener: function(component, fieldsetId)
-	{
-		component.getEl().on('click', Ext.bind(this._scrollToFieldset, this, [fieldsetId], false));
-	},
-	
 	/**
 	 * @private
 	 * Scroll to a fieldset of the attached {@link Ametys.form.ConfigurableFormPanel}
 	 * @param {String} fieldsetId the id of the fieldset
 	 */
-	_scrollToFieldset: function(fieldsetId)
+	_scrollToFieldset: function(button, fieldsetId)
 	{
 		this._bound = false;
 		
-		var formContainer = this.form.getFormContainer();
+		var formContainer = this.form._getFormContainer();
 		if (fieldsetId == Ametys.form.ConfigurableFormPanel.OUTOFTAB_FIELDSET_ID)
 		{
 			formContainer.scrollTo(0, 0, {callback: this._bindScroll, scope: this});
@@ -217,13 +237,13 @@ Ext.define('Ametys.form.ConfigurableFormPanel.TableOfContents', {
 		if (!this._scrollingHandled)
 		{
 			this._scrollingHandled = true;
-			this.form.getFormContainer().getEl().on('scroll', Ext.bind(this._updateScrollPosition, this));
+			this.form._getFormContainer().getEl().on('scroll', Ext.bind(this._updateScrollPosition, this));
 		}
 		
 		// Wait for the scroll by click on a navigation item to finish before updating the scroll position
 		if (!this._bound || this._animation)
 		{
-			this._animation = this.form.getFormContainer().getActiveAnimation();
+			this._animation = this.form._getFormContainer().getActiveAnimation();
 			return;
 		}
 
@@ -234,7 +254,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.TableOfContents', {
 			withinTabsHeight += fieldsetHeight;
 		}, this);
 		
-		var formContainer = this.form.getFormContainer();
+		var formContainer = this.form._getFormContainer();
 		var e = formContainer.getEl();
 		var max = e.dom.scrollHeight - e.getHeight();
 		
@@ -289,15 +309,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel.TableOfContents', {
 	 */
 	_activateNavigationItem: function(fieldsetId)
 	{
-		if (this._currentFieldsetId)
-		{
-			var oldNavigationItem = Ext.getCmp(this._navigationMap[this._currentFieldsetId]) || this.items.get(0);
-			// Remove the 'activated' rendering
-			oldNavigationItem.setStyle('border', 'none');
-		}
-
 		var currentItem = Ext.getCmp(this._navigationMap[fieldsetId]) || this.items.get(0);
-		currentItem.setStyle('border', '1px solid #0a7fb2');
+		currentItem.toggle(true);
 		
 		if (this._currentFieldsetId)
 		{

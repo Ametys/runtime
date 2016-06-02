@@ -137,6 +137,10 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     tableOfContents: false,
     
     /**
+     * @property {Boolean} _showTableOfContents True if a table of contents is displayed. See #cfg-tableOfContents.
+     */
+    
+    /**
      * @cfg {Object} defaultFieldConfig Default config to apply to all form fields
      */
     
@@ -319,7 +323,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         // during the form edition panel instantiation has priority over the
         // userprefs value.
         this._tabPolicy = config['tab-policy-mode'] || Ametys.userprefs.UserPrefsDAO.getValue('edition-tab-policy') || 'default';
-        this.tableOfContents = config.tableOfContents === true;
+        this._showTableOfContents = config.tableOfContents === true && this._tabPolicy == 'inline';
 
     	config.dockedItems = Ext.Array.from(config.dockedItems);
     	config.dockedItems.push({
@@ -350,13 +354,15 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         
     	this.defaultFieldConfig = config.defaultFieldConfig || {};
     	
-    	if (this.tableOfContents && this._tabPolicy == 'inline')
+    	if (this._showTableOfContents)
 		{
-    		config.layout = {
-    	    	type: 'hbox'
-    	    };
-    		
-    		config.scrollable = false;
+            config = Ext.apply (config, {
+                layout: {
+                    type: 'hbox',
+                    align: 'stretch'
+                },
+                scrollable: false // with a table of contents, the child items are scrollable
+            })
 		}
         
         this._additionalWidgetsConf = config.additionalWidgetsConf || {};
@@ -550,47 +556,66 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     },
     
     /**
+     * Get the form container config to be used during its creation.
+     * @protected
+     */
+    _getFormContainerCfg: function(config)
+    {
+        return {
+            xtype: 'container',
+            scrollable: false,
+            border: false,
+            
+            layout: config.itemsLayout || { type: 'anchor' },
+            
+            items: config.items,
+            
+            // minWidth is a minWidth of a field + a number of repeaters margins
+            minWidth: (this.defaultFieldConfig.labelWidth || Ametys.form.ConfigurableFormPanel.LABEL_WIDTH)
+                + Ametys.form.ConfigurableFormPanel.FIELD_MINWIDTH
+                + 20 // ametysDescription
+                + (config.showAmetysComments ? 20 : 0)
+                + (Ametys.form.ConfigurableFormPanel.Repeater.NESTED_OFFSET+1) * 3 // 3 level of repeaters
+        };
+    },
+    
+    /**
+     * Get the table of contents config to be used during its creation.
+     * @protected
+     */
+    _getTableOfContentsCfg: function ()
+    {
+        return {
+            xtype: 'configurable-form-panel.toc',
+            form: this,
+            scrollable: 'vertical',
+            flex: 0.2
+        }
+    },
+    
+    /**
      * @protected
      * Get the items of the form to be used during its creation.
      * @return {Object[]} the array of objects items of the form container 
      */
     _getFormItems: function(config)
     {
-    	var formItems = [];
-    	var formContainerCfg = {
-			scrollable: true,
-			border: false,
-			
-			layout: config.itemsLayout || { type: 'anchor' },
-			
-			items: config.items,
-			
-			// minWidth is a minWidth of a field + a number of repeaters margins
-			minWidth: (this.defaultFieldConfig.labelWidth || Ametys.form.ConfigurableFormPanel.LABEL_WIDTH)
-				+ Ametys.form.ConfigurableFormPanel.FIELD_MINWIDTH
-				+ 20 // ametysDescription
-				+ (config.showAmetysComments ? 20 : 0)
-				+ (Ametys.form.ConfigurableFormPanel.Repeater.NESTED_OFFSET + 1) * 3 // 3 level of repeaters
-    	};
-
-    	if (this.tableOfContents && this._tabPolicy == 'inline')
-    	{
-        	this._tableOfContents = Ext.create('Ametys.form.ConfigurableFormPanel.TableOfContents', {
-    			form: this,
-    			width: 350,
-    			height: '100%',
-    			scrollable: 'vertical'
-        	});
-        	
-        	formItems.push(this._tableOfContents);
-        	formContainerCfg.flex = 1;
-        	formContainerCfg.height = '100%';
-    	}
-    	
-    	this._formContainer = Ext.create('Ext.container.Container', formContainerCfg);
-    	
-    	formItems.push(this._formContainer);
-        return formItems;
+        if (this._showTableOfContents)
+        {
+            var hItems = [];
+            
+            hItems.push(this._getTableOfContentsCfg());
+            hItems.push(Ext.apply(this._getFormContainerCfg(config), {
+                flex: 0.8,
+                scrollable: true
+            }));
+            
+            return hItems;
+        }
+        else
+        {
+            return this._getFormContainerCfg(config);
+        }
     },
        
     /**
@@ -611,13 +636,23 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         return this._fieldNamePrefix;
     },
     
-    /**
-     * Get the panel wrapping the form
-     * @return {Ext.container.Container} the form's panel
+     /**
+     * Get the form container in which the edition form must be drawn.
+     * By default it is the first child item of this panel.
+     * @protected
      */
-    getFormContainer: function ()
+    _getFormContainer: function ()
     {
-    	return this._formContainer;
+    	return this._showTableOfContents ? this.items.get(1) : this.items.get(0);
+    },
+    
+    /**
+     * Get the table of contents
+     * @return {Ext.panel.Panel} The table of contents or null
+     */
+    _getTableOfContents: function ()
+    {
+        return this._showTableOfContents ? this.items.get(0) : null;
     },
     
     /**
@@ -702,10 +737,10 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     {
         if (this.items && this.items.length > 0)
         {
-            this._formContainer.removeAll();
-            if (this._tableOfContents)
+            this._getFormContainer().removeAll();
+            if (this._showTablesOfContents)
         	{
-            	this._tableOfContents.removeAll();
+            	this.items.get(0).removeAll();
         	}
         }
     },
@@ -801,7 +836,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             this.getDockedComponent('inline-toolbar').hide();
         }
         
-        this._formContainer.add(tabPanel);
+        this._getFormContainer().add(tabPanel);
         this._tabPanels.push(tabPanel);
         
         this._tabPanel = tabPanel; 
@@ -901,10 +936,10 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             
             ct.add(fieldset);
             
-            if (this.tableOfContents)
+            if (this._showTableOfContents)
         	{
             	// Add the tab item in the table of contents
-            	this._tableOfContents.addNavigationItem(label, fieldset.getId());
+            	this._getTableOfContents().addNavigationItem(label, fieldset.getId());
         	}
             
             return fieldset;
@@ -1001,7 +1036,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     	}
         else
     	{
-        	this._formContainer.items.each(function(formItem) {
+        	this._getFormContainer().items.each(function(formItem) {
         		// Do not consider the fields within tabs
         		if (!formItem.hasCls('ametys-form-tab-inline') && !formItem.hasCls('ametys-form-tab'))
     			{
@@ -1024,7 +1059,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     	var fieldCheckers = [];
     	if (componentId != this.self.OUTOFTAB_FIELDSET_ID)
 		{
-    		var parentCmp = componentId != null ? Ext.getCmp(componentId) : this._formContainer;
+    		var parentCmp = componentId != null ? Ext.getCmp(componentId) : this._getFormContainer();
     		if (parentCmp.items)
 			{
     			var nestedContainers = parentCmp.query('container');
@@ -1038,7 +1073,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 		}
     	else
 		{
-    		this._formContainer.items.each(function(formItem) {
+    		this._getFormContainer().items.each(function(formItem) {
         		// Do not consider the field checkers within tabs
         		if (!formItem.hasCls('ametys-form-tab-inline') && !formItem.hasCls('ametys-form-tab'))
     			{
@@ -1060,7 +1095,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     	var repeaters = [];
     	if (componentId != this.self.OUTOFTAB_FIELDSET_ID)
 		{
-    		var component = componentId != null ? Ext.getCmp(componentId) : this._formContainer;
+    		var component = componentId != null ? Ext.getCmp(componentId) : this._getFormContainer();
     		if (component != null && !component .isFormField)
 			{
     			repeaters = component.query('panel[isRepeater]');
@@ -1069,7 +1104,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     	else
 		{
     		var repeaters = [];
-    		this._formContainer.items.each(function(formItem) {
+    		this._getFormContainer().items.each(function(formItem) {
     			// Do not consider the repeaters within tabs
     			if (!formItem.hasCls('ametys-form-tab-inline') && !formItem.hasCls('ametys-form-tab'))
     			{
@@ -1147,7 +1182,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         	header = panel.tab ? panel.tab : (panel.getHeader().isHeader ? panel.getHeader() : null);
     	}
         
-        if (header != null || (this.tableOfContents && this._tabPolicy == 'inline'))
+        if (header != null || this._showTableOfContents)
         {
         	var panelId = panel != null ? panel.getId() : this.self.OUTOFTAB_FIELDSET_ID;
         	
@@ -1217,9 +1252,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             
             var firstEdition = !Ext.Array.contains(this._notInFirstEditionPanels, panelId);
             var navigationItem = null;
-            if (this.tableOfContents && this._tabPolicy == 'inline')
+            if (this._showTableOfContents)
         	{
-            	navigationItem = this._tableOfContents.getNavigationItem(panelId);
+            	navigationItem = this._getTableOfContents().getNavigationItem(panelId);
         	}
             
             if (header && !firstEdition)
@@ -2104,7 +2139,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     _configureJSON: function (data, prefix, ct, offset, roffset)
     {
         prefix = prefix || this.getFieldNamePrefix();
-        ct = ct || this._formContainer;
+        ct = ct || this._getFormContainer();
         offset = offset || 0;
         roffset = roffset || 0;
         
@@ -2370,7 +2405,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     _configureXML: function (data, prefix, ct, offset, roffset)
     {
         prefix = prefix || this.getFieldNamePrefix();
-        ct = ct || this._formContainer;
+        ct = ct || this._getFormContainer();
         offset = offset || 0;
         roffset = roffset || 0;
         
@@ -2806,18 +2841,15 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     		}, this);
     	}
     	
-    	if (this.tableOfContents && this._tabPolicy == 'inline')
+    	if (this._showTableOfContents)
     	{
     		// Add the "Out of tabs" navigation item if necessary
     		var outOfTabFields = this._getFields(this.self.OUTOFTAB_FIELDSET_ID),
     			outOfTabRepeaters = this.getRepeaters(this.self.OUTOFTAB_FIELDSET_ID);	
     		if (!Ext.isEmpty(Ext.Array.union(outOfTabFields, outOfTabRepeaters)))
     		{
-    			this._tableOfContents.addNavigationItem("{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_OUTOFTAB_FIELDSET}}", this.self.OUTOFTAB_FIELDSET_ID);
+    			this._getTableOfContents().addNavigationItem("{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_OUTOFTAB_FIELDSET}}", this.self.OUTOFTAB_FIELDSET_ID);
     		}
-    		
-    		// Initialize scroll handling
-    		this._tableOfContents.initializeListeners();
     	}
     	
         this._formReady = true;
@@ -2826,7 +2858,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         this._setFocusIfReady();
         
         // Possible warning/errors at startup
-        this._formContainer.on('afterlayout', Ext.bind(this._updateTabsStatus, this, [true], false), this, {single: 'true'});
+        this._getFormContainer().on('afterlayout', Ext.bind(this._updateTabsStatus, this, [true], false), this, {single: 'true'});
         
     },
     
@@ -3542,7 +3574,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         }, this);
         
         // Add new panel / Remove the old one.
-        this._formContainer.remove(oldPanel);
+        this._getFormContainer().remove(oldPanel);
         
         return newPanel;
     },
