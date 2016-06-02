@@ -259,11 +259,12 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
 
         return attributesFiltered;
     }
-
+    
     @Override
     public void startElementImpl(String uri, String local, String qual, String[][] lNamespaces, String[][] attributes) throws SAXException
     {
-        if (local.equalsIgnoreCase(__SCRIPT_TAG) || local.equalsIgnoreCase(__STYLE_TAG))
+        if ((local.equalsIgnoreCase(__SCRIPT_TAG) && isJsScript(local, attributes)) 
+                || local.equalsIgnoreCase(__STYLE_TAG))
         {
             _insideInlineResourceTag++;
         }
@@ -408,7 +409,7 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
             namespaceUri = XHTML1_NAMESPACE;
         }
 
-        if (local.equalsIgnoreCase(__SCRIPT_TAG))
+        if (local.equalsIgnoreCase(__SCRIPT_TAG) && _insideInlineResourceTag > 0)
         {
             _insideInlineResourceTag--;
             if (_buffer.length() > 0)
@@ -481,6 +482,29 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
             }
         }
         return false;
+    }
+    
+    private boolean isJsScript(String local, String[][] attributes)
+    {
+        boolean hasTypeAttr = false;
+        
+        if (local.equalsIgnoreCase(__SCRIPT_TAG))
+        {
+            for (String[] attr : attributes)
+            {
+                if (attr[ATTRIBUTE_LOCAL].equalsIgnoreCase("type"))
+                {
+                    hasTypeAttr = true;
+                    
+                    if (attr[ATTRIBUTE_VALUE].equalsIgnoreCase("text/javascript"))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        
+        return !hasTypeAttr;
     }
 
     @Override
