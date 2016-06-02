@@ -139,7 +139,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.TableOfContents', {
 	 */
 	_initializeListeners: function()
 	{
-		this.form._getFormContainer().on('afterlayout', this._updateScrollPosition, this, {single: true});
+		this.form.getFormContainer().on('afterlayout', this._updateScrollPosition, this, {single: true});
 	},
 	
 	/**
@@ -197,7 +197,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.TableOfContents', {
 	{
 		this._bound = false;
 		
-		var formContainer = this.form._getFormContainer();
+		var formContainer = this.form.getFormContainer();
 		if (fieldsetId == Ametys.form.ConfigurableFormPanel.OUTOFTAB_FIELDSET_ID)
 		{
 			formContainer.scrollTo(0, 0, {callback: this._bindScroll, scope: this});
@@ -237,13 +237,13 @@ Ext.define('Ametys.form.ConfigurableFormPanel.TableOfContents', {
 		if (!this._scrollingHandled)
 		{
 			this._scrollingHandled = true;
-			this.form._getFormContainer().getEl().on('scroll', Ext.bind(this._updateScrollPosition, this));
+			this.form.getFormContainer().getEl().on('scroll', Ext.bind(this._updateScrollPosition, this));
 		}
 		
 		// Wait for the scroll by click on a navigation item to finish before updating the scroll position
 		if (!this._bound || this._animation)
 		{
-			this._animation = this.form._getFormContainer().getActiveAnimation();
+			this._animation = this.form.getFormContainer().getActiveAnimation();
 			return;
 		}
 
@@ -254,7 +254,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.TableOfContents', {
 			withinTabsHeight += fieldsetHeight;
 		}, this);
 		
-		var formContainer = this.form._getFormContainer();
+		var formContainer = this.form.getFormContainer();
 		var e = formContainer.getEl();
 		var max = e.dom.scrollHeight - e.getHeight();
 		
