@@ -22,18 +22,6 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceActions', {
 	
 	singleton: true,
 	
-    /**
-     * @property {Boolean} _modifiedWarningDisplayed true if the warning pop-up for data source modification has already been displayed 
-     * @private
-     */
-	_modifiedWarningDisplayed: false,
-	
-	/**
-     * @property {Boolean} _defaultModifiedWarningDisplayed true if the warning pop-up for default data source modification has already been displayed 
-     * @private
-     */
-	_defaultModifiedWarningDisplayed: false,
-	
 	/**
 	 * Add a data source
 	 * @param {Ametys.ribbon.element.ui.ButtonController} controller the controller calling this function
@@ -62,7 +50,7 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceActions', {
 		var target = controller.getMatchingTargets()[0];
 		if (target != null)
 		{
-			var displayPopUp = !this._modifiedWarningDisplayed && target.getParameters().isInUse;
+			var displayPopUp = target.getParameters().isInUse;
 			switch (target.getParameters().type)
 			{
 				case 'SQL':
@@ -119,7 +107,7 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceActions', {
 			}
 			else
 			{
-				var displayPopUp = !this._defaultModifiedWarningDisplayed && isDefaultDataSourceInUse;
+				var displayPopUp = isDefaultDataSourceInUse;
 				Ametys.plugins.core.datasource.DataSourceDAO.setDefaultDataSource([type, target.getParameters().id], Ext.bind(this._editCb, this, [displayPopUp, true], 1));
 			}
 		}
@@ -175,7 +163,7 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceActions', {
 			return;
 		}
 
-		if (defaultChanged && !this._defaultModifiedWarningDisplayed)
+		if (defaultChanged)
 		{
 			Ametys.Msg.show({
 				title: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_DEFAULT_MODIFICATION_WARNING_DIALOG_TITLE}}",
@@ -185,8 +173,6 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceActions', {
 				scope: this,
 				fn: this._showModifiedDataSourceDialog
 			}, this);
-			
-			this._defaultModifiedWarningDisplayed = true;
 		}
 		else
 		{
@@ -199,27 +185,22 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceActions', {
 	 */
 	_showModifiedDataSourceDialog: function()
 	{
-		if (!this._modifiedWarningDisplayed)
-		{
-			Ametys.Msg.show({
-				title: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_MODIFICATION_WARNING_DIALOG_TITLE}}",
-				message: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_MODIFICATION_WARNING_DIALOG_MSG}}",
-				icon: Ext.Msg.WARNING,
-				buttons: Ext.Msg.YESNO,
-				scope: this,
-				fn : function(btn) {
-					if (btn == 'yes') {
-						Ext.getBody().mask("{{i18n plugin.core-ui:PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE}}");
-						
-						// Restart
-						Ext.Ajax.request({url: Ametys.getPluginDirectPrefix('admin') + "/restart", params: "", async: false});
-						
-						Ametys.reload();
-					}
+		Ametys.Msg.show({
+			title: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_MODIFICATION_WARNING_DIALOG_TITLE}}",
+			message: "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_MODIFICATION_WARNING_DIALOG_MSG}}",
+			icon: Ext.Msg.WARNING,
+			buttons: Ext.Msg.YESNO,
+			scope: this,
+			fn : function(btn) {
+				if (btn == 'yes') {
+					Ext.getBody().mask("{{i18n plugin.core-ui:PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE}}");
+					
+					// Restart
+					Ext.Ajax.request({url: Ametys.getPluginDirectPrefix('admin') + "/restart", params: "", async: false});
+					
+					Ametys.reload();
 				}
-			});
-			
-			this._modifiedWarningDisplayed = true;
-		}
+			}
+		});
 	}
 });
