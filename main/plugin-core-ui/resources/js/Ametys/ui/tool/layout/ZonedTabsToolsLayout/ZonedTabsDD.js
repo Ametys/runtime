@@ -93,14 +93,6 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
             this.callParent(arguments);
         },
         
-        /* snippet to try do display tool name and icon during the drag'n'drop operation
-        showFrame: function()
-        {
-            this.callParent(arguments);
-
-            this.getDragEl().innerHTML = this.getEl().innerHTML;
-        },*/
-        
         b4StartDrag : function(x, y) 
         {
             this.callParent(arguments);
@@ -434,6 +426,15 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
         onDragOut: function(evtObj, targetElId) 
         {
             Ext.get(Ext.get(targetElId).dom.displaydiv).removeCls('dragover');
+        },
+        
+        onDrag: function(evtObj)
+        {
+            this.callParent(arguments);
+            if (evtObj.event.buttons == 0)
+            {
+                Ext.dd.DragDropManager.handleMouseUp(evtObj);  
+            }
         }
     }
 );
