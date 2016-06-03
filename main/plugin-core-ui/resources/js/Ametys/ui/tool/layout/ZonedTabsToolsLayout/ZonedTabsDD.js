@@ -431,6 +431,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
         onDrag: function(evtObj)
         {
             this.callParent(arguments);
+            // This is a temporary? fix for RUNTIME-1864
             if (evtObj.event.buttons == 0)
             {
                 Ext.dd.DragDropManager.handleMouseUp(evtObj);  
