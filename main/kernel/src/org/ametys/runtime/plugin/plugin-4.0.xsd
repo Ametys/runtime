@@ -360,6 +360,16 @@
                 </xsd:documentation>
             </xsd:annotation>            
         </xsd:attribute>
+        <xsd:attribute name="ref-id" type="xsd:string" use="optional">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                       The id of the extension to inherit. The properties of the referenced extension will be used to configured this extension.<br />
+                       The referenced extension must use the same extension point, defined by the required attribute "point".
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
     </xsd:complexType>
 
     <xsd:complexType name="components">
