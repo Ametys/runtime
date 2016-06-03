@@ -112,7 +112,7 @@ var control = Ext.create("Ametys.ribbon.element.ui.button.OpenToolButtonControll
     'icon-medium' :     "/test/resources/img/editpaste_32.gif",
     'icon-large' :      "/test/resources/img/editpaste_48.gif"
 });
-Ametys.ribbon.RibbonManager.registerElement(control);
+Ametys.ribbon.RibbonManager.registerUI(control);
 
 var tab1 = Ext.create("Ametys.ui.fluent.ribbon.Panel", {
     title: "Home",
@@ -122,7 +122,7 @@ var tab1 = Ext.create("Ametys.ui.fluent.ribbon.Panel", {
             priority: -10,
             smallItems: undefined,
             items: [
-                Ametys.ribbon.RibbonManager.getElement("button1").addUI("large")
+                Ametys.ribbon.RibbonManager.getUI("button1").addUI("large")
             ],
             largeItems: undefined
         }

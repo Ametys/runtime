@@ -15,6 +15,7 @@
  */
 package org.ametys.plugins.core.user;
 
+import java.util.List;
 import java.util.Map;
 
 import org.ametys.core.ui.StaticClientSideElement;
@@ -25,9 +26,9 @@ import org.ametys.core.ui.StaticClientSideElement;
 public class ImpersonateUserClientSideElement extends StaticClientSideElement
 {
     @Override
-    public Script getScript(Map<String, Object> contextParameters)
+    public List<Script> getScripts(boolean ignoreRights, Map<String, Object> contextParameters)
     {
         // FIXME add a right to impersonate
-        return super.getScript(contextParameters);
+        return super.getScripts(ignoreRights, contextParameters);
     }
 }

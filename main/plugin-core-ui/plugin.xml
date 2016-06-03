@@ -746,12 +746,10 @@
             <extension id="org.ametys.runtime.userinterface.RequestTrackerControlMenu"
                        point="org.ametys.core.ui.RibbonControlsManager"
                        class="org.ametys.core.ui.SimpleMenu">
-                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController"/>
                 <menu-items>
                     <item ref="org.ametys.runtime.userinterface.RequestTrackerControl" primaryItem="true"/>
                     <item ref="org.ametys.runtime.userinterface.RequestTrackerControl.clear"/>
                 </menu-items>
-                <right context-prefix="/contributor">CORE_Rights_RequestTracker</right>
             </extension>
             <extension id="org.ametys.runtime.userinterface.RequestTrackerControl"
                        point="org.ametys.core.ui.RibbonControlsManager"
@@ -841,12 +839,10 @@
             <extension id="org.ametys.runtime.userinterface.MessageTrackerControlMenu"
                        point="org.ametys.core.ui.RibbonControlsManager"
                        class="org.ametys.core.ui.SimpleMenu">
-                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController"/>
                 <menu-items>
                     <item ref="org.ametys.runtime.userinterface.MessageTrackerControl" primaryItem="true"/>
                     <item ref="org.ametys.runtime.userinterface.MessageTrackerControl.clear"/>
                 </menu-items>
-                <right context-prefix="/contributor">CORE_Rights_MessageTracker</right>
             </extension>
             <extension id="org.ametys.runtime.userinterface.MessageTrackerControl"
                        point="org.ametys.core.ui.RibbonControlsManager"
@@ -940,7 +936,6 @@
             <extension id="org.ametys.runtime.userinterface.ConsoleLogControlMenu"
                        point="org.ametys.core.ui.RibbonControlsManager"
                        class="org.ametys.core.ui.SimpleMenu">
-                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController"/>
                 <menu-items>
                     <item ref="org.ametys.runtime.userinterface.ConsoleLogControl" primaryItem="true"/>
                     <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toDebug"/>
@@ -949,7 +944,6 @@
                     <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toError"/>
                     <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.clear"/>
                 </menu-items>
-                <right context-prefix="/contributor">CORE_Rights_ConsoleLog</right>
             </extension>
             <extension id="org.ametys.runtime.userinterface.ConsoleLogControl"
                        point="org.ametys.core.ui.RibbonControlsManager"
@@ -1458,8 +1452,7 @@
             <extension id="org.ametys.plugins.core.configurableformpanel.RunTests"
                        point="org.ametys.core.ui.RibbonControlsManager"
                        class="org.ametys.core.ui.SimpleMenu">
-                <class name="Ametys.plugins.coreui.configurableformpanel.TestsController">
-                    <selection-target-id>^form$</selection-target-id>
+                <class>
                     <label i18n="true">PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_TESTS</label>
                     <description i18n="true">PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_TESTS_DESC</description>
                 </class>

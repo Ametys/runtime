@@ -41,9 +41,10 @@ public class StaticClientSideWidget extends StaticClientSideElement implements C
     @Override
     public String[] getFormTypes(Map<String, Object> contextParameters)
     {
-        if (_initialParameters.containsKey(PARAMETER_FTYPES))
+        Map<String, Object> initialParameters = _script.getParameters();
+        if (initialParameters.containsKey(PARAMETER_FTYPES))
         {
-            return StringUtils.split((String) _initialParameters.get(PARAMETER_FTYPES), ",");
+            return StringUtils.split((String) initialParameters.get(PARAMETER_FTYPES), ",");
         }
         else
         {
@@ -54,9 +55,10 @@ public class StaticClientSideWidget extends StaticClientSideElement implements C
     @Override
     public boolean supportsEnumerated(Map<String, Object> contextParameters)
     {
-        if (_initialParameters.containsKey(PARAMETER_SUPPORTS_ENUMERATED))
+        Map<String, Object> initialParameters = _script.getParameters();
+        if (initialParameters.containsKey(PARAMETER_SUPPORTS_ENUMERATED))
         {
-            return Boolean.parseBoolean((String) _initialParameters.get(PARAMETER_SUPPORTS_ENUMERATED));
+            return Boolean.parseBoolean((String) initialParameters.get(PARAMETER_SUPPORTS_ENUMERATED));
         }
         else
         {
@@ -67,9 +69,10 @@ public class StaticClientSideWidget extends StaticClientSideElement implements C
     @Override
     public boolean supportsNonEnumerated(Map<String, Object> contextParameters)
     {
-        if (_initialParameters.containsKey(PARAMETER_SUPPORTS_NONENUMERATED))
+        Map<String, Object> initialParameters = _script.getParameters();
+        if (initialParameters.containsKey(PARAMETER_SUPPORTS_NONENUMERATED))
         {
-            return Boolean.parseBoolean((String) _initialParameters.get(PARAMETER_SUPPORTS_NONENUMERATED));
+            return Boolean.parseBoolean((String) initialParameters.get(PARAMETER_SUPPORTS_NONENUMERATED));
         }
         else
         {
@@ -80,9 +83,10 @@ public class StaticClientSideWidget extends StaticClientSideElement implements C
     @Override
     public boolean supportsMultiple(Map<String, Object> contextParameters)
     {
-        if (_initialParameters.containsKey(PARAMETER_SUPPORTS_MULTIPLE))
+        Map<String, Object> initialParameters = _script.getParameters();
+        if (initialParameters.containsKey(PARAMETER_SUPPORTS_MULTIPLE))
         {
-            return Boolean.parseBoolean((String) _initialParameters.get(PARAMETER_SUPPORTS_MULTIPLE));
+            return Boolean.parseBoolean((String) initialParameters.get(PARAMETER_SUPPORTS_MULTIPLE));
         }
         else
         {
@@ -93,9 +97,10 @@ public class StaticClientSideWidget extends StaticClientSideElement implements C
     @Override
     public boolean supportsNonMultiple(Map<String, Object> contextParameters)
     {
-        if (_initialParameters.containsKey(PARAMETER_SUPPORTS_NONMULTIPLE))
+        Map<String, Object> initialParameters = _script.getParameters();
+        if (initialParameters.containsKey(PARAMETER_SUPPORTS_NONMULTIPLE))
         {
-            return Boolean.parseBoolean((String) _initialParameters.get(PARAMETER_SUPPORTS_NONMULTIPLE));
+            return Boolean.parseBoolean((String) initialParameters.get(PARAMETER_SUPPORTS_NONMULTIPLE));
         }
         else
         {

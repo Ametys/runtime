@@ -22,7 +22,7 @@
  * - It supports enabling/disabling upon a focused tool (see {@link #cfg-tool-id})
  * - It can be a toggle button (see {@link #cfg-toggle-enabled}).
  * 
- * Note that a property "controlId" is available on the created button. This string references this controller id, that can be retrieve with {@link Ametys.ribbon.RibbonManager#getElement}
+ * Note that a property "controlId" is available on the created button. This string references this controller id, that can be retrieve with {@link Ametys.ribbon.RibbonManager#getUI}
  */
 Ext.define(
 	"Ametys.ribbon.element.ui.ButtonController",
@@ -121,7 +121,7 @@ Ext.define(
 //		    	var menuItemCfg = this.getInitialConfig("menu-items");
 //				for (var i=0; i < menuItemCfg.length; i++)
 //				{
-//					var elmt = Ametys.ribbon.RibbonManager.getElement(menuItemCfg[i]);
+//					var elmt = Ametys.ribbon.RibbonManager.getUI(menuItemCfg[i]);
 //					if (elmt != null)
 //					{
 //				    	return elmt.createUI (size, colspan);
@@ -136,7 +136,7 @@ Ext.define(
 				
 				// Is this a split button, where the action is the one from a 'primary-menu-item-id' ?
 				var primaryMenuItemId = this.getInitialConfig("primary-menu-item-id");
-				var menuItemHandler = primaryMenuItemId && Ametys.ribbon.RibbonManager.hasElement(primaryMenuItemId) ? Ametys.ribbon.RibbonManager.getElement(primaryMenuItemId) : this;
+				var menuItemHandler = primaryMenuItemId && Ametys.ribbon.RibbonManager.hasUI(primaryMenuItemId) ? Ametys.ribbon.RibbonManager.getUI(primaryMenuItemId) : this;
 				var isSplitButton = hasActionFn && menu;
 
 				var element = Ext.create(isSplitButton ? "Ametys.ui.fluent.ribbon.controls.SplitButton" : "Ametys.ui.fluent.ribbon.controls.Button", Ext.apply({
@@ -273,7 +273,7 @@ Ext.define(
 					{
 						if (typeof (items[j]) == 'string')
 						{
-							var elmt = Ametys.ribbon.RibbonManager.getElement(items[j]);
+							var elmt = Ametys.ribbon.RibbonManager.getUI(items[j]);
 							if (elmt != null)
 							{
 								gpItems.push(elmt.addGalleryItemUI());
@@ -287,7 +287,7 @@ Ext.define(
 						else if (items[j].className)
 						{
 							var elmt = Ext.create(items[j].className, Ext.applyIf(items[j].config, {id: this.getId() + '.group-.' + i + '-item' + j, pluginName: this.getPluginName()}));
-							Ametys.ribbon.RibbonManager.registerElement(elmt);		
+							Ametys.ribbon.RibbonManager.registerUI(elmt);		
 							gpItems.push(elmt.addGalleryItemUI());  
 							
 							if (!Ext.Array.contains(this._referencedControllerIds, elmt.getId()))
@@ -375,7 +375,7 @@ Ext.define(
 				
 				for (var i=0; i < menuItemCfg.length; i++)
 				{
-					var elmt = Ametys.ribbon.RibbonManager.getElement(menuItemCfg[i]);
+					var elmt = Ametys.ribbon.RibbonManager.getUI(menuItemCfg[i]);
 					if (elmt != null)
 					{
 						count++;
@@ -401,7 +401,7 @@ Ext.define(
 				
 				for (var i=0; i < menuItemCfg.length; i++)
 				{
-					var elmt = Ametys.ribbon.RibbonManager.getElement(menuItemCfg[i]);
+					var elmt = Ametys.ribbon.RibbonManager.getUI(menuItemCfg[i]);
 					if (elmt != null)
 					{
 						menuItems.push(elmt.addMenuItemUI());

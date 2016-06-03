@@ -16,6 +16,7 @@
 package org.ametys.core.ui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
 
 import org.ametys.runtime.i18n.I18nizableText;
@@ -90,7 +92,21 @@ public class SimpleMenu extends StaticClientSideElement implements MenuClientSid
     }
     
     @Override
-    public Map<String, Object> getParameters(Map<String, Object> contextualParameters)
+    protected String _configureClass(Configuration configuration) throws ConfigurationException
+    {
+        String jsClassName = configuration.getAttribute("name", "");
+        if (StringUtils.isNotEmpty(jsClassName))
+        {
+            if (getLogger().isDebugEnabled())
+            {
+                getLogger().debug("Js class configured is '" + jsClassName + "'");
+            }
+        }
+        return jsClassName;   
+    }
+
+    @Override
+    public List<Script> getScripts(boolean ignoreRights, Map<String, Object> contextParameters)
     {
         try
         {
@@ -101,28 +117,69 @@ public class SimpleMenu extends StaticClientSideElement implements MenuClientSid
             throw new IllegalStateException("Unable to lookup client side element local components", e);
         }
         
-        Map<String, Object> parameters = super.getParameters(contextualParameters);
-        
-        if (_primaryMenuItem != null)
+        // FIXME handle rights for workspace admin, here is a temporary workaround
+        if (ignoreRights || (contextParameters != null && "admin".equals(contextParameters.get("workspace"))) || hasRight(getRights(contextParameters)))
         {
-            Map<String, Object> primaryParameters = _primaryMenuItem.getParameters(contextualParameters);
-            parameters.put("primary-menu-item-id", _primaryMenuItem.getId());
-            for (String paramId : primaryParameters.keySet())
+            List<Script> scripts = super.getScripts(ignoreRights, contextParameters);
+            Map<String, Object> parameters = new HashMap<>();
+            List<ScriptFile> cssFiles = new ArrayList<>();
+            List<ScriptFile> scriptFiles = new ArrayList<>();
+            for (Script script : scripts)
             {
-                if (!parameters.containsKey(paramId))
+                cssFiles.addAll(script.getCSSFiles());
+                scriptFiles.addAll(script.getScriptFiles());
+                parameters.putAll(script.getParameters());
+            }
+            
+            String scriptClassName = _script.getScriptClassname();
+            
+            if (_primaryMenuItem != null)
+            {
+                List<Script> itemScripts = _primaryMenuItem.getScripts(ignoreRights, contextParameters);
+                for (Script script : itemScripts)
                 {
-                    parameters.put(paramId, primaryParameters.get(paramId));
+                    Map<String, Object> primaryParameters = script.getParameters();
+                    parameters.put("primary-menu-item-id", script.getId());
+                    for (String paramId : primaryParameters.keySet())
+                    {
+                        if (!parameters.containsKey(paramId))
+                        {
+                            parameters.put(paramId, primaryParameters.get(paramId));
+                        }
+                    }
+                    
+                    if (StringUtils.isEmpty(scriptClassName))
+                    {
+                        scriptClassName = script.getScriptClassname();
+                    }
                 }
             }
+            
+            // Gallery items
+            _getGalleryItems(parameters, contextParameters);
+
+            // Menu items
+            _getMenuItems(parameters, contextParameters);
+            
+            List<Script> result = new ArrayList<>();
+            result.add(new Script(this.getId(), scriptClassName, scriptFiles, cssFiles, parameters));
+            return result;
         }
         
-        // Gallery items
-        _getGalleryItems(parameters, contextualParameters);
-
-        // Menu items
-        _getMenuItems(parameters, contextualParameters);
+        return new ArrayList<>();
+    }
+    
+    @Override
+    public Map<String, String> getRights(Map<String, Object> contextParameters)
+    {
+        Map<String, String> rights = super.getRights(contextParameters);
         
-        return parameters;
+        if (rights.size() == 0 && _primaryMenuItem != null)
+        {
+            return _primaryMenuItem.getRights(contextParameters);
+        }
+        
+        return rights;
     }
     
     /**

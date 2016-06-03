@@ -31,6 +31,15 @@ Ext.define(
 		 * @property {String} _id See {@link #cfg-id}
 		 * @private
 		 */
+
+        /**
+         * @auto
+         * @cfg {String} serverId The unique identifier for the server element associated with this element.
+         */
+        /**
+         * @property {String} _serverId See {@link #cfg-serverId}
+         * @private
+         */
 		
 		/**
 		 * @auto
@@ -50,6 +59,7 @@ Ext.define(
 			this.initConfig(config);
 			
 			this._id = config.id;
+			this._serverId = config.serverId;
 			this._pluginName = config.pluginName;
 		},
 	
@@ -79,7 +89,7 @@ Ext.define(
          */
         getServerId: function()
         {
-            return this.getId();
+            return this._serverId || this.getId();
         }
         
         /**

@@ -15,6 +15,8 @@
  */
 package org.ametys.plugins.core.right.profile;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.ametys.core.ui.StaticClientSideElement;
@@ -26,13 +28,13 @@ import org.ametys.plugins.core.impl.right.profile.ProfileBasedRightsManager;
 public class ProfileBasedClientSideElement extends StaticClientSideElement
 {
     @Override
-    public Script getScript(Map<String, Object> contextParameters)
+    public List<Script> getScripts(boolean ignoreRights, Map<String, Object> contextParameters)
     {
         if (_rightsManager instanceof ProfileBasedRightsManager)
         {
-            return super.getScript(contextParameters);
+            return super.getScripts(ignoreRights, contextParameters);
         }
         
-        return null;
+        return new ArrayList<>();
     }
 }

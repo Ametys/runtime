@@ -205,27 +205,29 @@ Ext.define(
 		 */
 		_onSelectionChanging: function(message)
 		{
-			var index = this._tabPanel.ownerCt.items.indexOf(this._tabPanel);
-			var tabEl = this._tabPanel.ownerCt.getTabBar().items.get(index);
-			if (tabEl.isVisible())
-			{
-				var matchingTargets = false;
-				var me = this;
-				var targets = message.getParameters()['targets'];
-				
-				Ext.Array.each(targets, function(target) {
-					if (!me._reversedSelectionTargetId && me._selectionTargetId.test(target)
-							|| me._reversedSelectionTargetId && !me._selectionTargetId.test(target))
-					{
-						matchingTargets = true;
-					}
-				});
-				
-				if (!matchingTargets)
-				{
-					this.hide();
-				}
-			}
+		    Ext.Array.forEach(this._tabPanels, function(tabPanel) {
+		        var index = tabPanel.ownerCt.items.indexOf(tabPanel);
+		        var tabEl = tabPanel.ownerCt.getTabBar().items.get(index);
+		        if (tabEl.isVisible())
+		        {
+		            var matchingTargets = false;
+		            var me = this;
+		            var targets = message.getParameters()['targets'];
+		            
+		            Ext.Array.each(targets, function(target) {
+		                if (!me._reversedSelectionTargetId && me._selectionTargetId.test(target)
+		                        || me._reversedSelectionTargetId && !me._selectionTargetId.test(target))
+		                {
+		                    matchingTargets = true;
+		                }
+		            });
+		            
+		            if (!matchingTargets)
+		            {
+		                this.hide();
+		            }
+		        }
+		    }, this);
 		},
 
 		/**

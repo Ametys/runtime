@@ -197,8 +197,8 @@
                                /** Controls creation */<xsl:text/>
                                var control;
                     <xsl:for-each select="ribbon/controls/control">
-                               control = Ext.create("<xsl:value-of select="action/@class"/>", Ext.apply(<xsl:value-of select="action"/>, {id: "<xsl:value-of select="@id"/>", pluginName: "<xsl:value-of select="@plugin"/>"}));
-                               Ametys.ribbon.RibbonManager.registerElement(control);
+                               control = Ext.create("<xsl:value-of select="action/@class"/>", Ext.apply(<xsl:value-of select="action"/>, {id: "<xsl:value-of select="@id"/>", serverId: "<xsl:value-of select="@serverId"/>", pluginName: "<xsl:value-of select="@plugin"/>"}));
+                               Ametys.ribbon.RibbonManager.registerUI(control);
                     </xsl:for-each>
 
                                 /** Searchmenu items creation */                    
@@ -227,7 +227,7 @@
                     <xsl:for-each select="ribbon/tabs/tab/groups/group/medium//control">
                             <xsl:variable name="id" select="@id"/>
                                try { 
-                               		var control = Ametys.ribbon.RibbonManager.getElement("<xsl:value-of select="@id"/>");
+                               		var control = Ametys.ribbon.RibbonManager.getUI("<xsl:value-of select="@id"/>");
                                     var tabLabel = "<xsl:value-of select="/Ametys/workspace/ribbon/tabs/tab[groups/group/medium//control/@id = $id]/@label"/>";
                                		var menuItem = control.addMenuItemUI();
                                     menuItem.text = '&lt;span class="a-ribbon-searchmenu-item-category"&gt;' + tabLabel + '&lt;/span&gt;' + menuItem.text;
@@ -272,7 +272,7 @@
                                     <xsl:when test="local-name()='control' and @id = /Ametys/workspace/ribbon/controls/control/@id">
                                         <xsl:variable name="id" select="@id"/>
                             fgp_<xsl:value-of select="$tabPos"/>_<xsl:value-of select="$groupPos"/>_<xsl:value-of select="local-name(..)"/>.push(<xsl:text/>
-                                   <xsl:text/>Ametys.ribbon.RibbonManager.getElement("<xsl:value-of select="$id"/>").addUI("large")<xsl:text/> 
+                                   <xsl:text/>Ametys.ribbon.RibbonManager.getUI("<xsl:value-of select="$id"/>").addUI("large")<xsl:text/> 
                                 <xsl:text/>);<xsl:text/>
                                     </xsl:when>
                                     <xsl:when test="local-name()='layout' and (*[@id = /Ametys/workspace/ribbon/controls/control/@id] or toolbar/*[@id = /Ametys/workspace/ribbon/controls/control/@id])">
@@ -285,7 +285,7 @@
                                             <xsl:choose>
                                                 <xsl:when test="local-name()='control' and @id = /Ametys/workspace/ribbon/controls/control/@id">
                                                     <xsl:variable name="id" select="@id"/>
-                                       <xsl:text/>Ametys.ribbon.RibbonManager.getElement("<xsl:value-of select="$id"/>").addUI("<xsl:value-of select="../@size"/>", <xsl:value-of select="@colspan"/>)<xsl:text/> 
+                                       <xsl:text/>Ametys.ribbon.RibbonManager.getUI("<xsl:value-of select="$id"/>").addUI("<xsl:value-of select="../@size"/>", <xsl:value-of select="@colspan"/>)<xsl:text/> 
                                                 </xsl:when>
                                                 <xsl:when test="local-name()='toolbar' and *[@id = /Ametys/workspace/ribbon/controls/control/@id]">
                                                 <xsl:text/>{
@@ -293,7 +293,7 @@
                                                     items: [<xsl:text/>
                                                 <xsl:for-each select="*[@id = /Ametys/workspace/ribbon/controls/control/@id]"><xsl:if test="position() != 1">, </xsl:if>
                                                     <xsl:variable name="id" select="@id"/>
-                                            <xsl:text/>Ametys.ribbon.RibbonManager.getElement("<xsl:value-of select="$id"/>").addUI("very-small", <xsl:value-of select="@colspan"/>)<xsl:text/> 
+                                            <xsl:text/>Ametys.ribbon.RibbonManager.getUI("<xsl:value-of select="$id"/>").addUI("very-small", <xsl:value-of select="@colspan"/>)<xsl:text/> 
                                                 </xsl:for-each>
                                                     ]
                                                 }
@@ -321,7 +321,7 @@
                                     if (controlCfg['dialog-box-launcher'])
                                     {
                                         fgp_<xsl:value-of select="$tabPos"/>_<xsl:value-of select="$groupPos"/>.dialogBoxLauncher = true;
-                                        fgp_<xsl:value-of select="$tabPos"/>_<xsl:value-of select="$groupPos"/>.listeners = {'dialogboxlaunch': Ext.bind(Ametys.executeFunctionByName, Ametys, [controlCfg['dialog-box-launcher'], null, null, Ametys.ribbon.RibbonManager.getElement("<xsl:value-of select="$dialogBoxLauncher"/>")], false)};
+                                        fgp_<xsl:value-of select="$tabPos"/>_<xsl:value-of select="$groupPos"/>.listeners = {'dialogboxlaunch': Ext.bind(Ametys.executeFunctionByName, Ametys, [controlCfg['dialog-box-launcher'], null, null, Ametys.ribbon.RibbonManager.getUI("<xsl:value-of select="$dialogBoxLauncher"/>")], false)};
                                     }
                                 </xsl:if>
                                 
@@ -337,7 +337,7 @@
                                 <xsl:choose>
                                     <xsl:when test="local-name()='control' and @id = /Ametys/workspace/ribbon/controls/control/@id">
                                         <xsl:variable name="id" select="@id"/>
-                                        appMenuItems.push(Ametys.ribbon.RibbonManager.getElement("<xsl:value-of select="$id"/>").addMenuItemUI());
+                                        appMenuItems.push(Ametys.ribbon.RibbonManager.getUI("<xsl:value-of select="$id"/>").addMenuItemUI());
                                     </xsl:when>
                                     <xsl:when test="local-name()='separator' and following-sibling::control[@id = /Ametys/workspace/ribbon/controls/control/@id]">
                                         appMenuItems.push('-');
@@ -354,7 +354,7 @@
                                     <xsl:choose>
                                         <xsl:when test="local-name()='control' and @id = /Ametys/workspace/ribbon/controls/control/@id">
                                             <xsl:variable name="id" select="@id"/>
-                                            userMenuItems.push(Ametys.ribbon.RibbonManager.getElement("<xsl:value-of select="$id"/>").addMenuItemUI());
+                                            userMenuItems.push(Ametys.ribbon.RibbonManager.getUI("<xsl:value-of select="$id"/>").addMenuItemUI());
                                         </xsl:when>
                                         <xsl:when test="local-name()='separator' and following-sibling::control[@id = /Ametys/workspace/ribbon/controls/control/@id]">
                                             userMenuItems.push('-');
@@ -449,6 +449,14 @@
                             /** Contextual tabs creation */<xsl:text/>
                             var tab;
                     <xsl:variable name="tabcount" select="count(ribbon/tabs/tab[groups/group/medium//control/@id = /Ametys/workspace/ribbon/controls/control/@id])"/>
+                    <xsl:for-each select="ribbon/tabs/tab[groups/group/medium//control/@id = /Ametys/workspace/ribbon/controls/control/@id and not(preceding-sibling::*/@id = @id)]">
+                        <xsl:variable name="tabController" select="../../tabsControls/tab[@id = current()/@id]"/>
+                        
+                        <xsl:if test="$tabController">
+                            tab = Ext.create("<xsl:value-of select="$tabController/action/@class"/>", Ext.apply(<xsl:value-of select="$tabController/action"/>, {id: "<xsl:value-of select="$tabController/@id"/>", pluginName: "<xsl:value-of select="$tabController/@plugin"/>"}));
+                            Ametys.ribbon.RibbonManager.registerTab(tab);
+                        </xsl:if>
+                    </xsl:for-each>
                     <xsl:for-each select="ribbon/tabs/tab[groups/group/medium//control/@id = /Ametys/workspace/ribbon/controls/control/@id]">
                         <xsl:sort select="not(not(@contextualColor))" order="descending"/>
                         <xsl:sort select="position()" data-type="number" order="descending"/>
@@ -457,8 +465,7 @@
                         <xsl:variable name="tabController" select="../../tabsControls/tab[@id = current()/@id]"/>
                         
                         <xsl:if test="$tabController">
-                            tab = Ext.create("<xsl:value-of select="$tabController/action/@class"/>", Ext.apply(<xsl:value-of select="$tabController/action"/>, {id: "<xsl:value-of select="$tabController/@id"/>", pluginName: "<xsl:value-of select="$tabController/@plugin"/>", tabPanel: tab_<xsl:value-of select="$tabPos"/>}));
-                            Ametys.ribbon.RibbonManager.registerElement(tab);
+                            <xsl:text />Ametys.ribbon.RibbonManager.getTab("<xsl:value-of select="$tabController/@id"/>").attachTab(tab_<xsl:value-of select="$tabPos"/>);
                         </xsl:if>
                     </xsl:for-each>                            
                             

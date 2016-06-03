@@ -22,6 +22,7 @@ import java.util.Map;
 import org.apache.avalon.framework.service.ServiceManager;
 
 import org.ametys.core.ui.ClientSideElement;
+import org.ametys.core.ui.ClientSideElement.Script;
 import org.ametys.core.ui.RibbonControlsManager;
 import org.ametys.core.util.JSONUtils;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
@@ -86,7 +87,11 @@ public class JSONTestCase extends AbstractRuntimeTestCase
         Map<String, Object> environmentInformation = _cocoon._enterEnvironment();
         
         ClientSideElement itemFactory3 = _ribbonManager.getExtension("staticuiitemfactorytest.5");
-        Map<String, Object> parameters = itemFactory3.getParameters(null);
+        Map<String, Object> parameters = null;
+        for (Script script : itemFactory3.getScripts(null))
+        {
+            parameters = script.getParameters();
+        }
         
         String expectedJson = "{\"label\":\"label\",\"default-description\":\"description\",\"icon-small\":\"/plugins/core/resources/img/icon_small.gif\",\"icon-medium\":\"/plugins/core/resources/img/icon_medium.gif\",\"icon-large\":\"/plugins/core/resources/img/icon_large.gif\",\"child\":{\"id\":\"child-1\",\"label\":\"label\"}}";
         String json = _jsonUtils.convertObjectToJson(parameters);

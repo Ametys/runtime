@@ -256,7 +256,7 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
         {
             for (ClientSideElement element : elements)
             {
-                _saxClientSideElementHelper.saxDefinition(element.getId(), "messagetarget-factory", element, contentHandler, contextParameters);
+                _saxClientSideElementHelper.saxDefinition("messagetarget-factory", element, contentHandler, contextParameters);
             }
         }
         
@@ -279,7 +279,7 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
         {
             for (ClientSideElement element: elements)
             {
-                _saxClientSideElementHelper.saxDefinition(element.getId(), "relation-handler", element, contentHandler, contextParameters);
+                _saxClientSideElementHelper.saxDefinition("relation-handler", element, contentHandler, contextParameters);
             }
         }
         
@@ -315,7 +315,7 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
             attrs.addCDATAAttribute("supports-non-multiple", Boolean.toString(element.supportsNonMultiple(contextParameters)));
             
             XMLUtils.startElement(contentHandler, "widget-wrapper", attrs);
-            _saxClientSideElementHelper.saxDefinition(extensionId, "widget", element, contentHandler, contextParameters);
+            _saxClientSideElementHelper.saxDefinition("widget", element, contentHandler, contextParameters);
             XMLUtils.endElement(contentHandler, "widget-wrapper"); 
         }
         
@@ -336,7 +336,7 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
         {
             for (ClientSideElement element : elements)
             {
-                _saxClientSideElementHelper.saxDefinition(element.getId(), "import", element, contentHandler, contextParameters);
+                _saxClientSideElementHelper.saxDefinition("import", element, contentHandler, contextParameters);
             }
         }
         XMLUtils.endElement(contentHandler, "static-imports");

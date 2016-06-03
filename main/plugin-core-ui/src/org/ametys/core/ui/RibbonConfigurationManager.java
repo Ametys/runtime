@@ -37,6 +37,7 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
+import org.ametys.core.ui.ClientSideElement.Script;
 import org.ametys.runtime.i18n.I18nizableText;
 
 /**
@@ -269,9 +270,10 @@ public class RibbonConfigurationManager
     
     /**
      * Check that the configuration was correct
+     * @param contextualParameters Contextual parameters
      * @throws IllegalStateException if an item does not exist
      */
-    private synchronized void _lazyInitialize() 
+    private synchronized void _lazyInitialize(Map<String, Object> contextualParameters) 
     {
         if (_initialized)
         {
@@ -300,21 +302,21 @@ public class RibbonConfigurationManager
             // initialize groups
             for (Group group : tab._groups)
             {
-                _lazyInitialize(group._largeSize);
-                _lazyInitialize(group._mediumSize);
-                _lazyInitialize(group._smallSize);
+                _lazyInitialize(group._largeSize, contextualParameters);
+                _lazyInitialize(group._mediumSize, contextualParameters);
+                _lazyInitialize(group._smallSize, contextualParameters);
             }
         }
 
-        _lazyInitialize(this._appMenu);
-        _lazyInitialize(this._userMenu);
+        _lazyInitialize(this._appMenu, contextualParameters);
+        _lazyInitialize(this._userMenu, contextualParameters);
         
         _initialized = true;
     }
 
-    private void _lazyInitialize(GroupSize groupSize)
+    private void _lazyInitialize(GroupSize groupSize, Map<String, Object> contextualParameters)
     {
-        _lazyInitialize(groupSize._elements);
+        _lazyInitialize(groupSize._elements, contextualParameters);
 
         for (Element element : groupSize._elements)
         {
@@ -322,7 +324,7 @@ public class RibbonConfigurationManager
             {
                 Layout layout = (Layout) element;
 
-                _lazyInitialize(layout._elements);
+                _lazyInitialize(layout._elements, contextualParameters);
 
                 for (Element layoutElement : layout._elements)
                 {
@@ -330,14 +332,14 @@ public class RibbonConfigurationManager
                     {
                         Toolbar toolbar = (Toolbar) layoutElement;
 
-                        _lazyInitialize(toolbar._elements);
+                        _lazyInitialize(toolbar._elements, contextualParameters);
                     }
                 }                        
             }
         }
     }
     
-    private void _lazyInitialize(List<Element> elements)
+    private void _lazyInitialize(List<Element> elements, Map<String, Object> contextualParameters)
     {
         for (Element element : elements)
         {
@@ -356,13 +358,21 @@ public class RibbonConfigurationManager
                 else
                 {
                     this._controlsReferences.add(control._id);
+
+                    // Resolve the list of scripts associated with this control
+                    List<String> scriptIds = new ArrayList<>();
+                    for (Script script : ribbonControl.getScripts(contextualParameters))
+                    {
+                        scriptIds.add(script.getId());
+                    }
+                    control.setScriptIds(scriptIds);
                 }
             }
             else if (element instanceof Toolbar)
             {
                 Toolbar toolbar = (Toolbar) element;
                 
-                _lazyInitialize(toolbar._elements);
+                _lazyInitialize(toolbar._elements, contextualParameters);
             }
         }
     }
@@ -411,7 +421,7 @@ public class RibbonConfigurationManager
      */
     public void saxRibbonDefinition(ContentHandler handler, Map<String, Object> contextualParameters) throws SAXException
     {
-        _lazyInitialize();
+        _lazyInitialize(contextualParameters);
         
         handler.startPrefixMapping("i18n", "http://apache.org/cocoon/i18n/2.1");
         XMLUtils.startElement(handler, "ribbon");
@@ -420,7 +430,7 @@ public class RibbonConfigurationManager
         for (String controlId : this._controlsReferences)
         {
             ClientSideElement control = _ribbonControlManager.getExtension(controlId);
-            _saxClientSideElementHelper.saxDefinition(controlId, "control", control, handler, contextualParameters);
+            _saxClientSideElementHelper.saxDefinition("control", control, handler, contextualParameters);
             
             if (control instanceof MenuClientSideElement)
             {
@@ -433,7 +443,7 @@ public class RibbonConfigurationManager
         for (String tabId : this._tabsReferences)
         {
             ClientSideElement tab = _ribbonTabManager.getExtension(tabId);
-            _saxClientSideElementHelper.saxDefinition(tabId, "tab", tab, handler, contextualParameters);
+            _saxClientSideElementHelper.saxDefinition("tab", tab, handler, contextualParameters);
         }
         XMLUtils.endElement(handler, "tabsControls");
 
@@ -470,7 +480,7 @@ public class RibbonConfigurationManager
         {
             if (!this._controlsReferences.contains(element.getId()))
             {
-                _saxClientSideElementHelper.saxDefinition(element.getId(), "control", element, handler, contextualParameters);
+                _saxClientSideElementHelper.saxDefinition("control", element, handler, contextualParameters);
             }
             
             if (element instanceof MenuClientSideElement)
@@ -872,6 +882,9 @@ public class RibbonConfigurationManager
         /** Logger */
         protected Logger _controlLogger;
         
+        /** List of script ids of this control */
+        protected List<String> _scriptIds;
+        
         /**
          * Creates a control reference
          * @param controlConfiguration The configuration for the control
@@ -880,6 +893,7 @@ public class RibbonConfigurationManager
          */
         public ControlRef(Configuration controlConfiguration, Logger logger) throws ConfigurationException
         {
+            _scriptIds = null;
             this._controlLogger = logger;
             
             this._id = controlConfiguration.getAttribute("id");
@@ -895,13 +909,35 @@ public class RibbonConfigurationManager
             }
         }
         
+        /**
+         * Set the list of script ids associated with this control reference.
+         * @param scriptIds The list of script ids.
+         */
+        public void setScriptIds(List<String> scriptIds)
+        {
+            _scriptIds = scriptIds;
+        }
+        
         @Override
         public void toSAX(ContentHandler handler) throws SAXException
         {
-            AttributesImpl attrs = new AttributesImpl();
-            attrs.addCDATAAttribute("id", _id);
-            attrs.addCDATAAttribute("colspan", Integer.toString(_colspan));
-            XMLUtils.createElement(handler, "control", attrs);
+            if (_scriptIds != null)
+            {
+                for (String id :_scriptIds)
+                {
+                    AttributesImpl attrs = new AttributesImpl();
+                    attrs.addCDATAAttribute("id", id);
+                    attrs.addCDATAAttribute("colspan", Integer.toString(_colspan));
+                    XMLUtils.createElement(handler, "control", attrs);
+                }
+            }
+            else
+            {
+                AttributesImpl attrs = new AttributesImpl();
+                attrs.addCDATAAttribute("id", _id);
+                attrs.addCDATAAttribute("colspan", Integer.toString(_colspan));
+                XMLUtils.createElement(handler, "control", attrs);
+            }
         }
     }
     

@@ -15,6 +15,8 @@
  */
 package org.ametys.core.ui;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -42,15 +44,15 @@ public class LogoutClientSideElement extends StaticClientSideElement
     }
     
     @Override
-    public Script getScript(Map<String, Object> contextParameters)
+    public List<Script> getScripts(boolean ignoreRights, Map<String, Object> contextParameters)
     {
         if (canLogout())
         {
-            return super.getScript(contextParameters);
+            return super.getScripts(ignoreRights, contextParameters);
         }
         else
         {
-            return null;
+            return new ArrayList<>();
         }
         
     }

@@ -15,7 +15,7 @@
  */
 
 /**
- * This class is manages the {@link Ametys.ribbon.RibbonElementController ribbon elements} (controls or tabs)
+ * This class manages the {@link Ametys.ribbon.RibbonElementController ribbon elements} (ui controls or tabs)
  */
 Ext.define(
 	"Ametys.ribbon.RibbonManager",
@@ -23,56 +23,108 @@ Ext.define(
 		singleton: true,
 		
 		/**
-		 * @property {Object} _elements The ribbon elements registered. The id and the {Ametys.ribbon.RibbonElementController}
+		 * @property {Object} _uis The ribbon UI elements registered. The id and the {Ametys.ribbon.RibbonElementController}
 		 * @private
 		 */
-		_elements: {},
+		_uis: {},
+		/**
+		 * @property {Object} _tabs The ribbon tabs elements registered. The id and the {Ametys.ribbon.RibbonElementController}
+		 * @private
+		 */
+		_tabs: {},
 		
 		/**
-		 * Register an element on the manager. This only allow to get it by its identifier
+		 * Register an UI element on the manager. This only allow to get it by its identifier
 		 * @param {Ametys.ribbon.RibbonElementController} element The element to register
 		 */
-		registerElement: function(element) 
+		registerUI: function(ui) 
 		{
-			if (this._elements[element.getId()] != null && this.getLogger().isWarnEnabled())
+			if (this._uis[ui.getId()] != null && this.getLogger().isWarnEnabled())
 			{
-				this.getLogger().warn("Replacing ribbon element '" + element.getId() + "' with a new one");
+				this.getLogger().warn("Replacing ribbon UI element '" + ui.getId() + "' with a new one");
 			}
 			else if (this.getLogger().isDebugEnabled())
 			{
-				this.getLogger().debug("Adding ribbon element '" + element.getId() + "'");
+				this.getLogger().debug("Adding ribbon UI element '" + ui.getId() + "'");
 			}
 			
-			this._elements[element.getId()] = element;
+			this._uis[ui.getId()] = ui;
+		},
+		
+		/**
+		 * Register a tab element on the manager. This only allow to get it by its identifier
+		 * @param {Ametys.ribbon.RibbonElementController} element The element to register
+		 */
+		registerTab: function(tab) 
+		{
+		    if (this._tabs[tab.getId()] != null && this.getLogger().isWarnEnabled())
+		    {
+		        this.getLogger().warn("Replacing ribbon tab element '" + tab.getId() + "' with a new one");
+		    }
+		    else if (this.getLogger().isDebugEnabled())
+		    {
+		        this.getLogger().debug("Adding ribbon tab element '" + tab.getId() + "'");
+		    }
+		    
+		    this._tabs[tab.getId()] = tab;
+		},
+		
+		/**
+		 * Get the registered UI element by its identifier
+		 * @returns {Ametys.ribbon.RibbonElementController} The UI or null if no UI is registered with this identifier
+		 */
+		getUI: function(id)
+		{
+			var ui = this._uis[id];
+			
+			if (ui == null && this.getLogger().isWarnEnabled())
+			{
+				this.getLogger().warn("Cannot get unexisting ui with id '" + id + "'");
+			}
+			else if (this.getLogger().isDebugEnabled())
+			{
+				this.getLogger().debug("Get ui '" + id + "'");
+			}
+			
+			return ui;
 		},
 		
 		/**
 		 * Get the registered element by its identifier
 		 * @returns {Ametys.ribbon.RibbonElementController} The element or null if no element is registered with this identifier
 		 */
-		getElement: function(id)
+		getTab: function(id)
 		{
-			var element = this._elements[id];
-			
-			if (element == null && this.getLogger().isWarnEnabled())
-			{
-				this.getLogger().warn("Cannot get unexisting element with id '" + id + "'");
-			}
-			else if (this.getLogger().isDebugEnabled())
-			{
-				this.getLogger().debug("Get element '" + id + "'");
-			}
-			
-			return element;
+		    var tab = this._tabs[id];
+		    
+		    if (tab == null && this.getLogger().isWarnEnabled())
+		    {
+		        this.getLogger().warn("Cannot get unexisting tab with id '" + id + "'");
+		    }
+		    else if (this.getLogger().isDebugEnabled())
+		    {
+		        this.getLogger().debug("Get tab '" + id + "'");
+		    }
+		    
+		    return tab;
 		},
 		
 		/**
-		 * Determines if the element with given identifier is a registered elements
-		 * @return {Boolean} True the element exists
+		 * Determines if the UI element with given identifier is a registered UI
+		 * @return {Boolean} True the UI exists
 		 */
-		hasElement: function (id)
+		hasUI: function (id)
 		{
-			return this._elements[id] != null
+			return this._uis[id] != null
+		},
+
+		/**
+		 * Determines if the tab element with given identifier is a registered tab
+		 * @return {Boolean} True the tab exists
+		 */
+		hasTab: function (id)
+		{
+		    return this._tabs[id] != null
 		}
 	}
 );

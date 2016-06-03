@@ -403,8 +403,6 @@
             <extension id="org.ametys.plugins.admin.Plugins"
                        point="org.ametys.core.ui.RibbonControlsManager"
                        class="org.ametys.core.ui.SimpleMenu">
-                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
-                </class>
                 <menu-items>
                     <item ref="org.ametys.plugins.admin.PluginsByExtensionPoint" primaryItem="true"/>
                     <item ref="org.ametys.plugins.admin.PluginsByFile"/>
@@ -1341,8 +1339,6 @@
             <extension id="org.ametys.plugins.admin.restart.RestartMenu"
                        point="org.ametys.core.ui.RibbonControlsManager" 
                        class="org.ametys.core.ui.SimpleMenu">
-                <class name="Ametys.ribbon.element.ui.ButtonController">
-                </class>
                 <menu-items>
                     <item ref="org.ametys.plugins.admin.restart.Restart" primaryItem="true" />
                     <item ref="org.ametys.plugins.admin.restart.ForceSafeMode" />

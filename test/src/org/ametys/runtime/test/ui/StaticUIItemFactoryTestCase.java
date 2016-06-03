@@ -15,7 +15,10 @@
  */
 package org.ametys.runtime.test.ui;
 
+import java.util.Map;
+
 import org.ametys.core.ui.ClientSideElement;
+import org.ametys.core.ui.ClientSideElement.Script;
 import org.ametys.core.ui.RibbonControlsManager;
 import org.ametys.core.ui.StaticClientSideElement;
 import org.ametys.runtime.i18n.I18nizableText;
@@ -64,35 +67,38 @@ public class StaticUIItemFactoryTestCase extends AbstractRuntimeTestCase
          * 1st FACTORY 
          */
         ClientSideElement itemFactory1 = _ribbonManager.getExtension("staticuiitemfactorytest.1");
+        Script script = itemFactory1.getScripts(null).get(0);
+        Map<String, Object> parameters = script.getParameters();
+        
         assertNotNull(itemFactory1);
         assertTrue(itemFactory1 instanceof StaticClientSideElement);
         // action
-        assertNotNull(itemFactory1.getScript(null).getScriptClassname());
-        assertNotNull(itemFactory1.getParameters(null));
-        assertEquals(5, itemFactory1.getParameters(null).size());
-        assertEquals("JavascriptClass", itemFactory1.getScript(null).getScriptClassname());
-        assertNotNull(itemFactory1.getScript(null).getScriptFiles());
-        assertEquals(1, itemFactory1.getScript(null).getScriptFiles().size());
-        assertEquals("/plugins/staticuiitemfactorytest/resources/js/script.js", itemFactory1.getScript(null).getScriptFiles().iterator().next().getPath());
+        assertNotNull(script.getScriptClassname());
+        assertNotNull(parameters);
+        assertEquals(5, parameters.size());
+        assertEquals("JavascriptClass", script.getScriptClassname());
+        assertNotNull(script.getScriptFiles());
+        assertEquals(1, script.getScriptFiles().size());
+        assertEquals("/plugins/staticuiitemfactorytest/resources/js/script.js", script.getScriptFiles().iterator().next().getPath());
         // label
-        assertNotNull(itemFactory1.getParameters(null).get("label"));
-        assertTrue(itemFactory1.getParameters(null).get("label") instanceof I18nizableText);
-        assertTrue(((I18nizableText) itemFactory1.getParameters(null).get("label")).isI18n());
-        assertEquals("plugin.staticuiitemfactorytest", ((I18nizableText) itemFactory1.getParameters(null).get("label")).getCatalogue());
-        assertEquals("label", ((I18nizableText) itemFactory1.getParameters(null).get("label")).getKey());
-        assertNull(((I18nizableText) itemFactory1.getParameters(null).get("label")).getParameters());
+        assertNotNull(parameters.get("label"));
+        assertTrue(parameters.get("label") instanceof I18nizableText);
+        assertTrue(((I18nizableText) parameters.get("label")).isI18n());
+        assertEquals("plugin.staticuiitemfactorytest", ((I18nizableText) parameters.get("label")).getCatalogue());
+        assertEquals("label", ((I18nizableText) parameters.get("label")).getKey());
+        assertNull(((I18nizableText) parameters.get("label")).getParameters());
         // description
-        assertNotNull(itemFactory1.getParameters(null).get("default-description"));
-        assertTrue(itemFactory1.getParameters(null).get("default-description") instanceof I18nizableText);
-        assertTrue(((I18nizableText) itemFactory1.getParameters(null).get("default-description")).isI18n());
-        assertEquals("plugin.staticuiitemfactorytest", ((I18nizableText) itemFactory1.getParameters(null).get("default-description")).getCatalogue());
-        assertEquals("description", ((I18nizableText) itemFactory1.getParameters(null).get("default-description")).getKey());
-        assertNull(((I18nizableText) itemFactory1.getParameters(null).get("default-description")).getParameters());
+        assertNotNull(parameters.get("default-description"));
+        assertTrue(parameters.get("default-description") instanceof I18nizableText);
+        assertTrue(((I18nizableText) parameters.get("default-description")).isI18n());
+        assertEquals("plugin.staticuiitemfactorytest", ((I18nizableText) parameters.get("default-description")).getCatalogue());
+        assertEquals("description", ((I18nizableText) parameters.get("default-description")).getKey());
+        assertNull(((I18nizableText) parameters.get("default-description")).getParameters());
         // iconset
-        assertNotNull(itemFactory1.getParameters(null).get("icon-small"));
-        assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_small.gif", itemFactory1.getParameters(null).get("icon-small").toString());
-        assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_medium.gif", itemFactory1.getParameters(null).get("icon-medium").toString());
-        assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_large.gif", itemFactory1.getParameters(null).get("icon-large").toString());
+        assertNotNull(parameters.get("icon-small"));
+        assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_small.gif", parameters.get("icon-small").toString());
+        assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_medium.gif", parameters.get("icon-medium").toString());
+        assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_large.gif", parameters.get("icon-large").toString());
     }
     
     /**
@@ -105,33 +111,36 @@ public class StaticUIItemFactoryTestCase extends AbstractRuntimeTestCase
          * 3rd FACTORY 
          */
         ClientSideElement itemFactory3 = _ribbonManager.getExtension("staticuiitemfactorytest.3");
+        Script script = itemFactory3.getScripts(null).get(0);
+        Map<String, Object> parameters = script.getParameters();
+        
         assertNotNull(itemFactory3);
         assertTrue(itemFactory3 instanceof StaticClientSideElement);
         // action
-        assertNotNull(itemFactory3.getScript(null).getScriptClassname());
-        assertNotNull(itemFactory3.getParameters(null));
-        assertEquals(7, itemFactory3.getParameters(null).size());
-        assertEquals("myurl.html", itemFactory3.getParameters(null).get("Link").toString());
-        assertNotNull(itemFactory3.getScript(null).getScriptFiles());
-        assertEquals(0, itemFactory3.getScript(null).getScriptFiles().size());
+        assertNotNull(script.getScriptClassname());
+        assertNotNull(parameters);
+        assertEquals(7, parameters.size());
+        assertEquals("myurl.html", parameters.get("Link").toString());
+        assertNotNull(script.getScriptFiles());
+        assertEquals(0, script.getScriptFiles().size());
         // label
-        assertNotNull(itemFactory3.getParameters(null).get("label"));
-        assertTrue(itemFactory3.getParameters(null).get("label") instanceof I18nizableText);
-        assertTrue(((I18nizableText) itemFactory3.getParameters(null).get("label")).isI18n());
-        assertEquals("plugin.staticuiitemfactorytest", ((I18nizableText) itemFactory3.getParameters(null).get("label")).getCatalogue());
-        assertEquals("label", ((I18nizableText) itemFactory3.getParameters(null).get("label")).getKey());
-        assertNull(((I18nizableText) itemFactory3.getParameters(null).get("label")).getParameters());
+        assertNotNull(parameters.get("label"));
+        assertTrue(parameters.get("label") instanceof I18nizableText);
+        assertTrue(((I18nizableText) parameters.get("label")).isI18n());
+        assertEquals("plugin.staticuiitemfactorytest", ((I18nizableText) parameters.get("label")).getCatalogue());
+        assertEquals("label", ((I18nizableText) parameters.get("label")).getKey());
+        assertNull(((I18nizableText) parameters.get("label")).getParameters());
         // description
-        assertNotNull(itemFactory3.getParameters(null).get("default-description"));
-        assertTrue(itemFactory3.getParameters(null).get("default-description") instanceof I18nizableText);
-        assertTrue(((I18nizableText) itemFactory3.getParameters(null).get("default-description")).isI18n());
-        assertEquals("plugin.staticuiitemfactorytest", ((I18nizableText) itemFactory3.getParameters(null).get("default-description")).getCatalogue());
-        assertEquals("description", ((I18nizableText) itemFactory3.getParameters(null).get("default-description")).getKey());
-        assertNull(((I18nizableText) itemFactory3.getParameters(null).get("default-description")).getParameters());
+        assertNotNull(parameters.get("default-description"));
+        assertTrue(parameters.get("default-description") instanceof I18nizableText);
+        assertTrue(((I18nizableText) parameters.get("default-description")).isI18n());
+        assertEquals("plugin.staticuiitemfactorytest", ((I18nizableText) parameters.get("default-description")).getCatalogue());
+        assertEquals("description", ((I18nizableText) parameters.get("default-description")).getKey());
+        assertNull(((I18nizableText) parameters.get("default-description")).getParameters());
         // iconset
-        assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_small.gif", itemFactory3.getParameters(null).get("icon-small").toString());
-        assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_medium.gif", itemFactory3.getParameters(null).get("icon-medium").toString());
-        assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_large.gif", itemFactory3.getParameters(null).get("icon-large").toString());
+        assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_small.gif", parameters.get("icon-small").toString());
+        assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_medium.gif", parameters.get("icon-medium").toString());
+        assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_large.gif", parameters.get("icon-large").toString());
     }
     
     /**
@@ -144,33 +153,36 @@ public class StaticUIItemFactoryTestCase extends AbstractRuntimeTestCase
          * 4th FACTORY 
          */
         ClientSideElement itemFactory4 = _ribbonManager.getExtension("staticuiitemfactorytest.4");
+        Script script = itemFactory4.getScripts(null).get(0);
+        Map<String, Object> parameters = script.getParameters();
+        
         assertNotNull(itemFactory4);
         assertTrue(itemFactory4 instanceof StaticClientSideElement);
         // action
-        assertNotNull(itemFactory4.getScript(null).getScriptClassname());
-        assertNotNull(itemFactory4.getParameters(null));
-        assertEquals(5, itemFactory4.getParameters(null).size());
-        assertEquals("OtherJavascriptClass", itemFactory4.getScript(null).getScriptClassname());
-        assertNotNull(itemFactory4.getScript(null).getScriptFiles());
-        assertEquals(1, itemFactory4.getScript(null).getScriptFiles().size());
-        assertEquals("/plugins/core/resources/js/script.js", itemFactory4.getScript(null).getScriptFiles().iterator().next().getPath());
+        assertNotNull(script.getScriptClassname());
+        assertNotNull(parameters);
+        assertEquals(5, parameters.size());
+        assertEquals("OtherJavascriptClass", script.getScriptClassname());
+        assertNotNull(script.getScriptFiles());
+        assertEquals(1, script.getScriptFiles().size());
+        assertEquals("/plugins/core/resources/js/script.js", script.getScriptFiles().iterator().next().getPath());
         assertEquals("staticuiitemfactorytest", itemFactory4.getPluginName());
         // label
-        assertNotNull(itemFactory4.getParameters(null).get("label"));
-        assertTrue(itemFactory4.getParameters(null).get("label") instanceof I18nizableText);
-        assertTrue(((I18nizableText) itemFactory4.getParameters(null).get("label")).isI18n());
-        assertEquals("othercatalogue", ((I18nizableText) itemFactory4.getParameters(null).get("label")).getCatalogue());
-        assertEquals("label", ((I18nizableText) itemFactory4.getParameters(null).get("label")).getKey());
-        assertNull(((I18nizableText) itemFactory4.getParameters(null).get("label")).getParameters());
+        assertNotNull(parameters.get("label"));
+        assertTrue(parameters.get("label") instanceof I18nizableText);
+        assertTrue(((I18nizableText) parameters.get("label")).isI18n());
+        assertEquals("othercatalogue", ((I18nizableText) parameters.get("label")).getCatalogue());
+        assertEquals("label", ((I18nizableText) parameters.get("label")).getKey());
+        assertNull(((I18nizableText) parameters.get("label")).getParameters());
         // description
-        assertNotNull(itemFactory4.getParameters(null).get("default-description"));
-        assertTrue(((I18nizableText) itemFactory4.getParameters(null).get("default-description")).isI18n());
-        assertEquals("plugin.otherplugin", ((I18nizableText) itemFactory4.getParameters(null).get("default-description")).getCatalogue());
-        assertEquals("description", ((I18nizableText) itemFactory4.getParameters(null).get("default-description")).getKey());
-        assertNull(((I18nizableText) itemFactory4.getParameters(null).get("default-description")).getParameters());
+        assertNotNull(parameters.get("default-description"));
+        assertTrue(((I18nizableText) parameters.get("default-description")).isI18n());
+        assertEquals("plugin.otherplugin", ((I18nizableText) parameters.get("default-description")).getCatalogue());
+        assertEquals("description", ((I18nizableText) parameters.get("default-description")).getKey());
+        assertNull(((I18nizableText) parameters.get("default-description")).getParameters());
         // iconset
-        assertEquals("/plugins/core/resources/img/icon_small.gif", itemFactory4.getParameters(null).get("icon-small").toString());
-        assertEquals("/plugins/core/resources/img/icon_medium.gif", itemFactory4.getParameters(null).get("icon-medium").toString());
-        assertEquals("/plugins/core/resources/img/icon_large.gif", itemFactory4.getParameters(null).get("icon-large").toString());
+        assertEquals("/plugins/core/resources/img/icon_small.gif", parameters.get("icon-small").toString());
+        assertEquals("/plugins/core/resources/img/icon_medium.gif", parameters.get("icon-medium").toString());
+        assertEquals("/plugins/core/resources/img/icon_large.gif", parameters.get("icon-large").toString());
     }  
 }

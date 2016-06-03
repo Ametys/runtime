@@ -16,7 +16,7 @@
 
 /**
  * This abstract class is a ribbon element standing for the logic of a tab of the ribbon.
- * A RibbonTab is a controller for a single tab: for example, show the tab when a content is selected...
+ * A RibbonTab is a controller for one or multiple tabs: for example, show the tabs when a content is selected...
  */
 Ext.define(
 	"Ametys.ribbon.element.RibbonTabController",
@@ -24,11 +24,7 @@ Ext.define(
 		extend: "Ametys.ribbon.RibbonElementController",
 
 		/**
-		 * @cfg {Ametys.ui.fluent.ribbon.Panel} tabPanel (required) The associated panel of the ribbon
-		 * @auto
-		 */
-		/**
-		 * @property {Ametys.ui.fluent.ribbon.Panel} _tabPanel See {@link #cfg-tabPanel}
+		 * @property {Ametys.ui.fluent.ribbon.Panel[]} _tabPanels The panel attached to this controller
 		 * @private
 		 */
 		
@@ -36,7 +32,7 @@ Ext.define(
 		{
 			this.callParent(arguments);
 			
-			this._tabPanel = config.tabPanel;
+			this._tabPanels = [];
 		},
 		
 		/**
@@ -49,15 +45,26 @@ Ext.define(
 		{
 			return 'org.ametys.core.ui.RibbonTabsManager';
 		},
+		
+		/**
+		 * Attach a tab to this controller
+		 * @param {Ametys.ui.fluent.ribbon.Panel} tabPanel The tab to attach
+		 */
+		attachTab: function(tabPanel)
+		{
+		    this._tabPanels.push(tabPanel);
+		},
 
 		/**
-		 * Show the associated tab
-		 * @param {Boolean} forceSelection True will ensure the tab is selected, null will be agnostic (a last selected algorithme will try to guess) and false will ensure it is not selected.
+		 * Show the associated tabs
+		 * @param {Boolean} forceSelection True will ensure the tabs are selected, null will be agnostic (a last selected algorithm will try to guess) and false will ensure they are not selected.
 		 * @protected
 		 */
 		show: function(forceSelection)
 		{
-			this._tabPanel.showContextualTab(forceSelection);
+		    Ext.Array.forEach(this._tabPanels, function(tabPanel) {
+		        tabPanel.showContextualTab(forceSelection);
+		    });
 		},
 		
 		/**
@@ -66,7 +73,9 @@ Ext.define(
 		 */
 		hide: function()
 		{
-			this._tabPanel.hideContextualTab();
+		    Ext.Array.forEach(this._tabPanels, function(tabPanel) {
+		        tabPanel.hideContextualTab();
+		    });
 		}
 		
 	}

@@ -38,12 +38,21 @@ public interface ClientSideElement
     public String getId();
     
     /**
-     * This method return the script that will be used on client side.
+     * This method return the scripts that will be used on client side.
      * This class will be parametrized by initial and current parameters.
      * @param contextParameters Contextuals parameters transmitted by the environment.
-     * @return The script or null.
+     * @return The list of scripts or an empty list.
      */
-    public Script getScript(Map<String, Object> contextParameters);
+    public List<Script> getScripts(Map<String, Object> contextParameters);
+    
+    /**
+     * This method return the scripts that will be used on client side.
+     * This class will be parametrized by initial and current parameters.
+     * @param ignoreRights True to ignore the rights verification.
+     * @param contextParameters Contextuals parameters transmitted by the environment.
+     * @return The list of scripts or an empty list.
+     */
+    public List<Script> getScripts(boolean ignoreRights, Map<String, Object> contextParameters);
     
     /**
      * This method return the right that will be needed on client side.
@@ -53,13 +62,6 @@ public interface ClientSideElement
      */
     public Map<String, String> getRights(Map<String, Object> contextParameters);
     
-    /**
-     * This method returns the parameters initially given to the control script class.
-     * Initial parameters must be sufficient to allow the script to render the control without waiting for a refresh by the current parameters.
-     * @param contextParameters Contextuals parameters transmitted by the environment.
-     * @return a map of parameters. Key represents ids of the parameters and values represents its values. Can not be null.
-     */
-    public Map<String, Object> getParameters(Map<String, Object> contextParameters);
 
     /**
      * Get the plugin name where the control was declared
@@ -189,24 +191,67 @@ public interface ClientSideElement
      */
     public class Script
     {
+        /** The id associated with this script */
+        protected String _id;
         /** The script class name of the script */
         protected String _classname;
         /** The script files of the script (url is relative to webapp context) */
         protected List<ScriptFile> _scriptFiles;
         /** The css files of the script (url is relative to webapp context) */
         protected List<ScriptFile> _cssFiles;
-
+        /** The parameters objects of the script */
+        protected Map<String, Object> _parameters;
+        /** The server element id for this script */
+        protected String _serverId;
+        
         /**
          * Creates a script
+         * @param id The script id
          * @param classname The script classname. Can not be null nor empty.
          * @param scriptFiles The list of files needed to execute the classname. Must not be null.
          * @param cssFiles The list of css files needed to correctly display the script. Must not be null.
+         * @param parameters The parameters associated with this Script.
          */
-        public Script(String classname, List<ScriptFile> scriptFiles, List<ScriptFile> cssFiles)
+        public Script(String id, String classname, List<ScriptFile> scriptFiles, List<ScriptFile> cssFiles, Map<String, Object> parameters)
         {
+            this(id, id, classname, scriptFiles, cssFiles, parameters);
+        }
+        
+        /**
+         * Creates a script
+         * @param id The script id
+         * @param serverId The script server id
+         * @param classname The script classname. Can not be null nor empty.
+         * @param scriptFiles The list of files needed to execute the classname. Must not be null.
+         * @param cssFiles The list of css files needed to correctly display the script. Must not be null.
+         * @param parameters The parameters associated with this Script.
+         */
+        public Script(String id, String serverId, String classname, List<ScriptFile> scriptFiles, List<ScriptFile> cssFiles, Map<String, Object> parameters)
+        {
+            _id = id;
+            _serverId = serverId;
             _classname = classname;
             _scriptFiles = scriptFiles;
             _cssFiles = cssFiles;
+            _parameters = parameters;
+        }
+        
+        /**
+         * The script id.
+         * @return The script id. Can not be null nor empty.
+         */
+        public String getId()
+        {
+            return _id;
+        }
+        
+        /**
+         * The id server-side associated with this script
+         * @return The server id;
+         */
+        public String getServerId()
+        {
+            return _serverId;
         }
         
         /**
@@ -234,6 +279,16 @@ public interface ClientSideElement
         public List<ScriptFile> getCSSFiles()
         {
             return _cssFiles;
+        }
+        
+        /**
+         * This method returns the parameters initially given to the control script class.
+         * Initial parameters must be sufficient to allow the script to render the control without waiting for a refresh by the current parameters.
+         * @return a map of parameters. Key represents ids of the parameters and values represents its values. Can not be null.
+         */
+        public Map<String, Object> getParameters()
+        {
+            return _parameters;
         }
     }
 }

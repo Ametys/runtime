@@ -50,7 +50,7 @@ Ext.define("Ametys.plugins.coreui.system.consolelog.ConsoleLogTool",
 			{
 				var idsToUntoggle = controller.getInitialConfig("untoggle").split(",");
 				Ext.Array.each(idsToUntoggle, function(id) {
-					Ametys.ribbon.RibbonManager.getElement(id).toggle(false);
+					Ametys.ribbon.RibbonManager.getUI(id).toggle(false);
 				});
 				
 				controller.toggle(true);

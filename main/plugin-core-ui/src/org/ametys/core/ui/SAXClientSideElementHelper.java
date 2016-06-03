@@ -15,6 +15,7 @@
  */
 package org.ametys.core.ui;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -49,26 +50,26 @@ public class SAXClientSideElementHelper extends AbstractLogEnabled implements Co
     }
     /**
      * SAX a client side element
-     * @param clientSideElementId The client side element id
      * @param tagName the tag name to create
      * @param element The client side element to sax. Can not be null.
      * @param handler The handler where to sax
      * @param contextualParameters Contextuals parameters transmitted by the environment.
      * @throws SAXException If an error occured
      */
-    public void saxDefinition(String clientSideElementId, String tagName, ClientSideElement element, ContentHandler handler, Map<String, Object> contextualParameters) throws SAXException
+    public void saxDefinition(String tagName, ClientSideElement element, ContentHandler handler, Map<String, Object> contextualParameters) throws SAXException
     {
-        Script script = element.getScript(contextualParameters);
+        List<Script> scripts = element.getScripts(contextualParameters);
         
-        if (script != null)
+        for (Script script : scripts)
         {
             AttributesImpl clientSideElementAttrs = new AttributesImpl();
-            clientSideElementAttrs.addCDATAAttribute("id", clientSideElementId);
+            clientSideElementAttrs.addCDATAAttribute("id", script.getId());
+            clientSideElementAttrs.addCDATAAttribute("serverId", script.getServerId());
             clientSideElementAttrs.addCDATAAttribute("plugin", element.getPluginName());
             XMLUtils.startElement(handler, tagName, clientSideElementAttrs);
             
             // Initial parameters
-            Map<String, Object> parameters = element.getParameters(contextualParameters);
+            Map<String, Object> parameters = script.getParameters();
             
             // SAX Action (classname and initial parameters)
             AttributesImpl attrs = new AttributesImpl();

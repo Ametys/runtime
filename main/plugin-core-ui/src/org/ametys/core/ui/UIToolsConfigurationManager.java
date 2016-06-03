@@ -149,7 +149,7 @@ public class UIToolsConfigurationManager
         {
             for (ClientSideElement factory : dependenciesList)
             {
-                _saxClientSideElementHelper.saxDefinition(factory.getId(), "uitool-factory", factory, handler, contextualParameters);
+                _saxClientSideElementHelper.saxDefinition("uitool-factory", factory, handler, contextualParameters);
             }
         }
         

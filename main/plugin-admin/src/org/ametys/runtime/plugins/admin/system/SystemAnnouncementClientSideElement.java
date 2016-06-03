@@ -15,6 +15,7 @@
  */
 package org.ametys.runtime.plugins.admin.system;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.avalon.framework.service.ServiceException;
@@ -37,19 +38,22 @@ public class SystemAnnouncementClientSideElement extends StaticClientSideElement
     }
     
     @Override
-    public Map<String, Object> getParameters(Map<String, Object> contextualParameters)
+    public List<Script> getScripts(boolean ignoreRights, Map<String, Object> contextParameters)
     {
-        Map<String, Object> parameters = super.getParameters(contextualParameters);
-        
-        boolean isAvailable = _systemHelper.isSystemAnnouncementAvailable();
-        
-        if ("true".equals(parameters.get("toggle-enabled")))
+        List<Script> scripts = super.getScripts(ignoreRights, contextParameters);
+        if (scripts.size() > 0)
         {
-            parameters.put("toggle-state", isAvailable);
+            Map<String, Object> parameters = scripts.get(0).getParameters();
+            
+            boolean isAvailable = _systemHelper.isSystemAnnouncementAvailable();
+            
+            if ("true".equals(parameters.get("toggle-enabled")))
+            {
+                parameters.put("toggle-state", isAvailable);
+            }
+            
+            parameters.put("available", isAvailable);
         }
-        
-        parameters.put("available", isAvailable);
-        
-        return parameters;
+        return scripts;
     }
 }
