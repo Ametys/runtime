@@ -224,9 +224,18 @@ Ext.define(
             var tip = this;
             
             
+            var target = Ext.get(tip.activeTarget.target);
+            if (target.component.menu 
+                    && (!target.component.hasCls("x-menu-item") || target.component.hasCls("x-menu-item-active")) // Do not displau an open sub-menu tooltip
+                    && (!target.component.hasCls("x-btn") || target.component.hasCls("x-btn-menu-active")) // Do not display an open button/menu tooltip, in ribbon it will overlap
+                )
+            {
+                tip.hide();
+                return;
+            }
+            
             if (tip.activeTarget.ribbon)
             {
-                var target = Ext.get(tip.activeTarget.target);
                 var newX, newY;
                 
                 var parent = target.parent("body > *[id^=viewport] > *[id^=viewport] > *");
@@ -251,7 +260,6 @@ Ext.define(
             }
             else
             {
-                var target = Ext.get(tip.activeTarget.target);
                 var newX, newY;
                 
                 var anchor = tip.activeTarget.anchor;
