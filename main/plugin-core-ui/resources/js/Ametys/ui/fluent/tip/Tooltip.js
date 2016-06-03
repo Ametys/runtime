@@ -225,7 +225,7 @@ Ext.define(
             
             
             var target = Ext.get(tip.activeTarget.target);
-            if (target.component && target.component.menu 
+            if (target && target.component && target.component.menu 
                     && (!target.component.hasCls("x-menu-item") || target.component.hasCls("x-menu-item-active")) // Do not displau an open sub-menu tooltip
                     && (!target.component.hasCls("x-btn") || target.component.hasCls("x-btn-menu-active")) // Do not display an open button/menu tooltip, in ribbon it will overlap
                 )
