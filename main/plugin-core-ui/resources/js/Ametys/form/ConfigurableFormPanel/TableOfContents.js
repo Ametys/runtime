@@ -322,7 +322,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.TableOfContents', {
 			
 			if (currentItem != this.items.get(0))
 			{
-				gap = gap > 0 ? gap - this.self.NAVIGATION_ITEM_HEIGHT : gap + this.self.NAVIGATION_ITEM_HEIGHT;
+				gap = gap > 0 ? gap - this.self.DEFAULT_NAVIGATION_ITEM_HEIGHT : gap + this.self.DEFAULT_NAVIGATION_ITEM_HEIGHT;
 			}
 			
 			this.scrollTo(0, gap);
