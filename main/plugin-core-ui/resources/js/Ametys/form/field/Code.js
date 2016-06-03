@@ -333,7 +333,9 @@ Ext.define('Ametys.form.field.Code', {
      */
     _onChange: function(cm, change)
     {
-        this.fireEvent('change', cm, change);
+        var oldValue = this.value, // value is updated when calling this#getValue
+            newValue = this.getValue();
+        this.fireEvent('change', this, newValue, oldValue);
     },
     
     onFocusEnter: function(e)

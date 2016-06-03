@@ -222,7 +222,7 @@ Ext.define('Ametys.form.field.RichText', {
                 flex: 1,
                 items: [
                     { xtype: 'component', itemId: 'wrapper', cls: this.richtextCls + '-wrapper', scrollable: false, border: true, html: "<div id=\"" + this._editorId + "\"></div>" },
-                    { xtype: 'code', itemId: 'source', isField: false, listeners: { change: Ext.bind(this._onUpdate, this), focus: Ext.bind(this._onCodeFocus, this), blur: Ext.bind(this._onCodeBlur, this)} }
+                    { xtype: 'code', itemId: 'source', isField: false, listeners: { change: Ext.bind(this._onSourceChange, this), focus: Ext.bind(this._onCodeFocus, this), blur: Ext.bind(this._onCodeBlur, this)} }
                 ]
             }
         ];
@@ -1086,6 +1086,19 @@ Ext.define('Ametys.form.field.RichText', {
                 }
             } catch(e) { }
         }
+    },
+
+    /**
+     * @private
+     * Listener called when the value of the source code filed changed.
+     * @param {Ext.form.field.Field} field The field
+     * @param {Object} newValue The new value
+     * @param {Object} oldValue The new value
+     * @param {Object} eOpts The options object
+     */
+    _onSourceChange: function(field, newValue, oldValue, eOpts)
+    {
+        this._onUpdate();
     },
     
     /**
