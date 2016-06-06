@@ -510,6 +510,21 @@
             </extension>
         </extensions>
     </feature>
+    <feature name="widgets.default.code" safe="true">
+        <extensions>
+            <extension id="edition.code"
+                point="org.ametys.core.ui.widgets.WidgetsManager"
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.form.field.Code">
+                    <ftypes>string</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+            </extension>
+        </extensions>
+    </feature>
     <feature name="widgets.default.reference.url" safe="true">
         <extensions>
             <extension id="edition.url-reference"
@@ -2771,6 +2786,149 @@
                        id="org.ametys.plugins.core.ui.script.StaticConfigurableScriptBinding"
                        class="org.ametys.plugins.core.ui.script.StaticConfigurableScriptBinding"
                        config="/WEB-INF/param/scripts.xml">
+            </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="scheduled-tasks">
+        <extensions>
+            <extension id="org.ametys.core.ui.schedule.Tasks"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
+                    <opentool-id>uitool-scheduled-tasks</opentool-id>
+                    
+                    <label i18n="true">PLUGINS_CORE_UI_TASKS_TOOL_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TASKS_TOOL_DESCRIPTION</description>
+                    
+                    <icon-glyph>flaticon-calendar-with-a-clock-time-tools</icon-glyph>
+                </class>
+                <depends>
+                    <org.ametys.core.ui.UIToolsFactoriesManager>uitool-scheduled-tasks</org.ametys.core.ui.UIToolsFactoriesManager>
+                </depends>
+            </extension>
+            
+            <extension id="uitool-scheduled-tasks"
+                       point="org.ametys.core.ui.UIToolsFactoriesManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.tool.factory.UniqueToolFactory">
+                    <toolClass>Ametys.plugins.coreui.schedule.ScheduledTasksTool</toolClass>
+                    
+                    <title i18n="true">PLUGINS_CORE_UI_TASKS_TOOL_LABEL</title>
+                    <description i18n="true">PLUGINS_CORE_UI_TASKS_TOOL_DESCRIPTION</description>
+                    
+                    <icon-glyph>flaticon-calendar-with-a-clock-time-tools</icon-glyph>
+                    <default-location>cl</default-location>
+                </class>                       
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/schedule/ScheduledTasksTool.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.core.scheduled.tasks.TasksTab"
+                       point="org.ametys.core.ui.RibbonTabsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.tab.TabController">
+                    <tool-id>^uitool-scheduled-tasks$</tool-id>
+                </class> 
+            </extension>
+            
+            <extension id="org.ametys.core.ui.schedule.tasks.Add"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.coreui.schedule.TaskActions.addTask</action>
+                    
+                    <label i18n="true">PLUGINS_CORE_UI_TASKS_ADD_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TASKS_ADD_DESCRIPTION</description>
+                    
+                    <icon-glyph>flaticon-gear39</icon-glyph>
+                    <icon-decorator>decorator-flaticon-add64</icon-decorator>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/schedule/TaskActions.js</file>
+                    <file>js/Ametys/plugins/coreui/schedule/EditTaskHelper.js</file>
+                    <file plugin="core">js/Ametys/plugins/core/schedule/Scheduler.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.core.ui.schedule.tasks.Edit"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.coreui.schedule.TaskActions.editTask</action>
+                    <selection-target-id>^task$</selection-target-id>
+                    <selection-target-parameter>
+                       <name>modifiable</name>
+                       <value>true</value>
+                    </selection-target-parameter>
+                    <selection-description-nomatch i18n="true">PLUGINS_CORE_UI_TASKS_EDIT_NO_MODIFIABLE_DESCRIPTION</selection-description-nomatch>
+                    <selection-enable-multiselection>false</selection-enable-multiselection>
+                    
+                    <label i18n="true">PLUGINS_CORE_UI_TASKS_EDIT_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TASKS_EDIT_DESCRIPTION</description>
+                    
+                    <icon-glyph>flaticon-gear39</icon-glyph>
+                    <icon-decorator>decorator-flaticon-edit45</icon-decorator>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/schedule/TaskActions.js</file>
+                    <file>js/Ametys/plugins/coreui/schedule/EditTaskHelper.js</file>
+                    <file plugin="core">js/Ametys/plugins/core/schedule/Scheduler.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.core.ui.schedule.tasks.Remove"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.coreui.schedule.TaskActions.removeTask</action>
+                    <selection-target-id>^task$</selection-target-id>
+                    <selection-target-parameter>
+                       <name>removable</name>
+                       <value>true</value>
+                    </selection-target-parameter>
+                    <selection-description-nomatch i18n="true">PLUGINS_CORE_UI_TASKS_REMOVE_NO_REMOVABLE_DESCRIPTION</selection-description-nomatch>
+                    <selection-enable-multiselection>false</selection-enable-multiselection>
+                    
+                    <label i18n="true">PLUGINS_CORE_UI_TASKS_REMOVE_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TASKS_REMOVE_DESCRIPTION</description>
+                    
+                    <icon-glyph>flaticon-gear39</icon-glyph>
+                    <icon-decorator>decorator-flaticon-remove11</icon-decorator>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/schedule/TaskActions.js</file>
+                    <file plugin="core">js/Ametys/plugins/core/schedule/Scheduler.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.core.ui.schedule.tasks.Enable"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.plugins.coreui.schedule.EnableTaskButtonController">
+                    <action>Ametys.plugins.coreui.schedule.TaskActions.enableTask</action>
+                    <selection-target-id>^task$</selection-target-id>
+                    <selection-target-parameter>
+                       <name>deactivatable</name>
+                       <value>true</value>
+                    </selection-target-parameter>
+                    <selection-description-nomatch i18n="true">PLUGINS_CORE_UI_TASKS_ENABLE_NO_DEACTIVATABLE_LABEL</selection-description-nomatch>
+                    <selection-enable-multiselection>false</selection-enable-multiselection>
+                    
+                    <label i18n="true">PLUGINS_CORE_UI_TASKS_ENABLE_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TASKS_DISABLE_DESCRIPTION</description>
+                    
+                    <icon-glyph>flaticon-gear39</icon-glyph>
+                    <icon-decorator>decorator-flaticon-checked34</icon-decorator>
+                    <enabled-icon-decorator>decorator-flaticon-checked34</enabled-icon-decorator>
+                    <disabled-icon-decorator>decorator-flaticon-forbidden1</disabled-icon-decorator>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/schedule/EnableTaskButtonController.js</file>
+                    <file>js/Ametys/plugins/coreui/schedule/TaskActions.js</file>
+                    <file plugin="core">js/Ametys/plugins/core/schedule/Scheduler.js</file>
+                </scripts>
             </extension>
         </extensions>
     </feature>

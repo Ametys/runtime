@@ -17,27 +17,41 @@ package org.ametys.core.schedule;
 
 import java.util.Map;
 
-import org.quartz.Job;
+import org.quartz.JobExecutionContext;
 
 import org.ametys.runtime.i18n.I18nizableText;
+import org.ametys.runtime.parameter.Parameter;
+import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
 
 /**
- * This interface represents a 'job' which can be perform and schedule.
- *
+ * This interface represents a 'job' which can be performed and scheduled.
  */
-public interface Schedulable extends Job
+public interface Schedulable
 {
+    /**
+     * The action to perform when a trigger is fired. Do not manually call this method.
+     * @param context the context
+     * @throws Exception if an error occured
+     */
+    public void execute(JobExecutionContext context) throws Exception;
+    
+    /**
+     * Returns the id
+     * @return the id
+     */
+    public String getId();
+    
     /**
      * Returns the label
      * @return the i18n label
      */
-    public I18nizableText getLabel ();
+    public I18nizableText getLabel();
     
     /**
      * Return the description
      * @return the i18n description
      */
-    public I18nizableText getDescription ();
+    public I18nizableText getDescription();
     
     /**
      * Returns the glyph icon
@@ -64,8 +78,14 @@ public interface Schedulable extends Job
     public String getIconLarge();
     
     /**
+     * Returns true if the schedulable is private
+     * @return true if the schedulable is private
+     */
+    public boolean isPrivate();
+    
+    /**
      * Get the parameters for job execution
      * @return the parameters
      */
-    public Map<String, Object> getParameters();
+    public Map<String, Parameter<ParameterType>> getParameters();
 }

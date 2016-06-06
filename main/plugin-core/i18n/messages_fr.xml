@@ -242,4 +242,30 @@
     <message key="PLUGINS_CORE_DATASOURCEDAO_DELETE_DATASOURCE_ERROR">Une erreur est survenue: la ou les sources de données n'ont pas été supprimées.</message>
     <message key="PLUGINS_CORE_DATASOURCEDAO_SET_DEFAULT_DATASOURCE_ERROR">Une erreur est survenue: la source de données n'a pas été changée en source de données par défaut.</message>
     
+    <!-- +
+         | TASKS SCHEDULER
+         + -->
+    <message key="PLUGINS_CORE_SCHEDULER_CONFIG_CATEGORY">Planificateur de tâches</message>
+    <message key="PLUGINS_CORE_SCHEDULER_CONFIG_GROUP">Base de données</message>
+    <message key="PLUGINS_CORE_SCHEDULER_CONFIG_DATASOURCE_LABEL">Source de données</message>
+    <message key="PLUGINS_CORE_SCHEDULER_CONFIG_DATASOURCE_DESCRIPTION">Spécifiez ici la source de données à utiliser pour stocker et manipuler les données du planificateur de tâche.</message>
+    
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_MESSAGE">Une erreur serveur inattendue est survenue. Veuillez contacter l'administrateur de l'application pour plus d'informations.</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_SCHEDULER_TITLE">Erreur serveur</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_SCHEDULER">Un erreur serveur est survenue. Veuillez contacter l'administrateur de l'application pour plus d'informations.</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_INVALID_SCHEDULABLE_ID_TITLE">Erreur: type de tâche invalide</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_INVALID_SCHEDULABLE_ID">Erreur: le type de tâche sélectionné est invalide.</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_PRIVATE_SCHEDULABLE_TITLE">Erreur: type de tâche privé</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_PRIVATE_SCHEDULABLE">Erreur: le type de tâche sélectionné est privé et ne peut pas être instancié.</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_UNMODIFIABLE_TASK_TITLE">Tâche non modifiable</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_UNMODIFIABLE_TASK">Erreur: cette tâche ne peut pas être modifiée.</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_NOT_FOUND_TITLE">Tâche inexistante</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_NOT_FOUND">Erreur: cette tâche semble ne plus exister.</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_UNREMOVABLE_TASK_TITLE">Tâche non supprimable</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_UNREMOVABLE_TASK">Erreur: cette tâche ne peut pas être supprimée.</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_NODELETE_TITLE">Erreur: cette tâche n'a pas pu être supprimée</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_NODELETE">Erreur: cette tâche n'a pas pu être supprimée. Veuillez contacter l'administrateur de l'application pour plus d'informations.</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_UNDEACTIVATABLE_TASK_TITLE">Tâche non désactivable</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_UNDEACTIVATABLE_TASK">Erreur: cette tâche ne peut pas être désactivée.</message>
+    
 </catalogue>

@@ -1208,4 +1208,76 @@
             </extension>
         </extensions>
     </feature>
+    
+    <feature name="runtime.core.schedule.sendMail">
+        <extensions>
+            <extension id="org.ametys.core.schedule.SendMail"
+                       class="org.ametys.plugins.core.impl.schedule.SendMailSchedulable"
+                       point="org.ametys.core.schedule.SchedulableExtensionPoint">
+                <label i18n="true">PLUGINS_CORE_SCHEDULER_SEND_MAIL_LABEL</label>
+                <description i18n="true">PLUGINS_CORE_SCHEDULER_SEND_MAIL_DESCRIPTION</description>
+                <icon-glyph>flaticon-envelope14</icon-glyph>
+                <parameters>
+                    <param id="sender" type="string">
+                        <label i18n="true">PLUGINS_CORE_SCHEDULER_SEND_MAIL_SENDER_LABEL</label>
+                        <description i18n="true">PLUGINS_CORE_SCHEDULER_SEND_MAIL_SENDER_DESCRIPTION</description>
+                        <validation>
+                            <regexp>^(\w+)([\-+.][\w]+)*@(\w[\-\w]*\.){1,5}([A-Za-z0-9][A-Za-z0-9]+)$</regexp>
+                            <invalidText i18n="true">plugin.core:PLUGINS_CORE_REGEXP_INVALID_MAIL</invalidText>
+                            <mandatory/>
+                        </validation>
+                    </param>
+                    <param id="recipients" type="string">
+                        <label i18n="true">PLUGINS_CORE_SCHEDULER_SEND_MAIL_RECIPIENTS_LABEL</label>
+                        <description i18n="true">PLUGINS_CORE_SCHEDULER_SEND_MAIL_RECIPIENTS_DESCRIPTION</description>
+                        <validation>
+                            <regexp>^(\w+)([\-+.][\w]+)*@(\w[\-\w]*\.){1,5}([A-Za-z0-9][A-Za-z0-9]+)( (\w+)([\-+.][\w]+)*@(\w[\-\w]*\.){1,5}([A-Za-z0-9][A-Za-z0-9]+))*$</regexp>
+                            <invalidText i18n="true">plugin.core:PLUGINS_CORE_REGEXP_INVALID_MAIL</invalidText>
+                            <mandatory/>
+                        </validation>
+                    </param>
+                    <param id="subject" type="string">
+                        <label i18n="true">PLUGINS_CORE_SCHEDULER_SEND_MAIL_SUBJECT_LABEL</label>
+                        <description i18n="true">PLUGINS_CORE_SCHEDULER_SEND_MAIL_SUBJECT_DESCRIPTION</description>
+                        <validation>
+                            <mandatory/>
+                        </validation>
+                    </param>
+                    <param id="body" type="string">
+                        <label i18n="true">PLUGINS_CORE_SCHEDULER_SEND_MAIL_BODY_LABEL</label>
+                        <description i18n="true">PLUGINS_CORE_SCHEDULER_SEND_MAIL_BODY_DESCRIPTION</description>
+                        <validation>
+                            <mandatory/>
+                        </validation>
+                        <widget>edition.textarea</widget>
+                    </param>
+                </parameters>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="runtime.core.schedule.executeScript">
+        <extensions>
+            <extension id="org.ametys.core.schedule.Script"
+                       class="org.ametys.plugins.core.impl.schedule.ScriptSchedulable"
+                       point="org.ametys.core.schedule.SchedulableExtensionPoint">
+                <label i18n="true">PLUGINS_CORE_SCHEDULER_EXECUTE_SCRIPT_LABEL</label>
+                <description i18n="true">PLUGINS_CORE_SCHEDULER_EXECUTE_SCRIPT_DESCRIPTION</description>
+                <icon-glyph>flaticon-computer196</icon-glyph>
+                <parameters>
+                    <param id="script" type="string">
+                        <label i18n="true">PLUGINS_CORE_SCHEDULER_EXECUTE_SCRIPT_CODE_LABEL</label>
+                        <description i18n="true">PLUGINS_CORE_SCHEDULER_EXECUTE_SCRIPT_CODE_DESCRIPTION</description>
+                        <validation>
+                            <mandatory/>
+                        </validation>
+                        <widget>edition.code</widget>
+                        <widget-params>
+                            <param name="mode">javascript</param>
+                        </widget-params>
+                    </param>
+                </parameters>
+            </extension>
+        </extensions>
+    </feature>
 </plugin>

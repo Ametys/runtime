@@ -195,4 +195,22 @@
     <message key="PLUGINS_CORE_DATASOURCE_DRIVER_NOT_FOUND">Le driver choisi est introuvable.</message>
     <message key="PLUGINS_CORE_DATASOURCE_ORACLE_DRIVER_NOT_FOUND">Le driver Oracle choisi est introuvable. Pour télécharger le driver, veuillez vous rendre sur le lien ci-après : http://www.oracle.com/technetwork/indexes/downloads/index.html#drivers</message>
     
+    <!-- +
+         | TASKS SCHEDULER
+         + -->
+    <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_LABEL">Envoyer un mail</message>
+    <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_DESCRIPTION">Cette tâche sert à envoyer des mails</message>
+    <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_SENDER_LABEL">Expéditeur</message>
+    <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_SENDER_DESCRIPTION">Expéditeur du mail</message>
+    <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_RECIPIENTS_LABEL">Destinataire(s)</message>
+    <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_RECIPIENTS_DESCRIPTION">Destinataire(s) du mail, séparés par des espaces</message>
+    <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_SUBJECT_LABEL">Sujet</message>
+    <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_SUBJECT_DESCRIPTION">Sujet du mail</message>
+    <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_BODY_LABEL">Message</message>
+    <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_BODY_DESCRIPTION">Corps du mail</message>
+    <message key="PLUGINS_CORE_SCHEDULER_EXECUTE_SCRIPT_LABEL">Exécuter un script</message>
+    <message key="PLUGINS_CORE_SCHEDULER_EXECUTE_SCRIPT_DESCRIPTION">Cette tâche sert à exécuter des scripts côté serveur avec la syntaxe Javascript</message>
+    <message key="PLUGINS_CORE_SCHEDULER_EXECUTE_SCRIPT_CODE_LABEL">Script</message>
+    <message key="PLUGINS_CORE_SCHEDULER_EXECUTE_SCRIPT_CODE_DESCRIPTION">Script à exécuter. Vous avez accès aux mêmes variables et fonctions que celles disponibles dans l'outil des scripts</message>
+    
 </catalogue>

@@ -227,6 +227,25 @@
             </disable-conditions>
         </param>
         
+        <param id="runtime.scheduler.datasource" type="datasource">
+            <!-- 
+                This parameter contains the datasource used for the Quartz scheduler
+             -->
+            <label i18n="true">PLUGINS_CORE_SCHEDULER_CONFIG_DATASOURCE_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_SCHEDULER_CONFIG_DATASOURCE_DESCRIPTION</description>
+            <widget>edition.datasource-sql</widget>
+            <widget-params>
+                <param name="allowCreation">true</param>
+                <param name="allowPrivate">true</param>
+                <param name="allowInternal">true</param>
+            </widget-params>
+            <validation>
+                <mandatory/>
+            </validation>
+            <category i18n="true">PLUGINS_CORE_SCHEDULER_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_SCHEDULER_CONFIG_GROUP</group>
+        </param>
+        
        <param-checker id="mail-connection-checker" class="org.ametys.plugins.core.impl.checker.MailConnectionChecker">
             <label i18n="true">PLUGINS_CORE_MAIL_CONNECTION_CHECKER_LABEL</label>
             <description i18n="true">PLUGINS_CORE_MAIL_CONNECTION_CHECKER_DESC</description>
@@ -348,6 +367,12 @@
         <extension-point id="org.ametys.core.cocoon.ResourceHandlerExtensionPoint"
                          class="org.ametys.core.cocoon.ResourceHandlerExtensionPoint"
                          safe="true"/>
+                         
+        <extension-point id="org.ametys.core.schedule.SchedulableExtensionPoint"
+                         class="org.ametys.core.schedule.SchedulableExtensionPoint"/>
+                         
+        <extension-point id="org.ametys.core.schedule.RunnableExtensionPoint"
+                         class="org.ametys.core.schedule.RunnableExtensionPoint"/>
                         
     </extension-points>
     
@@ -941,6 +966,22 @@
                     <suffix>.js</suffix>
                 </suffixes>
             </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="runtime.core.scheduler">
+        <config>
+            <param-ref id="runtime.scheduler.datasource"/>
+        </config>
+        <components>
+            <component class="org.ametys.plugins.core.schedule.Scheduler" 
+                       role="org.ametys.plugins.core.schedule.Scheduler" 
+                       id="org.ametys.plugins.core.schedule.Scheduler"/>
+        </components>
+        <extensions>
+            <extension point="org.ametys.runtime.plugin.InitExtensionPoint"
+                       id="org.ametys.plugins.core.schedule.SchedulerInit"
+                       class="org.ametys.plugins.core.schedule.SchedulerInit"/>
         </extensions>
     </feature>
     

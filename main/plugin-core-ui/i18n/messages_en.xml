@@ -1245,4 +1245,75 @@
     <message key="PLUGINS_CORE_UI_LOGOUT_ERROR_TITLE">An error occured</message>
     <message key="PLUGINS_CORE_UI_LOGOUT_ERROR_TEXT">An error occured. unable to logout.</message>
     
+    <!-- +
+         | Format for durations
+         + -->
+         
+    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_MILLISECONDS">millisecond(s)</message>
+    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_DECIMAL_SEPARATOR">.</message>
+    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_SECONDS">second(s)</message>
+    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_MINUTES">minute(s)</message>
+    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_HOURS">hour(s)</message>
+    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_DAYS">day(s)</message>
+    
+    <!-- +
+         | TASKS SCHEDULER
+         + -->
+    <message key="RIBBON_TABS_TAB_TASKS_LABEL">Tasks</message>
+    <message key="RIBBON_TABS_TAB_TASK_LABEL">Task</message>
+    <message key="RIBBON_TABS_TAB_TASKS_GROUPS_GROUP_ACTION_LABEL">Actions</message>
+    
+    <message key="PLUGINS_CORE_UI_TASKS_ADD_LABEL">Add</message>
+    <message key="PLUGINS_CORE_UI_TASKS_ADD_DESCRIPTION">Add and schedule a new task</message>
+    <message key="PLUGINS_CORE_UI_TASKS_EDIT_LABEL">Edit</message>
+    <message key="PLUGINS_CORE_UI_TASKS_EDIT_DESCRIPTION">Edit an existing task</message>
+    <message key="PLUGINS_CORE_UI_TASKS_EDIT_NO_MODIFIABLE_DESCRIPTION">This task cannot be edited</message>
+    <message key="PLUGINS_CORE_UI_TASKS_REMOVE_LABEL">Remove</message>
+    <message key="PLUGINS_CORE_UI_TASKS_REMOVE_DESCRIPTION">Remove an existing task</message>
+    <message key="PLUGINS_CORE_UI_TASKS_REMOVE_NO_REMOVABLE_DESCRIPTION">This task cannot be removed</message>
+    <message key="PLUGINS_CORE_UI_TASKS_ENABLE_LABEL">Enabled task</message>
+    <message key="PLUGINS_CORE_UI_TASKS_ENABLE_DESCRIPTION">The task is currently disabled.&lt;br/&gt;Click here to enable the selected task.</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DISABLE_DESCRIPTION">The task is currently enabled.&lt;br/&gt;Click here to disable the selected task.</message>
+    <message key="PLUGINS_CORE_UI_TASKS_ENABLE_DESCRIPTION_ERROR">A server error occured and does not let to know the current status of the task.</message>
+    <message key="PLUGINS_CORE_UI_TASKS_ENABLE_NO_DEACTIVATABLE_LABEL">This task cannot be disabled, and thus will always be enabled</message>
+    
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_LABEL">Task scheduler</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_DESCRIPTION">Display and allow to manage the scheduled tasks</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_TITLE">Name</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_DESCRIPTION">Description</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_ID">Identifier</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_CRON">CRON expression</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_LABEL">Job</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_DESCRIPTION">Description of the job</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_PARAMETERS">Parameters of the job</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SYSTEM">System task</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_NEXT_FIRE">Next fire time</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_PREVIOUS_FIRE">Last fire time</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_LAST_DURATION">Last duration</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_STARTUP_TASK">Will be run at next startup</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_ENABLED_LABEL">Enabled</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_DISABLED_LABEL">Disabled</message>
+    
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_ADD_TITLE">New task</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_EDIT_TITLE">Edit the task</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_ACTIONS_VALIDATE">OK</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_ACTIONS_CANCEL">Cancel</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_LABEL_LABEL">Label</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_LABEL_DESCRIPTION">Label of the task</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_DESCRIPTION_LABEL">Description</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_DESCRIPTION_DESCRIPTION">Description of the task</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_RUN_AT_STARTUP_LABEL">Run at startup</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_RUN_AT_STARTUP_DESCRIPTION">Check this box if the task must be run once, at the next application startup</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_CRON_LABEL">Scheduling</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_CRON_DESCRIPTION">CRON expression for the scheduling of the task</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_CRON_INVALID">The expression is not a valid CRON expression.</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_SCHEDULABLE_LABEL">Type of task</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_SCHEDULABLE_DESCRIPTION">Type of task to run</message>
+    
+    <message key="PLUGINS_CORE_UI_TASKS_REMOVE_CONFIRM_TITLE">Remove the task</message>
+    <message key="PLUGINS_CORE_UI_TASKS_REMOVE_CONFIRM_MSG">Are you sure you want to remove this task ?</message>
+    
+    <message key="PLUGINS_CORE_UI_TASKS_NO_MODIFIABLE_TITLE">Unmodifiable task</message>
+    <message key="PLUGINS_CORE_UI_TASKS_NO_MODIFIABLE_MSG">This task cannot be edited.</message>
+    
 </catalogue>

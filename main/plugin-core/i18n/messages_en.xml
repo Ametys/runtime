@@ -241,5 +241,31 @@
     <message key="PLUGINS_CORE_DATASOURCEDAO_EDIT_DATASOURCE_ERROR">An error occurred: the data source has not been edited.</message>
     <message key="PLUGINS_CORE_DATASOURCEDAO_DELETE_DATASOURCE_ERROR">An error occurred: the data sources have not been deleted.</message>
     <message key="PLUGINS_CORE_DATASOURCEDAO_SET_DEFAULT_DATASOURCE_ERROR">An error occurred: the data source has not been changed to the default data source.</message>
+    
+    <!-- +
+         | TASKS SCHEDULER
+         + -->
+    <message key="PLUGINS_CORE_SCHEDULER_CONFIG_CATEGORY">Task scheduler</message>
+    <message key="PLUGINS_CORE_SCHEDULER_CONFIG_GROUP">Data base</message>
+    <message key="PLUGINS_CORE_SCHEDULER_CONFIG_DATASOURCE_LABEL">Data source</message>
+    <message key="PLUGINS_CORE_SCHEDULER_CONFIG_DATASOURCE_DESCRIPTION">Indicate here the data source to use to store and manipulate data of the task scheduler.</message>
+    
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_MESSAGE">An unexpected server error occured. Please contact the administrator of the application for more information.</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_SCHEDULER_TITLE">Server error</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_SCHEDULER">A server error occured. Please contact the administrator of the application for more information.</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_INVALID_SCHEDULABLE_ID_TITLE">Error: invalid type of task</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_INVALID_SCHEDULABLE_ID">Error: the selected type of task is invalid.</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_PRIVATE_SCHEDULABLE_TITLE">Error: private type of task</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_PRIVATE_SCHEDULABLE">Error: the selected type of task is private and cannot be instanciated.</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_UNMODIFIABLE_TASK_TITLE">Unmodifiable task</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_UNMODIFIABLE_TASK">Error: this task cannot be edited.</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_NOT_FOUND_TITLE">Unexisting task</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_NOT_FOUND">Error: this task seems to not exist anymore.</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_UNREMOVABLE_TASK_TITLE">Unremovable task</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_UNREMOVABLE_TASK">Error: this task cannot be deleted.</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_NODELETE_TITLE">Error, this task could not be deleted</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_NODELETE">Error: tgis task could not be deleted. Please contact the administrator of the application for more information.</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_UNDEACTIVATABLE_TASK_TITLE">Undeactivatable task</message>
+    <message key="PLUGINS_CORE_SCHEDULER_ERROR_UNDEACTIVATABLE_TASK">Error: this task cannot be deactivated.</message>
 
 </catalogue>

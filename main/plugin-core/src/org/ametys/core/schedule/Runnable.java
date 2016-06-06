@@ -15,43 +15,81 @@
  */
 package org.ametys.core.schedule;
 
+import java.util.Map;
+
+import org.quartz.CronScheduleBuilder;
+import org.quartz.CronTrigger;
+import org.quartz.Trigger;
+
 import org.ametys.runtime.i18n.I18nizableText;
 
 /**
  * This interface represents the entity by which a {@link Schedulable} can be scheduled.
- *
  */
 public interface Runnable
 {
+    /** The possible misfire policies */
+    public static enum MisfirePolicy
+    {
+        /** 
+         * Ignore that there were misfired triggers, and try to fire them all as soon as it can.
+         * See {@link CronScheduleBuilder#withMisfireHandlingInstructionIgnoreMisfires()} and {@link Trigger#MISFIRE_INSTRUCTION_IGNORE_MISFIRE_POLICY}
+         */
+        IGNORE,
+        /** 
+         * Try to fire one of them as soon as it can.
+         * See {@link CronScheduleBuilder#withMisfireHandlingInstructionFireAndProceed()} and {@link CronTrigger#MISFIRE_INSTRUCTION_FIRE_ONCE_NOW}
+         */
+        FIRE_ONCE,
+        /** 
+         * The misfired triggers will never be fired and the next trigger to be fired will be the next one.
+         * See {@link CronScheduleBuilder#withMisfireHandlingInstructionDoNothing()} and {@link CronTrigger#MISFIRE_INSTRUCTION_DO_NOTHING}
+         */
+        DO_NOTHING
+    }
+    
+    /**
+     * Returns the id
+     * @return the id
+     */
+    public String getId();
+    
     /**
      * Returns the label
      * @return the i18n label
      */
-    public I18nizableText getLabel ();
+    public I18nizableText getLabel();
     
     /**
      * Returns the description
      * @return the i18n description
      */
-    public I18nizableText getDescription ();
+    public I18nizableText getDescription();
     
     /**
-     * Returns the cron expression to base the schedule on.
+     * When returns true, the runnable will be a one-shot task and will fire as soon as possible when the application starts up.
+     * If so, {@link #getCronExpression()} will be ignored whatever its value.
+     * @return true to run the task as soon as possible after the application starts up.
+     */
+    public boolean runAtStartup();
+    
+    /**
+     * Returns the cron expression to base the schedule on. Ignored if {@link #runAtStartup()} is true.
      * @return the cron expression
      */
     public String getCronExpression();
     
     /**
-     * Get the identifier of {@link Schedulable} to execute
+     * Gets the identifier of {@link Schedulable} to execute
      * @return the identifier of {@link Schedulable}
      */
-    public String getSchedulableId ();
+    public String getSchedulableId();
     
     /**
      * Determines if this runnable can be removed
-     * @return <code>true</code> if this runnable is removeable
+     * @return <code>true</code> if this runnable is removable
      */
-    public boolean isRemoveable();
+    public boolean isRemovable();
     
     /**
      * Determines if this runnable can be modified
@@ -64,4 +102,22 @@ public interface Runnable
      * @return <code>true</code> if this runnable is deactivatable
      */
     public boolean isDeactivatable();
+    
+    /**
+     * Gets the misfire policy, i.e. what the runnable msut do if it missed a trigger.
+     * @return The misfire policy
+     */
+    public MisfirePolicy getMisfirePolicy();
+    
+    /**
+     * Determines if the runnable must not survive to a server restart
+     * @return true if the runnable must not survive to a server restart
+     */
+    public boolean isVolatile();
+    
+    /**
+     * Gets the values of the parameters (from the linked {@link Schedulable})
+     * @return the parameter values
+     */
+    public Map<String, Object> getParameterValues();
 }

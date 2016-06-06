@@ -1974,5 +1974,56 @@
     });
 })();
 
+(function()
+{
+    Ext.override(Ext.util.Format, {
+        /**
+         * @method
+         * Simple format for a duration
+         * @param {Number} duration The duration in milliseconds
+         * @return {String} The formatted duration
+         */
+        duration: (function()
+        {
+            var millisLimit = 1000,
+                secLimit = 60 * millisLimit,
+                minuteLimit = 60 * secLimit,
+                hourLimit = 24 * minuteLimit;
+            
+            return function(duration)
+            {
+                if (duration < millisLimit)
+                {
+                    return duration + " " + "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_MILLISECONDS}}";// + 1*i18n
+                }
+                else if (duration < secLimit)
+                {
+                    return (duration/1000).toString().replace(/\./, "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_DECIMAL_SEPARATOR}}") + " " + "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_SECONDS}}"; // + 2*i18n
+                }
+                else if (duration < minuteLimit)
+                {
+                    var minutes = Math.floor(duration / 1000 / 60),
+                        milliseconds = duration - minutes * 60 * 1000;
+                    return minutes + " " + "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_MINUTES}}" + " " + Math.round(milliseconds / 1000) + " " + "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_SECONDS}}"; // + 2*i18n (but -1 for duplicates)
+                }
+                else if (duration < hourLimit)
+                {
+                    var hours = Math.floor(duration / 1000 / 60 / 60),
+                        milliseconds = duration - hours * 60 * 60 * 1000;
+                    return hours + " " + "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_HOURS}}" + " " + Math.round(milliseconds / 1000 / 60) + " " + "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_MINUTES}}"; // + 2*i18n  (but -1 for duplicates)
+                }
+                else
+                {
+                    var totalHours = Math.floor(duration / 1000 / 60 / 60),
+                        days = Math.floor(totalHours / 24),
+                        hours = totalHours - days * 24,
+                        milliseconds = duration - totalHours * 60 * 60 * 1000;
+                    return days + " " + "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_DAYS}}" + " " + hours + " " + "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_HOURS}}" + " " + Math.round(milliseconds / 1000 / 60) + " " + "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_MINUTES}}"; // + 3*i18n  (but -2 for duplicates)
+                }
+            }
+        })()
+    });
+})();
+
 // Avoid messages about closable tabs
 Ext.ariaWarn = Ext.emptyFn;

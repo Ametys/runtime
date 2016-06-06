@@ -15,6 +15,11 @@
  */
 package org.ametys.runtime.i18n;
 
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -575,5 +580,62 @@ public final class I18nizableText
     {
         String text = config.getValue();
         return I18nizableText.getI18nizableTextValue(config, defaultCatalogue, text);
+    }
+    
+    /**
+     * Gets a string representation of a i18n text
+     * @param i18nizableText The i18 text
+     * @return The string representation of the i18n text
+     */
+    public static String i18nizableTextToString(I18nizableText i18nizableText)
+    {
+        Map<String, Object> map = new HashMap<>();
+        if (i18nizableText.isI18n())
+        {
+            map.put("key", i18nizableText.getKey());
+            map.put("catalogue", i18nizableText.getCatalogue());
+            map.put("parameters", i18nizableText.getParameters());
+        }
+        else
+        {
+            map.put("label", i18nizableText.getLabel());
+        }
+        
+        // Use Java Bean XMLEncoder
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        try (XMLEncoder xmlEncoder = new XMLEncoder(bos))
+        {
+            xmlEncoder.writeObject(map);
+            xmlEncoder.flush();
+        }
+        return bos.toString();
+    }
+    
+    /**
+     * Returns the i18n text from its string representation
+     * @param str The string representation of the i18n text
+     * @return The i18n text
+     */
+    @SuppressWarnings("unchecked")
+    public static I18nizableText stringToI18nizableText(String str)
+    {
+        Map<String, Object> map;
+        // Use Java Bean XMLDecoder
+        try (XMLDecoder xmlDecoder = new XMLDecoder(new ByteArrayInputStream(str.getBytes())))
+        {
+            map = (Map<String, Object>) xmlDecoder.readObject();
+        }
+        
+        if (map.get("label") != null)
+        {
+            return new I18nizableText((String) map.get("label"));
+        }
+        else
+        {
+            String key = (String) map.get("key");
+            String catalogue = (String) map.get("catalogue");
+            List<String> parameters = (List) map.get("parameters");
+            return new I18nizableText(catalogue, key, parameters);
+        }
     }
 }

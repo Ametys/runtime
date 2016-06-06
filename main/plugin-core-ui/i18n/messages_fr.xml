@@ -1129,7 +1129,7 @@
     <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ID_INVALID">L'identifiant n'est pas valide. Il doit commencer par une lettre et ne peut contenir que des caractères alphanumériques (ainsi que les caractères &#171; _ &#187; et &#171; - &#187;).</message>
     <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ID_EXISTING">L'identifiant existe déjà pour un autre répertoire de groupes. Veuillez en choisir un autre.</message>
     <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_MODEL_LABEL">Type de répertoire de groupes</message>
-    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_MODEL_DESCRIPTION">Type de répertoire de groupes</message>.
+    <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_MODEL_DESCRIPTION">Type de répertoire de groupes</message>
     <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_HINT">Sélectionnez et paramétrez le répertoire de groupes d'utilisateurs.</message>
     
     <message key="PLUGINS_CORE_UI_GROUP_DIRECTORIES_REMOVE_CONFIRM_TITLE">Supprimer le répertoire de groupes</message>
@@ -1246,5 +1246,76 @@
          
     <message key="PLUGINS_CORE_UI_LOGOUT_ERROR_TITLE">Une erreur est survenue</message>
     <message key="PLUGINS_CORE_UI_LOGOUT_ERROR_TEXT">Une erreur est survenue. Impossible de vous déconnecter.</message>
+    
+    <!-- +
+         | Format for durations
+         + -->
+         
+    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_MILLISECONDS">milliseconde(s)</message>
+    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_DECIMAL_SEPARATOR">,</message>
+    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_SECONDS">seconde(s)</message>
+    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_MINUTES">minute(s)</message>
+    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_HOURS">heure(s)</message>
+    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_DAYS">jour(s)</message>
+    
+    <!-- +
+         | TASKS SCHEDULER
+         + -->
+    <message key="RIBBON_TABS_TAB_TASKS_LABEL">Tâches</message>
+    <message key="RIBBON_TABS_TAB_TASK_LABEL">Tâche</message>
+    <message key="RIBBON_TABS_TAB_TASKS_GROUPS_GROUP_ACTION_LABEL">Actions</message>
+    
+    <message key="PLUGINS_CORE_UI_TASKS_ADD_LABEL">Ajouter</message>
+    <message key="PLUGINS_CORE_UI_TASKS_ADD_DESCRIPTION">Ajoute et programme une nouvelle tâche</message>
+    <message key="PLUGINS_CORE_UI_TASKS_EDIT_LABEL">Modifier</message>
+    <message key="PLUGINS_CORE_UI_TASKS_EDIT_DESCRIPTION">Edite une tâche existante</message>
+    <message key="PLUGINS_CORE_UI_TASKS_EDIT_NO_MODIFIABLE_DESCRIPTION">Cette tâche ne peut pas être modifiée</message>
+    <message key="PLUGINS_CORE_UI_TASKS_REMOVE_LABEL">Supprimer</message>
+    <message key="PLUGINS_CORE_UI_TASKS_REMOVE_DESCRIPTION">Supprime une tâche existante</message>
+    <message key="PLUGINS_CORE_UI_TASKS_REMOVE_NO_REMOVABLE_DESCRIPTION">Cette tâche ne peut pas être supprimée</message>
+    <message key="PLUGINS_CORE_UI_TASKS_ENABLE_LABEL">Tâche activée</message>
+    <message key="PLUGINS_CORE_UI_TASKS_ENABLE_DESCRIPTION">La tâche est actuellement désactivée.&lt;br/&gt;Cliquez ici pour activer la tâche sélectionnée.</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DISABLE_DESCRIPTION">La tâche est actuellement activée.&lt;br/&gt;Cliquez ici pour désactiver la tâche sélectionnée.</message>
+    <message key="PLUGINS_CORE_UI_TASKS_ENABLE_DESCRIPTION_ERROR">Une erreur serveur est survenue et ne permet pas de connaître le statut actuel de la tâche.</message>
+    <message key="PLUGINS_CORE_UI_TASKS_ENABLE_NO_DEACTIVATABLE_LABEL">Cette tâche ne peut pas être désactivée, et sera donc toujours activée</message>
+    
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_LABEL">Planificateur de tâches</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_DESCRIPTION">Affiche et permet de gérer les tâches programmées</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_TITLE">Nom</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_DESCRIPTION">Description</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_ID">Identifiant</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_CRON">Expression CRON</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_LABEL">Travail</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_DESCRIPTION">Description du travail</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_PARAMETERS">Paramètres du travail</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SYSTEM">Tâche système</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_NEXT_FIRE">Prochaine exécution</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_PREVIOUS_FIRE">Dernière exécution</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_LAST_DURATION">Durée de dernière exécution</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_STARTUP_TASK">Sera exécutée au prochain démarrage</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_ENABLED_LABEL">Activée(s)</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_DISABLED_LABEL">Désactivée(s)</message>
+    
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_ADD_TITLE">Nouvelle tâche</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_EDIT_TITLE">Modifier la tâche</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_ACTIONS_VALIDATE">OK</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_ACTIONS_CANCEL">Annuler</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_LABEL_LABEL">Libellé</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_LABEL_DESCRIPTION">Libellé de la tâche</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_DESCRIPTION_LABEL">Description</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_DESCRIPTION_DESCRIPTION">Description de la tâche</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_RUN_AT_STARTUP_LABEL">Exécuter au démarrage</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_RUN_AT_STARTUP_DESCRIPTION">Cochez la case si la tâche doit être exécutée une seule fois, au prochain démarrage de l'application</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_CRON_LABEL">Programmation</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_CRON_DESCRIPTION">Expression CRON pour la programmation de la tâche</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_CRON_INVALID">L'expression n'est pas une expression CRON valide.</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_SCHEDULABLE_LABEL">Type de tâche</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_SCHEDULABLE_DESCRIPTION">Type de tâche à exécuter</message>
+    
+    <message key="PLUGINS_CORE_UI_TASKS_REMOVE_CONFIRM_TITLE">Supprimer la tâche</message>
+    <message key="PLUGINS_CORE_UI_TASKS_REMOVE_CONFIRM_MSG">Êtes-vous sûr de vouloir supprimer cette tâche ?</message>
+    
+    <message key="PLUGINS_CORE_UI_TASKS_NO_MODIFIABLE_TITLE">Tâche non modifiable</message>
+    <message key="PLUGINS_CORE_UI_TASKS_NO_MODIFIABLE_MSG">Cette tâche ne peut pas être modifiée.</message>
          
 </catalogue>
