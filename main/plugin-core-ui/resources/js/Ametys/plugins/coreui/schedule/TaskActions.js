@@ -41,11 +41,17 @@ Ext.define('Ametys.plugins.coreui.schedule.TaskActions', {
     /**
      * @private
      * Callback function after retrieving the modifiable status
-     * @param {Boolean} valid true if the task is modifiable
+     * @param {Object} response The server response
      * @param {Object} arguments The callback arguments
      */
-    _isModifiableCb: function(modifiable, arguments)
+    _isModifiableCb: function(response, arguments)
     {
+        if (response.error != null)
+        {
+            return;
+        }
+        
+        var modifiable = response.modifiable;
         if (!modifiable)
         {
             Ext.Msg.show({

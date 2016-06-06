@@ -109,6 +109,9 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
             {
                 role: "org.ametys.plugins.core.schedule.Scheduler",
                 methodName: "isModifiable",
+                callback: {
+                    handler: this._isModifiableCb
+                },
                 errorMessage: {
                     msg: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_MESSAGE}}",
                     category:Ext.getClassName(this)
@@ -319,6 +322,25 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
     
     /**
      * @private
+     * Callback function called after {@link #isModifiable} has been processed.
+     * @param {Object} response The server response
+     */
+    _isModifiableCb: function(response)
+    {
+        var error = response['error'] || '';
+        if (error == "not-found")
+        {
+            Ext.Msg.show({
+                title: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_NOT_FOUND_TITLE}}",
+                msg: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_NOT_FOUND}}",
+                buttons: Ext.Msg.OK,
+                icon: Ext.MessageBox.ERROR
+            });
+        }
+    },
+    
+    /**
+     * @private
      * Callback function called after {@link #add} has been processed.
      * @param {Object} response The server response
      */
@@ -426,7 +448,16 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
     {
         var error = response['error'] || '';
         var id = response['id'];
-        if (error == "no-removable")
+        if (error == "not-found")
+        {
+            Ext.Msg.show({
+                title: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_NOT_FOUND_TITLE}}",
+                msg: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_NOT_FOUND}}",
+                buttons: Ext.Msg.OK,
+                icon: Ext.MessageBox.ERROR
+            });
+        }
+        else if (error == "no-removable")
         {
             Ext.Msg.show({
                 title: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_UNREMOVABLE_TASK_TITLE}}",
@@ -476,7 +507,16 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
     {
         var error = response['error'] || '';
         var id = response['id'];
-        if (error == "no-deactivatable")
+        if (error == "not-found")
+        {
+            Ext.Msg.show({
+                title: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_NOT_FOUND_TITLE}}",
+                msg: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_NOT_FOUND}}",
+                buttons: Ext.Msg.OK,
+                icon: Ext.MessageBox.ERROR
+            });
+        }
+        else if (error == "no-deactivatable")
         {
             Ext.Msg.show({
                 title: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_UNDEACTIVATABLE_TASK_TITLE}}",
@@ -516,7 +556,16 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
     _isEnabledCb: function(response)
     {
         var error = response['error'] || '';
-        if (error == "scheduler-error")
+        if (error == "not-found")
+        {
+            Ext.Msg.show({
+                title: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_NOT_FOUND_TITLE}}",
+                msg: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_NOT_FOUND}}",
+                buttons: Ext.Msg.OK,
+                icon: Ext.MessageBox.ERROR
+            });
+        }
+        else if (error == "scheduler-error")
         {
             Ext.Msg.show({
                 title: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_SCHEDULER_TITLE}}",

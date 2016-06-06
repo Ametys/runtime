@@ -21,7 +21,6 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -509,6 +508,7 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
      * @return the scheduled tasks
      * @throws Exception if an error occured
      */
+    @SuppressWarnings("unused")
     public List<Map<String, Object>> getTasksAsJson() throws Exception
     {
         return getJobs().stream()
@@ -521,7 +521,7 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
                         {
                             // The job was not able to jsonify
                             getLogger().error("An error occured when getting information on the job " + job.getName(), e);
-                            return Collections.EMPTY_MAP;
+                            return new HashMap<String, Object>();
                         }
                     })
                 .collect(Collectors.toList());
@@ -666,11 +666,20 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
      * @throws SchedulerException if an error occured 
      */
     @Callable
-    public boolean isModifiable(String id) throws SchedulerException
+    public Map<String, Object> isModifiable(String id) throws SchedulerException
     {
+        Map<String, Object> result = new HashMap<>();
+        
         JobDetail jobDetail = _scheduler.getJobDetail(new JobKey(id, JOB_GROUP));
+        if (jobDetail == null)
+        {
+            // Does not exist anymore
+            result.put("error", "not-found");
+            return result;
+        }
         JobDataMap jobDataMap = jobDetail.getJobDataMap();
-        return jobDataMap.getBoolean(KEY_RUNNABLE_MODIFIABLE);
+        result.put("modifiable", jobDataMap.getBoolean(KEY_RUNNABLE_MODIFIABLE));
+        return result;
     }
     
     /**
@@ -834,6 +843,11 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
             result.put("error", "scheduler-error");
             return result;
         }
+        if (jobDetail == null)
+        {
+            result.put("error", "not-found");
+            return result;
+        }
         JobDataMap jobDataMap = jobDetail.getJobDataMap();
         boolean isRemovable = jobDataMap.getBoolean(KEY_RUNNABLE_REMOVABLE);
         if (!isRemovable)
@@ -887,6 +901,11 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
             result.put("error", "scheduler-error");
             return result;
         }
+        if (jobDetail == null)
+        {
+            result.put("error", "not-found");
+            return result;
+        }
         JobDataMap jobDataMap = jobDetail.getJobDataMap();
         boolean isDeactivatable = jobDataMap.getBoolean(KEY_RUNNABLE_DEACTIVATABLE);
         if (!isDeactivatable)
@@ -927,10 +946,16 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
     {
         Map<String, Object> result = new HashMap<>();
         
-        TriggerKey triggerKey = new TriggerKey(id, TRIGGER_GROUP);
         try
         {
-            result.put("enabled", !TriggerState.PAUSED.equals(_scheduler.getTriggerState(triggerKey)));
+            TriggerState state = _scheduler.getTriggerState(new TriggerKey(id, TRIGGER_GROUP));
+            if (state == null)
+            {
+                // Does not exist anymore
+                result.put("error", "not-found");
+                return result;
+            }
+            result.put("enabled", !TriggerState.PAUSED.equals(state));
         }
         catch (SchedulerException e)
         {

@@ -75,7 +75,6 @@
         <exclude name="main/plugin-core-ui/resources/js/lunr/*"/>
         <exclude name="test/environments/webapp2/plugins/test/**"/>
         <exclude name="main/plugin-core/scripts/*/quartz.sql"/>
-        <exclude name="main/plugin-core/scripts/*/quartz.sql"/>
         <exclude name="main/plugin-core/src/org/ametys/plugins/core/schedule/quartz.properties"/>
     </patternset>
 	
