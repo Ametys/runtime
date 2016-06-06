@@ -1209,6 +1209,15 @@
         </extensions>
     </feature>
     
+    <feature name="runtime.core.schedule.datasource.client">
+        <extensions>
+            <extension point="org.ametys.core.datasource.DataSourceConsumerExtensionPoint"
+                       id="org.ametys.plugins.core.schedule.SchedulerDataSourceConsumer"
+                       class="org.ametys.plugins.core.schedule.SchedulerDataSourceConsumer">
+            </extension>
+        </extensions>
+    </feature>
+    
     <feature name="runtime.core.schedule.sendMail">
         <extensions>
             <extension id="org.ametys.core.schedule.SendMail"
