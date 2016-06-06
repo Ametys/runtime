@@ -43,5 +43,6 @@
 
 	<runtime.ametys.public>true</runtime.ametys.public>
     <runtime.system.alerts.enable>false</runtime.system.alerts.enable>
+    <runtime.scheduler.datasource>SQL-test</runtime.scheduler.datasource>
 
 </config>
