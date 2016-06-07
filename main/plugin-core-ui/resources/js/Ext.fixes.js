@@ -187,5 +187,20 @@
             value = value.replace('autocomplete="off"', 'autocomplete="new-password"');
             return value;
         }
-    })
+    });
+    
+    Ext.override(Ext.form.field.Date, {
+        // Fix for https://issues.ametys.org/browse/RUNTIME-1872
+        // See https://www.sencha.com/forum/showthread.php?310219
+        // Will be fixed in 6.0.3
+        onBlur: function(e) {
+            var me = this,
+                v = me.rawToValue(me.getRawValue());
+            
+            if (Ext.isDate(v) || v === null) {
+                me.setValue(v);
+            }
+            me.callParent([e]);
+        }
+    });
 })();
