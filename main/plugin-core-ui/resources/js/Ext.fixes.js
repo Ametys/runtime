@@ -206,6 +206,7 @@
 
     // RUNTIME-1864 When the browser (mainly FF) is slow down with bgi errorful pagetools, the drag is stick to the mouse
     Ext.getDoc().on({
+        // This is already registered but with a -1000 priority that seems to be the issue.
         mouseup: Ext.dd.DragDropManager.handleMouseUp,
         capture: true,
         scope: Ext.dd.DragDropManager
