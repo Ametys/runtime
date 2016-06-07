@@ -28,22 +28,22 @@ import org.ametys.plugins.core.schedule.Scheduler;
 public class SendMailSchedulable extends AbstractStaticSchedulable
 {
     /** The key for the sender of the email */
-    public static final String SENDER_KEY = Scheduler.PARAM_VALUES_PREFIX + "sender";
+    public static final String SENDER_KEY = "sender";
     /** The key for the recipients of the email */
-    public static final String RECIPIENTS_KEY = Scheduler.PARAM_VALUES_PREFIX + "recipients";
+    public static final String RECIPIENTS_KEY = "recipients";
     /** The key for the subject of the email */
-    public static final String SUBJECT_KEY = Scheduler.PARAM_VALUES_PREFIX + "subject";
+    public static final String SUBJECT_KEY = "subject";
     /** The key for the body of the email */
-    public static final String BODY_KEY = Scheduler.PARAM_VALUES_PREFIX + "body";
+    public static final String BODY_KEY = "body";
     
     @Override
     public void execute(JobExecutionContext context) throws Exception
     {
         JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
-        String sender = (String) jobDataMap.get(SENDER_KEY);
-        String recipients = (String) jobDataMap.get(RECIPIENTS_KEY);
-        String subject = (String) jobDataMap.get(SUBJECT_KEY);
-        String body = (String) jobDataMap.get(BODY_KEY);
+        String sender = (String) jobDataMap.get(Scheduler.PARAM_VALUES_PREFIX + SENDER_KEY);
+        String recipients = (String) jobDataMap.get(Scheduler.PARAM_VALUES_PREFIX + RECIPIENTS_KEY);
+        String subject = (String) jobDataMap.get(Scheduler.PARAM_VALUES_PREFIX + SUBJECT_KEY);
+        String body = (String) jobDataMap.get(Scheduler.PARAM_VALUES_PREFIX + BODY_KEY);
         SendMailHelper.sendMail(subject, body, null, recipients, sender);
     }
 }

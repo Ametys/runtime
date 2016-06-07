@@ -30,7 +30,9 @@ import org.ametys.plugins.core.ui.script.ScriptHandler;
 public class ScriptSchedulable extends AbstractStaticSchedulable
 {
     /** The key for the script (as string) to execute */
-    public static final String SCRIPT_KEY = Scheduler.PARAM_VALUES_PREFIX + "script";
+    public static final String SCRIPT_KEY = "script";
+    
+    private static final String __JOBDATAMAP_SCRIPT_KEY = Scheduler.PARAM_VALUES_PREFIX + SCRIPT_KEY;
     
     /** The script handler */
     protected ScriptHandler _scriptHandler;
@@ -46,7 +48,7 @@ public class ScriptSchedulable extends AbstractStaticSchedulable
     public void execute(JobExecutionContext context) throws Exception
     {
         JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
-        String script = (String) jobDataMap.get(SCRIPT_KEY);
+        String script = (String) jobDataMap.get(__JOBDATAMAP_SCRIPT_KEY);
         _scriptHandler.executeScript("function main() { \n " + script + " \n }");
     }
 }
