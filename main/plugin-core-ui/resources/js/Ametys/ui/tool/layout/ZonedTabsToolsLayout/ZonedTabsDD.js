@@ -426,16 +426,6 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
         onDragOut: function(evtObj, targetElId) 
         {
             Ext.get(Ext.get(targetElId).dom.displaydiv).removeCls('dragover');
-        },
-        
-        onDrag: function(evtObj)
-        {
-            this.callParent(arguments);
-            // This is a temporary? fix for RUNTIME-1864
-            if (evtObj.event.buttons == 0)
-            {
-                Ext.dd.DragDropManager.handleMouseUp(evtObj);  
-            }
         }
     }
 );

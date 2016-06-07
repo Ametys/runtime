@@ -203,4 +203,11 @@
             me.callParent([e]);
         }
     });
+
+    // RUNTIME-1864 When the browser (mainly FF) is slow down with bgi errorful pagetools, the drag is stick to the mouse
+    Ext.getDoc().on({
+        mouseup: Ext.dd.DragDropManager.handleMouseUp,
+        capture: true,
+        scope: Ext.dd.DragDropManager
+    });
 })();
