@@ -41,39 +41,39 @@
 /**
  * CHAR Counter
  */
-.#{$prefix}field .char-counter-wrapper {
-    border-width: $form-field-border-width; 
+.#{$prefix}field .#{$prefix}field-textarea-toolbar {
     border-color: $form-field-border-color;
-    border-style: none solid solid solid;
-    
-    background-color: ;
+    border-style: none solid solid; 
 }
 
-.#{$prefix}field .char-counter 
-{
-    padding-left: 5px; 
-    padding-right: 5px; 
-    
-    color: $ametys-field-charcounter-color; 
-    
-    font-size: $ametys-field-charcounter-font-size;
-    font-family: $font-family;
+.#{$prefix}field {
+	.char-counter 
+	{
+	    padding-left: 5px; 
+	    padding-right: 5px; 
+	    
+	    color: $ametys-field-charcounter-color; 
+	    
+	    font-size: $ametys-field-charcounter-font-size;
+	    font-family: $font-family;
+	}
+	
+	.char-counter.char-count-counting .char-counter-value
+	{
+	    color: $ametys-field-charcounter-color-computing;
+	}
+	
+	.char-counter.char-count-maxexceed .char-counter-value
+	{
+	    color: $ametys-field-charcounter-color-error;
+	}
+	
+	.char-counter.char-count-maxexceed.char-count-counting .char-counter-value
+	{
+	    color: mix($ametys-field-charcounter-color-error, $ametys-field-charcounter-color-computing, 50%);
+	}
 }
-
-.#{$prefix}field .char-counter.char-count-counting .char-counter-value
-{
-    color: $ametys-field-charcounter-color-computing;
-}
-
-.#{$prefix}field .char-counter.char-count-maxexceed .char-counter-value
-{
-    color: $ametys-field-charcounter-color-error;
-}
-.#{$prefix}field .char-counter.char-count-maxexceed.char-count-counting .char-counter-value
-{
-    color: mix($ametys-field-charcounter-color-error, $ametys-field-charcounter-color-computing, 50%);
-}
-
+	
 /**
  * Field colors
  */
@@ -86,7 +86,7 @@
         $active-color-light: nth($ametys-tool-tab-colors-light, $i);
         
         &.a-tool-layout-zoned-panel-#{$index*10} {
-            .#{$prefix}field.#{$prefix}field-focus .char-counter-wrapper {
+            .#{$prefix}field-textarea.#{$prefix}field-focus .#{$prefix}field-textarea-toolbar {
                 border-color: $active-color;
             }
         
