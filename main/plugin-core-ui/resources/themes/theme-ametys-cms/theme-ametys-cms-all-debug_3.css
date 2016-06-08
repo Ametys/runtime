@@ -1,14 +1,24 @@
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:257 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:262 */
+.x-btn-over.a-fluent-control-button-split.a-fluent-control-button-split-overtrigger .x-btn-button-ribbon-menu-small,
+.x-btn-over.a-fluent-control-button-split.a-fluent-control-button-split-overtrigger .x-btn-button-ribbon-menu-large {
+    background-color: #f1f1f1;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:267 */
+.x-btn-over.a-fluent-control-button-split.a-fluent-control-button-split-overtrigger.x-btn-pressed .x-btn-button-ribbon-menu-small,
+.x-btn-over.a-fluent-control-button-split.a-fluent-control-button-split-overtrigger.x-btn-pressed .x-btn-button-ribbon-menu-large {
+    background-color: #c5c5c5;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:272 */
 .x-btn-over.a-fluent-control-button-split.a-fluent-control-button-split-overtrigger .x-btn-wrap-ribbon-menu-small.x-btn-split-right:after,
 .x-btn-over.a-fluent-control-button-split.a-fluent-control-button-split-overtrigger .x-btn-inner-ribbon-menu-large {
     background-color: #c9c9c9;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:271 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:286 */
 .a-fluent-loading .x-btn-wrap {
     position: relative;
     text-align: left;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:278 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:293 */
 .a-fluent-loading .x-btn-wrap .x-btn-button:before {
     position: absolute;
     content: " ";
@@ -19,16 +29,16 @@
     background-image: url(images/loadmask/loading.gif);
     background-repeat: no-repeat;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:289 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:304 */
 .a-fluent-loading .x-btn-wrap .x-btn-button .x-btn-icon-el {
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
     opacity: 0.1;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:294 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:309 */
 .x-btn-ribbon-component-large.a-fluent-loading .x-btn-wrap .x-btn-button:before {
     background-position: center 11px;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:297 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:312 */
 .x-btn-ribbon-component-small.a-fluent-loading .x-btn-wrap .x-btn-button:before {
     background-position: left center;
 }
@@ -9573,63 +9583,77 @@
 .a-configurable-form-panel .a-repeater.a-repeater-invalid .a-repeater-item > .x-panel-body {
     border-color: #c00 !important;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/ConfigurableFormPanel.scss:48 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/ConfigurableFormPanel.scss:47 */
 .a-configurable-form-panel .param-checker-container .param-checker-status {
     width: 26px;
     background-repeat: no-repeat;
     background-position: center center;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/ConfigurableFormPanel.scss:54 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/ConfigurableFormPanel.scss:53 */
 .a-configurable-form-panel .param-checker-container .param-checker-status.failure {
     background-image: url(images/form/exclamation.png);
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/ConfigurableFormPanel.scss:57 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/ConfigurableFormPanel.scss:56 */
 .a-configurable-form-panel .param-checker-container .param-checker-status.success {
     background-image: url(images/form/field/param-checker-success.png);
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/ConfigurableFormPanel.scss:60 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/ConfigurableFormPanel.scss:59 */
 .a-configurable-form-panel .param-checker-container .param-checker-status.warning {
     background-image: url(images/form/field/param-checker-warning.png);
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/ConfigurableFormPanel.scss:65 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/ConfigurableFormPanel.scss:64 */
 .a-configurable-form-panel .param-checker-container .param-checker-button .x-mask-msg {
     padding: 0;
     border-color: transparent;
     background-color: transparent;
     min-width: 32px;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/ConfigurableFormPanel.scss:71 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/ConfigurableFormPanel.scss:70 */
 .a-configurable-form-panel .param-checker-container .param-checker-button .x-mask-msg .x-mask-msg-text {
     background-position: center center;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/ConfigurableFormPanel.scss:79 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/ConfigurableFormPanel.scss:78 */
 .a-configurable-form-panel-tooltip .a-configurable-form-panel-tooltip-status {
     padding-left: 8px;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/ConfigurableFormPanel.scss:82 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/ConfigurableFormPanel.scss:81 */
 .a-configurable-form-panel-tooltip .a-configurable-form-panel-tooltip-status ul.error,
 .a-configurable-form-panel-tooltip .a-configurable-form-panel-tooltip-status ul.warn,
 .a-configurable-form-panel-tooltip .a-configurable-form-panel-tooltip-status ul.comment {
     padding-left: 30px;
     margin: 3px 0 6px 0;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/ConfigurableFormPanel.scss:87 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/ConfigurableFormPanel.scss:86 */
 .a-configurable-form-panel-tooltip .a-configurable-form-panel-tooltip-status .a-configurable-form-panel-tooltip-status-error-label {
     color: #c00;
     font-weight: bold;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/ConfigurableFormPanel.scss:92 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/ConfigurableFormPanel.scss:91 */
 .a-configurable-form-panel-tooltip .a-configurable-form-panel-tooltip-status .a-configurable-form-panel-tooltip-status-warn-label {
     color: #ffae01;
     font-weight: bold;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/ConfigurableFormPanel.scss:97 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/ConfigurableFormPanel.scss:96 */
 .a-configurable-form-panel-tooltip .a-configurable-form-panel-tooltip-status .a-configurable-form-panel-tooltip-status-comment-label {
     font-weight: bold;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/ConfigurableFormPanel.scss:103 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/ConfigurableFormPanel.scss:102 */
 .a-repeater-invalid-tooltip {
     background-image: url(images/form/exclamation.png);
+    background-repeat: no-repeat;
+    padding-left: 26px;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/ConfigurableFormPanel.scss:109 */
+.a-configurable-form-panel-toc .x-btn.error.not-startup .x-btn-inner {
+    background-image: url(images/form/exclamation.png);
+    background-position: 5px 0;
+    background-repeat: no-repeat;
+    padding-left: 26px;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/ConfigurableFormPanel.scss:116 */
+.a-configurable-form-panel-toc .x-btn.warning.not-startup .x-btn-inner {
+    background-image: url(images/form/field/warning.png);
+    background-position: 5px 0;
     background-repeat: no-repeat;
     padding-left: 26px;
 }
@@ -13432,56 +13456,4 @@
 .x-panel-header-title-light-framed > .x-title-icon-wrap-light-framed.x-title-icon-right {
     width: 22px;
     padding-left: 6px;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-neutral/sass/src/panel/Panel.scss:457 */
-.x-panel-header-title-light-framed > .x-title-icon-wrap-light-framed.x-title-icon-bottom {
-    height: 22px;
-    padding-top: 6px;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-neutral/sass/src/panel/Panel.scss:462 */
-.x-panel-header-title-light-framed > .x-title-icon-wrap-light-framed.x-title-icon-left {
-    width: 22px;
-    padding-right: 6px;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-neutral/sass/src/panel/Panel.scss:474 */
-.x-panel-header-title-light-framed > .x-title-icon-wrap-light-framed > .x-title-icon-light-framed {
-    width: 16px;
-    height: 16px;
-    font-size: 16px;
-    color: #666;
-    background-position: center center;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-neutral/sass/src/panel/Panel.scss:494 */
-.x-ie8 .x-panel-header-title-light-framed > .x-title-icon-wrap-light-framed > .x-title-icon-light-framed.x-title-glyph {
-    color: #666;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-neutral/sass/src/panel/Panel.scss:505 */
-.x-panel-body-light-framed {
-    background: #fff;
-    border-color: #f2f2f2;
-    color: #000;
-    font-size: 12px;
-    font-weight: normal;
-    font-family: 'Open Sans', 'Helvetica Neue', helvetica, arial, verdana, sans-serif;
-    border-width: 1px;
-    border-style: solid;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:187 */
-.x-panel-light-framed {
-    -moz-border-radius-topleft: 0;
-    -webkit-border-top-left-radius: 0;
-    border-top-left-radius: 0;
-    -moz-border-radius-topright: 0;
-    -webkit-border-top-right-radius: 0;
-    border-top-right-radius: 0;
-    -moz-border-radius-bottomright: 0;
-    -webkit-border-bottom-right-radius: 0;
-    border-bottom-right-radius: 0;
-    -moz-border-radius-bottomleft: 0;
-    -webkit-border-bottom-left-radius: 0;
-    border-bottom-left-radius: 0;
-    padding: 0px 0px 0px 0px;
-    border-width: 5px;
-    border-style: solid;
-    background-color: #fff;
 }

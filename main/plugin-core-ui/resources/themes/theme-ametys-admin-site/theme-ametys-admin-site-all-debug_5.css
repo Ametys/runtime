@@ -1,3 +1,48 @@
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:407 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-tl,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-bl,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-tr,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-br,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-tc,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-bc,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-ml,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-mr {
+    background-image: url(images/panel/panel-default-framed-corners.gif);
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:453 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-ml,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-mr {
+    background-image: url(images/panel/panel-default-framed-sides.gif);
+    background-repeat: repeat-y;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:464 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-mc {
+    padding: 0px 0px 0px 0px;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/slicer.scss:83 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-cmd-slicer.x-panel-default-framed:before {
+    display: none;
+    content: "x-slicer:, frame:5px 5px 5px 5px, corners:url(images/panel/panel-default-framed-corners.gif), sides:url(images/panel/panel-default-framed-sides.gif), frame:5px 5px 5px 5px, corners:url(images/panel/panel-default-framed-corners.gif), sides:url(images/panel/panel-default-framed-sides.gif), frame:5px 5px 5px 5px, corners:url(images/panel/panel-default-framed-corners.gif), sides:url(images/panel/panel-default-framed-sides.gif), frame:5px 5px 5px 5px, corners:url(images/panel/panel-default-framed-corners.gif), sides:url(images/panel/panel-default-framed-sides.gif), frame:5px 5px 5px 5px, corners:url(images/panel/panel-default-framed-corners.gif), sides:url(images/panel/panel-default-framed-sides.gif)" !important;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:187 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-header-default-framed-top {
+    -moz-border-radius-topleft: 0;
+    -webkit-border-top-left-radius: 0;
+    border-top-left-radius: 0;
+    -moz-border-radius-topright: 0;
+    -webkit-border-top-right-radius: 0;
+    border-top-right-radius: 0;
+    -moz-border-radius-bottomright: 0;
+    -webkit-border-bottom-right-radius: 0;
+    border-bottom-right-radius: 0;
+    -moz-border-radius-bottomleft: 0;
+    -webkit-border-bottom-left-radius: 0;
+    border-bottom-left-radius: 0;
+    padding: 5px 5px 5px 5px;
+    border-width: 5px 5px 0 5px;
+    border-style: solid;
+    background-color: #35baf6;
+}
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-header-default-framed-top-mc {
     background-color: #35baf6;
@@ -9757,12 +9802,11 @@ ul.ametys-tooltip-comment > li div.comment-text {
     border-color: #cf4c35;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:44 */
-.x-field .char-counter-wrapper {
-    border-width: 1px;
+.x-field .x-field-textarea-toolbar {
     border-color: #c2c2c2 #dadada #dadada;
-    border-style: none solid solid solid;
+    border-style: none solid solid;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:52 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:50 */
 .x-field .char-counter {
     padding-left: 5px;
     padding-right: 5px;
@@ -9770,127 +9814,131 @@ ul.ametys-tooltip-comment > li div.comment-text {
     font-size: 9.6px;
     font-family: 'Open Sans', 'Helvetica Neue', helvetica, arial, verdana, sans-serif;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:63 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:61 */
 .x-field .char-counter.char-count-counting .char-counter-value {
     color: gray;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:68 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:66 */
 .x-field .char-counter.char-count-maxexceed .char-counter-value {
     color: #c00;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:72 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:71 */
 .x-field .char-counter.char-count-maxexceed.char-count-counting .char-counter-value {
     color: #a64040;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:89 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-field.x-field-focus .char-counter-wrapper {
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:77 */
+.x-field-textarea.x-field-focus .x-field-textarea-toolbar {
+    border-color: #3892d4;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:93 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-field-textarea.x-field-focus .x-field-textarea-toolbar {
     border-color: #c23249;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:95 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:99 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-form-trigger-wrap-default.x-form-trigger-wrap-focus {
     border-color: #c23249;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:98 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:102 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-form-trigger-wrap-default.x-form-text-wrap-warning {
     border-color: #ffae01;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:101 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:105 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-form-trigger-wrap-default.x-form-trigger-wrap-invalid {
     border-color: #cf4c35;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:89 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-field.x-field-focus .char-counter-wrapper {
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:93 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-field-textarea.x-field-focus .x-field-textarea-toolbar {
     border-color: #ef6c00;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:95 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:99 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-form-trigger-wrap-default.x-form-trigger-wrap-focus {
     border-color: #ef6c00;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:98 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:102 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-form-trigger-wrap-default.x-form-text-wrap-warning {
     border-color: #ffae01;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:101 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:105 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-form-trigger-wrap-default.x-form-trigger-wrap-invalid {
     border-color: #cf4c35;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:89 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-field.x-field-focus .char-counter-wrapper {
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:93 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-field-textarea.x-field-focus .x-field-textarea-toolbar {
     border-color: #e3d711;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:95 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:99 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-form-trigger-wrap-default.x-form-trigger-wrap-focus {
     border-color: #e3d711;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:98 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:102 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-form-trigger-wrap-default.x-form-text-wrap-warning {
     border-color: #ffae01;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:101 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:105 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-form-trigger-wrap-default.x-form-trigger-wrap-invalid {
     border-color: #cf4c35;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:89 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-field.x-field-focus .char-counter-wrapper {
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:93 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-field-textarea.x-field-focus .x-field-textarea-toolbar {
     border-color: #36aa42;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:95 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:99 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-form-trigger-wrap-default.x-form-trigger-wrap-focus {
     border-color: #36aa42;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:98 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:102 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-form-trigger-wrap-default.x-form-text-wrap-warning {
     border-color: #ffae01;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:101 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:105 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-form-trigger-wrap-default.x-form-trigger-wrap-invalid {
     border-color: #cf4c35;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:89 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-field.x-field-focus .char-counter-wrapper {
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:93 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-field-textarea.x-field-focus .x-field-textarea-toolbar {
     border-color: #35baf6;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:95 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:99 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-form-trigger-wrap-default.x-form-trigger-wrap-focus {
     border-color: #35baf6;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:98 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:102 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-form-trigger-wrap-default.x-form-text-wrap-warning {
     border-color: #ffae01;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:101 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:105 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-form-trigger-wrap-default.x-form-trigger-wrap-invalid {
     border-color: #cf4c35;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:89 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-field.x-field-focus .char-counter-wrapper {
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:93 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-field-textarea.x-field-focus .x-field-textarea-toolbar {
     border-color: #c9599c;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:95 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:99 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-form-trigger-wrap-default.x-form-trigger-wrap-focus {
     border-color: #c9599c;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:98 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:102 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-form-trigger-wrap-default.x-form-text-wrap-warning {
     border-color: #ffae01;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:101 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:105 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-form-trigger-wrap-default.x-form-trigger-wrap-invalid {
     border-color: #cf4c35;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:89 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-field.x-field-focus .char-counter-wrapper {
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:93 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-field-textarea.x-field-focus .x-field-textarea-toolbar {
     border-color: #b060b0;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:95 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:99 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-form-trigger-wrap-default.x-form-trigger-wrap-focus {
     border-color: #b060b0;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:98 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:102 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-form-trigger-wrap-default.x-form-text-wrap-warning {
     border-color: #ffae01;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:101 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Text.scss:105 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-form-trigger-wrap-default.x-form-trigger-wrap-invalid {
     border-color: #cf4c35;
 }
