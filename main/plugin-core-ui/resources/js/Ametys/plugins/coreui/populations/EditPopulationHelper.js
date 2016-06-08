@@ -633,6 +633,7 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
      */
     _createRepeaterData: function(data, fieldName, models, chooseModelFieldId)
     {
+        data[fieldName].repeater['field-checker'] = [];
         Ext.Array.forEach(models, function(model) {
             // Add an entry into the combobox for selecting the model
             data[fieldName].repeater.composition[chooseModelFieldId].enumeration.push({
@@ -651,7 +652,7 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
             
             // Add the parameter checkers
             Ext.Object.each(model.parameterCheckers, function(parameterCheckerId, parameterChecker) {
-                data[fieldName].repeater['field-checker'] = parameterChecker;
+                data[fieldName].repeater['field-checker'].push(parameterChecker);
             }, this);
             
         }, this);

@@ -140,6 +140,8 @@
     <message key="PLUGINS_CORE_USERS_JDBC_DATASOURCE_DESCRIPTION">Base de données à utiliser</message>
     <message key="PLUGINS_CORE_USERS_JDBC_DATASOURCE_TABLE_LABEL">Table des utilisateurs</message>
     <message key="PLUGINS_CORE_USERS_JDBC_DATASOURCE_TABLE_DESCRIPTION">Nom de la table contenant les utilisateurs</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_CHECKER_LABEL">Connexion à la base SQL</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_CHECKER_DESCRIPTION">Ce test vérifie que les informations rentrées sont correctes.</message>
     
     <message key="PLUGINS_CORE_USERS_LDAPUSER_LABEL">Annuaire LDAP</message>
     <message key="PLUGINS_CORE_USERS_LDAPUSER_DESCRIPTION">Annuaire LDAP</message>

@@ -482,7 +482,7 @@ Ext.define('Ametys.helper.SelectUser', {
      */
     _onLoad: function (store, records)
     {
-        if (records.length == 0)
+        if (records != null && records.length == 0)
         {
             Ametys.Msg.show({
                title: "{{i18n PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CAPTION}}",
