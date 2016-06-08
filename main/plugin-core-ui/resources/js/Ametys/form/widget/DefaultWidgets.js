@@ -324,12 +324,6 @@ Ext.define('Ametys.form.widget.DateTime', {
 Ext.define('Ametys.cms.form.widget.RichText', {
 	extend: "Ext.form.field.RichText",
 	
-	/**
-	 * @cfg {Object} widgetParams The widget configuration
-	 * @cfg {Number} widgetParams.height=Ametys.cms.form.widget.RichText#FIELD_HEIGHT The height of HTML area
-     * @cfg {Number} widgetParams.validElements=Ametys.form.widget.RichText.RichTextConfiguration#getTags() The allowed tags/attributes in rich text
-	 */
-	
 	statics:
 	{
 		/**
@@ -393,7 +387,7 @@ Ext.define('Ametys.form.widget.TextArea', {
 	constructor: function (config)
 	{
 		config = Ext.apply(config, {
-			height: config.widgetParams && config.widgetParams.height ? config.widgetParams.height : Ametys.form.widget.TextArea.FIELD_HEIGHT
+            height: Ext.isNumber(Number(config.height)) ? Number(config.height) : Ametys.form.widget.TextArea.FIELD_HEIGHT
 		});
 		
 		this.callParent(arguments);

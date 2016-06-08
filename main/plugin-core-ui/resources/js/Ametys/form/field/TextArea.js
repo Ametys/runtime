@@ -18,8 +18,30 @@
  * Field that displays a textarea field with a character counter bar 
  */
  Ext.define('Ametys.form.field.TextArea', {
- 	extend: 'Ext.form.field.TextArea',
+    extend: 'Ametys.form.AbstractFieldsWrapper',
+    
  	alias: ['widget.ametystextarea'],
+    
+    /**
+     * @property {Ext.form.field.TextArea} _textareaField the textarea field
+     */
+    
+    /** 
+     * @cfg {String/Object} layout
+     * @private 
+     */
+    layout: { 
+        type: 'vbox',
+        align: 'stretch'
+    },
+    
+    focusedCls: 'x-field-focus',
+    
+    /**
+     * @property {String} textareaCls The base class for textarea
+     * @private
+     */
+    textareaCls: "x-field-textarea",
     
     /**
      * @private
@@ -28,9 +50,9 @@
     charCounterCls: 'char-counter',
     /**
      * @private
-     * @property {String} charCounterWrapperCls The css classname for the div wrapping the char counter
+     * @property {String} charCounterValueCls The css classname for the counter value
      */
-    charCounterWrapperCls: 'char-counter-wrapper',
+    charCounterValueCls: 'char-counter-value',
     /**
      * @private
      * @property {String} charCounterMaxExceededCls The css classname when the max number of characters was exceeded
@@ -39,29 +61,89 @@
     
  	constructor: function(config)
  	{
+        var items = [];
+        
+        this._textareaField = Ext.create('Ext.form.field.TextArea', Ext.applyIf(config.textareaConfig || {}, this._getTextAreaFieldConfig(config)));
+        items.push(this._textareaField);
+        
+        config.id = config.id || Ext.id();
+        config.cls = Ext.Array.from(config.cls);
+        config.cls.push(this.textareaCls);
+        
  		if (config.charCounter !== false)
 		{
-			// The layout is made in CSS only and me need to override the counter and the wrapper with a div so CSS calculations are fine (display: table-cell does not seems to be a good parent).
-		    config.beforeBodyEl = "<div>";
-		    config.afterBodyEl = "</div>";
-		    
-			config.afterSubTpl = config.afterSubTpl || Ext.create('Ext.XTemplate', [
-				'<div id="{id}-counter-wrapper" class="' + this.charCounterWrapperCls + '">',
-		 			'<span id="{id}-counter" class="' + this.charCounterCls + '">',
-		 				'{{i18n PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_1}} ',
-		 				'<span id="{id}-counter-val" class="char-counter-value">0</span>',
-		 				(config.maxLength == null ? '' : (' {{i18n PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_2}} ' + config.maxLength)),
-		 			'</span>',
-				'</div>'
-			]);
+            var toolbarItems = [];
+            this._maxLength = Ext.isNumber(config.maxLength) ? config.maxLength : Number.MAX_VALUE;
+            
+            toolbarItems.push({ 
+                xtype: 'component', 
+                cls: this.charCounterCls,
+                html: "{{i18n PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_1}} "
+                     +    '<span id="' + config.id + '-counter-val' + '" class="' + this.charCounterValueCls + '">0</span>'
+                     +    (this._maxLength == Number.MAX_VALUE ? '' : (" {{i18n PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_2}} " + this._maxLength)) 
+            });
+            
+            items.push({
+                xtype: 'container',
+                cls: this.textareaCls + "-toolbar",
+                border: true,
+                layout: {
+                    type: 'hbox',
+                    align: 'middle'
+                },
+                items: toolbarItems
+            });
 		}
  		
+        config.items = items;
+        
  		this.callParent(arguments);
         
-        this.on('change', this._updateCharCounter, this);
-        this.on('keyup', this._updateCharCounter, this);
-        this.on('render', this._updateCharCounter, this);
+        this._textareaField.on('change', this._updateCharCounter, this);
+        this._textareaField.on('keyup', this._updateCharCounter, this);
+        this._textareaField.on('render', this._updateCharCounter, this);
+        
+        this.on('focus', this._onFocus, this);
+        this.on('blur', this._onBlur, this);
  	},
+    
+    /**
+     * @private
+     * Get the time field's configuration
+     * @return {Object} the time field's configuration
+     */
+    _getTextAreaFieldConfig: function (initialConfig)
+    {
+        return {
+            flex: 1,
+            allowBlank: initialConfig.allowBlank,
+            disabled: initialConfig.disabled || false,
+            hidden: initialConfig.hidden || false,
+            regex: initialConfig.regex || null,
+            regexText: initialConfig.regexText || null,
+            msgTarget: 'none',
+            hideLabel: true,
+            value: initialConfig.value,
+            style: {
+                marginBottom: 0
+            }
+        };
+    },
+    
+    getValue: function()
+    {
+        return this._textareaField.getValue();
+    },
+    
+    setValue: function(value)
+    {
+        this._textareaField.setValue(value);
+    },
+    
+    getErrors: function (value) 
+    {
+        return this._textareaField.getErrors(value);
+    },
     
     /**
      * @private
@@ -69,27 +151,44 @@
      */
     _updateCharCounter: function()
     {
-        var count = this.getValue().length;
+        var count = this._textareaField.getValue().length;
         
-        var counter = document.getElementById(this.id + "-counter-val"); 
+        var counter = Ext.get(this.getId() + '-counter-val'); 
         if (counter != null)
         {
-            counter.innerHTML = count;
+            counter.setHtml("" + count);
             
             // is there a maxlength ?
-            if (this.maxLength != Number.MAX_VALUE)
+            if (this._maxLength != Number.MAX_VALUE)
             {
-                if (count > this.maxLength)
+                if (count > this._maxLength)
                 {
-                    Ext.get(counter).parent().addCls(this.charCounterMaxExceededCls);
+                    counter.parent.addCls(this.charCounterMaxExceededCls);
                 }
                 else
                 {
-                    Ext.get(counter).parent().removeCls(this.charCounterMaxExceededCls);
+                    counter.parent.removeCls(this.charCounterMaxExceededCls);
                 }
             }
         }
-        
-    } 	
+    },
+    
+    /**
+     * @private
+     * Add the focus CSS class when textarea field receives focus
+     */
+    _onFocus: function ()
+    {
+        this.addCls(this.focusedCls);
+    },
+    
+    /**
+     * @private
+     * Remove the focus CSS class when textarea field loses focus
+     */
+    _onBlur: function ()
+    {
+        this.removeCls(this.focusedCls);
+    }
  });
  
