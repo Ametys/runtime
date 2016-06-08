@@ -129,7 +129,8 @@ Ext.define('Ametys.plugins.coreui.schedule.EditTaskHelper', {
             description: {
                 label: "{{i18n PLUGINS_CORE_UI_TASKS_DIALOG_DESCRIPTION_LABEL}}",
                 description: "{{i18n PLUGINS_CORE_UI_TASKS_DIALOG_DESCRIPTION_DESCRIPTION}}",
-                type: "STRING"
+                type: "STRING",
+                widget: "edition.textarea"
             },
             runAtStartup: {
                 label: "{{i18n PLUGINS_CORE_UI_TASKS_DIALOG_RUN_AT_STARTUP_LABEL}}",
