@@ -1246,7 +1246,7 @@
                         </validation>
                         <widget>edition.textarea</widget>
                     </param>
-                    <param id="subject" type="string"1>
+                    <param id="subject" type="string">
                         <label i18n="true">PLUGINS_CORE_SCHEDULER_SEND_MAIL_SUBJECT_LABEL</label>
                         <description i18n="true">PLUGINS_CORE_SCHEDULER_SEND_MAIL_SUBJECT_DESCRIPTION</description>
                         <validation>
