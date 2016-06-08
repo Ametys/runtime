@@ -200,18 +200,7 @@ public class SassResourceHandler extends AbstractCompiledResourceHandler
                     }
                 }
                 
-                // SASS files can be .sass or .scss
-                Source importSource = null;
-                
-                importSource = _sResolver.resolveURI(currentUri.toString());
-                if (!importSource.exists())
-                {
-                    importSource = _sResolver.resolveURI(currentUri.toString() + ".scss");
-                }
-                if (!importSource.exists())
-                {
-                    importSource = _sResolver.resolveURI(currentUri.toString() + ".sass");
-                }
+                Source importSource = _getImportSource(currentUri.toString());
     
                 if (importSource.getURI().endsWith(".scss") || importSource.getURI().endsWith(".sass"))
                 {
@@ -234,6 +223,34 @@ public class SassResourceHandler extends AbstractCompiledResourceHandler
             }
     
             return list;
+        }
+
+        private Source _getImportSource(String currentUri) throws URISyntaxException, IOException
+        {
+            List<String> uriMatching = new ArrayList<>();
+            uriMatching.add(currentUri);
+            
+            // extension is optional
+            uriMatching.add(currentUri + ".scss");
+            uriMatching.add(currentUri + ".sass");
+            
+            // add an underscore prefix to the file name for sass partial imports
+            String name = FilenameUtils.getName(currentUri);
+            String partialUri = currentUri.substring(0, currentUri.length() - name.length()) + "_" + name;
+            uriMatching.add(partialUri);
+            uriMatching.add(partialUri + ".scss");
+            uriMatching.add(partialUri + ".sass");
+            
+            for (String uri : uriMatching)
+            {
+                Source importSource = _sResolver.resolveURI(uri);
+                if (importSource.exists())
+                {
+                    return importSource;
+                }
+            }
+            
+            throw new URISyntaxException(currentUri, "Unable to resolve SASS import, no matching source found");
         }
     }
 }
