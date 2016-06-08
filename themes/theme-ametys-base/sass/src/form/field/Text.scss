@@ -73,7 +73,11 @@
 	    color: mix($ametys-field-charcounter-color-error, $ametys-field-charcounter-color-computing, 50%);
 	}
 }
-	
+
+.#{$prefix}field-textarea.#{$prefix}field-focus .#{$prefix}field-textarea-toolbar {
+	border-color: $form-text-field-focus-border-color;
+}
+            
 /**
  * Field colors
  */
