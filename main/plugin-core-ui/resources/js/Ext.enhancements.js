@@ -1994,23 +1994,23 @@
             {
                 if (duration < millisLimit)
                 {
-                    return duration + " " + "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_MILLISECONDS}}";// + 1*i18n
+                    return duration + " " + "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_MILLISECONDS}}";
                 }
                 else if (duration < secLimit)
                 {
-                    return (duration/1000).toString().replace(/\./, "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_DECIMAL_SEPARATOR}}") + " " + "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_SECONDS}}"; // + 2*i18n
+                    return (duration/1000).toString().replace(/\./, "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_DECIMAL_SEPARATOR}}") + " " + "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_SECONDS}}";
                 }
                 else if (duration < minuteLimit)
                 {
                     var minutes = Math.floor(duration / 1000 / 60),
                         milliseconds = duration - minutes * 60 * 1000;
-                    return minutes + " " + "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_MINUTES}}" + " " + Math.round(milliseconds / 1000) + " " + "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_SECONDS}}"; // + 2*i18n (but -1 for duplicates)
+                    return minutes + " " + "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_MINUTES}}" + " " + Math.floor(milliseconds / 1000) + " " + "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_SECONDS}}";
                 }
                 else if (duration < hourLimit)
                 {
                     var hours = Math.floor(duration / 1000 / 60 / 60),
                         milliseconds = duration - hours * 60 * 60 * 1000;
-                    return hours + " " + "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_HOURS}}" + " " + Math.round(milliseconds / 1000 / 60) + " " + "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_MINUTES}}"; // + 2*i18n  (but -1 for duplicates)
+                    return hours + " " + "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_HOURS}}" + " " + Math.floor(milliseconds / 1000 / 60) + " " + "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_MINUTES}}";
                 }
                 else
                 {
@@ -2018,7 +2018,7 @@
                         days = Math.floor(totalHours / 24),
                         hours = totalHours - days * 24,
                         milliseconds = duration - totalHours * 60 * 60 * 1000;
-                    return days + " " + "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_DAYS}}" + " " + hours + " " + "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_HOURS}}" + " " + Math.round(milliseconds / 1000 / 60) + " " + "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_MINUTES}}"; // + 3*i18n  (but -2 for duplicates)
+                    return days + " " + "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_DAYS}}" + " " + hours + " " + "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_HOURS}}" + " " + Math.floor(milliseconds / 1000 / 60) + " " + "{{i18n PLUGINS_CORE_UI_DURATION_FORMAT_MINUTES}}";
                 }
             }
         })()
