@@ -36,8 +36,8 @@ import org.ametys.runtime.parameter.AbstractParameterParser;
 import org.ametys.runtime.parameter.Enumerator;
 import org.ametys.runtime.parameter.Parameter;
 import org.ametys.runtime.parameter.ParameterHelper;
-import org.ametys.runtime.parameter.Validator;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
+import org.ametys.runtime.parameter.Validator;
 import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 import org.ametys.runtime.plugin.component.PluginAware;
 import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
@@ -45,6 +45,24 @@ import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
 /**
  * Default static implementation of {@link Schedulable}
  * For implementing the {@link Schedulable} interface (while being {@link Configurable}), extends this class and implements the {@link #execute(org.quartz.JobExecutionContext)} method
+ * &lt;br/&gt;
+ * For instance:
+ * &lt;pre&gt;
+ * public class SayHelloSchedulable extends AbstractStaticSchedulable
+ * {
+ *     public static final String FIRSTNAME_KEY = "firstName";
+ *     
+ *     private static final String __JOBDATAMAP_FIRSTNAME_KEY = Scheduler.PARAM_VALUES_PREFIX + FIRSTNAME_KEY;
+ *     
+ *     public void execute(JobExecutionContext context) throws Exception
+ *     {
+ *         JobKey jobKey = context.getJobDetail().getKey();
+ *         JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
+ *         String name = jobDataMap.getString(__JOBDATAMAP_FIRSTNAME_KEY);
+ *         System.out.println("[" + jobKey + "] " + new Date() + " - Hello  " + name + "!");
+ *     }
+ * }
+ * &lt;/pre&gt;
  */
 public abstract class AbstractStaticSchedulable extends AbstractLogEnabled implements Schedulable, Component, Configurable, PluginAware, Serviceable, Contextualizable
 {
