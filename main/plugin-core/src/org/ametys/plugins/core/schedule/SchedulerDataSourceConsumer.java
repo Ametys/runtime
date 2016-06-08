@@ -32,9 +32,6 @@ public class SchedulerDataSourceConsumer implements DataSourceConsumer, Componen
     /** Avalon Role */
     public static final String ROLE = SchedulerDataSourceConsumer.class.getName();
     
-    /** Name of the parameter holding the datasource id for Quartz */
-    private static final String __DATASOURCE_CONFIG_NAME = "runtime.scheduler.datasource";
-
     @Override
     public boolean isInUse(String id)
     {
@@ -44,6 +41,6 @@ public class SchedulerDataSourceConsumer implements DataSourceConsumer, Componen
     @Override
     public Set<String> getUsedDataSourceIds()
     {
-        return Collections.singleton(Config.getInstance().getValueAsString(__DATASOURCE_CONFIG_NAME));
+        return Collections.singleton(Config.getInstance().getValueAsString(Scheduler.DATASOURCE_CONFIG_NAME));
     }
 }

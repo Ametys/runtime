@@ -66,15 +66,15 @@ Ext.define('Ametys.plugins.coreui.schedule.ScheduledTasksTool', {
             columns: [
                  {stateId: 'grid-title', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_TITLE}}", flex: 1, sortable: true, dataIndex: 'label'},
                  {stateId: 'grid-description', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_DESCRIPTION}}", flex: 2, dataIndex: 'description', hidden: true},
-                 {stateId: 'grid-id', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_ID}}", width: 300, dataIndex: 'id', hidden: true},
+                 {stateId: 'grid-id', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_ID}}", width: 120, dataIndex: 'id', hidden: true},
                  {stateId: 'grid-cron', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_CRON}}", width: 150, dataIndex: 'cronExpression'},
-                 {stateId: 'grid-schedulable', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_LABEL}}", width: 200, dataIndex: 'schedulableLabel', renderer: this._renderSchedulableLabel},
+                 {stateId: 'grid-schedulable', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_LABEL}}", width: 300, dataIndex: 'schedulableLabel', renderer: this._renderSchedulableLabel},
                  {stateId: 'grid-schedulable-description', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_DESCRIPTION}}", flex: 2, dataIndex: 'schedulableDescription', hidden: true},
                  {stateId: 'grid-schedulable-parameters', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_PARAMETERS}}", flex: 2, dataIndex: 'schedulableParameters', renderer: this._renderSchedulableParameters, hidden: true},
-                 {stateId: 'grid-system-task', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SYSTEM}}", width: 80, dataIndex: 'private', renderer: this._renderBoolean},
+                 {stateId: 'grid-system-task', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SYSTEM}}", width: 100, dataIndex: 'private', renderer: this._renderBoolean},
                  {stateId: 'grid-next-fire', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_NEXT_FIRE}}", width: 150, dataIndex: 'nextFireTime', renderer: this._renderDate},
                  {stateId: 'grid-previous-fire', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_PREVIOUS_FIRE}}", width: 150, dataIndex: 'previousFireTime', renderer: this._renderDate},
-                 {stateId: 'grid-last-duration', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_LAST_DURATION}}", width: 150, dataIndex: 'lastDuration', renderer: this._renderDuration}
+                 {stateId: 'grid-last-duration', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_LAST_DURATION}}", width: 170, dataIndex: 'lastDuration', renderer: this._renderDuration}
             ],
             
             listeners: {'selectionchange': Ext.bind(this.sendCurrentSelection, this)}

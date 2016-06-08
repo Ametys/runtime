@@ -114,11 +114,12 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
     public static final String KEY_RUNNABLE_VOLATILE = "volatile";
     /** The prefix for the parameter values of the runnable job in the job data map */
     public static final String PARAM_VALUES_PREFIX = "parameterValues#";
+    /** Name of the parameter holding the datasource id for Quartz */
+    public static final String DATASOURCE_CONFIG_NAME = "runtime.scheduler.datasource";
     
     /** The name of the configuration file for Quartz */
     private static final String __QUARTZ_CONFIG_FILE_NAME = "quartz.properties";
-    /** Name of the parameter holding the datasource id for Quartz */
-    private static final String __DATASOURCE_CONFIG_NAME = "runtime.scheduler.datasource";
+    
     
     /** The service manager */
     protected ServiceManager _manager;
@@ -158,7 +159,7 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
     public void initialize() throws Exception
     {
         // Be sure the tables are created
-        String dsId = Config.getInstance().getValueAsString(__DATASOURCE_CONFIG_NAME);
+        String dsId = Config.getInstance().getValueAsString(DATASOURCE_CONFIG_NAME);
         _checkAndCreateTables(dsId);
         
         // Get info about datasource
@@ -186,7 +187,7 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
         AmetysJob.initialize(_manager, _context, getLogger());
     }
     
-    /* copy/paste of SqlTablesInit#init() */
+    /* copy/paste of SqlTablesInit#init() because SqlTablesInit comes too late */
     private void _checkAndCreateTables(String dataSourceId)
     {
         DataSource dataSource = null;

@@ -1260,6 +1260,9 @@
                             <mandatory/>
                         </validation>
                         <widget>edition.textarea</widget>
+                        <widget-params>
+                            <param name="height">130</param>
+                        </widget-params>
                     </param>
                 </parameters>
             </extension>

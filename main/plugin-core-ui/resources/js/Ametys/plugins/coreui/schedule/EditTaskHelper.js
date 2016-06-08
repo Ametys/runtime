@@ -170,6 +170,9 @@ Ext.define('Ametys.plugins.coreui.schedule.EditTaskHelper', {
         
         var formPanel = Ext.create('Ametys.form.ConfigurableFormPanel', {
             itemId: 'form',
+            defaultFieldConfig: {
+                labelWidth: 180
+            },
             defaultPathSeparator: this._separator,
             hideDisabledFields: true,
             scrollable: true,
