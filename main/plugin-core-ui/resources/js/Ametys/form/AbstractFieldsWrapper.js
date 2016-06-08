@@ -124,8 +124,19 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
         }
         else if (newComponent.isButton)
         {
-            newComponent.on('focus', function (fd, e) { this.fireEvent ('focus', this, e)}, this);
-            newComponent.on('blur', function (fd, e) { this.fireEvent ('blur', this, e)}, this);
+            newComponent.on({
+                'focus': function (fd, e) { 
+                    this.fireEvent ('focus', this, e);
+                },
+                'blur': function (fd, e) { 
+                    if (this.getEl().query(Ext.makeIdSelector(document.activeElement.id)).length == 0) 
+                    {
+                        // We do not transmit blur if we still are in the same "parent" field
+                        this.fireEvent ('blur', this, e); 
+                    }
+                },
+                scope: this
+            });
         }
         
         Ext.Array.forEach(formFields, function(field)
@@ -136,9 +147,19 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
             field.on('change', this.checkChange, this);
             field.on('specialkey', this._checkSpecialKey, this);
             
-            field.on('focus', function (fd, e) { this.fireEvent ('focus', this, e)}, this);
-            field.on('blur', function (fd, e) { this.fireEvent ('blur', this, e)}, this);
-            
+            field.on({
+                'focus': function (fd, e) { 
+                    this.fireEvent ('focus', this, e);
+                },
+                'blur': function (fd, e) { 
+                    if (this.getEl().query(Ext.makeIdSelector(document.activeElement.id)).length == 0) 
+                    {
+                        // We do not transmit blur if we still are in the same "parent" field
+                        this.fireEvent ('blur', this, e); 
+                    }
+                },
+                scope: this
+            });
         }, this /* scope */);
     },
     
