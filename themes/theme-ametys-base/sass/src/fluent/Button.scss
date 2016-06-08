@@ -46,6 +46,8 @@
         $font-weight-focus-pressed: $ametys-ribbon-button-font-weight,
         $font-weight-disabled: $ametys-ribbon-button-font-weight,
                 
+        $arrow-glyph-color: $ametys-ribbon-button-arrow-glyph-color,
+
         $color: $ametys-ribbon-button-color,
         $background-color: $ui-background-color,
         
@@ -83,6 +85,9 @@
             vertical-align: top;
         }
     }
+    .#{$prefix}btn-wrap-#{$ui}-small.#{$prefix}btn-split-right:after {
+        font-size: $ametys-ribbon-button-font-size;
+    }  
       
     @include extjs-button-large-ui(
         $ui: $ui,
@@ -110,6 +115,8 @@
         $font-weight-focus-over: $ametys-ribbon-button-font-weight,
         $font-weight-focus-pressed: $ametys-ribbon-button-font-weight,
         $font-weight-disabled: $ametys-ribbon-button-font-weight,
+        
+        $arrow-glyph-color: $ametys-ribbon-button-arrow-glyph-color,
                 
         $color: $ametys-ribbon-button-color,
         $background-color: $ui-background-color,
@@ -156,9 +163,17 @@
     }
     
     .#{$prefix}btn-inner-#{$ui}-large .arrow {
-        background-image: theme-background-image('button/#{$ui}-large-arrow');
+        @if $enable-font-icons and ($button-large-arrow-glyph != null) {
+            &:after {
+                @include font-icon($glyph: $button-large-arrow-glyph, $pseudo: false);
+                color: $ametys-ribbon-button-arrow-glyph-color;
+                font-size: $ametys-ribbon-button-font-size;
+            }
+        } @else {
+            padding-right: 7px;
+            background-image: theme-background-image('button/#{$ui}-large-arrow');
+        }
         width: 7px;
-        padding-right: 7px;
         display: inline;
     }
     .#{$prefix}btn-inner-#{$ui}-large .arrow.arrow-with-text {

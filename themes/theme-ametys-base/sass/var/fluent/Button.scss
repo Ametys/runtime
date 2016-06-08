@@ -36,6 +36,8 @@ $ametys-ribbon-button-background-color-pressed: darken($ametys-ribbon-button-bac
 /** @var {color} Background color for buttons in the ribbon when the button has the focus */
 $ametys-ribbon-button-background-color-focus: $ametys-ribbon-tab-color;
 
+$ametys-ribbon-button-arrow-glyph-color: lighten($ametys-ribbon-main-text-color, 20);
+
 $ametys-ribbon-button-glyph-color: dynamic($ametys-ribbon-main-glyph-color);
 $ametys-ribbon-button-glyph-color-pressed: dynamic($ametys-ribbon-main-glyph-color-pressed);
 $ametys-ribbon-button-glyph-color-over: dynamic($ametys-ribbon-main-glyph-color-over);
