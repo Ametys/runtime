@@ -60,6 +60,7 @@ public final class AllTests
         TestSuite suite = new TestSuite("Test for org.ametys.runtime.test");
         
         //$JUnit-BEGIN$
+        suite.addTestSuite(SafeModeTestCase.class);
         suite.addTestSuite(AmetysHomeTestCase.class);
         suite.addTestSuite(RuntimeConfigTestCase.class);
         suite.addTestSuite(WorkspacesTestCase.class);
