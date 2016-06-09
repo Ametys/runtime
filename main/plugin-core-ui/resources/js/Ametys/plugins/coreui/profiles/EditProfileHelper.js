@@ -108,7 +108,6 @@ Ext.define('Ametys.plugins.coreui.profiles.EditProfileHelper', {
 				icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/profiles/' + (this._mode == 'new' ? 'add_16.gif' : 'rename_16.gif'),
 				
 				width: 450,
-				maxHeight: 500,
 				
 				items: [ this._form ],
 				
