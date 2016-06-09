@@ -120,7 +120,6 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
     /** The name of the configuration file for Quartz */
     private static final String __QUARTZ_CONFIG_FILE_NAME = "quartz.properties";
     
-    
     /** The service manager */
     protected ServiceManager _manager;
     /** The context */
@@ -540,6 +539,7 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
         result.put("modifiable", jobDataMap.getBoolean(KEY_RUNNABLE_MODIFIABLE));
         result.put("deactivatable", jobDataMap.getBoolean(KEY_RUNNABLE_DEACTIVATABLE));
         result.put("lastDuration", jobDataMap.get(AmetysJob.KEY_LAST_DURATION));
+        result.put("success", jobDataMap.get(AmetysJob.KEY_SUCCESS));
         
         String schedulableId = jobDataMap.getString(KEY_SCHEDULABLE_ID);
         if (_schedulableEP.hasExtension(schedulableId))

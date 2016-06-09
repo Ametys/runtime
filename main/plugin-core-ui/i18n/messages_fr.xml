@@ -1292,6 +1292,7 @@
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_NEXT_FIRE">Prochaine exécution</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_PREVIOUS_FIRE">Dernière exécution</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_LAST_DURATION">Durée de dernière exécution</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SUCCESS">Succès</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_STARTUP_TASK">Sera exécutée au prochain démarrage</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_ENABLED_LABEL">Activée(s)</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_DISABLED_LABEL">Désactivée(s)</message>

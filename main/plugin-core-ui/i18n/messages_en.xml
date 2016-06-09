@@ -1290,6 +1290,7 @@
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_NEXT_FIRE">Next fire time</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_PREVIOUS_FIRE">Last fire time</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_LAST_DURATION">Last duration</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SUCCESS">Success</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_STARTUP_TASK">Will be run at next startup</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_ENABLED_LABEL">Enabled</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_DISABLED_LABEL">Disabled</message>

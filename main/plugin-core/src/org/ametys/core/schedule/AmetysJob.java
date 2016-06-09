@@ -45,6 +45,8 @@ public class AmetysJob implements Job
 {
     /** The key for the last duration of the {@link #execute(org.quartz.JobExecutionContext)} method which is stored in the {@link JobDataMap} */
     public static final String KEY_LAST_DURATION = "duration";
+    /** The key for the success state of the last execution of the job */
+    public static final String KEY_SUCCESS = "success";
     
     /** The service manager */
     protected static ServiceManager _serviceManager;
@@ -77,6 +79,7 @@ public class AmetysJob implements Job
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException
     {
+        boolean success = true;
         JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
         String runnableId = jobDataMap.getString(Scheduler.KEY_RUNNABLE_ID);
         String schedulableId = jobDataMap.getString(Scheduler.KEY_SCHEDULABLE_ID);
@@ -91,6 +94,7 @@ public class AmetysJob implements Job
         }
         catch (Exception e)
         {
+            success = false;
             _logger.error(String.format("An error occured during the execution of the Schedulable '%s'", schedulableId), e);
             throw new JobExecutionException(String.format("An error occured during the execution of the job '%s'", schedulableId), e);
         }
@@ -106,6 +110,9 @@ public class AmetysJob implements Job
             {
                 BackgroundEngineHelper.leaveEngineEnvironment(environmentInformation);
             }
+            
+            // Success ?
+            jobDataMap.put(KEY_SUCCESS, success);
             
             // Run at startup tasks are one-shot tasks => if so, remove me
             if (jobDataMap.getBoolean(Scheduler.KEY_RUNNABLE_RUN_AT_STARTUP))
