@@ -993,7 +993,7 @@
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_HINT">A user population is the grouping of user directories from different datasources (LDAP, SQL...) with the methods used to authenticate them.&lt;br/&gt;For instance, users from a LDAP authenticated by CAS.&lt;br/&gt;&lt;br/&gt;once your population is created, you would be able to link it to one or several contexts.&lt;br/&gt;&lt;br/&gt;</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_HINT2">It is not necessary to gather the TOTO in one population.&lt;br/&gt;For instance, if you wish to have userrs from LDAP authenticated by CAS, and users form SQL database authenticated with Form, it is recommended to create two separate populations.&lt;br/&gt;&lt;br/&gt;</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_HINT3">Choose the label of the new user population you want to create.</message>
-    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_POPULATION_LABEL_LABEL">Label *</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_POPULATION_LABEL_LABEL">Label</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_CARD_POPULATION_LABEL_DESC">User population label</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_ADVANCED_BUTTON_COLLAPSED">Advanced &gt;</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_FIRST_ADVANCED_BUTTON_EXPANDED">Advanced &lt;</message>
