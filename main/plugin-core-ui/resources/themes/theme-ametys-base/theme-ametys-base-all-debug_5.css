@@ -1,3 +1,13 @@
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:453 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-ml,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-mr {
+    background-image: url(images/panel/panel-default-framed-sides.gif);
+    background-repeat: repeat-y;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:464 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-mc {
+    padding: 0px 0px 0px 0px;
+}
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/slicer.scss:83 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-cmd-slicer.x-panel-default-framed:before {
     display: none;

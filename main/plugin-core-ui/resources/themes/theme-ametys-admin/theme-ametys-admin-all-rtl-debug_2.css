@@ -14475,7 +14475,8 @@
     vertical-align: top;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:88 */
-.x-btn-wrap-ribbon-component-small.x-btn-split-right:after {
+.x-btn-wrap-ribbon-component-small.x-btn-split-right:after,
+.x-btn-wrap-ribbon-component-small.x-btn-arrow-right:after {
     font-size: 12px;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:187 */
@@ -15065,68 +15066,63 @@
 .x-button-ribbon-component-large-cell > .x-grid-cell-inner >.x-btn-ribbon-component-large {
     vertical-align: top;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:135 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:136 */
 .x-btn-arrow-bottom > .x-btn-button-ribbon-component-large,
 .x-btn-split-bottom > .x-btn-button-ribbon-component-large {
     padding-bottom: 0;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:140 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:141 */
 .x-btn-text.x-btn-icon-top > .x-btn-icon-el.x-btn-icon-el-ribbon-component-large {
     margin-top: 1px;
     margin-right: 2px;
     margin-left: 2px;
     margin-bottom: 2px;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:146 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:147 */
 .x-btn-text.x-btn-icon-top > .x-btn-icon-el.x-btn-icon-el-ribbon-component-large:before {
     vertical-align: top;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:150 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:151 */
 .x-btn-inner-ribbon-component-large {
     padding: 0px 2px 2px 2px;
     height: 32px;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:153 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:154 */
 .x-chrome .x-btn-inner-ribbon-component-large {
     padding: 1px 2px 1px 2px;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:160 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:161 */
 .x-btn-text.x-btn-icon-top > .x-btn-icon-el-ribbon-component-large {
     margin-bottom: 0px;
     margin-top: 1px;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:165 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:166 */
 .x-btn-inner-ribbon-component-large .arrow {
     width: 7px;
     display: inline;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:167 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:168 */
 .x-btn-inner-ribbon-component-large .arrow:after {
     content: "\f0d7";
     font: 24px/1 FontAwesome;
     color: #588cd2;
     font-size: 12px;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:179 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:180 */
 .x-btn-inner-ribbon-component-large .arrow.arrow-with-text {
     margin-left: 2px;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:182 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:183 */
 .x-btn-wrap-ribbon-component-large.x-btn-arrow-bottom:after,
 .x-btn-wrap-ribbon-component-large.x-btn-split-bottom:after {
     display: none;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:187 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:188 */
 .x-btn-wrap-ribbon-component-large > .x-btn-button-ribbon-component-large {
     display: inline-block;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:191 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:192 */
 .x-btn-button-ribbon-component-large > .x-btn-icon-el-ribbon-component-large {
     position: relative;
     display: inline-block;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:197 */
-.x-btn-ribbon-component-large .x-btn-icon-el-ribbon-component-large:before {
-    margin-left: 0px;
-    font-size: 32px;
 }
