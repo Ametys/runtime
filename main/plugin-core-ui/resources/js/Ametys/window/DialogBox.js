@@ -50,7 +50,7 @@ Ext.define(
 	{
 		extend: 'Ext.window.Window',
 		alias: 'widget.dialog',
-		
+        
 		bodyPadding: '5',
 		modal: true,
 		resizable :false,
@@ -63,8 +63,6 @@ Ext.define(
 		
 		constructor: function(config)
 		{
-			config.defaultFocus = undefined; // FIXME CMS-6883 Force default focus to undefined to avoid dialog position issue :(
-			
 			this.callParent(arguments);
 			this.on('beforeshow', this._onBeforeShow, this);
 			this.on('afterrender', this._onRenderListener, this);
@@ -73,13 +71,15 @@ Ext.define(
 		
 		_onBeforeShow: function ()
 		{
+            this.center(); // This is the fix for RUNTIME-1823
+            
 			if (this.freezeHeight)
 			{
 				// Let the content decides of the dialog box's height
 				this.setHeight(null);
 			}
 		},
-		
+
 		_onResize: function (window, width, height)
 		{
 			var oldHeight = this.getHeight();
@@ -89,11 +89,8 @@ Ext.define(
 				// Freeze the dialog's height
 				this.setHeight(this.getHeight());
 			}
-			
-			if (oldHeight != height)
-			{
-				// this.center(); // auto center on resize
-			}
+            
+    		this.center(); // auto center on resize (we do not test for changing size, since at startup height does not change and we do want to re-center non-fixed-height boxes)
 		},
 	
 		/**
