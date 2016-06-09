@@ -24,6 +24,38 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
         /**
          * @callable
          * @member Ametys.plugins.core.schedule.Scheduler
+         * @method getTasksInformation 
+         * Gets tasks information
+         * This calls the method 'getTasksInformation' of the server DAO 'Scheduler'.
+         * @param {Object[]} parameters The parameters to transmit to the server method
+         * @param {String[]} parameters.taskids The ids of the tasks
+         * @param {Function} callback The function to call when the java process is over. Use options.scope for the scope. 
+         * @param {TODO} callback.returnedValue The value return from the server. Null on error (please note that when an error occured, the callback may not be called depending on the value of errorMessage).
+         * @param {Object} callback.arguments Other arguments specified in option.arguments                 
+         * @param {Object} [options] Advanced options for the call.
+         * @param {Boolean/String/Object} [options.errorMessage] Display an error message. See Ametys.data.ServerCall#callMethod errorMessage.
+         * @param {Boolean/String/Object} [options.waitMessage] Display a waiting message. See Ametys.data.ServerCall#callMethod waitMessage.
+         * @param {Number} [options.scope] This parameter is the scope used to call the callback. Moreover is the given class is a mixin of Ametys.data.ServerCaller, its methods #beforeServerCall and #afterServerCall will be used so see their documentation to look for additional options (such a refreshing on Ametys.ribbon.element.ui.ButtonController#beforeServerCall).
+         * @param {Number} [options.priority] The message priority. See Ametys.data.ServerCall#callMethod for more information on the priority. PRIORITY_SYNCHRONOUS cannot be used here.
+         * @param {String} [options.cancelCode] Cancel similar unachieved read operations. See Ametys.data.ServerCall#callMethod cancelCode.
+         * @param {Object} [options.arguments] Additional arguments set in the callback.arguments parameter.                  
+         * @param {Boolean} [options.ignoreCallbackOnError] If the server throws an exception, should the callback beeing called with a null parameter. See Ametys.data.ServerCall#callMethod ignoreOnError.
+         */
+        this.addCallables(
+            {
+                role: "org.ametys.plugins.core.schedule.Scheduler",
+                methodName: "getTasksInformation",
+                convertor: this._convertTasks,
+                errorMessage: {
+                    msg: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_MESSAGE}}",
+                    category:Ext.getClassName(this)
+                }
+            }
+        );
+        
+        /**
+         * @callable
+         * @member Ametys.plugins.core.schedule.Scheduler
          * @method getEditionConfiguration 
          * Gets the configuration for creating/editing a runnable.
          * This calls the method 'getEditionConfiguration' of the server DAO 'Scheduler'.
@@ -299,6 +331,24 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
                 }
             }
         );
+    },
+    
+    /**
+     * @private
+     * Extract and convert task configurations received from server
+     * @param {Object[]} taskConfigs
+     * @param {Object} arguments The callback arguments
+     * @param {Object} parameters The call parameters
+     * @return {Ametys.plugins.coreui.schedule.Task[]} The tasks
+     */
+    _convertTasks: function(taskConfigs, arguments, parameters)
+    {
+        var tasks = [];
+        Ext.Array.forEach(taskConfigs || [], function(config) {
+            tasks.push(Ext.create('Ametys.plugins.coreui.schedule.Task', config));
+        }, this);
+        
+        return tasks;
     },
     
     /**

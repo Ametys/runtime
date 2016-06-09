@@ -2801,6 +2801,27 @@
                 </right>
             </extension>
             
+            <extension id="task"
+                       point="org.ametys.core.ui.MessageTargetFactoriesManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.plugins.coreui.schedule.TaskMessageTargetFactory"/>
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/schedule/TaskMessageTargetFactory.js</file>
+                    <file>js/Ametys/plugins/coreui/schedule/Task.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.core.schedule.Scheduler"
+                       point="org.ametys.core.ui.StaticFileImportsManager"
+                       class="org.ametys.core.ui.StaticFileImportsClientSideElement">
+                <scripts>
+                    <file plugin="core">js/Ametys/plugins/core/schedule/Scheduler.js</file>
+                </scripts>
+                <depends>
+                    <org.ametys.core.ui.MessageTargetFactoriesManager>task</org.ametys.core.ui.MessageTargetFactoriesManager>
+                </depends>
+            </extension>
+            
             <extension id="org.ametys.core.ui.schedule.Tasks"
                        point="org.ametys.core.ui.RibbonControlsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
@@ -2834,6 +2855,9 @@
                 <scripts>
                     <file>js/Ametys/plugins/coreui/schedule/ScheduledTasksTool.js</file>
                 </scripts>
+                <depends>
+                <org.ametys.core.ui.MessageTargetFactoriesManager>task</org.ametys.core.ui.MessageTargetFactoriesManager>
+                </depends>
             </extension>
             
             <extension id="org.ametys.core.scheduled.tasks.TasksTab"
@@ -2860,8 +2884,10 @@
                 <scripts>
                     <file>js/Ametys/plugins/coreui/schedule/TaskActions.js</file>
                     <file>js/Ametys/plugins/coreui/schedule/EditTaskHelper.js</file>
-                    <file plugin="core">js/Ametys/plugins/core/schedule/Scheduler.js</file>
                 </scripts>
+                <depends>
+                    <org.ametys.core.ui.StaticFileImportsManager>org.ametys.core.schedule.Scheduler</org.ametys.core.ui.StaticFileImportsManager>
+                </depends>
             </extension>
             
             <extension id="org.ametys.core.ui.schedule.tasks.Edit"
@@ -2887,8 +2913,10 @@
                 <scripts>
                     <file>js/Ametys/plugins/coreui/schedule/TaskActions.js</file>
                     <file>js/Ametys/plugins/coreui/schedule/EditTaskHelper.js</file>
-                    <file plugin="core">js/Ametys/plugins/core/schedule/Scheduler.js</file>
                 </scripts>
+                <depends>
+                    <org.ametys.core.ui.StaticFileImportsManager>org.ametys.core.schedule.Scheduler</org.ametys.core.ui.StaticFileImportsManager>
+                </depends>
             </extension>
             
             <extension id="org.ametys.core.ui.schedule.tasks.Remove"
@@ -2913,8 +2941,10 @@
                 <right>CORE_Rights_TaskScheduler</right>
                 <scripts>
                     <file>js/Ametys/plugins/coreui/schedule/TaskActions.js</file>
-                    <file plugin="core">js/Ametys/plugins/core/schedule/Scheduler.js</file>
                 </scripts>
+                <depends>
+                    <org.ametys.core.ui.StaticFileImportsManager>org.ametys.core.schedule.Scheduler</org.ametys.core.ui.StaticFileImportsManager>
+                </depends>
             </extension>
             
             <extension id="org.ametys.core.ui.schedule.tasks.Enable"
@@ -2942,8 +2972,10 @@
                 <scripts>
                     <file>js/Ametys/plugins/coreui/schedule/EnableTaskButtonController.js</file>
                     <file>js/Ametys/plugins/coreui/schedule/TaskActions.js</file>
-                    <file plugin="core">js/Ametys/plugins/core/schedule/Scheduler.js</file>
                 </scripts>
+                <depends>
+                    <org.ametys.core.ui.StaticFileImportsManager>org.ametys.core.schedule.Scheduler</org.ametys.core.ui.StaticFileImportsManager>
+                </depends>
             </extension>
         </extensions>
     </feature>

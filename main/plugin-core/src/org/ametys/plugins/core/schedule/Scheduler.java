@@ -41,8 +41,6 @@ import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.cocoon.Constants;
-import org.apache.cocoon.util.log.SLF4JLoggerAdapter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
@@ -62,9 +60,8 @@ import org.quartz.impl.matchers.GroupMatcher;
 import org.quartz.utils.PoolingConnectionProvider;
 
 import org.ametys.core.datasource.ConnectionHelper;
-import org.ametys.core.datasource.SQLDataSourceManager;
 import org.ametys.core.datasource.ConnectionHelper.DatabaseType;
-import org.ametys.core.engine.BackgroundEngineHelper;
+import org.ametys.core.datasource.SQLDataSourceManager;
 import org.ametys.core.right.RightsManager;
 import org.ametys.core.schedule.AmetysJob;
 import org.ametys.core.schedule.Runnable;
@@ -74,6 +71,7 @@ import org.ametys.core.schedule.SchedulableExtensionPoint;
 import org.ametys.core.script.ScriptRunner;
 import org.ametys.core.ui.Callable;
 import org.ametys.core.user.CurrentUserProvider;
+import org.ametys.core.util.LambdaUtils;
 import org.ametys.plugins.core.impl.schedule.DefaultRunnable;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.i18n.I18nizableText;
@@ -128,8 +126,6 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
     protected ServiceManager _manager;
     /** The context */
     protected Context _context;
-    /** The cocoon environment context. */
-    protected org.apache.cocoon.environment.Context _environmentContext;
     /** The extension point for {@link Runnable}s */
     protected RunnableExtensionPoint _runnableEP;
     /** The extension point for {@link Schedulable}s */
@@ -149,7 +145,6 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
     public void contextualize(Context context) throws ContextException
     {
         _context = context;
-        _environmentContext = (org.apache.cocoon.environment.Context) context.get(Constants.CONTEXT_ENVIRONMENT_CONTEXT);
     }
     
     @Override
@@ -384,8 +379,6 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
     
     private void _scheduleConfigurableJobs()
     {
-        // Need an environment to serialize i18n when scheduling job
-        Map<String, Object> environmentInformation = BackgroundEngineHelper.createAndEnterEngineEnvironment(_manager, _environmentContext, new SLF4JLoggerAdapter(getLogger()));
         try
         {
             for (String runnableId : _runnableEP.getExtensionsIds())
@@ -404,13 +397,6 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
         catch (SchedulerException e)
         {
             getLogger().error("An exception occured during the scheduling of configurable runnables", e);
-        }
-        finally
-        {
-            if (environmentInformation != null)
-            {
-                BackgroundEngineHelper.leaveEngineEnvironment(environmentInformation);
-            }
         }
     }
     
@@ -514,26 +500,43 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
     }
     
     /**
+     * Gets tasks information
+     * @param taskIds The ids of the tasks
+     * @return The tasks information
+     * @throws SchedulerException if an error occured
+     */
+    @Callable
+    public List<Map<String, Object>> getTasksInformation(List<String> taskIds) throws SchedulerException
+    {
+        List<Map<String, Object>> result = new ArrayList<>();
+        
+        for (JobKey jobKey : getJobs())
+        {
+            String id = jobKey.getName();
+            if (taskIds.contains(id))
+            {
+                Map<String, Object> task = new HashMap<>();
+                JobDataMap jobDataMap = _scheduler.getJobDetail(jobKey).getJobDataMap();
+                task.put("id", id);
+                task.put("modifiable", jobDataMap.getBoolean(KEY_RUNNABLE_MODIFIABLE));
+                task.put("removable", jobDataMap.getBoolean(KEY_RUNNABLE_REMOVABLE));
+                task.put("deactivatable", jobDataMap.getBoolean(KEY_RUNNABLE_DEACTIVATABLE));
+                result.add(task);
+            }
+        }
+        
+        return result;
+    }
+    
+    /**
      * Gets all the scheduled tasks
      * @return the scheduled tasks
      * @throws Exception if an error occured
      */
-    @SuppressWarnings("unused")
     public List<Map<String, Object>> getTasksAsJson() throws Exception
     {
         return getJobs().stream()
-                .map(job -> {
-                        try
-                        {
-                            return _jobToJson(job);
-                        }
-                        catch (Exception e)
-                        {
-                            // The job was not able to jsonify
-                            getLogger().error("An error occured when getting information on the job " + job.getName(), e);
-                            return new HashMap<String, Object>();
-                        }
-                    })
+                .map(LambdaUtils.wrap(this::_jobToJson))
                 .collect(Collectors.toList());
     }
     

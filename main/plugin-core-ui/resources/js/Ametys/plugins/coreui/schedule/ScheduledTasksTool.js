@@ -132,22 +132,26 @@ Ext.define('Ametys.plugins.coreui.schedule.ScheduledTasksTool', {
     {
         var selection = this._grid.getSelection();
         
-        var targets = [];
+        var tasks = [];
         Ext.Array.forEach(selection, function(task) {
-            targets.push({
-                id: Ametys.message.MessageTarget.TASK,
-                parameters: {
+            tasks.push(
+                Ext.create('Ametys.plugins.coreui.schedule.Task', {
                     id: task.get('id'),
                     modifiable: task.get('modifiable'),
                     removable: task.get('removable'),
                     deactivatable: task.get('deactivatable')
-                }
-            });
+                })
+            );
         }, this);
         
         Ext.create('Ametys.message.Message', {
             type: Ametys.message.Message.SELECTION_CHANGED,
-            targets: targets
+            targets: {
+                id: Ametys.message.MessageTarget.TASK,
+                parameters: {
+                    tasks: tasks
+                }
+            }
         });
     },
     
@@ -314,21 +318,4 @@ Ext.define("Ametys.plugins.coreui.schedule.ScheduledTasksTool.TaskEntry", {
         {name: 'lastDuration'},
         {name: 'success'}
     ]
-});
-
-Ext.define("Ametys.message.TaskMessageTarget",{
-    override: "Ametys.message.MessageTarget",
-    statics: 
-    {
-        /**
-         * @member Ametys.message.MessageTarget
-         * @readonly
-         * @property {String} TASK The target of the message is a task
-         * @property {String} TASK.id The id of the task
-         * @property {Boolean} [TASK.modifiable] true if the task is modifiable
-         * @property {Boolean} [TASK.removable] true if the task is removable
-         * @property {Boolean} [TASK.deactivatable] true if the task is deactivatable
-         */
-        TASK: "task"
-    }
 });
