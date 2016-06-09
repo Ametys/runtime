@@ -1265,6 +1265,10 @@
     <message key="RIBBON_TABS_TAB_TASK_LABEL">Tâche</message>
     <message key="RIBBON_TABS_TAB_TASKS_GROUPS_GROUP_ACTION_LABEL">Actions</message>
     
+    <message key="PLUGINS_CORE_RIGHTS_TASK_EDIT_LABEL">Editer une tâche</message>
+    <message key="PLUGINS_CORE_RIGHTS_TASK_EDIT_DESCRIPTION">Ajouter, éditer, supprimer et activer une tâche dans le planificateur.</message>
+    <message key="PLUGINS_CORE_RIGHTS_TASK_SCHEDULER_CATEGORY">Planificateur de tâches</message>
+    
     <message key="PLUGINS_CORE_UI_TASKS_ADD_LABEL">Ajouter</message>
     <message key="PLUGINS_CORE_UI_TASKS_ADD_DESCRIPTION">Ajoute et programme une nouvelle tâche</message>
     <message key="PLUGINS_CORE_UI_TASKS_EDIT_LABEL">Modifier</message>

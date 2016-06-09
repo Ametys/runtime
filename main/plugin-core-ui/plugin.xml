@@ -2792,6 +2792,15 @@
     
     <feature name="scheduled-tasks">
         <extensions>
+            <extension point="org.ametys.core.right.RightsExtensionPoint"
+                       id="core.schedule.rights.edit">
+                <right id="CORE_Rights_TaskScheduler">
+                    <label>PLUGINS_CORE_RIGHTS_TASK_EDIT_LABEL</label>
+                    <description>PLUGINS_CORE_RIGHTS_TASK_EDIT_DESCRIPTION</description>
+                    <category>PLUGINS_CORE_RIGHTS_TASK_SCHEDULER_CATEGORY</category>
+                </right>
+            </extension>
+            
             <extension id="org.ametys.core.ui.schedule.Tasks"
                        point="org.ametys.core.ui.RibbonControlsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
@@ -2803,6 +2812,7 @@
                     
                     <icon-glyph>flaticon-calendar-with-a-clock-time-tools</icon-glyph>
                 </class>
+                <right>CORE_Rights_TaskScheduler</right>
                 <depends>
                     <org.ametys.core.ui.UIToolsFactoriesManager>uitool-scheduled-tasks</org.ametys.core.ui.UIToolsFactoriesManager>
                 </depends>
@@ -2819,7 +2829,8 @@
                     
                     <icon-glyph>flaticon-calendar-with-a-clock-time-tools</icon-glyph>
                     <default-location>cl</default-location>
-                </class>                       
+                </class>
+                <right>CORE_Rights_TaskScheduler</right>
                 <scripts>
                     <file>js/Ametys/plugins/coreui/schedule/ScheduledTasksTool.js</file>
                 </scripts>
@@ -2845,6 +2856,7 @@
                     <icon-glyph>flaticon-gear39</icon-glyph>
                     <icon-decorator>decorator-flaticon-add64</icon-decorator>
                 </class>
+                <right>CORE_Rights_TaskScheduler</right>
                 <scripts>
                     <file>js/Ametys/plugins/coreui/schedule/TaskActions.js</file>
                     <file>js/Ametys/plugins/coreui/schedule/EditTaskHelper.js</file>
@@ -2871,6 +2883,7 @@
                     <icon-glyph>flaticon-gear39</icon-glyph>
                     <icon-decorator>decorator-flaticon-edit45</icon-decorator>
                 </class>
+                <right>CORE_Rights_TaskScheduler</right>
                 <scripts>
                     <file>js/Ametys/plugins/coreui/schedule/TaskActions.js</file>
                     <file>js/Ametys/plugins/coreui/schedule/EditTaskHelper.js</file>
@@ -2897,6 +2910,7 @@
                     <icon-glyph>flaticon-gear39</icon-glyph>
                     <icon-decorator>decorator-flaticon-remove11</icon-decorator>
                 </class>
+                <right>CORE_Rights_TaskScheduler</right>
                 <scripts>
                     <file>js/Ametys/plugins/coreui/schedule/TaskActions.js</file>
                     <file plugin="core">js/Ametys/plugins/core/schedule/Scheduler.js</file>
@@ -2924,6 +2938,7 @@
                     <enabled-icon-decorator>decorator-flaticon-checked34</enabled-icon-decorator>
                     <disabled-icon-decorator>decorator-flaticon-forbidden1</disabled-icon-decorator>
                 </class>
+                <right>CORE_Rights_TaskScheduler</right>
                 <scripts>
                     <file>js/Ametys/plugins/coreui/schedule/EnableTaskButtonController.js</file>
                     <file>js/Ametys/plugins/coreui/schedule/TaskActions.js</file>
