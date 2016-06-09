@@ -85,7 +85,8 @@
             vertical-align: top;
         }
     }
-    .#{$prefix}btn-wrap-#{$ui}-small.#{$prefix}btn-split-right:after {
+    .#{$prefix}btn-wrap-#{$ui}-small.#{$prefix}btn-split-right:after,
+    .#{$prefix}btn-wrap-#{$ui}-small.#{$prefix}btn-arrow-right:after {
         font-size: $ametys-ribbon-button-font-size;
     }  
       
