@@ -68,7 +68,8 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
 		            pack  : 'start'
 		        },
 		        width: 450,
-		        
+                
+		        defaultFocus: 'userPopulations',
 		        items: [
 		            {
 		                xtype: 'component',
@@ -249,11 +250,6 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
 			{
 				me._box.show();
 				me._initForm (login, populationId);
-				
-				if (me._box.defaultFocus)
-				{
-					me._box.defaultFocus.focus(true);
-				}
 			}
 		}
 		
@@ -355,7 +351,7 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
 		{
 			this._form.reset();
 			this._form.getForm().findField('login').enable();
-			// this._form.getForm().findField('login').focus(true); // FIXME CMS-6883
+			this._form.getForm().findField('login').focus(true);
 		}
 		else
 		{
@@ -375,7 +371,18 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
 		this._form.setValues({values: user, comments: {}, repeaters: []});
 		this._form.getForm().findField('login').disable();
 		
-		// TODO focus first field != changepasswordfield
+		// focus first field != changepasswordfield
+        this._form.getForm().getFields().each(function(item, index, length) {
+            if (item.isDisabled() || item.type == 'password')
+            {
+                return true;
+            }
+            else
+            {
+                item.focus(true);
+                return false;
+            }
+        });
 	},
 	
 	/**
