@@ -1252,8 +1252,8 @@
                         <label i18n="true">PLUGINS_CORE_SCHEDULER_SEND_MAIL_RECIPIENTS_LABEL</label>
                         <description i18n="true">PLUGINS_CORE_SCHEDULER_SEND_MAIL_RECIPIENTS_DESCRIPTION</description>
                         <validation>
-                            <regexp>^(\w+)([\-+.][\w]+)*@(\w[\-\w]*\.){1,5}([A-Za-z0-9][A-Za-z0-9]+)( (\w+)([\-+.][\w]+)*@(\w[\-\w]*\.){1,5}([A-Za-z0-9][A-Za-z0-9]+))*$</regexp>
-                            <invalidText i18n="true">plugin.core:PLUGINS_CORE_REGEXP_INVALID_MAIL</invalidText>
+                            <regexp>^(\w+)([\-+.][\w]+)*@(\w[\-\w]*\.){1,5}([A-Za-z0-9][A-Za-z0-9]+)(\n(\w+)([\-+.][\w]+)*@(\w[\-\w]*\.){1,5}([A-Za-z0-9][A-Za-z0-9]+))*$</regexp>
+                            <invalidText i18n="true">PLUGINS_CORE_SCHEDULER_SEND_MAIL_RECIPIENTS_INVALID_MAIL</invalidText>
                             <mandatory/>
                         </validation>
                         <widget>edition.textarea</widget>

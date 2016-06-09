@@ -44,6 +44,17 @@ public class SendMailSchedulable extends AbstractStaticSchedulable
         String recipients = (String) jobDataMap.get(Scheduler.PARAM_VALUES_PREFIX + RECIPIENTS_KEY);
         String subject = (String) jobDataMap.get(Scheduler.PARAM_VALUES_PREFIX + SUBJECT_KEY);
         String body = (String) jobDataMap.get(Scheduler.PARAM_VALUES_PREFIX + BODY_KEY);
-        SendMailHelper.sendMail(subject, body, null, recipients, sender);
+
+        StringBuilder builder = new StringBuilder(); // the builder for the addresses separated by a space
+        for (String recipient : recipients.split("\\n"))
+        {
+            if (builder.length() != 0)
+            {
+                builder.append(" ");
+            }
+            builder.append(recipient.trim());
+        }
+        
+        SendMailHelper.sendMail(subject, body, null, builder.toString(), sender);
     }
 }

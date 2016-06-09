@@ -205,7 +205,8 @@
     <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_SENDER_LABEL">Expéditeur</message>
     <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_SENDER_DESCRIPTION">Expéditeur du mail</message>
     <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_RECIPIENTS_LABEL">Destinataire(s)</message>
-    <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_RECIPIENTS_DESCRIPTION">Destinataire(s) du mail, séparés par des espaces</message>
+    <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_RECIPIENTS_DESCRIPTION">Destinataire(s) du mail, un par ligne</message>
+    <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_RECIPIENTS_INVALID_MAIL">Une des adresses saisies n'est pas valide ou celles-ci ne sont pas séparées par un retour à la ligne</message>
     <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_SUBJECT_LABEL">Sujet</message>
     <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_SUBJECT_DESCRIPTION">Sujet du mail</message>
     <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_BODY_LABEL">Message</message>

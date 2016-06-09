@@ -205,7 +205,8 @@
     <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_SENDER_LABEL">Sender</message>
     <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_SENDER_DESCRIPTION">Sender of the mail</message>
     <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_RECIPIENTS_LABEL">Recipient(s)</message>
-    <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_RECIPIENTS_DESCRIPTION">Recipient(s) of the mail, separated by spaces</message>
+    <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_RECIPIENTS_DESCRIPTION">Recipient(s) of the mail, one per line</message>
+    <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_RECIPIENTS_INVALID_MAIL">One of the addresses is not a valid one or they are not separated by a new line</message>
     <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_SUBJECT_LABEL">Subject</message>
     <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_SUBJECT_DESCRIPTION">Subject of the mail</message>
     <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_BODY_LABEL">Body</message>
