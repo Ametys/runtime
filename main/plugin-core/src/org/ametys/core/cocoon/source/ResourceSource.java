@@ -66,7 +66,7 @@ public final class ResourceSource extends AbstractSource
         }
 
         String scheme = systemId.substring(0, pos);
-        _path = NetUtils.normalize(systemId.substring(pos + "://".length()));
+        _path = NetUtils.normalize(systemId.substring(pos + "://".length())).replace('\\', '/'); // A path with / and \ mixed will fail in ZipEntry
 
         setSystemId(scheme + "://" + _path);
         _location = getClassLoader().getResource(_path);
