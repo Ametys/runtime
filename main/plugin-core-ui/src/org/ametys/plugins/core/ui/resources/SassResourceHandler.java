@@ -38,6 +38,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.excalibur.source.Source;
+import org.apache.excalibur.source.SourceNotFoundException;
 import org.xml.sax.SAXException;
 
 import io.bit3.jsass.CompilationException;
@@ -243,10 +244,17 @@ public class SassResourceHandler extends AbstractCompiledResourceHandler
             
             for (String uri : uriMatching)
             {
-                Source importSource = _sResolver.resolveURI(uri);
-                if (importSource.exists())
+                try
                 {
-                    return importSource;
+                    Source importSource = _sResolver.resolveURI(uri);
+                    if (importSource.exists())
+                    {
+                        return importSource;
+                    }
+                }
+                catch (SourceNotFoundException e)
+                {
+                    // source does not exists. Do nothing
                 }
             }
             
