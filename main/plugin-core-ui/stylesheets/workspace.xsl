@@ -244,7 +244,7 @@
 
                             var ribbonItems = [];         
 
-                    <xsl:for-each select="ribbon/tabs/tab[groups/group/medium//control/@id = /Ametys/workspace/ribbon/controls/control/@id]">
+                    <xsl:for-each select="ribbon/tabs/tab">
                         <xsl:sort select="not(not(@contextualColor))"/>
                         
                         <xsl:variable name="tabPos"><xsl:value-of select="position()"/></xsl:variable>
@@ -339,7 +339,7 @@
                                         <xsl:variable name="id" select="@id"/>
                                         appMenuItems.push(Ametys.ribbon.RibbonManager.getUI("<xsl:value-of select="$id"/>").addMenuItemUI());
                                     </xsl:when>
-                                    <xsl:when test="local-name()='separator' and following-sibling::control[@id = /Ametys/workspace/ribbon/controls/control/@id]">
+                                    <xsl:when test="local-name()='separator'">
                                         appMenuItems.push('-');
                                     </xsl:when>
                                 </xsl:choose>
@@ -356,7 +356,7 @@
                                             <xsl:variable name="id" select="@id"/>
                                             userMenuItems.push(Ametys.ribbon.RibbonManager.getUI("<xsl:value-of select="$id"/>").addMenuItemUI());
                                         </xsl:when>
-                                        <xsl:when test="local-name()='separator' and following-sibling::control[@id = /Ametys/workspace/ribbon/controls/control/@id]">
+                                        <xsl:when test="local-name()='separator'">
                                             userMenuItems.push('-');
                                         </xsl:when>
                                     </xsl:choose>
@@ -448,8 +448,8 @@
                     
                             /** Contextual tabs creation */<xsl:text/>
                             var tab;
-                    <xsl:variable name="tabcount" select="count(ribbon/tabs/tab[groups/group/medium//control/@id = /Ametys/workspace/ribbon/controls/control/@id])"/>
-                    <xsl:for-each select="ribbon/tabs/tab[groups/group/medium//control/@id = /Ametys/workspace/ribbon/controls/control/@id and not(preceding-sibling::*/@id = @id)]">
+                    <xsl:variable name="tabcount" select="count(ribbon/tabs/tab)"/>
+                    <xsl:for-each select="ribbon/tabs/tab[not(preceding-sibling::*/@id = @id)]">
                         <xsl:variable name="tabController" select="../../tabsControls/tab[@id = current()/@id]"/>
                         
                         <xsl:if test="$tabController">
@@ -457,7 +457,7 @@
                             Ametys.ribbon.RibbonManager.registerTab(tab);
                         </xsl:if>
                     </xsl:for-each>
-                    <xsl:for-each select="ribbon/tabs/tab[groups/group/medium//control/@id = /Ametys/workspace/ribbon/controls/control/@id]">
+                    <xsl:for-each select="ribbon/tabs/tab">
                         <xsl:sort select="not(not(@contextualColor))" order="descending"/>
                         <xsl:sort select="position()" data-type="number" order="descending"/>
 

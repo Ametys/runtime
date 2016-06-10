@@ -92,9 +92,9 @@ Ext.define(
              *          o is an object with 2 properties: 
              *              current a Number representing the index of the currently selected matrix
              *              matrix an Array[Object o2] where o2 is an object with the following properties:
-             *                  resize an Array[String s]. Its size is the same as the tabs one, its values can be "small", "medium" or "large". The array reprensents the possible combinaison of "small" "medium" and "large" groups for a tab
-             *                  doesNotFitIn is a Number representing a size in pixel known for NOT beeing able to display the tab in this configuration of groups.
-             *                  fitIn is a Numer representing a size in pixel known for beeing able to display the tab in this configuration of groups. 
+             *                  resize an Array[String s]. Its size is the same as the tabs one, its values can be "small", "medium" or "large". The array represents the possible combination of "small" "medium" and "large" groups for a tab
+             *                  width is a Number representing the size in pixel of the tab.
+             *              groupsWidth an Array[Object o3] where o3 is for each group an object containing the different Ametys.ui.fluent.ribbon.Group.SIZE_*  associated with the corresponding widths
              */
             this._scaleGrid = {};
 
@@ -528,14 +528,17 @@ Ext.define(
                     this._buildScalesGrid(index);
                 }
                 var grid = this._scaleGrid[index];
-                
-                if (this.getActiveTab().items.getCount() > 0 && !this.getActiveTab().items.last().canBeVisible())
-                {
-                    if (!grid.matrix[grid.current].doesNotFitIn || grid.matrix[grid.current].doesNotFitIn < currentActiveTabWidth)
-                    {
-                        grid.matrix[grid.current].doesNotFitIn = currentActiveTabWidth;
-                    }
 
+                if (!grid.matrix[grid.current].width)
+                {
+                    grid.matrix[grid.current].width = this.getActiveTab().items.last().getRegion().right - this.getActiveTab().getRegion().left;
+                }
+
+                this._fillGridGroupsSize(grid);
+
+                if (this.getActiveTab().items.getCount() > 0 && grid.matrix[grid.current].width > currentActiveTabWidth)
+                {
+                    // does not fit, try to reduce
                     if (grid.current + 1 < grid.matrix.length)
                     {
                         grid.current = this._findNextIndexToTestInGrowingGrid(grid, currentActiveTabWidth);
@@ -558,15 +561,10 @@ Ext.define(
                 }
                 else
                 {
-                    if (!grid.matrix[grid.current].fitIn || grid.matrix[grid.current].fitIn > currentActiveTabWidth)
-                    {
-                        grid.matrix[grid.current].fitIn = currentActiveTabWidth;
-                    }
-                    
                     // Can we grow ?
                     if (grid.current > 0)
                     {
-                        if (!grid.matrix[grid.current - 1].doesNotFitIn || currentActiveTabWidth > grid.matrix[grid.current - 1].doesNotFitIn)
+                        if (!grid.matrix[grid.current - 1].width || currentActiveTabWidth > grid.matrix[grid.current - 1].width)
                         {
                             // have a try
                             grid.current = this._findNextIndexToTestInDecreasingGrid(grid, currentActiveTabWidth);
@@ -593,21 +591,21 @@ Ext.define(
          */
         _findNextIndexToTestInGrowingGrid: function(grid, currentActiveTabWidth)
         {
-            var minimalAnswer = grid.current + 1;
+            var currentAnswer = grid.current + 1;
             
-            for (var i = minimalAnswer; i < grid.matrix.length - 1; i++)
+            for (var i = currentAnswer; i < grid.matrix.length - 1; i++)
             {
-                if (grid.matrix[i].fitIn && currentActiveTabWidth >= grid.matrix[i].fitIn)
+                if (grid.matrix[i].width)
                 {
-                    return i;
-                }
-                else if (grid.matrix[i].doesNotFitIn &&  currentActiveTabWidth <= grid.matrix[i].doesNotFitIn)
-                {
-                    minimalAnswer = i + 1;
+                    if (currentActiveTabWidth >= grid.matrix[i].width)
+                    {
+                        return i;
+                    }
+                    currentAnswer = i + 1;   
                 }
             }
             
-            return minimalAnswer;
+            return currentAnswer;
         },
         
         /**
@@ -618,21 +616,21 @@ Ext.define(
          */
         _findNextIndexToTestInDecreasingGrid: function(grid, currentActiveTabWidth)
         {
-            var minimalAnswer = grid.current - 1;
+            var currentAnswer = grid.current - 1;
             
-            for (var i = minimalAnswer; i >= 0; i--)
+            for (var i = currentAnswer; i >= 0; i--)
             {
-                if (grid.matrix[i].fitIn && currentActiveTabWidth >= grid.matrix[i].fitIn)
+                if (grid.matrix[i].width)
                 {
-                    minimalAnswer = i;
-                }
-                else if (grid.matrix[i].doesNotFitIn &&  currentActiveTabWidth <= grid.matrix[i].doesNotFitIn)
-                {
-                    return i + 1;
+                    if (currentActiveTabWidth <= grid.matrix[i].width)
+                    {
+                        return i + 1;
+                    }
+                    currentAnswer = i;
                 }
             }
             
-            return minimalAnswer;
+            return currentAnswer;
         },
         
         /**
@@ -682,6 +680,11 @@ Ext.define(
             
             scaleGrid[index].matrix = [];
             scaleGrid[index].current = 0;
+            scaleGrid[index].groupsWidth = {};
+            for (var i = 0; i < priority.length; i++)
+            {
+                scaleGrid[index].groupsWidth[i] = {};
+            }
 
             fill(Ametys.ui.fluent.ribbon.Group.SIZE_LARGE, Ametys.ui.fluent.ribbon.Group.SIZE_MEDIUM, false);
             fill(Ametys.ui.fluent.ribbon.Group.SIZE_MEDIUM, Ametys.ui.fluent.ribbon.Group.SIZE_SMALL, true);
@@ -720,7 +723,93 @@ Ext.define(
                     }
                 }
             }            
+        },
+
+        /**
+         * @private
+         * Fill the group size for the current tab grid, and remove any anomaly in known size group layouts
+         * @param {Object} tabGrid The grid for the current tab
+         */
+        _fillGridGroupsSize: function(tabGrid)
+        {
+            // "sizeOrder" is used to know the relative order of each size compare to another
+            var sizeOrder = [
+                Ametys.ui.fluent.ribbon.Group.SIZE_LARGE,
+                Ametys.ui.fluent.ribbon.Group.SIZE_MEDIUM,
+                Ametys.ui.fluent.ribbon.Group.SIZE_SMALL,
+                Ametys.ui.fluent.ribbon.Group.SIZE_ICON
+            ];
+
+            for (var groupIndex = 0; groupIndex < this.getActiveTab().items.length; groupIndex++)
+            {
+                // for each group
+                
+                var currentGroup = this.getActiveTab().items.get(groupIndex);
+                var currentGroupSize = tabGrid.matrix[tabGrid.current].resize[groupIndex];
+
+                if (!tabGrid.groupsWidth[groupIndex][currentGroupSize])
+                {
+                    // New size
+                    
+                    tabGrid.groupsWidth[groupIndex][currentGroupSize] = currentGroup.getWidth();
+
+                    var currentSizeOrder = sizeOrder.indexOf(currentGroupSize);
+
+                    for (var compareToSize = 0; compareToSize < sizeOrder.length; compareToSize++)
+                    {
+                        if (currentSizeOrder > compareToSize && tabGrid.groupsWidth[groupIndex][sizeOrder[compareToSize]] < tabGrid.groupsWidth[groupIndex][sizeOrder[currentSizeOrder]])
+                        {
+                            // remove current group size, because the larger one is smaller
+                            this._changeGroupSize(tabGrid, groupIndex, sizeOrder[currentSizeOrder], sizeOrder[compareToSize]);
+                        }
+                        if (currentSizeOrder < compareToSize && tabGrid.groupsWidth[groupIndex][sizeOrder[compareToSize]] > tabGrid.groupsWidth[groupIndex][sizeOrder[currentSizeOrder]])
+                        {
+                            // remove compareTo group size, because it is larger than the current one
+                            this._changeGroupSize(tabGrid, groupIndex, sizeOrder[compareToSize], sizeOrder[currentSizeOrder]);
+                        }
+                    }
+                }
+            }
+        },
+
+        /**
+         * @private
+         * Replace all occurrences of the size of a group by another size, and remove duplicate entries from the tab matrix
+         * @param {Object} tabGrid The tab grid
+         * @param {Number} groupIndex The index of the group to edit
+         * @param {String} oldSize The old size name
+         * @param {String} newSize The new size name
+         */
+        _changeGroupSize: function(tabGrid, groupIndex, oldSize, newSize)
+        {
+            for (var index = tabGrid.matrix.length - 1; index >= 0 ; index--)
+            {
+                if (tabGrid.matrix[index].resize[groupIndex] == oldSize)
+                {
+                    tabGrid.matrix[index].resize[groupIndex] = newSize;
+                    delete tabGrid.matrix[index].width;
+
+                    var foundMatch = false;
+                    for (var compareIndex = index - 1; compareIndex >= 0 && !foundMatch; compareIndex--)
+                    {
+                        var areTheSame = tabGrid.matrix[index].resize.length == tabGrid.matrix[compareIndex].resize.length;
+                        for (var resizeIndex = 0; areTheSame && resizeIndex < tabGrid.matrix[index].resize.length; resizeIndex++)
+                        {
+                            areTheSame = tabGrid.matrix[compareIndex].resize[resizeIndex] == tabGrid.matrix[index].resize[resizeIndex];
+                        }
+
+                        if (areTheSame)
+                        {
+                            if (tabGrid.current == index)
+                            {
+                                tabGrid.current = tabGrid.current == 0 ? 0 : tabGrid.current - 1;
+                            }
+
+                            Ext.Array.removeAt(tabGrid.matrix, index);
+                        }
+                    }
+                }
+            }
         }
     }
 );
-   

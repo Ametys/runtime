@@ -284,17 +284,6 @@ Ext.define(
 			}
 
             this.getLayout().setActiveItem(this._scaleContainer[newScale]);
-		},
-		
-		/**
-		 * Determine if the group is currently normally visible
-		 * @returns {Boolean} True if the group is normally visible inside the ribbon. False if the group do overlap the right of the ribbon, or is on a second line
-		 */
-		canBeVisible: function()
-		{
-			return this.el ? this.el.getTop() == this.ownerCt.el.getTop() 
-                            && this.el.getRight() < this.ownerCt.el.getRight() 
-                      : true;
 		}
 	}
 );
