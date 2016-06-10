@@ -72,6 +72,7 @@ Ext.define('Ametys.plugins.coreui.schedule.ScheduledTasksTool', {
                  {stateId: 'grid-schedulable-description', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_DESCRIPTION}}", flex: 2, dataIndex: 'schedulableDescription', hidden: true},
                  {stateId: 'grid-schedulable-parameters', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_PARAMETERS}}", flex: 2, dataIndex: 'schedulableParameters', renderer: this._renderSchedulableParameters, hidden: true},
                  {stateId: 'grid-system-task', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SYSTEM}}", width: 100, dataIndex: 'private', renderer: this._renderBoolean},
+                 {stateId: 'grid-running', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_RUNNING}}", width: 100, dataIndex: 'running', renderer: this._renderBoolean},
                  {stateId: 'grid-next-fire', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_NEXT_FIRE}}", width: 150, dataIndex: 'nextFireTime', renderer: this._renderDate},
                  {stateId: 'grid-previous-fire', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_PREVIOUS_FIRE}}", width: 150, dataIndex: 'previousFireTime', renderer: this._renderDate},
                  {stateId: 'grid-last-duration', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_LAST_DURATION}}", width: 170, dataIndex: 'lastDuration', renderer: this._renderDuration},
@@ -316,6 +317,7 @@ Ext.define("Ametys.plugins.coreui.schedule.ScheduledTasksTool.TaskEntry", {
         {name: 'nextFireTime', convert: function(v, rec) {return rec.get('startup') ? "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_STARTUP_TASK}}" : v}},
         {name: 'previousFireTime'},
         {name: 'lastDuration'},
-        {name: 'success'}
+        {name: 'success'},
+        {name: 'running'}
     ]
 });

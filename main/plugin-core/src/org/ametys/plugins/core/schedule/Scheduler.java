@@ -49,6 +49,7 @@ import org.quartz.CronTrigger;
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
+import org.quartz.JobExecutionContext;
 import org.quartz.JobKey;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
@@ -535,17 +536,24 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
      */
     public List<Map<String, Object>> getTasksAsJson() throws Exception
     {
+        List<String> executingJobs = _scheduler.getCurrentlyExecutingJobs().stream()
+                .map(JobExecutionContext::getJobDetail)
+                .map(JobDetail::getKey)
+                .map(JobKey::getName)
+                .collect(Collectors.toList());
+        
         return getJobs().stream()
-                .map(LambdaUtils.wrap(this::_jobToJson))
+                .map(LambdaUtils.wrap(key-> _jobToJson(key, executingJobs)))
                 .collect(Collectors.toList());
     }
     
-    private Map<String, Object> _jobToJson(JobKey jobKey) throws Exception
+    private Map<String, Object> _jobToJson(JobKey jobKey, List<String> executingJobs) throws Exception
     {
         Map<String, Object> result = new HashMap<>();
         
         JobDataMap jobDataMap = _scheduler.getJobDetail(jobKey).getJobDataMap();
-        result.put("id", jobDataMap.getString(KEY_RUNNABLE_ID));
+        String id = jobDataMap.getString(KEY_RUNNABLE_ID);
+        result.put("id", id);
         result.put("label", I18nizableText.stringToI18nizableText((String) jobDataMap.get(KEY_RUNNABLE_LABEL)));
         result.put("description", I18nizableText.stringToI18nizableText((String) jobDataMap.get(KEY_RUNNABLE_DESCRIPTION)));
         result.put("removable", jobDataMap.getBoolean(KEY_RUNNABLE_REMOVABLE));
@@ -553,6 +561,7 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
         result.put("deactivatable", jobDataMap.getBoolean(KEY_RUNNABLE_DEACTIVATABLE));
         result.put("lastDuration", jobDataMap.get(AmetysJob.KEY_LAST_DURATION));
         result.put("success", jobDataMap.get(AmetysJob.KEY_SUCCESS));
+        result.put("running", executingJobs.contains(id));
         
         String schedulableId = jobDataMap.getString(KEY_SCHEDULABLE_ID);
         if (_schedulableEP.hasExtension(schedulableId))

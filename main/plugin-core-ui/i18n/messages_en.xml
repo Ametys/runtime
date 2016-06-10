@@ -1291,6 +1291,7 @@
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_DESCRIPTION">Description of the job</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_PARAMETERS">Parameters of the job</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SYSTEM">System task</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_RUNNING">Currently running</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_NEXT_FIRE">Next fire time</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_PREVIOUS_FIRE">Last fire time</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_LAST_DURATION">Last duration</message>
