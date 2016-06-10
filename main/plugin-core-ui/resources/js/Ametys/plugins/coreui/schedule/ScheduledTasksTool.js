@@ -90,7 +90,7 @@ Ext.define('Ametys.plugins.coreui.schedule.ScheduledTasksTool', {
      * Create the store for tasks.
      * @return {Ext.data.Store} The store
      */
-    _createStore: function ()
+    _createStore: function()
     {
         return Ext.create('Ext.data.Store', {
             autoDestroy: true,
@@ -116,17 +116,35 @@ Ext.define('Ametys.plugins.coreui.schedule.ScheduledTasksTool', {
         return Ametys.tool.Tool.MB_TYPE_ACTIVE;
     },
     
-    setParams: function (params)
+    setParams: function(params)
     {
         this.callParent(arguments);
         this.showOutOfDate();
     },
     
-    refresh: function ()
+    refresh: function()
     {
         this.showRefreshing();
         
-        this._store.load({callback: this.showRefreshed, scope: this});
+        this._store.load({callback: this._refreshCb, scope: this});
+    },
+    
+    /**
+     * @private
+     * Callback of the {@link #refresh} function 
+     */
+    _refreshCb: function()
+    {
+        this.showRefreshed();
+        
+        function tryToRefresh()
+        {
+            if (this != null && this.isNotDestroyed())
+            {
+                this.refresh();
+            }
+        }
+        setTimeout(Ext.bind(tryToRefresh, this), 60000);
     },
     
     sendCurrentSelection: function()

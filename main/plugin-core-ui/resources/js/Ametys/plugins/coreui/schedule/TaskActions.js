@@ -120,5 +120,18 @@ Ext.define('Ametys.plugins.coreui.schedule.TaskActions', {
         {
             Ametys.plugins.core.schedule.Scheduler.remove([id]);
         }
+    },
+    
+    /**
+     * Refresh the task tool
+     * @param {Ametys.ribbon.element.ui.ButtonController} controller The controller calling this function
+     */
+    refreshTool: function(controller)
+    {
+        var tool = Ametys.tool.ToolsManager.getTool("uitool-scheduled-tasks");
+        if (tool != null)
+        {
+            tool.refresh();
+        }
     }
 });

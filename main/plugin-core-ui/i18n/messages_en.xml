@@ -1280,6 +1280,8 @@
     <message key="PLUGINS_CORE_UI_TASKS_DISABLE_DESCRIPTION">The task is currently enabled.&lt;br/&gt;Click here to disable the selected task.</message>
     <message key="PLUGINS_CORE_UI_TASKS_ENABLE_DESCRIPTION_ERROR">A server error occured and does not let to know the current status of the task.</message>
     <message key="PLUGINS_CORE_UI_TASKS_ENABLE_NO_DEACTIVATABLE_LABEL">This task cannot be disabled, and thus will always be enabled</message>
+    <message key="PLUGINS_CORE_UI_TASKS_REFRESH_LABEL">Refresh</message>
+    <message key="PLUGINS_CORE_UI_TASKS_REFRESH_DESCRIPTION">Refresh the task scheduler</message>
     
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_LABEL">Task scheduler</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_DESCRIPTION">Display and allow to manage the scheduled tasks</message>

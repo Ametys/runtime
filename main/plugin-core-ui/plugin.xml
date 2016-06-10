@@ -2856,7 +2856,7 @@
                     <file>js/Ametys/plugins/coreui/schedule/ScheduledTasksTool.js</file>
                 </scripts>
                 <depends>
-                <org.ametys.core.ui.MessageTargetFactoriesManager>task</org.ametys.core.ui.MessageTargetFactoriesManager>
+                    <org.ametys.core.ui.MessageTargetFactoriesManager>task</org.ametys.core.ui.MessageTargetFactoriesManager>
                 </depends>
             </extension>
             
@@ -2975,6 +2975,27 @@
                 </scripts>
                 <depends>
                     <org.ametys.core.ui.StaticFileImportsManager>org.ametys.core.schedule.Scheduler</org.ametys.core.ui.StaticFileImportsManager>
+                </depends>
+            </extension>
+            
+            <extension id="org.ametys.core.ui.schedule.tasks.Refresh"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.coreui.schedule.TaskActions.refreshTool</action>
+                    <tool-id>^uitool-scheduled-tasks$</tool-id>
+                    
+                    <label i18n="true">PLUGINS_CORE_UI_TASKS_REFRESH_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TASKS_REFRESH_DESCRIPTION</description>
+                    
+                    <icon-glyph>flaticon-arrow123</icon-glyph>
+                </class>
+                <right>CORE_Rights_TaskScheduler</right>
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/schedule/TaskActions.js</file>
+                </scripts>
+                <depends>
+                    <org.ametys.core.ui.UIToolsFactoriesManager>uitool-scheduled-tasks</org.ametys.core.ui.UIToolsFactoriesManager>
                 </depends>
             </extension>
         </extensions>
