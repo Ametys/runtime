@@ -61,7 +61,7 @@ Ext.define("Ametys.plugins.coreui.schedule.TaskMessageTargetFactory", {
         Ext.Array.forEach(tasks, function(task) {
             targets.push(Ext.create('Ametys.message.MessageTarget', {
                 id: this.getId(),
-                parameters: Ext.merge(task.getProperties({}), {task: task})
+                parameters: Ext.merge(task.getProperties(), {task: task})
             }));
         }, this);
         

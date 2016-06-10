@@ -77,6 +77,6 @@ Ext.define('Ametys.plugins.coreui.schedule.Task', {
             modifiable: this._modifiable,
             removable: this._removable,
             deactivatable: this._deactivatable
-        }, initialProperty);
+        }, initialProperty || {});
     }
 });
