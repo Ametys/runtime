@@ -92,7 +92,7 @@ Ext.define('Ametys.plugins.coreui.schedule.TaskActions', {
             var id = messageTargets[0].getParameters().id;
             Ext.Msg.confirm("{{i18n PLUGINS_CORE_UI_TASKS_REMOVE_CONFIRM_TITLE}}",
                     "{{i18n PLUGINS_CORE_UI_TASKS_REMOVE_CONFIRM_MSG}}",
-                    Ext.bind(this._doRemove, this, [id], 1),
+                    Ext.bind(this._doRemove, this, [id, messageTargets[0]], 1),
                     this
             );
         }
@@ -113,12 +113,13 @@ Ext.define('Ametys.plugins.coreui.schedule.TaskActions', {
      * Calls the remove server method
      * @param {String} btn The pressed button. Can only be 'yes'/'no'
      * @param {String} id The id of the task to remove
+     * @param {Ametys.message.MessageTarget} messageTarget The message target of the task to remove
      */
-    _doRemove: function(btn, id)
+    _doRemove: function(btn, id, messageTarget)
     {
         if (btn == 'yes')
         {
-            Ametys.plugins.core.schedule.Scheduler.remove([id]);
+            Ametys.plugins.core.schedule.Scheduler.remove([id, messageTarget]);
         }
     },
     

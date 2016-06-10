@@ -237,6 +237,7 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
          * This calls the method 'remove' of the server DAO 'Scheduler'.
          * @param {Object[]} parameters The parameters to transmit to the server method
          * @param {String} parameters.id The id of the task
+         * @param {Ametys.message.MessageTarget} parameters.messageTarget The message target of the task for creating the deletion message
          * @param {Function} callback The function to call when the java process is over. Use options.scope for the scope. 
          * @param {Object} callback.returnedValue The value return from the server. Null on error (please note that when an error occured, the callback may not be called depending on the value of errorMessage).
          * @param {Object} callback.arguments Other arguments specified in option.arguments                 
@@ -253,6 +254,7 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
             {
                 role: "org.ametys.plugins.core.schedule.Scheduler",
                 methodName: "remove",
+                localParamsIndex: 1,
                 callback: {
                     handler: this._removeCb
                 },
@@ -494,10 +496,11 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
      * Callback function called after {@link #remove} has been processed.
      * @param {Object} response The server response
      */
-    _removeCb: function(response)
+    _removeCb: function(response, arguments, parameters)
     {
         var error = response['error'] || '';
         var id = response['id'];
+        var messageTarget = parameters[1];
         if (error == "not-found")
         {
             Ext.Msg.show({
@@ -538,12 +541,7 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
         {
             Ext.create('Ametys.message.Message', {
                 type: Ametys.message.Message.DELETED,
-                targets: [{
-                    id: Ametys.message.MessageTarget.TASK,
-                    parameters: {
-                        id: id
-                    }
-                }]
+                targets: [messageTarget]
             });
         }
     },
