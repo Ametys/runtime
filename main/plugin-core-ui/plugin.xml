@@ -2793,11 +2793,11 @@
     <feature name="scheduled-tasks">
         <extensions>
             <extension point="org.ametys.core.right.RightsExtensionPoint"
-                       id="core.schedule.rights.edit">
+                       id="core.schedule.rights.handle">
                 <right id="CORE_Rights_TaskScheduler">
-                    <label>PLUGINS_CORE_RIGHTS_TASK_EDIT_LABEL</label>
-                    <description>PLUGINS_CORE_RIGHTS_TASK_EDIT_DESCRIPTION</description>
-                    <category>PLUGINS_CORE_RIGHTS_TASK_SCHEDULER_CATEGORY</category>
+                    <label>PLUGINS_CORE_RIGHTS_TASK_HANDLE_LABEL</label>
+                    <description>PLUGINS_CORE_RIGHTS_TASK_HANDLE_DESCRIPTION</description>
+                    <category>plugin.admin:PLUGINS_ADMIN_RIGHTS_ADMIN_CATEGORY</category>
                 </right>
             </extension>
             

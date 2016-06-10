@@ -408,4 +408,9 @@
     <message key="PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_AMETYSHOME_LIMIT_SIZE_DESCRIPTION">Limit value of space available on disk where Ametys data directory is (in MB). An alert will be send when the free space will move below this value. Leave empty to disable this alert.</message>
     <message key="PLUGINS_ADMIN_SYSTEM_ALERT_AMETYSHOME_LIMIT_SIZE_MAIL_SUBJECT">Free disk space limit size reached</message>
     <message key="PLUGINS_ADMIN_SYSTEM_ALERT_AMETYSHOME_LIMIT_SIZE_MAIL_BODY">Free disk space is {0} MB. Thus it is insufficient because it exceeded the configured limit ({1} MB).</message>
+    
+    <!-- +
+         | Rights admin category
+         + -->
+    <message key="PLUGINS_ADMIN_RIGHTS_ADMIN_CATEGORY">Administration</message>
 </catalogue>

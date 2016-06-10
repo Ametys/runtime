@@ -407,4 +407,9 @@
     <message key="PLUGINS_ADMIN_SYSTEM_ALERT_CONFIG_AMETYSHOME_LIMIT_SIZE_DESCRIPTION">Valeur limite de l'espace libre sur le disque où se situe le répertoire de données d'Ametys (indiqué en Mo). Une alerte sera envoyée lorsque l'espace disponible passera sous cette valeur. Laisser vide pour désactiver cette alerte.</message>
     <message key="PLUGINS_ADMIN_SYSTEM_ALERT_AMETYSHOME_LIMIT_SIZE_MAIL_SUBJECT">Espace disque manquant</message>
     <message key="PLUGINS_ADMIN_SYSTEM_ALERT_AMETYSHOME_LIMIT_SIZE_MAIL_BODY">L'espace disque restant est de {0} Mo. Il est donc insuffisant car passé en dessous de la limite indiquée dans la configuration ({1} Mo).</message>
+    
+    <!-- +
+         | Rights admin category
+         + -->
+    <message key="PLUGINS_ADMIN_RIGHTS_ADMIN_CATEGORY">Administration</message>
 </catalogue>

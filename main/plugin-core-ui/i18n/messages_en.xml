@@ -1263,9 +1263,8 @@
     <message key="RIBBON_TABS_TAB_TASK_LABEL">Task</message>
     <message key="RIBBON_TABS_TAB_TASKS_GROUPS_GROUP_ACTION_LABEL">Actions</message>
     
-    <message key="PLUGINS_CORE_RIGHTS_TASK_EDIT_LABEL">Edit a task</message>
-    <message key="PLUGINS_CORE_RIGHTS_TASK_EDIT_DESCRIPTION">Add, edit, remove and enable a task in the scheduler.</message>
-    <message key="PLUGINS_CORE_RIGHTS_TASK_SCHEDULER_CATEGORY">Task scheduler</message>
+    <message key="PLUGINS_CORE_RIGHTS_TASK_HANDLE_LABEL">Handle scheduled tasks</message>
+    <message key="PLUGINS_CORE_RIGHTS_TASK_HANDLE_DESCRIPTION">Handle tasks in the task scheduler.</message>
     
     <message key="PLUGINS_CORE_UI_TASKS_ADD_LABEL">Add</message>
     <message key="PLUGINS_CORE_UI_TASKS_ADD_DESCRIPTION">Add and schedule a new task</message>
