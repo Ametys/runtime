@@ -126,25 +126,7 @@ Ext.define('Ametys.plugins.coreui.schedule.ScheduledTasksTool', {
     {
         this.showRefreshing();
         
-        this._store.load({callback: this._refreshCb, scope: this});
-    },
-    
-    /**
-     * @private
-     * Callback of the {@link #refresh} function 
-     */
-    _refreshCb: function()
-    {
-        this.showRefreshed();
-        
-        function tryToRefresh()
-        {
-            if (this != null && this.isNotDestroyed())
-            {
-                this.refresh();
-            }
-        }
-        setTimeout(Ext.bind(tryToRefresh, this), 60000);
+        this._store.load({callback: this.showRefreshed, scope: this});
     },
     
     sendCurrentSelection: function()
