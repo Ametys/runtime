@@ -54,8 +54,8 @@ public class StaticRunnable implements Runnable, Component, Configurable, Plugin
     protected I18nizableText _label;
     /** The description */
     protected I18nizableText _description;
-    /** true to run at startup */
-    protected boolean _runAtStartup;
+    /** The fire process */
+    protected FireProcess _fireProcess;
     /** The CRON expression for scheduling the job */
     protected String _cronExpression;
     /** The id of the {@link Schedulable} to execute */
@@ -90,7 +90,7 @@ public class StaticRunnable implements Runnable, Component, Configurable, Plugin
     {
         _label = I18nizableText.parseI18nizableText(configuration.getChild("label"), "plugin." + _pluginName);
         _description = I18nizableText.parseI18nizableText(configuration.getChild("description"), "plugin." + _pluginName);
-        _runAtStartup = configuration.getChild("run-at-startup").getValueAsBoolean(false);
+        _fireProcess = FireProcess.valueOf(configuration.getChild("fire-process").getValue("cron").toUpperCase());
         _cronExpression = configuration.getChild("cron").getValue("0 0 2 * * ? *");
         _schedulableId = configuration.getChild("schedulableId").getValue();
         if (!_schedulableEP.hasExtension(_schedulableId))
@@ -124,11 +124,11 @@ public class StaticRunnable implements Runnable, Component, Configurable, Plugin
     {
         return _description;
     }
-
+    
     @Override
-    public boolean runAtStartup()
+    public FireProcess getFireProcess()
     {
-        return _runAtStartup;
+        return _fireProcess;
     }
     
     @Override

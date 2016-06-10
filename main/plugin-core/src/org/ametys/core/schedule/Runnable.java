@@ -28,6 +28,23 @@ import org.ametys.runtime.i18n.I18nizableText;
  */
 public interface Runnable
 {
+    /** The possible ways to fire the runnable */
+    public static enum FireProcess
+    {
+        /**
+         * Fired during the next application startup
+         */
+        STARTUP,
+        /**
+         * Fired once as soon as possible.
+         */
+        NOW,
+        /**
+         * Based on a cron expression.
+         */
+        CRON
+    }
+    
     /** The possible misfire policies */
     public static enum MisfirePolicy
     {
@@ -67,14 +84,13 @@ public interface Runnable
     public I18nizableText getDescription();
     
     /**
-     * When returns true, the runnable will be a one-shot task and will fire as soon as possible when the application starts up.
-     * If so, {@link #getCronExpression()} will be ignored whatever its value.
-     * @return true to run the task as soon as possible after the application starts up.
+     * Gets the process of firing, i.e. the way the task will be scheduled (fire now, fire at next stratup, schedule it based on a cron expression...).
+     * @return the fire process
      */
-    public boolean runAtStartup();
+    public FireProcess getFireProcess();
     
     /**
-     * Returns the cron expression to base the schedule on. Ignored if {@link #runAtStartup()} is true.
+     * Returns the cron expression to base the schedule on. Ignored if {@link #getFireProcess()} is different from {@link FireProcess#CRON}.
      * @return the cron expression
      */
     public String getCronExpression();
@@ -104,7 +120,7 @@ public interface Runnable
     public boolean isDeactivatable();
     
     /**
-     * Gets the misfire policy, i.e. what the runnable msut do if it missed a trigger.
+     * Gets the misfire policy, i.e. what the runnable must do if it missed a trigger. Ignored if {@link #getFireProcess()} is different from {@link FireProcess#CRON}.
      * @return The misfire policy
      */
     public MisfirePolicy getMisfirePolicy();

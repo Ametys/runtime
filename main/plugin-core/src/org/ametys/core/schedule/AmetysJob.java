@@ -35,6 +35,7 @@ import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 
 import org.ametys.core.engine.BackgroundEngineHelper;
+import org.ametys.core.schedule.Runnable.FireProcess;
 import org.ametys.plugins.core.schedule.Scheduler;
 
 /**
@@ -115,7 +116,7 @@ public class AmetysJob implements Job
             jobDataMap.put(KEY_SUCCESS, success);
             
             // Run at startup tasks are one-shot tasks => if so, remove me
-            if (jobDataMap.getBoolean(Scheduler.KEY_RUNNABLE_RUN_AT_STARTUP))
+            if (FireProcess.STARTUP.toString().equals(jobDataMap.getString(Scheduler.KEY_RUNNABLE_FIRE_PROCESS)))
             {
                 try
                 {

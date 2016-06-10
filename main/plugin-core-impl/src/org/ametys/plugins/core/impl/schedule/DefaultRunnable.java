@@ -33,8 +33,8 @@ public class DefaultRunnable implements Runnable
     protected I18nizableText _label;
     /** The description */
     protected I18nizableText _description;
-    /** true to run at startup */
-    protected boolean _runAtStartup;
+    /** The fire process */
+    protected FireProcess _fireProcess;
     /** The CRON expression */
     protected String _cron;
     /** The id of the linked {@link Schedulable} */
@@ -57,7 +57,7 @@ public class DefaultRunnable implements Runnable
      * @param id the id
      * @param label the label
      * @param description the descritpion
-     * @param runAtStartup true to run at startup (cron expression will be ignore)
+     * @param fireProcess the fire process
      * @param cron the cron expression
      * @param schedulableId the id of the linked {@link Schedulable}
      * @param removable true if it can be removed
@@ -70,7 +70,7 @@ public class DefaultRunnable implements Runnable
     public DefaultRunnable(String id,
                            I18nizableText label,
                            I18nizableText description,
-                           boolean runAtStartup,
+                           FireProcess fireProcess,
                            String cron,
                            String schedulableId,
                            boolean removable,
@@ -83,7 +83,7 @@ public class DefaultRunnable implements Runnable
         _id = id;
         _label = label;
         _description = description;
-        _runAtStartup = runAtStartup;
+        _fireProcess = fireProcess;
         _cron = cron;
         _schedulableId = schedulableId;
         _removable = removable;
@@ -113,9 +113,9 @@ public class DefaultRunnable implements Runnable
     }
 
     @Override
-    public boolean runAtStartup()
+    public FireProcess getFireProcess()
     {
-        return _runAtStartup;
+        return _fireProcess;
     }
 
     @Override

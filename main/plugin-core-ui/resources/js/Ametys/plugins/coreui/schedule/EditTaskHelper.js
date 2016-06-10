@@ -80,7 +80,7 @@ Ext.define('Ametys.plugins.coreui.schedule.EditTaskHelper', {
             },
             
             defaultFocus: 'label',
-            items: this._getItems(response.schedulables),
+            items: this._getItems(response.fireProcesses, response.schedulables),
             
             buttons:  [{
                 itemId: 'button-validate',
@@ -110,10 +110,11 @@ Ext.define('Ametys.plugins.coreui.schedule.EditTaskHelper', {
     /**
      * @private
      * Gets the items of the box
-     * @param {Object} schedulables An object containing information about task creation
+     * @param {Object} fireProcesses An array of objects containing the different fire processes
+     * @param {Object[]} schedulables An array of objects containing information about creation of a type of task (called schedulable)
      * @return {Ext.Component[]} The items of the dialog box
      */
-    _getItems: function(schedulables)
+    _getItems: function(fireProcesses, schedulables)
     {
         var chooseSchedulableId = "schedulableId";
         
@@ -132,10 +133,15 @@ Ext.define('Ametys.plugins.coreui.schedule.EditTaskHelper', {
                 type: "STRING",
                 widget: "edition.textarea"
             },
-            runAtStartup: {
-                label: "{{i18n PLUGINS_CORE_UI_TASKS_DIALOG_RUN_AT_STARTUP_LABEL}}",
-                description: "{{i18n PLUGINS_CORE_UI_TASKS_DIALOG_RUN_AT_STARTUP_DESCRIPTION}}",
-                type: "BOOLEAN"
+            fireProcess: {
+                label: "{{i18n PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_LABEL}}",
+                description: "{{i18n PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_DESCRIPTION}}",
+                multiple: false,
+                type: "STRING",
+                enumeration: fireProcesses,
+                validation: {
+                    mandatory: true
+                }
             },
             cron: {
                 label: "{{i18n PLUGINS_CORE_UI_TASKS_DIALOG_CRON_LABEL}}",
@@ -148,9 +154,9 @@ Ext.define('Ametys.plugins.coreui.schedule.EditTaskHelper', {
                 type: "STRING",
                 disableCondition: {
                     condition: [{
-                        id: "runAtStartup",
-                        operator: "eq",
-                        value: true
+                        id: "fireProcess",
+                        operator: "neq",
+                        value: "CRON"
                     }]
                 }
             }
@@ -251,11 +257,11 @@ Ext.define('Ametys.plugins.coreui.schedule.EditTaskHelper', {
         var values = this._getFormValues();
         if (this._mode == 'add')
         {
-            Ametys.plugins.core.schedule.Scheduler.add([values.label, values.description, values.runAtStartup, values.cron, values.schedulableId, values.params], this._validateCb, {scope: this});
+            Ametys.plugins.core.schedule.Scheduler.add([values.label, values.description, values.fireProcess, values.cron, values.schedulableId, values.params], this._validateCb, {scope: this});
         }
         else
         {
-            Ametys.plugins.core.schedule.Scheduler.edit([this._taskId, values.label, values.description, values.runAtStartup, values.cron, values.params], this._validateCb, {scope: this});
+            Ametys.plugins.core.schedule.Scheduler.edit([this._taskId, values.label, values.description, values.fireProcess, values.cron, values.params], this._validateCb, {scope: this});
         }
     },
     
@@ -283,14 +289,14 @@ Ext.define('Ametys.plugins.coreui.schedule.EditTaskHelper', {
         // Extract label, id and model id
         result['label'] = values.label;
         result['description'] = values.description;
-        result['runAtStartup'] = values.runAtStartup == "true";
+        result['fireProcess'] = values.fireProcess;
         result['cron'] = values.cron;
         result['schedulableId'] = values.schedulableId;
         
         // The parameters are the remaining entries
         delete values['label'];
         delete values['description'];
-        delete values['runAtStartup'];
+        delete values['fireProcess'];
         delete values['cron'];
         delete values['schedulableId'];
         result['params'] = values;
@@ -322,7 +328,7 @@ Ext.define('Ametys.plugins.coreui.schedule.EditTaskHelper', {
         var schedulableId = valuesToFill['schedulableId'];
         values['label'] = valuesToFill['label'];
         values['description'] = valuesToFill['description'];
-        values['runAtStartup'] = valuesToFill['runAtStartup'];
+        values['fireProcess'] = valuesToFill['fireProcess'];
         values['cron'] = valuesToFill['cron'];
         values['schedulableId'] = schedulableId;
         Ext.Object.each(valuesToFill['params'], function(paramName, paramValue) {

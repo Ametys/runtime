@@ -1298,6 +1298,7 @@
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_LAST_DURATION">Last duration</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SUCCESS">Success</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_STARTUP_TASK">Will be run at next startup</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_NOW_TASK">Currently running...</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_ENABLED_LABEL">Enabled</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_DISABLED_LABEL">Disabled</message>
     
@@ -1309,8 +1310,11 @@
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_LABEL_DESCRIPTION">Label of the task</message>
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_DESCRIPTION_LABEL">Description</message>
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_DESCRIPTION_DESCRIPTION">Description of the task</message>
-    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_RUN_AT_STARTUP_LABEL">Run at startup</message>
-    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_RUN_AT_STARTUP_DESCRIPTION">Check this box if the task must be run once, at the next application startup</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_LABEL">Schedule method</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_DESCRIPTION">Schedule method for launching the task</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_OPTION_STARTUP_LABEL">At next startup</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_OPTION_NOW_LABEL">Now</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_OPTION_CRON_LABEL">Based on a CRON expression</message>
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_CRON_LABEL">Scheduling</message>
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_CRON_DESCRIPTION">CRON expression for the scheduling of the task</message>
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_CRON_INVALID">The expression is not a valid CRON expression.</message>

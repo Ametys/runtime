@@ -69,6 +69,7 @@ import org.ametys.core.schedule.Runnable;
 import org.ametys.core.schedule.RunnableExtensionPoint;
 import org.ametys.core.schedule.Schedulable;
 import org.ametys.core.schedule.SchedulableExtensionPoint;
+import org.ametys.core.schedule.Runnable.FireProcess;
 import org.ametys.core.script.ScriptRunner;
 import org.ametys.core.ui.Callable;
 import org.ametys.core.user.CurrentUserProvider;
@@ -101,8 +102,8 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
     public static final String KEY_RUNNABLE_LABEL = "label";
     /** The key for the runnable description */
     public static final String KEY_RUNNABLE_DESCRIPTION = "description";
-    /** The key for the runnable runAtStartup property */
-    public static final String KEY_RUNNABLE_RUN_AT_STARTUP = "runAtStartup";
+    /** The key for the runnable fire process property */
+    public static final String KEY_RUNNABLE_FIRE_PROCESS = "fireProcess";
     /** The key for the runnable cron expression */
     public static final String KEY_RUNNABLE_CRON = "cron";
     /** The key for the runnable removable property */
@@ -406,7 +407,7 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
         for (JobKey jobKey : getJobs())
         {
             JobDataMap jobDataMap = _scheduler.getJobDetail(jobKey).getJobDataMap();
-            if (jobDataMap.getBoolean(KEY_RUNNABLE_RUN_AT_STARTUP))
+            if (FireProcess.STARTUP.toString().equals(jobDataMap.getString(KEY_RUNNABLE_FIRE_PROCESS)))
             {
                 _scheduler.triggerJob(jobKey);
             }
@@ -430,42 +431,56 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
                 .usingJobData(KEY_SCHEDULABLE_ID, schedulableId)
                 .usingJobData(_runnableToJobDataMap(runnable));
         
-        if (!runnable.runAtStartup())
+        Date firstTime = null;
+        switch (runnable.getFireProcess())
         {
-            // based on a cron trigger
-            jobDetail = jobBuilder.build();
-            
-            CronScheduleBuilder schedBuilder = CronScheduleBuilder.cronSchedule(runnable.getCronExpression());
-            switch (runnable.getMisfirePolicy())
-            {
-                case IGNORE:
-                    schedBuilder.withMisfireHandlingInstructionIgnoreMisfires();
-                    break;
-                case FIRE_ONCE:
-                    schedBuilder.withMisfireHandlingInstructionFireAndProceed();
-                    break;
-                case DO_NOTHING:
-                default:
-                    schedBuilder.withMisfireHandlingInstructionDoNothing();
-                    break;
-            }
-            CronTrigger trigger = TriggerBuilder.newTrigger()
-                    .withIdentity(runnableId, TRIGGER_GROUP)
-                    .startNow()
-                    .withSchedule(schedBuilder)
-                    .build();
-            
-            Date ft = _scheduler.scheduleJob(jobDetail, trigger);
-            getLogger().info("{} has been scheduled to run at: {} and repeat based on expression: {}", jobDetail.getKey(), ft, trigger.getCronExpression());
-        }
-        else
-        {
-            // will fire at next startup
-            jobDetail = jobBuilder.storeDurably()
-                    .usingJobData(KEY_RUNNABLE_RUN_AT_STARTUP, true)
-                    .build();
-            _scheduler.addJob(jobDetail, true);
-            getLogger().info("{} has been scheduled to run at next startup of the application", jobDetail.getKey());
+            case STARTUP:
+                // will fire at next startup
+                jobDetail = jobBuilder.storeDurably().build();
+                
+                _scheduler.addJob(jobDetail, true);
+                getLogger().info("{} has been scheduled to run at next startup of the application", jobDetail.getKey());
+                break;
+            case NOW:
+                // will be triggered now
+                jobDetail = jobBuilder.build();
+                
+                Trigger simpleTrigger = TriggerBuilder.newTrigger()
+                        .withIdentity(runnableId, TRIGGER_GROUP)
+                        .startNow()
+                        .build();
+                
+                firstTime = _scheduler.scheduleJob(jobDetail, simpleTrigger);
+                getLogger().info("{} has been scheduled to run as soon as possible", jobDetail.getKey());
+                break;
+            case CRON:
+            default:
+                // based on a cron trigger
+                jobDetail = jobBuilder.build();
+                
+                CronScheduleBuilder schedBuilder = CronScheduleBuilder.cronSchedule(runnable.getCronExpression());
+                switch (runnable.getMisfirePolicy())
+                {
+                    case IGNORE:
+                        schedBuilder.withMisfireHandlingInstructionIgnoreMisfires();
+                        break;
+                    case FIRE_ONCE:
+                        schedBuilder.withMisfireHandlingInstructionFireAndProceed();
+                        break;
+                    case DO_NOTHING:
+                    default:
+                        schedBuilder.withMisfireHandlingInstructionDoNothing();
+                        break;
+                }
+                CronTrigger cronTrigger = TriggerBuilder.newTrigger()
+                        .withIdentity(runnableId, TRIGGER_GROUP)
+                        .startNow()
+                        .withSchedule(schedBuilder)
+                        .build();
+                
+                firstTime = _scheduler.scheduleJob(jobDetail, cronTrigger);
+                getLogger().info("{} has been scheduled to run at: {} and repeat based on expression: {}", jobDetail.getKey(), firstTime, cronTrigger.getCronExpression());
+                break;
         }
     }
     
@@ -475,6 +490,7 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
         result.put(KEY_RUNNABLE_ID, runnable.getId());
         result.put(KEY_RUNNABLE_LABEL, I18nizableText.i18nizableTextToString(runnable.getLabel()));
         result.put(KEY_RUNNABLE_DESCRIPTION, I18nizableText.i18nizableTextToString(runnable.getDescription()));
+        result.put(KEY_RUNNABLE_FIRE_PROCESS, runnable.getFireProcess().toString());
         result.put(KEY_RUNNABLE_CRON, runnable.getCronExpression());
         result.put(KEY_RUNNABLE_REMOVABLE, runnable.isRemovable());
         result.put(KEY_RUNNABLE_MODIFIABLE, runnable.isModifiable());
@@ -556,6 +572,7 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
         result.put("id", id);
         result.put("label", I18nizableText.stringToI18nizableText((String) jobDataMap.get(KEY_RUNNABLE_LABEL)));
         result.put("description", I18nizableText.stringToI18nizableText((String) jobDataMap.get(KEY_RUNNABLE_DESCRIPTION)));
+        result.put("fireProcess", jobDataMap.getString(KEY_RUNNABLE_FIRE_PROCESS));
         result.put("removable", jobDataMap.getBoolean(KEY_RUNNABLE_REMOVABLE));
         result.put("modifiable", jobDataMap.getBoolean(KEY_RUNNABLE_MODIFIABLE));
         result.put("deactivatable", jobDataMap.getBoolean(KEY_RUNNABLE_DEACTIVATABLE));
@@ -574,25 +591,24 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
         if (_scheduler.checkExists(triggerKey))
         {
             Trigger trigger = _scheduler.getTrigger(triggerKey);
+            _triggerToJson(trigger, result);
             if (trigger instanceof CronTrigger)
             {
-                _triggerToJson((CronTrigger) trigger, result);
+                result.put("cronExpression", ((CronTrigger) trigger).getCronExpression());
             }
             
         }
         else
         {
             result.put("enabled", true);
-            result.put("startup", true);
         }
         
         return result;
     }
     
-    private void _triggerToJson(CronTrigger trigger, Map<String, Object> result) throws Exception
+    private void _triggerToJson(Trigger trigger, Map<String, Object> result) throws Exception
     {
         result.put("enabled", !TriggerState.PAUSED.equals(_scheduler.getTriggerState(trigger.getKey())));
-        result.put("cronExpression", trigger.getCronExpression());
         result.put("nextFireTime", trigger.getNextFireTime());
         result.put("previousFireTime", trigger.getPreviousFireTime());
     }
@@ -629,6 +645,17 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
     {
         Map<String, Object> result = new HashMap<>();
         
+        List<Map<String, Object>> fireProcesses = new ArrayList<>();
+        for (FireProcess fireProcessVal : FireProcess.values())
+        {
+            Map<String, Object> fireProcess = new LinkedHashMap<>();
+            fireProcess.put("value", fireProcessVal.toString());
+            String i18nKey = "PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_OPTION_" + fireProcessVal.toString() + "_LABEL";
+            fireProcess.put("label", new I18nizableText("plugin.core-ui", i18nKey));
+            fireProcesses.add(fireProcess);
+        }
+        result.put("fireProcesses", fireProcesses);
+        
         List<Object> schedulables = new ArrayList<>();
         for (String schedulableId : _schedulableEP.getExtensionsIds())
         {
@@ -638,8 +665,8 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
                 schedulables.add(_schedulableToJson(schedulable));
             }
         }
-        
         result.put("schedulables", schedulables);
+        
         return result;
     }
     
@@ -659,7 +686,7 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
             result.put("id", id);
             result.put("label", I18nizableText.stringToI18nizableText((String) jobDataMap.get(KEY_RUNNABLE_LABEL)));
             result.put("description", I18nizableText.stringToI18nizableText((String) jobDataMap.get(KEY_RUNNABLE_DESCRIPTION)));
-            result.put("runAtStartup", jobDataMap.getBoolean(KEY_RUNNABLE_RUN_AT_STARTUP));
+            result.put("fireProcess", jobDataMap.getString(KEY_RUNNABLE_FIRE_PROCESS));
             result.put("cron", jobDataMap.getString(KEY_RUNNABLE_CRON));
             String schedulableId = jobDataMap.getString(KEY_SCHEDULABLE_ID);
             result.put("schedulableId", schedulableId);
@@ -709,7 +736,7 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
      * Adds a new task.
      * @param label The label
      * @param description The description
-     * @param runAtStartup true to run the task once, when the server will restart
+     * @param fireProcess the fire process
      * @param cron The cron expression
      * @param schedulableId The id of the schedulable model
      * @param params The values of the parameters
@@ -717,7 +744,7 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
      * @throws SchedulerException if an error occured
      */
     @Callable
-    public Map<String, Object> add(String label, String description, boolean runAtStartup, String cron, String schedulableId, Map<String, String> params) throws SchedulerException
+    public Map<String, Object> add(String label, String description, String fireProcess, String cron, String schedulableId, Map<String, String> params) throws SchedulerException
     {
         if (_rightsManager.hasRight(_currentUserProvider.getUser(), __RIGHT_SCHEDULER, "/application") != RightsManager.RightResult.RIGHT_OK)
         {
@@ -739,7 +766,7 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
         }
         
         String id = _generateUniqueId(label);
-        return _edit(id, label, description, runAtStartup, cron, schedulableId, false, params);
+        return _edit(id, label, description, FireProcess.valueOf(fireProcess.toUpperCase()), cron, schedulableId, false, params);
     }
     
     private String _generateUniqueId(String label) throws SchedulerException
@@ -761,14 +788,14 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
      * @param id The id of the task
      * @param label The label
      * @param description The description
-     * @param runAtStartup true to run the task once, when the server will restart
+     * @param fireProcess the fire process
      * @param cron The cron expression
      * @param params The values of the parameters
      * @return A result map
      * @throws SchedulerException if an error occured
      */
     @Callable
-    public Map<String, Object> edit(String id, String label, String description, boolean runAtStartup, String cron, Map<String, String> params) throws SchedulerException
+    public Map<String, Object> edit(String id, String label, String description, String fireProcess, String cron, Map<String, String> params) throws SchedulerException
     {
         if (_rightsManager.hasRight(_currentUserProvider.getUser(), __RIGHT_SCHEDULER, "/application") != RightsManager.RightResult.RIGHT_OK)
         {
@@ -802,16 +829,16 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
         
         String schedulableId = jobDataMap.getString(KEY_SCHEDULABLE_ID);
         boolean isVolatile = jobDataMap.getBoolean(KEY_RUNNABLE_VOLATILE);
-        return _edit(id, label, description, runAtStartup, cron, schedulableId, isVolatile, params);
+        return _edit(id, label, description, FireProcess.valueOf(fireProcess.toUpperCase()), cron, schedulableId, isVolatile, params);
     }
     
-    private Map<String, Object> _edit(String id, String label, String description, boolean runAtStartup, String cron, String schedulableId, boolean isVolatile, Map<String, String> params)
+    private Map<String, Object> _edit(String id, String label, String description, FireProcess fireProcess, String cron, String schedulableId, boolean isVolatile, Map<String, String> params)
     {
         Map<String, Object> result = new HashMap<>();
         
         Map<String, Object> typedParams = _getTypedParams(params, schedulableId);
         
-        Runnable runnable = new DefaultRunnable(id, new I18nizableText(label), new I18nizableText(description), runAtStartup, cron, schedulableId, true, true, true, null, isVolatile, typedParams);
+        Runnable runnable = new DefaultRunnable(id, new I18nizableText(label), new I18nizableText(description), fireProcess, cron, schedulableId, true, true, true, null, isVolatile, typedParams);
         
         try
         {

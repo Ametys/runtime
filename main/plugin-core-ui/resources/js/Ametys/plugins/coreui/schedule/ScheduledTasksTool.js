@@ -302,8 +302,17 @@ Ext.define("Ametys.plugins.coreui.schedule.ScheduledTasksTool.TaskEntry", {
         {name: 'id'},
         {name: 'label', sortType: Ext.data.SortTypes.asNonAccentedUCString},
         {name: 'description'},
-        {name: 'startup'},
-        {name: 'cronExpression', convert: function(v, rec) {return rec.get('startup') ? "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_STARTUP_TASK}}" : v}},
+        {name: 'cronExpression', convert: function(v, rec) {
+            switch (rec.get('fireProcess')) {
+                case "STARTUP":
+                    return "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_STARTUP_TASK}}";
+                case "NOW":
+                    return "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_NOW_TASK}}";
+                case "CRON":
+                default:
+                    return v;
+            }
+        }},
         {name: 'enabled', convert: function(v) {return v === true;}},
         {name: 'modifiable'},
         {name: 'removable'},
@@ -314,7 +323,17 @@ Ext.define("Ametys.plugins.coreui.schedule.ScheduledTasksTool.TaskEntry", {
         {name: 'iconGlyph', mapping: function(data) {return data.schedulable.iconGlyph;}},
         {name: 'iconSmall', mapping: function(data) {return data.schedulable.iconSmall;}},
         {name: 'private', mapping: function(data) {return data.schedulable['private'];}},
-        {name: 'nextFireTime', convert: function(v, rec) {return rec.get('startup') ? "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_STARTUP_TASK}}" : v}},
+        {name: 'nextFireTime', convert: function(v, rec) {
+            switch (rec.get('fireProcess')) {
+                case "STARTUP":
+                    return "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_STARTUP_TASK}}";
+                case "NOW":
+                    return "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_NOW_TASK}}";
+                case "CRON":
+                default:
+                    return v;
+            }
+        }},
         {name: 'previousFireTime'},
         {name: 'lastDuration'},
         {name: 'success'},

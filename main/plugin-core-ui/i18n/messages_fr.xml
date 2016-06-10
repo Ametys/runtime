@@ -1297,9 +1297,10 @@
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_RUNNING">En cours d'éxecution</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_NEXT_FIRE">Prochaine exécution</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_PREVIOUS_FIRE">Dernière exécution</message>
-    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_LAST_DURATION">Durée de dernière exécution</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_LAST_DURATION">Durée de dernière exécution...</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SUCCESS">Succès</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_STARTUP_TASK">Sera exécutée au prochain démarrage</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_NOW_TASK">En cours d'éxecution</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_ENABLED_LABEL">Activée(s)</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_DISABLED_LABEL">Désactivée(s)</message>
     
@@ -1311,8 +1312,11 @@
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_LABEL_DESCRIPTION">Libellé de la tâche</message>
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_DESCRIPTION_LABEL">Description</message>
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_DESCRIPTION_DESCRIPTION">Description de la tâche</message>
-    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_RUN_AT_STARTUP_LABEL">Exécuter au démarrage</message>
-    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_RUN_AT_STARTUP_DESCRIPTION">Cochez la case si la tâche doit être exécutée une seule fois, au prochain démarrage de l'application</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_LABEL">Méthode de programmation</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_DESCRIPTION">Méthode qui sera utilisée pour lancer la tâche</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_OPTION_STARTUP_LABEL">Au prochain démarrage</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_OPTION_NOW_LABEL">Maintenant</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_OPTION_CRON_LABEL">Basé sur une expression CRON</message>
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_CRON_LABEL">Programmation</message>
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_CRON_DESCRIPTION">Expression CRON pour la programmation de la tâche</message>
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_CRON_INVALID">L'expression n'est pas une expression CRON valide.</message>
