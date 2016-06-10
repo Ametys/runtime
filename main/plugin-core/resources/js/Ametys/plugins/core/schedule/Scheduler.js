@@ -30,7 +30,7 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
          * @param {Object[]} parameters The parameters to transmit to the server method
          * @param {String[]} parameters.taskids The ids of the tasks
          * @param {Function} callback The function to call when the java process is over. Use options.scope for the scope. 
-         * @param {TODO} callback.returnedValue The value return from the server. Null on error (please note that when an error occured, the callback may not be called depending on the value of errorMessage).
+         * @param {Ametys.plugins.coreui.schedule.Task[]} callback.returnedValue The value return from the server. Null on error (please note that when an error occured, the callback may not be called depending on the value of errorMessage).
          * @param {Object} callback.arguments Other arguments specified in option.arguments                 
          * @param {Object} [options] Advanced options for the call.
          * @param {Boolean/String/Object} [options.errorMessage] Display an error message. See Ametys.data.ServerCall#callMethod errorMessage.
