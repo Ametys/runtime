@@ -1,3 +1,14 @@
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:407 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-tl,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-bl,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-tr,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-br,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-tc,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-bc,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-ml,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-mr {
+    background-image: url(images/panel/panel-default-framed-corners.gif);
+}
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:453 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-ml,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-mr {
