@@ -1268,8 +1268,8 @@
     <message key="PLUGINS_CORE_RIGHTS_TASK_HANDLE_LABEL">Gérer les tâches programmées</message>
     <message key="PLUGINS_CORE_RIGHTS_TASK_HANDLE_DESCRIPTION">Gérer les tâches dans le planificateur de tâches.</message>
     
-    <message key="PLUGINS_CORE_UI_TASKS_ADD_LABEL">Ajouter</message>
-    <message key="PLUGINS_CORE_UI_TASKS_ADD_DESCRIPTION">Ajoute et programme une nouvelle tâche</message>
+    <message key="PLUGINS_CORE_UI_TASKS_ADD_LABEL">Nouvelle tâche</message>
+    <message key="PLUGINS_CORE_UI_TASKS_ADD_DESCRIPTION">Programme une nouvelle tâche</message>
     <message key="PLUGINS_CORE_UI_TASKS_EDIT_LABEL">Modifier</message>
     <message key="PLUGINS_CORE_UI_TASKS_EDIT_DESCRIPTION">Edite une tâche existante</message>
     <message key="PLUGINS_CORE_UI_TASKS_EDIT_NO_MODIFIABLE_DESCRIPTION">Cette tâche ne peut pas être modifiée</message>
@@ -1285,7 +1285,7 @@
     <message key="PLUGINS_CORE_UI_TASKS_REFRESH_DESCRIPTION">Rafraîchir le planificateur de tâches</message>
     
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_LABEL">Planificateur de tâches</message>
-    <message key="PLUGINS_CORE_UI_TASKS_TOOL_DESCRIPTION">Affiche et permet de gérer les tâches programmées</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_DESCRIPTION">Cet outil liste les tâches planifiées ou en cours d'exécution et permet de programmer de nouvelles tâches.</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_TITLE">Nom</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_DESCRIPTION">Description</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_ID">Identifiant</message>
@@ -1300,7 +1300,7 @@
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_LAST_DURATION">Durée de dernière exécution...</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SUCCESS">Succès</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_STARTUP_TASK">Sera exécutée au prochain démarrage</message>
-    <message key="PLUGINS_CORE_UI_TASKS_TOOL_NOW_TASK">En cours d'éxecution</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_NOW_TASK">En cours d'exécution</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_ENABLED_LABEL">Activée(s)</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_DISABLED_LABEL">Désactivée(s)</message>
     
@@ -1309,19 +1309,19 @@
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_ACTIONS_VALIDATE">OK</message>
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_ACTIONS_CANCEL">Annuler</message>
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_LABEL_LABEL">Libellé</message>
-    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_LABEL_DESCRIPTION">Libellé de la tâche</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_LABEL_DESCRIPTION">Libellé de la tâche programmée</message>
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_DESCRIPTION_LABEL">Description</message>
-    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_DESCRIPTION_DESCRIPTION">Description de la tâche</message>
-    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_LABEL">Méthode de programmation</message>
-    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_DESCRIPTION">Méthode qui sera utilisée pour lancer la tâche</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_DESCRIPTION_DESCRIPTION">Description de la tâche programmée</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_LABEL">Programmation</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_DESCRIPTION">Sélectionnez la méthode de programmation qui sera utilisée pour lancer la tâche</message>
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_OPTION_STARTUP_LABEL">Au prochain démarrage</message>
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_OPTION_NOW_LABEL">Maintenant</message>
-    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_OPTION_CRON_LABEL">Basé sur une expression CRON</message>
-    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_CRON_LABEL">Programmation</message>
-    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_CRON_DESCRIPTION">Expression CRON pour la programmation de la tâche</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_OPTION_CRON_LABEL">Basée sur une expression CRON</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_CRON_LABEL">Expression CRON</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_CRON_DESCRIPTION">Entrez une expression CRON pour planifier l'exécution de la tâche</message>
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_CRON_INVALID">L'expression n'est pas une expression CRON valide.</message>
-    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_SCHEDULABLE_LABEL">Type de tâche</message>
-    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_SCHEDULABLE_DESCRIPTION">Type de tâche à exécuter</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_SCHEDULABLE_LABEL">Tâche</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_SCHEDULABLE_DESCRIPTION">Sélectionnez la tâche à exécuter&lt;br/&gt;Selon le type de tâche sélectionnée, il peut être nécessaire de renseigner un ou plusieurs paramètres.</message>
     
     <message key="PLUGINS_CORE_UI_TASKS_REMOVE_CONFIRM_TITLE">Supprimer la tâche</message>
     <message key="PLUGINS_CORE_UI_TASKS_REMOVE_CONFIRM_MSG">Êtes-vous sûr de vouloir supprimer cette tâche ?</message>

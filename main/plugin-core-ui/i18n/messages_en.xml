@@ -1266,8 +1266,8 @@
     <message key="PLUGINS_CORE_RIGHTS_TASK_HANDLE_LABEL">Handle scheduled tasks</message>
     <message key="PLUGINS_CORE_RIGHTS_TASK_HANDLE_DESCRIPTION">Handle tasks in the task scheduler.</message>
     
-    <message key="PLUGINS_CORE_UI_TASKS_ADD_LABEL">Add</message>
-    <message key="PLUGINS_CORE_UI_TASKS_ADD_DESCRIPTION">Add and schedule a new task</message>
+    <message key="PLUGINS_CORE_UI_TASKS_ADD_LABEL">New task</message>
+    <message key="PLUGINS_CORE_UI_TASKS_ADD_DESCRIPTION">Schedule a new task</message>
     <message key="PLUGINS_CORE_UI_TASKS_EDIT_LABEL">Edit</message>
     <message key="PLUGINS_CORE_UI_TASKS_EDIT_DESCRIPTION">Edit an existing task</message>
     <message key="PLUGINS_CORE_UI_TASKS_EDIT_NO_MODIFIABLE_DESCRIPTION">This task cannot be edited</message>
@@ -1310,16 +1310,16 @@
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_LABEL_DESCRIPTION">Label of the task</message>
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_DESCRIPTION_LABEL">Description</message>
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_DESCRIPTION_DESCRIPTION">Description of the task</message>
-    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_LABEL">Schedule method</message>
-    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_DESCRIPTION">Schedule method for launching the task</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_LABEL">Scheduling</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_DESCRIPTION">Select the programming method that will be used to schedule the job</message>
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_OPTION_STARTUP_LABEL">At next startup</message>
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_OPTION_NOW_LABEL">Now</message>
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_FIRE_PROCESS_OPTION_CRON_LABEL">Based on a CRON expression</message>
-    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_CRON_LABEL">Scheduling</message>
-    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_CRON_DESCRIPTION">CRON expression for the scheduling of the task</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_CRON_LABEL">CRON expression</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_CRON_DESCRIPTION">Enter a CRON expression to schedule the execution of the job</message>
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_CRON_INVALID">The expression is not a valid CRON expression.</message>
-    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_SCHEDULABLE_LABEL">Type of task</message>
-    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_SCHEDULABLE_DESCRIPTION">Type of task to run</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_SCHEDULABLE_LABEL">Job</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DIALOG_SCHEDULABLE_DESCRIPTION">Select the job to schedule.&lt;br/&gt;Depending on the selected task, it may be necessary to fill one or more parameters.</message>
     
     <message key="PLUGINS_CORE_UI_TASKS_REMOVE_CONFIRM_TITLE">Remove the task</message>
     <message key="PLUGINS_CORE_UI_TASKS_REMOVE_CONFIRM_MSG">Are you sure you want to remove this task ?</message>
