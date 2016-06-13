@@ -99,6 +99,13 @@ Ext.define(
 		 * @cfg {String} rights-description-no The description when no rights are ok on the matching selection
 		 */
 		
+        /**
+	     * @cfg {Boolean} enabled-on-modifiable-only=false If true the controller will be disabled the current selection is not modifiable. The modifiable status will be tested against the parameters "isModifiable" of the target that have to be an Boolean
+	     */
+	    /**
+	     * @cfg {String} modifiable-description-no The description text used for tooltip when the selection is not modifiable
+	     */
+        
 		/**
 		 * @cfg {String} selection-description-empty The description when the selection is empty
 		 */
@@ -1037,6 +1044,11 @@ Ext.define(
 				// noright
 				this.setAdditionalDescription(this.getInitialConfig("rights-description-no") || this.getInitialConfig("no-right-description"));
 			}
+            else if (!this.isNoModifiable(targets))
+            {
+                // no modifiable
+                this.setAdditionalDescription(this.getInitialConfig("modifiable-description-no") || this.getInitialConfig("no-modifiable-description"));
+            }
 			else 
 			{
 				var additionnalDescription = this.additionalErrorDescriptionOnSelectionChanged(targets);
@@ -1403,6 +1415,33 @@ Ext.define(
 			return false;
 		},
 		
+        /**
+         * Checks if at least one target is ok for the modifiable status required for the button.
+         * @param {Ametys.message.MessageTarget[]} targets The message targets to check
+         * @protected
+         */
+        isNoModifiable: function (targets)
+        {
+            var enabledOnModifiableOnly = String(this.getInitialConfig("enabled-on-modifiable-only") || 'false') == 'true';
+            
+            if (!enabledOnModifiableOnly)
+            {
+                // ok
+                return true;
+            }
+            
+            for (var i=0; i < targets.length; i++)
+            {
+                if (targets[i].getParameters().isModifiable)
+                {
+                    // at least one modifiable target
+                    return true;
+                }
+            }
+            
+            return false;
+        },
+        
 		/**
 		 * This function is called when the graphical state and information of the controller must be updated in order to enable it.
 		 * This means that at this point, all prerequisite given the current selection and the tool status are valid.

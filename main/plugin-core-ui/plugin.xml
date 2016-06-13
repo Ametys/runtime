@@ -784,7 +784,7 @@
                 <depends>
                     <org.ametys.core.ui.UIToolsFactoriesManager>uitool-requeststracker</org.ametys.core.ui.UIToolsFactoriesManager>
                 </depends>
-                <right context-prefix="/contributor">CORE_Rights_RequestTracker</right>                  
+                <right>CORE_Rights_RequestTracker</right>                  
             </extension>
             <extension id="org.ametys.runtime.userinterface.RequestTrackerControl.clear"
                        point="org.ametys.core.ui.RibbonControlsManager"
@@ -877,7 +877,7 @@
                 <depends>
                     <org.ametys.core.ui.UIToolsFactoriesManager>uitool-messagestracker</org.ametys.core.ui.UIToolsFactoriesManager>
                 </depends>  
-                <right context-prefix="/contributor">CORE_Rights_MessageTracker</right>                 
+                <right>CORE_Rights_MessageTracker</right>                 
             </extension>
             <extension id="org.ametys.runtime.userinterface.MessageTrackerControl.clear"
                        point="org.ametys.core.ui.RibbonControlsManager"
@@ -904,7 +904,7 @@
                 <depends>
                     <org.ametys.core.ui.UIToolsFactoriesManager>uitool-messagestracker</org.ametys.core.ui.UIToolsFactoriesManager>
                 </depends>
-                <right context-prefix="/contributor">CORE_Rights_MessageTracker</right>
+                <right>CORE_Rights_MessageTracker</right>
             </extension>
             <extension id="uitool-messagestracker"
                        point="org.ametys.core.ui.UIToolsFactoriesManager"
