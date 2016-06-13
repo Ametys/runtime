@@ -650,9 +650,9 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
             getLogger().debug(
                     "FormBasedCredentialsProvider values : " + " Name field=" + _usernameField + ", Pwd field="
                             + _passwordField + ", CookieEnabled=" + _cookieEnabled + ", Cookie duration="
-                            + _cookieLifetime + ", Cookie name=" + _cookieName + ", Login url=" + getLoginURL()
+                            + _cookieLifetime + ", Cookie name=" + _cookieName + ", Login url=" + _loginUrl
                             + " [" + (_loginUrlInternal ? "internal" : "external") + "]"
-                            + ", Login failed url=" + getLoginFailedURL() 
+                            + ", Login failed url=" + _loginFailedUrl
                             + " [" + (_loginFailedUrlInternal ? "internal" : "external")
                             + ", provide login on redirection : " + _provideLoginParameter + "]"
                             + ", accepted prefixes : [" + StringUtils.join(_acceptedUrlPrefixes, ", ") + "]");
