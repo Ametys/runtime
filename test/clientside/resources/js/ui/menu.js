@@ -25,7 +25,7 @@ var tabMenu = {
 							xtype: 'ametys.ribbon-button',
 							scale: 'large',
 			                
-			                menu: { items: [{ text: 'hey !', handler: function() { tinyMCE.focus(); /*tinyMCE.activeEditor.execCommand('Bold');*/ } }]},
+			                menu: { items: [{ text: 'hey !', menu: { items: [{ text: 'hey !' }]} }]},
 			                
 			                icon: 'resources/img/editpaste_32.gif',
 			                text: 'Graphique',
@@ -38,7 +38,7 @@ var tabMenu = {
 							xtype: 'ametys.ribbon-button',
 							scale: 'large',
 			                
-			                menu: { items: [{ text: 'hey !', handler: function() { tinyMCE.focus(); /*tinyMCE.activeEditor.execCommand('Bold');*/ } }]},
+                            menu: { items: [{ text: 'hey !', menu: { items: [{ text: 'hey !' }]} }]},
 			                
 			                icon: 'resources/img/editpaste_32.gif',
 			                text: 'Graphique',

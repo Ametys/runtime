@@ -276,6 +276,10 @@
             }
         }
     }
+    
+    .#{$prefix}menu .#{$prefix}menu-item-arrow-#{$ui} {
+        font-size: $ametys-ribbon-button-font-size; 
+    }
 };
     
 @include ametys-ribbon-button('ribbon-component', $ametys-ribbon-button-background-color);
