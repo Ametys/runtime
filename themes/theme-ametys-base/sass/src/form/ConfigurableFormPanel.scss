@@ -43,7 +43,13 @@
         }
     }
     
+    .#{$prefix}form-item-body {
+        vertical-align: top;
+    }
+    
     .param-checker-container { 
+        margin-bottom: 5px;
+    
         .param-checker-status {
             width: $ametys-form-paramchecker-width + horizontal($form-description-icon-side-margin);
         
