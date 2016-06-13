@@ -148,6 +148,10 @@
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-column-header.x-column-header-focus .x-column-header-inner:after {
     border-color: #804080;
 }
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/menu/Menu.scss:17 */
+.x-menu .x-menu-item-arrow-default {
+    font-size: 12px;
+}
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:332 */
 .a-tool-layout-zoned-notfocused .x-tab-bar-default {
     background-color: #f1f1f1;

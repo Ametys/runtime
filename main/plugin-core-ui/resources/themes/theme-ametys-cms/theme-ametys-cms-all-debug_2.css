@@ -13705,6 +13705,10 @@
 .x-btn-over.a-fluent-control-button-split.a-fluent-control-button-split-overtrigger .x-btn-inner-ribbon-component-large {
     background-color: #c9c9c9;
 }
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Button.scss:280 */
+.x-menu .x-menu-item-arrow-ribbon-component {
+    font-size: 12px;
+}
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:187 */
 .x-btn-ribbon-menu-small {
     -webkit-border-radius: 0;
