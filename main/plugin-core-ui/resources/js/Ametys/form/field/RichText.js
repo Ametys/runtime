@@ -825,6 +825,7 @@ Ext.define('Ametys.form.field.RichText', {
      */
     _createEditor: function()
     {
+        tinyMCE.EditorManager.baseURL = Ametys.CONTEXT_PATH + '/plugins/tiny_mce/resources/js';
         tinymce.init({
             document_base_url: Ametys.CONTEXT_PATH + "/",
             language: Ametys.LANGUAGE_CODE,
