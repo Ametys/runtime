@@ -838,7 +838,8 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
         
         Map<String, Object> typedParams = _getTypedParams(params, schedulableId);
         
-        Runnable runnable = new DefaultRunnable(id, new I18nizableText(label), new I18nizableText(description), fireProcess, cron, schedulableId, true, true, true, null, isVolatile, typedParams);
+        boolean deactivatable = !FireProcess.STARTUP.equals(fireProcess); // cannot disable a startup job as we do not attach any trigger to it
+        Runnable runnable = new DefaultRunnable(id, new I18nizableText(label), new I18nizableText(description), fireProcess, cron, schedulableId, true, true, deactivatable, null, isVolatile, typedParams);
         
         try
         {
