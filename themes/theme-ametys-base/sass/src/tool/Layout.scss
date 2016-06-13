@@ -29,6 +29,7 @@
     
     &.#{$prefix}panel-tool-layoutzone-floating {
         z-index: 5 !important;
+        box-shadow: 0 0 6px;
     }
 }
 
