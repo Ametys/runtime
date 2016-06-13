@@ -201,7 +201,7 @@
          | TASKS SCHEDULER
          + -->
     <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_LABEL">Send a mail</message>
-    <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_DESCRIPTION">This task serve to send mails</message>
+    <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_DESCRIPTION">This task serves to send mails</message>
     <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_SENDER_LABEL">Sender</message>
     <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_SENDER_DESCRIPTION">Sender of the mail</message>
     <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_RECIPIENTS_LABEL">Recipient(s)</message>
@@ -212,7 +212,7 @@
     <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_BODY_LABEL">Body</message>
     <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_BODY_DESCRIPTION">Body of the mail</message>
     <message key="PLUGINS_CORE_SCHEDULER_EXECUTE_SCRIPT_LABEL">Execute a script</message>
-    <message key="PLUGINS_CORE_SCHEDULER_EXECUTE_SCRIPT_DESCRIPTION">This task serve to execute server scripts with the Javascript syntax</message>
+    <message key="PLUGINS_CORE_SCHEDULER_EXECUTE_SCRIPT_DESCRIPTION">This task serves to execute server scripts with the Javascript syntax</message>
     <message key="PLUGINS_CORE_SCHEDULER_EXECUTE_SCRIPT_CODE_LABEL">Script</message>
     <message key="PLUGINS_CORE_SCHEDULER_EXECUTE_SCRIPT_CODE_DESCRIPTION">Script to execute. You have access to the same variables and functions than the ones available in the script tool</message>
     
