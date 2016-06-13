@@ -41,15 +41,21 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
             /**
              * @readonly
              * @private
-             * @property {Number} _FLOATINGZONES_SIZE The size in pixels to display for slided in lateral zones.
+             * @property {Number} __FLOATINGZONES_RATIO The size to display for slided in lateral zones (ratio of central zone).
              */
-            _FLOATINGZONES_SIZE: 100,
+            _FLOATINGZONES_RATIO: 0.3,
             /**
              * @readonly
              * @private
-             * @property {Number} _FLOATINGZONES_DROPSIZE The size in pixels to detect drop for slided in lateral zones.
+             * @property {Number} ___FLOATINGZONES_DROPRATIO The size to detect drop for slided in lateral zones (ratio of central zone).
              */
-            _FLOATINGZONES_DROPSIZE: 50
+            _FLOATINGZONES_DROPRATIO: 0.25,
+            /**
+             * @readonly
+             * @private
+             * @property {Number} __HEADER_HEIGHT The size in pixels of a horizontal header of centrals zones to avoid overlap
+             */
+            _HEADER_HEIGHT: 40
         },
     
         /**
@@ -174,11 +180,11 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
             if (!visible['t'])
             {
                 // look and drop width are set
-                size['t'].height = this.self._FLOATINGZONES_SIZE;
-                dropSize['t'].height = this.self._FLOATINGZONES_DROPSIZE;
+                size['t'].height = Math.round(size['cl'].height * this.self._FLOATINGZONES_RATIO);
+                dropSize['t'].height = 300;
                 
                 // drop position is negativized
-                dropOffset['t'][1] -= this.self._FLOATINGZONES_DROPSIZE;
+                dropOffset['t'][1] -= dropSize['t'].height;
                 
                 // no impact on middle dropzones height
             }
@@ -188,18 +194,21 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
             // But when bottom zone is invisible
             if (!visible['b'])
             {
+                var futureSize = Math.round(size['cl'].height * this.self._FLOATINGZONES_RATIO);
+                var futureDropSize = Math.round(size['cl'].height * this.self._FLOATINGZONES_DROPRATIO);
+                
                 // drop vposition is set for a bottom align
-                position['b'][1] += size['b'].height - this.self._FLOATINGZONES_SIZE;
-                dropOffset['b'][1] += this.self._FLOATINGZONES_SIZE - this.self._FLOATINGZONES_DROPSIZE;
+                position['b'][1] += size['b'].height - futureSize;
+                dropOffset['b'][1] += futureSize - futureDropSize;
                 
                 // look and drop height are set
-                size['b'].height = this.self._FLOATINGZONES_SIZE;
-                dropSize['b'].height = this.self._FLOATINGZONES_DROPSIZE;
+                size['b'].height = futureSize;
+                dropSize['b'].height = futureDropSize;
 
                 // vmiddle dropzones height are reduced
                 for (var loc in {"cl": null, "cr": null, "l": null, "r": null})
                 {
-                    dropSize[loc].height -= this.self._FLOATINGZONES_DROPSIZE;
+                    dropSize[loc].height -= dropSize['b'].height;
                 }
             }       
             
@@ -213,13 +222,17 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
                     // on the right, right align the drop zone
                     if (loc == "r") 
                     {
-                        position[loc][0] += size[loc].width - this.self._FLOATINGZONES_SIZE;
-                        dropOffset[loc][0] = this.self._FLOATINGZONES_SIZE - this.self._FLOATINGZONES_DROPSIZE;
+                        position[loc][0] += Math.round(size[loc].width - size['c' + loc].width * this.self._FLOATINGZONES_RATIO);
+                        dropOffset[loc][0] = Math.round(size['c' + loc].width * this.self._FLOATINGZONES_RATIO - size['c' + loc].width * this.self._FLOATINGZONES_DROPRATIO);
                     }
                     
                     // look and drop width are set
-                    size[loc].width = this.self._FLOATINGZONES_SIZE;
-                    dropSize[loc].width = this.self._FLOATINGZONES_DROPSIZE;
+                    size[loc].width = Math.round(size['c' + loc].width * this.self._FLOATINGZONES_RATIO);
+                    dropSize[loc].width = Math.round(size['c' + loc].width * this.self._FLOATINGZONES_DROPRATIO);
+                    
+                    // RUNTIME-1344 
+                    dropSize[loc].height -= this.self._HEADER_HEIGHT;
+                    dropOffset[loc][1] += this.self._HEADER_HEIGHT;
                 }
             }       
             
@@ -234,14 +247,14 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
                 if (!visible['l'])
                 {
                     // space for left zone
-                    dropSize['cl'].width -= this.self._FLOATINGZONES_DROPSIZE;
-                    dropOffset['cl'][0] += this.self._FLOATINGZONES_DROPSIZE;
+                    // RUNTIME-1344 dropSize['cl'].width -= dropSize['l'].width;
+                    // RUNTIME-1344 dropOffset['cl'][0] += dropSize['l'].width;
                 }
                 
                 if (!visible['r'])
                 {
                     // space for right zone
-                    dropSize['cl'].width -= this.self._FLOATINGZONES_DROPSIZE;
+                    // RUNTIME-1344 dropSize['cl'].width -= dropSize['r'].width;
                 }
                 
                 // space for cr zone
@@ -254,7 +267,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
                 dropOffset['cr'][0] = size['cr'].width - dropSize['cr'].width;
                 if (!visible['r'])
                 {
-                    dropOffset['cr'][0] -= this.self._FLOATINGZONES_DROPSIZE;
+                    dropOffset['cr'][0] -= dropSize['r'].width;
                 }
             }
             else if (!visible['cl'] && visible['cr'])
@@ -262,14 +275,14 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
                 if (!visible['r'])
                 {
                     // space for right zone
-                    dropSize['cr'].width -= this.self._FLOATINGZONES_DROPSIZE;
+                    // RUNTIME-1344 dropSize['cr'].width -= dropSize['r'].width;
                 }
                 
                 if (!visible['l'])
                 {
                     // space for left zone
-                    dropSize['cr'].width -= this.self._FLOATINGZONES_DROPSIZE;
-                    dropOffset['cr'][0] += this.self._FLOATINGZONES_DROPSIZE;
+                    // RUNTIME-1344 dropSize['cr'].width -= dropSize['l'].width;
+                    // RUNTIME-1344 dropOffset['cr'][0] += dropSize['l'].width;
                 }
                 
                 // space for cl zone
@@ -281,32 +294,32 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
                 dropSize['cl'].width = centralWidth - dropSize['cr'].width;
                 if (!visible['l'])
                 {
-                    dropOffset['cl'][0] += this.self._FLOATINGZONES_DROPSIZE;
+                    dropOffset['cl'][0] += dropSize['l'].width;
                 }
             }
             else if (visible['cl'] && visible['cr'])
             {
                 if (!visible['l'])
                 {
-                    dropOffset['cl'][0] += this.self._FLOATINGZONES_DROPSIZE;
-                    dropSize['cl'].width -= this.self._FLOATINGZONES_DROPSIZE;
+                    // RUNTIME-1344 dropOffset['cl'][0] += dropSize['l'].width;
+                    // RUNTIME-1344 dropSize['cl'].width -= dropSize['l'].width;
                 }
                 
                 if (!visible['r'])
                 {
-                    dropSize['cr'].width -= this.self._FLOATINGZONES_DROPSIZE;
+                    // RUNTIME-1344 dropSize['cr'].width -= dropSize['r'].width;
                 }
             }
             else if (!visible['cl'] && !visible['cr'])
             {
                 if (!visible['l'])
                 {
-                    dropOffset['cl'][0] += this.self._FLOATINGZONES_DROPSIZE;
-                    dropSize['cl'].width -= this.self._FLOATINGZONES_DROPSIZE;
+                    // RUNTIME-1344 dropOffset['cl'][0] += dropSize['l'].width;
+                    // RUNTIME-1344 dropSize['cl'].width -= dropSize['l'].width;
                 }
                 if (!visible['r'])
                 {
-                    dropSize['cl'].width -= this.self._FLOATINGZONES_DROPSIZE;
+                    // RUNTIME-1344 dropSize['cl'].width -= dropSize['r'].width;
                 }
                 delete zones.cr;
             }

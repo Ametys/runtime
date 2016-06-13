@@ -223,8 +223,8 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
                             stateId: containerClass + "$c",
                             split: this._createSplitConfig('right'),
                             items: [
-        				        this._panelHierarchy['cl'] = Ext.create(panelClass, Ext.apply({ location: 'cl', toolsLayout: this, stateful: true, stateId: panelClass + "$cl" }, this.self.__ADDITIONNAL_ZONE_CONFIG_OTHER)),
-        				        this._panelHierarchy['cr'] = Ext.create(panelClass, Ext.apply({ location: 'cr', toolsLayout: this, stateful: true, stateId: panelClass + "$cr" }, this.self.__ADDITIONNAL_ZONE_CONFIG_OTHER))
+        				        this._panelHierarchy['cl'] = Ext.create(panelClass, Ext.apply({ location: 'cl', toolsLayout: this, stateful: true, stateId: panelClass + "$cl", minHeight: this.self.__REGION_MINSIZE.height, minWidth: this.self.__REGION_MINSIZE.width }, this.self.__ADDITIONNAL_ZONE_CONFIG_OTHER)),
+        				        this._panelHierarchy['cr'] = Ext.create(panelClass, Ext.apply({ location: 'cr', toolsLayout: this, stateful: true, stateId: panelClass + "$cr", minHeight: this.self.__REGION_MINSIZE.height, minWidth: this.self.__REGION_MINSIZE.width }, this.self.__ADDITIONNAL_ZONE_CONFIG_OTHER))
                             ]
                         }),
                         Ext.create(placeholderClass, {
