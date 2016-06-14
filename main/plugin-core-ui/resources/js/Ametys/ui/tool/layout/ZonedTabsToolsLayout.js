@@ -467,11 +467,16 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 		
 		/**
 		 * Listener when a tool lost the focus.
-		 * @param {Ametys.ui.tool.ToolPanel} tool The tool that lost focus
+		 * @param {Ametys.ui.tool.ToolPanel} tool The tool that lost focus. Can be null.
 		 * @param {Boolean} [noevent=false] Prevent to fire the toolblur event on the panel
 		 */
 		_onToolBlurred: function(tool, noevent)
 		{
+            if (tool == null)
+            {
+                return;
+            }
+            
 			// Graphically set the focus
 			var zoneTabsToolsPanel = tool.ownerCt;
 			if (zoneTabsToolsPanel)
