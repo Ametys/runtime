@@ -217,10 +217,11 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
         if (record.get('source') == 'upload-image')
         {
             Ametys.helper.FileUpload.open(
-                Ametys.getPluginResourcesPrefix('core-ui') + '/img/user-profiles/upload-image-icon.png',
+                'editor-image2',
                 "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_UPLOAD_TITLE}}",
                 "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_UPLOAD_HINT}}",
-                Ext.bind(this._fileUploadCb, this)
+                Ext.bind(this._fileUploadCb, this),
+                Ametys.helper.FileUpload.IMAGE_FILTER_LABEL
             );
             
             return false;

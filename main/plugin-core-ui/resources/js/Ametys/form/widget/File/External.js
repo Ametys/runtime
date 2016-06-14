@@ -47,10 +47,10 @@ Ext.define('Ametys.form.widget.File.External', {
 			none: {
 				buttonText: "",
 				buttonTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_FILE_BUTTON}}",
-				buttonIcon: Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/resources-picker/file_local_16.png',
+                buttonIconCls: 'flaticon-document9',
 				
 				menuItemText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_EXTERNAL_FILE}}",
-				menuItemIcon: Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/resources-picker/file_local_16.png',
+				menuItemIconCls: 'flaticon-document9',
 				
 				dialogTitle: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_FILE}}",
 				dialogHint: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_FILE_HINT}}",
@@ -61,10 +61,10 @@ Ext.define('Ametys.form.widget.File.External', {
 			image: {
 				buttonText: "",
 				buttonTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_IMAGE_BUTTON}}",
-				buttonIcon: Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/resources-picker/image_local_16.png',
+				buttonIconCls: 'editor-image2',
 				
 				menuItemText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_EXTERNAL_IMAGE}}",
-				menuItemIcon: Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/resources-picker/image_local_16.png',
+				menuItemIconCls: 'editor-image2',
 				
 				dialogTitle: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_IMAGE}}",
 				dialogHint: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_IMAGE_HINT}}",
@@ -75,10 +75,10 @@ Ext.define('Ametys.form.widget.File.External', {
 			multimedia: {
 				buttonText: "",
 				buttonTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_MULTIMEDIA_BUTTON}}",
-				buttonIcon: Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/resources-picker/multimedia_local_16.png',
+				buttonIconCls: 'editor-movie16',
 				
 				menuItemText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_EXTERNAL_MULTIMEDIA}}",
-				menuItemIcon: Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/resources-picker/multimedia_local_16.png',
+				menuItemIconCls: 'editor-movie16',
 				
 				dialogTitle: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_MULTIMEDIA}}",
 				dialogHint: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_MULTIMEDIA_HINT}}",
@@ -89,10 +89,10 @@ Ext.define('Ametys.form.widget.File.External', {
 			video: {
 				buttonText: "",
 				buttonTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_VIDEO_BUTTON}}",
-				buttonIcon: Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/resources-picker/multimedia_local_16.png',
+				buttonIconCls: 'editor-movie16',
 				
 				menuItemText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_EXTERNAL_VIDEO}}",
-				menuItemIcon: Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/resources-picker/multimedia_local_16.png',
+				menuItemIconCls: 'editor-movie16',
 				
 				dialogTitle: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_VIDEO}}",
 				dialogHint: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_VIDEO_HINT}}",
@@ -103,10 +103,10 @@ Ext.define('Ametys.form.widget.File.External', {
 			flash: {
 				buttonText: "",
 				buttonTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_FLASH_BUTTON}}",
-				buttonIcon: Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/resources-picker/multimedia_local_16.png',
+				buttonIconCls: 'editor-flash',
 				
 				menuItemText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_EXTERNAL_FLASH}}",
-				menuItemIcon: Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/resources-picker/multimedia_local_16.png',
+				menuItemIconCls: 'editor-flash',
 				
 				dialogTitle: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_FLASH}}",
 				dialogHint: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_FLASH_HINT}}",
@@ -117,10 +117,10 @@ Ext.define('Ametys.form.widget.File.External', {
 			audio: {
 				buttonText: "",
 				buttonTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_SOUND_BUTTON}}",
-				buttonIcon: Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/resources-picker/sound_local_16.png',
+				buttonIconCls: 'flaticon-music168',
 				
 				menuItemText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_EXTERNAL_SOUND}}",
-				menuItemIcon: Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/resources-picker/sound_local_16.png',
+				menuItemIconCls: 'flaticon-music168',
 				
 				dialogTitle: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_SOUND}}",
 				dialogHint: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_SOUND_HINT}}",
@@ -142,7 +142,7 @@ Ext.define('Ametys.form.widget.File.External', {
 		return {
             text: config.buttonText || this.self.filters[filter].buttonText, 
             tooltip: config.buttonTooltip || this.self.filters[filter].buttonTooltip, 
-            icon: config.buttonIcon || this.self.filters[filter].buttonIcon,
+            iconCls: config.buttonIconCls || this.self.filters[filter].buttonIconCls,
             source: this.self.SOURCE
         };
 	},
@@ -153,7 +153,7 @@ Ext.define('Ametys.form.widget.File.External', {
 		
 		return {
 			text: this.self.filters[filter].menuItemText, 
-	   		icon: this.self.filters[filter].menuItemIcon, 
+	   		iconCls: this.self.filters[filter].menuItemIconCls, 
 	   		source: this.self.SOURCE
 		}
 	},
@@ -167,7 +167,7 @@ Ext.define('Ametys.form.widget.File.External', {
 		filter = filter || 'none';
 		
         Ametys.helper.FileUpload.open(
-        	config.buttonIcon || this.self.filters[filter].buttonIcon, 
+        	config.buttonIconCls || this.self.filters[filter].buttonIconCls, 
         	config.dialogTitle || this.self.filters[filter].dialogTitle, 
         	config.dialogHint || this.self.filters[filter].dialogHint,
         	callback,

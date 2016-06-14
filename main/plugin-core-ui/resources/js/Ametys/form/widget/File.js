@@ -90,7 +90,7 @@ Ext.define('Ametys.form.widget.File', {
     		none: {
     			buttonMenuText: "",
     			buttonMenuTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_FILE_BUTTON}}",
-    			buttonMenuIcon: Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/resources-picker/file_local_16.png',
+    			buttonMenuIconCls: 'flaticon-document9',
 				
     			emptyText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_FILE_SELECTED}}",
     			
@@ -103,7 +103,7 @@ Ext.define('Ametys.form.widget.File', {
     		image: {
     			buttonMenuText: "",
     			buttonMenuTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_IMAGE_BUTTON}}",
-				buttonMenuIcon: Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/resources-picker/image_local_16.png',
+				buttonMenuIconCls: 'editor-image2',
 				
     			emptyText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_IMAGE_SELECTED}}",
     			
@@ -116,7 +116,7 @@ Ext.define('Ametys.form.widget.File', {
     		multimedia: {
     			buttonMenuText: "",
     			buttonMenuTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_MULTIMEDIA_BUTTON}}",
-    			buttonMenuIcon: Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/resources-picker/multimedia_local_16.png',
+    			buttonMenuIconCls: 'editor-movie16',
 				
     			emptyText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_MULTIMEDIA_SELECTED}}",
     			
@@ -129,7 +129,7 @@ Ext.define('Ametys.form.widget.File', {
     		video: {
     			buttonMenuText: "",
     			buttonMenuTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_VIDEO_BUTTON}}",
-    			buttonMenuIcon: Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/resources-picker/multimedia_local_16.png',
+    			buttonMenuIconCls: 'editor-movie16',
 				
     			emptyText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_VIDEO_SELECTED}}",
     			
@@ -142,7 +142,7 @@ Ext.define('Ametys.form.widget.File', {
     		flash: {
     			buttonMenuText: "",
     			buttonMenuTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_FLASH_BUTTON}}",
-    			buttonMenuIcon: Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/resources-picker/multimedia_local_16.png',
+    			buttonMenuIconCls: 'editor-flash',
 				
     			emptyText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_FLASH_SELECTED}}",
     			
@@ -155,7 +155,7 @@ Ext.define('Ametys.form.widget.File', {
     		audio: {
     			buttonMenuText: "",
     			buttonMenuTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_SOUND_BUTTON}}",
-    			buttonMenuIcon: Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/resources-picker/sound_local_16.png',
+    			buttonMenuIconCls: 'flaticon-music168',
 				
     			emptyText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_SOUND_SELECTED}}",
     			
@@ -339,7 +339,7 @@ Ext.define('Ametys.form.widget.File', {
     		return {
     			text: this.getInitialConfig('buttonText') || this.self.filters[this.fileFilter].buttonMenuText, 
                 tooltip: this.getInitialConfig('buttonTooltip') || this.self.filters[this.fileFilter].buttonMenuTooltip, 
-                icon: this.getInitialConfig('buttonIcon')  || this.self.filters[this.fileFilter].buttonMenuIcon,
+                iconCls: this.getInitialConfig('buttonIconCls')  || this.self.filters[this.fileFilter].buttonMenuIconCls,
                 
                 menu: menu,
                 

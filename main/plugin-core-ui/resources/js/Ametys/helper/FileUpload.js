@@ -38,35 +38,35 @@ Ext.define('Ametys.helper.FileUpload', {
 	
 	/**
 	 * Allow the user to choose a resource file from its local hard drive
-	 * @param {String} icon The full path to icon (16x16 pixels) for the dialog box
+	 * @param {String} iconCls=flaticon-upload119 One or more CSS classes to apply to dialog's icon. Can be null to use the default one.
 	 * @param {String} title The title of the dialog box.
 	 * @param {String} helpmessage The message displayed at the top of the dialog box.
 	 * @param {Function} callback The method that will be called when the dialog box is closed. The method signature is <ul><li>node : The tree node currently selected or null if no selection has been made (cancel)</li></ul> The method can return false to made the dialog box keep open (you should display an error message in this case)
 	 * @param {Function} filter The filter for the filename. Choose between constants. Argument is the file name and return a boolean.
 	 */
-	open: function (icon, title, helpmessage, callback, filter)
+	open: function (iconCls, title, helpmessage, callback, filter)
 	{
 		this._cbFn = callback;
 		this._filter = filter;
 		
-		this._initialize(icon, title, helpmessage);
+		this._initialize(iconCls, title, helpmessage);
 		this._box.show();
 	},
 	
 	/**
 	 * Initialize the dialog box
-	 * @param {String} icon The full path to icon (16x16 pixels) for the dialog box
+	 * @param {String} iconCls One or more CSS classes to apply to dialog's icon
 	 * @param {String} title The title of the dialog box.
 	 * @param {String} helpmessage The message displayed at the top of the dialog box.
 	 * @private
 	 */
-	_initialize:  function(icon, title, helpmessage)
+	_initialize:  function(iconCls, title, helpmessage)
 	{
 		if (!this._initialized)
 		{
 			this._box = Ext.create('Ametys.window.DialogBox', {
 				title: title,
-				icon: icon,
+				iconCls: iconCls || 'flaticon-upload119',
 				
 				width: 430,
 				scrollable: true,
@@ -83,7 +83,7 @@ Ext.define('Ametys.helper.FileUpload', {
 							items: [{
 										xtype: 'component',
 										cls: 'a-text',
-										html: helpmessage
+										html: helpmessage || ''
 									}, 
 									{
 										xtype: 'filefield',
@@ -117,7 +117,7 @@ Ext.define('Ametys.helper.FileUpload', {
 		else
 		{
 			this._box.down('#fileupload-file').reset();
-			this._box.setIcon(icon);
+			this._box.setIconCls(iconCls || 'flaticon-upload119');
 			this._box.setTitle(title);
 			this._box.down('form').items.get(0).update(helpmessage);
 		}
