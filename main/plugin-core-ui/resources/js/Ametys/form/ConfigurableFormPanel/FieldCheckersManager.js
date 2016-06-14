@@ -559,6 +559,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 	 */
 	_updateWarnings: function()
 	{
+        Ext.suspendLayouts();
+        
 		Ext.Array.each(this._fieldCheckers, function(fieldChecker){
 			var button = Ext.getCmp(fieldChecker.buttonId),
 				helpBox = Ext.getCmp(fieldChecker.helpBoxId),
@@ -590,6 +592,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 				}
 			});
 		});
+        
+        Ext.resumeLayouts(true);        
 	},
 	
 	/**
