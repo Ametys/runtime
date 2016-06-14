@@ -181,7 +181,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
             {
                 // look and drop width are set
                 size['t'].height = Math.round(size['cl'].height * this.self._FLOATINGZONES_RATIO);
-                dropSize['t'].height = 300;
+                dropSize['t'].height = 0; // we be set to max possible value later
                 
                 // drop position is negativized
                 dropOffset['t'][1] -= dropSize['t'].height;
@@ -267,7 +267,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
                 dropOffset['cr'][0] = size['cr'].width - dropSize['cr'].width;
                 if (!visible['r'])
                 {
-                    dropOffset['cr'][0] -= dropSize['r'].width;
+                    // RUNTIME-1344 dropOffset['cr'][0] -= dropSize['r'].width;
                 }
             }
             else if (!visible['cl'] && visible['cr'])
@@ -294,7 +294,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
                 dropSize['cl'].width = centralWidth - dropSize['cr'].width;
                 if (!visible['l'])
                 {
-                    dropOffset['cl'][0] += dropSize['l'].width;
+                    // RUNTIME-1344 dropOffset['cl'][0] += dropSize['l'].width;
                 }
             }
             else if (visible['cl'] && visible['cr'])
@@ -322,6 +322,75 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
                     // RUNTIME-1344 dropSize['cl'].width -= dropSize['r'].width;
                 }
                 delete zones.cr;
+            }
+            
+            // Now, due to borders in the theme and due to splitters, we may have a few pixels between zones
+            // Let's remove it
+            
+            // Vertically middle zones must stick to top and bottom zones
+            for (var loc in {"l": null, "r": null, "cl": null, "cr": null})
+            {
+                if (loc == 'cl' || loc == 'cr' || visible[loc]) // left and right zones, when hidden are starting after the central header
+                {
+                    var topDiff = (position[loc][1] + dropOffset[loc][1]) - (position['t'][1] + dropOffset['t'][1] + dropSize['t'].height);
+                    dropSize[loc].height += topDiff;
+                    dropOffset[loc][1] -= topDiff;
+                }
+                
+                var bottomDiff = (position['b'][1] + dropOffset['b'][1]) - (position[loc][1] + dropOffset[loc][1] + dropSize[loc].height);
+                dropSize[loc].height += bottomDiff;
+                
+                console.info("Diff " + loc + " " + topDiff + " - " + bottomDiff)
+            }
+            
+            // Horizontally middle zones must stick to left and right zones : issue with splitters when lateral zones are visible
+            if (visible['l'])
+            {
+                var leftDiff = (position['cl'][0] + dropOffset['cl'][0]) - (position['l'][0] + dropOffset['l'][0] + dropSize['l'].width);
+                dropOffset['cl'][0] -= leftDiff;
+                dropSize['cl'].width += leftDiff;
+            }
+            if (visible['r'])
+            {
+                if (zones.cr !== undefined)
+                {
+                    var rightDiff = (position['r'][0] + dropOffset['r'][0]) - (position['cr'][0] + dropOffset['cr'][0] + dropSize['cr'].width);
+                    dropSize['cr'].width += rightDiff;
+                }
+                else
+                {
+                    var rightDiff = (position['r'][0] + dropOffset['r'][0]) - (position['cl'][0] + dropOffset['cl'][0] + dropSize['cl'].width);
+                    dropSize['cl'].width += rightDiff;
+                }
+            }
+
+            var toStickTo = Ext.getBody().getRegion();
+            // Top zone must stick to the top
+            var topDiff = position['t'][1] + dropOffset['t'][1] - toStickTo.top;
+            dropOffset['t'][1] -= topDiff;
+            dropSize['t'].height += topDiff;
+            // Bottom zone must stick to the bottom
+            var bottomDiff = toStickTo.bottom - (position['b'][1] + dropOffset['b'][1] + dropSize['b'].height);
+            dropSize['b'].height += bottomDiff;
+            // Left zone must stick to the left
+            var leftDiff = position['l'][0] + dropOffset['l'][0] - toStickTo.left;
+            dropOffset['l'][0] -= leftDiff;
+            dropSize['l'].width += leftDiff;
+            // If left zone is not visible, cl zone must stick to the left too
+            if (!visible['l'])
+            {
+                var leftDiff = position['cl'][0] + dropOffset['cl'][0] - toStickTo.left;
+                dropOffset['cl'][0] -= leftDiff;
+                dropSize['cl'].width += leftDiff;
+            }
+            // Right zone must stick to the right
+            var rightDiff = toStickTo.right - (position['r'][0] + dropOffset['r'][0] + dropSize['r'].width);
+            dropSize['r'].width += rightDiff;
+            // If right zone is not visible, cr zone must stick to the right too
+            if (!visible['r'])
+            {
+                var rightDiff = toStickTo.right - (position['cr'][0] + dropOffset['cr'][0] + dropSize['cr'].width);
+                dropSize['cr'].width += rightDiff;
             }
             
             // Draw now
