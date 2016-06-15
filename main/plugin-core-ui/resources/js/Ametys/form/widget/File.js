@@ -21,6 +21,7 @@
  * 
  * This widget is configurable:<br>
  * - Use {@link #cfg-filter} to restrict files by types. The available filters are 'image', 'video', 'multimedia', 'audio' or 'flash'.<br>
+ * - Use {@link #cfg-allowExtensions} to restrict files by extensions such as 'pdf', 'xml', 'png'.... <br>
  * - Use {@link #cfg-allowSources} to specify the authorized file sources (eg: 'external' for local resource, 'resource' for shared resource). Separated by comma.<br>
  * See the subclasses of {@link Ametys.form.widget.File.FileSource} for the available sources.<br>
  */
@@ -163,12 +164,28 @@ Ext.define('Ametys.form.widget.File', {
     			deleteTextConfirm: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_SOUND_CONFIRM}}",
     			
     			downloadText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_SOUND}}"
-    		}
+    		},
+            
+            pdf: {
+                buttonMenuText: "",
+                buttonMenuTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_PDF_BUTTON}}",
+                buttonMenuIconCls: 'flaticon-pdf17',
+                
+                emptyText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_PDF_SELECTED}}",
+                
+                deleteText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_PDF_BUTTON}}",
+                deleteTextConfirm: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_PDF_CONFIRM}}",
+                
+                downloadText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_PDF}}"
+            }
     	}
     },
     
     /**
      * @cfg {String} filter=none The filter to use for accepted files amongst: 'none', 'image', 'audio', 'video', 'multimedia' or 'flash'. Can be null to accept all files (equivalent to 'none').
+     */
+    /**
+     * @cfg {String|String[]} [allowExtensions] The allowed file extensions in a Array or separated by coma. This parameter is more precise than #cfg-filter. If used, the filter will be forced to 'none'.
      */
     /**
      * @cfg {String|String[]} allowSources=external The allowed file sources in a Array or separated by coma. Default to 'external'.
@@ -240,8 +257,7 @@ Ext.define('Ametys.form.widget.File', {
     {
         this.cls = this.emptyCls;
         this.layout = {
-            type: 'hbox',
-            //align: 'stretch'
+            type: 'hbox'
         };
         
         this.items = [];
@@ -321,14 +337,21 @@ Ext.define('Ametys.form.widget.File', {
         this.fileFilter = config['filter'] || 'none';
         delete config.filter;
         
+        if (!Ext.isEmpty(config['allowExtensions']))
+        {
+        	this.allowedExtensions = Ext.isArray(config['allowExtensions']) ? config['allowExtensions'] : config['allowExtensions'].split(',');
+            this.fileFilter = 'none';
+            delete config.allowExtensions;
+        }
+        
         // File location
         if (Ext.isEmpty(config['allowSources']))
         {
-        	this.fileSources = [Ametys.form.widget.File.External.SOURCE];
+            this.fileSources = [Ametys.form.widget.File.External.SOURCE];
         }
         else
         {
-        	this.fileSources = Ext.isArray(config['allowSources']) ? config['allowSources'] : config['allowSources'].split(',');
+            this.fileSources = Ext.isArray(config['allowSources']) ? config['allowSources'] : config['allowSources'].split(',');
         }
         delete config.allowSources;
         
@@ -388,7 +411,7 @@ Ext.define('Ametys.form.widget.File', {
     _selectFile: function (btn)
     {
     	var source = Ametys.form.widget.File.getFileSource(btn.source);
-    	source.handler (this.getInitialConfig(), this.fileFilter, Ext.bind(this._insertResourceCb, this, [source.getFileType()], true));
+    	source.handler (this.getInitialConfig(), this.fileFilter, this.allowedExtensions, Ext.bind(this._insertResourceCb, this, [source.getFileType()], true));
     },
     
     /**

@@ -126,7 +126,21 @@ Ext.define('Ametys.form.widget.File.External', {
 				dialogHint: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_SOUND_HINT}}",
 				
 				filter: Ametys.helper.FileUpload.SOUND_FILTER
-			}
+			},
+            
+            pdf: {
+                buttonText: "",
+                buttonTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_PDF_BUTTON}}",
+                buttonIconCls: 'flaticon-pdf17',
+                
+                menuItemText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_EXTERNAL_PDF}}",
+                menuItemIconCls: 'flaticon-pdf17',
+                
+                dialogTitle: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_PDF}}",
+                dialogHint: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_PDF_HINT}}",
+                
+                filter: Ametys.helper.FileUpload.PDF_FILTER
+            }
 		}
 	},
 	
@@ -162,16 +176,17 @@ Ext.define('Ametys.form.widget.File.External', {
 	 * @inheritdoc
      * Opens a dialog to upload a file from the local hard drive
      */
-	handler: function (config, filter, callback)
+	handler: function (config, filter, allowedExtensions, callback)
     {
 		filter = filter || 'none';
-		
+        
         Ametys.helper.FileUpload.open(
         	config.buttonIconCls || this.self.filters[filter].buttonIconCls, 
         	config.dialogTitle || this.self.filters[filter].dialogTitle, 
         	config.dialogHint || this.self.filters[filter].dialogHint,
         	callback,
-            this.self.filters[filter].filter
+            this.self.filters[filter].filter,
+            allowedExtensions
         );
     }
 });

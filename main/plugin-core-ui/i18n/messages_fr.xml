@@ -613,7 +613,16 @@
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_SOUND">Insérer un fichier audio local ...</message>   
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_SOUND_HINT">Sélectionnez un fichier audio sur votre disque dur, puis cliquez sur 'Ok'.</message>
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_SOUND">Télécharger le fichier audio</message>
-    
+
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_PDF_BUTTON">Sélectionnez un fichier PDF</message>   
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_PDF_BUTTON">Supprimer le fichier PDF</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_PDF_SELECTED">Aucun fichier PDF</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_EXTERNAL_PDF">Fichier PDF local ...</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_PDF_CONFIRM">Etes-vous sûr de vouloir supprimer ce fichier PDF ?</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_PDF">Insérer un fichier PDF local ...</message>   
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_PDF_HINT">Sélectionnez un fichier PDF sur votre disque dur, puis cliquez sur 'Ok'.</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_PDF">Télécharger le fichier PDF</message>
+        
     <message key="PLUGINS_CORE_UI_FORM_QUERYABLE_COMBOBOX_NO_RESULT">La recherche n'a renvoyé aucun résultat</message>
     <message key="PLUGINS_CORE_UI_FORM_QUERYABLE_COMBOBOX_LOADING">Recherche en cours...</message>
     
@@ -655,6 +664,10 @@
     <message key="PLUGINS_CORE_UI_FILEUPLOAD_VIDEOFILTER">fichier vidéo (avec une extension en swf ou flv)</message>
     <message key="PLUGINS_CORE_UI_FILEUPLOAD_SOUNDFILTER">fichier audio (mp3)</message>
     <message key="PLUGINS_CORE_UI_FILEUPLOAD_FLASHFILTER">fichier flash (swf)</message>
+    <message key="PLUGINS_CORE_UI_FILEUPLOAD_PDFFILTER">fichier PDF</message>
+    <message key="PLUGINS_CORE_UI_FILEUPLOAD_EXTENSIONFILTER">fichier avec une extension en </message>
+    <message key="PLUGINS_CORE_UI_FILEUPLOAD_EXTENSIONFILTER_SEPARATOR">, </message>
+    <message key="PLUGINS_CORE_UI_FILEUPLOAD_EXTENSIONFILTER_SEPARATOR_FINAL"> ou </message>
     <message key="PLUGINS_CORE_UI_FILEUPLOAD_ERRORDIALOG_TEXT">Fichier non adapté</message>
     <message key="PLUGINS_CORE_UI_FILEUPLOAD_ERRORDIALOG_DESC">Le fichier choisi n'est pas du type attendu.&lt;br/&gt;Veuillez sélectionner un</message>
     <message key="PLUGINS_CORE_UI_FILEUPLOAD_SUBMITFORM_TITLE">Insérer un fichier</message>

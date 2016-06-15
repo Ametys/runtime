@@ -57,7 +57,8 @@ Ext.define('Ametys.form.widget.File.FileSource', {
 	/**
 	 * Function called when button or menu item is pressed.
 	 * @param {Object} config The widget initial configuration
-	 * @param {String} filter The filter name for files
+	 * @param {String} filter The filter name for files. Can be null to allow all files or to use file extensions instead
+     * @param {String[]} allowedExtensions The allowed file extensions. Can be null to allowed all extensions or use filter instead
 	 * @param {Function} callback The callback function. Has the following parameters:
 	 * @param {String} callback.id The file id.
      * @param {String} callback.fileName The file name.
@@ -65,7 +66,7 @@ Ext.define('Ametys.form.widget.File.FileSource', {
      * @param {Number} callback.viewHref A URL to view the file.
      * @param {Number} callback.downloadHref A URL to download the file.
 	 */
-	handler: function (config, filter, callback)
+	handler: function (config, filter, allowedExtensions, callback)
     {
 		throw new Error("The method #handler is not implemented in " + this.self.getName());
     }

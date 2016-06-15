@@ -42,13 +42,21 @@ Ext.define('Ametys.helper.FileUpload', {
 	 * @param {String} title The title of the dialog box.
 	 * @param {String} helpmessage The message displayed at the top of the dialog box.
 	 * @param {Function} callback The method that will be called when the dialog box is closed. The method signature is <ul><li>node : The tree node currently selected or null if no selection has been made (cancel)</li></ul> The method can return false to made the dialog box keep open (you should display an error message in this case)
-	 * @param {Function} filter The filter for the filename. Choose between constants. Argument is the file name and return a boolean.
+	 * @param {Function} [filter] The filter for the filename. Choose between constants. Argument is the file name and return a boolean.
+     * @param {String[]} [allowedExtensions] The allowed extensions for the filename. Can be null. If use the filter function will be forced to Ametys.helper.FileUpload#EXTENSIONS_FILTER
 	 */
-	open: function (iconCls, title, helpmessage, callback, filter)
+	open: function (iconCls, title, helpmessage, callback, filter, allowedExtensions)
 	{
 		this._cbFn = callback;
 		this._filter = filter;
-		
+		this._allowedExtensions = allowedExtensions;
+        
+        if (this._allowedExtensions)
+        {
+            // Force filter
+            this._filter = Ametys.helper.FileUpload.EXTENSION_FILTER;
+        }
+        
 		this._initialize(iconCls, title, helpmessage);
 		this._box.show();
 	},
@@ -173,12 +181,12 @@ Ext.define('Ametys.helper.FileUpload', {
 	{
 		return /\.mp3$/i.test(filename);
 	},
-	/**
-	 * @property {String} SOUND_FILTER_LABEL Label for sound filter
-	 * @readonly
-	 */
-	SOUND_FILTER_LABEL: "{{i18n PLUGINS_CORE_UI_FILEUPLOAD_SOUNDFILTER}}",
-
+    /**
+     * @property {String} SOUND_FILTER_LABEL Label for sound filter
+     * @readonly
+     */
+    SOUND_FILTER_LABEL: "{{i18n PLUGINS_CORE_UI_FILEUPLOAD_SOUNDFILTER}}",
+    
 	/**
 	 * Filter for SWF files
 	 * @param {String} filename The file name
@@ -193,7 +201,47 @@ Ext.define('Ametys.helper.FileUpload', {
 	 */
 	FLASH_FILTER_LABEL: "{{i18n PLUGINS_CORE_UI_FILEUPLOAD_FLASHFILTER}}",
 
-
+    /**
+     * Filter for PDF files
+     * @param {String} filename The file name
+     */
+    PDF_FILTER: function(filename)
+    {
+        return /\.pdf$/i.test(filename);
+    },
+    /**
+     * @property {String} PDF_FILTER_LABEL Label for PDF filter
+     * @readonly
+     */
+    PDF_FILTER_LABEL: "{{i18n PLUGINS_CORE_UI_FILEUPLOAD_PDFFILTER}}",
+    
+    /**
+     * Filter function to filter files based on the allowed extensions
+     * @param {String} filename The file name
+     * @return {Boolean} true if the filter match
+     */
+    EXTENSION_FILTER: function (filename)
+    {
+        if (!this._allowedExtensions)
+        {
+            return true;
+        }
+        
+        for (var i = 0; i < this._allowedExtensions.length; i++) 
+        {
+            if (new RegExp('\\.' + this._allowedExtensions[i] + '$', "i").test(filename))
+            {
+                return true;
+            }
+        }
+        return false;
+    },
+    /**
+     * @property {String} PDF_FILTER_LABEL Label for PDF filter
+     * @readonly
+     */
+    EXTENSION_FILTER_LABEL: "{{i18n PLUGINS_CORE_UI_FILEUPLOAD_EXTENSIONFILTER}}",
+    
 	/**
 	 * Function called when the file input change
 	 * @param {Ext.form.field.File} input The file input
@@ -206,19 +254,44 @@ Ext.define('Ametys.helper.FileUpload', {
 		// change event is raised again when the form is submitted (with an empty value)
 		if (!this._uploading)
 		{
-			var disabled = this._filter != null && !this._filter(name);
-			this._box.getDockedItems('toolbar[dock="bottom"]')[0].items.get(0).setDisabled(disabled);
-			if (disabled)
+			var matchFilter = this._filter == null || this._filter(name);
+			this._box.getDockedItems('toolbar[dock="bottom"]')[0].items.get(0).setDisabled(!matchFilter);
+			if (!matchFilter)
 			{
+                var text = "{{i18n PLUGINS_CORE_UI_FILEUPLOAD_ERRORDIALOG_DESC}} " + Ametys.getObjectByName("Ametys.helper.FileUpload." + this._filter.$name + '_LABEL');
+                if (this._allowedExtensions)
+                {
+                    text += this._getAllowedExtensionsAsText();
+                }
 				Ametys.log.ErrorDialog.display({
 					title: "{{i18n PLUGINS_CORE_UI_FILEUPLOAD_ERRORDIALOG_TEXT}}", 
-					text: "{{i18n PLUGINS_CORE_UI_FILEUPLOAD_ERRORDIALOG_DESC}} " + Ametys.getObjectByName("Ametys.helper.FileUpload." + this._filter.$name + '_LABEL'),
+					text: text,
 		    		details: "",
 		    		category: "Ametys.helper.FileUpload._selectFile"
 				});
 			}
 		}
 	},
+    
+    /**
+     * Get the allowed extension as a text to be displayed for user
+     * @return {String} the allowed extension as a text 
+     */
+    _getAllowedExtensionsAsText: function ()
+    {
+        if (this._allowedExtensions.length > 2)
+        {
+            var slicedExtensions = Ext.Array.slice(this._allowedExtensions, 0, this._allowedExtensions.length -1);
+            var txt = slicedExtensions.join("{{i18n PLUGINS_CORE_UI_FILEUPLOAD_EXTENSIONFILTER_SEPARATOR}}");
+            txt += "{{i18n PLUGINS_CORE_UI_FILEUPLOAD_EXTENSIONFILTER_SEPARATOR_FINAL}}";
+            txt += this._allowedExtensions[this._allowedExtensions.length -1];
+            return txt;
+        }
+        else
+        {
+            return this._allowedExtensions.join("{{i18n PLUGINS_CORE_UI_FILEUPLOAD_EXTENSIONFILTER_SEPARATOR_FINAL}}");
+        }
+    },
 	
 	/**
 	 * This function submits the form to upload the selected file

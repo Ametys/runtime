@@ -653,6 +653,10 @@
     <message key="PLUGINS_CORE_UI_FILEUPLOAD_VIDEOFILTER">video file (swf or flv extension)</message>
     <message key="PLUGINS_CORE_UI_FILEUPLOAD_SOUNDFILTER">audio file (mp3)</message>
     <message key="PLUGINS_CORE_UI_FILEUPLOAD_FLASHFILTER">flash file (swf)</message>
+    <message key="PLUGINS_CORE_UI_FILEUPLOAD_PDFFILTER">PDF file</message>
+    <message key="PLUGINS_CORE_UI_FILEUPLOAD_EXTENSIONFILTER">file with extension </message>
+    <message key="PLUGINS_CORE_UI_FILEUPLOAD_EXTENSIONFILTER_SEPARATOR">, </message>
+    <message key="PLUGINS_CORE_UI_FILEUPLOAD_EXTENSIONFILTER_SEPARATOR_FINAL"> or </message>
     <message key="PLUGINS_CORE_UI_FILEUPLOAD_ERRORDIALOG_TEXT">Wrong file</message>
     <message key="PLUGINS_CORE_UI_FILEUPLOAD_ERRORDIALOG_DESC">Wrong type for selected file.&lt;br/&gt;Please select a</message>
     <message key="PLUGINS_CORE_UI_FILEUPLOAD_SUBMITFORM_TITLE">Insert file</message>
