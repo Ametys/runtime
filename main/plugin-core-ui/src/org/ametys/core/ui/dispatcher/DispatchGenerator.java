@@ -412,7 +412,7 @@ public class DispatchGenerator extends ServiceableGenerator
     /**
      * Wrap the handler ignore start and end document, but adding a response tag. 
      */
-    public class ResponseHandler extends IgnoreRootHandler
+    public static class ResponseHandler extends IgnoreRootHandler
     {
         private final String _parameterKey;
         private final ContentHandler _handler;
