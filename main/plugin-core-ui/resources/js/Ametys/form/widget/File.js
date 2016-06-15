@@ -203,9 +203,12 @@ Ext.define('Ametys.form.widget.File', {
      * @cfg {String} deleteTextConfirm The text to display when deleting a file.
      */
     /**
-	 * @cfg {String} deleteButtonIcon The full path to the delete button icon (in 16x16 pixels)
+	 * @cfg {String} [deleteButtonIcon] The full path to the delete button icon (in 16x16 pixels). Can be null to use #cfg-deleteButtonIconCls instead
 	 */
-	deleteButtonIcon: Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/resources-picker/file_delete_16.png', 
+     /**
+     * @cfg {String} [deleteButtonIconCls=flaticon-remove11] The CSS class to apply to delete button icon
+     */
+    deleteButtonIconCls: 'flaticon-remove11', 
     /**
      * @cfg {Boolean} buttonOnly True to display the file upload field as a button with no visible
      * text field (defaults to true).  If true, all inherited TextField members will still be available.
@@ -218,9 +221,15 @@ Ext.define('Ametys.form.widget.File', {
     buttonOffset: 5,
     
     /**
+     * @cfg {String} imgCls The CSS to use for file's glyph. Only used if the file filter is not #IMAGE_FILTER
+     */
+    glyphCls: 'a-form-file-widget-glyph',
+    
+    /**
      * @cfg {String} imgCls The CSS to use for image preview. Only used if the file filter is #IMAGE_FILTER
      */
     imgCls: 'a-form-file-widget-img',
+    
     
     /**
      * @cfg {String} imgCls The CSS to use for image preview. Only used if the file filter is #IMAGE_FILTER
@@ -229,31 +238,48 @@ Ext.define('Ametys.form.widget.File', {
     
     initComponent: function()
     {
-    	// File icon or image
-        var imgCfg = {autoEl: 'div', hidden: true};
+        this.cls = this.emptyCls;
+        this.layout = {
+            type: 'hbox',
+            //align: 'stretch'
+        };
+        
+        this.items = [];
+        
         if (this.fileFilter == this.self.IMAGE_FILTER)
         {
-            imgCfg.width = this.imagePreviewMaxWidth + 6; // image width + padding
-            imgCfg.height = this.imagePreviewMaxHeight + 6;
-            imgCfg.cls = this.imgWithBorderCls;
-            imgCfg.listeners = { 
-                'afterrender': {
-                    fn: function() { 
-                        this.img.el.dom.style.lineHeight = (this.imagePreviewMaxHeight - 2) + "px"; 
-                    }, 
-                    scope: this, 
-                    options: { single: true } 
+            // Preview image
+            this.img = Ext.create('Ext.Img', {
+                autoEl: 'div', 
+                hidden: true,
+                width: this.imagePreviewMaxWidth + 6, // image width + padding
+                height: this.imagePreviewMaxHeight + 6, // image height + padding
+                cls: this.imgWithBorderCls,
+                listeners: {
+                    'afterrender': {
+	                    fn: function() { 
+	                        this.img.el.dom.style.lineHeight = (this.imagePreviewMaxHeight - 2) + "px"; 
+	                    }, 
+	                    scope: this, 
+	                    options: { single: true } 
+	                }
                 }
-            }
+            });
+            
+            this.items.push(this.img);
         }
         else
         {
-        	imgCfg.cls = this.imgCls;
-            imgCfg.width = 32; // image width + padding
-            imgCfg.height = 32;
+            // File glyph
+        	this.fileGlyph = Ext.create('Ext.Component', {
+	           height: 48,
+	           width: 48,
+	           cls: this.glyphCls
+	        });
+            
+            this.items.push(this.fileGlyph);
         }
-    	this.img = Ext.create('Ext.Img', imgCfg);
-    	
+        
         // Display field.
         var textConfig = Ext.applyIf(this.textConfig || {}, {
             html: '',
@@ -261,14 +287,8 @@ Ext.define('Ametys.form.widget.File', {
             cls: Ametys.form.AbstractField.READABLE_TEXT_CLS
         });
         this.displayField = Ext.create('Ext.Component', textConfig);
+        this.items.push(this.displayField);
         
-        this.cls = this.emptyCls;
-        this.layout = 'hbox';
-        this.items = [
-            this.img,
-            this.displayField
-        ];
-            
         if (!this.readOnly)
         {
             // Button which opens the upload dialog box.
@@ -277,6 +297,7 @@ Ext.define('Ametys.form.widget.File', {
             // Button which deletes the selected file.
             var deleteButtonConfig = Ext.applyIf(this.deleteButtonConfig || {}, {
                 icon: this.deleteButtonIcon,
+                iconCls: this.deleteButtonIcon ? null : this.deleteButtonIconCls,
                 disabled: this.disabled,
                 
                 tooltip: this.deleteText || this.self.filters[this.fileFilter].deleteText,
@@ -490,7 +511,7 @@ Ext.define('Ametys.form.widget.File', {
     	
     	if (!value || !value.id)
     	{
-    		this.img.hide();
+    		this._showHideImgPreview(false);
     		// Update the file description.
             this.displayField.setHeight(21); // Let's freeze height to avoid useless layout afterward
             
@@ -516,6 +537,23 @@ Ext.define('Ametys.form.widget.File', {
     },
     
     /**
+     * @private
+     * Show or hide the image preview or fiele glyph
+     * @param {Boolean} show true to show
+     */
+    _showHideImgPreview : function (show)
+    {
+        if (this.fileFilter == this.self.IMAGE_FILTER)
+        {
+            this.img.setVisible(show);
+        }
+        else
+        {
+            this.fileGlyph.setVisible(show);
+        }
+    },
+    
+    /**
      * Construct the file description (icon, name, size and link to download it) and update the display field.
      * @param {String} id The file id.
      * @param {String} fileName The file name
@@ -527,19 +565,19 @@ Ext.define('Ametys.form.widget.File', {
      */
     _updateFileDescription: function(id, fileName, fileSize, viewHref, downloadHref)
     {
-    	var iconPath;
     	if (this.fileFilter == this.self.IMAGE_FILTER)
     	{
-    		iconPath = viewHref + '&maxWidth=' + this.imagePreviewMaxWidth + '&maxHeight=' + this.imagePreviewMaxHeight + '&foo=' + Math.random();
+    		var imgSrc = viewHref + '&maxWidth=' + this.imagePreviewMaxWidth + '&maxHeight=' + this.imagePreviewMaxHeight + '&foo=' + Math.random();
+            this.img.setSrc(imgSrc);
     	}
-    	else
-    	{
-    		iconPath = this._getIconPath(fileName);
-    	}
+        else
+        {
+            var iconGlyph = Ametys.explorer.tree.ExplorerTree.getFileIconGlyph(fileName);
+            this.fileGlyph.update('<span class="' + iconGlyph + '"></span>');
+        }
     	
-    	this.img.setSrc(iconPath);
-    	this.img.show();
-    	
+        this._showHideImgPreview(true);
+        
         // Do not write the file name in the link just now.
         var text = '<a href="' + downloadHref + '" title="' + (this.getInitialConfig('downloadText') || this.self.filters[this.fileFilter].downloadText) + '">' + fileName + '</a>';
         
@@ -554,25 +592,5 @@ Ext.define('Ametys.form.widget.File', {
         }
         
         this.displayField.update(text);
-    },
-    
-    /**
-     * Get the icon path of the file from its name.
-     * @param {String} fileName The file name
-     * @return The icon path
-     * @private
-     */
-    _getIconPath: function(fileName)
-    {
-        var extension = 'unknown';
-        if (fileName)
-        {
-            var index = fileName.lastIndexOf('.');
-            if (index > 0)
-            {
-                extension = fileName.substring(index + 1).toLowerCase();
-            }
-        }
-        return Ametys.getPluginDirectPrefix('explorer') + '/icon-medium/' + extension + '.png';
     }
 });

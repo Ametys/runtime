@@ -56,6 +56,15 @@
     vertical-align: middle;
 }
 
+.a-form-file-widget-glyph span {
+	position: relative;
+	
+	&:before {
+		font-size: 48px;
+		line-height: 48px;
+	}
+}
+
 .#{$prefix}form-file-wrap .#{$prefix}form-trigger-wrap:after {
     content: attr(data-maxsizemsg);
     display: table-row;
