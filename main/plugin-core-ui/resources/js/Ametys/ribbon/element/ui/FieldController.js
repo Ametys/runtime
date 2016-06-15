@@ -39,12 +39,6 @@ Ext.define(
 			
 			/**
 			 * @readonly
-			 * @property {Number} DEFAULT_LABEL_HEIGHT The default height for input label.
-			 */
-			DEFAULT_LABEL_HEIGHT: 25,
-			
-			/**
-			 * @readonly
 			 * @property {Number} DEFAULT_TEXTAREA_HEIGHT The default height for textarea label.
 			 */
 			DEFAULT_TEXTAREA_HEIGHT: 60,
@@ -171,7 +165,7 @@ Ext.define(
 		    	labelAlign: labelOnTop ? 'top' : 'left',
 		    	hideLabel: this.getInitialConfig('label') == null || this.getInitialConfig('hideLabel') == 'true',
 		    	
-		    	fieldLabel: this.getInitialConfig('label'),
+		    	fieldLabel: this.getInitialConfig('hideLabel') == 'true' ? null : this.getInitialConfig('label'), // hideLabel above does not seems to work
 		    	name: this.getInitialConfig('name'),
 		    	value: this.getInitialConfig('value') || '',
 		    	
@@ -422,9 +416,9 @@ Ext.define(
 		 */
 		_getInputHeight: function (size, labelOnTop)
 		{
-			var height = this.getInitialConfig('height') ? Number(this.getInitialConfig('height')) : (this.getInitialConfig('input-xtype') == 'textarea' ? Ametys.ribbon.element.ui.FieldController.DEFAULT_TEXTAREA_HEIGHT : null);
+			var height = this.getInitialConfig('height') ? Number(this.getInitialConfig('height')) : null;
 			height = this.getInitialConfig('height-' + size) != null ? Number(this.getInitialConfig('height-' + size)) : height;
-			return labelOnTop ? height - Ametys.ribbon.element.ui.FieldController.DEFAULT_LABEL_HEIGHT : height;
+			return height;
 		},
 		
 		/**

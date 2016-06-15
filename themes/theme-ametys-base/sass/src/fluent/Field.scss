@@ -33,6 +33,10 @@
     $ui-color: $ametys-ribbon-field-color,
     $ui-font-size: $ametys-ribbon-field-font-size
 );
+.#{$prefix}form-item-no-label .#{$prefix}form-text-ribbon-component.#{$prefix}form-textarea {
+    min-height: 3*$ametys-ribbon-button-height-small - 2px // 2px for border top and bottom
+}
+
 @include extjs-spinner-trigger-ui(
     $ui: 'ribbon-component',
     
