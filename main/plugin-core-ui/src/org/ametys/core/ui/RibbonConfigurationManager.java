@@ -923,10 +923,11 @@ public class RibbonConfigurationManager
          */
         public Group(Group ribbonGroup)
         {
-            this._label = ribbonGroup._label;
-            this._icon = ribbonGroup._icon;
-            this._priority = ribbonGroup._priority;
-            this._groupLogger = ribbonGroup._groupLogger;
+            _label = ribbonGroup._label;
+            _icon = ribbonGroup._icon;
+            _priority = ribbonGroup._priority;
+            _groupLogger = ribbonGroup._groupLogger;
+            _dialogBoxLauncher = ribbonGroup._dialogBoxLauncher;
             
             _largeSize = new GroupSize(_groupLogger);
             _mediumSize = new GroupSize(_groupLogger);
