@@ -119,7 +119,7 @@
             window.onerror = function(e) {
                 window.errorMode = true;
                 
-                document.body.parentNode.className += " error";
+                document.body.parentNode.classList.add("error");
                 <xsl:choose>
                     <xsl:when test="$splashscreen != 'no'">
                        document.getElementById('load-msg').innerHTML = "<i18n:text i18n:key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_SPLASHSCREEN_LOAD_FAIL" i18n:catalogue="plugin.core-ui"/>";
