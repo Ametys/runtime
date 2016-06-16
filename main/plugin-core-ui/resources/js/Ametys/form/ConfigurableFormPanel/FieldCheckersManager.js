@@ -843,7 +843,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
         }, this);
         
         this.updateTestResults();
-        this._form._updateTabsStatus(); 
+        this._form._updateTabsStatus(displayErrors); 
         this._updateWarnings();
         
         if (callback && typeof callback === 'function') 
