@@ -265,10 +265,10 @@ Ext.define(
                 var anchor = tip.activeTarget.anchor;
 
                 // required position
-                var parent;
+                var parent, parentMenu;
                 if (target && (parent = target.parent(".x-menu")))
                 {
-                    var parentMenu = parent;
+                    parentMenu = parent;
                     
                     if (parentMenu.getRight() + 2 + this.getWidth() > Ext.getBody().getRight())
                     {
@@ -277,12 +277,6 @@ Ext.define(
                     else
                     {
                         anchor = "tl-tr";
-                    }
-                
-                    var currentXY = tip.getPosition();
-                    if (currentXY[0] != newX || currentXY[1] != newY)
-                    {
-                        tip.setPagePosition(newX, newY);
                     }
                 }
                 else if (target && target.is(".x-tab"))
@@ -311,15 +305,15 @@ Ext.define(
                     var targetCorner = anchor.substring(anchor.indexOf("-") + 1);
                     if (targetCorner.indexOf("l") != -1)
                     {
-                            newX = target.getLeft() - 1;
+                            newX = (parentMenu || target).getLeft() - 1;
                     }
                     else if (targetCorner.indexOf("r") != -1)
                     {
-                            newX = target.getRight() + 1;
+                            newX = (parentMenu || target).getRight() + 1;
                     }
                     else
                     {
-                            newX = (target.getLeft() + target.getRight()) / 2;
+                            newX = ((parentMenu || target).getLeft() + (parentMenu || target).getRight()) / 2;
                     }
 
                     if (targetCorner.indexOf("t") != -1)
