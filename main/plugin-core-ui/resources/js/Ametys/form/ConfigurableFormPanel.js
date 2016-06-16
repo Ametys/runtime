@@ -183,11 +183,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
 
     /**
-     * @property {Ext.panel.Panel[]} _tabPanels The tab panels.
-     * @private
-     */
-    
-    /**
      * @private
      * @property {String[]} _notInFirstEditionPanels the ids list of the root panels (tabs or panel) that have been edited at least once. 
      * We consider a tab edited once when the focus has switched from one field of one of the tabs fieldsets to a different fieldset, of this tab or of another tab.
@@ -376,7 +371,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         
         this._fields = [];  
         this._repeaters = [];
-        this._tabPanels = [];
         this._notInFirstEditionPanels = [];
         this._initiallyNotNullFieldNames = [];
         	
@@ -791,9 +785,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     },
     
     /**
+     * @private
      * Creates a tab container
      * @return {Ext.tab.Panel} the tab container
-     * @private
      */
     _addTab: function ()
     {
@@ -837,7 +831,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         }
         
         this.getFormContainer().add(tabPanel);
-        this._tabPanels.push(tabPanel);
         
         this._tabPanel = tabPanel; 
         return tabPanel;
@@ -1122,22 +1115,18 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
     _initializeTabsStatus: function()
     {
-        if (this._tabPanels.length > 0)
+        if (this._tabPanel)
         {
             this.suspendLayouts();
 
-            var me = this;
-            for (var i=0; i < this._tabPanels.length; i++)
-            {
-                this._tabPanels[i].items.each (function (item) {
-                    
-                    var header = item.tab ? item.tab : item.getHeader();
-                    if (header != null && header.isHeader)
-                    {
-                        header.addCls(['empty']);
-                    }
-                })
-            }
+        	this._tabPanel.items.each (function (item) {
+    			
+    			var header = item.tab ? item.tab : item.getHeader();
+    			if (header != null && header.isHeader)
+    			{
+    				header.addCls(['empty']);
+    			}
+    		});
             
             this.resumeLayouts(true);
         }
@@ -1151,17 +1140,14 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
     _updateTabsStatus: function(startup)
     {
-        if (this._tabPanels.length > 0)
+        if (this._tabPanel)
         {
             this.suspendLayouts();
 
             var me = this;
-            for (var i=0; i < this._tabPanels.length; i++)
-            {
-                this._tabPanels[i].items.each (function (item) {
-                    me._updateTabStatus (item, startup);
-                })
-            }
+            this._tabPanel.items.each (function (item) {
+                me._updateTabStatus (item, startup);
+            })
             
             this.resumeLayouts(true);
         }
@@ -2863,17 +2849,17 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     },
     
     /**
+     * @private
      * This function set the values of form fields from a XML dom.
      * @param {HTMLElement} xml The XML dom
      * @param {String} valuesTagName the tag name for the values 
      * @param {String} commentsTagName the tag name for the comments 
-     * @private
      */
     _setValuesXML: function (xml, valuesTagName, commentsTagName)
     {
-        this._initializeTabsStatus();
-        
-        var valuesNode = Ext.dom.Query.select(valuesTagName, xml);
+    	this._initializeTabsStatus();
+
+    	var valuesNode = Ext.dom.Query.select(valuesTagName, xml);
         if (valuesNode != undefined)
         {
             var metadataNodes = Ext.dom.Query.selectDirectElements("*", valuesNode);
@@ -2887,18 +2873,18 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     },
     
     /**
+     * @private
      * Set the values of form fields from an automatic backup.
      * @param {Object} data The backup data object.
      * @param {Object[]} data.repeaters The repeater item counts.
      * @param {String} valuesTagName the tag name for the values 
      * @param {String} commentsTagName the tag name for the comments 
      * @param {String} invalidFieldsTagName the tag name for the invalid fields
-     * @private
      */
     _setValuesJSON: function(data, valuesTagName, commentsTagName, invalidFieldsTagName)
     {
-        this._initializeTabsStatus();
-        
+    	this._initializeTabsStatus();
+    	
         // Sort repeaters to get parent repeaters first.
         var sortedRepeaters = Ext.Array.sort(data.repeaters || [], function(rep1, rep2) {
             var rep1Name = rep1.prefix + rep1.name;
@@ -3531,13 +3517,10 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         // Suspend layout update.
         this.suspendLayouts();
         
-        var oldTabPanels = this._tabPanels || [];
-        this._tabPanels = [];
-        
-        var newPanel;
-        Ext.Array.forEach(oldTabPanels, function(panel) {
-            newPanel = this._replacePanel(panel);
-        }, this);
+        if (this._tabPanel)
+    	{
+        	this._replacePanel(this._tabPanel);
+    	}
         
         // Resume layout update and force to recalculate the layout.
         this.resumeLayouts(true);
