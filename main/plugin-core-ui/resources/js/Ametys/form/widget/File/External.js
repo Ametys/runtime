@@ -180,14 +180,14 @@ Ext.define('Ametys.form.widget.File.External', {
     {
 		filter = filter || 'none';
         
-        Ametys.helper.FileUpload.open(
-        	config.buttonIconCls || this.self.filters[filter].buttonIconCls, 
-        	config.dialogTitle || this.self.filters[filter].dialogTitle, 
-        	config.dialogHint || this.self.filters[filter].dialogHint,
-        	callback,
-            this.self.filters[filter].filter,
-            allowedExtensions
-        );
+        Ametys.helper.FileUpload.open({
+        	iconCls: config.buttonIconCls || this.self.filters[filter].buttonIconCls, 
+        	title: config.dialogTitle || this.self.filters[filter].dialogTitle, 
+        	helmessage: config.dialogHint || this.self.filters[filter].dialogHint,
+        	callback: callback,
+            filter: this.self.filters[filter].filter,
+            allowedExtensions: allowedExtensions
+        });
     }
 });
 

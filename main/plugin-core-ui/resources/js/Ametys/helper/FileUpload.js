@@ -36,20 +36,22 @@ Ext.define('Ametys.helper.FileUpload', {
 	 * @private
 	 */
 	
-	/**
-	 * Allow the user to choose a resource file from its local hard drive
-	 * @param {String} iconCls=flaticon-upload119 One or more CSS classes to apply to dialog's icon. Can be null to use the default one.
-	 * @param {String} title The title of the dialog box.
-	 * @param {String} helpmessage The message displayed at the top of the dialog box.
-	 * @param {Function} callback The method that will be called when the dialog box is closed. The method signature is <ul><li>node : The tree node currently selected or null if no selection has been made (cancel)</li></ul> The method can return false to made the dialog box keep open (you should display an error message in this case)
-	 * @param {Function} [filter] The filter for the filename. Choose between constants. Argument is the file name and return a boolean.
-     * @param {String[]} [allowedExtensions] The allowed extensions for the filename. Can be null. If use the filter function will be forced to Ametys.helper.FileUpload#EXTENSIONS_FILTER
-	 */
-	open: function (iconCls, title, helpmessage, callback, filter, allowedExtensions)
-	{
-		this._cbFn = callback;
-		this._filter = filter;
-		this._allowedExtensions = allowedExtensions;
+    /**
+     * Allow the user to choose a resource file from its local hard drive
+     * @param {Object} config The configuration options:
+     * @param {String} [config.icon] The full path to icon (16x16) for the dialog box. If null the iconCls will be used
+     * @param {String} [config.iconCls=flaticon-upload119] One or more CSS classes to apply to dialog's icon. Can be null to use the default one.
+     * @param {String} config.title The title of the dialog box.
+     * @param {String} config.helpmessage The message displayed at the top of the dialog box.
+     * @param {Function} config.callback The method that will be called when the dialog box is closed. The method signature is <ul><li>node : The tree node currently selected or null if no selection has been made (cancel)</li></ul> The method can return false to made the dialog box keep open (you should display an error message in this case)
+     * @param {Function} [config.filter] The filter for the filename. Choose between constants. Argument is the file name and return a boolean.
+     * @param {String[]} [config.allowedExtensions] The allowed extensions for the filename. Can be null. If use the filter function will be forced to Ametys.helper.FileUpload#EXTENSIONS_FILTER
+     */
+    open: function (config)
+    {
+        this._cbFn = config.callback;
+        this._filter = config.filter;
+        this._allowedExtensions = config.allowedExtensions;
         
         if (this._allowedExtensions)
         {
@@ -57,9 +59,9 @@ Ext.define('Ametys.helper.FileUpload', {
             this._filter = Ametys.helper.FileUpload.EXTENSION_FILTER;
         }
         
-		this._initialize(iconCls, title, helpmessage);
-		this._box.show();
-	},
+        this._initialize(config.icon, config.iconCls, config.title, config.helpmessage);
+        this._box.show();
+    },
 	
 	/**
 	 * Initialize the dialog box
@@ -68,13 +70,14 @@ Ext.define('Ametys.helper.FileUpload', {
 	 * @param {String} helpmessage The message displayed at the top of the dialog box.
 	 * @private
 	 */
-	_initialize:  function(iconCls, title, helpmessage)
+	_initialize:  function(icon, iconCls, title, helpmessage)
 	{
 		if (!this._initialized)
 		{
 			this._box = Ext.create('Ametys.window.DialogBox', {
 				title: title,
-				iconCls: iconCls || 'flaticon-upload119',
+                icon: icon,
+                iconCls: icon ? null : (iconCls || 'flaticon-upload119'),
 				
 				width: 430,
 				scrollable: true,
@@ -125,7 +128,16 @@ Ext.define('Ametys.helper.FileUpload', {
 		else
 		{
 			this._box.down('#fileupload-file').reset();
-			this._box.setIconCls(iconCls || 'flaticon-upload119');
+            if (icon)
+            {
+                this._box.setIcon(icon);
+                this._box.setIconCls(null);
+            }
+            else
+            {
+                this._box.setIconCls(iconCls || 'flaticon-upload119');
+                this._box.setIcon(null);
+            }
 			this._box.setTitle(title);
 			this._box.down('form').items.get(0).update(helpmessage);
 		}

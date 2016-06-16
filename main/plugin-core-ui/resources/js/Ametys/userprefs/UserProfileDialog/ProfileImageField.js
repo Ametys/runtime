@@ -216,13 +216,13 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
     {
         if (record.get('source') == 'upload-image')
         {
-            Ametys.helper.FileUpload.open(
-                'editor-image2',
-                "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_UPLOAD_TITLE}}",
-                "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_UPLOAD_HINT}}",
-                Ext.bind(this._fileUploadCb, this),
-                Ametys.helper.FileUpload.IMAGE_FILTER_LABEL
-            );
+            Ametys.helper.FileUpload.open({
+                iconCls: 'editor-image2',
+                title: "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_UPLOAD_TITLE}}",
+                helpmessage: "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_UPLOAD_HINT}}",
+                callback: Ext.bind(this._fileUploadCb, this),
+                filter: Ametys.helper.FileUpload.IMAGE_FILTER_LABEL
+            });
             
             return false;
         }
