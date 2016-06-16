@@ -657,19 +657,19 @@
         <!-- Keep empty. Here for inheritance purpose. -->
     </xsl:template>
     
-    <xsl:template name="theme-scripts">
-        <script absolute="true">/~cmd/extensions/sencha-fashion/fashion/fashion.js</script>
-        <script absolute="true">/~cmd/extensions/sencha-fashion/sass-compiler.js</script>
+<!--     <xsl:template name="theme-scripts"> -->
+<!--         <script absolute="true">/~cmd/extensions/sencha-fashion/fashion/fashion.js</script> -->
+<!--         <script absolute="true">/~cmd/extensions/sencha-fashion/sass-compiler.js</script> -->
         
-        <script absolute="true">/ext/build/classic/theme-neptune/theme-neptune-debug.js</script>
-        <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/Ribbon/ContextualTabGroup.js</script>
-        <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/GroupScale.js</script>
-        <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/TabPanel.js</script>
-        <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/tool/layout/ZonedTabsToolsLayout.js</script>
-        <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/grid/plugin/Multisort.js</script>
+<!--         <script absolute="true">/ext/build/classic/theme-neptune/theme-neptune-debug.js</script> -->
+<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/Ribbon/ContextualTabGroup.js</script> -->
+<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/GroupScale.js</script> -->
+<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/TabPanel.js</script> -->
+<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/ui/tool/layout/ZonedTabsToolsLayout.js</script> -->
+<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ametys/grid/plugin/Multisort.js</script> -->
 
-        <script absolute="true">/packages/local/theme-ametys-base/overrides/Ext/tree/Panel.js</script>
-        <script absolute="true">/packages/local/theme-ametys-base/overrides/Ext/resizer/Splitter.js</script>
-    </xsl:template>
-    <xsl:template name="theme-styles"/>     
+<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ext/tree/Panel.js</script> -->
+<!--         <script absolute="true">/packages/local/theme-ametys-base/overrides/Ext/resizer/Splitter.js</script> -->
+<!--     </xsl:template> -->
+<!--     <xsl:template name="theme-styles"/>      -->
 </xsl:stylesheet>
