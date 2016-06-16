@@ -15778,6 +15778,15 @@ ul.ametys-tooltip-comment > li div.comment-text {
     vertical-align: middle;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/File.scss:59 */
+.a-form-file-widget-glyph span {
+    position: relative;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/File.scss:62 */
+.a-form-file-widget-glyph span:before {
+    font-size: 48px;
+    line-height: 48px;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/File.scss:68 */
 .x-form-file-wrap .x-form-trigger-wrap:after {
     content: attr(data-maxsizemsg);
     display: table-row;
@@ -16774,12 +16783,4 @@ ul.ametys-tooltip-comment > li div.comment-text {
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/Table.scss:61 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-grid-with-row-lines .x-grid-item.x-grid-item-over {
     border-color: #e4e4e4;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/Table.scss:64 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-grid-with-row-lines .x-grid-item-over + .x-grid-item {
-    border-top-color: #e4e4e4;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/Table.scss:79 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .a-visible-focus .x-grid-item-focused .x-grid-cell-inner:before {
-    border-color: #e3d711;
 }
