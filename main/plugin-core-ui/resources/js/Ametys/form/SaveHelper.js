@@ -15,7 +15,7 @@
  */
 
 /**
- * Singleton class checking the validity of a form in order to save it
+ * Singleton class checking the validity of a {@link Ametys.form.ConfigurableFormPanel} in order to save it
  */
 Ext.define('Ametys.form.SaveHelper', {
     singleton: true,
@@ -133,6 +133,10 @@ Ext.define('Ametys.form.SaveHelper', {
     	{
         	this._handleWarnedFields(form, callback);
     	}
+		
+        
+        // Force the rendering of errors / warnings
+        form._updateTabsStatus(true);
     },
    
     /**

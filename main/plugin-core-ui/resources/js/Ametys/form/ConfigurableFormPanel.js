@@ -546,6 +546,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 			}
 		});
     	
+		// Force the update of the tabs status
+		this._updateTabsStatus(true);
+		
 		return isFormValid && areAllRepeatersValid;
     },
     
@@ -1136,9 +1139,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     /**
      * @private
      * Update the status of all tabs
-     * @param {Boolean} startup True if this is the first update of the tabs, false otherwise
+     * @param {Boolean} force True to force the rendering of warning and errors 
      */
-    _updateTabsStatus: function(startup)
+    _updateTabsStatus: function(force)
     {
         if (this._tabPanel)
         {
@@ -1146,7 +1149,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 
             var me = this;
             this._tabPanel.items.each (function (item) {
-                me._updateTabStatus (item, startup);
+                me._updateTabStatus (item, force);
             })
             
             this.resumeLayouts(true);
@@ -1157,9 +1160,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * @private
      * Update the tab status. Possibly the table of contents status as well
      * @param {Ext.panel.Panel} panel The panel (tab card or fieldset panel).
-     * @param {Boolean} startup True if this is the first update of the tabs, false otherwise
+     * @param {Boolean} force True to force the rendering of warning and errors 
      */
-    _updateTabStatus: function(panel, startup)
+    _updateTabStatus: function(panel, force)
     {
         // The header is the tab when in tab mode or the header in linear mode. 
         var header = null;
@@ -1264,8 +1267,10 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             var hasWarn = warnings.length > 0;
             var hasComment = commentFields.length > 0;
             
-            if (startup && (hasError || hasWarn || hasComment))
+            if (force && (hasError || hasWarn || hasComment))
         	{
+            	this._notInFirstEditionPanels.push(panelId);
+            	
             	// Remove the startup class as well if there is something to report at startup
             	if (header)
         		{
