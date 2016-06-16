@@ -34,3 +34,5 @@ $button-toolbar-background-gradient-disabled: dynamic(null);
 
 $button-default-base-color: dynamic($ametys-highlight-color);
 $button-default-border-color: dynamic(darken($ametys-highlight-color, 14%));
+
+$button-arrow-glyph-color: $ametys-ribbon-button-arrow-glyph-color;

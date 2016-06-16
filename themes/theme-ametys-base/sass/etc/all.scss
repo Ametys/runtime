@@ -45,9 +45,17 @@
     
         .#{$prefix}btn.#{$cls} {
             @if $dark-arrow == true {
-                .x-btn-wrap-default-small.x-btn-arrow-right:after { background-image: theme-background-image(button/#{$ui}-small-arrow-dark); }
-                .x-btn-wrap-default-medium.x-btn-arrow-right:after { background-image: theme-background-image(button/#{$ui}-medium-arrow-dark); }
-                .x-btn-wrap-default-large.x-btn-arrow-right:after { background-image: theme-background-image(button/#{$ui}-large-arrow-dark); }
+                @if $enable-font-icons {
+                    .x-btn-wrap-default-small.x-btn-arrow-right:after,
+                    .x-btn-wrap-default-medium.x-btn-arrow-right:after,
+                    .x-btn-wrap-default-large.x-btn-arrow-right:after { 
+                        color: $button-arrow-glyph-color; 
+                    }
+                } @else {
+                    .x-btn-wrap-default-small.x-btn-arrow-right:after { background-image: theme-background-image(button/#{$ui}-small-arrow-dark); }
+                    .x-btn-wrap-default-medium.x-btn-arrow-right:after { background-image: theme-background-image(button/#{$ui}-medium-arrow-dark); }
+                    .x-btn-wrap-default-large.x-btn-arrow-right:after { background-image: theme-background-image(button/#{$ui}-large-arrow-dark); }
+                }
             }
             
             &.#{$prefix}btn-#{$ui}-small, &.#{$prefix}btn-#{$ui}-medium, &.#{$prefix}btn-#{$ui}-large,
