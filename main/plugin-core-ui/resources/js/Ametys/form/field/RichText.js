@@ -1416,17 +1416,17 @@ Ext.define('Ametys.form.field.RichText', {
         }
         else
         {
-            var editor = this.getEditor();
-            var node = this.getNode();
-            
             // Remember this selection for the current succession of events (click, mouseup, focus....)
-            editor._lastActiveNode = node;
+            this.getEditor()._lastActiveNode = this.getNode();
             this._sendDelayedSelection();
         }
     },
     
     _sendDelayedSelection: function()
     {
-        this.fireEvent('editorhtmlnodeselected', this, this.getEditor()._lastActiveNode);
+        if (this.getEditor())
+        {
+            this.fireEvent('editorhtmlnodeselected', this, this.getEditor()._lastActiveNode);
+        }
     }
 });
