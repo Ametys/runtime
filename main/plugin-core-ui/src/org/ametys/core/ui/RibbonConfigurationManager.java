@@ -18,6 +18,7 @@ package org.ametys.core.ui;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -194,14 +195,16 @@ public class RibbonConfigurationManager
             
             _ribbonConfig = new RibbonConfiguration();
             Configuration configuration = new DefaultConfigurationBuilder().build(config.getInputStream());
-            _configure(configuration, dependenciesManager);
+            Map<String, Long> importsValidity = new HashMap<>();
+            importsValidity.put(config.getURI(), config.getLastModified());
+            _configure(configuration, dependenciesManager, importsValidity);
             
-            ribbonManagerCache.addCachedConfiguration(_ribbonManager, _ribbonConfig);
+            ribbonManagerCache.addCachedConfiguration(_ribbonManager, _ribbonConfig, importsValidity);
             _ribbonManager.initializeExtensions();
         }
     }
 
-    private void _configure(Configuration configuration, ClientSideElementDependenciesManager dependenciesManager) throws ConfigurationException
+    private void _configure(Configuration configuration, ClientSideElementDependenciesManager dependenciesManager, Map<String, Long> importUri) throws ConfigurationException
     {
         if (_logger.isDebugEnabled())
         {
@@ -244,10 +247,12 @@ public class RibbonConfigurationManager
                     }
                     else
                     {
+                        importUri.put(url, src.getLastModified());
+                        
                         try (InputStream is = src.getInputStream())
                         {
                             Configuration importedConfiguration = new DefaultConfigurationBuilder().build(is);
-                            _configure(importedConfiguration, dependenciesManager);
+                            _configure(importedConfiguration, dependenciesManager, importUri);
                         }
                     }
                 }
@@ -776,7 +781,7 @@ public class RibbonConfigurationManager
         /** The label of the tab */
         protected I18nizableText _label;
         
-        /** The optionnal id of the contextual client side element determining the state of the ribbon */
+        /** The optional id of the contextual client side element determining the state of the ribbon */
         protected String _id;
         
         /** The color (between 1 and 6) for a contextual tab */
@@ -811,6 +816,10 @@ public class RibbonConfigurationManager
             }
 
             _configureId(tabConfiguration);
+            if (tabConfiguration.getAttribute("ref-id", null) != null || tabConfiguration.getChild("tab-control", false) != null)
+            {
+                _generateTabControl(tabConfiguration, ribbonManager);
+            }
             _configureLabel(tabConfiguration);
             _configureGroups(tabConfiguration, ribbonManager);
         }
@@ -827,7 +836,7 @@ public class RibbonConfigurationManager
         /**
          * Configure tab optional id
          * @param tabConfiguration One tab configuration
-         * @throws ConfigurationException if an error occured
+         * @throws ConfigurationException if an error occurred
          */
         protected void _configureId(Configuration tabConfiguration) throws ConfigurationException
         {
@@ -841,16 +850,54 @@ public class RibbonConfigurationManager
                 this._contextualLabel = new I18nizableText("application", contextualLabelString);
             }
             
-            if (_log.isDebugEnabled())
+            if (_log.isDebugEnabled() && this._id != null)
             {
                 _log.debug("Tab id is " + this._id);
             }
         }
         
         /**
+         * Generate a new tab control on the fly
+         * @param tabConfiguration The tab configuration
+         * @param ribbonManager The ribbon manager
+         * @throws ConfigurationException If an error occurs
+         */
+        protected void _generateTabControl(Configuration tabConfiguration, RibbonManager ribbonManager) throws ConfigurationException
+        {
+            if (this._id == null)
+            {
+                this._id = UUID.randomUUID().toString();
+            }
+            
+            DefaultConfiguration defaultConfig = new DefaultConfiguration(tabConfiguration.getChild("tab-control"));
+            String refId = defaultConfig.getAttribute("ref-id", null);
+            
+            String classname = tabConfiguration.getAttribute("class", null);
+            if (classname == null)
+            {
+                if (refId != null)
+                {
+                    defaultConfig.setAttribute("point", tabConfiguration.getAttribute("point", RibbonTabsManager.ROLE));
+                }
+                else
+                {
+                    classname = org.ametys.core.ui.StaticClientSideElement.class.getName();
+                    defaultConfig.setAttribute("class", classname);
+                }
+            }
+            
+            ribbonManager.addExtension(this._id, "core-ui", null, defaultConfig);
+            
+            if (_log.isDebugEnabled())
+            {
+                _log.debug("Generated Tab id is " + this._id);
+            }
+        }
+
+        /**
          * Configure one tab label
          * @param tabConfiguration One tab configuration
-         * @throws ConfigurationException if an error occured
+         * @throws ConfigurationException if an error occurred
          */
         protected void _configureLabel(Configuration tabConfiguration) throws ConfigurationException
         {

@@ -157,7 +157,7 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
         RibbonManager ribbonManager = null;
         try
         {
-            ribbonManager = _ribbonManagerCache.getManager(ribbonConfig.getURI(), ribbonConfig.getLastModified());
+            ribbonManager = _ribbonManagerCache.getManager(ribbonConfig.getURI());
             RibbonConfigurationManager ribbonConfigurationManager = new RibbonConfigurationManager(_ribbonControlManager, ribbonManager, _ribbonTabManager, _saxClientSideElementHelper, _resolver, dependenciesManager, _ribbonManagerCache, ribbonConfig);
             ribbonConfigurationManager.saxRibbonDefinition(contentHandler, contextParameters);
             elementsToSax = getElementsToSax(dependenciesManager, ribbonConfigurationManager);

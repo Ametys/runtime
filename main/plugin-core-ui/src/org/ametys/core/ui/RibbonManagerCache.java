@@ -15,9 +15,11 @@
  */
 package org.ametys.core.ui;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.WrapperComponentManager;
@@ -27,6 +29,8 @@ import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+import org.apache.excalibur.source.Source;
+import org.apache.excalibur.source.SourceResolver;
 
 import org.ametys.core.ui.RibbonConfigurationManager.RibbonConfiguration;
 import org.ametys.runtime.plugin.component.AbstractLogEnabled;
@@ -42,7 +46,7 @@ public class RibbonManagerCache extends AbstractLogEnabled implements Contextual
     public static final String ROLE = RibbonManagerCache.class.getName();
     
     private Map<String, RibbonManager> _ribbonManagerCache = new HashMap<>();
-    private Map<RibbonManager, Long> _ribbonManagerCacheValidity = new HashMap<>();
+    private Map<RibbonManager, Map<String, Long>> _ribbonManagerCacheValidity = new HashMap<>();
     private Map<RibbonManager, Integer> _ribbonManagerUsageCache = new HashMap<>();
     private Map<RibbonManager, RibbonConfiguration> _ribbonConfigurationCache = new HashMap<>();
     private Map<RibbonManager, ThreadSafeComponentManager<Object>> _ribbonServiceManagers = new HashMap<>();
@@ -52,6 +56,10 @@ public class RibbonManagerCache extends AbstractLogEnabled implements Contextual
     private ServiceManager _cocoonManager;
 
     private RibbonControlsManager _ribbonControlsManager;
+
+    private RibbonTabsManager _ribbonTabsManager;
+    
+    private SourceResolver _resolver;
     
     public void contextualize(Context context) throws ContextException
     {
@@ -62,23 +70,23 @@ public class RibbonManagerCache extends AbstractLogEnabled implements Contextual
     {
         _cocoonManager = manager;
         _ribbonControlsManager = (RibbonControlsManager) manager.lookup(RibbonControlsManager.ROLE);
+        _ribbonTabsManager = (RibbonTabsManager) manager.lookup(RibbonTabsManager.ROLE);
+        _resolver = (SourceResolver) manager.lookup(SourceResolver.ROLE);
     }
     
     /**
      * Create the RibbonManager associated with the given ribbon file. 
      * If the RibbonManager already exists for the ribbon file and is still valid, it is simply returned.  
      * @param uri The ribbon configuration uri
-     * @param lastModified the last modified date
      * @return The RibbonManager
      * @throws Exception If an error occurs
      */
-    public synchronized RibbonManager getManager(String uri, long lastModified) throws Exception
+    public synchronized RibbonManager getManager(String uri) throws Exception
     {
         RibbonManager ribbonManager = _ribbonManagerCache.get(uri);
         if (ribbonManager != null)
         {
-            Long validity = _ribbonManagerCacheValidity.get(ribbonManager);
-            if (validity == lastModified)
+            if (_isRibbonManagerStillValid(ribbonManager))
             {
                 _increaseUsage(ribbonManager);
                 return ribbonManager;
@@ -91,10 +99,39 @@ public class RibbonManagerCache extends AbstractLogEnabled implements Contextual
         
         ribbonManager = _createRibbonManager();
         _ribbonManagerCache.put(uri, ribbonManager);
-        _ribbonManagerCacheValidity.put(ribbonManager, lastModified);
+        _ribbonManagerCacheValidity.put(ribbonManager, null);
         _increaseUsage(ribbonManager);
         
         return ribbonManager;
+    }
+
+    private boolean _isRibbonManagerStillValid(RibbonManager ribbonManager)
+    {
+        Map<String, Long> validity = _ribbonManagerCacheValidity.get(ribbonManager);
+        if (validity == null)
+        {
+            return false;
+        }
+        
+        for (Entry<String, Long> entry : validity.entrySet())
+        {
+            String uri = entry.getKey();
+            try
+            {
+                Source importSource = _resolver.resolveURI(uri);
+                if (!importSource.exists() || importSource.getLastModified() != entry.getValue())
+                {
+                    return false;
+                }
+            }
+            catch (IOException e)
+            {
+                // invalid import, uri is out of date
+                return false;
+            }
+        }
+        
+        return true;
     }
 
     private RibbonManager _createRibbonManager() throws Exception
@@ -112,6 +149,7 @@ public class RibbonManagerCache extends AbstractLogEnabled implements Contextual
         _ribbonServiceManagers.put(ribbonManager, ribbonServiceManager);
         
         _ribbonControlsManager.registerRibbonManager(ribbonManager);
+        _ribbonTabsManager.registerRibbonManager(ribbonManager);
         return ribbonManager;
     }
     
@@ -148,6 +186,7 @@ public class RibbonManagerCache extends AbstractLogEnabled implements Contextual
                     ThreadSafeComponentManager<Object> serviceManager = _ribbonServiceManagers.get(ribbonManager);
                     _ribbonServiceManagers.remove(ribbonManager);
                     _ribbonControlsManager.unregisterRibbonManager(ribbonManager);
+                    _ribbonTabsManager.unregisterRibbonManager(ribbonManager);
                     serviceManager.dispose();
                 }
             }
@@ -168,9 +207,11 @@ public class RibbonManagerCache extends AbstractLogEnabled implements Contextual
      * Add a ribbon configuration to the cache
      * @param ribbonManager The ribbon manager
      * @param configuration The configuration
+     * @param importsValidity The list of imports for this ribbon configuration and their validity
      */
-    public void addCachedConfiguration(RibbonManager ribbonManager, RibbonConfiguration configuration)
+    public void addCachedConfiguration(RibbonManager ribbonManager, RibbonConfiguration configuration, Map<String, Long> importsValidity)
     {
         _ribbonConfigurationCache.put(ribbonManager, configuration);
+        _ribbonManagerCacheValidity.put(ribbonManager, importsValidity);
     }
 }

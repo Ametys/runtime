@@ -39,6 +39,8 @@ public abstract class AbstractClientSideExtensionPoint extends AbstractThreadSaf
 {
     private Map<String, Configuration> _configurations = new HashMap<>();
     
+    private List<AbstractClientSideExtensionPoint> _registeredManagers = new ArrayList<>();
+
     @Override
     public void addExtension(String id, String pluginName, String featureName, Configuration configuration) throws ConfigurationException
     {
@@ -118,6 +120,54 @@ public abstract class AbstractClientSideExtensionPoint extends AbstractThreadSaf
                 }
             }
         }
+    }
+    
+    /**
+     * Register a new ribbon manager whose extensions will also be managed by this RibbonControlsManager
+     * @param manager The manager to register
+     */
+    public void registerRibbonManager(AbstractClientSideExtensionPoint manager)
+    {
+        _registeredManagers.add(manager);
+    }
+    
+    /**
+     * Remove a previously registered ribbon manager
+     * @param manager The manager to remove
+     */
+    public void unregisterRibbonManager(AbstractClientSideExtensionPoint manager)
+    {
+        _registeredManagers.remove(manager);
+    }
+    
+    @Override
+    public ClientSideElement getExtension(String id)
+    {
+        ClientSideElement extension = super.getExtension(id);
+        if (extension == null)
+        {
+            for (AbstractClientSideExtensionPoint manager : _registeredManagers)
+            {
+                extension = manager.getExtension(id);
+                if (extension != null)
+                {
+                    return extension;
+                }
+            }
+        }
+        
+        return extension;
+    }
+    
+    @Override
+    public Set<String> getExtensionsIds()
+    {
+        Set<String> extensionsIds = super.getExtensionsIds();
+        for (AbstractClientSideExtensionPoint manager : _registeredManagers)
+        {
+            extensionsIds.addAll(manager.getExtensionsIds());
+        }
+        return extensionsIds;
     }
 
     /**
