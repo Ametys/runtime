@@ -35,16 +35,19 @@ import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
 import org.xml.sax.SAXException;
 
 import org.ametys.core.ui.ClientSideElement;
 import org.ametys.core.ui.ClientSideElementDependenciesManager;
-import org.ametys.core.ui.ClientSideElementManager;
+import org.ametys.core.ui.AbstractClientSideExtensionPoint;
 import org.ametys.core.ui.MessageTargetFactoriesManager;
 import org.ametys.core.ui.RelationsManager;
 import org.ametys.core.ui.RibbonConfigurationManager;
 import org.ametys.core.ui.RibbonControlsManager;
+import org.ametys.core.ui.RibbonManager;
+import org.ametys.core.ui.RibbonManagerCache;
 import org.ametys.core.ui.RibbonTabsManager;
 import org.ametys.core.ui.SAXClientSideElementHelper;
 import org.ametys.core.ui.StaticFileImportsManager;
@@ -92,6 +95,8 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
     protected JSONUtils _jsonUtils;
     /** The User Helper */
     protected UserHelper _userHelper;
+    /** The ribbon manager cache helper */
+    protected RibbonManagerCache _ribbonManagerCache;
     
     @Override
     public void service(ServiceManager smanager) throws ServiceException
@@ -110,6 +115,7 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
         _userManager = (UserManager) smanager.lookup(UserManager.ROLE);
         _jsonUtils = (JSONUtils) smanager.lookup(JSONUtils.ROLE);
         _userHelper = (UserHelper) smanager.lookup(UserHelper.ROLE);
+        _ribbonManagerCache = (RibbonManagerCache) smanager.lookup(RibbonManagerCache.ROLE);
     }
     
     @Override
@@ -146,14 +152,27 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
         
         ClientSideElementDependenciesManager dependenciesManager = new ClientSideElementDependenciesManager(this.manager);
         
-        RibbonConfigurationManager ribbonManager;
-        try (InputStream ribbonConfig = getRibbonConfiguration())
+        Source ribbonConfig = getRibbonConfiguration();
+        Map<String, List<ClientSideElement>> elementsToSax;
+        RibbonManager ribbonManager = null;
+        try
         {
-            ribbonManager = new RibbonConfigurationManager(_ribbonControlManager, _ribbonTabManager, _saxClientSideElementHelper, _resolver, dependenciesManager, ribbonConfig);
-            ribbonManager.saxRibbonDefinition(contentHandler, contextParameters);
+            ribbonManager = _ribbonManagerCache.getManager(ribbonConfig.getURI(), ribbonConfig.getLastModified());
+            RibbonConfigurationManager ribbonConfigurationManager = new RibbonConfigurationManager(_ribbonControlManager, ribbonManager, _ribbonTabManager, _saxClientSideElementHelper, _resolver, dependenciesManager, _ribbonManagerCache, ribbonConfig);
+            ribbonConfigurationManager.saxRibbonDefinition(contentHandler, contextParameters);
+            elementsToSax = getElementsToSax(dependenciesManager, ribbonConfigurationManager);
         }
-
-        Map<String, List<ClientSideElement>> elementsToSax = getElementsToSax(dependenciesManager, ribbonManager);
+        catch (Exception e)
+        {
+            throw new ProcessingException("Unable to get or create a ribbon manager for ribbon specific components", e);
+        }
+        finally
+        {
+            if (ribbonManager != null)
+            {
+                _ribbonManagerCache.dispose(ribbonManager);
+            }
+        }
         
         saxUITools(contextParameters, elementsToSax.get(UIToolsFactoriesManager.ROLE));
         saxMessageTargetFactories(contextParameters, elementsToSax.get(MessageTargetFactoriesManager.ROLE));
@@ -220,12 +239,11 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
      * @return the ribbon configuration
      * @throws IOException if an errors occurs getting the ribbon configuration
      */
-    protected InputStream getRibbonConfiguration() throws IOException
+    protected Source getRibbonConfiguration() throws IOException
     {
         String ribbonFileName = parameters.getParameter("ribbonFileName", "ribbon");
         String mode = parameters.getParameter("mode", null);
-        File configFile = new File (_cocoonContext.getRealPath("/WEB-INF/param/" + ribbonFileName + (mode != null ? "-" + mode : "") + ".xml"));
-        return new FileInputStream(configFile);
+        return _resolver.resolveURI(_cocoonContext.getRealPath("/WEB-INF/param/" + ribbonFileName + (mode != null ? "-" + mode : "") + ".xml"));
     }
     
     /**
@@ -364,14 +382,14 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
     {
         try
         {
-            ClientSideElementManager uitoolsManager = (ClientSideElementManager) this.manager.lookup(UIToolsFactoriesManager.ROLE);
+            AbstractClientSideExtensionPoint uitoolsManager = (AbstractClientSideExtensionPoint) this.manager.lookup(UIToolsFactoriesManager.ROLE);
             // Hardcoded dependency from this class XSLT file workspace.xsl
             if (uitoolsManager.hasExtension("uitool-notification"))
             {
                 dependenciesManager.register(UIToolsFactoriesManager.ROLE, "uitool-notification");
             }
             
-            ClientSideElementManager staticImportManager = (ClientSideElementManager) this.manager.lookup(StaticFileImportsManager.ROLE);
+            AbstractClientSideExtensionPoint staticImportManager = (AbstractClientSideExtensionPoint) this.manager.lookup(StaticFileImportsManager.ROLE);
             if (staticImportManager.hasExtension("Ametys.plugins.coreui.system.Announce"))
             {
                 dependenciesManager.register(StaticFileImportsManager.ROLE, "Ametys.plugins.coreui.system.Announce");

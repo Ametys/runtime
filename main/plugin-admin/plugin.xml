@@ -400,15 +400,6 @@
                 <default-location>cl</default-location>
             </extension>
             
-            <extension id="org.ametys.plugins.admin.Plugins"
-                       point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.core.ui.SimpleMenu">
-                <menu-items>
-                    <item ref="org.ametys.plugins.admin.PluginsByExtensionPoint" primaryItem="true"/>
-                    <item ref="org.ametys.plugins.admin.PluginsByFile"/>
-                </menu-items>
-            </extension>
-            
             <extension id="org.ametys.plugins.admin.Workspaces"  
                        point="org.ametys.core.ui.RibbonControlsManager" 
                        class="org.ametys.core.ui.StaticClientSideElement">
@@ -1336,15 +1327,6 @@
          + -->
     <feature name="runtime.admin.restart" safe="true">
         <extensions>
-            <extension id="org.ametys.plugins.admin.restart.RestartMenu"
-                       point="org.ametys.core.ui.RibbonControlsManager" 
-                       class="org.ametys.core.ui.SimpleMenu">
-                <menu-items>
-                    <item ref="org.ametys.plugins.admin.restart.Restart" primaryItem="true" />
-                    <item ref="org.ametys.plugins.admin.restart.ForceSafeMode" />
-                </menu-items>
-            </extension>
-            
             <extension id="org.ametys.plugins.admin.restart.Restart"
                        point="org.ametys.core.ui.RibbonControlsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">

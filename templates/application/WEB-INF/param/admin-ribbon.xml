@@ -47,7 +47,12 @@
                 </group>
                 <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_PLUGINS_LABEL" icon="">
                     <large>
-                        <control id="org.ametys.plugins.admin.Plugins"/>
+                        <control>
+                            <menu-items>
+                                <item ref="org.ametys.plugins.admin.PluginsByExtensionPoint" primaryItem="true"/>
+                                <item ref="org.ametys.plugins.admin.PluginsByFile"/>
+                            </menu-items>
+                        </control>
                         <control id="org.ametys.plugins.admin.Workspaces"/>
                     </large>
                 </group>
@@ -70,8 +75,18 @@
             <groups>
                 <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_DEVELOPPER_GROUPS_GROUP_TOOLS" icon="">
                     <large>
-                        <control id="org.ametys.runtime.userinterface.MessageTrackerControlMenu"/>
-                        <control id="org.ametys.runtime.userinterface.RequestTrackerControlMenu"/>
+                        <control>
+                            <menu-items>
+                                <item ref="org.ametys.runtime.userinterface.MessageTrackerControl" primaryItem="true"/>
+                                <item ref="org.ametys.runtime.userinterface.MessageTrackerControl.clear"/>
+                            </menu-items>
+                        </control>
+                        <control>
+                            <menu-items>
+                                <item ref="org.ametys.runtime.userinterface.RequestTrackerControl" primaryItem="true"/>
+                                <item ref="org.ametys.runtime.userinterface.RequestTrackerControl.clear"/>
+                            </menu-items>
+                        </control>
                     </large>
                 </group>
             </groups>

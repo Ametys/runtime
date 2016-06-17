@@ -24,9 +24,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.UUID;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
@@ -129,56 +131,73 @@ public class RibbonConfigurationManager
         }
     }
 
-    /** The ribbon control extension point */
-    protected RibbonControlsManager _ribbonControlManager;
+    /** The ribbon control manager */
+    protected RibbonManager _ribbonManager;
     /** The ribbon tab extension point */
     protected RibbonTabsManager _ribbonTabManager;
     /** The sax clientside element helper */
     protected SAXClientSideElementHelper _saxClientSideElementHelper;
     /** The excalibur source resolver */
     protected SourceResolver _resolver;
-
-    /** The tabs of the ribbon */
-    protected List<Tab> _tabs = new ArrayList<>();
-
-    /** The App menu elements of the ribbon */
-    protected List<Element> _appMenu = new ArrayList<>();
     
-    /** The user menu elements of the ribbon */
-    protected List<Element> _userMenu = new ArrayList<>();
-    
+    /** The ribbon configuration, as read from the configuration source */
+    protected RibbonConfiguration _ribbonConfig;
+
     /** The controls referenced by the ribbon */
     protected Set<String> _controlsReferences = new HashSet<>();
     /** The tabs referenced by the ribbon */
     protected Set<String> _tabsReferences = new HashSet<>();
-
+    
     private boolean _initialized;
+    private RibbonControlsManager _ribbonControlManager;
     
     /**
      * Constructor
-     * @param ribbonControlManager the ribbon control manager
+     * @param ribbonControlManager The ribbon control manager
+     * @param ribbonManager The ribbon manager for this config
      * @param ribbonTabManager the ribbon tab manager
      * @param saxClientSideElementHelper the helper to SAX client side element
      * @param resolver the excalibur source resolver
      * @param dependenciesManager The dependencies manager
+     * @param ribbonManagerCache The ribbon manager cache helper
      * @param config the ribbon configuration
      * @throws RuntimeException if an error occurred
      */
-    public RibbonConfigurationManager (RibbonControlsManager ribbonControlManager, RibbonTabsManager ribbonTabManager, SAXClientSideElementHelper saxClientSideElementHelper, SourceResolver resolver, ClientSideElementDependenciesManager dependenciesManager, InputStream config)
+    public RibbonConfigurationManager (RibbonControlsManager ribbonControlManager, RibbonManager ribbonManager, RibbonTabsManager ribbonTabManager, SAXClientSideElementHelper saxClientSideElementHelper, SourceResolver resolver, ClientSideElementDependenciesManager dependenciesManager, RibbonManagerCache ribbonManagerCache, Source config)
     {
         _ribbonControlManager = ribbonControlManager;
+        _ribbonManager = ribbonManager;
         _ribbonTabManager = ribbonTabManager;
         _saxClientSideElementHelper = saxClientSideElementHelper;
         _resolver = resolver;
         
         try
         {
-            Configuration configuration = new DefaultConfigurationBuilder().build(config);
-            _configure(configuration, dependenciesManager);
+            _configure(config, dependenciesManager, ribbonManagerCache);
         }
         catch (Exception e)
         {
             throw new RuntimeException("Unable to read the configuration file", e);
+        }
+    }
+
+    private void _configure(Source config, ClientSideElementDependenciesManager dependenciesManager, RibbonManagerCache ribbonManagerCache) throws Exception
+    {
+        synchronized (_ribbonManager)
+        {
+            _ribbonConfig = ribbonManagerCache.getCachedConfiguration(_ribbonManager);
+            if (_ribbonConfig != null)
+            {
+                // configuration already cached
+                return;
+            }
+            
+            _ribbonConfig = new RibbonConfiguration();
+            Configuration configuration = new DefaultConfigurationBuilder().build(config.getInputStream());
+            _configure(configuration, dependenciesManager);
+            
+            ribbonManagerCache.addCachedConfiguration(_ribbonManager, _ribbonConfig);
+            _ribbonManager.initializeExtensions();
         }
     }
 
@@ -190,10 +209,10 @@ public class RibbonConfigurationManager
         }
         
         Configuration[] appMenuConfigurations = configuration.getChild("app-menu").getChildren();
-        this._appMenu.addAll(_configureElement(appMenuConfigurations));
+        _ribbonConfig.getAppMenu().addAll(_configureElement(appMenuConfigurations, _ribbonManager));
 
         Configuration[] userMenuConfigurations = configuration.getChild("user-menu").getChildren();
-        this._userMenu.addAll(_configureElement(userMenuConfigurations));
+        _ribbonConfig.getUserMenu().addAll(_configureElement(userMenuConfigurations, _ribbonManager));
         
         Configuration[] dependenciesConfigurations = configuration.getChild("depends").getChildren();
         for (Configuration dependencyConfigurations : dependenciesConfigurations)
@@ -209,8 +228,8 @@ public class RibbonConfigurationManager
         {
             if ("tab".equals(tabConfiguration.getName()))
             {
-                Tab tab = new Tab(tabConfiguration, _logger);
-                _tabs.add(tab);
+                Tab tab = new Tab(tabConfiguration, _ribbonManager, _logger);
+                _ribbonConfig.getTabs().add(tab);
             }
             else if ("import".equals(tabConfiguration.getName()))
             {
@@ -249,14 +268,14 @@ public class RibbonConfigurationManager
         }
     }
     
-    private List<Element> _configureElement(Configuration[] configurations) throws ConfigurationException
+    private List<Element> _configureElement(Configuration[] configurations, RibbonManager ribbonManager) throws ConfigurationException
     {
         List<Element> elements = new ArrayList<>();
         for (Configuration configuration : configurations)
         {
             if ("control".equals(configuration.getName()))
             {
-                elements.add(new ControlRef(configuration, _logger));
+                elements.add(new ControlRef(configuration, ribbonManager, _logger));
             }
             else if ("separator".equals(configuration.getName()))
             {
@@ -282,7 +301,7 @@ public class RibbonConfigurationManager
         }
         
         // check that all refered items does exist
-        for (Tab tab : _tabs)
+        for (Tab tab : _ribbonConfig.getTabs())
         {
             // Check this is an existing factory
             if (tab._id != null)
@@ -309,8 +328,8 @@ public class RibbonConfigurationManager
             }
         }
 
-        _lazyInitialize(this._appMenu);
-        _lazyInitialize(this._userMenu);
+        _lazyInitialize(this._ribbonConfig.getAppMenu());
+        _lazyInitialize(this._ribbonConfig.getUserMenu());
         
         _initialized = true;
     }
@@ -419,8 +438,8 @@ public class RibbonConfigurationManager
     {
         _lazyInitialize();
         Map<Tab, List<Group>> userTabGroups = _generateTabGroups(contextualParameters);
-        List<Element> currentAppMenu = _resolveReferences(_ribbonControlManager, contextualParameters, this._appMenu);
-        List<Element> currentUserMenu = _resolveReferences(_ribbonControlManager, contextualParameters, this._userMenu);
+        List<Element> currentAppMenu = _resolveReferences(contextualParameters, this._ribbonConfig.getAppMenu());
+        List<Element> currentUserMenu = _resolveReferences(contextualParameters, this._ribbonConfig.getUserMenu());
         
         handler.startPrefixMapping("i18n", "http://apache.org/cocoon/i18n/2.1");
         XMLUtils.startElement(handler, "ribbon");
@@ -479,7 +498,7 @@ public class RibbonConfigurationManager
     private Map<Tab, List<Group>> _generateTabGroups(Map<String, Object> contextualParameters)
     {
         Map<Tab, List<Group>> tabGroups = new LinkedHashMap<>();
-        for (Tab tab : _tabs)
+        for (Tab tab : _ribbonConfig.getTabs())
         {
             List<Group> tabGroup = new ArrayList<>();
             
@@ -515,7 +534,7 @@ public class RibbonConfigurationManager
         
         if (ribbonGroup.getLargeGroupSize() != null)
         {
-            List<Element> largeElements = _resolveReferences(_ribbonControlManager, contextualParameters, ribbonGroup.getLargeGroupSize().getChildren());
+            List<Element> largeElements = _resolveReferences(contextualParameters, ribbonGroup.getLargeGroupSize().getChildren());
             largeSize.getChildren().addAll(largeElements);
         }
         
@@ -526,13 +545,13 @@ public class RibbonConfigurationManager
         }
         else
         {
-            List<Element> mediumElements = _resolveReferences(_ribbonControlManager, contextualParameters, ribbonGroup.getMediumGroupSize().getChildren());
+            List<Element> mediumElements = _resolveReferences(contextualParameters, ribbonGroup.getMediumGroupSize().getChildren());
             mediumSize.getChildren().addAll(mediumElements);
             
             // Don't generate a small group if there is no <small> in the ribbon configuration
             if (ribbonGroup.getSmallGroupSize() != null)
             {
-                List<Element> largeElements = _resolveReferences(_ribbonControlManager, contextualParameters, ribbonGroup.getSmallGroupSize().getChildren());
+                List<Element> largeElements = _resolveReferences(contextualParameters, ribbonGroup.getSmallGroupSize().getChildren());
                 smallSize.getChildren().addAll(largeElements);
             }
         }
@@ -551,12 +570,11 @@ public class RibbonConfigurationManager
     
     /**
      * Resolve all the controls references into the real ids for the contextual parameters, and the current user rights.
-     * @param ribbonControlManager The manager to resolve extensions references
      * @param contextualParameters The contextual parameters
      * @param elements The elements to resolve
      * @return The list of resolved elements
      */
-    private List<Element> _resolveReferences(RibbonControlsManager ribbonControlManager, Map<String, Object> contextualParameters, List<Element> elements)
+    private List<Element> _resolveReferences(Map<String, Object> contextualParameters, List<Element> elements)
     {
         List<Element> resolvedElements = new ArrayList<>();
         
@@ -565,7 +583,7 @@ public class RibbonConfigurationManager
             if (element instanceof ControlRef)
             {
                 ControlRef controlRef = (ControlRef) element;
-                ClientSideElement extension = ribbonControlManager.getExtension(controlRef._id);
+                ClientSideElement extension = _ribbonControlManager.getExtension(controlRef._id);
                 for (Script script : extension.getScripts(contextualParameters))
                 {
                     resolvedElements.add(new ControlRef(script.getId(), controlRef._colspan, controlRef._controlLogger));
@@ -574,7 +592,7 @@ public class RibbonConfigurationManager
             
             if (element instanceof Layout)
             {
-                List<Element> layoutElements = _resolveReferences(ribbonControlManager, contextualParameters, element.getChildren());
+                List<Element> layoutElements = _resolveReferences(contextualParameters, element.getChildren());
                 if (layoutElements.size() > 0)
                 {
                     Layout layout = (Layout) element;
@@ -586,7 +604,7 @@ public class RibbonConfigurationManager
             
             if (element instanceof Toolbar)
             {
-                List<Element> toolbarElements = _resolveReferences(ribbonControlManager, contextualParameters, element.getChildren());
+                List<Element> toolbarElements = _resolveReferences(contextualParameters, element.getChildren());
                 if (toolbarElements.size() > 0)
                 {
                     Toolbar toolbar = (Toolbar) element;
@@ -709,6 +727,48 @@ public class RibbonConfigurationManager
     }
     
     /**
+     * A ribbon configuration, with tab, user and app menus
+     */
+    public class RibbonConfiguration
+    {
+        /** The tabs of the ribbon */
+        protected List<Tab> _tabs = new ArrayList<>();
+
+        /** The App menu elements of the ribbon */
+        protected List<Element> _appMenu = new ArrayList<>();
+        
+        /** The user menu elements of the ribbon */
+        protected List<Element> _userMenu = new ArrayList<>();
+        
+        /**
+         * Get the tabs for this configuration
+         * @return the tabs
+         */
+        public List<Tab> getTabs()
+        {
+            return _tabs;
+        }
+
+        /**
+         * Get the app menu elements for this configuration
+         * @return the appMenu
+         */
+        public List<Element> getAppMenu()
+        {
+            return _appMenu;
+        }
+
+        /**
+         * Get the user menu elements for this configuration
+         * @return the userMenu
+         */
+        public List<Element> getUserMenu()
+        {
+            return _userMenu;
+        }
+    }
+    
+    /**
      * A tab of the ribbon
      */
     public class Tab
@@ -737,10 +797,11 @@ public class RibbonConfigurationManager
         /**
          * Creates a tab
          * @param tabConfiguration The configuration of the tab
+         * @param ribbonManager The ribbon manager
          * @param logger The logger
-         * @throws ConfigurationException if an error occures in the configuration
+         * @throws ConfigurationException if an error occurs in the configuration
          */
-        public Tab(Configuration tabConfiguration, Logger logger) throws ConfigurationException
+        public Tab(Configuration tabConfiguration, RibbonManager ribbonManager, Logger logger) throws ConfigurationException
         {
             _log = logger;
             
@@ -751,7 +812,7 @@ public class RibbonConfigurationManager
 
             _configureId(tabConfiguration);
             _configureLabel(tabConfiguration);
-            _configureGroups(tabConfiguration);
+            _configureGroups(tabConfiguration, ribbonManager);
         }
         
         /**
@@ -804,14 +865,15 @@ public class RibbonConfigurationManager
         /**
          * Configure tabs groups
          * @param tabConfiguration One tab configuration
+         * @param ribbonManager The ribbon manager
          * @throws ConfigurationException if an error occurred
          */
-        protected void _configureGroups(Configuration tabConfiguration) throws ConfigurationException
+        protected void _configureGroups(Configuration tabConfiguration, RibbonManager ribbonManager) throws ConfigurationException
         {
             Configuration[] groupsConfigurations = tabConfiguration.getChild("groups").getChildren("group");
             for (Configuration groupConfiguration : groupsConfigurations)
             {
-                Group group = new Group(groupConfiguration, _log);
+                Group group = new Group(groupConfiguration, ribbonManager, _log);
                 _groups.add(group);
             }
         }
@@ -896,16 +958,17 @@ public class RibbonConfigurationManager
         /**
          * Creates a group
          * @param groupConfiguration The configuration of the group
+         * @param ribbonManager The ribbon manager
          * @param logger The logger
          * @throws ConfigurationException if an error occurs in the configuration
          */
-        public Group(Configuration groupConfiguration, Logger logger) throws ConfigurationException
+        public Group(Configuration groupConfiguration, RibbonManager ribbonManager, Logger logger) throws ConfigurationException
         {
             _groupLogger = logger;
             _dialogBoxLauncher = groupConfiguration.getAttribute("dialog-box-launcher", "");
             _priority = groupConfiguration.getAttributeAsInteger("priority", 0);
             _configureLabelAndIcon(groupConfiguration);
-            _configureSize(groupConfiguration);
+            _configureSize(groupConfiguration, ribbonManager);
         }     
 
         /**
@@ -957,22 +1020,23 @@ public class RibbonConfigurationManager
         /**
          * Configure the different size of the group
          * @param groupConfiguration One group configuration
+         * @param ribbonManager The ribbon manager
          * @throws ConfigurationException if an error occurred
          */
-        protected void _configureSize(Configuration groupConfiguration) throws ConfigurationException
+        protected void _configureSize(Configuration groupConfiguration, RibbonManager ribbonManager) throws ConfigurationException
         {
             if (groupConfiguration.getChild("medium").getChildren().length > 0)
             {
-                _largeSize = groupConfiguration.getChild("large", false) != null ? new GroupSize(groupConfiguration.getChild("large"), _groupLogger) : null;
-                _mediumSize = new GroupSize(groupConfiguration.getChild("medium"), _groupLogger);
+                _largeSize = groupConfiguration.getChild("large", false) != null ? new GroupSize(groupConfiguration.getChild("large"), ribbonManager, _groupLogger) : null;
+                _mediumSize = new GroupSize(groupConfiguration.getChild("medium"), ribbonManager, _groupLogger);
             }
             else
             {
-                _largeSize = new GroupSize(groupConfiguration.getChild("large", false) != null ? groupConfiguration.getChild("large") : groupConfiguration, _groupLogger);
+                _largeSize = new GroupSize(groupConfiguration.getChild("large", false) != null ? groupConfiguration.getChild("large") : groupConfiguration, ribbonManager, _groupLogger);
                 _mediumSize = null;
             }
             
-            _smallSize = groupConfiguration.getChild("small", false) != null ? new GroupSize(groupConfiguration.getChild("small"), _groupLogger) : null;
+            _smallSize = groupConfiguration.getChild("small", false) != null ? new GroupSize(groupConfiguration.getChild("small"), ribbonManager, _groupLogger) : null;
             
             _checkSizeConsistency(groupConfiguration);
         }
@@ -1081,10 +1145,11 @@ public class RibbonConfigurationManager
         /**
          * Creates a group in a defined size
          * @param groupSizeConfiguration The configuration for the size
+         * @param ribbonManager The ribbon manager
          * @param logger The logger
          * @throws ConfigurationException if an error occurred
          */
-        public GroupSize(Configuration groupSizeConfiguration, Logger logger) throws ConfigurationException
+        public GroupSize(Configuration groupSizeConfiguration, RibbonManager ribbonManager, Logger logger) throws ConfigurationException
         {
             this._groupSizeLogger = logger;
             
@@ -1093,12 +1158,12 @@ public class RibbonConfigurationManager
             {
                 if ("control".equals(elementConfiguration.getName()))
                 {
-                    ControlRef control = new ControlRef(elementConfiguration, _groupSizeLogger);
+                    ControlRef control = new ControlRef(elementConfiguration, ribbonManager, _groupSizeLogger);
                     _elements.add(control);
                 }
                 else if ("layout".equals(elementConfiguration.getName()))
                 {
-                    Layout layout = new Layout(elementConfiguration, _groupSizeLogger);
+                    Layout layout = new Layout(elementConfiguration, ribbonManager, _groupSizeLogger);
                     _elements.add(layout);
                 }
                 else if (_groupSizeLogger.isWarnEnabled())
@@ -1250,14 +1315,42 @@ public class RibbonConfigurationManager
         /**
          * Creates a control reference
          * @param controlConfiguration The configuration for the control
+         * @param ribbonManager The ribbon manager
          * @param logger The logger
          * @throws ConfigurationException if an error occurred
          */
-        public ControlRef(Configuration controlConfiguration, Logger logger) throws ConfigurationException
+        public ControlRef(Configuration controlConfiguration, RibbonManager ribbonManager, Logger logger) throws ConfigurationException
         {
-            this(controlConfiguration.getAttribute("id"), controlConfiguration.getAttributeAsInteger("colspan", 1), logger);
-        }        
-        
+            String refId = controlConfiguration.getAttribute("ref-id", null);
+            if (refId == null && controlConfiguration.getChildren().length == 0)
+            {
+                _initialize(controlConfiguration.getAttribute("id"), controlConfiguration.getAttributeAsInteger("colspan", 1), logger);
+            }
+            else
+            {
+                String id = controlConfiguration.getAttribute("id", UUID.randomUUID().toString());
+                DefaultConfiguration defaultConfig = new DefaultConfiguration(controlConfiguration);
+                
+                String classname = controlConfiguration.getAttribute("class", null);
+                if (classname == null)
+                {
+                    if (refId != null)
+                    {
+                        defaultConfig.setAttribute("point", controlConfiguration.getAttribute("point", RibbonControlsManager.ROLE));
+                    }
+                    else
+                    {
+                        classname = org.ametys.core.ui.SimpleMenu.class.getName();
+                        defaultConfig.setAttribute("class", classname);
+                    }
+                }
+                
+                ribbonManager.addExtension(id, "core-ui", null, defaultConfig);
+    
+                _initialize(id, controlConfiguration.getAttributeAsInteger("colspan", 1), logger);
+            }
+        }
+
         /**
          * Creates a control reference
          * @param id The id referenced by this control
@@ -1265,6 +1358,11 @@ public class RibbonConfigurationManager
          * @param logger The logger
          */
         public ControlRef(String id, int colspan, Logger logger)
+        {
+            _initialize(id, colspan, logger);
+        }
+
+        private void _initialize(String id, int colspan, Logger logger)
         {
             this._controlLogger = logger;
             
@@ -1331,10 +1429,11 @@ public class RibbonConfigurationManager
         /**
          * Creates a layout of controls
          * @param layoutConfiguration The configuration for the layout
+         * @param ribbonManager The ribbon manager 
          * @param logger The logger
          * @throws ConfigurationException if an error occurred
          */
-        public Layout(Configuration layoutConfiguration, Logger logger) throws ConfigurationException
+        public Layout(Configuration layoutConfiguration, RibbonManager ribbonManager, Logger logger) throws ConfigurationException
         {
             this(layoutConfiguration.getAttributeAsInteger("cols", 1), CONTROLSIZE.createsFromString(layoutConfiguration.getAttribute("size", null)), LAYOUTALIGN.createsFromString(layoutConfiguration.getAttribute("align", null)), logger);
 
@@ -1343,12 +1442,12 @@ public class RibbonConfigurationManager
             {
                 if ("control".equals(elementConfiguration.getName()))
                 {
-                    ControlRef control = new ControlRef(elementConfiguration, _layoutLogger);
+                    ControlRef control = new ControlRef(elementConfiguration, ribbonManager, _layoutLogger);
                     _elements.add(control);
                 }
                 else if ("toolbar".equals(elementConfiguration.getName()))
                 {
-                    Toolbar toolbar = new Toolbar(elementConfiguration, _layoutLogger);
+                    Toolbar toolbar = new Toolbar(elementConfiguration, ribbonManager, _layoutLogger);
                     _elements.add(toolbar);
                 }
                 else if (_layoutLogger.isWarnEnabled())
@@ -1480,10 +1579,11 @@ public class RibbonConfigurationManager
         /**
          * Creates a toolbar of controls
          * @param toolbarConfiguration The configuration for the layout
+         * @param ribbonManager The ribbon manager
          * @param logger The logger
          * @throws ConfigurationException if an error occurred
          */
-        public Toolbar(Configuration toolbarConfiguration, Logger logger) throws ConfigurationException
+        public Toolbar(Configuration toolbarConfiguration, RibbonManager ribbonManager, Logger logger) throws ConfigurationException
         {
             this(logger, toolbarConfiguration.getAttributeAsInteger("colspan", 1));
             
@@ -1492,7 +1592,7 @@ public class RibbonConfigurationManager
             {
                 if ("control".equals(elementConfiguration.getName()))
                 {
-                    ControlRef control = new ControlRef(elementConfiguration, _toolbarLogger);
+                    ControlRef control = new ControlRef(elementConfiguration, ribbonManager, _toolbarLogger);
                     _elements.add(control);
                 }
                 else if (_toolbarLogger.isWarnEnabled())

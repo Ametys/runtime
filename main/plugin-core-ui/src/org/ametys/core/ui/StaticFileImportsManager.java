@@ -19,7 +19,7 @@ package org.ametys.core.ui;
  *  This extension point handle the static import for JS or css files
  *
  */
-public class StaticFileImportsManager extends ClientSideElementManager
+public class StaticFileImportsManager extends AbstractClientSideExtensionPoint
 {
     /** Avalon role */
     public static final String ROLE = StaticFileImportsManager.class.getName();

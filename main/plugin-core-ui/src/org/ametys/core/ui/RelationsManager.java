@@ -24,7 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * This extension point handle the existing relations on the client side (relation system allow for example drag and drop).
  */
-public class RelationsManager extends ClientSideElementManager
+public class RelationsManager extends AbstractClientSideExtensionPoint
 {
     /** Avalon role */
     public static final String ROLE = RelationsManager.class.getName();

@@ -22,10 +22,11 @@ import java.util.Map;
 
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.cocoon.ProcessingException;
+import org.apache.excalibur.source.Source;
 import org.xml.sax.SAXException;
 
 import org.ametys.core.ui.ClientSideElementDependenciesManager;
-import org.ametys.core.ui.ClientSideElementManager;
+import org.ametys.core.ui.AbstractClientSideExtensionPoint;
 import org.ametys.core.ui.StaticFileImportsManager;
 import org.ametys.runtime.plugin.PluginsManager;
 import org.ametys.runtime.plugin.PluginsManager.Status;
@@ -44,18 +45,18 @@ public class WorkspaceGenerator extends org.ametys.plugins.core.ui.WorkspaceGene
     }
     
     @Override
-    protected InputStream getRibbonConfiguration() throws IOException
+    protected Source getRibbonConfiguration() throws IOException
     {
         if (PluginsManager.getInstance().isSafeMode())
         {
             Status status = PluginsManager.getInstance().getStatus();
             if (status == Status.RUNTIME_NOT_LOADED || status == Status.WRONG_DEFINITIONS)
             {
-                return getClass().getResourceAsStream("admin-safe-ribbon-noconfig.xml");
+                return _resolver.resolveURI("ressource://org/ametys/runtime/workspaces/admin/admin-safe-ribbon-noconfig.xml");
             }
             else
             {
-                return getClass().getResourceAsStream("admin-safe-ribbon.xml");
+                return _resolver.resolveURI("ressource://org/ametys/runtime/workspaces/admin/admin-safe-ribbon.xml");
             }
         }
         
@@ -87,7 +88,7 @@ public class WorkspaceGenerator extends org.ametys.plugins.core.ui.WorkspaceGene
         super.registerStaticDependencies(dependenciesManager);
         try
         {
-            ClientSideElementManager staticImportManager = (ClientSideElementManager) this.manager.lookup(StaticFileImportsManager.ROLE);
+            AbstractClientSideExtensionPoint staticImportManager = (AbstractClientSideExtensionPoint) this.manager.lookup(StaticFileImportsManager.ROLE);
             if (staticImportManager.hasExtension("org.ametys.runtime.plugins.admin.AdministratorNotifications"))
             {
                 dependenciesManager.register(StaticFileImportsManager.ROLE, "org.ametys.runtime.plugins.admin.AdministratorNotifications");

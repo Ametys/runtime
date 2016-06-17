@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * This extension point handle the existing ribbon controls.
  */
-public class MessageTargetFactoriesManager extends ClientSideElementManager
+public class MessageTargetFactoriesManager extends AbstractClientSideExtensionPoint
 {
     /** Avalon role */
     public static final String ROLE = MessageTargetFactoriesManager.class.getName();

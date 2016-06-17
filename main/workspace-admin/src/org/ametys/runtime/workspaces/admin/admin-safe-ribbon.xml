@@ -28,7 +28,12 @@
                 </group>
                 <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_SYSTEM_LABEL" icon="">
                     <large>
-                        <control id="org.ametys.plugins.admin.restart.RestartMenu"/>
+                        <control>
+                            <menu-items>
+                                <item ref="org.ametys.plugins.admin.restart.Restart" primaryItem="true" />
+                                <item ref="org.ametys.plugins.admin.restart.ForceSafeMode" />
+                            </menu-items>
+                        </control>
                         <control id="org.ametys.plugins.admin.System"/>
                         <control id="org.ametys.plugins.admin.JVMStatus"/>
                         <control id="org.ametys.plugins.admin.SystemProperties"/>
@@ -62,9 +67,28 @@
             <groups>
                 <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_DEVELOPPER_GROUPS_GROUP_TOOLS" icon="">
                     <large>
-                        <control id="org.ametys.runtime.userinterface.MessageTrackerControlMenu"/>
-                        <control id="org.ametys.runtime.userinterface.RequestTrackerControlMenu"/>
-                        <control id="org.ametys.runtime.userinterface.ConsoleLogControlMenu"/>
+                        <control>
+                            <menu-items>
+                                <item ref="org.ametys.runtime.userinterface.MessageTrackerControl" primaryItem="true"/>
+                                <item ref="org.ametys.runtime.userinterface.MessageTrackerControl.clear"/>
+                            </menu-items>
+                        </control>
+                        <control>
+                            <menu-items>
+                                <item ref="org.ametys.runtime.userinterface.RequestTrackerControl" primaryItem="true"/>
+                                <item ref="org.ametys.runtime.userinterface.RequestTrackerControl.clear"/>
+                            </menu-items>
+                        </control>
+                        <control>
+                            <menu-items>
+                                <item ref="org.ametys.runtime.userinterface.ConsoleLogControl" primaryItem="true"/>
+                                <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toDebug"/>
+                                <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toInfo"/>
+                                <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toWarn"/>
+                                <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toError"/>
+                                <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.clear"/>
+                            </menu-items>
+                        </control>
                         <control id="org.ametys.runtime.userinterface.DevMode"/>
                     </large>
                 </group>

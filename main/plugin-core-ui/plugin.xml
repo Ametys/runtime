@@ -758,14 +758,6 @@
                 </right>
             </extension>
             
-            <extension id="org.ametys.runtime.userinterface.RequestTrackerControlMenu"
-                       point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.core.ui.SimpleMenu">
-                <menu-items>
-                    <item ref="org.ametys.runtime.userinterface.RequestTrackerControl" primaryItem="true"/>
-                    <item ref="org.ametys.runtime.userinterface.RequestTrackerControl.clear"/>
-                </menu-items>
-            </extension>
             <extension id="org.ametys.runtime.userinterface.RequestTrackerControl"
                        point="org.ametys.core.ui.RibbonControlsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
@@ -851,14 +843,6 @@
                 </right>
             </extension>
             
-            <extension id="org.ametys.runtime.userinterface.MessageTrackerControlMenu"
-                       point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.core.ui.SimpleMenu">
-                <menu-items>
-                    <item ref="org.ametys.runtime.userinterface.MessageTrackerControl" primaryItem="true"/>
-                    <item ref="org.ametys.runtime.userinterface.MessageTrackerControl.clear"/>
-                </menu-items>
-            </extension>
             <extension id="org.ametys.runtime.userinterface.MessageTrackerControl"
                        point="org.ametys.core.ui.RibbonControlsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
@@ -947,18 +931,6 @@
                     <description>PLUGINS_CORE_RIGHT_RIGHTS_DEV_CONSOLELOG_DESCRIPTION</description>
                     <category>PLUGINS_CORE_RIGHTS_DEV_CATEGORY</category>
                 </right>
-            </extension>
-            <extension id="org.ametys.runtime.userinterface.ConsoleLogControlMenu"
-                       point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.core.ui.SimpleMenu">
-                <menu-items>
-                    <item ref="org.ametys.runtime.userinterface.ConsoleLogControl" primaryItem="true"/>
-                    <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toDebug"/>
-                    <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toInfo"/>
-                    <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toWarn"/>
-                    <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toError"/>
-                    <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.clear"/>
-                </menu-items>
             </extension>
             <extension id="org.ametys.runtime.userinterface.ConsoleLogControl"
                        point="org.ametys.core.ui.RibbonControlsManager"
@@ -2999,5 +2971,14 @@
                 </depends>
             </extension>
         </extensions>
+    </feature>
+    
+    <feature name="plugin.core.ui.ribbon.manager">
+        <components>
+            <component id="org.ametys.core.ui.RibbonManagerCache"
+                       role="org.ametys.core.ui.RibbonManagerCache" 
+                       class="org.ametys.core.ui.RibbonManagerCache"
+                       logger="org.ametys.core.ui.RibbonManagerCache" />
+        </components>
     </feature>
 </plugin>

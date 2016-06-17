@@ -1,5 +1,5 @@
 /*
- *  Copyright 2010 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -16,10 +16,10 @@
 package org.ametys.core.ui;
 
 /**
- * This extension point handle the existing ribbon controls.
+ * Manager for ribbon elements that are created live during runtime
  */
-public class UIToolsFactoriesManager extends AbstractClientSideExtensionPoint
+public class RibbonManager extends AbstractClientSideExtensionPoint
 {
     /** Avalon role */
-    public static final String ROLE = UIToolsFactoriesManager.class.getName();
+    public static final String ROLE = RibbonManager.class.getName();
 }
