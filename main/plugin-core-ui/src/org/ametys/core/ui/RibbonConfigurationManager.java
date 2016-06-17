@@ -418,6 +418,22 @@ public class RibbonConfigurationManager
         return controlsList;
     }
     
+    /**
+     * Retrieve the list of tabs referenced by the ribbon
+     * @return The list of tabs
+     */
+    public List<ClientSideElement> getTabs()
+    {
+        List<ClientSideElement> tabsList = new ArrayList<>();
+        for (String tabId : this._tabsReferences)
+        {
+            ClientSideElement tab = _ribbonTabManager.getExtension(tabId);
+            tabsList.add(tab);
+        }
+        
+        return tabsList;
+    }
+    
     private List<ClientSideElement> _getMenuControls(MenuClientSideElement menu)
     {
         List<ClientSideElement> controlsList = new ArrayList<>();

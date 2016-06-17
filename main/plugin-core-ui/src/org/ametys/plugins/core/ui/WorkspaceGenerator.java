@@ -199,6 +199,11 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
         {
             dependenciesManager.register(control);
         }
+        List<ClientSideElement> ribbonTabs = ribbonManager.getTabs();
+        for (ClientSideElement control : ribbonTabs)
+        {
+            dependenciesManager.register(control);
+        }
         
         for (String extensionId: _widgetsManager.getExtensionsIds())
         {
