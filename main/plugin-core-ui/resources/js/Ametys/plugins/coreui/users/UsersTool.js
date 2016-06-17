@@ -124,14 +124,10 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
         this._searchField = Ext.create('Ext.form.TextField', {
             xtype: 'textfield',
             cls: 'ametys',
-            minWidth: 100,
-            maxWidth: 400,
+            maxWidth: 250,
             flex: 1,
             emptyText: "{{i18n PLUGINS_CORE_UI_TOOL_USERS_SEARCH_EMPTY_TEXT}}",
             listeners: {change: Ext.Function.createBuffered(this._search, 500, this)},
-            style: {
-                marginRight: '0px'
-            }
         });
         
         this._store = this.createUserStore();
@@ -163,7 +159,40 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
                     items: [
                         this._userPopulationsField, 
                         this._userDirectoriesField
-                    ]
+                    ],
+                    
+                    listeners: {
+                        'resize': function(toolbar, width, height) {
+                            if (width > 450)
+                            {
+                                this._userPopulationsField.setHideLabel(false);
+                                this._userDirectoriesField.setHideLabel(false);
+                                this._userPopulationsField.setMaxWidth(this._userPopulationsField.getInitialConfig('maxWidth'));
+                                this._userDirectoriesField.setMaxWidth(this._userDirectoriesField.getInitialConfig('maxWidth'));
+                                
+                                toolbar.getLayout().setVertical(false);
+                            }
+                            else if (width > 300)
+                            {
+                                this._userPopulationsField.setHideLabel(false);
+                                this._userDirectoriesField.setHideLabel(false);
+                                this._userPopulationsField.setMaxWidth(null);
+                                this._userDirectoriesField.setMaxWidth(null);
+                                
+                                toolbar.getLayout().setVertical(true);
+                            }
+                            else
+                            {
+                                this._userPopulationsField.setHideLabel(true);
+                                this._userDirectoriesField.setHideLabel(true);
+                                this._userPopulationsField.setMaxWidth(null);
+                                this._userDirectoriesField.setMaxWidth(null);
+                                
+                                toolbar.getLayout().setVertical(true);
+                            }
+                        },
+                        scope: this
+                    }
                 }, {
                     xtype: 'toolbar',
                     layout: { 
@@ -173,13 +202,21 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
                     dock: 'top',
                     items: [
                         this._searchField,
-                       ' ',
                         {
-                            html: "{{i18n PLUGINS_CORE_UI_TOOL_USERS_SEARCH_LIMIT_HELPTEXT}}",
+                            flex: 1,
+                            html: "<span title=\"{{i18n PLUGINS_CORE_UI_TOOL_USERS_SEARCH_LIMIT_HELPTEXT}}\">{{i18n PLUGINS_CORE_UI_TOOL_USERS_SEARCH_LIMIT_HELPTEXT}}</span>",
                             xtype: 'component',
                             cls: 'a-toolbar-text'
                         }
-                    ]
+                    ],
+                    
+                    
+                    listeners: {
+                        'resize': function(toolbar, width, height) {
+                            toolbar.getLayout().setVertical(width <= 200);
+                        },
+                        scope: this
+                    }
                 }
             ],
             
@@ -282,7 +319,9 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
             fieldLabel: "{{i18n PLUGINS_CORE_UI_TOOL_USERS_POPULATION_FIELD}}",
             name: "userPopulations",
             cls: 'ametys',
-            labelWidth: 70,
+            labelWidth: 75,
+            maxWidth: 275,
+            flex: 275,
             
             store: {
                 fields: ['id', {name: 'label', sortType: Ext.data.SortTypes.asNonAccentedUCString}],
@@ -325,6 +364,8 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
             name: "userDirectories",
             cls: 'ametys',
             labelWidth: 150,
+            maxWidth: 350,
+            flex: 350,
             hidden: true, // hidden by default, will be shown if told
             
             store: {
@@ -344,7 +385,9 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
             forceSelection: true,
             triggerAction: 'all',
             
-            listeners: {change: Ext.Function.createBuffered(this._search, 500, this)}
+            listeners: {
+                'change': Ext.Function.createBuffered(this._search, 500, this)
+            }
         };
     },
     

@@ -33,7 +33,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
              * @private
              * @readonly
              */         
-            __REGION_MINSIZE: {width: 100, height: 100},
+            __REGION_MINSIZE: {width: 200, height: 130},
             
             /**
              * @property {Object} __ADDITIONNAL_ZONE_CONFIG_LEFT Properties applyed to the configuration of the left zone

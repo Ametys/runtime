@@ -2025,5 +2025,17 @@
     });
 })();
 
+(function()
+{
+    Ext.override(Ext.layout.container.Box, {
+        updateVertical: function(vertical)
+        {
+            this.callParent(arguments);
+
+            this.owner && this.owner.rendered && this.owner.updateLayout();
+        }
+    });
+})();
+
 // Avoid messages about closable tabs
 Ext.ariaWarn = Ext.emptyFn;
