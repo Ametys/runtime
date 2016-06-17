@@ -339,8 +339,6 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
                 
                 var bottomDiff = (position['b'][1] + dropOffset['b'][1]) - (position[loc][1] + dropOffset[loc][1] + dropSize[loc].height);
                 dropSize[loc].height += bottomDiff;
-                
-                console.info("Diff " + loc + " " + topDiff + " - " + bottomDiff)
             }
             
             // Horizontally middle zones must stick to left and right zones : issue with splitters when lateral zones are visible
