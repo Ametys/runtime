@@ -264,7 +264,6 @@
 
         <script>/plugins/core-ui/resources/js/Ametys/ribbon/element/RibbonTabController.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/ribbon/element/tab/TabController.js</script>
-        <script>/plugins/core-ui/resources/js/Ametys/ribbon/element/tab/ContentTabController.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/ribbon/element/tab/EditionTabController.js</script>
 
         <script>/plugins/core-ui/resources/js/Ametys/ribbon/element/RibbonUIController.js</script>
