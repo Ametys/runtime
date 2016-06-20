@@ -2973,7 +2973,7 @@
         </extensions>
     </feature>
     
-    <feature name="plugin.core.ui.ribbon.manager">
+    <feature name="plugin.core.ui.ribbon.manager" safe="true">
         <components>
             <component id="org.ametys.core.ui.RibbonManagerCache"
                        role="org.ametys.core.ui.RibbonManagerCache" 

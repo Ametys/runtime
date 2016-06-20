@@ -62,8 +62,13 @@ public abstract class AbstractClientSideExtensionPoint extends AbstractThreadSaf
             String refId = configuration.getAttribute("ref-id");
             String extensionPoint = configuration.getAttribute("point");
             AbstractClientSideExtensionPoint clientSideElementManager = (AbstractClientSideExtensionPoint) _cocoonManager.lookup(extensionPoint);
-            Configuration baseConfiguration = clientSideElementManager._configurations.get(refId);
-            DefaultConfiguration mergedConfiguration = new DefaultConfiguration(baseConfiguration);
+            Configuration baseConfiguration = clientSideElementManager._getConfiguration(refId);
+            if (baseConfiguration == null)
+            {
+                throw new ConfigurationException("Unknow ref-id '" + refId + "' for the extension point '" + extensionPoint + "'", configuration);
+            }
+            
+            DefaultConfiguration mergedConfiguration = new DefaultConfiguration(baseConfiguration, true);
             _mergeChildsConfiguration(configuration, mergedConfiguration);
             mergedConfiguration.setAttribute("ref-id", null);
             
@@ -74,6 +79,26 @@ public abstract class AbstractClientSideExtensionPoint extends AbstractThreadSaf
         {
             throw new ConfigurationException("Invalid id referenced by the attribute 'ref-id'", configuration);
         }
+    }
+    
+    private Configuration _getConfiguration(String id)
+    {
+        Configuration configuration = _configurations.get(id);
+        if (configuration != null)
+        {
+            return configuration;
+        }
+        
+        for (AbstractClientSideExtensionPoint manager : _registeredManagers)
+        {
+            configuration = manager._getConfiguration(id);
+            if (configuration != null)
+            {
+                return configuration;
+            }
+        }
+        
+        return null;
     }
     
     private void _mergeChildsConfiguration(Configuration configuration, MutableConfiguration base) throws ConfigurationException

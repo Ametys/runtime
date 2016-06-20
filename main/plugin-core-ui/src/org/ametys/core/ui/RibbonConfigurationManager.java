@@ -78,7 +78,7 @@ public class RibbonConfigurationManager
         /**
          * Converts a string to a CONTROLSIZE
          * @param size The size to convert
-         * @return The size corresponding to the string or null if unknwon
+         * @return The size corresponding to the string or null if unknown
          */
         public static CONTROLSIZE createsFromString(String size)
         {
@@ -117,7 +117,7 @@ public class RibbonConfigurationManager
         /**
          * Converts a string to a layout align
          * @param align The align to convert
-         * @return The align corresponding to the string or null if unknwon
+         * @return The align corresponding to the string or null if unknown
          */
         public static LAYOUTALIGN createsFromString(String align)
         {
@@ -305,7 +305,7 @@ public class RibbonConfigurationManager
             return;
         }
         
-        // check that all refered items does exist
+        // check that all referred items does exist
         for (Tab tab : _ribbonConfig.getTabs())
         {
             // Check this is an existing factory
@@ -1480,7 +1480,7 @@ public class RibbonConfigurationManager
         /** The size of the control */
         protected CONTROLSIZE _size;
         
-        /** Number of columns used by the control upon some layouts. 1 is the common and defaul value */
+        /** Number of columns used by the control upon some layouts. 1 is the common and default value */
         protected int _cols;
         
         /** The elements in the layout. Can be controls or toolbars */
@@ -1630,7 +1630,7 @@ public class RibbonConfigurationManager
      */
     public class Toolbar implements Element
     {
-        /** Number of columns used by the control upon some layouts. 1 is the common and defaul value */
+        /** Number of columns used by the control upon some layouts. 1 is the common and default value */
         protected int _colspan;
         
         /** The elements in the layout. Can be controls */

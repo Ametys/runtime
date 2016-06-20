@@ -52,11 +52,11 @@ public class WorkspaceGenerator extends org.ametys.plugins.core.ui.WorkspaceGene
             Status status = PluginsManager.getInstance().getStatus();
             if (status == Status.RUNTIME_NOT_LOADED || status == Status.WRONG_DEFINITIONS)
             {
-                return _resolver.resolveURI("ressource://org/ametys/runtime/workspaces/admin/admin-safe-ribbon-noconfig.xml");
+                return _resolver.resolveURI("resource://org/ametys/runtime/workspaces/admin/admin-safe-ribbon-noconfig.xml");
             }
             else
             {
-                return _resolver.resolveURI("ressource://org/ametys/runtime/workspaces/admin/admin-safe-ribbon.xml");
+                return _resolver.resolveURI("resource://org/ametys/runtime/workspaces/admin/admin-safe-ribbon.xml");
             }
         }
         

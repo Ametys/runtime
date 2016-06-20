@@ -57,6 +57,7 @@ import org.ametys.core.ui.widgets.ClientSideWidget;
 import org.ametys.core.ui.widgets.WidgetsManager;
 import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.core.user.User;
+import org.ametys.core.user.UserIdentity;
 import org.ametys.core.user.UserManager;
 import org.ametys.core.util.JSONUtils;
 import org.ametys.plugins.core.user.UserHelper;
@@ -142,12 +143,16 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
         contentHandler.startDocument();
         XMLUtils.startElement(contentHandler, "workspace");
         
-        String login = _currentUserProvider.getUser().getLogin();
-        String userPopulationId = _currentUserProvider.getUser().getPopulationId();
-        if (StringUtils.isNotBlank(login))
+        UserIdentity currentUser = _currentUserProvider.getUser();
+        if (currentUser != null)
         {
-            User user = _userManager.getUser(userPopulationId, login);
-            _userHelper.saxUser(user, contentHandler);
+            String login = currentUser.getLogin();
+            String userPopulationId = currentUser.getPopulationId();
+            if (StringUtils.isNotBlank(login))
+            {
+                User user = _userManager.getUser(userPopulationId, login);
+                _userHelper.saxUser(user, contentHandler);
+            }
         }
         
         ClientSideElementDependenciesManager dependenciesManager = new ClientSideElementDependenciesManager(this.manager);
