@@ -37,6 +37,7 @@ import org.ametys.runtime.test.users.others.StaticUsersTestCase;
 import org.ametys.runtime.test.util.DateConversionTestCase;
 import org.ametys.runtime.test.util.I18nTestCase;
 import org.ametys.runtime.test.util.JSONTestCase;
+import org.ametys.runtime.test.workspaces.WorkspaceGeneratorTestCase;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -97,6 +98,8 @@ public final class AllTests
         suite.addTestSuite(I18nTestCase.class);
         suite.addTestSuite(MinimizeTransformerTestCase.class);
         suite.addTestSuite(ObserversTestCase.class);
+
+        suite.addTestSuite(WorkspaceGeneratorTestCase.class);
         
         //$JUnit-END$
         return suite;

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2016 Anyware Services
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
+<plugin xmlns="http://www.ametys.org/schema/plugin"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.ametys.org/schema/plugin http://www.ametys.org/schema/plugin-4.0.xsd"
+        runtimeVersion="4.0" version="2.0">
+      
+  <feature name="workspace-generator-test.controls">  
+      <extensions>
+         <extension id="org.ametys.plugins.workspace-generator-test.control1"
+                     point="org.ametys.core.ui.RibbonControlsManager"
+                     class="org.ametys.core.ui.StaticClientSideElement">
+              <class name="Ametys.ribbon.element.ui.ButtonController">
+                <label i18n="false">label</label>
+                <description i18n="false">description</description>
+              </class>
+         </extension>
+         <extension id="org.ametys.plugins.workspace-generator-test.control2"
+                     point="org.ametys.core.ui.RibbonControlsManager"
+                     class="org.ametys.core.ui.StaticClientSideElement">
+              <class name="Ametys.ribbon.element.ui.ButtonController">
+                <label i18n="false">label</label>
+                <description i18n="false">description</description>
+              </class>
+         </extension>
+         <extension id="org.ametys.plugins.workspace-generator-test.control3"
+                     point="org.ametys.core.ui.RibbonControlsManager"
+                     class="org.ametys.core.ui.StaticClientSideElement">
+              <class name="Ametys.ribbon.element.ui.ButtonController">
+                <label i18n="false">label</label>
+                <description i18n="false">description</description>
+              </class>
+         </extension>
+         <extension id="org.ametys.plugins.workspace-generator-test.control4"
+                     point="org.ametys.core.ui.RibbonControlsManager"
+                     class="org.ametys.core.ui.StaticClientSideElement">
+              <class name="Ametys.ribbon.element.ui.ButtonController">
+                <label i18n="false">label</label>
+                <description i18n="false">description</description>
+              </class>
+         </extension>
+         
+         <extension id="org.ametys.plugins.workspace-generator-test.Tab"
+                       point="org.ametys.core.ui.RibbonTabsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.tab.TabController">
+                    <tool-id>^uitool-*$</tool-id>
+                </class> 
+            </extension>
+     </extensions>
+ </feature>
+
+</plugin>
