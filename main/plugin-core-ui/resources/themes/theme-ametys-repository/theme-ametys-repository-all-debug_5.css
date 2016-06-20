@@ -1,3 +1,43 @@
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:359 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-br {
+    background-position: right -25px;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:363 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-ml {
+    background-position: 0 top;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:371 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-mr {
+    background-position: right top;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:379 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-tc {
+    background-position: 0 0;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:383 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-bc {
+    background-position: 0 -5px;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:388 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-tr,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-br,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-mr {
+    padding-right: 5px;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:394 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-tl,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-bl,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-ml {
+    padding-left: 5px;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:400 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-tc {
+    height: 5px;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:403 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-bc {
+    height: 5px;
+}
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:407 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-tl,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-bl,
