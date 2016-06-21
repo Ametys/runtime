@@ -15,6 +15,7 @@
  */
 package org.ametys.runtime.util.dom;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +27,7 @@ import org.w3c.dom.Node;
 public class StringElement extends AbstractAmetysElement<String>
 {
     private String _tagName;
-    private String _attributName;
+    private Map<String, String> _attributes;
     private String _data;
     
     /**
@@ -38,9 +39,9 @@ public class StringElement extends AbstractAmetysElement<String>
      */
     public StringElement(String tagName, String attributeName, String attributeValue, String data)
     {
-        super(attributeValue);
+        super(tagName);
         this._tagName = tagName;
-        this._attributName = attributeName;
+        this._attributes = Collections.singletonMap(attributeName, attributeValue);
         this._data = data;
     }
     
@@ -52,10 +53,37 @@ public class StringElement extends AbstractAmetysElement<String>
      */
     public StringElement(String tagName, String attributeName, String attributeValue)
     {
-        super(attributeValue);
+        super(tagName);
         this._tagName = tagName;
-        this._attributName = attributeName;
+        this._attributes = Collections.singletonMap(attributeName, attributeValue);
         this._data = null;
+    }
+    
+    /**
+     * Create a string element
+     * @param tagName The tag
+     * @param attributes The attributes names and values.
+     */
+    public StringElement(String tagName, Map<String, String> attributes)
+    {
+        super(tagName);
+        this._tagName = tagName;
+        this._attributes = attributes;
+        this._data = null;
+    }
+    
+    /**
+     * Create a string element
+     * @param tagName The tag
+     * @param attributes The attributes names and values.
+     * @param data The data value. Can be null.
+     */
+    public StringElement(String tagName, Map<String, String> attributes, String data)
+    {
+        super(tagName);
+        this._tagName = tagName;
+        this._attributes = attributes;
+        this._data = data;
     }
 
     @Override
@@ -68,10 +96,15 @@ public class StringElement extends AbstractAmetysElement<String>
     protected Map<String, AmetysAttribute> _lookupAttributes()
     {
         Map<String, AmetysAttribute> attrs = new HashMap<String, AmetysAttribute>();
-        if (_attributName != null)
+        
+        if (_attributes != null)
         {
-            attrs.put(_attributName, new AmetysAttribute(_attributName, _attributName, null, _object, this));
+            for (String name : _attributes.keySet())
+            {
+                attrs.put(name, new AmetysAttribute(name, name, null, _attributes.get(name), this));
+            }
         }
+        
         return attrs;
     }
     
