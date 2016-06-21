@@ -568,6 +568,7 @@
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_FILE">Insérer une ressource locale ...</message>  
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_FILE_HINT">Sélectionnez une ressource sur votre disque dur, puis cliquez sur 'Ok'.</message>
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_FILE">Télécharger le fichier</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NOTFOUND_FILE">Fichier introuvable</message>
     
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_IMAGE_BUTTON">Sélectionnez une image</message>  
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_IMAGE_BUTTON">Supprimer l'image</message>
@@ -577,7 +578,8 @@
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_IMAGE">Insérer une image locale ...</message>     
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_IMAGE_HINT">Sélectionnez une image sur votre disque dur, puis cliquez sur 'Ok'.</message>
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_IMAGE">Télécharger le fichier image</message>
-
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NOTFOUND_IMAGE">Image introuvable</message>
+    
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_MULTIMEDIA_BUTTON">Sélectionnez un fichier multimédia</message>     
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_MULTIMEDIA_BUTTON">Supprimer le fichier multimédia</message>
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_MULTIMEDIA_SELECTED">Aucun fichier multimédia</message>
@@ -586,6 +588,7 @@
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_MULTIMEDIA">Insérer un fichier multimédia local ...</message>     
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_MULTIMEDIA_HINT">Sélectionnez un fichier multimédia sur votre disque dur, puis cliquez sur 'Ok'.</message>
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_MULTIMEDIA">Télécharger le fichier multimédia</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NOTFOUND_MULTIMEDIA">Fichier introuvable</message>
     
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_VIDEO_BUTTON">Sélectionnez un fichier vidéo</message>     
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_VIDEO_BUTTON">Supprimer le fichier vidéo</message>
@@ -595,6 +598,7 @@
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_VIDEO">Insérer un fichier vidéo local ...</message>     
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_VIDEO_HINT">Sélectionnez un fichier vidéo sur votre disque dur, puis cliquez sur 'Ok'.</message>
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_VIDEO">Télécharger le fichier vidéo</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NOTFOUND_VIDEO">Fichier vidéo introuvable</message>
     
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_FLASH_BUTTON">Sélectionnez un fichier flash</message>     
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_FLASH_BUTTON">Supprimer le fichier flash</message>
@@ -604,6 +608,7 @@
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_FLASH">Insérer un fichier flash local ...</message>     
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_FLASH_HINT">Sélectionnez un fichier flash sur votre disque dur, puis cliquez sur 'Ok'.</message>
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_FLASH">Télécharger le fichier flash</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NOTFOUND_FLASH">Fichier introuvable</message>
     
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_SOUND_BUTTON">Sélectionnez un fichier audio</message>   
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_SOUND_BUTTON">Supprimer le fichier audio</message>
@@ -613,7 +618,8 @@
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_SOUND">Insérer un fichier audio local ...</message>   
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_SOUND_HINT">Sélectionnez un fichier audio sur votre disque dur, puis cliquez sur 'Ok'.</message>
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_SOUND">Télécharger le fichier audio</message>
-
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NOTFOUND_SOUND">Fichier audio introuvable</message>
+    
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_PDF_BUTTON">Sélectionnez un fichier PDF</message>   
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_PDF_BUTTON">Supprimer le fichier PDF</message>
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_PDF_SELECTED">Aucun fichier PDF</message>
@@ -622,7 +628,8 @@
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_PDF">Insérer un fichier PDF local ...</message>   
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_PDF_HINT">Sélectionnez un fichier PDF sur votre disque dur, puis cliquez sur 'Ok'.</message>
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_PDF">Télécharger le fichier PDF</message>
-        
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NOTFOUND_PDF">Fichier PDF introuvable</message>
+    
     <message key="PLUGINS_CORE_UI_FORM_QUERYABLE_COMBOBOX_NO_RESULT">La recherche n'a renvoyé aucun résultat</message>
     <message key="PLUGINS_CORE_UI_FORM_QUERYABLE_COMBOBOX_LOADING">Recherche en cours...</message>
     

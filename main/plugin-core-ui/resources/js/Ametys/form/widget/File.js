@@ -98,7 +98,8 @@ Ext.define('Ametys.form.widget.File', {
     			deleteText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_FILE_BUTTON}}",
     			deleteTextConfirm: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_FILE_CONFIRM}}",
     			
-    			downloadText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_FILE}}"
+    			downloadText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_FILE}}",
+                notFoundText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NOTFOUND_FILE}}"
     		},
     		
     		image: {
@@ -111,7 +112,8 @@ Ext.define('Ametys.form.widget.File', {
     			deleteText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_IMAGE_BUTTON}}",
     			deleteTextConfirm: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_IMAGE_CONFIRM}}",
     			
-    			downloadText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_IMAGE}}"
+    			downloadText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_IMAGE}}",
+                notFoundText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NOTFOUND_IMAGE}}"
     		},
     		
     		multimedia: {
@@ -124,7 +126,8 @@ Ext.define('Ametys.form.widget.File', {
     			deleteText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_MULTIMEDIA_BUTTON}}",
     			deleteTextConfirm: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_MULTIMEDIA_CONFIRM}}",
     			
-    			downloadText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_MULTIMEDIA}}"
+    			downloadText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_MULTIMEDIA}}",
+                notFoundText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NOTFOUND_MULTIMEDIA}}"
     		},
     		
     		video: {
@@ -137,7 +140,8 @@ Ext.define('Ametys.form.widget.File', {
     			deleteText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_VIDEO_BUTTON}}",
     			deleteTextConfirm: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_VIDEO_CONFIRM}}",
     			
-    			downloadText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_VIDEO}}"
+    			downloadText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_VIDEO}}",
+                notFoundText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NOTFOUND_VIDEO}}"
     		},
     		
     		flash: {
@@ -150,7 +154,8 @@ Ext.define('Ametys.form.widget.File', {
     			deleteText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_FLASH_BUTTON}}",
     			deleteTextConfirm: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_FLASH_CONFIRM}}",
     			
-    			downloadText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_FLASH}}"
+    			downloadText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_FLASH}}",
+                notFoundText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NOTFOUND_FLASH}}"
     		},
     		
     		audio: {
@@ -163,7 +168,8 @@ Ext.define('Ametys.form.widget.File', {
     			deleteText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_SOUND_BUTTON}}",
     			deleteTextConfirm: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_SOUND_CONFIRM}}",
     			
-    			downloadText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_SOUND}}"
+    			downloadText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_SOUND}}",
+                notFoundText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NOTFOUND_SOUND}}"
     		},
             
             pdf: {
@@ -176,7 +182,8 @@ Ext.define('Ametys.form.widget.File', {
                 deleteText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_PDF_BUTTON}}",
                 deleteTextConfirm: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_PDF_CONFIRM}}",
                 
-                downloadText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_PDF}}"
+                downloadText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_PDF}}",
+                notFoundText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NOTFOUND_PDF}}"
             }
     	}
     },
@@ -590,8 +597,17 @@ Ext.define('Ametys.form.widget.File', {
     {
     	if (this.fileFilter == this.self.IMAGE_FILTER)
     	{
-    		var imgSrc = viewHref + '&maxWidth=' + this.imagePreviewMaxWidth + '&maxHeight=' + this.imagePreviewMaxHeight + '&foo=' + Math.random();
-            this.img.setSrc(imgSrc);
+            if (!viewHref)
+            {
+                var imgSrc = Ametys.getPluginResourcesPrefix('core-ui') + '/img/imagenotfound_max' + this.imagePreviewMaxWidth + 'x' + this.imagePreviewMaxHeight + '100.png';
+                this.img.setSrc(imgSrc);
+            }
+            else
+            {
+                var imgSrc = viewHref + '&maxWidth=' + this.imagePreviewMaxWidth + '&maxHeight=' + this.imagePreviewMaxHeight + '&foo=' + Math.random();
+                this.img.setSrc(imgSrc);
+            }
+    		
     	}
         else
         {
@@ -601,17 +617,25 @@ Ext.define('Ametys.form.widget.File', {
     	
         this._showHideImgPreview(true);
         
-        // Do not write the file name in the link just now.
-        var text = '<a href="' + downloadHref + '" title="' + (this.getInitialConfig('downloadText') || this.self.filters[this.fileFilter].downloadText) + '">' + fileName + '</a>';
-        
-        if (fileSize)
+        var text = '';
+        if (!downloadHref && !fileName)
         {
-            text += '<br/><span class="ametys-field-hint">' + Ext.util.Format.fileSize(fileSize) + '</span>';
-            this.displayField.setHeight(34); // Let's freeze height to avoid useless layout afterward
+            text = this.getInitialConfig('notFoundText') || this.self.filters[this.fileFilter].notFoundText || '{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NOTFOUND_FILE}}';
         }
         else
         {
-            this.displayField.setHeight(21); // Let's freeze height to avoid useless layout afterward
+            // Do not write the file name in the link just now.
+            var text = '<a href="' + downloadHref + '" title="' + (this.getInitialConfig('downloadText') || this.self.filters[this.fileFilter].downloadText) + '">' + fileName + '</a>';
+            
+            if (fileSize)
+	        {
+	            text += '<br/><span class="ametys-field-hint">' + Ext.util.Format.fileSize(fileSize) + '</span>';
+	            this.displayField.setHeight(34); // Let's freeze height to avoid useless layout afterward
+	        }
+	        else
+	        {
+	            this.displayField.setHeight(21); // Let's freeze height to avoid useless layout afterward
+	        }
         }
         
         this.displayField.update(text);

@@ -566,6 +566,7 @@
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_FILE">Insert local file ...</message>     
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_FILE_HINT">Insert file located on your drive, then click 'Ok'.</message>
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_FILE">Download file</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NOTFOUND_FILE">File not found</message>
     
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_IMAGE_BUTTON">Select picture</message>  
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_IMAGE_BUTTON">Delete picture</message>
@@ -575,7 +576,8 @@
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_IMAGE">Insert local picture ...</message>     
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_IMAGE_HINT">Select picture on your drive, then click 'Ok'.</message>
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_IMAGE">Download picture file</message>
-
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NOTFOUND_IMAGE">Image not found</message>
+    
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_MULTIMEDIA_BUTTON">Select multimedia file</message>     
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_MULTIMEDIA_BUTTON">Delete multimedia file</message>
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_MULTIMEDIA_SELECTED">No multimedia file selected</message>
@@ -584,6 +586,7 @@
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_MULTIMEDIA">Insert multimedia video file ...</message>    
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_MULTIMEDIA_HINT">Select one multimedia file on your drive, then click 'Ok'.</message>
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_MULTIMEDIA">Download multimedia file</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NOTFOUND_MULTIMEDIA">File not found</message>
     
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_VIDEO_BUTTON">Select video file</message>     
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_VIDEO_BUTTON">Delete video file</message>
@@ -593,6 +596,7 @@
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_VIDEO">Insert local video file ...</message>    
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_VIDEO_HINT">Select one video file on your drive, then click 'Ok'.</message>
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_VIDEO">Download video file</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NOTFOUND_VIDEO">Video file not found</message>
     
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_FLASH_BUTTON">Select flash file</message>     
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_FLASH_BUTTON">Delete flash file</message>
@@ -602,6 +606,7 @@
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_FLASH">Insert local flash file ...</message>    
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_FLASH_HINT">Select one flash file on your drive, then click 'Ok'.</message>
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_FLASH">Download flash file</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NOTFOUND_FLASH">File not found</message>
     
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_SOUND_BUTTON">Select audio file</message>   
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_SOUND_BUTTON">Delete audio file</message>
@@ -611,6 +616,7 @@
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_SOUND">Insert local audio file ...</message>  
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_SOUND_HINT">Select one audio file on your drive, then click 'Ok'.</message>
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_SOUND">Download audio file</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NOTFOUND_SOUND">Audio file not found</message>
     
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_PDF_BUTTON">Select PDF file</message>   
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_PDF_BUTTON">Delete PDF file</message>
@@ -620,6 +626,7 @@
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_PDF">Insert local PDF file ...</message>  
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_PDF_HINT">Select one PDF file on your drive, then click 'Ok'.</message>
     <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_PDF">Download PDF file</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NOTFOUND_PDF">PDF file not found</message>
     
     <message key="PLUGINS_CORE_UI_FORM_QUERYABLE_COMBOBOX_NO_RESULT">The search didn't return any result</message>
     <message key="PLUGINS_CORE_UI_FORM_QUERYABLE_COMBOBOX_LOADING">Searching...</message>
