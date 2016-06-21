@@ -1292,6 +1292,8 @@
     <message key="PLUGINS_CORE_UI_TASKS_DISABLE_DESCRIPTION">The task is currently enabled.&lt;br/&gt;Click here to disable the selected task.</message>
     <message key="PLUGINS_CORE_UI_TASKS_ENABLE_DESCRIPTION_ERROR">A server error occured and does not let to know the current status of the task.</message>
     <message key="PLUGINS_CORE_UI_TASKS_ENABLE_NO_DEACTIVATABLE_LABEL">This task cannot be disabled, and thus will always be enabled</message>
+    <message key="PLUGINS_CORE_UI_TASKS_REMOVE_COMPLETED_TASKS_LABEL">Remove completed tasks</message>
+    <message key="PLUGINS_CORE_UI_TASKS_REMOVE_COMPLETED_TASKS_DESCRIPTION">Remove all completed tasks</message>
     <message key="PLUGINS_CORE_UI_TASKS_REFRESH_LABEL">Refresh</message>
     <message key="PLUGINS_CORE_UI_TASKS_REFRESH_DESCRIPTION">Refresh the task scheduler</message>
     
@@ -1311,9 +1313,12 @@
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_LAST_DURATION">Last duration</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SUCCESS">Success</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_STARTUP_TASK">Will be run at next startup</message>
-    <message key="PLUGINS_CORE_UI_TASKS_TOOL_NOW_TASK">Currently running...</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_NOW_TASK">Fired as soon as possible</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_RUNNING_TASK">Currently running...</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COMPLETED_TASK">Completed</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_ENABLED_LABEL">Enabled</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_DISABLED_LABEL">Disabled</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_COMPLETED_LABEL">Completed</message>
     
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_ADD_TITLE">New task</message>
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_EDIT_TITLE">Edit the task</message>
@@ -1336,6 +1341,9 @@
     
     <message key="PLUGINS_CORE_UI_TASKS_REMOVE_CONFIRM_TITLE">Remove the task</message>
     <message key="PLUGINS_CORE_UI_TASKS_REMOVE_CONFIRM_MSG">Are you sure you want to remove this task ?</message>
+    
+    <message key="PLUGINS_CORE_UI_TASKS_REMOVE_COMPLETED_TASKS_CONFIRM_TITLE">Remove completed tasks</message>
+    <message key="PLUGINS_CORE_UI_TASKS_REMOVE_COMPLETED_TASKS_CONFIRM_MSG">Are you sure you want to remove all completed tasks ?</message>
     
     <message key="PLUGINS_CORE_UI_TASKS_NO_MODIFIABLE_TITLE">Unmodifiable task</message>
     <message key="PLUGINS_CORE_UI_TASKS_NO_MODIFIABLE_MSG">This task cannot be edited.</message>

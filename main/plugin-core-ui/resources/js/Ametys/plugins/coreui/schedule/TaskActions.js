@@ -20,7 +20,7 @@ Ext.define('Ametys.plugins.coreui.schedule.TaskActions', {
     singleton: true, 
     
     /**
-     * Adds a new task
+     * Opens the dialog box for creating a new task
      * @param {Ametys.ribbon.element.ui.ButtonController} controller The controller calling this function
      */
     addTask: function(controller)
@@ -124,7 +124,34 @@ Ext.define('Ametys.plugins.coreui.schedule.TaskActions', {
     },
     
     /**
-     * Refresh the task tool
+     * Removes the completed tasks
+     * @param {Ametys.ribbon.element.ui.ButtonController} controller The controller calling this function
+     */
+    removeCompletedTasks: function(controller)
+    {
+        Ext.Msg.confirm("{{i18n PLUGINS_CORE_UI_TASKS_REMOVE_COMPLETED_TASKS_CONFIRM_TITLE}}",
+                "{{i18n PLUGINS_CORE_UI_TASKS_REMOVE_COMPLETED_TASKS_CONFIRM_MSG}}",
+                Ext.bind(this._doRemoveCompletedTasks, this),
+                this
+        );
+    },
+    
+    /**
+     * @private
+     * Calls the remove completed tasks server method
+     * @param {String} btn The pressed button. Can only be 'yes'/'no'
+     * @param {Ametys.message.MessageTarget} messageTarget The message target of the task to remove
+     */
+    _doRemoveCompletedTasks: function(btn, messageTarget)
+    {
+        if (btn == 'yes')
+        {
+            Ametys.plugins.core.schedule.Scheduler.removeCompletedTasks([]);
+        }
+    },
+    
+    /**
+     * Refreshes the task tool
      * @param {Ametys.ribbon.element.ui.ButtonController} controller The controller calling this function
      */
     refreshTool: function(controller)

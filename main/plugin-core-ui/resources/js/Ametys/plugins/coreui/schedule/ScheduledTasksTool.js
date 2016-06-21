@@ -38,6 +38,15 @@ Ext.define('Ametys.plugins.coreui.schedule.ScheduledTasksTool', {
         Ametys.message.MessageBus.on(Ametys.message.Message.DELETED, this._onMessageDeleted, this);
     },
     
+    /**
+     * Gets the grid of the tool
+     * @return {Ext.grid.Panel} the grid of the tool
+     */
+    getGrid: function()
+    {
+        return this._grid;
+    },
+    
     createPanel: function()
     {
         this._store = this._createStore();
@@ -47,16 +56,24 @@ Ext.define('Ametys.plugins.coreui.schedule.ScheduledTasksTool', {
             stateful: true,
             stateId: this.self.getName() + "$grid",
             
-            // Grouping by enabled/disabled state
+            // Grouping by state
             features: [
                 {
                     ftype: 'grouping',
                     enableGroupingMenu: false,
                     groupHeaderTpl: [
-                        '{name:this.formatEnabled}', 
+                        '{name:this.formatState}', 
                         {
-                            formatEnabled: function(name) {
-                                return name == "true" ? "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_GROUP_ENABLED_LABEL}}" : "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_GROUP_DISABLED_LABEL}}"
+                            formatState: function(state) {
+                                switch (state) {
+                                    case "enabled":
+                                        return "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_GROUP_ENABLED_LABEL}}";
+                                    case "disabled":
+                                        return "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_GROUP_DISABLED_LABEL}}";
+                                    case "completed":
+                                    default:
+                                        return "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_GROUP_COMPLETED_LABEL}}";
+                                }
                             }
                         }
                     ]
@@ -105,7 +122,7 @@ Ext.define('Ametys.plugins.coreui.schedule.ScheduledTasksTool', {
                 }
              },
              
-             groupField: 'enabled',
+             groupField: 'state',
              sortOnLoad: true,
              sorters: [{property: 'label', direction:'ASC'}]
         });
@@ -314,6 +331,7 @@ Ext.define("Ametys.plugins.coreui.schedule.ScheduledTasksTool.TaskEntry", {
             }
         }},
         {name: 'enabled', convert: function(v) {return v === true;}},
+        {name: 'state', calculate: function(data) {return data.completed ? "completed" : (data.enabled ? "enabled" : "disabled");}},
         {name: 'modifiable'},
         {name: 'removable'},
         {name: 'deactivatable'},
@@ -328,7 +346,7 @@ Ext.define("Ametys.plugins.coreui.schedule.ScheduledTasksTool.TaskEntry", {
                 case "STARTUP":
                     return "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_STARTUP_TASK}}";
                 case "NOW":
-                    return "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_NOW_TASK}}";
+                    return rec.get('completed') ? "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COMPLETED_TASK}}" : "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_RUNNING_TASK}}";
                 case "CRON":
                 default:
                     return v;
@@ -337,6 +355,7 @@ Ext.define("Ametys.plugins.coreui.schedule.ScheduledTasksTool.TaskEntry", {
         {name: 'previousFireTime'},
         {name: 'lastDuration'},
         {name: 'success'},
-        {name: 'running'}
+        {name: 'running'},
+        {name: 'completed'}
     ]
 });

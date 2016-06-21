@@ -66,10 +66,10 @@ import org.ametys.core.datasource.SQLDataSourceManager;
 import org.ametys.core.right.RightsManager;
 import org.ametys.core.schedule.AmetysJob;
 import org.ametys.core.schedule.Runnable;
+import org.ametys.core.schedule.Runnable.FireProcess;
 import org.ametys.core.schedule.RunnableExtensionPoint;
 import org.ametys.core.schedule.Schedulable;
 import org.ametys.core.schedule.SchedulableExtensionPoint;
-import org.ametys.core.schedule.Runnable.FireProcess;
 import org.ametys.core.script.ScriptRunner;
 import org.ametys.core.ui.Callable;
 import org.ametys.core.user.CurrentUserProvider;
@@ -208,12 +208,7 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
         
         if (dataSource == null)
         {
-            if (getLogger().isWarnEnabled())
-            {
-                getLogger().warn(String.format("Configured data source could not be found. Data source id: '%s'",
-                                StringUtils.defaultString(dataSourceId)));
-            }
-            
+            getLogger().warn("Configured data source could not be found. Data source id: '{}'", StringUtils.defaultString(dataSourceId));
             return;
         }
         
@@ -258,13 +253,7 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
                 scriptFolder = "postgresql"; break;
             case DATABASE_UNKNOWN:
             default:
-                if (getLogger().isWarnEnabled())
-                {
-                    getLogger().warn(
-                            String.format("This data source is not compatible with the automatic creation of the SQL tables. The tables will not be created. Data source id: '%s'",
-                                    dataSourceId));
-                }
-                
+                getLogger().warn("This data source is not compatible with the automatic creation of the SQL tables. The tables will not be created. Data source id: '{}'", dataSourceId);
                 return;
         }
         
@@ -443,7 +432,7 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
                 break;
             case NOW:
                 // will be triggered now
-                jobDetail = jobBuilder.build();
+                jobDetail = jobBuilder.storeDurably().build();
                 
                 Trigger simpleTrigger = TriggerBuilder.newTrigger()
                         .withIdentity(runnableId, TRIGGER_GROUP)
@@ -456,7 +445,7 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
             case CRON:
             default:
                 // based on a cron trigger
-                jobDetail = jobBuilder.build();
+                jobDetail = jobBuilder.storeDurably().build();
                 
                 CronScheduleBuilder schedBuilder = CronScheduleBuilder.cronSchedule(runnable.getCronExpression());
                 switch (runnable.getMisfirePolicy())
@@ -596,11 +585,12 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
             {
                 result.put("cronExpression", ((CronTrigger) trigger).getCronExpression());
             }
-            
+            result.put("completed", false);
         }
         else
         {
-            result.put("enabled", true);
+            result.put("enabled", true); //FIXME with the persisting tasks with no trigger, rethink it
+            result.put("completed", true);
         }
         
         return result;
@@ -1009,6 +999,43 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
         
         result.put("id", id);
         return result;
+    }
+    
+    /**
+     * Removes the completed tasks
+     * @return The information of deleted tasks
+     * @throws SchedulerException if an error occured
+     */
+    @Callable
+    public List<Map<String, Object>> removeCompletedTasks() throws SchedulerException
+    {
+        if (_rightsManager.hasRight(_currentUserProvider.getUser(), __RIGHT_SCHEDULER, "/application") != RightsManager.RightResult.RIGHT_OK)
+        {
+            // FIXME Currently unable to assign rights to a user in the _admin workspace
+            // throw new RightsException("Insufficient rights to remove a task");
+        }
+        
+        List<Map<String, Object>> targets = new ArrayList<>();
+        
+        List<JobKey> jobsToRemove = new ArrayList<>();
+        for (JobKey jobKey : getJobs())
+        {
+            JobDetail jobDetail = _scheduler.getJobDetail(jobKey);
+            JobDataMap jobDataMap = jobDetail.getJobDataMap();
+            boolean isRemovable = jobDataMap.getBoolean(KEY_RUNNABLE_REMOVABLE);
+            if (!_scheduler.checkExists(new TriggerKey(jobKey.getName(), TRIGGER_GROUP)) && isRemovable)
+            {
+                jobsToRemove.add(jobKey);
+            }
+        }
+        
+        targets.addAll(getTasksInformation(jobsToRemove.stream().map(JobKey::getName).collect(Collectors.toList())));
+        for (JobKey jobKey : jobsToRemove)
+        {
+            _scheduler.deleteJob(jobKey);
+        }
+        
+        return targets;
     }
     
     /**
