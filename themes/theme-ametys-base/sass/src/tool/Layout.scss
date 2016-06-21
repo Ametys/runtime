@@ -216,7 +216,7 @@
         
     .a-tool-layout-zoned-notfocused.a-tool-layout-zoned-panel-#{$index*10} {
             a {
-                color: darken($ametys-tool-tab-gray-dark, 10);
+                color: darken($ametys-tool-tab-gray-dark, 15);
             }
     
             @include tab-color(
@@ -237,7 +237,7 @@
         
     .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-#{$index*10} {
             a {
-                color: nth($ametys-tool-tab-colors, $i);
+                color: nth($ametys-tool-tab-colors-dark, $i);
             }
     
             @include tab-color(
