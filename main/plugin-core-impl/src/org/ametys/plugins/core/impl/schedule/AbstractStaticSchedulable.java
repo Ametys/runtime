@@ -45,9 +45,9 @@ import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
 /**
  * Default static implementation of {@link Schedulable}
  * For implementing the {@link Schedulable} interface (while being {@link Configurable}), extends this class and implements the {@link #execute(org.quartz.JobExecutionContext)} method
- * &lt;br/&gt;
+ * <br/>
  * For instance:
- * &lt;pre&gt;
+ * <pre>
  * public class SayHelloSchedulable extends AbstractStaticSchedulable
  * {
  *     public static final String FIRSTNAME_KEY = "firstName";
@@ -62,7 +62,7 @@ import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
  *         System.out.println("[" + jobKey + "] " + new Date() + " - Hello  " + name + "!");
  *     }
  * }
- * &lt;/pre&gt;
+ * </pre>
  */
 public abstract class AbstractStaticSchedulable extends AbstractLogEnabled implements Schedulable, Component, Configurable, PluginAware, Serviceable, Contextualizable
 {
