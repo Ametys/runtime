@@ -1,3 +1,10 @@
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/border-management.scss:50 */
+.x-panel-light-outer-border-tb {
+    border-top-color: #f2f2f2 !important;
+    border-top-width: 1px !important;
+    border-bottom-color: #f2f2f2 !important;
+    border-bottom-width: 1px !important;
+}
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/border-management.scss:56 */
 .x-panel-light-outer-border-tbl {
     border-top-color: #f2f2f2 !important;
@@ -17018,8 +17025,4 @@
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:351 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-tr {
     background-position: right -15px;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/frame.scss:355 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed-bl {
-    background-position: 0 -20px;
 }
