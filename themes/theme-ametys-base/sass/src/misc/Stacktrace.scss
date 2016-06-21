@@ -18,11 +18,12 @@
     white-space: nowrap;    
 } 
 
-.callstack .filename {
+.callstack .filename,
+.callstack a.filename:link {
     color: $ametys-stacktrace-filename-color;
     text-decoration: none;
 }
-.callstack .filename:hover {
+.callstack a.filename:hover {
     text-decoration: underline;
 }
 .callstack .line {
