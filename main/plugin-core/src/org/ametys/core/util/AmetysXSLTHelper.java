@@ -265,6 +265,55 @@ public class AmetysXSLTHelper implements Contextualizable, Serviceable
     }
     
     /**
+     * Split the text.
+     * @param textToSplit the text to split.
+     * @param tokenizers the tokenizer characters.
+     * @param startIndex the minimum number of characters of the result string
+     * @return the split text.
+     */
+    public static String splitText(String textToSplit, String tokenizers, int startIndex)
+    {
+        String tokenizableText = textToSplit.substring(startIndex != 0 ? startIndex - 1 : 0, textToSplit.length());
+        
+        int tokenPlace = StringUtils.indexOfAny(tokenizableText, tokenizers);
+        
+        if (tokenPlace == -1)
+        {
+            return textToSplit;
+        }
+        else
+        {
+            return textToSplit.substring(0, startIndex - 1 + tokenPlace);
+        }
+    }
+    
+    /**
+     * Split the text.
+     * @param textToSplit the text to split.
+     * @param tokenizers the tokenizer characters.
+     * @param maxCharacters the maximum number of characters of the result string
+     * @param currentCharactersNumber the current character number.
+     * @return the split text.
+     */
+    @Deprecated
+    public static String splitText(String textToSplit, String tokenizers, int maxCharacters, int currentCharactersNumber)
+    {
+        int tokenStartIndex = maxCharacters - currentCharactersNumber - 1;
+        String tokenizableText = textToSplit.substring(tokenStartIndex, textToSplit.length());
+        
+        int tokenPlace = StringUtils.indexOfAny(tokenizableText, tokenizers);
+        
+        if (tokenPlace == -1)
+        {
+            return textToSplit;
+        }
+        else
+        {
+            return textToSplit.substring(0, tokenStartIndex + tokenPlace);
+        }
+    }
+    
+    /**
      * Get the versions of the application.
      * Default VersionsHandler impl will return Ametys and Application versions
      * @return The versions &lt;Version&gt;&lt;Version&gt;&lt;Name&gt;X&lt;/Name&gt;&lt;Version&gt;X&lt;/Version&gt;&lt;Date&gt;X&lt;/Date&gt;&lt;/Version&gt;&lt;/Versions&gt; (empty tags are removed)
