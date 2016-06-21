@@ -320,6 +320,7 @@ Ext.define('Ametys.form.widget.RichText.RichTextConfiguration', {
     // Register SPAN for bookmark purposes
     Ametys.form.widget.RichText.RichTextConfiguration.handleTag("span").emptyTag = "!";
     Ametys.form.widget.RichText.RichTextConfiguration.handleTag("span").handleAttribute("id");
+    Ametys.form.widget.RichText.RichTextConfiguration.handleTag("span").handleAttribute("data-mce-type");
 	
 	Ametys.form.widget.RichText.RichTextConfiguration.addCSSFile(Ametys.getPluginResourcesPrefix('core-ui') + "/css/Ametys/form/RichTextConfiguration-Inline.css");
 })();

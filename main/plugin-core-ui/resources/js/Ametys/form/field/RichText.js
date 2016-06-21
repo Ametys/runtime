@@ -356,7 +356,7 @@ Ext.define('Ametys.form.field.RichText', {
         
         this.callParent(arguments);
         
-        this._sendDelayedSelection = Ext.Function.createBuffered(this._sendDelayedSelection, 10, this);
+        this._sendDelayedSelection = Ext.Function.createBuffered(this._sendDelayedSelection, Ext.isIE ? 80 : 10, this); // We buffer the sendSelection to avoid multiple events, but IE seems to need more time to eat them.
     },
     
     _onCodeFocus: function() {
@@ -667,10 +667,18 @@ Ext.define('Ametys.form.field.RichText', {
     /**
      * @private
      * This method is called for IE only to bookmark the cursor position as IE may forgot it and restore the cursor to the 1st character.
-     * It used in conjonction with #_restorePostion 
+     * It used in conjonction with #_restorePostion
+     * @param {Obejct} o A tinymce object for command 
      */
-    _savePosition: function()
+    _savePosition: function(o)
     {
+        if (o.command == "AutoUrlDetect" /* The autolink plugin send this command on focus to test if IE has this feature */
+            || o.command == "mceCleanup" /* Do not change bookmark after a cleanup */
+            || o.command == "mceAddUndoLevel" /* Do not change bookmark after a addundolevel */)
+        {
+            return;
+        }
+        
         var editor = this.getEditor();
         editor._bookmark = editor.selection.getBookmark(1);
     },
@@ -679,13 +687,22 @@ Ext.define('Ametys.form.field.RichText', {
      * @private
      * This method is called for IE only to restore the cursor bookmark as IE may forgot it and restore the cursor to the 1st character.
      * It used in conjonction with #_savePosition 
+     * @param {Obejct} o A tinymce object for command 
      */
-    _restorePosition: function()
+    _restorePosition: function(o)
     {
+        if (o.command == "AutoUrlDetect" /* The autolink plugin send this command on focus to test if IE has this feature */
+            || o.command == "mceCleanup" /* Do not change bookmark after a cleanup */
+            || o.command == "mceAddUndoLevel" /* Do not change bookmark after a addundolevel */)
+        {
+            return;
+        }
+        
         var editor = this.getEditor();
         if (editor._bookmark)
         {
             editor.selection.moveToBookmark(editor._bookmark);
+            editor._bookmark = null;
         }
     },
 
@@ -695,7 +712,7 @@ Ext.define('Ametys.form.field.RichText', {
      */
     _enhanceTinyMCE: function()
     {
-        if (!tinyMCE.focus)
+        if (!tinyMCE.insertHTMLAtRoot)
         {
             /*
              * Insert the given html code at the root of the current selection of the current editor
