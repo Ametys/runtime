@@ -79,7 +79,7 @@ Ext.define('Ametys.plugins.coreui.schedule.EditTaskHelper', {
                 align: "stretch"
             },
             
-            defaultFocus: 'label',
+            defaultFocus: '[name=label]',
             items: this._getItems(response.fireProcesses, response.schedulables),
             
             buttons:  [{
