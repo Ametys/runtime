@@ -46,6 +46,7 @@ import org.ametys.core.ui.MessageTargetFactoriesManager;
 import org.ametys.core.ui.RelationsManager;
 import org.ametys.core.ui.RibbonConfigurationManager;
 import org.ametys.core.ui.RibbonControlsManager;
+import org.ametys.core.ui.RibbonImportManager;
 import org.ametys.core.ui.RibbonManager;
 import org.ametys.core.ui.RibbonManagerCache;
 import org.ametys.core.ui.RibbonTabsManager;
@@ -98,6 +99,8 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
     protected UserHelper _userHelper;
     /** The ribbon manager cache helper */
     protected RibbonManagerCache _ribbonManagerCache;
+    /** The ribbon import manager */
+    protected RibbonImportManager _ribbonImportManager;
     
     @Override
     public void service(ServiceManager smanager) throws ServiceException
@@ -117,6 +120,7 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
         _jsonUtils = (JSONUtils) smanager.lookup(JSONUtils.ROLE);
         _userHelper = (UserHelper) smanager.lookup(UserHelper.ROLE);
         _ribbonManagerCache = (RibbonManagerCache) smanager.lookup(RibbonManagerCache.ROLE);
+        _ribbonImportManager = (RibbonImportManager) smanager.lookup(RibbonImportManager.ROLE);
     }
     
     @Override
@@ -163,7 +167,8 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
         try
         {
             ribbonManager = _ribbonManagerCache.getManager(ribbonConfig.getURI());
-            RibbonConfigurationManager ribbonConfigurationManager = new RibbonConfigurationManager(_ribbonControlManager, ribbonManager, _ribbonTabManager, _saxClientSideElementHelper, _resolver, dependenciesManager, _ribbonManagerCache, ribbonConfig);
+            String workspaceName = (String) ObjectModelHelper.getRequest(objectModel).getAttribute("workspaceName");
+            RibbonConfigurationManager ribbonConfigurationManager = new RibbonConfigurationManager(_ribbonControlManager, ribbonManager, _ribbonTabManager, _ribbonImportManager, _saxClientSideElementHelper, _resolver, dependenciesManager, _ribbonManagerCache, ribbonConfig, workspaceName);
             ribbonConfigurationManager.saxRibbonDefinition(contentHandler, contextParameters);
             elementsToSax = getElementsToSax(dependenciesManager, ribbonConfigurationManager);
         }

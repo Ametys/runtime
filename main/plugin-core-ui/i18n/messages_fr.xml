@@ -1358,4 +1358,10 @@
     <message key="PLUGINS_CORE_UI_TASKS_NO_MODIFIABLE_TITLE">Tâche non modifiable</message>
     <message key="PLUGINS_CORE_UI_TASKS_NO_MODIFIABLE_MSG">Cette tâche ne peut pas être modifiée.</message>
          
+    <!-- +
+        | RIBBON
+        + -->
+    <message key="RIBBON_TABS_TAB_DEVELOPER_LABEL">Développeur</message>
+    <message key="RIBBON_TABS_TAB_DEVELOPER_GROUPS_GROUP_TOOLS_LABEL">Outils développeur</message>
+    
 </catalogue>

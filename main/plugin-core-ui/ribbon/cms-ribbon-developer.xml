@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2016 Anyware Services
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
+<ribbon  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://ametys.org/cms/3.0/ribbon.xsd">
+
+    <tabs>
+    
+        <tab label="plugin.core-ui:RIBBON_TABS_TAB_DEVELOPER_LABEL">
+            <groups>
+                <group label="plugin.core-ui:RIBBON_TABS_TAB_DEVELOPER_GROUPS_GROUP_TOOLS_LABEL" icon="">
+                    <large>
+                        <control>
+                            <menu-items>
+                                <item ref="org.ametys.runtime.userinterface.MessageTrackerControl" primaryItem="true"/>
+                                <item ref="org.ametys.runtime.userinterface.MessageTrackerControl.clear"/>
+                            </menu-items>
+                        </control>
+                        <control>
+                            <menu-items>
+                                <item ref="org.ametys.runtime.userinterface.RequestTrackerControl" primaryItem="true"/>
+                                <item ref="org.ametys.runtime.userinterface.RequestTrackerControl.clear"/>
+                            </menu-items>
+                        </control>
+                        <control>
+                            <menu-items>
+                                <item ref="org.ametys.runtime.userinterface.ConsoleLogControl" primaryItem="true"/>
+                                <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toDebug"/>
+                                <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toInfo"/>
+                                <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toWarn"/>
+                                <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toError"/>
+                                <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.clear"/>
+                            </menu-items>
+                        </control>
+                        <control id="org.ametys.runtime.userinterface.DevMode"/>
+                    </large>
+                </group>
+            </groups>
+        </tab>
+        
+    </tabs>
+</ribbon>

@@ -18,6 +18,7 @@ package org.ametys.core.ui;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -26,6 +27,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -148,33 +150,39 @@ public class RibbonConfigurationManager
     protected Set<String> _controlsReferences = new HashSet<>();
     /** The tabs referenced by the ribbon */
     protected Set<String> _tabsReferences = new HashSet<>();
+    /** The ribbon controls manager */
+    protected RibbonControlsManager _ribbonControlManager;
+    /** The ribbon import manager */
+    protected RibbonImportManager _ribbonImportManager;
     
     private boolean _initialized;
-    private RibbonControlsManager _ribbonControlManager;
     
     /**
      * Constructor
      * @param ribbonControlManager The ribbon control manager
      * @param ribbonManager The ribbon manager for this config
      * @param ribbonTabManager the ribbon tab manager
+     * @param ribbonImportManager The ribbon import manager
      * @param saxClientSideElementHelper the helper to SAX client side element
      * @param resolver the excalibur source resolver
      * @param dependenciesManager The dependencies manager
      * @param ribbonManagerCache The ribbon manager cache helper
      * @param config the ribbon configuration
+     * @param workspaceName The current workspace name
      * @throws RuntimeException if an error occurred
      */
-    public RibbonConfigurationManager (RibbonControlsManager ribbonControlManager, RibbonManager ribbonManager, RibbonTabsManager ribbonTabManager, SAXClientSideElementHelper saxClientSideElementHelper, SourceResolver resolver, ClientSideElementDependenciesManager dependenciesManager, RibbonManagerCache ribbonManagerCache, Source config)
+    public RibbonConfigurationManager (RibbonControlsManager ribbonControlManager, RibbonManager ribbonManager, RibbonTabsManager ribbonTabManager, RibbonImportManager ribbonImportManager, SAXClientSideElementHelper saxClientSideElementHelper, SourceResolver resolver, ClientSideElementDependenciesManager dependenciesManager, RibbonManagerCache ribbonManagerCache, Source config, String workspaceName)
     {
         _ribbonControlManager = ribbonControlManager;
         _ribbonManager = ribbonManager;
         _ribbonTabManager = ribbonTabManager;
+        _ribbonImportManager = ribbonImportManager;
         _saxClientSideElementHelper = saxClientSideElementHelper;
         _resolver = resolver;
         
         try
         {
-            _configure(config, dependenciesManager, ribbonManagerCache);
+            _configure(config, dependenciesManager, ribbonManagerCache, workspaceName);
         }
         catch (Exception e)
         {
@@ -182,7 +190,7 @@ public class RibbonConfigurationManager
         }
     }
 
-    private void _configure(Source config, ClientSideElementDependenciesManager dependenciesManager, RibbonManagerCache ribbonManagerCache) throws Exception
+    private void _configure(Source config, ClientSideElementDependenciesManager dependenciesManager, RibbonManagerCache ribbonManagerCache, String workspaceName) throws Exception
     {
         synchronized (_ribbonManager)
         {
@@ -199,12 +207,15 @@ public class RibbonConfigurationManager
             importsValidity.put(config.getURI(), config.getLastModified());
             _configure(configuration, dependenciesManager, importsValidity);
             
+            _configureAutomaticImports(dependenciesManager, workspaceName, importsValidity);
+            _configureTabOrder();
+            
             ribbonManagerCache.addCachedConfiguration(_ribbonManager, _ribbonConfig, importsValidity);
             _ribbonManager.initializeExtensions();
         }
     }
 
-    private void _configure(Configuration configuration, ClientSideElementDependenciesManager dependenciesManager, Map<String, Long> importUri) throws ConfigurationException
+    private void _configure(Configuration configuration, ClientSideElementDependenciesManager dependenciesManager, Map<String, Long> importValidity) throws ConfigurationException
     {
         if (_logger.isDebugEnabled())
         {
@@ -237,39 +248,65 @@ public class RibbonConfigurationManager
             else if ("import".equals(tabConfiguration.getName()))
             {
                 String url = tabConfiguration.getValue();
-                Source src = null;
-                try
-                {
-                    src = _resolver.resolveURI(url);
-                    if (!src.exists())
-                    {
-                        _logger.warn("Cannot import unexisting file " + url);
-                    }
-                    else
-                    {
-                        importUri.put(url, src.getLastModified());
-                        
-                        try (InputStream is = src.getInputStream())
-                        {
-                            Configuration importedConfiguration = new DefaultConfigurationBuilder().build(is);
-                            _configure(importedConfiguration, dependenciesManager, importUri);
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    throw new ConfigurationException("Cannot import file " + url, e);
-                }
-                finally
-                {
-                    _resolver.release(src);
-                }
+                _configureImport(dependenciesManager, importValidity, url);
             }
         }
 
         if (_logger.isDebugEnabled())
         {
             _logger.debug("Ending reading ribbon configuration");
+        }
+    }
+
+    private void _configureAutomaticImports(ClientSideElementDependenciesManager dependenciesManager, String workspaceName, Map<String, Long> importsValidity) throws ConfigurationException
+    {
+        for (String extensionId : _ribbonImportManager.getExtensionsIds())
+        {
+            RibbonImport ribbonImportExtension = _ribbonImportManager.getExtension(extensionId);
+            if (ribbonImportExtension != null)
+            {
+                for (Entry<List<String>, Pattern> importFiles : ribbonImportExtension.getImports().entrySet())
+                {
+                    if (importFiles.getValue().matcher(workspaceName).matches())
+                    {
+                        for (String url : importFiles.getKey())
+                        {
+                            _configureImport(dependenciesManager, importsValidity, url);                                
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void _configureImport(ClientSideElementDependenciesManager dependenciesManager, Map<String, Long> importUri, String url) throws ConfigurationException
+    {
+        Source src = null;
+        try
+        {
+            src = _resolver.resolveURI(url);
+            if (!src.exists())
+            {
+                _logger.warn("Cannot import unexisting file " + url);
+            }
+            else
+            {
+                importUri.put(url, src.getLastModified());
+                
+                try (InputStream is = src.getInputStream())
+                {
+                    Configuration importedConfiguration = new DefaultConfigurationBuilder().build(is);
+                    _configure(importedConfiguration, dependenciesManager, importUri);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            throw new ConfigurationException("Cannot import file " + url, e);
+        }
+        finally
+        {
+            _resolver.release(src);
         }
     }
     
@@ -292,6 +329,12 @@ public class RibbonConfigurationManager
             }
         }
         return elements;
+    }
+    
+    private void _configureTabOrder()
+    {
+        List<Tab> tabs = _ribbonConfig.getTabs();
+        Collections.sort(tabs, (tab1, tab2) -> tab1.isContextual() == tab2.isContextual() ? 0 : (tab1.isContextual() ? 1 : -1));
     }
     
     /**
@@ -769,6 +812,15 @@ public class RibbonConfigurationManager
         {
             return _tabs;
         }
+        
+        /**
+         * Set the tabs for this configuration
+         * @param tabs The tabs
+         */
+        public void setTabs(List<Tab> tabs)
+        {
+            _tabs = tabs;
+        }
 
         /**
          * Get the app menu elements for this configuration
@@ -847,6 +899,15 @@ public class RibbonConfigurationManager
         public String getId()
         {
             return _id;
+        }
+        
+        /**
+         * Return true if the tab is contextual
+         * @return true if the tab is contextual
+         */
+        public Boolean isContextual()
+        {
+            return _id != null;
         }
 
         /**

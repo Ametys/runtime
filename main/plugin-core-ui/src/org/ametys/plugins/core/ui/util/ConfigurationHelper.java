@@ -149,6 +149,51 @@ public final class ConfigurationHelper
     }
     
     /**
+     * Parse a plugin files list configuration and return the list of URIs.
+     * @param configuration The plugin files list configuration.
+     * @param defaultPluginName The default plugin name to use for the files. 
+     * @param logger The logger.
+     * @return The list of complete URIs of files to import.
+     * @throws ConfigurationException If an error occurs
+     */
+    public static List<String> parsePluginResourceUri(Configuration configuration, String defaultPluginName, Logger logger) throws ConfigurationException
+    {
+        List<String> fileURIs = new ArrayList<>();
+        String listDefaultPlugin = configuration.getAttribute("plugin", defaultPluginName);
+        for (Configuration fileConfiguration : configuration.getChildren("file"))
+        {
+            String fileURI = _getPluginResourceUri(fileConfiguration, listDefaultPlugin, logger);
+            
+            fileURIs.add(fileURI);
+        }
+        return fileURIs;
+    }
+    
+    /**
+     * Get a plugin resource configuration value.
+     * @param configuration The plugin resource configuration.
+     * @param defaultPluginName The default plugin name to use for the resources. 
+     * @param logger The logger.
+     * @return The plugin resource full URL.
+     * @throws ConfigurationException If an error occurs
+     */
+    private static String _getPluginResourceUri(Configuration configuration, String defaultPluginName, Logger logger) throws ConfigurationException
+    {
+        String pluginName = configuration.getAttribute("plugin", defaultPluginName);
+        
+        String value = configuration.getValue();
+        
+        String fullUrl = "plugin:" + pluginName + "://" + value;
+        
+        if (logger.isDebugEnabled())
+        {
+            logger.debug("Importing file uri '" + fullUrl + "'");
+        }
+        
+        return fullUrl;
+    }
+    
+    /**
      * Parse a mandatory configuration parameter {@link Configuration}.
      * @param configuration The {@link Configuration} to parse.
      * @return the configuration parameter value.

@@ -63,38 +63,6 @@
             </groups>
         </tab>
         
-        <tab label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_DEVELOPPER_LABEL">
-            <groups>
-                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_DEVELOPPER_GROUPS_GROUP_TOOLS" icon="">
-                    <large>
-                        <control>
-                            <menu-items>
-                                <item ref="org.ametys.runtime.userinterface.MessageTrackerControl" primaryItem="true"/>
-                                <item ref="org.ametys.runtime.userinterface.MessageTrackerControl.clear"/>
-                            </menu-items>
-                        </control>
-                        <control>
-                            <menu-items>
-                                <item ref="org.ametys.runtime.userinterface.RequestTrackerControl" primaryItem="true"/>
-                                <item ref="org.ametys.runtime.userinterface.RequestTrackerControl.clear"/>
-                            </menu-items>
-                        </control>
-                        <control>
-                            <menu-items>
-                                <item ref="org.ametys.runtime.userinterface.ConsoleLogControl" primaryItem="true"/>
-                                <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toDebug"/>
-                                <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toInfo"/>
-                                <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toWarn"/>
-                                <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toError"/>
-                                <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.clear"/>
-                            </menu-items>
-                        </control>
-                        <control id="org.ametys.runtime.userinterface.DevMode"/>
-                    </large>
-                </group>
-            </groups>
-        </tab>
-        
         <!-- Contextual tabs for system announcement -->
         <tab id="org.ametys.plugins.admin.SystemTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_SYSTEM_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_SYSTEM_LABEL" contextualColor="3" contextualGroup="SYS">
             <groups>

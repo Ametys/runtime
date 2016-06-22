@@ -135,6 +135,12 @@
                          safe="true">
             <!-- Provided additional script binding for the admin JS scripts tool -->
         </extension-point>
+        
+        <extension-point id="org.ametys.core.ui.RibbonImportManager"
+                         class="org.ametys.core.ui.RibbonImportManager"
+                         safe="true">
+            <!-- Handles the imports for the ribbon configuration -->
+        </extension-point>
     </extension-points>
     
     <feature name="saxclienthelper" safe="true">
@@ -3001,5 +3007,15 @@
                        class="org.ametys.core.ui.RibbonManagerCache"
                        logger="org.ametys.core.ui.RibbonManagerCache" />
         </components>
+        
+        <extensions>
+            <extension id="org.ametys.core.ui.ribbon.Imports"
+                           point="org.ametys.core.ui.RibbonImportManager"
+                           class="org.ametys.core.ui.StaticRibbonImportManager">
+                <workspace>
+                    <file>ribbon/cms-ribbon-developer.xml</file>
+                </workspace>
+           </extension>
+       </extensions>
     </feature>
 </plugin>
