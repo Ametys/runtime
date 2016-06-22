@@ -177,6 +177,12 @@ html.preview body.mceContentBody
 	padding: 0px;
 }
 
+.mceContentBody img[data-ametys-missing]
+{
+    background-image: url('../../../img/imagenotfound.png');
+    background-position: center;
+}
+
 /* -------------
        LINK
    ------------- */
