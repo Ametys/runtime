@@ -22,11 +22,11 @@ Ext.define('Ametys.plugins.coreui.schedule.AddTaskButtonController', {
     extend: 'Ametys.ribbon.element.ui.ButtonController',
     
     /**
-     * @cfg {String} [taskLabel] The label of the task which will be created
+     * @cfg {String} [taskLabel] The label of the task which will be created. Default to the controller label.
      */
     
     /**
-     * @cfg {String} [taskDescription] The description of the task which will be created
+     * @cfg {String} [taskDescription] The description of the task which will be created. Default to the controller description.
      */
     
     /**
@@ -50,11 +50,11 @@ Ext.define('Ametys.plugins.coreui.schedule.AddTaskButtonController', {
      */
     
     /**
-     * @cfg {String} [confirm-title] The title of the confirm dialog box. Must be non-null if {@link #cfg-confirm-msg} is non-null. If both are not-null, there will be no confirm dialog box.
+     * @cfg {String} [confirm-title] The title of the confirm dialog box. Must be non-null if {@link #cfg-confirm-msg} is non-null. If one is null, there will be no confirm dialog box.
      */
     
     /**
-     * @cfg {String} [confirm-msg] The message content of the confirm dialog box. Must be non-null if {@link #cfg-confirm-title} is non-null. If both are not-null, there will be no confirm dialog box.
+     * @cfg {String} [confirm-msg] The message content of the confirm dialog box. Must be non-null if {@link #cfg-confirm-title} is non-null. If one is null, there will be no confirm dialog box.
      */
     
     statics: {
@@ -71,7 +71,7 @@ Ext.define('Ametys.plugins.coreui.schedule.AddTaskButtonController', {
                 if (answer == 'yes')
                 {
                     Ametys.plugins.core.schedule.Scheduler.add(
-                        [controller.taskLabel || "", controller.taskDescription || "", controller.fireProcess || "NOW", controller.cron, controller.schedulable, controller['schedulable-parameters'] || {}], 
+                        [controller.taskLabel || controller.label, controller.taskDescription || controller.description, controller.fireProcess || "NOW", controller.cron, controller.schedulable, controller['schedulable-parameters'] || {}], 
                         this._openTools, 
                         {
                             scope: this, 
