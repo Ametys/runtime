@@ -27,6 +27,12 @@ body.mceContentBody
     background-color: #FFF;
 }
 
+body.mceContentBody:after {
+    clear: both;
+    content: " ";
+    display: block;
+}
+
 html.preview
 {
     background-color: #f0f0f0;
