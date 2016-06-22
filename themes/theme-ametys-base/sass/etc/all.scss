@@ -34,10 +34,10 @@
 
 @mixin buttons-color(
     $cls: #{$prefix}btn,
-    $color, $color-over, $color-focus, $color-pressed, $color-focus-over, $color-focus-pressed, $color-disabled,
+    $color, $color-over: $color, $color-focus: $color, $color-pressed: $color, $color-focus-over: $color-over, $color-focus-pressed: $color-pressed, $color-disabled: $color,
     $glyph-color: $color, $glyph-color-over: $color-over, $glyph-color-focus: $color-focus, $glyph-color-pressed: $color-pressed, $glyph-color-focus-over: $color-focus-over, $glyph-color-focus-pressed: $color-focus-pressed, $glyph-color-disabled: $color-disabled,
     $glyph-decorator-color, $glyph-decorator-color-over: $glyph-decorator-color, $glyph-decorator-color-focus: $glyph-decorator-color, $glyph-decorator-color-pressed: $glyph-decorator-color, $glyph-decorator-color-focus-over: $glyph-decorator-color-over, $glyph-decorator-color-focus-pressed: $glyph-decorator-color-pressed, $glyph-decorator-color-disabled: $glyph-decorator-color,
-    $border-color, $border-color-over, $border-color-focus, $border-color-pressed, $border-color-focus-over, $border-color-focus-pressed, $border-color-disabled,
+    $border-color: $color, $border-color-over: $border-color, $border-color-focus: $border-color, $border-color-pressed: $border-color, $border-color-focus-over: $border-color-over, $border-color-focus-pressed: $border-color-pressed, $border-color-disabled: $border-color,
     $background-color, $background-color-over, $background-color-focus, $background-color-pressed, $background-color-focus-over, $background-color-focus-pressed, $background-color-disabled,
     $dark-arrow)
 {

@@ -112,17 +112,33 @@
 }
 
 .a-configurable-form-panel-toc {
-   	.x-btn.error.not-startup .x-btn-inner {
+    margin-right: 5px; 
+    
+    @for $i from 1 through length($ametys-tool-tab-colors) {
+        $index: $i - 1;
+            
+        .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-#{$index*10} & {
+            @include buttons-color(
+                $color: nth($ametys-tool-tab-colors-dark, $i), 
+                $border-color-pressed: nth($ametys-tool-tab-colors, $i),
+                $background-color: #FFF, $background-color-pressed: nth($ametys-tool-tab-colors-light, $i)
+            );   
+            
+            .x-btn.x-btn-pressed {
+                border-right-width: 3px !important;
+            } 
+        }
+    }
+    
+   	.x-btn.error.not-startup .x-btn-button {
    		background-image: theme-background-image($form-error-icon-background-image);
-        background-position: round($form-error-icon-width/3) 0;
+        background-position: right;
         background-repeat: no-repeat;
-        padding-left: ($form-error-icon-width + horizontal($form-description-icon-side-margin));
    	}
    	
-   	.x-btn.warning.not-startup .x-btn-inner {
+   	.x-btn.warning.not-startup .x-btn-button {
         background-image: theme-background-image($ametys-form-field-warning-background-image); 
-        background-position: round($form-error-icon-width/3) 0;
+        background-position: right;
         background-repeat: no-repeat;
-        padding-left: ($ametys-form-field-warning-background-image-width + horizontal($form-description-icon-side-margin));
     }
 }

@@ -32,18 +32,18 @@ Ext.define('Ametys.form.ConfigurableFormPanel.TableOfContents', {
     	DEFAULT_NAVIGATION_ITEM_HEIGHT: 40,
         
          /**
-         * @property {Number} DEFAULT_MAX_WIDTH=350 The default max width of table of contents
+         * @property {Number} NAVIGATION_ITEM_MAX_WIDTH=350 The default max width of table of contents
          * @private
          * @readonly 
          */
-        DEFAULT_MAX_WIDTH: 500,
+        NAVIGATION_ITEM_MAX_WIDTH: 500,
         
         /**
-         * @property {Number} DEFAULT_MIN_WIDTH=350 The default min width of table of contents
+         * @property {Number} NAVIGATION_ITEM_MIN_WIDTH=350 The default min width of table of contents
          * @private
          * @readonly 
          */
-        DEFAULT_MIN_WIDTH: 150
+        NAVIGATION_ITEM_MIN_WIDTH: 150
     },
     
     /**
@@ -85,43 +85,37 @@ Ext.define('Ametys.form.ConfigurableFormPanel.TableOfContents', {
      * @property {Boolean} _scrollingHandled True if the scrolling of the form is currently handled, false otherwise
      */
     
-	initComponent: function()
+	constructor: function(config)
 	{
-    	Ext.applyIf(this, {
+        config = Ext.applyIf (config, {
+            scrollable: 'vertical',
+            
+            maxWidth: Ametys.form.ConfigurableFormPanel.TableOfContents.NAVIGATION_ITEM_MAX_WIDTH,
+            minWidth: Ametys.form.ConfigurableFormPanel.TableOfContents.NAVIGATION_ITEM_MIN_WIDTH,
+            
+            defaults: {
+                xtype: 'button',
+                textAlign: 'left',
+                border: false,
+                enableToggle: true,
+                toggleGroup: Ext.id() + '-toc',
+                flex: 1,
+                minHeight: (config.navItemHeight || Ametys.form.ConfigurableFormPanel.TableOfContents.DEFAULT_NAVIGATION_ITEM_HEIGHT) / 2,
+                maxHeight: config.navItemHeight || Ametys.form.ConfigurableFormPanel.TableOfContents.DEFAULT_NAVIGATION_ITEM_HEIGHT
+            },
+            
             layout: {
-                type: 'vbox'
-            }
-        });
-
-        Ext.apply(this, {
-            border: true,
+                type: 'vbox',
+                align: 'stretch'
+            },
+            border: false,
             shadow: false,
             
             cls: 'a-configurable-form-panel-toc',
             
             header: {
-            	title: '{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_TABLE_OF_CONTENTS_TITLE}}',
-            	height: 50
-            }
-        });
-
-        this.callParent(arguments);
-	},
-	
-	constructor: function(config)
-	{
-        config = Ext.applyIf (config, {
-            scrollable: 'vertical',
-            maxWidth: Ametys.form.ConfigurableFormPanel.TableOfContents.DEFAULT_MAX_WIDTH,
-            minWidth: Ametys.form.ConfigurableFormPanel.TableOfContents.DEFAULT_MIN_WIDTH,
-            defaults: {
-                xtype: 'button',
-                textAlign: 'left',
-                border: false,
-                width: '100%',
-                enableToggle: true,
-                toggleGroup: Ext.id() + '-toc',
-                height: config.navItemHeight || Ametys.form.ConfigurableFormPanel.TableOfContents.DEFAULT_NAVIGATION_ITEM_HEIGHT
+                title: '{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_TABLE_OF_CONTENTS_TITLE}}',
+                height: 50
             }
         });
         
