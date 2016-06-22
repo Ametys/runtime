@@ -85,7 +85,7 @@ public class WorkspaceGeneratorTestCase extends AbstractRuntimeTestCase
     private Document _getWorkspaceDocument(String ribbonFile) throws ServiceException, MalformedURLException, IOException, ParserConfigurationException, SAXException, SourceNotFoundException
     {
         SourceResolver resolver = (SourceResolver) Init.getPluginServiceManager().lookup(SourceResolver.ROLE);
-        Source source = resolver.resolveURI("cocoon://_plugins/workspace-generator-test/workspace-generator/" + ribbonFile);
+        Source source = resolver.resolveURI("cocoon://_workspace-test3/plugins/workspace-generator-test/workspace-generator/" + ribbonFile);
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
         Document document = db.parse(source.getInputStream());

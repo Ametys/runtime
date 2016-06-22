@@ -16,5 +16,15 @@
    -->
 <map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
 
-	<map:pipelines/>
+    <map:pipelines>
+        <map:pipeline>
+                    <!-- Direct plugins url -->
+            <map:match pattern="plugins/*/**">
+                <map:act type="setter">
+                    <map:parameter name="pluginName" value="{1}"/>
+                </map:act>
+                <map:mount check-reload="yes" src="plugin:{1}://" uri-prefix="plugins/{1}"/>
+            </map:match>
+        </map:pipeline>
+    </map:pipelines>
 </map:sitemap>
