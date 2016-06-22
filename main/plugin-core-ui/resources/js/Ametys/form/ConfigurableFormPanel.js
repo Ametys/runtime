@@ -356,7 +356,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                     type: 'hbox',
                     align: 'stretch'
                 },
-                scrollable: false // with a table of contents, the child items are scrollable
+                scrollable: true // with a table of contents, the child items are scrollable vertically. at minwidth this scroll is horizontal
             })
 		}
         
@@ -392,6 +392,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         this.showAmetysComments = config.showAmetysComments === true;
         
         this.on('afterrender', this._setFocusIfReady, this);
+        this.on('resize', this._onResize, this);
         
         if (config.defaultPathSeparator)
         {
@@ -587,6 +588,22 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             form: this,
             scrollable: 'vertical',
             flex: 0.2
+        }
+    },
+    
+    /**
+     * @private
+     * Listener on general resize
+     * @param {Ametys.form.ConfigurableFormPanel} panel
+     * @param {Number} width The panel width
+     * @param {Number} height The panel height
+     */
+    _onResize: function(panel, width, height)
+    {
+        var toc = this._getTableOfContents();
+        if (toc)
+        {
+            toc.setVisible(width >= this.getFormContainer().getInitialConfig().minWidth * 1.2);
         }
     },
     
