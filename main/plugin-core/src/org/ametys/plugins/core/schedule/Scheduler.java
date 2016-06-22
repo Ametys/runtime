@@ -104,6 +104,8 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
     public static final String KEY_RUNNABLE_DESCRIPTION = "description";
     /** The key for the runnable fire process property */
     public static final String KEY_RUNNABLE_FIRE_PROCESS = "fireProcess";
+    /** The key for 'run at startup' jobs indicating if the job has already been executed and is now completed */
+    public static final String KEY_RUNNABLE_STARTUP_COMPLETED = "runAtStartupCompleted";
     /** The key for the runnable cron expression */
     public static final String KEY_RUNNABLE_CRON = "cron";
     /** The key for the runnable removable property */
@@ -396,7 +398,8 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
         for (JobKey jobKey : getJobs())
         {
             JobDataMap jobDataMap = _scheduler.getJobDetail(jobKey).getJobDataMap();
-            if (FireProcess.STARTUP.toString().equals(jobDataMap.getString(KEY_RUNNABLE_FIRE_PROCESS)))
+            if (FireProcess.STARTUP.toString().equals(jobDataMap.getString(KEY_RUNNABLE_FIRE_PROCESS))
+                    && !jobDataMap.getBoolean(KEY_RUNNABLE_STARTUP_COMPLETED))
             {
                 _scheduler.triggerJob(jobKey);
             }
@@ -589,8 +592,9 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
         }
         else
         {
-            result.put("enabled", true); //FIXME with the persisting tasks with no trigger, rethink it
-            result.put("completed", true);
+            result.put("previousFireTime", jobDataMap.get(AmetysJob.KEY_PREVIOUS_FIRE_TIME));
+            result.put("enabled", true);
+            result.put("completed", !Runnable.FireProcess.STARTUP.toString().equals(jobDataMap.getString(KEY_RUNNABLE_FIRE_PROCESS)) || jobDataMap.getBoolean(KEY_RUNNABLE_STARTUP_COMPLETED));
         }
         
         return result;
@@ -1074,8 +1078,9 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
         try
         {
             _scheduler.shutdown();
+            AmetysJob.initialize(null, null, null);
         }
-        catch (SchedulerException e)
+        catch (SchedulerException | ServiceException | ContextException e)
         {
             getLogger().error("Fail to shutdown scheduler", e);
         }

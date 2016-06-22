@@ -29,9 +29,7 @@ import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.quartz.JobKey;
 import org.quartz.PersistJobDataAfterExecution;
-import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 
 import org.ametys.core.engine.BackgroundEngineHelper;
@@ -46,6 +44,8 @@ public class AmetysJob implements Job
 {
     /** The key for the last duration of the {@link #execute(org.quartz.JobExecutionContext)} method which is stored in the {@link JobDataMap} */
     public static final String KEY_LAST_DURATION = "duration";
+    /** The key for the previous fire time of this job which is stored in the {@link JobDataMap} */
+    public static final String KEY_PREVIOUS_FIRE_TIME = "previousFireTime";
     /** The key for the success state of the last execution of the job */
     public static final String KEY_SUCCESS = "success";
     
@@ -82,6 +82,10 @@ public class AmetysJob implements Job
     {
         boolean success = true;
         JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
+        
+        // Set the previous (which is actually the current) fire time in the map (because the trigger may no longer exist in the future)
+        jobDataMap.put(KEY_PREVIOUS_FIRE_TIME, context.getTrigger().getPreviousFireTime().getTime()); // possible with @PersistJobDataAfterExecution annotation
+        
         String runnableId = jobDataMap.getString(Scheduler.KEY_RUNNABLE_ID);
         String schedulableId = jobDataMap.getString(Scheduler.KEY_SCHEDULABLE_ID);
         Schedulable schedulable = _schedulableEP.getExtension(schedulableId);
@@ -115,17 +119,10 @@ public class AmetysJob implements Job
             // Success ?
             jobDataMap.put(KEY_SUCCESS, success);
             
-            // Run at startup tasks are one-shot tasks => if so, remove me
+            // Run at startup tasks are one-shot tasks => if so, indicates it is completed for never refiring it
             if (FireProcess.STARTUP.toString().equals(jobDataMap.getString(Scheduler.KEY_RUNNABLE_FIRE_PROCESS)))
             {
-                try
-                {
-                    _scheduler.getScheduler().deleteJob(new JobKey(runnableId, Scheduler.JOB_GROUP));
-                }
-                catch (SchedulerException e)
-                {
-                    _logger.error("Error when trying to delete the job " + runnableId, e);
-                }
+                jobDataMap.put(Scheduler.KEY_RUNNABLE_STARTUP_COMPLETED, true);
             }
         }
     }

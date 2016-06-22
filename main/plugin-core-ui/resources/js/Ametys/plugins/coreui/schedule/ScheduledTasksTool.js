@@ -344,7 +344,7 @@ Ext.define("Ametys.plugins.coreui.schedule.ScheduledTasksTool.TaskEntry", {
         {name: 'nextFireTime', convert: function(v, rec) {
             switch (rec.get('fireProcess')) {
                 case "STARTUP":
-                    return "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_STARTUP_TASK}}";
+                    return rec.get('completed') ? "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COMPLETED_TASK}}" : "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_NEXT_STARTUP_TASK}}";
                 case "NOW":
                     return rec.get('completed') ? "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COMPLETED_TASK}}" : "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_RUNNING_TASK}}";
                 case "CRON":
