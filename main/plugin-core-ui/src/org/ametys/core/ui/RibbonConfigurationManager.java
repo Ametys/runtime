@@ -341,25 +341,45 @@ public class RibbonConfigurationManager
     private void _configureTabOrder()
     {
         LinkedList<Tab> tabs = _ribbonConfig.getTabs();
-        Collections.sort(tabs, (tab1, tab2) -> tab1.isContextual() == tab2.isContextual() ? 0 : (tab1.isContextual() ? 1 : -1));
+        
+        // Sort by non-contextual first 
+        Collections.sort(tabs, (tab1, tab2) -> tab1.isContextual() != tab2.isContextual() ? (tab1.isContextual() ? 1 : -1) : 0);
         Map<String, Tab> labelMapping = tabs.stream().collect(Collectors.toMap(Tab::getLabel, Function.identity(), (tab1, tab2) -> tab1));
         
-        List<Tab> tabsToMove = tabs.stream().filter(tab -> tab.getOrder() instanceof String).collect(Collectors.toList());
+        // Move tabs whose order reference another tab
+        List<Tab> tabsToMove = tabs.stream().filter(tab -> tab.getOrderAsString() != null).collect(Collectors.toList());
         for (Tab tab : tabsToMove)
         {
-            String order = (String) tab.getOrder();
+            String order = tab.getOrderAsString();
             Tab referencedTab = order != null ? labelMapping.get(order) : null;
             if (order != null && referencedTab != null && referencedTab != tab && referencedTab.isContextual() == tab.isContextual())
             {
                 tabs.remove(tab);
                 int index = tabs.indexOf(referencedTab);
                 tabs.add(tab.orderBefore() ? index : index + 1, tab);
+                tab.setOrder(null);
             }
             else
             {
                 _logger.warn("Invalid tab attribute order with value '" + order + "' for tab '" + tab.getId() + "'. Default tab order will be used instead");
             }
         }
+        
+        // Set order value for all then sort
+        Object previousOrder = null;
+        for (Tab tab : tabs)
+        {
+            Integer tabOrder = tab.getOrderAsInteger();
+            if (tabOrder == null)
+            {
+                tab.setOrder(previousOrder);
+            }
+            else
+            {
+                previousOrder = tabOrder;
+            }
+        }
+        Collections.sort(tabs, (tab1, tab2) -> tab1.isContextual() == tab2.isContextual() ? tab1.getOrderAsInteger() - tab2.getOrderAsInteger() : 0);
     }
     
     /**
@@ -1061,11 +1081,37 @@ public class RibbonConfigurationManager
         
         /**
          * Get the order attribute of the tab
-         * @return Return the order, which is either a String or an Integer
+         * @return Return the order as a String, or null
          */
-        public Object getOrder()
+        public String getOrderAsString()
         {
-            return _order;
+            if (_order instanceof String)
+            {
+                return (String) _order;
+            }
+            return null;
+        }
+        
+        /**
+         * Get the order attribute of the tab
+         * @return Return the order as an Integer, or null
+         */
+        public Integer getOrderAsInteger()
+        {
+            if (_order instanceof Integer)
+            {
+                return (Integer) _order;
+            }
+            return null;
+        }
+        
+        /**
+         * Set the order attribute of the tab
+         * @param order The new order value, either a String or an Integer
+         */
+        public void setOrder(Object order)
+        {
+            _order = order;
         }
         
         /**
