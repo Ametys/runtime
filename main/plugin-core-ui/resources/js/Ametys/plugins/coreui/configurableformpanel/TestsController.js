@@ -83,7 +83,15 @@ Ext.define('Ametys.plugins.coreui.configurableformpanel.TestsController', {
 				"</div>"
 			);
 		
+		var noFailures = testResults.failures + testResults.notTested == 0;
+		var noTests = testResults.successes + testResults.failures + testResults.notTested == 0;
+
+		if (this._mode == 'missed')
+		{
+			this.setIconDecorator (noFailures ? 'decorator-flaticon-checked34' : 'decorator-flaticon-alert9');
+		}
+
+		this.setDisabled(this._mode == 'all' ? noTests : noFailures);
 		this.setDescription(tpl.applyOut(testResults, html)[0]);
-		this.setDisabled(this._mode == 'all' ? testResults.successes + testResults.failures + testResults.notTested == 0 : testResults.failures + testResults.notTested == 0);
 	}
 });
