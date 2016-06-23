@@ -35,6 +35,8 @@ public class SendMailSchedulable extends AbstractStaticSchedulable
     public static final String SUBJECT_KEY = "subject";
     /** The key for the body of the email */
     public static final String BODY_KEY = "body";
+    /** The key for the HTML state of the body of the email */
+    public static final String IS_HTML_BODY_KEY = "html";
     
     @Override
     public void execute(JobExecutionContext context) throws Exception
@@ -44,6 +46,7 @@ public class SendMailSchedulable extends AbstractStaticSchedulable
         String recipients = (String) jobDataMap.get(Scheduler.PARAM_VALUES_PREFIX + RECIPIENTS_KEY);
         String subject = (String) jobDataMap.get(Scheduler.PARAM_VALUES_PREFIX + SUBJECT_KEY);
         String body = (String) jobDataMap.get(Scheduler.PARAM_VALUES_PREFIX + BODY_KEY);
+        boolean isHtml = jobDataMap.getBoolean(Scheduler.PARAM_VALUES_PREFIX + IS_HTML_BODY_KEY);
 
         StringBuilder builder = new StringBuilder(); // the builder for the addresses separated by a space
         for (String recipient : recipients.split("\\n"))
@@ -55,6 +58,13 @@ public class SendMailSchedulable extends AbstractStaticSchedulable
             builder.append(recipient.trim());
         }
         
-        SendMailHelper.sendMail(subject, body, null, builder.toString(), sender);
+        if (isHtml)
+        {
+            SendMailHelper.sendMail(subject, body, null, builder.toString(), sender);
+        }
+        else
+        {
+            SendMailHelper.sendMail(subject, null, body, builder.toString(), sender);
+        }
     }
 }

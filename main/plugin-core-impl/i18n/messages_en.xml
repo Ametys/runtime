@@ -211,6 +211,8 @@
     <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_SUBJECT_DESCRIPTION">Subject of the mail</message>
     <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_BODY_LABEL">Body</message>
     <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_BODY_DESCRIPTION">Body of the mail</message>
+    <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_IS_HTML_BODY_LABEL">HTML ?</message>
+    <message key="PLUGINS_CORE_SCHEDULER_SEND_MAIL_IS_HTML_BODY_DESCRIPTION">Check this box if the body of the mail is written in HTML</message>
     <message key="PLUGINS_CORE_SCHEDULER_EXECUTE_SCRIPT_LABEL">Execute a script</message>
     <message key="PLUGINS_CORE_SCHEDULER_EXECUTE_SCRIPT_DESCRIPTION">This task serves to execute server scripts with the Javascript syntax</message>
     <message key="PLUGINS_CORE_SCHEDULER_EXECUTE_SCRIPT_CODE_LABEL">Script</message>

@@ -1276,6 +1276,14 @@
                             <param name="height">130</param>
                         </widget-params>
                     </param>
+                    <param id="html" type="boolean">
+                        <label i18n="true">PLUGINS_CORE_SCHEDULER_SEND_MAIL_IS_HTML_BODY_LABEL</label>
+                        <description i18n="true">PLUGINS_CORE_SCHEDULER_SEND_MAIL_IS_HTML_BODY_DESCRIPTION</description>
+                        <validation>
+                            <mandatory/>
+                        </validation>
+                        <default-value>true</default-value>
+                    </param>
                 </parameters>
             </extension>
         </extensions>
