@@ -1026,8 +1026,8 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
         {
             JobDetail jobDetail = _scheduler.getJobDetail(jobKey);
             JobDataMap jobDataMap = jobDetail.getJobDataMap();
-            boolean isRemovable = jobDataMap.getBoolean(KEY_RUNNABLE_REMOVABLE);
-            if (!_scheduler.checkExists(new TriggerKey(jobKey.getName(), TRIGGER_GROUP)) && isRemovable)
+            if (!Runnable.FireProcess.STARTUP.toString().equals(jobDataMap.getString(KEY_RUNNABLE_FIRE_PROCESS)) && !_scheduler.checkExists(new TriggerKey(jobKey.getName(), TRIGGER_GROUP)) // no trigger left when CRON or NOW
+                    || Runnable.FireProcess.STARTUP.toString().equals(jobDataMap.getString(KEY_RUNNABLE_FIRE_PROCESS)) && jobDataMap.getBoolean(KEY_RUNNABLE_STARTUP_COMPLETED)) // explicitly said completed when STARTUP
             {
                 jobsToRemove.add(jobKey);
             }
