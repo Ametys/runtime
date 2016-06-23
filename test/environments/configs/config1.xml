@@ -40,5 +40,5 @@
     <runtime.captcha.recaptcha.secretkey/>
 	<runtime.ametys.public>true</runtime.ametys.public>
 	<runtime.system.alerts.enable>false</runtime.system.alerts.enable>
-	<runtime.scheduler.datasource>SQL-test</runtime.scheduler.datasource>
+	<runtime.scheduler.datasource>SQL-ametys-internal</runtime.scheduler.datasource>
 </config>
