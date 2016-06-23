@@ -791,15 +791,15 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
         var fieldsToRename = {};
     	
         // Shift standard fields.
-        var prefix = me.prefix + me.name + this.defaultPathSeparator + index;
-        var fieldNames = this.form.getFieldNames();
+        var prefix = me.prefix + me.name + me.defaultPathSeparator + index;
+        var fieldNames = me.form.getFieldNames();
     	for (var i = 0; i < fieldNames.length; i++)
     	{
     		var fieldName = fieldNames[i];
-    		if (fieldName.indexOf(prefix + this.defaultPathSeparator) == 0)
+    		if (fieldName.indexOf(prefix + me.defaultPathSeparator) == 0)
     		{
     			var field = me.form.getField(fieldName);
-    			var newName = me.prefix + me.name + this.defaultPathSeparator + (index + offset) + this.defaultPathSeparator + fieldName.substring(prefix.length + 1);
+    			var newName = me.prefix + me.name + me.defaultPathSeparator + (index + offset) + me.defaultPathSeparator + fieldName.substring(prefix.length + 1);
     			me._setFieldName(field, newName);
     			
     			fieldsToRename[fieldName] = newName;
@@ -807,18 +807,18 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
     	}
     	
     	// Shift hidden fields (which name starts with an underscore).
-    	prefix = '_' + me.prefix + me.name + this.defaultPathSeparator + index;
+    	prefix = '_' + me.prefix + me.name + me.defaultPathSeparator + index;
     	me.form.getForm().getFields().each(function(formField) {
-    	    if (formField.name && formField.name.indexOf(prefix + this.defaultPathSeparator) == 0)
+    	    if (formField.name && formField.name.indexOf(prefix + me.defaultPathSeparator) == 0)
 	        {
-    	        var newName = '_' + me.prefix + me.name + this.defaultPathSeparator + (index + offset) + this.defaultPathSeparator + formField.name.substring(prefix.length + 1);
+    	        var newName = '_' + me.prefix + me.name + me.defaultPathSeparator + (index + offset) + me.defaultPathSeparator + formField.name.substring(prefix.length + 1);
     	        me._setFieldName(formField, newName);
 	        }
 	    });
     	
     	for (var oldName in fieldsToRename)
 		{
-    		this.form._onRenameField(oldName, fieldsToRename[oldName]);
+    		me.form._onRenameField(oldName, fieldsToRename[oldName]);
 		}
     },
     
