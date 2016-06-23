@@ -1078,9 +1078,9 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
         try
         {
             _scheduler.shutdown();
-            AmetysJob.initialize(null, null, null);
+            AmetysJob.dispose();
         }
-        catch (SchedulerException | ServiceException | ContextException e)
+        catch (SchedulerException e)
         {
             getLogger().error("Fail to shutdown scheduler", e);
         }

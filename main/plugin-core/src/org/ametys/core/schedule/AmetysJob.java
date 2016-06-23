@@ -77,6 +77,18 @@ public class AmetysJob implements Job
         _logger = logger;
     }
     
+    /**
+     * Releases and destoys used resources
+     */
+    public static void dispose()
+    {
+        _serviceManager = null;
+        _schedulableEP = null;
+        _scheduler = null;
+        _environmentContext = null;
+        _logger = null;
+    }
+    
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException
     {
