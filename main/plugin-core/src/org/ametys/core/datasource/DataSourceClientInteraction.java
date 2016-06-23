@@ -34,6 +34,7 @@ import org.ametys.core.datasource.AbstractDataSourceManager.DataSourceDefinition
 import org.ametys.core.ui.Callable;
 import org.ametys.core.util.I18nUtils;
 import org.ametys.runtime.i18n.I18nizableText;
+import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
 import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 
 /**
@@ -160,7 +161,7 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
     public Map<String, Object> getLDAPDataSource (String id) throws Exception
     {
         DataSourceDefinition ldapDefinition = _ldapDataSourceManager.getDataSourceDefinition(id);
-        Map<String, Object> def2json = _dataSourceDefinition2Json(ldapDefinition);
+        Map<String, Object> def2json = _dataSourceDefinition2Json(DataSourceType.LDAP.toString(), ldapDefinition);
         if (ldapDefinition == null)
         {
             getLogger().error("Unable to find the data source definition for the id '" + id + "'.");
@@ -195,7 +196,7 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
     {
         DataSourceDefinition sqlDefinition = _sqlDataSourceManager.getDataSourceDefinition(id);
         
-        Map<String, Object> def2json = _dataSourceDefinition2Json(sqlDefinition);
+        Map<String, Object> def2json = _dataSourceDefinition2Json(DataSourceType.SQL.toString(), sqlDefinition);
         if (sqlDefinition == null)
         {
             getLogger().error("Unable to find the data source definition for the id '" + id + "'.");
@@ -256,7 +257,7 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
             throw new IllegalArgumentException("Unable to add data source: unknown data source type '" + type + "'.");
         }
         
-        return _dataSourceDefinition2Json(def);
+        return _dataSourceDefinition2Json(type, def);
     }
 
     /**
@@ -327,7 +328,7 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
             throw new IllegalArgumentException("Unable to edit data source: unknown data source type '" + type + "'.");
         }
         
-        return _dataSourceDefinition2Json(def);
+        return _dataSourceDefinition2Json(type, def);
     }
     
     /**
@@ -379,7 +380,7 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
             throw new IllegalArgumentException("Unable set to default the data source: unknown data source type '" + type + "'.");
         }
         
-        return _dataSourceDefinition2Json(def);
+        return _dataSourceDefinition2Json(type, def);
     }
     
     private void _setDefaultDataSourceName(Map<String, Object> dataSourceAsJSON)
@@ -391,7 +392,7 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
         dataSourceAsJSON.put("name", defaultDataSourceName);
     }
     
-    private Map<String, Object> _dataSourceDefinition2Json (DataSourceDefinition dataSourceDef)
+    private Map<String, Object> _dataSourceDefinition2Json (String type, DataSourceDefinition dataSourceDef)
     {
         Map<String, Object> infos = new HashMap<>();
         if (dataSourceDef != null)
@@ -408,8 +409,44 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
             {
                 infos.put(paramName, parameters.get(paramName));
             }
+            
+            // Is the data source valid ?
+            infos.put("isValid", _isValid(type, parameters));
         }
         
         return infos;
+    }
+
+    private boolean _isValid(String type, Map<String, String> parameters)
+    {
+        boolean isValid = true;
+        if (type.equals(DataSourceType.SQL.toString()))
+        {
+            try
+            {
+                _sqlDataSourceManager.checkParameters(parameters);
+            }
+            catch (ParameterCheckerTestFailureException e)
+            {
+                isValid = false;
+            }
+        }
+        else if (type.equals(DataSourceType.LDAP.toString()))
+        {
+            try
+            {
+                _ldapDataSourceManager.checkParameters(parameters);
+            }
+            catch (ParameterCheckerTestFailureException e)
+            {
+                isValid = false;
+            }
+        }
+        else
+        {
+            throw new IllegalArgumentException("Unable to convert a data source definition to JSON : unknown data source type '" + type + "'.");
+        }
+        
+        return isValid;
     }
 }

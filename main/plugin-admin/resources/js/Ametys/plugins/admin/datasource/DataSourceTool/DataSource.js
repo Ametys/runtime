@@ -26,6 +26,7 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceTool.DataSource', {
        {name: 'name', mapping: 'name'},
        {name: 'isInUse', mapping: 'isInUse', type: 'boolean'},
        {name: 'private', mapping: 'private', type: 'boolean'},
+       {name: 'isValid', mapping: 'isValid', type: 'boolean'},
        {name: 'type', mapping: 'type'}
     ]
 });

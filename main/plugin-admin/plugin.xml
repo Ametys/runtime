@@ -1530,6 +1530,9 @@
                     <file>js/Ametys/plugins/admin/datasource/DataSourceTool.js</file>
                     <file>js/Ametys/plugins/admin/datasource/DataSourceTool/DataSource.js</file>
                 </scripts>
+                <css>
+                    <file plugin="core-ui">css/Ametys/ui/tool/datasource.css</file>
+                </css>
             </extension>
 
             <extension id="org.ametys.plugins.admin.datasources.Tab"
