@@ -22,12 +22,15 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Function;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -205,7 +208,7 @@ public class RibbonConfigurationManager
             Configuration configuration = new DefaultConfigurationBuilder().build(config.getInputStream());
             Map<String, Long> importsValidity = new HashMap<>();
             importsValidity.put(config.getURI(), config.getLastModified());
-            _configure(configuration, dependenciesManager, importsValidity);
+            _configure(configuration, dependenciesManager, importsValidity, false);
             
             _configureAutomaticImports(dependenciesManager, workspaceName, importsValidity);
             _configureTabOrder();
@@ -215,7 +218,7 @@ public class RibbonConfigurationManager
         }
     }
 
-    private void _configure(Configuration configuration, ClientSideElementDependenciesManager dependenciesManager, Map<String, Long> importValidity) throws ConfigurationException
+    private void _configure(Configuration configuration, ClientSideElementDependenciesManager dependenciesManager, Map<String, Long> importValidity, boolean isImport) throws ConfigurationException
     {
         if (_logger.isDebugEnabled())
         {
@@ -238,12 +241,16 @@ public class RibbonConfigurationManager
         }
             
         Configuration[] tabsConfigurations = configuration.getChild("tabs").getChildren();
+        Integer defaultOrder = isImport ? Integer.MAX_VALUE : 0;
         for (Configuration tabConfiguration : tabsConfigurations)
         {
             if ("tab".equals(tabConfiguration.getName()))
             {
-                Tab tab = new Tab(tabConfiguration, _ribbonManager, _logger);
+                Tab tab = new Tab(tabConfiguration, _ribbonManager, defaultOrder, _logger);
                 _ribbonConfig.getTabs().add(tab);
+                
+                // Only the first tab of the file has a default order
+                defaultOrder = null;
             }
             else if ("import".equals(tabConfiguration.getName()))
             {
@@ -296,7 +303,7 @@ public class RibbonConfigurationManager
                 try (InputStream is = src.getInputStream())
                 {
                     Configuration importedConfiguration = new DefaultConfigurationBuilder().build(is);
-                    _configure(importedConfiguration, dependenciesManager, importUri);
+                    _configure(importedConfiguration, dependenciesManager, importUri, true);
                 }
             }
         }
@@ -333,8 +340,26 @@ public class RibbonConfigurationManager
     
     private void _configureTabOrder()
     {
-        List<Tab> tabs = _ribbonConfig.getTabs();
+        LinkedList<Tab> tabs = _ribbonConfig.getTabs();
         Collections.sort(tabs, (tab1, tab2) -> tab1.isContextual() == tab2.isContextual() ? 0 : (tab1.isContextual() ? 1 : -1));
+        Map<String, Tab> labelMapping = tabs.stream().collect(Collectors.toMap(Tab::getLabel, Function.identity(), (tab1, tab2) -> tab1));
+        
+        List<Tab> tabsToMove = tabs.stream().filter(tab -> tab.getOrder() instanceof String).collect(Collectors.toList());
+        for (Tab tab : tabsToMove)
+        {
+            String order = (String) tab.getOrder();
+            Tab referencedTab = order != null ? labelMapping.get(order) : null;
+            if (order != null && referencedTab != null && referencedTab != tab && referencedTab.isContextual() == tab.isContextual())
+            {
+                tabs.remove(tab);
+                int index = tabs.indexOf(referencedTab);
+                tabs.add(tab.orderBefore() ? index : index + 1, tab);
+            }
+            else
+            {
+                _logger.warn("Invalid tab attribute order with value '" + order + "' for tab '" + tab.getId() + "'. Default tab order will be used instead");
+            }
+        }
     }
     
     /**
@@ -796,7 +821,7 @@ public class RibbonConfigurationManager
     public class RibbonConfiguration
     {
         /** The tabs of the ribbon */
-        protected List<Tab> _tabs = new ArrayList<>();
+        protected LinkedList<Tab> _tabs = new LinkedList<>();
 
         /** The App menu elements of the ribbon */
         protected List<Element> _appMenu = new ArrayList<>();
@@ -808,7 +833,7 @@ public class RibbonConfigurationManager
          * Get the tabs for this configuration
          * @return the tabs
          */
-        public List<Tab> getTabs()
+        public LinkedList<Tab> getTabs()
         {
             return _tabs;
         }
@@ -817,7 +842,7 @@ public class RibbonConfigurationManager
          * Set the tabs for this configuration
          * @param tabs The tabs
          */
-        public void setTabs(List<Tab> tabs)
+        public void setTabs(LinkedList<Tab> tabs)
         {
             _tabs = tabs;
         }
@@ -861,6 +886,12 @@ public class RibbonConfigurationManager
         /** The label of the contextual group */
         protected I18nizableText _contextualLabel;
         
+        /** The tab order */
+        protected Object _order;
+        
+        /** True to order before a tab specified by _order */
+        protected Boolean _orderBefore;
+        
         /** The list of groups in the tab */
         protected List<Group> _groups = new ArrayList<>();
         
@@ -871,10 +902,11 @@ public class RibbonConfigurationManager
          * Creates a tab
          * @param tabConfiguration The configuration of the tab
          * @param ribbonManager The ribbon manager
+         * @param defaultOrder The default tab order, if not specified. Can be null
          * @param logger The logger
          * @throws ConfigurationException if an error occurs in the configuration
          */
-        public Tab(Configuration tabConfiguration, RibbonManager ribbonManager, Logger logger) throws ConfigurationException
+        public Tab(Configuration tabConfiguration, RibbonManager ribbonManager, Integer defaultOrder, Logger logger) throws ConfigurationException
         {
             _log = logger;
             
@@ -890,6 +922,7 @@ public class RibbonConfigurationManager
             }
             _configureLabel(tabConfiguration);
             _configureGroups(tabConfiguration, ribbonManager);
+            _configureOrder(tabConfiguration, defaultOrder);
         }
         
         /**
@@ -1000,6 +1033,48 @@ public class RibbonConfigurationManager
                 Group group = new Group(groupConfiguration, ribbonManager, _log);
                 _groups.add(group);
             }
+        }
+        
+        private void _configureOrder(Configuration tabConfiguration, Integer defaultOrder)
+        {
+            String order = tabConfiguration.getAttribute("order", null);
+            try
+            {
+                _order = Integer.parseInt(order);
+            }
+            catch (NumberFormatException e)
+            {
+                _order = order != null ? order : defaultOrder;
+            }
+            
+            _orderBefore = tabConfiguration.getAttributeAsBoolean("order-before", false);
+        }
+        
+        /**
+         * Get the tab label
+         * @return Return the tab label
+         */
+        public String getLabel()
+        {
+            return _label.toString();
+        }
+        
+        /**
+         * Get the order attribute of the tab
+         * @return Return the order, which is either a String or an Integer
+         */
+        public Object getOrder()
+        {
+            return _order;
+        }
+        
+        /**
+         * True if the tab should be ordered before the tab referenced by the attribute order
+         * @return True if the tab should be ordered before the tab referenced by the attribute order
+         */
+        public boolean orderBefore()
+        {
+            return _orderBefore;
         }
         
         /**
