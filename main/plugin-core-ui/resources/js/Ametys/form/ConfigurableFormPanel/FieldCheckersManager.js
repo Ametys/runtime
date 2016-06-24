@@ -287,7 +287,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 	 * @private
 	 * Generates the button launching the tests on the corresponding location
 	 * @param {Ametys.form.ConfigurableFormPanel.FieldChecker} fieldChecker the field checker 
-	 * @param {Number} offset the field checker offset
+	 * @param {Number} offset the field checker's offset
 	 */
 	_generateTestButton: function(fieldChecker, offset)
 	{	
@@ -439,7 +439,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 	
 	/**
 	 * @private
-	 * Run the update routine on the test button if the attached  {@link Ametys.form.ConfigurableFormPanel} is ready.
+	 * Run the update routine on the test button if the attached {@link Ametys.form.ConfigurableFormPanel} is ready.
 	 * @param {Ametys.form.ConfigurableFormPanel.FieldChecker} fieldChecker the field checker to update
 	 */	
 	_updateTestButton: function(fieldChecker)
@@ -449,9 +449,13 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 			return;
 		}
 		
+		Ext.suspendLayouts();
+		
 		var isDeactivated = this._isDeactivated(fieldChecker),
 			statusCmp = Ext.getCmp(fieldChecker.statusCmpId),
 			btn = Ext.getCmp(fieldChecker.buttonId);
+		
+		var oldStatusCmp = Ext.clone(statusCmp);
 		
 		if (fieldChecker.getStatus() != Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_NOT_TESTED)
 		{
@@ -505,6 +509,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 	        // update the tooltip of the status component
 	        this._updateStatusCmpTooltip(fieldChecker);
 		}
+	    
+	    // Do not flush the layouts if the rendering of the field checker hasn't changed
+	    Ext.resumeLayouts(oldStatusCmp.cls != statusCmp.cls || oldStatusCmp.isVisible() != statusCmp.isVisible());
 	},
 	
 	/**
@@ -524,6 +531,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 			if (!linkedField.isDisabled())
 			{
 				isDeactivated = false;
+				return false;
 			}
     	});
 	
@@ -560,19 +568,21 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 	_updateWarnings: function()
 	{
         Ext.suspendLayouts();
-        
-		Ext.Array.each(this._fieldCheckers, function(fieldChecker){
+        var flushLayouts = false;
+
+        Ext.Array.each(this._fieldCheckers, function(fieldChecker){
 			var button = Ext.getCmp(fieldChecker.buttonId),
 				helpBox = Ext.getCmp(fieldChecker.helpBoxId),
 				notTested = fieldChecker.getStatus() == Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_NOT_TESTED,
 				success = fieldChecker.getStatus() == Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_SUCCESS,
 				failure = fieldChecker.getStatus() == Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_FAILURE,
-				warningMsg = "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_WARNING_TEXT_BEGINNING}}" + fieldChecker.label + "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_WARNING_TEXT_END}}";	
-			
+				warningMsg = "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_WARNING_TEXT_BEGINNING}}" + fieldChecker.label + "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD_CHECKER_WARNING_TEXT_END}}";
+				
 			Ext.Array.each(fieldChecker.getLinkedFields(), function(linkedField){
 				linkedField._warnings = linkedField._warnings || {};
 				
 				var activeWarnings = linkedField.getActiveWarnings();
+				var oldActiveWarnings = Ext.clone(activeWarnings);
 				if (success || notTested)
 				{
 					Ext.Array.remove(activeWarnings, warningMsg);
@@ -590,10 +600,16 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 					
 					linkedField.markWarning(activeWarnings);
 				}
+				
+				if (oldActiveWarnings != activeWarnings)
+				{
+					flushLayouts = true;
+				}
 			});
 		});
         
-        Ext.resumeLayouts(true);        
+        // Do not flush the pending layouts if the warnings did not change
+        Ext.resumeLayouts(flushLayouts);        
 	},
 	
 	/**
@@ -750,7 +766,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
             }
         }, this);
         
-        // Don't run tests if there is no test to run... go directly to the check callback routine instead 
+        // Don't run tests if there is no test to run... execute the check callback routine directly instead 
         if (Ext.Object.isEmpty(fieldCheckersInfo))
     	{
         	this._checkCb({}, true, {}, fieldCheckers, callback, displayErrors);
