@@ -252,7 +252,7 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
         List<String> values = new ArrayList<> ();
         values.add(rawParameters.get("url"));
         values.add(rawParameters.get("driver"));
-        values.add(""); 
+        values.add(rawParameters.get("driverNotFoundMessage")); 
         values.add(rawParameters.get("user"));
         values.add(rawParameters.get("password"));
 

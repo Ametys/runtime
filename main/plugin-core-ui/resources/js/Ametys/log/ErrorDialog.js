@@ -67,7 +67,7 @@ Ext.define(
 		
 		/**
 		 * Prepare the details string
-		 * @param {String/Error} details The detailled text of the box. Hidden by default. Can be technical.
+		 * @param {String/Error} details The detailed text of the box. Hidden by default. Can be technical.
 		 */
 		_prepareDetails: function(details)
 		{
@@ -77,10 +77,10 @@ Ext.define(
 			
 			if (details.stack)
 			{
-				text += "\n" + details.stack.toString()
+				text += "\n" + details.stack.toString();
 			}
 			
-			return text.toString().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/\n?\n/g, '<br/>').replace(/\t/g, '&#160;&#160;&#160;&#160;');
+			return text.toString().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>').replace(/\n?\n/g, '<br/>').replace(/\t/g, '&#160;&#160;&#160;&#160;');
 		},
 
 		/**
