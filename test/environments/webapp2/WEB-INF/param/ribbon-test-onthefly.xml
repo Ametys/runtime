@@ -79,7 +79,7 @@
             </groups>
         </tab>
         
-        <tab label="TAB_LABEL3" id="tab-onthefly1">
+        <tab label="TAB_LABEL3" controlId="tab-onthefly1">
             <tab-control>
                 <class name="Ametys.ribbon.element.tab.ContentTabController">
                   <selection-target-type>test-tab2</selection-target-type>

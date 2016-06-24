@@ -72,7 +72,7 @@
         </tab>
         
         <!-- Contextual tabs for users -->
-        <tab id="org.ametys.core.rights.UserTab" label="plugin.core:RIBBON_TABS_TAB_USERS_LABEL" contextualColor="2" contextualLabel="plugin.core:RIBBON_TABS_TAB_USERS_LABEL">
+        <tab controlId="org.ametys.core.rights.UserTab" label="plugin.core:RIBBON_TABS_TAB_USERS_LABEL" contextualColor="2" contextualLabel="plugin.core:RIBBON_TABS_TAB_USERS_LABEL">
             <groups>
                 <group label="plugin.core:RIBBON_TABS_TAB_USERS_GROUPS_GROUP_ACTION_LABEL" icon="">
                     <large>
@@ -87,7 +87,7 @@
         </tab>
         
         <!-- Contextual tabs for groups -->
-        <tab id="org.ametys.core.rights.GroupTab" label="plugin.core:RIBBON_TABS_TAB_GROUPS_LABEL" contextualColor="3" contextualLabel="plugin.core:RIBBON_TABS_TAB_GROUPS_GROUP_LABEL">
+        <tab controlId="org.ametys.core.rights.GroupTab" label="plugin.core:RIBBON_TABS_TAB_GROUPS_LABEL" contextualColor="3" contextualLabel="plugin.core:RIBBON_TABS_TAB_GROUPS_GROUP_LABEL">
             <groups>
                 <group label="plugin.core:RIBBON_TABS_TAB_GROUPS_GROUPS_GROUP_ACTION_LABEL" icon="">
                     <large>
@@ -106,7 +106,7 @@
         </tab>
         
         <!-- Contextual tabs for profiles -->
-        <tab id="org.ametys.core.rights.ProfileTab" label="plugin.core:RIBBON_TABS_TAB_PROFILES_LABEL" contextualColor="4" contextualLabel="plugin.core:RIBBON_TABS_TAB_PROFILES_GROUP_LABEL">
+        <tab controlId="org.ametys.core.rights.ProfileTab" label="plugin.core:RIBBON_TABS_TAB_PROFILES_LABEL" contextualColor="4" contextualLabel="plugin.core:RIBBON_TABS_TAB_PROFILES_GROUP_LABEL">
             <groups>
                 <group label="plugin.core:RIBBON_TABS_TAB_PROFILES_GROUPS_GROUP_ACTION_LABEL" icon="">
                     <large>
@@ -134,7 +134,7 @@
         </tab>
         
         <!-- Contextual tabs for system announcement -->
-        <tab id="org.ametys.plugins.admin.SystemTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_SYSTEM_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_SYSTEM_LABEL" contextualColor="3" contextualGroup="SYS">
+        <tab controlId="org.ametys.plugins.admin.SystemTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_SYSTEM_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_SYSTEM_LABEL" contextualColor="3" contextualGroup="SYS">
             <groups>
                 <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_SYSTEM_GROUPS_GROUP_ACTIONS" icon="">
                    <large>
@@ -148,7 +148,7 @@
         </tab>
         
         <!-- Contextual tabs for logs -->
-        <tab id="org.ametys.plugins.admin.LogsTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LABEL" contextualColor="4" contextualGroup="LOGS">
+        <tab controlId="org.ametys.plugins.admin.LogsTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LABEL" contextualColor="4" contextualGroup="LOGS">
             <groups>
                 <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_GROUPS_GROUP_ACTIONS" icon="">
                    <large>
@@ -160,7 +160,7 @@
                </group>
            </groups>   
         </tab>
-        <tab id="org.ametys.plugins.admin.LogsLevelTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LEVEL_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LEVEL_LABEL" contextualColor="4" contextualGroup="LOGSLEVEL">
+        <tab controlId="org.ametys.plugins.admin.LogsLevelTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LEVEL_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LEVEL_LABEL" contextualColor="4" contextualGroup="LOGSLEVEL">
             <groups>
                 <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_GROUPS_GROUP_ACTIONS" icon="">
                    <large>
@@ -175,7 +175,7 @@
            </groups>   
         </tab>
         
-        <tab id="org.ametys.plugins.admin.PluginsByFileTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_LABEL" contextualColor="3" contextualGroup="PLUGINS">
+        <tab controlId="org.ametys.plugins.admin.PluginsByFileTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_LABEL" contextualColor="3" contextualGroup="PLUGINS">
             <groups>
                 <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_GROUPS_GROUP_ACTIONS" icon="">
                     <large>
@@ -193,7 +193,7 @@
                 </group>
             </groups>
         </tab>
-        <tab id="org.ametys.plugins.admin.PluginsByExtensionPointTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_EP_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_EP_LABEL" contextualColor="3" contextualGroup="PLUGINS_EP">
+        <tab controlId="org.ametys.plugins.admin.PluginsByExtensionPointTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_EP_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_EP_LABEL" contextualColor="3" contextualGroup="PLUGINS_EP">
             <groups>
                 <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_GROUPS_GROUP_ACTIONS" icon="">
                     <large>
@@ -211,7 +211,7 @@
                 </group>
             </groups>
         </tab>
-        <tab id="org.ametys.plugins.admin.config.Tab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_CONFIG_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_CONFIG_LABEL" contextualColor="2" contextualGroup="CONFIG">
+        <tab controlId="org.ametys.plugins.admin.config.Tab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_CONFIG_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_CONFIG_LABEL" contextualColor="2" contextualGroup="CONFIG">
             <groups>
                 <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_CONFIG_GROUPS_GROUP_ACTIONS" icon="">
                     <large>

@@ -17,7 +17,6 @@ package org.ametys.core.ui;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,19 +26,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.UUID;
 import java.util.function.Function;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
 import org.slf4j.Logger;
@@ -48,7 +43,15 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
 import org.ametys.core.ui.ClientSideElement.Script;
-import org.ametys.runtime.i18n.I18nizableText;
+import org.ametys.core.ui.ribbonconfiguration.ControlRef;
+import org.ametys.core.ui.ribbonconfiguration.Element;
+import org.ametys.core.ui.ribbonconfiguration.Group;
+import org.ametys.core.ui.ribbonconfiguration.GroupSize;
+import org.ametys.core.ui.ribbonconfiguration.Layout;
+import org.ametys.core.ui.ribbonconfiguration.RibbonConfiguration;
+import org.ametys.core.ui.ribbonconfiguration.Separator;
+import org.ametys.core.ui.ribbonconfiguration.Tab;
+import org.ametys.core.ui.ribbonconfiguration.Toolbar;
 
 /**
  * This class handles the ribbon configuration needed for client side display.
@@ -57,6 +60,8 @@ public class RibbonConfigurationManager
 {
     private static Logger _logger = LoggerFactory.getLogger(RibbonConfigurationManager.class);
     
+    private static Pattern _PLUGINNAMEPATTERN = Pattern.compile("^plugin:([^:]+)://.*$");
+
     /** Size constants for controls*/
     public enum CONTROLSIZE 
     {
@@ -136,6 +141,53 @@ public class RibbonConfigurationManager
             return null;
         }
     }
+    
+    /**
+     * Type of exclusion in the ribbon configuration
+     */
+    public enum EXCLUDETYPE
+    {
+        /** Excluding an entire plugin */
+        PLUGIN("plugin"),
+        /** Excluding an extension */
+        EXTENSION("extension"),
+        /** Excluding a file */
+        FILE("file"),
+        /** Excluding a tab by label */
+        TABLABEL("tablabel"),
+        /** Excluding a control by id */
+        CONTROL("control");
+        
+        private String _value;
+        
+        private EXCLUDETYPE(String value)
+        {
+            this._value = value;   
+        }  
+           
+        @Override
+        public String toString() 
+        {
+            return _value;
+        }   
+
+        /**
+         * Converts a string to a EXCLUDETYPE
+         * @param size The type to convert
+         * @return The exclude type corresponding to the string or null if unknown
+         */
+        public static EXCLUDETYPE createsFromString(String size)
+        {
+            for (EXCLUDETYPE v : EXCLUDETYPE.values())
+            {
+                if (v.toString().equals(size))
+                {
+                    return v;
+                }
+            }
+            return null;
+        }
+    }
 
     /** The ribbon control manager */
     protected RibbonManager _ribbonManager;
@@ -208,17 +260,52 @@ public class RibbonConfigurationManager
             Configuration configuration = new DefaultConfigurationBuilder().build(config.getInputStream());
             Map<String, Long> importsValidity = new HashMap<>();
             importsValidity.put(config.getURI(), config.getLastModified());
-            _configure(configuration, dependenciesManager, importsValidity, false);
+            Map<EXCLUDETYPE, List<String>> excludedList = _configureExclude(configuration);
+            _configure(configuration, dependenciesManager, importsValidity, excludedList, false);
             
-            _configureAutomaticImports(dependenciesManager, workspaceName, importsValidity);
+            _configureAutomaticImports(dependenciesManager, workspaceName, excludedList, importsValidity);
             _configureTabOrder();
             
             ribbonManagerCache.addCachedConfiguration(_ribbonManager, _ribbonConfig, importsValidity);
             _ribbonManager.initializeExtensions();
         }
     }
-
-    private void _configure(Configuration configuration, ClientSideElementDependenciesManager dependenciesManager, Map<String, Long> importValidity, boolean isImport) throws ConfigurationException
+    
+    private Map<EXCLUDETYPE, List<String>> _configureExclude(Configuration configuration) throws ConfigurationException
+    {
+        Map<EXCLUDETYPE, List<String>> excluded = new HashMap<>();
+        for (EXCLUDETYPE excludetype : EXCLUDETYPE.values())
+        {
+            excluded.put(excludetype, new ArrayList<String>());
+        }
+        
+        for (Configuration excludeConf : configuration.getChild("exclude").getChildren())
+        {
+            String tagName = excludeConf.getName();
+            String value = excludeConf.getValue();
+            String type = excludeConf.getAttribute("type", null);
+            if (tagName.equals("import") && ("plugin".equals(type) || "extension".equals(type) || "file".equals(type)))
+            {
+                excluded.get(EXCLUDETYPE.createsFromString(type)).add(value);
+            }
+            else if (tagName.equals("tab") && "label".equals(type))
+            {
+                excluded.get(EXCLUDETYPE.TABLABEL).add(value);
+            }
+            else if (tagName.equals("control"))
+            {
+                excluded.get(EXCLUDETYPE.CONTROL).add(value);
+            }
+            else
+            {
+                throw new ConfigurationException("Invalid exclude tab in the ribbon configuration '" + tagName + "'", configuration);
+            }
+        }
+        
+        return excluded;
+    }
+    
+    private void _configure(Configuration configuration, ClientSideElementDependenciesManager dependenciesManager, Map<String, Long> importValidity, Map<EXCLUDETYPE, List<String>> excludedList, boolean isImport) throws ConfigurationException
     {
         if (_logger.isDebugEnabled())
         {
@@ -247,7 +334,11 @@ public class RibbonConfigurationManager
             if ("tab".equals(tabConfiguration.getName()))
             {
                 Tab tab = new Tab(tabConfiguration, _ribbonManager, defaultOrder, _logger);
-                _ribbonConfig.getTabs().add(tab);
+                
+                if (!_isTabExcluded(tab, excludedList, isImport))
+                {
+                    _ribbonConfig.getTabs().add(tab);
+                }
                 
                 // Only the first tab of the file has a default order
                 defaultOrder = null;
@@ -255,7 +346,7 @@ public class RibbonConfigurationManager
             else if ("import".equals(tabConfiguration.getName()))
             {
                 String url = tabConfiguration.getValue();
-                _configureImport(dependenciesManager, importValidity, url);
+                _configureImport(dependenciesManager, importValidity, url, excludedList);
             }
         }
 
@@ -265,20 +356,23 @@ public class RibbonConfigurationManager
         }
     }
 
-    private void _configureAutomaticImports(ClientSideElementDependenciesManager dependenciesManager, String workspaceName, Map<String, Long> importsValidity) throws ConfigurationException
+    private void _configureAutomaticImports(ClientSideElementDependenciesManager dependenciesManager, String workspaceName, Map<EXCLUDETYPE, List<String>> excludedList, Map<String, Long> importsValidity) throws ConfigurationException
     {
         for (String extensionId : _ribbonImportManager.getExtensionsIds())
         {
-            RibbonImport ribbonImportExtension = _ribbonImportManager.getExtension(extensionId);
-            if (ribbonImportExtension != null)
+            if (!excludedList.get(EXCLUDETYPE.EXTENSION).contains(extensionId))
             {
-                for (Entry<List<String>, Pattern> importFiles : ribbonImportExtension.getImports().entrySet())
+                RibbonImport ribbonImportExtension = _ribbonImportManager.getExtension(extensionId);
+                if (ribbonImportExtension != null)
                 {
-                    if (importFiles.getValue().matcher(workspaceName).matches())
+                    for (Entry<List<String>, Pattern> importFiles : ribbonImportExtension.getImports().entrySet())
                     {
-                        for (String url : importFiles.getKey())
+                        if (importFiles.getValue().matcher(workspaceName).matches())
                         {
-                            _configureImport(dependenciesManager, importsValidity, url);                                
+                            for (String importUri : importFiles.getKey())
+                            {
+                                _configureImport(dependenciesManager, importsValidity, importUri, excludedList);                                
+                            }
                         }
                     }
                 }
@@ -286,8 +380,13 @@ public class RibbonConfigurationManager
         }
     }
 
-    private void _configureImport(ClientSideElementDependenciesManager dependenciesManager, Map<String, Long> importUri, String url) throws ConfigurationException
+    private void _configureImport(ClientSideElementDependenciesManager dependenciesManager, Map<String, Long> importValidity, String url, Map<EXCLUDETYPE, List<String>> excludedList) throws ConfigurationException
     {
+        if (_ignoreImport(importValidity, excludedList, url))
+        {
+            return;
+        }
+        
         Source src = null;
         try
         {
@@ -298,12 +397,12 @@ public class RibbonConfigurationManager
             }
             else
             {
-                importUri.put(url, src.getLastModified());
+                importValidity.put(url, src.getLastModified());
                 
                 try (InputStream is = src.getInputStream())
                 {
                     Configuration importedConfiguration = new DefaultConfigurationBuilder().build(is);
-                    _configure(importedConfiguration, dependenciesManager, importUri, true);
+                    _configure(importedConfiguration, dependenciesManager, importValidity, excludedList, true);
                 }
             }
         }
@@ -316,7 +415,102 @@ public class RibbonConfigurationManager
             _resolver.release(src);
         }
     }
+
+    private boolean _ignoreImport(Map<String, Long> importValidity, Map<EXCLUDETYPE, List<String>> excludedList, String url)
+    {
+        if (importValidity.containsKey(url))
+        {
+            // already imported
+            return true;
+        }
+        
+        Matcher matcher = _PLUGINNAMEPATTERN.matcher(url);
+        if (matcher.matches())
+        {
+            String pluginName = matcher.group(1);
+            if (excludedList.get(EXCLUDETYPE.PLUGIN).contains(pluginName))
+            {
+                return true;
+            }
+        }
+        
+        return excludedList.get(EXCLUDETYPE.FILE).contains(url);
+    }
+
+    private boolean _isTabExcluded(Tab tab, Map<EXCLUDETYPE, List<String>> excludedList, boolean isImport)
+    {
+        if (!isImport)
+        {
+            return false;
+        }
+        
+        String tabLabel = tab.getLabel();
+        if (excludedList.get(EXCLUDETYPE.TABLABEL).contains(tabLabel))
+        {
+            return true;
+        }
+        
+        List<Group> emptyGroups = new ArrayList<>();
+        for (Group group : tab.getGroups())
+        {
+            GroupSize largeGroupSize = group.getLargeGroupSize();
+            int elementsCount = 0;
+            if (largeGroupSize != null)
+            {
+                _removeExcludedControls(largeGroupSize.getChildren(), excludedList);
+                elementsCount += largeGroupSize.getChildren().size();
+            }
+            GroupSize mediumGroupSize = group.getMediumGroupSize();
+            if (mediumGroupSize != null)
+            {
+                _removeExcludedControls(mediumGroupSize.getChildren(), excludedList);
+                elementsCount += mediumGroupSize.getChildren().size();
+            }
+            GroupSize smallGroupSize = group.getSmallGroupSize();
+            if (smallGroupSize != null)
+            {
+                _removeExcludedControls(smallGroupSize.getChildren(), excludedList);
+                elementsCount += smallGroupSize.getChildren().size();
+            }
+            
+            if (elementsCount == 0)
+            {
+                emptyGroups.add(group);
+            }
+        }
+        
+        tab.getGroups().removeAll(emptyGroups);
+        
+        return tab.getGroups().size() == 0;
+    }
     
+    private void _removeExcludedControls(List<Element> elements, Map<EXCLUDETYPE, List<String>> excludedList)
+    {
+        List<Element> elementsToRemove = new ArrayList<>();
+        
+        for (Element element : elements)
+        {
+            if (element instanceof ControlRef)
+            {
+                ControlRef control = (ControlRef) element;
+                if (excludedList.get(EXCLUDETYPE.CONTROL).contains(control.getId()))
+                {
+                    elementsToRemove.add(element);
+                }
+            }
+            else
+            {
+                _removeExcludedControls(element.getChildren(), excludedList);
+                if (element.getChildren().size() == 0)
+                {
+                    elementsToRemove.add(element);
+                }
+            }
+        }
+        
+        elements.removeAll(elementsToRemove);
+    }
+
     private List<Element> _configureElement(Configuration[] configurations, RibbonManager ribbonManager) throws ConfigurationException
     {
         List<Element> elements = new ArrayList<>();
@@ -397,27 +591,27 @@ public class RibbonConfigurationManager
         for (Tab tab : _ribbonConfig.getTabs())
         {
             // Check this is an existing factory
-            if (tab._id != null)
+            if (tab.getId() != null)
             {
-                ClientSideElement tabElement = _ribbonTabManager.getExtension(tab._id);
+                ClientSideElement tabElement = _ribbonTabManager.getExtension(tab.getId());
                 if (tabElement == null)
                 {
-                    String errorMessage = "A tab item referes an unexisting item factory with id '" + tab._id + "'";
+                    String errorMessage = "A tab item referes an unexisting item factory with id '" + tab.getId() + "'";
                     _logger.error(errorMessage);
                     throw new IllegalStateException(errorMessage);
                 }
                 else
                 {
-                    this._tabsReferences.add(tab._id);
+                    this._tabsReferences.add(tab.getId());
                 }
             }
             
             // initialize groups
-            for (Group group : tab._groups)
+            for (Group group : tab.getGroups())
             {
-                _lazyInitialize(group._largeSize);
-                _lazyInitialize(group._mediumSize);
-                _lazyInitialize(group._smallSize);
+                _lazyInitialize(group.getLargeGroupSize());
+                _lazyInitialize(group.getMediumGroupSize());
+                _lazyInitialize(group.getSmallGroupSize());
             }
         }
 
@@ -431,23 +625,23 @@ public class RibbonConfigurationManager
     {
         if (groupSize != null)
         {
-            _lazyInitialize(groupSize._elements);
+            _lazyInitialize(groupSize.getChildren());
     
-            for (Element element : groupSize._elements)
+            for (Element element : groupSize.getChildren())
             {
                 if (element instanceof Layout)
                 {
                     Layout layout = (Layout) element;
     
-                    _lazyInitialize(layout._elements);
+                    _lazyInitialize(layout.getChildren());
     
-                    for (Element layoutElement : layout._elements)
+                    for (Element layoutElement : layout.getChildren())
                     {
                         if (element instanceof Toolbar)
                         {
                             Toolbar toolbar = (Toolbar) layoutElement;
     
-                            _lazyInitialize(toolbar._elements);
+                            _lazyInitialize(toolbar.getChildren());
                         }
                     }                        
                 }
@@ -464,23 +658,23 @@ public class RibbonConfigurationManager
                 ControlRef control = (ControlRef) element;
                 
                 // Check its an existing factory
-                ClientSideElement ribbonControl = _ribbonControlManager.getExtension(control._id);
+                ClientSideElement ribbonControl = _ribbonControlManager.getExtension(control.getId());
                 if (ribbonControl == null)
                 {
-                    String errorMessage = "An item referes an unexisting item factory with id '" + control._id + "'";
+                    String errorMessage = "An item referes an unexisting item factory with id '" + control.getId() + "'";
                     _logger.error(errorMessage);
                     throw new IllegalStateException(errorMessage);
                 }
                 else
                 {
-                    this._controlsReferences.add(control._id);
+                    this._controlsReferences.add(control.getId());
                 }
             }
             else if (element instanceof Toolbar)
             {
                 Toolbar toolbar = (Toolbar) element;
                 
-                _lazyInitialize(toolbar._elements);
+                _lazyInitialize(toolbar.getChildren());
             }
         }
     }
@@ -692,10 +886,10 @@ public class RibbonConfigurationManager
             if (element instanceof ControlRef)
             {
                 ControlRef controlRef = (ControlRef) element;
-                ClientSideElement extension = _ribbonControlManager.getExtension(controlRef._id);
+                ClientSideElement extension = _ribbonControlManager.getExtension(controlRef.getId());
                 for (Script script : extension.getScripts(contextualParameters))
                 {
-                    resolvedElements.add(new ControlRef(script.getId(), controlRef._colspan, controlRef._controlLogger));
+                    resolvedElements.add(new ControlRef(script.getId(), controlRef.getColspan(), _logger));
                 }
             }
             
@@ -705,7 +899,7 @@ public class RibbonConfigurationManager
                 if (layoutElements.size() > 0)
                 {
                     Layout layout = (Layout) element;
-                    Layout resolvedLayout = new Layout(layout, layout._size);
+                    Layout resolvedLayout = new Layout(layout, layout.getSize());
                     resolvedLayout.getChildren().addAll(layoutElements);
                     resolvedElements.add(resolvedLayout);
                 }
@@ -717,7 +911,7 @@ public class RibbonConfigurationManager
                 if (toolbarElements.size() > 0)
                 {
                     Toolbar toolbar = (Toolbar) element;
-                    Toolbar resolvedToolbar = new Toolbar(_logger, toolbar._colspan);
+                    Toolbar resolvedToolbar = new Toolbar(_logger, toolbar.getColspan());
                     resolvedToolbar.getChildren().addAll(toolbarElements);
                     resolvedElements.add(resolvedToolbar);
                 }
@@ -832,1110 +1026,6 @@ public class RibbonConfigurationManager
             {
                 _saxReferencedControl ((MenuClientSideElement) element, handler, contextualParameters);
             }
-        }
-    }
-    
-    /**
-     * A ribbon configuration, with tab, user and app menus
-     */
-    public class RibbonConfiguration
-    {
-        /** The tabs of the ribbon */
-        protected LinkedList<Tab> _tabs = new LinkedList<>();
-
-        /** The App menu elements of the ribbon */
-        protected List<Element> _appMenu = new ArrayList<>();
-        
-        /** The user menu elements of the ribbon */
-        protected List<Element> _userMenu = new ArrayList<>();
-        
-        /**
-         * Get the tabs for this configuration
-         * @return the tabs
-         */
-        public LinkedList<Tab> getTabs()
-        {
-            return _tabs;
-        }
-        
-        /**
-         * Set the tabs for this configuration
-         * @param tabs The tabs
-         */
-        public void setTabs(LinkedList<Tab> tabs)
-        {
-            _tabs = tabs;
-        }
-
-        /**
-         * Get the app menu elements for this configuration
-         * @return the appMenu
-         */
-        public List<Element> getAppMenu()
-        {
-            return _appMenu;
-        }
-
-        /**
-         * Get the user menu elements for this configuration
-         * @return the userMenu
-         */
-        public List<Element> getUserMenu()
-        {
-            return _userMenu;
-        }
-    }
-    
-    /**
-     * A tab of the ribbon
-     */
-    public class Tab
-    {
-        /** The label of the tab */
-        protected I18nizableText _label;
-        
-        /** The optional id of the contextual client side element determining the state of the ribbon */
-        protected String _id;
-        
-        /** The color (between 1 and 6) for a contextual tab */
-        protected String _contextualColor;
-        
-        /** The id of the contextual group (can be null for single contextual tab) */
-        protected String _contextualGroup;
-        
-        /** The label of the contextual group */
-        protected I18nizableText _contextualLabel;
-        
-        /** The tab order */
-        protected Object _order;
-        
-        /** True to order before a tab specified by _order */
-        protected Boolean _orderBefore;
-        
-        /** The list of groups in the tab */
-        protected List<Group> _groups = new ArrayList<>();
-        
-        /** Logger */
-        protected Logger _log;
-        
-        /**
-         * Creates a tab
-         * @param tabConfiguration The configuration of the tab
-         * @param ribbonManager The ribbon manager
-         * @param defaultOrder The default tab order, if not specified. Can be null
-         * @param logger The logger
-         * @throws ConfigurationException if an error occurs in the configuration
-         */
-        public Tab(Configuration tabConfiguration, RibbonManager ribbonManager, Integer defaultOrder, Logger logger) throws ConfigurationException
-        {
-            _log = logger;
-            
-            if (_log.isDebugEnabled())
-            {
-                _log.debug("Creating tab");
-            }
-
-            _configureId(tabConfiguration);
-            if (tabConfiguration.getAttribute("ref-id", null) != null || tabConfiguration.getChild("tab-control", false) != null)
-            {
-                _generateTabControl(tabConfiguration, ribbonManager);
-            }
-            _configureLabel(tabConfiguration);
-            _configureGroups(tabConfiguration, ribbonManager);
-            _configureOrder(tabConfiguration, defaultOrder);
-        }
-        
-        /**
-         * Get the id of this tab;
-         * @return the id
-         */
-        public String getId()
-        {
-            return _id;
-        }
-        
-        /**
-         * Return true if the tab is contextual
-         * @return true if the tab is contextual
-         */
-        public Boolean isContextual()
-        {
-            return _id != null;
-        }
-
-        /**
-         * Configure tab optional id
-         * @param tabConfiguration One tab configuration
-         * @throws ConfigurationException if an error occurred
-         */
-        protected void _configureId(Configuration tabConfiguration) throws ConfigurationException
-        {
-            this._id = tabConfiguration.getAttribute("id", null);
-            this._contextualColor = tabConfiguration.getAttribute("contextualColor", null);
-            this._contextualGroup = tabConfiguration.getAttribute("contextualGroup", null);
-            
-            String contextualLabelString = tabConfiguration.getAttribute("contextualLabel", null);
-            if (contextualLabelString != null)
-            {
-                this._contextualLabel = new I18nizableText("application", contextualLabelString);
-            }
-            
-            if (_log.isDebugEnabled() && this._id != null)
-            {
-                _log.debug("Tab id is " + this._id);
-            }
-        }
-        
-        /**
-         * Generate a new tab control on the fly
-         * @param tabConfiguration The tab configuration
-         * @param ribbonManager The ribbon manager
-         * @throws ConfigurationException If an error occurs
-         */
-        protected void _generateTabControl(Configuration tabConfiguration, RibbonManager ribbonManager) throws ConfigurationException
-        {
-            if (this._id == null)
-            {
-                this._id = UUID.randomUUID().toString();
-            }
-            
-            DefaultConfiguration defaultConfig = new DefaultConfiguration(tabConfiguration.getChild("tab-control"));
-            String refId = defaultConfig.getAttribute("ref-id", null);
-            
-            String classname = tabConfiguration.getAttribute("class", null);
-            if (classname == null)
-            {
-                if (refId != null)
-                {
-                    defaultConfig.setAttribute("point", tabConfiguration.getAttribute("point", RibbonTabsManager.ROLE));
-                }
-                else
-                {
-                    classname = org.ametys.core.ui.StaticClientSideElement.class.getName();
-                    defaultConfig.setAttribute("class", classname);
-                }
-            }
-            
-            ribbonManager.addExtension(this._id, "core-ui", null, defaultConfig);
-            
-            if (_log.isDebugEnabled())
-            {
-                _log.debug("Generated Tab id is " + this._id);
-            }
-        }
-
-        /**
-         * Configure one tab label
-         * @param tabConfiguration One tab configuration
-         * @throws ConfigurationException if an error occurred
-         */
-        protected void _configureLabel(Configuration tabConfiguration) throws ConfigurationException
-        {
-            this._label = new I18nizableText("application", tabConfiguration.getAttribute("label"));
-            
-            if (_log.isDebugEnabled())
-            {
-                _log.debug("Tab label is " + this._label);
-            }
-        }
-        
-        /**
-         * Configure tabs groups
-         * @param tabConfiguration One tab configuration
-         * @param ribbonManager The ribbon manager
-         * @throws ConfigurationException if an error occurred
-         */
-        protected void _configureGroups(Configuration tabConfiguration, RibbonManager ribbonManager) throws ConfigurationException
-        {
-            Configuration[] groupsConfigurations = tabConfiguration.getChild("groups").getChildren("group");
-            for (Configuration groupConfiguration : groupsConfigurations)
-            {
-                Group group = new Group(groupConfiguration, ribbonManager, _log);
-                _groups.add(group);
-            }
-        }
-        
-        private void _configureOrder(Configuration tabConfiguration, Integer defaultOrder)
-        {
-            String order = tabConfiguration.getAttribute("order", null);
-            try
-            {
-                _order = Integer.parseInt(order);
-            }
-            catch (NumberFormatException e)
-            {
-                _order = order != null ? order : defaultOrder;
-            }
-            
-            _orderBefore = tabConfiguration.getAttributeAsBoolean("order-before", false);
-        }
-        
-        /**
-         * Get the tab label
-         * @return Return the tab label
-         */
-        public String getLabel()
-        {
-            return _label.toString();
-        }
-        
-        /**
-         * Get the order attribute of the tab
-         * @return Return the order as a String, or null
-         */
-        public String getOrderAsString()
-        {
-            if (_order instanceof String)
-            {
-                return (String) _order;
-            }
-            return null;
-        }
-        
-        /**
-         * Get the order attribute of the tab
-         * @return Return the order as an Integer, or null
-         */
-        public Integer getOrderAsInteger()
-        {
-            if (_order instanceof Integer)
-            {
-                return (Integer) _order;
-            }
-            return null;
-        }
-        
-        /**
-         * Set the order attribute of the tab
-         * @param order The new order value, either a String or an Integer
-         */
-        public void setOrder(Object order)
-        {
-            _order = order;
-        }
-        
-        /**
-         * True if the tab should be ordered before the tab referenced by the attribute order
-         * @return True if the tab should be ordered before the tab referenced by the attribute order
-         */
-        public boolean orderBefore()
-        {
-            return _orderBefore;
-        }
-        
-        /**
-         * Retrieve the list of configured groups
-         * @return The list of groups
-         */
-        public List<Group> getGroups()
-        {
-            return _groups;
-        }
-        
-        /**
-         * Sax the configuration of the tab.
-         * @param handler The content handler where to sax
-         * @param groups The list of groups to sax
-         * @throws SAXException if an error occurs
-         */
-        public void saxGroups(ContentHandler handler, List<Group> groups) throws SAXException
-        {
-            AttributesImpl attrs = new AttributesImpl();
-            attrs.addCDATAAttribute("label", _label.getCatalogue() + ":" + _label.getKey());
-            StringBuilder i18nAttr = new StringBuilder("label");
-            
-            if (_id != null)
-            {
-                attrs.addCDATAAttribute("id", _id);
-                if (_contextualColor != null)
-                {
-                    attrs.addCDATAAttribute("contextualColor", _contextualColor);
-                }
-                if (_contextualGroup != null)
-                {
-                    attrs.addCDATAAttribute("contextualGroup", _contextualGroup);
-                }
-                if (_contextualLabel != null)
-                {
-                    attrs.addCDATAAttribute("contextualLabel", _contextualLabel.getCatalogue() + ":" + _contextualLabel.getKey());
-                    i18nAttr.append(" contextualLabel");
-                }
-            }
-            
-            attrs.addCDATAAttribute("http://apache.org/cocoon/i18n/2.1", "attr", "i18n:attr", i18nAttr.toString());
-            
-            XMLUtils.startElement(handler, "tab", attrs);
-
-            XMLUtils.startElement(handler, "groups");
-            for (Group group : groups)
-            {
-                group.toSAX(handler);
-            }
-            XMLUtils.endElement(handler, "groups");
-            
-            XMLUtils.endElement(handler, "tab");
-        }
-    }
-    
-    /**
-     * A group of a tab in the ribbon
-     */
-    public class Group
-    {
-        /** The label of the group */
-        protected I18nizableText _label;
-        /** The icon of the group (in collapsed state) */
-        protected String _icon;
-        /** The priority of the group (for resize purposes) */
-        protected int _priority;
-        /** The control to call when dialog box launcher is clicked (we exactly call the method in the param 'dialog-box-launcher') */
-        protected String _dialogBoxLauncher;
-        /** The large version of the group */
-        protected GroupSize _largeSize;
-        /** The medium version of the group */
-        protected GroupSize _mediumSize;
-        /** The short version of the group */
-        protected GroupSize _smallSize;
-        
-        /** The logger */
-        protected Logger _groupLogger;
-        
-        /**
-         * Creates a group
-         * @param groupConfiguration The configuration of the group
-         * @param ribbonManager The ribbon manager
-         * @param logger The logger
-         * @throws ConfigurationException if an error occurs in the configuration
-         */
-        public Group(Configuration groupConfiguration, RibbonManager ribbonManager, Logger logger) throws ConfigurationException
-        {
-            _groupLogger = logger;
-            _dialogBoxLauncher = groupConfiguration.getAttribute("dialog-box-launcher", "");
-            _priority = groupConfiguration.getAttributeAsInteger("priority", 0);
-            _configureLabelAndIcon(groupConfiguration);
-            _configureSize(groupConfiguration, ribbonManager);
-        }     
-
-        /**
-         * Creates an empty group
-         * @param logger The logger
-         */
-        public Group(Logger logger)
-        {
-            _groupLogger = logger;
-        }
-        
-        /**
-         * Create an empty group by copying another group's parameters
-         * @param ribbonGroup The ribbon group
-         */
-        public Group(Group ribbonGroup)
-        {
-            _label = ribbonGroup._label;
-            _icon = ribbonGroup._icon;
-            _priority = ribbonGroup._priority;
-            _groupLogger = ribbonGroup._groupLogger;
-            _dialogBoxLauncher = ribbonGroup._dialogBoxLauncher;
-            
-            _largeSize = new GroupSize(_groupLogger);
-            _mediumSize = new GroupSize(_groupLogger);
-            _smallSize = new GroupSize(_groupLogger);
-        }
-
-        /**
-         * Configure one group label
-         * @param groupConfiguration One group configuration
-         * @throws ConfigurationException if an error occurred
-         */
-        protected void _configureLabelAndIcon(Configuration groupConfiguration) throws ConfigurationException
-        {
-            this._label = new I18nizableText("application", groupConfiguration.getAttribute("label"));
-            if (_groupLogger.isDebugEnabled())
-            {
-                _groupLogger.debug("Group label is " + this._label);
-            }
-            
-            this._icon = groupConfiguration.getAttribute("icon", "");
-            if (_groupLogger.isDebugEnabled())
-            {
-                _groupLogger.debug("Group icon is " + this._label);
-            }
-        }
-        
-        /**
-         * Configure the different size of the group
-         * @param groupConfiguration One group configuration
-         * @param ribbonManager The ribbon manager
-         * @throws ConfigurationException if an error occurred
-         */
-        protected void _configureSize(Configuration groupConfiguration, RibbonManager ribbonManager) throws ConfigurationException
-        {
-            if (groupConfiguration.getChild("medium").getChildren().length > 0)
-            {
-                _largeSize = groupConfiguration.getChild("large", false) != null ? new GroupSize(groupConfiguration.getChild("large"), ribbonManager, _groupLogger) : null;
-                _mediumSize = new GroupSize(groupConfiguration.getChild("medium"), ribbonManager, _groupLogger);
-            }
-            else
-            {
-                _largeSize = new GroupSize(groupConfiguration.getChild("large", false) != null ? groupConfiguration.getChild("large") : groupConfiguration, ribbonManager, _groupLogger);
-                _mediumSize = null;
-            }
-            
-            _smallSize = groupConfiguration.getChild("small", false) != null ? new GroupSize(groupConfiguration.getChild("small"), ribbonManager, _groupLogger) : null;
-            
-            _checkSizeConsistency(groupConfiguration);
-        }
-        
-        private void _checkSizeConsistency(Configuration groupConfiguration) throws ConfigurationException
-        {
-            if (_mediumSize != null)
-            {
-                Set<String> mediumControlIds = _mediumSize.getControlIds();
-                
-                if (_smallSize != null && _smallSize.getControlIds().size() > 0)
-                {
-                    Collection disjunction = CollectionUtils.disjunction(_smallSize.getControlIds(), mediumControlIds);
-                    if (disjunction.size() > 0)
-                    {
-                        String disjunctionAdString = StringUtils.join(disjunction, ", ");
-                        throw new ConfigurationException("The small configuration of the group does not have the same elements as the medium one (" + disjunctionAdString + ")", groupConfiguration);
-                    }
-                }
-                if (_largeSize != null && _largeSize.getControlIds().size() > 0)
-                {
-                    Collection disjunction = CollectionUtils.disjunction(_largeSize.getControlIds(), mediumControlIds);
-                    if (disjunction.size() > 0)
-                    {
-                        String disjunctionAdString = StringUtils.join(disjunction, ", ");
-                        throw new ConfigurationException("The large configuration of the group does not have the same elements as the medium one (" + disjunctionAdString + ")", groupConfiguration);
-                    }
-                }
-            }
-        }
-        
-        /**
-         * Return true if the group does not have any controls
-         * @return True if empty
-         */
-        public boolean isEmpty()
-        {
-            return _mediumSize == null || _mediumSize.getControlIds().size() <= 0;
-        }
-        
-        /**
-         * Retrieve the large group size from this group
-         * @return The large group size. Can be null
-         */
-        public GroupSize getLargeGroupSize()
-        {
-            return _largeSize;
-        }
-        
-        /**
-         * Retrieve the medium group size from this group
-         * @return The medium group size. Can be null
-         */
-        public GroupSize getMediumGroupSize()
-        {
-            return _mediumSize;
-        }
-        
-        /**
-         * Retrieve the small group size from this group
-         * @return The small group size. Can be null
-         */
-        public GroupSize getSmallGroupSize()
-        {
-            return _smallSize;
-        }
-
-        /**
-         * Sax the the configuration of the group.
-         * @param handler The content handler where to sax
-         * @throws SAXException if an error occurs
-         */
-        public void toSAX(ContentHandler handler) throws SAXException
-        {
-            AttributesImpl attrs = new AttributesImpl();
-            attrs.addCDATAAttribute("icon", _icon);
-            attrs.addCDATAAttribute("priority", Integer.toString(_priority));
-            attrs.addCDATAAttribute("label", _label.getCatalogue() + ":" + _label.getKey());
-            if (!StringUtils.isEmpty(_dialogBoxLauncher))
-            {
-                attrs.addCDATAAttribute("dialog-box-launcher", _dialogBoxLauncher);
-            }
-            attrs.addCDATAAttribute("http://apache.org/cocoon/i18n/2.1", "attr", "label");
-            
-            XMLUtils.startElement(handler, "group", attrs);
-
-            _largeSize.toSAX("large", handler);
-            _mediumSize.toSAX("medium", handler);
-            _smallSize.toSAX("small", handler);
-            
-            XMLUtils.endElement(handler, "group");
-        }
-    }    
-    
-    /**
-     * A group in a defined size
-     */
-    public class GroupSize
-    {
-        /** The list of elements in the group (controls or layouts) */
-        protected List<Element> _elements = new ArrayList<>();
-        
-        /** The logger */
-        protected Logger _groupSizeLogger;
-        
-        /**
-         * Creates a group in a defined size
-         * @param groupSizeConfiguration The configuration for the size
-         * @param ribbonManager The ribbon manager
-         * @param logger The logger
-         * @throws ConfigurationException if an error occurred
-         */
-        public GroupSize(Configuration groupSizeConfiguration, RibbonManager ribbonManager, Logger logger) throws ConfigurationException
-        {
-            this._groupSizeLogger = logger;
-            
-            Configuration[] elementsConfigurations = groupSizeConfiguration.getChildren();
-            for (Configuration elementConfiguration : elementsConfigurations)
-            {
-                if ("control".equals(elementConfiguration.getName()))
-                {
-                    ControlRef control = new ControlRef(elementConfiguration, ribbonManager, _groupSizeLogger);
-                    _elements.add(control);
-                }
-                else if ("layout".equals(elementConfiguration.getName()))
-                {
-                    Layout layout = new Layout(elementConfiguration, ribbonManager, _groupSizeLogger);
-                    _elements.add(layout);
-                }
-                else if (_groupSizeLogger.isWarnEnabled())
-                {
-                    _groupSizeLogger.warn("During configuration of the ribbon, the group use an unknow tag '" + elementConfiguration.getName() + "'");
-                }
-            }
-        }
-        
-        /**
-         * Creates an empty group in a defined size
-         * @param logger The logger
-         */
-        public GroupSize(Logger logger)
-        {
-            this._groupSizeLogger = logger;
-        }
-        
-        /**
-         * Get a set of all referenced ids
-         * @return A non null set of control ids
-         */
-        public Set<String> getControlIds()
-        {
-            return _getControlIds(_elements);
-        }
-        
-        private Set<String> _getControlIds(List<Element> elements)
-        {
-            Set<String> ids = new HashSet<>();
-            
-            for (Element element : elements)
-            {
-                if (element instanceof ControlRef)
-                {
-                    ControlRef controlRef = (ControlRef) element;
-                    ids.add(controlRef._id);
-                }
-                else if (element instanceof Layout)
-                {
-                    Layout layout = (Layout) element;
-            
-                    ids.addAll(_getControlIds(layout._elements));
-                }
-                else
-                {
-                    Toolbar toolbar = (Toolbar) element;
-                    
-                    ids.addAll(_getControlIds(toolbar._elements));
-                }
-            }
-            
-            return ids;
-        }
-        
-        /**
-         * Retrieve the list of children elements in this element.
-         * @return The list of elements.
-         */
-        public List<Element> getChildren()
-        {
-            return _elements;
-        }
-        
-        /**
-         * Sax the the configuration of the group size.
-         * @param elementName The name of the surrounding element to use
-         * @param handler The content handler where to sax
-         * @throws SAXException if an error occurs
-         */
-        public void toSAX(String elementName, ContentHandler handler) throws SAXException
-        {
-            XMLUtils.startElement(handler, elementName);
-
-            for (Element element : _elements)
-            {
-                element.toSAX(handler);
-            }
-
-            XMLUtils.endElement(handler, elementName);
-        }
-        
-        /**
-         * Test if this GroupSize contains the same elements as another GroupSize
-         * @param obj The other GroupSize
-         * @return True if they are equals
-         */
-        public boolean isSame(GroupSize obj)
-        {
-            List<Element> objElements = obj.getChildren();
-            if (objElements.size() != _elements.size())
-            {
-                return false;
-            }
-            for (int i = 0; i < _elements.size(); i++)
-            {
-                Element element = _elements.get(i);
-                Element objElement = objElements.get(i);
-                if (element == null || objElement == null || !element.isSame(objElement))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-    }   
-    
-    /**
-     * An element in the ribbon
-     */
-    public interface Element
-    {
-        /**
-         * Retrieve the list of children elements in this element.
-         * @return The list of elements.
-         */
-        public List<Element> getChildren();
-        
-        /**
-         * Sax the the configuration of the element.
-         * @param handler The content handler where to sax
-         * @throws SAXException if an error occurs
-         */
-        public void toSAX(ContentHandler handler) throws SAXException;
-        
-        
-        /**
-         * Test if an element is equal to another element
-         * @param element The element to compare to
-         * @return True if equals
-         */
-        boolean isSame(Element element);
-    }
-    
-    /**
-     * A control
-     */
-    public class ControlRef implements Element
-    {
-        /** The id of the control */
-        protected String _id;
-
-        /** Number of columns used by the control upon some layouts. 1 is the common and defaul value */
-        protected int _colspan;
-        
-        /** Logger */
-        protected Logger _controlLogger;
-        
-        /**
-         * Creates a control reference
-         * @param controlConfiguration The configuration for the control
-         * @param ribbonManager The ribbon manager
-         * @param logger The logger
-         * @throws ConfigurationException if an error occurred
-         */
-        public ControlRef(Configuration controlConfiguration, RibbonManager ribbonManager, Logger logger) throws ConfigurationException
-        {
-            String refId = controlConfiguration.getAttribute("ref-id", null);
-            if (refId == null && controlConfiguration.getChildren().length == 0)
-            {
-                _initialize(controlConfiguration.getAttribute("id"), controlConfiguration.getAttributeAsInteger("colspan", 1), logger);
-            }
-            else
-            {
-                String id = controlConfiguration.getAttribute("id", UUID.randomUUID().toString());
-                DefaultConfiguration defaultConfig = new DefaultConfiguration(controlConfiguration);
-                
-                String classname = controlConfiguration.getAttribute("class", null);
-                if (classname == null)
-                {
-                    if (refId != null)
-                    {
-                        defaultConfig.setAttribute("point", controlConfiguration.getAttribute("point", RibbonControlsManager.ROLE));
-                    }
-                    else
-                    {
-                        classname = org.ametys.core.ui.SimpleMenu.class.getName();
-                        defaultConfig.setAttribute("class", classname);
-                    }
-                }
-                
-                ribbonManager.addExtension(id, "core-ui", null, defaultConfig);
-    
-                _initialize(id, controlConfiguration.getAttributeAsInteger("colspan", 1), logger);
-            }
-        }
-
-        /**
-         * Creates a control reference
-         * @param id The id referenced by this control
-         * @param colspan The colspan of this control
-         * @param logger The logger
-         */
-        public ControlRef(String id, int colspan, Logger logger)
-        {
-            _initialize(id, colspan, logger);
-        }
-
-        private void _initialize(String id, int colspan, Logger logger)
-        {
-            this._controlLogger = logger;
-            
-            this._id = id;
-            if (_controlLogger.isDebugEnabled())
-            {
-                _controlLogger.debug("Control id is " + this._id);
-            }
-            
-            this._colspan = colspan;
-            if (_controlLogger.isDebugEnabled())
-            {
-                _controlLogger.debug("Control colspan is " + this._colspan);
-            }
-        }
-        
-        @Override
-        public List<Element> getChildren()
-        {
-            return new ArrayList<>();
-        }
-        
-        @Override
-        public void toSAX(ContentHandler handler) throws SAXException
-        {
-            AttributesImpl attrs = new AttributesImpl();
-            attrs.addCDATAAttribute("id", _id);
-            attrs.addCDATAAttribute("colspan", Integer.toString(_colspan));
-            XMLUtils.createElement(handler, "control", attrs);
-        }
-
-        public boolean isSame(Element element)
-        {
-            if (!(element instanceof ControlRef))
-            {
-                return false;
-            }
-            
-            ControlRef controlRef = (ControlRef) element;
-            return controlRef._id == _id && controlRef._colspan == _colspan;
-        }
-    }
-    
-    /**
-     * A layout of controls
-     */
-    public class Layout implements Element
-    {
-        /** The layout alignment */
-        protected LAYOUTALIGN _layoutAlign;
-        
-        /** The size of the control */
-        protected CONTROLSIZE _size;
-        
-        /** Number of columns used by the control upon some layouts. 1 is the common and default value */
-        protected int _cols;
-        
-        /** The elements in the layout. Can be controls or toolbars */
-        protected List<Element> _elements = new ArrayList<>();
-
-        /** Logger */
-        protected Logger _layoutLogger;
-
-        /**
-         * Creates a layout of controls
-         * @param layoutConfiguration The configuration for the layout
-         * @param ribbonManager The ribbon manager 
-         * @param logger The logger
-         * @throws ConfigurationException if an error occurred
-         */
-        public Layout(Configuration layoutConfiguration, RibbonManager ribbonManager, Logger logger) throws ConfigurationException
-        {
-            this(layoutConfiguration.getAttributeAsInteger("cols", 1), CONTROLSIZE.createsFromString(layoutConfiguration.getAttribute("size", null)), LAYOUTALIGN.createsFromString(layoutConfiguration.getAttribute("align", null)), logger);
-
-            Configuration[] elementsConfigurations = layoutConfiguration.getChildren();
-            for (Configuration elementConfiguration : elementsConfigurations)
-            {
-                if ("control".equals(elementConfiguration.getName()))
-                {
-                    ControlRef control = new ControlRef(elementConfiguration, ribbonManager, _layoutLogger);
-                    _elements.add(control);
-                }
-                else if ("toolbar".equals(elementConfiguration.getName()))
-                {
-                    Toolbar toolbar = new Toolbar(elementConfiguration, ribbonManager, _layoutLogger);
-                    _elements.add(toolbar);
-                }
-                else if (_layoutLogger.isWarnEnabled())
-                {
-                    _layoutLogger.warn("During configuration of the ribbon, the layout use an unknow tag '" + elementConfiguration.getName() + "'");
-                }
-            }
-        }
-        
-        /**
-         * Create a new layout by duplicating an existing layout
-         * @param layout The original layout
-         * @param size The new layout size
-         */
-        public Layout(Layout layout, CONTROLSIZE size)
-        {
-            this(layout._cols, size, layout._layoutAlign, layout._layoutLogger);
-        }
-        
-        /**
-         * Creates a layout of controls
-         * @param cols The number of columns
-         * @param size The size
-         * @param align The alignment
-         * @param logger The logger
-         */
-        public Layout(int cols, CONTROLSIZE size, LAYOUTALIGN align, Logger logger)
-        {
-            this._layoutLogger = logger;
-            
-            this._cols = cols;
-            if (_layoutLogger.isDebugEnabled())
-            {
-                _layoutLogger.debug("Control colspan is " + this._cols);
-            }
-            
-            this._layoutAlign = align; 
-            if (_layoutLogger.isDebugEnabled())
-            {
-                _layoutLogger.debug("Control align is " + this._layoutAlign);
-            }
-            
-            _size = size;
-            if (_layoutLogger.isDebugEnabled())
-            {
-                _layoutLogger.debug("Control size is " + this._size);
-            }
-        }
-        
-        @Override
-        public List<Element> getChildren()
-        {
-            return _elements;
-        }
-        
-        @Override
-        public void toSAX(ContentHandler handler) throws SAXException
-        {
-            AttributesImpl attrs = new AttributesImpl();
-            
-            if (_layoutAlign != null)
-            {
-                attrs.addCDATAAttribute("align", _layoutAlign.toString());
-            }
-
-            if (_size != null)
-            {
-                attrs.addCDATAAttribute("size", _size.toString());
-            }
-
-            attrs.addCDATAAttribute("cols", Integer.toString(_cols));
-            
-            XMLUtils.startElement(handler, "layout", attrs);
-            
-            for (Element element : _elements)
-            {
-                element.toSAX(handler);
-            }
-            
-            XMLUtils.endElement(handler, "layout");
-        }
-
-        public boolean isSame(Element element)
-        {
-            if (!(element instanceof Layout))
-            {
-                return false;
-            }
-            
-            Layout layout = (Layout) element;
-            if (layout._cols != _cols || layout._layoutAlign != _layoutAlign || layout._size != _size)
-            {
-                return false;
-            }
-            
-            List<Element> layoutElements = layout.getChildren();
-            if (layoutElements.size() != _elements.size())
-            {
-                return false;
-            }
-            for (int i = 0; i < _elements.size(); i++)
-            {
-                Element child = _elements.get(i);
-                Element objElement = layoutElements.get(i);
-                if (child == null || objElement == null || !child.isSame(objElement))
-                {
-                    return false;
-                }
-            }
-            
-            return true;
-        }
-    }
-    
-    /**
-     * A toolbar of controls
-     */
-    public class Toolbar implements Element
-    {
-        /** Number of columns used by the control upon some layouts. 1 is the common and default value */
-        protected int _colspan;
-        
-        /** The elements in the layout. Can be controls */
-        protected List<Element> _elements = new ArrayList<>();
-
-        /** Logger */
-        protected Logger _toolbarLogger;
-        
-        /**
-         * Creates a toolbar of controls
-         * @param toolbarConfiguration The configuration for the layout
-         * @param ribbonManager The ribbon manager
-         * @param logger The logger
-         * @throws ConfigurationException if an error occurred
-         */
-        public Toolbar(Configuration toolbarConfiguration, RibbonManager ribbonManager, Logger logger) throws ConfigurationException
-        {
-            this(logger, toolbarConfiguration.getAttributeAsInteger("colspan", 1));
-            
-            Configuration[] elementsConfigurations = toolbarConfiguration.getChildren();
-            for (Configuration elementConfiguration : elementsConfigurations)
-            {
-                if ("control".equals(elementConfiguration.getName()))
-                {
-                    ControlRef control = new ControlRef(elementConfiguration, ribbonManager, _toolbarLogger);
-                    _elements.add(control);
-                }
-                else if (_toolbarLogger.isWarnEnabled())
-                {
-                    _toolbarLogger.warn("During configuration of the ribbon, the toolbar use an unknow tag '" + elementConfiguration.getName() + "'");
-                }
-            }
-        }
-
-        /**
-         * Creates an empty toolbar of controls
-         * @param logger The logger
-         * @param colspan The toolbar colspan
-         */
-        public Toolbar(Logger logger, int colspan)
-        {
-            this._toolbarLogger = logger;
-            
-            this._colspan = colspan;
-            if (_toolbarLogger.isDebugEnabled())
-            {
-                _toolbarLogger.debug("Control colspan is " + this._colspan);
-            }
-        }
-        
-        @Override
-        public List<Element> getChildren()
-        {
-            return _elements;
-        }
-        
-        @Override
-        public void toSAX(ContentHandler handler) throws SAXException
-        {
-            AttributesImpl attrs = new AttributesImpl();
-            attrs.addCDATAAttribute("colspan", Integer.toString(_colspan));
-            
-            XMLUtils.startElement(handler, "toolbar", attrs);
-            
-            for (Element element : _elements)
-            {
-                element.toSAX(handler);
-            }
-            
-            XMLUtils.endElement(handler, "toolbar");
-        }
-
-        public boolean isSame(Element element)
-        {
-            if (!(element instanceof Toolbar))
-            {
-                return false;
-            }
-            
-            Toolbar toolbar = (Toolbar) element;
-            if (toolbar._colspan != _colspan)
-            {
-                return false;
-            }
-            
-            if (toolbar.getChildren().size() != _elements.size())
-            {
-                return false;
-            }
-            for (int i = 0; i < _elements.size(); i++)
-            {
-                Element child = _elements.get(i);
-                Element objElement = toolbar.getChildren().get(i);
-                if (child == null || objElement == null || !child.isSame(objElement))
-                {
-                    return false;
-                }
-            }
-            
-            return true;
-        }
-    }
-    
-    /**
-     * A menu separator
-     */
-    public class Separator implements Element
-    {
-        @Override
-        public List<Element> getChildren()
-        {
-            return new ArrayList<>();
-        }
-        
-        @Override
-        public void toSAX(ContentHandler handler) throws SAXException
-        {
-            XMLUtils.createElement(handler, "separator");
-        }
-
-        public boolean isSame(Element element)
-        {
-            return element instanceof Separator;
         }
     }
 }

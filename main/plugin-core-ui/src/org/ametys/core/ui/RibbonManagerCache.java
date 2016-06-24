@@ -32,7 +32,7 @@ import org.apache.avalon.framework.service.Serviceable;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
 
-import org.ametys.core.ui.RibbonConfigurationManager.RibbonConfiguration;
+import org.ametys.core.ui.ribbonconfiguration.RibbonConfiguration;
 import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 import org.ametys.runtime.plugin.component.PluginsComponentManager;
 import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;

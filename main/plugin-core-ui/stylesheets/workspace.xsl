@@ -449,8 +449,8 @@
                             /** Contextual tabs creation */<xsl:text/>
                             var tab;
                     <xsl:variable name="tabcount" select="count(ribbon/tabs/tab)"/>
-                    <xsl:for-each select="ribbon/tabs/tab[not(preceding-sibling::*/@id = @id)]">
-                        <xsl:variable name="tabController" select="../../tabsControls/tab[@id = current()/@id]"/>
+                    <xsl:for-each select="ribbon/tabs/tab[not(preceding-sibling::*/@controlId = @controlId)]">
+                        <xsl:variable name="tabController" select="../../tabsControls/tab[@id = current()/@controlId]"/>
                         
                         <xsl:if test="$tabController">
                             tab = Ext.create("<xsl:value-of select="$tabController/action/@class"/>", Ext.apply(<xsl:value-of select="$tabController/action"/>, {id: "<xsl:value-of select="$tabController/@id"/>", pluginName: "<xsl:value-of select="$tabController/@plugin"/>"}));
@@ -462,7 +462,7 @@
                         <xsl:sort select="position()" data-type="number" order="descending"/>
 
                         <xsl:variable name="tabPos"><xsl:value-of select="$tabcount - position() + 1"/></xsl:variable>
-                        <xsl:variable name="tabController" select="../../tabsControls/tab[@id = current()/@id]"/>
+                        <xsl:variable name="tabController" select="../../tabsControls/tab[@id = current()/@controlId]"/>
                         
                         <xsl:if test="$tabController">
                             <xsl:text />Ametys.ribbon.RibbonManager.getTab("<xsl:value-of select="$tabController/@id"/>").attachTab(tab_<xsl:value-of select="$tabPos"/>);
