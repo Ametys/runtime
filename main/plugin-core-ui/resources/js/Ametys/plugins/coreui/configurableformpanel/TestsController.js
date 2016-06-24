@@ -31,11 +31,14 @@ Ext.define('Ametys.plugins.coreui.configurableformpanel.TestsController', {
             var target = controller.getMatchingTargets()[0];
             if (target != null)
             {
-                var mode = controller.getInitialConfig().mode;
+            	controller.refreshing();
+
+            	var mode = controller.getInitialConfig().mode;
                 var form = target.getParameters().object.owner;
+                form.mask();
                 
                 var activeFieldCheckers = form._fieldCheckersManager._fieldCheckers.filter(function (el) { return el.isActive; });
-                form._fieldCheckersManager.check(activeFieldCheckers, true, Ext.emptyFn , mode == 'all');
+                form._fieldCheckersManager.check(activeFieldCheckers, true, function(){controller.stopRefreshing(); form.unmask();}, mode == 'all');
             }
         }
     },
