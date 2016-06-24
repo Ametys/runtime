@@ -228,7 +228,7 @@
                             <xsl:variable name="id" select="@id"/>
                                try { 
                                		var control = Ametys.ribbon.RibbonManager.getUI("<xsl:value-of select="@id"/>");
-                                    var tabLabel = "<xsl:value-of select="/Ametys/workspace/ribbon/tabs/tab[groups/group/medium//control/@id = $id]/@label"/>";
+                                    var tabLabel = "<xsl:value-of select="ancestor::tab/@label"/>";
                                		var menuItem = control.addMenuItemUI();
                                     menuItem.text = '&lt;span class="a-ribbon-searchmenu-item-category"&gt;' + tabLabel + '&lt;/span&gt;' + menuItem.text;
                                		searchMenuItems.push(menuItem);
