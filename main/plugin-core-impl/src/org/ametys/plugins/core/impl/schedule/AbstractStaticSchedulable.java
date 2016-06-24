@@ -45,7 +45,7 @@ import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
 /**
  * Default static implementation of {@link Schedulable}
  * For implementing the {@link Schedulable} interface (while being {@link Configurable}), extends this class and implements the {@link #execute(org.quartz.JobExecutionContext)} method
- * <br/>
+ * <br>
  * For instance:
  * <pre>
  * public class SayHelloSchedulable extends AbstractStaticSchedulable
