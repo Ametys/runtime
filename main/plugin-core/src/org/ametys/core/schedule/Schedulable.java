@@ -84,6 +84,12 @@ public interface Schedulable
     public boolean isPrivate();
     
     /**
+     * Returns true if two runnables of this schedulable can be executed concurrently
+     * @return true if two runnables of this schedulable can be executed concurrently
+     */
+    public boolean acceptConcurrentExecution();
+    
+    /**
      * Get the parameters for job execution
      * @return the parameters
      */

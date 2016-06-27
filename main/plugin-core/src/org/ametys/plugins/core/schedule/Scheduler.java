@@ -592,10 +592,10 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
         }
         else
         {
-            result.put("previousFireTime", jobDataMap.get(AmetysJob.KEY_PREVIOUS_FIRE_TIME));
             result.put("enabled", true);
             result.put("completed", !Runnable.FireProcess.STARTUP.toString().equals(jobDataMap.getString(KEY_RUNNABLE_FIRE_PROCESS)) || jobDataMap.getBoolean(KEY_RUNNABLE_STARTUP_COMPLETED));
         }
+        result.put("previousFireTime", jobDataMap.get(AmetysJob.KEY_PREVIOUS_FIRE_TIME));
         
         return result;
     }
@@ -604,7 +604,6 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
     {
         result.put("enabled", !TriggerState.PAUSED.equals(_scheduler.getTriggerState(trigger.getKey())));
         result.put("nextFireTime", trigger.getNextFireTime());
-        result.put("previousFireTime", trigger.getPreviousFireTime());
     }
     
     private Map<String, Object> _schedulableToJson(Schedulable schedulable) throws Exception

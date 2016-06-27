@@ -88,6 +88,8 @@ public abstract class AbstractStaticSchedulable extends AbstractLogEnabled imple
     protected String _iconLarge;
     /** True if the schedulable is private */
     protected boolean _private;
+    /** True if two runnables of this schedulable can be executed concurrently */
+    protected boolean _acceptConcurrentExecution;
     /** The parameters */
     protected Map<String, Parameter<ParameterType>> _parameters;
     
@@ -120,6 +122,7 @@ public abstract class AbstractStaticSchedulable extends AbstractLogEnabled imple
         _iconMedium = configuration.getChild("icon-medium").getValue("");
         _iconLarge = configuration.getChild("icon-large").getValue("");
         _private = configuration.getChild("private").getValueAsBoolean(false);
+        _acceptConcurrentExecution = configuration.getChild("acceptConcurrentExecution").getValueAsBoolean(true);
         _configureParameters(configuration.getChild("parameters"));
     }
     
@@ -206,9 +209,16 @@ public abstract class AbstractStaticSchedulable extends AbstractLogEnabled imple
         return _iconLarge;
     }
     
+    @Override
     public boolean isPrivate()
     {
         return _private;
+    }
+    
+    @Override
+    public boolean acceptConcurrentExecution()
+    {
+        return _acceptConcurrentExecution;
     }
 
     @Override

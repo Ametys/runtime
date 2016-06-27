@@ -25,11 +25,15 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.Constants;
 import org.apache.cocoon.util.log.SLF4JLoggerAdapter;
+import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
+import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.quartz.JobKey;
 import org.quartz.PersistJobDataAfterExecution;
+import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 
 import org.ametys.core.engine.BackgroundEngineHelper;
@@ -40,6 +44,7 @@ import org.ametys.plugins.core.schedule.Scheduler;
  * Ametys implementation of a {@link Job} which delegates the execution of the task to the right {@link Schedulable}
  */
 @PersistJobDataAfterExecution
+@DisallowConcurrentExecution
 public class AmetysJob implements Job
 {
     /** The key for the last duration of the {@link #execute(org.quartz.JobExecutionContext)} method which is stored in the {@link JobDataMap} */
@@ -78,7 +83,7 @@ public class AmetysJob implements Job
     }
     
     /**
-     * Releases and destoys used resources
+     * Releases and destroys used resources
      */
     public static void dispose()
     {
@@ -92,15 +97,25 @@ public class AmetysJob implements Job
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException
     {
+        JobDetail detail = context.getJobDetail();
+        JobDataMap jobDataMap = detail.getJobDataMap();
+        JobKey jobKey = detail.getKey();
+        String runnableId = jobDataMap.getString(Scheduler.KEY_RUNNABLE_ID);
+        String schedulableId = jobDataMap.getString(Scheduler.KEY_SCHEDULABLE_ID);
+        Schedulable schedulable = _schedulableEP.getExtension(schedulableId);
+        
+        // Concurrency allowed ?
+        if (!schedulable.acceptConcurrentExecution() && _checkConcurrency(schedulableId, runnableId, jobKey))
+        {
+            _logger.warn("The Runnable '{}' of the Schedulable '{}' cannot be executed now because concurrent execution is not allowed for this Schedulable", runnableId, schedulableId);
+            return;
+        }
+        
         boolean success = true;
-        JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
         
         // Set the previous (which is actually the current) fire time in the map (because the trigger may no longer exist in the future)
         jobDataMap.put(KEY_PREVIOUS_FIRE_TIME, context.getTrigger().getPreviousFireTime().getTime()); // possible with @PersistJobDataAfterExecution annotation
         
-        String runnableId = jobDataMap.getString(Scheduler.KEY_RUNNABLE_ID);
-        String schedulableId = jobDataMap.getString(Scheduler.KEY_SCHEDULABLE_ID);
-        Schedulable schedulable = _schedulableEP.getExtension(schedulableId);
         Map<String, Object> environmentInformation = BackgroundEngineHelper.createAndEnterEngineEnvironment(_serviceManager, _environmentContext, new SLF4JLoggerAdapter(_logger));
         
         _logger.info("Executing the Runnable '{}' of the Schedulable '{}' with jobDataMap:\n '{}'", runnableId, schedulableId, jobDataMap.getWrappedMap().toString());
@@ -136,6 +151,24 @@ public class AmetysJob implements Job
             {
                 jobDataMap.put(Scheduler.KEY_RUNNABLE_STARTUP_COMPLETED, true);
             }
+        }
+    }
+    
+    private boolean _checkConcurrency(String schedulableId, String runnableId, JobKey currentJobKey) throws JobExecutionException
+    {
+        try
+        {
+            return _scheduler.getScheduler().getCurrentlyExecutingJobs().stream()
+                    .map(JobExecutionContext::getJobDetail)
+                    .filter(detail -> !detail.getKey().equals(currentJobKey)) // currently executing without this
+                    .map(detail -> detail.getJobDataMap().getString(Scheduler.KEY_SCHEDULABLE_ID))
+                    .filter(id -> id.equals(schedulableId))
+                    .count() > 0;
+        }
+        catch (SchedulerException e)
+        {
+            _logger.error(String.format("An error occured during the concurrency check of the Runnable '%s'", runnableId), e);
+            throw new JobExecutionException(String.format("An error occured during the concurrency check of the Runnable '%s'", runnableId), e);
         }
     }
 }

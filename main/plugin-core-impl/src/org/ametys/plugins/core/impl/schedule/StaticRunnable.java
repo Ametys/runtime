@@ -184,7 +184,8 @@ public class StaticRunnable implements Runnable, Component, Configurable, Plugin
     {
         _parameterValues = new HashMap<>();
         
-        Map<String, Parameter<ParameterType>> declaredParameters = _schedulableEP.getExtension(_schedulableId).getParameters();
+        Schedulable schedulable = _schedulableEP.getExtension(_schedulableId);
+        Map<String, Parameter<ParameterType>> declaredParameters = schedulable.getParameters();
         
         for (String paramId : declaredParameters.keySet())
         {
