@@ -55,14 +55,14 @@ public final class ConfigurationHelper
         String listDefaultPlugin = configuration.getAttribute("plugin", defaultPluginName);
         for (Configuration fileConfiguration : configuration.getChildren("file"))
         {
-            ScriptFile scriptFile = _getPluginResourceJSValue(fileConfiguration, listDefaultPlugin, logger);
+            ScriptFile scriptFile = _getPluginResourceValue(fileConfiguration, listDefaultPlugin, logger);
             
             resourceFiles.add(scriptFile);
         }
         return resourceFiles;
     }
 
-    private static ScriptFile _getPluginResourceJSValue(Configuration fileConfiguration, String listDefaultPlugin, Logger logger) throws ConfigurationException
+    private static ScriptFile _getPluginResourceValue(Configuration fileConfiguration, String listDefaultPlugin, Logger logger) throws ConfigurationException
     {
         ScriptFile scriptFile;
         String debug = fileConfiguration.getAttribute("debug", "all");
