@@ -96,7 +96,7 @@
                         browser = 'ed';
                         browserVersion = RegExp.$1;
 					}
-					else if (/compatible; msie ([0-9.]+);/.test(useragent))
+					else if (/compatible; msie ([0-9.]+);/.test(useragent) || /trident.*rv:([0-9.]+)/.test(useragent))
 					{
 						browser = 'ie';
 						browserVersion = RegExp.$1;
