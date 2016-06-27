@@ -28,6 +28,16 @@
                 <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
                 <title><xsl:call-template name="head-title"/></title>
+                
+                <script type="text/javascript">
+                    var useragent = navigator.userAgent.toLowerCase();
+                    
+                    if (/compatible; msie ([0-9.]+);/.test(useragent) || /trident.*rv:([0-9.]+)/.test(useragent))
+                    {
+                        document.getElementsByTagName("html")[0].classList.add("x-ie");
+                    }                
+                </script>
+                    
 
                 <link rel="icon" type="image/x-icon" href="{$contextPath}/favicon.ico" />
                 <link rel="shortcut icon" type="image/x-icon" href="{$contextPath}/favicon.ico" />
