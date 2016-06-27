@@ -38,10 +38,17 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 	_isSuspended: true,
 	
 	/**
+	 * @property {Number} _running the amount of tests that are currently running
+	 * @private
+	 */
+	
+	/**
 	 * @property {Object} _testResults the results of the tests
 	 * 					  _testResults.successes the amount of successes
 	 * 					  _testResults.failures the amount of failures
 	 * 					  _testResults.notTested the amount of untested checkers
+	 *                    _testResults.running the amount of tests currently running
+	 * @private
 	 */
 	_testResults : {},
 	
@@ -60,7 +67,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 		this._form.on('formready', Ext.bind(this._resumeEvents, this));
 		
 		this._fieldCheckers = [];
-        
+        this._running = 0;
+		
         this.hideDisabledButtons = config.hideDisabledButtons === true;
 	},
 	
@@ -420,12 +428,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 			}
 		});
 		
-		var testResults = {successes: successes, failures: failures, notTested: notTested};
-		if (!Ext.Object.equals(this._testResults, testResults))
-		{
-			this._testResults = testResults;
-			this._form.fireEvent('testresultschange');
-		}
+		this._testResults = {successes: successes, failures: failures, notTested: notTested, running: this._running};
+		this._form.fireEvent('testresultschange');
 	},
 	
 	/**
@@ -737,6 +741,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
             {
             	if (!this._hasInvalidField(fieldChecker))
         		{
+            		this._running++;
+            		
             		// Reset the error message before the test
             		fieldChecker.setErrorMsg(null);
             		
@@ -773,6 +779,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
     	}
         else
     	{
+        	// Inform the controllers that tests are running
+        	this.updateTestResults();
+        	
 	        // Server call
 	        Ext.Ajax.request({
 	        	url: this._form.getTestURL(),  
@@ -811,6 +820,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
             	
             	btn.getEl().unmask();
             	btn.enable();
+            	
+            	this._running--;
             }
             
             return;
@@ -823,6 +834,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 
         // Server's response handler
         Ext.Array.each(fieldCheckers, function(fieldChecker) {
+        	this._running--;
+        	
             var btn = Ext.getCmp(fieldChecker.buttonId),
                 helpBox = Ext.getCmp(fieldChecker.helpBoxId),
                 statusCmp = Ext.getCmp(fieldChecker.statusCmpId);

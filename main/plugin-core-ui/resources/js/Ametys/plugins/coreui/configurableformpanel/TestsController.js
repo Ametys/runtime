@@ -31,14 +31,12 @@ Ext.define('Ametys.plugins.coreui.configurableformpanel.TestsController', {
             var target = controller.getMatchingTargets()[0];
             if (target != null)
             {
-            	controller.refreshing();
-
             	var mode = controller.getInitialConfig().mode;
                 var form = target.getParameters().object.owner;
                 form.mask();
                 
                 var activeFieldCheckers = form._fieldCheckersManager._fieldCheckers.filter(function (el) { return el.isActive; });
-                form._fieldCheckersManager.check(activeFieldCheckers, true, function(){controller.stopRefreshing(); form.unmask();}, mode == 'all');
+                form._fieldCheckersManager.check(activeFieldCheckers, true, function(){form.unmask();}, mode == 'all');
             }
         }
     },
@@ -74,27 +72,40 @@ Ext.define('Ametys.plugins.coreui.configurableformpanel.TestsController', {
 	 */
 	_updateDescriptions: function(testResults)
 	{
-		var html = [],
-			tpl = new Ext.Template(
-				"<div class='test-results'>" + 
-					"<span>{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_TEXT}}</span>" +
-					'<ul>' + 
-						"<li> {successes} {{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_SUCCESSES}}</li>" +
-						"<li> {failures} {{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_FAILURES}}</li>" +
-						"<li> {notTested} {{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_NOT_TESTED}}</li>" +
-					'</ul>' +
-				"</div>"
-			);
-		
-		var noFailures = testResults.failures + testResults.notTested == 0;
-		var noTests = testResults.successes + testResults.failures + testResults.notTested == 0;
-
-		if (this._mode == 'missed')
+		var testsRunning = testResults.running > 0;
+		if (testsRunning)
 		{
-			this.setIconDecorator (noFailures ? 'decorator-flaticon-checked34' : 'decorator-flaticon-alert9');
+			this.refreshing();
 		}
-
-		this.setDisabled(this._mode == 'all' ? noTests : noFailures);
-		this.setDescription(tpl.applyOut(testResults, html)[0]);
+		else
+		{
+			var html = [],
+			tpl = new Ext.Template(
+					"<div class='test-results'>" + 
+					"<span>{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_TEXT}}</span>" +
+						'<ul>' + 
+							"<li> {successes} {{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_SUCCESSES}}</li>" +
+							"<li> {failures} {{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_FAILURES}}</li>" +
+							"<li> {notTested} {{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_NOT_TESTED}}</li>" +
+						'</ul>' +
+					"</div>"
+			);
+			
+			var noFailures = testResults.failures + testResults.notTested == 0;
+			var noTests = testResults.successes + testResults.failures + testResults.notTested == 0;
+			
+			if (this._refreshing)
+			{
+				this.stopRefreshing();
+			}
+			
+			if (this._mode == 'missed')
+			{
+				this.setIconDecorator (noFailures ? 'decorator-flaticon-checked34' : 'decorator-flaticon-alert9');
+			}
+			
+			this.setDisabled(this._mode == 'all' ? noTests : noFailures);
+			this.setDescription(tpl.applyOut(testResults, html)[0]);
+		}
 	}
 });
