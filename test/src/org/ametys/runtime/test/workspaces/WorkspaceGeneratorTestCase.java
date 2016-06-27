@@ -140,22 +140,22 @@ public class WorkspaceGeneratorTestCase extends AbstractRuntimeTestCase
         assertTrue(controlConfig != null && controlConfig.contains("On the fly, ref-id of a ref-id"));
 
         // Create tabs on the fly
-        String tabId = (String) xpath.evaluate("/workspace/ribbon/tabs/tab[@label='application:TAB_LABEL2']/@id", document, XPathConstants.STRING);
+        String tabId = (String) xpath.evaluate("/workspace/ribbon/tabs/tab[@label='application:TAB_LABEL2']/@controlId", document, XPathConstants.STRING);
         assertTrue(tabId != null);
         String tabConfig = (String) xpath.evaluate("/workspace/ribbon/tabsControls/tab[@id='" + tabId + "']/action", document, XPathConstants.STRING);
         assertTrue(tabConfig != null && tabConfig.contains("test-tab1"));
 
-        tabId = (String) xpath.evaluate("/workspace/ribbon/tabs/tab[@label='application:TAB_LABEL3']/@id", document, XPathConstants.STRING);
+        tabId = (String) xpath.evaluate("/workspace/ribbon/tabs/tab[@label='application:TAB_LABEL3']/@controlId", document, XPathConstants.STRING);
         assertEquals("tab-onthefly1", tabId);
         tabConfig = (String) xpath.evaluate("/workspace/ribbon/tabsControls/tab[@id='" + tabId + "']/action", document, XPathConstants.STRING);
         assertTrue(tabConfig != null && tabConfig.contains("test-tab2"));
 
-        tabId = (String) xpath.evaluate("/workspace/ribbon/tabs/tab[@label='application:TAB_LABEL4']/@id", document, XPathConstants.STRING);
+        tabId = (String) xpath.evaluate("/workspace/ribbon/tabs/tab[@label='application:TAB_LABEL4']/@controlId", document, XPathConstants.STRING);
         assertTrue(tabId != null);
         tabConfig = (String) xpath.evaluate("/workspace/ribbon/tabsControls/tab[@id='" + tabId + "']/action", document, XPathConstants.STRING);
         assertTrue(tabConfig != null && tabConfig.contains("test-tab3"));
         
-        tabId = (String) xpath.evaluate("/workspace/ribbon/tabs/tab[@label='application:TAB_LABEL5']/@id", document, XPathConstants.STRING);
+        tabId = (String) xpath.evaluate("/workspace/ribbon/tabs/tab[@label='application:TAB_LABEL5']/@controlId", document, XPathConstants.STRING);
         assertTrue(tabId != null);
         tabConfig = (String) xpath.evaluate("/workspace/ribbon/tabsControls/tab[@id='" + tabId + "']/action", document, XPathConstants.STRING);
         assertTrue(tabConfig != null && tabConfig.contains("test-tab4"));
