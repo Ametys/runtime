@@ -528,6 +528,8 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
      * @private
      * Callback function called after {@link #remove} has been processed.
      * @param {Object} response The server response
+     * @param {Object} arguments The callback arguments
+     * @param {Object[]} parameters The parameters of the server call
      */
     _removeCb: function(response, arguments, parameters)
     {
