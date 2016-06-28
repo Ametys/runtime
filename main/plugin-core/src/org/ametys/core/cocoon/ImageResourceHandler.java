@@ -83,7 +83,8 @@ public class ImageResourceHandler extends AbstractResourceHandler implements Com
             Matcher sizeMatcher = _SIZE_PATTERN.matcher(src);
             if (sizeMatcher.matches())
             {
-                _source = sizeMatcher.group(1) + sizeMatcher.group(5); 
+                _source = sizeMatcher.group(1) + sizeMatcher.group(5);
+                
                 _inputSource = _sourceResolver.resolveURI(_source);
                 if (!_inputSource.exists())
                 {
@@ -101,7 +102,7 @@ public class ImageResourceHandler extends AbstractResourceHandler implements Com
             }
             else
             {
-                throw new ResourceNotFoundException("Resource not found for URI : " + _inputSource.getURI());
+                throw new ResourceNotFoundException("Resource not found for URI : " + src);
             }
         }
         
