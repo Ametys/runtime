@@ -41,6 +41,8 @@ import org.ametys.core.version.VersionsHandler;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.ParameterHelper;
+import org.ametys.runtime.servlet.RuntimeConfig;
+import org.ametys.runtime.workspace.WorkspaceManager;
 import org.ametys.runtime.workspace.WorkspaceMatcher;
 
 /**
@@ -141,7 +143,20 @@ public class AmetysXSLTHelper implements Contextualizable, Serviceable
     public static String workspaceThemeURL()
     {
         Request request = ContextHelper.getRequest(_context);
-        return (String) request.getAttribute(WorkspaceMatcher.WORKSPACE_THEME_URL);
+        
+        String workspaceThemeUrl = (String) request.getAttribute(WorkspaceMatcher.WORKSPACE_THEME_URL);
+        if (workspaceThemeUrl == null)
+        {
+            // fallback to the default workspace
+            String workspaceName = RuntimeConfig.getInstance().getDefaultWorkspace();
+            WorkspaceManager wm = WorkspaceManager.getInstance();
+            if (wm.getWorkspaceNames().contains(workspaceName))
+            {
+                workspaceThemeUrl = wm.getWorkspaces().get(workspaceName).getThemeURL();
+            }
+        }
+        
+        return workspaceThemeUrl;
     }
     
     /**
