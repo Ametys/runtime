@@ -233,7 +233,6 @@ Ext.define('Ametys.plugins.admin.system.SystemActions', {
 			
 			items : [ this._form ],
 			
-			defaultFocus: this._form.getForm().findField('message'),
 			closeAction: 'hide',
 			
 			buttons : [{
@@ -265,13 +264,10 @@ Ext.define('Ametys.plugins.admin.system.SystemActions', {
 		
 		if (this._mode == 'new')
 		{
-			msgFd.setValue("");
-			msgFd.clearInvalid();
+			msgFd.reset();
+			langFd.reset();
 			
-			langFd.setDisabled(false);
-			langFd.setValue("");
-			
-			langFd.focus(true, 10);
+			langFd.focus(true);
 		}
 		else
 		{
@@ -282,8 +278,6 @@ Ext.define('Ametys.plugins.admin.system.SystemActions', {
 			
 			msgFd.focus(true, 10);
 		}
-		
-		
 	},
 	
 	/**

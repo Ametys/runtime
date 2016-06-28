@@ -112,6 +112,8 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
 				items: [ this._form ],
 				
 				closeAction: 'hide',
+				defaultFocus: '[name=name]',
+				
 				buttons : [{
 					text: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_OK}}",
 					handler: Ext.bind(this._ok, this)

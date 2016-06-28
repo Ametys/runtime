@@ -96,7 +96,7 @@ Ext.define(
             
             /**
              * Create a config object for tooltip looking ribbon style.
-             * This method is automatically called if the config of a registered tip has an image, an help id or as inribbon specified
+             * This method is automatically called if the config of a registered tip has an image, a glyph icon, an help id or has inribbon specified
              * @param {Object} config A config object
              * @param {String} config.title The title in the tooltip
              * @param {Number} [config.width] An optional width in pixel to override the defaults.

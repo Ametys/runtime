@@ -3421,12 +3421,13 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                 },
                 
                 items: [{
+                	itemId: 'comment',
                     xtype: 'textarea',
                     height: 100
                 }],
                 
                 closeAction: 'hide',
-                defaultFocus: 'button-ok',
+                defaultFocus: 'comment',
                 buttons : [{
                     itemId: 'button-ok',
                     text: "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_BTN_OK}}",
