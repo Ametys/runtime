@@ -243,6 +243,15 @@ public class RibbonConfigurationManager
         {
             throw new RuntimeException("Unable to read the configuration file", e);
         }
+        
+        for (Entry<String, List<String>> entry : _ribbonConfig.getDependencies().entrySet())
+        {
+            String extensionPoint = entry.getKey();
+            for (String extensionId : entry.getValue())
+            {
+                dependenciesManager.register(extensionPoint, extensionId);
+            }
+        }
     }
 
     private void _configure(Source config, ClientSideElementDependenciesManager dependenciesManager, RibbonManagerCache ribbonManagerCache, String workspaceName) throws Exception
@@ -324,7 +333,7 @@ public class RibbonConfigurationManager
             String extensionPoint = dependencyConfigurations.getName();
             String extensionId = dependencyConfigurations.getValue();
             
-            dependenciesManager.register(extensionPoint, extensionId);
+            _ribbonConfig.addDependency(extensionPoint, extensionId);
         }
             
         Configuration[] tabsConfigurations = configuration.getChild("tabs").getChildren();

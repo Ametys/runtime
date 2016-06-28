@@ -16,8 +16,10 @@
 package org.ametys.core.ui.ribbonconfiguration;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A ribbon configuration, with tab, user and app menus
@@ -32,6 +34,9 @@ public class RibbonConfiguration
     
     /** The user menu elements of the ribbon */
     protected List<Element> _userMenu = new ArrayList<>();
+    
+    /** The dependencies of the ribbon */
+    protected Map<String, List<String>> _dependencies = new HashMap<>();
     
     /**
      * Get the tabs for this configuration
@@ -68,4 +73,32 @@ public class RibbonConfiguration
     {
         return _userMenu;
     }
+    
+    /**
+     * Add a new ribbon dependency
+     * @param extensionPoint The dependency extension point
+     * @param extensionId The dependency extension id
+     */
+    public void addDependency(String extensionPoint, String extensionId)
+    {
+        if (!_dependencies.containsKey(extensionPoint))
+        {
+            _dependencies.put(extensionPoint, new ArrayList<>());
+        }
+        List<String> extensions = _dependencies.get(extensionPoint);
+        if (!extensions.contains(extensionId))
+        {
+            extensions.add(extensionId);
+        }
+    }
+    
+    /**
+     * Get the list of dependencies
+     * @return The list of extensions id, mapped by extension point
+     */
+    public Map<String, List<String>> getDependencies()
+    {
+        return _dependencies;
+    }
+    
 }
