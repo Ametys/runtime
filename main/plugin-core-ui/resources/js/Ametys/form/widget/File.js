@@ -599,7 +599,7 @@ Ext.define('Ametys.form.widget.File', {
     	{
             if (!viewHref)
             {
-                var imgSrc = Ametys.getPluginResourcesPrefix('core-ui') + '/img/imagenotfound_max' + this.imagePreviewMaxWidth + 'x' + this.imagePreviewMaxHeight + '100.png';
+                var imgSrc = Ametys.getPluginResourcesPrefix('core-ui') + '/img/imagenotfound_max' + this.imagePreviewMaxWidth + 'x' + this.imagePreviewMaxHeight + '.png';
                 this.img.setSrc(imgSrc);
             }
             else
