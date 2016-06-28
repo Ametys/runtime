@@ -258,7 +258,7 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
     {
         String ribbonFileName = parameters.getParameter("ribbonFileName", "ribbon");
         String mode = parameters.getParameter("mode", null);
-        return _resolver.resolveURI(_cocoonContext.getRealPath("/WEB-INF/param/" + ribbonFileName + (mode != null ? "-" + mode : "") + ".xml"));
+        return _resolver.resolveURI("context://WEB-INF/param/" + ribbonFileName + (mode != null ? "-" + mode : "") + ".xml");
     }
     
     /**

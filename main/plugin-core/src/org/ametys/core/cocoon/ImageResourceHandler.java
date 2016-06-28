@@ -31,7 +31,6 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.ResourceNotFoundException;
-import org.apache.cocoon.components.source.SourceUtil;
 import org.apache.cocoon.environment.Context;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.commons.io.IOUtils;
@@ -75,11 +74,11 @@ public class ImageResourceHandler extends AbstractResourceHandler implements Com
         } 
         catch (SourceException e) 
         {
-            throw SourceUtil.handle("Error during resolving of '" + src + "'.", e);
+            _inputSource = null;
         }
         
         // Compute the locale
-        if (!_inputSource.exists())
+        if (_inputSource == null || !_inputSource.exists())
         {
             Matcher sizeMatcher = _SIZE_PATTERN.matcher(src);
             if (sizeMatcher.matches())
