@@ -33,7 +33,7 @@ Ext.define('Ametys.plugins.coreui.configurableformpanel.TestsController', {
             {
             	var mode = controller.getInitialConfig().mode;
                 var form = target.getParameters().object.owner;
-                form.mask();
+                form.mask('{{i18n PLUGINS_CORE_UI_LOADMASK_TESTS_RUNNING}}');
                 
                 var activeFieldCheckers = form._fieldCheckersManager._fieldCheckers.filter(function (el) { return el.isActive; });
                 form._fieldCheckersManager.check(activeFieldCheckers, true, function(){form.unmask();}, mode == 'all');

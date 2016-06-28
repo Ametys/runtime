@@ -339,6 +339,7 @@
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_SUCCESSES">Success</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_FAILURES">Failure</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_NOT_TESTED">Not verified</message>
+    <message key="PLUGINS_CORE_UI_LOADMASK_TESTS_RUNNING">Tests running. Please wait...</message>
     
     <!-- Save -->
     <message key="PLUGINS_CORE_UI_SAVE_NOFORM_TITLE">No form</message>

@@ -341,6 +341,7 @@
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_SUCCESSES">Succès</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_FAILURES">Echec(s)</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_NOT_TESTED">Non testé(s)</message>
+    <message key="PLUGINS_CORE_UI_LOADMASK_TESTS_RUNNING">Tests en cours. Veuillez patienter...</message>
     
     <!-- Save -->
     <message key="PLUGINS_CORE_UI_SAVE_NOFORM_TITLE">Pas de formulaire</message>

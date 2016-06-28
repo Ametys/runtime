@@ -737,12 +737,12 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
         // Add information concerning the involved field checkers 
         var fieldCheckersInfo = {};
         Ext.Array.each(fieldCheckers, function(fieldChecker) {
-            if (forceTest || fieldChecker.getStatus() != Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_SUCCESS)
+        	this._running++;
+
+        	if (forceTest || fieldChecker.getStatus() != Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_SUCCESS)
             {
             	if (!this._hasInvalidField(fieldChecker))
         		{
-            		this._running++;
-            		
             		// Reset the error message before the test
             		fieldChecker.setErrorMsg(null);
             		
