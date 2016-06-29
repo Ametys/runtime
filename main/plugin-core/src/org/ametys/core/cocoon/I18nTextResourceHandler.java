@@ -103,11 +103,11 @@ public class I18nTextResourceHandler extends AbstractResourceHandler implements 
         } 
         catch (SourceException e) 
         {
-            throw SourceUtil.handle("Error during resolving of '" + src + "'.", e);
+            _inputSource = null;
         }
         
         // Compute the locale
-        if (_inputSource.exists())
+        if (_inputSource != null && _inputSource.exists())
         {
             Locale locale = org.apache.cocoon.i18n.I18nUtils.findLocale(cocoonObjectModel, "locale", null, Locale.getDefault(), true);
             _locale = locale.getLanguage();
@@ -121,6 +121,10 @@ public class I18nTextResourceHandler extends AbstractResourceHandler implements 
                 _locale = matcher.group(2);
                 String realSrc = matcher.group(1) + ".js";
                 _inputSource = initalResolver.resolveURI(realSrc);
+            }
+            else
+            {
+                throw new ResourceNotFoundException("Resource not found for URI : '" + src + "'.");   
             }
         }
         
