@@ -151,7 +151,7 @@ public class MinimizeTransformerTestCase extends AbstractRuntimeTestCase
                 && filesForHash.get(0).getUri().equals("/plugins/test/resources/js/minimize/" + fileToCreate)
                 && filesForHash.get(1).getUri().equals("/plugins/test/resources/js/minimize/" + fileToModify));
         
-        _assertMinimizedEquals(hashNotFound + "." + extension, "/** ERROR Exception during processing of cocoon://plugins/test/resources/js/minimize/" + fileToCreate + "*/" 
+        _assertMinimizedEquals(hashNotFound + "." + extension, "/** ERROR Cannot get input stream for cocoon://plugins/test/resources/js/minimize/" + fileToCreate + "*/" 
                 + "/** File : /plugins/test/resources/js/minimize/" + fileToModify + " */\nconsole.log(\"test\");\n");
         
         

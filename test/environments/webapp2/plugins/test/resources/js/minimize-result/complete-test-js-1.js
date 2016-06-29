@@ -1,1 +1,1 @@
-/** ERROR Exception during processing of cocoon://plugins/test/resources/js/minimize/a.js*/
+/** ERROR Cannot get input stream for cocoon://plugins/test/resources/js/minimize/a.js*/
