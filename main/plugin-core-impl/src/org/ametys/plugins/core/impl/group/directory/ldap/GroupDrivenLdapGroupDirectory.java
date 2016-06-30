@@ -138,7 +138,7 @@ public class GroupDrivenLdapGroupDirectory extends AbstractLdapGroupDirectory
                 int compareTo = g1.getLabel().toLowerCase().compareTo(g2.getLabel().toLowerCase());
                 if (compareTo == 0)
                 {
-                    return g1.getIdentity().getId().compareTo(g1.getIdentity().getId());
+                    return g1.getIdentity().getId().compareTo(g2.getIdentity().getId());
                 }
                 return compareTo;
             }
