@@ -49,7 +49,6 @@ public final class ResourceSource extends AbstractSource
     private String _mimeType;
     
     private String _path;
-    
 
     /**
      * Constructor.<br>
@@ -76,11 +75,6 @@ public final class ResourceSource extends AbstractSource
         setSystemId(scheme + "://" + _path);
         _location = getClassLoader().getResource(_path);
         setScheme(scheme);
-        
-        if (_location == null)
-        {
-            throw new SourceNotFoundException("Resource not found for URI : " + getURI());
-        }
     }
 
     public boolean exists()
@@ -153,7 +147,13 @@ public final class ResourceSource extends AbstractSource
     @Override
     public InputStream getInputStream() throws IOException
     {
+        if (_location == null)
+        {
+            throw new SourceNotFoundException("Resource not found for URI : " + getURI());
+        }
+        
         InputStream in = _location.openStream();
+        
         if (in == null)
         {
             throw new SourceNotFoundException("Source '" + _location + "' was not found");
@@ -165,7 +165,6 @@ public final class ResourceSource extends AbstractSource
     /**
      * Returns {@link NOPValidity#SHARED_INSTANCE}since a resource doesn't
      * change.
-     *  
      */
     @Override
     public SourceValidity getValidity()
@@ -184,5 +183,4 @@ public final class ResourceSource extends AbstractSource
 
         return loader;
     }
-
 }
