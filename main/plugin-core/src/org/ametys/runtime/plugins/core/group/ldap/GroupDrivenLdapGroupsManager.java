@@ -130,7 +130,7 @@ public class GroupDrivenLdapGroupsManager extends AbstractLDAPGroupsManager impl
                 int compareTo = g1.getLabel().toLowerCase().compareTo(g2.getLabel().toLowerCase());
                 if (compareTo == 0)
                 {
-                    return g1.getId().compareTo(g1.getId());
+                    return g1.getId().compareTo(g2.getId());
                 }
                 return compareTo;
             }
