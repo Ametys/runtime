@@ -987,8 +987,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
     _validateTabOrPanelFields: function(previousPanel)
     {
+    	// Validate the fields
     	var panelId = previousPanel != null ? previousPanel.getId() : this.self.OUTOFTAB_FIELDSET_ID;
         var fields = this._getFields(panelId);
+
+        Ext.suspendLayouts();
         Ext.Array.each(fields, function(field)
         {
         	if (previousPanel != null || field.up('panel[cls~=ametys-form-tab-item], panel[cls~=ametys-form-tab-inline-item]') == null)
@@ -997,7 +1000,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         		field.isValid();
     		}
         });
-        
+
+    	// Validate the repeaters
         var repeaters = this.getRepeaters(panelId);
         Ext.Array.each(repeaters, function(repeater)
         {
@@ -1008,8 +1012,10 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     		}
         });
         
-    	// No tab status when outside of the thumbnails 
+        // No tab status when outside of the thumbnails 
     	this._updateTabStatus(previousPanel);
+
+    	Ext.resumeLayouts(true);
     },
     
     /**
@@ -1162,14 +1168,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     {
         if (this._tabPanel)
         {
-            this.suspendLayouts();
-
-            var me = this;
             this._tabPanel.items.each (function (item) {
-                me._updateTabStatus (item, force);
-            })
-            
-            this.resumeLayouts(true);
+                this._updateTabStatus (item, force);
+            }, this);
         }
     },
     
@@ -1177,7 +1178,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * @private
      * Update the tab status. Possibly the table of contents status as well
      * @param {Ext.panel.Panel} panel The panel (tab card or fieldset panel).
-     * @param {Boolean} force True to force the rendering of warning and errors 
+     * @param {Boolean} force True to force the rendering of warning and errors
+     * @return true if the tab status has changed, false otherwise 
      */
     _updateTabStatus: function(panel, force)
     {
@@ -1188,8 +1190,13 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         	header = panel.tab ? panel.tab : (panel.getHeader().isHeader ? panel.getHeader() : null);
     	}
         
+        var hasHeaderChanged = false,
+        	hasNavigationItemChanged = false;
+        
         if (header != null || this._showTableOfContents)
         {
+        	this.suspendLayouts();
+        	
         	var panelId = panel != null ? panel.getId() : this.self.OUTOFTAB_FIELDSET_ID;
         	
             // Let's get all errors and warnings from the field checkers
@@ -1304,11 +1311,13 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             
             if (header)
         	{
+            	var oldHeaderClassName = header.el.dom.className;
             	header.removeCls(['error', 'warning', 'comment']);
         	}
             
             if (navigationItem)
         	{
+            	var oldNavigationItemClassName = navigationItem.el.dom.className;
             	navigationItem.removeCls(['error', 'warning', 'comment']);
         	}
             
@@ -1351,23 +1360,32 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             
             if (panel)
         	{
-            	if (header.rendered)
+            	hasHeaderChanged = header.el.dom.className != oldHeaderClassName;
+            	if (hasHeaderChanged)
             	{
-            		// As we change width with CSS we have to prevent tabs from overlapping one another
-            		header.updateLayout();
-            		
-            		this._createStatusTooltip (header.getEl(), panel, errors, warnings, commentFields);
-            	}
-            	else
-            	{
-            		header.on ('afterrender', Ext.bind (this._createStatusTooltip, this, [header.getEl(), panel, errorFields, warnFields, commentFields], false), this, {single: true});
+	            	if (header.rendered)
+	            	{
+	            		// As we change width with CSS we have to prevent tabs from overlapping one another
+            			header.updateLayout();
+            			this._createStatusTooltip (header.getEl(), panel, errors, warnings, commentFields);
+        			}
+	            	else
+	            	{
+	            		header.on ('afterrender', Ext.bind (this._createStatusTooltip, this, [header.getEl(), panel, errorFields, warnFields, commentFields], false), this, {single: true});
+	            	}
             	}
         	}
             
             if (navigationItem)
         	{
-            	this._createStatusTooltip (navigationItem.getEl(), navigationItem, errors, warnings, commentFields);
+            	hasNavigationItemChanged = navigationItem.el.dom.className != oldNavigationItemClassName;
+            	if (hasNavigationItemChanged)
+        		{
+            		this._createStatusTooltip (navigationItem.getEl(), navigationItem, errors, warnings, commentFields);
+        		}
         	}
+            
+	        this.resumeLayouts(hasHeaderChanged || hasNavigationItemChanged);
         }
     },
     

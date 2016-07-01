@@ -459,7 +459,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 			statusCmp = Ext.getCmp(fieldChecker.statusCmpId),
 			btn = Ext.getCmp(fieldChecker.buttonId);
 		
-		var oldStatusCmp = Ext.clone(statusCmp);
+		var oldStatusCmpCls = statusCmp.cls,
+			oldStatusCmpVisible = statusCmp.isVisible();
 		
 		if (fieldChecker.getStatus() != Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_NOT_TESTED)
 		{
@@ -485,11 +486,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 			    // update the tooltip of the status component
 			    this._updateStatusCmpTooltip(fieldChecker);
 			    
-			    // update the test results 
-			    this.updateTestResults();
-		    	
 			    // update the warnings
-			    this._updateWarnings();
+			    this._updateWarnings([fieldChecker]);
 			    
 			    // update the tabs of the attached form
 			    this._form._updateTabsStatus();
@@ -503,6 +501,10 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 	        btn.up('container').setHidden(this.hideDisabledButtons);
 	        
 	        fieldChecker.setStatus(Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_DEACTIVATED);
+	        
+	        // Update the test results : a deactivated field checker is considered as not tested.
+	        this.updateTestResults();
+	        
 	        if (!this.hideDisabledButtons)
         	{
 	        	statusCmp.removeCls(['success', 'failure']);
@@ -514,8 +516,10 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 	        this._updateStatusCmpTooltip(fieldChecker);
 		}
 	    
+	    var flush = oldStatusCmpCls != statusCmp.cls && oldStatusCmpVisible != statusCmp.isVisible();
+	    
 	    // Do not flush the layouts if the rendering of the field checker hasn't changed
-	    Ext.resumeLayouts(oldStatusCmp.cls != statusCmp.cls || oldStatusCmp.isVisible() != statusCmp.isVisible());
+	    Ext.resumeLayouts(flush);
 	},
 	
 	/**
@@ -568,13 +572,16 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
     /**
 	 * @private
 	 * Update the warnings on fields
+	 * @param {Ametys.form.ConfigurableFormPanel.FieldChecker[]} fieldCheckers the list of field checkers to update. Can be null
 	 */
-	_updateWarnings: function()
+	_updateWarnings: function(fieldCheckers)
 	{
-        Ext.suspendLayouts();
+		fieldCheckers = Ext.isEmpty(fieldCheckers) ? this._fieldCheckers : fieldCheckers;
+        
+		Ext.suspendLayouts();
         var flushLayouts = false;
-
-        Ext.Array.each(this._fieldCheckers, function(fieldChecker){
+        
+        Ext.Array.each(fieldCheckers, function(fieldChecker){
 			var button = Ext.getCmp(fieldChecker.buttonId),
 				helpBox = Ext.getCmp(fieldChecker.helpBoxId),
 				notTested = fieldChecker.getStatus() == Ametys.form.ConfigurableFormPanel.FieldChecker.STATUS_NOT_TESTED,
@@ -605,7 +612,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 					linkedField.markWarning(activeWarnings);
 				}
 				
-				if (oldActiveWarnings != activeWarnings)
+				if (!Ext.Array.equals(oldActiveWarnings, activeWarnings))
 				{
 					flushLayouts = true;
 				}
@@ -873,7 +880,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
         
         this.updateTestResults();
         this._form._updateTabsStatus(displayErrors); 
-        this._updateWarnings();
+        this._updateWarnings(fieldCheckers);
         
         if (callback && typeof callback === 'function') 
         {
