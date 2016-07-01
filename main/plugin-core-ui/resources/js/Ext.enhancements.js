@@ -519,10 +519,16 @@
                 
                 if (this.warningWrapEl) 
                 {
-                    this.warningWrapEl.dom.style.display = hasWarning ? '' : 'none';
-                    this.warningWrapEl.dom.setAttribute("data-warnqtip", activeWarning);
+                	this.warningWrapEl.dom.setAttribute("data-warnqtip", activeWarning);
+                	
+                	var displayValue = hasWarning ? '' : 'none';
+                	if (this.warningWrapEl.dom.style.display != displayValue)
+                	{
+                		this.warningWrapEl.dom.style.display = displayValue;
+                		
+                		me.updateLayout();
+                	}
                     
-                    me.updateLayout();
                 }
             }            
         },
