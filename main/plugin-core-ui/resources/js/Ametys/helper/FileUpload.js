@@ -111,7 +111,7 @@ Ext.define('Ametys.helper.FileUpload', {
 						}
 				],
 				
-				defaultFocus: 'file',
+				defaultFocus: 'fileupload-file',
 				closeAction: 'hide',
 				buttons : [{
 					text :"{{i18n PLUGINS_CORE_UI_FILEUPLOAD_BOX_OK}}",
