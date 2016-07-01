@@ -419,6 +419,14 @@
                        class="org.ametys.core.util.I18nUtils"/>
         </components>
     </feature>
+    
+    <feature name="utils.xml" safe="true">
+        <components>
+            <component role="org.ametys.core.util.XMLUtils"
+                       id="org.ametys.core.util.XMLUtils"
+                       class="org.ametys.core.util.XMLUtils"/>
+        </components>
+    </feature>
 
     
     <!-- +
