@@ -269,10 +269,25 @@ public class RibbonConfigurationManager
             Configuration configuration = new DefaultConfigurationBuilder().build(config.getInputStream());
             Map<String, Long> importsValidity = new HashMap<>();
             importsValidity.put(config.getURI(), config.getLastModified());
-            Map<EXCLUDETYPE, List<String>> excludedList = _configureExclude(configuration);
-            _configure(configuration, dependenciesManager, importsValidity, excludedList, false);
             
-            _configureAutomaticImports(dependenciesManager, workspaceName, excludedList, importsValidity);
+            Map<String, Map<String, Object>> imports = new HashMap<>();
+            Map<EXCLUDETYPE, List<String>> excluded = new HashMap<>();
+            for (EXCLUDETYPE excludetype : EXCLUDETYPE.values())
+            {
+                excluded.put(excludetype, new ArrayList<String>());
+            }
+            _configureExcluded(configuration, imports, excluded, workspaceName);
+            
+            _configure(configuration, dependenciesManager, imports, importsValidity, excluded, false);
+            
+            for (Entry<String, Map<String, Object>> entry : imports.entrySet())
+            {
+                if ("automatic".equals(entry.getValue().get("type")))
+                {
+                    _configureImport(dependenciesManager, importsValidity, entry.getKey(), imports, excluded);
+                }
+            }
+            
             Map<String, Tab> tabsLabelMapping = _ribbonConfig.getTabs().stream().filter(tab -> !tab.isOverride()).collect(Collectors.toMap(Tab::getLabel, Function.identity(), (tab1, tab2) -> tab1));
             _configureTabOverride(tabsLabelMapping);
             _configureTabOrder(tabsLabelMapping);
@@ -282,14 +297,74 @@ public class RibbonConfigurationManager
         }
     }
     
-    private Map<EXCLUDETYPE, List<String>> _configureExclude(Configuration configuration) throws ConfigurationException
+    private void _configureExcluded(Configuration configuration, Map<String, Map<String, Object>> imports, Map<EXCLUDETYPE, List<String>> excluded, String workspaceName) throws ConfigurationException
     {
-        Map<EXCLUDETYPE, List<String>> excluded = new HashMap<>();
-        for (EXCLUDETYPE excludetype : EXCLUDETYPE.values())
-        {
-            excluded.put(excludetype, new ArrayList<String>());
-        }
+        _configureExcludeFromImports(configuration, imports, excluded);
         
+        // Automatic imports
+        for (String extensionId : _ribbonImportManager.getExtensionsIds())
+        {
+            RibbonImport ribbonImportExtension = _ribbonImportManager.getExtension(extensionId);
+            if (ribbonImportExtension != null)
+            {
+                for (Entry<List<String>, Pattern> importFiles : ribbonImportExtension.getImports().entrySet())
+                {
+                    if (importFiles.getValue().matcher(workspaceName).matches())
+                    {
+                        for (String importUri : importFiles.getKey())
+                        {
+                            _configureImport(importUri, imports, excluded);
+                            Map<String, Object> properties = imports.get(importUri);
+                            if (properties != null)
+                            {
+                                properties.put("extension", extensionId);
+                                properties.put("type", "automatic");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private void _configureImport(String url, Map<String, Map<String, Object>> imports, Map<EXCLUDETYPE, List<String>> excluded) throws ConfigurationException
+    {
+        if (!imports.containsKey(url))
+        {
+            Source src = null;
+            try
+            {
+                src = _resolver.resolveURI(url);
+                if (!src.exists())
+                {
+                    _logger.warn("Cannot import unexisting file " + url);
+                }
+                else
+                {
+                    try (InputStream is = src.getInputStream())
+                    {
+                        Configuration importedConfiguration = new DefaultConfigurationBuilder().build(is);
+                        Map<String, Object> properties = new HashMap<>();
+                        properties.put("configuration", importedConfiguration);
+                        properties.put("lastModified", src.getLastModified());
+                        imports.put(url, properties);
+                        _configureExcludeFromImports(importedConfiguration, imports, excluded);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new ConfigurationException("Cannot import file " + url, e);
+            }
+            finally
+            {
+                _resolver.release(src);
+            }
+        }
+    }
+    
+    private void _configureExcludeFromImports(Configuration configuration, Map<String, Map<String, Object>> imports, Map<EXCLUDETYPE, List<String>> excluded) throws ConfigurationException
+    {
         for (Configuration excludeConf : configuration.getChild("exclude").getChildren())
         {
             String tagName = excludeConf.getName();
@@ -313,10 +388,15 @@ public class RibbonConfigurationManager
             }
         }
         
-        return excluded;
+        for (Configuration importConfig : configuration.getChild("tabs").getChildren("import"))
+        {
+            String url = importConfig.getValue();
+            
+            _configureImport(url, imports, excluded);
+        }
     }
     
-    private void _configure(Configuration configuration, ClientSideElementDependenciesManager dependenciesManager, Map<String, Long> importValidity, Map<EXCLUDETYPE, List<String>> excludedList, boolean isImport) throws ConfigurationException
+    private void _configure(Configuration configuration, ClientSideElementDependenciesManager dependenciesManager, Map<String, Map<String, Object>> imports, Map<String, Long> importValidity, Map<EXCLUDETYPE, List<String>> excludedList, boolean isImport) throws ConfigurationException
     {
         if (_logger.isDebugEnabled())
         {
@@ -357,7 +437,7 @@ public class RibbonConfigurationManager
             else if ("import".equals(tabConfiguration.getName()))
             {
                 String url = tabConfiguration.getValue();
-                _configureImport(dependenciesManager, importValidity, url, excludedList);
+                _configureImport(dependenciesManager, importValidity, url, imports, excludedList);
             }
         }
 
@@ -367,72 +447,43 @@ public class RibbonConfigurationManager
         }
     }
 
-    private void _configureAutomaticImports(ClientSideElementDependenciesManager dependenciesManager, String workspaceName, Map<EXCLUDETYPE, List<String>> excludedList, Map<String, Long> importsValidity) throws ConfigurationException
+    private void _configureImport(ClientSideElementDependenciesManager dependenciesManager, Map<String, Long> importValidity, String url, Map<String, Map<String, Object>> imports, Map<EXCLUDETYPE, List<String>> excludedList) throws ConfigurationException
     {
-        for (String extensionId : _ribbonImportManager.getExtensionsIds())
+        if (!imports.containsKey(url))
         {
-            if (!excludedList.get(EXCLUDETYPE.EXTENSION).contains(extensionId))
-            {
-                RibbonImport ribbonImportExtension = _ribbonImportManager.getExtension(extensionId);
-                if (ribbonImportExtension != null)
-                {
-                    for (Entry<List<String>, Pattern> importFiles : ribbonImportExtension.getImports().entrySet())
-                    {
-                        if (importFiles.getValue().matcher(workspaceName).matches())
-                        {
-                            for (String importUri : importFiles.getKey())
-                            {
-                                _configureImport(dependenciesManager, importsValidity, importUri, excludedList);                                
-                            }
-                        }
-                    }
-                }
-            }
+            // unknown import
+            return;
         }
-    }
-
-    private void _configureImport(ClientSideElementDependenciesManager dependenciesManager, Map<String, Long> importValidity, String url, Map<EXCLUDETYPE, List<String>> excludedList) throws ConfigurationException
-    {
-        if (_ignoreImport(importValidity, excludedList, url))
+        
+        if (_ignoreImport(imports, importValidity, excludedList, url))
         {
             return;
         }
         
-        Source src = null;
-        try
+        Map<String, Object> properties = imports.get(url);
+        if (properties.containsKey("configuration"))
         {
-            src = _resolver.resolveURI(url);
-            if (!src.exists())
-            {
-                _logger.warn("Cannot import unexisting file " + url);
-            }
-            else
-            {
-                importValidity.put(url, src.getLastModified());
-                
-                try (InputStream is = src.getInputStream())
-                {
-                    Configuration importedConfiguration = new DefaultConfigurationBuilder().build(is);
-                    _configure(importedConfiguration, dependenciesManager, importValidity, excludedList, true);
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            throw new ConfigurationException("Cannot import file " + url, e);
-        }
-        finally
-        {
-            _resolver.release(src);
+            Configuration configuration = (Configuration) properties.get("configuration");
+            importValidity.put(url, (long) properties.get("lastModified"));
+            _configure(configuration, dependenciesManager, imports, importValidity, excludedList, true);
         }
     }
 
-    private boolean _ignoreImport(Map<String, Long> importValidity, Map<EXCLUDETYPE, List<String>> excludedList, String url)
+    private boolean _ignoreImport(Map<String, Map<String, Object>> imports, Map<String, Long> importValidity, Map<EXCLUDETYPE, List<String>> excludedList, String url)
     {
         if (importValidity.containsKey(url))
         {
             // already imported
             return true;
+        }
+        
+        Map<String, Object> properties = imports.get(url);
+        if (properties.containsKey("extension"))
+        {
+            if (excludedList.get(EXCLUDETYPE.EXTENSION).contains(properties.get("extension")))
+            {
+                return true;
+            }
         }
         
         Matcher matcher = _PLUGINNAMEPATTERN.matcher(url);
