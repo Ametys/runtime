@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2016 Anyware Services
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
+<ribbon  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://ametys.org/cms/3.0/ribbon.xsd">
+
+  <exclude>
+    <import type="plugin">core-ui</import>
+  </exclude>
+
+  <tabs>
+       <tab label="TAB_LABEL">
+           <groups>
+               <group label="RIBBON_GROUP_LABEL" icon="">
+                    <medium>
+                        <control id="org.ametys.plugins.workspace-generator-test.control1"/>
+                        <control id="org.ametys.plugins.workspace-generator-test.control2"/>
+                        <control id="org.ametys.plugins.workspace-generator-test.control3"/>
+                        <control id="org.ametys.plugins.workspace-generator-test.control4"/>
+                    </medium>
+                </group>
+               <group label="RIBBON_GROUP_LABEL2" icon="">
+                    <medium>
+                        <control id="org.ametys.plugins.workspace-generator-test.control2"/>
+                        <control id="org.ametys.plugins.workspace-generator-test.control2"/>
+                        <control id="org.ametys.plugins.workspace-generator-test.control2"/>
+                    </medium>
+                </group>
+               <group label="RIBBON_GROUP_LABEL3" icon="">
+                    <medium>
+                        <control id="org.ametys.plugins.workspace-generator-test.control2"/>
+                        <control id="org.ametys.plugins.workspace-generator-test.control2"/>
+                        <control id="org.ametys.plugins.workspace-generator-test.control2"/>
+                    </medium>
+                </group>
+               <group label="RIBBON_GROUP_LABEL4" icon="">
+                    <medium>
+                        <control id="org.ametys.plugins.workspace-generator-test.control2"/>
+                        <control id="org.ametys.plugins.workspace-generator-test.control2"/>
+                        <control id="org.ametys.plugins.workspace-generator-test.control2"/>
+                    </medium>
+                </group>
+            </groups>
+        </tab>
+        
+
+        <!-- Injection of groups -->
+        <tab label="TAB_LABEL" override="true">
+            <groups>
+                <group label="RIBBON_GROUP_LABEL_NEW" order="0">
+                    <control id="NEW_CONTROl_1" ref-id="org.ametys.plugins.workspace-generator-test.control4"/>
+                </group>
+                <group label="RIBBON_GROUP_LABEL_NEW1" order="-2">
+                  <control id="NEW_CONTROl_2" ref-id="org.ametys.plugins.workspace-generator-test.control4"/>
+                </group>
+                <group label="RIBBON_GROUP_LABEL_NEW2" order="-500">
+                  <control id="NEW_CONTROl_3" ref-id="org.ametys.plugins.workspace-generator-test.control4"/>
+                </group>
+                <group label="RIBBON_GROUP_LABEL_NEW3" order="1">
+                  <control id="NEW_CONTROl_4" ref-id="org.ametys.plugins.workspace-generator-test.control4"/>
+                </group>
+                <group label="RIBBON_GROUP_LABEL_NEW4" order="500">
+                  <control id="NEW_CONTROl_5" ref-id="org.ametys.plugins.workspace-generator-test.control4"/>
+                </group>
+                <group label="RIBBON_GROUP_LABEL_NEW5" order="0">
+                  <control id="NEW_CONTROl_6" ref-id="org.ametys.plugins.workspace-generator-test.control4"/>
+                </group>
+                <group label="RIBBON_GROUP_LABEL_NEW6" order="-2.1">
+                  <control id="NEW_CONTROl_7" ref-id="org.ametys.plugins.workspace-generator-test.control4"/>
+                </group>
+                <group label="RIBBON_GROUP_LABEL_NEW7" order="-2.20">
+                  <control id="NEW_CONTROl_8" ref-id="org.ametys.plugins.workspace-generator-test.control4"/>
+                </group>
+                <group label="RIBBON_GROUP_LABEL_NEW8" order="-2.1">
+                  <control id="NEW_CONTROl_9" ref-id="org.ametys.plugins.workspace-generator-test.control4"/>
+                </group>
+            </groups>
+        </tab>
+
+        <!-- injection of controls -->
+        <tab label="TAB_LABEL" override="true">
+            <groups>
+                <group override="true" label="RIBBON_GROUP_LABEL" controlsOrder="0">
+                    <control id="INJECT_CONTROl_1" ref-id="org.ametys.plugins.workspace-generator-test.control4"/>
+                    <control id="INJECT_CONTROl_2" ref-id="org.ametys.plugins.workspace-generator-test.control4"/>
+                </group>
+                <group override="true" label="RIBBON_GROUP_LABEL" controlsOrder="1">
+                    <control id="INJECT_CONTROl_3" ref-id="org.ametys.plugins.workspace-generator-test.control4"/>
+                    <control id="INJECT_CONTROl_4" ref-id="org.ametys.plugins.workspace-generator-test.control4"/>
+                </group>
+                <group override="true" label="RIBBON_GROUP_LABEL" controlsOrder="500">
+                    <control id="INJECT_CONTROl_5" ref-id="org.ametys.plugins.workspace-generator-test.control4"/>
+                    <control id="INJECT_CONTROl_6" ref-id="org.ametys.plugins.workspace-generator-test.control4"/>
+                </group>
+                <group override="true" label="RIBBON_GROUP_LABEL" controlsOrder="-2">
+                    <control id="INJECT_CONTROl_7" ref-id="org.ametys.plugins.workspace-generator-test.control4"/>
+                    <control id="INJECT_CONTROl_8" ref-id="org.ametys.plugins.workspace-generator-test.control4"/>
+                </group>
+                <group override="true" label="RIBBON_GROUP_LABEL" controlsOrder="-500">
+                    <control id="INJECT_CONTROl_9" ref-id="org.ametys.plugins.workspace-generator-test.control4"/>
+                    <control id="INJECT_CONTROl_10" ref-id="org.ametys.plugins.workspace-generator-test.control4"/>
+                </group>
+                <group override="true" label="RIBBON_GROUP_LABEL" controlsOrder="3.1">
+                    <control id="INJECT_CONTROl_11" ref-id="org.ametys.plugins.workspace-generator-test.control4"/>
+                    <control id="INJECT_CONTROl_12" ref-id="org.ametys.plugins.workspace-generator-test.control4"/>
+                </group>
+                <group override="true" label="RIBBON_GROUP_LABEL" controlsOrder="3.5">
+                    <control id="INJECT_CONTROl_13" ref-id="org.ametys.plugins.workspace-generator-test.control4"/>
+                    <control id="INJECT_CONTROl_14" ref-id="org.ametys.plugins.workspace-generator-test.control4"/>
+                </group>
+                <group override="true" label="RIBBON_GROUP_LABEL" controlsOrder="3.1">
+                    <control id="INJECT_CONTROl_15" ref-id="org.ametys.plugins.workspace-generator-test.control4"/>
+                    <control id="INJECT_CONTROl_16" ref-id="org.ametys.plugins.workspace-generator-test.control4"/>
+                </group>
+            </groups>
+        </tab>
+ 
+    </tabs>
+</ribbon>

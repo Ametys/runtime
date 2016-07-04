@@ -273,7 +273,9 @@ public class RibbonConfigurationManager
             _configure(configuration, dependenciesManager, importsValidity, excludedList, false);
             
             _configureAutomaticImports(dependenciesManager, workspaceName, excludedList, importsValidity);
-            _configureTabOrder();
+            Map<String, Tab> tabsLabelMapping = _ribbonConfig.getTabs().stream().filter(tab -> !tab.isOverride()).collect(Collectors.toMap(Tab::getLabel, Function.identity(), (tab1, tab2) -> tab1));
+            _configureTabOverride(tabsLabelMapping);
+            _configureTabOrder(tabsLabelMapping);
             
             ribbonManagerCache.addCachedConfiguration(_ribbonManager, _ribbonConfig, importsValidity);
             _ribbonManager.initializeExtensions();
@@ -541,13 +543,30 @@ public class RibbonConfigurationManager
         return elements;
     }
     
-    private void _configureTabOrder()
+    private void _configureTabOverride(Map<String, Tab> labelMapping)
+    {
+        List<Tab> tabsToRemove = new ArrayList<>();
+        for (Tab tab : _ribbonConfig.getTabs())
+        {
+            if (tab.isOverride())
+            {
+                if (labelMapping.containsKey(tab.getLabel()))
+                {
+                    labelMapping.get(tab.getLabel()).injectGroups(tab.getGroups());
+                }
+                tabsToRemove.add(tab);
+            }
+        }
+        
+        _ribbonConfig.getTabs().removeAll(tabsToRemove);
+    }
+    
+    private void _configureTabOrder(Map<String, Tab> labelMapping)
     {
         LinkedList<Tab> tabs = _ribbonConfig.getTabs();
         
         // Sort by non-contextual first 
         Collections.sort(tabs, (tab1, tab2) -> tab1.isContextual() != tab2.isContextual() ? (tab1.isContextual() ? 1 : -1) : 0);
-        Map<String, Tab> labelMapping = tabs.stream().collect(Collectors.toMap(Tab::getLabel, Function.identity(), (tab1, tab2) -> tab1));
         
         // Move tabs whose order reference another tab
         List<Tab> tabsToMove = tabs.stream().filter(tab -> tab.getOrderAsString() != null).collect(Collectors.toList());

@@ -19,7 +19,7 @@
 
     <tabs>
     
-        <tab label="plugin.core-ui:RIBBON_TABS_TAB_DEVELOPER_LABEL">
+        <tab label="plugin.core-ui:RIBBON_TABS_TAB_DEVELOPER_LABEL" order="50">
             <groups>
                 <group label="plugin.core-ui:RIBBON_TABS_TAB_DEVELOPER_GROUPS_GROUP_TOOLS_LABEL" icon="">
                     <large>

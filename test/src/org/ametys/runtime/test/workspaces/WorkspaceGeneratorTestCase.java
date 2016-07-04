@@ -161,8 +161,64 @@ public class WorkspaceGeneratorTestCase extends AbstractRuntimeTestCase
         assertTrue(tabConfig != null && tabConfig.contains("test-tab4"));
 
         
+        _cocoon._leaveEnvironment(environmentInformation);
+        cocoon.dispose();
+    }
+    
+    /**
+     * This test verify that we can inject controls into an existing tab
+     * @throws Exception If an error occurs
+     */
+    public void testRibbonControlInjection() throws Exception
+    {
+        CocoonWrapper cocoon = _startApplication("test/environments/runtimes/runtime01.xml", "test/environments/configs/config1.xml", "test/environments/webapp2");
+
+        Map<String, Object> environmentInformation = _cocoon._enterEnvironment();
         
+        Document document = _getWorkspaceDocument("ribbon-test-injectcontrol.xml");
+
+        XPathFactory xpathFactory = XPathFactory.newInstance();
+        XPath xpath = xpathFactory.newXPath();
         
+        assertEquals("Overriding tabs must not be saxed", 1, ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab", document, XPathConstants.NODESET)).getLength());
+        
+        // injected group order is correct
+        assertTrue("Wrong group order on injection", 1 == ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL_NEW2' and position() = 1]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong group order on injection", 1 == ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL_NEW3' and position() = 2]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong group order on injection", 1 == ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL' and position() = 3]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong group order on injection", 1 == ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL2' and position() = 4]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong group order on injection", 1 == ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL_NEW6' and position() = 5]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong group order on injection", 1 == ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL_NEW8' and position() = 6]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong group order on injection", 1 == ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL_NEW7' and position() = 7]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong group order on injection", 1 == ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL_NEW1' and position() = 8]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong group order on injection", 1 == ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL3' and position() = 9]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong group order on injection", 1 == ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL4' and position() = 10]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong group order on injection", 1 == ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL_NEW' and position() = 11]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong group order on injection", 1 == ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL_NEW4' and position() = 12]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong group order on injection", 1 == ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL_NEW5' and position() = 13]", document, XPathConstants.NODESET)).getLength());
+        
+        // inject control order is correct
+        assertTrue("Wrong control order on injection", 0 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL']/medium/control[@id='INJECT_CONTROl_9' and position() = 1]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong control order on injection", 0 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL']/medium/control[@id='INJECT_CONTROl_10' and position() = 2]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong control order on injection", 0 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL']/medium/control[@id='INJECT_CONTROl_3' and position() = 3]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong control order on injection", 0 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL']/medium/control[@id='INJECT_CONTROl_4' and position() = 4]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong control order on injection", 0 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL']/medium/control[@id='org.ametys.plugins.workspace-generator-test.control1' and position() = 5]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong control order on injection", 0 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL']/medium/control[@id='org.ametys.plugins.workspace-generator-test.control2' and position() = 6]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong control order on injection", 0 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL']/medium/control[@id='INJECT_CONTROl_7' and position() = 7]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong control order on injection", 0 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL']/medium/control[@id='INJECT_CONTROl_8' and position() = 8]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong control order on injection", 0 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL']/medium/control[@id='INJECT_CONTROl_11' and position() = 9]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong control order on injection", 0 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL']/medium/control[@id='INJECT_CONTROl_12' and position() = 10]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong control order on injection", 0 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL']/medium/control[@id='INJECT_CONTROl_15' and position() = 11]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong control order on injection", 0 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL']/medium/control[@id='INJECT_CONTROl_16' and position() = 12]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong control order on injection", 0 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL']/medium/control[@id='INJECT_CONTROl_13' and position() = 13]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong control order on injection", 0 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL']/medium/control[@id='INJECT_CONTROl_14' and position() = 14]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong control order on injection", 0 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL']/medium/control[@id='org.ametys.plugins.workspace-generator-test.control3' and position() = 15]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong control order on injection", 0 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL']/medium/control[@id='org.ametys.plugins.workspace-generator-test.control4' and position() = 16]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong control order on injection", 0 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL']/medium/control[@id='INJECT_CONTROl_1' and position() = 17]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong control order on injection", 0 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL']/medium/control[@id='INJECT_CONTROl_2' and position() = 18]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong control order on injection", 0 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL']/medium/control[@id='INJECT_CONTROl_5' and position() = 19]", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong control order on injection", 0 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL']/medium/control[@id='INJECT_CONTROl_6' and position() = 20]", document, XPathConstants.NODESET)).getLength());
+       
         _cocoon._leaveEnvironment(environmentInformation);
         cocoon.dispose();
     }

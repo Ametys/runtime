@@ -18,7 +18,7 @@
     xsi:noNamespaceSchemaLocation="http://ametys.org/cms/3.0/ribbon.xsd">
     
     <tabs>
-        <tab label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_LABEL">
+        <tab label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_LABEL" order="10">
             <groups>
                 <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_CONFIG_LABEL" icon="">
                     <large>
@@ -64,7 +64,7 @@
         </tab>
         
         <!-- Contextual tabs for system announcement -->
-        <tab controlId="org.ametys.plugins.admin.SystemTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_SYSTEM_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_SYSTEM_LABEL" contextualColor="3" contextualGroup="SYS">
+        <tab controlId="org.ametys.plugins.admin.SystemTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_SYSTEM_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_SYSTEM_LABEL" contextualColor="3" contextualGroup="SYS" order="1010">
             <groups>
                 <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_SYSTEM_GROUPS_GROUP_ACTIONS" icon="">
                    <large>
@@ -78,7 +78,7 @@
         </tab>
         
         <!-- Contextual tabs for logs -->
-        <tab controlId="org.ametys.plugins.admin.LogsTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LABEL" contextualColor="4" contextualGroup="LOGS">
+        <tab controlId="org.ametys.plugins.admin.LogsTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LABEL" contextualColor="4" contextualGroup="LOGS" order="1020">
             <groups>
                 <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_GROUPS_GROUP_ACTIONS" icon="">
                    <large>
@@ -90,7 +90,7 @@
                </group>
            </groups>   
         </tab>
-        <tab controlId="org.ametys.plugins.admin.LogsLevelTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LEVEL_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LEVEL_LABEL" contextualColor="4" contextualGroup="LOGSLEVEL">
+        <tab controlId="org.ametys.plugins.admin.LogsLevelTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LEVEL_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LEVEL_LABEL" contextualColor="4" contextualGroup="LOGSLEVEL" order="1030">
             <groups>
                 <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_GROUPS_GROUP_ACTIONS" icon="">
                    <large>
@@ -105,7 +105,7 @@
            </groups>   
         </tab>
         
-        <tab controlId="org.ametys.plugins.admin.PluginsByFileTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_LABEL" contextualColor="3" contextualGroup="PLUGINS">
+        <tab controlId="org.ametys.plugins.admin.PluginsByFileTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_LABEL" contextualColor="3" contextualGroup="PLUGINS" order="1040">
             <groups>
                 <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_GROUPS_GROUP_ACTIONS" icon="">
                     <large>
@@ -123,7 +123,7 @@
                 </group>
             </groups>
         </tab>
-        <tab controlId="org.ametys.plugins.admin.PluginsByExtensionPointTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_EP_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_EP_LABEL" contextualColor="3" contextualGroup="PLUGINS_EP">
+        <tab controlId="org.ametys.plugins.admin.PluginsByExtensionPointTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_EP_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_EP_LABEL" contextualColor="3" contextualGroup="PLUGINS_EP" order="1050">
             <groups>
                 <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_GROUPS_GROUP_ACTIONS" icon="">
                     <large>
@@ -141,7 +141,7 @@
                 </group>
             </groups>
         </tab>
-        <tab controlId="org.ametys.plugins.admin.config.Tab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_CONFIG_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_CONFIG_LABEL" contextualColor="2" contextualGroup="CONFIG">
+        <tab controlId="org.ametys.plugins.admin.config.Tab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_CONFIG_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_CONFIG_LABEL" contextualColor="2" contextualGroup="CONFIG" order="1060">
             <groups>
                 <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_CONFIG_GROUPS_GROUP_ACTIONS" icon="">
                     <large>
@@ -154,7 +154,7 @@
         </tab>
         
         <!-- Contextual tab for data sources -->
-        <tab controlId="org.ametys.plugins.admin.datasources.Tab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_DATASOURCE_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_DATASOURCE_LABEL" contextualColor="1" contextualGroup="DATASOURCES">
+        <tab controlId="org.ametys.plugins.admin.datasources.Tab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_DATASOURCE_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_DATASOURCE_LABEL" contextualColor="1" contextualGroup="DATASOURCES" order="1070">
             <groups>
                 <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_DATASOURCES_GROUPS_GROUP_ACTIONS" icon="">
                     <large>
@@ -168,7 +168,7 @@
         </tab>
         
         <!-- Contextual tab for server logs -->
-        <tab controlId="org.ametys.plugins.core.ui.log.ServerLogTool.Tab" label="plugin.core-ui:RIBBON_ADMINISTRATION_TABS_TAB_SERVERLOG_ACTIONS_LABEL" contextualLabel="plugin.core-ui:RIBBON_ADMINISTRATION_TABS_TAB_SERVERLOG_ACTIONS_LABEL" contextualColor="4" contextualGroup="LOGS">
+        <tab controlId="org.ametys.plugins.core.ui.log.ServerLogTool.Tab" label="plugin.core-ui:RIBBON_ADMINISTRATION_TABS_TAB_SERVERLOG_ACTIONS_LABEL" contextualLabel="plugin.core-ui:RIBBON_ADMINISTRATION_TABS_TAB_SERVERLOG_ACTIONS_LABEL" contextualColor="4" contextualGroup="LOGS" order="1080">
             <groups>
                 <group label="plugin.core-ui:RIBBON_ADMINISTRATION_TABS_TAB_SERVERLOG_GROUPS_GROUP_ACTIONS" icon="">
                     <large>
@@ -180,7 +180,7 @@
         </tab>
         
         <!-- Contextual tab for JS Console -->
-        <tab controlId="org.ametys.plugins.core.ui.ScriptTab" label="plugin.core-ui:PLUGINS_CORE_UI_TOOLS_SCRIPT_TAB_LABEL" contextualLabel="plugin.core-ui:PLUGINS_CORE_UI_TOOLS_SCRIPT_TAB_LABEL" contextualColor="4" contextualGroup="CONSOLE">
+        <tab controlId="org.ametys.plugins.core.ui.ScriptTab" label="plugin.core-ui:PLUGINS_CORE_UI_TOOLS_SCRIPT_TAB_LABEL" contextualLabel="plugin.core-ui:PLUGINS_CORE_UI_TOOLS_SCRIPT_TAB_LABEL" contextualColor="4" contextualGroup="CONSOLE" order="1090">
             <groups>
                 <group label="plugin.core-ui:PLUGINS_CORE_UI_TOOLS_SCRIPT_TAB_LABEL" icon="">
                     <large>

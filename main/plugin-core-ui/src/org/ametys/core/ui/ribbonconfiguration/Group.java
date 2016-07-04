@@ -51,6 +51,19 @@ public class Group
     /** The short version of the group */
     protected GroupSize _smallSize;
     
+    /** True to override an existing group instead of defining a new one */
+    protected Boolean _override;
+    /** When overriding, defines the group position inside the tab */
+    protected String _order;
+    /** When overriding, defines the controls position in the original group */
+    protected String _controlsOrder;
+    /** Helper for controls injection */
+    protected TabOverrideHelper<Element> _largeOverrideHelper;
+    /** Helper for controls injection */
+    protected TabOverrideHelper<Element> _mediumOverrideHelper;
+    /** Helper for controls injection */
+    protected TabOverrideHelper<Element> _smallOverrideHelper;
+    
     /** The logger */
     protected Logger _groupLogger;
     
@@ -68,7 +81,8 @@ public class Group
         _priority = groupConfiguration.getAttributeAsInteger("priority", 0);
         _configureLabelAndIcon(groupConfiguration);
         _configureSize(groupConfiguration, ribbonManager);
-    }     
+        _configureOverride(groupConfiguration);
+    }
 
     /**
      * Creates an empty group
@@ -90,6 +104,9 @@ public class Group
         _priority = ribbonGroup._priority;
         _groupLogger = ribbonGroup._groupLogger;
         _dialogBoxLauncher = ribbonGroup._dialogBoxLauncher;
+        _override = ribbonGroup._override;
+        _order = ribbonGroup._order;
+        _controlsOrder = ribbonGroup._controlsOrder;
         
         _largeSize = new GroupSize(_groupLogger);
         _mediumSize = new GroupSize(_groupLogger);
@@ -167,6 +184,13 @@ public class Group
         }
     }
     
+    private void _configureOverride(Configuration groupConfiguration)
+    {
+        _override = groupConfiguration.getAttributeAsBoolean("override", false);
+        _order = groupConfiguration.getAttribute("order", "0");
+        _controlsOrder = groupConfiguration.getAttribute("controlsOrder", "0");
+    }
+    
     /**
      * Return true if the group does not have any controls
      * @return True if empty
@@ -202,6 +226,81 @@ public class Group
     {
         return _smallSize;
     }
+    
+    /**
+     * Return true if the group overrides another group
+     * @return True if overrides
+     */
+    public boolean isOverride()
+    {
+        return _override;
+    }
+    
+    /**
+     * Return the order of the group
+     * @return The order
+     */
+    public String getOrder()
+    {
+        return _order;
+    }
+    
+    /**
+     * Inject a group's controls into this group
+     * @param group The group to inject
+     */
+    public void injectGroup(Group group)
+    {
+        if (_largeSize != null)
+        {
+            if (_largeOverrideHelper == null)
+            {
+                _largeOverrideHelper = new TabOverrideHelper<>(_largeSize.getChildren());
+            }
+            injectGroup(group, _largeOverrideHelper, group.getLargeGroupSize(), group.getMediumGroupSize(), null);
+        }
+        if (_mediumSize != null)
+        {
+            if (_mediumOverrideHelper == null)
+            {
+                _mediumOverrideHelper = new TabOverrideHelper<>(_mediumSize.getChildren());
+            }
+            injectGroup(group, _mediumOverrideHelper, group.getMediumGroupSize(), group.getLargeGroupSize(), null);
+        }
+        if (_smallSize != null)
+        {
+            if (_smallOverrideHelper == null)
+            {
+                _smallOverrideHelper = new TabOverrideHelper<>(_smallSize.getChildren());
+            }
+            injectGroup(group, _smallOverrideHelper, group.getSmallGroupSize(), group.getMediumGroupSize(), group.getLargeGroupSize());
+        }
+    }
+    
+    private void injectGroup(Group group, TabOverrideHelper<Element> overrideHelper, GroupSize fromSizeFirst, GroupSize fromSizeSecond, GroupSize fromSizeThird)
+    {
+        GroupSize fromSize = null;
+        if (fromSizeFirst != null)
+        {
+            fromSize = fromSizeFirst;
+        }
+        else if (fromSizeSecond != null)
+        {
+            fromSize = fromSizeSecond;
+        }
+        else
+        {
+            fromSize = fromSizeThird;
+        }
+        
+        if (fromSize != null)
+        {
+            for (Element element : fromSize.getChildren())
+            {
+                overrideHelper.injectElements(element, group._controlsOrder);
+            }
+        }
+    }
 
     /**
      * Sax the the configuration of the group.
@@ -228,4 +327,5 @@ public class Group
         
         XMLUtils.endElement(handler, "group");
     }
+
 }    

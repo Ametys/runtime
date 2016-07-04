@@ -58,8 +58,14 @@ public class Tab
     /** True to order before a tab specified by _order */
     protected Boolean _orderBefore;
     
+    /** True to override an existing tab instead of defining a new one */
+    protected Boolean _override;
+    
     /** The list of groups in the tab */
     protected List<Group> _groups = new ArrayList<>();
+    
+    /** helper for group injection */
+    protected TabOverrideHelper<Group> _tabOverrideHelper;
     
     /** Logger */
     protected Logger _log;
@@ -86,7 +92,15 @@ public class Tab
         {
             _generateTabControl(tabConfiguration, ribbonManager);
         }
-        _configureLabel(tabConfiguration);
+        
+        this._label = new I18nizableText("application", tabConfiguration.getAttribute("label"));
+        if (_log.isDebugEnabled())
+        {
+            _log.debug("Tab label is " + this._label);
+        }
+        
+        this._override = tabConfiguration.getAttributeAsBoolean("override", false);
+
         _configureGroups(tabConfiguration, ribbonManager);
         _configureOrder(tabConfiguration, defaultOrder);
     }
@@ -170,21 +184,6 @@ public class Tab
         }
     }
 
-    /**
-     * Configure one tab label
-     * @param tabConfiguration One tab configuration
-     * @throws ConfigurationException if an error occurred
-     */
-    protected void _configureLabel(Configuration tabConfiguration) throws ConfigurationException
-    {
-        this._label = new I18nizableText("application", tabConfiguration.getAttribute("label"));
-        
-        if (_log.isDebugEnabled())
-        {
-            _log.debug("Tab label is " + this._label);
-        }
-    }
-    
     /**
      * Configure tabs groups
      * @param tabConfiguration One tab configuration
@@ -276,6 +275,45 @@ public class Tab
     public List<Group> getGroups()
     {
         return _groups;
+    }
+
+    /**
+     * Return true if this tab overrides an existing tab
+     * @return True if overrides
+     */
+    public boolean isOverride()
+    {
+        return _override;
+    }
+    
+    /**
+     * Inject a list of groups into this tab
+     * @param groups The list of groups to inject
+     */
+    public void injectGroups(List<Group> groups)
+    {
+        for (Group group : groups)
+        {
+            if (group.isOverride())
+            {
+                for (Group selfGroup : _groups)
+                {
+                    if (selfGroup._label.equals(group._label))
+                    {
+                        selfGroup.injectGroup(group);
+                    }
+                }
+            }
+            else
+            {
+                if (_tabOverrideHelper == null)
+                {
+                    _tabOverrideHelper = new TabOverrideHelper<>(_groups);
+                }
+                
+                _tabOverrideHelper.injectElements(group, group.getOrder());
+            }
+        }
     }
     
     /**
