@@ -78,6 +78,7 @@ Ext.define('Ametys.plugins.coreui.groupdirectories.ChooseGroupDirectoriesHelper'
             ],
             
             referenceHolder: true,
+            defaultFocus: 'select-group-directories-widget',
             defaultButton: 'buttonOk',
             buttons: [{
                 itemId: 'button-ok',

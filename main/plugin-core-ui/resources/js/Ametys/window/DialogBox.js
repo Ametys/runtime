@@ -109,7 +109,6 @@ Ext.define(
 	     * Allows override of the built-in processing for the enter key. Default action is to call {@link #validateAction} when cursor is in an input, a div or a span.
 	     * The attribute 'donotsubmitonenter' can be specified to avoid this behavior.
 	     */
-
 		onEnter : function(key, event)
 		{
 			// only works for input (plz avoid textarea) or div (when the focus is on the dialog itself) or span (when focus is on a tree node)

@@ -79,6 +79,7 @@ Ext.define('Ametys.plugins.coreui.populations.ChooseUserPopulationsHelper', {
             
             referenceHolder: true,
             defaultButton: 'buttonOk',
+            defaultFocus: 'select-populations-widget',
             buttons: [{
                 itemId: 'button-ok',
                 reference: 'buttonOk',

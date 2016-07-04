@@ -79,6 +79,7 @@ Ext.define('Ametys.plugins.coreui.groups.EditGroupHelper', {
                 },
                 width: 450,
                 
+                defaultFocus: 'groupDirectories',
                 items: [
                     {
                         xtype: 'component',

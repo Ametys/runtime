@@ -140,7 +140,7 @@ Ext.define('Ametys.plugins.coreui.profiles.EditProfileHelper', {
 		if (this._mode == 'new')
 		{
 			this._form.getForm().reset();
-			this._form.getForm().findField('name').focus(true);
+			this._form.getForm().findField('name').focus();
 		}
 		else
 		{
