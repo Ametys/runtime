@@ -84,6 +84,16 @@ Ext.define('Ametys.form.AbstractField', {
      */
     preventMark: false,
     
+    /**
+     *  @cfg {Boolean} focusable=true true to allow this field to be focused
+     */
+    focusable: true,
+    
+    /**
+     * @cfg {Number} tabIndex=0 DOM tabIndex attribute for the focused element
+     */
+    tabIndex: 0,
+    
     validateOnBlur: true,
     
     constructor: function(config)
@@ -112,9 +122,6 @@ Ext.define('Ametys.form.AbstractField', {
         return Ametys.form.AbstractField.BASE_FIELD_CLS;
     },
     
-    /**
-     * @inheritdoc
-     */
     initComponent: function ()
     {
         this.callParent();
@@ -137,7 +144,6 @@ Ext.define('Ametys.form.AbstractField', {
     /**
      * Called when the field's dirty state changes. Adds/removes the dirtyCls on the main element.
      * @param {Boolean} isDirty The new dirty state
-     * @private
      */
     onDirtyChange: function(isDirty) 
     {
@@ -145,7 +151,6 @@ Ext.define('Ametys.form.AbstractField', {
     },
     
     /**
-     * @private 
      * Overrides the method from the Ext.form.Labelable mixin to also add the invalidCls to the inputEl,
      * as that is required for proper styling in IE with nested fields (due to lack of child selector)
      */
@@ -292,6 +297,19 @@ Ext.define('Ametys.form.AbstractField', {
         this.updateLayout();
     },
     
+    getFocusEl: function()
+    {
+    	var focusEl = this.element || this.el;
+    	Ext.Array.each(this.items.items, function(item) {
+    		if (item != null && item.focusable && Ext.isFunction(item.focus))
+			{
+    			focusEl = item;
+    			return false;
+			}
+    	});
+    	
+    	return focusEl;
+    },
     
     onFocus: function(e) 
     {
@@ -302,7 +320,8 @@ Ext.define('Ametys.form.AbstractField', {
         me.addCls(me.fieldFocusCls);
     },
 
-    onBlur: function(e) {
+    onBlur: function(e) 
+    {
         var me = this;
 
         me.callParent(arguments);

@@ -131,8 +131,6 @@ Ext.define('Ametys.form.field.RichText', {
         align: 'stretch'
     },
     
-    focusable: true,
-    
     config: {
         /**
          * @cfg {Boolean} readOnly true to prevent the user from changing the field
