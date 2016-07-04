@@ -38,6 +38,7 @@ import org.ametys.runtime.plugin.component.AbstractThreadSafeComponentExtensionP
 public abstract class AbstractClientSideExtensionPoint extends AbstractThreadSafeComponentExtensionPoint<ClientSideElement>
 {
     private Map<String, Configuration> _configurations = new HashMap<>();
+    private Map<String, String> _configurationPlugins = new HashMap<>();
     
     private List<AbstractClientSideExtensionPoint> _registeredManagers = new ArrayList<>();
 
@@ -51,6 +52,7 @@ public abstract class AbstractClientSideExtensionPoint extends AbstractThreadSaf
         else
         {
             _configurations.put(id, configuration);
+            _configurationPlugins.put(id, pluginName);
             super.addExtension(id, pluginName, featureName, configuration);
         }
     }
@@ -81,12 +83,12 @@ public abstract class AbstractClientSideExtensionPoint extends AbstractThreadSaf
         }
     }
     
-    private Configuration _getConfiguration(String id)
+    private Configuration _getConfiguration(String id) throws ConfigurationException
     {
         Configuration configuration = _configurations.get(id);
         if (configuration != null)
         {
-            return configuration;
+            return _getContexutalizedConfiguration(configuration, _configurationPlugins.get(id));
         }
         
         for (AbstractClientSideExtensionPoint manager : _registeredManagers)
@@ -101,6 +103,27 @@ public abstract class AbstractClientSideExtensionPoint extends AbstractThreadSaf
         return null;
     }
     
+    private Configuration _getContexutalizedConfiguration(Configuration configuration, String pluginName) throws ConfigurationException
+    {
+        DefaultConfiguration contextualizedConfiguration = new DefaultConfiguration(configuration);
+        
+        _contexutalizeConfiguration(contextualizedConfiguration, pluginName);
+        
+        return contextualizedConfiguration;
+    }
+    
+    private void _contexutalizeConfiguration(MutableConfiguration configuration, String pluginName) throws ConfigurationException
+    {
+        for (MutableConfiguration child : configuration.getMutableChildren())
+        {
+            if ((child.getName().equals("file") || child.getAttributeAsBoolean("file", false) || "file".equals(child.getAttribute("type", null))) && child.getAttribute("plugin", null) == null)
+            {
+                child.setAttribute("plugin", pluginName);
+            }    
+            _contexutalizeConfiguration(child, pluginName);
+        }
+    }
+
     private void _mergeChildsConfiguration(Configuration configuration, MutableConfiguration base) throws ConfigurationException
     {
         String value = configuration.getValue(null);
