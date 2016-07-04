@@ -108,7 +108,10 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
             {
                 if (this._panel && (Ext.fly(t).findParent("#" + this._panel.getId())))
                 {
-                    e.preventDefault();
+                    if (!/^(input|textarea)$/i.test(t.tagName))
+                    {
+                        e.preventDefault();
+                    }
                     return;
                 }       
                 
@@ -119,7 +122,10 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
                     var el = this._panelHierarchy[locs[i]].getEl();
                     if (el && Ext.fly(t).findParent("#" + el.getId()))
                     {
-                        e.preventDefault();
+                        if (!/^(input|textarea)$/i.test(t.tagName))
+                        {
+                            e.preventDefault();
+                        }
                         return;
                     }
                 }

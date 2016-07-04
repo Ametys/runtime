@@ -450,7 +450,7 @@ Ext.define(
             // We want to cancel right-click on the ribbon (but the ribbon has 2 dom root because the tabpanel is floating)
             if (Ext.fly(t).findParent("#" + this.getId()) || Ext.fly(t).findParent("#" + this.getPanel().getId()))
             {
-                if (e.button != 0)
+                if (e.button != 0 && !/^(input|textarea)$/i.test(t.tagName))
                 {
                     e.preventDefault();
                 }
