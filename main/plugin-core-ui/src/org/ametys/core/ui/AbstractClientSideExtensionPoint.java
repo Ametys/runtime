@@ -71,10 +71,11 @@ public abstract class AbstractClientSideExtensionPoint extends AbstractThreadSaf
             }
             
             DefaultConfiguration mergedConfiguration = new DefaultConfiguration(baseConfiguration, true);
-            _mergeChildsConfiguration(configuration, mergedConfiguration);
+            _getMerdedChildsConfiguration(configuration, mergedConfiguration);
             mergedConfiguration.setAttribute("ref-id", null);
             
             _configurations.put(id, mergedConfiguration);
+            _configurationPlugins.put(id, pluginName);
             super.addExtension(id, pluginName, featureName, mergedConfiguration);
         }
         catch (ServiceException e)
@@ -119,11 +120,32 @@ public abstract class AbstractClientSideExtensionPoint extends AbstractThreadSaf
             if ((child.getName().equals("file") || child.getAttributeAsBoolean("file", false) || "file".equals(child.getAttribute("type", null))) && child.getAttribute("plugin", null) == null)
             {
                 child.setAttribute("plugin", pluginName);
-            }    
+            }
             _contexutalizeConfiguration(child, pluginName);
         }
     }
 
+    private void _getMerdedChildsConfiguration(Configuration configuration, MutableConfiguration base) throws ConfigurationException
+    {
+        base.addAllAttributes(configuration);
+        for (Configuration child : configuration.getChildren())
+        {
+            String tagName = child.getName();
+            MutableConfiguration baseChild = base.getMutableChild(tagName);
+            if ("scripts".equals(tagName) || "css".equals(tagName))
+            {
+                for (Configuration fileChild : child.getChildren())
+                {
+                    baseChild.addChild(fileChild);
+                }
+            }
+            else
+            {
+                _mergeChildsConfiguration(child, baseChild);
+            }
+        }
+    }
+    
     private void _mergeChildsConfiguration(Configuration configuration, MutableConfiguration base) throws ConfigurationException
     {
         String value = configuration.getValue(null);
@@ -151,20 +173,14 @@ public abstract class AbstractClientSideExtensionPoint extends AbstractThreadSaf
             }
             else
             {
-                if (baseChildren.length != newChildren.length)
+                for (Configuration baseChild : baseChildren)
                 {
-                    for (Configuration baseChild : baseChildren)
-                    {
-                        base.removeChild(baseChild);
-                    }
+                    base.removeChild(baseChild);
                 }
                 
-                if (baseChildren.length == 0)
+                for (Configuration newChild : newChildren)
                 {
-                    for (Configuration newChild : newChildren)
-                    {
-                        base.addChild(newChild);
-                    }
+                    base.addChild(newChild);
                 }
             }
         }
