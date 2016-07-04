@@ -46,6 +46,18 @@ Ext.define('Ametys.plugins.coreui.log.AbstractLogTool', {
         return Ametys.tool.Tool.MB_TYPE_NOSELECTION;
     },
     
+    /**
+     * @protected
+     * @template
+     * Determine a row CSS class depending upon the record
+     * @param {Ext.data.Model} record The record
+     * @return {String} The CSS classname to apply
+     */
+    getRowClass: function(record)
+    {
+        return "";
+    },
+    
     createPanel: function()
     {
         this.grid = Ext.create("Ext.grid.Panel", {
@@ -68,6 +80,10 @@ Ext.define('Ametys.plugins.coreui.log.AbstractLogTool', {
                 xtype: 'statusbar',
                 statusAlign: 'right'
             },
+            
+            viewConfig: { 
+                getRowClass: Ext.bind(this.getRowClass, this)
+            }, 
             
             listeners: {
                 'selectionchange': Ext.bind(this._onSelectLog, this) 

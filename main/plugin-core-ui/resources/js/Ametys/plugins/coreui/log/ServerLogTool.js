@@ -297,6 +297,11 @@ Ext.define('Ametys.plugins.coreui.log.ServerLogTool', {
         this.callParent(arguments);
     },
     
+    getRowClass: function(record)
+    {
+        return "msg-level-" + record.get('levelCode');
+    },
+    
     /**
      * Default renderer for the columns. Apply the coloration.
      * @param {Number} value The level
@@ -306,11 +311,6 @@ Ext.define('Ametys.plugins.coreui.log.ServerLogTool', {
      */
     defaultRenderer: function(value, metadata, record)
     {
-        if (metadata != null)
-        {
-            metadata.tdCls = "msg-level-" + record.get('levelCode');
-        }
-        
         return Ext.String.htmlEncode(value);
     },
     
@@ -323,10 +323,6 @@ Ext.define('Ametys.plugins.coreui.log.ServerLogTool', {
      */
     datetimeRenderer: function(value, metadata, record)
     {
-        if (metadata != null)
-        {
-            metadata.tdCls = "msg-level-" + record.get('levelCode');
-        }
         return Ext.Date.format(new Date(value), "d/m H:i:s.u");
     },
     

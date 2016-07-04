@@ -60,19 +60,6 @@ Ext.define("Ametys.plugins.coreui.system.consolelog.ConsoleLogTool",
 			},
 			
 			/**
-			 * Renderer for the other columns
-			 * @param {Number} value The level
-			 * @param {Object} metadata A collection of metadata about the current cell; can be used or modified by the renderer. Recognized properties are: tdCls, tdAttr, and style
-			 * @param {Ext.data.Model} record The record for the current row
-			 * @private
-			 */
-			allRenderer: function(value, metadata, record)
-			{
-				metadata.tdCls = "msg-level-" + record.get('level');
-				return value;
-			},	
-			
-			/**
 			 * @private
 			 * @property {Function} _dateRenderer The internal real date renderer
 			 */
@@ -86,7 +73,6 @@ Ext.define("Ametys.plugins.coreui.system.consolelog.ConsoleLogTool",
 			 */
 			dateRenderer: function(value, metadata, record)
 			{
-				metadata.tdCls = "msg-level-" + record.get('level');
 				return Ametys.plugins.coreui.system.consolelog.ConsoleLogTool._dateRenderer.apply(Ametys.plugins.coreui.system.consolelog.ConsoleLogTool, arguments);
 			},
             
@@ -99,7 +85,6 @@ Ext.define("Ametys.plugins.coreui.system.consolelog.ConsoleLogTool",
              */
             stacktraceRendered: function(value, metadata, record)
             {
-                metadata.tdCls = "msg-level-" + record.get('level');
                 return Ext.String.stacktraceToHTML(value, 1);                
             }
 		},
@@ -117,6 +102,11 @@ Ext.define("Ametys.plugins.coreui.system.consolelog.ConsoleLogTool",
 	                "<tpl if='stacktrace'><br /><b>{{i18n PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_STACKTRACE_TEXT}}</b><br />{stacktrace}</tpl>"
 	        );
 	    },
+        
+        getRowClass: function(record)
+        {
+            return "msg-level-" + record.get('level');
+        },
 		
         /**
          * Renderer for the level column
@@ -128,7 +118,6 @@ Ext.define("Ametys.plugins.coreui.system.consolelog.ConsoleLogTool",
         {
             var imgSrc = Ametys.CONTEXT_PATH + this.getInitialConfig("icon-level-" + value);
             
-            metadata.tdCls = "msg-level-" + value;
             switch (value)
             {
                 case Ametys.log.Logger.Entry.LEVEL_DEBUG: return "<img src=\"" + imgSrc + "\"/>{{i18n PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_LEVEL_0}}";
@@ -183,7 +172,6 @@ Ext.define("Ametys.plugins.coreui.system.consolelog.ConsoleLogTool",
                     header: "{{i18n PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_CATEGORY}}",
                     width: 200,
                     sortable: true,
-                    renderer: Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.allRenderer,
                     dataIndex: 'category',
                     filter: {
                         type: 'string'
@@ -194,7 +182,6 @@ Ext.define("Ametys.plugins.coreui.system.consolelog.ConsoleLogTool",
                     header: "{{i18n PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_MESSAGE}}",
                     flex: 0.5,
                     sortable: true,
-                    renderer: Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.allRenderer,
                     dataIndex: 'message',
                     hideable: false,
                     filter: {
@@ -206,7 +193,6 @@ Ext.define("Ametys.plugins.coreui.system.consolelog.ConsoleLogTool",
                     header: "{{i18n PLUGINS_CORE_UI_TOOLS_CONSOLELOGTOOL_COL_DETAILS}}",
                     flex: 1,
                     sortable: true,
-                    renderer: Ametys.plugins.coreui.system.consolelog.ConsoleLogTool.allRenderer,
                     dataIndex: 'details',
                     hidden: true,
                     filter: {
