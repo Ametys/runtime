@@ -17,7 +17,14 @@
 .uitool-requesttracker {
     .a-panel-text {
         white-space: nowrap;
-    }    
+    }  
+    
+    .request-errors {
+        color: $ametys-tools-requesttracker-row-errors;
+    }  
+    .request-warnings {
+        color: $ametys-tools-requesttracker-row-warnings;
+    }  
     
     code.request-tracker {
     	color: $ametys-tools-requesttracker-details-code-color;

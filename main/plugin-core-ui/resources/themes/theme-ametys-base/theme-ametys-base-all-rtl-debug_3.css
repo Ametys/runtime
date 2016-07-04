@@ -9026,27 +9026,35 @@
     white-space: nowrap;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:22 */
+.uitool-requesttracker .request-errors {
+    color: #c00;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:25 */
+.uitool-requesttracker .request-warnings {
+    color: #ffae01;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:29 */
 .uitool-requesttracker code.request-tracker {
     color: #000;
     display: block;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:26 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:33 */
 .uitool-requesttracker code.request-tracker .tag {
     color: #3f7f7f;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:29 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:36 */
 .uitool-requesttracker code.request-tracker .text {
     color: #000;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:32 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:39 */
 .uitool-requesttracker code.request-tracker .attr-name {
     color: #9500ab;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:35 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:42 */
 .uitool-requesttracker code.request-tracker .attr-eq {
     color: #000;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:38 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:45 */
 .uitool-requesttracker code.request-tracker .attr-value {
     color: #2a00ff;
     font-style: italic;

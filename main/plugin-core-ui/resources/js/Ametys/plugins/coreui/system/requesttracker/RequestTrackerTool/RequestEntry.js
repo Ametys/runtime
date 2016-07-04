@@ -27,7 +27,8 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool.Reque
 		{name: 'date', type: 'date', dateFormat: 'Y-m-d'},
 		{name: 'duration'},
 		{name: 'return'},
-		{name: 'size'},
+		{name: 'size', type: 'int'},
+        {name: 'errors', type: 'int'},
 		{name: 'messages'},
 		{name: 'response'}
     ]

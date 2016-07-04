@@ -9055,27 +9055,35 @@
     white-space: nowrap;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:22 */
+.uitool-requesttracker .request-errors {
+    color: #c00;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:25 */
+.uitool-requesttracker .request-warnings {
+    color: #ffae01;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:29 */
 .uitool-requesttracker code.request-tracker {
     color: #000;
     display: block;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:26 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:33 */
 .uitool-requesttracker code.request-tracker .tag {
     color: #3f7f7f;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:29 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:36 */
 .uitool-requesttracker code.request-tracker .text {
     color: #000;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:32 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:39 */
 .uitool-requesttracker code.request-tracker .attr-name {
     color: #9500ab;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:35 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:42 */
 .uitool-requesttracker code.request-tracker .attr-eq {
     color: #000;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:38 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/requesttracker.scss:45 */
 .uitool-requesttracker code.request-tracker .attr-value {
     color: #2a00ff;
     font-style: italic;
@@ -13259,13 +13267,4 @@
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .a-configurable-form-panel-toc .x-btn.x-btn-default-toolbar-medium.x-btn-focus,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .a-configurable-form-panel-toc .x-btn.x-btn-default-toolbar-large.x-btn-focus {
     border-color: #804080;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:115 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .a-configurable-form-panel-toc .x-btn.x-btn-default-small.x-btn-focus .x-btn-inner,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .a-configurable-form-panel-toc .x-btn.x-btn-default-medium.x-btn-focus .x-btn-inner,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .a-configurable-form-panel-toc .x-btn.x-btn-default-large.x-btn-focus .x-btn-inner,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .a-configurable-form-panel-toc .x-btn.x-btn-default-toolbar-small.x-btn-focus .x-btn-inner,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .a-configurable-form-panel-toc .x-btn.x-btn-default-toolbar-medium.x-btn-focus .x-btn-inner,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .a-configurable-form-panel-toc .x-btn.x-btn-default-toolbar-large.x-btn-focus .x-btn-inner {
-    color: #804080;
 }

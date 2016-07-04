@@ -61,6 +61,7 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool.Messa
         {name: 'priority'},
         {name: 'type'},
         {name: 'message'},
+        {name: 'status'},
         {name: 'response'},
         {name: 'callstack'}
     ]

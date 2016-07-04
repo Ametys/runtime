@@ -86,9 +86,16 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 			        {stateId: 'grid-type', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_TYPE}}", width: 85, sortable: true, dataIndex: 'type'},
 			        {stateId: 'grid-date', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_DATE}}", width: 130, sortable: true, renderer: Ext.util.Format.dateRenderer(Ext.Date.patterns.ShortDateTime), dataIndex: 'date'},
 			        {stateId: 'grid-duration', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_DURATION}}", width: 65, sortable: true, dataIndex: 'duration'},
+                    {stateId: 'grid-errors', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_ERRORS}}", width: 75, sortable: true, dataIndex: 'errors'},
 			        {stateId: 'grid-size', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_SIZE}}", width: 60, sortable: true, dataIndex: 'size'},
 			        {stateId: 'grid-return', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_RETURN}}", width: 70, sortable: true, dataIndex: 'return'}
 			    ],
+                
+                viewConfig: { 
+                    getRowClass: function(record) { 
+                        return record.get('errors') > 0 ? (record.get('size') == record.get('errors') ? 'request-errors' : 'request-warnings') : ''; 
+                    } 
+                }, 
 			    
 			    listeners: {'selectionchange': Ext.bind(this._onSelectRequest, this)}
 			});
@@ -122,8 +129,15 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 			        {stateId: 'msgrid-ccid', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_CCID}}", width: 180, sortable: true, hidden: true, dataIndex: 'clientCallId'},
 			        {stateId: 'msgrid-ccmethod', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_CCMETHOD}}", width: 180, sortable: true, hidden: true, dataIndex: 'clientCallMethod'},
 			        {stateId: 'msgrid-priority', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY}}", width: 70, sortable: true, dataIndex: 'priority'},
+                    {stateId: 'msgrid-status', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_STATUS}}", width: 75, sortable: true, dataIndex: 'status'},
 			        {stateId: 'msgrid-type', header: "{{i18n PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_TYPE}}", width: 75, sortable: true, dataIndex: 'type'}
 			    ],
+                
+                viewConfig: { 
+                    getRowClass: function(record) { 
+                        return record.get('status') != '200' ? 'request-errors' : ''; 
+                    } 
+                }, 
 			    
 			    listeners: {'selectionchange': Ext.bind(this._onSelectMessage, this) }
 			});
@@ -270,6 +284,7 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 						clientCallMethod: clientCallInfo.method,
 						message: message,
 						response: response,
+                        status: response && response.responseXML ? Ext.dom.Query.selectNode("/responses/response[@id='" + i + "']", response.responseXML).getAttribute("code") : "500",
                         callstack: message.callstack
 					});
 					this.msgStore.addSorted(r);
@@ -288,6 +303,7 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 						clientCallMethod: clientCallInfo.method,
 						message: message,
 						response: response,
+                        status: response && response.responseXML ? Ext.dom.Query.selectNode("/responses/response[@id='0']", response.responseXML).getAttribute("code") : "500",
                         callstack: message.callstack
 					});
 					this.msgStore.addSorted(r);
@@ -488,6 +504,7 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 					duration: "...",
 					"return": "...",
 					size: sendOptions.messages.length,
+                    errors: null,
 					messages: sendOptions.messages,
 					response: null
 				});
@@ -524,6 +541,7 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
                     return;
                 }
 				record.set("duration", (new Date().getTime() - record.get("date").getTime()) / 1000.0);
+                record.set("errors", response && response.responseXML ? Ext.dom.Query.select("/responses/response[@code!='200']", response.responseXML).length : record.get("size"));
 				record.set("response", response);
 				switch (responseType)
 				{
@@ -567,6 +585,7 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 						duration: "...",
 						"return": "...",
 						size: 1,
+                        errors: null,
 						messages: [message]
 					});
 					store.addSorted(record);
@@ -597,6 +616,7 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 				window.setTimeout(function() {
 					var record = store.query("id", message.observerId).getAt(0);
 					record.set("duration", (new Date().getTime() - record.get("date").getTime()) / 1000.0);
+                    record.set("errors", responseType == 0 ? 0 : 1);
 					record.set("response", response);
 					switch (responseType)
 					{
