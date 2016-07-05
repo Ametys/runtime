@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.avalon.framework.configuration.Configuration;
@@ -41,13 +42,24 @@ public abstract class AbstractClientSideExtensionPoint extends AbstractThreadSaf
     private Map<String, String> _configurationPlugins = new HashMap<>();
     
     private List<AbstractClientSideExtensionPoint> _registeredManagers = new ArrayList<>();
+    
+    private List<ReferencingExtension> _referencingExtensions = new ArrayList<>();
+    
+    private boolean _initialized;
 
     @Override
     public void addExtension(String id, String pluginName, String featureName, Configuration configuration) throws ConfigurationException
     {
         if (configuration.getAttribute("ref-id", null) != null)
         {
-            _addReferencingExtension(id, pluginName, featureName, configuration);
+            if (_initialized)
+            {
+                _addReferencingExtension(id, pluginName, featureName, configuration);
+            }
+            else
+            {
+                _referencingExtensions.add(new ReferencingExtension(id, pluginName, featureName, configuration));
+            }
         }
         else
         {
@@ -186,6 +198,35 @@ public abstract class AbstractClientSideExtensionPoint extends AbstractThreadSaf
         }
     }
     
+    @Override
+    public void initializeExtensions() throws Exception
+    {
+        Map<String, ReferencingExtension> refExtIds = _referencingExtensions.stream().collect(Collectors.toMap(ReferencingExtension::getId, Function.identity()));
+        List<String> processing = new ArrayList<>();
+        for (ReferencingExtension refExt : _referencingExtensions)
+        {
+            _lazyInitializeReferencingExtension(refExt, refExtIds, processing);
+        }
+        
+        super.initializeExtensions();
+        _initialized = true;
+    }
+    
+    private void _lazyInitializeReferencingExtension(ReferencingExtension ext, Map<String, ReferencingExtension> refExtIds, List<String> processing) throws ConfigurationException
+    {
+        if (!processing.contains(ext.getId()))
+        {
+            processing.add(ext.getId());
+            if (refExtIds.containsKey(ext.getRefId()))
+            {
+                // if we are referencing another referencing extension, make sure it is initialized before
+                _lazyInitializeReferencingExtension(refExtIds.get(ext.getRefId()), refExtIds, processing);
+            }
+
+            _addReferencingExtension(ext.getId(), ext.getPluginName(), ext.getFeatureName(), ext.getConfiguration());
+        }
+    }
+    
     /**
      * Register a new ribbon manager whose extensions will also be managed by this RibbonControlsManager
      * @param manager The manager to register
@@ -251,5 +292,69 @@ public abstract class AbstractClientSideExtensionPoint extends AbstractThreadSaf
         List<ClientSideElement> result = new ArrayList<>();
         result.add(extension);
         return result;
+    }
+    
+    private class ReferencingExtension
+    {
+        private String _id;
+        private String _pluginName;
+        private String _featureName;
+        private Configuration _configuration;
+        private String _refId;
+
+        public ReferencingExtension(String id, String pluginName, String featureName, Configuration configuration) throws ConfigurationException
+        {
+            _id = id;
+            _pluginName = pluginName;
+            _featureName = featureName;
+            _configuration = configuration;
+            
+            _refId = configuration.getAttribute("ref-id");
+        }
+
+        /**
+         * Return the id
+         * @return the id
+         */
+        public String getId()
+        {
+            return _id;
+        }
+
+        /**
+         * Return the plugin name
+         * @return the plugin name
+         */
+        public String getPluginName()
+        {
+            return _pluginName;
+        }
+
+        /**
+         * Return the feature name
+         * @return the feature name
+         */
+        public String getFeatureName()
+        {
+            return _featureName;
+        }
+
+        /**
+         * Return the configuration
+         * @return the configuration
+         */
+        public Configuration getConfiguration()
+        {
+            return _configuration;
+        }
+        
+        /**
+         * Get the referenced extension id
+         * @return The ref-id
+         */
+        public String getRefId()
+        {
+            return _refId;
+        }
     }
 }
