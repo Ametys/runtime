@@ -227,6 +227,13 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     
     border: false,
     
+    focusable: true,
+    
+    /**
+     * @cfg {Number} tabIndex=0 DOM tabIndex attribute for the focused element
+     */
+    tabIndex: 0,
+    
     /**
      * @cfg {String} defaultPathSeparator='.' The default separator for fields
      */
@@ -854,6 +861,22 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         
         this._tabPanel = tabPanel; 
         return tabPanel;
+    },
+    
+    getFocusEl: function()
+    {
+    	var focusEl = this.element || this.el;
+    	Ext.Array.each(this._getFields(), function(field) {
+    		if (field != null && field.focusable && Ext.isFunction(field.focus)
+    				&& (!Ext.isFunction(field.isVisible) || field.isVisible()) 
+        			&& (!Ext.isFunction(field.isDisabled) || !field.isDisabled()))
+			{
+    			focusEl = field;
+    			return false;
+			}
+    	});
+    	
+    	return focusEl;
     },
     
     /**
