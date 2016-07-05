@@ -250,6 +250,11 @@ Ext.define('Ametys.plugins.coreui.log.ServerLogTool', {
      */
     _updateLogsCb: function(response)
     {
+        if (!this.isNotDestroyed())
+        {
+            return;
+        }
+        
         var logs = [];
         Ext.Array.each(response, function (data) {
             logs.push(Ext.create("Ametys.plugins.coreui.log.ServerLogTool.ServerLogEntry", {
