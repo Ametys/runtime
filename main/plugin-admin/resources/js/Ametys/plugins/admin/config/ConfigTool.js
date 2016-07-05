@@ -150,7 +150,7 @@ Ext.define('Ametys.plugins.admin.config.ConfigTool', {
 	 */
 	_focusForm: function()
 	{
-		this._formPanel.focus()
+		this._formPanel.focus();
 	}
 });
 
