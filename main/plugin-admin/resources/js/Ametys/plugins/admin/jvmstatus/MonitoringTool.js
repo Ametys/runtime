@@ -146,11 +146,6 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
      */
     _drawMode: false,
 	
-	constructor: function(config)
-	{
-		this.callParent(arguments);
-	},
-    
     /**
      * Updates the time axis of the charts
      * @param {Number} zoomValue The zoom value. Must greater or equals to 1.
@@ -320,6 +315,11 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
 	 */
 	_refreshCb: function (response, args)
 	{
+        if (!this.isNotDestroyed())
+        {
+            return;
+        }
+		
         // Construct the graphs
         var sampleList = response['samples']['sampleList'];
         Ext.Array.forEach(sampleList, function(sample) {
