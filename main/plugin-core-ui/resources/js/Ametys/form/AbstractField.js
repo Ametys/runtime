@@ -301,7 +301,9 @@ Ext.define('Ametys.form.AbstractField', {
     {
     	var focusEl = this.element || this.el;
     	Ext.Array.each(this.items.items, function(item) {
-    		if (item != null && item.focusable && Ext.isFunction(item.focus))
+    		if (item != null && item.focusable && Ext.isFunction(item.focus) 
+				&& (!Ext.isFunction(item.isVisible) || item.isVisible()) 
+    			&& (!Ext.isFunction(item.isDisabled) || !item.isDisabled()))
 			{
     			focusEl = item;
     			return false;
