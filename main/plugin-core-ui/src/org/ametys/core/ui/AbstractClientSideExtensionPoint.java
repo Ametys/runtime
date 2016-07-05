@@ -129,9 +129,13 @@ public abstract class AbstractClientSideExtensionPoint extends AbstractThreadSaf
     {
         for (MutableConfiguration child : configuration.getMutableChildren())
         {
-            if ((child.getName().equals("file") || child.getAttributeAsBoolean("file", false) || "file".equals(child.getAttribute("type", null)) || "true".equals(child.getAttribute("i18n", "false")) || "i18n".equals(child.getAttribute("type", null))) && child.getAttribute("plugin", null) == null)
+            if ((child.getName().equals("file") || child.getAttributeAsBoolean("file", false) || "file".equals(child.getAttribute("type", null))) && child.getAttribute("plugin", null) == null)
             {
                 child.setAttribute("plugin", pluginName);
+            }
+            else if (("true".equals(child.getAttribute("i18n", "false")) || "i18n".equals(child.getAttribute("type", null))) && child.getValue().indexOf(":") < 0 && child.getValue().length() > 0)
+            {
+                child.setValue("plugin." + pluginName + ":" + child.getValue());
             }
             _contexutalizeConfiguration(child, pluginName);
         }
