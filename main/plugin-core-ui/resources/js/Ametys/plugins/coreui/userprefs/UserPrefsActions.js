@@ -162,6 +162,8 @@ Ext.define('Ametys.plugins.coreui.userprefs.UserPrefsActions', {
 			items : [ this._form ],
 			
 			closeAction: 'hide',
+			defaultFocus: this._form,
+			
 			buttons : [ {
 				text :"{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_BTN_RESTORE_DEFAULTS}}",
 				handler : this.restoreDefaults,
@@ -195,7 +197,7 @@ Ext.define('Ametys.plugins.coreui.userprefs.UserPrefsActions', {
 				showAmetysComments: false
 		});
 	},
-
+	
 	/**
 	 * @private
 	 * Save the user preferences

@@ -41,12 +41,11 @@ Ext.define('Ametys.plugins.admin.config.ConfigTool', {
 			testURL: Ametys.getPluginDirectPrefix('admin') + '/config/test',
 			tableOfContents: true,
 			
-            autoFocus: Ext.bind(this.hasFocus, this),
-            
 			listeners: {
 				'fieldchange': Ext.bind(this.setDirty, this, [true], false),
 				'inputfocus': Ext.bind(this.sendCurrentSelection, this),
-				'testresultschange': Ext.bind(this.sendCurrentSelection, this)
+				'testresultschange': Ext.bind(this.sendCurrentSelection, this),
+				'afterlayout': Ext.bind(this._focusForm, this)
 			}
 		});
 		
@@ -142,6 +141,16 @@ Ext.define('Ametys.plugins.admin.config.ConfigTool', {
 		var isConfigEmpty = !configValues.getElementsByTagName("values")[0].hasChildNodes(); 
 		
 		this._formPanel.setValues(configValues, "values", "comments", "invalid", isConfigEmpty ? null : "{{i18n PLUGINS_ADMIN_CONFIG_EMPTY_WARNING_MESSAGE}}");
+	
+	},
+	
+	/**
+	 * @private
+	 * Focuses the form panel
+	 */
+	_focusForm: function()
+	{
+		this._formPanel.focus()
 	}
 });
 

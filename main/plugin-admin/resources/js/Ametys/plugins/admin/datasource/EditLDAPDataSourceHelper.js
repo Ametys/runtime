@@ -108,7 +108,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
 				items: [ this._form ],
 				
 				closeAction: 'hide',
-				defaultFocus: '[name=name]',
+				defaultFocus: this._form,
 				buttons : [{
 					text: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_OK}}",
 					handler: Ext.bind(this._ok, this)

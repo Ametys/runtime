@@ -123,12 +123,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     /**
      * @cfg {boolean} withTitleOnLabels=false True to wrap field's labels within a span with title as such <span title="My label">My label</span>. Useful if labels could be cut by CSS style.
      */
-    
-    /**
-     * @cfg {Boolean/Function} autoFocus=true When form is ready and rendered, the first field will be focused. If it is a function, it should return a boolean.
-     */
-    autoFocus: true,
-    
+
     /**
      * @cfg {Boolean} tableOfContents=false 
      * True to display a table of contents panel at the left of the form summarizing the first level fieldsets. 
@@ -370,10 +365,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         this._additionalWidgetsConf = config.additionalWidgetsConf || {};
         this._additionalWidgetsConfFromParams = config.additionalWidgetsConfFromParams || {};
         this._testURL = config.testURL;
-        
-        config.items = this._getFormItems(config);
-        config.autoFocus = false; 
 
+        config.items = this._getFormItems(config);
+        
         this.callParent(arguments);
         
         this._fields = [];  
@@ -398,7 +392,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         
         this.showAmetysComments = config.showAmetysComments === true;
         
-        this.on('afterrender', this._setFocusIfReady, this);
+        this.on('afterrender', this._setupFieldListeners, this);
         this.on('resize', this._onResize, this);
         
         if (config.defaultPathSeparator)
@@ -883,35 +877,10 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * @private
      * Focus the first field when the form is ready and rendered
      */
-    _setFocusIfReady: function()
+    _setupFieldListeners: function()
     {
     	if (this.rendered && this._formReady)
 		{	
-    		// Focus first field of the form
-    		if (this._fields[0] != null)
-    		{
-                var me = this;
-                
-                var field = this.getField(this._fields[0]);
-                
-                function focusIfAutoFocus()
-                {
-                    if (Ext.isFunction(me.autoFocus) ? me.autoFocus() : me.autoFocus)
-                    {
-                         field.focus();
-                    }
-                }
-                
-                if (field.rendered)
-                {
-                    focusIfAutoFocus();
-                }
-                else
-                {
-                    field.on('render', focusIfAutoFocus, null, { single: true });
-                }
-    		}
-    		
 	    	this.on({
 	    		'inputfocus':  Ext.bind(this._onFieldSelectedOrBlurred, this),
 	    		'inputblur': Ext.bind(this._onFieldSelectedOrBlurred, this, []),
@@ -2904,7 +2873,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         this._formReady = true;
         this.fireEvent('formready', this);
         
-        this._setFocusIfReady();
+        this._setupFieldListeners();
         
         // Possible warning/errors at startup
         this.getFormContainer().on('afterlayout', Ext.bind(this._updateTabsStatus, this, [true], false), this, {single: 'true'});
