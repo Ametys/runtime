@@ -44,8 +44,7 @@ Ext.define('Ametys.plugins.admin.config.ConfigTool', {
 			listeners: {
 				'fieldchange': Ext.bind(this.setDirty, this, [true], false),
 				'inputfocus': Ext.bind(this.sendCurrentSelection, this),
-				'testresultschange': Ext.bind(this.sendCurrentSelection, this),
-				'afterlayout': Ext.bind(this._focusForm, this)
+				'testresultschange': Ext.bind(this.sendCurrentSelection, this)
 			}
 		});
 		
@@ -141,7 +140,10 @@ Ext.define('Ametys.plugins.admin.config.ConfigTool', {
 		var isConfigEmpty = !configValues.getElementsByTagName("values")[0].hasChildNodes(); 
 		
 		this._formPanel.setValues(configValues, "values", "comments", "invalid", isConfigEmpty ? null : "{{i18n PLUGINS_ADMIN_CONFIG_EMPTY_WARNING_MESSAGE}}");
-	
+		
+		this._formPanel.on({
+			afterlayout: {fn: this._focusForm, scope: this, single: true} 
+		});
 	},
 	
 	/**
