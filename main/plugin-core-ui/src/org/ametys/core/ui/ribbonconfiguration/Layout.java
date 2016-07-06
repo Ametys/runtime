@@ -130,6 +130,27 @@ public class Layout implements Element
         return _size;
     }
     
+    /**
+     * Get the alignment of the layout
+     * @return The alignment
+     */
+    public LAYOUTALIGN getAlign()
+    {
+        return _layoutAlign;
+    }
+    
+    
+    public int getColumns()
+    {
+        return _cols;
+    }
+    
+    @Override
+    public void setColumns(int cols)
+    {
+        _cols = cols;
+    }
+    
     @Override
     public List<Element> getChildren()
     {

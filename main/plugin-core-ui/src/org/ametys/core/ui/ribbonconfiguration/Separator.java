@@ -43,4 +43,14 @@ public class Separator implements Element
     {
         return element instanceof Separator;
     }
+
+    public int getColumns()
+    {
+        return 1;
+    }
+
+    public void setColumns(int size)
+    {
+        // do nothing
+    }
 }

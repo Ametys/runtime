@@ -898,7 +898,185 @@ public class RibbonConfigurationManager
                 tabGroups.put(tab, tabGroup);
             }
         }
+        
+        _checkTabConsistency(tabGroups);
+        
         return tabGroups;
+    }
+
+    private void _checkTabConsistency(Map<Tab, List<Group>> tabGroups)
+    {
+        for (Entry<Tab, List<Group>> entry : tabGroups.entrySet())
+        {
+            for (Group group : entry.getValue())
+            {
+                GroupSize large = group.getLargeGroupSize();
+                if (large != null)
+                {
+                    _checkTabConsistency(large);
+                }
+                GroupSize medium = group.getMediumGroupSize();
+                if (medium != null)
+                {
+                    _checkTabConsistency(medium);
+                }
+                GroupSize small = group.getSmallGroupSize();
+                if (small != null)
+                {
+                    _checkTabConsistency(small);
+                }
+            }
+        }
+    }
+
+    private void _checkTabConsistency(GroupSize group)
+    {
+        List<Layout> layoutsBuffer = new ArrayList<>();
+        List<Element> originalChildren = group.getChildren();
+        for (int i = 0; i < originalChildren.size(); i++)
+        {
+            Element originalChild = originalChildren.get(i);
+            if (originalChild instanceof Layout & originalChild.getColumns() == 1)
+            {
+                Layout originalLayout = (Layout) originalChild;
+                if (layoutsBuffer.size() > 0)
+                {
+                    CONTROLSIZE originalLayoutSize = originalLayout.getSize();
+                    LAYOUTALIGN originalLayoutAlign = originalLayout.getAlign();
+                    if ((originalLayoutSize != null ? !originalLayoutSize.equals(layoutsBuffer.get(0).getSize()) : layoutsBuffer.get(0).getSize() != null) 
+                        || (originalLayoutAlign != null ? !originalLayoutAlign.equals(layoutsBuffer.get(0).getAlign()) : layoutsBuffer.get(0).getAlign() != null))                            
+                    {
+                        _checkLayoutsConsistency(layoutsBuffer, group);
+                    }
+                }
+                
+                layoutsBuffer.add(originalLayout);
+            }
+            else if (layoutsBuffer.size() > 0)
+            {
+                _checkLayoutsConsistency(layoutsBuffer, group);
+            }
+        }
+        
+        if (layoutsBuffer.size() > 0)
+        {
+            _checkLayoutsConsistency(layoutsBuffer, group);
+        }
+    }
+
+    private void _checkLayoutsConsistency(List<Layout> layoutsBuffer, GroupSize group)
+    {
+        LAYOUTALIGN align = layoutsBuffer.get(0).getAlign();
+        CONTROLSIZE size = layoutsBuffer.get(0).getSize();
+        int elementsPerLayout = LAYOUTALIGN.MIDDLE.equals(align) ? 2 : 3;
+        
+        while (layoutsBuffer.size() > 0)
+        {
+            Layout layout = layoutsBuffer.remove(0);
+            
+            // check if the existing colspan values are correct. If incorrect, offset the controls with more colspan
+            List<Element> elements = layout.getChildren();
+            int currentSize = elements.stream().mapToInt(Element::getColumns).sum();
+            
+            Layout newLayout = _checkLayoutsOverflow(size, elementsPerLayout, layout, elements, currentSize);
+            if (newLayout != null)
+            {
+                layoutsBuffer.add(0, newLayout);
+                group.getChildren().add(group.getChildren().indexOf(layout) + 1, newLayout);
+            }
+            
+            _checkLayoutsMerge(layoutsBuffer, elementsPerLayout, layout, elements, currentSize, group);
+        }
+        
+    }
+
+    private Layout _checkLayoutsOverflow(CONTROLSIZE size, int elementsPerLayout, Layout layout, List<Element> elements, int currentSize)
+    {
+        int layoutCols = layout.getColumns();
+        if (currentSize > layoutCols * elementsPerLayout)
+        {
+            // There are too many elements in this layout, probably due to increasing the colspan of an element. Split this layout into multiple layouts
+            Layout newLayout = new Layout(layout, size);
+            int position = 0;
+            for (Element element : elements)
+            {
+                position += element.getColumns();
+                if (position > layoutCols * elementsPerLayout)
+                {
+                    newLayout.getChildren().add(element);
+                }
+            }
+            elements.removeAll(newLayout.getChildren());
+            
+            return newLayout;
+        }
+        
+        return null;
+    }
+
+    private void _checkLayoutsMerge(List<Layout> layoutsBuffer, int elementsPerLayout, Layout layout, List<Element> elements, int layoutSize, GroupSize group)
+    {
+        int layoutCols = layout.getColumns();
+        int currentSize = layoutSize;
+        boolean canFitMore = currentSize < layoutCols * elementsPerLayout;
+        
+        while (canFitMore && layoutsBuffer.size() > 0)
+        {
+            // There is room for more elements, merge with the next layout
+            Layout nextLayout = layoutsBuffer.get(0);
+            
+            if (nextLayout.getColumns() > layoutCols)
+            {
+                // increase layout cols to fit next layout elements
+                layout.setColumns(nextLayout.getColumns());
+                layoutCols = nextLayout.getColumns();
+            }
+            
+            List<Element> nextChildren = nextLayout.getChildren();
+            while (canFitMore && nextChildren.size() > 0)
+            {
+                Element nextChild = nextChildren.get(0);
+                
+                int nextChildColumns = nextChild.getColumns();
+                if (nextChildColumns > layoutCols)
+                {
+                    // next element does not fit layout, due to an error in the original ribbon file. Increase layout size to fix it
+                    layout.setColumns(nextChildColumns);
+                    layoutCols = nextChildColumns;
+                }
+                
+                int columnsLeft = layoutCols - (currentSize % layoutCols);
+                if (columnsLeft < nextChildColumns)
+                {
+                    // increase colspan of previous element to fill the current line, so the next child can start at a new line to have enough space
+                    Element previousElement = elements.get(elements.size() - 1);
+                    previousElement.setColumns(previousElement.getColumns() + columnsLeft);
+                    currentSize += columnsLeft;
+                }
+                
+                if (currentSize + nextChildColumns <= layoutCols * elementsPerLayout)
+                {
+                    nextChildren.remove(nextChild);
+                    elements.add(nextChild);
+                    currentSize += nextChildColumns;
+                }
+                else
+                {
+                    canFitMore = false;   
+                }
+            }
+            
+            if (nextChildren.size() == 0)
+            {
+                layoutsBuffer.remove(nextLayout);
+                group.getChildren().remove(nextLayout);
+            }
+            
+            if (currentSize == layoutCols * elementsPerLayout)
+            {
+                canFitMore = false;
+            }
+        }
     }
 
     /**
@@ -968,7 +1146,7 @@ public class RibbonConfigurationManager
                 ClientSideElement extension = _ribbonControlManager.getExtension(controlRef.getId());
                 for (Script script : extension.getScripts(contextualParameters))
                 {
-                    resolvedElements.add(new ControlRef(script.getId(), controlRef.getColspan(), _logger));
+                    resolvedElements.add(new ControlRef(script.getId(), controlRef.getColumns(), _logger));
                 }
             }
             
@@ -990,7 +1168,7 @@ public class RibbonConfigurationManager
                 if (toolbarElements.size() > 0)
                 {
                     Toolbar toolbar = (Toolbar) element;
-                    Toolbar resolvedToolbar = new Toolbar(_logger, toolbar.getColspan());
+                    Toolbar resolvedToolbar = new Toolbar(_logger, toolbar.getColumns());
                     resolvedToolbar.getChildren().addAll(toolbarElements);
                     resolvedElements.add(resolvedToolbar);
                 }

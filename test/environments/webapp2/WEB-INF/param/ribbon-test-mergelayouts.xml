@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2016 Anyware Services
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
+<ribbon  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://ametys.org/cms/3.0/ribbon.xsd">
+
+	<tabs>
+       <tab label="TAB_LABEL">
+           <groups>
+               <group label="RIBBON_GROUP_LABEL1" icon="">
+                  <medium>
+                    <layout cols="1" align="middle">
+                      <control id="GROUP_1_CONTROL_1" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                    </layout>
+                    <layout cols="1" align="middle">
+                      <control id="GROUP_1_CONTROL_2" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                    </layout>
+                    <layout cols="1" align="middle">
+                      <control id="GROUP_1_CONTROL_3" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                    </layout>
+                    <layout cols="2" align="middle">
+                      <control id="GROUP_1_CONTROL_4" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                      <control id="GROUP_1_CONTROL_5" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                      <control id="GROUP_1_CONTROL_6" colspan="2" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                    </layout>
+                    <layout cols="1" align="middle">
+                      <control id="GROUP_1_CONTROL_7" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                    </layout>
+                  </medium> 
+                </group>
+
+                <group label="RIBBON_GROUP_LABEL2" icon="">
+                  <layout align="top" size="small">
+                    <control id="GROUP_2_CONTROL_1" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                    <control id="GROUP_2_CONTROL_2" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                  </layout>
+                  <layout align="top" cols="2" size="small">
+                    <control id="GROUP_2_CONTROL_3" colspan="2" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                    <control id="GROUP_2_CONTROL_4" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                    <control id="GROUP_2_CONTROL_5" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                    <control id="GROUP_2_CONTROL_6" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                  </layout>
+                  <layout align="top" size="small">
+                    <control id="GROUP_2_CONTROL_7" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                  </layout>
+                  <layout align="top" size="small">
+                    <control id="GROUP_2_CONTROL_8" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                    <control id="GROUP_2_CONTROL_9" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                  </layout>
+                  <layout align="top" size="small">
+                    <control id="GROUP_2_CONTROL_10" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                    <control id="GROUP_2_CONTROL_11" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                    <control id="GROUP_2_CONTROL_12" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                  </layout>
+                </group>
+
+                <group label="RIBBON_GROUP_LABEL3" icon="">
+                  <!-- plugin A -->
+                  <layout align="top" size="small">
+                    <control id="GROUP_3_CONTROL_1" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                    <control id="GROUP_3_CONTROL_2" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                    <control id="GROUP_3_CONTROL_3" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                  </layout>
+                  <layout align="top" size="small">
+                    <control id="GROUP_3_CONTROL_4" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                  </layout>
+
+                  <!-- plugin B -->
+                  <layout align="top" cols="2" size="small">
+                    <control id="GROUP_3_CONTROL_5" colspan="2" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                    <control id="GROUP_3_CONTROL_6" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                    <control id="GROUP_3_CONTROL_7" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                    <control id="GROUP_3_CONTROL_8" colspan="2" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                  </layout>
+
+                  <!-- plugin C -->
+                  <layout align="top" size="small">
+                    <control id="GROUP_3_CONTROL_9" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                    <control id="GROUP_3_CONTROL_10" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                    <control id="GROUP_3_CONTROL_11" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                  </layout>
+                  <layout align="top" size="small">
+                    <control id="GROUP_3_CONTROL_12" ref-id="org.ametys.plugins.workspace-generator-test.control1"/>
+                  </layout>
+                </group>
+            </groups>
+        </tab>
+    </tabs>
+</ribbon>

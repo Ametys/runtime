@@ -222,4 +222,36 @@ public class WorkspaceGeneratorTestCase extends AbstractRuntimeTestCase
         _cocoon._leaveEnvironment(environmentInformation);
         cocoon.dispose();
     }
+    
+    /**
+     * This test verify that we can inject controls into an existing tab
+     * @throws Exception If an error occurs
+     */
+    public void testRibbonMergeLayout() throws Exception
+    {
+        CocoonWrapper cocoon = _startApplication("test/environments/runtimes/runtime01.xml", "test/environments/configs/config1.xml", "test/environments/webapp2");
+
+        Map<String, Object> environmentInformation = _cocoon._enterEnvironment();
+        
+        Document document = _getWorkspaceDocument("ribbon-test-mergelayouts.xml");
+
+        XPathFactory xpathFactory = XPathFactory.newInstance();
+        XPath xpath = xpathFactory.newXPath();
+        
+        assertTrue("Wrong number of controls in layout merge", 2 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL1']/medium/layout[0]/control", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong number of controls in layout merge", 3 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL1']/medium/layout[1]/control", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong number of controls in layout merge", 2 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL1']/medium/layout[2]/control", document, XPathConstants.NODESET)).getLength());
+
+        assertTrue("Wrong number of controls in layout merge", 5 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL2']/medium/layout[0]/control", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong number of controls in layout merge", 6 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL2']/medium/layout[1]/control", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong number of controls in layout merge", 1 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL2']/medium/layout[2]/control", document, XPathConstants.NODESET)).getLength());
+
+        assertTrue("Wrong number of controls in layout merge", 3 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL3']/medium/layout[0]/control", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong number of controls in layout merge", 4 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL3']/medium/layout[1]/control", document, XPathConstants.NODESET)).getLength());
+        assertTrue("Wrong number of controls in layout merge", 5 != ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab/groups/group[@label='application:RIBBON_GROUP_LABEL3']/medium/layout[2]/control", document, XPathConstants.NODESET)).getLength());
+
+        _cocoon._leaveEnvironment(environmentInformation);
+        cocoon.dispose();
+    }  
+
 }

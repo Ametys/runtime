@@ -84,13 +84,16 @@ public class Toolbar implements Element
         }
     }
     
-    /**
-     * Get the colspan of the toolbar
-     * @return The colspan
-     */
-    public int getColspan()
+    @Override
+    public int getColumns()
     {
         return _colspan;
+    }
+    
+    @Override
+    public void setColumns(int size)
+    {
+        _colspan = size;
     }
     
     @Override

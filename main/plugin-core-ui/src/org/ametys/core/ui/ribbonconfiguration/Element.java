@@ -45,5 +45,17 @@ public interface Element
      * @return True if equals
      */
     boolean isSame(Element element);
+    
+    /**
+     * Get the size taken by this element, in columns
+     * @return The size
+     */
+    public int getColumns();
+    
+    /**
+     * Set the size to take by this element
+     * @param size The size in number of columns
+     */
+    public void setColumns(int size);
 }
 
