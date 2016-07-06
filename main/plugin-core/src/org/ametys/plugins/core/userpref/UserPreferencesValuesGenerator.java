@@ -17,7 +17,7 @@ package org.ametys.plugins.core.userpref;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,11 +33,13 @@ import org.xml.sax.SAXException;
 
 import org.ametys.core.user.UserIdentity;
 import org.ametys.core.userpref.UserPreference;
+import org.ametys.core.userpref.UserPreferenceProvider;
 import org.ametys.core.userpref.UserPreferencesException;
 import org.ametys.core.userpref.UserPreferencesExtensionPoint;
 import org.ametys.core.userpref.UserPreferencesManager;
 import org.ametys.core.util.cocoon.AbstractCurrentUserProviderServiceableGenerator;
 import org.ametys.runtime.parameter.ParameterHelper;
+import org.ametys.runtime.workspace.WorkspaceMatcher;
 
 /**
  * SAX user preferences values
@@ -154,7 +156,9 @@ public class UserPreferencesValuesGenerator extends AbstractCurrentUserProviderS
      */
     protected Map<String, String> getContextVars(Request request)
     {
-        return Collections.emptyMap();
+        Map<String, String> contextVars = new HashMap<>();
+        contextVars.put(UserPreferenceProvider.CONTEXT_VAR_WORKSPACE, (String) request.getAttribute(WorkspaceMatcher.WORKSPACE_NAME));
+        return contextVars;
     }
     
 }

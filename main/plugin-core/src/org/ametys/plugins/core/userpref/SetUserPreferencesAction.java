@@ -37,6 +37,7 @@ import org.apache.commons.lang.StringUtils;
 
 import org.ametys.core.user.UserIdentity;
 import org.ametys.core.userpref.UserPreference;
+import org.ametys.core.userpref.UserPreferenceProvider;
 import org.ametys.core.userpref.UserPreferencesErrors;
 import org.ametys.core.userpref.UserPreferencesException;
 import org.ametys.core.userpref.UserPreferencesExtensionPoint;
@@ -45,6 +46,7 @@ import org.ametys.core.util.cocoon.AbstractCurrentUserProviderServiceableAction;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.ParameterHelper;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
+import org.ametys.runtime.workspace.WorkspaceMatcher;
 
 /**
  * Action which saves the user preferences values into the database.
@@ -267,7 +269,9 @@ public class SetUserPreferencesAction extends AbstractCurrentUserProviderService
      */
     protected Map<String, String> getContextVars(Request request)
     {
-        return Collections.emptyMap();
+        Map<String, String> contextVars = new HashMap<>();
+        contextVars.put(UserPreferenceProvider.CONTEXT_VAR_WORKSPACE, (String) request.getAttribute(WorkspaceMatcher.WORKSPACE_NAME));
+        return contextVars;
     }
     
     /**

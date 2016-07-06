@@ -16,9 +16,10 @@
 package org.ametys.plugins.core.impl.userpref;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.configuration.Configurable;
@@ -30,6 +31,7 @@ import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+import org.apache.commons.lang3.StringUtils;
 
 import org.ametys.core.userpref.UserPreference;
 import org.ametys.core.userpref.UserPreferenceProvider;
@@ -48,7 +50,7 @@ import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
 public class StaticUserPreferenceProvider extends AbstractLogEnabled implements UserPreferenceProvider, Contextualizable, Serviceable, Configurable, PluginAware, Disposable
 {
     
-    /** The user preferences, indexed by ID. */
+    /** The user preferences, indexed by Id*/
     protected Map<String, UserPreference> _preferences;
     
     /** ComponentManager for {@link Validator}s. */
@@ -153,7 +155,41 @@ public class StaticUserPreferenceProvider extends AbstractLogEnabled implements 
     @Override
     public Collection<UserPreference> getPreferences(Map<String, String> context)
     {
-        return Collections.unmodifiableCollection(_preferences.values());
+        Collection<UserPreference> userPrefs = new HashSet<>();
+        
+        String currentWorkspace = context.get(UserPreferenceProvider.CONTEXT_VAR_WORKSPACE);
+        for (UserPreference userPref : _preferences.values())
+        {
+            Pattern workspace = ((StaticUserPreference) userPref).getWorkspace();
+            if (StringUtils.isBlank(currentWorkspace) || workspace == null || workspace.matcher(currentWorkspace).matches())
+            {
+                userPrefs.add(userPref);
+            }
+        }
+        
+        return userPrefs;
+    }
+    
+    /**
+     * A user pref with additionnal static information such as workspace
+     */
+    class StaticUserPreference extends UserPreference
+    {
+        protected Pattern _workspace;
+        
+        public void setWorkspace(Pattern workspace)
+        {
+            _workspace = workspace;
+        }
+        
+        /**
+         * Get the workspace associated to this userpreference if any
+         * @return A pattern or null
+         */
+        public Pattern getWorkspace()
+        {
+            return _workspace;
+        }
     }
     
     /**
@@ -169,7 +205,7 @@ public class StaticUserPreferenceProvider extends AbstractLogEnabled implements 
         @Override
         protected UserPreference _createParameter(Configuration parameterConfig) throws ConfigurationException
         {
-            return new UserPreference();
+            return new StaticUserPreference();
         }
         
         @Override
@@ -198,6 +234,25 @@ public class StaticUserPreferenceProvider extends AbstractLogEnabled implements 
             return ParameterHelper.castValue(defaultValue, preference.getType());
         }
         
+        /**
+         * Parse the workspace if any to create a pattern
+         * @param configuration The user pref configuration
+         * @return The pattern or null
+         * @throws ConfigurationException if the configuration is wrong
+         */
+        protected Pattern _parseWorkspace(Configuration configuration) throws ConfigurationException
+        {
+            String value = configuration.getChild("workspace").getValue(null);
+            if (StringUtils.isNotBlank(value))
+            {
+                return Pattern.compile(value);
+            }
+            else
+            {
+                return null;
+            }
+        }
+        
         @Override
         protected void _additionalParsing(ServiceManager manager, String pluginName, Configuration preferenceConfig, String parameterId, UserPreference preference) throws ConfigurationException
         {
@@ -207,6 +262,7 @@ public class StaticUserPreferenceProvider extends AbstractLogEnabled implements 
             int order = preferenceConfig.getChild("order").getValueAsInteger(1000);
             String managerRole = preferenceConfig.getChild("manager-role").getValue(null);
             boolean privateStatus = preferenceConfig.getAttributeAsBoolean("private", false);
+            Pattern workspace = _parseWorkspace(preferenceConfig);
             
             preference.setId(parameterId);
             preference.setDisplayGroup(_parseI18nizableText(preferenceConfig, pluginName, "group"));
@@ -214,6 +270,7 @@ public class StaticUserPreferenceProvider extends AbstractLogEnabled implements 
             preference.setManagerRole(managerRole);
             preference.setOrder(order);
             preference.setPrivate(privateStatus);
+            ((StaticUserPreference) preference).setWorkspace(workspace);
         }
     }
     

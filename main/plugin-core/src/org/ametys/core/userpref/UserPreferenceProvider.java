@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -23,6 +23,8 @@ import java.util.Map;
  */
 public interface UserPreferenceProvider
 {
+    /** The optional context variable including the current Ametys workspace (admin...) */
+    public static final String CONTEXT_VAR_WORKSPACE = "workspace";
     
     /**
      * Get this provider's preferences.
