@@ -361,5 +361,10 @@ public class StaticFileImportsClientSideElement extends AbstractLogEnabled imple
     {
         return _dependencies;
     }
-
+    
+    @Override
+    public String toString()
+    {
+        return _id + (_dependencies != null && _dependencies.size() > 0 ? " " + _dependencies : "");
+    }
 }
