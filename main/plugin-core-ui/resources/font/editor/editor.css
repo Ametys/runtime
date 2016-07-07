@@ -1,6 +1,6 @@
 	/*
   	Flaticon icon font: Flaticon
-  	Creation date: 14/06/2016 17:56
+  	Creation date: 05/07/2016 11:06
   	*/
 
 @font-face {
@@ -21,9 +21,8 @@
   }
 }
 
-[class^="editor-"]:before, [class*=" editor-"]:before {   
-  	font-family: Editor;
-	font-style: normal;
+[class^="flaticon-"]:before, [class*=" editor-"]:before {   
+  font-family: Editor;
 }
 
 .editor-alignment:before { content: "\f100"; }
@@ -32,37 +31,44 @@
 .editor-bold14:before { content: "\f103"; }
 .editor-book255:before { content: "\f104"; }
 .editor-character:before { content: "\f105"; }
-.editor-clipboard99:before { content: "\f106"; }
-.editor-curve4:before { content: "\f107"; }
-.editor-design26:before { content: "\f108"; }
-.editor-document209:before { content: "\f109"; }
-.editor-document28:before { content: "\f10a"; }
-.editor-flash:before { content: "\f10b"; }
-.editor-format6:before { content: "\f10c"; }
-.editor-greek32:before { content: "\f10d"; }
-.editor-html25:before { content: "\f10e"; }
-.editor-image2:before { content: "\f10f"; }
-.editor-italic8:before { content: "\f110"; }
-.editor-link23:before { content: "\f111"; }
-.editor-list4:before { content: "\f112"; }
-.editor-movie16:before { content: "\f113"; }
-.editor-numbered8:before { content: "\f114"; }
-.editor-paint3:before { content: "\f115"; }
-.editor-resize11:before { content: "\f116"; }
-.editor-right-alignment:before { content: "\f117"; }
-.editor-right-arrow26:before { content: "\f118"; }
-.editor-right176:before { content: "\f119"; }
-.editor-save31:before { content: "\f11a"; }
-.editor-scissors4:before { content: "\f11b"; }
-.editor-spreadsheet4:before { content: "\f11c"; }
-.editor-spreadsheet5:before { content: "\f11d"; }
-.editor-subscript1:before { content: "\f11e"; }
-.editor-superscript2:before { content: "\f11f"; }
-.editor-table28:before { content: "\f120"; }
-.editor-tables1:before { content: "\f121"; }
-.editor-text-file1:before { content: "\f122"; }
-.editor-text152:before { content: "\f123"; }
-.editor-underlined4:before { content: "\f124"; }
-.editor-web60:before { content: "\f125"; }
-.editor-web61:before { content: "\f126"; }
-.editor-word2:before { content: "\f127"; }
+.editor-checked-box:before { content: "\f106"; }
+.editor-clipboard99:before { content: "\f107"; }
+.editor-curve4:before { content: "\f108"; }
+.editor-design26:before { content: "\f109"; }
+.editor-document209:before { content: "\f10a"; }
+.editor-document28:before { content: "\f10b"; }
+.editor-drop-down-list:before { content: "\f10c"; }
+.editor-flash:before { content: "\f10d"; }
+.editor-format6:before { content: "\f10e"; }
+.editor-greek32:before { content: "\f10f"; }
+.editor-html25:before { content: "\f110"; }
+.editor-image2:before { content: "\f111"; }
+.editor-input:before { content: "\f112"; }
+.editor-italic8:before { content: "\f113"; }
+.editor-link23:before { content: "\f114"; }
+.editor-list4:before { content: "\f115"; }
+.editor-movie16:before { content: "\f116"; }
+.editor-numbered8:before { content: "\f117"; }
+.editor-paint3:before { content: "\f118"; }
+.editor-radio-on-button:before { content: "\f119"; }
+.editor-resize11:before { content: "\f11a"; }
+.editor-right-alignment:before { content: "\f11b"; }
+.editor-right-arrow26:before { content: "\f11c"; }
+.editor-right176:before { content: "\f11d"; }
+.editor-save31:before { content: "\f11e"; }
+.editor-scissors4:before { content: "\f11f"; }
+.editor-security:before { content: "\f120"; }
+.editor-select:before { content: "\f121"; }
+.editor-spreadsheet4:before { content: "\f122"; }
+.editor-spreadsheet5:before { content: "\f123"; }
+.editor-subscript1:before { content: "\f124"; }
+.editor-superscript2:before { content: "\f125"; }
+.editor-table28:before { content: "\f126"; }
+.editor-tables1:before { content: "\f127"; }
+.editor-text-file1:before { content: "\f128"; }
+.editor-text-input:before { content: "\f129"; }
+.editor-text152:before { content: "\f12a"; }
+.editor-underlined4:before { content: "\f12b"; }
+.editor-web60:before { content: "\f12c"; }
+.editor-web61:before { content: "\f12d"; }
+.editor-word2:before { content: "\f12e"; }

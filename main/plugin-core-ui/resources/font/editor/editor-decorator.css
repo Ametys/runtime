@@ -1,6 +1,6 @@
 	/*
   	Flaticon icon font: Flaticon
-  	Creation date: 14/06/2016 17:56
+  	Creation date: 05/07/2016 11:06
   	*/
 
 @font-face {
@@ -22,8 +22,7 @@
 }
 
 [class^="decorator-editor-"]:after, [class*=" decorator-editor-"]:after {   
-  	font-family: Editor;
-	font-style: normal;
+  font-family: Editor;
 }
 
 .decorator-editor-alignment:after { content: "\f100"; }
@@ -32,37 +31,44 @@
 .decorator-editor-bold14:after { content: "\f103"; }
 .decorator-editor-book255:after { content: "\f104"; }
 .decorator-editor-character:after { content: "\f105"; }
-.decorator-editor-clipboard99:after { content: "\f106"; }
-.decorator-editor-curve4:after { content: "\f107"; }
-.decorator-editor-design26:after { content: "\f108"; }
-.decorator-editor-document209:after { content: "\f109"; }
-.decorator-editor-document28:after { content: "\f10a"; }
-.decorator-editor-flash:after { content: "\f10b"; }
-.decorator-editor-format6:after { content: "\f10c"; }
-.decorator-editor-greek32:after { content: "\f10d"; }
-.decorator-editor-html25:after { content: "\f10e"; }
-.decorator-editor-image2:after { content: "\f10f"; }
-.decorator-editor-italic8:after { content: "\f110"; }
-.decorator-editor-link23:after { content: "\f111"; }
-.decorator-editor-list4:after { content: "\f112"; }
-.decorator-editor-movie16:after { content: "\f113"; }
-.decorator-editor-numbered8:after { content: "\f114"; }
-.decorator-editor-paint3:after { content: "\f115"; }
-.decorator-editor-resize11:after { content: "\f116"; }
-.decorator-editor-right-alignment:after { content: "\f117"; }
-.decorator-editor-right-arrow26:after { content: "\f118"; }
-.decorator-editor-right176:after { content: "\f119"; }
-.decorator-editor-save31:after { content: "\f11a"; }
-.decorator-editor-scissors4:after { content: "\f11b"; }
-.decorator-editor-spreadsheet4:after { content: "\f11c"; }
-.decorator-editor-spreadsheet5:after { content: "\f11d"; }
-.decorator-editor-subscript1:after { content: "\f11e"; }
-.decorator-editor-superscript2:after { content: "\f11f"; }
-.decorator-editor-table28:after { content: "\f120"; }
-.decorator-editor-tables1:after { content: "\f121"; }
-.decorator-editor-text-file1:after { content: "\f122"; }
-.decorator-editor-text152:after { content: "\f123"; }
-.decorator-editor-underlined4:after { content: "\f124"; }
-.decorator-editor-web60:after { content: "\f125"; }
-.decorator-editor-web61:after { content: "\f126"; }
-.decorator-editor-word2:after { content: "\f127"; }
+.decorator-editor-checked-box:after { content: "\f106"; }
+.decorator-editor-clipboard99:after { content: "\f107"; }
+.decorator-editor-curve4:after { content: "\f108"; }
+.decorator-editor-design26:after { content: "\f109"; }
+.decorator-editor-document209:after { content: "\f10a"; }
+.decorator-editor-document28:after { content: "\f10b"; }
+.decorator-editor-drop-down-list:after { content: "\f10c"; }
+.decorator-editor-flash:after { content: "\f10d"; }
+.decorator-editor-format6:after { content: "\f10e"; }
+.decorator-editor-greek32:after { content: "\f10f"; }
+.decorator-editor-html25:after { content: "\f110"; }
+.decorator-editor-image2:after { content: "\f111"; }
+.decorator-editor-input:after { content: "\f112"; }
+.decorator-editor-italic8:after { content: "\f113"; }
+.decorator-editor-link23:after { content: "\f114"; }
+.decorator-editor-list4:after { content: "\f115"; }
+.decorator-editor-movie16:after { content: "\f116"; }
+.decorator-editor-numbered8:after { content: "\f117"; }
+.decorator-editor-paint3:after { content: "\f118"; }
+.decorator-editor-radio-on-button:after { content: "\f119"; }
+.decorator-editor-resize11:after { content: "\f11a"; }
+.decorator-editor-right-alignment:after { content: "\f11b"; }
+.decorator-editor-right-arrow26:after { content: "\f11c"; }
+.decorator-editor-right176:after { content: "\f11d"; }
+.decorator-editor-save31:after { content: "\f11e"; }
+.decorator-editor-scissors4:after { content: "\f11f"; }
+.decorator-editor-security:after { content: "\f120"; }
+.decorator-editor-select:after { content: "\f121"; }
+.decorator-editor-spreadsheet4:after { content: "\f122"; }
+.decorator-editor-spreadsheet5:after { content: "\f123"; }
+.decorator-editor-subscript1:after { content: "\f124"; }
+.decorator-editor-superscript2:after { content: "\f125"; }
+.decorator-editor-table28:after { content: "\f126"; }
+.decorator-editor-tables1:after { content: "\f127"; }
+.decorator-editor-text-file1:after { content: "\f128"; }
+.decorator-editor-text-input:after { content: "\f129"; }
+.decorator-editor-text152:after { content: "\f12a"; }
+.decorator-editor-underlined4:after { content: "\f12b"; }
+.decorator-editor-web60:after { content: "\f12c"; }
+.decorator-editor-web61:after { content: "\f12d"; }
+.decorator-editor-word2:after { content: "\f12e"; }

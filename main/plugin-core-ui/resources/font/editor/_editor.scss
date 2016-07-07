@@ -1,29 +1,29 @@
     /*
     Flaticon icon font: Flaticon
-    Creation date: 14/06/2016 17:56
+    Creation date: 05/07/2016 11:06
     */
 
     @font-face {
-  font-family: "Flaticon";
-  src: url("./Flaticon.eot");
-  src: url("./Flaticon.eot?#iefix") format("embedded-opentype"),
-       url("./Flaticon.woff") format("woff"),
-       url("./Flaticon.ttf") format("truetype"),
-       url("./Flaticon.svg#Flaticon") format("svg");
+  font-family: "Editor";
+  src: url("./editor.eot");
+  src: url("./editor.eot?#iefix") format("embedded-opentype"),
+       url("./editor.woff") format("woff"),
+       url("./editor.ttf") format("truetype"),
+       url("./editor.svg#Editor") format("svg");
   font-weight: normal;
   font-style: normal;
 }
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
-    font-family: "Flaticon";
-    src: url("./Flaticon.svg#Flaticon") format("svg");
+    font-family: "Editor";
+    src: url("./editor.svg#Editor") format("svg");
   }
 }
 
     .fi:before{
         display: inline-block;
-  font-family: "Flaticon";
+  font-family: "Editor";
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -37,83 +37,97 @@
     }
 
     .flaticon-alignment:before { content: "\f100"; }
-.flaticon-alignment1:before { content: "\f101"; }
-.flaticon-black391:before { content: "\f102"; }
-.flaticon-bold14:before { content: "\f103"; }
-.flaticon-book255:before { content: "\f104"; }
-.flaticon-character:before { content: "\f105"; }
-.flaticon-clipboard99:before { content: "\f106"; }
-.flaticon-curve4:before { content: "\f107"; }
-.flaticon-design26:before { content: "\f108"; }
-.flaticon-document209:before { content: "\f109"; }
-.flaticon-document28:before { content: "\f10a"; }
-.flaticon-flash:before { content: "\f10b"; }
-.flaticon-format6:before { content: "\f10c"; }
-.flaticon-greek32:before { content: "\f10d"; }
-.flaticon-html25:before { content: "\f10e"; }
-.flaticon-image2:before { content: "\f10f"; }
-.flaticon-italic8:before { content: "\f110"; }
-.flaticon-link23:before { content: "\f111"; }
-.flaticon-list4:before { content: "\f112"; }
-.flaticon-movie16:before { content: "\f113"; }
-.flaticon-numbered8:before { content: "\f114"; }
-.flaticon-paint3:before { content: "\f115"; }
-.flaticon-resize11:before { content: "\f116"; }
-.flaticon-right-alignment:before { content: "\f117"; }
-.flaticon-right-arrow26:before { content: "\f118"; }
-.flaticon-right176:before { content: "\f119"; }
-.flaticon-save31:before { content: "\f11a"; }
-.flaticon-scissors4:before { content: "\f11b"; }
-.flaticon-spreadsheet4:before { content: "\f11c"; }
-.flaticon-spreadsheet5:before { content: "\f11d"; }
-.flaticon-subscript1:before { content: "\f11e"; }
-.flaticon-superscript2:before { content: "\f11f"; }
-.flaticon-table28:before { content: "\f120"; }
-.flaticon-tables1:before { content: "\f121"; }
-.flaticon-text-file1:before { content: "\f122"; }
-.flaticon-text152:before { content: "\f123"; }
-.flaticon-underlined4:before { content: "\f124"; }
-.flaticon-web60:before { content: "\f125"; }
-.flaticon-web61:before { content: "\f126"; }
-.flaticon-word2:before { content: "\f127"; }
+.editor-alignment1:before { content: "\f101"; }
+.editor-black391:before { content: "\f102"; }
+.editor-bold14:before { content: "\f103"; }
+.editor-book255:before { content: "\f104"; }
+.editor-character:before { content: "\f105"; }
+.editor-checked-box:before { content: "\f106"; }
+.editor-clipboard99:before { content: "\f107"; }
+.editor-curve4:before { content: "\f108"; }
+.editor-design26:before { content: "\f109"; }
+.editor-document209:before { content: "\f10a"; }
+.editor-document28:before { content: "\f10b"; }
+.editor-drop-down-list:before { content: "\f10c"; }
+.editor-flash:before { content: "\f10d"; }
+.editor-format6:before { content: "\f10e"; }
+.editor-greek32:before { content: "\f10f"; }
+.editor-html25:before { content: "\f110"; }
+.editor-image2:before { content: "\f111"; }
+.editor-input:before { content: "\f112"; }
+.editor-italic8:before { content: "\f113"; }
+.editor-link23:before { content: "\f114"; }
+.editor-list4:before { content: "\f115"; }
+.editor-movie16:before { content: "\f116"; }
+.editor-numbered8:before { content: "\f117"; }
+.editor-paint3:before { content: "\f118"; }
+.editor-radio-on-button:before { content: "\f119"; }
+.editor-resize11:before { content: "\f11a"; }
+.editor-right-alignment:before { content: "\f11b"; }
+.editor-right-arrow26:before { content: "\f11c"; }
+.editor-right176:before { content: "\f11d"; }
+.editor-save31:before { content: "\f11e"; }
+.editor-scissors4:before { content: "\f11f"; }
+.editor-security:before { content: "\f120"; }
+.editor-select:before { content: "\f121"; }
+.editor-spreadsheet4:before { content: "\f122"; }
+.editor-spreadsheet5:before { content: "\f123"; }
+.editor-subscript1:before { content: "\f124"; }
+.editor-superscript2:before { content: "\f125"; }
+.editor-table28:before { content: "\f126"; }
+.editor-tables1:before { content: "\f127"; }
+.editor-text-file1:before { content: "\f128"; }
+.editor-text-input:before { content: "\f129"; }
+.editor-text152:before { content: "\f12a"; }
+.editor-underlined4:before { content: "\f12b"; }
+.editor-web60:before { content: "\f12c"; }
+.editor-web61:before { content: "\f12d"; }
+.editor-word2:before { content: "\f12e"; }
     
-    $font-Flaticon-alignment: "\f100";
-    $font-Flaticon-alignment1: "\f101";
-    $font-Flaticon-black391: "\f102";
-    $font-Flaticon-bold14: "\f103";
-    $font-Flaticon-book255: "\f104";
-    $font-Flaticon-character: "\f105";
-    $font-Flaticon-clipboard99: "\f106";
-    $font-Flaticon-curve4: "\f107";
-    $font-Flaticon-design26: "\f108";
-    $font-Flaticon-document209: "\f109";
-    $font-Flaticon-document28: "\f10a";
-    $font-Flaticon-flash: "\f10b";
-    $font-Flaticon-format6: "\f10c";
-    $font-Flaticon-greek32: "\f10d";
-    $font-Flaticon-html25: "\f10e";
-    $font-Flaticon-image2: "\f10f";
-    $font-Flaticon-italic8: "\f110";
-    $font-Flaticon-link23: "\f111";
-    $font-Flaticon-list4: "\f112";
-    $font-Flaticon-movie16: "\f113";
-    $font-Flaticon-numbered8: "\f114";
-    $font-Flaticon-paint3: "\f115";
-    $font-Flaticon-resize11: "\f116";
-    $font-Flaticon-right-alignment: "\f117";
-    $font-Flaticon-right-arrow26: "\f118";
-    $font-Flaticon-right176: "\f119";
-    $font-Flaticon-save31: "\f11a";
-    $font-Flaticon-scissors4: "\f11b";
-    $font-Flaticon-spreadsheet4: "\f11c";
-    $font-Flaticon-spreadsheet5: "\f11d";
-    $font-Flaticon-subscript1: "\f11e";
-    $font-Flaticon-superscript2: "\f11f";
-    $font-Flaticon-table28: "\f120";
-    $font-Flaticon-tables1: "\f121";
-    $font-Flaticon-text-file1: "\f122";
-    $font-Flaticon-text152: "\f123";
-    $font-Flaticon-underlined4: "\f124";
-    $font-Flaticon-web60: "\f125";
-    $font-Flaticon-web61: "\f126";
-    $font-Flaticon-word2: "\f127";
+    $font-editor-alignment: "\f100";
+    $font-editor-alignment1: "\f101";
+    $font-editor-black391: "\f102";
+    $font-editor-bold14: "\f103";
+    $font-editor-book255: "\f104";
+    $font-editor-character: "\f105";
+    $font-editor-checked-box: "\f106";
+    $font-editor-clipboard99: "\f107";
+    $font-editor-curve4: "\f108";
+    $font-editor-design26: "\f109";
+    $font-editor-document209: "\f10a";
+    $font-editor-document28: "\f10b";
+    $font-editor-drop-down-list: "\f10c";
+    $font-editor-flash: "\f10d";
+    $font-editor-format6: "\f10e";
+    $font-editor-greek32: "\f10f";
+    $font-editor-html25: "\f110";
+    $font-editor-image2: "\f111";
+    $font-editor-input: "\f112";
+    $font-editor-italic8: "\f113";
+    $font-editor-link23: "\f114";
+    $font-editor-list4: "\f115";
+    $font-editor-movie16: "\f116";
+    $font-editor-numbered8: "\f117";
+    $font-editor-paint3: "\f118";
+    $font-editor-radio-on-button: "\f119";
+    $font-editor-resize11: "\f11a";
+    $font-editor-right-alignment: "\f11b";
+    $font-editor-right-arrow26: "\f11c";
+    $font-editor-right176: "\f11d";
+    $font-editor-save31: "\f11e";
+    $font-editor-scissors4: "\f11f";
+    $font-editor-security: "\f120";
+    $font-editor-select: "\f121";
+    $font-editor-spreadsheet4: "\f122";
+    $font-editor-spreadsheet5: "\f123";
+    $font-editor-subscript1: "\f124";
+    $font-editor-superscript2: "\f125";
+    $font-editor-table28: "\f126";
+    $font-editor-tables1: "\f127";
+    $font-editor-text-file1: "\f128";
+    $font-editor-text-input: "\f129";
+    $font-editor-text152: "\f12a";
+    $font-editor-underlined4: "\f12b";
+    $font-editor-web60: "\f12c";
+    $font-editor-web61: "\f12d";
+    $font-editor-word2: "\f12e";
