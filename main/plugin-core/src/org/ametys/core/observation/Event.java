@@ -17,6 +17,7 @@ package org.ametys.core.observation;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 
 import org.ametys.core.user.UserIdentity;
 
@@ -87,7 +88,7 @@ public class Event
             
             event.append(key);
             event.append(" = ");
-            event.append(_args.get(key).toString());
+            event.append(Objects.toString(_args.get(key)));
             
             if (it.hasNext())
             {
