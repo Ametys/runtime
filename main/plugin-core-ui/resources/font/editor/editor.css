@@ -4,7 +4,7 @@
   	*/
 
 @font-face {
-  font-family: "Editor";
+  font-family: "AmetysEditor";
   src: url("./editor.eot");
   src: url("./editor.eot?#iefix") format("embedded-opentype"),
        url("./editor.woff") format("woff"),
@@ -16,59 +16,59 @@
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
-    font-family: "Editor";
+    font-family: "AmetysEditor";
     src: url("./editor.svg#Editor") format("svg");
   }
 }
 
-[class^="flaticon-"]:before, [class*=" editor-"]:before {   
-  font-family: Editor;
+[class^="ametyseditor-"]:before, [class*=" ametyseditor-"]:before {   
+  font-family: AmetysEditor;
 }
 
-.editor-alignment:before { content: "\f100"; }
-.editor-alignment1:before { content: "\f101"; }
-.editor-black391:before { content: "\f102"; }
-.editor-bold14:before { content: "\f103"; }
-.editor-book255:before { content: "\f104"; }
-.editor-character:before { content: "\f105"; }
-.editor-checked-box:before { content: "\f106"; }
-.editor-clipboard99:before { content: "\f107"; }
-.editor-curve4:before { content: "\f108"; }
-.editor-design26:before { content: "\f109"; }
-.editor-document209:before { content: "\f10a"; }
-.editor-document28:before { content: "\f10b"; }
-.editor-drop-down-list:before { content: "\f10c"; }
-.editor-flash:before { content: "\f10d"; }
-.editor-format6:before { content: "\f10e"; }
-.editor-greek32:before { content: "\f10f"; }
-.editor-html25:before { content: "\f110"; }
-.editor-image2:before { content: "\f111"; }
-.editor-input:before { content: "\f112"; }
-.editor-italic8:before { content: "\f113"; }
-.editor-link23:before { content: "\f114"; }
-.editor-list4:before { content: "\f115"; }
-.editor-movie16:before { content: "\f116"; }
-.editor-numbered8:before { content: "\f117"; }
-.editor-paint3:before { content: "\f118"; }
-.editor-radio-on-button:before { content: "\f119"; }
-.editor-resize11:before { content: "\f11a"; }
-.editor-right-alignment:before { content: "\f11b"; }
-.editor-right-arrow26:before { content: "\f11c"; }
-.editor-right176:before { content: "\f11d"; }
-.editor-save31:before { content: "\f11e"; }
-.editor-scissors4:before { content: "\f11f"; }
-.editor-security:before { content: "\f120"; }
-.editor-select:before { content: "\f121"; }
-.editor-spreadsheet4:before { content: "\f122"; }
-.editor-spreadsheet5:before { content: "\f123"; }
-.editor-subscript1:before { content: "\f124"; }
-.editor-superscript2:before { content: "\f125"; }
-.editor-table28:before { content: "\f126"; }
-.editor-tables1:before { content: "\f127"; }
-.editor-text-file1:before { content: "\f128"; }
-.editor-text-input:before { content: "\f129"; }
-.editor-text152:before { content: "\f12a"; }
-.editor-underlined4:before { content: "\f12b"; }
-.editor-web60:before { content: "\f12c"; }
-.editor-web61:before { content: "\f12d"; }
-.editor-word2:before { content: "\f12e"; }
+.ametyseditor-alignment:before { content: "\f100"; }
+.ametyseditor-alignment1:before { content: "\f101"; }
+.ametyseditor-black391:before { content: "\f102"; }
+.ametyseditor-bold14:before { content: "\f103"; }
+.ametyseditor-book255:before { content: "\f104"; }
+.ametyseditor-character:before { content: "\f105"; }
+.ametyseditor-checked-box:before { content: "\f106"; }
+.ametyseditor-clipboard99:before { content: "\f107"; }
+.ametyseditor-curve4:before { content: "\f108"; }
+.ametyseditor-design26:before { content: "\f109"; }
+.ametyseditor-document209:before { content: "\f10a"; }
+.ametyseditor-document28:before { content: "\f10b"; }
+.ametyseditor-drop-down-list:before { content: "\f10c"; }
+.ametyseditor-flash:before { content: "\f10d"; }
+.ametyseditor-format6:before { content: "\f10e"; }
+.ametyseditor-greek32:before { content: "\f10f"; }
+.ametyseditor-html25:before { content: "\f110"; }
+.ametyseditor-image2:before { content: "\f111"; }
+.ametyseditor-input:before { content: "\f112"; }
+.ametyseditor-italic8:before { content: "\f113"; }
+.ametyseditor-link23:before { content: "\f114"; }
+.ametyseditor-list4:before { content: "\f115"; }
+.ametyseditor-movie16:before { content: "\f116"; }
+.ametyseditor-numbered8:before { content: "\f117"; }
+.ametyseditor-paint3:before { content: "\f118"; }
+.ametyseditor-radio-on-button:before { content: "\f119"; }
+.ametyseditor-resize11:before { content: "\f11a"; }
+.ametyseditor-right-alignment:before { content: "\f11b"; }
+.ametyseditor-right-arrow26:before { content: "\f11c"; }
+.ametyseditor-right176:before { content: "\f11d"; }
+.ametyseditor-save31:before { content: "\f11e"; }
+.ametyseditor-scissors4:before { content: "\f11f"; }
+.ametyseditor-security:before { content: "\f120"; }
+.ametyseditor-select:before { content: "\f121"; }
+.ametyseditor-spreadsheet4:before { content: "\f122"; }
+.ametyseditor-spreadsheet5:before { content: "\f123"; }
+.ametyseditor-subscript1:before { content: "\f124"; }
+.ametyseditor-superscript2:before { content: "\f125"; }
+.ametyseditor-table28:before { content: "\f126"; }
+.ametyseditor-tables1:before { content: "\f127"; }
+.ametyseditor-text-file1:before { content: "\f128"; }
+.ametyseditor-text-input:before { content: "\f129"; }
+.ametyseditor-text152:before { content: "\f12a"; }
+.ametyseditor-underlined4:before { content: "\f12b"; }
+.ametyseditor-web60:before { content: "\f12c"; }
+.ametyseditor-web61:before { content: "\f12d"; }
+.ametyseditor-word2:before { content: "\f12e"; }

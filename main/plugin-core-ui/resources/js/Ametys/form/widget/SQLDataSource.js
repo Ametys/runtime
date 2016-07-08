@@ -23,7 +23,7 @@ Ext.define('Ametys.form.widget.SQLDataSource', {
     alias: ['widget.datasource-sql'],
 	
     dataSourceType: 'SQL',
-    createButtonIconCls: 'flaticon-data110 decorator-flaticon-add64',
+    createButtonIconCls: 'ametysmisc-data110 decorator-ametysmisc-add64',
 	createButtonTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_SQL_DATASOURCE_BUTTON_TOOLTIP}}",
 
 	createDataSource: function (callback)

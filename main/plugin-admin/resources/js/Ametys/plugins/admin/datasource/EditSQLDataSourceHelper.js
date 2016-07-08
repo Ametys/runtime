@@ -105,7 +105,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
             
 			this._box = Ext.create('Ametys.window.DialogBox', {
 				title: this._mode == 'new' ? "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_ADD_TITLE}}" : "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_EDIT_TITLE}}",
-				iconCls: "flaticon-data110 " + (this._mode == 'new' ? "decorator-flaticon-add64" : "decorator-flaticon-edit45"),
+				iconCls: "ametysmisc-data110 " + (this._mode == 'new' ? "decorator-ametysmisc-add64" : "decorator-ametysmisc-edit45"),
 				
 				layout: 'fit',
 				width: 700,
@@ -128,7 +128,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
 		else
 		{
 			this._box.setTitle(this._mode == 'new' ? "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_ADD_TITLE}}" : "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_EDIT_TITLE}}");
-			this._box.setIconCls("flaticon-data110 " + (this._mode == 'new' ? "decorator-flaticon-add64" : "decorator-flaticon-edit45"));
+			this._box.setIconCls("ametysmisc-data110 " + (this._mode == 'new' ? "decorator-ametysmisc-add64" : "decorator-ametysmisc-edit45"));
 			callback(true);
 		}
 	},
@@ -268,7 +268,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
             // Global parameter checker
             'field-checker': {
                 id: 'sql-connection-checker-datasource',
-                'icon-glyph': 'flaticon-data110',
+                'icon-glyph': 'ametysmisc-data110',
                 'linked-fields': ['id', 'driver', 'url', 'user', 'password'],
                 label: "{{i18n plugin.core-impl:PLUGINS_CORE_SQL_CONNECTION_CHECKER_LABEL}}",
                 description: "{{i18n plugin.core-impl:PLUGINS_CORE_SQL_CONNECTION_CHECKER_DESC}}"

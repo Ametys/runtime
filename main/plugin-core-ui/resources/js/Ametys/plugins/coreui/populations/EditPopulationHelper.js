@@ -320,7 +320,7 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
             
         this._box = Ext.create('Ametys.window.DialogBox', {
             title: this._mode == 'add' ? "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_ADD_TITLE}}" : "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_EDIT_TITLE}}",
-            iconCls: 'flaticon-multiple25',
+            iconCls: 'ametysmisc-multiple25',
             
             width: 650,
             height: 610,

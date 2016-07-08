@@ -2001,7 +2001,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      *          	"id": "my-checker-id",
      *              "label": "Label",
      *              "description": "Description",
-     *          	"icon-glyph": "flaticon-data110",
+     *          	"icon-glyph": "ametysmisc-data110",
      *              "linked-field": ['linked.field.1.path', 'linked.field.2.path'], // you can begin a linked field with the default separator (#cfg-defaultPathSeparator),
      *              													            // in order to use an absolute path instead of a relative path, see the
      *              											                    // second field checker below where we have defaultPathSeparator = "/"
@@ -2104,7 +2104,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      *
      *      <field-checker>
      *          <id>checker-id</id>
-     *          <icon-glyph>flaticon-data110</icon-glyph>
+     *          <icon-glyph>ametysmisc-data110</icon-glyph>
      *          <icon-decorator></icon-decorator>
      *          <small-icon-path>small/icon/path/img_16.png</small-icon-path>
      *          <medium-icon-path>medium/icon/path/img_32.png</small-icon-path>

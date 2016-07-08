@@ -245,7 +245,7 @@ Ext.define('Ametys.helper.SelectGroup', {
 			width: 450,
 			height: 600,
 			//icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/groups/group_16.png',
-            iconCls: 'flaticon-multiple25',
+            iconCls: 'ametysmisc-multiple25',
 			
 			items : [
                      this._groupDirectoriesField,

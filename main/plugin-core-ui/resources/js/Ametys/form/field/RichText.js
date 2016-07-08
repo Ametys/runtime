@@ -201,7 +201,7 @@ Ext.define('Ametys.form.field.RichText', {
         
         this._availableModes = { preview: false, full: true, source: false };
         this._currentMode = "full";
-        this._editorId = Ext.id(null, "editor-");
+        this._editorId = Ext.id(null, "ametyseditor-");
         
         config.cls = Ext.Array.from(config.cls);
         config.cls.push(this.richtextCls);
@@ -273,10 +273,10 @@ Ext.define('Ametys.form.field.RichText', {
             toolbarItems.push({ 
                 xtype: 'button', 
                 cls: 'a-btn-light',
-                iconCls: 'flaticon-document209 decorator-flaticon-world91',
+                iconCls: 'ametysmisc-document209 decorator-ametysmisc-world91',
                 tooltip: {
-                    glyphIcon: 'flaticon-document209',
-                    iconDecorator: 'decorator-flaticon-world91',
+                    glyphIcon: 'ametysmisc-document209',
+                    iconDecorator: 'decorator-ametysmisc-world91',
                     title: "{{i18n PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_PREVIEW_TOOLTIP_TITLE}}",
                     text: "{{i18n PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_PREVIEW_TOOLTIP_TEXT}}",
                     anchor: "br-tr",
@@ -304,9 +304,9 @@ Ext.define('Ametys.form.field.RichText', {
             toolbarItems.push({ 
                 xtype: 'button', 
                 cls: 'a-btn-light',
-                iconCls: 'flaticon-document209',
+                iconCls: 'ametysmisc-document209',
                 tooltip: {
-                    glyphIcon: 'flaticon-document209',
+                    glyphIcon: 'ametysmisc-document209',
                     title: "{{i18n PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_FULLPAGE_TOOLTIP_TITLE}}",
                     text: "{{i18n PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_FULLPAGE_TOOLTIP_TEXT}}",
                     anchor: "br-tr",
@@ -324,9 +324,9 @@ Ext.define('Ametys.form.field.RichText', {
                 toolbarItems.push({ 
                     xtype: 'button', 
                     cls: 'a-btn-light',
-                    iconCls: 'editor-html25',
+                    iconCls: 'ametyseditor-html25',
                     tooltip: {
-                        glyphIcon: 'editor-html25',
+                        glyphIcon: 'ametyseditor-html25',
                         title: "{{i18n PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_SOURCE_TOOLTIP_TITLE}}",
                         text: "{{i18n PLUGINS_CORE_UI_FIELD_RICH_TEXT_MODE_SOURCE_TOOLTIP_TEXT}}",
                         anchor: "br-tr",

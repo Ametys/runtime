@@ -217,7 +217,7 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
         if (record.get('source') == 'upload-image')
         {
             Ametys.helper.FileUpload.open({
-                iconCls: 'editor-image2',
+                iconCls: 'ametyseditor-image2',
                 title: "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_UPLOAD_TITLE}}",
                 helpmessage: "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_FILE_UPLOAD_HINT}}",
                 callback: Ext.bind(this._fileUploadCb, this),

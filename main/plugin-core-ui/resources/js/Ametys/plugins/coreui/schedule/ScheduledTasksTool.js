@@ -225,7 +225,7 @@ Ext.define('Ametys.plugins.coreui.schedule.ScheduledTasksTool', {
         var isTrue = Ext.isBoolean(value) ? value : value == 'true';
         if (isTrue)
         {
-            return '<span class="a-grid-glyph flaticon-check34"/>';
+            return '<span class="a-grid-glyph ametysmisc-check34"/>';
         }
         else
         {

@@ -101,7 +101,7 @@ Ext.define('Ametys.plugins.coreui.configurableformpanel.TestsController', {
 			
 			if (this._mode == 'missed')
 			{
-				this.setIconDecorator (noFailures ? 'decorator-flaticon-checked34' : 'decorator-flaticon-alert9');
+				this.setIconDecorator (noFailures ? 'decorator-ametysmisc-checked34' : 'decorator-ametysmisc-alert9');
 			}
 			
 			this.setDisabled(this._mode == 'all' ? noTests : noFailures);

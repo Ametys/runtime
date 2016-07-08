@@ -184,8 +184,8 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceTool', {
 	 */
 	_renderName: function(value, md, record)
 	{
-        var decorator = record.get('isValid') ? '' : ' decorator-flaticon-caution9 datasource-warning';
-        var glyph = record.get('type') == 'LDAP' ? 'flaticon-agenda3' : 'flaticon-data110';
+        var decorator = record.get('isValid') ? '' : ' decorator-ametysmisc-caution9 datasource-warning';
+        var glyph = record.get('type') == 'LDAP' ? 'ametysmisc-agenda3' : 'ametysmisc-data110';
         return '<span class="a-grid-glyph ' + glyph + decorator + '"></span>' + value;
 	},
 	
@@ -200,7 +200,7 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceTool', {
         var isTrue = Ext.isBoolean(value) ? value : value == 'true';
         if (isTrue)
         {
-            return '<span class="a-grid-glyph flaticon-check34" title="' + "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_CHECKED_TITLE}}" + '"></span>';
+            return '<span class="a-grid-glyph ametysmisc-check34" title="' + "{{i18n PLUGINS_ADMIN_UITOOL_DATASOURCE_CHECKED_TITLE}}" + '"></span>';
         }
         else
         {
