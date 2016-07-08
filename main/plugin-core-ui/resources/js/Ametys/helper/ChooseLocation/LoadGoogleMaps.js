@@ -83,10 +83,8 @@ Ext.define('Ametys.helper.ChooseLocation.LoadGoogleMaps', {
 	 * @private
 	 * Callback invoked once the api key is retrieved
 	 * @param {Object} response the server's response
-	 * @param {Object} args the callback arguments
-	 * @param {Function} args.callback th callback function
 	 */
-	_getAPIKeyCb: function(response, args)
+	_getAPIKeyCb: function(response)
 	{
 		this._loadScript(Ext.dom.Query.selectValue('ActionResult/apiKey', response));
 	},
