@@ -43,15 +43,17 @@
 
     <!-- System -->
 	<message key="PLUGINS_CORE_SYSTEM_CONFIG_CATEGORY">System</message>
+	<message key="PLUGINS_CORE_SYSTEM_CONFIG_APPLICATIONS">Applications</message>
+	
 	<message key="PLUGINS_CORE_DEBUG_GROUP">Developer mode</message>
 	<message key="PLUGINS_CORE_LOGGING_GROUP">Logging</message>
-	<message key="PLUGINS_CORE_GOOGLE_API_KEY_CONFIG_GROUP">Google Maps API</message>
+	<message key="PLUGINS_CORE_GOOGLE_API_KEY_CONFIG_GROUP">Google Maps</message>
     <message key="PLUGINS_CORE_PRIVACY_CONFIG_GROUP">Connection</message>
     <message key="PLUGINS_CORE_TRACE_LOG_ABNORMAL_TIME_LABEL">Log long process</message>
     <message key="PLUGINS_CORE_TRACE_LOG_ABNORMAL_TIME_DESCRIPTION">Check this box to activate tracing in logs (in 'warn' severity) of the process taking an unusually long time</message>
     <message key="PLUGINS_CORE_PUBLIC_CONFIG_LABEL">Public instance</message>
     <message key="PLUGINS_CORE_PUBLIC_CONFIG_DESCRIPTION">Check this box to declare this instance of Ametys as public.</message>
-    <message key="PLUGINS_CORE_GOOGLE_API_KEY">Key</message>
+    <message key="PLUGINS_CORE_GOOGLE_API_KEY">API Key</message>
     <message key="PLUGINS_CORE_GOOGLE_API_KEY_DESCRIPTION">Key that will be used to authenticate applications using the Google Maps API.</message>
     
     <!-- Upload -->
