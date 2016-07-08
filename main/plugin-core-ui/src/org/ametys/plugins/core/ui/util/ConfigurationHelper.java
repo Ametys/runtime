@@ -351,6 +351,57 @@ public final class ConfigurationHelper
         return parameters;
     }
     
+    /**
+     * Clone existing parameters
+     * @param parameters The existing parameters
+     * @return The cloned
+     */
+    public static Map<String, Object> clonePluginParameters(Map<String, Object> parameters)
+    {
+        Map<String, Object> clonedParameters = new LinkedHashMap<>();
+        
+        for (String name: parameters.keySet())
+        {
+            Object value = parameters.get(name);
+            
+            clonedParameters.put(name, _clonePluginParameter(value));
+        }
+        
+        return clonedParameters;
+    }
+    
+    @SuppressWarnings("unchecked")
+    private static Object _clonePluginParameter(Object value)
+    {
+        if (value instanceof I18nizableText 
+                || value instanceof String
+                // after this point, types cannot be created by static configuration, but are "JSONUtils compatible" and may be used by dynamic ClientSideElements
+                || value instanceof Boolean
+                || value instanceof Integer
+                || value instanceof Long
+                || value instanceof Double)
+        {
+            return value;
+        }
+        else if (value instanceof LinkedHashMap)
+        {
+            return clonePluginParameters((Map<String, Object>) value);
+        }
+        else if (value instanceof ArrayList)
+        {
+            List list = new ArrayList();
+            for (Object v : (List) value)
+            {
+                list.add(_clonePluginParameter(v));
+            }
+            return list; 
+        }
+        else
+        {
+            throw new IllegalArgumentException("Cannot clone a parameter of type '" + value.getClass().getName() + "'");
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     private static void addParameter(Map<String, Object> parameters, String name, Object newValue)
     {

@@ -15,8 +15,12 @@
  */
 package org.ametys.core.ui;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.ametys.plugins.core.ui.util.ConfigurationHelper;
 
 /**
  * Object binding of a client side element, ie something that is loaded and executed by the browser.<br>
@@ -123,6 +127,20 @@ public interface ClientSideElement
             _langPaths = langPaths;
             _defaultLang = defaultLang;
             _langMode = true;
+        }
+        
+        /**
+         * Clone a script file
+         * @param scriptFile The script file to clone
+         */
+        public ScriptFile(ScriptFile scriptFile)
+        {
+            _debugMode = scriptFile._debugMode;
+            _defaultLang = scriptFile._defaultLang;
+            _langMode = scriptFile._langMode;
+            
+            _langPaths = new HashMap<>();
+            _langPaths.putAll(scriptFile._langPaths);
         }
         
         /**
@@ -234,6 +252,20 @@ public interface ClientSideElement
             _scriptFiles = scriptFiles;
             _cssFiles = cssFiles;
             _parameters = parameters;
+        }
+        
+        /**
+         * Clone a script
+         * @param script The script to clone
+         */
+        public Script(Script script)
+        {
+            _id = script._id;
+            _serverId = script._serverId;
+            _classname = script._classname;
+            _scriptFiles = new ArrayList<>(script._scriptFiles);
+            _cssFiles = new ArrayList<>(script._cssFiles);
+            _parameters = ConfigurationHelper.clonePluginParameters(script._parameters);
         }
         
         /**
