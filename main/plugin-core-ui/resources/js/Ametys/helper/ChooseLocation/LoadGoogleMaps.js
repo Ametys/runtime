@@ -26,7 +26,7 @@ Ext.define('Ametys.helper.ChooseLocation.LoadGoogleMaps', {
 	 * @private
 	 * The GoogleMaps libs url
 	 */
-	__GOOGLE_MAPS_URL: '//maps.googleapis.com/maps/api/js?sensor=true',
+	__GOOGLE_MAPS_URL: '//maps.googleapis.com/maps/api/js',
 	
 	/**
 	 * @property {Boolean} True if Google Map script are loaded
@@ -52,19 +52,56 @@ Ext.define('Ametys.helper.ChooseLocation.LoadGoogleMaps', {
 		}
 		else
 		{
+			// Fetch the API key for google maps and load the script
+			this._getAPIKey();
+			
 			this._callbackFn = callback;
-			this._loadScript();
 		}
 	},
 	
 	/**
 	 * @private
-	 * Load GoogleMap libs
+	 * Get the configured googled maps API key
 	 */
-	_loadScript: function ()
+	_getAPIKey: function()
+	{
+        Ametys.data.ServerComm.send({
+        	plugin: 'core', 
+        	url: 'google-api-key/get', 
+        	parameters: {}, 
+        	priority: Ametys.data.ServerComm.PRIORITY_MAJOR, 
+        	callback: {
+                handler: this._getAPIKeyCb,
+                scope: this
+            },
+            errorMessage: true,
+            waitMessage: true
+        });
+	},
+	
+	/**
+	 * @private
+	 * Callback invoked once the api key is retrieved
+	 * @param {Object} response the server's response
+	 * @param {Object} args the callback arguments
+	 * @param {Function} args.callback th callback function
+	 */
+	_getAPIKeyCb: function(response, args)
+	{
+		this._loadScript(Ext.dom.Query.selectValue('ActionResult/apiKey', response));
+	},
+	
+	/**
+	 * @private
+	 * Load GoogleMap lib
+	 * @param {String} apiKey the google map api key to use. can be empty but limits functionnality
+	 */
+	_loadScript: function (apiKey)
 	{
 		var baseUrl = (document.location.protocol == 'https:' ? 'https:' : 'http:') + this.__GOOGLE_MAPS_URL;
-		var url = baseUrl + '&callback=Ametys.helper.ChooseLocation.LoadGoogleMaps._loadScriptCb';
+		var url = baseUrl + '?callback=Ametys.helper.ChooseLocation.LoadGoogleMaps._loadScriptCb';
+		url += apiKey ? '&key=' + apiKey : '';
+		
 		Ametys.loadScript (url, null, this._onLoadFailed);
 	},
 	

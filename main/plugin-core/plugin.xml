@@ -87,6 +87,21 @@
         </param>
         
         <!-- +
+             | GOOGLE API KEY
+             + -->
+        
+        <param id="runtime.google-api-key" type="string">
+            <!-- 
+                This parameter stores the google maps API key to use in javascript applications (such as the geocode widget)
+             -->
+            <label i18n="true">PLUGINS_CORE_GOOGLE_API_KEY</label>
+            <description i18n="true">PLUGINS_CORE_GOOGLE_API_KEY_DESCRIPTION</description>
+            <category i18n="true">PLUGINS_CORE_SYSTEM_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_GOOGLE_API_KEY_CONFIG_GROUP</group>
+            <order>1</order>
+        </param>
+        
+        <!-- +
              | MAIL - ADDRESSES
              + -->
         <param type="string" id="smtp.mail.from">

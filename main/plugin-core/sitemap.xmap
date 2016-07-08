@@ -315,6 +315,14 @@
 					</map:read>
 				</map:act>
 			</map:match>
+			
+            <!-- Google maps API key -->
+            <map:match pattern="google-api-key/get">
+                <map:generate type="action-result">
+                    <map:parameter name="apiKey" value="{config:runtime.google-api-key}"/>
+                </map:generate>
+                <map:serialize type="xml"/>
+            </map:match>
         </map:pipeline>
 	</map:pipelines>
 </map:sitemap>

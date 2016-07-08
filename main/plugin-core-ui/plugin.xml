@@ -642,6 +642,10 @@
         </extensions>
     </feature>    
     <feature name="widgets.others.geocode" safe="true">
+        <config>
+            <param-ref id="runtime.google-api-key"/>
+        </config>
+        
         <extensions>
             <extension id="edition.geocode"
                 point="org.ametys.core.ui.widgets.WidgetsManager"
