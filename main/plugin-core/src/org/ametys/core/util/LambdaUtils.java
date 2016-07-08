@@ -15,6 +15,7 @@
  */
 package org.ametys.core.util;
 
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -58,6 +59,47 @@ public final class LambdaUtils
             try
             {
                 return function.apply(value);
+            }
+            catch (Exception e)
+            {
+                if (e instanceof RuntimeException)
+                {
+                    throw (RuntimeException) e;
+                }
+                
+                throw new RuntimeException(e);
+            }
+        };
+    }
+    
+    /**
+     * Consumer allowed to throw checked {@link Exception}. <br>
+     * It allows to build one-line lambda for methods throwing checked exceptions.
+     * @param <T> the type of the input to the operation
+     */
+    @FunctionalInterface
+    public interface ThrowingConsumer<T>
+    {
+        /**
+         * Performs this operation on the given argument.
+         * @param t the input argument
+         * @throws Exception if something wrong occurs.
+         */
+        void accept(T t) throws Exception;
+    }
+    
+    /**
+     * Wraps a {@link Consumer} by catching its {@link Exception} and rethrowing them as {@link RuntimeException}.
+     * @param consumer the {@link Consumer} to wrap.
+     * @param <T> The type of input to the operation
+     * @return the wrapped {@link Consumer}.
+     */
+    public static <T> Consumer<T> wrapConsumer(ThrowingConsumer<T> consumer)
+    {
+        return value -> {
+            try
+            {
+                consumer.accept(value);
             }
             catch (Exception e)
             {
