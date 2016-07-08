@@ -45,4 +45,5 @@
     <runtime.system.alerts.enable>false</runtime.system.alerts.enable>
     <runtime.scheduler.datasource>SQL-ametys-internal</runtime.scheduler.datasource>
 
+	<runtime.google-api-key/>
 </config>
