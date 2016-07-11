@@ -42,9 +42,10 @@ Ext.define('Ametys.helper.ChooseLocation.LoadGoogleMaps', {
 	
 	/**
 	 * Load GoogleMap libs if needed then execute the callback function after loading
+	 * @param {String} apiKey The Google Maps api key. Can be empty but limits functionality
 	 * @param {Function} callback The function requiring GoogleMaps to be loaded to execute after loading
 	 */
-	loadScript: function (callback)
+	loadScript: function (apiKey, callback)
 	{
 		if (this._isGoogleMapsLoaded)
 		{
@@ -52,8 +53,11 @@ Ext.define('Ametys.helper.ChooseLocation.LoadGoogleMaps', {
 		}
 		else
 		{
-			// Fetch the API key for google maps and load the script
-			this._getAPIKey();
+			var baseUrl = (document.location.protocol == 'https:' ? 'https:' : 'http:') + this.__GOOGLE_MAPS_URL;
+			var url = baseUrl + '?callback=Ametys.helper.ChooseLocation.LoadGoogleMaps._loadScriptCb';
+			url += apiKey ? '&key=' + apiKey : '';
+			
+			Ametys.loadScript (url, null, this._onLoadFailed);
 			
 			this._callbackFn = callback;
 		}
@@ -61,38 +65,8 @@ Ext.define('Ametys.helper.ChooseLocation.LoadGoogleMaps', {
 	
 	/**
 	 * @private
-	 * Get the configured googled maps API key
-	 */
-	_getAPIKey: function()
-	{
-        Ametys.data.ServerComm.send({
-        	plugin: 'core', 
-        	url: 'google-api-key/get', 
-        	parameters: {}, 
-        	priority: Ametys.data.ServerComm.PRIORITY_MAJOR, 
-        	callback: {
-                handler: this._getAPIKeyCb,
-                scope: this
-            },
-            errorMessage: true,
-            waitMessage: true
-        });
-	},
-	
-	/**
-	 * @private
-	 * Callback invoked once the api key is retrieved
-	 * @param {Object} response the server's response
-	 */
-	_getAPIKeyCb: function(response)
-	{
-		this._loadScript(Ext.dom.Query.selectValue('ActionResult/apiKey', response));
-	},
-	
-	/**
-	 * @private
 	 * Load GoogleMap lib
-	 * @param {String} apiKey the google map api key to use. can be empty but limits functionnality
+	 * @param {String} apiKey the google map api key to use. can be empty but limits functionality
 	 */
 	_loadScript: function (apiKey)
 	{
