@@ -255,7 +255,7 @@ public class Group
         {
             if (_largeOverrideHelper == null)
             {
-                _largeOverrideHelper = new TabOverrideHelper<>(_largeSize.getChildren());
+                _largeOverrideHelper = new TabOverrideHelper<>(_largeSize.getChildren(), _groupLogger);
             }
             injectGroup(group, _largeOverrideHelper, group.getLargeGroupSize(), group.getMediumGroupSize(), null);
         }
@@ -263,7 +263,7 @@ public class Group
         {
             if (_mediumOverrideHelper == null)
             {
-                _mediumOverrideHelper = new TabOverrideHelper<>(_mediumSize.getChildren());
+                _mediumOverrideHelper = new TabOverrideHelper<>(_mediumSize.getChildren(), _groupLogger);
             }
             injectGroup(group, _mediumOverrideHelper, group.getMediumGroupSize(), group.getLargeGroupSize(), null);
         }
@@ -271,7 +271,7 @@ public class Group
         {
             if (_smallOverrideHelper == null)
             {
-                _smallOverrideHelper = new TabOverrideHelper<>(_smallSize.getChildren());
+                _smallOverrideHelper = new TabOverrideHelper<>(_smallSize.getChildren(), _groupLogger);
             }
             injectGroup(group, _smallOverrideHelper, group.getSmallGroupSize(), group.getMediumGroupSize(), group.getLargeGroupSize());
         }
@@ -328,4 +328,10 @@ public class Group
         XMLUtils.endElement(handler, "group");
     }
 
+    @Override
+    public String toString()
+    {
+        return super.toString() + "[" + _label + "]";
+    }
+    
 }    

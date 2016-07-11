@@ -22,31 +22,29 @@
         <tab label="plugin.core-ui:RIBBON_TABS_TAB_DEVELOPER_LABEL" order="50">
             <groups>
                 <group label="plugin.core-ui:RIBBON_TABS_TAB_DEVELOPER_GROUPS_GROUP_TOOLS_LABEL" icon="">
-                    <large>
-                        <control>
-                            <menu-items>
-                                <item ref="org.ametys.runtime.userinterface.MessageTrackerControl" primaryItem="true"/>
-                                <item ref="org.ametys.runtime.userinterface.MessageTrackerControl.clear"/>
-                            </menu-items>
-                        </control>
-                        <control>
-                            <menu-items>
-                                <item ref="org.ametys.runtime.userinterface.RequestTrackerControl" primaryItem="true"/>
-                                <item ref="org.ametys.runtime.userinterface.RequestTrackerControl.clear"/>
-                            </menu-items>
-                        </control>
-                        <control>
-                            <menu-items>
-                                <item ref="org.ametys.runtime.userinterface.ConsoleLogControl" primaryItem="true"/>
-                                <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toDebug"/>
-                                <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toInfo"/>
-                                <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toWarn"/>
-                                <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toError"/>
-                                <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.clear"/>
-                            </menu-items>
-                        </control>
-                        <control id="org.ametys.runtime.userinterface.DevMode"/>
-                    </large>
+                    <control>
+                        <menu-items>
+                            <item ref="org.ametys.runtime.userinterface.MessageTrackerControl" primaryItem="true"/>
+                            <item ref="org.ametys.runtime.userinterface.MessageTrackerControl.clear"/>
+                        </menu-items>
+                    </control>
+                    <control>
+                        <menu-items>
+                            <item ref="org.ametys.runtime.userinterface.RequestTrackerControl" primaryItem="true"/>
+                            <item ref="org.ametys.runtime.userinterface.RequestTrackerControl.clear"/>
+                        </menu-items>
+                    </control>
+                    <control>
+                        <menu-items>
+                            <item ref="org.ametys.runtime.userinterface.ConsoleLogControl" primaryItem="true"/>
+                            <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toDebug"/>
+                            <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toInfo"/>
+                            <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toWarn"/>
+                            <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.toError"/>
+                            <item ref="org.ametys.runtime.userinterface.ConsoleLogControl.clear"/>
+                        </menu-items>
+                    </control>
+                    <control id="org.ametys.runtime.userinterface.DevMode"/>
                 </group>
             </groups>
         </tab>

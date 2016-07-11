@@ -158,4 +158,10 @@ public class ControlRef implements Element
         ControlRef controlRef = (ControlRef) element;
         return controlRef._id == _id && controlRef._colspan == _colspan;
     }
+    
+    @Override
+    public String toString()
+    {
+        return super.toString() + "[" + _id + "]";
+    }
 }

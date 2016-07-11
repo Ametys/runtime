@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+
 /**
  * Helper for tab override, to inject elements inside another elements' container
  * @param <T> The type of element to inject
@@ -29,19 +31,31 @@ public class TabOverrideHelper<T>
     /** The list of elements */
     protected List<T> _elements;
 
+    /** Logger */
+    protected Logger _logger;
+
     private  Map<Integer, ObjectOrderMapping> _mapping = new HashMap<>();
 
     /**
      * Map a list of elements by they order to allows for elements injection 
      * @param elements The list of elements
+     * @param logger The logger
      */
-    public TabOverrideHelper(List<T> elements)
+    public TabOverrideHelper(List<T> elements, Logger logger)
     {
+        _logger = logger;
         _elements = elements;
         
-        for (T element : elements)
+        if (elements.size() > 0)
         {
-            _mapping.put(elements.indexOf(element) + 1, new ObjectOrderMapping(element)); 
+            for (T element : elements)
+            {
+                _mapping.put(elements.indexOf(element) + 1, new ObjectOrderMapping(element)); 
+            }
+        }
+        else
+        {
+            _mapping.put(1, new ObjectOrderMapping(null)); 
         }
     }
     
@@ -60,11 +74,21 @@ public class TabOverrideHelper<T>
             if (primaryOrder > _mapping.size() || !_mapping.containsKey(primaryOrder))
             {
                 // out of bound
+                if (_logger.isDebugEnabled())
+                {
+                    _logger.debug("TabOverrideHelper : injecting element '" + inject.toString() + "' with order '" + primaryOrder + "', but that order is out of bound. The element is injected at the end, after element '" + _mapping.get(_mapping.size()).getInitialObject() + "'");
+                }
+
                 _mapping.get(_mapping.size()).injectObjectAfter(inject, null);
             }
             else
             {
                 _mapping.get(primaryOrder).injectObjectBefore(inject, secondaryOrder);
+                
+                if (_logger.isDebugEnabled())
+                {
+                    _logger.debug("TabOverrideHelper : injecting element '" + inject.toString() + "' with order '" + primaryOrder + "' before element '" + _mapping.get(primaryOrder).getInitialObject() + "'");
+                }
             }
         }
         else
@@ -73,10 +97,20 @@ public class TabOverrideHelper<T>
             if (relativeOrder < 0 || !_mapping.containsKey(relativeOrder))
             {
                 // out of bound
+                if (_logger.isDebugEnabled())
+                {
+                    _logger.debug("TabOverrideHelper : injecting element '" + inject.toString() + "' with order '" + primaryOrder + "', but that order is out of bound. The element is injected at the start, before element '" + _mapping.get(1).getInitialObject() + "'");
+                }
+
                 _mapping.get(1).injectObjectBefore(inject, 0);
             }
             else
             {
+                if (_logger.isDebugEnabled())
+                {
+                    _logger.debug("TabOverrideHelper : injecting element '" + inject.toString() + "' with order '" + primaryOrder + "' after element '" + _mapping.get(relativeOrder).getInitialObject() + "'");
+                }
+                
                 _mapping.get(relativeOrder).injectObjectAfter(inject, secondaryOrder);
             }
         }
@@ -85,6 +119,7 @@ public class TabOverrideHelper<T>
     private class ObjectOrderMapping
     {   
         private T _initialObject;
+        private int _initialObjectIndex;
         private List<T> _objectsBefore = new ArrayList<>();
         private Map<T, Integer> _objectsBeforeOrder = new HashMap<>();
         private List<T> _objectsAfter = new ArrayList<>();
@@ -93,6 +128,7 @@ public class TabOverrideHelper<T>
         public ObjectOrderMapping(T initialObject)
         {
             _initialObject = initialObject;
+            _initialObjectIndex = _initialObject != null ? _elements.indexOf(_initialObject) : 0;
         }
         
         public void injectObjectBefore(T object, Integer order)
@@ -104,12 +140,14 @@ public class TabOverrideHelper<T>
                 {
                     _objectsBeforeOrder.put(object, order);
                 }
-                _elements.add(_elements.indexOf(_initialObject), object);
+                
+                _elements.add(_initialObject != null ? _elements.indexOf(_initialObject) : 0, object);
             }
             else
             {
                 _inject(object, order, _objectsBefore, _objectsBeforeOrder);
             }
+            _initialObjectIndex++;
         }
         
         public void injectObjectAfter(T object, Integer order)
@@ -122,7 +160,7 @@ public class TabOverrideHelper<T>
                     _objectsAfterOrder.put(object, order);
                 }
 
-                _elements.add(_elements.indexOf(_initialObject) + 1, object);
+                _elements.add(_initialObject != null ? _elements.indexOf(_initialObject) + 1 : _elements.size(), object);
             }
             else
             {
@@ -159,6 +197,11 @@ public class TabOverrideHelper<T>
                 _elements.add(_elements.indexOf(previous) + 1, object);
                 objects.add(objects.indexOf(previous) + 1, object);
             }
+        }
+        
+        public T getInitialObject()
+        {
+            return _initialObject;
         }
     }
 }

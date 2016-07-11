@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.excalibur.source.Source;
@@ -266,7 +267,16 @@ public class RibbonConfigurationManager
             }
             
             _ribbonConfig = new RibbonConfiguration();
-            Configuration configuration = new DefaultConfigurationBuilder().build(config.getInputStream());
+            Configuration configuration;
+            if (config.exists())
+            {
+                configuration = new DefaultConfigurationBuilder().build(config.getInputStream());
+            }
+            else
+            {
+                configuration = new DefaultConfiguration("ribbon");
+            }
+            
             Map<String, Long> importsValidity = new HashMap<>();
             importsValidity.put(config.getURI(), config.getLastModified());
             
@@ -290,6 +300,11 @@ public class RibbonConfigurationManager
             
             Map<String, Tab> tabsLabelMapping = _ribbonConfig.getTabs().stream().filter(tab -> !tab.isOverride()).collect(Collectors.toMap(Tab::getLabel, Function.identity(), (tab1, tab2) -> tab1));
             _configureTabOverride(tabsLabelMapping);
+            for (Tab tab : _ribbonConfig.getTabs())
+            {
+                _removeExcludedControls(tab, excluded);   
+            }
+            
             _configureTabOrder(tabsLabelMapping);
             
             ribbonManagerCache.addCachedConfiguration(_ribbonManager, _ribbonConfig, importsValidity);
@@ -343,6 +358,11 @@ public class RibbonConfigurationManager
                 {
                     try (InputStream is = src.getInputStream())
                     {
+                        if (_logger.isDebugEnabled())
+                        {
+                            _logger.debug("RibbonConfigurationManager : new file imported '" + url + "'");
+                        }
+                        
                         Configuration importedConfiguration = new DefaultConfigurationBuilder().build(is);
                         Map<String, Object> properties = new HashMap<>();
                         properties.put("configuration", importedConfiguration);
@@ -373,14 +393,29 @@ public class RibbonConfigurationManager
             if (tagName.equals("import") && ("plugin".equals(type) || "extension".equals(type) || "file".equals(type)))
             {
                 excluded.get(EXCLUDETYPE.createsFromString(type)).add(value);
+                
+                if (_logger.isDebugEnabled())
+                {
+                    _logger.debug("RibbonConfigurationManager : Exclusion of " +  type + " '" + value + "'");
+                }
             }
             else if (tagName.equals("tab") && "label".equals(type))
             {
                 excluded.get(EXCLUDETYPE.TABLABEL).add(value);
+
+                if (_logger.isDebugEnabled())
+                {
+                    _logger.debug("RibbonConfigurationManager : Exclusion of tab with label '" + value + "'");
+                }
             }
             else if (tagName.equals("control"))
             {
                 excluded.get(EXCLUDETYPE.CONTROL).add(value);
+
+                if (_logger.isDebugEnabled())
+                {
+                    _logger.debug("RibbonConfigurationManager : Exclusion of control with id '" + value + "'");
+                }
             }
             else
             {
@@ -482,6 +517,11 @@ public class RibbonConfigurationManager
         {
             if (excludedList.get(EXCLUDETYPE.EXTENSION).contains(properties.get("extension")))
             {
+                if (_logger.isDebugEnabled())
+                {
+                    _logger.debug("RibbonConfigurationManager : The import '" + url + "' was not resolved because its extension '" + properties.get("extension") + "' is excluded.");
+                }
+
                 return true;
             }
         }
@@ -492,11 +532,26 @@ public class RibbonConfigurationManager
             String pluginName = matcher.group(1);
             if (excludedList.get(EXCLUDETYPE.PLUGIN).contains(pluginName))
             {
+                if (_logger.isDebugEnabled())
+                {
+                    _logger.debug("RibbonConfigurationManager : The import '" + url + "' was not resolved because its plugin '" + pluginName + "' is excluded.");
+                }
+
                 return true;
             }
         }
         
-        return excludedList.get(EXCLUDETYPE.FILE).contains(url);
+        if (excludedList.get(EXCLUDETYPE.FILE).contains(url))
+        {
+            if (_logger.isDebugEnabled())
+            {
+                _logger.debug("RibbonConfigurationManager : The import '" + url + "' was not resolved because the file url is excluded.");
+            }
+
+            return true;
+        }
+        
+        return false;
     }
 
     private boolean _isTabExcluded(Tab tab, Map<EXCLUDETYPE, List<String>> excludedList, boolean isImport)
@@ -509,41 +564,37 @@ public class RibbonConfigurationManager
         String tabLabel = tab.getLabel();
         if (excludedList.get(EXCLUDETYPE.TABLABEL).contains(tabLabel))
         {
+            if (_logger.isDebugEnabled())
+            {
+                _logger.debug("RibbonConfigurationManager : The tab '" + tabLabel + "' was not added because it is excluded.");
+            }
+            
             return true;
         }
         
-        List<Group> emptyGroups = new ArrayList<>();
+        return tab.getGroups().size() == 0;
+    }
+
+    private void _removeExcludedControls(Tab tab, Map<EXCLUDETYPE, List<String>> excludedList)
+    {
         for (Group group : tab.getGroups())
         {
             GroupSize largeGroupSize = group.getLargeGroupSize();
-            int elementsCount = 0;
             if (largeGroupSize != null)
             {
                 _removeExcludedControls(largeGroupSize.getChildren(), excludedList);
-                elementsCount += largeGroupSize.getChildren().size();
             }
             GroupSize mediumGroupSize = group.getMediumGroupSize();
             if (mediumGroupSize != null)
             {
                 _removeExcludedControls(mediumGroupSize.getChildren(), excludedList);
-                elementsCount += mediumGroupSize.getChildren().size();
             }
             GroupSize smallGroupSize = group.getSmallGroupSize();
             if (smallGroupSize != null)
             {
                 _removeExcludedControls(smallGroupSize.getChildren(), excludedList);
-                elementsCount += smallGroupSize.getChildren().size();
-            }
-            
-            if (elementsCount == 0)
-            {
-                emptyGroups.add(group);
             }
         }
-        
-        tab.getGroups().removeAll(emptyGroups);
-        
-        return tab.getGroups().size() == 0;
     }
     
     private void _removeExcludedControls(List<Element> elements, Map<EXCLUDETYPE, List<String>> excludedList)
@@ -557,6 +608,11 @@ public class RibbonConfigurationManager
                 ControlRef control = (ControlRef) element;
                 if (excludedList.get(EXCLUDETYPE.CONTROL).contains(control.getId()))
                 {
+                    if (_logger.isDebugEnabled())
+                    {
+                        _logger.debug("RibbonConfigurationManager : The control '" + control.getId() + "' was not added because it is excluded.");
+                    }
+
                     elementsToRemove.add(element);
                 }
             }
@@ -596,20 +652,24 @@ public class RibbonConfigurationManager
     
     private void _configureTabOverride(Map<String, Tab> labelMapping)
     {
-        List<Tab> tabsToRemove = new ArrayList<>();
-        for (Tab tab : _ribbonConfig.getTabs())
+        List<Tab> tabsOverride = _ribbonConfig.getTabs().stream().filter(Tab::isOverride).collect(Collectors.toList());
+        for (Tab tab : tabsOverride)
         {
-            if (tab.isOverride())
+            if (labelMapping.containsKey(tab.getLabel()))
             {
-                if (labelMapping.containsKey(tab.getLabel()))
-                {
-                    labelMapping.get(tab.getLabel()).injectGroups(tab.getGroups());
-                }
-                tabsToRemove.add(tab);
+                labelMapping.get(tab.getLabel()).injectGroups(tab.getGroups());
             }
         }
         
-        _ribbonConfig.getTabs().removeAll(tabsToRemove);
+        for (Tab tab : tabsOverride)
+        {
+            if (labelMapping.containsKey(tab.getLabel()))
+            {
+                labelMapping.get(tab.getLabel()).injectGroupsOverride(tab.getGroups());
+            }
+        }
+        
+        _ribbonConfig.getTabs().removeAll(tabsOverride);
     }
     
     private void _configureTabOrder(Map<String, Tab> labelMapping)

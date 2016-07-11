@@ -3011,13 +3011,23 @@
                        class="org.ametys.core.ui.RibbonManagerCache"
                        logger="org.ametys.core.ui.RibbonManagerCache" />
         </components>
-        
+    </feature>
+    
+    <feature name="plugin.core.ui.ribbon.imports">
         <extensions>
             <extension id="org.ametys.core.ui.ribbon.Imports"
                            point="org.ametys.core.ui.RibbonImportManager"
                            class="org.ametys.core.ui.StaticRibbonImportManager">
                 <workspace>
                     <file>ribbon/cms-ribbon-developer.xml</file>
+                </workspace>
+
+                <workspace match="admin">
+                    <file>ribbon/admin-ribbon.xml</file>
+                </workspace>
+
+                <workspace match="admin|repository">
+                    <file>ribbon/script-tool-ribbon.xml</file>
                 </workspace>
            </extension>
        </extensions>

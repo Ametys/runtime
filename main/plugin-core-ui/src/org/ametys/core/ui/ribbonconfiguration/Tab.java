@@ -294,24 +294,45 @@ public class Tab
     {
         for (Group group : groups)
         {
+            if (!group.isOverride())
+            {
+                if (_tabOverrideHelper == null)
+                {
+                    _tabOverrideHelper = new TabOverrideHelper<>(_groups, _log);
+                }
+                
+                if (_log.isDebugEnabled())
+                {
+                    _log.debug("RibbonConfigurationManager : new group '" + group._label.toString() + "' injected into tab '" + _label.toString() + "'");
+                }
+
+                _tabOverrideHelper.injectElements(group, group.getOrder());
+            }
+        }
+    }
+    
+    /**
+     * Inject a list of overriding groups into this tab
+     * @param groups The list of groups to inject
+     */
+    public void injectGroupsOverride(List<Group> groups)
+    {
+        for (Group group : groups)
+        {
             if (group.isOverride())
             {
                 for (Group selfGroup : _groups)
                 {
                     if (selfGroup._label.equals(group._label))
                     {
+                        if (_log.isDebugEnabled())
+                        {
+                            _log.debug("RibbonConfigurationManager : overriding group '" + group._label + "' of tab '" + _label + "' to inject new controls");
+                        }
+                        
                         selfGroup.injectGroup(group);
                     }
                 }
-            }
-            else
-            {
-                if (_tabOverrideHelper == null)
-                {
-                    _tabOverrideHelper = new TabOverrideHelper<>(_groups);
-                }
-                
-                _tabOverrideHelper.injectElements(group, group.getOrder());
             }
         }
     }
@@ -358,5 +379,11 @@ public class Tab
         XMLUtils.endElement(handler, "groups");
         
         XMLUtils.endElement(handler, "tab");
+    }
+    
+    @Override
+    public String toString()
+    {
+        return super.toString() + "[" + _label + "]";
     }
 }

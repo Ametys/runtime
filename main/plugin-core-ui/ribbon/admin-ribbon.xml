@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2016 Anyware Services
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
+<ribbon xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://ametys.org/cms/3.0/ribbon.xsd">
+    
+    <tabs>
+        <tab label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_LABEL" order="10">
+            <groups>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_CONFIG_LABEL" icon="">
+                    <control id="org.ametys.plugins.admin.config.Open"/>
+                    <control id="org.ametys.plugins.admin.DataSource"/>
+                </group>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_SUPERUSER_LABEL" icon="">
+                    <control id="org.ametys.runtime.plugins.admin.superuser.Affect"/>
+                </group>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_SYSTEM_LABEL" icon="">
+                    <control>
+                        <menu-items>
+                            <item ref="org.ametys.plugins.admin.restart.Restart" primaryItem="true" />
+                            <item ref="org.ametys.plugins.admin.restart.ForceSafeMode" />
+                        </menu-items>
+                    </control>
+                    <control id="org.ametys.plugins.admin.System"/>
+                    <control id="org.ametys.plugins.admin.JVMStatus"/>
+                    <control id="org.ametys.plugins.admin.SystemProperties"/>
+                    <control id="org.ametys.plugins.admin.Monitoring"/>
+                    <control id="org.ametys.plugins.core.ui.Script"/>
+                    <control id="org.ametys.core.ui.schedule.Tasks"/>
+                </group>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_LOGS_LABEL" icon="">
+                    <control id="org.ametys.plugins.core.ui.log.ServerLogTool"/>
+                    <control id="org.ametys.plugins.admin.Logs"/>
+                    <control id="org.ametys.plugins.admin.LogsLevel"/>
+                </group>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_PLUGINS_LABEL" icon="">
+                    <control>
+                        <menu-items>
+                            <item ref="org.ametys.plugins.admin.PluginsByExtensionPoint" primaryItem="true"/>
+                            <item ref="org.ametys.plugins.admin.PluginsByFile"/>
+                        </menu-items>
+                    </control>
+                    <control id="org.ametys.plugins.admin.Workspaces"/>
+                </group>
+            </groups>
+        </tab>
+
+        <tab label="plugin.core:RIBBON_TABS_TAB_RIGHTS_HANDLE_LABEL" order="20">
+            <groups>
+                <group label="plugin.core:RIBBON_TABS_TAB_USERS_GROUPS_GROUP_USERS_LABEL" icon="">
+                    <control id="org.ametys.core.ui.populations.Populations" />
+                    <control id="org.ametys.core.Users" />
+                </group>
+                <group label="plugin.core:RIBBON_TABS_TAB_USERS_GROUPS_GROUP_GROUPS_LABEL" icon="">
+                    <control id="org.ametys.core.ui.groupdirectories.GroupDirectories" />
+                    <control id="org.ametys.core.Groups" />
+                </group>
+                <group label="plugin.core:RIBBON_TABS_TAB_USERS_GROUPS_GROUP_RIGHTS_LABEL" icon="">
+                    <control id="org.ametys.core.Profiles"/>
+                </group>
+            </groups>
+        </tab>
+
+
+
+        <!-- Contextual tabs for system announcement -->
+        <tab controlId="org.ametys.plugins.admin.SystemTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_SYSTEM_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_SYSTEM_LABEL" contextualColor="3" contextualGroup="SYS" order="1060">
+            <groups>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_SYSTEM_GROUPS_GROUP_ACTIONS" icon="">
+                   <control id="org.ametys.plugins.admin.system.SetAnnouncement"/>
+                   <control id="org.ametys.plugins.admin.system.Add"/>
+                   <control id="org.ametys.plugins.admin.system.Edit"/>
+                   <control id="org.ametys.plugins.admin.system.Delete"/>
+               </group>
+           </groups>   
+        </tab>
+        
+        <!-- Contextual tabs for logs -->
+        <tab controlId="org.ametys.plugins.admin.LogsTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LABEL" contextualColor="4" contextualGroup="LOGS" order="1070">
+            <groups>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_GROUPS_GROUP_ACTIONS" icon="">
+                   <control id="org.ametys.plugins.admin.logs.View"/>
+                   <control id="org.ametys.plugins.admin.logs.Download"/>
+                   <control id="org.ametys.plugins.admin.logs.Delete"/>
+                   <control id="org.ametys.plugins.admin.logs.Purge"/>
+               </group>
+           </groups>   
+        </tab>
+        <tab controlId="org.ametys.plugins.admin.LogsLevelTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LEVEL_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LEVEL_LABEL" contextualColor="4" contextualGroup="LOGSLEVEL" order="1080">
+            <groups>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_GROUPS_GROUP_ACTIONS" icon="">
+                   <control id="org.ametys.plugins.admin.logslevel.Debug"/>
+                   <control id="org.ametys.plugins.admin.logslevel.Info"/>
+                   <control id="org.ametys.plugins.admin.logslevel.Warn"/>
+                   <control id="org.ametys.plugins.admin.logslevel.Error"/>
+                   <control id="org.ametys.plugins.admin.logslevel.Inherit"/>
+                   <control id="org.ametys.plugins.admin.logslevel.Force"/>
+               </group>
+           </groups>   
+        </tab>
+        
+        <tab controlId="org.ametys.plugins.admin.PluginsByFileTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_LABEL" contextualColor="3" contextualGroup="PLUGINS" order="1090">
+            <groups>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_GROUPS_GROUP_ACTIONS" icon="">
+                    <control id="org.ametys.plugins.admin.plugins.Activate"/>
+                    <control id="org.ametys.plugins.admin.plugins.Deactivate"/>
+                    <control id="org.ametys.plugins.admin.plugins.Select"/>
+                    <control id="org.ametys.plugins.admin.plugins.SaveChanges"/>
+                    <control id="org.ametys.plugins.admin.plugins.CancelChanges"/>
+                </group>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_GROUPS_GROUP_DOCUMENTATION" icon="">
+                    <control id="org.ametys.plugins.admin.plugins.Documentation"/>
+                </group>
+            </groups>
+        </tab>
+        <tab controlId="org.ametys.plugins.admin.PluginsByExtensionPointTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_EP_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_EP_LABEL" contextualColor="3" contextualGroup="PLUGINS_EP" order="1100">
+            <groups>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_GROUPS_GROUP_ACTIONS" icon="">
+                    <control id="org.ametys.plugins.admin.plugins.Activate"/>
+                    <control id="org.ametys.plugins.admin.plugins.Deactivate"/>
+                    <control id="org.ametys.plugins.admin.plugins.Select"/>
+                    <control id="org.ametys.plugins.admin.plugins.SaveChanges"/>
+                    <control id="org.ametys.plugins.admin.plugins.CancelChanges"/>
+                </group>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_GROUPS_GROUP_DOCUMENTATION" icon="">
+                    <control id="org.ametys.plugins.admin.plugins.Documentation"/>
+                </group>
+            </groups>
+        </tab>
+        <tab controlId="org.ametys.plugins.admin.config.Tab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_CONFIG_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_CONFIG_LABEL" contextualColor="2" contextualGroup="CONFIG" order="1110">
+            <groups>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_CONFIG_GROUPS_GROUP_ACTIONS" icon="">
+                    <control id="org.ametys.plugins.admin.config.Save"/>
+                    <control id="org.ametys.plugins.core.configurableformpanel.RunTests"/>
+                </group>
+            </groups>
+        </tab>
+
+
+        <!-- Contextual tab for data sources -->
+        <tab controlId="org.ametys.plugins.admin.datasources.Tab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_DATASOURCE_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_DATASOURCE_LABEL" contextualColor="1" contextualGroup="DATASOURCES" order="1120">
+            <groups>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_DATASOURCES_GROUPS_GROUP_ACTIONS" icon="">
+                    <control id="org.ametys.plugins.admin.datasources.Add"/>
+                    <control id="org.ametys.plugins.admin.datasources.Edit"/>
+                    <control id="org.ametys.plugins.admin.datasources.Delete"/>
+                    <control id="org.ametys.plugins.admin.datasources.SetDefault"/>
+                </group>
+            </groups>
+        </tab>
+
+
+        <!-- Contextual tab for Monitoring Tool -->
+        <tab controlId="org.ametys.plugins.admin.monitoring.Tab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_MONITORING_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_MONITORING_LABEL" contextualColor="3" contextualGroup="MONITORING" order="1140">
+            <groups>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_MONITORING_GROUPS_GROUP_ZOOM" icon="">
+                    <control id="org.ametys.plugins.admin.monitoring.zoomLevel.Year"/>
+                    <control id="org.ametys.plugins.admin.monitoring.zoomLevel.Month"/>
+                    <control id="org.ametys.plugins.admin.monitoring.zoomLevel.Week"/>
+                    <control id="org.ametys.plugins.admin.monitoring.zoomLevel.Day"/>
+                    <control id="org.ametys.plugins.admin.monitoring.zoomLevel.Hour"/>
+                </group>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_MONITORING_GROUPS_GROUP_ACTIONS" icon="">
+                    <control id="org.ametys.plugins.admin.monitoring.moveToNow"/>
+                    <control id="org.ametys.plugins.admin.monitoring.reloadGraphs"/>
+                    <control id="org.ametys.plugins.admin.monitoring.drawMode.Switch"/>
+                </group>
+            </groups>
+        </tab>
+        
+
+        <!-- Contextual tabs for user populations -->
+        <tab controlId="org.ametys.core.user.PopulationsTab" label="plugin.core-ui:RIBBON_TABS_TAB_POPULATIONS_LABEL" contextualColor="1" contextualLabel="plugin.core-ui:RIBBON_TABS_TAB_POPULATION_LABEL" order="1010">
+            <groups>
+                <group label="plugin.core-ui:RIBBON_TABS_TAB_POPULATIONS_GROUPS_GROUP_ACTION_LABEL" icon="">
+                    <control id="org.ametys.core.ui.populations.Add"/>
+                    <control id="org.ametys.core.ui.populations.Edit"/>
+                    <control id="org.ametys.core.ui.populations.Remove"/>
+                    <control id="org.ametys.core.ui.populations.Enable"/>
+                </group>
+            </groups>
+        </tab>
+        
+        <!-- Contextual tabs for users -->
+        <tab controlId="org.ametys.core.rights.UserTab" label="plugin.core:RIBBON_TABS_TAB_USERS_LABEL" contextualColor="2" contextualLabel="plugin.core:RIBBON_TABS_TAB_USERS_LABEL" order="1020">
+            <groups>
+                <group label="plugin.core:RIBBON_TABS_TAB_USERS_GROUPS_GROUP_ACTION_LABEL" icon="">
+                    <control id="org.ametys.core.users.Add"/>
+                    <control id="org.ametys.core.users.Edit"/>
+                    <control id="org.ametys.core.users.Delete"/>
+                    <control id="org.ametys.core.users.Rights"/>
+                    <control id="org.ametys.core.users.Impersonate"/>
+                </group>
+            </groups>
+        </tab>
+        
+        <!-- Contextual tabs for group directories -->
+        <tab controlId="org.ametys.core.user.GroupDirectoriesTab" label="plugin.core-ui:RIBBON_TABS_TAB_GROUP_DIRECTORIES_LABEL" contextualColor="1" contextualLabel="plugin.core-ui:RIBBON_TABS_TAB_GROUP_DIRECTORY_LABEL" order="1030">
+            <groups>
+                <group label="plugin.core-ui:RIBBON_TABS_TAB_GROUP_DIRECTORIES_GROUPS_GROUP_ACTION_LABEL" icon="">
+                    <control id="org.ametys.core.ui.groupdirectories.Add"/>
+                    <control id="org.ametys.core.ui.groupdirectories.Edit"/>
+                    <control id="org.ametys.core.ui.groupdirectories.Remove"/>
+                </group>
+            </groups>
+        </tab>
+        
+        <!-- Contextual tabs for groups -->
+        <tab controlId="org.ametys.core.rights.GroupTab" label="plugin.core:RIBBON_TABS_TAB_GROUPS_LABEL" contextualColor="3" contextualLabel="plugin.core:RIBBON_TABS_TAB_GROUPS_GROUP_LABEL" order="1040">
+            <groups>
+                <group label="plugin.core:RIBBON_TABS_TAB_GROUPS_GROUPS_GROUP_ACTION_LABEL" icon="">
+                    <control id="org.ametys.core.groups.Add"/>
+                    <control id="org.ametys.core.groups.Edit"/>
+                    <control id="org.ametys.core.groups.Delete"/>
+                </group>
+                <group label="plugin.core:RIBBON_TABS_TAB_GROUPS_GROUPS_GROUP_USER_LABEL" icon="">
+                    <control id="org.ametys.core.groups.AddUsers"/>
+                    <control id="org.ametys.core.groups.RemoveUsers"/>
+                </group>
+            </groups>
+        </tab>
+        
+        <!-- Contextual tabs for profiles -->
+        <tab controlId="org.ametys.core.rights.ProfileTab" label="plugin.core:RIBBON_TABS_TAB_PROFILES_LABEL" contextualColor="4" contextualLabel="plugin.core:RIBBON_TABS_TAB_PROFILES_GROUP_LABEL" order="1050">
+            <groups>
+                <group label="plugin.core:RIBBON_TABS_TAB_PROFILES_GROUPS_GROUP_ACTION_LABEL" icon="">
+                    <control id="org.ametys.core.profiles.Add"/>
+                    <control id="org.ametys.core.profiles.Edit"/>
+                    <control id="org.ametys.core.profiles.Delete"/>
+                </group>
+                <group label="plugin.core:RIBBON_TABS_TAB_PROFILES_GROUPS_GROUP_PROFILE_LABEL" icon="">
+                    <control id="org.ametys.core.profiles.SwitchMode"/>
+                    <control id="org.ametys.core.profiles.SaveRights"/>
+                    <control id="org.ametys.core.profiles.Discard"/>
+                </group>
+                <group label="plugin.core:RIBBON_TABS_TAB_PROFILES_GROUPS_GROUP_RIGHTS_LABEL" icon="">
+                    <layout size="small">
+                        <control id="org.ametys.core.profiles.SelectAll"/>
+                        <control id="org.ametys.core.profiles.UnselectAll"/>
+                    </layout>
+                </group>
+            </groups>
+        </tab>
+
+        <!-- Contextual tab for server logs -->
+        <tab controlId="org.ametys.plugins.core.ui.log.ServerLogTool.Tab" label="plugin.core-ui:RIBBON_ADMINISTRATION_TABS_TAB_SERVERLOG_ACTIONS_LABEL" contextualLabel="plugin.core-ui:RIBBON_ADMINISTRATION_TABS_TAB_SERVERLOG_ACTIONS_LABEL" contextualColor="4" contextualGroup="LOGS" order="1130">
+            <groups>
+                <group label="plugin.core-ui:RIBBON_ADMINISTRATION_TABS_TAB_SERVERLOG_GROUPS_GROUP_ACTIONS" icon="">
+                    <control id="org.ametys.plugins.core.ui.log.ServerLogTool.Pause"/>
+                    <control id="org.ametys.plugins.core.ui.log.ServerLogTool.Clear"/>
+                </group>
+            </groups>
+        </tab>
+
+        <!-- Contextual tab for scheduled tasks -->
+        <tab controlId="org.ametys.core.scheduled.tasks.TasksTab" label="plugin.core-ui:RIBBON_TABS_TAB_TASK_LABEL" contextualLabel="plugin.core-ui:RIBBON_TABS_TAB_TASKS_LABEL" contextualColor="4" contextualGroup="TASKS" order="1160">
+            <groups>
+                <group label="plugin.core-ui:RIBBON_TABS_TAB_TASKS_GROUPS_GROUP_ACTION_LABEL" icon="">
+                    <control id="org.ametys.core.ui.schedule.tasks.Add"/>
+                    <control id="org.ametys.core.ui.schedule.tasks.Edit"/>
+                    <control id="org.ametys.core.ui.schedule.tasks.Remove"/>
+                    <control id="org.ametys.core.ui.schedule.tasks.Enable"/>
+                    <control id="org.ametys.core.ui.schedule.tasks.RemoveCompletedTasks"/>
+                    <control id="org.ametys.core.ui.schedule.tasks.Refresh"/>
+                </group>
+            </groups>
+        </tab>
+        
+    </tabs>
+</ribbon>

@@ -16,12 +16,18 @@
 package org.ametys.runtime.test.workspaces;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
@@ -179,6 +185,13 @@ public class WorkspaceGeneratorTestCase extends AbstractRuntimeTestCase
 
         XPathFactory xpathFactory = XPathFactory.newInstance();
         XPath xpath = xpathFactory.newXPath();
+        
+        TransformerFactory tf = TransformerFactory.newInstance();
+        Transformer transformer = tf.newTransformer();
+        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        StringWriter writer = new StringWriter();
+        transformer.transform(new DOMSource(document), new StreamResult(writer));
+        System.out.println(writer.getBuffer().toString());
         
         assertEquals("Overriding tabs must not be saxed", 1, ((NodeList) xpath.evaluate("/workspace/ribbon/tabs/tab", document, XPathConstants.NODESET)).getLength());
         
