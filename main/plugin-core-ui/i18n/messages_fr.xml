@@ -697,6 +697,7 @@
     <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH_LABEL">Recherche</message>
     <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH">Rechercher</message>
     <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_HELP_MSG_1">Saisissez une adresse dans le champ de recherche ci-dessous pour positionner le marqueur, puis déplacez le à la position exacte souhaitée.</message>
+    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_MISSING_API_KEY">Une clé API Google est nécessaire pour utilier correctement cette carte. Veuillez renseigner cette clé dans les paramètre de configuration ou contactez l'administrateur.</message>
     <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH_NOT_FOUND">Impossible de trouver: </message>
     <message key="LOAD_GOOGLE_MAPS_ERROR">Erreur de traitement</message>
     <message key="LOAD_GOOGLE_MAPS_ERROR_DESC">Echec lors du chargement des API Google Maps</message>

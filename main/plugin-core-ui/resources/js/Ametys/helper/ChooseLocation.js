@@ -53,10 +53,47 @@ Ext.define('Ametys.helper.ChooseLocation', {
 	{
 		this._cbFn = callback;
 		
-		Ametys.helper.ChooseLocation.LoadGoogleMaps.loadScript(
+		// Fetch the API key for google maps and load the script
+		this._getAPIKey(config);
+	},
+	
+	/**
+	 * @private
+	 * Get the configured google maps API key
+	 * @param {Object} [config] The initial parameters of the widget.
+	 */
+	_getAPIKey: function(config)
+	{
+        Ametys.data.ServerComm.send({
+        	plugin: 'core', 
+        	url: 'google-api-key/get', 
+        	parameters: {}, 
+        	priority: Ametys.data.ServerComm.PRIORITY_MAJOR, 
+        	callback: {
+                handler: this._getAPIKeyCb,
+                scope: this,
+                arguments: {
+                	config: config
+                }
+            },
+            errorMessage: true,
+            waitMessage: true
+        });
+	},
+	
+	/**
+	 * @private
+	 * Callback invoked once the api key is retrieved
+	 * @param {Object} response the server's response
+	 * @param {Object} args The callback arguments
+	 */
+	_getAPIKeyCb: function(response, args)
+	{
+		var apiKey = Ext.dom.Query.selectValue('ActionResult/apiKey', response);
+		Ametys.helper.ChooseLocation.LoadGoogleMaps.loadScript(apiKey, 
 				Ext.bind(
 						function(){
-							this._delayedInitialize(config), 
+							this._delayedInitialize(args.config, apiKey), 
 							this._gmapwindow.show();
 							this._gmapwindow.down('#geo-search-textfield').focus();
 						}, 
@@ -76,8 +113,9 @@ Ext.define('Ametys.helper.ChooseLocation', {
 	 * @param {String} [config.helpMessage] The help message to display at the top of the window
 	 * @param {String} [config.icon] The relative path of the window icon
 	 * @param {String} [config.title] The title of the window
+	 * @param {String} The Google Api key
 	 */
-	_delayedInitialize: function(config) 
+	_delayedInitialize: function(config, apiKey) 
 	{
 		// Initial position of marker
 		var initialLatLng = config.initialLatLng ? new google.maps.LatLng(config.initialLatLng.latitude, config.initialLatLng.longitude) : null;
@@ -126,6 +164,12 @@ Ext.define('Ametys.helper.ChooseLocation', {
 				},
 				border: false,
 				items : [{
+							xtype: 'component',
+							cls: 'a-text-warning',
+							html: "{{i18n PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_MISSING_API_KEY}}",
+							hidden: !Ext.isEmpty(apiKey)
+						},
+				        {
 							xtype: 'component',
 							cls: 'a-text',
 							html: config.helpMessage || "{{i18n PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_HELP_MSG_1}}"
@@ -254,7 +298,6 @@ Ext.define('Ametys.helper.ChooseLocation', {
 			this._pinAtLatLng(defaultLatLng);
 		}
 	},
-	
 	
 	/**
 	 * @private 
