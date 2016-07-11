@@ -41,6 +41,45 @@ Ext.define('Ametys.helper.ChooseLocation.LoadGoogleMaps', {
 	_callbackFn: null,
 	
 	/**
+	 * Get the default configured Google API key
+	 * @param {Function} callback The callback function invoked after retrieving the API key :
+	 * @param {String} callback.apiKey The Google API key setted in configuration parameters
+	 */
+	getDefaultAPIKey: function (callback)
+	{
+        Ametys.data.ServerComm.send({
+        	plugin: 'core', 
+        	url: 'google-api-key/get', 
+        	parameters: {}, 
+        	priority: Ametys.data.ServerComm.PRIORITY_MAJOR, 
+        	callback: {
+                handler: this._getDefaultAPIKeyCb,
+                scope: this,
+                arguments: {
+                	callback: callback
+                }
+            },
+            errorMessage: true,
+            waitMessage: true
+        });
+	},
+	
+	/**
+	 * @private
+	 * Callback invoked once the api key is retrieved
+	 * @param {Object} response the server's response
+	 * @param {Object} args The callback arguments
+	 */
+	_getDefaultAPIKeyCb: function(response, args)
+	{
+		var apiKey = Ext.dom.Query.selectValue('ActionResult/apiKey', response);
+		if (args.callback)
+		{
+			args.callback(apiKey);
+		}
+	},
+	
+	/**
 	 * Load GoogleMap libs if needed then execute the callback function after loading
 	 * @param {String} apiKey The Google Maps api key. Can be empty but limits functionality
 	 * @param {Function} callback The function requiring GoogleMaps to be loaded to execute after loading

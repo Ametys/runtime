@@ -54,46 +54,21 @@ Ext.define('Ametys.helper.ChooseLocation', {
 		this._cbFn = callback;
 		
 		// Fetch the API key for google maps and load the script
-		this._getAPIKey(config);
-	},
-	
-	/**
-	 * @private
-	 * Get the configured google maps API key
-	 * @param {Object} [config] The initial parameters of the widget.
-	 */
-	_getAPIKey: function(config)
-	{
-        Ametys.data.ServerComm.send({
-        	plugin: 'core', 
-        	url: 'google-api-key/get', 
-        	parameters: {}, 
-        	priority: Ametys.data.ServerComm.PRIORITY_MAJOR, 
-        	callback: {
-                handler: this._getAPIKeyCb,
-                scope: this,
-                arguments: {
-                	config: config
-                }
-            },
-            errorMessage: true,
-            waitMessage: true
-        });
+		Ametys.helper.ChooseLocation.LoadGoogleMaps.getDefaultAPIKey(Ext.bind(this._getAPIKeyCb, this, [config], 1));
 	},
 	
 	/**
 	 * @private
 	 * Callback invoked once the api key is retrieved
-	 * @param {Object} response the server's response
-	 * @param {Object} args The callback arguments
+	 * @param {String} apiKey the Google API key
+	 * @param {Object} config The configuration object
 	 */
-	_getAPIKeyCb: function(response, args)
+	_getAPIKeyCb: function (apiKey, config)
 	{
-		var apiKey = Ext.dom.Query.selectValue('ActionResult/apiKey', response);
 		Ametys.helper.ChooseLocation.LoadGoogleMaps.loadScript(apiKey, 
 				Ext.bind(
 						function(){
-							this._delayedInitialize(args.config, apiKey), 
+							this._delayedInitialize(config, apiKey), 
 							this._gmapwindow.show();
 							this._gmapwindow.down('#geo-search-textfield').focus();
 						}, 
