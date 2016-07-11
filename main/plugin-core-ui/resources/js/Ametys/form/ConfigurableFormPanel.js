@@ -3751,33 +3751,58 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * Evaluates a single condition.
      * @param {String} id the id of the field.
      * @param {String} operator the operator.
-     * @param {String} value the value the field's value will be compared to.
+     * @param {String} untypedValue the untyped value the field's value will be compared to.
      * @param {Ext.form.Field} field The field of reference
      * @return {Boolean} result true if the condition is verified, false otherwise.
      */
-    _evaluateCondition: function(id, operator, value, field)
+    _evaluateCondition: function(id, operator, untypedValue, field)
     {
         var field = this.getRelativeField(id, field);
         var fieldValue = field.getValue();
         
+        var typedValue = this._convertUntypedValue(field.type, untypedValue);
+         
         switch (operator)
         {
             case "gt" : 
-                return fieldValue > value;
+                return fieldValue > typedValue;
             case "geq" : 
-                return fieldValue >= value;
+                return fieldValue >= typedValue;
             case "eq" : 
-                return fieldValue == value;
+                return fieldValue == typedValue;
             case "leq" : 
-                return fieldValue <= value;
+                return fieldValue <= typedValue;
             case "lt" : 
-                return fieldValue < value;
+                return fieldValue < typedValue;
             case "neq" : 
-                return fieldValue != value;
+                return fieldValue != typedValue;
             default :
                 throw "Unknown operator " + operator;
                 break;
         }
+    },
+    
+    /**
+     * @private
+     * Converts an untyped value to a typed value according the given type
+     * @param {String} fieldType The type to convert into
+     * @param {String} untypedValue The untyped value, as a String
+     * @return The typed value
+     */
+    _convertUntypedValue: function (fieldType, untypedValue)
+    {
+    	switch (fieldType) {
+			case "boolean":
+				return new Boolean(untypedValue);
+			case "long":
+				return parseInt(untypedValue);
+			case "double":
+				return parseFloat(untypedValue);
+			case "date":
+				return Ext.Date.parse(untypedValue, Ext.Date.patterns.ISO8601DateTime);
+			default:
+				return untypedValue;
+		}
     },
     
     /* --------------------------------------------------------------------- */
