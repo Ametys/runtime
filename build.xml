@@ -69,6 +69,7 @@
     </property>
 
     <patternset id="check.additional.licenses">
+        <exclude name="fonts/**.svg"/>
         <exclude name="main/plugin-core-ui/resources/themes/**"/>
     	<exclude name="main/plugin-core-ui/resources/font/**"/>
         <exclude name="themes/theme-*/sass/example/*"/>
