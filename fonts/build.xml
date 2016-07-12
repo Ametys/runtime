@@ -17,7 +17,7 @@
 <project name="generate-font" default="generate">
 	
 	<target name="generate-font">
-        <exec executable="fontforge.exe" failonerror="true">
+        <exec executable="fontforge" failonerror="true">
             <arg value="-script"/>
             <arg value="generate-font.py"/>
             <arg value="${svg.dir}"/>
@@ -26,7 +26,6 @@
             <arg value="${font.family}"/>
             <arg value="${css.prefix}"/>
         </exec>
-		<delete file="${font.dir}/${font.name}.ttf"/>
 	</target>
 	
 	<target name="generate">
