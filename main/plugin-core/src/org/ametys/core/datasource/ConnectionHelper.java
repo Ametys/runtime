@@ -36,6 +36,9 @@ import org.ametys.core.datasource.AbstractDataSourceManager.DataSourceDefinition
  */
 public final class ConnectionHelper implements Component, Serviceable
 {
+    /** The Avalon role */
+    public static final String ROLE = ConnectionHelper.class.getName();
+    
     /** Logger for traces */
     private static Logger _logger = LoggerFactory.getLogger(ConnectionHelper.class.getName());
     

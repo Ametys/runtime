@@ -74,8 +74,6 @@
             </groups>
         </tab>
 
-
-
         <!-- Contextual tabs for system announcement -->
         <tab controlId="org.ametys.plugins.admin.SystemTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_SYSTEM_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_SYSTEM_LABEL" contextualColor="3" contextualGroup="SYS" order="1060">
             <groups>

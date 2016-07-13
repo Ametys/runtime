@@ -150,7 +150,7 @@ public class RuntimeServlet extends HttpServlet
     
     private Exception _exception;
     
-    private Collection<Pattern> _allowedURLPattern = Arrays.asList(Pattern.compile("_admin($|/.*)"), Pattern.compile("_repository($|/.*)"), Pattern.compile("plugins/[^/]+/resources/.*"));
+    private Collection<Pattern> _allowedURLPattern = Arrays.asList(Pattern.compile("_admin($|/.*)"), Pattern.compile("plugins/[^/]+/resources/.*"));
     
     @Override
     public void init() throws ServletException 

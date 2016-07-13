@@ -35,7 +35,6 @@
                     <control id="org.ametys.plugins.admin.JVMStatus"/>
                     <control id="org.ametys.plugins.admin.SystemProperties"/>
                     <control id="org.ametys.plugins.admin.Monitoring"/>
-                    <control id="org.ametys.plugins.core.ui.Script"/>
                 </group>
                 <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_LOGS_LABEL" icon="">
                     <control id="org.ametys.plugins.core.ui.log.ServerLogTool"/>
@@ -46,9 +45,6 @@
                     <control id="org.ametys.plugins.admin.PluginsByFile"/>
                     <control id="org.ametys.plugins.admin.PluginsByExtensionPoint"/>
                     <control id="org.ametys.plugins.admin.Workspaces"/>
-                </group>
-                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_APPLICATION_LABEL" icon="">
-                    <control id="org.ametys.plugins.repository.administrator.JCRRepository"/>
                 </group>
             </groups>
         </tab>
