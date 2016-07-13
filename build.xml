@@ -69,14 +69,14 @@
     </property>
 
     <patternset id="check.additional.licenses">
-        <exclude name="fonts/**.svg"/>
-        <exclude name="main/plugin-core-ui/resources/themes/**"/>
-    	<exclude name="main/plugin-core-ui/resources/font/**"/>
-        <exclude name="themes/theme-*/sass/example/*"/>
-        <exclude name="main/plugin-core-ui/resources/js/lunr/*"/>
-        <exclude name="test/environments/webapp2/plugins/test/**"/>
+        <exclude name="fonts/**/*.svg"/>
         <exclude name="main/plugin-core/scripts/*/quartz.sql"/>
         <exclude name="main/plugin-core/src/org/ametys/plugins/core/schedule/quartz.properties"/>
+        <exclude name="main/plugin-core-ui/resources/themes/**"/>
+    	<exclude name="main/plugin-core-ui/resources/font/**"/>
+        <exclude name="main/plugin-core-ui/resources/js/lunr/*"/>
+        <exclude name="themes/theme-*/sass/example/*"/>
+        <exclude name="test/environments/webapp2/plugins/test/**"/>
     </patternset>
 	
 	<target name="compile" depends="common-build.compile">
