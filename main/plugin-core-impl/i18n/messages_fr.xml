@@ -165,6 +165,19 @@
     <message key="PLUGINS_CORE_AUTHENTICATION_CAS_LABEL">Serveur C.A.S.</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_CAS_DESCRIPTION">Serveur C.A.S.</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONNECTION_LABEL">Se connecter avec CAS</message>
+
+    <!-- USER KERBEROS -->
+    <message key="PLUGINS_CORE_AUTHENTICATION_KERBEROS_LABEL">Kerberos</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_KERBEROS_DESC">Kerberos</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_KERBEROS_LABEL_CONNECTION">Connection avec Kerberos</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_KERBEROS_SERVER_KDC_LABEL">Adresse du KDC</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_KERBEROS_SERVER_KDC_DESC">L'addresse IP ou le nom de domaine permettant de contacter le KDC</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_KERBEROS_SERVER_REALM_LABEL">Domaine</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_KERBEROS_SERVER_REALM_DESC">Domaine des utilisateurs sur le KDC</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_KERBEROS_AMETYS_LOGIN_LABEL">Utilisateur</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_KERBEROS_AMETYS_LOGIN_DESC">Login de l'utilisateur Ametys autorisé sur l'Active Directory</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_KERBEROS_AMETYS_PASSWORD_LABEL">Mot de passe</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_KERBEROS_AMETYS_PASSWORD_DESC">Mot de passe de l'utilisateur Ametys autorisé sur l'Active Directory</message>
     
     <!-- GROUP DIRECTORY -->
     <message key="PLUGINS_CORE_GROUPS_JDBC_LABEL">Base de données SQL</message>

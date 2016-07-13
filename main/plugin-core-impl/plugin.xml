@@ -974,6 +974,68 @@
         	</extension>
         </extensions>
     </feature>
+
+    <feature name="runtime.authentication.impl.kerberos" safe="true">
+        <!-- 
+            This feature defines the 'kerberos' credential provider (i.e. user is authenticated externally and
+            trusted by a Kerberos Server)
+         -->
+        <extensions>
+            <extension id="org.ametys.core.authentication.Kerberos"
+                       class="org.ametys.core.authentication.DefaultCredentialProviderModel"
+                       point="org.ametys.core.authentication.CredentialProviderFactory"
+                       logger="org.ametys.plugins.core.impl.authentication.basic">
+                <class name="org.ametys.plugins.core.impl.authentication.KerberosCredentialProvider"/>
+                <label i18n="true">PLUGINS_CORE_AUTHENTICATION_KERBEROS_LABEL</label><!-- TODO -->
+                <description i18n="true">PLUGINS_CORE_AUTHENTICATION_KERBEROS_DESC</description>
+                <label-connection i18n="true">PLUGINS_CORE_AUTHENTICATION_KERBEROS_LABEL_CONNECTION</label-connection>
+                <icon-glyph>ametysmisc-external-link</icon-glyph>
+                <color>173D7C</color>
+                <parameters>
+                    <param id="runtime.authentication.kerberos.kdc" type="string">
+                        <!-- 
+                            This parameter contains the kerberos server kdc adress
+                         -->
+                        <label i18n="true">PLUGINS_CORE_AUTHENTICATION_KERBEROS_SERVER_KDC_LABEL</label>
+                        <description i18n="true">PLUGINS_CORE_AUTHENTICATION_KERBEROS_SERVER_KDC_DESC</description>
+                        <validation>
+                            <mandatory/>
+                        </validation>
+                    </param>
+                    <param id="runtime.authentication.kerberos.realm" type="string">
+                        <!-- 
+                            This parameter contains the kerberos server realm
+                         -->
+                        <label i18n="true">PLUGINS_CORE_AUTHENTICATION_KERBEROS_SERVER_REALM_LABEL</label>
+                        <description i18n="true">PLUGINS_CORE_AUTHENTICATION_KERBEROS_SERVER_REALM_DESC</description>
+                        <validation>
+                            <mandatory/>
+                        </validation>
+                    </param>
+                    <param id="runtime.authentication.kerberos.login" type="string">
+                        <!-- 
+                            This parameter contains the ametys user login on the kerberos server
+                         -->
+                        <label i18n="true">PLUGINS_CORE_AUTHENTICATION_KERBEROS_AMETYS_LOGIN_LABEL</label>
+                        <description i18n="true">PLUGINS_CORE_AUTHENTICATION_KERBEROS_AMETYS_LOGIN_DESC</description>
+                        <validation>
+                            <mandatory/>
+                        </validation>
+                    </param>
+                    <param id="runtime.authentication.kerberos.password" type="password">
+                        <!-- 
+                            This parameter contains the ametys user pâssword on the kerberos server
+                         -->
+                        <label i18n="true">PLUGINS_CORE_AUTHENTICATION_KERBEROS_AMETYS_PASSWORD_LABEL</label>
+                        <description i18n="true">PLUGINS_CORE_AUTHENTICATION_KERBEROS_AMETYS_PASSWORD_DESC</description>
+                        <validation>
+                            <mandatory/>
+                        </validation>
+                    </param>
+                </parameters>
+            </extension>
+        </extensions>
+    </feature>
     
     <feature name="runtime.populations.datasource.client" safe="true">
         <extensions>

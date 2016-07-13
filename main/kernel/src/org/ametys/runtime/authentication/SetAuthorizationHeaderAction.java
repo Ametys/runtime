@@ -37,13 +37,20 @@ public class SetAuthorizationHeaderAction extends AbstractAction implements Thre
         
         if (ex == null)
         {
-            getLogger().warn("Cannot get the authentication realm from the exception !");
+            getLogger().warn("Cannot get the necessary data from the exception !");
             return null;
         }
         
         Response response = ObjectModelHelper.getResponse(objectModel);
         
-        response.setHeader("WWW-Authenticate", "BASIC realm=\"" + ex.getRealm() + "\"");
+        if (ex.isNegotiate())
+        {
+            response.setHeader("WWW-Authenticate", "Negotiate" + (ex.getToken() != null ? " " + ex.getToken() : ""));
+        }
+        else
+        {
+            response.setHeader("WWW-Authenticate", "BASIC realm=\"" + ex.getRealm() + "\"");
+        }
         
         return EMPTY_MAP;
     }
