@@ -32,9 +32,9 @@
 		<antcall target="generate-font">
             <param name="svg.dir" value="ametys"/>
             <param name="font.dir" value="../main/plugin-core-ui/resources/font/ametys"/>
-            <param name="font.name" value="Ametys"/>
-            <param name="font.family" value="Ametys"/>
-            <param name="css.prefix" value="ametys"/>
+            <param name="font.name" value="AmetysIcon"/>
+            <param name="font.family" value="AmetysIcon"/>
+            <param name="css.prefix" value="ametysicon"/>
 		</antcall>
 	</target>
 </project>
