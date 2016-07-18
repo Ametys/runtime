@@ -23,10 +23,10 @@ import java.util.Map;
 import org.slf4j.Logger;
 
 /**
- * Helper for tab override, to inject elements inside another elements' container
+ * Helper for the ribbon, for injecting elements inside another elements' container
  * @param <T> The type of element to inject
  */
-public class TabOverrideHelper<T>
+public class RibbonElementsInjectionHelper<T>
 {
     /** The list of elements */
     protected List<T> _elements;
@@ -41,7 +41,7 @@ public class TabOverrideHelper<T>
      * @param elements The list of elements
      * @param logger The logger
      */
-    public TabOverrideHelper(List<T> elements, Logger logger)
+    public RibbonElementsInjectionHelper(List<T> elements, Logger logger)
     {
         _logger = logger;
         _elements = elements;

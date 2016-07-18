@@ -65,7 +65,7 @@ public class Tab
     protected List<Group> _groups = new ArrayList<>();
     
     /** helper for group injection */
-    protected TabOverrideHelper<Group> _tabOverrideHelper;
+    protected RibbonElementsInjectionHelper<Group> _tabOverrideHelper;
     
     /** Logger */
     protected Logger _log;
@@ -298,7 +298,7 @@ public class Tab
             {
                 if (_tabOverrideHelper == null)
                 {
-                    _tabOverrideHelper = new TabOverrideHelper<>(_groups, _log);
+                    _tabOverrideHelper = new RibbonElementsInjectionHelper<>(_groups, _log);
                 }
                 
                 if (_log.isDebugEnabled())

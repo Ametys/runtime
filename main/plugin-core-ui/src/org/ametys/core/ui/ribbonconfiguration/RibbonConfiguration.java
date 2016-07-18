@@ -29,11 +29,11 @@ public class RibbonConfiguration
     /** The tabs of the ribbon */
     protected LinkedList<Tab> _tabs = new LinkedList<>();
 
-    /** The App menu elements of the ribbon */
-    protected List<Element> _appMenu = new ArrayList<>();
+    /** The App menu of the ribbon */
+    protected RibbonMenu _appMenu = new RibbonMenu();
     
     /** The user menu elements of the ribbon */
-    protected List<Element> _userMenu = new ArrayList<>();
+    protected RibbonMenu _userMenu = new RibbonMenu();
     
     /** The dependencies of the ribbon */
     protected Map<String, List<String>> _dependencies = new HashMap<>();
@@ -57,19 +57,19 @@ public class RibbonConfiguration
     }
 
     /**
-     * Get the app menu elements for this configuration
+     * Get the app menu for this configuration
      * @return the appMenu
      */
-    public List<Element> getAppMenu()
+    public RibbonMenu getAppMenu()
     {
         return _appMenu;
     }
 
     /**
-     * Get the user menu elements for this configuration
+     * Get the user menu for this configuration
      * @return the userMenu
      */
-    public List<Element> getUserMenu()
+    public RibbonMenu getUserMenu()
     {
         return _userMenu;
     }

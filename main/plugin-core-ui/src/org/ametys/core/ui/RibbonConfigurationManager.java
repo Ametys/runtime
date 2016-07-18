@@ -50,6 +50,10 @@ import org.ametys.core.ui.ribbonconfiguration.Group;
 import org.ametys.core.ui.ribbonconfiguration.GroupSize;
 import org.ametys.core.ui.ribbonconfiguration.Layout;
 import org.ametys.core.ui.ribbonconfiguration.RibbonConfiguration;
+import org.ametys.core.ui.ribbonconfiguration.RibbonExclude;
+import org.ametys.core.ui.ribbonconfiguration.RibbonExclude.EXCLUDETARGET;
+import org.ametys.core.ui.ribbonconfiguration.RibbonExclude.EXCLUDETYPE;
+import org.ametys.core.ui.ribbonconfiguration.RibbonMenu;
 import org.ametys.core.ui.ribbonconfiguration.Separator;
 import org.ametys.core.ui.ribbonconfiguration.Tab;
 import org.ametys.core.ui.ribbonconfiguration.Toolbar;
@@ -77,7 +81,7 @@ public class RibbonConfigurationManager
         
         private CONTROLSIZE(String value)
         {
-            this._value = value;   
+            this._value = value;
         }  
            
         @Override
@@ -143,52 +147,6 @@ public class RibbonConfigurationManager
         }
     }
     
-    /**
-     * Type of exclusion in the ribbon configuration
-     */
-    public enum EXCLUDETYPE
-    {
-        /** Excluding an entire plugin */
-        PLUGIN("plugin"),
-        /** Excluding an extension */
-        EXTENSION("extension"),
-        /** Excluding a file */
-        FILE("file"),
-        /** Excluding a tab by label */
-        TABLABEL("tablabel"),
-        /** Excluding a control by id */
-        CONTROL("control");
-        
-        private String _value;
-        
-        private EXCLUDETYPE(String value)
-        {
-            this._value = value;   
-        }  
-           
-        @Override
-        public String toString() 
-        {
-            return _value;
-        }   
-
-        /**
-         * Converts a string to a EXCLUDETYPE
-         * @param size The type to convert
-         * @return The exclude type corresponding to the string or null if unknown
-         */
-        public static EXCLUDETYPE createsFromString(String size)
-        {
-            for (EXCLUDETYPE v : EXCLUDETYPE.values())
-            {
-                if (v.toString().equals(size))
-                {
-                    return v;
-                }
-            }
-            return null;
-        }
-    }
 
     /** The ribbon control manager */
     protected RibbonManager _ribbonManager;
@@ -281,14 +239,14 @@ public class RibbonConfigurationManager
             importsValidity.put(config.getURI(), config.getLastModified());
             
             Map<String, Map<String, Object>> imports = new HashMap<>();
-            Map<EXCLUDETYPE, List<String>> excluded = new HashMap<>();
+            Map<EXCLUDETYPE, List<RibbonExclude>> excluded = new HashMap<>();
             for (EXCLUDETYPE excludetype : EXCLUDETYPE.values())
             {
-                excluded.put(excludetype, new ArrayList<String>());
+                excluded.put(excludetype, new ArrayList<RibbonExclude>());
             }
             _configureExcluded(configuration, imports, excluded, workspaceName);
             
-            _configure(configuration, dependenciesManager, imports, importsValidity, excluded, false);
+            _configureRibbon(configuration, dependenciesManager, imports, importsValidity, excluded, null);
             
             for (Entry<String, Map<String, Object>> entry : imports.entrySet())
             {
@@ -300,9 +258,11 @@ public class RibbonConfigurationManager
             
             Map<String, Tab> tabsLabelMapping = _ribbonConfig.getTabs().stream().filter(tab -> !tab.isOverride()).collect(Collectors.toMap(Tab::getLabel, Function.identity(), (tab1, tab2) -> tab1));
             _configureTabOverride(tabsLabelMapping);
+            
+            List<String> excludedControls = excluded.entrySet().stream().filter(entry -> EXCLUDETYPE.CONTROL.equals(entry.getKey())).flatMap(entry -> entry.getValue().stream()).filter(exclude -> EXCLUDETARGET.ID.equals(exclude.getTarget())).map(RibbonExclude::getValue).collect(Collectors.toList());
             for (Tab tab : _ribbonConfig.getTabs())
             {
-                _removeExcludedControls(tab, excluded);   
+                _removeExcludedControls(tab, excludedControls);   
             }
             
             _configureTabOrder(tabsLabelMapping);
@@ -312,7 +272,7 @@ public class RibbonConfigurationManager
         }
     }
     
-    private void _configureExcluded(Configuration configuration, Map<String, Map<String, Object>> imports, Map<EXCLUDETYPE, List<String>> excluded, String workspaceName) throws ConfigurationException
+    private void _configureExcluded(Configuration configuration, Map<String, Map<String, Object>> imports, Map<EXCLUDETYPE, List<RibbonExclude>> excluded, String workspaceName) throws ConfigurationException
     {
         _configureExcludeFromImports(configuration, imports, excluded);
         
@@ -328,7 +288,7 @@ public class RibbonConfigurationManager
                     {
                         for (String importUri : importFiles.getKey())
                         {
-                            _configureImport(importUri, imports, excluded);
+                            _configureExcludeFromImports(importUri, imports, excluded);
                             Map<String, Object> properties = imports.get(importUri);
                             if (properties != null)
                             {
@@ -342,7 +302,7 @@ public class RibbonConfigurationManager
         }
     }
     
-    private void _configureImport(String url, Map<String, Map<String, Object>> imports, Map<EXCLUDETYPE, List<String>> excluded) throws ConfigurationException
+    private void _configureExcludeFromImports(String url, Map<String, Map<String, Object>> imports, Map<EXCLUDETYPE, List<RibbonExclude>> excluded) throws ConfigurationException
     {
         if (!imports.containsKey(url))
         {
@@ -383,66 +343,37 @@ public class RibbonConfigurationManager
         }
     }
     
-    private void _configureExcludeFromImports(Configuration configuration, Map<String, Map<String, Object>> imports, Map<EXCLUDETYPE, List<String>> excluded) throws ConfigurationException
+    private void _configureExcludeFromImports(Configuration configuration, Map<String, Map<String, Object>> imports, Map<EXCLUDETYPE, List<RibbonExclude>> excluded) throws ConfigurationException
     {
         for (Configuration excludeConf : configuration.getChild("exclude").getChildren())
         {
-            String tagName = excludeConf.getName();
-            String value = excludeConf.getValue();
-            String type = excludeConf.getAttribute("type", null);
-            if (tagName.equals("import") && ("plugin".equals(type) || "extension".equals(type) || "file".equals(type)))
-            {
-                excluded.get(EXCLUDETYPE.createsFromString(type)).add(value);
-                
-                if (_logger.isDebugEnabled())
-                {
-                    _logger.debug("RibbonConfigurationManager : Exclusion of " +  type + " '" + value + "'");
-                }
-            }
-            else if (tagName.equals("tab") && "label".equals(type))
-            {
-                excluded.get(EXCLUDETYPE.TABLABEL).add(value);
-
-                if (_logger.isDebugEnabled())
-                {
-                    _logger.debug("RibbonConfigurationManager : Exclusion of tab with label '" + value + "'");
-                }
-            }
-            else if (tagName.equals("control"))
-            {
-                excluded.get(EXCLUDETYPE.CONTROL).add(value);
-
-                if (_logger.isDebugEnabled())
-                {
-                    _logger.debug("RibbonConfigurationManager : Exclusion of control with id '" + value + "'");
-                }
-            }
-            else
-            {
-                throw new ConfigurationException("Invalid exclude tab in the ribbon configuration '" + tagName + "'", configuration);
-            }
+            RibbonExclude ribbonExclude = new RibbonExclude(excludeConf, _logger);
+            excluded.get(ribbonExclude.getType()).add(ribbonExclude);
         }
         
         for (Configuration importConfig : configuration.getChild("tabs").getChildren("import"))
         {
             String url = importConfig.getValue();
             
-            _configureImport(url, imports, excluded);
+            _configureExcludeFromImports(url, imports, excluded);
         }
     }
     
-    private void _configure(Configuration configuration, ClientSideElementDependenciesManager dependenciesManager, Map<String, Map<String, Object>> imports, Map<String, Long> importValidity, Map<EXCLUDETYPE, List<String>> excludedList, boolean isImport) throws ConfigurationException
+    private void _configureRibbon(Configuration configuration, ClientSideElementDependenciesManager dependenciesManager, Map<String, Map<String, Object>> imports, Map<String, Long> importValidity, Map<EXCLUDETYPE, List<RibbonExclude>> excludedList, String url) throws ConfigurationException
     {
         if (_logger.isDebugEnabled())
         {
             _logger.debug("Starting reading ribbon configuration");
         }
         
-        Configuration[] appMenuConfigurations = configuration.getChild("app-menu").getChildren();
-        _ribbonConfig.getAppMenu().addAll(_configureElement(appMenuConfigurations, _ribbonManager));
-
-        Configuration[] userMenuConfigurations = configuration.getChild("user-menu").getChildren();
-        _ribbonConfig.getUserMenu().addAll(_configureElement(userMenuConfigurations, _ribbonManager));
+        for (Configuration appMenuConfig : configuration.getChildren("app-menu"))
+        {
+            _configureRibbonMenu(appMenuConfig, _ribbonConfig.getAppMenu(), excludedList.get(EXCLUDETYPE.APPMENU), url != null ? imports.get(url) : null, url);
+        }
+        for (Configuration userMenuConfig : configuration.getChildren("user-menu"))
+        {
+            _configureRibbonMenu(userMenuConfig, _ribbonConfig.getUserMenu(), excludedList.get(EXCLUDETYPE.USERMENU), url != null ? imports.get(url) : null, url);
+        }
         
         Configuration[] dependenciesConfigurations = configuration.getChild("depends").getChildren();
         for (Configuration dependencyConfigurations : dependenciesConfigurations)
@@ -452,16 +383,16 @@ public class RibbonConfigurationManager
             
             _ribbonConfig.addDependency(extensionPoint, extensionId);
         }
-            
+        
         Configuration[] tabsConfigurations = configuration.getChild("tabs").getChildren();
-        Integer defaultOrder = isImport ? Integer.MAX_VALUE : 0;
+        Integer defaultOrder = url != null ? Integer.MAX_VALUE : 0;
         for (Configuration tabConfiguration : tabsConfigurations)
         {
             if ("tab".equals(tabConfiguration.getName()))
             {
                 Tab tab = new Tab(tabConfiguration, _ribbonManager, defaultOrder, _logger);
                 
-                if (!_isTabExcluded(tab, excludedList, isImport))
+                if (url == null || !_isTabExcluded(tab, excludedList))
                 {
                     _ribbonConfig.getTabs().add(tab);
                 }
@@ -471,8 +402,8 @@ public class RibbonConfigurationManager
             }
             else if ("import".equals(tabConfiguration.getName()))
             {
-                String url = tabConfiguration.getValue();
-                _configureImport(dependenciesManager, importValidity, url, imports, excludedList);
+                String importUrl = tabConfiguration.getValue();
+                _configureImport(dependenciesManager, importValidity, importUrl, imports, excludedList);
             }
         }
 
@@ -482,7 +413,39 @@ public class RibbonConfigurationManager
         }
     }
 
-    private void _configureImport(ClientSideElementDependenciesManager dependenciesManager, Map<String, Long> importValidity, String url, Map<String, Map<String, Object>> imports, Map<EXCLUDETYPE, List<String>> excludedList) throws ConfigurationException
+    private void _configureRibbonMenu(Configuration configuration, RibbonMenu ribbonMenu, List<RibbonExclude> excludedList, Map<String, Object> properties, String url) throws ConfigurationException
+    {
+        if (url != null && _isFileExcluded(properties, excludedList, url))
+        {
+            return;
+        }
+        
+        List<String> excludedControls = excludedList.stream().filter(exclude -> EXCLUDETARGET.ID.equals(exclude.getTarget())).map(RibbonExclude::getValue).collect(Collectors.toList());
+        
+        List<Element> elements = new ArrayList<>();
+        for (Configuration childConfig : configuration.getChildren())
+        {
+            if ("control".equals(childConfig.getName()))
+            {
+                if (!excludedControls.contains(childConfig.getAttribute("id", null)))
+                {
+                    elements.add(new ControlRef(childConfig, _ribbonManager, _logger));
+                }
+            }
+            else if ("separator".equals(childConfig.getName()))
+            {
+                elements.add(new Separator());
+            }
+            else
+            {
+                _logger.warn("During configuration of the ribbon, the app-menu or user-menu use an unknow tag '" + configuration.getName() + "'");
+            }
+        }
+        
+        ribbonMenu.addElements(elements, configuration.getAttribute("order", "0.10"), _logger);
+    }
+
+    private void _configureImport(ClientSideElementDependenciesManager dependenciesManager, Map<String, Long> importValidity, String url, Map<String, Map<String, Object>> imports, Map<EXCLUDETYPE, List<RibbonExclude>> excludedList) throws ConfigurationException
     {
         if (!imports.containsKey(url))
         {
@@ -490,7 +453,7 @@ public class RibbonConfigurationManager
             return;
         }
         
-        if (_ignoreImport(imports, importValidity, excludedList, url))
+        if (importValidity.containsKey(url) || _isFileExcluded(imports.get(url), excludedList.get(EXCLUDETYPE.IMPORT), url))
         {
             return;
         }
@@ -500,22 +463,18 @@ public class RibbonConfigurationManager
         {
             Configuration configuration = (Configuration) properties.get("configuration");
             importValidity.put(url, (long) properties.get("lastModified"));
-            _configure(configuration, dependenciesManager, imports, importValidity, excludedList, true);
+            _configureRibbon(configuration, dependenciesManager, imports, importValidity, excludedList, url);
         }
     }
 
-    private boolean _ignoreImport(Map<String, Map<String, Object>> imports, Map<String, Long> importValidity, Map<EXCLUDETYPE, List<String>> excludedList, String url)
+    private boolean _isFileExcluded(Map<String, Object> properties, List<RibbonExclude> excludedList, String url)
     {
-        if (importValidity.containsKey(url))
-        {
-            // already imported
-            return true;
-        }
+        Matcher matcher = _PLUGINNAMEPATTERN.matcher(url);
+        String pluginName = matcher.matches() ? matcher.group(1) : null;
         
-        Map<String, Object> properties = imports.get(url);
-        if (properties.containsKey("extension"))
+        for (RibbonExclude ribbonExclude : excludedList)
         {
-            if (excludedList.get(EXCLUDETYPE.EXTENSION).contains(properties.get("extension")))
+            if (EXCLUDETARGET.EXTENSION.equals(ribbonExclude.getTarget()) && properties.containsKey("extension") && ribbonExclude.getValue().equals(properties.get("extension")))
             {
                 if (_logger.isDebugEnabled())
                 {
@@ -524,13 +483,7 @@ public class RibbonConfigurationManager
 
                 return true;
             }
-        }
-        
-        Matcher matcher = _PLUGINNAMEPATTERN.matcher(url);
-        if (matcher.matches())
-        {
-            String pluginName = matcher.group(1);
-            if (excludedList.get(EXCLUDETYPE.PLUGIN).contains(pluginName))
+            else if (EXCLUDETARGET.PLUGIN.equals(ribbonExclude.getTarget()) && pluginName != null && ribbonExclude.getValue().equals(pluginName))
             {
                 if (_logger.isDebugEnabled())
                 {
@@ -539,43 +492,40 @@ public class RibbonConfigurationManager
 
                 return true;
             }
-        }
-        
-        if (excludedList.get(EXCLUDETYPE.FILE).contains(url))
-        {
-            if (_logger.isDebugEnabled())
+            else if (EXCLUDETARGET.FILE.equals(ribbonExclude.getTarget()) && ribbonExclude.getValue().equals(url))
             {
-                _logger.debug("RibbonConfigurationManager : The import '" + url + "' was not resolved because the file url is excluded.");
-            }
+                if (_logger.isDebugEnabled())
+                {
+                    _logger.debug("RibbonConfigurationManager : The import '" + url + "' was not resolved because the file url is excluded.");
+                }
 
-            return true;
+                return true;
+            }
         }
         
         return false;
     }
 
-    private boolean _isTabExcluded(Tab tab, Map<EXCLUDETYPE, List<String>> excludedList, boolean isImport)
+    private boolean _isTabExcluded(Tab tab, Map<EXCLUDETYPE, List<RibbonExclude>> excludedList)
     {
-        if (!isImport)
-        {
-            return false;
-        }
-        
         String tabLabel = tab.getLabel();
-        if (excludedList.get(EXCLUDETYPE.TABLABEL).contains(tabLabel))
+        for (RibbonExclude ribbonExclude : excludedList.get(EXCLUDETYPE.TAB))
         {
-            if (_logger.isDebugEnabled())
+            if (EXCLUDETARGET.LABEL.equals(ribbonExclude.getTarget()) && ribbonExclude.getValue().equals(tabLabel))
             {
-                _logger.debug("RibbonConfigurationManager : The tab '" + tabLabel + "' was not added because it is excluded.");
+                if (_logger.isDebugEnabled())
+                {
+                    _logger.debug("RibbonConfigurationManager : The tab '" + tabLabel + "' was not added because it is excluded.");
+                }
+                
+                return true;
             }
-            
-            return true;
         }
         
         return tab.getGroups().size() == 0;
     }
 
-    private void _removeExcludedControls(Tab tab, Map<EXCLUDETYPE, List<String>> excludedList)
+    private void _removeExcludedControls(Tab tab, List<String> excludedList)
     {
         for (Group group : tab.getGroups())
         {
@@ -597,7 +547,7 @@ public class RibbonConfigurationManager
         }
     }
     
-    private void _removeExcludedControls(List<Element> elements, Map<EXCLUDETYPE, List<String>> excludedList)
+    private void _removeExcludedControls(List<Element> elements,  List<String> excludedList)
     {
         List<Element> elementsToRemove = new ArrayList<>();
         
@@ -606,7 +556,7 @@ public class RibbonConfigurationManager
             if (element instanceof ControlRef)
             {
                 ControlRef control = (ControlRef) element;
-                if (excludedList.get(EXCLUDETYPE.CONTROL).contains(control.getId()))
+                if (excludedList.contains(control.getId()))
                 {
                     if (_logger.isDebugEnabled())
                     {
@@ -629,27 +579,6 @@ public class RibbonConfigurationManager
         elements.removeAll(elementsToRemove);
     }
 
-    private List<Element> _configureElement(Configuration[] configurations, RibbonManager ribbonManager) throws ConfigurationException
-    {
-        List<Element> elements = new ArrayList<>();
-        for (Configuration configuration : configurations)
-        {
-            if ("control".equals(configuration.getName()))
-            {
-                elements.add(new ControlRef(configuration, ribbonManager, _logger));
-            }
-            else if ("separator".equals(configuration.getName()))
-            {
-                elements.add(new Separator());
-            }
-            else
-            {
-                _logger.warn("During configuration of the ribbon, the app-menu or user-menu use an unknow tag '" + configuration.getName() + "'");
-            }
-        }
-        return elements;
-    }
-    
     private void _configureTabOverride(Map<String, Tab> labelMapping)
     {
         List<Tab> tabsOverride = _ribbonConfig.getTabs().stream().filter(Tab::isOverride).collect(Collectors.toList());
@@ -754,8 +683,8 @@ public class RibbonConfigurationManager
             }
         }
 
-        _lazyInitialize(this._ribbonConfig.getAppMenu());
-        _lazyInitialize(this._ribbonConfig.getUserMenu());
+        _lazyInitialize(this._ribbonConfig.getAppMenu().getElements());
+        _lazyInitialize(this._ribbonConfig.getUserMenu().getElements());
         
         _initialized = true;
     }
@@ -880,8 +809,8 @@ public class RibbonConfigurationManager
     {
         _lazyInitialize();
         Map<Tab, List<Group>> userTabGroups = _generateTabGroups(contextualParameters);
-        List<Element> currentAppMenu = _resolveReferences(contextualParameters, this._ribbonConfig.getAppMenu());
-        List<Element> currentUserMenu = _resolveReferences(contextualParameters, this._ribbonConfig.getUserMenu());
+        List<Element> currentAppMenu = _resolveReferences(contextualParameters, this._ribbonConfig.getAppMenu().getElements());
+        List<Element> currentUserMenu = _resolveReferences(contextualParameters, this._ribbonConfig.getUserMenu().getElements());
         
         handler.startPrefixMapping("i18n", "http://apache.org/cocoon/i18n/2.1");
         XMLUtils.startElement(handler, "ribbon");

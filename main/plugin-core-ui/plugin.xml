@@ -3019,6 +3019,7 @@
                            point="org.ametys.core.ui.RibbonImportManager"
                            class="org.ametys.core.ui.StaticRibbonImportManager">
                 <workspace>
+                    <file>ribbon/menus-ribbon.xml</file>
                     <file>ribbon/cms-ribbon-developer.xml</file>
                 </workspace>
 

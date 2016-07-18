@@ -58,11 +58,11 @@ public class Group
     /** When overriding, defines the controls position in the original group */
     protected String _controlsOrder;
     /** Helper for controls injection */
-    protected TabOverrideHelper<Element> _largeOverrideHelper;
+    protected RibbonElementsInjectionHelper<Element> _largeOverrideHelper;
     /** Helper for controls injection */
-    protected TabOverrideHelper<Element> _mediumOverrideHelper;
+    protected RibbonElementsInjectionHelper<Element> _mediumOverrideHelper;
     /** Helper for controls injection */
-    protected TabOverrideHelper<Element> _smallOverrideHelper;
+    protected RibbonElementsInjectionHelper<Element> _smallOverrideHelper;
     
     /** The logger */
     protected Logger _groupLogger;
@@ -255,7 +255,7 @@ public class Group
         {
             if (_largeOverrideHelper == null)
             {
-                _largeOverrideHelper = new TabOverrideHelper<>(_largeSize.getChildren(), _groupLogger);
+                _largeOverrideHelper = new RibbonElementsInjectionHelper<>(_largeSize.getChildren(), _groupLogger);
             }
             injectGroup(group, _largeOverrideHelper, group.getLargeGroupSize(), group.getMediumGroupSize(), null);
         }
@@ -263,7 +263,7 @@ public class Group
         {
             if (_mediumOverrideHelper == null)
             {
-                _mediumOverrideHelper = new TabOverrideHelper<>(_mediumSize.getChildren(), _groupLogger);
+                _mediumOverrideHelper = new RibbonElementsInjectionHelper<>(_mediumSize.getChildren(), _groupLogger);
             }
             injectGroup(group, _mediumOverrideHelper, group.getMediumGroupSize(), group.getLargeGroupSize(), null);
         }
@@ -271,13 +271,13 @@ public class Group
         {
             if (_smallOverrideHelper == null)
             {
-                _smallOverrideHelper = new TabOverrideHelper<>(_smallSize.getChildren(), _groupLogger);
+                _smallOverrideHelper = new RibbonElementsInjectionHelper<>(_smallSize.getChildren(), _groupLogger);
             }
             injectGroup(group, _smallOverrideHelper, group.getSmallGroupSize(), group.getMediumGroupSize(), group.getLargeGroupSize());
         }
     }
     
-    private void injectGroup(Group group, TabOverrideHelper<Element> overrideHelper, GroupSize fromSizeFirst, GroupSize fromSizeSecond, GroupSize fromSizeThird)
+    private void injectGroup(Group group, RibbonElementsInjectionHelper<Element> overrideHelper, GroupSize fromSizeFirst, GroupSize fromSizeSecond, GroupSize fromSizeThird)
     {
         GroupSize fromSize = null;
         if (fromSizeFirst != null)
