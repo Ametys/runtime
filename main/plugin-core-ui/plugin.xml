@@ -1202,7 +1202,6 @@
                 </depends>
             </extension>
 
-            <!-- Static import from the runtime WorkspaceGenerator for workspace.xsl -->
             <extension id="uitool-notification"
                        point="org.ametys.core.ui.UIToolsFactoriesManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
@@ -1243,7 +1242,6 @@
     
     <feature name="staticimports.announce" safe="true">
         <extensions>
-            <!-- Static import from the runtime WorkspaceGenerator because extension is independent -->
             <extension id="Ametys.plugins.coreui.system.Announce"
                        point="org.ametys.core.ui.StaticFileImportsManager"
                        class="org.ametys.core.ui.StaticFileImportsClientSideElement">
@@ -1256,7 +1254,6 @@
     
     <feature name="staticimports.system.time" safe="true">
         <extensions>
-            <!-- Static import from the runtime WorkspaceGenerator because this extension is independent -->
             <extension id="Ametys.plugins.coreui.system.StartTimeChecker"
                        point="org.ametys.core.ui.StaticFileImportsManager"
                        class="org.ametys.core.ui.StaticFileImportsClientSideElement">
@@ -3019,7 +3016,7 @@
                            point="org.ametys.core.ui.RibbonImportManager"
                            class="org.ametys.core.ui.StaticRibbonImportManager">
                 <workspace>
-                    <file>ribbon/menus-ribbon.xml</file>
+                    <file>ribbon/default-ribbon.xml</file>
                     <file>ribbon/cms-ribbon-developer.xml</file>
                 </workspace>
 

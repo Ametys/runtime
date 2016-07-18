@@ -41,7 +41,6 @@ import org.xml.sax.SAXException;
 
 import org.ametys.core.ui.ClientSideElement;
 import org.ametys.core.ui.ClientSideElementDependenciesManager;
-import org.ametys.core.ui.AbstractClientSideExtensionPoint;
 import org.ametys.core.ui.MessageTargetFactoriesManager;
 import org.ametys.core.ui.RelationsManager;
 import org.ametys.core.ui.RibbonConfigurationManager;
@@ -221,8 +220,6 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
             dependenciesManager.register(element);
         }
         
-        registerStaticDependencies(dependenciesManager);
-        
         try
         {
             return dependenciesManager.computeDependencies();
@@ -385,47 +382,6 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
         if (PluginsManager.getInstance().isSafeMode())
         {
             XMLUtils.createElement(contentHandler, "safe-mode", PluginsManager.getInstance().getStatus().toString());
-        }
-    }
-    
-    /**
-     * Add dependencies to sax, to the dependencies manager.
-     * @param dependenciesManager The dependencies manager
-     * @throws SAXException If an error occurs
-     */
-    protected void registerStaticDependencies(ClientSideElementDependenciesManager dependenciesManager) throws SAXException
-    {
-        try
-        {
-            AbstractClientSideExtensionPoint uitoolsManager = (AbstractClientSideExtensionPoint) this.manager.lookup(UIToolsFactoriesManager.ROLE);
-            // Hardcoded dependency from this class XSLT file workspace.xsl
-            if (uitoolsManager.hasExtension("uitool-notification"))
-            {
-                dependenciesManager.register(UIToolsFactoriesManager.ROLE, "uitool-notification");
-            }
-            
-            AbstractClientSideExtensionPoint staticImportManager = (AbstractClientSideExtensionPoint) this.manager.lookup(StaticFileImportsManager.ROLE);
-            if (staticImportManager.hasExtension("Ametys.plugins.coreui.system.Announce"))
-            {
-                dependenciesManager.register(StaticFileImportsManager.ROLE, "Ametys.plugins.coreui.system.Announce");
-            }
-            else
-            {
-                getLogger().warn("Unable to add static core-ui dependency to the extension 'Ametys.plugins.coreui.system.Announce'");
-            }
-            
-            if (staticImportManager.hasExtension("Ametys.plugins.coreui.system.StartTimeChecker"))
-            {
-                dependenciesManager.register(StaticFileImportsManager.ROLE, "Ametys.plugins.coreui.system.StartTimeChecker");
-            }
-            else
-            {
-                getLogger().warn("Unable to add static core-ui dependency to the extension 'Ametys.plugins.coreui.system.StartTimeChecker'");
-            }
-        }
-        catch (ServiceException e)
-        {
-            throw new SAXException("An error occurred while retrieving a ClientSideElementManager", e);
         }
     }
 }

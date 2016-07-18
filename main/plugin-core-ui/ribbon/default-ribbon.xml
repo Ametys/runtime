@@ -31,4 +31,10 @@
         <control id="org.ametys.core.ui.user.logout"/>
     </user-menu>
 
+    <depends>
+        <org.ametys.core.ui.UIToolsFactoriesManager>uitool-notification</org.ametys.core.ui.UIToolsFactoriesManager>
+        <org.ametys.core.ui.StaticFileImportsManager>Ametys.plugins.coreui.system.Announce</org.ametys.core.ui.StaticFileImportsManager>
+        <org.ametys.core.ui.StaticFileImportsManager>Ametys.plugins.coreui.system.StartTimeChecker</org.ametys.core.ui.StaticFileImportsManager>
+    </depends>
+
 </ribbon>

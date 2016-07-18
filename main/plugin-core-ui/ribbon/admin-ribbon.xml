@@ -16,6 +16,10 @@
    -->
 <ribbon xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="http://ametys.org/cms/3.0/ribbon.xsd">
+
+    <depends>
+        <org.ametys.core.ui.StaticFileImportsManager>org.ametys.runtime.plugins.admin.AdministratorNotifications</org.ametys.core.ui.StaticFileImportsManager>
+    </depends>
     
     <tabs>
         <tab label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_LABEL" order="10">

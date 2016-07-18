@@ -20,14 +20,10 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.avalon.framework.service.ServiceException;
 import org.apache.cocoon.ProcessingException;
 import org.apache.excalibur.source.Source;
 import org.xml.sax.SAXException;
 
-import org.ametys.core.ui.ClientSideElementDependenciesManager;
-import org.ametys.core.ui.AbstractClientSideExtensionPoint;
-import org.ametys.core.ui.StaticFileImportsManager;
 import org.ametys.runtime.plugin.PluginsManager;
 import org.ametys.runtime.plugin.PluginsManager.Status;
 
@@ -80,27 +76,5 @@ public class WorkspaceGenerator extends org.ametys.plugins.core.ui.WorkspaceGene
         }
         
         return super.getUIToolsConfiguration();
-    }
-    
-    @Override
-    protected void registerStaticDependencies(ClientSideElementDependenciesManager dependenciesManager) throws SAXException
-    {
-        super.registerStaticDependencies(dependenciesManager);
-        try
-        {
-            AbstractClientSideExtensionPoint staticImportManager = (AbstractClientSideExtensionPoint) this.manager.lookup(StaticFileImportsManager.ROLE);
-            if (staticImportManager.hasExtension("org.ametys.runtime.plugins.admin.AdministratorNotifications"))
-            {
-                dependenciesManager.register(StaticFileImportsManager.ROLE, "org.ametys.runtime.plugins.admin.AdministratorNotifications");
-            }
-            else
-            {
-                getLogger().warn("Unable to add static core-ui dependency to the extension 'org.ametys.runtime.plugins.admin.AdministratorNotifications'");
-            }
-        }
-        catch (ServiceException e)
-        {
-            throw new SAXException("An error occurred while retrieving a ClientSideElementManager", e);
-        }
     }
 }
