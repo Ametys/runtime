@@ -30,6 +30,26 @@ public class SQLDatabaseTypeExtensionPoint extends AbstractThreadSafeComponentEx
     /** Avalon Role */
     public static final String ROLE = SQLDatabaseTypeExtensionPoint.class.getName();
     
+    @Override
+    public void initializeExtensions() throws Exception
+    {
+        super.initializeExtensions();
+        
+        for (String databaseTypeId : getExtensionsIds())
+        {
+            SQLDatabaseType databaseType = getExtension(databaseTypeId);
+            
+            try
+            {
+                Class.forName(databaseType.getDriver());
+            }
+            catch (ClassNotFoundException e)
+            {
+                getLogger().warn("JDBC Driver cannot be found for extension '" + databaseTypeId + "' with classname '" + databaseType.getDriver() + "'");
+            }
+        }
+    }
+    
     /**
      * Get the SQL database types with their label
      * @return the SQL database types with their label
