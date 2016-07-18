@@ -112,7 +112,7 @@ Ext.define('Ametys.plugins.coreui.groupdirectories.EditGroupDirectoryHelper', {
     {
         this._box = Ext.create('Ametys.window.DialogBox', {
             title: this._mode == 'add' ? "{{i18n PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ADD_TITLE}}" : "{{i18n PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_EDIT_TITLE}}",
-            iconCls: 'ametysmisc-multiple25',
+            iconCls: 'ametysicon-multiple25',
             
             width: 650,
             height: 570,

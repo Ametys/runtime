@@ -792,7 +792,7 @@
         		<label i18n="true">PLUGINS_CORE_AUTHENTICATION_BASIC_LABEL</label>
         		<description i18n="true">PLUGINS_CORE_AUTHENTICATION_BASIC_DESCRIPTION</description>
         		<label-connection i18n="true">PLUGINS_CORE_AUTHENTICATION_BASIC_CONNECTION_LABEL</label-connection>
-        		<icon-glyph>ametysmisc-external-link</icon-glyph>
+        		<icon-glyph>ametysicon-external-link</icon-glyph>
         		<color>173D7C</color>
         		<parameters>
         			<param id="runtime.authentication.basic.realm" type="string">
@@ -840,7 +840,7 @@
         		<label i18n="true">PLUGINS_CORE_AUTHENTICATION_FORMBASED_LABEL</label>
         		<description i18n="true">PLUGINS_CORE_AUTHENTICATION_FORMBASED_DESCRIPTION</description>
         		<label-connection i18n="true">PLUGINS_CORE_AUTHENTICATION_FORMBASED_CONNECTION_LABEL</label-connection>
-        		<icon-glyph>ametysmisc-key162</icon-glyph>
+        		<icon-glyph>ametysicon-key162</icon-glyph>
         		<color>804080</color>
                 
         		<parameters>
@@ -947,7 +947,7 @@
         		<label i18n="true">PLUGINS_CORE_AUTHENTICATION_CAS_LABEL</label>
         		<description i18n="true">PLUGINS_CORE_AUTHENTICATION_CAS_DESCRIPTION</description>
         		<label-connection i18n="true">PLUGINS_CORE_AUTHENTICATION_CAS_CONNECTION_LABEL</label-connection>
-        		<icon-glyph>ametysmisc-key162</icon-glyph>
+        		<icon-glyph>ametysicon-key162</icon-glyph>
         		<color>2d7149</color>
         		<parameters>
         			<param id="runtime.authentication.cas.serverUrl" type="string">
@@ -1299,7 +1299,7 @@
                        point="org.ametys.core.schedule.SchedulableExtensionPoint">
                 <label i18n="true">PLUGINS_CORE_SCHEDULER_SEND_MAIL_LABEL</label>
                 <description i18n="true">PLUGINS_CORE_SCHEDULER_SEND_MAIL_DESCRIPTION</description>
-                <icon-glyph>ametysmisc-envelope14</icon-glyph>
+                <icon-glyph>ametysicon-envelope14</icon-glyph>
                 <parameters>
                     <param id="sender" type="string">
                         <label i18n="true">PLUGINS_CORE_SCHEDULER_SEND_MAIL_SENDER_LABEL</label>
@@ -1358,7 +1358,7 @@
                        point="org.ametys.core.schedule.SchedulableExtensionPoint">
                 <label i18n="true">PLUGINS_CORE_SCHEDULER_EXECUTE_SCRIPT_LABEL</label>
                 <description i18n="true">PLUGINS_CORE_SCHEDULER_EXECUTE_SCRIPT_DESCRIPTION</description>
-                <icon-glyph>ametysmisc-computer196</icon-glyph>
+                <icon-glyph>ametysicon-computer196</icon-glyph>
                 <parameters>
                     <param id="script" type="string">
                         <label i18n="true">PLUGINS_CORE_SCHEDULER_EXECUTE_SCRIPT_CODE_LABEL</label>

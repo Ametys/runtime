@@ -169,7 +169,7 @@
                  <label i18n="true">PLUGINS_CORE_UI_RELOAD_WORKSPACE_LABEL</label>
                  <description i18n="true">PLUGINS_CORE_UI_RELOAD_WORKSPACE_DESCRIPTION</description>
                   
-                 <icon-glyph>ametysmisc-reload8</icon-glyph>
+                 <icon-glyph>ametysicon-reload8</icon-glyph>
                  <param name="icon-small" file="true">img/system/reload_16.png</param>
                  <param name="icon-medium" file="true">img/system/reload_32.png</param>
                  <param name="icon-large" file="true">img/system/reload_48.png</param>
@@ -716,7 +716,7 @@
 					<label i18n="true">PLUGINS_CORE_UI_TOOLS_HELP_LABEL</label>
 					<description i18n="true">PLUGINS_CORE_UI_TOOLS_HELP_DESCRIPTION</description>
                     
-                    <icon-glyph>ametysmisc-question13</icon-glyph>
+                    <icon-glyph>ametysicon-question13</icon-glyph>
 					<icon-small file="true">img/uitool-help/help_16.png</icon-small>
 					<icon-medium file="true">img/uitool-help/help_32.png</icon-medium>
 					<icon-large file="true">img/uitool-help/help_48.png</icon-large>
@@ -735,7 +735,7 @@
 					<title i18n="true">PLUGINS_CORE_UI_TOOLS_HELP_LABEL</title>
 					<description i18n="true">PLUGINS_CORE_UI_TOOLS_HELP_DESCRIPTION</description>
                     
-                    <icon-glyph>ametysmisc-question13</icon-glyph>
+                    <icon-glyph>ametysicon-question13</icon-glyph>
 					<icon-small file="true">img/uitool-help/help_16.png</icon-small>
 					<icon-medium file="true">img/uitool-help/help_32.png</icon-medium>
 					<icon-large file="true">img/uitool-help/help_48.png</icon-large>
@@ -778,7 +778,7 @@
                     <default-description i18n="true">PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_DESCRIPTION</default-description>
                     <help>org.ametys.runtime.requesttracker</help>
                     
-                    <icon-glyph>ametysmisc-server19</icon-glyph>
+                    <icon-glyph>ametysicon-server19</icon-glyph>
                     <icon-small file="true">img/uitool-requeststracker/requests_16.png</icon-small>
                     <icon-medium file="true">img/uitool-requeststracker/requests_32.png</icon-medium>
                     <icon-large file="true">img/uitool-requeststracker/requests_48.png</icon-large>
@@ -802,7 +802,7 @@
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_CLEAR_DESCRIPTION</description>
                     <help>org.ametys.runtime.requesttracker</help>
                     
-                    <icon-glyph>ametysmisc-garbage11</icon-glyph>
+                    <icon-glyph>ametysicon-garbage11</icon-glyph>
                     <icon-small file="true">img/uitool-requeststracker/delete_16.gif</icon-small>
                     <icon-medium file="true">img/uitool-requeststracker/delete_16.gif</icon-medium>
                     <icon-large file="true">img/uitool-requeststracker/delete_16.gif</icon-large>
@@ -823,7 +823,7 @@
                     <title i18n="true">PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_LABEL</title>
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_DESCRIPTION</description>
                     <help>org.ametys.runtime.requesttracker</help>
-                    <icon-glyph>ametysmisc-server19</icon-glyph>
+                    <icon-glyph>ametysicon-server19</icon-glyph>
                     <icon-small file="true">img/uitool-requeststracker/requests_16.png</icon-small>
                     <icon-medium file="true">img/uitool-requeststracker/requests_32.png</icon-medium>
                     <icon-large file="true">img/uitool-requeststracker/requests_48.png</icon-large>
@@ -863,7 +863,7 @@
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_DESCRIPTION</description>
                     <help>org.ametys.runtime.messagetracker</help>
                     
-                    <icon-glyph>ametysmisc-server</icon-glyph>
+                    <icon-glyph>ametysicon-server</icon-glyph>
                     <icon-small file="true">img/uitool-messagestracker/messages_16.png</icon-small>
                     <icon-medium file="true">img/uitool-messagestracker/messages_32.png</icon-medium>
                     <icon-large file="true">img/uitool-messagestracker/messages_48.png</icon-large>
@@ -885,7 +885,7 @@
 
                     <label i18n="true">PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_CLEAR_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_CLEAR_DESCRIPTION</description>
-                    <icon-glyph>ametysmisc-garbage11</icon-glyph>
+                    <icon-glyph>ametysicon-garbage11</icon-glyph>
                     <icon-small file="true">img/uitool-messagestracker/delete_16.gif</icon-small>
                     <icon-medium file="true">img/uitool-messagestracker/delete_16.gif</icon-medium>
                     <icon-large file="true">img/uitool-messagestracker/delete_16.gif</icon-large>
@@ -913,7 +913,7 @@
                     <noselect-detail-message i18n="true">PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_MESSAGE</noselect-detail-message>
                     <vertical-panel-layout>false</vertical-panel-layout>
                     
-                    <icon-glyph>ametysmisc-server</icon-glyph>
+                    <icon-glyph>ametysicon-server</icon-glyph>
                     <icon-small file="true">img/uitool-messagestracker/messages_16.png</icon-small>
                     <icon-medium file="true">img/uitool-messagestracker/messages_32.png</icon-medium>
                     <icon-large file="true">img/uitool-messagestracker/messages_48.png</icon-large>
@@ -952,7 +952,7 @@
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_DESCRIPTION</description>
                     <help>org.ametys.runtime.consolelog</help>      
                     
-                    <icon-glyph>ametysmisc-log1</icon-glyph>
+                    <icon-glyph>ametysicon-log1</icon-glyph>
                     <icon-small file="true">img/uitool-consolelog/logs_16.png</icon-small>
                     <icon-medium file="true">img/uitool-consolelog/logs_32.png</icon-medium>
                     <icon-large file="true">img/uitool-consolelog/logs_48.png</icon-large>
@@ -975,7 +975,7 @@
                     <label i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_CLEAR_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_CONSOLELOG_CLEAR_DESCRIPTION</description>
                     
-                    <icon-glyph>ametysmisc-garbage11</icon-glyph>
+                    <icon-glyph>ametysicon-garbage11</icon-glyph>
                     <icon-small file="true">img/uitool-consolelog/remove_16.png</icon-small>
                     <icon-medium file="true">img/uitool-consolelog/remove_32.png</icon-medium>
                     <icon-large file="true">img/uitool-consolelog/remove_48.png</icon-large>
@@ -1110,7 +1110,7 @@
                     
                     <vertical-panel-layout>false</vertical-panel-layout>
                     
-                    <icon-glyph>ametysmisc-log1</icon-glyph>
+                    <icon-glyph>ametysicon-log1</icon-glyph>
                     <icon-small file="true">img/uitool-consolelog/logs_16.png</icon-small>
                     <icon-medium file="true">img/uitool-consolelog/logs_32.png</icon-medium>
                     <icon-large file="true">img/uitool-consolelog/logs_48.png</icon-large>
@@ -1166,7 +1166,7 @@
 					<description i18n="true">PLUGINS_CORE_UI_TOOLS_DEVMODE_DESCRIPTION</description>
 					<help>org.ametys.runtime.debug.mode</help>
                     
-                    <icon-glyph>ametysmisc-bugs3</icon-glyph>
+                    <icon-glyph>ametysicon-bugs3</icon-glyph>
 					<icon-small file="true">img/debug/ui-debug-16.png</icon-small>
 					<icon-medium file="true">img/debug/ui-debug-32.png</icon-medium>
 					<icon-large file="true">img/debug/ui-debug-48.png</icon-large>
@@ -1192,7 +1192,7 @@
                     <label i18n="true">PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DESCRIPTION</description>
                     
-                    <icon-glyph>ametysmisc-alert9</icon-glyph>
+                    <icon-glyph>ametysicon-alert9</icon-glyph>
                     <icon-small file="true">img/uitool-notification/notification_16.png</icon-small>
                     <icon-medium file="true">img/uitool-notification/notification_32.png</icon-medium>
                     <icon-large file="true">img/uitool-notification/notification_48.png</icon-large>
@@ -1211,7 +1211,7 @@
                     
                     <title i18n="true">PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_LABEL</title>
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_NOTIFICATIONS_DESCRIPTION</description>
-                    <icon-glyph>ametysmisc-alert9</icon-glyph>
+                    <icon-glyph>ametysicon-alert9</icon-glyph>
                     <icon-small file="true">img/uitool-notification/notification_16.png</icon-small>
                     <icon-medium file="true">img/uitool-notification/notification_32.png</icon-medium>
                     <icon-large file="true">img/uitool-notification/notification_48.png</icon-large>
@@ -1341,7 +1341,7 @@
                  <label i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_LABEL</label>
                  <description i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_DESCRIPTION</description>
                   
-                 <icon-glyph>ametysmisc-return10</icon-glyph>
+                 <icon-glyph>ametysicon-return10</icon-glyph>
                  <param name="icon-small" file="true">img/userprefs/userprefs-reset_16.png</param>
                  <param name="icon-medium" file="true">img/userprefs/userprefs-reset_32.png</param>
                  <param name="icon-large" file="true">img/userprefs/userprefs-reset_48.png</param>
@@ -1360,7 +1360,7 @@
                  <label i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_LABEL</label>
                  <description i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_DESCRIPTION</description>
                   
-                 <icon-glyph>ametysmisc-hammer2</icon-glyph>
+                 <icon-glyph>ametysicon-hammer2</icon-glyph>
                  <param name="icon-small" file="true">img/userprefs/userprefs_16.png</param>
                  <param name="icon-medium" file="true">img/userprefs/userprefs_32.png</param>
                  <param name="icon-large" file="true">img/userprefs/userprefs_48.png</param>
@@ -1391,7 +1391,7 @@
     				<label i18n="true">PLUGINS_CORE_UI_ABOUT_LABEL</label>
     				<description i18n="true">PLUGINS_CORE_UI_ABOUT_DESCRIPTION</description>
     				
-    				<icon-glyph>ametysmisc-question13</icon-glyph>
+    				<icon-glyph>ametysicon-question13</icon-glyph>
     			</class>
 	    		<scripts>
 	    			<file>js/Ametys/plugins/coreui/about/AboutActions.js</file>
@@ -1430,7 +1430,7 @@
                     <label i18n="true">PLUGINS_CORE_UI_EDIT_PROFILE_IMAGE_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_EDIT_PROFILE_IMAGE_DESCRIPTION</description>
                     
-                    <icon-glyph>ametysmisc-black302</icon-glyph>
+                    <icon-glyph>ametysicon-black302</icon-glyph>
                 </class>
                 <scripts>
                     <file>js/Ametys/userprefs/UserProfileDialog.js</file>
@@ -1473,7 +1473,7 @@
                     <label i18n="true">PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_ALL_TESTS</label>
                     <description i18n="true">PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_ALL_TESTS_DESC</description>
                     
-                    <icon-glyph>ametysmisc-applicattion</icon-glyph>
+                    <icon-glyph>ametysicon-applicattion</icon-glyph>
                     <icon-small file="true">img/Ametys/common/form/configurable/tests/testall_16.png</icon-small>
                     <icon-medium file="true">img/Ametys/common/form/configurable/tests/testall_32.png</icon-medium>
                     <icon-large file="true">img/Ametys/common/form/configurable/tests/testall_48.png</icon-large>
@@ -1495,8 +1495,8 @@
                     <label i18n="true">PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_MISSED_TESTS</label>
                     <description i18n="true">PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_MISSED_TESTS_DESC</description>
                     
-                    <icon-glyph>ametysmisc-applicattion</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-alert9</icon-decorator>
+                    <icon-glyph>ametysicon-applicattion</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-alert9</icon-decorator>
                     <icon-small file="true">img/Ametys/common/form/configurable/tests/testmissing_16.png</icon-small>
                     <icon-medium file="true">img/Ametys/common/form/configurable/tests/testmissing_32.png</icon-medium>
                     <icon-large file="true">img/Ametys/common/form/configurable/tests/testmissing_48.png</icon-large>
@@ -1527,8 +1527,8 @@
 					<label i18n="true">PLUGINS_CORE_UI_USER_POPULATIONS_ADD_LABEL</label>
 					<description i18n="true">PLUGINS_CORE_UI_USER_POPULATIONS_ADD_DESCRIPTION</description>
 					
-                    <icon-glyph>ametysmisc-multiple25</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-add64</icon-decorator>
+                    <icon-glyph>ametysicon-multiple25</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-add64</icon-decorator>
 				</class>
 				<scripts>
 					<file>js/Ametys/plugins/coreui/populations/PopulationActions.js</file>
@@ -1547,8 +1547,8 @@
 					<label i18n="true">PLUGINS_CORE_UI_USER_POPULATIONS_EDIT_LABEL</label>
 					<description i18n="true">PLUGINS_CORE_UI_USER_POPULATIONS_EDIT_DESCRIPTION</description>
 					
-                    <icon-glyph>ametysmisc-multiple25</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-edit45</icon-decorator>
+                    <icon-glyph>ametysicon-multiple25</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-edit45</icon-decorator>
 				</class>
 				<scripts>
 					<file>js/Ametys/plugins/coreui/populations/PopulationActions.js</file>
@@ -1568,8 +1568,8 @@
 					<description i18n="true">PLUGINS_CORE_UI_USER_POPULATIONS_REMOVE_DESCRIPTION</description>
 					<is-in-use-description i18n="true">PLUGINS_CORE_UI_USER_POPULATIONS_REMOVE_UNABLE_DESCRIPTION</is-in-use-description>
 					
-                    <icon-glyph>ametysmisc-multiple25</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-remove11</icon-decorator>
+                    <icon-glyph>ametysicon-multiple25</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-remove11</icon-decorator>
 				</class>
 				<scripts>
 					<file>js/Ametys/plugins/coreui/populations/RemovePopulationButtonController.js</file>
@@ -1594,9 +1594,9 @@
 					<label i18n="true">PLUGINS_CORE_UI_USER_POPULATIONS_ENABLE_LABEL</label>
 					<description i18n="true">PLUGINS_CORE_UI_USER_POPULATIONS_ENABLE_DESCRIPTION</description>
 					
-                    <icon-glyph>ametysmisc-multiple25</icon-glyph>
-                    <enabled-icon-decorator>decorator-ametysmisc-checked34</enabled-icon-decorator>
-                    <disabled-icon-decorator>decorator-ametysmisc-forbidden1</disabled-icon-decorator>
+                    <icon-glyph>ametysicon-multiple25</icon-glyph>
+                    <enabled-icon-decorator>decorator-ametysicon-checked34</enabled-icon-decorator>
+                    <disabled-icon-decorator>decorator-ametysicon-forbidden1</disabled-icon-decorator>
 				</class>
 				<scripts>
 					<file>js/Ametys/plugins/coreui/populations/EnablePopulationButtonController.js</file>
@@ -1614,8 +1614,8 @@
 					<label i18n="true">PLUGINS_CORE_UI_USER_POPULATIONS_TOOL_LABEL</label>
 					<description i18n="true">PLUGINS_CORE_UI_USER_POPULATIONS_TOOL_DESCRIPTION</description>
 					
-                    <icon-glyph>ametysmisc-black302</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-agenda3</icon-decorator>
+                    <icon-glyph>ametysicon-black302</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-agenda3</icon-decorator>
 				</class>
                 <depends>
                     <org.ametys.core.ui.UIToolsFactoriesManager>uitool-populations</org.ametys.core.ui.UIToolsFactoriesManager>
@@ -1631,8 +1631,8 @@
 					<title i18n="true">PLUGINS_CORE_UI_USER_POPULATIONS_TOOL_LABEL</title>
 	    			<description i18n="true">PLUGINS_CORE_UI_USER_POPULATIONS_TOOL_DESCRIPTION</description>
 	    			
-                    <icon-glyph>ametysmisc-black302</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-agenda3</icon-decorator>
+                    <icon-glyph>ametysicon-black302</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-agenda3</icon-decorator>
 					<default-location>cl</default-location>
 				</class>    				   
 				<scripts>
@@ -1658,8 +1658,8 @@
 					<label i18n="true">PLUGINS_CORE_UI_USER_POPULATIONS_LINK_LABEL</label>
 					<description i18n="true">PLUGINS_CORE_UI_USER_POPULATIONS_LINK_DESCRIPTION</description>
 					
-                    <icon-glyph>ametysmisc-multiple25</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-link55</icon-decorator>
+                    <icon-glyph>ametysicon-multiple25</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-link55</icon-decorator>
 				</class>
 				<scripts>
 					<file>js/Ametys/plugins/coreui/populations/PopulationActions.js</file>
@@ -1681,7 +1681,7 @@
 					<label i18n="true">PLUGINS_CORE_UI_USER_LOGOUT_LABEL</label>
 					<description i18n="true">PLUGINS_CORE_UI_USER_LOGOUT_DESCRIPTION</description>
 					
-                    <icon-glyph>ametysmisc-power110</icon-glyph>
+                    <icon-glyph>ametysicon-power110</icon-glyph>
 				</class>
 				<scripts>
 					<file>js/Ametys/plugins/coreui/user/LogoutButtonController.js</file>
@@ -1705,7 +1705,7 @@
                     <label i18n="true">PLUGINS_CORE_UI_TOOL_USERS_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TOOL_USERS_DESCRIPTION</description>
                     <help>org.ametys.core.users</help>
-                    <icon-glyph>ametysmisc-black302</icon-glyph>
+                    <icon-glyph>ametysicon-black302</icon-glyph>
                     <icon-small file="true">img/users/user_16.png</icon-small>
                     <icon-medium file="true">img/users/user_32.png</icon-medium>
                     <icon-large file="true">img/users/user_48.png</icon-large>
@@ -1725,7 +1725,7 @@
                     <title i18n="true">PLUGINS_CORE_UI_TOOL_USERS_LABEL</title>
                     <description i18n="true">PLUGINS_CORE_UI_TOOL_USERS_DESCRIPTION</description>
                     <help>org.ametys.core.users</help>
-                    <icon-glyph>ametysmisc-black302</icon-glyph>
+                    <icon-glyph>ametysicon-black302</icon-glyph>
                     <icon-small file="true">img/users/user_16.png</icon-small>
                     <icon-medium file="true">img/users/user_32.png</icon-medium>
                     <icon-large file="true">img/users/user_48.png</icon-large>
@@ -1755,8 +1755,8 @@
                     <label i18n="true">PLUGINS_CORE_UI_USERS_ADD_LABEL</label>
                     <default-description i18n="true">PLUGINS_CORE_UI_USERS_ADD_DESCRIPTION</default-description>
                     
-                    <icon-glyph>ametysmisc-black302</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-add64</icon-decorator>
+                    <icon-glyph>ametysicon-black302</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-add64</icon-decorator>
                     <icon-small file="true">img/users/add_16.png</icon-small>
                     <icon-medium file="true">img/users/add_32.png</icon-medium>
                     <icon-large file="true">img/users/add_48.png</icon-large>
@@ -1782,8 +1782,8 @@
                     <label i18n="true">PLUGINS_CORE_UI_USERS_EDIT_LABEL</label>
                     <default-description i18n="true">PLUGINS_CORE_UI_USERS_EDIT_DESCRIPTION</default-description>
                     
-                    <icon-glyph>ametysmisc-black302</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-edit45</icon-decorator>
+                    <icon-glyph>ametysicon-black302</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-edit45</icon-decorator>
                     <icon-small file="true">img/users/modify_16.png</icon-small>
                     <icon-medium file="true">img/users/modify_32.png</icon-medium>
                     <icon-large file="true">img/users/modify_48.png</icon-large>
@@ -1807,8 +1807,8 @@
                     <label i18n="true">PLUGINS_CORE_UI_USERS_DELETE_LABEL</label>
                     <default-description i18n="true">PLUGINS_CORE_UI_USERS_DELETE_DESCRIPTION</default-description>
                     
-                    <icon-glyph>ametysmisc-black302</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-remove11</icon-decorator>
+                    <icon-glyph>ametysicon-black302</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-remove11</icon-decorator>
                     <icon-small file="true">img/users/delete_16.png</icon-small>
                     <icon-medium file="true">img/users/delete_32.png</icon-medium>
                     <icon-large file="true">img/users/delete_48.png</icon-large>
@@ -1834,7 +1834,7 @@
                     <selection-description-multiselectionforbidden i18n="true">PLUGINS_CORE_UI_TOOL_USER_RIGHTS_MULTI_FORBIDDEN</selection-description-multiselectionforbidden>
                     <help>org.ametys.core.users.rights</help>
                     
-                    <icon-glyph>ametysmisc-id17</icon-glyph>
+                    <icon-glyph>ametysicon-id17</icon-glyph>
                     <icon-small file="true">img/users/rights_16.png</icon-small>
                     <icon-medium file="true">img/users/rights_32.png</icon-medium>
                     <icon-large file="true">img/users/rights_48.png</icon-large>
@@ -1860,7 +1860,7 @@
 
                     <help>org.ametys.core.users.rights</help>
                     
-                    <icon-glyph>ametysmisc-carnival23</icon-glyph>
+                    <icon-glyph>ametysicon-carnival23</icon-glyph>
                     <icon-small file="true">img/users/impersonate_16.png</icon-small>
                     <icon-medium file="true">img/users/impersonate_32.png</icon-medium>
                     <icon-large file="true">img/users/impersonate_48.png</icon-large>
@@ -1883,7 +1883,7 @@
                     <selection-description-nomatch i18n="true">PLUGINS_CORE_UI_TOOL_USER_RIGHTS_EMPTY</selection-description-nomatch>
                     <selection-description-multiselectionforbidden i18n="true">PLUGINS_CORE_UI_TOOL_USER_RIGHTS_MULTI_FORBIDDEN</selection-description-multiselectionforbidden>
                     <help>org.ametys.core.users.rights</help>
-                    <icon-glyph>ametysmisc-id17</icon-glyph>
+                    <icon-glyph>ametysicon-id17</icon-glyph>
                     <icon-small file="true">img/users/rights_16.png</icon-small>
                     <icon-medium file="true">img/users/rights_32.png</icon-medium>
                     <icon-large file="true">img/users/rights_48.png</icon-large>
@@ -1915,8 +1915,8 @@
 					<label i18n="true">PLUGINS_CORE_UI_GROUP_DIRECTORIES_ADD_LABEL</label>
 					<description i18n="true">PLUGINS_CORE_UI_GROUP_DIRECTORIES_ADD_DESCRIPTION</description>
 					
-                    <icon-glyph>ametysmisc-multiple25</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-add64</icon-decorator>
+                    <icon-glyph>ametysicon-multiple25</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-add64</icon-decorator>
 				</class>
 				<scripts>
 					<file>js/Ametys/plugins/coreui/groupdirectories/GroupDirectoryActions.js</file>
@@ -1935,8 +1935,8 @@
 					<label i18n="true">PLUGINS_CORE_UI_GROUP_DIRECTORIES_EDIT_LABEL</label>
 					<description i18n="true">PLUGINS_CORE_UI_GROUP_DIRECTORIES_EDIT_DESCRIPTION</description>
 					
-                    <icon-glyph>ametysmisc-multiple25</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-edit45</icon-decorator>
+                    <icon-glyph>ametysicon-multiple25</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-edit45</icon-decorator>
 				</class>
 				<scripts>
 					<file>js/Ametys/plugins/coreui/groupdirectories/GroupDirectoryActions.js</file>
@@ -1955,8 +1955,8 @@
 					<label i18n="true">PLUGINS_CORE_UI_GROUP_DIRECTORIES_REMOVE_LABEL</label>
 					<description i18n="true">PLUGINS_CORE_UI_GROUP_DIRECTORIES_REMOVE_DESCRIPTION</description>
 					
-                    <icon-glyph>ametysmisc-multiple25</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-remove11</icon-decorator>
+                    <icon-glyph>ametysicon-multiple25</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-remove11</icon-decorator>
 				</class>
 				<scripts>
 					<file>js/Ametys/plugins/coreui/groupdirectories/GroupDirectoryActions.js</file>
@@ -1973,8 +1973,8 @@
 					<label i18n="true">PLUGINS_CORE_UI_GROUP_DIRECTORIES_TOOL_LABEL</label>
 					<description i18n="true">PLUGINS_CORE_UI_GROUP_DIRECTORIES_TOOL_DESCRIPTION</description>
 					
-                    <icon-glyph>ametysmisc-multiple25</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-agenda3</icon-decorator>
+                    <icon-glyph>ametysicon-multiple25</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-agenda3</icon-decorator>
 				</class>
                 <depends>
                     <org.ametys.core.ui.UIToolsFactoriesManager>uitool-groupdirectories</org.ametys.core.ui.UIToolsFactoriesManager>
@@ -1990,8 +1990,8 @@
 					<title i18n="true">PLUGINS_CORE_UI_GROUP_DIRECTORIES_TOOL_LABEL</title>
 	    			<description i18n="true">PLUGINS_CORE_UI_GROUP_DIRECTORIES_TOOL_DESCRIPTION</description>
 	    			
-                    <icon-glyph>ametysmisc-multiple25</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-agenda3</icon-decorator>
+                    <icon-glyph>ametysicon-multiple25</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-agenda3</icon-decorator>
 					<default-location>cl</default-location>
 				</class>    				   
 				<scripts>
@@ -2014,8 +2014,8 @@
 					<label i18n="true">PLUGINS_CORE_UI_GROUP_DIRECTORIES_LINK_LABEL</label>
 					<description i18n="true">PLUGINS_CORE_UI_GROUP_DIRECTORIES_LINK_DESCRIPTION</description>
 					
-                    <icon-glyph>ametysmisc-multiple25</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-link55</icon-decorator>
+                    <icon-glyph>ametysicon-multiple25</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-link55</icon-decorator>
 				</class>
 				<scripts>
 					<file>js/Ametys/plugins/coreui/groupdirectories/GroupDirectoryActions.js</file>
@@ -2039,7 +2039,7 @@
                     <label i18n="true">PLUGINS_CORE_UI_TOOL_GROUPS_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TOOL_GROUPS_DESCRIPTION</description>
                     <help>org.ametys.core.groups</help>
-                    <icon-glyph>ametysmisc-multiple25</icon-glyph>
+                    <icon-glyph>ametysicon-multiple25</icon-glyph>
                     <icon-small file="true">img/groups/group_16.png</icon-small>
                     <icon-medium file="true">img/groups/group_32.png</icon-medium>
                     <icon-large file="true">img/groups/group_50.png</icon-large>
@@ -2059,7 +2059,7 @@
                     <title i18n="true">PLUGINS_CORE_UI_TOOL_GROUPS_LABEL</title>
                     <description i18n="true">PLUGINS_CORE_UI_TOOL_GROUPS_DESCRIPTION</description>
                     <help>org.ametys.core.groups</help>
-                    <icon-glyph>ametysmisc-multiple25</icon-glyph>
+                    <icon-glyph>ametysicon-multiple25</icon-glyph>
                     <icon-small file="true">img/groups/group_16.png</icon-small>
                     <icon-medium file="true">img/groups/group_32.png</icon-medium>
                     <icon-large file="true">img/groups/group_50.png</icon-large>
@@ -2089,8 +2089,8 @@
                     <label i18n="true">PLUGINS_CORE_UI_GROUPS_ADD_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_GROUPS_ADD_DESCRIPTION</description>
                     
-                    <icon-glyph>ametysmisc-multiple25</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-add64</icon-decorator>
+                    <icon-glyph>ametysicon-multiple25</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-add64</icon-decorator>
                     <icon-small file="true">img/groups/add_16.png</icon-small>
                     <icon-medium file="true">img/groups/add_32.png</icon-medium>
                     <icon-large file="true">img/groups/add_50.png</icon-large>
@@ -2114,8 +2114,8 @@
                     <description i18n="true">PLUGINS_CORE_UI_GROUPS_RENAME_DESCRIPTION</description>
                     <no-modifiable-description i18n="true">PLUGINS_CORE_UI_GROUPS_NO_MODIFIABLE_GROUP_DESCRIPTION</no-modifiable-description>
                     
-                    <icon-glyph>ametysmisc-multiple25</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-edit45</icon-decorator>
+                    <icon-glyph>ametysicon-multiple25</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-edit45</icon-decorator>
                     <icon-small file="true">img/groups/rename_16.png</icon-small>
                     <icon-medium file="true">img/groups/rename_32.png</icon-medium>
                     <icon-large file="true">img/groups/rename_50.png</icon-large>
@@ -2140,8 +2140,8 @@
                     <description i18n="true">PLUGINS_CORE_UI_GROUPS_DELETE_DESCRIPTION</description>
                     <no-modifiable-description i18n="true">PLUGINS_CORE_UI_GROUPS_NO_MODIFIABLE_GROUP_DESCRIPTION</no-modifiable-description>
                     
-                    <icon-glyph>ametysmisc-multiple25</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-remove11</icon-decorator>
+                    <icon-glyph>ametysicon-multiple25</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-remove11</icon-decorator>
                     <icon-small file="true">img/groups/delete_16.png</icon-small>
                     <icon-medium file="true">img/groups/delete_32.png</icon-medium>
                     <icon-large file="true">img/groups/delete_50.png</icon-large>
@@ -2165,8 +2165,8 @@
                     <description i18n="true">PLUGINS_CORE_UI_GROUPS_ADDUSERS_DESCRIPTION</description>
                     <no-modifiable-description i18n="true">PLUGINS_CORE_UI_GROUPS_NO_MODIFIABLE_GROUP_DESCRIPTION</no-modifiable-description>
                     
-                    <icon-glyph>ametysmisc-black302</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-add64</icon-decorator>
+                    <icon-glyph>ametysicon-black302</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-add64</icon-decorator>
                     <icon-small file="true">img/users/add_16.png</icon-small>
                     <icon-medium file="true">img/users/add_32.png</icon-medium>
                     <icon-large file="true">img/users/add_48.png</icon-large>
@@ -2191,8 +2191,8 @@
                     <description i18n="true">PLUGINS_CORE_UI_GROUPS_REMOVEUSERS_DESCRIPTION</description>
                     <no-modifiable-description i18n="true">PLUGINS_CORE_UI_GROUPS_NO_MODIFIABLE_GROUP_DESCRIPTION</no-modifiable-description>
                     
-                    <icon-glyph>ametysmisc-black302</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-remove11</icon-decorator>
+                    <icon-glyph>ametysicon-black302</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-remove11</icon-decorator>
                     <icon-small file="true">img/users/delete_16.png</icon-small>
                     <icon-medium file="true">img/users/delete_32.png</icon-medium>
                     <icon-large file="true">img/users/delete_48.png</icon-large>
@@ -2217,7 +2217,7 @@
                     <label i18n="true">PLUGINS_CORE_UI_TOOL_PROFILES_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TOOL_PROFILES_DESCRIPTION</description>
                     <help>org.ametys.core.rights.profiles</help>
-                    <icon-glyph>ametysmisc-id16</icon-glyph>
+                    <icon-glyph>ametysicon-id16</icon-glyph>
                     <icon-small file="true">img/profiles/profile_16.gif</icon-small>
                     <icon-medium file="true">img/profiles/profile_32.gif</icon-medium>
                     <icon-large file="true">img/profiles/profile_50.gif</icon-large>
@@ -2237,7 +2237,7 @@
                     <title i18n="true">PLUGINS_CORE_UI_TOOL_PROFILES_LABEL</title>
                     <description i18n="true">PLUGINS_CORE_UI_TOOL_PROFILES_DESCRIPTION</description>
                     <help>org.ametys.core.rights.profiles</help>
-                    <icon-glyph>ametysmisc-id16</icon-glyph>
+                    <icon-glyph>ametysicon-id16</icon-glyph>
                     <icon-small file="true">img/profiles/profile_16.gif</icon-small>
                     <icon-medium file="true">img/profiles/profile_32.gif</icon-medium>
                     <icon-large file="true">img/profiles/profile_50.gif</icon-large>
@@ -2269,8 +2269,8 @@
                     <description i18n="true">PLUGINS_CORE_UI_PROFILES_ADD_DESCRIPTION</description>
                     <no-right-description>PLUGINS_CORE_UI_PROFILES_DESCRIPTION_NO_RIGHT</no-right-description>
                     
-                    <icon-glyph>ametysmisc-id16</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-add64</icon-decorator>
+                    <icon-glyph>ametysicon-id16</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-add64</icon-decorator>
                     <icon-small file="true">img/profiles/add_16.gif</icon-small>
                     <icon-medium file="true">img/profiles/add_32.gif</icon-medium>
                     <icon-large file="true">img/profiles/add_50.gif</icon-large>
@@ -2294,8 +2294,8 @@
                     <description i18n="true">PLUGINS_CORE_UI_PROFILES_RENAME_DESCRIPTION</description>
                     <no-selection-description i18n="true">PLUGINS_CORE_UI_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
                     
-                    <icon-glyph>ametysmisc-id16</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-text1</icon-decorator>
+                    <icon-glyph>ametysicon-id16</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-text1</icon-decorator>
                     <icon-small file="true">img/profiles/rename_16.gif</icon-small>
                     <icon-medium file="true">img/profiles/rename_32.gif</icon-medium>
                     <icon-large file="true">img/profiles/rename_50.gif</icon-large>
@@ -2319,8 +2319,8 @@
                     <description i18n="true">PLUGINS_CORE_UI_PROFILES_DELETE_DESCRIPTION</description>
                     <no-selection-description i18n="true">PLUGINS_CORE_UI_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
                     
-                    <icon-glyph>ametysmisc-id16</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-remove11</icon-decorator>
+                    <icon-glyph>ametysicon-id16</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-remove11</icon-decorator>
                     <icon-small file="true">img/profiles/delete_16.gif</icon-small>
                     <icon-medium file="true">img/profiles/delete_32.gif</icon-medium>
                     <icon-large file="true">img/profiles/delete_50.gif</icon-large>
@@ -2347,7 +2347,7 @@
                     <description i18n="true">PLUGINS_CORE_UI_PROFILES_SWITCH_TO_EDITION_DESCRIPTION</description>
                     <no-selection-description i18n="true">PLUGINS_CORE_UI_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
                     
-                    <icon-glyph>ametysmisc-edit5</icon-glyph>
+                    <icon-glyph>ametysicon-edit5</icon-glyph>
                     <icon-small file="true">img/profiles/edit_16.png</icon-small>
                     <icon-medium file="true">img/profiles/edit_32.png</icon-medium>
                     <icon-large file="true">img/profiles/edit_48.png</icon-large>
@@ -2378,7 +2378,7 @@
                     <description i18n="true">PLUGINS_CORE_UI_PROFILES_SAVE_MODIFICATIONS_DESCRIPTION</description>
                     <no-selection-description i18n="true">PLUGINS_CORE_UI_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
                     
-                    <icon-glyph>ametyseditor-save31</icon-glyph>
+                    <icon-glyph>ametysicon-save31</icon-glyph>
                     <icon-small file="true">img/profiles/save_16.png</icon-small>
                     <icon-medium file="true">img/profiles/save_32.png</icon-medium>
                     <icon-large file="true">img/profiles/save_48.png</icon-large>
@@ -2408,8 +2408,8 @@
                     <description i18n="true">PLUGINS_CORE_UI_PROFILES_DONT_SAVE_MODIFICATIONS_DESCRIPTION</description>
                     <no-selection-description i18n="true">PLUGINS_CORE_UI_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
                     
-                    <icon-glyph>ametyseditor-save31</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-remove11</icon-decorator>
+                    <icon-glyph>ametysicon-save31</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-remove11</icon-decorator>
                     <icon-small file="true">img/profiles/unsave_16.png</icon-small>
                     <icon-medium file="true">img/profiles/unsave_32.png</icon-medium>
                     <icon-large file="true">img/profiles/unsave_48.png</icon-large>
@@ -2435,7 +2435,7 @@
                     <description i18n="true">PLUGINS_CORE_UI_PROFILES_SELECT_ALL_DESCRIPTION</description>
                     <no-selection-description i18n="true">PLUGINS_CORE_UI_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
                     
-                    <icon-glyph>ametysmisc-check51</icon-glyph>
+                    <icon-glyph>ametysicon-check51</icon-glyph>
                     <icon-small file="true">img/profiles/select_16.png</icon-small>
                     <icon-medium file="true">img/profiles/select_32.png</icon-medium>
                     <icon-large file="true">img/profiles/select_48.png</icon-large>
@@ -2463,7 +2463,7 @@
                     <description i18n="true">PLUGINS_CORE_UI_PROFILES_UNSELECT_ALL_DESCRIPTION</description>
                     <no-selection-description i18n="true">PLUGINS_CORE_UI_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
                     
-                    <icon-glyph>ametysmisc-blank32</icon-glyph>
+                    <icon-glyph>ametysicon-blank32</icon-glyph>
                     <icon-small file="true">img/profiles/unselect_16.png</icon-small>
                     <icon-medium file="true">img/profiles/unselect_32.png</icon-medium>
                     <icon-large file="true">img/profiles/unselect_48.png</icon-large>
@@ -2497,7 +2497,7 @@
                     <title i18n="true">PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LABEL</title>
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_SERVERLOGS_DESCRIPTION</description>
                     
-                    <icon-glyph>ametysmisc-document112</icon-glyph>
+                    <icon-glyph>ametysicon-document112</icon-glyph>
                     <default-location>cl</default-location>
                 </class>
                 <scripts>
@@ -2516,7 +2516,7 @@
                     <label i18n="true">PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_SERVERLOGS_DESCRIPTION</description>
                     
-                    <icon-glyph>ametysmisc-document112</icon-glyph>
+                    <icon-glyph>ametysicon-document112</icon-glyph>
                 </class>
                 <depends>
                     <org.ametys.core.ui.UIToolsFactoriesManager>uitool-server-logs</org.ametys.core.ui.UIToolsFactoriesManager>
@@ -2541,8 +2541,8 @@
                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_SERVERLOGS_PAUSE_DESCRIPTION</description>
                    <description-play i18n="true">PLUGINS_CORE_UI_TOOLS_SERVERLOGS_PLAY_DESCRIPTION</description-play>
                   
-                   <icon-glyph>ametysmisc-pause</icon-glyph>
-                   <icon-glyph-play>ametysmisc-play124</icon-glyph-play>
+                   <icon-glyph>ametysicon-pause</icon-glyph>
+                   <icon-glyph-play>ametysicon-play124</icon-glyph-play>
                 </class>
                 <scripts>
                     <file>js/Ametys/plugins/coreui/log/ServerLogActions.js</file>
@@ -2558,7 +2558,7 @@
                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CLEAR_LABEL</label>
                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CLEAR_DESCRIPTION</description>
                   
-                   <icon-glyph>ametysmisc-eraser11</icon-glyph>
+                   <icon-glyph>ametysicon-eraser11</icon-glyph>
                 </class>
                 <scripts>
                     <file>js/Ametys/plugins/coreui/log/ServerLogActions.js</file>
@@ -2627,7 +2627,7 @@
                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_SCRIPT_TAB_EXECUTE_LABEL</label>
                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_SCRIPT_TAB_EXECUTE_DESC</description>
                   
-                   <icon-glyph>ametysmisc-play124</icon-glyph>
+                   <icon-glyph>ametysicon-play124</icon-glyph>
                 </class>
                 <scripts>
                     <file>js/Ametys/script/ScriptActions.js</file>
@@ -2646,7 +2646,7 @@
                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_SCRIPT_TAB_CLEAR_LABEL</label>
                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_SCRIPT_TAB_CLEAR_DESC</description>
                   
-                   <icon-glyph>ametysmisc-eraser11</icon-glyph>
+                   <icon-glyph>ametysicon-eraser11</icon-glyph>
                 </class>
                 <scripts>
                     <file>js/Ametys/script/ScriptActions.js</file>
@@ -2664,7 +2664,7 @@
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_SCRIPT_DESCRIPTION</description>
                     <help>org.ametys.coreui.script</help>
                     
-                    <icon-glyph>ametysmisc-computer196</icon-glyph>
+                    <icon-glyph>ametysicon-computer196</icon-glyph>
                     <icon-small file="true">img/console/console-16.png</icon-small>
                     <icon-medium file="true">img/console/console-32.png</icon-medium>
                     <icon-large file="true">img/console/console-48.png</icon-large>
@@ -2684,7 +2684,7 @@
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_SCRIPT_DESCRIPTION</description>
                     <help>org.ametys.coreui.script</help>
                     
-                    <icon-glyph>ametysmisc-computer196</icon-glyph>
+                    <icon-glyph>ametysicon-computer196</icon-glyph>
                     <icon-small file="true">img/console/console-16.png</icon-small>
                     <icon-medium file="true">img/console/console-32.png</icon-medium>
                     <icon-large file="true">img/console/console-48.png</icon-large>
@@ -2813,7 +2813,7 @@
                     <label i18n="true">PLUGINS_CORE_UI_TASKS_TOOL_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TASKS_TOOL_DESCRIPTION</description>
                     
-                    <icon-glyph>ametysmisc-calendar-with-a-clock-time-tools</icon-glyph>
+                    <icon-glyph>ametysicon-datetime</icon-glyph>
                 </class>
                 <right>CORE_Rights_TaskScheduler</right>
                 <depends>
@@ -2830,7 +2830,7 @@
                     <title i18n="true">PLUGINS_CORE_UI_TASKS_TOOL_LABEL</title>
                     <description i18n="true">PLUGINS_CORE_UI_TASKS_TOOL_DESCRIPTION</description>
                     
-                    <icon-glyph>ametysmisc-calendar-with-a-clock-time-tools</icon-glyph>
+                    <icon-glyph>ametysicon-datetime</icon-glyph>
                     <default-location>cl</default-location>
                 </class>
                 <right>CORE_Rights_TaskScheduler</right>
@@ -2859,8 +2859,8 @@
                     <label i18n="true">PLUGINS_CORE_UI_TASKS_ADD_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TASKS_ADD_DESCRIPTION</description>
                     
-                    <icon-glyph>ametysmisc-gear39</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-add64</icon-decorator>
+                    <icon-glyph>ametysicon-gear39</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-add64</icon-decorator>
                 </class>
                 <right>CORE_Rights_TaskScheduler</right>
                 <scripts>
@@ -2888,8 +2888,8 @@
                     <label i18n="true">PLUGINS_CORE_UI_TASKS_EDIT_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TASKS_EDIT_DESCRIPTION</description>
                     
-                    <icon-glyph>ametysmisc-gear39</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-edit45</icon-decorator>
+                    <icon-glyph>ametysicon-gear39</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-edit45</icon-decorator>
                 </class>
                 <right>CORE_Rights_TaskScheduler</right>
                 <scripts>
@@ -2917,8 +2917,8 @@
                     <label i18n="true">PLUGINS_CORE_UI_TASKS_REMOVE_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TASKS_REMOVE_DESCRIPTION</description>
                     
-                    <icon-glyph>ametysmisc-gear39</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-remove11</icon-decorator>
+                    <icon-glyph>ametysicon-gear39</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-remove11</icon-decorator>
                 </class>
                 <right>CORE_Rights_TaskScheduler</right>
                 <scripts>
@@ -2945,10 +2945,10 @@
                     <label i18n="true">PLUGINS_CORE_UI_TASKS_ENABLE_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TASKS_DISABLE_DESCRIPTION</description>
                     
-                    <icon-glyph>ametysmisc-gear39</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-checked34</icon-decorator>
-                    <enabled-icon-decorator>decorator-ametysmisc-checked34</enabled-icon-decorator>
-                    <disabled-icon-decorator>decorator-ametysmisc-forbidden1</disabled-icon-decorator>
+                    <icon-glyph>ametysicon-gear39</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-checked34</icon-decorator>
+                    <enabled-icon-decorator>decorator-ametysicon-checked34</enabled-icon-decorator>
+                    <disabled-icon-decorator>decorator-ametysicon-forbidden1</disabled-icon-decorator>
                 </class>
                 <right>CORE_Rights_TaskScheduler</right>
                 <scripts>
@@ -2970,7 +2970,7 @@
                     <label i18n="true">PLUGINS_CORE_UI_TASKS_REMOVE_COMPLETED_TASKS_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TASKS_REMOVE_COMPLETED_TASKS_DESCRIPTION</description>
                     
-                    <icon-glyph>ametysmisc-eraser11</icon-glyph>
+                    <icon-glyph>ametysicon-eraser11</icon-glyph>
                 </class>
                 <right>CORE_Rights_TaskScheduler</right>
                 <scripts>
@@ -2991,7 +2991,7 @@
                     <label i18n="true">PLUGINS_CORE_UI_TASKS_REFRESH_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TASKS_REFRESH_DESCRIPTION</description>
                     
-                    <icon-glyph>ametysmisc-arrow123</icon-glyph>
+                    <icon-glyph>ametysicon-arrow123</icon-glyph>
                 </class>
                 <right>CORE_Rights_TaskScheduler</right>
                 <scripts>

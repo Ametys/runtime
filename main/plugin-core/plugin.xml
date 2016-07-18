@@ -610,7 +610,7 @@
                        point="org.ametys.runtime.plugins.admin.notificator.AdministratorNotificatorExtensionPoint"
                        class="org.ametys.core.user.population.IgnoredPopulationAdministratorNotificator">
                 <type>error</type>
-                <icon-glyph>ametysmisc-multiple25</icon-glyph>
+                <icon-glyph>ametysicon-multiple25</icon-glyph>
                 <title i18n="true">PLUGINS_CORE_USER_POPULATION_IGNORED_NOTIFICATION_TITLE</title>
                 <message i18n="true">PLUGINS_CORE_USER_POPULATION_IGNORED_NOTIFICATION_MESSAGE</message>
             </extension>
@@ -619,7 +619,7 @@
                        point="org.ametys.runtime.plugins.admin.notificator.AdministratorNotificatorExtensionPoint"
                        class="org.ametys.core.user.population.MisconfiguredPopulationAdministratorNotificator">
                 <type>error</type>
-                <icon-glyph>ametysmisc-multiple25</icon-glyph>
+                <icon-glyph>ametysicon-multiple25</icon-glyph>
                 <title i18n="true">PLUGINS_CORE_USER_POPULATION_MISCONFIGURED_NOTIFICATION_TITLE</title>
                 <message i18n="true">PLUGINS_CORE_USER_POPULATION_MISCONFIGURED_NOTIFICATION_MESSAGE</message>
                 <action>Ext.bind(Ametys.tool.ToolsManager.openTool, Ametys.tool.ToolsManager, ['uitool-populations', {}])</action>

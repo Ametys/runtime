@@ -91,7 +91,7 @@ Ext.define('Ametys.form.widget.File', {
     		none: {
     			buttonMenuText: "",
     			buttonMenuTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_FILE_BUTTON}}",
-    			buttonMenuIconCls: 'ametysmisc-document9',
+    			buttonMenuIconCls: 'ametysicon-document9',
 				
     			emptyText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_FILE_SELECTED}}",
     			
@@ -105,7 +105,7 @@ Ext.define('Ametys.form.widget.File', {
     		image: {
     			buttonMenuText: "",
     			buttonMenuTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_IMAGE_BUTTON}}",
-				buttonMenuIconCls: 'ametyseditor-image2',
+				buttonMenuIconCls: 'ametysicon-image2',
 				
     			emptyText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_IMAGE_SELECTED}}",
     			
@@ -119,7 +119,7 @@ Ext.define('Ametys.form.widget.File', {
     		multimedia: {
     			buttonMenuText: "",
     			buttonMenuTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_MULTIMEDIA_BUTTON}}",
-    			buttonMenuIconCls: 'ametyseditor-movie16',
+    			buttonMenuIconCls: 'ametysicon-movie16',
 				
     			emptyText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_MULTIMEDIA_SELECTED}}",
     			
@@ -133,7 +133,7 @@ Ext.define('Ametys.form.widget.File', {
     		video: {
     			buttonMenuText: "",
     			buttonMenuTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_VIDEO_BUTTON}}",
-    			buttonMenuIconCls: 'ametyseditor-movie16',
+    			buttonMenuIconCls: 'ametysicon-movie16',
 				
     			emptyText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_VIDEO_SELECTED}}",
     			
@@ -147,7 +147,7 @@ Ext.define('Ametys.form.widget.File', {
     		flash: {
     			buttonMenuText: "",
     			buttonMenuTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_FLASH_BUTTON}}",
-    			buttonMenuIconCls: 'ametyseditor-flash',
+    			buttonMenuIconCls: 'ametysicon-flash',
 				
     			emptyText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_FLASH_SELECTED}}",
     			
@@ -161,7 +161,7 @@ Ext.define('Ametys.form.widget.File', {
     		audio: {
     			buttonMenuText: "",
     			buttonMenuTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_SOUND_BUTTON}}",
-    			buttonMenuIconCls: 'ametysmisc-music168',
+    			buttonMenuIconCls: 'ametysicon-music168',
 				
     			emptyText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_SOUND_SELECTED}}",
     			
@@ -175,7 +175,7 @@ Ext.define('Ametys.form.widget.File', {
             pdf: {
                 buttonMenuText: "",
                 buttonMenuTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_PDF_BUTTON}}",
-                buttonMenuIconCls: 'ametysmisc-pdf17',
+                buttonMenuIconCls: 'ametysicon-pdf17',
                 
                 emptyText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_PDF_SELECTED}}",
                 
@@ -230,9 +230,9 @@ Ext.define('Ametys.form.widget.File', {
 	 * @cfg {String} [deleteButtonIcon] The full path to the delete button icon (in 16x16 pixels). Can be null to use #cfg-deleteButtonIconCls instead
 	 */
      /**
-     * @cfg {String} [deleteButtonIconCls=ametysmisc-remove11] The CSS class to apply to delete button icon
+     * @cfg {String} [deleteButtonIconCls=ametysicon-remove11] The CSS class to apply to delete button icon
      */
-    deleteButtonIconCls: 'ametysmisc-remove11', 
+    deleteButtonIconCls: 'ametysicon-remove11', 
     /**
      * @cfg {Boolean} buttonOnly True to display the file upload field as a button with no visible
      * text field (defaults to true).  If true, all inherited TextField members will still be available.

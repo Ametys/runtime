@@ -70,7 +70,7 @@ Ext.define('Ametys.plugins.coreui.schedule.EditTaskHelper', {
     {
         this._box = Ext.create('Ametys.window.DialogBox', {
             title: this._mode == 'add' ? "{{i18n PLUGINS_CORE_UI_TASKS_DIALOG_ADD_TITLE}}" : "{{i18n PLUGINS_CORE_UI_TASKS_DIALOG_EDIT_TITLE}}",
-            iconCls: 'ametysmisc-gear39',
+            iconCls: 'ametysicon-gear39',
             
             width: 600,
             maxHeight: 600,

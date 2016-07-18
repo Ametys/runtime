@@ -106,7 +106,7 @@
         <link id="common-css" rel="stylesheet" type="text/css">
             <xsl:attribute name="href"><xsl:value-of select="$contextPath"/><xsl:call-template name="css-file"/></xsl:attribute>
         </link>
-        <link rel="stylesheet" href="{$contextPath}/plugins/core-ui/resources/font/flaticon/flaticon.css"/>
+        <link rel="stylesheet" href="{$contextPath}/plugins/core-ui/resources/font/ametys/AmetysIcon.css"/>
     </xsl:template>
     <xsl:template name="css-file"><xsl:value-of select="ametys:workspaceThemeURL()"/>/sass/special/common.scss</xsl:template>
     <xsl:template name="head"/>

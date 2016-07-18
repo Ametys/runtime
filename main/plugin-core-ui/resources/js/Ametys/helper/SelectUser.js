@@ -287,7 +287,7 @@ Ext.define('Ametys.helper.SelectUser', {
         this._box = Ext.create('Ametys.window.DialogBox', {
             title : this.allowMultiselection ? "{{i18n PLUGINS_CORE_UI_USERS_SELECTUSERS_DIALOG_CAPTION}}" : "{{i18n PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CAPTION}}",
             //icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/users/user_16.png',
-            iconCls: 'ametysmisc-black302',
+            iconCls: 'ametysicon-black302',
             
             layout: {
                 type: 'vbox',

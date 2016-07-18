@@ -23,7 +23,7 @@ Ext.define('Ametys.form.widget.LDAPDataSource', {
     alias: ['widget.datasource-ldap'],
 	
     dataSourceType: 'LDAP',
-    createButtonIconCls: 'ametysmisc-agenda3 decorator-ametysmisc-add64',
+    createButtonIconCls: 'ametysicon-agenda3 decorator-ametysicon-add64',
     createButtonTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_LDAP_DATASOURCE_BUTTON_TOOLTIP}}",
     
     createDataSource: function (callback)

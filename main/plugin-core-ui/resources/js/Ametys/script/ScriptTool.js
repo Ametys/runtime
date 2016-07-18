@@ -30,7 +30,7 @@ Ext.define('Ametys.plugins.coreui.script.ScriptTool',
     createPanel: function()
     {
         this._helpTooltipBtn = Ext.create("Ext.Component", {
-            cls: 'uitool-script-help-tooltip ametysmisc-question13'
+            cls: 'uitool-script-help-tooltip ametysicon-question13'
         });
         
         this._initConsoleTooltip();

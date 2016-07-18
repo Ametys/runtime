@@ -59,7 +59,7 @@ Ext.define('Ametys.plugins.coreui.groupdirectories.ChooseGroupDirectoriesHelper'
         
         this._box = Ext.create('Ametys.window.DialogBox', {
             title: config.title || '',
-            iconCls: 'ametysmisc-multiple25',
+            iconCls: 'ametysicon-multiple25',
             
             layout: {
                 type: "vbox",

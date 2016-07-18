@@ -170,8 +170,8 @@ Ext.define('Ametys.plugins.coreui.populations.PopulationTool', {
      */
     _renderLabel: function(url, metadata, record)
     {
-        var decorator = record.get('valid') ? '' : ' decorator-ametysmisc-caution9 population-warning';
-        return '<span class="a-grid-glyph ametysmisc-agenda3' + decorator + '"></span>' + url;
+        var decorator = record.get('valid') ? '' : ' decorator-ametysicon-caution9 population-warning';
+        return '<span class="a-grid-glyph ametysicon-agenda3' + decorator + '"></span>' + url;
     },
     
     /**
@@ -205,7 +205,7 @@ Ext.define('Ametys.plugins.coreui.populations.PopulationTool', {
         var isTrue = Ext.isBoolean(value) ? value : value == 'true';
         if (isTrue)
         {
-            return '<span class="a-grid-glyph ametysmisc-check34"/>';
+            return '<span class="a-grid-glyph ametysicon-check34"/>';
         }
         else
         {

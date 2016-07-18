@@ -40,7 +40,7 @@ Ext.define('Ametys.helper.FileUpload', {
      * Allow the user to choose a resource file from its local hard drive
      * @param {Object} config The configuration options:
      * @param {String} [config.icon] The full path to icon (16x16) for the dialog box. If null the iconCls will be used
-     * @param {String} [config.iconCls=ametysmisc-upload119] One or more CSS classes to apply to dialog's icon. Can be null to use the default one.
+     * @param {String} [config.iconCls=ametysicon-upload119] One or more CSS classes to apply to dialog's icon. Can be null to use the default one.
      * @param {String} config.title The title of the dialog box.
      * @param {String} config.helpmessage The message displayed at the top of the dialog box.
      * @param {Function} config.callback The method that will be called when the dialog box is closed. The method signature is <ul><li>node : The tree node currently selected or null if no selection has been made (cancel)</li></ul> The method can return false to made the dialog box keep open (you should display an error message in this case)
@@ -77,7 +77,7 @@ Ext.define('Ametys.helper.FileUpload', {
 			this._box = Ext.create('Ametys.window.DialogBox', {
 				title: title,
                 icon: icon,
-                iconCls: icon ? null : (iconCls || 'ametysmisc-upload119'),
+                iconCls: icon ? null : (iconCls || 'ametysicon-upload119'),
 				
 				width: 430,
 				scrollable: true,
@@ -135,7 +135,7 @@ Ext.define('Ametys.helper.FileUpload', {
             }
             else
             {
-                this._box.setIconCls(iconCls || 'ametysmisc-upload119');
+                this._box.setIconCls(iconCls || 'ametysicon-upload119');
                 this._box.setIcon(null);
             }
 			this._box.setTitle(title);

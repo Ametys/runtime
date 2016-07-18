@@ -101,7 +101,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
 			
 			this._box = Ext.create('Ametys.window.DialogBox', {
 				title: this._mode == 'new' ? "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_ADD_TITLE}}" : "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_EDIT_TITLE}}",
-				iconCls: "ametysmisc-agenda3 " + (this._mode == 'new' ? "decorator-ametysmisc-add64" : "decorator-ametysmisc-edit45"),
+				iconCls: "ametysicon-agenda3 " + (this._mode == 'new' ? "decorator-ametysicon-add64" : "decorator-ametysicon-edit45"),
 				
 				layout: 'fit',
 				width: 700,
@@ -123,7 +123,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
 		else
 		{
 			this._box.setTitle(this._mode == 'new' ? "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_ADD_TITLE}}" : "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_LDAP_EDIT_TITLE}}");
-			this._box.setIconCls("ametysmisc-agenda3 " + (this._mode == 'new' ? "decorator-ametysmisc-add64" : "decorator-ametysmisc-edit45"));
+			this._box.setIconCls("ametysicon-agenda3 " + (this._mode == 'new' ? "decorator-ametysicon-add64" : "decorator-ametysicon-edit45"));
 			callback(true);
 		}
 	},
@@ -269,7 +269,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper', {
 		// Global parameter checker
 		configuration['field-checker'] = {
 			id: 'ldap-connection-checker-datasource',
-			'icon-glyph': 'ametysmisc-agenda3',
+			'icon-glyph': 'ametysicon-agenda3',
 			'linked-fields': ['id', 'baseURL', 'baseDN', 'useSSL', 'followReferrals', 'authenticationMethod', 'adminDN', 'adminPassword'],
 			label: "{{i18n plugin.core-impl:PLUGINS_CORE_LDAP_CONNECTION_CHECKER_LABEL}}",
 			description: "{{i18n plugin.core-impl:PLUGINS_CORE_LDAP_CONNECTION_CHECKER_DESC}}"

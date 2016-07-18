@@ -60,7 +60,7 @@ Ext.define('Ametys.plugins.coreui.about.AboutActions', {
             
             this._aboutBox = Ext.create('Ametys.window.DialogBox', {
                 title: "{{i18n PLUGINS_CORE_UI_ABOUT_DIALOG_TITLE}}",
-                iconCls: "ametysmisc-question13",
+                iconCls: "ametysicon-question13",
 
                 maxHeight: 600,
                 width: 500,

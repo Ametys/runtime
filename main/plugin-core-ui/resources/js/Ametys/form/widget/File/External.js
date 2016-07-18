@@ -47,10 +47,10 @@ Ext.define('Ametys.form.widget.File.External', {
 			none: {
 				buttonText: "",
 				buttonTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_FILE_BUTTON}}",
-                buttonIconCls: 'ametysmisc-document9',
+                buttonIconCls: 'ametysicon-document9',
 				
 				menuItemText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_EXTERNAL_FILE}}",
-				menuItemIconCls: 'ametysmisc-document9',
+				menuItemIconCls: 'ametysicon-document9',
 				
 				dialogTitle: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_FILE}}",
 				dialogHint: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_FILE_HINT}}",
@@ -61,10 +61,10 @@ Ext.define('Ametys.form.widget.File.External', {
 			image: {
 				buttonText: "",
 				buttonTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_IMAGE_BUTTON}}",
-				buttonIconCls: 'ametyseditor-image2',
+				buttonIconCls: 'ametysicon-image2',
 				
 				menuItemText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_EXTERNAL_IMAGE}}",
-				menuItemIconCls: 'ametyseditor-image2',
+				menuItemIconCls: 'ametysicon-image2',
 				
 				dialogTitle: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_IMAGE}}",
 				dialogHint: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_IMAGE_HINT}}",
@@ -75,10 +75,10 @@ Ext.define('Ametys.form.widget.File.External', {
 			multimedia: {
 				buttonText: "",
 				buttonTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_MULTIMEDIA_BUTTON}}",
-				buttonIconCls: 'ametyseditor-movie16',
+				buttonIconCls: 'ametysicon-movie16',
 				
 				menuItemText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_EXTERNAL_MULTIMEDIA}}",
-				menuItemIconCls: 'ametyseditor-movie16',
+				menuItemIconCls: 'ametysicon-movie16',
 				
 				dialogTitle: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_MULTIMEDIA}}",
 				dialogHint: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_MULTIMEDIA_HINT}}",
@@ -89,10 +89,10 @@ Ext.define('Ametys.form.widget.File.External', {
 			video: {
 				buttonText: "",
 				buttonTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_VIDEO_BUTTON}}",
-				buttonIconCls: 'ametyseditor-movie16',
+				buttonIconCls: 'ametysicon-movie16',
 				
 				menuItemText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_EXTERNAL_VIDEO}}",
-				menuItemIconCls: 'ametyseditor-movie16',
+				menuItemIconCls: 'ametysicon-movie16',
 				
 				dialogTitle: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_VIDEO}}",
 				dialogHint: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_VIDEO_HINT}}",
@@ -103,10 +103,10 @@ Ext.define('Ametys.form.widget.File.External', {
 			flash: {
 				buttonText: "",
 				buttonTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_FLASH_BUTTON}}",
-				buttonIconCls: 'ametyseditor-flash',
+				buttonIconCls: 'ametysicon-flash',
 				
 				menuItemText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_EXTERNAL_FLASH}}",
-				menuItemIconCls: 'ametyseditor-flash',
+				menuItemIconCls: 'ametysicon-flash',
 				
 				dialogTitle: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_FLASH}}",
 				dialogHint: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_FLASH_HINT}}",
@@ -117,10 +117,10 @@ Ext.define('Ametys.form.widget.File.External', {
 			audio: {
 				buttonText: "",
 				buttonTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_SOUND_BUTTON}}",
-				buttonIconCls: 'ametysmisc-music168',
+				buttonIconCls: 'ametysicon-music168',
 				
 				menuItemText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_EXTERNAL_SOUND}}",
-				menuItemIconCls: 'ametysmisc-music168',
+				menuItemIconCls: 'ametysicon-music168',
 				
 				dialogTitle: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_SOUND}}",
 				dialogHint: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_SOUND_HINT}}",
@@ -131,10 +131,10 @@ Ext.define('Ametys.form.widget.File.External', {
             pdf: {
                 buttonText: "",
                 buttonTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_PDF_BUTTON}}",
-                buttonIconCls: 'ametysmisc-pdf17',
+                buttonIconCls: 'ametysicon-pdf17',
                 
                 menuItemText: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_EXTERNAL_PDF}}",
-                menuItemIconCls: 'ametysmisc-pdf17',
+                menuItemIconCls: 'ametysicon-pdf17',
                 
                 dialogTitle: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_PDF}}",
                 dialogHint: "{{i18n PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_PDF_HINT}}",

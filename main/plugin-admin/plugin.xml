@@ -137,7 +137,7 @@
                     <announcement-on-description i18n="true">PLUGINS_ADMIN_SYSTEM_DESCRIPTION_ON</announcement-on-description>
                     <announcement-off-description i18n="true">PLUGINS_ADMIN_SYSTEM_DESCRIPTION_OFF</announcement-off-description>
                     
-                    <icon-glyph>ametysmisc-megaphone19</icon-glyph>
+                    <icon-glyph>ametysicon-megaphone19</icon-glyph>
                     <icon-small file="true">img/system/announcement_16.png</icon-small>
                     <icon-medium file="true">img/system/announcement_32.png</icon-medium>
                     <icon-large file="true">img/system/announcement_48.png</icon-large>
@@ -168,7 +168,7 @@
                     <title i18n="true">PLUGINS_ADMIN_SYSTEM_LABEL</title>
                     <description i18n="true">PLUGINS_ADMIN_SYSTEM_DESCRIPTION</description>
                     
-                    <icon-glyph>ametysmisc-megaphone19</icon-glyph>
+                    <icon-glyph>ametysicon-megaphone19</icon-glyph>
                     <icon-small file="true">img/system/announcement_16.png</icon-small>
                     <icon-medium file="true">img/system/announcement_32.png</icon-medium>
                     <icon-large file="true">img/system/announcement_48.png</icon-large>
@@ -189,8 +189,8 @@
                     <label i18n="true">PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_ADD_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_ADD_DESC</description>
 
-                    <icon-glyph>ametysmisc-megaphone19</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-add202</icon-decorator>
+                    <icon-glyph>ametysicon-megaphone19</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-add202</icon-decorator>
                     <icon-small file="true">img/system/add_announcement_16.png</icon-small>
                     <icon-medium file="true">img/system/add_announcement_32.png</icon-medium>
                     <icon-large file="true">img/system/add_announcement_48.png</icon-large>
@@ -211,8 +211,8 @@
                     <label i18n="true">PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_EDIT_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_EDIT_DESC</description>
 
-                    <icon-glyph>ametysmisc-megaphone19</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-edit45</icon-decorator>
+                    <icon-glyph>ametysicon-megaphone19</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-edit45</icon-decorator>
                     <icon-small file="true">img/system/edit_announcement_16.png</icon-small>
                     <icon-medium file="true">img/system/edit_announcement_32.png</icon-medium>
                     <icon-large file="true">img/system/edit_announcement_48.png</icon-large>
@@ -237,8 +237,8 @@
                     <label i18n="true">PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DELETE_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DELETE_DESC</description>
 
-                    <icon-glyph>ametysmisc-megaphone19</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-remove11</icon-decorator>
+                    <icon-glyph>ametysicon-megaphone19</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-remove11</icon-decorator>
                     <icon-small file="true">img/system/delete_announcement_16.png</icon-small>
                     <icon-medium file="true">img/system/delete_announcement_32.png</icon-medium>
                     <icon-large file="true">img/system/delete_announcement_48.png</icon-large>
@@ -259,15 +259,15 @@
                 
                     <label i18n="true">PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_SET_ANNOUNCEMENT_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_SET_ANNOUNCEMENT_DESC</description>
-                    <icon-glyph>ametysmisc-megaphone19</icon-glyph>
+                    <icon-glyph>ametysicon-megaphone19</icon-glyph>
                     <icon-small file="true">img/system/activate_16.png</icon-small>
                     <icon-medium file="true">img/system/activate_32.png</icon-medium>
                     <icon-large file="true">img/system/activate_48.png</icon-large>
                     
-                    <announcement-on-icon-decorator>ametysmisc-megaphone19-stop5</announcement-on-icon-decorator>
+                    <announcement-on-icon-decorator>ametysicon-megaphone19-stop5</announcement-on-icon-decorator>
                     <announcement-on-description i18n="true">PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_SET_ANNOUNCEMENT_OFF_DESC</announcement-on-description>
                     
-                    <announcement-off-icon-decorator>ametysmisc-megaphone19-check34</announcement-off-icon-decorator>
+                    <announcement-off-icon-decorator>ametysicon-megaphone19-check34</announcement-off-icon-decorator>
                     <announcement-off-description i18n="true">PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_SET_ANNOUNCEMENT_ON_DESC</announcement-off-description>
                 </class>
                 <scripts>
@@ -313,7 +313,7 @@
                     <label i18n="true">PLUGINS_ADMIN_TOOL_PLUGINSBYFILE_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_PLUGINSBYFILE_DESC</description>
                     
-                    <icon-glyph>ametysmisc-puzzle-piece1</icon-glyph>
+                    <icon-glyph>ametysicon-puzzle-piece1</icon-glyph>
                     <icon-small file="true">img/plugins/plugins_16.png</icon-small>
                     <icon-medium file="true">img/plugins/plugins_32.png</icon-medium>
                     <icon-large file="true">img/plugins/plugins_48.png</icon-large>
@@ -337,7 +337,7 @@
                     <title i18n="true">PLUGINS_ADMIN_TOOL_PLUGINSBYFILE_LABEL</title>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_PLUGINSBYFILE_DESC</description>
                     
-                    <icon-glyph>ametysmisc-puzzle-piece1</icon-glyph>
+                    <icon-glyph>ametysicon-puzzle-piece1</icon-glyph>
                     <icon-small file="true">img/plugins/plugins_16.png</icon-small>
                     <icon-medium file="true">img/plugins/plugins_32.png</icon-medium>
                     <icon-large file="true">img/plugins/plugins_48.png</icon-large>
@@ -362,7 +362,7 @@
                     <label i18n="true">PLUGINS_ADMIN_TOOL_PLUGINSBYEXTENSIONPOINT_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_PLUGINSBYEXTENSIONPOINT_DESC</description>
                     
-                    <icon-glyph>ametysmisc-puzzle-piece1</icon-glyph>
+                    <icon-glyph>ametysicon-puzzle-piece1</icon-glyph>
                     <icon-small file="true">img/plugins/plugins_ep_16.png</icon-small>
                     <icon-medium file="true">img/plugins/plugins_ep_32.png</icon-medium>
                     <icon-large file="true">img/plugins/plugins_ep_48.png</icon-large>
@@ -387,7 +387,7 @@
                     <title i18n="true">PLUGINS_ADMIN_TOOL_PLUGINSBYEXTENSIONPOINT_LABEL</title>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_PLUGINSBYEXTENSIONPOINT_DESC</description>
                     
-                    <icon-glyph>ametysmisc-puzzle-piece1</icon-glyph>
+                    <icon-glyph>ametysicon-puzzle-piece1</icon-glyph>
                     <icon-small file="true">img/plugins/plugins_ep_16.png</icon-small>
                     <icon-medium file="true">img/plugins/plugins_ep_32.png</icon-medium>
                     <icon-large file="true">img/plugins/plugins_ep_48.png</icon-large>
@@ -412,7 +412,7 @@
                     <label i18n="true">PLUGINS_ADMIN_TOOL_WORKSPACES_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_WORKSPACES_DESC</description>
                     
-                    <icon-glyph>ametysmisc-abecedary4</icon-glyph>
+                    <icon-glyph>ametysicon-abecedary4</icon-glyph>
                     <icon-small file="true">img/plugins/workspaces_16.png</icon-small>
                     <icon-medium file="true">img/plugins/workspaces_32.png</icon-medium>
                     <icon-large file="true">img/plugins/workspaces_48.png</icon-large>
@@ -438,7 +438,7 @@
                     <title i18n="true">PLUGINS_ADMIN_TOOL_WORKSPACES_LABEL</title>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_WORKSPACES_DESC</description>
                     
-                    <icon-glyph>ametysmisc-abecedary4</icon-glyph>
+                    <icon-glyph>ametysicon-abecedary4</icon-glyph>
                     <icon-small file="true">img/plugins/workspaces_16.png</icon-small>
                     <icon-medium file="true">img/plugins/workspaces_32.png</icon-medium>
                     <icon-large file="true">img/plugins/workspaces_48.png</icon-large>
@@ -460,7 +460,7 @@
                     <label i18n="true">PLUGINS_ADMIN_PLUGINS_DOCUMENTATION_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_PLUGINS_DOCUMENTATION_DESC</description>
 
-                    <icon-glyph>ametysmisc-question13</icon-glyph>
+                    <icon-glyph>ametysicon-question13</icon-glyph>
                     <icon-small file="true">img/plugins/documentation_16.png</icon-small>
                     <icon-medium file="true">img/plugins/documentation_32.png</icon-medium>
                     <icon-large file="true">img/plugins/documentation_48.png</icon-large>
@@ -486,7 +486,7 @@
                     <label i18n="true">PLUGINS_ADMIN_PLUGINS_ACTIVATE_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_PLUGINS_ACTIVATE_DESC</description>
 
-                    <icon-glyph>ametysmisc-checked34</icon-glyph>
+                    <icon-glyph>ametysicon-checked34</icon-glyph>
                     <icon-small file="true">img/plugins/activate_16.png</icon-small>
                     <icon-medium file="true">img/plugins/activate_32.png</icon-medium>
                     <icon-large file="true">img/plugins/activate_48.png</icon-large>
@@ -512,7 +512,7 @@
                     <label i18n="true">PLUGINS_ADMIN_PLUGINS_DEACTIVATE_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_PLUGINS_DEACTIVATE_DESC</description>
 
-                    <icon-glyph>ametysmisc-stop5</icon-glyph>
+                    <icon-glyph>ametysicon-stop5</icon-glyph>
                     <icon-small file="true">img/plugins/deactivate_16.png</icon-small>
                     <icon-medium file="true">img/plugins/deactivate_32.png</icon-medium>
                     <icon-large file="true">img/plugins/deactivate_48.png</icon-large>
@@ -538,7 +538,7 @@
                     <label i18n="true">PLUGINS_ADMIN_PLUGINS_SELECT_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_PLUGINS_SELECT_DESC</description>
 
-                    <icon-glyph>ametysmisc-check51</icon-glyph>
+                    <icon-glyph>ametysicon-check51</icon-glyph>
                     <icon-small file="true">img/plugins/select_16.png</icon-small>
                     <icon-medium file="true">img/plugins/select_32.png</icon-medium>
                     <icon-large file="true">img/plugins/select_48.png</icon-large>
@@ -560,7 +560,7 @@
                     <label i18n="true">PLUGINS_ADMIN_PLUGINS_SAVE_CHANGES_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_PLUGINS_SAVE_CHANGES_DESC</description>
 
-                    <icon-glyph>ametyseditor-save31</icon-glyph>
+                    <icon-glyph>ametysicon-save31</icon-glyph>
                     <icon-small file="true">img/plugins/save_16.png</icon-small>
                     <icon-medium file="true">img/plugins/save_32.png</icon-medium>
                     <icon-large file="true">img/plugins/save_48.png</icon-large>
@@ -583,8 +583,8 @@
                     <label i18n="true">PLUGINS_ADMIN_PLUGINS_CANCEL_CHANGES_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_PLUGINS_CANCEL_CHANGES_DESC</description>
 
-                    <icon-glyph>ametyseditor-save31</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-remove11</icon-decorator>
+                    <icon-glyph>ametysicon-save31</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-remove11</icon-decorator>
                     <icon-small file="true">img/plugins/unsave_16.png</icon-small>
                     <icon-medium file="true">img/plugins/unsave_32.png</icon-medium>
                     <icon-large file="true">img/plugins/unsave_48.png</icon-large>
@@ -632,7 +632,7 @@
                     <label i18n="true">PLUGINS_ADMIN_TOOL_LOGS_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_LOGS_DESC</description>
                     
-                    <icon-glyph>ametysmisc-log1</icon-glyph>
+                    <icon-glyph>ametysicon-log1</icon-glyph>
                     <icon-small file="true">img/logs/logs_16.png</icon-small>
                     <icon-medium file="true">img/logs/logs_32.png</icon-medium>
                     <icon-large file="true">img/logs/logs_48.png</icon-large>
@@ -655,7 +655,7 @@
                     <title i18n="true">PLUGINS_ADMIN_TOOL_LOGS_LABEL</title>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_LOGS_DESC</description>
                     
-                    <icon-glyph>ametysmisc-log1</icon-glyph>
+                    <icon-glyph>ametysicon-log1</icon-glyph>
                     <icon-small file="true">img/logs/logs_16.png</icon-small>
                     <icon-medium file="true">img/logs/logs_32.png</icon-medium>
                     <icon-large file="true">img/logs/logs_48.png</icon-large>
@@ -679,8 +679,8 @@
                     <label i18n="true">PLUGINS_ADMIN_TOOL_LOGS_LEVEL_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_LOGS_LEVEL_DESC</description>
                     
-                    <icon-glyph>ametysmisc-log1</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-gear39</icon-decorator>
+                    <icon-glyph>ametysicon-log1</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-gear39</icon-decorator>
                     <icon-small file="true">img/logs/loglevel_16.png</icon-small>
                     <icon-medium file="true">img/logs/loglevel_32.png</icon-medium>
                     <icon-large file="true">img/logs/loglevel_48.png</icon-large>
@@ -703,8 +703,8 @@
                     <title i18n="true">PLUGINS_ADMIN_TOOL_LOGS_LEVEL_LABEL</title>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_LOGS_LEVEL_DESC</description>
                     
-                    <icon-glyph>ametysmisc-log1</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-gear39</icon-decorator>
+                    <icon-glyph>ametysicon-log1</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-gear39</icon-decorator>
                     <icon-small file="true">img/logs/loglevel_16.png</icon-small>
                     <icon-medium file="true">img/logs/loglevel_32.png</icon-medium>
                     <icon-large file="true">img/logs/loglevel_48.png</icon-large>
@@ -727,7 +727,7 @@
                     <label i18n="true">PLUGINS_ADMIN_LOGS_VIEW_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_LOGS_VIEW_DESC</description>
 
-                    <icon-glyph>ametysmisc-log1</icon-glyph>
+                    <icon-glyph>ametysicon-log1</icon-glyph>
                     <icon-small file="true">img/logs/view_16.png</icon-small>
                     <icon-medium file="true">img/logs/view_32.png</icon-medium>
                     <icon-large file="true">img/logs/view_48.png</icon-large>
@@ -747,7 +747,7 @@
                     <label i18n="true">PLUGINS_ADMIN_LOGS_DOWNLOAD_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_LOGS_DOWNLOAD_DESC</description>
 
-                    <icon-glyph>ametysmisc-zip14</icon-glyph>
+                    <icon-glyph>ametysicon-zip14</icon-glyph>
                     <icon-small file="true">img/logs/download_16.png</icon-small>
                     <icon-medium file="true">img/logs/download_32.png</icon-medium>
                     <icon-large file="true">img/logs/download_48.png</icon-large>
@@ -767,8 +767,8 @@
                     <label i18n="true">PLUGINS_ADMIN_LOGS_DELETE_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_LOGS_DELETE_DESC</description>
 
-                    <icon-glyph>ametysmisc-log1</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-remove11</icon-decorator>
+                    <icon-glyph>ametysicon-log1</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-remove11</icon-decorator>
                     <icon-small file="true">img/logs/delete_16.png</icon-small>
                     <icon-medium file="true">img/logs/delete_32.png</icon-medium>
                     <icon-large file="true">img/logs/delete_48.png</icon-large>
@@ -787,7 +787,7 @@
                     <label i18n="true">PLUGINS_ADMIN_LOGS_PURGE_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_LOGS_PURGE_DESC</description>
 
-                    <icon-glyph>ametysmisc-garbage11</icon-glyph>
+                    <icon-glyph>ametysicon-garbage11</icon-glyph>
                     <icon-small file="true">img/logs/clean_16.png</icon-small>
                     <icon-medium file="true">img/logs/clean_32.png</icon-medium>
                     <icon-large file="true">img/logs/clean_48.png</icon-large>
@@ -960,7 +960,7 @@
                     <label i18n="true">PLUGINS_ADMIN_TOOL_JVMSTATUS_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_JVMSTATUS_DESC</description>
                     
-                    <icon-glyph>ametysmisc-transport10</icon-glyph>
+                    <icon-glyph>ametysicon-transport10</icon-glyph>
                     <icon-small file="true">img/jvmstatus/jvmstatus_16.png</icon-small>
                     <icon-medium file="true">img/jvmstatus/jvmstatus_32.png</icon-medium>
                     <icon-large file="true">img/jvmstatus/jvmstatus_48.png</icon-large>
@@ -982,7 +982,7 @@
                     <title i18n="true">PLUGINS_ADMIN_TOOL_JVMSTATUS_LABEL</title>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_JVMSTATUS_DESC</description>
                     
-                    <icon-glyph>ametysmisc-transport10</icon-glyph>
+                    <icon-glyph>ametysicon-transport10</icon-glyph>
                     <icon-small file="true">img/jvmstatus/jvmstatus_16.png</icon-small>
                     <icon-medium file="true">img/jvmstatus/jvmstatus_32.png</icon-medium>
                     <icon-large file="true">img/jvmstatus/jvmstatus_48.png</icon-large>
@@ -1006,7 +1006,7 @@
                     <label i18n="true">PLUGINS_ADMIN_TOOL_SYSTEMPROPERTIES_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_SYSTEMPROPERTIES_DESC</description>
                     
-                    <icon-glyph>ametysmisc-cpu6</icon-glyph>
+                    <icon-glyph>ametysicon-cpu6</icon-glyph>
                     <icon-small file="true">img/jvmstatus/properties_16.png</icon-small>
                     <icon-medium file="true">img/jvmstatus/properties_32.png</icon-medium>
                     <icon-large file="true">img/jvmstatus/properties_48.png</icon-large>
@@ -1028,7 +1028,7 @@
                     <title i18n="true">PLUGINS_ADMIN_TOOL_SYSTEMPROPERTIES_FACTORY_LABEL</title>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_SYSTEMPROPERTIES_DESC</description>
                     
-                    <icon-glyph>ametysmisc-cpu6</icon-glyph>
+                    <icon-glyph>ametysicon-cpu6</icon-glyph>
                     <icon-small file="true">img/jvmstatus/properties_16.png</icon-small>
                     <icon-medium file="true">img/jvmstatus/properties_32.png</icon-medium>
                     <icon-large file="true">img/jvmstatus/properties_48.png</icon-large>
@@ -1052,7 +1052,7 @@
                     <label i18n="true">PLUGINS_ADMIN_TOOL_MONITORING_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_MONITORING_DESC</description>
                     
-                    <icon-glyph>ametysmisc-medical-equipment</icon-glyph>
+                    <icon-glyph>ametysicon-medical-equipment</icon-glyph>
                     <icon-small file="true">img/jvmstatus/monitoring_16.png</icon-small>
                     <icon-medium file="true">img/jvmstatus/monitoring_32.png</icon-medium>
                     <icon-large file="true">img/jvmstatus/monitoring_48.png</icon-large>
@@ -1071,7 +1071,7 @@
                     <title i18n="true">PLUGINS_ADMIN_TOOL_MONITORING_LABEL</title>
                     <description i18n="true">PLUGINS_ADMIN_TOOL_MONITORING_DESC</description>
                     
-                    <icon-glyph>ametysmisc-medical-equipment</icon-glyph>
+                    <icon-glyph>ametysicon-medical-equipment</icon-glyph>
                     <icon-small file="true">img/jvmstatus/monitoring_16.png</icon-small>
                     <icon-medium file="true">img/jvmstatus/monitoring_32.png</icon-medium>
                     <icon-large file="true">img/jvmstatus/monitoring_48.png</icon-large>
@@ -1102,7 +1102,7 @@
                     <label i18n="true">PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_YEAR_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_YEAR_DESCRIPTION</description>
                     
-                    <icon-glyph>ametysmisc-calendar146</icon-glyph>
+                    <icon-glyph>ametysicon-calendar146</icon-glyph>
                 </class>
                 <scripts>
                     <file>js/Ametys/plugins/admin/jvmstatus/DrawModeAwareController.js</file>
@@ -1120,7 +1120,7 @@
                     <label i18n="true">PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_MONTH_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_MONTH_DESCRIPTION</description>
                     
-                    <icon-glyph>ametysmisc-calendar146</icon-glyph>
+                    <icon-glyph>ametysicon-calendar146</icon-glyph>
                 </class>
                 <scripts>
                     <file>js/Ametys/plugins/admin/jvmstatus/DrawModeAwareController.js</file>
@@ -1138,7 +1138,7 @@
                     <label i18n="true">PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_WEEK_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_WEEK_DESCRIPTION</description>
                     
-                    <icon-glyph>ametysmisc-calendar146</icon-glyph>
+                    <icon-glyph>ametysicon-calendar146</icon-glyph>
                 </class>
                 <scripts>
                     <file>js/Ametys/plugins/admin/jvmstatus/DrawModeAwareController.js</file>
@@ -1156,7 +1156,7 @@
                     <label i18n="true">PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_DAY_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_DAY_DESCRIPTION</description>
                     
-                    <icon-glyph>ametysmisc-time33</icon-glyph>
+                    <icon-glyph>ametysicon-time33</icon-glyph>
                 </class>
                 <scripts>
                     <file>js/Ametys/plugins/admin/jvmstatus/DrawModeAwareController.js</file>
@@ -1174,7 +1174,7 @@
                     <label i18n="true">PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_HOUR_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_MONITORING_ZOOM_LEVEL_HOUR_DESCRIPTION</description>
                     
-                    <icon-glyph>ametysmisc-calendar-with-a-clock-time-tools</icon-glyph>
+                    <icon-glyph>ametysicon-datetime</icon-glyph>
                 </class>
                 <scripts>
                     <file>js/Ametys/plugins/admin/jvmstatus/DrawModeAwareController.js</file>
@@ -1192,7 +1192,7 @@
                     <label i18n="true">PLUGINS_ADMIN_MONITORING_MOVE_TO_NOW_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_MONITORING_MOVE_TO_NOW_DESCRIPTION</description>
                     
-                    <icon-glyph>ametysmisc-next25</icon-glyph>
+                    <icon-glyph>ametysicon-next25</icon-glyph>
                 </class>
                 <scripts>
                     <file>js/Ametys/plugins/admin/jvmstatus/DrawModeAwareController.js</file>
@@ -1213,7 +1213,7 @@
                     <enabled-description i18n="true">PLUGINS_ADMIN_MONITORING_DRAW_MODE_ENABLE_DESCRIPTION</enabled-description>
                     <disabled-description i18n="true">PLUGINS_ADMIN_MONITORING_DRAW_MODE_DISABLE_DESCRIPTION</disabled-description>
                     
-                    <icon-glyph>ametysmisc-edit5</icon-glyph>
+                    <icon-glyph>ametysicon-edit5</icon-glyph>
                 </class>
                 <scripts>
                     <file>js/Ametys/plugins/admin/jvmstatus/SwitchDrawModeController.js</file>
@@ -1231,8 +1231,8 @@
                     <label i18n="true">PLUGINS_ADMIN_MONITORING_RELOAD_GRAPHS_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_MONITORING_RELOAD_GRAPHS_DESCRIPTION</description>
                     
-                    <icon-glyph>ametysmisc-stats144</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-arrows130</icon-decorator>
+                    <icon-glyph>ametysicon-stats144</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-arrows130</icon-decorator>
                 </class>
                 <scripts>
                     <file>js/Ametys/plugins/admin/jvmstatus/MonitoringTool.js</file>
@@ -1267,7 +1267,7 @@
                     <label i18n="true">PLUGINS_ADMIN_CONFIG_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_CONFIG_DESCRIPTION</description>
                     
-                    <icon-glyph>ametysmisc-hammer2</icon-glyph>
+                    <icon-glyph>ametysicon-hammer2</icon-glyph>
                     <icon-small file="true">img/config/config_16.png</icon-small>
                     <icon-medium file="true">img/config/config_32.png</icon-medium>
                     <icon-large file="true">img/config/config_48.png</icon-large>
@@ -1286,7 +1286,7 @@
                     <title i18n="true">PLUGINS_ADMIN_CONFIG_LABEL</title>
                     <description i18n="true">PLUGINS_ADMIN_CONFIG_DESCRIPTION</description>
                     
-                    <icon-glyph>ametysmisc-hammer2</icon-glyph>
+                    <icon-glyph>ametysicon-hammer2</icon-glyph>
                     <icon-small file="true">img/config/config_16.png</icon-small>
                     <icon-medium file="true">img/config/config_32.png</icon-medium>
                     <icon-large file="true">img/config/config_48.png</icon-large>
@@ -1309,8 +1309,8 @@
                     <label i18n="true">PLUGINS_ADMIN_CONFIG_HANDLE_SAVE</label>
                     <description i18n="true">PLUGINS_ADMIN_CONFIG_HANDLE_SAVE_DESC</description>
                     
-                    <icon-glyph>ametyseditor-save31</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-gear39</icon-decorator>
+                    <icon-glyph>ametysicon-save31</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-gear39</icon-decorator>
                     <icon-small file="true">img/config/save_16.png</icon-small>
                     <icon-medium file="true">img/config/save_32.png</icon-medium>
                     <icon-large file="true">img/config/save_48.png</icon-large>
@@ -1336,7 +1336,7 @@
                     <label i18n="true">PLUGINS_ADMIN_RESTART_RESTART_BUTTON_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_RESTART_RESTART_BUTTON_DESC</description>
                     
-                    <icon-glyph>ametysmisc-power110</icon-glyph>
+                    <icon-glyph>ametysicon-power110</icon-glyph>
                 </class>
                 <scripts>
                     <file>js/Ametys/plugins/admin/restart/RestartActions.js</file>
@@ -1352,8 +1352,8 @@
                     <label i18n="true">PLUGINS_ADMIN_RESTART_SAFE_MODE_RESTART_BUTTON_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_RESTART_SAFE_MODE_RESTART_BUTTON_DESC</description>
                     
-                    <icon-glyph>ametysmisc-power110</icon-glyph>
-                    <icon-decorator>decorator-ametysmisc-three115</icon-decorator>
+                    <icon-glyph>ametysicon-power110</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-three115</icon-decorator>
                 </class>
                 <scripts>
                     <file>js/Ametys/plugins/admin/restart/RestartActions.js</file>
@@ -1375,7 +1375,7 @@
                     
                     <label i18n="true">PLUGINS_ADMIN_SUPERUSER_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_SUPERUSER_DESCRIPTION</description>
-                    <icon-glyph>ametysmisc-tie6</icon-glyph>                    
+                    <icon-glyph>ametysicon-tie6</icon-glyph>                    
                     <icon-small file="true">img/superuser/super_user_16.png</icon-small>
                     <icon-medium file="true">img/superuser/super_user_32.png</icon-medium>
                     <icon-large file="true">img/superuser/super_user_48.png</icon-large>
@@ -1506,7 +1506,7 @@
                     <description i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_DESCRIPTION</description>
                     
                     <help>org.ametys.plugins.admin.datasource</help>
-                    <icon-glyph>ametysmisc-data112</icon-glyph>
+                    <icon-glyph>ametysicon-data112</icon-glyph>
                 </class>
                 <depends>
                     <org.ametys.core.ui.UIToolsFactoriesManager>uitool-datasource</org.ametys.core.ui.UIToolsFactoriesManager>
@@ -1523,7 +1523,7 @@
                     <description i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_DESCRIPTION</description>
                     
                     <help>org.ametys.plugins.admin.datasource</help>
-                    <icon-glyph>ametysmisc-data112</icon-glyph>
+                    <icon-glyph>ametysicon-data112</icon-glyph>
                 </class>
                 <scripts>
                     <file plugin="core">js/Ametys/plugins/core/datasource/DataSourceDAO.js</file>
@@ -1553,8 +1553,8 @@
                    <label i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_SQL_ADD_LABEL</label>
                    <description i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_SQL_ADD_DESCRIPTION</description>
                    
-                   <icon-glyph>ametysmisc-data110</icon-glyph>
-                   <icon-decorator>decorator-ametysmisc-add64</icon-decorator>
+                   <icon-glyph>ametysicon-data110</icon-glyph>
+                   <icon-decorator>decorator-ametysicon-add64</icon-decorator>
                </class>             
                <scripts>
                    <file plugin="core">js/Ametys/plugins/core/datasource/DataSourceDAO.js</file>
@@ -1572,8 +1572,8 @@
                    
                    <label i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_LDAP_ADD_LABEL</label>
                    <description i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_LDAP_ADD_DESCRIPTION</description>
-                   <icon-glyph>ametysmisc-agenda3</icon-glyph>
-                   <icon-decorator>decorator-ametysmisc-add64</icon-decorator>
+                   <icon-glyph>ametysicon-agenda3</icon-glyph>
+                   <icon-decorator>decorator-ametysicon-add64</icon-decorator>
                </class>             
                <scripts>
                    <file plugin="core">js/Ametys/plugins/core/datasource/DataSourceDAO.js</file>
@@ -1588,8 +1588,8 @@
                <class name="Ametys.ribbon.element.ui.ButtonController">
                    <label i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_ADD_LABEL</label>
                    <description i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_ADD_DESCRIPTION</description>
-                   <icon-glyph>ametysmisc-data110</icon-glyph>
-                   <icon-decorator>decorator-ametysmisc-add64</icon-decorator>
+                   <icon-glyph>ametysicon-data110</icon-glyph>
+                   <icon-decorator>decorator-ametysicon-add64</icon-decorator>
                </class>             
                <menu-items>
                     <item ref="org.ametys.plugins.admin.datasources.sql.Add"/>
@@ -1613,8 +1613,8 @@
 
                    <label i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_EDIT_LABEL</label>
                    <description i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_EDIT_DESCRIPTION</description>
-                   <icon-glyph>ametysmisc-data110</icon-glyph>
-                   <icon-decorator>decorator-ametysmisc-edit45</icon-decorator>
+                   <icon-glyph>ametysicon-data110</icon-glyph>
+                   <icon-decorator>decorator-ametysicon-edit45</icon-decorator>
                </class>             
                <scripts>
                    <file plugin="core">js/Ametys/plugins/core/datasource/DataSourceDAO.js</file>
@@ -1639,8 +1639,8 @@
                    <inuse-end-description i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_INUSE_END_DESCRIPTION</inuse-end-description>
                    <internal-start-description i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_INTERNAL_START_DESCRIPTION</internal-start-description>
                    <internal-end-description i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_REMOVE_INTERNAL_END_DESCRIPTION</internal-end-description>
-                   <icon-glyph>ametysmisc-data110</icon-glyph>
-                   <icon-decorator>decorator-ametysmisc-remove11</icon-decorator>
+                   <icon-glyph>ametysicon-data110</icon-glyph>
+                   <icon-decorator>decorator-ametysicon-remove11</icon-decorator>
                </class>             
                <scripts>
                     <file>js/Ametys/plugins/admin/datasource/DeleteDataSourceController.js</file>
@@ -1661,9 +1661,9 @@
                    <label i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_SET_DEFAULT_LABEL</label>
                    <description i18n="true">PLUGINS_ADMIN_UITOOL_DATASOURCE_SET_DEFAULT_DESCRIPTION</description>
 
-                   <icon-glyph>ametysmisc-data110</icon-glyph>
-                   <enabled-icon-decorator>decorator-ametysmisc-checked34</enabled-icon-decorator>
-                   <disabled-icon-decorator>decorator-ametysmisc-letterx5</disabled-icon-decorator>
+                   <icon-glyph>ametysicon-data110</icon-glyph>
+                   <enabled-icon-decorator>decorator-ametysicon-checked34</enabled-icon-decorator>
+                   <disabled-icon-decorator>decorator-ametysicon-letterx5</disabled-icon-decorator>
                </class>             
                <scripts>
                    <file>js/Ametys/plugins/admin/datasource/SetDefaultDataSourceController.js</file>
@@ -1676,7 +1676,7 @@
                        point="org.ametys.runtime.plugins.admin.notificator.AdministratorNotificatorExtensionPoint"
                        class="org.ametys.runtime.plugins.admin.datasource.InvalidDataSourceNotificator">
                 <type>warn</type>
-                <icon-glyph>ametysmisc-data110</icon-glyph>
+                <icon-glyph>ametysicon-data110</icon-glyph>
                 <title i18n="true">PLUGINS_ADMIN_DATASOURCES_UNEXISTING_DATABASE_NOTIFICATION_TITLE</title>
                 <message i18n="true">PLUGINS_ADMIN_DATASOURCES_UNEXISTING_DATABASE_NOTIFICATION_MESSAGE</message>
                 <action>Ext.bind(Ametys.tool.ToolsManager.openTool, Ametys.tool.ToolsManager, ['uitool-datasource', {}])</action>

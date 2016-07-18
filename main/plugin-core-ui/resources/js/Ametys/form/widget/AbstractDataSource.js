@@ -65,7 +65,7 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
     /**
      * @cfg {String} createButtonIconCls The button icon CSS for the create button.
      */
-    createButtonIconCls: 'ametysmisc-data110 decorator-ametysmisc-add64',
+    createButtonIconCls: 'ametysicon-data110 decorator-ametysicon-add64',
     
     /**
      * @cfg {String} createButtonTooltip The button icon tooltip for the create button.

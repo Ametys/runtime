@@ -21,7 +21,7 @@
  *      tooltip: {
  *          title: 'My Ametys Tooltip', 
  *          image: 'resources/img/ametys.gif', 
- *          // glyphIcon: 'ametysmisc-computer12',
+ *          // glyphIcon: 'ametysicon-computer12',
  *          // iconDecorator: null
  *          text: 'Click on this button to get access to some features', 
  *          helpId: '12', 
