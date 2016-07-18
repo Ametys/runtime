@@ -21,7 +21,6 @@ import java.sql.DriverManager;
 import java.util.List;
 
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.commons.lang3.StringUtils;
 
 import org.ametys.core.datasource.ConnectionHelper;
 import org.ametys.runtime.parameter.ParameterChecker;
@@ -36,24 +35,13 @@ public class SQLConnectionChecker extends AbstractLogEnabled implements Paramete
     public void check(List<String> values) throws ParameterCheckerTestFailureException
     {
         String url = values.get(0);
-        String driver = values.get(1);
-        String driverNotFoundMessage = values.get(2);
-        String login = values.get(3);
-        String password = values.get(4);
+        String login = values.get(1);
+        String password = values.get(2);
         
         Connection connection = null;
         try 
         {
-            Class.forName(driver);
             connection = DriverManager.getConnection(url, login, password);
-        }
-        catch (ClassNotFoundException cnfe)
-        {
-            if (StringUtils.isNotEmpty(driverNotFoundMessage))
-            {
-                throw new ParameterCheckerTestFailureException(driverNotFoundMessage, cnfe);
-            }
-            throw new ParameterCheckerTestFailureException("The given driver classpath was not found. Try to put the driver's jar in the WEB-INF/lib folder and reboot the application", cnfe);
         }
         catch (Exception e)
         {

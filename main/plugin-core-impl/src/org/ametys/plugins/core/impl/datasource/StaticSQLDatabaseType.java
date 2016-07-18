@@ -30,22 +30,25 @@ import org.ametys.runtime.plugin.component.PluginAware;
 public class StaticSQLDatabaseType extends AbstractLogEnabled implements Configurable, SQLDatabaseType, PluginAware
 {
     /** The id of the database type */
-    private String _id;
+    protected String _id;
     
     /** The label of the database type */
-    private I18nizableText _label;
+    protected I18nizableText _label;
 
     /** The driver of the database type */
-    private String _driver;
+    protected String _driver;
     
     /** The url template for this database type */
-    private String _template;
+    protected String _template;
     
     /** The plugin's name */
-    private String _pluginName;
+    protected String _pluginName;
+    
+    /** The SQL query to validate the connection is still alive */
+    protected String _validationQuery;
     
     /** The driver not found message */
-    private I18nizableText _driverNotFoundMessage;
+    protected I18nizableText _driverNotFoundMessage;
     
     public void setPluginInfo(String pluginName, String featureName, String id)
     {
@@ -65,6 +68,7 @@ public class StaticSQLDatabaseType extends AbstractLogEnabled implements Configu
         _driver = configuration.getChild("driver").getValue();
         _driverNotFoundMessage = I18nizableText.parseI18nizableText(configuration.getChild("driver-not-found-message"), "plugin." + _pluginName); 
         _template = configuration.getChild("template").getValue("");
+        _validationQuery = configuration.getChild("validation-query").getValue("SELECT 1");
     }
     
     @Override
@@ -89,6 +93,11 @@ public class StaticSQLDatabaseType extends AbstractLogEnabled implements Configu
     public String getTemplate()
     {
         return _template;
+    }
+    
+    public String getValidationQuery()
+    {
+        return _validationQuery;
     }
     
     @Override

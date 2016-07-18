@@ -35,9 +35,11 @@ import org.ametys.core.datasource.AbstractDataSourceManager.DataSourceDefinition
 import org.ametys.core.datasource.DataSourceClientInteraction.DataSourceType;
 import org.ametys.core.datasource.LDAPDataSourceManager;
 import org.ametys.core.datasource.SQLDataSourceManager;
+import org.ametys.core.datasource.dbtype.SQLDatabaseTypeExtensionPoint;
 import org.ametys.core.datasource.dbtype.SQLDatabaseTypeManager;
 import org.ametys.core.util.I18nUtils;
 import org.ametys.core.util.JSONUtils;
+import org.ametys.plugins.core.impl.datasource.StaticSQLDatabaseType;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
 import org.ametys.runtime.parameter.ParameterHelper;
@@ -59,6 +61,9 @@ public class CheckDataSourceAction extends ServiceableAction
     /** The manager for SQL database types */
     private SQLDatabaseTypeManager _sqlDatabaseTypeManager;
     
+    /** The extension point for SQL database types */
+    private SQLDatabaseTypeExtensionPoint _sqlDatabaseTypeExtensionPoint;
+    
     /** Utility methods helping the management of internationalizable text */
     private I18nUtils _i18nUtils;
     
@@ -71,6 +76,7 @@ public class CheckDataSourceAction extends ServiceableAction
         _ldapDataSourceManager = (LDAPDataSourceManager) serviceManager.lookup(LDAPDataSourceManager.ROLE);
         _sqlDataSourceManager = (SQLDataSourceManager) serviceManager.lookup(SQLDataSourceManager.ROLE);
         _sqlDatabaseTypeManager = (SQLDatabaseTypeManager) serviceManager.lookup(SQLDatabaseTypeManager.ROLE);
+        _sqlDatabaseTypeExtensionPoint = (SQLDatabaseTypeExtensionPoint) serviceManager.lookup(SQLDatabaseTypeExtensionPoint.ROLE);
         _i18nUtils = (I18nUtils) serviceManager.lookup(I18nUtils.ROLE);
         _jsonUtils = (JSONUtils) serviceManager.lookup(JSONUtils.ROLE);
     }
@@ -131,8 +137,11 @@ public class CheckDataSourceAction extends ServiceableAction
     {
         Map<String, String> sqlParameters = new HashMap<> ();
         
-        String driver = values.get(1);
-        sqlParameters.put("driver", driver);
+        String driverExtensionId = values.get(1);
+        StaticSQLDatabaseType sqlDatabaseType = (StaticSQLDatabaseType) _sqlDatabaseTypeExtensionPoint.getExtension(driverExtensionId);
+        String driver = sqlDatabaseType.getDriver();
+        
+        sqlParameters.put("driver", driverExtensionId);
         if (StringUtils.isNotEmpty(driver))
         {
             I18nizableText driverNotFoundMessageKey = _sqlDatabaseTypeManager.getClassNotFoundMessage(driver);

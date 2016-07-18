@@ -27,6 +27,8 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.commons.dbcp2.ConnectionFactory;
 import org.apache.commons.dbcp2.DriverManagerConnectionFactory;
 import org.apache.commons.dbcp2.PoolableConnection;
@@ -35,6 +37,8 @@ import org.apache.commons.dbcp2.PoolingDataSource;
 import org.apache.commons.pool2.ObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 
+import org.ametys.core.datasource.dbtype.SQLDatabaseType;
+import org.ametys.core.datasource.dbtype.SQLDatabaseTypeExtensionPoint;
 import org.ametys.plugins.core.impl.checker.SQLConnectionChecker;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.ParameterChecker;
@@ -55,7 +59,6 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
     public static final String AMETYS_INTERNAL_DATASOURCE_ID = "SQL-ametys-internal";
     private static final I18nizableText __AMETYS_INTERNAL_DATASOURCE_NAME = new I18nizableText("plugin.core", "PLUGINS_CORE_INTERNAL_DATASOURCE_LABEL");
     private static final I18nizableText __AMETYS_INTERNAL_DATASOURCE_DESCRIPTION = new I18nizableText("plugin.core", "PLUGINS_CORE_INTERNAL_DATASOURCE_LABEL");
-    private static final String __AMETYS_INTERNAL_DATASOURCE_DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
     
     private static String __filename;
 
@@ -63,6 +66,16 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
     private Map<String, ObjectPool> _pools;
     
     private DataSourceDefinition _internalDataSource;
+
+    private SQLDatabaseTypeExtensionPoint _sqlDatabaseTypeEP;
+
+    @Override
+    public void service(ServiceManager serviceManager) throws ServiceException
+    {
+        super.service(serviceManager);
+        
+        _sqlDatabaseTypeEP = (SQLDatabaseTypeExtensionPoint) serviceManager.lookup(SQLDatabaseTypeExtensionPoint.ROLE);
+    }
     
     /**
      * Set the config filename. Only use for tests.
@@ -93,7 +106,7 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
         
         // Add the internal and not editable DB
         Map<String, String> parameters = new HashMap<>();
-        parameters.put ("driver", __AMETYS_INTERNAL_DATASOURCE_DRIVER);
+        parameters.put ("dbtype", ConnectionHelper.DATABASE_DERBY);
         
         File dbFile = new File (RuntimeConfig.getInstance().getAmetysHome(), "data" + File.separator + "internal-db");
         parameters.put ("url", "jdbc:derby:" + dbFile.getAbsolutePath() + ";create=true");
@@ -251,8 +264,6 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
         // Order the parameters
         List<String> values = new ArrayList<> ();
         values.add(rawParameters.get("url"));
-        values.add(rawParameters.get("driver"));
-        values.add(rawParameters.get("driverNotFoundMessage")); 
         values.add(rawParameters.get("user"));
         values.add(rawParameters.get("password"));
 
@@ -275,7 +286,13 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
         String url = parameters.get("url");
         String user = parameters.get("user");
         String password = parameters.get("password");
-        String driver = parameters.get("driver");
+        
+        String dbtype = parameters.get("dbtype");
+        if (!_sqlDatabaseTypeEP.hasExtension(dbtype))
+        {
+            throw new IllegalArgumentException("Database of type '" + dbtype + "' is not supported");
+        }
+        SQLDatabaseType sqlDbType = _sqlDatabaseTypeEP.getExtension(dbtype);
         
         ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(url, user, password);
         PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(connectionFactory, null);
@@ -290,7 +307,7 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
         connectionPool.setTimeBetweenEvictionRunsMillis(1000 * 60 * 30);
         
         poolableConnectionFactory.setPool(connectionPool);
-        poolableConnectionFactory.setValidationQuery(_getValidationQuery(driver));
+        poolableConnectionFactory.setValidationQuery(sqlDbType.getValidationQuery());
         poolableConnectionFactory.setDefaultAutoCommit(true);
         poolableConnectionFactory.setDefaultReadOnly(false);
                  
@@ -314,31 +331,6 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
     {
         _sqlDataSources.remove(dataSource.getId());
         _disposePool(dataSource.getId());
-    }
-    
-    /**
-     * Get the appropriate validation query
-     * @param driver the driver 
-     * @return the validation query
-     */
-    private String _getValidationQuery(String driver)
-    {
-        if ("oracle.jdbc.driver.OracleDriver".equals(driver) || "oracle.jdbc.OracleDriver".equals(driver))
-        {
-            return "SELECT 1 FROM DUAL";
-        }
-        else if ("org.apache.derby.jdbc.EmbeddedDriver".equals(driver))
-        {
-            return "SELECT 1 FROM SYS.SYSTABLES";
-        }
-        else if ("org.hsqldb.jdbcDriver".equals(driver) || "org.hsqldb.jdbc.JDBCDriver".equals(driver))
-        {
-            return "SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS";
-        }
-        else
-        {
-            return "SELECT 1";
-        }
     }
     
     @Override

@@ -52,7 +52,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
 import org.ametys.core.datasource.ConnectionHelper;
-import org.ametys.core.datasource.ConnectionHelper.DatabaseType;
 import org.ametys.core.group.Group;
 import org.ametys.core.group.GroupDirectoryDAO;
 import org.ametys.core.group.GroupIdentity;
@@ -3140,15 +3139,15 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         try
         {
             connection = getSQLConnection();
-            DatabaseType dbType = ConnectionHelper.getDatabaseType(connection);
+            String dbType = ConnectionHelper.getDatabaseType(connection);
 
-            if (dbType == DatabaseType.DATABASE_ORACLE || dbType == DatabaseType.DATABASE_POSTGRES)
+            if (ConnectionHelper.DATABASE_ORACLE.equals(dbType) || ConnectionHelper.DATABASE_POSTGRES.equals(dbType))
             {
-                if (DatabaseType.DATABASE_ORACLE.equals(dbType))
+                if (ConnectionHelper.DATABASE_ORACLE.equals(dbType))
                 {
                     statement = connection.prepareStatement("SELECT seq_rights_profile.nextval FROM dual");
                 }
-                else // if (DatabaseType.DATABASE_POSTGRES.equals(dbType))
+                else
                 {
                     statement = connection.prepareStatement("SELECT nextval('seq_rights_profile')");
                 }
@@ -3182,7 +3181,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             ConnectionHelper.cleanup(statement);
 
             // FIXME Write query working with all database
-            if (dbType == DatabaseType.DATABASE_MYSQL)
+            if (ConnectionHelper.DATABASE_MYSQL.equals(dbType))
             {
                 statement = connection.prepareStatement("SELECT Id FROM " + _tableProfile + " WHERE Id = last_insert_id()");
                 rs = statement.executeQuery();
@@ -3203,7 +3202,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                     }
                 }
             }
-            else if (dbType == DatabaseType.DATABASE_DERBY)
+            else if (ConnectionHelper.DATABASE_DERBY.equals(dbType))
             {
                 statement = connection.prepareStatement("VALUES IDENTITY_VAL_LOCAL ()");
                 rs = statement.executeQuery();
@@ -3212,7 +3211,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                     id = rs.getInt(1);
                 }
             }
-            else if (dbType == DatabaseType.DATABASE_HSQLDB)
+            else if (ConnectionHelper.DATABASE_HSQLDB.equals(dbType))
             {
                 statement = connection.prepareStatement("CALL IDENTITY ()");
                 rs = statement.executeQuery();

@@ -19,6 +19,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -26,6 +27,7 @@ import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,34 +40,26 @@ public final class ConnectionHelper implements Component, Serviceable
 {
     /** The Avalon role */
     public static final String ROLE = ConnectionHelper.class.getName();
+
+    /** ID of database extension for Unknown */
+    public static final String DATABASE_UNKNOWN = "";
+    /** ID of database extension for Mysql */
+    public static final String DATABASE_MYSQL = "org.ametys.core.datasource.sql.dbtype.mysql";
+    /** ID of database extension for Oracle */
+    public static final String DATABASE_ORACLE = "org.ametys.core.datasource.sql.dbtype.oracle";
+    /** ID of database extension for Postgres */
+    public static final String DATABASE_POSTGRES = "org.ametys.core.datasource.sql.dbtype.postgresql";
+    /** ID of database extension for Derby */
+    public static final String DATABASE_DERBY = "org.ametys.core.datasource.sql.dbtype.derby";
+    /** ID of database extension for Hsqldb */
+    public static final String DATABASE_HSQLDB = "org.ametys.core.datasource.sql.dbtype.hsql";
+    
     
     /** Logger for traces */
     private static Logger _logger = LoggerFactory.getLogger(ConnectionHelper.class.getName());
     
     /** The manager for SQL data source */
     private static SQLDataSourceManager _sqlDataSourceManager;
-    
-    /** Enumeration for database type.&lt;br&gt; */
-    public enum DatabaseType
-    {
-        /** Database type is unknown */
-        DATABASE_UNKNOWN,
-        
-        /** Database type is Mysql */
-        DATABASE_MYSQL,
-        
-        /** Database type is Oracle */
-        DATABASE_ORACLE, 
-              
-        /** Database type is Postgres */
-        DATABASE_POSTGRES,
-        
-        /** Database type is Derby */
-        DATABASE_DERBY,
-
-        /** Database type is Hsqldb */
-        DATABASE_HSQLDB
-    }
     
     @Override
     public void service(ServiceManager serviceManager) throws ServiceException
@@ -177,52 +171,40 @@ public final class ConnectionHelper implements Component, Serviceable
     /**
      * Determine the database type
      * @param connection The jdbc connection to the database
-     * @return DATABASE_UNKNOWN, DATABASE_MYSQL, DATABASE_POSTGRES or DATABASE_ORACLE
+     * @return The database type id or empty string if unknown
      */
-    public static DatabaseType getDatabaseType(Connection connection)
+    public static String getDatabaseType(Connection connection)
     {
         try
         {
-            return getDatabaseType (connection.getMetaData().getURL());
+            return getDatabaseType(connection.getMetaData().getURL());
         }
         catch (SQLException e)
         {
             LoggerFactory.getLogger(ConnectionHelper.class).error("Cannot determine database type", e);
-            return DatabaseType.DATABASE_UNKNOWN;
+            return DATABASE_UNKNOWN;
         }
     }
     
     /**
      * Determine the database type
      * @param jdbcURL The jdbc url used to connect to the database
-     * @return DATABASE_UNKNOWN, DATABASE_MYSQL, DATABASE_POSTGRES or DATABASE_ORACLE
+     * @return The database type id or null if unknown
      */
-    public static DatabaseType getDatabaseType(String jdbcURL)
+    public static String getDatabaseType(String jdbcURL)
     {
-        if (jdbcURL.trim().startsWith("jdbc:mysql"))
+        Map<String, DataSourceDefinition> dataSourceDefinitions = _sqlDataSourceManager.getDataSourceDefinitions(true, true, false);
+        for (DataSourceDefinition definition : dataSourceDefinitions.values())
         {
-            return DatabaseType.DATABASE_MYSQL;
+            // Get the definition url without jdbc parameters (e.g. internal-db have ;create=true)
+            String url = StringUtils.substringBefore(definition.getParameters().get("url"), ";");
+            if (StringUtils.equals(url, jdbcURL))
+            {
+                return definition.getParameters().get("dbtype");
+            }
         }
-        else if (jdbcURL.trim().startsWith("jdbc:oracle"))
-        {
-            return DatabaseType.DATABASE_ORACLE;
-        }
-        else if (jdbcURL.trim().startsWith("jdbc:postgresql"))
-        {
-            return DatabaseType.DATABASE_POSTGRES;
-        }
-        else if (jdbcURL.trim().startsWith("jdbc:derby"))
-        {
-            return DatabaseType.DATABASE_DERBY;
-        }
-        else if (jdbcURL.trim().startsWith("jdbc:hsqldb"))
-        {
-            return DatabaseType.DATABASE_HSQLDB;
-        }
-        else
-        {
-            return DatabaseType.DATABASE_UNKNOWN;
-        }
+        
+        return DATABASE_UNKNOWN;
     }
     
     /**

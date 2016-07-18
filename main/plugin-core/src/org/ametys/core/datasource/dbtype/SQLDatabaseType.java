@@ -41,6 +41,12 @@ public interface SQLDatabaseType
     public String getDriver();
     
     /**
+     * Get the query to validate a connection
+     * @return A SQL query to ensure that a connection is still alive
+     */
+    public String getValidationQuery();
+    
+    /**
      * Get the url template to use for this database type
      * @return the url template
      */

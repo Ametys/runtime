@@ -338,8 +338,8 @@
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_NAME_DESCRIPTION">Le nom de la source de données à afficher lorsqu'une source de données sera demandée.</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DESCRIPTION">Description</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DESCRIPTION_DESCRIPTION">Description optionnelle pour la source de données.</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DRIVER">Type de base de données</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DRIVER_DESCRIPTION">Type de bases de données à charger à charger pour se connecter à la base de données.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DBTYPE">Type de base de données</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DBTYPE_DESCRIPTION">Type de bases de données à charger à charger pour se connecter à la base de données.</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_URL">Url</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_URL_DESCRIPTION">Url de connexion au serveur de base de données.</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_USER">Utilisateur</message>
@@ -348,7 +348,7 @@
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PASSWORD_DESCRIPTION">Mot de passe associé à l'utilisateur à utiliser lors de la connexion au serveur de base de données.</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PRIVATE">Source privée</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PRIVATE_DESCRIPTION">Cochez cette case si vous souhaitez que cette source de données soit privée.&lt;br/&gt;Elle ne sera visible que dans l'interface d'administration si c'est le cas.</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_GET_DRIVERS_ERROR">Une erreur serveur s'est produit lors de la récupération des types de base de données.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_GET_DBTYPE_ERROR">Une erreur serveur s'est produit lors de la récupération des types de base de données.</message>
     
     <message key="PLUGINS_ADMIN_DATASOURCES_UNEXISTING_DATABASE_NOTIFICATION_TITLE">Source de données invalide</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_UNEXISTING_DATABASE_NOTIFICATION_MESSAGE">La connexion à la source de données &lt;a&gt;{0}&lt;/a&gt; est impossible. Veuillez vérifier ses paramètres.</message>

@@ -68,7 +68,7 @@ public class SQLDatabaseTypeManager implements Component, Serviceable
             StaticSQLDatabaseType staticSQLDatabaseType = (StaticSQLDatabaseType) _sqlDatabaseTypeExtensionPoint.getExtension((String) extensionId);
             
             databaseType.put("label", _i18nUtils.translate(staticSQLDatabaseType.getLabel()));
-            databaseType.put("value", staticSQLDatabaseType.getDriver());
+            databaseType.put("value", extensionId);
             databaseType.put("template", staticSQLDatabaseType.getTemplate());
             
             databaseTypes.add(databaseType);

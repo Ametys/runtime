@@ -53,7 +53,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import org.ametys.core.datasource.ConnectionHelper;
-import org.ametys.core.datasource.ConnectionHelper.DatabaseType;
 import org.ametys.core.user.UserIdentity;
 import org.ametys.core.userpref.DefaultUserPreferencesStorage;
 import org.ametys.core.userpref.UserPreferencesException;
@@ -121,7 +120,7 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
         try
         {
             connection = ConnectionHelper.getConnection(_dataSourceId);
-            DatabaseType dbType = ConnectionHelper.getDatabaseType(connection);
+            String dbType = ConnectionHelper.getDatabaseType(connection);
             
             stmt = connection.prepareStatement("SELECT * FROM " + _databaseTable + " WHERE login = ? AND population = ? AND context = ?");
             
@@ -133,7 +132,7 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
             
             if (rs.next())
             {
-                if (DatabaseType.DATABASE_POSTGRES.equals(dbType))
+                if (ConnectionHelper.DATABASE_POSTGRES.equals(dbType))
                 {
                     dataIs = rs.getBinaryStream("data");
                 }
@@ -212,7 +211,7 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
             
             connection = ConnectionHelper.getConnection(_dataSourceId);
             
-            DatabaseType dbType = ConnectionHelper.getDatabaseType(connection);
+            String dbType = ConnectionHelper.getDatabaseType(connection);
             
             // Test if the preferences already exist.
             boolean dataExists;
@@ -234,7 +233,7 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
                 // If there's already a record, update it with the new data.
                 try (PreparedStatement stmt = connection.prepareStatement("UPDATE " + _databaseTable + " SET data = ? WHERE login = ? AND population = ? AND context = ?"))
                 {
-                    if (DatabaseType.DATABASE_POSTGRES.equals(dbType) || DatabaseType.DATABASE_ORACLE.equals(dbType))
+                    if (ConnectionHelper.DATABASE_POSTGRES.equals(dbType) || ConnectionHelper.DATABASE_ORACLE.equals(dbType))
                     {
                         stmt.setBinaryStream(1, dataIs, prefBytes.length);
                     }
@@ -258,7 +257,7 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
                     stmt.setString(1, user.getLogin());
                     stmt.setString(2, user.getPopulationId());
                     stmt.setString(3, storageContext);
-                    if (DatabaseType.DATABASE_POSTGRES.equals(dbType) || DatabaseType.DATABASE_ORACLE.equals(dbType))
+                    if (ConnectionHelper.DATABASE_POSTGRES.equals(dbType) || ConnectionHelper.DATABASE_ORACLE.equals(dbType))
                     {
                         stmt.setBinaryStream(4, dataIs, prefBytes.length);
                     }

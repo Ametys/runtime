@@ -45,7 +45,6 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import org.ametys.core.authentication.Credentials;
 import org.ametys.core.datasource.ConnectionHelper;
-import org.ametys.core.datasource.ConnectionHelper.DatabaseType;
 import org.ametys.core.user.InvalidModificationException;
 import org.ametys.core.user.User;
 import org.ametys.core.user.UserIdentity;
@@ -1192,7 +1191,7 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
             _patternToMatch = _getPatternToMatch(_pattern);
             if (_patternToMatch != null)
             {
-                if (ConnectionHelper.getDatabaseType(connection) == DatabaseType.DATABASE_DERBY)
+                if (ConnectionHelper.getDatabaseType(connection) == ConnectionHelper.DATABASE_DERBY)
                 {
                     // The LIKE operator in Derby is case sensitive
                     sql.append(_mandatoryPredicate != null ? " AND (" : " WHERE ")
@@ -1229,19 +1228,19 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
                 return sql;
             }
 
-            DatabaseType datatype = ConnectionHelper.getDatabaseType(con);
+            String dbType = ConnectionHelper.getDatabaseType(con);
 
-            if (datatype == DatabaseType.DATABASE_MYSQL || datatype == DatabaseType.DATABASE_POSTGRES || datatype == DatabaseType.DATABASE_HSQLDB)
+            if (ConnectionHelper.DATABASE_MYSQL.equals(dbType) || ConnectionHelper.DATABASE_POSTGRES.equals(dbType) || ConnectionHelper.DATABASE_HSQLDB.equals(dbType))
             {
                 sql.append(" LIMIT " + length + " OFFSET " + offset);
                 return sql;
             }
-            else if (datatype == DatabaseType.DATABASE_ORACLE)
+            else if (ConnectionHelper.DATABASE_ORACLE.equals(dbType))
             {
                 return new StringBuilder("select " + selectClause.toString() + " from (select rownum r, " + selectClause.toString() + " from (" + sql.toString()
                         + ")) where r BETWEEN " + (offset + 1) + " AND " + (offset + length));
             }
-            else if (datatype == DatabaseType.DATABASE_DERBY)
+            else if (ConnectionHelper.DATABASE_DERBY.equals(dbType))
             {
                 return new StringBuilder("select ").append(selectClause)
                         .append(" from (select ROW_NUMBER() OVER () AS ROWNUM, ").append(selectClause.toString())

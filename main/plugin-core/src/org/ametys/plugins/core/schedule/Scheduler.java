@@ -61,8 +61,9 @@ import org.quartz.impl.matchers.GroupMatcher;
 import org.quartz.utils.PoolingConnectionProvider;
 
 import org.ametys.core.datasource.ConnectionHelper;
-import org.ametys.core.datasource.ConnectionHelper.DatabaseType;
 import org.ametys.core.datasource.SQLDataSourceManager;
+import org.ametys.core.datasource.dbtype.SQLDatabaseType;
+import org.ametys.core.datasource.dbtype.SQLDatabaseTypeExtensionPoint;
 import org.ametys.core.right.RightsManager;
 import org.ametys.core.schedule.AmetysJob;
 import org.ametys.core.schedule.Runnable;
@@ -144,6 +145,8 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
     protected RightsManager _rightsManager;
     /** The provider of current user */
     protected CurrentUserProvider _currentUserProvider;
+    /** The sql database type ep */
+    protected SQLDatabaseTypeExtensionPoint _sqlDatabaseTypeEP;
 
     @Override
     public void contextualize(Context context) throws ContextException
@@ -158,6 +161,7 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
         _runnableEP = (RunnableExtensionPoint) manager.lookup(RunnableExtensionPoint.ROLE);
         _schedulableEP = (SchedulableExtensionPoint) manager.lookup(SchedulableExtensionPoint.ROLE);
         _sqlDataSourceManager = (SQLDataSourceManager) manager.lookup(SQLDataSourceManager.ROLE);
+        _sqlDatabaseTypeEP = (SQLDatabaseTypeExtensionPoint) manager.lookup(SQLDatabaseTypeExtensionPoint.ROLE);
         _sourceResolver = (SourceResolver) manager.lookup(SourceResolver.ROLE);
         _rightsManager = (RightsManager) manager.lookup(RightsManager.ROLE);
         _currentUserProvider = (CurrentUserProvider) manager.lookup(CurrentUserProvider.ROLE);
@@ -175,15 +179,17 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
         String url = dsParameters.get("url");
         String user = dsParameters.get("user");
         String password = dsParameters.get("password");
-        String driver = dsParameters.get("driver");
-        DatabaseType dbType = ConnectionHelper.getDatabaseType(url);
+        String dbtype = dsParameters.get("dbtype");
+        SQLDatabaseType sqlDbType = _sqlDatabaseTypeEP.getExtension(dbtype);
+        
+        String dbType = ConnectionHelper.getDatabaseType(url);
         String dsName = "quartzDb";
         
         // Set the properties for Quartz
         Properties props = new Properties();
         props.load(Scheduler.class.getResourceAsStream(__QUARTZ_CONFIG_FILE_NAME));
         props.setProperty("org.quartz.jobStore.dataSource", dsName);
-        props.setProperty(StdSchedulerFactory.PROP_DATASOURCE_PREFIX + "." + dsName + "." + PoolingConnectionProvider.DB_DRIVER, driver);
+        props.setProperty(StdSchedulerFactory.PROP_DATASOURCE_PREFIX + "." + dsName + "." + PoolingConnectionProvider.DB_DRIVER, sqlDbType.getDriver());
         props.setProperty(StdSchedulerFactory.PROP_DATASOURCE_PREFIX + "." + dsName + "." + PoolingConnectionProvider.DB_URL, url);
         props.setProperty(StdSchedulerFactory.PROP_DATASOURCE_PREFIX + "." + dsName + "." + PoolingConnectionProvider.DB_USER, user);
         props.setProperty(StdSchedulerFactory.PROP_DATASOURCE_PREFIX + "." + dsName + "." + PoolingConnectionProvider.DB_PASSWORD, password);
@@ -240,20 +246,24 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
     {
         String scriptFolder = null;
         
-        DatabaseType dbType = ConnectionHelper.getDatabaseType(connection);
+        String dbType = ConnectionHelper.getDatabaseType(connection);
         switch (dbType)
         {
-            case DATABASE_DERBY:
-                scriptFolder = "derby"; break;
-            case DATABASE_HSQLDB:
-                scriptFolder = "hsqldb"; break;
-            case DATABASE_MYSQL:
-                scriptFolder = "mysql"; break;
-            case DATABASE_ORACLE:
-                scriptFolder = "oracle"; break;
-            case DATABASE_POSTGRES:
-                scriptFolder = "postgresql"; break;
-            case DATABASE_UNKNOWN:
+            case ConnectionHelper.DATABASE_DERBY:
+                scriptFolder = "derby"; 
+                break;
+            case ConnectionHelper.DATABASE_HSQLDB:
+                scriptFolder = "hsqldb"; 
+                break;
+            case ConnectionHelper.DATABASE_MYSQL:
+                scriptFolder = "mysql"; 
+                break;
+            case ConnectionHelper.DATABASE_ORACLE:
+                scriptFolder = "oracle"; 
+                break;
+            case ConnectionHelper.DATABASE_POSTGRES:
+                scriptFolder = "postgresql"; 
+                break;
             default:
                 getLogger().warn("This data source is not compatible with the automatic creation of the SQL tables. The tables will not be created. Data source id: '{}'", dataSourceId);
                 return;
@@ -318,17 +328,17 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
         return schemaExists;
     }
     
-    private String _getDriverDelegateClass(DatabaseType dbType)
+    private String _getDriverDelegateClass(String dbType)
     {
         switch (dbType)
         {
-            case DATABASE_DERBY:
-            case DATABASE_MYSQL:
-            case DATABASE_ORACLE:
+            case ConnectionHelper.DATABASE_DERBY:
+            case ConnectionHelper.DATABASE_MYSQL:
+            case ConnectionHelper.DATABASE_ORACLE:
                 return "org.quartz.impl.jdbcjobstore.StdJDBCDelegate";
-            case DATABASE_HSQLDB:
+            case ConnectionHelper.DATABASE_HSQLDB:
                 return "org.quartz.impl.jdbcjobstore.HSQLDBDelegate";
-            case DATABASE_POSTGRES:
+            case ConnectionHelper.DATABASE_POSTGRES:
                 return "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate";
             default:
                 return "";

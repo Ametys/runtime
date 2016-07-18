@@ -339,8 +339,8 @@
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_NAME_DESCRIPTION">The name of the data source.</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DESCRIPTION">Description</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DESCRIPTION_DESCRIPTION">Optional description of the data source.</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DRIVER">Database type</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DRIVER_DESCRIPTION">Database type to load to connect to the database.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DBTYPE">Database type</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DBTYPE_DESCRIPTION">Database type to load to connect to the database.</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_URL">Url</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_URL_DESCRIPTION">Url connection to the database server.</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_USER">User</message>
@@ -349,7 +349,7 @@
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PASSWORD_DESCRIPTION">The password for the user to use when connecting to the database server.</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PRIVATE">Private source</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_PRIVATE_DESCRIPTION">Check this box if you want this data source is private.&lt;br/&gt;A private source is only be visible in the administration interface.</message>
-    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_GET_DRIVERS_ERROR">An error occurred while retrieving the database types.</message>
+    <message key="PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_GET_DBTYPE_ERROR">An error occurred while retrieving the database types.</message>
     
     <message key="PLUGINS_ADMIN_DATASOURCES_UNEXISTING_DATABASE_NOTIFICATION_TITLE">Invalid data source</message>
     <message key="PLUGINS_ADMIN_DATASOURCES_UNEXISTING_DATABASE_NOTIFICATION_MESSAGE">The connection to the datasource &lt;a&gt;{0}&lt;/a&gt; is impossible. Please check its parameters.</message>

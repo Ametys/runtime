@@ -1222,6 +1222,7 @@
                  <driver>org.apache.derby.jdbc.EmbeddedDriver</driver>
                  <label i18n="true">PLUGINS_CORE_DATASOURCE_DERBY_DRIVER_LABEL</label>
                  <template>jdbc:derby:&lt;path&gt;;create=true</template>
+                 <validation-query>SELECT 1 FROM SYS.SYSTABLES</validation-query>
                  <driver-not-found-message i18n="true">PLUGINS_CORE_DATASOURCE_DRIVER_NOT_FOUND</driver-not-found-message>
             </extension>
         </extensions>
@@ -1250,6 +1251,7 @@
                  <driver>org.hsqldb.jdbc.JDBCDriver</driver>
                  <label i18n="true">PLUGINS_CORE_DATASOURCE_HSQL_DRIVER_LABEL</label>
                  <template>jdbc:hsqldb:&lt;path&gt;</template>
+                 <validation-query>SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS</validation-query>
                  <driver-not-found-message i18n="true">PLUGINS_CORE_DATASOURCE_DRIVER_NOT_FOUND</driver-not-found-message>
             </extension>
         </extensions>
@@ -1278,6 +1280,7 @@
                  <driver>oracle.jdbc.driver.OracleDriver</driver>
                  <label i18n="true">PLUGINS_CORE_DATASOURCE_ORACLE_DRIVER_LABEL</label>
                  <template>jdbc:oracle:thin:@&lt;hostname&gt;:&lt;port&gt;:&lt;sid&gt;</template>
+                 <validation-query>SELECT 1 FROM DUAL</validation-query>
                  <driver-not-found-message i18n="true">PLUGINS_CORE_DATASOURCE_ORACLE_DRIVER_NOT_FOUND</driver-not-found-message>
             </extension>
         </extensions>

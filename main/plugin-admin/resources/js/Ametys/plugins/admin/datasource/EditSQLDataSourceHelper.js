@@ -39,7 +39,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
 	 */
 	/**
 	 * @private
-	 * @property {Object} _driverTemplates the mapping of driver value with their associated template
+	 * @property {Object} _dbtypeTemplates the mapping of dbtype value with their associated template
 	 */
 	/**
 	 * @private
@@ -154,7 +154,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
 			},
 			errorMessage: {
 				category: this.self.getName(),
-				msg: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_GET_DRIVERS_ERROR}}"
+				msg: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_GET_DBTYPE_ERROR}}"
 			}
 		});
 	},
@@ -176,17 +176,17 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
 		
 		var databaseTypes = response.databaseTypes;
 		
-		var driverEnumeration = []; // The list of label-value pairs that will be displayed in the form
-		var templateMapping = {}; // The mapping of driver value and associated template
+		var dbtypesEnumeration = []; // The list of label-value pairs that will be displayed in the form
+		var templateMapping = {}; // The mapping of dbtype value and associated template
 		
 		Ext.Array.each(databaseTypes, function(databaseType){
-			driverEnumeration.push({label: databaseType.label, value: databaseType.value});
+			dbtypesEnumeration.push({label: databaseType.label, value: databaseType.value});
 			
 			templateMapping[databaseType.value] = databaseType.template;
 		});
 			
-		this._driverTemplates = templateMapping;
-		var configuration = this._getFormConfiguration (driverEnumeration);
+		this._dbtypeTemplates = templateMapping;
+		var configuration = this._getFormConfiguration (dbtypesEnumeration);
 		this._form.configure(configuration);
 		
 		args.callback(true);
@@ -195,10 +195,10 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
     /**
      * @private
      * Get the form configuration
-     * @param {Object[]} driverEnumeration the drivers' enumeration
+     * @param {Object[]} dbtypesEnumeration the dbtypes' enumeration
      * @return {Object} the form configuration
      */
-    _getFormConfiguration: function (driverEnumeration)
+    _getFormConfiguration: function (dbtypesEnumeration)
     {
         return {
             // Data source id (for edition only)
@@ -225,12 +225,12 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
                 label: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DESCRIPTION}}",
                 description: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DESCRIPTION_DESCRIPTION}}"
             },
-            // Driver 
-            'driver': {
+            // Database type 
+            'dbtype': {
 	            type: 'string',
-	            enumeration: driverEnumeration,
-	            label: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DRIVER}}",
-	            description: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DRIVER_DESCRIPTION}}",
+	            enumeration: dbtypesEnumeration,
+	            label: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DBTYPE}}",
+	            description: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DBTYPE_DESCRIPTION}}",
 	            validation: {
 	                mandatory: true
 	            }
@@ -269,7 +269,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
             'field-checker': {
                 id: 'sql-connection-checker-datasource',
                 'icon-glyph': 'ametysicon-data110',
-                'linked-fields': ['id', 'driver', 'url', 'user', 'password'],
+                'linked-fields': ['id', 'dbtype', 'url', 'user', 'password'],
                 label: "{{i18n plugin.core-impl:PLUGINS_CORE_SQL_CONNECTION_CHECKER_LABEL}}",
                 description: "{{i18n plugin.core-impl:PLUGINS_CORE_SQL_CONNECTION_CHECKER_DESC}}"
             }
@@ -286,7 +286,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
 		var form = this._form.getForm(); 
 		if (!this._initialized)
 		{
-			form.findField('driver').on('change', Ext.bind(this._onDriverChange, this));
+			form.findField('dbtype').on('change', Ext.bind(this._onDbtypeChange, this));
 		}
         else
         {
@@ -410,17 +410,17 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
  	
 	/**
 	 * @private
-     * Function invoked when the value of the driver field changes
+     * Function invoked when the value of the dbtype field changes
      * @param {Ametys.form.widget.ComboBox} combo the combobox
      * @param {String} newValue the new value of the field
      * @param {String} oldValue the previous value of the field
 	 */
-	_onDriverChange: function(combo, newValue, oldValue)
+	_onDbtypeChange: function(combo, newValue, oldValue)
 	{
 		if (oldValue != newValue)
 		{
 			var form = this._form.getForm();
-			form.findField('url').setValue(this._driverTemplates[newValue]);
+			form.findField('url').setValue(this._dbtypeTemplates[newValue]);
 		}
 	}
 });

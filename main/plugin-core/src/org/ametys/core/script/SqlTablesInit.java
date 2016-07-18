@@ -37,7 +37,6 @@ import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
 
 import org.ametys.core.datasource.ConnectionHelper;
-import org.ametys.core.datasource.ConnectionHelper.DatabaseType;
 import org.ametys.core.datasource.SQLDataSourceManager;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.plugin.Init;
@@ -176,26 +175,23 @@ public class SqlTablesInit extends AbstractLogEnabled implements Init, Serviceab
     {
         String scriptFolder = null;
         
-        DatabaseType dbType = ConnectionHelper.getDatabaseType(connection);
+        String dbType = ConnectionHelper.getDatabaseType(connection);
         switch (dbType)
         {
-            case DATABASE_DERBY:
+            case ConnectionHelper.DATABASE_DERBY:
                 scriptFolder = "derby"; break;
-            case DATABASE_HSQLDB:
+            case ConnectionHelper.DATABASE_HSQLDB:
                 scriptFolder = "hsqldb"; break;
-            case DATABASE_MYSQL:
+            case ConnectionHelper.DATABASE_MYSQL:
                 scriptFolder = "mysql"; break;
-            case DATABASE_ORACLE:
+            case ConnectionHelper.DATABASE_ORACLE:
                 scriptFolder = "oracle"; break;
-            case DATABASE_POSTGRES:
+            case ConnectionHelper.DATABASE_POSTGRES:
                 scriptFolder = "postgresql"; break;
-            case DATABASE_UNKNOWN:
             default:
                 if (getLogger().isWarnEnabled())
                 {
-                    getLogger().warn(
-                            String.format("This data source is not compatible with the automatic creation of the SQL tables. The tables will not be created. Data source id: '%s'",
-                                    _dataSourceId));
+                    getLogger().warn(String.format("This data source is not compatible with the automatic creation of the SQL tables. The tables will not be created. Data source id: '%s'", _dataSourceId));
                 }
                 
                 return;

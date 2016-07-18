@@ -52,7 +52,6 @@ import org.ametys.core.authentication.LogoutCapable;
 import org.ametys.core.authentication.NonBlockingCredentialProvider;
 import org.ametys.core.captcha.CaptchaHelper;
 import org.ametys.core.datasource.ConnectionHelper;
-import org.ametys.core.datasource.ConnectionHelper.DatabaseType;
 import org.ametys.plugins.core.impl.authentication.token.TokenCredentials;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.workspace.WorkspaceMatcher;
@@ -607,9 +606,9 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
         try
         {
             connection = getSQLConnection();
-            DatabaseType dbType = ConnectionHelper.getDatabaseType(connection);
+            String dbType = ConnectionHelper.getDatabaseType(connection);
             
-            if (dbType.equals(DatabaseType.DATABASE_ORACLE))
+            if (ConnectionHelper.DATABASE_ORACLE.equals(dbType))
             {
                 statement = connection.prepareStatement("SELECT seq_userstoken.nextval FROM dual");
                 rs = statement.executeQuery();

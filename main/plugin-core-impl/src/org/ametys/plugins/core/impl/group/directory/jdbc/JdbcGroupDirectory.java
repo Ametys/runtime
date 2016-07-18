@@ -33,7 +33,6 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 
 import org.ametys.core.datasource.ConnectionHelper;
-import org.ametys.core.datasource.ConnectionHelper.DatabaseType;
 import org.ametys.core.group.Group;
 import org.ametys.core.group.GroupIdentity;
 import org.ametys.core.group.GroupListener;
@@ -432,9 +431,9 @@ public class JdbcGroupDirectory extends AbstractLogEnabled implements Modifiable
         try
         {
             connection = getSQLConnection();
-            DatabaseType datatype = ConnectionHelper.getDatabaseType(connection);
+            String dbType = ConnectionHelper.getDatabaseType(connection);
             
-            if (datatype == DatabaseType.DATABASE_ORACLE)
+            if (ConnectionHelper.DATABASE_ORACLE.equals(dbType))
             {
                 statement = connection.prepareStatement("SELECT seq_groups.nextval FROM dual");
                 rs = statement.executeQuery();
@@ -460,7 +459,7 @@ public class JdbcGroupDirectory extends AbstractLogEnabled implements Modifiable
             ConnectionHelper.cleanup(statement);
 
             //FIXME Write query working with all database
-            if (datatype == DatabaseType.DATABASE_MYSQL)
+            if (ConnectionHelper.DATABASE_MYSQL.equals(dbType))
             {
                 statement = connection.prepareStatement("SELECT " + __GROUPS_LIST_COLUMN_ID + " FROM " + _groupsListTableName + " WHERE " + __GROUPS_LIST_COLUMN_ID + " = last_insert_id()");    
                 rs = statement.executeQuery();
@@ -481,7 +480,7 @@ public class JdbcGroupDirectory extends AbstractLogEnabled implements Modifiable
                     }
                 }
             }
-            else if (datatype == DatabaseType.DATABASE_DERBY)
+            else if (ConnectionHelper.DATABASE_DERBY.equals(dbType))
             {
                 statement = connection.prepareStatement("VALUES IDENTITY_VAL_LOCAL ()");
                 rs = statement.executeQuery();
@@ -490,7 +489,7 @@ public class JdbcGroupDirectory extends AbstractLogEnabled implements Modifiable
                     id = rs.getString(1);
                 }
             }
-            else if (datatype == DatabaseType.DATABASE_HSQLDB)
+            else if (ConnectionHelper.DATABASE_HSQLDB.equals(dbType))
             {
                 statement = connection.prepareStatement("CALL IDENTITY ()");
                 rs = statement.executeQuery();
@@ -499,7 +498,7 @@ public class JdbcGroupDirectory extends AbstractLogEnabled implements Modifiable
                     id = rs.getString(1);
                 }
             }
-            else if (datatype == DatabaseType.DATABASE_POSTGRES)
+            else if (ConnectionHelper.DATABASE_POSTGRES.equals(dbType))
             {
                 statement = connection.prepareStatement("SELECT currval('groups_id_seq')");
                 rs = statement.executeQuery();
