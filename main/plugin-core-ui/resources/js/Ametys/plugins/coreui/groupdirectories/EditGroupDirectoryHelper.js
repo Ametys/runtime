@@ -124,20 +124,19 @@ Ext.define('Ametys.plugins.coreui.groupdirectories.EditGroupDirectoryHelper', {
             defaultFocus: 'label',
             items: this._getItems(response.groupDirectoryModels),
             
+            referenceHolder: true,
+            defaultButton: 'validate',
+            
             buttons:  [{
-                itemId: 'button-validate',
+            	reference: 'validate',
+            	itemId: 'button-validate',
                 text: "{{i18n PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ACTIONS_VALIDATE}}",
                 handler: Ext.bind(this.validate, this)
             }, {
                 itemId: 'button-cancel',
                 text: "{{i18n PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ACTIONS_CANCEL}}",
                 handler: Ext.bind(this.cancel, this)
-            }],
-            
-            validateAction: function()
-            {
-                this.down('#button-validate').btnEl.dom.click();
-            }
+            }]
         });
         
         this._box.show();

@@ -315,7 +315,11 @@ Ext.define('Ametys.helper.SelectUser', {
             defaultFocus: this._searchField,
             closeAction: 'hide',
             
-            buttons : [ {
+            defaultButton: 'validate',
+            referenceHolder: true,
+            
+            buttons : [{
+        		reference: 'validate',
                 text: "{{i18n PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_OK}}",
                 handler: Ext.bind(this.ok, this)
             }, {

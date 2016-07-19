@@ -18,13 +18,13 @@
  * A error message dialog box.
  * 
  * 		Ametys.log.ErrorDialog.display({
- * 			title: 'An error occured',
- * 			text: 'An unknown error as occured while processing the request',
- * 			details: 'The component faild to connect to database...',
+ * 			title: 'An error occurred',
+ * 			text: 'An unknown error as occurred while processing the request',
+ * 			details: 'The component failed to connect to database...',
  * 			category: 'Ametys.my.Component' 
  * 		});
  * 
- * You can use this to use the classname automatically
+ * You can use this to use the class name automatically
  * 		category: this.self.getName()
  */
 Ext.define(
@@ -34,14 +34,14 @@ Ext.define(
 		
 		/**
 		 * @private
-		 * @property {Ametys.log.ErrorDialog[]} The stack of running errors
+		 * @property {Ametys.log.ErrorDialog[]} _stack The stack of running errors
 		 */
 		_stack: [],
 
 		/**
 		 * @private
 		 * Change the title depending on the number of errors
-		 * @param {Ametys.window.DialogBox} dialogBox The dialogbox to adapt
+		 * @param {Ametys.window.DialogBox} dialogBox The dialog box to adapt
 		 */
 		_adaptTitle: function(dialogBox)
 		{
@@ -88,7 +88,7 @@ Ext.define(
 		 * @param {Object} config The box to display
 		 * @param {String} config.title The title of the box
 		 * @param {String} config.text The main text of the box. Should be localized
-		 * @param {String/Error} [config.details] The detailled text of the box. Hidden by default. Can be technical.
+		 * @param {String/Error} [config.details] The detailed text of the box. Hidden by default. Can be technical.
 		 * @param {String} [config.category] The log category. Not logged if null.
 		 */
 		display: function(config) {
@@ -113,27 +113,27 @@ Ext.define(
 		    	height: 70
 		    });
 			
-			var detailledText = this._prepareDetails(details);
-			var detailledMsg = Ext.create('Ext.container.Container', {
+			var detailedText = this._prepareDetails(details);
+			var detailedMsg = Ext.create('Ext.container.Container', {
 		    	cls: 'error-dialog-details',
 		    	scrollable: true, 
 		    	border: true,
 		    	hidden: true,
 		    	height: 160
 		    });
-			detailledMsg.update(detailledText)
+			detailedMsg.update(detailedText);
 			
 			if (category)
 			{
 				Ametys.log.LoggerFactory.getLoggerFor(category).error({
 					message: text, 
-					details: details
+					details: details,
+					
+					defaultFocus: 0
 				});
 			}
 			
-			var okId = Ext.id();
-			
-			var errorDialog = new Ametys.window.DialogBox( {
+			var errorDialog = Ext.create ('Ametys.window.DialogBox', {
 				title: "{{i18n PLUGINS_CORE_UI_MSG_ERRORDIALOG_ERROR_MSG}}" + title,
 				originalTitle: "{{i18n PLUGINS_CORE_UI_MSG_ERRORDIALOG_ERROR_MSG}}" + title,
 				bodyPadding: '0',
@@ -144,44 +144,47 @@ Ext.define(
 				width: 500,
 				scrollable: false,
 				iconCls: 'error-dialog-icon',
-				items: [ centralMsg, detailledMsg ],
+				items: [ centralMsg, detailedMsg ],
 				closeAction: 'close',
 				closable: false,
-				defaultButton: okId,
-				buttons : [
+				
+				defaultFocus: 0,
+				
+				buttons: [
 				    {
-				    	text :"{{i18n PLUGINS_CORE_UI_MSG_ERRORDIALOG_OK}}",
-				    	id: okId,
-				    	handler : Ametys.log.ErrorDialog._okMessage
+				    	text: "{{i18n PLUGINS_CORE_UI_MSG_ERRORDIALOG_OK}}",
+				    	handler: Ametys.log.ErrorDialog._okMessage,
+				    	scope: this
 				    },
-				    new Ext.SplitButton({
-				    	// A bug of extjs imply to set space character. If not the menu zone is too big.
-				    	text :"&#160;&#160;&#160;&#160;&#160;" + "{{i18n PLUGINS_CORE_UI_MSG_ERRORDIALOG_SPLITBUTTON_OK}}" + "&#160;&#160;&#160;&#160;&#160;",
+				    {
+				    	// A bug of extjs causes to have to set space characters. If not the menu zone is too big.
+				    	text: "&#160;&#160;&#160;&#160;&#160;" + "{{i18n PLUGINS_CORE_UI_MSG_ERRORDIALOG_SPLITBUTTON_OK}}" + "&#160;&#160;&#160;&#160;&#160;",
+				    	xtype: 'splitbutton',
 				    	menu: 
 				    	{
 				    		items: 
 				    		[{
 			    		 		text: "{{i18n PLUGINS_CORE_UI_MSG_ERRORDIALOG_IGNOREERRORS}}",
-			    		 		handler: function() { window.setTimeout(Ametys.log.ErrorDialog._okMessages, 10); } 
+			    		 		handler: function() { window.setTimeout(Ametys.log.ErrorDialog._okMessages, 10); }
 				    		 }]
 				    	},
-				    	handler : Ametys.log.ErrorDialog._okMessage
-				    }),
+				    	handler: Ametys.log.ErrorDialog._okMessage,
+				    	scope: this
+				    },
 				    {
-						text : "{{i18n PLUGINS_CORE_UI_MSG_ERRORDIALOG_DETAILS}} >>",
-						handler : function() 
+						text: "{{i18n PLUGINS_CORE_UI_MSG_ERRORDIALOG_DETAILS}} >>",
+						handler: function() 
 						{
 			    			var currentErrorDialog = Ametys.log.ErrorDialog._stack[0];
-
-			    			if (detailledMsg.hidden)
+			    			if (detailedMsg.hidden)
 				    		{
-				    			detailledMsg.show();
+			    				detailedMsg.show();
 				    			this.setText("<< {{i18n PLUGINS_CORE_UI_MSG_ERRORDIALOG_DETAILS}}");
 				    		}
 				    		else
 				    		{
 				    			this.setText("{{i18n PLUGINS_CORE_UI_MSG_ERRORDIALOG_DETAILS}} >>");
-				    			detailledMsg.hide();
+				    			detailedMsg.hide();
 				    		}
 						}
 					}
@@ -195,7 +198,7 @@ Ext.define(
 			}
 			
 			var currentlyDisplayedDialog = Ametys.log.ErrorDialog._stack[0];
-			Ametys.log.ErrorDialog._adaptTitle(currentlyDisplayedDialog);
+			this._adaptTitle(currentlyDisplayedDialog);
 		},
 
 		/**
@@ -212,7 +215,7 @@ Ext.define(
 			{
 				var nextErrorDialog = Ametys.log.ErrorDialog._stack[0];
 				nextErrorDialog.show();
-				Ametys.log.ErrorDialog._adaptTitle(nextErrorDialog);
+				this._adaptTitle(nextErrorDialog);
 			}
 		},
 		
@@ -222,9 +225,9 @@ Ext.define(
 		 */
 		_okMessages: function()
 		{
-			if (Ametys.log.ErrorDialog._stack.length > 0)
+			if (this._stack.length > 0)
 			{
-				Ametys.log.ErrorDialog._stack[0].close();
+				this._stack[0].close();
 			}
 			Ametys.log.ErrorDialog._stack = [];
 		}

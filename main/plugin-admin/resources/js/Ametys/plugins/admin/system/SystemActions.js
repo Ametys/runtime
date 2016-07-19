@@ -235,7 +235,11 @@ Ext.define('Ametys.plugins.admin.system.SystemActions', {
 			
 			closeAction: 'hide',
 			
+			referenceHolder: true,
+			defaultButton: 'okButton',
+			
 			buttons : [{
+				reference: 'okButton',
 				text :"{{i18n PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DIALOG_OK}}",
 				handler : Ext.bind(this._ok, this)
 			}, {

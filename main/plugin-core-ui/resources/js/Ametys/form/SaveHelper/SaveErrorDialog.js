@@ -62,7 +62,7 @@ Ext.define('Ametys.form.SaveHelper.SaveErrorDialog', {
 				maxHeight: 280,
 				layout: 'vbox',
 					
-				items : [ {
+				items: [{
 						xtype: 'container',
 						cls: 'save-error-dialog-text',
 						width: '100%',
@@ -77,14 +77,16 @@ Ext.define('Ametys.form.SaveHelper.SaveErrorDialog', {
 						html: ''
 					}
 				],
-							
+				
+				defaultFocus: 0,
+				
 				closeAction: 'hide',
-				buttons : [ {
-						text : "{{i18n PLUGINS_CORE_UI_SAVE_ACTION_FAILED_OK_BTN}}",
-						handler : function () { this._errorDialog.close()},
-						scope: this
-					}
-				]
+				
+				buttons: [{
+					text : "{{i18n PLUGINS_CORE_UI_SAVE_ACTION_FAILED_OK_BTN}}",
+					handler : function () { this._errorDialog.close()},
+					scope: this
+				}]
 			});
 
 			this._initialized = true;

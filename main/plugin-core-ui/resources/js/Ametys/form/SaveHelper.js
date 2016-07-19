@@ -212,7 +212,7 @@ Ext.define('Ametys.form.SaveHelper', {
 			});
 			message += "</ul>";
 			
-		    Ametys.Msg.show({
+			msgBox.show({
 		        title: "{{i18n PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_TITLE}}",
 		        msg: "{{i18n PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_START}}" + message + "{{i18n PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_END}}",
 		        buttons: Ext.Msg.YESNO,

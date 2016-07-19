@@ -72,44 +72,40 @@ Ext.define('Ametys.form.SaveHelper.SaveBeforeQuitDialog', {
 					
 				closeAction: 'hide',
 
-				items : [ 
-			        {
-						xtype: 'component',
-						width: '100%',
-						html: ''
-					}
-				],				
+				items: [{
+					xtype: 'component',
+					width: '100%',
+					html: ''
+				}],				
 				
-				buttons : [ 
-		            {
-						text : "{{i18n PLUGINS_CORE_UI_HELPER_SAVE_BEFORE_QUIT_SAVE_BTN_LABEL}}",
-						handler : function () 
-						{ 
-							this._callback(true);
-							this._callback = null;
-							this._dialog.close();
-					   },
-						scope: this
-					},
-		            {
-						text : "{{i18n PLUGINS_CORE_UI_HELPER_SAVE_BEFORE_QUIT_DONT_SAVE_BTN_LABEL}}",
-						handler : function () 
-						{ 
-							this._callback(false);
-							this._callback = null;
-							this._dialog.close();
-					   },
-						scope: this
-					},
-		            {
-						text : "{{i18n PLUGINS_CORE_UI_HELPER_SAVE_BEFORE_QUIT_CANCEL_BTN_LABEL}}",
-						handler : function () 
-						{ 
-							this._dialog.close();
-					    },
-						scope: this
-					}
-				],
+				defaultFocus: 0,
+				
+				buttons: [{
+					text: "{{i18n PLUGINS_CORE_UI_HELPER_SAVE_BEFORE_QUIT_SAVE_BTN_LABEL}}",
+					handler: function () 
+					{ 
+						this._callback(true);
+						this._callback = null;
+						this._dialog.close();
+				    },
+					scope: this
+				}, {
+					text: "{{i18n PLUGINS_CORE_UI_HELPER_SAVE_BEFORE_QUIT_DONT_SAVE_BTN_LABEL}}",
+					handler: function () 
+					{ 
+						this._callback(false);
+						this._callback = null;
+						this._dialog.close();
+				    },
+					scope: this
+				}, {
+					text: "{{i18n PLUGINS_CORE_UI_HELPER_SAVE_BEFORE_QUIT_CANCEL_BTN_LABEL}}",
+					handler: function () 
+					{ 
+						this._dialog.close();
+				    },
+					scope: this
+				}],
 				
 				listeners: {
 					close: function() {
@@ -121,7 +117,6 @@ Ext.define('Ametys.form.SaveHelper.SaveBeforeQuitDialog', {
 					},
 					scope: this
 				}
-				
 			});
 			
 			this._initialized = true;

@@ -164,7 +164,6 @@ Ext.define('Ametys.helper.ChooseLocation', {
 							        	labelSeparator: '',
 							        	labelWidth: 80,
 							        	value: config.initialAddress,
-							        	inputAttrTpl: 'donotsubmitonenter="true"', // Adds the attribute 'donotsubmitonenter="true"' to the html code of that component
 							        	flex: 1,
 							        	listeners: {
 							        		specialkey: Ext.bind(this._pinAddressOnEnterKeyPress, this)
@@ -193,8 +192,12 @@ Ext.define('Ametys.helper.ChooseLocation', {
 				]
 			},
 			
+			defaultButton: 'okButton',
+			referenceHolder: true,
+			
 			// Buttons
 			buttons : [{
+					reference: 'okButton',
 					text :"{{i18n PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_OK}}",
 					handler: Ext.bind(this._ok, this)
 				}, {

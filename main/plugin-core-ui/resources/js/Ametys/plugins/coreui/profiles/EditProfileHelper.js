@@ -112,7 +112,12 @@ Ext.define('Ametys.plugins.coreui.profiles.EditProfileHelper', {
 				items: [ this._form ],
 				
 				closeAction: 'hide',
+				
+				defaultButton: 'validate',
+				referenceHolder: true,
+				
 				buttons : [{
+					reference: 'validate',
 					text: "{{i18n PLUGINS_CORE_UI_PROFILES_DIALOG_OK}}",
 					handler: Ext.bind(this._validate, this)
 				}, {

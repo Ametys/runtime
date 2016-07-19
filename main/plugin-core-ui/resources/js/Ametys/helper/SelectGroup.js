@@ -188,7 +188,7 @@ Ext.define('Ametys.helper.SelectGroup', {
 
 		this._searchField = Ext.create('Ext.form.TextField', {
 			cls: 'ametys',
-			labelWidth :70,
+			labelWidth: 70,
 			width: 210,
 			
 			fieldLabel: "{{i18n PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_FIND}}",
@@ -230,13 +230,13 @@ Ext.define('Ametys.helper.SelectGroup', {
 		
 		this._groupList = Ext.create('Ext.grid.Panel', {
 			flex: 1,
-			store : store,
-			hideHeaders : true,
+			store: store,
+			hideHeaders: true,
 			columns: [{header: "Label", flex: 1, menuDisabled : true, sortable: true, dataIndex: 'displayName'}]
 		});	
 		
 		this._box = Ext.create('Ametys.window.DialogBox', {
-			title : this.allowMultiselection ? "{{i18n PLUGINS_CORE_UI_GROUPS_SELECTGROUPS_DIALOG_CAPTION}}" : "{{i18n PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CAPTION}}",
+			title: this.allowMultiselection ? "{{i18n PLUGINS_CORE_UI_GROUPS_SELECTGROUPS_DIALOG_CAPTION}}" : "{{i18n PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CAPTION}}",
 			layout: {
 			    type: 'vbox',
 			    align : 'stretch',
@@ -247,7 +247,7 @@ Ext.define('Ametys.helper.SelectGroup', {
 			//icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/groups/group_16.png',
             iconCls: 'ametysicon-multiple25',
 			
-			items : [
+			items: [
                      this._groupDirectoriesField,
 			         this._searchField, 
 			         this._groupList, 
@@ -264,12 +264,16 @@ Ext.define('Ametys.helper.SelectGroup', {
 			defaultFocus: this._searchField,
 			closeAction: 'hide',
 			
-			buttons : [ {
-				text :"{{i18n PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_OK}}",
-				handler : Ext.bind(this.ok, this)
+			referenceHolder: true,
+			defaultButton: 'validate',
+			
+			buttons: [{
+				reference: 'validate',
+				text: "{{i18n PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_OK}}",
+				handler: Ext.bind(this.ok, this)
 			}, {
-				text :"{{i18n PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CANCEL}}",
-				handler : Ext.bind(this.cancel, this)
+				text: "{{i18n PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CANCEL}}",
+				handler: Ext.bind(this.cancel, this)
 			} ]
 		});
 	},

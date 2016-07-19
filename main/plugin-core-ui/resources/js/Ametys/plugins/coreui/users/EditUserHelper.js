@@ -162,7 +162,12 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
 		        ],
 		        
 		        closeAction: 'hide',
+		        
+		        referenceHolder: true,
+		        defaultButton: 'next',
+		        
 		        buttons : [{
+		        	reference: 'next',
 		            text: "{{i18n PLUGINS_CORE_UI_USERS_DIALOG_NEXT}}",
 		            handler: Ext.bind(function() {
                         if (!this._chooseUserDirectoryDialog.down('#form').isValid())
@@ -288,7 +293,12 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
 			items: [ this._form ],
 			
 			closeAction: 'hide',
+			
+			referenceHolder: true,
+			defaultButton: 'validate',
+			
 			buttons : [{
+				reference: 'validate',
 				text: "{{i18n PLUGINS_CORE_UI_USERS_DIALOG_OK}}",
 				handler: Ext.bind(this._validate, this, [populationId, userDirectoryIndex])
 			}, {

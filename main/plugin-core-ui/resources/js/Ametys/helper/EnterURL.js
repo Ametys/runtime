@@ -34,11 +34,11 @@ Ext.define('Ametys.helper.EnterURL', {
 	/**
 	 * Open dialog to allow the user to enter an url
 	 * @param {String} icon The full path to icon (16x16 pixels) for the dialog box
-	 * @param {String} title The title of the dialogue box.
+	 * @param {String} title The title of the dialog box.
 	 * @param {String} helpmessage The message displayed at the top of the dialog box.
 	 * @param {String} footermessage The message displayed at the bottom of the dialog box.
 	 * @param {Function} callback The method that will be called when the dialog box is closed. The method signature is <ul><li>id: The id of the file</li><li>filename: The name of the file</li><li>size: The size in byte of the file</li><li>viewHref: The href to VIEW the file</li><li>downloadHref: The href to DOWNLOAD the file</li></ul> The method can return false to made the dialog box keep open (you should display an error message in this case)
-	 * @param {String} defaultValue (optionnal) The value to display at startup
+	 * @param {String} defaultValue (optional) The value to display at startup
 	 * @param {String} regex A RegExp string to be tested against the field value during validation. Can be null.
 	 * @param {String} regexText The error text to display if regex is used and the test fails during validation. Can be null to use default error text.
 	 */
@@ -115,7 +115,12 @@ Ext.define('Ametys.helper.EnterURL', {
 				
 				defaultFocus: 'url',
 				closeAction: 'hide',
+				
+				referenceHolder: true,
+				defaultButton: 'validate',
+				
 				buttons : [{
+					reference: 'validate',
 					text :"{{i18n PLUGINS_CORE_UI_HELPER_ENTERURL_OK}}",
 					handler : Ext.bind(this._ok, this)
 				}, {

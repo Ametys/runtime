@@ -32,6 +32,20 @@ Ext.define('Ametys.plugins.coreui.about.AboutActions', {
      */
     
     /**
+     * @private
+     * @property {Ext.XTemplate} _versionTpl The template for versions
+     */
+    _versionTpl : Ext.create('Ext.XTemplate', 
+        '<tpl for=".">',       
+            '<div class="version">{name} - ',
+            '<tpl if="version">',
+                "{{i18n PLUGINS_CORE_UI_ABOUT_DIALOG_VERSIONS_VERSION_PREFIX}}" + '{version}',
+                "{{i18n PLUGINS_CORE_UI_ABOUT_DIALOG_VERSIONS_DATE_PREFIX}}" + '{[Ext.util.Format.date(values.date, Ext.Date.patterns.FriendlyDateTime)]}</div>',
+            '</tpl>',
+        '</tpl>'
+    ),
+    
+    /**
      * Opens the "About Ametys" dialog box
      */
     openAboutDialogBox: function()
@@ -74,7 +88,13 @@ Ext.define('Ametys.plugins.coreui.about.AboutActions', {
                 bodyCls: 'about-dialog',
                 
                 closeAction: 'hide',
+                
+                referenceHolder: true,
+                defaultButton: 'okButton',
+                defaultButtonTarget: 'el',
+                
                 buttons: [{
+                	reference: 'okButton',
                     text: "{{i18n PLUGINS_CORE_UI_ABOUT_DIALOG_BUTTON_OK}}",
                     handler: function() { this._aboutBox.close(); },
                     scope: this
@@ -163,20 +183,6 @@ Ext.define('Ametys.plugins.coreui.about.AboutActions', {
         var cmp = this._aboutBox.items.get("appName");
         cmp.update(appName);
     },
-    
-    /**
-     * @private
-     * @property {Ext.XTemplate} _versionTpl The template for versions
-     */
-    _versionTpl : Ext.create('Ext.XTemplate', 
-        '<tpl for=".">',       
-            '<div class="version">{name} - ',
-            '<tpl if="version">',
-                "{{i18n PLUGINS_CORE_UI_ABOUT_DIALOG_VERSIONS_VERSION_PREFIX}}" + '{version}',
-                "{{i18n PLUGINS_CORE_UI_ABOUT_DIALOG_VERSIONS_DATE_PREFIX}}" + '{[Ext.util.Format.date(values.date, Ext.Date.patterns.FriendlyDateTime)]}</div>',
-            '</tpl>',
-        '</tpl>'
-    ),
     
     /**
      * @private

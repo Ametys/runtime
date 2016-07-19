@@ -79,10 +79,14 @@ Ext.define('Ametys.plugins.coreui.schedule.EditTaskHelper', {
                 align: "stretch"
             },
             
-            defaultFocus: '[name=label]',
+            defaultFocus: 'form',
             items: this._getItems(response.fireProcesses, response.schedulables),
             
+            referenceHolder: true,
+            defaultButton: 'validate',
+            
             buttons:  [{
+            	reference: 'validate',
                 itemId: 'button-validate',
                 text: "{{i18n PLUGINS_CORE_UI_TASKS_DIALOG_ACTIONS_VALIDATE}}",
                 handler: Ext.bind(this.validate, this)
@@ -90,12 +94,7 @@ Ext.define('Ametys.plugins.coreui.schedule.EditTaskHelper', {
                 itemId: 'button-cancel',
                 text: "{{i18n PLUGINS_CORE_UI_TASKS_DIALOG_ACTIONS_CANCEL}}",
                 handler: Ext.bind(this.cancel, this)
-            }],
-            
-            validateAction: function()
-            {
-                this.down('#button-validate').btnEl.dom.click();
-            }
+            }]
         });
         
         this._box.show();

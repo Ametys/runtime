@@ -164,11 +164,15 @@ Ext.define('Ametys.plugins.coreui.userprefs.UserPrefsActions', {
 			closeAction: 'hide',
 			defaultFocus: this._form,
 			
+			referenceHolder: true,
+			defaultButton: 'validate',
+			
 			buttons : [ {
 				text :"{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_BTN_RESTORE_DEFAULTS}}",
 				handler : this.restoreDefaults,
 				scope: this
 			}, ' ', ' ',{
+				reference: 'validate',
 				text :"{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_BTN_OK}}",
 				handler : this._saveUserPrefs,
 				scope: this

@@ -140,7 +140,12 @@ Ext.define('Ametys.plugins.coreui.groups.EditGroupHelper', {
                 ],
                 
                 closeAction: 'hide',
+                
+                referenceHolder: true,
+                defaultButton: 'next',
+                
                 buttons : [{
+                	reference: 'next',
                     text: "{{i18n PLUGINS_CORE_UI_GROUPS_DIALOG_NEXT}}",
                     handler: Ext.bind(function() {
                         if (!this._chooseGroupDirectoryDialog.down('#form').isValid())
@@ -258,7 +263,12 @@ Ext.define('Ametys.plugins.coreui.groups.EditGroupHelper', {
 				items: [ this._form ],
 				
 				closeAction: 'hide',
+				
+				referenceHolder: true,
+				defaultButton: 'validate',
+				
 				buttons : [{
+					reference: 'validate',
 					text: "{{i18n PLUGINS_CORE_UI_GROUPS_DIALOG_OK}}",
 					handler: Ext.bind(this._validate, this, [groupDirectoryId])
 				}, {

@@ -330,6 +330,9 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
             
             defaultFocus: 'label',
             items: this._cards,
+        	
+            referenceHolder: true,
+            defaultButton: 'next',
             
             buttons: [{
                 itemId: 'button-previous',
@@ -337,6 +340,7 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
                 disabled: true,
                 handler: Ext.bind(this.previous, this)
             }, {
+            	reference: 'next',
                 itemId: 'button-next',
                 text: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_ACTIONS_NEXT}}",
                 handler: Ext.bind(this.nextOrValidateAction, this)
@@ -344,12 +348,7 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
                 itemId: 'button-cancel',
                 text: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_ACTIONS_CANCEL}}",
                 handler: Ext.bind(this.cancel, this)
-            }],
-            
-            validateAction: function()
-	        {
-	            this.down('#button-next').btnEl.dom.click();
-	        }
+            }]
         });
         
         this._box.show();

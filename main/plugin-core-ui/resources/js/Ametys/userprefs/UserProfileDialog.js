@@ -122,7 +122,12 @@ Ext.define('Ametys.userprefs.UserProfileDialog', {
             }],
             
             closeAction: 'hide',
+            
+            referenceHolder: true,
+            defaultButton: 'validate',
+            
             buttons : [{
+            		reference: 'validate',
                     text: "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_OK}}",
                     handler : Ext.bind(this._ok, this)
                 }, {

@@ -65,7 +65,6 @@ Ext.define(
 		{
 			this.callParent(arguments);
 			this.on('beforeshow', this._onBeforeShow, this);
-			this.on('afterrender', this._onRenderListener, this);
 			this.on('resize', this._onResize, this);
 		},
 		
@@ -91,46 +90,6 @@ Ext.define(
 			}
             
     		this.center(); // auto center on resize (we do not test for changing size, since at startup height does not change and we do want to re-center non-fixed-height boxes)
-		},
-	
-		/**
-		 * @private
-		 * Listener on after render to register the key ENTER to close the dialog
-		 */
-		_onRenderListener : function()
-		{
-		    var km = this.getKeyMap();
-		    km.on(Ext.event.Event.ENTER, this.onEnter, this);
-		    km.disable();
-		},
-		
-	    /**
-	     * @cfg {Function} onEnter
-	     * Allows override of the built-in processing for the enter key. Default action is to call {@link #validateAction} when cursor is in an input, a div or a span.
-	     * The attribute 'donotsubmitonenter' can be specified to avoid this behavior.
-	     */
-		onEnter : function(key, event)
-		{
-			// only works for input (plz avoid textarea) or div (when the focus is on the dialog itself) or span (when focus is on a tree node)
-			// but we want to avoid all others cases (buttons for exemple - if not a button with focus may double click)
-			if (/input|div|span/i.test(event.target.tagName) && event.target.getAttribute('donotsubmitonenter') == null)
-			{
-				event.stopEvent();
-				this.validateAction();
-			}			
-		},
-		
-		/**
-		 * The handler to validate the dialog box. Called by {@link #onEnter} for example
-         * @template
-		 */
-		validateAction: function()
-		{
-			var buttons = this.getDockedItems('toolbar[dock="bottom"] button'); 
-			if (buttons && buttons.length >= 1)
-			{
-				buttons[0].btnEl.dom.click();
-			}
 		}
 	}
 );

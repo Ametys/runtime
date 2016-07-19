@@ -623,7 +623,6 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsTool', {
 	_onGroupSelectionChange: function(model, selected, eOpts)
 	{
 		this._userGrid.getStore().removeAll();
-		
 		var group = selected[0];
 		if (group)
 		{

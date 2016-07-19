@@ -75,8 +75,14 @@ Ext.define("Ametys.helper.ChooseColor", {
             items: [this._colorSelector],
 
             closeAction: 'hide',
+            
+            referenceHolder: true,
+            defaultButton: 'validate',
+            defaultButtonTarget: 'el',
+            
             buttons: [{
-                text: "{{i18n PLUGINS_CORE_UI_HELPER_CHOOSECOLOR_OK}}",
+            	reference: 'validate',
+            	text: "{{i18n PLUGINS_CORE_UI_HELPER_CHOOSECOLOR_OK}}",
                 handler: Ext.bind(this._validate, this)
             }, {
                 text: "{{i18n PLUGINS_CORE_UI_HELPER_CHOOSECOLOR_CANCEL}}",

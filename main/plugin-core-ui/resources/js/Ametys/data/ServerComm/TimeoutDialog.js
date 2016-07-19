@@ -89,9 +89,7 @@ Ext.define(
 	        	hidden: true
 	        });
 	    	
-	    	var waitId = Ext.id();
-	    	
-	    	var timeoutDialog = new Ametys.window.DialogBox( {
+	    	var timeoutDialog = Ext.create('Ametys.window.DialogBox', {
 	    		title: title,
 	    		businessWrapper: this,
 	    		bodyPadding: '0',
@@ -102,11 +100,12 @@ Ext.define(
 	    		items: [ centralMsg, detailledMsg ],
 	    		closeAction: 'close',
 	    		closable: false,
-	    		defaultButton: waitId,
+	    		referenceHolder: true,
+	    		defaultButton: 'wait',
 	    		buttons : [
 	    		    {
 	    		    	text :"{{i18n PLUGINS_CORE_UI_SERVERCOMM_TIMEOUTDIALOG_WAIT}}",
-	    		    	id: waitId,
+	    		    	reference: 'wait',
 	    		    	timeout: timeout,
 	    		    	handler : function() 
 	    		    	{
