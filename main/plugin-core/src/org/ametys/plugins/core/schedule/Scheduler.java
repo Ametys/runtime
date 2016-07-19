@@ -165,6 +165,9 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
         _sourceResolver = (SourceResolver) manager.lookup(SourceResolver.ROLE);
         _rightsManager = (RightsManager) manager.lookup(RightsManager.ROLE);
         _currentUserProvider = (CurrentUserProvider) manager.lookup(CurrentUserProvider.ROLE);
+        
+        // Ensure statics methods will be available during initialize
+        manager.lookup(ConnectionHelper.ROLE);
     }
     
     @Override
