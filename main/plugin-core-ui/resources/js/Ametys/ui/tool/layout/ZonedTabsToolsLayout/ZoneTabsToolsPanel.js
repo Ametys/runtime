@@ -329,8 +329,14 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 			
 			// Add tool's listeners on the ui panel
 			tool.addListener('render', function() {
-				tool.mon(tool.el, 'click', toolFocused);
-				tool.mon(tool.el, 'keydown', toolFocused);	
+                // We manually handle this event to "capture" all clicks and avoid some CodeMiror click prevention
+                tool.el.dom.addEventListener('mousedown', toolFocused, true);
+                tool.el.dom.addEventListener('keydown', toolFocused, true);
+
+                tool.on('destroy', function() {
+                    tool.el.dom.removeEventListener('mousedown', toolFocused, true);
+                    tool.el.dom.removeEventListener('keydown', toolFocused, true);
+                });
 			});
 			
 			// Ensure the owner tabpanel is visible
