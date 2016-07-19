@@ -274,12 +274,7 @@ Ext.define('Ametys.form.field.Code', {
             var forcedParams = {
                 mode: this._mode,
                 value: me.initialConfig.value || '',
-                readOnly: this._readOnly,
-                
-                initCallback: function() {
-                    me._initialized = true;
-                    me.fireEvent('initialize', true);
-                }
+                readOnly: this._readOnly
             };
             
             // Merge default params, then user params, then forced params.
@@ -295,7 +290,7 @@ Ext.define('Ametys.form.field.Code', {
             this._codeMirror.on("change", Ext.bind(this._onChange, this));
             
             /**
-             * @event befirechange
+             * @event beforechange
              * Fires before the content is changed.
              * @param {Object} codeMirror the current codeMirror instance
              * @param {Object} changes The object with the current changes, with properties from, to and text, a cancel() and a update() method.
@@ -306,6 +301,9 @@ Ext.define('Ametys.form.field.Code', {
             
             // Relay on change event
             this._codeMirror.on("change", function() { me.fireEvent('change', true); });
+            
+            me.fireEvent('initialize', true);
+            me._initialized = true;
         }
     },
     
