@@ -18,7 +18,7 @@
     <datasource id="SQL-test">
         <name>Ametys Test Derby</name>
         <parameters>
-            <driver>org.postgresql.Driver</driver>
+            <dbtype>runtime.core.datasources.sql.postgresql</dbtype>
             <url>jdbc:postgresql://goldorak/ametys_runtime_test</url>
             <user>ametys_runtime</user>
             <password>ametys_runtime</password>

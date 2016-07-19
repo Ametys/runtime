@@ -18,7 +18,7 @@
     <datasource id="SQL-test">
         <name>Ametys Test HSQL</name>
         <parameters>
-            <driver>org.hsqldb.jdbc.JDBCDriver</driver>
+            <dbtype>runtime.core.datasources.sql.hsql</dbtype>
             <url>jdbc:hsqldb:tmp/hsqldb</url>
             <user/>
             <password/>
