@@ -23,8 +23,6 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.sql.DataSource;
-
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -122,31 +120,10 @@ public class SqlTablesInit extends AbstractLogEnabled implements Init, Serviceab
     @Override
     public void init() throws Exception
     {
-        DataSource dataSource = null;
-        try
-        {
-            dataSource = _sqlDataSourceManager.getSQLDataSource(_dataSourceId);
-        }
-        catch (Exception e)
-        {
-            // silently ignore
-        }
-        
-        if (dataSource == null)
-        {
-            if (getLogger().isWarnEnabled())
-            {
-                getLogger().warn(String.format("Configured data source could not be found. Data source id: '%s'",
-                                StringUtils.defaultString(_dataSourceId)));
-            }
-            
-            return;
-        }
-        
         try
         {
             // Test and create tables
-            Connection connection = dataSource.getConnection();
+            Connection connection = ConnectionHelper.getConnection(_dataSourceId);
             
             try
             {

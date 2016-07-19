@@ -18,7 +18,7 @@
     <datasource id="SQL-test">
         <name>Ametys Test HSQL</name>
         <parameters>
-            <dbtype>org.ametys.core.datasource.sql.dbtype.postgresql</dbtype>
+            <dbtype>org.ametys.core.datasource.sql.dbtype.hsql</dbtype>
             <url>jdbc:hsqldb:tmp/hsqldb</url>
             <user/>
             <password/>
