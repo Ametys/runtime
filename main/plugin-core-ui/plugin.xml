@@ -2754,13 +2754,18 @@
         </components>
     </feature>
         
-    <feature name="plugin.core.ui.scripts.defaultbinding">
+    <feature name="plugin.core.ui.scripts.defaultbinding.safe" safe="true">
         <extensions>
             <extension point="org.ametys.plugins.core.ui.script.ScriptBindingExtensionPoint"
                        id="org.ametys.plugins.core.ui.script.RuntimeScriptBinding"
                        class="org.ametys.plugins.core.ui.script.RuntimeScriptBinding"
                        config="scripttool/runtime-script-binding.xml">
             </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="plugin.core.ui.scripts.defaultbinding">
+        <extensions>
             <extension point="org.ametys.plugins.core.ui.script.ScriptBindingExtensionPoint"
                        id="org.ametys.plugins.core.ui.script.StaticConfigurableScriptBinding"
                        class="org.ametys.plugins.core.ui.script.StaticConfigurableScriptBinding"
