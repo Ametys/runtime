@@ -57,6 +57,11 @@ Ext.define(
 		cls: 'ametys-dialogbox',
 		
 		/**
+		 *  @cfg {Boolean} selectDefaultFocus=false Select the defaultFocus element in addition to focus it 
+		 */
+		selectDefaultFocus: false,
+		
+		/**
 		 * @cfg {Boolean} freezeHeight=false Set to 'true' to freeze the dialog height after first rendering. This option is useful for wizard to avoid that the dialog box changes its size during navigation. When using this option, do not set #cfg-height, but consider using #cfg-minHeight and #cfg-maxHeight.
 		 */
 		freezeHeight: false,
@@ -66,6 +71,19 @@ Ext.define(
 			this.callParent(arguments);
 			this.on('beforeshow', this._onBeforeShow, this);
 			this.on('resize', this._onResize, this);
+		},
+		
+		focus: function()
+		{
+			if (arguments.length > 0)
+			{
+				arguments[0] = arguments[0] == null ? this.selectDefaultFocus : arguments[0]; 
+				this.callParent(arguments);
+			}
+			else
+			{
+				this.callParent([this.selectDefaultFocus]);
+			}
 		},
 		
 		_onBeforeShow: function ()
