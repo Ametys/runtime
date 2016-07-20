@@ -153,8 +153,7 @@ Ext.define(
 				buttons: [
 				    {
 				    	text: "{{i18n PLUGINS_CORE_UI_MSG_ERRORDIALOG_OK}}",
-				    	handler: Ametys.log.ErrorDialog._okMessage,
-				    	scope: this
+				    	handler: Ametys.log.ErrorDialog._okMessage
 				    },
 				    {
 				    	// A bug of extjs causes to have to set space characters. If not the menu zone is too big.
@@ -168,8 +167,7 @@ Ext.define(
 			    		 		handler: function() { window.setTimeout(Ametys.log.ErrorDialog._okMessages, 10); }
 				    		 }]
 				    	},
-				    	handler: Ametys.log.ErrorDialog._okMessage,
-				    	scope: this
+				    	handler: Ametys.log.ErrorDialog._okMessage
 				    },
 				    {
 						text: "{{i18n PLUGINS_CORE_UI_MSG_ERRORDIALOG_DETAILS}} >>",
@@ -198,7 +196,7 @@ Ext.define(
 			}
 			
 			var currentlyDisplayedDialog = Ametys.log.ErrorDialog._stack[0];
-			this._adaptTitle(currentlyDisplayedDialog);
+			Ametys.log.ErrorDialog._adaptTitle(currentlyDisplayedDialog);
 		},
 
 		/**
@@ -215,7 +213,7 @@ Ext.define(
 			{
 				var nextErrorDialog = Ametys.log.ErrorDialog._stack[0];
 				nextErrorDialog.show();
-				this._adaptTitle(nextErrorDialog);
+				Ametys.log.ErrorDialog._adaptTitle(nextErrorDialog);
 			}
 		},
 		
@@ -225,9 +223,9 @@ Ext.define(
 		 */
 		_okMessages: function()
 		{
-			if (this._stack.length > 0)
+			if (Ametys.log.ErrorDialog._stack.length > 0)
 			{
-				this._stack[0].close();
+				Ametys.log.ErrorDialog._stack[0].close();
 			}
 			Ametys.log.ErrorDialog._stack = [];
 		}
