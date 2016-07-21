@@ -81,10 +81,11 @@ Ext.define('Ametys.helper.FileUpload', {
 				
 				width: 430,
 				scrollable: true,
-				layout: 'form',
+				layout: 'fit',
 				
 				items: [{
 							xtype: 'form',
+                            layout: 'vbox',
 							border: false,
 							defaults: {
 								cls: 'ametys',

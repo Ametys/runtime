@@ -853,7 +853,7 @@
              */
             if (Ametys.MAX_UPLOAD_SIZE != undefined && Ametys.MAX_UPLOAD_SIZE != '' && this.ametysShowMaxUploadSizeHint !== false)
             {
-                this.triggerWrap.dom.setAttribute('data-maxsizemsg', "({{i18n PLUGINS_CORE_UI_UPLOAD_HINT}}" + Ext.util.Format.fileSize(Ametys.MAX_UPLOAD_SIZE) + ")");
+                this.inputEl.parent().dom.setAttribute('data-maxsizemsg', "({{i18n PLUGINS_CORE_UI_UPLOAD_HINT}}" + Ext.util.Format.fileSize(Ametys.MAX_UPLOAD_SIZE) + ")");
             }
         },
         
