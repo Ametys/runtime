@@ -48,7 +48,7 @@
     
     <target name="update-links">
         <!-- link ext dir -->
-        <antcall target="create-link">
+        <antcall target="create-link-windows"> <!-- work/ext through a symlink fails on linux, in sencha cmd, so we can't use this shortcut. On linux the ext dir will be copied by sencha -->
             <param name="new-link" location="${ametys-work-dir}/ext"/>
             <param name="original-dir" location="${ametys-root-dir}/bootstrap/4/deliver/doc/jsdoc/exts/ext-6.0.2"/>
         </antcall>
@@ -187,7 +187,7 @@
     </target>
     <target name="create-sencha-workspace-effectively" unless="sencha-already-workspace">
         <echo>Creating sencha workspace</echo>
-        <exec executable="sencha" dir="${ametys-work-dir}/ext">
+        <exec executable="sencha" dir="${ametys-root-dir}/bootstrap/4/deliver/doc/jsdoc/exts/ext-6.0.2">
             <arg value="generate"/>
             <arg value="workspace"/>
             <arg value="${ametys-work-dir}"/>
@@ -210,7 +210,7 @@ skip.slice=1
     </target>
     <target name="create-sencha-application-effectively" unless="sencha-already-application">
         <echo>Creating sencha application</echo>
-        <exec executable="sencha" dir="${ametys-work-dir}/ext">
+        <exec executable="sencha" dir="${ametys-root-dir}/bootstrap/4/deliver/doc/jsdoc/exts/ext-6.0.2">
             <arg value="generate"/>
             <arg value="app"/>
             <arg value="testapp"/>
