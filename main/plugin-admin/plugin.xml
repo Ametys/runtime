@@ -1371,7 +1371,7 @@
                        point="org.ametys.core.ui.RibbonControlsManager"
                        class="org.ametys.runtime.plugins.admin.superuser.SuperUserClientSideElement">
                 <class name="Ametys.ribbon.element.ui.ButtonController">
-                    <action>Ametys.plugins.admin.superuser.SuperUserActions.affectSuperUser</action>
+                    <action>Ametys.plugins.admin.superuser.SuperUserActions.act</action>
                     
                     <label i18n="true">PLUGINS_ADMIN_SUPERUSER_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_SUPERUSER_DESCRIPTION</description>

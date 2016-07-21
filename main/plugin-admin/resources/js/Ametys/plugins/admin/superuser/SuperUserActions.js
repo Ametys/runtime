@@ -22,15 +22,27 @@ Ext.define('Ametys.plugins.admin.superuser.SuperUserActions', {
 	singleton: true,
 	
 	/**
-	 * Give all the rights to a user on the context
+	 * Grant all privileges to a user on an empty context or on the context defined by controller
 	 * @param {Ametys.ribbon.element.ui.ButtonController} controller The controller calling this function
 	 */
-	affectSuperUser: function (controller)
+	act: function (controller)
+	{
+		this.affectSuperUser (controller.getInitialConfig('context') || "", "/application", "{{i18n PLUGINS_ADMIN_SUPERUSER_AFFECT_NO_POPULATION_DESCRIPTION}}");
+	},
+	
+	/**
+	 * Grant all privileges to a user on a given context
+	 * @param rightContext The context on which give rights
+	 * @param populationContext The context for the populations to select users
+	 * @param noPopulationMessage The message to display when no user population is linked to the population's context
+	 * @param [callback] The callback function to invoked after granting privileges
+	 */
+	affectSuperUser: function (rightContext, populationContext, noPopulationMessage, callback)
 	{
 		Ametys.helper.SelectUser.act({
-            context: this._getAppContext(controller),
-            noPopulationMessage: this._getNoPopulationMessage(),
-			callback: Ext.bind(this._affectSuperUser, this, [controller], 1), 
+            context: populationContext,
+            noPopulationMessage: noPopulationMessage || "{{i18n PLUGINS_ADMIN_SUPERUSER_AFFECT_NO_POPULATION_DESCRIPTION}}",
+			callback: Ext.bind(this._selectUserCb, this, [rightContext, callback], 1), 
 			cancelCallback: null, 
 			allowMultiselection: true, 
 			plugin: null
@@ -39,30 +51,33 @@ Ext.define('Ametys.plugins.admin.superuser.SuperUserActions', {
 	
 	/**
 	 * @private
-	 * A callback method when a user has been selected
+	 * A callback function invoked when a user has been selected
 	 * @param {Object[]} users The array of users
      * @param {String} users.login The login of the user
      * @param {String} users.population The population id of the user
-	 * @param {Ametys.ribbon.element.ui.ButtonController} controller the button's controller
+	 * @param {String} rightContext The context to affect rights
+	 * @param [callback] The callback function to invoked after granting privileges
 	 */
-	_affectSuperUser: function (users, controller) 
+	_selectUserCb: function (users, rightContext, callback) 
 	{
-		// Transmit the controller to get the context
-		var context = controller.getInitialConfig('context') || this._getRightContext(controller);
-		
-		controller.serverCall
-		(
-			'affectSuperUser',
-			[users, context],
-			Ext.bind(this._affectSuperUserCb, this),
-			{ 
-                errorMessage: { 
-                	msg: "{{i18n PLUGINS_ADMIN_SUPERUSER_AFFECT_ERROR}}", 
-                	category: Ext.getClassName(this)
-            	},
-                refreshing: true
-            } 
-		);
+		Ametys.data.ServerComm.callMethod({
+			role: 'org.ametys.core.ui.RibbonControlsManager',
+			id: 'org.ametys.runtime.plugins.admin.superuser.Affect',
+			methodName: 'affectSuperUser',
+			parameters: [users, rightContext],
+			callback: {
+				handler: this._affectSuperUserCb,
+				scope: this,
+				arguments: {
+					callback: callback
+				}
+			},
+			errorMessage: { 
+            	msg: "{{i18n PLUGINS_ADMIN_SUPERUSER_AFFECT_ERROR}}", 
+            	category: Ext.getClassName(this)
+        	},
+			waitMessage: true
+		 });
 	},
 	
 	/**
@@ -92,38 +107,10 @@ Ext.define('Ametys.plugins.admin.superuser.SuperUserActions', {
 			buttons: Ext.Msg.OK,
 			icon: Ext.MessageBox.INFO
 		});
-	},
-    
-    /**
-     * @protected
-     * Get the context for the populations to display in the SelectUser dialog box 
-     * @param {Ametys.ribbon.element.ui.ButtonController} controller the button's controller
-     * @return {String} the application context
-     */
-    _getAppContext: function(controller)
-    {
-        return "/application";
-    },
-	
-	/**
-	 * @protected
-	 * Get the context the user will be granted all rights to
-	 * @param {Ametys.ribbon.element.ui.ButtonController} controller the button's controller
-	 * @return {String} the right context
-	 */
-	_getRightContext: function(controller)
-	{
-		return "";
-	},
-    
-    /**
-     * @protected
-     * Get the message to display when no user population is linked to the context
-     * @param {Ametys.ribbon.element.ui.ButtonController} controller the button's controller
-     * @return {String} the message to display when no user population is linked to the context
-     */
-    _getNoPopulationMessage: function(controller)
-    {
-        return "{{i18n PLUGINS_ADMIN_SUPERUSER_AFFECT_NO_POPULATION_DESCRIPTION}}";
-    }
+		
+		if (Ext.isFunction(args.callback))
+		{
+			args.callback();
+		}
+	}
 });
