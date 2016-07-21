@@ -141,6 +141,10 @@
     
     <xsl:template name="body-end">
         <xsl:apply-templates select="/Ametys/workspace"/>
+        
+        <!-- Thoses fake inputs are here to calm down browsers completion -->
+        <input style="display: none" name="username" type="text" id="fake_username" onchange="this.value=''"/>
+        <input style="display: none" name="password" type="password" id="fake_password" onchange="this.value=''"/>
     </xsl:template>
     
     <xsl:template match="workspace">
