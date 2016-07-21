@@ -744,8 +744,8 @@
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-neutral/sass/src/menu/Menu.scss:630 */
 .x-menu-item-arrow-ribbon-menu {
     width: 12px;
-    height: 9px;
-    top: 8px;
+    height: 12px;
+    top: 6px;
     right: 0;
     font: 16px/1 FontAwesome;
     color: #000;
@@ -756,7 +756,7 @@
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-neutral/sass/src/menu/Menu.scss:650 */
 .x-menu-item-active .x-menu-item-arrow-ribbon-menu {
-    top: 8px;
+    top: 6px;
     right: 0;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-neutral/sass/src/layout/container/Box.scss:170 */

@@ -11139,8 +11139,8 @@ a.x-color-picker-item:hover {
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-neutral/sass/src/menu/Menu.scss:630 */
 .x-menu-item-arrow-default {
     width: 12px;
-    height: 9px;
-    top: 8px;
+    height: 12px;
+    top: 6px;
     right: 0;
     font: 16px/1 FontAwesome;
     color: #000;
@@ -11151,7 +11151,7 @@ a.x-color-picker-item:hover {
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-neutral/sass/src/menu/Menu.scss:650 */
 .x-menu-item-active .x-menu-item-arrow-default {
-    top: 8px;
+    top: 6px;
     right: 0;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-neutral/sass/src/layout/container/Box.scss:170 */
