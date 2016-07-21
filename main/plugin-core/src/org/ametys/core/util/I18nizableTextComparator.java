@@ -38,6 +38,26 @@ public class I18nizableTextComparator implements Comparator<I18nizableText>
     @Override
     public int compare(I18nizableText t1, I18nizableText t2)
     {
-        return _i18nUtils.translate(t1).compareTo(_i18nUtils.translate(t2));
+        String s1 = _i18nUtils.translate(t1);
+        String s2 = _i18nUtils.translate(t2);
+        
+        if (s1 != null && s2 != null)
+        {
+            return _i18nUtils.translate(t1).compareTo(_i18nUtils.translate(t2));
+        }
+        else if (s1 == null && s2 == null)
+        {
+            return 0;
+        }
+        else if (s1 != null)
+        {
+            // s2 is null
+            return 1;
+        }
+        else
+        {
+            // s1 is null
+            return -1;
+        }
     }
 }
