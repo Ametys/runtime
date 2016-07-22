@@ -355,7 +355,7 @@
 .a-tool-layout-zoned-focused .x-btn.a-btn-light .x-btn-wrap-default-small.x-btn-arrow-right:after,
 .a-tool-layout-zoned-focused .x-btn.a-btn-light .x-btn-wrap-default-medium.x-btn-arrow-right:after,
 .a-tool-layout-zoned-focused .x-btn.a-btn-light .x-btn-wrap-default-large.x-btn-arrow-right:after {
-    color: #295c9f;
+    color: #000;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:61 */
 .a-tool-layout-zoned-notfocused .x-btn.a-btn-light.x-btn-default-small,
@@ -791,7 +791,7 @@
 .a-tool-layout-zoned-focused .x-btn.a-btn-lighter .x-btn-wrap-default-small.x-btn-arrow-right:after,
 .a-tool-layout-zoned-focused .x-btn.a-btn-lighter .x-btn-wrap-default-medium.x-btn-arrow-right:after,
 .a-tool-layout-zoned-focused .x-btn.a-btn-lighter .x-btn-wrap-default-large.x-btn-arrow-right:after {
-    color: #295c9f;
+    color: #000;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:61 */
 .a-tool-layout-zoned-notfocused .x-btn.a-btn-lighter.x-btn-default-small,

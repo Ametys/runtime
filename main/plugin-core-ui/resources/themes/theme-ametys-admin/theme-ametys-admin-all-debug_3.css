@@ -282,7 +282,7 @@
     width: 18px;
     font: 16px/21px FontAwesome;
     background: #fff;
-    color: #000;
+    color: #588cd2;
     border-width: 0 0 0 1px;
     border-color: #d7d7d7;
     border-style: solid;
@@ -312,7 +312,7 @@
     padding-top: 6px;
     padding-bottom: 5px;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Field.scss:36 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Field.scss:37 */
 .x-form-item-no-label .x-form-text-ribbon-component.x-form-textarea {
     min-height: 67px;
 }
@@ -329,7 +329,7 @@
     background-color: #fff;
     width: 18px;
     height: 10.5px;
-    color: #000;
+    color: #588cd2;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-neutral/sass/var/form/trigger/Spinner.scss:131 */
 .x-form-spinner-up-ribbon-component {
@@ -387,23 +387,23 @@
 .x-form-spinner-down-ribbon-component.x-form-spinner.x-form-spinner-click {
     background-position: -36px -10.5px;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Field.scss:50 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Field.scss:52 */
 .x-field-focus .x-form-spinner-ribbon-component,
 .x-field-focus .x-form-trigger-ribbon-component {
     border-color: #4070b0;
     background-color: #4070b0;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Field.scss:56 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Field.scss:58 */
 .x-form-spinner-over.x-form-spinner-ribbon-component,
 .x-form-trigger-over.x-form-trigger-ribbon-component {
     border-color: #a0b8d8;
     background-color: #a0b8d8;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Field.scss:62 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Field.scss:64 */
 .x-field-ribbon-component {
     margin: 0 2px;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Field.scss:65 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Field.scss:67 */
 .x-form-item-ribbon-component.x-form-type-text.x-form-item-no-label textarea {
     min-height: 67px;
 }
@@ -460,11 +460,11 @@
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
     opacity: 0.3;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Field.scss:78 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Field.scss:80 */
 .x-form-cb-label-ribbon-component {
     color: #2a5a9a;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Field.scss:84 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Field.scss:86 */
 .x-field-ribbon-component.x-autocontainer-form-item,
 .x-field-ribbon-component.x-anchor-form-item,
 .x-field-ribbon-component.x-vbox-form-item,
@@ -546,11 +546,11 @@
     padding-top: 6px;
     padding-bottom: 5px;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Field.scss:107 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Field.scss:109 */
 .x-form-cb-ribbon-component {
     margin-top: 4px;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Field.scss:115 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Field.scss:117 */
 .x-field-ribbon-component .x-form-date-trigger {
     font-size: 16px;
     font-family: FontAwesome;
@@ -558,6 +558,12 @@
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-neutral/sass/etc/mixins/font-icon.scss:126 */
 .x-field-ribbon-component .x-form-date-trigger:before {
     content: "\f073";
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/Field.scss:132 */
+.x-form-trigger-ribbon-component,
+.x-form-spinner-ribbon-component,
+.x-field-ribbon-component .x-form-date-trigger {
+    font-size: 12px;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/fluent/MenuPanel.scss:20 */
 .x-menu-ribbon-menu .x-menu-item-checked {
@@ -7474,6 +7480,10 @@
     font-weight: bold;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/sites.scss:17 */
+.a-tree-glyph.site-warning:after {
+    color: #ffae01;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/sites.scss:21 */
 .sitetype-item {
     max-width: 120px;
     min-width: 80px;
@@ -7481,6 +7491,17 @@
     text-align: center;
     text-overflow: ellipsis;
     overflow: hidden;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/sites.scss:30 */
+.sitetype-item .sitetype-item-glyph {
+    height: 48px;
+    width: 48px;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/sites.scss:35 */
+.sitetype-item .sitetype-item-glyph:before {
+    color: #717171;
+    font-size: 48px;
+    line-height: 48px;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/history.scss:20 */
 .uitool-history.a-timeline .versions-container {
@@ -12949,7 +12970,7 @@
 .a-tool-layout-zoned-focused .x-btn .x-btn-wrap-default-small.x-btn-arrow-right:after,
 .a-tool-layout-zoned-focused .x-btn .x-btn-wrap-default-medium.x-btn-arrow-right:after,
 .a-tool-layout-zoned-focused .x-btn .x-btn-wrap-default-large.x-btn-arrow-right:after {
-    color: #588cd2;
+    color: #000;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:61 */
 .a-tool-layout-zoned-notfocused .x-btn.x-btn-default-small,

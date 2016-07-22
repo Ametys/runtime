@@ -1,4 +1,98 @@
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:614 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-tab-bar-default.x-tab-bar-plain .x-tab.x-tab-default.x-tab-active {
+    background-color: #def3dd;
+    border-color: #36aa42;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:618 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-tab-bar-default.x-tab-bar-plain .x-tab.x-tab-default.x-tab-active .x-tab-inner-default {
+    color: #2c8435;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:638 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-tab-bar-default.x-tab-bar-plain .x-tab.x-tab-default.x-tab-active.x-tab-focus {
+    background-color: #def3dd;
+    border-color: #36aa42;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:642 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-tab-bar-default.x-tab-bar-plain .x-tab.x-tab-default.x-tab-active.x-tab-focus .x-tab-inner-default {
+    color: #2c8435;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:662 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-tab-bar-default.x-tab-bar-plain .x-tab.x-tab-default.x-tab-active.x-tab-over {
+    background-color: #def3dd;
+    border-color: #36aa42;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:666 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-tab-bar-default.x-tab-bar-plain .x-tab.x-tab-default.x-tab-active.x-tab-over .x-tab-inner-default {
+    color: #2c8435;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:687 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-tab-bar-default.x-tab-bar-plain .x-tab.x-tab-default.x-tab-disabled {
+    background-color: transparent;
+    border-color: transparent;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:691 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-tab-bar-default.x-tab-bar-plain .x-tab.x-tab-default.x-tab-disabled .x-tab-inner-default {
+    color: #56825a;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:450 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-tab-bar-default.x-tab-bar-plain + .x-noborder-trbl {
+    border-color: #def3dd #36aa42 #36aa42 #36aa42 !important;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:453 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-tab-bar-default.x-tab-bar-plain + .x-noborder-trbl > .x-tabpanel-child.x-panel-default > .x-panel-body {
+    border-top-color: #def3dd !important;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:457 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-tab-bar-default.x-tab-bar-plain + .x-panel-default-outer-border-rbl > .x-tabpanel-child.x-panel-default > .x-panel-body {
+    border-color: #def3dd !important;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:462 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-tab-bar-default .x-tab-bar-strip-default {
+    border-color: #36aa42;
+    background-color: #36aa42;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:340 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-tab-bar-default {
+    background-color: #e5f8ff;
+    border-color: #e5f8ff;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:518 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-tab-bar-default .x-tab.x-tab-default {
+    background-color: transparent;
+    border-color: transparent;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:522 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-tab-bar-default .x-tab.x-tab-default .x-tab-inner-default {
+    color: #0a7fb2;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:542 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-tab-bar-default .x-tab.x-tab-default.x-tab-focus {
+    background-color: transparent;
+    border-color: transparent;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:546 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-tab-bar-default .x-tab.x-tab-default.x-tab-focus .x-tab-inner-default {
+    color: #0a7fb2;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:566 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-tab-bar-default .x-tab.x-tab-default.x-tab-over {
+    background-color: #cbf1ff;
+    border-color: #cbf1ff;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:570 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-tab-bar-default .x-tab.x-tab-default.x-tab-over .x-tab-inner-default {
+    color: #0a7fb2;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:590 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-tab-bar-default .x-tab.x-tab-default.x-tab-over.x-tab-focus {
+    background-color: #cbf1ff;
+    border-color: #cbf1ff;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:594 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-tab-bar-default .x-tab.x-tab-default.x-tab-over.x-tab-focus .x-tab-inner-default {
+    color: #0a7fb2;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:614 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-tab-bar-default .x-tab.x-tab-default.x-tab-active {
     background-color: #35baf6;
     border-color: #35baf6;

@@ -1,3 +1,43 @@
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/border-management.scss:10 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-panel-default-outer-border-bl {
+    border-bottom-color: #b060b0 !important;
+    border-bottom-width: 1px !important;
+    border-left-color: #b060b0 !important;
+    border-left-width: 1px !important;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/border-management.scss:16 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-panel-default-outer-border-r {
+    border-right-color: #b060b0 !important;
+    border-right-width: 1px !important;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/border-management.scss:20 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-panel-default-outer-border-rl {
+    border-right-color: #b060b0 !important;
+    border-right-width: 1px !important;
+    border-left-color: #b060b0 !important;
+    border-left-width: 1px !important;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/border-management.scss:26 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-panel-default-outer-border-rb {
+    border-right-color: #b060b0 !important;
+    border-right-width: 1px !important;
+    border-bottom-color: #b060b0 !important;
+    border-bottom-width: 1px !important;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/border-management.scss:32 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-panel-default-outer-border-rbl {
+    border-right-color: #b060b0 !important;
+    border-right-width: 1px !important;
+    border-bottom-color: #b060b0 !important;
+    border-bottom-width: 1px !important;
+    border-left-color: #b060b0 !important;
+    border-left-width: 1px !important;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/border-management.scss:40 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-panel-default-outer-border-t {
+    border-top-color: #b060b0 !important;
+    border-top-width: 1px !important;
+}
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/ext/classic/theme-base/sass/etc/mixins/border-management.scss:44 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-panel-default-outer-border-tl {
     border-top-color: #b060b0 !important;
@@ -3883,6 +3923,14 @@ ul.ametys-tooltip-comment > li div.comment-text {
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-component-view > *.x-item-selected.x-view-over {
     background-color: #e9cce5;
     border-color: #b060b0;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Spinner.scss:18 */
+.x-form-spinner-up-default {
+    line-height: 10px;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Spinner.scss:21 */
+.x-form-spinner-down-default {
+    line-height: 14px;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Date.scss:27 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-form-date-trigger {

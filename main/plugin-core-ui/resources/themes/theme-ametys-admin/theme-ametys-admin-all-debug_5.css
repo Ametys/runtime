@@ -15108,6 +15108,14 @@ ul.ametys-tooltip-comment > li div.comment-text {
     background-color: #e9cce5;
     border-color: #b060b0;
 }
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Spinner.scss:18 */
+.x-form-spinner-up-default {
+    line-height: 10px;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Spinner.scss:21 */
+.x-form-spinner-down-default {
+    line-height: 14px;
+}
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Date.scss:27 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-form-date-trigger {
     font-size: 16px;
@@ -17131,14 +17139,5 @@ ul.ametys-tooltip-comment > li div.comment-text {
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:594 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-tab-bar-default.x-tab-bar-plain .x-tab.x-tab-default.x-tab-over.x-tab-focus .x-tab-inner-default {
-    color: #2c8435;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:614 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-tab-bar-default.x-tab-bar-plain .x-tab.x-tab-default.x-tab-active {
-    background-color: #def3dd;
-    border-color: #36aa42;
-}
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/etc/all.scss:618 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-tab-bar-default.x-tab-bar-plain .x-tab.x-tab-default.x-tab-active .x-tab-inner-default {
     color: #2c8435;
 }
