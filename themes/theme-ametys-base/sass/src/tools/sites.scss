@@ -18,6 +18,10 @@
 	color: $ametys-background-color-warn;
 }
 
+.#{$prefix}fluent-tooltip-glyph.site-warning:after {
+	color: $ametys-background-color-warn;
+}
+
 .sitetype-item {
 	max-width: 120px;
 	min-width: 80px;
@@ -37,8 +41,6 @@
 	font-size: $ametys-tool-font-size*4; 
 	line-height: $ametys-tool-font-size*4; 
 }
-
-
 
 
 
