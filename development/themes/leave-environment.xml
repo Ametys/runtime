@@ -19,7 +19,8 @@
     
     <target name="leave">
         <echo>Destroy static links</echo>
-        <antcall target="destroy-link"><param name="new-link" location="${ametys-work-dir}/ext"/></antcall>
+    	<!-- Since Sencha 6.1.3, work/ext through a symlink fails -->
+        <!--antcall target="destroy-link"><param name="new-link" location="${ametys-work-dir}/ext"/></antcall-->
         <antcall target="destroy-link"><param name="new-link" location="${ametys-work-dir}/ametys/plugins/core-ui/resources/"/></antcall>
         <antcall target="destroy-link"><param name="new-link" location="${ametys-work-dir}/ametys/test/"/></antcall>
         
