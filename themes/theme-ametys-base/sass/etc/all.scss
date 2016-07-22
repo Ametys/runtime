@@ -49,7 +49,7 @@
                     .x-btn-wrap-default-small.x-btn-arrow-right:after,
                     .x-btn-wrap-default-medium.x-btn-arrow-right:after,
                     .x-btn-wrap-default-large.x-btn-arrow-right:after { 
-                        color: $button-arrow-glyph-color; 
+                        color: $form-trigger-glyph-color; 
                     }
                 } @else {
                     .x-btn-wrap-default-small.x-btn-arrow-right:after { background-image: theme-background-image(button/#{$ui}-small-arrow-dark); }

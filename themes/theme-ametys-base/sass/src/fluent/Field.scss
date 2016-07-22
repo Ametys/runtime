@@ -29,6 +29,7 @@
     $ui-trigger-background-image: $ametys-ribbon-field-trigger-background-image,
     $ui-trigger-border-color: $ametys-ribbon-field-border-color,
     $ui-trigger-border-width: 0 0 0 1px,
+    $ui-trigger-glyph-color: $ametys-ribbon-button-arrow-glyph-color,
     
     $ui-color: $ametys-ribbon-field-color,
     $ui-font-size: $ametys-ribbon-field-font-size
@@ -43,7 +44,8 @@
     $ui-field-height: $ametys-ribbon-button-height-small,
     $ui-trigger-width: $ametys-ribbon-field-trigger-width,
     $ui-trigger-background-color: $ametys-ribbon-field-background-color,
-    $ui-trigger-vertical-background-image: $ametys-ribbon-field-spinner-background-image
+    $ui-trigger-vertical-background-image: $ametys-ribbon-field-spinner-background-image,
+    $ui-trigger-glyph-color: $ametys-ribbon-button-arrow-glyph-color
 );
 
 .#{$prefix}field-focus {
@@ -124,5 +126,12 @@
             }
         }
     }
+}
+ 
+ 
+.#{$prefix}form-trigger-ribbon-component, 
+.#{$prefix}form-spinner-ribbon-component, 
+.#{$prefix}field-ribbon-component .#{$prefix}form-date-trigger {
+    font-size: $ametys-ribbon-button-font-size;
 }
  

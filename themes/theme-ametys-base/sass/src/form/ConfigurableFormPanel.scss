@@ -122,21 +122,21 @@
                 $color: nth($ametys-tool-tab-colors-dark, $i), 
                 $border-color-pressed: nth($ametys-tool-tab-colors, $i),
                 $background-color: #FFF, $background-color-pressed: nth($ametys-tool-tab-colors-light, $i)
-            );   
+            );
             
-            .x-btn.x-btn-pressed {
+            .#{$prefix}btn.#{$prefix}btn-pressed {
                 border-right-width: 3px !important;
             } 
         }
     }
     
-   	.x-btn.error.not-startup .x-btn-button {
+   	.#{$prefix}btn.error.not-startup .#{$prefix}btn-button {
    		background-image: theme-background-image($form-error-icon-background-image);
         background-position: right;
         background-repeat: no-repeat;
    	}
    	
-   	.x-btn.warning.not-startup .x-btn-button {
+   	.#{$prefix}btn.warning.not-startup .#{$prefix}btn-button {
         background-image: theme-background-image($ametys-form-field-warning-background-image); 
         background-position: right;
         background-repeat: no-repeat;
