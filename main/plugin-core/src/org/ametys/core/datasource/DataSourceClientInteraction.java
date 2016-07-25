@@ -292,7 +292,7 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
             {
                 // Inject the recorded password before overriding the existing data source (saved passwords are not sent)
                 String previousPassword = previousdataSourceDefinition.getParameters().get("password");
-                if (StringUtils.isNotEmpty(previousPassword))
+                if (parameters.get("password") == null && StringUtils.isNotEmpty(previousPassword))
                 {
                     parameters.put("password", previousPassword);
                 }
@@ -311,7 +311,7 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
             {
                 // Inject the recorded password before overriding the existing data source (saved passwords are not sent)
                 String previousPassword = previousdataSourceDefinition.getParameters().get(LDAPDataSourceManager.PARAM_ADMIN_PASSWORD);
-                if (StringUtils.isNotEmpty(previousPassword))
+                if (parameters.get(LDAPDataSourceManager.PARAM_ADMIN_PASSWORD) == null && StringUtils.isNotEmpty(previousPassword))
                 {
                     parameters.put(LDAPDataSourceManager.PARAM_ADMIN_PASSWORD, previousPassword);
                 }
