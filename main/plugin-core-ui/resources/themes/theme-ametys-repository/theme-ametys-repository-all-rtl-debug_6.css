@@ -3795,6 +3795,10 @@ ul.ametys-tooltip-comment > li div.comment-text {
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-form-trigger-wrap-default.x-form-trigger-wrap-invalid {
     border-color: #cf4c35;
 }
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/form/field/Checkbox.scss:18 */
+.x-form-checkbox {
+    overflow: visible;
+}
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/view/View.scss:17 */
 .x-component-view {
     padding: 4px;

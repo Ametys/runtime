@@ -9307,6 +9307,10 @@
     color: #ffae01;
 }
 /* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/sites.scss:21 */
+.x-fluent-tooltip-glyph.site-warning:after {
+    color: #ffae01;
+}
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/sites.scss:25 */
 .sitetype-item {
     max-width: 120px;
     min-width: 80px;
@@ -9315,12 +9319,12 @@
     text-overflow: ellipsis;
     overflow: hidden;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/sites.scss:30 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/sites.scss:34 */
 .sitetype-item .sitetype-item-glyph {
     height: 48px;
     width: 48px;
 }
-/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/sites.scss:35 */
+/* D:/Dev/raphael/Ametys/kernel/01_RUNTIME/trunk/themes/work/packages/local/theme-ametys-base/sass/src/tools/sites.scss:39 */
 .sitetype-item .sitetype-item-glyph:before {
     color: #717171;
     font-size: 48px;
