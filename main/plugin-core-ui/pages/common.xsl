@@ -64,7 +64,7 @@
                     <i18n:text i18n:key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_SPLASHSCREEN_APP_AMETYS_VERSION" i18n:catalogue="plugin.core-ui"/>
                     <xsl:variable name="Versions" select="ametys:versions()"/>
                     <xsl:if test="$Versions/Component[Name='Ametys' and Version]">
-                        &#160;<xsl:value-of select="Component[Name='Ametys']/Version"/>
+                        &#160;<xsl:value-of select="$Versions/Component[Name='Ametys' and Version]/Version"/>
                     </xsl:if>
                 </footer>
             </div>                
