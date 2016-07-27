@@ -250,6 +250,8 @@
     <message key="PLUGINS_CORE_DATASOURCEDAO_DELETE_DATASOURCE_ERROR">Une erreur est survenue: la ou les sources de données n'ont pas été supprimées.</message>
     <message key="PLUGINS_CORE_DATASOURCEDAO_SET_DEFAULT_DATASOURCE_ERROR">Une erreur est survenue: la source de données n'a pas été changée en source de données par défaut.</message>
     
+    <message key="PLUGINS_CORE_SQL_DATASOURCETYPE_VALIDATOR_FAILED">Le type de base de donnée est invalide</message>
+    
     <!-- +
          | TASKS SCHEDULER
          + -->
