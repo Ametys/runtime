@@ -27,7 +27,9 @@ import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
 
+import org.ametys.core.cocoon.ActionResultGenerator;
 import org.ametys.runtime.config.ConfigManager;
+import org.ametys.runtime.parameter.Errors;
 import org.ametys.runtime.servlet.RuntimeServlet;
 import org.ametys.runtime.util.AmetysHomeHelper;
 
@@ -45,14 +47,13 @@ public class SaveConfigAction extends AbstractAction implements ThreadSafe
             getLogger().debug("Starting SaveConfigAction");
         }
 
-        // Requete
         Request request = ObjectModelHelper.getRequest(objectModel);
-
+        Map<String, Object> result = new HashMap<> ();
+        
         try
         {
             Map<String, String> untypedValues = new HashMap<>();
             
-            // Configuration
             ConfigManager configManager = ConfigManager.getInstance();
             String[] ids = configManager.getParametersIds();
             for (int i = 0; i < ids.length; i++)
@@ -61,19 +62,30 @@ public class SaveConfigAction extends AbstractAction implements ThreadSafe
                 untypedValues.put(ids[i], untypedValue);
             }
 
-            // Sauvegarde le déploiement
-            configManager.save(untypedValues, new File(AmetysHomeHelper.getAmetysHomeConfig(), RuntimeServlet.CONFIG_FILE_NAME).getCanonicalPath());
+            // Save configuration
+            Map<String, Errors> errorFields = configManager.save(untypedValues, new File(AmetysHomeHelper.getAmetysHomeConfig(), RuntimeServlet.CONFIG_FILE_NAME).getCanonicalPath());
+            if (errorFields.size() > 0)
+            {
+                for (String paramId : errorFields.keySet())
+                {
+                    Errors errors = errorFields.get(paramId);
+                    result.put(paramId, errors);
+                }
+                
+                request.setAttribute(ActionResultGenerator.MAP_REQUEST_ATTR, result);
+                return EMPTY_MAP;
+            }
         }
         catch (Exception e)
         {
             getLogger().error("An error occured while saving config modifications", e);
             
-            Map<String, String> result = new HashMap<>();
             result.put("error", e.getMessage());
-            return result;
+            request.setAttribute(ActionResultGenerator.MAP_REQUEST_ATTR, result);
+            return EMPTY_MAP;
         }
 
-        // Positionne l'attribut sur la requête pour le redémarrage de Cocoon
+        // Set the request attribute for Cocoon reloading
         if (getLogger().isDebugEnabled())
         {
             getLogger().debug("Positionning org.ametys.runtime.reload=true for Cocoon reloading");

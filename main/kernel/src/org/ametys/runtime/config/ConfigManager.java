@@ -20,6 +20,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -48,6 +49,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
+import org.ametys.core.user.InvalidModificationException;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.Enumerator;
 import org.ametys.runtime.parameter.Errors;
@@ -901,10 +903,13 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
      * Values are untyped (all are of type String) and might be null.
      * @param untypedValues A map (key, untyped value).
      * @param fileName the config file absolute path
+     * @return errors The fields in error
      * @throws Exception If an error occurred while saving values
      */
-    public void save(Map<String, String> untypedValues, String fileName) throws Exception
+    public Map<String, Errors> save(Map<String, String> untypedValues, String fileName) throws Exception
     {
+        Map<String, Errors> errorFields = new HashMap<>();
+        
         // Retrieve the old values for password purposes
         Map<String, String> oldUntypedValues = null;
         if (Config.getInstance() == null)
@@ -925,24 +930,54 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         String[] ids = getParametersIds();
         for (String id : ids)
         {
+            ConfigParameter configParam = _params.get(id);
+            
             String untypedValue = untypedValues.get(id);
-            
             Object typedValue = ParameterHelper.castValue(untypedValue, _params.get(id).getType());
+            Validator validator = configParam.getValidator();
             
-            if (typedValue == null && _params.get(id).getType() == ParameterType.PASSWORD)
+            if (validator != null)
             {
-                if (Config.getInstance() != null)
+                Errors errors = new Errors();
+                validator.validate(typedValue, errors);
+                
+                if (errors.hasErrors())
                 {
-                    // keeps the value of an empty password field
-                    typedValue = Config.getInstance().getValueAsString(id);
+                    if (_logger.isDebugEnabled())
+                    {
+                        _logger.debug("The configuration parameter '" + configParam.getId() + "' is not valid");
+                    }
+                    
+                    errorFields.put(configParam.getId(), errors);
                 }
-                else if (oldUntypedValues != null)
+                else
                 {
-                    typedValue = oldUntypedValues.get(id);
+                    if (typedValue == null && configParam.getType() == ParameterType.PASSWORD)
+                    {
+                        if (Config.getInstance() != null)
+                        {
+                            // keeps the value of an empty password field
+                            typedValue = Config.getInstance().getValueAsString(id);
+                        }
+                        else if (oldUntypedValues != null)
+                        {
+                            typedValue = oldUntypedValues.get(id);
+                        }
+                    }
+                    
+                    typedValues.put(id, typedValue);
                 }
             }
-
-            typedValues.put(id, typedValue);
+        }
+        
+        if (errorFields.size() > 0)
+        {
+            if (_logger.isDebugEnabled())
+            {
+                _logger.debug("Failed to save configuration because of invalid parameter values");
+            }
+            
+            return errorFields;
         }
 
         // SAX
@@ -973,6 +1008,8 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         {
             throw new Exception("An error occured while saving the config values.", e);
         }
+        
+        return Collections.EMPTY_MAP;
     }
 
     /**

@@ -96,9 +96,11 @@
 
             <map:match pattern="config/set">
                 <map:act type="config-save">
-                    <map:generate type="action-result">
-                        <map:parameter name="error" value="{error}"/>
-                    </map:generate>
+                    <map:generate type="action-result"/>
+                    <map:transform type="i18n">
+	                    <map:parameter name="locale" value="{locale:locale}"/>
+	                    <map:parameter name="plugin" value="{request-attr:pluginName}"/>
+	                </map:transform>    
                     <map:serialize type="xml"/>
                 </map:act>
             </map:match>

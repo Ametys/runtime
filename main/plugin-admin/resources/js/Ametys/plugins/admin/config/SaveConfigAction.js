@@ -47,14 +47,14 @@ Ext.define('Ametys.plugins.admin.config.SaveConfigAction', {
 		}
     	
     	Ext.getBody().mask("{{i18n PLUGINS_ADMIN_CONFIG_SAVE_WAIT_MSG}}");
-        Ext.defer(Ext.bind(this._save, this, [form.getValues()], false), 1, this);
+        Ext.defer(Ext.bind(this._save, this, [form, form.getValues()], false), 1, this);
     },
 
     /**
      * The actual saving process, calling the server side
      * @param {Object} params the parameters used by the server
      */
-    _save: function(params)
+    _save: function(form, params)
     {
         var result = null,
             ex = "";
@@ -83,7 +83,7 @@ Ext.define('Ametys.plugins.admin.config.SaveConfigAction', {
         result = result.responseXML;
         
         // Server error
-        var error = Ext.dom.Query.selectValue("* > error", result);
+        var error = Ext.dom.Query.selectValue("> ActionResult > error", result);
         if (!Ext.isEmpty(error))
         {
         	Ametys.log.ErrorDialog.display({
@@ -95,6 +95,31 @@ Ext.define('Ametys.plugins.admin.config.SaveConfigAction', {
             return;
         }
         
+        // Field errors ?
+        var errors = Ext.dom.Query.select ('> ActionResult > * > error', result);
+		if (errors.length > 0)
+		{
+			var fieldsInError = {};
+			
+			for (var i=0; i < errors.length; i++)
+			{
+				var fdName = errors[i].parentNode.tagName;
+				var errorMsg = Ext.dom.Query.selectValue("", errors[i]);
+				
+				fieldsInError[fdName] = errorMsg;
+			}
+			
+			form.markFieldsInvalid (fieldsInError);
+			
+			Ametys.Msg.show ({
+		        title: "{{i18n PLUGINS_ADMIN_SAVE_DIALOG_TITLE}}",
+	            msg: "{{i18n PLUGINS_ADMIN_CONFIG_SAVE_FIELDS_ERROR}}",
+	            buttons: Ext.Msg.OK,
+	            icon: Ext.MessageBox.ERROR
+		    });
+            return;
+		}
+		
         // Success
         Ametys.Msg.show ({
 	        title: "{{i18n PLUGINS_ADMIN_SAVE_DIALOG_TITLE}}",
