@@ -352,9 +352,6 @@ Ext.define('Ametys.form.widget.GeoCode', {
 		Ametys.helper.ChooseLocation.open(config, Ext.bind(this._chooseLocationCallback, this));
 	},
 	
-	/**
-	 * @inheritdoc
-	 */
 	getErrors: function (value)
 	{
 		value = value || this.getValue();
@@ -369,9 +366,6 @@ Ext.define('Ametys.form.widget.GeoCode', {
 	   	return errors;
 	},  
    
-	/**
-	 * @inheritdoc
-	 */
 	isEqual: function (value1, value2)
 	{   	    
       	if (value1 != null && value2 != null)
@@ -388,9 +382,6 @@ Ext.define('Ametys.form.widget.GeoCode', {
       	}   	      	
 	}, 	
 	
-	/**
-	 * @inheritdoc
-	 */
 	getSubmitData: function() 
 	{
 		var data = {};
