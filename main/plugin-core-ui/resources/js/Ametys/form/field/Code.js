@@ -195,7 +195,7 @@ Ext.define('Ametys.form.field.Code', {
     {   
         if (this._futureValue != '')
         {
-            this.setValue(_futureValue);
+            this.setValue(this._futureValue);
             this._futureValue = null;
         }
     },
