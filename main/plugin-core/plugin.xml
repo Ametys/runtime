@@ -255,7 +255,10 @@
                 <param name="allowInternal">true</param>
             </widget-params>
             <validation>
-                <mandatory/>
+            	<custom-validator class="org.ametys.core.datasource.SQLDatabaseTypeValidator">
+			       <mandatory/>
+			       <allowed-dbtypes>derby,mysql,oracle,postgresql,hsql</allowed-dbtypes>
+			    </custom-validator>
             </validation>
             <category i18n="true">PLUGINS_CORE_SCHEDULER_CONFIG_CATEGORY</category>
             <group i18n="true">PLUGINS_CORE_SCHEDULER_CONFIG_GROUP</group>

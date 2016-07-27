@@ -34,7 +34,10 @@
                 <param name="allowInternal">true</param>
             </widget-params>
             <validation>
-                <mandatory/>
+            	<custom-validator class="org.ametys.core.datasource.SQLDatabaseTypeValidator">
+			       <mandatory/>
+			       <allowed-dbtypes>derby,mysql,oracle,postgresql,hsql</allowed-dbtypes>
+			    </custom-validator>
             </validation>
             <category i18n="true">PLUGINS_CORE_DATASOURCE_CONFIG_USERPREFS_CATEGORY</category>
             <group i18n="true">PLUGINS_CORE_DATASOURCE_CONFIG_USERPREFS_GROUP</group>
@@ -54,7 +57,10 @@
                 <param name="allowInternal">true</param>
             </widget-params>
             <validation>
-                <mandatory/>
+            	<custom-validator class="org.ametys.core.datasource.SQLDatabaseTypeValidator">
+			       <mandatory/>
+			       <allowed-dbtypes>derby,mysql,oracle,postgresql,hsql</allowed-dbtypes>
+			    </custom-validator>
             </validation>
             <category i18n="true">PLUGINS_CORE_DATASOURCE_CONFIG_RIGHTS_CATEGORY</category>
             <group i18n="true">PLUGINS_CORE_DATASOURCE_CONFIG_RIGHTS_GROUP</group>
@@ -74,7 +80,10 @@
                 <param name="allowInternal">true</param>
             </widget-params>
             <validation>
-                <mandatory/>
+            	<custom-validator class="org.ametys.core.datasource.SQLDatabaseTypeValidator">
+			       <mandatory/>
+			       <allowed-dbtypes>derby,mysql,oracle,postgresql,hsql</allowed-dbtypes>
+			    </custom-validator>
             </validation>
             <category i18n="true">PLUGINS_CORE_DATASOURCE_CONFIG_LOGIN_FORM_CONFIG_CATEGORY</category>
             <group i18n="true">PLUGINS_CORE_DATASOURCE_CONFIG_LOGIN_FORM_CONFIG_GROUP</group>
@@ -214,7 +223,10 @@
 			                <param name="allowInternal">true</param>
 			            </widget-params>
 			            <validation>
-			                <mandatory/>
+			            	<custom-validator class="org.ametys.core.datasource.SQLDatabaseTypeValidator">
+						       <mandatory/>
+						       <allowed-dbtypes>derby,mysql,oracle,postgresql,hsql</allowed-dbtypes>
+						    </custom-validator>
 			            </validation>
 			        </param>
 			        <param id="runtime.users.jdbc.table" type="string">
@@ -421,7 +433,10 @@
 			                <param name="allowInternal">true</param>
 			            </widget-params>
 			            <validation>
-			                <mandatory/>
+			            	<custom-validator class="org.ametys.core.datasource.SQLDatabaseTypeValidator">
+						       <mandatory/>
+						       <allowed-dbtypes>derby,mysql,oracle,postgresql,hsql</allowed-dbtypes>
+						    </custom-validator>
 			            </validation>
 			        </param>
 			        <param id="runtime.groups.jdbc.list.table" type="string">
@@ -1217,7 +1232,7 @@
     <feature name="runtime.core.datasources.sql.derby" safe="true">
         <extensions>
             <extension point="org.ametys.core.datasource.dbtype.SQLDatabaseTypeExtensionPoint"
-                       id="org.ametys.core.datasource.sql.dbtype.derby"
+                       id="derby"
                        class="org.ametys.plugins.core.impl.datasource.StaticSQLDatabaseType">
                  <driver>org.apache.derby.jdbc.EmbeddedDriver</driver>
                  <label i18n="true">PLUGINS_CORE_DATASOURCE_DERBY_DRIVER_LABEL</label>
@@ -1232,7 +1247,7 @@
     <feature name="runtime.core.datasources.sql.mysql" safe="true">
         <extensions>        
             <extension point="org.ametys.core.datasource.dbtype.SQLDatabaseTypeExtensionPoint"
-                       id="org.ametys.core.datasource.sql.dbtype.mysql"
+                       id="mysql"
                        class="org.ametys.plugins.core.impl.datasource.StaticSQLDatabaseType">
                  <driver>com.mysql.jdbc.Driver</driver>
                  <label i18n="true">PLUGINS_CORE_DATASOURCE_MYSQL_DRIVER_LABEL</label>
@@ -1246,7 +1261,7 @@
     <feature name="runtime.core.datasources.sql.hsql" safe="true">
         <extensions>
             <extension point="org.ametys.core.datasource.dbtype.SQLDatabaseTypeExtensionPoint"
-                       id="org.ametys.core.datasource.sql.dbtype.hsql"
+                       id="hsql"
                        class="org.ametys.plugins.core.impl.datasource.StaticSQLDatabaseType">
                  <driver>org.hsqldb.jdbc.JDBCDriver</driver>
                  <label i18n="true">PLUGINS_CORE_DATASOURCE_HSQL_DRIVER_LABEL</label>
@@ -1261,7 +1276,7 @@
     <feature name="runtime.core.datasources.sql.postgresql" safe="true">
         <extensions>        
             <extension point="org.ametys.core.datasource.dbtype.SQLDatabaseTypeExtensionPoint"
-                       id="org.ametys.core.datasource.sql.dbtype.postgresql"
+                       id="postgresql"
                        class="org.ametys.plugins.core.impl.datasource.StaticSQLDatabaseType">
                  <driver>org.postgresql.Driver</driver>
                  <label i18n="true">PLUGINS_CORE_DATASOURCE_POSTGRESQL_DRIVER_LABEL</label>
@@ -1275,7 +1290,7 @@
     <feature name="runtime.core.datasources.sql.oracle" safe="true">
         <extensions>
             <extension point="org.ametys.core.datasource.dbtype.SQLDatabaseTypeExtensionPoint"
-                       id="org.ametys.core.datasource.sql.dbtype.oracle"
+                       id="oracle"
                        class="org.ametys.plugins.core.impl.datasource.StaticSQLDatabaseType">
                  <driver>oracle.jdbc.driver.OracleDriver</driver>
                  <label i18n="true">PLUGINS_CORE_DATASOURCE_ORACLE_DRIVER_LABEL</label>
