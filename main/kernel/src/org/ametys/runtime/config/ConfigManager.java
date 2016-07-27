@@ -49,7 +49,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
-import org.ametys.core.user.InvalidModificationException;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.Enumerator;
 import org.ametys.runtime.parameter.Errors;
@@ -470,17 +469,13 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                     
                     if (groupSwitch != null)
                     {
-                        isGroupSwitchedOn = false;
-                        
-                        // check if parameter is valued
+                        // Check if group switch is active
                         ConfigParameter switcher = _params.get(group.getSwitch());
-                        
-                        // we can cast directly because we already tested that it should be a boolean while categorizing
-                        isGroupSwitchedOn = BooleanUtils.toBoolean((Boolean) _validateParameter(untypedValues, switcher));
+                        isGroupSwitchedOn = (Boolean) ParameterHelper.castValue(untypedValues.get(switcher.getId()), switcher.getType());
                     }
                     
                     // validate parameters if there's no switch, if the switch is on or if the the parameter is not disabled
-                    if (groupSwitch == null || isGroupSwitchedOn)
+                    if (isGroupSwitchedOn)
                     {
                         boolean disabled = false;
                         for (ConfigParameter parameter: group.getParams(true))
@@ -924,51 +919,8 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             }
         }
         
-        // Typed values
-        Map<String, Object> typedValues = new HashMap<>();
-
-        String[] ids = getParametersIds();
-        for (String id : ids)
-        {
-            ConfigParameter configParam = _params.get(id);
-            
-            String untypedValue = untypedValues.get(id);
-            Object typedValue = ParameterHelper.castValue(untypedValue, _params.get(id).getType());
-            Validator validator = configParam.getValidator();
-            
-            if (validator != null)
-            {
-                Errors errors = new Errors();
-                validator.validate(typedValue, errors);
-                
-                if (errors.hasErrors())
-                {
-                    if (_logger.isDebugEnabled())
-                    {
-                        _logger.debug("The configuration parameter '" + configParam.getId() + "' is not valid");
-                    }
-                    
-                    errorFields.put(configParam.getId(), errors);
-                }
-                else
-                {
-                    if (typedValue == null && configParam.getType() == ParameterType.PASSWORD)
-                    {
-                        if (Config.getInstance() != null)
-                        {
-                            // keeps the value of an empty password field
-                            typedValue = Config.getInstance().getValueAsString(id);
-                        }
-                        else if (oldUntypedValues != null)
-                        {
-                            typedValue = oldUntypedValues.get(id);
-                        }
-                    }
-                    
-                    typedValues.put(id, typedValue);
-                }
-            }
-        }
+        // Bind and validate parameters
+        Map<String, Object> typedValues = _bindAndValidateParameters (untypedValues, oldUntypedValues, errorFields);
         
         if (errorFields.size() > 0)
         {
@@ -1010,6 +962,82 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         }
         
         return Collections.EMPTY_MAP;
+    }
+    
+    /**
+     * Bind all parameters to typed values and for each, if enabled, validate it
+     * @param untypedValues The untyped values (from client-side)
+     * @param oldUntypedValues The old untyped values (before saving)
+     * @param errorFields The parameters in errors to be completed by validation process
+     * @return The typed values
+     */
+    private Map<String, Object> _bindAndValidateParameters (Map<String, String> untypedValues, Map<String, String> oldUntypedValues, Map<String, Errors> errorFields)
+    {
+        Map<String, Object> typedValues = new HashMap<>();
+        
+        // Iterate over categorized parameters
+        for (ConfigParameterCategory category : _categorizedParameters.values())
+        {
+            for (ConfigParameterGroup group: category.getGroups().values())
+            {
+                boolean isGroupSwitchedOn = true;
+                String groupSwitch = group.getSwitch();
+                
+                if (groupSwitch != null)
+                {
+                    // Check if group switch is active
+                    ConfigParameter switcher = _params.get(groupSwitch);
+                    isGroupSwitchedOn = (Boolean) ParameterHelper.castValue(untypedValues.get(switcher.getId()), switcher.getType());
+                }
+                
+                for (ConfigParameter parameter: group.getParams(true))
+                {
+                    String paramId = parameter.getId();
+                    Object typedValue = ParameterHelper.castValue(untypedValues.get(paramId), parameter.getType());
+                    typedValues.put(parameter.getId(), typedValue);
+                    
+                    if (typedValue == null && parameter.getType() == ParameterType.PASSWORD)
+                    {
+                        if (Config.getInstance() != null)
+                        {
+                            // keeps the value of an empty password field
+                            typedValue = Config.getInstance().getValueAsString(paramId);
+                        }
+                        else if (oldUntypedValues != null)
+                        {
+                            typedValue = oldUntypedValues.get(paramId);
+                        }
+                    }
+                    
+                    typedValues.put(paramId, typedValue);
+                    
+                    DisableConditions disableConditions = parameter.getDisableConditions();
+                    boolean disabled = !isGroupSwitchedOn || evaluateDisableConditions(disableConditions, untypedValues);
+                    
+                    if (!StringUtils.equals(parameter.getId(), group.getSwitch()) && !disabled)
+                    {
+                        Validator validator = parameter.getValidator();
+                        
+                        if (validator != null)
+                        {
+                            Errors errors = new Errors();
+                            validator.validate(typedValue, errors);
+                            
+                            if (errors.hasErrors())
+                            {
+                                if (_logger.isDebugEnabled())
+                                {
+                                    _logger.debug("The configuration parameter '" + parameter.getId() + "' is not valid");
+                                }
+                                errorFields.put(parameter.getId(), errors);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        return typedValues;
     }
 
     /**
