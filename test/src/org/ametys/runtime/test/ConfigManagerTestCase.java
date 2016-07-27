@@ -24,6 +24,7 @@ import org.apache.cocoon.environment.commandline.CommandLineContext;
 import org.apache.cocoon.util.log.SLF4JLoggerAdapter;
 import org.slf4j.LoggerFactory;
 
+import org.ametys.core.datasource.SQLDataSourceManager;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.config.ConfigManager;
 import org.ametys.runtime.plugin.PluginsManager;
@@ -55,6 +56,7 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
         _configureRuntime("test/environments/runtimes/runtime01.xml", "test/environments/webapp1");
         
         Config.setFilename("test/environments/configs/config0.xml"); // does not exist
+        SQLDataSourceManager.setFilename("test/environments/datasources/datasource-mysql.xml");
         
         PluginsManager.getInstance().init(null, _context, "test/environments/webapp1", false);
         
@@ -70,6 +72,7 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
     {
         _configureRuntime("test/environments/runtimes/runtime01.xml", "test/environments/webapp1");
         Config.setFilename("test/environments/configs/config2.xml"); // missing necessary parameters
+        SQLDataSourceManager.setFilename("test/environments/datasources/datasource-mysql.xml");
         
         PluginsManager.getInstance().init(null, _context, "test/environments/webapp1", false);
         
@@ -85,6 +88,7 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
     {
         _configureRuntime("test/environments/runtimes/runtime03.xml", "test/environments/webapp1");
         Config.setFilename("test/environments/configs/config2.xml");
+        SQLDataSourceManager.setFilename("test/environments/datasources/datasource-mysql.xml");
 
         PluginsManager.getInstance().init(null, _context, "test/environments/webapp1", false);
         
@@ -99,6 +103,7 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
     {
         _configureRuntime("test/environments/runtimes/runtime02.xml", "test/environments/webapp1");
         Config.setFilename("test/environments/configs/config1.xml");
+        SQLDataSourceManager.setFilename("test/environments/datasources/datasource-mysql.xml");
         
         PluginsManager.getInstance().init(null, _context, "test/environments/webapp1", false);
         
