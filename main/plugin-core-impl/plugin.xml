@@ -32,6 +32,7 @@
                 <param name="allowCreation">true</param>
                 <param name="allowPrivate">true</param>
                 <param name="allowInternal">true</param>
+                <param name="allowedDbTypes">derby,mysql,oracle,postgresql,hsql</param>
             </widget-params>
             <validation>
             	<custom-validator class="org.ametys.core.datasource.SQLDatabaseTypeValidator">
@@ -55,6 +56,7 @@
                 <param name="allowCreation">true</param>
                 <param name="allowPrivate">true</param>
                 <param name="allowInternal">true</param>
+                <param name="allowedDbTypes">derby,mysql,oracle,postgresql,hsql</param>
             </widget-params>
             <validation>
             	<custom-validator class="org.ametys.core.datasource.SQLDatabaseTypeValidator">
@@ -78,6 +80,7 @@
                 <param name="allowCreation">true</param>
                 <param name="allowPrivate">true</param>
                 <param name="allowInternal">true</param>
+                <param name="allowedDbTypes">derby,mysql,oracle,postgresql,hsql</param>
             </widget-params>
             <validation>
             	<custom-validator class="org.ametys.core.datasource.SQLDatabaseTypeValidator">
@@ -221,6 +224,7 @@
 			                <param name="allowCreation">true</param>
 			                <param name="allowPrivate">true</param>
 			                <param name="allowInternal">true</param>
+			                <param name="allowedDbTypes">derby,mysql,oracle,postgresql,hsql</param>
 			            </widget-params>
 			            <validation>
 			            	<custom-validator class="org.ametys.core.datasource.SQLDatabaseTypeValidator">
@@ -431,6 +435,7 @@
 			                <param name="allowCreation">true</param>
 			                <param name="allowPrivate">true</param>
 			                <param name="allowInternal">true</param>
+			                <param name="allowedDbTypes">derby,mysql,oracle,postgresql,hsql</param>
 			            </widget-params>
 			            <validation>
 			            	<custom-validator class="org.ametys.core.datasource.SQLDatabaseTypeValidator">
