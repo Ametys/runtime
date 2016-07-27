@@ -79,28 +79,32 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
     
     /**
      * Get the existing data sources
-     * @param type the data source type. Can be empty or null to get all data sources
+     * @param dataSourceType the data source type. Can be empty or null to get all data sources
      * @param includePrivate true to include private data sources
      * @param includeInternal true to include internal data sources
      * @param includeDefault true to include the default data sources
+     * @param allowedTypes The sub-types of datasource allowed. Can be null. For now, this parameter is only used for sql data sources. The types are the type of databases (mysql, oarcle, ...)
      * @return the existing data sources
      * @throws Exception if an error occurred
      */
     @Callable
-    public List<Map<String, Object>> getDataSources (String type, boolean includePrivate, boolean includeInternal, boolean includeDefault) throws Exception
+    public List<Map<String, Object>> getDataSources (String dataSourceType, boolean includePrivate, boolean includeInternal, boolean includeDefault, List<String> allowedTypes) throws Exception
     {
         List<Map<String, Object>> datasources = new ArrayList<>();
         
-        if (StringUtils.isEmpty(type) || type.equals(DataSourceType.SQL.toString()))
+        if (StringUtils.isEmpty(dataSourceType) || dataSourceType.equals(DataSourceType.SQL.toString()))
         {
             Map<String, DataSourceDefinition> sqlDataSources = _sqlDataSourceManager.getDataSourceDefinitions(includePrivate, includeInternal, includeDefault);
             for (String id : sqlDataSources.keySet())
             {
-                datasources.add(getSQLDataSource(id));
+                if (allowedTypes == null || allowedTypes.contains(sqlDataSources.get(id).getParameters().get(SQLDataSourceManager.PARAM_DATABASE_TYPE)))
+                {
+                    datasources.add(getSQLDataSource(id));
+                }
             }
         }
         
-        if (StringUtils.isEmpty(type) || type.equals(DataSourceType.LDAP.toString()))
+        if (StringUtils.isEmpty(dataSourceType) || dataSourceType.equals(DataSourceType.LDAP.toString()))
         {
             Map<String, DataSourceDefinition> ldapDataSources = _ldapDataSourceManager.getDataSourceDefinitions(includePrivate, includeInternal, includeDefault);
             for (String id : ldapDataSources.keySet())
@@ -123,7 +127,7 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
     @Callable
     public List<Map<String, Object>> getDataSources (boolean includePrivate, boolean includeInternal, boolean includeDefault) throws Exception
     {
-        return getDataSources(null, includePrivate, includeInternal, includeDefault);
+        return getDataSources(null, includePrivate, includeInternal, includeDefault, null);
     }
     
     /**
@@ -171,6 +175,8 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
             def2json.put("id", id); // Keep the 'LDAP-default-datasource' id
             def2json.put("type", "LDAP");
             
+            def2json.putAll(ldapDefinition.getParameters());
+            
             // The configuration data source consumer refers to the stored values of the configuration
             // For the default data source, it is "LDAP-default-datasource"
             boolean isInUse = _dataSourceConsumerEP.isInUse(ldapDefinition.getId()) || (ldapDefinition.isDefault() && _dataSourceConsumerEP.isInUse(_ldapDataSourceManager.getDefaultDataSourceId()));
@@ -205,6 +211,8 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
         {
             def2json.put("id", id); // Keep the 'SQL-default-datasource' id
             def2json.put("type", "SQL");
+            
+            def2json.putAll(sqlDefinition.getParameters());
             
             // The configuration data source consumer refers to the stored values of the configuration
             // For the default data source, it is "SQL-default-datasource"

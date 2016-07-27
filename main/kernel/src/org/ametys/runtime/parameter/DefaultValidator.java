@@ -23,12 +23,16 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 import org.apache.cocoon.util.log.SLF4JLoggerAdapter;
 import org.apache.cocoon.xml.XMLUtils;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
+import org.ametys.core.util.JSONUtils;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.plugin.component.PluginAware;
 
@@ -40,7 +44,7 @@ import org.ametys.runtime.plugin.component.PluginAware;
  *  <li>regexp: check the string parameter matches a regexp</li>
  * </ul> 
  */
-public class DefaultValidator extends AbstractLogEnabled implements Validator, Configurable, PluginAware
+public class DefaultValidator extends AbstractLogEnabled implements Validator, Configurable, PluginAware, Serviceable
 {
     /** Is the value mandatory ? */
     protected boolean _isMandatory;
@@ -50,6 +54,11 @@ public class DefaultValidator extends AbstractLogEnabled implements Validator, C
     protected I18nizableText _invalidText;
     /** The plugin name */
     protected String _pluginName;
+    
+    /** The service manager */
+    protected ServiceManager _smanager;
+    
+    private JSONUtils _jsonUtils;
     
     /**
      * Default constructor for avalon
@@ -90,6 +99,12 @@ public class DefaultValidator extends AbstractLogEnabled implements Validator, C
         _invalidText = invalidText;
         
         enableLogging(new SLF4JLoggerAdapter(LoggerFactory.getLogger(this.getClass())));
+    }
+    
+    @Override
+    public void service(ServiceManager smanager) throws ServiceException
+    {
+        _smanager = smanager;
     }
     
     @Override
@@ -137,6 +152,29 @@ public class DefaultValidator extends AbstractLogEnabled implements Validator, C
         return jsonObject;
     }
     
+    /**
+     * SAX the JSON configuration of this validator 
+     * @param handler The content handlet to sax into
+     * @throws SAXException if an error occurred
+     */
+    protected void saxJsonConfig (ContentHandler handler) throws SAXException
+    {
+        if (_jsonUtils == null)
+        {
+            try
+            {
+                // lazy lookup the json utils
+                _jsonUtils = (JSONUtils) _smanager.lookup(JSONUtils.ROLE);
+                XMLUtils.createElement(handler, "config", _jsonUtils.convertObjectToJson(toJson()));
+            }
+            catch (ServiceException e)
+            {
+                // FIXME  RUNTIME-2013 JSONUtils can not be used in safe-mode 
+                getLogger().warn("Unable to retrieve the component JSONUtils", e);
+            }
+        }
+    }
+    
     @Override
     public void saxConfiguration(ContentHandler handler) throws SAXException
     {
@@ -151,6 +189,9 @@ public class DefaultValidator extends AbstractLogEnabled implements Validator, C
         {
             _invalidText.toSAX(handler, "invalidText");
         }
+        
+        // FIXME  RUNTIME-2013 JSONUtils can not be used in safe-mode 
+        // saxJsonConfig(handler);
     }
     
     @Override

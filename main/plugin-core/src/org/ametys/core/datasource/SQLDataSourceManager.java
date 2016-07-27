@@ -55,10 +55,23 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
     /** Avalon Role */
     public static final String ROLE = SQLDataSourceManager.class.getName();
     
+    /** Name of parameter for database type */
+    public static final String PARAM_DATABASE_TYPE = "dbtype";
+    /** Name of parameter for database url */
+    public static final String PARAM_DATABASE_URL = "url";
+    /** Name of parameter for user's login */
+    public static final String PARAM_DATABASE_USER = "user";
+    /** Name of parameter for user's password */
+    public static final String PARAM_DATABASE_PASSWORD = "password";
+    
+    /** The id of the internal DataSource */
+    public static final String SQL_DATASOURCE_PREFIX = "SQL-";
+    
     /** The id of the internal DataSource */
     public static final String AMETYS_INTERNAL_DATASOURCE_ID = "SQL-ametys-internal";
     private static final I18nizableText __AMETYS_INTERNAL_DATASOURCE_NAME = new I18nizableText("plugin.core", "PLUGINS_CORE_INTERNAL_DATASOURCE_LABEL");
     private static final I18nizableText __AMETYS_INTERNAL_DATASOURCE_DESCRIPTION = new I18nizableText("plugin.core", "PLUGINS_CORE_INTERNAL_DATASOURCE_LABEL");
+    
     
     private static String __filename;
 
@@ -86,8 +99,11 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
         __filename = filename;
     }
     
-    @Override
-    public File getFileConfiguration()
+    /**
+     * Get the configuration file for SQL data sources
+     * @return the configuration file
+     */
+    public static File getStaticFileConfiguration ()
     {
         if (__filename != null)
         {
@@ -95,6 +111,12 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
         }
         
         return new File(AmetysHomeHelper.getAmetysHomeConfig(), "datasources-sql.xml");
+    }
+    
+    @Override
+    public File getFileConfiguration()
+    {
+        return getStaticFileConfiguration();
     }
     
     
@@ -105,15 +127,7 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
         _pools = new HashMap<>();
         
         // Add the internal and not editable DB
-        Map<String, String> parameters = new HashMap<>();
-        parameters.put ("dbtype", ConnectionHelper.DATABASE_DERBY);
-        
-        File dbFile = new File (RuntimeConfig.getInstance().getAmetysHome(), "data" + File.separator + "internal-db");
-        parameters.put ("url", "jdbc:derby:" + dbFile.getAbsolutePath() + ";create=true");
-        parameters.put ("user", ""); 
-        parameters.put ("password", ""); 
-        
-        _internalDataSource = new DataSourceDefinition(AMETYS_INTERNAL_DATASOURCE_ID, __AMETYS_INTERNAL_DATASOURCE_NAME, __AMETYS_INTERNAL_DATASOURCE_DESCRIPTION, parameters, true, false);
+        _internalDataSource = getInternalDataSourceDefinition();
 
         super.initialize();
         
@@ -123,7 +137,7 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
     @Override
     public DataSourceDefinition getDataSourceDefinition(String id)
     {
-        readConfiguration(false);
+        readConfiguration();
         
         if (AMETYS_INTERNAL_DATASOURCE_ID.equals(id))
         {
@@ -136,7 +150,7 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
     @Override
     public Map<String, DataSourceDefinition> getDataSourceDefinitions(boolean includePrivate, boolean includeInternal, boolean includeDefault)
     {
-        readConfiguration(false);
+        readConfiguration();
         
         Map<String, DataSourceDefinition> datasources = new LinkedHashMap<>();
         
@@ -153,7 +167,24 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
     @Override
     protected String getDataSourcePrefixId()
     {
-        return "SQL-";
+        return SQL_DATASOURCE_PREFIX;
+    }
+    
+    /**
+     * Get the datasource definition for internal database
+     * @return The datasource definition
+     */
+    public static DataSourceDefinition getInternalDataSourceDefinition ()
+    {
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put (PARAM_DATABASE_TYPE, ConnectionHelper.DATABASE_DERBY);
+        
+        File dbFile = new File (RuntimeConfig.getInstance().getAmetysHome(), "data" + File.separator + "internal-db");
+        parameters.put (PARAM_DATABASE_URL, "jdbc:derby:" + dbFile.getAbsolutePath() + ";create=true");
+        parameters.put (PARAM_DATABASE_USER, ""); 
+        parameters.put (PARAM_DATABASE_PASSWORD, "");
+        
+        return new DataSourceDefinition(AMETYS_INTERNAL_DATASOURCE_ID, __AMETYS_INTERNAL_DATASOURCE_NAME, __AMETYS_INTERNAL_DATASOURCE_DESCRIPTION, parameters, true, false);
     }
     
     /**
@@ -212,7 +243,7 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
     @Override
     public DataSourceDefinition setDefaultDataSource(String id)
     {
-        readConfiguration(false);
+        readConfiguration();
         
         // If the default data source was the internal data source, it is no longer the case
         DataSourceDefinition oldDefaultDataSource = getDefaultDataSourceDefinition();
@@ -263,9 +294,9 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
     {
         // Order the parameters
         List<String> values = new ArrayList<> ();
-        values.add(rawParameters.get("url"));
-        values.add(rawParameters.get("user"));
-        values.add(rawParameters.get("password"));
+        values.add(rawParameters.get(PARAM_DATABASE_URL));
+        values.add(rawParameters.get(PARAM_DATABASE_USER));
+        values.add(rawParameters.get(PARAM_DATABASE_PASSWORD));
 
         ParameterChecker paramChecker = new SQLConnectionChecker();
         paramChecker.check(values);
@@ -283,11 +314,11 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
     {
         Map<String, String> parameters = dataSourceDef.getParameters();
         
-        String url = parameters.get("url");
-        String user = parameters.get("user");
-        String password = parameters.get("password");
+        String url = parameters.get(PARAM_DATABASE_URL);
+        String user = parameters.get(PARAM_DATABASE_USER);
+        String password = parameters.get(PARAM_DATABASE_PASSWORD);
         
-        String dbtype = parameters.get("dbtype");
+        String dbtype = parameters.get(PARAM_DATABASE_TYPE);
         if (!_sqlDatabaseTypeEP.hasExtension(dbtype))
         {
             throw new IllegalArgumentException("Database of type '" + dbtype + "' is not supported");

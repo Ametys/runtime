@@ -44,15 +44,15 @@ public final class ConnectionHelper implements Component, Serviceable
     /** ID of database extension for Unknown */
     public static final String DATABASE_UNKNOWN = "";
     /** ID of database extension for Mysql */
-    public static final String DATABASE_MYSQL = "org.ametys.core.datasource.sql.dbtype.mysql";
+    public static final String DATABASE_MYSQL = "mysql";
     /** ID of database extension for Oracle */
-    public static final String DATABASE_ORACLE = "org.ametys.core.datasource.sql.dbtype.oracle";
+    public static final String DATABASE_ORACLE = "oracle";
     /** ID of database extension for Postgres */
-    public static final String DATABASE_POSTGRES = "org.ametys.core.datasource.sql.dbtype.postgresql";
+    public static final String DATABASE_POSTGRES = "postgresql";
     /** ID of database extension for Derby */
-    public static final String DATABASE_DERBY = "org.ametys.core.datasource.sql.dbtype.derby";
+    public static final String DATABASE_DERBY = "derby";
     /** ID of database extension for Hsqldb */
-    public static final String DATABASE_HSQLDB = "org.ametys.core.datasource.sql.dbtype.hsql";
+    public static final String DATABASE_HSQLDB = "hsql";
     
     
     /** Logger for traces */

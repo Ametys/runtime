@@ -74,7 +74,20 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
     {
         _dataSourcesDef = new HashMap<>();
         
-        readConfiguration(true);
+        readConfiguration();
+        
+        // Check parameters and create data source
+        for (DataSourceDefinition def : _dataSourcesDef.values())
+        {
+            // Validate the used data sources if not already in safe mode
+            boolean isInUse = _dataSourceConsumerEP.isInUse(def.getId()) || (def.isDefault() && _dataSourceConsumerEP.isInUse(getDefaultDataSourceId()));
+            if (!PluginsManager.getInstance().isSafeMode() && isInUse)
+            {
+                checkParameters (def.getParameters());
+            }
+            
+            createDataSource (def);
+        }
 
         if (getDefaultDataSourceDefinition() == null)
         {
@@ -142,7 +155,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
      */
     public Map<String, DataSourceDefinition> getDataSourceDefinitions(boolean includePrivate, boolean includeInternal, boolean includeDefault)
     {
-        readConfiguration(false);
+        readConfiguration();
         
         Map<String, DataSourceDefinition> dataSourceDefinitions = new HashMap<> ();
         if (includeDefault)
@@ -182,7 +195,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
      */
     public DataSourceDefinition getDataSourceDefinition(String id)
     {
-        readConfiguration(false);
+        readConfiguration();
         
         if (getDefaultDataSourceId().equals(id))
         {
@@ -202,7 +215,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
      */
     public DataSourceDefinition add(I18nizableText name, I18nizableText description, Map<String, Object> parameters, boolean isPrivate)
     {
-        readConfiguration(false);
+        readConfiguration();
         
         Map<String, String> rawParameters = new HashMap<>();
         for (String paramName : parameters.keySet())
@@ -237,7 +250,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
      */
     public DataSourceDefinition edit(String id, I18nizableText name, I18nizableText description, Map<String, Object> parameters, boolean isPrivate)
     {
-        readConfiguration(false);
+        readConfiguration();
         
         if (_dataSourcesDef.containsKey(id))
         {
@@ -267,7 +280,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
      */
     public void delete(List<String> dataSourceIds)
     {
-        readConfiguration(false);
+        readConfiguration();
         
         for (String id : dataSourceIds)
         {
@@ -301,7 +314,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
      */
     public DataSourceDefinition setDefaultDataSource(String id)
     {
-        readConfiguration(false);
+        readConfiguration();
         
         if (!id.startsWith(getDataSourcePrefixId()))
         {
@@ -375,18 +388,30 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
     
     /**
      * Read and update the data sources configuration
-     * @param checkParameters true to test parameters while reading configuration.
      */
-    protected void readConfiguration(boolean checkParameters)
+    protected void readConfiguration()
     {
+        File file = getFileConfiguration();
+        if (file.exists() && file.lastModified() > _lastUpdate)
+        {
+            _lastUpdate = new Date().getTime();
+            _dataSourcesDef = readDataSourceDefinition(file);
+        }
+    }
+    
+    /**
+     * Read the read source definitions 
+     * @param file The configuration file
+     * @return the data source definitions
+     */
+    public static Map<String, DataSourceDefinition> readDataSourceDefinition (File file)
+    {
+        Map<String, DataSourceDefinition> definitions = new HashMap<>();
+        
         try
         {
-            File file = getFileConfiguration();
-            if (file.exists() && file.lastModified() > _lastUpdate)
+            if (file.exists())
             {
-                _lastUpdate = new Date().getTime();
-                _dataSourcesDef = new HashMap<>();
-                
                 Configuration configuration = new DefaultConfigurationBuilder().buildFromFile(file);
                 for (Configuration dsConfig : configuration.getChildren("datasource"))
                 {
@@ -408,18 +433,11 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
                     }
                     
                     DataSourceDefinition dataSource = new DataSourceDefinition(id, name, description, parameters, isPrivate, isDefault);
-                    _dataSourcesDef.put(id, dataSource);
-                    
-                    // Validate the used data sources if not already in safe mode
-                    boolean isInUse = _dataSourceConsumerEP.isInUse(id) || (isDefault && _dataSourceConsumerEP.isInUse(getDefaultDataSourceId()));
-                    if (checkParameters && !PluginsManager.getInstance().isSafeMode() && isInUse)
-                    {
-                        checkParameters (parameters);
-                    }
-                    
-                    createDataSource (dataSource);
+                    definitions.put(id, dataSource);
                 }
             }
+            
+            return definitions;
         }
         catch (IOException | ConfigurationException | SAXException e)
         {
@@ -526,7 +544,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
     /**
      * This class represents the definition of a data source
      */
-    public class DataSourceDefinition 
+    public static class DataSourceDefinition implements Cloneable
     {
         private String _id;
         private I18nizableText _name;
@@ -615,6 +633,12 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
         public Map<String, String> getParameters()
         {
             return _parameters;
+        }
+        
+        @Override
+        public DataSourceDefinition clone()
+        {
+            return new DataSourceDefinition(_id, _name, _description, new HashMap<>(_parameters), _isPrivate, _isDefault);
         }
     }
 }
