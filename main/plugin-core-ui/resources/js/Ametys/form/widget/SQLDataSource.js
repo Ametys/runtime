@@ -22,12 +22,73 @@ Ext.define('Ametys.form.widget.SQLDataSource', {
     extend: 'Ametys.form.widget.AbstractDataSource',
     alias: ['widget.datasource-sql'],
 	
+    /**
+     * @cfg {Object} validationConfig The object configuration for validation
+     */
+    /**
+     * @cfg {String[]} [validationConfig.allowedDbTypes] The allowed types of database such as ['mysql', 'derby', 'oracle']. If null, all database types will be allowed. 
+     */
+    
     dataSourceType: 'SQL',
     createButtonIconCls: 'ametysicon-data110 decorator-ametysicon-add64',
 	createButtonTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_SQL_DATASOURCE_BUTTON_TOOLTIP}}",
 
+	constructor: function(config)
+	{
+		this.callParent(arguments);
+		
+		this._allowedDbTypes = config.validationConfig ? config.validationConfig.allowedDbTypes : null;
+	},
+	
 	createDataSource: function (callback)
 	{
-		Ametys.plugins.admin.datasource.EditSQLDataSourceHelper.add(callback);
+		Ametys.plugins.admin.datasource.EditSQLDataSourceHelper.add(this._allowedDbTypes, callback);
+	},
+	
+	getStoreExtraParameters: function ()
+	{
+		// Filter by allowed database types
+		/*if (this._allowedDbTypes)
+		{
+			return {'allowedTypes': this._allowedDbTypes};
+		}*/
+		return {};
+	},
+	
+	getDataModel: function ()
+	{
+		return 'Ametys.form.widget.SQLDataSource.Model';
+	},
+	
+	getErrors: function(value) 
+	{
+		var errors = this.callParent(arguments);
+		
+		if (value && this._allowedDbTypes)
+		{
+			var index = this.getStore().find('id', value);
+			if (index != -1)
+			{
+				var datasource = this.getStore().getAt(index);
+				var dbtype = datasource.get('dbtype');
+				
+				if (!Ext.Array.contains(this._allowedDbTypes, dbtype))
+				{
+					errors.push("{{i18n plugin.core:PLUGINS_CORE_SQL_DATASOURCETYPE_VALIDATOR_FAILED}}");
+				}
+					
+			}
+		}
+		return errors;
+		
 	}
+});
+
+Ext.define('Ametys.form.widget.SQLDataSource.Model', { 
+	extend: 'Ametys.form.widget.AbstractDataSource.Model',
+	
+	fields: [
+		{name: 'dbtype'},
+		{name: 'url'}
+	]
 });

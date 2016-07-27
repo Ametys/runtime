@@ -703,6 +703,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                 fd.markInvalid (fieldsInError[name])
             }
         }
+        
+        this._updateTabsStatus(true);
     },
     
     /**
@@ -2327,6 +2329,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                 if (fieldData.validation)
                 {
                     var validation = fieldData.validation;
+                    
+                    widgetCfg.validationConfig = validation;
                     widgetCfg.regexp = validation.regexp || null;
                     
                     if (validation.invalidText)
@@ -2559,6 +2563,23 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             }
             else if (type != '')
             {
+            	// FIXME  RUNTIME-2013 JSONUtils can not be used in safe-mode 
+            	// Temporary use XML configuration to build the validationConfig object
+            	var validationConfig = {};
+            	var validationNodes = Ext.dom.Query.select("> validation > *", nodes[i]);
+            	Ext.Array.each (validationNodes, function (node) {
+            		if (!validationConfig[node.tagName])
+            		{
+            			validationConfig[node.tagName] = Ext.dom.Query.selectValue("", node);
+            		}
+            		else
+            		{
+            			var values = Array.isArray(validationConfig[node.tagName]) ? validationConfig[node.tagName] : [validationConfig[node.tagName]];
+            			values.push(Ext.dom.Query.selectValue("", node));
+            			validationConfig[node.tagName] = values;
+            		}
+            	});
+            	
                 var isMandatory = Ext.dom.Query.selectValue("> validation > mandatory", nodes[i]) == 'true';
                 
                 var widgetCfg = {
@@ -2573,6 +2594,10 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                     
                     mandatory: isMandatory,
                     regexp: Ext.dom.Query.selectValue("> validation > regexp", nodes[i], null),
+                    
+                    // FIXME  RUNTIME-2013 JSONUtils can not be used in safe-mode 
+                    //validationConfig: Ext.JSON.decode(Ext.dom.Query.selectValue("> validation > config", nodes[i], null)),
+                    validationConfig: validationConfig,
                     
                     multiple: Ext.dom.Query.selectValue("> multiple", nodes[i]) == 'true',
                     widget: Ext.dom.Query.selectValue("> widget", nodes[i], null),

@@ -43,15 +43,25 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
 	 */
 	/**
 	 * @private
+	 * @property {Object} _databaseTypes All supported database types
+	 */
+	/**
+	 * @private
+	 * @property {String[]} _allowedDbTypes The allowed database types. Can be null to allowed all supported database types.
+	 */
+	/**
+	 * @private
 	 * @property {Function} _callback the callback function
 	 */
 	
 	/**
 	 * Open dialog box to create a new SQL data source
+	 * @param {String[]} allowedDbTypes The allowed database type. Can be null to allowed all database types.
 	 * @param {Function} [callback] a callback function to invoke after the data source was created.
 	 */
-	add: function (callback)
+	add: function (allowedDbTypes, callback)
 	{
+		this._allowedDbTypes = allowedDbTypes;
 		this._callback = callback;
 		this._mode = 'new';
 		this._open ();
@@ -64,6 +74,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
 	 */
 	edit: function (id, callback)
 	{
+		this._allowedDbTypes = null;
         this._callback = callback;
 		this._mode = 'edit';
 		this._open (id);
@@ -81,6 +92,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
 		{
 			if (success)
 			{
+				me._filterDBTypes();
 				me._initForm (id);
 				me._box.show();
 			}
@@ -88,6 +100,26 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
 		
 		// Create dialog box if needed
 		this._createDialogBox(configureCallback);
+	},
+	
+	/**
+	 * @private
+	 * Filter the database list
+	 */
+	_filterDBTypes: function ()
+	{
+		var me = this;
+		var filteredDBTypes = [];
+		
+		Ext.Array.each (this._databaseTypes, function (dbtype) {
+			if (me._allowedDbTypes == null || Ext.Array.contains (me._allowedDbTypes, dbtype.value))
+			{
+				filteredDBTypes.push([dbtype.value, dbtype.label]);
+			}
+		});
+		
+		this._form.getForm().findField ('dbtype').getStore().removeAll();
+		this._form.getForm().findField ('dbtype').getStore().setData(filteredDBTypes);
 	},
 	
 	/**
@@ -180,17 +212,17 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
 		
 		var databaseTypes = response.databaseTypes;
 		
-		var dbtypesEnumeration = []; // The list of label-value pairs that will be displayed in the form
+		this._databaseTypes = []; // The list of label-value pairs that will be displayed in the form
 		var templateMapping = {}; // The mapping of dbtype value and associated template
 		
 		Ext.Array.each(databaseTypes, function(databaseType){
-			dbtypesEnumeration.push({label: databaseType.label, value: databaseType.value});
+			me._databaseTypes.push({label: databaseType.label, value: databaseType.value});
 			
 			templateMapping[databaseType.value] = databaseType.template;
 		});
 			
 		this._dbtypeTemplates = templateMapping;
-		var configuration = this._getFormConfiguration (dbtypesEnumeration);
+		var configuration = this._getFormConfiguration ();
 		this._form.configure(configuration);
 		
 		args.callback(true);
@@ -202,7 +234,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
      * @param {Object[]} dbtypesEnumeration the dbtypes' enumeration
      * @return {Object} the form configuration
      */
-    _getFormConfiguration: function (dbtypesEnumeration)
+    _getFormConfiguration: function ()
     {
         return {
             // Data source id (for edition only)
@@ -232,7 +264,7 @@ Ext.define('Ametys.plugins.admin.datasource.EditSQLDataSourceHelper', {
             // Database type 
             'dbtype': {
 	            type: 'string',
-	            enumeration: dbtypesEnumeration,
+	            enumeration: this._databaseTypes,
 	            label: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DBTYPE}}",
 	            description: "{{i18n PLUGINS_ADMIN_DATASOURCES_DIALOG_SQL_FIELD_DBTYPE_DESCRIPTION}}",
 	            validation: {

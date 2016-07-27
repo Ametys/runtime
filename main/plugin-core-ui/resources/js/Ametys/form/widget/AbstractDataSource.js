@@ -186,7 +186,7 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 			{
 				autoLoad: true,
 				
-				fields: [ 'id', {name: 'name', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString}],
+				model: this.getDataModel(),
 				
 				proxy: {
 					type: 'ametys',
@@ -195,7 +195,8 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 					reader: {
 						type: 'json',
 						rootProperty: 'datasources'
-					}
+					},
+					extraParams: this.getStoreExtraParameters()
 				},
 				
 				sorters: 'name',
@@ -208,6 +209,25 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 		}
 		
 		return this._store;
+	},
+	
+	/**
+	 * Get the name of model associated with the store
+	 * @return {String} the name of the model
+	 */
+	getDataModel: function ()
+	{
+		return 'Ametys.form.widget.AbstractDataSource.Model';
+	},
+	
+	/**
+	 * @protected
+	 * Get the extra parameters that will be included on every request of store
+	 * @return {Object} the extra parameters 
+	 */
+	getStoreExtraParameters: function ()
+	{
+		return {};
 	},
     
     /**
@@ -433,4 +453,14 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
         Ametys.message.MessageBus.unAll(this);
         this.callParent(arguments);
 	}
+});
+
+Ext.define('Ametys.form.widget.AbstractDataSource.Model', { 
+	extend: 'Ext.data.Model',
+	
+	fields: [
+		{name: 'id'},
+		{name: 'type'},
+		{name: 'name', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString}
+	]
 });

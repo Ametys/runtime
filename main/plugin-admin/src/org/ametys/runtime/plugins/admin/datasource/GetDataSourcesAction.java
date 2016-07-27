@@ -52,13 +52,17 @@ public class GetDataSourcesAction extends ServiceableAction
 
         Request request = ObjectModelHelper.getRequest(objectModel);
         
+        String dstype = parameters.getParameter("type", null);
         boolean includePrivate = parameters.getParameterAsBoolean("includePrivate", false);
         boolean includeInternal = parameters.getParameterAsBoolean("includeInternal", false);
         boolean includeDefault = parameters.getParameterAsBoolean("includeDefault", false);
         
-        String dstype = parameters.getParameter("type", null);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
+        @SuppressWarnings("unchecked")
+        List<String> allowedTypes = (List<String>) jsParameters.get("allowedTypes");
         
-        List<Map<String, Object>> dataSources = _dataSourceClientInteraction.getDataSources(dstype, includePrivate, includeInternal, includeDefault);
+        List<Map<String, Object>> dataSources = _dataSourceClientInteraction.getDataSources(dstype, includePrivate, includeInternal, includeDefault, allowedTypes);
         result.put("datasources", dataSources);
         
         request.setAttribute(JSonReader.OBJECT_TO_READ, result);
