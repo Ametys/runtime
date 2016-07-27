@@ -169,7 +169,7 @@ public class DefaultValidator extends AbstractLogEnabled implements Validator, C
             }
             catch (ServiceException e)
             {
-                // FIXME  RUNTIME-2013 JSONUtils can not be used in safe-mode 
+                // FIXME RUNTIME-2013 Validators and enumerators can not use others components such as JSONUtils
                 getLogger().warn("Unable to retrieve the component JSONUtils", e);
             }
         }
@@ -190,7 +190,8 @@ public class DefaultValidator extends AbstractLogEnabled implements Validator, C
             _invalidText.toSAX(handler, "invalidText");
         }
         
-        // FIXME  RUNTIME-2013 JSONUtils can not be used in safe-mode 
+        // FIXME RUNTIME-2015 The configuration of a validator as JSON object should be pass to the field configuration
+        // but FIXME RUNTIME-2013 Validators and enumerators can not use others components such as JSONUtils
         // saxJsonConfig(handler);
     }
     
