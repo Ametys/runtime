@@ -471,7 +471,9 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                     {
                         // Check if group switch is active
                         ConfigParameter switcher = _params.get(group.getSwitch());
-                        isGroupSwitchedOn = (Boolean) ParameterHelper.castValue(untypedValues.get(switcher.getId()), switcher.getType());
+                        
+                        // we can cast directly because we already tested that it should be a boolean while categorizing
+                        isGroupSwitchedOn = BooleanUtils.toBoolean((Boolean) _validateParameter(untypedValues, switcher));
                     }
                     
                     // validate parameters if there's no switch, if the switch is on or if the the parameter is not disabled
