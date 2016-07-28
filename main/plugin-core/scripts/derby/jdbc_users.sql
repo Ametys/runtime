@@ -17,5 +17,7 @@ CREATE TABLE Users (
   login varchar(64) PRIMARY KEY NOT NULL,
   firstname varchar(64) default NULL,
   lastname varchar(64) NOT NULL,
-  email varchar(64) DEFAULT NULL
+  email varchar(64) DEFAULT NULL,
+  password varchar(128)  NOT NULL,
+  salt varchar(128)  DEFAULT NULL
 );

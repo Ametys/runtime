@@ -41,7 +41,7 @@ public class DerbyModifiableCredentialsAwareJdbcUsersTestCase extends AbstractMo
     {
         return new File[] {
             new File("test/environments/scripts/jdbc-derby/dropTables.sql"),
-            new File("main/plugin-core/scripts/derby/jdbc_users_auth.sql"),
+            new File("main/plugin-core/scripts/derby/jdbc_users.sql"),
             new File("main/plugin-core/scripts/derby/jdbc_groups.sql"),
             new File("main/plugin-core/scripts/derby/profile_rights.sql")
         };

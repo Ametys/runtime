@@ -41,7 +41,7 @@ public class OracleModifiableCredentialsAwareJdbcUsersTestCase extends AbstractM
     {
         return new File[] {
             new File("test/environments/scripts/jdbc-oracle/dropTables.sql"),
-            new File("main/plugin-core/scripts/oracle/jdbc_users_auth.sql"),
+            new File("main/plugin-core/scripts/oracle/jdbc_users.sql"),
             new File("main/plugin-core/scripts/oracle/jdbc_groups.sql"),
             new File("main/plugin-core/scripts/oracle/profile_rights.sql")
         };

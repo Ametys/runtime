@@ -39,7 +39,7 @@ public class MysqlModifiableCredentialsAwareJdbcUsersTestCase extends AbstractMo
     @Override
     protected File[] getScripts()
     {
-        return new File[] {new File("main/plugin-core/scripts/mysql/jdbc_users_auth.sql")};
+        return new File[] {new File("main/plugin-core/scripts/mysql/jdbc_users.sql")};
     }
     
 }
