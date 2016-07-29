@@ -96,7 +96,7 @@ Open source web application framework based on Apache Cocoon.
     <dependency org="com.github.sommeri" name="less4j" rev="1.17.2" />
 
     <!-- Runtime -->
-    <dependency org="tiny_mce" name="tiny_mce" rev="4.3.2" conf="runtime_dependencies->default"/>
+    <dependency org="tiny_mce" name="tiny_mce" rev="4.3.2-1-ametys" conf="runtime_dependencies->default"/>
     <dependency org="codemirror" name="codemirror" rev="3.24-ametys-2" conf="runtime_dependencies->default"/> 
     <dependency org="org.sencha" name="extjs6" rev="6.0.2-1-ametys" conf="runtime_dependencies->default"/>
 
