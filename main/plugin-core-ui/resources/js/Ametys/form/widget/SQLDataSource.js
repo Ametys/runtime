@@ -39,7 +39,7 @@ Ext.define('Ametys.form.widget.SQLDataSource', {
 		{
 			config.allowedDbTypes = config.allowedDbTypes.split(",");
 		}
-		
+			
 		this.callParent(arguments);
 	},
 	

@@ -82,25 +82,15 @@ Ext.define('Ametys.plugins.admin.config.SaveConfigAction', {
         }
         result = result.responseXML;
         
+        
         // Server error
-        var error = Ext.dom.Query.selectValue("> ActionResult > error", result);
-        if (!Ext.isEmpty(error))
-        {
-        	Ametys.log.ErrorDialog.display({
-                title: "{{i18n PLUGINS_ADMIN_SAVE_DIALOG_TITLE}}", 
-                text: "{{i18n PLUGINS_ADMIN_CONFIG_SAVE_ERROR}}",
-                details: error,
-                category: "Ametys.plugins.core.administration.Config.save"
-            });
-            return;
-        }
+        var hasServerError = Ext.dom.Query.selectValue("> ActionResult > error", result);
         
         // Field errors ?
+        var fieldsInError = {};
         var errors = Ext.dom.Query.select ('> ActionResult > * > error', result);
 		if (errors.length > 0)
 		{
-			var fieldsInError = {};
-			
 			for (var i=0; i < errors.length; i++)
 			{
 				var fdName = errors[i].parentNode.tagName;
@@ -108,16 +98,16 @@ Ext.define('Ametys.plugins.admin.config.SaveConfigAction', {
 				
 				fieldsInError[fdName] = errorMsg;
 			}
-			
-			form.markFieldsInvalid (fieldsInError);
-			
-			Ametys.Msg.show ({
-		        title: "{{i18n PLUGINS_ADMIN_SAVE_DIALOG_TITLE}}",
-	            msg: "{{i18n PLUGINS_ADMIN_CONFIG_SAVE_FIELDS_ERROR}}",
-	            buttons: Ext.Msg.OK,
-	            icon: Ext.MessageBox.ERROR
-		    });
-            return;
+		}
+		
+		if (hasServerError || errors.length > 0)
+		{
+			var msg = errors.length > 0 ? "{{i18n PLUGINS_ADMIN_CONFIG_SAVE_FIELDS_ERROR}}" : "{{i18n PLUGINS_ADMIN_CONFIG_SAVE_ERROR}}"
+			Ametys.form.SaveHelper.handleServerErrors(form, 
+					"{{i18n PLUGINS_ADMIN_SAVE_DIALOG_TITLE}}", 
+					msg, 
+					fieldsInError);
+			return;
 		}
 		
         // Success

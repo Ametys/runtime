@@ -27,7 +27,7 @@
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_OK">The configuration has been correctly updated</message>
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_WAIT_MSG">Saving. Please wait ...</message>
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_FATALERROR">Server is not responding or a fatal error occurred during saving.\nConsult applications and servlet engines logfiles for more details.</message>
-    <message key="PLUGINS_ADMIN_CONFIG_SAVE_ERROR">An error occurred on the server and parameters have not been updated.\n\nInternal error message is :\n</message>
+    <message key="PLUGINS_ADMIN_CONFIG_SAVE_ERROR">An error occurred on the server and parameters have not been updated.&lt;br/&gt;Consult applications and servlet engines logfiles for more details.</message>
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_FIELDS_ERROR">One or more form fields are invalid.&lt;br/&gt;Please correct them to continue.</message>
     <message key="PLUGINS_ADMIN_CONFIG_DIRTY_CLOSE_MBOX_LABEL">Close without saving</message>
     <message key="PLUGINS_ADMIN_CONFIG_DIRTY_CLOSE_MBOX_TEXT">Caution!&lt;br/&gt;If you quit now all your modifications will be lost !&lt;br/&gt;Do you wish to discard your modifications ?</message>

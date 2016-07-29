@@ -62,12 +62,6 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
     statics: {
         /**
          * @private
-         * @cfg {String} GLOBAL_ERRORS_FIELD_CLS
-         * The CSS class to use when the field is invalid with at least a global error.
-         */
-        GLOBAL_ERRORS_FIELD_CLS: 'a-form-invalid-global',
-        /**
-         * @private
          * @cfg {String} BASE_FIELD_CLS
          * The CSS class to use when the field contains no visible input field but a readable text.
          */
@@ -79,6 +73,8 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
      * @property {Boolean} _hasGlobalErrors Current fields errors is the sum of errors of local fields and global errors. When true this property sepcify that there are global errors. E.g. If this field is mandatory but none of its sub fields are. 
      */
     _hasGlobalErrors: false,
+    
+    invalidCls: 'a-form-invalid-global',
 
     getDefaultCls: function()
     {
@@ -100,7 +96,7 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
         // this.callParent(arguments);
         
         // On the global error cls must be added on the wrapper
-        this.el[hasError && this._hasGlobalErrors ? 'addCls' : 'removeCls'](Ametys.form.AbstractFieldsWrapper.GLOBAL_ERRORS_FIELD_CLS);
+        this.el[hasError && (this._hasGlobalErrors || this.hasActiveError())? 'addCls' : 'removeCls'](this.invalidCls);
     },
     
     /**

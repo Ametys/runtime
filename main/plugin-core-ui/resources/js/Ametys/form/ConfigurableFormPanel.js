@@ -1817,6 +1817,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             this._fields.push(field.getName());
             
             field.on('validitychange', this._onFieldValidityChange, this);
+            field.on('errorchange', this._onFieldValidityChange, this);
             field.on('warningchange', this._onFieldValidityChange, this);
             field.on('commentsupdated', this._onFieldValidityChange, this);
             field.on('change', this._onFieldChange, this);
