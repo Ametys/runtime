@@ -161,6 +161,13 @@ Ext.define("Ametys.message.Message",
             DIRTYCHANGE: "dirtychange",
             
             /**
+             * @readonly
+             * @property {String} LOADED Event fired when an object is loaded. 
+             * This event has no parameters.
+            */
+            LOADED: "loaded",
+            
+            /**
              * @private
              * @property {Number} _num The number of the message. Auto incremented during creation process.
              */
