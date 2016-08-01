@@ -361,7 +361,7 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
 		{
 			this._form.reset();
 			this._form.getForm().findField('login').enable();
-			this._form.getForm().findField('login').focus(true);
+			this._form.getForm().findField('login').focus();
 		}
 		else
 		{

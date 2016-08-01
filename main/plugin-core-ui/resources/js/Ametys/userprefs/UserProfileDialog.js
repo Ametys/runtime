@@ -97,6 +97,8 @@ Ext.define('Ametys.userprefs.UserProfileDialog', {
         // Load profile user prefs
         Ametys.userprefs.UserPrefsDAO.load(Ext.bind(this._loadUserProfilePrefsCb, this), Ametys.userprefs.UserProfileDialog.USERPREF_CONTEXT);
         
+        var field = this._createProfileImageField();
+        
         // Create dialogbox
         this._box = Ext.create('Ametys.window.DialogBox', {
             title: "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_TITLE}}",
@@ -109,25 +111,29 @@ Ext.define('Ametys.userprefs.UserProfileDialog', {
                 anchor: '100%'
             },
             
-            items : [{
-                xtype: 'component',
-                cls: 'a-text',
-                html: "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_INTRO}}"
-            }, 
-            this._createProfileImageField(),
-            {
-                xtype: 'component',
-                cls: 'a-text-warning',
-                html: "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_HINT}}",
-            }],
+            items: [
+                {
+	                xtype: 'component',
+	                cls: 'a-text',
+	                html: "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_INTRO}}"
+	            }, 
+	            field,
+	            {
+	                xtype: 'component',
+	                cls: 'a-text-warning',
+	                html: "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_HINT}}",
+	            }
+	        ],
             
+	        defaultFocus: field,
+	        
+	        referenceHolder: true,
+	        defaultButton :'a',
+	        
             closeAction: 'hide',
             
-            referenceHolder: true,
-            defaultButton: 'validate',
-            
             buttons : [{
-            		reference: 'validate',
+            	reference: 'a',
                     text: "{{i18n PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_OK}}",
                     handler : Ext.bind(this._ok, this)
                 }, {

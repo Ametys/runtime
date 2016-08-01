@@ -216,7 +216,6 @@ Ext.define('Ametys.plugins.coreui.groups.EditGroupHelper', {
 	_open: function (groupDirectoryId, id)
 	{
 		this._delayedInitialize(groupDirectoryId);
-		this._box.show();
 		this._initForm (groupDirectoryId, id);
 	},
 	
@@ -246,6 +245,7 @@ Ext.define('Ametys.plugins.coreui.groups.EditGroupHelper', {
 					xtype: 'textfield',
 					fieldLabel: "{{i18n PLUGINS_CORE_UI_GROUPS_DIALOG_NAME}}",
 					name: 'name',
+					itemId: 'name',
 					allowBlank: false
 				}, {
 					xtype: 'hidden',
@@ -266,6 +266,9 @@ Ext.define('Ametys.plugins.coreui.groups.EditGroupHelper', {
 				
 				referenceHolder: true,
 				defaultButton: 'validate',
+				
+				defaultFocus: 'name',
+				selectDefaultFocus: true,
 				
 				buttons : [{
 					reference: 'validate',
@@ -297,7 +300,7 @@ Ext.define('Ametys.plugins.coreui.groups.EditGroupHelper', {
 		if (this._mode == 'new')
 		{
 			this._form.getForm().reset();
-			this._form.getForm().findField('name').focus(true);
+			this._box.show();
 		}
 		else
 		{
@@ -315,7 +318,7 @@ Ext.define('Ametys.plugins.coreui.groups.EditGroupHelper', {
 	{
 		this._form.getForm().findField('id').setValue(group.id);
 		this._form.getForm().findField('name').setValue(group.label);
-		this._form.getForm().findField('name').focus(true);
+		this._box.show();
 	},
 	
 	/**

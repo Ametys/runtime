@@ -67,7 +67,6 @@ Ext.define('Ametys.plugins.coreui.profiles.EditProfileHelper', {
 	_open: function (id)
 	{
 		this._delayedInitialize();
-		this._box.show();
 		this._initForm (id);
 	},
 	
@@ -96,6 +95,7 @@ Ext.define('Ametys.plugins.coreui.profiles.EditProfileHelper', {
 					xtype: 'textfield',
 					fieldLabel: "{{i18n PLUGINS_CORE_UI_PROFILES_DIALOG_NAME}}",
 					name: 'name',
+					itemId: 'name',
 					allowBlank: false
 				}, {
 					xtype: 'hidden',
@@ -115,6 +115,9 @@ Ext.define('Ametys.plugins.coreui.profiles.EditProfileHelper', {
 				
 				defaultButton: 'validate',
 				referenceHolder: true,
+				
+				defaultFocus: 'name',
+				selectDefaultFocus: true,
 				
 				buttons : [{
 					reference: 'validate',
@@ -145,7 +148,7 @@ Ext.define('Ametys.plugins.coreui.profiles.EditProfileHelper', {
 		if (this._mode == 'new')
 		{
 			this._form.getForm().reset();
-			this._form.getForm().findField('name').focus();
+			this._box.show();
 		}
 		else
 		{
@@ -163,7 +166,7 @@ Ext.define('Ametys.plugins.coreui.profiles.EditProfileHelper', {
 	{
 		this._form.getForm().findField('id').setValue(profile.id);
 		this._form.getForm().findField('name').setValue(profile.label);
-		this._form.getForm().findField('name').focus(true);
+		this._box.show();
 	},
 	
 	/**
