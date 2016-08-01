@@ -80,8 +80,12 @@ Ext.define(
 				text += "\n" + details.stack.toString();
 			}
 			
-			return text.toString().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>').replace(/\n?\n/g, '<br/>').replace(/\t/g, '&#160;&#160;&#160;&#160;');
-		},
+            return text.toString()
+                        // Convert text to html
+                        .replace(/&/g, '&amp;').replace(/</g, '&lt;') 
+                        .replace(/\n?\n/g, '<br/>').replace(/\t/g, '&#160;&#160;&#160;&#160;')
+                        // Convert text to link (assuming ':' or ')' or whitespace are ending the link even if they are valid link characters)
+                        .replace(/(https?:\/\/[^\s/]+(\/[^\s:)]*)?)/g, '<a href="$1" target="_blank">$1</a>');		},
 
 		/**
 		 * Creates and display directly an error message dialog box 
