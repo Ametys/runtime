@@ -499,6 +499,7 @@ Ext.define(
 			if (this._toggleEnabled)
 			{
 				this.toggle(state);
+                Ext.menu.Manager.hideAll();
 			}
 
 			var actionFn = this.getInitialConfig("action");
