@@ -4,6 +4,7 @@
 /junit*.properties
 /target
 /template
+templates/application/WEB-INF/classes
 templates/application/WEB-INF/config
 templates/application/WEB-INF/data
 templates/application/WEB-INF/lib
