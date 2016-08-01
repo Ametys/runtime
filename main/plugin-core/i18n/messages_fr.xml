@@ -83,7 +83,7 @@
     <message key="RIBBON_TABS_TAB_USERS_GROUPS_GROUP_ACTION_LABEL">Actions</message>
     
     <!-- DAO -->
-    <message key="PLUGINS_CORE_USERS_ADD_ERROR">Une erreur est survenue : impossible de créer l'utilisateur.&lt;br/&gt;Une des causes de l'erreur peut-être que l'identifiant existe déjà</message>
+    <message key="PLUGINS_CORE_USERS_ADD_ERROR">Une erreur est survenue : impossible de créer l'utilisateur.&lt;br/&gt;L'identifiant existe peut-être déjà.</message>
     <message key="PLUGINS_CORE_USERS_EDIT_ERROR">Une erreur est survenue : impossible de modifier l'utilisateur.</message>
     <message key="PLUGINS_CORE_USERS_DELETE_ERROR">Une erreur est survenue sur le serveur. Impossible de supprimer le ou les utilisateur(s).</message>
     <message key="PLUGINS_CORE_USERS_INFOS_ERROR">Une erreur est survenue: impossible de récupérer les informations sur cet utilisateur</message>
