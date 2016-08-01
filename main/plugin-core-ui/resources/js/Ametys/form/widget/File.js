@@ -269,6 +269,12 @@ Ext.define('Ametys.form.widget.File', {
         
         this.items = [];
         
+        if (!this.self.filters[this.fileFilter])
+        {
+            this.getLogger().error("The filter '" + this.fileFilter + "' does not exists. Switching to 'none'.")
+            this.fileFilter = 'none';
+        }
+        
         if (this.fileFilter == this.self.IMAGE_FILTER)
         {
             // Preview image

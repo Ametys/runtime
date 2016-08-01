@@ -165,6 +165,12 @@ Ext.define('Ametys.form.widget.File.External', {
 	{
 		filter = filter || 'none';
 		
+        if (!this.self.filters[filter])
+        {
+            this.getLogger().error("The filter '" + filter + "' does not exists. Switching to 'none'.")
+            filter = 'none';
+        }
+        
 		return {
 			text: this.self.filters[filter].menuItemText, 
 	   		iconCls: this.self.filters[filter].menuItemIconCls, 
