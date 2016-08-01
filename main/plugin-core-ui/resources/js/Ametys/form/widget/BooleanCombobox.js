@@ -21,54 +21,55 @@
  * This widget is registered for fields of type Ametys.form.WidgetManager#TYPE_BOOLEAN.<br>
  */
 Ext.define('Ametys.form.widget.BooleanCombobox', {
-	extend: "Ext.form.field.ComboBox",
-	
-	/**
-	 * @cfg {String} emptyLabel='-' Label used for empty option 
-	 */
-	emptyLabel: "{{i18n PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_EMPTY_LABEL}}",
-	
-	/**
-	 * @cfg {String} trueLabel='yes' Label used for 'true' option
-	 */
-	trueLabel: "{{i18n PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_TRUE_LABEL}}",
-	
-	/**
-	 * @cfg {String} falseLabel='no' Label used for 'false' option
-	 */
-	falseLabel: "{{i18n PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_FALSE_LABEL}}",
-	
-	constructor: function (config)
-	{
-		config = Ext.apply(config, {
-			typeAhead: true,
-			editable: true,
-			forceSelection: true,
-			triggerAction: 'all',
-			
-			queryMode: 'local',
-			store: [
-               [null, config.emptyLabel || "{{i18n PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_EMPTY_LABEL}}"],
+    extend: "Ext.form.field.ComboBox",
+    
+    /**
+     * @cfg {String} emptyLabel='-' Label used for empty option 
+     */
+    emptyLabel: "{{i18n PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_EMPTY_LABEL}}",
+    
+    /**
+     * @cfg {String} trueLabel='yes' Label used for 'true' option
+     */
+    trueLabel: "{{i18n PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_TRUE_LABEL}}",
+    
+    /**
+     * @cfg {String} falseLabel='no' Label used for 'false' option
+     */
+    falseLabel: "{{i18n PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_FALSE_LABEL}}",
+    
+    constructor: function (config)
+    {
+        config = Ext.apply(config, {
+            editable: false,
+            forceSelection: true,
+            triggerAction: 'all',
+            
+            queryMode: 'local',
+            store: [
+               ['', config.emptyLabel || "{{i18n PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_EMPTY_LABEL}}"],
                [true, config.trueLabel || "{{i18n PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_TRUE_LABEL}}"],
-               [false, config.falseLabel || "{{i18n PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_FALSE_LABEL}}"],
+               [false, config.falseLabel || "{{i18n PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_FALSE_LABEL}}"]
             ]
-		});
-		
-		this.callParent(arguments);
-	},
-	
-	getSubmitValue: function()
-	{
-		var value = this.getValue();
-		if (Ext.isEmpty(value))
-		{
-			value = null;
-		}
-		else
-		{
-			value = value === true ? "true" : "false";
-		}
-		
-		return value;
-	}
+        });
+        
+        config.value = config.value === undefined ? '' : config.value;  
+        
+        this.callParent(arguments);
+    },
+    
+    getSubmitValue: function()
+    {
+        var value = this.getValue();
+        if (Ext.isEmpty(value))
+        {
+            value = null;
+        }
+        else
+        {
+            value = value === true ? "true" : "false";
+        }
+        
+        return value;
+    }
 });
