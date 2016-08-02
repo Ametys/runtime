@@ -38,7 +38,6 @@ Ext.define('Ametys.form.field.DateTime', {
      */
     submitFormat: Ext.Date.patterns.ISO8601DateTime,
     
-    
     initComponent: function() 
     {
     	var me = this;
