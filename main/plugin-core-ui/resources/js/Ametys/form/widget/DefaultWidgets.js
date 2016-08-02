@@ -311,6 +311,8 @@ Ext.define('Ametys.form.widget.DateTime', {
 	        format: "H:i"
 		});
 		
+		delete config.value;
+		
 		this.callParent(arguments);
 	}
 });
