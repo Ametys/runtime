@@ -47,7 +47,7 @@ Ext.define('Ametys.form.widget.LocalComboBox', {
             mode: 'local',
             queryMode: 'local',
             
-            encodeSubmitValue: true,
+            encodeSubmitValue: false,
             typeAhead: true,
             triggerAction: 'all',
             enableKeyEvents: true,
