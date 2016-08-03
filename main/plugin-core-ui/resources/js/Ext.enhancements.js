@@ -2043,5 +2043,18 @@
     });
 })();
 
+(function()
+{
+	Ext.override(Ext.view.View, {
+		onItemKeyDown: function(record, node, index, e, eOpts) {
+			var parentDialog = this.findParentByType('dialog');
+		if (e.getKey() == e.ENTER && parentDialog)
+		{
+			parentDialog.body.fireEvent('keydown', e, parentDialog.body, eOpts);
+			}
+		}
+	});
+})();
+	
 // Avoid messages about closable tabs
 Ext.ariaWarn = Ext.emptyFn;
