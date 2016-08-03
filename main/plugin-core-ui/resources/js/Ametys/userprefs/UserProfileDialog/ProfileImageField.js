@@ -16,7 +16,7 @@
 
 
 /**
- * An abstract field displaying the various available profile images 
+ * An abstract field displaying the various profile images availables
  */
 Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
     extend: 'Ametys.form.AbstractField',
@@ -40,7 +40,7 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
             
             scrollable: true,
             
-            store: this._getImageStore(),
+            store: this._getImageStoreCfg(),
             tpl: this._getViewTpl(),
             itemSelector: 'div.profile-image',
             border: true,
@@ -55,12 +55,7 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
         this.callParent(arguments);
     },
     
-    /**
-     * @private
-     * Get the store used in the images view
-     * @return {Ext.data.Store} the store
-     */
-    _getImageStore: function()
+    _getImageStoreCfg: function()
     {
         return Ext.create('Ext.data.Store', {
             model: 'Ametys.userprefs.UserProfileDialog.ProfileImageModel',
@@ -151,17 +146,13 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
             if (index >= 0)
             {
                 this._imagesView.getSelectionModel().select(index);
-                
-                var record = store.getAt(index);
-                var node = this._imagesView.getNode(record);
-                node.focus();
             }
         }
     },
     
     /**
      * Handler called when the store has loaded
-     * @param {Ext.data.Store} store the field's store
+     * @param {Ext.data.Store} this
      * @param {Ext.data.Model[]} records An array of records
      * @param {Boolean} successful True if the operation was successful.
      */
@@ -176,10 +167,6 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
                 if (index >= 0)
                 {
                     this._imagesView.getSelectionModel().select(index);
-                    
-                    var record = store.getAt(index);
-                    var node = this._imagesView.getNode(record);
-                    node.focus();
                 }
                 
                 this._valueToSet = null;
@@ -260,6 +247,5 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
         });
         
         this._imagesView.getSelectionModel().select(inserted[0]);
-        this._imagesView.focusNode(inserted[0]);
     }
 });
