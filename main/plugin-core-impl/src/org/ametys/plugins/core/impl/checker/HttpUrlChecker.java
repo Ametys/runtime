@@ -40,19 +40,22 @@ import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
 public class HttpUrlChecker implements ParameterChecker, Configurable
 {
     /** The user agent */
-    private String _userAgent;
+    protected String _userAgent;
     
     /** The method */
-    private String _method;
+    protected String _method;
     
     /** The timeout */
-    private int _timeout;
+    protected int _timeout;
     
     /** The acceptable response codes */
-    private String _okCodes;
+    protected String _okCodes;
     
     /** The values the header must have */
-    private Map<String, String> _headerValues;
+    protected Map<String, String> _headerValues;
+
+    /** Something to add to the parameter */
+    protected String _additionnalURL;
     
     public void configure(Configuration configuration) throws ConfigurationException
     {
@@ -65,6 +68,7 @@ public class HttpUrlChecker implements ParameterChecker, Configurable
         _timeout = timeoutConfig != null ? timeoutConfig.getValueAsInteger() : -1;
         _userAgent = requestConfig.getChild("user-agent").getValue(null);
         _method = requestConfig.getChild("method").getValue(null);
+        _additionnalURL = requestConfig.getChild("additionnal-url").getValue("");
         
         _okCodes = responseConfig.getChild("code").getValue(null);
         
@@ -81,7 +85,7 @@ public class HttpUrlChecker implements ParameterChecker, Configurable
         try
         {
             String configUrl = values.get(0);
-            HttpURLConnection httpUrlConnection = _prepareConnection(configUrl);
+            HttpURLConnection httpUrlConnection = _prepareConnection(configUrl + _additionnalURL);
             
             // Do the connection
             int responseCode = httpUrlConnection.getResponseCode();
