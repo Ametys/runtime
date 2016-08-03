@@ -16,7 +16,7 @@
 
 
 /**
- * An abstract field displaying the various profile images availables
+ * An abstract field displaying the various available profile images 
  */
 Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
     extend: 'Ametys.form.AbstractField',
@@ -40,7 +40,7 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
             
             scrollable: true,
             
-            store: this._getImageStoreCfg(),
+            store: this._getImageStore(),
             tpl: this._getViewTpl(),
             itemSelector: 'div.profile-image',
             border: true,
@@ -55,7 +55,12 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
         this.callParent(arguments);
     },
     
-    _getImageStoreCfg: function()
+    /**
+     * @private
+     * Get the store used in the images view
+     * @return {Ext.data.Store} the store
+     */
+    _getImageStore: function()
     {
         return Ext.create('Ext.data.Store', {
             model: 'Ametys.userprefs.UserProfileDialog.ProfileImageModel',
@@ -146,13 +151,18 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
             if (index >= 0)
             {
                 this._imagesView.getSelectionModel().select(index);
+//                TODO TEST 
+//                see RUNTIME-2026 When focusing an item of the ProfileImageField's view, the focus goes to the first item of the view
+//                var record = store.getAt(index);
+//                var node = this._imagesView.getNode(record);
+//                node.focus();
             }
         }
     },
     
     /**
      * Handler called when the store has loaded
-     * @param {Ext.data.Store} this
+     * @param {Ext.data.Store} store the field's store
      * @param {Ext.data.Model[]} records An array of records
      * @param {Boolean} successful True if the operation was successful.
      */
@@ -167,6 +177,12 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
                 if (index >= 0)
                 {
                     this._imagesView.getSelectionModel().select(index);
+                    
+//                  TODO TEST 
+//                  see RUNTIME-2026 When focusing an item of the ProfileImageField's view, the focus goes to the first item of the view
+//                    var record = store.getAt(index);
+//                    var node = this._imagesView.getNode(record);
+//                    node.focus();
                 }
                 
                 this._valueToSet = null;
@@ -247,5 +263,8 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
         });
         
         this._imagesView.getSelectionModel().select(inserted[0]);
+//      TODO TEST 
+//      see RUNTIME-2026 When focusing an item of the ProfileImageField's view, the focus goes to the first item of the view
+//        this._imagesView.focusNode(inserted[0]);
     }
 });
