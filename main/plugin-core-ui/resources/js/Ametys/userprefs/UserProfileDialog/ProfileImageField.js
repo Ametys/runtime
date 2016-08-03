@@ -151,11 +151,10 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
             if (index >= 0)
             {
                 this._imagesView.getSelectionModel().select(index);
-//                TODO TEST 
-//                see RUNTIME-2026 When focusing an item of the ProfileImageField's view, the focus goes to the first item of the view
-//                var record = store.getAt(index);
-//                var node = this._imagesView.getNode(record);
-//                node.focus();
+
+                var record = store.getAt(index);
+                var node = this._imagesView.getNode(record);
+                node.click();
             }
         }
     },
@@ -178,11 +177,9 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
                 {
                     this._imagesView.getSelectionModel().select(index);
                     
-//                  TODO TEST 
-//                  see RUNTIME-2026 When focusing an item of the ProfileImageField's view, the focus goes to the first item of the view
-//                    var record = store.getAt(index);
-//                    var node = this._imagesView.getNode(record);
-//                    node.focus();
+                    var record = store.getAt(index);
+                    var node = this._imagesView.getNode(record);
+                    node.click();
                 }
                 
                 this._valueToSet = null;
@@ -263,8 +260,9 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
         });
         
         this._imagesView.getSelectionModel().select(inserted[0]);
-//      TODO TEST 
-//      see RUNTIME-2026 When focusing an item of the ProfileImageField's view, the focus goes to the first item of the view
-//        this._imagesView.focusNode(inserted[0]);
+        
+        var record = this._imagesView.getStore().getAt(1);
+        var node = this._imagesView.getNode(record);
+        node.click();
     }
 });
