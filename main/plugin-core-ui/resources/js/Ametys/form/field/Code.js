@@ -193,7 +193,7 @@ Ext.define('Ametys.form.field.Code', {
      */
     _init: function()
     {   
-        if (this._futureValue != '')
+    	if (!Ext.isEmpty(this._futureValue))
         {
             this.setValue(this._futureValue);
             this._futureValue = null;
