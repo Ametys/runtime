@@ -2309,7 +2309,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                     multiple: fieldData.multiple,
                     widget: fieldData.widget,
                     
-                    hidden: fieldData.hidden, 
                     disabled: fieldData['can-not-write'] === true,
                     
                     disableCondition: fieldData.disableCondition,
@@ -2318,6 +2317,12 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                     offset: offset,
                     roffset: roffset
                 };
+                
+                if (fieldData.hidden)
+                {
+                	// Do not override the hidden property for Ext.form.field.Hidden fields
+                	widgetCfg.hidden = fieldData.hidden;
+                }
 
                 // Add configured configuration
                 Ext.Object.each(this._additionalWidgetsConfFromParams, function(key, value, object) {
