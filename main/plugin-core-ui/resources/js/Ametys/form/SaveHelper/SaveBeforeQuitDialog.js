@@ -45,7 +45,7 @@ Ext.define('Ametys.form.SaveHelper.SaveBeforeQuitDialog', {
 	 * @param {Function} callback the callback function
      * @param {Boolean} callback.save true means the user want to save. false the user does not want to save. null the user does not want to save nor quit.
 	 */
-	showDialog: function (title, msg, icon, callback)
+	showDialog: function (title, msg, iconCls, callback)
 	{
 		this._callback = callback;
 		
@@ -53,7 +53,7 @@ Ext.define('Ametys.form.SaveHelper.SaveBeforeQuitDialog', {
 	
 		this._dialog.setTitle (title || "{{i18n PLUGINS_CORE_UI_HELPER_SAVE_BEFORE_QUIT_TITLE}}");
 		this._dialog.items.get(0).update(msg || "{{i18n PLUGINS_CORE_UI_HELPER_SAVE_BEFORE_QUIT_MESSAGE}}");
-		this._dialog.setIcon(icon || Ametys.getPluginResourcesPrefix('core-ui') + "/img/save_16.png");
+		this._dialog.setIconCls(iconCls || 'ametysicon-save31');
 		
 		this._dialog.show();
 	},
