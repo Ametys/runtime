@@ -703,6 +703,24 @@
             </extension>
         </extensions>
     </feature>
+    <feature name="widgets.others.random-number" safe="true">
+        <extensions>
+            <extension id="edition.random-number"
+                point="org.ametys.core.ui.widgets.WidgetsManager"
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.form.widget.RandomNumber">
+                    <ftypes>string,long</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/form/widget/RandomNumber.js</file>
+                </scripts>
+            </extension>
+        </extensions>
+    </feature>   
     
     <!-- HELP TOOL -->
 	<feature name="userinterface.help" safe="true">
