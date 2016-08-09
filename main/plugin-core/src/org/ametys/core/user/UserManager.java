@@ -336,6 +336,16 @@ public class UserManager extends AbstractLogEnabled implements Component, Servic
     }
     
     /**
+     * Get the user from its user identity
+     * @param userIdentity The user identity
+     * @return The User or null if the user login does not exist.
+     */
+    public User getUser (UserIdentity userIdentity)
+    {
+        return getUser(userIdentity.getPopulationId(), userIdentity.getLogin());
+    }
+    
+    /**
      * Get a particular user of the given users population by his login.
      * @param userPopulationId The ID of user population
      * @param login Login of the user to get. Cannot be null.

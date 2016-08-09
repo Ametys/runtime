@@ -98,7 +98,7 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
     @Callable
     public Map<String, Object> getUser (String login, String populationId)
     {
-        return _userHelper.user2Map(_userManager.getUser(populationId, login));
+        return _userHelper.user2json(_userManager.getUser(populationId, login), true);
     }
     
     /**
@@ -176,7 +176,7 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
             }
 
             modifiableUserDirectory.add(untypedValues);
-            return _userHelper.user2Map(modifiableUserDirectory.getUser(login));
+            return _userHelper.user2json(modifiableUserDirectory.getUser(login), true);
         }
         catch (InvalidModificationException e)
         {
@@ -231,7 +231,7 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
             }
 
             modifiableUserDirectory.update(untypedValues);
-            return _userHelper.user2Map(modifiableUserDirectory.getUser(login));
+            return _userHelper.user2json(modifiableUserDirectory.getUser(login), true);
         }
         catch (InvalidModificationException e)
         {

@@ -80,7 +80,7 @@ public class UsersClientInteraction extends AbstractLogEnabled implements Servic
         }
         
         Map<String, Object> userInfo = new HashMap<>();
-        userInfo.putAll(_userHelper.user2Map(user));
+        userInfo.putAll(_userHelper.user2json(user, true));
 
         if (_rightsManager instanceof DefaultProfileBasedRightsManager)
         {

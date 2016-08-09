@@ -108,7 +108,7 @@ public class UserSearchAction extends AbstractAction implements ThreadSafe, Serv
             List<String> logins = (List<String>) jsParameters.get("login");
             for (String login : logins)
             {
-                users.add(_userHelper.user2Map(_userManager.getUserByContext(context, login)));
+                users.add(_userHelper.user2json(_userManager.getUserByContext(context, login), true));
             }
         }
         else
@@ -120,7 +120,7 @@ public class UserSearchAction extends AbstractAction implements ThreadSafe, Serv
             }
             int offset = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
             
-            users.addAll(_userHelper.users2MapList(_userManager.getUsersByContext(context, count, offset, _getSearchParameters(source))));
+            users.addAll(_userHelper.users2json(_userManager.getUsersByContext(context, count, offset, _getSearchParameters(source)), true));
         }
     }
     
@@ -132,7 +132,7 @@ public class UserSearchAction extends AbstractAction implements ThreadSafe, Serv
             List<String> logins = (List<String>) jsParameters.get("login");
             for (String login : logins)
             {
-                users.add(_userHelper.user2Map(_userManager.getUserByDirectory(userPopulationId, userDirectoryIndex, login)));
+                users.add(_userHelper.user2json(_userManager.getUserByDirectory(userPopulationId, userDirectoryIndex, login), true));
             }
         }
         else if (jsParameters.get("login") != null)
@@ -142,7 +142,7 @@ public class UserSearchAction extends AbstractAction implements ThreadSafe, Serv
             List<String> logins = (List<String>) jsParameters.get("login");
             for (String login : logins)
             {
-                users.add(_userHelper.user2Map(_userManager.getUser(userPopulationId, login)));
+                users.add(_userHelper.user2json(_userManager.getUser(userPopulationId, login), true));
             }
         }
         else if (userDirectoryIndex != -1)
@@ -154,7 +154,7 @@ public class UserSearchAction extends AbstractAction implements ThreadSafe, Serv
             }
             int offset = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
             
-            users.addAll(_userHelper.users2MapList(_userManager.getUsersByDirectory(userPopulationId, userDirectoryIndex, count, offset, _getSearchParameters(source))));
+            users.addAll(_userHelper.users2json(_userManager.getUsersByDirectory(userPopulationId, userDirectoryIndex, count, offset, _getSearchParameters(source)), true));
         }
         else
         {
@@ -166,7 +166,7 @@ public class UserSearchAction extends AbstractAction implements ThreadSafe, Serv
             }
             int offset = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
             
-            users.addAll(_userHelper.users2MapList(_userManager.getUsers(userPopulationId, count, offset, _getSearchParameters(source))));
+            users.addAll(_userHelper.users2json(_userManager.getUsers(userPopulationId, count, offset, _getSearchParameters(source))));
         }
     }
 }

@@ -92,7 +92,7 @@ public class UsersGroupAction extends ServiceableAction
                 
                 if (index >= begin)
                 {
-                    users.add(_userHelper.user2Map(user));
+                    users.add(_userHelper.user2json(user, true));
                     
                 }
                 index++;
