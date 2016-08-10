@@ -202,7 +202,8 @@ public class UserHelper implements Component, Serviceable, Contextualizable
     
     private User _getUser (UserIdentity userIdentity)
     {
-        Request request = ContextHelper.getRequest(_context);
+        Request request = _getRequest();
+        
         if (request != null)
         {
             // Try to get user from cache if request is not null
@@ -233,6 +234,19 @@ public class UserHelper implements Component, Serviceable, Contextualizable
             // Get user ouside of a request (no cache available)
             return _userManager.getUser(userIdentity.getPopulationId(), userIdentity.getLogin());
         }
+    }
+    
+    private Request _getRequest()
+    {
+        try
+        {
+            return ContextHelper.getRequest(_context);
+        }
+        catch (Exception e)
+        {
+            // There is no request
+            return null;
+        }  
     }
     
     /**
