@@ -2272,6 +2272,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                         minSize: repeater['min-size'] || 0,
                         maxSize: repeater['max-size'] || Number.MAX_VALUE,
                         
+                        readOnly: data[name]['can-not-write'] === true,
+                        
                         composition: repeater.composition,
                         
                         fieldCheckers: repeater['field-checker'],
@@ -2533,6 +2535,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                         addLabel: Ext.dom.Query.selectValue('> add-label', repeaterNode),
                         delLabel: Ext.dom.Query.selectValue('> del-label', repeaterNode),
                         headerLabel: Ext.dom.Query.selectValue('> header-label', repeaterNode, ''),
+                        
+                        disabled: Ext.dom.Query.selectValue("> can-not-write", repeaterNode) == 'true',
                         
                         minSize: Ext.dom.Query.selectNumber('@min-size', repeaterNode, 0),
                         maxSize: Ext.dom.Query.selectNumber('@max-size', repeaterNode, Number.MAX_VALUE),

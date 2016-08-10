@@ -61,6 +61,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
      * @cfg {String} headerLabel The item panel header label template.
      */
     /**
+     * @cfg {Boolean} readOnly True to disallow add, delete and move actions
+     */
+    /**
      * @cfg {Number} minSize The repeater min size.
      */
     /**
@@ -158,7 +161,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
                 }]
             }],
             
-            tools: [
+            tools: this.readOnly ? null : [
                 this._addFirst(this.addLabel)
             ]
         });
@@ -253,7 +256,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
     	    cls: 'a-repeater-item a-repeater-item-level-' + this.nestingLevel + (this.nestingLevel % 2 == 0 ? ' even' : ' odd'),
     	    
     	    // The tools
-    	    tools: [
+    	    tools: this.readOnly ? null : [
                 // collapse tool (automatically added)
                 this._upTool(),
                 this._downTool(),
@@ -733,30 +736,32 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
      */
     _updateToolsVisibility: function()
     {
-        var me = this;
-
-        
-        // Iterate on repeater item panels.
-        me.getItems().each(function(panel, index, length) {
-            function setVisible(name, value) 
-            {
-	            // The panel is rendered: tools is an object, items can be accessed by their name.
-	        	// The panel is not rendered yet: tools is a configuration array.
-                if (panel.tools[name])
-                {
-                    panel.tools[name].setVisible(value);
-                }
-                else
-                {
-                    Ext.Array.findBy(panel.tools, function(f) { return f.type == 'moveup'; }).hidden = !value;
-                }
-            }
+    	if (!this.readOnly)
+    	{
+    		var me = this;
             
-            setVisible("moveup", index > 0);
-            setVisible("movedown", index < (length-1));
-            setVisible("plus", me.maxSize == null || length < me.maxSize);
-            setVisible("minus", me.minSize == null || length > me.minSize);
-        });
+            // Iterate on repeater item panels.
+            me.getItems().each(function(panel, index, length) {
+                function setVisible(name, value) 
+                {
+    	            // The panel is rendered: tools is an object, items can be accessed by their name.
+    	        	// The panel is not rendered yet: tools is a configuration array.
+                    if (panel.tools[name])
+                    {
+                        panel.tools[name].setVisible(value);
+                    }
+                    else
+                    {
+                        Ext.Array.findBy(panel.tools, function(f) { return f.type == 'moveup'; }).hidden = !value;
+                    }
+                }
+                
+                setVisible("moveup", index > 0);
+                setVisible("movedown", index < (length-1));
+                setVisible("plus", me.maxSize == null || length < me.maxSize);
+                setVisible("minus", me.minSize == null || length > me.minSize);
+            });
+    	}
     },
     
     /**
