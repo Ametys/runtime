@@ -24,6 +24,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceFactory;
+import org.apache.excalibur.source.SourceUtil;
 import org.apache.excalibur.source.impl.FileSource;
 
 import org.ametys.runtime.servlet.RuntimeConfig;
@@ -45,7 +46,7 @@ public class AmetysHomeSourceFactory extends AbstractLogEnabled implements Sourc
         
         File ametysHomeDir = RuntimeConfig.getInstance().getAmetysHome();
         String childLocation = StringUtils.removeStart(location, __AMETYS_HOME_SOURCE_PREFIX);
-        return new FileSource("file", new File(ametysHomeDir, childLocation));
+        return new FileSource("file", new File(ametysHomeDir, SourceUtil.decodePath(childLocation)));
     }
     
     public void release(Source source)
