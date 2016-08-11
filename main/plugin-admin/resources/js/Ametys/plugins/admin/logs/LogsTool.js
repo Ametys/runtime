@@ -55,11 +55,6 @@ Ext.define('Ametys.plugins.admin.logs.LogsTool', {
 		this.refresh();
 	},
 	
-	sendCurrentSelection: function()
-	{
-		this._selectLog();
-	},
-	
 	refresh: function ()
 	{
 		this.showRefreshing();
@@ -105,7 +100,7 @@ Ext.define('Ametys.plugins.admin.logs.LogsTool', {
 		    },
 		    
 		    listeners: {
-		    	'selectionchange': Ext.bind(this._selectLog, this),
+		    	'selectionchange': Ext.bind(this.sendCurrentSelection, this),
 		    	'rowdblclick': Ext.bind(this._openLog, this)
 		    },
 		    
@@ -154,7 +149,7 @@ Ext.define('Ametys.plugins.admin.logs.LogsTool', {
 	 * Sends a {@link Ametys.message.Message#SELECTION_CHANGED} message containing the
 	 * selected log files on the message bus 
 	 */
-	_selectLog: function()
+	sendCurrentSelection: function()
 	{
 		var targets = [];
 
@@ -162,7 +157,7 @@ Ext.define('Ametys.plugins.admin.logs.LogsTool', {
 		Ext.Array.forEach(selectedFiles, function(selectedFile) {
 			
 			target = Ext.create('Ametys.message.MessageTarget', {
-				type: 'logfile',
+				id: Ametys.message.MessageTarget.LOG_FILE,
 				parameters: {size: selectedFile.get('size'), location: selectedFile.get('location')}
 			});
 			
@@ -203,7 +198,7 @@ Ext.define('Ametys.plugins.admin.logs.LogsTool', {
 	 */
 	_onLogFileDeleted: function(message)
 	{
-		var targets = message.getTargets("logfile");
+		var targets = message.getTargets(Ametys.message.MessageTarget.LOG_FILE);
 		if (targets.length > 0)
 		{
 			var store = this._logs.getStore();
@@ -217,4 +212,20 @@ Ext.define('Ametys.plugins.admin.logs.LogsTool', {
 			});
 		}
 	}
+});
+
+Ext.define("Ametys.message.LogMessageTarget", {
+	override: "Ametys.message.MessageTarget",
+
+     statics: 
+     {
+         /**
+          * @member Ametys.message.MessageTarget
+          * @readonly
+          * @property {String} LOG_FILE The target type is a log file. The expected parameters are:
+          * @property {String} LOG_FILE.location The file location
+          * @property {String} [LOG_FILE.size] The file size
+          */
+         LOG_FILE: "logfile"
+     }
 });

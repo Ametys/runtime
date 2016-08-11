@@ -205,7 +205,7 @@ Ext.define('Ametys.plugins.admin.logs.LogsActions', {
 		Ext.Array.forEach(deletedFiles, function(deletedFile) {
 			
 			var target = Ext.create('Ametys.message.MessageTarget', {
-					type: 'logfile',
+					id: Ametys.message.MessageTarget.LOG_FILE,
 					parameters: {location: deletedFile}
 				});
 			
