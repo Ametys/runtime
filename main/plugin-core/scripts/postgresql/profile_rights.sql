@@ -18,36 +18,18 @@ BEGIN;
 DROP SEQUENCE IF EXISTS seq_rights_profile;
 DROP TABLE IF EXISTS Rights_Profile;
 DROP TABLE IF EXISTS Rights_ProfileRights;
-DROP TABLE IF EXISTS Rights_GroupRights;
-DROP TABLE IF EXISTS Rights_UserRights;
 
 CREATE TABLE Rights_Profile(
-	Id int PRIMARY KEY , 
+	Id VARCHAR(200) PRIMARY KEY , 
 	Label VARCHAR(200),
 	Context VARCHAR(200)
 );
 
 
 CREATE TABLE Rights_ProfileRights(
-	Profile_Id int NOT NULL,
+	Profile_Id VARCHAR(200) NOT NULL,
 	Right_Id VARCHAR(200) NOT NULL,
 	PRIMARY KEY(Profile_Id, Right_Id)
-);
-
-CREATE TABLE Rights_GroupRights(
-	Profile_Id int NOT NULL, 
-	Group_Id VARCHAR(200) NOT NULL,
-	GroupDirectory_Id VARCHAR(200) NOT NULL,
-	Context VARCHAR(200) NOT NULL, 
-	PRIMARY KEY(Profile_Id, Group_Id, GroupDirectory_Id, Context)
-);
-
-CREATE TABLE Rights_UserRights(
-	Profile_Id int NOT NULL, 
-	Login VARCHAR(200) NOT NULL, 
-	UserPopulation_Id VARCHAR(200) NOT NULL, 
-	Context VARCHAR(200) NOT NULL, 
-	PRIMARY KEY(Profile_Id, Login, UserPopulation_Id, Context)
 );
 
 CREATE SEQUENCE seq_rights_profile;

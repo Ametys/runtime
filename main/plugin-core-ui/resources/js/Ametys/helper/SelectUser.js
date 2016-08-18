@@ -50,7 +50,7 @@ Ext.define('Ametys.helper.SelectUser', {
      * @property {String} url=users/search.json The url of the currently selected plugin to use for requests. Selected by the {@link #act} call.
      */
     /**
-     * @property {String} [context] The context for the populations to display in the combobox
+     * @property {String[]} [contexts] The contexts for the populations to display in the combobox
      */
     /**
      * @property {Boolean} _enableAllPopulationsOption True to add an option in the populations combobx for searching over all the populations.
@@ -113,9 +113,9 @@ Ext.define('Ametys.helper.SelectUser', {
      * @param {Boolean} [config.allowMultiselection=true] Set to false to disable multiple selection of users.
      * @param {String} [config.plugin=core] The plugin to use for search request.
      * @param {String} [config.url=users/search.json] The url to use for search request.
-     * @param {String} [config.context] The context for the populations to display in the combobox. Default to the current context.
+     * @param {String/String[]} [config.contexts] The contexts for the populations to display in the combobox. Default to the current context.
      * @param {Boolean} [config.enableAllPopulationsOption=true] True to add an option in the populations combobx for searching over all the populations.
-     * @param {String} [config.noPopulationMessage] The message to display when there is no user population available for the context. There is a default message if not provided.
+     * @param {String} [config.noPopulationMessage] The message to display when there is no user population available for the contexts. There is a default message if not provided.
      * @param {Boolean} [config.showDirectoryCombobox] True to show the user directory combobox field (then it is possible to filter with user directories).
      */
     act: function (config)
@@ -127,7 +127,7 @@ Ext.define('Ametys.helper.SelectUser', {
         this.allowMultiselection = config.allowMultiselection || true;
         this.pluginName = config.plugin || 'core';
         this.url = config.url || 'users/search.json';
-        this.context = config.context != null ? config.context : Ametys.getAppParameter('context');
+        this.contexts = Ext.Array.from(config.contexts || Ametys.getAppParameter('context'));
         this._enableAllPopulationsOption = config.enableAllPopulationsOption !== false;
         this._noPopulationMessage = config.noPopulationMessage || "{{i18n PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_NO_POPULATION_DESCRIPTION}}";
         
@@ -338,7 +338,7 @@ Ext.define('Ametys.helper.SelectUser', {
     _onBeforeLoadPopulations: function(store, operation)
     {
         operation.setParams( Ext.apply(operation.getParams() || {}, {
-            context: this.context
+            contexts: this.contexts
         }));
     },
     
@@ -466,7 +466,7 @@ Ext.define('Ametys.helper.SelectUser', {
         if (this._userPopulationsField.getValue() == this._allPopulationsOptionId)
         {
             operation.setParams( Ext.apply(operation.getParams() || {}, {
-                context: this.context,
+                contexts: this.contexts,
                 criteria: this._searchField.getValue()
             }));
             return true;
@@ -525,7 +525,7 @@ Ext.define('Ametys.helper.SelectUser', {
             addedusers.push({
                 login: opt.get('login'),
                 population: opt.get('population'),
-                fullName: opt.get('name'),
+                fullName: opt.get('sortablename'),
                 populationName: opt.get('populationLabel')
             });
         }

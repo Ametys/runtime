@@ -20,7 +20,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.service.ServiceException;
@@ -128,7 +131,7 @@ public class GroupDirectoryContextHelper extends AbstractLogEnabled implements C
      * @return The ids of group directories linked to the context
      */
     @Callable
-    public List<String> getGroupDirectoriesOnContext(String context)
+    public Set<String> getGroupDirectoriesOnContext(String context)
     {
         if (ADMIN_CONTEXT.equals(context))
         {
@@ -141,9 +144,23 @@ public class GroupDirectoryContextHelper extends AbstractLogEnabled implements C
         }
     }
     
-    private List<String> _getDirectorieOnContextFromDatabase(String context)
+    /**
+     * Gets the group directories linked to at least one of the given contexts
+     * @param contexts The contexts
+     * @return The ids of group directories linked to the contexts
+     */
+    @Callable
+    public Set<String> getGroupDirectoriesOnContexts(Set<String> contexts)
     {
-        List<String> result = new ArrayList<>();
+        return contexts.stream()
+                .map(this::getGroupDirectoriesOnContext)
+                .flatMap(Set::stream)
+                .collect(Collectors.toSet());
+    }
+    
+    private Set<String> _getDirectorieOnContextFromDatabase(String context)
+    {
+        Set<String> result = new HashSet<>();
         
         Connection connection = null;
         PreparedStatement stmt = null;

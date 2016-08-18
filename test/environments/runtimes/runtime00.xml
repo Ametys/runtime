@@ -24,7 +24,6 @@
     <workspaces default="myworkspace"/>
     
     <components>
-        <org.ametys.core.right.RightsManager>org.ametys.plugins.core.right.DefaultProfileBased</org.ametys.core.right.RightsManager>
         <org.ametys.runtime.exception.ExceptionHandler>org.ametys.plugins.core.exception.Default</org.ametys.runtime.exception.ExceptionHandler>
     </components>
 </runtime>

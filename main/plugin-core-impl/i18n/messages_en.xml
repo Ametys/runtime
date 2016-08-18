@@ -231,4 +231,9 @@
     <message key="PLUGINS_CORE_SCHEDULER_EXECUTE_SCRIPT_CODE_LABEL">Script</message>
     <message key="PLUGINS_CORE_SCHEDULER_EXECUTE_SCRIPT_CODE_DESCRIPTION">Script to execute. You have access to the same variables and functions than the ones available in the script tool</message>
     
+    <!-- CONTRIBUTOR RIGHT ASSIGNMENT CONTEXT -->
+    <message key="PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_CONTRIBUTOR_LABEL">General</message>
+    <message key="PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_CONTRIBUTOR_MESSAGE">Profile assignment on the application context</message>
+    <message key="PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_CONTRIBUTOR_HINT">the application context</message>
+    
 </catalogue>

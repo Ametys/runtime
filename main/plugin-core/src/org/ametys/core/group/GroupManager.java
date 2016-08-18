@@ -55,6 +55,16 @@ public class GroupManager extends AbstractLogEnabled implements Component, Servi
     
     /**
      * Get a particular group of the given {@link GroupDirectory} by its id
+     * @param groupIdentity The group identity
+     * @return The group or null if not found
+     */
+    public Group getGroup(GroupIdentity groupIdentity)
+    {
+        return getGroup(groupIdentity.getDirectoryId(), groupIdentity.getId());
+    }
+    
+    /**
+     * Get a particular group of the given {@link GroupDirectory} by its id
      * @param groupDirectory The group directory
      * @param groupId The id of the group
      * @return The group or null if not found

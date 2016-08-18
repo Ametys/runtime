@@ -15,7 +15,7 @@
 --
 CREATE TABLE Rights_Profile
 (
-	Id number, 
+	Id VARCHAR(200), 
 	Label VARCHAR(200),
 	Context VARCHAR(200),
 	PRIMARY KEY (Id)
@@ -23,27 +23,9 @@ CREATE TABLE Rights_Profile
 
 CREATE TABLE Rights_ProfileRights
 (
-	Profile_Id number NOT NULL, 
+	Profile_Id VARCHAR(200) NOT NULL, 
 	Right_Id VARCHAR(200) NOT NULL, 
 	PRIMARY KEY(Profile_Id, Right_Id)
-);
-
-CREATE TABLE Rights_GroupRights
-(
-	Profile_Id number NOT NULL, 
-	Group_Id VARCHAR(200) NOT NULL,
-	GroupDirectory_Id VARCHAR(200) NOT NULL,
-	Context VARCHAR(200) NOT NULL, 
-	PRIMARY KEY(Profile_Id, Group_Id, GroupDirectory_Id, Context)
-);
-
-CREATE TABLE Rights_UserRights
-(
-	Profile_Id number NOT NULL, 
-	Login VARCHAR(200) NOT NULL, 
-	UserPopulation_Id VARCHAR(200) NOT NULL, 
-	Context VARCHAR(200) NOT NULL, 
-	PRIMARY KEY(Profile_Id, Login, UserPopulation_Id, Context)
 );
 
 create sequence seq_rights_profile;

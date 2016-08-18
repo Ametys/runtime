@@ -337,13 +337,25 @@
         <extension-point id="org.ametys.core.group.directory.GroupDirectoryFactory"
 						 class="org.ametys.core.group.directory.GroupDirectoryFactory"
 						 safe="true"/>
+						 
+        <extension-point id="org.ametys.core.right.ProfileAssignmentStorageExtensionPoint"
+						 class="org.ametys.core.right.ProfileAssignmentStorageExtensionPoint"
+						 safe="true"/>
+						 
+        <extension-point id="org.ametys.core.right.AccessControllerExtensionPoint"
+						 class="org.ametys.core.right.AccessControllerExtensionPoint"
+						 safe="true"/>
         				                  
         <extension-point id="org.ametys.core.right.RightsExtensionPoint"
                          class="org.ametys.core.right.RightsExtensionPoint"
                          safe="true"/>
                          
-        <extension-point id="org.ametys.core.right.RightContextConvertorExtentionPoint"
-        				 class="org.ametys.core.right.RightContextConvertorExtentionPoint"/>
+        <extension-point id="org.ametys.core.right.RightContextConvertorExtensionPoint"
+        				 class="org.ametys.core.right.RightContextConvertorExtensionPoint"
+        				 safe="true"/>
+        				 
+        <extension-point id="org.ametys.core.right.RightAssignmentContextExtensionPoint"
+                         class="org.ametys.core.right.RightAssignmentContextExtensionPoint"/>
         
         <extension-point id="org.ametys.core.userpref.UserPreferencesExtensionPoint"
                          class="org.ametys.core.userpref.UserPreferencesExtensionPoint"
@@ -662,6 +674,21 @@
     	</config>
     </feature>
     
+    <feature name="runtime.rights.manager" safe="true">
+        <config>
+            <param-ref id="runtime.rights.datasource"/>
+        </config>
+
+        <components>
+            <component role="org.ametys.core.right.RightManager"
+                       id="org.ametys.core.right.RightManager"
+                       class="org.ametys.core.right.RightManager">
+                <rights config="/WEB-INF/param/rights.xml"/>
+                <datasource type="config">runtime.rights.datasource</datasource>
+            </component>
+        </components>
+    </feature>
+    
     <feature name="runtime.util.ldap.scope.enumerator">
         <!-- 
             This feature provides a LDAP scope enumerator
@@ -732,18 +759,6 @@
             <component id="org.ametys.core.util.AmetysXSLTHelper"
                        role="org.ametys.core.util.AmetysXSLTHelper"
                        class="org.ametys.core.util.AmetysXSLTHelper"/>
-        </components>
-    </feature>
-    
-    <feature name="core.rights.client-interaction">
-        <components>
-            <component role="org.ametys.plugins.core.right.UsersClientInteraction"
-                       id="org.ametys.plugins.core.right.UsersClientInteraction"
-                       class="org.ametys.plugins.core.right.UsersClientInteraction"/>
-                       
-            <component role="org.ametys.plugins.core.right.ProfilesClientInteraction"
-                       id="org.ametys.plugins.core.right.ProfilesClientInteraction"
-                       class="org.ametys.plugins.core.right.ProfilesClientInteraction"/>
         </components>
     </feature>
     
@@ -920,8 +935,9 @@
             <extension point="org.ametys.runtime.plugin.InitExtensionPoint"
                        id="org.ametys.core.script.profile.SqlTablesInit"
                        class="org.ametys.core.script.SqlTablesInit">
-                 <datasource type="config">runtime.rights.datasource</datasource>
+                <datasource type="config">runtime.rights.datasource</datasource>
                 <script testTable="Rights_Profile">profile_rights.sql</script>
+                <script testTable="Rights_AllowedUsers">profile_assignments.sql</script>
             </extension>
         </extensions>
     </feature>

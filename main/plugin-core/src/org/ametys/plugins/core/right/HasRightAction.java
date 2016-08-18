@@ -24,7 +24,7 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.SourceResolver;
 
-import org.ametys.core.right.RightsManager;
+import org.ametys.core.right.RightManager;
 import org.ametys.core.user.UserIdentity;
 import org.ametys.core.util.cocoon.AbstractCurrentUserProviderServiceableAction;
 
@@ -37,7 +37,7 @@ import org.ametys.core.util.cocoon.AbstractCurrentUserProviderServiceableAction;
 public class HasRightAction extends AbstractCurrentUserProviderServiceableAction implements Configurable
 {
     /** The runtime rights manager */
-    protected RightsManager _rightsManager;
+    protected RightManager _rightManager;
     
     private boolean _hasRight;
     
@@ -62,9 +62,9 @@ public class HasRightAction extends AbstractCurrentUserProviderServiceableAction
     
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
-        if (_rightsManager == null)
+        if (_rightManager == null)
         {
-            _rightsManager = (RightsManager) manager.lookup(RightsManager.ROLE);
+            _rightManager = (RightManager) manager.lookup(RightManager.ROLE);
         }
 
         boolean hasRight = false;
@@ -87,7 +87,7 @@ public class HasRightAction extends AbstractCurrentUserProviderServiceableAction
             {
                 String right = rigths[i].trim();
 
-                if (_rightsManager.hasRight(user, right, context) == RightsManager.RightResult.RIGHT_OK)
+                if (_rightManager.hasRight(user, right, context) == RightManager.RightResult.RIGHT_ALLOW)
                 {
                     hasRight = true;
                 }

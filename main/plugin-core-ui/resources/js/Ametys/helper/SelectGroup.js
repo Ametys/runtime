@@ -50,7 +50,7 @@ Ext.define('Ametys.helper.SelectGroup', {
 	 * @property {String} url=groups/search.json The url of the currently selected plugin to use for requests. Selected by the {@link #act} call.
 	 */
     /**
-     * @property {String} [context] The context for the group directories to display in the combobox. All group directories will be displayed if not provided.
+     * @property {String[]} [contexts] The contexts for the group directories to display in the combobox. Default to the current context.
      */
     /**
      * @private
@@ -102,7 +102,7 @@ Ext.define('Ametys.helper.SelectGroup', {
 	 * @param {Boolean} [config.allowMultiselection=true] Set to false to disable multiple selection of users.
 	 * @param {String} [config.plugin=core] The plugin to use for search request.
 	 * @param {String} [config.url=groups/search.json] The url to use for search request.
-     * @param {String} [config.context] The context for the group directories to display in the combobox. Default to the current context.
+     * @param {String/String[]} [config.contexts] The contexts for the group directories to display in the combobox. Default to the current context.
      * @param {Boolean} [config.enableAllDirectoriesOption=true] True to add an option in the directory combobx for searching over all the directories.
 	 */
 	act: function (config)
@@ -114,7 +114,7 @@ Ext.define('Ametys.helper.SelectGroup', {
 	    this.allowMultiselection = config.allowMultiselection || true;
 	    this.pluginName = config.plugin || 'core';
 	    this.url = config.url || 'groups/search.json';
-        this.context = config.context != null ? config.context : Ametys.getAppParameter('context');
+        this.contexts = Ext.Array.from(config.contexts || Ametys.getAppParameter('context'));
         this._enableAllDirectoriesOption = config.enableAllDirectoriesOption !== false;
 	    
 		this.delayedInitialize();
@@ -202,7 +202,13 @@ Ext.define('Ametys.helper.SelectGroup', {
 		var model = Ext.define('Ametys.helper.SelectGroup.Group', {
 		    extend: 'Ext.data.Model',
 		    fields: [
-	     		{name: 'id'},
+                {
+                    name: 'id', 
+                    calculate: function(data) {
+                        return data.groupId + '#' + data.groupDirectory;
+                    }
+                },
+                {name: 'groupId', mapping: 'id'},
 	     		{name: 'label', sortType: Ext.data.SortTypes.asNonAccentedUCString},
 	     		{name: 'groupDirectory'},
 	     		{name: 'groupDirectoryLabel', sortType: Ext.data.SortTypes.asNonAccentedUCString},
@@ -211,7 +217,7 @@ Ext.define('Ametys.helper.SelectGroup', {
                     sortType: Ext.data.SortTypes.asNonAccentedUCString,
                     calculate: function(data)
                     {
-                        return data.label + ' (' + data.id + ', ' + data.groupDirectoryLabel + ')';
+                        return data.label + ' (' + data.groupId + ', ' + data.groupDirectoryLabel + ')';
                     }
                 }
 	     	]
@@ -296,7 +302,7 @@ Ext.define('Ametys.helper.SelectGroup', {
     _onBeforeLoadDirectories: function(store, operation)
     {
         operation.setParams( Ext.apply(operation.getParams() || {}, {
-            context: this.context
+            contexts: this.contexts
         }));
     },
     
@@ -372,7 +378,7 @@ Ext.define('Ametys.helper.SelectGroup', {
         if (this._groupDirectoriesField.getValue() == this._allDirectoriesOptionId)
         {
             operation.setParams( Ext.apply(operation.getParams() || {}, {
-                context: this.context,
+                contexts: this.contexts,
                 criteria: this._searchField.getValue()
             }));
             return true;
@@ -443,7 +449,7 @@ Ext.define('Ametys.helper.SelectGroup', {
 		{
 			var opt = selection[i];
 			addedgroups.push({
-               id: opt.get('id'),
+               id: opt.get('groupId'),
                groupDirectory: opt.get('groupDirectory'),
                label: opt.get('label'),
                groupDirectoryName: opt.get('groupDirectoryLabel')

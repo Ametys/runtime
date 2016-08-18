@@ -24,9 +24,8 @@ import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.SAXException;
 
-import org.ametys.core.right.RightsManager;
-import org.ametys.core.right.profile.Profile;
-import org.ametys.plugins.core.impl.right.profile.ProfileBasedRightsManager;
+import org.ametys.core.right.Profile;
+import org.ametys.core.right.RightManager;
 
 
 /**
@@ -34,13 +33,13 @@ import org.ametys.plugins.core.impl.right.profile.ProfileBasedRightsManager;
  */
 public class ProfilesListGenerator extends ServiceableGenerator
 {
-    private RightsManager _rightsManager;
+    private RightManager _rightManager;
     
     @Override
     public void service(ServiceManager m) throws ServiceException
     {
         super.service(m);
-        _rightsManager = (RightsManager) m.lookup(RightsManager.ROLE);
+        _rightManager = (RightManager) m.lookup(RightManager.ROLE);
     }
 
     public void generate() throws IOException, SAXException, ProcessingException
@@ -49,12 +48,7 @@ public class ProfilesListGenerator extends ServiceableGenerator
 
         XMLUtils.startElement(contentHandler, "Profiles");
         
-        if (!(_rightsManager instanceof ProfileBasedRightsManager))
-        {
-            throw new IllegalStateException("You cannot display/edit profiles with the current rights manager '" + _rightsManager.getClass().getName() + "'");
-        }
-        
-        for (Profile profile : ((ProfileBasedRightsManager) _rightsManager).getProfiles())
+        for (Profile profile : _rightManager.getProfiles())
         {
             profile.toSAX(contentHandler);
         }

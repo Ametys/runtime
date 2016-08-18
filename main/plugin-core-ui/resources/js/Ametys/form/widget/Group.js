@@ -80,8 +80,8 @@ Ext.define('Ametys.form.widget.Group', {
             criteria: operation.getParams().query,
             id: operation.getParams().id ? operation.getParams().id.split(',') : null,
             count: this.maxResult, 
-            offset: 0, 
-            groupsManagerRole: this.groupsManagerRole
+            offset: 0,
+            contexts: [Ametys.getAppParameter('context')]
         }));
     },
     

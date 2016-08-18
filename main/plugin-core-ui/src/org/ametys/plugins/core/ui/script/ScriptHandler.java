@@ -38,7 +38,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.commons.lang3.StringUtils;
 
-import org.ametys.core.right.RightsManager;
+import org.ametys.core.right.RightManager;
 import org.ametys.core.ui.Callable;
 import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.runtime.i18n.I18nizableText;
@@ -56,14 +56,14 @@ public class ScriptHandler extends AbstractLogEnabled implements Component, Serv
     private static final String __SCRIPT_INSERT_RUN_MAIN = "var __result; try { __result = main(); } finally { __cleanup_manager.cleanup() } __result";
 
     private ScriptBindingExtensionPoint _scriptBindingEP;
-    private RightsManager _rightsManager;
+    private RightManager _rightManager;
     private CurrentUserProvider _currentUserProvider;
 
     @Override
     public void service(ServiceManager serviceManager) throws ServiceException
     {
         _scriptBindingEP = (ScriptBindingExtensionPoint) serviceManager.lookup(ScriptBindingExtensionPoint.ROLE);
-        _rightsManager = (RightsManager) serviceManager.lookup(RightsManager.ROLE);
+        _rightManager = (RightManager) serviceManager.lookup(RightManager.ROLE);
         _currentUserProvider = (CurrentUserProvider) serviceManager.lookup(CurrentUserProvider.ROLE);
     }
     
@@ -78,7 +78,7 @@ public class ScriptHandler extends AbstractLogEnabled implements Component, Serv
     {
         Map<String, Object> results = new HashMap<>();
         
-        if (_rightsManager.hasRight(_currentUserProvider.getUser(), __RIGHT_EXECUTE_SCRIPTS, "/application") != RightsManager.RightResult.RIGHT_OK)
+        if (_rightManager.hasRight(_currentUserProvider.getUser(), __RIGHT_EXECUTE_SCRIPTS, "/application") != RightManager.RightResult.RIGHT_ALLOW)
         {
             // FIXME Currently unable to assign rights to a user in the _admin workspace
             // throw new RightsException("Insufficient rights to execute a script");

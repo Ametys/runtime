@@ -23,7 +23,7 @@
     <feature name="test-feature3"/>
     <feature name="test-feature4">
         <components>
-            <component role="org.ametys.core.right.RightsManager" id="test" class="org.ametys.class.not.found"></component>
+            <component role="org.ametys.runtime.exception.ExceptionHandler" id="test" class="org.ametys.class.not.found"></component>
         </components>
     </feature>
     <feature name="test-feature5"/>

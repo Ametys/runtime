@@ -641,6 +641,24 @@
             </extension>
         </extensions>
     </feature>    
+    <feature name="widgets.others.right" safe="true">
+        <extensions>
+            <extension id="edition.right"
+                point="org.ametys.core.ui.widgets.WidgetsManager"
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.form.widget.Right">
+                    <ftypes>string</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>true</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/form/widget/Right.js</file>
+                </scripts>
+            </extension>
+        </extensions>
+    </feature>    
     <feature name="widgets.others.geocode" safe="true">
         <config>
             <param-ref id="runtime.google-api-key"/>
@@ -1680,7 +1698,6 @@
 					<file>js/Ametys/plugins/coreui/populations/PopulationActions.js</file>
 					<file plugin="core">js/Ametys/plugins/core/populations/UserPopulationDAO.js</file>
 					<file>js/Ametys/plugins/coreui/populations/ChooseUserPopulationsHelper.js</file>
-					<file>js/Ametys/plugins/coreui/populations/ChooseUserPopulationsHelper.js</file>
 				</scripts>
     		</extension>
     	</extensions>
@@ -1836,30 +1853,6 @@
                 <right>Runtime_Rights_User_Handle</right>
             </extension>
             
-            <extension id="org.ametys.core.users.Rights"
-                       point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.core.ui.StaticClientSideElement">
-                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
-                    <opentool-id>uitool-user-rights</opentool-id>
-                    <label i18n="true">PLUGINS_CORE_UI_TOOL_USER_RIGHTS_LABEL</label>
-                    <description i18n="true">PLUGINS_CORE_UI_TOOL_USER_RIGHTS_DESCRIPTION</description>
-                    <selection-target-id>^user$</selection-target-id>
-                    <selection-description-empty i18n="true">PLUGINS_CORE_UI_TOOL_USER_RIGHTS_EMPTY</selection-description-empty>
-                    <selection-description-nomatch i18n="true">PLUGINS_CORE_UI_TOOL_USER_RIGHTS_EMPTY</selection-description-nomatch>
-                    <selection-description-multiselectionforbidden i18n="true">PLUGINS_CORE_UI_TOOL_USER_RIGHTS_MULTI_FORBIDDEN</selection-description-multiselectionforbidden>
-                    <help>org.ametys.core.users.rights</help>
-                    
-                    <icon-glyph>ametysicon-id17</icon-glyph>
-                    <icon-small file="true">img/users/rights_16.png</icon-small>
-                    <icon-medium file="true">img/users/rights_32.png</icon-medium>
-                    <icon-large file="true">img/users/rights_48.png</icon-large>
-                </class>
-                <depends>
-                    <org.ametys.core.ui.UIToolsFactoriesManager>uitool-user-rights</org.ametys.core.ui.UIToolsFactoriesManager>
-                </depends>
-                <right>Runtime_Rights_User_Handle</right>
-            </extension>
-            
             <extension id="org.ametys.core.users.Impersonate"
                        point="org.ametys.core.ui.RibbonControlsManager"
                        class="org.ametys.plugins.core.user.ImpersonateUserClientSideElement">
@@ -1883,30 +1876,6 @@
                 <script>
                     <file>js/Ametys/plugins/coreui/users/UsersActions.js</file>
                 </script>
-            </extension>
-            
-            <extension id="uitool-user-rights"
-                       point="org.ametys.core.ui.UIToolsFactoriesManager"
-                       class="org.ametys.core.ui.StaticClientSideElement">
-                <class name="Ametys.tool.factory.UniqueToolFactory">
-                    <toolClass>Ametys.plugins.coreui.users.UserRightsTool</toolClass>
-                    
-                    <title i18n="true">PLUGINS_CORE_UI_TOOL_USER_RIGHTS_LABEL</title>
-                    <description i18n="true">PLUGINS_CORE_UI_TOOL_USER_RIGHTS_DESCRIPTION</description>
-                    <selection-target-id>^user$</selection-target-id>
-                    <selection-description-empty i18n="true">PLUGINS_CORE_UI_TOOL_USER_RIGHTS_EMPTY</selection-description-empty>
-                    <selection-description-nomatch i18n="true">PLUGINS_CORE_UI_TOOL_USER_RIGHTS_EMPTY</selection-description-nomatch>
-                    <selection-description-multiselectionforbidden i18n="true">PLUGINS_CORE_UI_TOOL_USER_RIGHTS_MULTI_FORBIDDEN</selection-description-multiselectionforbidden>
-                    <help>org.ametys.core.users.rights</help>
-                    <icon-glyph>ametysicon-id17</icon-glyph>
-                    <icon-small file="true">img/users/rights_16.png</icon-small>
-                    <icon-medium file="true">img/users/rights_32.png</icon-medium>
-                    <icon-large file="true">img/users/rights_48.png</icon-large>
-                    <default-location>r</default-location>
-                </class>
-                <scripts>
-                    <file>js/Ametys/plugins/coreui/users/UserRightsTool.js</file>
-                </scripts>
             </extension>
     	</extensions>
     </feature>
@@ -2276,7 +2245,7 @@
             
             <extension id="org.ametys.core.profiles.Add"
                        point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.plugins.core.right.profile.ProfileBasedClientSideElement">
+                       class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.ui.ButtonController">
                     <action>Ametys.plugins.coreui.profiles.ProfilesActions.add</action>
                     
@@ -2300,7 +2269,7 @@
             
             <extension id="org.ametys.core.profiles.Edit"
                        point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.plugins.core.right.profile.ProfileBasedClientSideElement">
+                       class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.ui.ButtonController">
                     <action>Ametys.plugins.coreui.profiles.ProfilesActions.edit</action>
                     <selection-target-id>^profile$</selection-target-id>
@@ -2325,7 +2294,7 @@
             
             <extension id="org.ametys.core.profiles.Delete"
                        point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.plugins.core.right.profile.ProfileBasedClientSideElement">
+                       class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.ui.ButtonController">
                     <action>Ametys.plugins.coreui.profiles.ProfilesActions.delete</action>
                     <selection-target-id>^profile$</selection-target-id>
@@ -3020,6 +2989,153 @@
                 <depends>
                     <org.ametys.core.ui.UIToolsFactoriesManager>uitool-scheduled-tasks</org.ametys.core.ui.UIToolsFactoriesManager>
                 </depends>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="core.ui.profiles.affect">
+        <extensions>
+            <extension id="org.ametys.core.ui.profile.Assign"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
+                    <opentool-id>uitool-profile-assignment</opentool-id>
+                    
+                    <label i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_DESCRIPTION</description>
+                    
+                    <icon-glyph>ametysicon-id16</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-edit45</icon-decorator>
+                </class>
+                <depends>
+                    <org.ametys.core.ui.UIToolsFactoriesManager>uitool-profile-assignment</org.ametys.core.ui.UIToolsFactoriesManager>
+                </depends>
+                <right context-prefix="/contributor">Runtime_Rights_Rights_Handle</right>
+            </extension>
+            
+            <extension id="uitool-profile-assignment"
+                       point="org.ametys.core.ui.UIToolsFactoriesManager"
+                       class="org.ametys.core.ui.right.ProfileAssignmentsToolClientSideElement">
+                <class name="Ametys.tool.factory.UniqueToolFactory">
+                    <toolClass>Ametys.plugins.coreui.profiles.ProfileAssignmentsTool</toolClass>
+                    
+                    <title i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_LABEL</title>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_DESCRIPTION</description>
+                    
+                    <icon-glyph>ametysicon-id16</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-edit45</icon-decorator>
+                    <default-location>cl</default-location>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/profiles/ProfileAssignmentsTool.js</file>
+                    <file>js/Ametys/plugins/coreui/profiles/AbstractRightAssignmentContext.js</file>
+                </scripts>
+                <css>
+                    <file>css/Ametys/profiles/profile-assignments.css</file>
+                </css>
+                <right context-prefix="/contributor">Runtime_Rights_Rights_Handle</right>
+            </extension>
+            
+            <extension id="org.ametys.core.ui.profile.assignments.Tab"
+                       point="org.ametys.core.ui.RibbonTabsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.tab.TabController">
+                    <tool-id>^uitool-profile-assignment$</tool-id>
+                </class>
+                <right context-prefix="/contributor">Runtime_Rights_Rights_Handle</right>
+            </extension>
+            
+            <extension id="org.ametys.core.ui.profile.assignments.AddUsers"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+            <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.coreui.profiles.ProfileAssignmentsActions.addUsers</action>
+                    <tool-id>^uitool-profile-assignment$</tool-id>
+                    
+                    <label i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ADD_USERS_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ADD_USERS_DESCRIPTION</description>
+                    
+                    <icon-glyph>ametysicon-black302</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-add64</icon-decorator>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/profiles/ProfileAssignmentsActions.js</file>
+                </scripts>
+                <depends>
+                    <org.ametys.core.ui.UIToolsFactoriesManager>uitool-profile-assignment</org.ametys.core.ui.UIToolsFactoriesManager>
+                </depends>
+                <right context-prefix="/contributor">Runtime_Rights_Rights_Handle</right>
+            </extension>
+            
+            <extension id="org.ametys.core.ui.profile.assignments.AddGroups"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+            <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.coreui.profiles.ProfileAssignmentsActions.addGroups</action>
+                    <tool-id>^uitool-profile-assignment$</tool-id>
+                    
+                    <label i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ADD_GROUPS_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ADD_GROUPS_DESCRIPTION</description>
+                    
+                    <icon-glyph>ametysicon-multiple25</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-add64</icon-decorator>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/profiles/ProfileAssignmentsActions.js</file>
+                </scripts>
+                <depends>
+                    <org.ametys.core.ui.UIToolsFactoriesManager>uitool-profile-assignment</org.ametys.core.ui.UIToolsFactoriesManager>
+                </depends>
+                <right context-prefix="/contributor">Runtime_Rights_Rights_Handle</right>
+            </extension>
+            
+            <extension id="org.ametys.core.ui.profile.assignments.Remove"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+            <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.coreui.profiles.ProfileAssignmentsActions.removeAssignments</action>
+                    <selection-target-id>^profileAssignment$</selection-target-id>
+                    <selection-target-parameter>
+                       <name>removable</name>
+                       <value>true</value>
+                    </selection-target-parameter>
+                    <selection-description-nomatch i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_REMOVE_NO_REMOVABLE_DESCRIPTION</selection-description-nomatch>
+                    <selection-enable-multiselection>true</selection-enable-multiselection>
+                    
+                    <label i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_REMOVE_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_REMOVE_DESCRIPTION</description>
+                    
+                    <icon-glyph>ametysicon-id16</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-remove11</icon-decorator>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/profiles/ProfileAssignmentsActions.js</file>
+                </scripts>
+                <depends>
+                    <org.ametys.core.ui.UIToolsFactoriesManager>uitool-profile-assignment</org.ametys.core.ui.UIToolsFactoriesManager>
+                </depends>
+                <right context-prefix="/contributor">Runtime_Rights_Rights_Handle</right>
+            </extension>
+            
+            <extension id="org.ametys.core.ui.profile.assignments.Save"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+            <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.coreui.profiles.ProfileAssignmentsActions.save</action>
+                    <tool-id>^uitool-profile-assignment$</tool-id>
+                    
+                    <label i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_SAVE_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_SAVE_DESCRIPTION</description>
+                    
+                    <icon-glyph>ametysicon-save31</icon-glyph>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/profiles/ProfileAssignmentsActions.js</file>
+                </scripts>
+                <depends>
+                    <org.ametys.core.ui.UIToolsFactoriesManager>uitool-profile-assignment</org.ametys.core.ui.UIToolsFactoriesManager>
+                </depends>
+                <right context-prefix="/contributor">Runtime_Rights_Rights_Handle</right>
             </extension>
         </extensions>
     </feature>

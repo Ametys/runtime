@@ -44,13 +44,13 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
 	
 	/**
 	 * Open dialog box to create a new user
-	 * @param {String} context The context for the populations to display in the combobox.
+	 * @param {String[]} contexts The contexts for the populations to display in the combobox.
 	 * @param {String} [userMessageTargetType=user] the type of user message target
 	 * @param {String} userToolRole The role of users tool
 	 * @param {Function} [callback] the callback function. Parameters are:
 	 * @param {Object} callback.user The user's properties
 	 */
-	add: function (context, userMessageTargetType, userToolRole, callback) //Ametys appParameter
+	add: function (contexts, userMessageTargetType, userToolRole, callback)
 	{
 		this._mode = 'new';
 		this._userMessageTargetType = userMessageTargetType;
@@ -108,7 +108,7 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
 					                listeners: {
 					                    'beforeload': Ext.bind(function(store, operation) {
 		                                    operation.setParams( Ext.apply(operation.getParams() || {}, {
-									            context: context
+									            contexts: contexts
 									        }));
 		                                }, this),
                                         'load': Ext.bind(function(store, records) {

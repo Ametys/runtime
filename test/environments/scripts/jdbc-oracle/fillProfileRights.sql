@@ -24,18 +24,18 @@ delete from Groups;
 insert into Groups (Id, Label) values (seq_groups.nextval, 'Group 1');
 insert into Groups_Users (Group_Id, Login, UserPopulation_Id) values (seq_groups.currval, 'test', 'population');
 
-insert into Rights_Profile(Id, Label) values (seq_rights_profile.nextval, 'Profil 1');
-insert into Rights_ProfileRights (Profile_Id, Right_Id) values (seq_rights_profile.currval, 'right1');
-insert into Rights_ProfileRights (Profile_Id, Right_Id) values (seq_rights_profile.currval, 'right2');
+insert into Rights_Profile(Id, Label) values ('Profil1', 'Profil 1');
+insert into Rights_ProfileRights (Profile_Id, Right_Id) values ('Profil1', 'right1');
+insert into Rights_ProfileRights (Profile_Id, Right_Id) values ('Profil1', 'right2');
 
-insert into Rights_UserRights (Profile_Id, Login, UserPopulation_Id, Context) values (seq_rights_profile.currval, 'test', 'population', '/application/test');
-insert into Rights_UserRights (Profile_Id, Login, UserPopulation_Id, Context) values (seq_rights_profile.currval, 'test', 'population', '/application/test2/test2');
-insert into Rights_GroupRights (Profile_Id, Group_Id, GroupDirectory_Id, Context) values
-((select max(Id) from Rights_Profile), (select max(Id) from Groups), 'sql_group_directory', '/application/test3');
+insert into Rights_AllowedUsers (Profile_Id, Login, UserPopulation_Id, Context) values ('Profil1', 'test', 'population', '/contributor/test');
+insert into Rights_AllowedUsers (Profile_Id, Login, UserPopulation_Id, Context) values ('Profil1', 'test', 'population', '/contributor/test2/test2');
+insert into Rights_AllowedGroups (Profile_Id, Group_Id, GroupDirectory_Id, Context) values
+('Profil1', (select max(Id) from Groups), 'sql_group_directory', '/contributor/test3');
 
-insert into Rights_Profile(Id, Label) values (seq_rights_profile.nextval, 'Profil 2');
-insert into Rights_ProfileRights (Profile_Id, Right_Id) values (seq_rights_profile.currval, 'right3');
-insert into Rights_UserRights (Profile_Id, Login, UserPopulation_Id, Context) values
-((select max(Id) from Rights_Profile), 'test2', 'population', '/application/test2/test2');
-insert into Rights_UserRights (Profile_Id, Login, UserPopulation_Id, Context) values
-((select max(Id) from Rights_Profile), 'test', 'population', '/application/test3');
+insert into Rights_Profile(Id, Label) values ('Profil2', 'Profil 2');
+insert into Rights_ProfileRights (Profile_Id, Right_Id) values ('Profil2', 'right3');
+insert into Rights_AllowedUsers (Profile_Id, Login, UserPopulation_Id, Context) values
+('Profil2', 'test2', 'population', '/contributor/test2/test2');
+insert into Rights_AllowedUsers (Profile_Id, Login, UserPopulation_Id, Context) values
+('Profil2', 'test', 'population', '/contributor/test3');

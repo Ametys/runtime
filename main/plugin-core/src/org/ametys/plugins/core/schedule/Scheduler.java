@@ -62,9 +62,9 @@ import org.quartz.utils.PoolingConnectionProvider;
 
 import org.ametys.core.datasource.ConnectionHelper;
 import org.ametys.core.datasource.SQLDataSourceManager;
+import org.ametys.core.right.RightManager;
 import org.ametys.core.datasource.dbtype.SQLDatabaseType;
 import org.ametys.core.datasource.dbtype.SQLDatabaseTypeExtensionPoint;
-import org.ametys.core.right.RightsManager;
 import org.ametys.core.schedule.AmetysJob;
 import org.ametys.core.schedule.Runnable;
 import org.ametys.core.schedule.Runnable.FireProcess;
@@ -142,7 +142,7 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
     /** The source resolver */
     protected SourceResolver _sourceResolver;
     /** The rights manager */
-    protected RightsManager _rightsManager;
+    protected RightManager _rightManager;
     /** The provider of current user */
     protected CurrentUserProvider _currentUserProvider;
     /** The sql database type ep */
@@ -163,7 +163,7 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
         _sqlDataSourceManager = (SQLDataSourceManager) manager.lookup(SQLDataSourceManager.ROLE);
         _sqlDatabaseTypeEP = (SQLDatabaseTypeExtensionPoint) manager.lookup(SQLDatabaseTypeExtensionPoint.ROLE);
         _sourceResolver = (SourceResolver) manager.lookup(SourceResolver.ROLE);
-        _rightsManager = (RightsManager) manager.lookup(RightsManager.ROLE);
+        _rightManager = (RightManager) manager.lookup(RightManager.ROLE);
         _currentUserProvider = (CurrentUserProvider) manager.lookup(CurrentUserProvider.ROLE);
         
         // Ensure statics methods will be available during initialize
@@ -752,7 +752,7 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
     @Callable
     public Map<String, Object> add(String label, String description, String fireProcess, String cron, String schedulableId, Map<String, String> params) throws SchedulerException
     {
-        if (_rightsManager.hasRight(_currentUserProvider.getUser(), __RIGHT_SCHEDULER, "/application") != RightsManager.RightResult.RIGHT_OK)
+        if (_rightManager.hasRight(_currentUserProvider.getUser(), __RIGHT_SCHEDULER, "/application") != RightManager.RightResult.RIGHT_ALLOW)
         {
             // FIXME Currently unable to assign rights to a user in the _admin workspace
             // throw new RightsException("Insufficient rights to add a task");
@@ -803,7 +803,7 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
     @Callable
     public Map<String, Object> edit(String id, String label, String description, String fireProcess, String cron, Map<String, String> params) throws SchedulerException
     {
-        if (_rightsManager.hasRight(_currentUserProvider.getUser(), __RIGHT_SCHEDULER, "/application") != RightsManager.RightResult.RIGHT_OK)
+        if (_rightManager.hasRight(_currentUserProvider.getUser(), __RIGHT_SCHEDULER, "/application") != RightManager.RightResult.RIGHT_ALLOW)
         {
             // FIXME Currently unable to assign rights to a user in the _admin workspace
             // throw new RightsException("Insufficient rights to edit a task");
@@ -899,7 +899,7 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
     @Callable
     public Map<String, Object> remove(String id)
     {
-        if (_rightsManager.hasRight(_currentUserProvider.getUser(), __RIGHT_SCHEDULER, "/application") != RightsManager.RightResult.RIGHT_OK)
+        if (_rightManager.hasRight(_currentUserProvider.getUser(), __RIGHT_SCHEDULER, "/application") != RightManager.RightResult.RIGHT_ALLOW)
         {
             // FIXME Currently unable to assign rights to a user in the _admin workspace
             // throw new RightsException("Insufficient rights to remove a task");
@@ -962,7 +962,7 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
     @Callable
     public Map<String, Object> enable(String id, boolean enabled)
     {
-        if (_rightsManager.hasRight(_currentUserProvider.getUser(), __RIGHT_SCHEDULER, "/application") != RightsManager.RightResult.RIGHT_OK)
+        if (_rightManager.hasRight(_currentUserProvider.getUser(), __RIGHT_SCHEDULER, "/application") != RightManager.RightResult.RIGHT_ALLOW)
         {
             // FIXME Currently unable to assign rights to a user in the _admin workspace
             // throw new RightsException("Insufficient rights to enable a task");
@@ -1025,7 +1025,7 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
     @Callable
     public List<Map<String, Object>> removeCompletedTasks() throws SchedulerException
     {
-        if (_rightsManager.hasRight(_currentUserProvider.getUser(), __RIGHT_SCHEDULER, "/application") != RightsManager.RightResult.RIGHT_OK)
+        if (_rightManager.hasRight(_currentUserProvider.getUser(), __RIGHT_SCHEDULER, "/application") != RightManager.RightResult.RIGHT_ALLOW)
         {
             // FIXME Currently unable to assign rights to a user in the _admin workspace
             // throw new RightsException("Insufficient rights to remove a task");

@@ -29,10 +29,8 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.commons.lang.StringUtils;
 
-import org.ametys.core.right.HierarchicalRightsManager;
-import org.ametys.core.right.RightsContextPrefixExtensionPoint;
-import org.ametys.core.right.RightsManager;
-import org.ametys.core.right.RightsManager.RightResult;
+import org.ametys.core.right.RightManager;
+import org.ametys.core.right.RightManager.RightResult;
 import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.core.user.UserIdentity;
 import org.ametys.plugins.core.ui.util.ConfigurationHelper;
@@ -48,9 +46,7 @@ public class StaticFileImportsClientSideElement extends AbstractLogEnabled imple
     /** The current user provider */
     protected CurrentUserProvider _currentUserProvider;
     /** The rights manager */
-    protected RightsManager _rightsManager;
-    /** The rights context prefix */
-    protected RightsContextPrefixExtensionPoint _rightsContextPrefixEP;
+    protected RightManager _rightManager;
     /** The element id */
     protected String _id;
     /** The script configured */
@@ -72,8 +68,7 @@ public class StaticFileImportsClientSideElement extends AbstractLogEnabled imple
     public void service(ServiceManager smanager) throws ServiceException
     {
         _currentUserProvider = (CurrentUserProvider) smanager.lookup(CurrentUserProvider.ROLE);
-        _rightsManager = (RightsManager) smanager.lookup(RightsManager.ROLE);
-        _rightsContextPrefixEP = (RightsContextPrefixExtensionPoint) smanager.lookup(RightsContextPrefixExtensionPoint.ROLE);
+        _rightManager = (RightManager) smanager.lookup(RightManager.ROLE);
     }
     
     @Override
@@ -266,41 +261,20 @@ public class StaticFileImportsClientSideElement extends AbstractLogEnabled imple
             {
                 if (StringUtils.isNotEmpty(rightToCheck))
                 {
-                    String rightContext = rights.get(rightToCheck) != null ? rights.get(rightToCheck) : "";
-                    if (_rightsManager instanceof HierarchicalRightsManager)
+                    String rightContext = rights.get(rightToCheck);
+                    // Check right on context/*
+                    if (_rightManager.hasRight(user, rightToCheck, rightContext) == RightResult.RIGHT_ALLOW)
                     {
-                        // Check right on context/*
-                        if (((HierarchicalRightsManager) _rightsManager).hasRightOnContextPrefix(user, rightToCheck, rightContext) == RightResult.RIGHT_OK)
+                        if ("OR".equals(_rightsMode))
                         {
-                            if ("OR".equals(_rightsMode))
-                            {
-                                return true;
-                            }
-                        }
-                        else
-                        {
-                            if ("AND".equals(_rightsMode))
-                            {
-                                return false;
-                            }
+                            return true;
                         }
                     }
                     else
                     {
-                        // Check right on exact context
-                        if (_rightsManager.hasRight(user, rightToCheck, rightContext) == RightResult.RIGHT_OK)
+                        if ("AND".equals(_rightsMode))
                         {
-                            if ("OR".equals(_rightsMode))
-                            {
-                                return true;
-                            }
-                        }
-                        else
-                        {
-                            if ("AND".equals(_rightsMode))
-                            {
-                                return false;
-                            }
+                            return false;
                         }
                     }
                 }

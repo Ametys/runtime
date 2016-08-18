@@ -34,7 +34,7 @@ Ext.define('Ametys.plugins.coreui.groups.EditGroupHelper', {
 	 * @private
 	 */
     /**
-     * @property {String} _context The context for the group directories to display in the combobox.
+     * @property {String[]} _contexts The contexts for the group directories to display in the combobox.
      * @private
      */
 	/**
@@ -52,15 +52,15 @@ Ext.define('Ametys.plugins.coreui.groups.EditGroupHelper', {
 	
 	/**
 	 * Open dialog box to create a new group
-     * @param {String} context The context for the group directories to display in the combobox.
+     * @param {String[]} contexts The contexts for the group directories to display in the combobox.
 	 * @param {String} [groupMessageTargetType=group] the type of group message target
 	 * @param {Function} [callback] the callback function. Parameters are:
 	 * @param {Object} callback.group The group's properties
 	 */
-	add: function (context, groupMessageTargetType, callback)
+	add: function (contexts, groupMessageTargetType, callback)
 	{
 		this._mode = 'new';
-        this._context = context;
+        this._contexts = contexts;
 		this._groupMessageTargetType = groupMessageTargetType;
 		this._callback = callback;
 		
@@ -117,7 +117,7 @@ Ext.define('Ametys.plugins.coreui.groups.EditGroupHelper', {
                                 listeners: {
                                     'beforeload': Ext.bind(function(store, operation) {
                                         operation.setParams( Ext.apply(operation.getParams() || {}, {
-                                            context: this._context
+                                            contexts: this._contexts
                                         }));
                                     }, this),
                                     'load': Ext.bind(function(store, records) {

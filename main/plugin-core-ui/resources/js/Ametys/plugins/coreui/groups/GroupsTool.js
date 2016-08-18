@@ -44,7 +44,7 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsTool', {
 	 * @private
 	 */
     /**
-     * @property {String} _context The context for the group directories to display in the combobox.
+     * @property {String[]} _contexts The contexts for the group directories to display in the combobox.
      * @private
      */
     /**
@@ -65,14 +65,14 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsTool', {
     
     /**
      * @inheritdoc
-     * @param {String} [params.context] The context for the group directories to display in the combobox. Default to the current context.
+     * @param {String} [params.contexts] The contexts for the group directories to display in the combobox. Default to the current context.
      * @param {Boolean/String} [params.enableAllDirectoriesOption=false] True to add an option in the group directories combobox for searching over all the directories.
      */
     setParams: function(params)
     {
         this.callParent(arguments);
         
-        this._context = params.context != null ? params.context : Ametys.getAppParameter('context');
+        this._contexts = Ext.Array.from(params.contexts || Ametys.getAppParameter('context'));
         this._enableAllDirectoriesOption = Ext.isBoolean(params.enableAllDirectoriesOption) ? params.enableAllDirectoriesOption : params.enableAllDirectoriesOption == "true";
         this._loadDirectories();
     },
@@ -289,7 +289,7 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsTool', {
     _onBeforeLoadDirectories: function(store, operation)
     {
         operation.setParams( Ext.apply(operation.getParams() || {}, {
-            context: this._context
+            contexts: this._contexts
         }));
     },
     
@@ -579,7 +579,7 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsTool', {
         if (this.getDirectoryComboValue() == this._allDirectoriesOptionId)
         {
             operation.setParams( Ext.apply(operation.getParams() || {}, {
-                context: this._context
+                contexts: this._contexts
             }));
             return true;
         }

@@ -64,9 +64,7 @@ public class RuntimeConfigTestCase extends AbstractRuntimeTestCase
         assertEquals(1, config.getExcludedWorkspaces().size());
         assertTrue(config.getExcludedWorkspaces().contains("test"));
         
-        assertEquals(3, config.getComponents().size());
-        assertTrue(config.getComponents().containsKey("org.ametys.core.right.RightsManager"));
-        assertEquals(config.getComponents().get("org.ametys.core.right.RightsManager"), "org.ametys.plugins.core.right.Basic");
+        assertEquals(2, config.getComponents().size());
         
         assertEquals(config.getApplicationVersion(), "2.0.1");
         Date date = config.getApplicationBuildDate();

@@ -29,9 +29,12 @@ import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
+import org.apache.commons.lang3.StringUtils;
 
 import org.ametys.core.cocoon.JSonReader;
+import org.ametys.core.right.Right;
 import org.ametys.core.right.RightsExtensionPoint;
+import org.ametys.core.util.I18nUtils;
 
 /**
  * Get rights
@@ -40,23 +43,49 @@ import org.ametys.core.right.RightsExtensionPoint;
 public class GetRightsAction extends ServiceableAction
 {
     private RightsExtensionPoint _rights;
+    private I18nUtils _i18nUtils;
     
     @Override
     public void service(ServiceManager m) throws ServiceException
     {
         super.service(m);
         _rights = (RightsExtensionPoint) m.lookup(RightsExtensionPoint.ROLE);
+        _i18nUtils = (I18nUtils) m.lookup(I18nUtils.ROLE);
     }
     
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
+        @SuppressWarnings("unchecked")
+        Map<String, Object> jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
+        
         Map<String, Object> result = new HashMap<>();
         
         List<Map<String, Object>> rights = new ArrayList<>();
         Set<String> rightIds = _rights.getExtensionsIds();
-        for (String rightId : rightIds)
+        
+        String rightQuery = (String) jsParameters.get("query");
+        if (StringUtils.isEmpty(rightQuery))
         {
-            rights.add(_rights.getExtension(rightId).toJSON());
+            // Return all rights
+            for (String rightId : rightIds)
+            {
+                rights.add(_rights.getExtension(rightId).toJSON());
+            }
+        }
+        else
+        {
+            // Only return the matching rights
+            rightQuery = StringUtils.stripAccents(rightQuery.toLowerCase());
+            for (String rightId : rightIds)
+            {
+                Right right = _rights.getExtension(rightId);
+                String rightLabel = StringUtils.stripAccents(_i18nUtils.translate(right.getLabel()).toLowerCase());
+                String rightDescription = StringUtils.stripAccents(_i18nUtils.translate(right.getDescription()).toLowerCase());
+                if (rightLabel.contains(rightQuery) || (rightDescription.contains(rightQuery)))
+                {
+                    rights.add(right.toJSON());
+                }
+            }
         }
         
         result.put("rights", rights);

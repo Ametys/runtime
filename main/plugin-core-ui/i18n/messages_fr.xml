@@ -1195,7 +1195,7 @@
     <message key="PLUGINS_CORE_UI_GROUPS_ADDUSERS_LABEL">Ajouter des utilisateurs</message>
     <message key="PLUGINS_CORE_UI_GROUPS_ADDUSERS_DESCRIPTION">Ajouter des utilisateurs au groupe sélectionné</message>
     <message key="PLUGINS_CORE_UI_GROUPS_REMOVEUSERS_LABEL">Enlever des utilisateurs</message>
-    <message key="PLUGINS_CORE_UI_GROUPS_REMOVEUSERS_DESCRIPTION">Enleve du groupe le ou les utilisateurs sélectionnés</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_REMOVEUSERS_DESCRIPTION">Enlève du groupe le ou les utilisateurs sélectionnés</message>
     <message key="PLUGINS_CORE_UI_GROUPS_REMOVEUSERS_CONFIRM">Etes-vous surs de vouloir supprimer ce ou ces utilisateurs du groupe ?</message>
     <message key="PLUGINS_CORE_UI_GROUPS_NO_MODIFIABLE_GROUP_DESCRIPTION">Ce groupe ne peut pas être modifié ou supprimé car son répertoire de groupes n'est pas modifiable</message>
     <message key="PLUGINS_CORE_UI_GROUPS_UNKNOWN_GROUP_TITLE">Groupe inconnu</message>
@@ -1220,6 +1220,42 @@
     <message key="PLUGINS_CORE_UI_TOOL_PROFILES_DESCRIPTION">Gestion des profils de droits.&lt;br/&gt;Un profil est un ensemble de droits. Chaque utilisateur possède un profil qui permet de connaître la liste de ses droits.</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILES_CATEGORY_SELECT_ALL">Sélectionner tous les droits de la catégorie</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILES_CATEGORY_UNSELECT_ALL">Désélectionner tous les droits de la catégorie</message>
+    
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_LABEL">Affectation des profils</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_DESCRIPTION">Affectation des profils de droits à un contexte et à des utilisateurs/groupes.</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CONTEXT">Contexte d'affectation</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_HINT1">Affectation des droits sur </message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_FILTERS">Filtres</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_RIGHT_FILTER">Libellé du droit</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_USERGROUP_FILTER">Utilisateur ou groupe</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ASSIGNMENT_TYPE_ANONYMOUS">Anonyme</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ASSIGNMENT_TYPE_ANYCONNECTEDUSERS">Utilisateurs connectés</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ASSIGNMENT_TYPE_USERS">Utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ASSIGNMENT_TYPE_GROUPS">Groupes</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_DISABLED">Non modifiable car anonyme est autorisé</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_ALLOW">Autorisé localement</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_INDUCED_ALLOW_USER">Autorisé car tous les utilisateurs connectés sont autorisés localement ou l'utilisateur est membre d'un groupe autorisé</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_INDUCED_ALLOW_OTHER">Autorisé car tous les utilisateurs connectés sont autorisés localement</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_INHERIT_ALLOW">Autorisé par héritage</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_DENY">Refusé localement</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_INDUCED_DENY_USER">Refusé car tous les utilisateurs connectés sont exclus localement ou l'utilisateur est membre d'un groupe refusé</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_INDUCED_DENY_OTHER">Refusé car tous les utilisateurs connectés sont exclus localement</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_INHERIT_DENY">Refusé par héritage</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_INHERIT_UNKNOWN">Aucune affectation n'a pu être déterminée</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CLOSE_BOX_TITLE">Fermer et enregistrer</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CLOSE_BOX_MESSAGE">Il y a des modifications locales non sauvegardées. &lt;br/&gt;Souhaitez-vous enregistrer vos modifications avant de fermer l'outil ?</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CHANGE_CONTEXT_BOX_TITLE">Enregister les changements</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CHANGE_CONTEXT_BOX_MESSAGE">Il y a des modifications locales non sauvegardées. &lt;br/&gt;Souhaitez-vous enregistrer vos modifications avant de changer de contexte d'affectation ?</message>
+    
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ADD_USERS_LABEL">Ajouter des utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ADD_USERS_DESCRIPTION">Ajouter des utilisateurs dans le tableau des affectations. Ceci ne modifie pas leurs affectations.</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ADD_GROUPS_LABEL">Ajouter des groupes</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ADD_GROUPS_DESCRIPTION">Ajouter des groupes dans le tableau des affectations. Ceci ne modifie pas leurs affectations.</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_REMOVE_LABEL">Supprimer des affectations</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_REMOVE_DESCRIPTION">Supprime des affectations aux utilisateurs et/ou groupes sélectionnés.</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_REMOVE_NO_REMOVABLE_DESCRIPTION">Aucun utilisateur ou groupe avec au minimum une affectation locale n'est sélectionné.</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_SAVE_LABEL">Sauvegarder les changements</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_SAVE_DESCRIPTION">Sauvegarder les changements effectués dans l'outil d'affectation des profils.</message>
     
     <!-- Actions -->
     <message key="PLUGINS_CORE_UI_PROFILES_ADD_LABEL">Nouveau profil</message>

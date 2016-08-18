@@ -29,11 +29,10 @@ import org.apache.cocoon.xml.XMLUtils;
 import org.apache.commons.lang.StringUtils;
 import org.xml.sax.SAXException;
 
+import org.ametys.core.right.Profile;
 import org.ametys.core.right.Right;
 import org.ametys.core.right.RightsExtensionPoint;
-import org.ametys.core.right.RightsManager;
-import org.ametys.core.right.profile.Profile;
-import org.ametys.plugins.core.impl.right.profile.ProfileBasedRightsManager;
+import org.ametys.core.right.RightManager;
 
 /**
  * Generates the rights of a profile
@@ -41,14 +40,14 @@ import org.ametys.plugins.core.impl.right.profile.ProfileBasedRightsManager;
 public class ProfileRightsGenerator extends ServiceableGenerator
 {
     private RightsExtensionPoint _rights;
-    private RightsManager _rightsManager;
+    private RightManager _rightManager;
     
     @Override
     public void service(ServiceManager m) throws ServiceException
     {
         super.service(m);
         _rights = (RightsExtensionPoint) m.lookup(RightsExtensionPoint.ROLE);
-        _rightsManager = (RightsManager) m.lookup(RightsManager.ROLE);
+        _rightManager = (RightManager) m.lookup(RightManager.ROLE);
     }
     
     @Override
@@ -63,31 +62,21 @@ public class ProfileRightsGenerator extends ServiceableGenerator
         {
             XMLUtils.startElement(contentHandler, "profiles");
             
-            if (_rightsManager instanceof ProfileBasedRightsManager)
-            {
                 
-                Set<Profile> profiles = ((ProfileBasedRightsManager) _rightsManager).getAllProfiles();
-                for (Profile profile : profiles)
-                {
-                    _saxProfileRights(profile);
-                }
+            Set<Profile> profiles = _rightManager.getAllProfiles();
+            for (Profile profile : profiles)
+            {
+                _saxProfileRights(profile);
             }
             
             XMLUtils.endElement(contentHandler, "profiles");
         }
         else
         {
-            if (_rightsManager instanceof ProfileBasedRightsManager)
+            Profile profile = _rightManager.getProfile(id);
+            if (profile != null)
             {
-                Profile profile = ((ProfileBasedRightsManager) _rightsManager).getProfile(id);
-                if (profile != null)
-                {
-                    _saxProfileRights (profile);
-                }
-                else
-                {
-                    XMLUtils.createElement(contentHandler, "profile");
-                }
+                _saxProfileRights (profile);
             }
             else
             {

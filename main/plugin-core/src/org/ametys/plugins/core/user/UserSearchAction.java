@@ -17,8 +17,10 @@ package org.ametys.plugins.core.user;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
@@ -60,12 +62,13 @@ public class UserSearchAction extends AbstractAction implements ThreadSafe, Serv
         
         List<Map<String, Object>> users = new ArrayList<>();
         
-        String context = (String) jsParameters.get("context");
+        @SuppressWarnings("unchecked")
+        List<String> contexts = (List<String>) jsParameters.get("contexts");
         
-        if (context != null)
+        if (contexts != null)
         {
             // search over the populations of the given context
-            _searchUsersByContext(users, jsParameters, source, parameters, context);
+            _searchUsersByContext(users, jsParameters, source, parameters, new HashSet<>(contexts));
         }
         else
         {
@@ -100,7 +103,7 @@ public class UserSearchAction extends AbstractAction implements ThreadSafe, Serv
         return params;
     }
     
-    private void _searchUsersByContext(List<Map<String, Object>> users, Map<String, Object> jsParameters, String source, Parameters parameters, String context)
+    private void _searchUsersByContext(List<Map<String, Object>> users, Map<String, Object> jsParameters, String source, Parameters parameters, Set<String> contexts)
     {
         if (jsParameters.get("login") != null)
         {
@@ -108,7 +111,7 @@ public class UserSearchAction extends AbstractAction implements ThreadSafe, Serv
             List<String> logins = (List<String>) jsParameters.get("login");
             for (String login : logins)
             {
-                users.add(_userHelper.user2json(_userManager.getUserByContext(context, login), true));
+                users.add(_userHelper.user2json(_userManager.getUserByContext(contexts, login), true));
             }
         }
         else
@@ -120,7 +123,7 @@ public class UserSearchAction extends AbstractAction implements ThreadSafe, Serv
             }
             int offset = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
             
-            users.addAll(_userHelper.users2json(_userManager.getUsersByContext(context, count, offset, _getSearchParameters(source)), true));
+            users.addAll(_userHelper.users2json(_userManager.getUsersByContext(contexts, count, offset, _getSearchParameters(source)), true));
         }
     }
     
@@ -166,7 +169,7 @@ public class UserSearchAction extends AbstractAction implements ThreadSafe, Serv
             }
             int offset = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
             
-            users.addAll(_userHelper.users2json(_userManager.getUsers(userPopulationId, count, offset, _getSearchParameters(source))));
+            users.addAll(_userHelper.users2json(_userManager.getUsers(userPopulationId, count, offset, _getSearchParameters(source)), true));
         }
     }
 }

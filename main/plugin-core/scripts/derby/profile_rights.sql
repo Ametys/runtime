@@ -14,29 +14,13 @@
 --  limitations under the License.
 --
 CREATE TABLE Rights_Profile(
-	Id int PRIMARY KEY NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), 
+	Id VARCHAR(200) PRIMARY KEY NOT NULL, 
 	Label VARCHAR(200),
 	Context VARCHAR(200)
 );
 
 CREATE TABLE Rights_ProfileRights(
-	Profile_Id int NOT NULL, 
+	Profile_Id VARCHAR(200) NOT NULL, 
 	Right_Id VARCHAR(200) NOT NULL, 
 	PRIMARY KEY(Profile_Id, Right_Id)
-);
-
-CREATE TABLE Rights_GroupRights(
-	Profile_Id int NOT NULL, 
-	Group_Id VARCHAR(200) NOT NULL,
-	GroupDirectory_Id VARCHAR(200) NOT NULL,
-	Context VARCHAR(200) NOT NULL, 
-	PRIMARY KEY(Profile_Id, Group_Id, GroupDirectory_Id, Context)
-);
-
-CREATE TABLE Rights_UserRights(
-	Profile_Id int NOT NULL, 
-	Login VARCHAR(200) NOT NULL, 
-	UserPopulation_Id VARCHAR(200) NOT NULL, 
-	Context VARCHAR(200) NOT NULL, 
-	PRIMARY KEY(Profile_Id, Login, UserPopulation_Id, Context)
 );

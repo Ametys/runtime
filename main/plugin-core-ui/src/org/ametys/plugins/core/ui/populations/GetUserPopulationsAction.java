@@ -17,6 +17,7 @@ package org.ametys.plugins.core.ui.populations;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -62,9 +63,11 @@ public class GetUserPopulationsAction extends ServiceableAction
         @SuppressWarnings("unchecked")
         Map jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
         
-        String context = (String) jsParameters.get("context");
+        @SuppressWarnings("unchecked")
+        List<String> contexts = (List<String>) jsParameters.get("contexts");
+        
         Boolean showDisabled = (Boolean) jsParameters.get("showDisabled");
-        if (context == null && showDisabled != null && showDisabled)
+        if (contexts == null && showDisabled != null && showDisabled)
         {
             Boolean withAdmin = Boolean.FALSE;
             if (jsParameters.get("withAdmin") != null)
@@ -73,7 +76,7 @@ public class GetUserPopulationsAction extends ServiceableAction
             }
             populations = _userPopulationDAO.getUserPopulationsAsJson(withAdmin);
         }
-        else if (context == null)
+        else if (contexts == null)
         {
             Boolean withAdmin = Boolean.FALSE;
             if (jsParameters.get("withAdmin") != null)
@@ -86,7 +89,7 @@ public class GetUserPopulationsAction extends ServiceableAction
         {
             populations = new ArrayList<>();
             
-            Set<String> populationIds = _populationContextHelper.getUserPopulationsOnContext(context);
+            Set<String> populationIds = _populationContextHelper.getUserPopulationsOnContexts(new HashSet<>(contexts));
             for (String populationId : populationIds)
             {
                 UserPopulation up = _userPopulationDAO.getUserPopulation(populationId);

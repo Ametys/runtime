@@ -86,7 +86,7 @@ Ext.define('Ametys.form.widget.User', {
      * Set the request parameters before loading the store.
      * @param {Ext.data.Store} store The store.
      * @param {Ext.data.operation.Operation} operation The Ext.data.Operation object that will be passed to the Proxy to load the Store.
-     * @private
+     * @protected
      */
     _onStoreBeforeLoad: function(store, operation)
     {
@@ -95,7 +95,7 @@ Ext.define('Ametys.form.widget.User', {
             login: operation.getParams().login ? operation.getParams().login.split(',') : null,
             count: this.maxResult, 
             offset: 0 ,
-            context: Ametys.getAppParameter('context')
+            contexts: [Ametys.getAppParameter('context')]
         }));
     },
     

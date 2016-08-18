@@ -54,14 +54,14 @@ public class UserManager extends AbstractLogEnabled implements Component, Servic
     }
     
     /**
-     * Get the list of users on a given context
-     * @param context The context
+     * Get the list of users on some given contexts
+     * @param contexts The contexts
      * @return the collection of users
      */
-    public Collection<User> getUsersByContext(String context)
+    public Collection<User> getUsersByContext(Set<String> contexts)
     {
         List<UserPopulation> userPopulations = new ArrayList<>();
-        Set<String> upIds = _populationContextHelper.getUserPopulationsOnContext(context);
+        Set<String> upIds = _populationContextHelper.getUserPopulationsOnContexts(contexts);
         
         for (String upId : upIds)
         {
@@ -160,16 +160,16 @@ public class UserManager extends AbstractLogEnabled implements Component, Servic
     
     /**
      * Get a list of users given the parameters
-     * @param context The context
+     * @param contexts The contexts
      * @param count The limit of users to retrieve
      * @param offset The number of result to ignore before starting to collect users. 
      * @param parameters A map of additional parameters, see implementation.
      * @return The list of retrieved {@link User}
      */
-    public List<User> getUsersByContext(String context, int count, int offset, Map<String, Object> parameters)
+    public List<User> getUsersByContext(Set<String> contexts, int count, int offset, Map<String, Object> parameters)
     {
         List<UserPopulation> userPopulations = new ArrayList<>();
-        Set<String> upIds = _populationContextHelper.getUserPopulationsOnContext(context);
+        Set<String> upIds = _populationContextHelper.getUserPopulationsOnContexts(contexts);
         
         for (String upId : upIds)
         {
@@ -315,14 +315,14 @@ public class UserManager extends AbstractLogEnabled implements Component, Servic
     }
     
     /**
-     * Get a user by his login on a given context
-     * @param context The context
+     * Get a user by his login on some given contexts
+     * @param contexts The contexts
      * @param login Login of the user to get. Cannot be null.
      * @return User's information as a {@link User} instance or null if the user login does not exist.
      */
-    public User getUserByContext(String context, String login)
+    public User getUserByContext(Set<String> contexts, String login)
     {
-        Set<String> upIds = _populationContextHelper.getUserPopulationsOnContext(context);
+        Set<String> upIds = _populationContextHelper.getUserPopulationsOnContexts(contexts);
         for (String upId : upIds)
         {
             UserPopulation userPopulation = _userPopulationDAO.getUserPopulation(upId);

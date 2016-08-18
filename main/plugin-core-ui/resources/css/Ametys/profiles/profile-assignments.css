@@ -1,0 +1,50 @@
+/*
+ *  Copyright 2016 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+ 
+ .uitool-profile-assignment > .x-box-inner > .x-box-target > .x-panel:first-child {
+    border-right-style: solid;
+    border-right-width: 1px;
+ }
+ 
+ .uitool-profile-assignment > .x-box-inner > .x-box-target > .x-panel:last-child {
+    border-left-style: solid;
+    border-left-width: 1px;
+ }
+ 
+.x-grid-cell .a-grid-glyph.a-grid-glyph-black:before {
+	color: black;
+}
+
+.x-grid-cell .a-grid-glyph.a-grid-glyph-red:before {
+	color: #CC3333;
+}
+
+.x-grid-cell .a-grid-glyph.a-grid-glyph-green:before {
+	color: #00BDC0;
+}
+
+.x-grid-cell .a-grid-glyph.a-grid-glyph-lightgreen:before {
+	color: #00BDC0;
+	opacity: 0.4;
+}
+
+.a-grid-assignment-glyph {
+	text-decoration: none;
+}
+
+.a-grid-cell-reader {
+	background-color: #e1e1e1;
+}

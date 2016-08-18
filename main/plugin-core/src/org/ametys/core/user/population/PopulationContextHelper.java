@@ -143,12 +143,26 @@ public class PopulationContextHelper extends AbstractLogEnabled implements Compo
         if (ADMIN_CONTEXT.equals(context))
         {
             // Return all the enabled populations
-            return _userPopulationDAO.getEnabledUserPopulations(true).stream().map(population -> population.getId()).collect(Collectors.toSet());
+            return _userPopulationDAO.getEnabledUserPopulations(true).stream().map(UserPopulation::getId).collect(Collectors.toSet());
         }
         else
         {
             return  _getPopulationsOnContextFromDatabase(context);
         }
+    }
+    
+    /**
+     * Gets the populations linked to at least one of the given contexts (need the population to be enabled)
+     * @param contexts The contexts
+     * @return The ids of populations linked to the contexts
+     */
+    @Callable
+    public Set<String> getUserPopulationsOnContexts(Set<String> contexts)
+    {
+        return contexts.stream()
+                .map(this::getUserPopulationsOnContext)
+                .flatMap(Set::stream)
+                .collect(Collectors.toSet());
     }
     
     private Set<String> _getPopulationsOnContextFromDatabase(String context)

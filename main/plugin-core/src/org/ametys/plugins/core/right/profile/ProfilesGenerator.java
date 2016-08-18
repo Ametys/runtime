@@ -23,11 +23,10 @@ import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.SAXException;
 
+import org.ametys.core.right.Profile;
 import org.ametys.core.right.RightsExtensionPoint;
-import org.ametys.core.right.RightsManager;
-import org.ametys.core.right.profile.Profile;
+import org.ametys.core.right.RightManager;
 import org.ametys.core.util.cocoon.AbstractCurrentUserProviderServiceableGenerator;
-import org.ametys.plugins.core.impl.right.profile.ProfileBasedRightsManager;
 
 
 /**
@@ -36,14 +35,14 @@ import org.ametys.plugins.core.impl.right.profile.ProfileBasedRightsManager;
 public class ProfilesGenerator extends AbstractCurrentUserProviderServiceableGenerator
 {
     private RightsExtensionPoint _rights;
-    private RightsManager _rightsManager;
+    private RightManager _rightManager;
     
     @Override
     public void service(ServiceManager m) throws ServiceException
     {
         super.service(m);
         _rights = (RightsExtensionPoint) m.lookup(RightsExtensionPoint.ROLE);
-        _rightsManager = (RightsManager) m.lookup(RightsManager.ROLE);
+        _rightManager = (RightManager) m.lookup(RightManager.ROLE);
     }
     
     public void generate() throws IOException, SAXException, ProcessingException
@@ -56,19 +55,12 @@ public class ProfilesGenerator extends AbstractCurrentUserProviderServiceableGen
         _rights.toSAX(contentHandler);
         XMLUtils.endElement(contentHandler, "rights");
         
-        if (_rightsManager instanceof ProfileBasedRightsManager)
+        XMLUtils.startElement(contentHandler, "profiles");
+        for (Profile profile : _rightManager.getProfiles())
         {
-            XMLUtils.startElement(contentHandler, "profiles");
-            for (Profile profile : ((ProfileBasedRightsManager) _rightsManager).getProfiles())
-            {
-                profile.toSAX(contentHandler);
-            }
-            XMLUtils.endElement(contentHandler, "profiles");
+            profile.toSAX(contentHandler);
         }
-        else
-        {
-            XMLUtils.createElement(contentHandler, "not-supported");
-        }
+        XMLUtils.endElement(contentHandler, "profiles");
         
         
         XMLUtils.createElement(contentHandler, "AdministratorUI", "false");

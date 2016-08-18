@@ -15,32 +15,14 @@
 --
 drop table if exists Rights_Profile;
 CREATE TABLE Rights_Profile(
-	Id int PRIMARY KEY NOT NULL auto_increment, 
+	Id VARCHAR(200) PRIMARY KEY NOT NULL, 
 	Label VARCHAR(200),
 	Context VARCHAR(200)
 )ENGINE=innodb;
 
 drop table if exists Rights_ProfileRights;
 CREATE TABLE Rights_ProfileRights(
-	Profile_Id int NOT NULL, 
+	Profile_Id VARCHAR(200) NOT NULL, 
 	Right_Id VARCHAR(200) NOT NULL,
 	PRIMARY KEY(Profile_Id, Right_Id)
-)ENGINE=innodb;
-
-drop table if exists Rights_GroupRights;
-CREATE TABLE Rights_GroupRights(
-	Profile_Id int NOT NULL, 
-	Group_Id VARCHAR(200) NOT NULL,
-	GroupDirectory_Id VARCHAR(200) NOT NULL,
-	Context VARCHAR(200) NOT NULL, 
-	PRIMARY KEY(Profile_Id, Group_Id, GroupDirectory_Id, Context)
-)ENGINE=innodb;
-
-drop table if exists Rights_UserRights;
-CREATE TABLE Rights_UserRights(
-	Profile_Id int NOT NULL, 
-	Login VARCHAR(200) NOT NULL, 
-	UserPopulation_Id VARCHAR(200) NOT NULL, 
-	Context VARCHAR(200) NOT NULL, 
-	PRIMARY KEY(Profile_Id, Login, UserPopulation_Id, Context)
 )ENGINE=innodb;

@@ -29,6 +29,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import javax.xml.transform.OutputKeys;
@@ -167,10 +168,10 @@ public class GroupDirectoryDAO extends AbstractLogEnabled implements Component, 
      * @return The list of the ids of all the group directories
      */
     @Callable
-    public List<String> getGroupDirectoriesIds()
+    public Set<String> getGroupDirectoriesIds()
     {
         _read(false);
-        return new ArrayList<>(_groupDirectories.keySet());
+        return _groupDirectories.keySet();
     }
     
     /**

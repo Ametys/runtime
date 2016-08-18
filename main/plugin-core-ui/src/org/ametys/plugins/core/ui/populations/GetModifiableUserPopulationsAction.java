@@ -17,6 +17,7 @@ package org.ametys.plugins.core.ui.populations;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,8 +70,10 @@ public class GetModifiableUserPopulationsAction extends ServiceableAction
         @SuppressWarnings("unchecked")
         Map jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
         
-        String context = (String) jsParameters.get("context");
-        Set<String> populationIds = _populationContextHelper.getUserPopulationsOnContext(context);
+        @SuppressWarnings("unchecked")
+        List<String> contexts = (List<String>) jsParameters.get("contexts");
+        
+        Set<String> populationIds = _populationContextHelper.getUserPopulationsOnContexts(new HashSet<>(contexts));
         for (String populationId : populationIds)
         {
             UserPopulation up = _userPopulationDAO.getUserPopulation(populationId);

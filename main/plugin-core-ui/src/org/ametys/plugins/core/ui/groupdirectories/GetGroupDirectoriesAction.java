@@ -17,8 +17,10 @@ package org.ametys.plugins.core.ui.groupdirectories;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
@@ -60,8 +62,9 @@ public class GetGroupDirectoriesAction extends ServiceableAction
         @SuppressWarnings("unchecked")
         Map jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
         
-        String context = (String) jsParameters.get("context");
-        if (context == null)
+        @SuppressWarnings("unchecked")
+        List<String> contexts = (List<String>) jsParameters.get("contexts");
+        if (contexts == null)
         {
             groupDirectories = _groupDirectoryDAO.getGroupDirectories2Json();
         }
@@ -69,7 +72,7 @@ public class GetGroupDirectoriesAction extends ServiceableAction
         {
             groupDirectories = new ArrayList<>();
             
-            List<String> groupDirectoryIds = _directoryContextHelper.getGroupDirectoriesOnContext(context);
+            Set<String> groupDirectoryIds = _directoryContextHelper.getGroupDirectoriesOnContexts(new HashSet<>(contexts));
             for (String gdId : groupDirectoryIds)
             {
                 GroupDirectory gd = _groupDirectoryDAO.getGroupDirectory(gdId);

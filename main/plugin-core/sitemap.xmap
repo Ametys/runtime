@@ -18,10 +18,8 @@
 
 	<map:components>
         <map:generators>
-            <map:generator name="rights-profile-assignment" src="org.ametys.plugins.core.right.ProfileAssignationGenerator" logger="org.ametys.plugins.core.right" label="content"/>
             <map:generator name="rights-context-application" src="org.ametys.plugins.core.right.ApplicationContextGenerator" logger="org.ametys.plugins.core.right" label="content"/>
 
-			<map:generator name="rights-profiles-context" src="org.ametys.plugins.core.right.profile.ProfilesByContextGenerator" logger="org.ametys.plugins.core.right.profile" label="content"/>
 			<map:generator name="rights-profile-rights" src="org.ametys.plugins.core.right.profile.ProfileRightsGenerator" logger="org.ametys.plugins.core.right.profile" label="content"/>
             
             <map:generator name="user-prefs-def" src="org.ametys.plugins.core.userpref.UserPreferencesGenerator" logger="org.ametys.plugins.core.userpref.UserPreferencesGenerator"/>
@@ -193,11 +191,6 @@
                     <map:read type="json"/>
                 </map:act>
             </map:match>
-            
-            <map:match pattern="rights/profiles-context.xml">
-				<map:generate type="rights-profiles-context"/>
-				<map:serialize type="xml"/>
-			</map:match>
            
 			<map:match pattern="rights/profile.xml">
 				<map:generate type="rights-profile-rights"/>
@@ -208,11 +201,6 @@
 				</map:transform>
 				<map:serialize type="xml"/>
 			</map:match>
-            
-            <map:match pattern="rights/profile-assignment.xml">
-                <map:generate type="rights-profile-assignment"/>
-                <map:serialize type="xml"/>
-            </map:match>
             
 			<!-- +
                  | UPLOADS

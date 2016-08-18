@@ -24,8 +24,7 @@ import java.util.Set;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 
-import org.ametys.core.right.InitializableRightsManager;
-import org.ametys.core.right.RightsManager;
+import org.ametys.core.right.RightManager;
 import org.ametys.core.ui.Callable;
 import org.ametys.core.ui.StaticClientSideElement;
 import org.ametys.core.user.UserIdentity;
@@ -56,9 +55,9 @@ public class SuperUserClientSideElement extends StaticClientSideElement
     {
         try
         {
-            if (_rightsManager == null)
+            if (_rightManager == null)
             {
-                _rightsManager = (RightsManager) _sManager.lookup(RightsManager.ROLE);
+                _rightManager = (RightManager) _sManager.lookup(RightManager.ROLE);
             }
         }
         catch (ServiceException e)
@@ -71,21 +70,15 @@ public class SuperUserClientSideElement extends StaticClientSideElement
             throw new IllegalArgumentException("No login to initialize.");
         }
         
-        if (!(_rightsManager instanceof InitializableRightsManager))
-        {
-            throw new IllegalArgumentException("Right manager is not initializable !");
-        }
-        
         Map<String, Object> result = new LinkedHashMap<>();
         Set<String> profileIds = new HashSet<>();
         result.put("profileIds", profileIds);
-        InitializableRightsManager initRightsManager = (InitializableRightsManager) _rightsManager;
         for (Map<String, String> user : users)
         {
             String login = user.get("login");
             String populationId = user.get("population");
             UserIdentity userIdentity = new UserIdentity(login, populationId);
-            String profileId = initRightsManager.grantAllPrivileges(userIdentity, context);
+            String profileId = _rightManager.grantAllPrivileges(userIdentity, context);
             profileIds.add(profileId);
         }
         

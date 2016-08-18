@@ -25,13 +25,13 @@ Ext.define('Ametys.plugins.coreui.users.UsersActions', {
 	 * Creates a user.
 	 * @param {Ametys.ribbon.element.ui.ButtonController} controller The controller calling this function
 	 */
-	add: function (controller)
+	add: function(controller)
 	{
 		var userTargetId = controller.getInitialConfig('message-target-id') || Ametys.message.MessageTarget.USER;
 		var userToolId = controller.getInitialConfig('users-tool-id');
-        var context = Ametys.getAppParameter('context');
+        var contexts = Ext.Array.from(controller.getInitialConfig('contexts') || [Ametys.getAppParameter('context')]);
 		
-		Ametys.plugins.coreui.users.EditUserHelper.add(context, userTargetId, userToolId, Ext.bind (this._addCb, this, [userToolId], 1));
+		Ametys.plugins.coreui.users.EditUserHelper.add(contexts, userTargetId, userToolId, Ext.bind (this._addCb, this, [userToolId], 1));
 	},
 	
 	/**
@@ -40,7 +40,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersActions', {
 	 * @param {Object} user The created user
 	 * @param {String} userToolId The id of users tool
 	 */
-	_addCb: function (user, userToolId)
+	_addCb: function(user, userToolId)
 	{
 		Ametys.notify({
 	        type: 'info',

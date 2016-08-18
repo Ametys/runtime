@@ -30,9 +30,8 @@ import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
 
 import org.ametys.core.cocoon.JSonReader;
-import org.ametys.core.right.RightsManager;
-import org.ametys.core.right.profile.Profile;
-import org.ametys.plugins.core.impl.right.profile.ProfileBasedRightsManager;
+import org.ametys.core.right.Profile;
+import org.ametys.core.right.RightManager;
 
 /**
  * Get profiles
@@ -40,13 +39,13 @@ import org.ametys.plugins.core.impl.right.profile.ProfileBasedRightsManager;
  */
 public class ProfileSearchAction extends ServiceableAction
 {
-    private RightsManager _rightsManager;
+    private RightManager _rightManager;
     
     @Override
     public void service(ServiceManager m) throws ServiceException
     {
         super.service(m);
-        _rightsManager = (RightsManager) m.lookup(RightsManager.ROLE);
+        _rightManager = (RightManager) m.lookup(RightManager.ROLE);
     }
     
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
@@ -55,12 +54,9 @@ public class ProfileSearchAction extends ServiceableAction
         
         List<Map<String, Object>> profiles = new ArrayList<>();
         
-        if (_rightsManager instanceof ProfileBasedRightsManager)
+        for (Profile profile : _rightManager.getProfiles())
         {
-            for (Profile profile : ((ProfileBasedRightsManager) _rightsManager).getProfiles())
-            {
-                profiles.add(profile.toJSON());
-            }
+            profiles.add(profile.toJSON());
         }
         
         result.put("profiles", profiles);

@@ -53,7 +53,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
      * @private
      */
     /**
-     * @property {String} _context The context for the populations to display in the combobox.
+     * @property {String[]} _contexts The contexts for the populations to display in the combobox.
      * @private
      */
     /**
@@ -96,7 +96,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
     /**
      * @inheritdoc
      * @param {Object[]} [params.selectedUsers] The users to initially select
-     * @param {String} [params.context] The context for the populations to display in the combobox. Default to the current context.
+     * @param {String[]} [params.contexts] The contexts for the populations to display in the combobox. Default to the current context.
      * @param {Boolean/String} [params.enableAllPopulationsOption=false] True to add an option in the populations combobox for searching over all the populations.
      * @param {Boolean/String} [params.showDirectoryColumn=false] True to show the user directory column
      * @param {Boolean/String} [params.showDirectoryCombobox=false] True to show the user directory combobox field
@@ -106,7 +106,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
         this.callParent(arguments);
         
         this._initialSelectedUsers = params.selectedUsers || [];
-        this._context = params.context != null ? params.context : Ametys.getAppParameter('context');
+        this._contexts = Ext.Array.from(params.contexts || Ametys.getAppParameter('context'));
         this._enableAllPopulationsOption = Ext.isBoolean(params.enableAllPopulationsOption) ? params.enableAllPopulationsOption : params.enableAllPopulationsOption == "true";
         this._showDirectoryColumn = Ext.isBoolean(params.showDirectoryColumn) ? params.showDirectoryColumn : params.showDirectoryColumn == "true";
         this._grid.down('[dataIndex=directory]').setVisible(this._showDirectoryColumn);
@@ -127,7 +127,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
             maxWidth: 250,
             flex: 1,
             emptyText: "{{i18n PLUGINS_CORE_UI_TOOL_USERS_SEARCH_EMPTY_TEXT}}",
-            listeners: {change: Ext.Function.createBuffered(this._search, 500, this)},
+            listeners: {change: Ext.Function.createBuffered(this._search, 500, this)}
         });
         
         this._store = this.createUserStore();
@@ -438,7 +438,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
     _onBeforeLoadPopulations: function(store, operation)
     {
         operation.setParams( Ext.apply(operation.getParams() || {}, {
-            context: this._context
+            contexts: this._contexts
         }));
     },
     
@@ -594,7 +594,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
         if (this.getPopulationComboValue() == this._allPopulationsOptionId)
         {
             operation.setParams( Ext.apply(operation.getParams() || {}, {
-                context: this._context,
+                contexts: this._contexts,
                 criteria: this._searchField.getValue(),
                 limit: this.self.RESULT_LIMIT
             }));

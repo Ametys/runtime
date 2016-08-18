@@ -1147,76 +1147,6 @@
         </components>
     </feature>
     
-    <feature name="runtime.rights.impl.basic" safe="true">
-        <!-- 
-            This feature declares the basic rights manager that always anwers OK
-         -->
-        <components>
-            <component role="org.ametys.core.right.RightsManager"
-                       id="org.ametys.plugins.core.right.Basic"
-                       class="org.ametys.plugins.core.impl.right.BasicRightsManager"
-                       logger="org.ametys.plugins.core.impl.right.basic"/>
-        </components>
-    </feature>
-
-    <feature name="runtime.rights.impl.profil" depends="core/runtime.core.sql.profile.init">
-        <!-- 
-            This feature declares the profile based rights manager.<br/>
-            This manager use the core database pool.
-            A profile is a set of atomic rights.
-         -->
-        <config>
-            <param-ref id="runtime.rights.datasource"/>
-        </config>
-
-        <components>
-            <component role="org.ametys.core.right.RightsManager"
-                       id="org.ametys.plugins.core.right.DefaultProfileBased"
-                       class="org.ametys.plugins.core.impl.right.profile.DefaultProfileBasedRightsManager"
-                       logger="org.ametys.plugins.core.impl.right.profil">
-                <!--
-                    See javadoc.<br/>
-                    The configuration is handled in /WEB-INF/param/rights.xml.<br/>
-                    The database pool is runtime.rights.datasource
-                 -->
-                <rights config="/WEB-INF/param/rights.xml"/>
-                <datasource type="config">runtime.rights.datasource</datasource>
-            </component>
-        </components>
-    </feature>
-
-    <feature name="runtime.rights.impl.hierarchicalProfil" depends="core/runtime.core.sql.profile.init">
-        <config>
-            <param-ref id="runtime.rights.datasource"/>
-        </config>
-        <!-- 
-            The same as runtime.rights.impl.profil but where rights are inherited in contexts :
-            having the right on '/foo' gives the right on '/foo/subfoo'
-            @see:plugin{feature/runtime.rights.impl.profil}
-         -->
-        <components>
-            <component role="org.ametys.core.right.RightsManager"
-                       id="org.ametys.plugins.core.right.HierarchicalProfileBased"
-                       class="org.ametys.plugins.core.impl.right.profile.HierarchicalProfileBasedRightsManager"
-                       logger="org.ametys.plugins.core.impl.right.hierarchicalprofil">
-                <rights config="/WEB-INF/param/rights.xml"/>
-                <datasource type="config">runtime.rights.datasource</datasource>
-            </component>                       
-        </components>
-    </feature>
-    
-    <feature name="runtime.rights.context.impl.default" safe="true">
-        <!-- 
-            This feature declares the default rights context manager
-         -->
-        <components>
-            <component role="org.ametys.core.right.RightsContextPrefixExtensionPoint"
-                       id="org.ametys.plugins.core.right.context.Default"
-                       class="org.ametys.plugins.core.impl.right.DefaultRightsContextPrefix"
-                       logger="org.ametys.plugins.core.impl.right.context.default"/>
-        </components>
-    </feature>
-    
     <!-- +
          | CONFIGURATION DATA SOURCE CLIENT 
          + -->
@@ -1395,6 +1325,49 @@
                         </widget-params>
                     </param>
                 </parameters>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <!-- +
+         |  STORAGE OF PROFILE ASSIGNEMENTS
+         + -->
+    <feature name="runtime.rights.storage.assignments.impl.jdbc" depends="core/runtime.core.sql.profile.init">
+        <config>
+            <param-ref id="runtime.rights.datasource"/>
+        </config>
+        
+        <extensions>
+            <extension id="org.ametys.plugins.core.impl.right.JdbcProfileAssignmentStorage"
+                       class="org.ametys.plugins.core.impl.right.JdbcProfileAssignmentStorage"
+                       point="org.ametys.core.right.ProfileAssignmentStorageExtensionPoint">
+                <datasource type="config">runtime.rights.datasource</datasource>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <!-- +
+         |  CONTRIBUTOR ACCESS CONTROLLER
+         + -->
+    <feature name="runtime.rights.access.controller.impl.contributor">
+        <extensions>
+            <extension id="org.ametys.plugins.core.impl.right.ContributorAccessController"
+                       class="org.ametys.plugins.core.impl.right.ContributorAccessController"
+                       point="org.ametys.core.right.AccessControllerExtensionPoint"/>
+        </extensions>
+    </feature>
+    
+    <feature name="right.assignment.context.contributor">
+        <extensions>
+            <extension id="org.ametys.plugins.core.impl.right.ContributorRightAssignmentContext"
+                       point="org.ametys.core.right.RightAssignmentContextExtensionPoint"
+                       class="org.ametys.plugins.core.impl.right.ContributorRightAssignmentContext">
+                <class name="Ametys.plugins.coreui.profiles.ContributorRightAssignmentContext">
+	                <label i18n="true">PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_CONTRIBUTOR_LABEL</label>
+                </class>
+                <scripts>
+                    <file plugin="core-ui">js/Ametys/plugins/coreui/profiles/ContributorRightAssignmentContext.js</file>
+                </scripts>
             </extension>
         </extensions>
     </feature>

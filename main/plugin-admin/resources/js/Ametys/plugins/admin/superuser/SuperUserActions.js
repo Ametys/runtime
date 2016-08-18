@@ -25,24 +25,31 @@ Ext.define('Ametys.plugins.admin.superuser.SuperUserActions', {
 	 * Grant all privileges to a user on an empty context or on the context defined by controller
 	 * @param {Ametys.ribbon.element.ui.ButtonController} controller The controller calling this function
 	 */
-	act: function (controller)
+	act: function(controller)
 	{
-		this.affectSuperUser (controller.getInitialConfig('context') || "", "/application", "{{i18n PLUGINS_ADMIN_SUPERUSER_AFFECT_NO_POPULATION_DESCRIPTION}}");
+        var rightContext = controller.getInitialConfig('context') || "";
+		this.affectSuperUser('org.ametys.runtime.plugins.admin.superuser.Affect', 
+                             [rightContext], 
+                             ["/application"], 
+                             "{{i18n PLUGINS_ADMIN_SUPERUSER_AFFECT_NO_POPULATION_DESCRIPTION}}"
+        );
 	},
 	
 	/**
 	 * Grant all privileges to a user on a given context
-	 * @param rightContext The context on which give rights
-	 * @param populationContext The context for the populations to select users
-	 * @param noPopulationMessage The message to display when no user population is linked to the population's context
+     * @param {String} serverId The id of the extension to use for calling server method #affectSuperUser
+     * @param {Object[]} serverCallParameters The parameters concatenated with users, for calling the server method #affectSuperUser
+	 * @param {String} serverCallParameters.rightContext The context on which give rights
+	 * @param {String/String[]} populationContexts The contexts for the populations to select users
+	 * @param {String} noPopulationMessage The message to display when no user population is linked to the population's context
 	 * @param [callback] The callback function to invoked after granting privileges
 	 */
-	affectSuperUser: function (rightContext, populationContext, noPopulationMessage, callback)
+	affectSuperUser: function(serverId, serverCallParameters, populationContexts, noPopulationMessage, callback)
 	{
 		Ametys.helper.SelectUser.act({
-            context: populationContext,
+            contexts: Ext.Array.from(populationContexts),
             noPopulationMessage: noPopulationMessage || "{{i18n PLUGINS_ADMIN_SUPERUSER_AFFECT_NO_POPULATION_DESCRIPTION}}",
-			callback: Ext.bind(this._selectUserCb, this, [rightContext, callback], 1), 
+			callback: Ext.bind(this._selectUserCb, this, [serverId, serverCallParameters, callback], 1), 
 			cancelCallback: null, 
 			allowMultiselection: true, 
 			plugin: null
@@ -55,16 +62,18 @@ Ext.define('Ametys.plugins.admin.superuser.SuperUserActions', {
 	 * @param {Object[]} users The array of users
      * @param {String} users.login The login of the user
      * @param {String} users.population The population id of the user
-	 * @param {String} rightContext The context to affect rights
+     * @param {String} serverId The id of the extension to use for calling server method #affectSuperUser
+	 * @param {Object[]} parameters The parameters concatenated with users, for calling the server method #affectSuperUser
+	 * @param {String} parameters.rightContext The context to affect rights
 	 * @param [callback] The callback function to invoked after granting privileges
 	 */
-	_selectUserCb: function (users, rightContext, callback) 
+	_selectUserCb: function(users, serverId, parameters, callback) 
 	{
 		Ametys.data.ServerComm.callMethod({
 			role: 'org.ametys.core.ui.RibbonControlsManager',
-			id: 'org.ametys.runtime.plugins.admin.superuser.Affect',
+			id: serverId,
 			methodName: 'affectSuperUser',
-			parameters: [users, rightContext],
+			parameters: [users].concat(parameters),
 			callback: {
 				handler: this._affectSuperUserCb,
 				scope: this,

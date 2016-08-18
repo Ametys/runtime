@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -17,16 +17,16 @@ package org.ametys.core.right;
 
 import java.util.Set;
 
-
 /**
- * Interface for getting the converted context to use to test rights.
+ * This interface is for getting, from a single object, a set of object. When calling {@link RightManager#hasRight(org.ametys.core.user.UserIdentity, String, Object)},
+ * the object is converted into a set of objects and the rights are checked on all those converted objects.
  */
 public interface RightContextConvertor
 {
     /**
-     * Converts the context
-     * @param initialContext The initial context
-     * @return The converted context
+     * Converts the object
+     * @param object The initial object
+     * @return The converted objects
      */
-    public Set<String> convertContext (String initialContext);
+    public Set<Object> convert(Object object);
 }

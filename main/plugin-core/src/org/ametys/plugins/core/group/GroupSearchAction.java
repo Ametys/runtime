@@ -17,6 +17,7 @@ package org.ametys.plugins.core.group;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -61,11 +62,12 @@ public class GroupSearchAction extends ServiceableAction
         
         List<Map<String, Object>> groups = new ArrayList<>();
         
-        String context = (String) jsParameters.get("context");
+        @SuppressWarnings("unchecked")
+        List<String> contexts = (List<String>) jsParameters.get("contexts");
         
-        if (context != null)
+        if (contexts != null)
         {
-            _searchGroupsByContext(groups, jsParameters, source, parameters, context);
+            _searchGroupsByContext(groups, jsParameters, source, parameters, contexts);
         }
         else
         {
@@ -94,14 +96,14 @@ public class GroupSearchAction extends ServiceableAction
         return params;
     }
     
-    private void _searchGroupsByContext(List<Map<String, Object>> groups, Map<String, Object> jsParameters, String source, Parameters parameters, String context)
+    private void _searchGroupsByContext(List<Map<String, Object>> groups, Map<String, Object> jsParameters, String source, Parameters parameters, List<String> contexts)
     {
         @SuppressWarnings("unchecked")
         List<String> groupIds = (List) jsParameters.get("id");
         
         if (groupIds != null)
         {
-            for (String groupDirectoryId : _directoryContextHelper.getGroupDirectoriesOnContext(context))
+            for (String groupDirectoryId : _directoryContextHelper.getGroupDirectoriesOnContexts(new HashSet<>(contexts)))
             {
                 GroupDirectory groupDirectory = _groupDirectoryDAO.getGroupDirectory(groupDirectoryId);
                 for (String groupId : groupIds)
@@ -119,7 +121,7 @@ public class GroupSearchAction extends ServiceableAction
             }
             int offset = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
             
-            for (String groupDirectoryId : _directoryContextHelper.getGroupDirectoriesOnContext(context))
+            for (String groupDirectoryId : _directoryContextHelper.getGroupDirectoriesOnContexts(new HashSet<>(contexts)))
             {
                 GroupDirectory groupDirectory = _groupDirectoryDAO.getGroupDirectory(groupDirectoryId);
                 groups.addAll(groupDirectory.groups2JSON(count, offset, _getSearchParameters(source)));
