@@ -1397,8 +1397,6 @@
     	<config>
             <param-ref id="runtime.system.alerts.enable"/> 
             <param-ref id="runtime.system.alerts.diskspace.threshold"/> 
-            <!-- <param-ref id="runtime.test.long"/> --> 
-            <!-- <param-ref id="runtime.test.double"/> --> 
         </config>
         <components>
 	        <!-- 
