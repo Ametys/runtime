@@ -135,22 +135,11 @@ public abstract class AbstractAccessControllerTestCase extends AbstractRuntimeTe
         String profile7 = "7";
         
         UserIdentity user1 = new UserIdentity("user1", "population1");
-//        UserIdentity user2 = new UserIdentity("user2", "population2");
-//        Set<UserIdentity> bothUsers = Stream.of(user1, user2).collect(Collectors.toSet());
         
         GroupIdentity group1 = new GroupIdentity("group1", "directory1");
         GroupIdentity group2 = new GroupIdentity("group2", "directory23");
         GroupIdentity group3 = new GroupIdentity("group3", "directory23");
         
-        /*
-         * TODO here the excluded all are not set, maybe test that ?
-         * Set the profiles on test1 object as
-         * any connected user has granted profile 1
-         * user1 has granted profile 2 and excluded profile 3
-         * group1 has granted profile 4 and excluded profile 5
-         * group2 has granted profile 6 and excluded profile 7
-         * group3 has granted profile 5 and excluded profile 4
-         */
         _rightManager.allowProfileToAnyConnectedUser(profile1, test1);
         _rightManager.allowProfileToUser(user1, profile2, test1);
         _rightManager.denyProfileToUser(user1, profile3, test1);
@@ -165,7 +154,6 @@ public abstract class AbstractAccessControllerTestCase extends AbstractRuntimeTe
         _rightManager.denyProfileToGroup(group3, profile4, test1);
         
         // test
-        // TODO faire les tests sur qui prend la main si le même profile est allowed et denied par exemple (mix user/group, etc.)
         assertEquals(_expectedSingletonMap(profile1, AccessResult.ANY_CONNECTED_ALLOWED, null), 
                      _accessController.getPermissions(user1, Collections.EMPTY_SET, Collections.singleton(profile1), test1));
         assertEquals(_expectedSingletonMap(profile1, AccessResult.UNKNOWN, null), 
@@ -177,25 +165,9 @@ public abstract class AbstractAccessControllerTestCase extends AbstractRuntimeTe
                      _accessController.getPermissions(user1, Collections.EMPTY_SET, Collections.singleton(profile2), test1));
         assertEquals(_expectedSingletonMap(profile3, AccessResult.USER_DENIED, null), 
                      _accessController.getPermissions(user1, Collections.EMPTY_SET, Collections.singleton(profile3), test1));
-//        Set<String> profiles = new HashSet<>();
-//        profiles.add(profile1);
-//        profiles.add(profile3);
-//        assertEquals(AccessResult.USER_NOK, _accessController.isAllowed(user1, Collections.EMPTY_SET, profiles, test1));
-//        profiles.clear();
-//        profiles.add(profile2);
-//        profiles.add(profile3);
-//        assertEquals(AccessResult.USER_OK, _accessController.isAllowed(user1, Collections.EMPTY_SET, profiles, test1));
         
         assertEquals(_expectedSingletonMap(profile4, AccessResult.GROUP_ALLOWED, group1), 
                      _accessController.getPermissions(user1, Collections.singleton(group1), Collections.singleton(profile4), test1));
-//        profiles.clear();
-//        profiles.add(profile1);
-//        profiles.add(profile4);
-//        assertEquals(AccessResult.GROUP_OK, _accessController.isAllowed(user1, Collections.singleton(group1), profiles, test1));
-//        profiles.clear();
-//        profiles.add(profile2);
-//        profiles.add(profile4);
-//        assertEquals(AccessResult.GROUP_OK, _accessController.isAllowed(user1, Collections.singleton(group1), profiles, test1));
         
         assertEquals(_expectedSingletonMap(profile5, AccessResult.GROUP_DENIED, group1), 
                      _accessController.getPermissions(user1, Collections.singleton(group1), Collections.singleton(profile5), test1));
@@ -231,21 +203,15 @@ public abstract class AbstractAccessControllerTestCase extends AbstractRuntimeTe
     public void testGetPermissionsByProfile()
     {
         Object test1 = _getTest1();
-//        Object test2 = _getTest2();
         
         String profile1 = "1";
         String profile2 = "2";
         String profile3 = "3";
         String profile4 = "4";
-//        String profile5 = "5";
-//        String profile6 = "6";
-//        String profile7 = "7";
         
         UserIdentity user1 = new UserIdentity("user1", "population1");
         
         GroupIdentity group1 = new GroupIdentity("group1", "directory1");
-//        GroupIdentity group2 = new GroupIdentity("group2", "directory23");
-//        GroupIdentity group3 = new GroupIdentity("group3", "directory23");
         
         // test initially empty
         assertEquals(Collections.EMPTY_MAP,
