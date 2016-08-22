@@ -18,7 +18,7 @@ package org.ametys.core.right;
 import org.ametys.core.ui.ClientSideElement;
 
 /**
- * This interface is for context of right assignment
+ * This interface represents a context of right assignment
  */
 public interface RightAssignmentContext extends ClientSideElement
 {

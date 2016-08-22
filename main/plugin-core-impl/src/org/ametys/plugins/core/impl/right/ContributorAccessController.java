@@ -35,7 +35,7 @@ public class ContributorAccessController implements AccessController, Component,
 {
     private static final String __PREFIX_CONTEXT = "/contributor";
     
-    /** The extension point for the profile assignement storages */
+    /** The extension point for the profile assignment storage */
     protected ProfileAssignmentStorageExtensionPoint _profileAssignmentStorageEP;
     
     @Override
