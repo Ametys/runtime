@@ -80,6 +80,9 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
     /** For avalon service manager */
     public static final String ROLE = RightManager.class.getName();
     
+    /** The id of the READER profile */
+    public static final String READER_PROFILE_ID = "READER";
+    
     private static final String __INITIAL_PROFILE_ID = "TEMPORARY ADMINISTRATOR";
     
     /** Avalon ServiceManager */
@@ -605,7 +608,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
     }
     
     /**
-     * Gets the best {@link AccessResult} from a set (as DENIED > ALLOWED and USER > GROUP > ANYCONNECTED > ANONYMOUS)
+     * Gets the best {@link AccessResult} from a set (as DENIED &gt; ALLOWED and USER &gt; GROUP &gt; ANYCONNECTED &gt; ANONYMOUS)
      * @param accessResults the set of access results
      * @return the best {@link AccessResult}
      */
@@ -632,6 +635,54 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
             default:
                 return RightResult.RIGHT_UNKNOWN;
         }
+    }
+    
+    
+    /* ----------- */
+    /* HAS PROFILE */
+    /* ----------- */
+    
+    /**
+     * Gets the right result for anonymous with given profile on given object context
+     * @param profileId The id of the profile
+     * @param object The object to check
+     * @return the right result for anonymous with given profile on given object context
+     */
+    public RightResult hasAnonymousProfile(String profileId, Object object)
+    {
+        boolean isAnonymousAllowed = _getFirstProfileAssignmentStorage(object)
+                .map(pas -> pas.isAnonymousAllowed(object, profileId))
+                .orElse(false);
+        return isAnonymousAllowed ? RightResult.RIGHT_ALLOW : RightResult.RIGHT_DENY;
+    }
+    
+    /**
+     * Gets the right result for any connected user with given profile on given object context
+     * @param profileId The id of the profile
+     * @param object The object to check
+     * @return the right result for any connected user with given profile on given object context
+     */
+    public RightResult hasAnyConnectedUserProfile(String profileId, Object object)
+    {
+        boolean isAnonymousAllowed = _getFirstProfileAssignmentStorage(object)
+                .map(pas -> pas.isAnyConnectedUserAllowed(object, profileId))
+                .orElse(false);
+        return isAnonymousAllowed ? RightResult.RIGHT_ALLOW : RightResult.RIGHT_DENY;
+    }
+    
+    
+    /* ------------------------- */
+    /* METHODS ON READER PROFILE */
+    /* ------------------------- */
+    
+    /**
+     * Returns true if the object is restricted, i.e. the READER profile is denied for an anonymous user
+     * @param object The object to check
+     * @return true if the object is restricted, i.e. the READER profile is denied for an anonymous user
+     */
+    public boolean isRestricted(Object object)
+    {
+        return hasAnonymousProfile(READER_PROFILE_ID, object) == RightResult.RIGHT_DENY;
     }
     
     
