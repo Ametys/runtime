@@ -1241,7 +1241,7 @@
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_INDUCED_DENY_USER">Refusé car tous les utilisateurs connectés sont exclus localement ou l'utilisateur est membre d'un groupe refusé</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_INDUCED_DENY_OTHER">Refusé car tous les utilisateurs connectés sont exclus localement</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_INHERIT_DENY">Refusé par héritage</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_INHERIT_UNKNOWN">Aucune affectation n'a pu être déterminée</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_UNKNOWN">Aucune affectation n'a pu être déterminée</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CLOSE_BOX_TITLE">Fermer et enregistrer</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CLOSE_BOX_MESSAGE">Il y a des modifications locales non sauvegardées. &lt;br/&gt;Souhaitez-vous enregistrer vos modifications avant de fermer l'outil ?</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CHANGE_CONTEXT_BOX_TITLE">Enregister les changements</message>

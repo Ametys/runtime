@@ -1423,7 +1423,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
             default:
                 img = "circle";
                 color = "black";
-                tooltip = "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CLOSE_BOX_TITLE}}"
+                tooltip = "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_UNKNOWN}}"
         }
         
         metaData.tdAttr = 'data-qtip="' + tooltip + '"';

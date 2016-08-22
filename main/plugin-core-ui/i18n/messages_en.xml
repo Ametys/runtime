@@ -1239,7 +1239,7 @@
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_INDUCED_DENY_USER">Denied because any connected user is locally denied or the user is member of a denied group</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_INDUCED_DENY_OTHER">Allowed because any connected user is locally denied</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_INHERIT_DENY">Denied by inheritance</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_INHERIT_UNKNOWN">No assignment could be found</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_UNKNOWN">No assignment could be found</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CLOSE_BOX_TITLE">Close and save</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CLOSE_BOX_MESSAGE">There are some unsaved local changes. &lt;br/&gt;Do you want to save your modifications before closing the tool ?</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CHANGE_CONTEXT_BOX_TITLE">Save the modifications</message>
