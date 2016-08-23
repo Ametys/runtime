@@ -168,7 +168,7 @@
 
                     Ametys.setAppParameter("user", {
                         login: "<xsl:value-of select="user/@login"/>",
-                        population: "<xsl:value-of select="user/population"/>",
+                        population: "<xsl:value-of select="user/@population"/>",
                         firstname: "<xsl:value-of select="user/firstname"/>",
                         lastname: "<xsl:value-of select="user/lastname"/>",
                         fullname: "<xsl:value-of select="user/fullname"/>",

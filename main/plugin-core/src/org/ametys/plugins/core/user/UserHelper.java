@@ -259,10 +259,10 @@ public class UserHelper implements Component, Serviceable, Contextualizable
     {
         AttributesImpl attr = new AttributesImpl();
         attr.addCDATAAttribute("login", user.getIdentity().getLogin());
+        attr.addCDATAAttribute("population", user.getIdentity().getPopulationId());
         
         XMLUtils.startElement(handler, "user", attr);
         
-        XMLUtils.createElement(handler, "population", user.getIdentity().getPopulationId());
         XMLUtils.createElement(handler, "lastname", user.getLastName());
         XMLUtils.createElement(handler, "firstname", user.getFirstName());
         XMLUtils.createElement(handler, "email", user.getEmail());
