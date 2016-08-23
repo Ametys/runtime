@@ -1232,22 +1232,13 @@
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ASSIGNMENT_TYPE_ANYCONNECTEDUSERS">Utilisateurs connectés</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ASSIGNMENT_TYPE_USERS">Utilisateurs</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ASSIGNMENT_TYPE_GROUPS">Groupes</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_DISABLED">Non modifiable car anonyme est autorisé</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_ALLOW">Autorisé localement</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_INDUCED_ALLOW_USER">Autorisé car tous les utilisateurs connectés sont autorisés localement ou l'utilisateur est membre d'un groupe autorisé</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_INDUCED_ALLOW_OTHER">Autorisé car tous les utilisateurs connectés sont autorisés localement</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_INHERIT_ALLOW">Autorisé par héritage</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_DENY">Refusé localement</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_INDUCED_DENY_USER">Refusé car tous les utilisateurs connectés sont exclus localement ou l'utilisateur est membre d'un groupe refusé</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_INDUCED_DENY_OTHER">Refusé car tous les utilisateurs connectés sont exclus localement</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_INHERIT_DENY">Refusé par héritage</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_UNKNOWN">Aucune affectation n'a pu être déterminée sur le contexte de droit courant</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CLOSE_BOX_TITLE">Fermer et enregistrer</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CLOSE_BOX_MESSAGE">Il y a des modifications locales non sauvegardées. &lt;br/&gt;Souhaitez-vous enregistrer vos modifications avant de fermer l'outil ?</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CHANGE_CONTEXT_BOX_TITLE">Enregister les changements</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CHANGE_CONTEXT_BOX_MESSAGE">Il y a des modifications locales non sauvegardées. &lt;br/&gt;Souhaitez-vous enregistrer vos modifications avant de changer de contexte d'affectation ?</message>
     
-    <!-- LOLO -->
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_UNKNOWN">Aucune affectation n'a pu être déterminée sur le contexte de droit courant</message>
+    
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_LOCAL_ALLOWED">L'utilisateur est autorisé sur le contexte de droit courant</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_INHERIT_ALLOWED">L'utilisateur est autorisé par héritage sur un contexte de droit parent</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_LOCAL_DENIED">L'utilisateur est exclu sur le contexte de droit courant</message>
@@ -1276,7 +1267,6 @@
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANYCONNECTED_LOCAL_DENIED">Tous les utilisateurs connectés sont exclus sur le contexte de droit courant</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANYCONNECTED_INHERIT_DENIED">Tous les utilisateurs connectés sont exclus par héritage sur un contexte de droit parent</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANYCONNECTED_DISABLED">Tous les utilisateurs connectés sont autorisés car l'utilisateur Anonyme est autorisé sur le contexte de droit courant</message>
-    <!-- END LOLO -->
     
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ADD_USERS_LABEL">Ajouter des utilisateurs</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ADD_USERS_DESCRIPTION">Ajouter des utilisateurs dans le tableau des affectations. Ceci ne modifie pas leurs affectations.</message>

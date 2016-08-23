@@ -1230,20 +1230,41 @@
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ASSIGNMENT_TYPE_ANYCONNECTEDUSERS">Connected users</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ASSIGNMENT_TYPE_USERS">Users</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ASSIGNMENT_TYPE_GROUPS">Groups</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_DISABLED">No editable because anonymous is allowed</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_ALLOW">Locally allowed</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_INDUCED_ALLOW_USER">Allowed because any connected user is locally allowed or the user is member of an allowed group</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_INDUCED_ALLOW_OTHER">Allowed because any connected user is locally allowed</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_INHERIT_ALLOW">Allowed by inheritance</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_DENY">Locally denied</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_INDUCED_DENY_USER">Denied because any connected user is locally denied or the user is member of a denied group</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_INDUCED_DENY_OTHER">Allowed because any connected user is locally denied</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_INHERIT_DENY">Denied by inheritance</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_UNKNOWN">No assignment could be found</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CLOSE_BOX_TITLE">Close and save</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CLOSE_BOX_MESSAGE">There are some unsaved local changes. &lt;br/&gt;Do you want to save your modifications before closing the tool ?</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CHANGE_CONTEXT_BOX_TITLE">Save the modifications</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CHANGE_CONTEXT_BOX_MESSAGE">There are some unsaved local changes. &lt;br/&gt;Do you want to save your modifications before changing the assignment context ?</message>
+    
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_UNKNOWN">Aucune affectation n'a pu être déterminée sur le contexte de droit courant</message>
+    
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_LOCAL_ALLOWED">The user is allowed on current context</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_INHERIT_ALLOWED">The user is allowed by inheritance on a parent context</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_LOCAL_DENIED">The user is denied on current context</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_INHERIT_DENIED">The user is denied by inheritance on a parent context</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_ALLOWED_BY_ANONYMOUS">The user is allowed because the Anonymous user is allowed on current context</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_ALLOWED_BY_GROUP">The user is allowed because he belongs to an allowed group on current context</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_DENIED_BY_GROUP">The user is denied because he belongs to a denied group on current context</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_ALLOWED_BY_ANYCONNECTED">This user is allowed because any connected users are allowed on current context</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_DENIED_BY_ANYCONNECTED">This user is denied because any connected users are denied on current context</message>
+    
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_LOCAL_ALLOWED">The group is allowed on current context</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_INHERIT_ALLOWED">The group is allowed by inheritance on a parent context</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_LOCAL_DENIED">The group is denied on current context</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_INHERIT_DENIED">The group is denied by inheritance on a parent context</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_ALLOWED_BY_ANYCONNECTED">This group is allowed because any connected users are allowed on current context</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_DENIED_BY_ANYCONNECTED">This group is denied because any connected users are denied on current context</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_ALLOWED_BY_ANONYMOUS">The group is allowed because the Anonymous user is allowed on current context</message>
+    
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANONYMOUS_LOCAL_ALLOWED">Anonymous is allowed on current context</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANONYMOUS_INHERIT_ALLOWED">Anonymous is allowed by inheritance on a parent context</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANONYMOUS_LOCAL_DENIED">Anonymous is denied on current context</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANONYMOUS_INHERIT_DENIED">Anonymous is denied by inheritance on a parent context</message>
+    
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANYCONNECTED_LOCAL_ALLOWED">Any connected users are allowed on current context</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANYCONNECTED_INHERIT_ALLOWED">Any connected users are allowed by inheritance on a parent context</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANYCONNECTED_LOCAL_DENIED">Any connected users are denied on current contex</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANYCONNECTED_INHERIT_DENIED">Any connected users are denied by inheritance on a parent context</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANYCONNECTED_DISABLED">Any connected users are allowed because the Anonymous user is allowed on current context</message>
     
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ADD_USERS_LABEL">Add users</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ADD_USERS_DESCRIPTION">Add users in the table of assignments. This is just local edition and will not modify the assignments.</message>
