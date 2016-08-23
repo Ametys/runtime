@@ -39,6 +39,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import org.ametys.core.DevMode;
+import org.ametys.core.group.Group;
 import org.ametys.core.group.GroupIdentity;
 import org.ametys.core.group.GroupManager;
 import org.ametys.core.user.CurrentUserProvider;
@@ -47,6 +48,7 @@ import org.ametys.core.user.UserIdentity;
 import org.ametys.core.user.UserManager;
 import org.ametys.core.util.dom.AmetysNodeList;
 import org.ametys.core.util.dom.MapElement;
+import org.ametys.core.util.dom.StringElement;
 import org.ametys.core.version.Version;
 import org.ametys.core.version.VersionsHandler;
 import org.ametys.plugins.core.user.UserHelper;
@@ -445,19 +447,20 @@ public class AmetysXSLTHelper implements Contextualizable, Serviceable
      */
     public static NodeList groups(String login, String populationId)
     {
-        Set<GroupIdentity> userGroups = _groupManager.getUserGroups(login, populationId);
-        
         ArrayList<Node> groups = new ArrayList<>();
         
-//        for (String groupId : userGroups)
-//        {
-//            Group group = _foGroupsManager.getGroup(groupId);
-//            if (group != null)
-//            {
-//                groups.add(new StringElement("group", "name", groupId, group.getLabel()));
-//            }
-//        }
-        // FIXME UserManager.FO
+        Set<GroupIdentity> userGroups = _groupManager.getUserGroups(login, populationId);
+        for (GroupIdentity groupId : userGroups)
+        {
+            Group group = _groupManager.getGroup(groupId);
+            if (group != null)
+            {
+                Map<String, String> attributes = new HashMap<>();
+                attributes.put("name", groupId.getId());
+                attributes.put("directory", groupId.getDirectoryId());
+                groups.add(new StringElement("group", attributes, group.getLabel()));
+            }
+        }
         
         return new AmetysNodeList(groups);
     }
