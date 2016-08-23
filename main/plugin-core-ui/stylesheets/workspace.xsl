@@ -173,6 +173,7 @@
                         lastname: "<xsl:value-of select="user/lastname"/>",
                         fullname: "<xsl:value-of select="user/fullname"/>",
                         email:  "<xsl:value-of select="user/email"/>",
+                        populationLabel: "<xsl:value-of select="user/populationLabel"/>",
                         locale: Ametys.LANGUAGE_CODE
                     });
                 </script>
@@ -435,7 +436,7 @@
                                 <xsl:if test="user">
                                 user: {
                                     fullName: "<xsl:value-of select="user/fullname"/>",
-                                    login: "<xsl:value-of select="user/@login"/>",
+                                    login: "<xsl:value-of select="user/@login"/> / <xsl:value-of select="user/populationLabel"/>",
                                     email: "<xsl:value-of select="user/email"/>",
                                     menu: { 
                                         items: userMenuItems
