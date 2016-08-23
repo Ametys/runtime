@@ -818,14 +818,22 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         
         function addInStore(groups, user)
         {
-            recordsToAdd.push({
-                assignmentType: this.self.ASSIGNMENT_TYPE_USERS,
-                login: user.login,
-                population: user.population,
-                populationLabel: user.populationName,
-                userSortableName: user.fullName,
-                groups: groups
-            });
+            if (this._findUserRecord(user.login, user.population) != null)
+            {
+                // do not add user if already in store
+            }
+            else
+            {
+                recordsToAdd.push({
+                    assignmentType: this.self.ASSIGNMENT_TYPE_USERS,
+                    login: user.login,
+                    population: user.population,
+                    populationLabel: user.populationName,
+                    userSortableName: user.fullName,
+                    groups: groups
+                });
+            }
+            
             
             if (recordsToAdd.length == count)
             {
@@ -841,6 +849,28 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     },
     
     /**
+     * @private
+     * Gets the first user record from the store that matches the given login and population id.
+     * @param {String} login The user login
+     * @param {String} population The population id
+     * @return {Ext.data.Model} the found record, or null if not found.
+     */
+    _findUserRecord: function(login, population)
+    {
+        var foundRecord;
+        
+        Ext.Array.each(this._gridStore.getRange(), function(record) {
+            if (record.get('login') == login && record.get('population') == population)
+            {
+                foundRecord = record;
+                return false;
+            }
+        }, this);
+        
+        return foundRecord;
+    },
+    
+    /**
      * Adds group records in the assignment grid.
      * @param {Object[]} groups The groups to add
      * @param {String groups.id The id of the group
@@ -851,16 +881,45 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     addGroups: function(groups)
     {
         Ext.Array.forEach(groups, function(group) {
-            this._gridStore.add({
-                assignmentType: this.self.ASSIGNMENT_TYPE_GROUPS,
-                groupId: group.id,
-                groupDirectory: group.groupDirectory,
-                groupDirectoryLabel: group.groupDirectoryName,
-                groupLabel: group.label
-            });
+            if (this._findGroupRecord(group.id, group.groupDirectory) != null)
+            {
+                // do not add group if already in store
+            }
+            else
+            {
+                this._gridStore.add({
+                    assignmentType: this.self.ASSIGNMENT_TYPE_GROUPS,
+                    groupId: group.id,
+                    groupDirectory: group.groupDirectory,
+                    groupDirectoryLabel: group.groupDirectoryName,
+                    groupLabel: group.label
+                });
+            }
         }, this);
         
         this._onStoreUpdated(this._getUnfilteredRecords().getRange());
+    },
+    
+    /**
+     * @private
+     * Gets the first group record from the store that matches the given id and group directory id.
+     * @param {String} groupId The group id
+     * @param {String} groupDirectory The group directory id
+     * @return {Ext.data.Model} the found record, or null if not found.
+     */
+    _findGroupRecord: function(groupId, groupDirectory)
+    {
+        var foundRecord;
+        
+        Ext.Array.each(this._gridStore.getRange(), function(record) {
+            if (record.get('groupId') == groupId && record.get('groupDirectory') == groupDirectory)
+            {
+                foundRecord = record;
+                return false;
+            }
+        }, this);
+        
+        return foundRecord;
     },
     
     /**
