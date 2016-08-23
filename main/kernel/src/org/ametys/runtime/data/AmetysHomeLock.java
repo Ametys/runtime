@@ -116,13 +116,13 @@ public class AmetysHomeLock
         catch (OverlappingFileLockException e)
         {
             // OverlappingFileLockException with JRE 1.6
-            throw new AmetysHomeLockException("The repository home " + _directory + " appears to be in use since the file named " + _file.getName()
+            throw new AmetysHomeLockException("The Ametys home " + _directory + " appears to be in use since the file named " + _file.getName()
                     + " is already locked by the current process.");
         }
         
         if (_lock == null)
         {
-            throw new AmetysHomeLockException("The repository home " + _directory + " appears to be in use since the file named " + _file.getName()
+            throw new AmetysHomeLockException("The Ametys home " + _directory + " appears to be in use since the file named " + _file.getName()
                     + " is locked by another process.");
         }
         
@@ -139,7 +139,7 @@ public class AmetysHomeLock
                 // potentially cause, depending on the implementation,
                 // the previously acquired lock(s) to be released
                 // as well
-                throw new AmetysHomeLockException("The repository home " + _directory + " appears to be" + " already locked by the current process.");
+                throw new AmetysHomeLockException("The Ametys home " + _directory + " appears to be" + " already locked by the current process.");
             }
             else
             {
