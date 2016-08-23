@@ -418,7 +418,6 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         this._assignmentsGrid = Ext.create('Ext.grid.Panel', {
             dockedItems: this._getGridDockedItemsCfg(),
             
-            flex: 3,
             split: true,
             scrollable: true,
             enableColumnMove: true,
@@ -470,7 +469,25 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
                 align: 'stretch'
             },
             cls: 'uitool-profile-assignment',
-            items: [this._contextPanel, this._assignmentsGrid]
+            items: [
+                this._contextPanel, 
+                {
+                	xtype: 'container',
+                	itemId: 'right-card-container',
+	            	layout: 'card',
+	    			activeItem: 0,
+	    			split: true,
+	    			flex: 3,
+	            	items: [{
+							xtype: 'component',
+							cls: 'a-panel-text-empty',
+							border: false,
+							html: "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_NO_OBJECT_CONTEXT}}"
+						}, 
+						this._assignmentsGrid
+					]
+                }
+            ]
         });
         
         return mainPanel;
@@ -567,12 +584,21 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     {
         this._clearFilters(); // avoid bugs in the grid store before loading it
         
-        this.getLogger().info("Context has changed : " + object);
+        this.getLogger().info("Right assignment context has changed to : " + object);
         this._objectContext = object;
-        this._parentObjectContexts = parentObjects;
         
-        this._assignmentsGrid.getDockedItems('#context-helper-text')[0].update("{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_HINT1}}" + hintTextContext);
-        this._updateGrid();
+        if (!object)
+        {
+        	this.getContentPanel().down('#right-card-container').getLayout().setActiveItem(0);
+        }
+        else
+        {
+        	this.getContentPanel().down('#right-card-container').getLayout().setActiveItem(1);
+        	this._parentObjectContexts = parentObjects;
+            
+            this._assignmentsGrid.getDockedItems('#context-helper-text')[0].update("{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_HINT1}}" + hintTextContext);
+            this._updateGrid();
+        }
     },
     
     /**

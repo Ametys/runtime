@@ -1225,6 +1225,7 @@
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_DESCRIPTION">Affectation des profils de droits à un contexte et à des utilisateurs/groupes.</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CONTEXT">Sélectionnez ci-après le contexte d'affectation des droits</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_HINT1">Affectation des droits sur </message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_NO_OBJECT_CONTEXT">Aucun contexte d'affectation n'est actuellement sélectionné.&lt;br/&gt;Veuillez sélectionner un contexte de droit pour continuer.</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_FILTERS">Filtres</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_RIGHT_FILTER">Libellé du droit</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_USERGROUP_FILTER">Utilisateur ou groupe</message>
