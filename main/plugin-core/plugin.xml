@@ -355,7 +355,8 @@
         				 safe="true"/>
         				 
         <extension-point id="org.ametys.core.right.RightAssignmentContextExtensionPoint"
-                         class="org.ametys.core.right.RightAssignmentContextExtensionPoint"/>
+                         class="org.ametys.core.right.RightAssignmentContextExtensionPoint"
+                         safe="true"/>
         
         <extension-point id="org.ametys.core.userpref.UserPreferencesExtensionPoint"
                          class="org.ametys.core.userpref.UserPreferencesExtensionPoint"
