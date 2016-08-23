@@ -353,7 +353,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
      * @return {@link RightResult#RIGHT_ALLOW}, {@link RightResult#RIGHT_DENY} or {@link RightResult#RIGHT_UNKNOWN}
      * @throws RightsException if an error occurs.
      */
-    public RightResult hasRight(String rightId, Object object) throws RightsException
+    public RightResult currentUserHasRight(String rightId, Object object) throws RightsException
     {
         return hasRight(_currentUserProvider.getUser(), rightId, object);
     }
@@ -704,7 +704,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
      * @param object The object to check the right. Can be null to search on any object.
      * @return true if the given user has READ access on the given object
      */
-    public boolean hasReaderRight(Object object)
+    public boolean currentUserHasReaderRight(Object object)
     {
         return hasReaderRight(_currentUserProvider.getUser(), object);
     }
