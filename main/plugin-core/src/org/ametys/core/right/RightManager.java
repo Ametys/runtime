@@ -347,7 +347,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
     
     /**
      * Checks a permission for the current logged user, on a given object (or context).<br>
-     * If null, it checks i fthere is at least one object with this permission
+     * If null, it checks if there is at least one object with this permission
      * @param rightId The name of the right to check. Cannot be null.
      * @param object The object to check the right. Can be null to search on any object.
      * @return {@link RightResult#RIGHT_ALLOW}, {@link RightResult#RIGHT_DENY} or {@link RightResult#RIGHT_UNKNOWN}
