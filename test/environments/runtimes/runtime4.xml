@@ -35,6 +35,7 @@
         <exclude>
             <feature>test</feature>
             <feature>core/runtime.core.scheduler</feature>
+            <feature>core/reader.profile.init</feature>
         </exclude>
         <locations>
             <location>test</location>

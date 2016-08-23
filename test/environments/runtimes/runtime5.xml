@@ -34,6 +34,7 @@
     <plugins>
         <exclude>
             <feature>test</feature>
+            <feature>core/reader.profile.init</feature>
         </exclude>
         <locations>
             <location>test</location>
