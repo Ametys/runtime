@@ -58,6 +58,7 @@ import org.ametys.core.group.directory.GroupDirectory;
 import org.ametys.core.group.directory.ModifiableGroupDirectory;
 import org.ametys.core.right.AccessController.AccessResult;
 import org.ametys.core.right.AccessController.AccessResultContext;
+import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.core.user.UserIdentity;
 import org.ametys.core.user.UserListener;
 import org.ametys.core.user.UserManager;
@@ -111,6 +112,8 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
     protected String _tableProfile;
     /** The jdbc table name for profiles' rights */
     protected String _tableProfileRights;
+    /** The current user provider */
+    protected CurrentUserProvider _currentUserProvider;
     
     /**
      * This first cache is for right result on non-null contexts when calling {@link #hasRight(UserIdentity, String, Object)}
@@ -176,6 +179,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         _rightContextConvertorEP = (RightContextConvertorExtensionPoint) manager.lookup(RightContextConvertorExtensionPoint.ROLE);
         _accessControllerEP = (AccessControllerExtensionPoint) manager.lookup(AccessControllerExtensionPoint.ROLE);
         _resolver = (SourceResolver) _manager.lookup(SourceResolver.ROLE);
+        _currentUserProvider = (CurrentUserProvider) _manager.lookup(CurrentUserProvider.ROLE);
     }
     
     @Override
@@ -342,8 +346,21 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
     /* --------- */
     
     /**
-     * Checks a permission for a user, on a given object (or context).<br>
+     * Checks a permission for the current logged user, on a given object (or context).<br>
      * If null, it checks i fthere is at least one object with this permission
+     * @param rightId The name of the right to check. Cannot be null.
+     * @param object The object to check the right. Can be null to search on any object.
+     * @return {@link RightResult#RIGHT_ALLOW}, {@link RightResult#RIGHT_DENY} or {@link RightResult#RIGHT_UNKNOWN}
+     * @throws RightsException if an error occurs.
+     */
+    public RightResult hasRight(String rightId, Object object) throws RightsException
+    {
+        return hasRight(_currentUserProvider.getUser(), rightId, object);
+    }
+    
+    /**
+     * Checks a permission for a user, on a given object (or context).<br>
+     * If null, it checks if there is at least one object with this permission
      * @param userIdentity The user identity. Cannot be null.
      * @param rightId The name of the right to check. Cannot be null.
      * @param object The object to check the right. Can be null to search on any object.
@@ -682,6 +699,16 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
     /* METHODS ON READER PROFILE */
     /* ------------------------- */
     
+    /**
+     * Returns true if the current user has READ access on the given object
+     * @param object The object to check the right. Can be null to search on any object.
+     * @return true if the given user has READ access on the given object
+     */
+    public boolean hasReaderRight(Object object)
+    {
+        return hasReaderRight(_currentUserProvider.getUser(), object);
+    }
+
     /**
      * Returns true if the given user has READ access on the given object
      * @param userIdentity The user identity. Cannot be null.
