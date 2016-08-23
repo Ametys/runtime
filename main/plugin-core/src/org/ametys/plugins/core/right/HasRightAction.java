@@ -27,6 +27,7 @@ import org.apache.cocoon.environment.SourceResolver;
 import org.ametys.core.right.RightManager;
 import org.ametys.core.user.UserIdentity;
 import org.ametys.core.util.cocoon.AbstractCurrentUserProviderServiceableAction;
+import org.ametys.runtime.authentication.AccessDeniedException;
 
 
 /**
@@ -113,8 +114,7 @@ public class HasRightAction extends AbstractCurrentUserProviderServiceableAction
             }
             else
             {
-                getLogger().error("User '" + user + "' tried to access a privileged feature without convenient right. Should have in right between those : '" + source + "' on context '" + context + "'");
-                throw new IllegalStateException("You have no right to access this feature.");
+                throw new AccessDeniedException("User '" + user + "' tried to access a privileged feature without convenient right. Should have in right between those : '" + source + "' on context '" + context + "'");
             }
         }
     }
