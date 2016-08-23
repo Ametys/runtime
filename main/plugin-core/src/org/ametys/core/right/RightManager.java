@@ -376,7 +376,6 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         
         RightResult rightResult = _hasRight(userIdentity, profileIds, object);
         
-        _putInFirstCache(userIdentity, profileIds, object, rightResult);
         return rightResult;
     }
     
@@ -436,6 +435,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         
         RightResult rightResult = _computeRight(access);
         getLogger().debug("RightManager is responding {} ({})", rightResult, access);
+        _putInFirstCache(userIdentity, profileIds, object, rightResult);
         
         return rightResult;
     }
