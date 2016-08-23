@@ -357,6 +357,14 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         // Retrieve all profiles containing the right rightId
         Set<String> profileIds = _getProfiles(rightId);
         
+        RightResult rightResult = _hasRight(userIdentity, profileIds, object);
+        
+        _putInFirstCache(userIdentity, profileIds, object, rightResult);
+        return rightResult;
+    }
+    
+    private RightResult _hasRight(UserIdentity userIdentity, Set<String> profileIds, Object object)
+    {
         if (object == null)
         {
             // Try to retrieve in second cache (the one which manages null context)
@@ -368,7 +376,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
             }
             else
             {
-                getLogger().debug("Did not find entry in cache for [{}, '{}', '{}']", userIdentity, rightId, object);
+                getLogger().debug("Did not find entry in cache for [{}, '{}', '{}']", userIdentity, profileIds, object);
             }
         }
         else
@@ -382,10 +390,9 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
             }
             else
             {
-                getLogger().debug("Did not find entry in cache for [{}, '{}', '{}']", userIdentity, rightId, object);
+                getLogger().debug("Did not find entry in cache for [{}, '{}', '{}']", userIdentity, profileIds, object);
             }
         }
-        
         
         // Retrieve groups the user belongs to
         Set<GroupIdentity> groups = _getGroups(userIdentity);
@@ -412,7 +419,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         
         RightResult rightResult = _computeRight(access);
         getLogger().debug("RightManager is responding {} ({})", rightResult, access);
-        _putInFirstCache(userIdentity, profileIds, object, rightResult);
+        
         return rightResult;
     }
     
@@ -676,13 +683,74 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
     /* ------------------------- */
     
     /**
-     * Returns true if the object is restricted, i.e. the READER profile is denied for an anonymous user
+     * Returns true if the given user has READ access on the given object
+     * @param userIdentity The user identity. Cannot be null.
+     * @param object The object to check the right. Can be null to search on any object.
+     * @return true if the given user has READ access on the given object
+     */
+    public boolean hasReaderRight(UserIdentity userIdentity, Object object)
+    {
+        return _hasRight(userIdentity, Collections.singleton(READER_PROFILE_ID), object) == RightResult.RIGHT_ALLOW;
+    }
+    
+    /**
+     * Returns true if the object is restricted, i.e. an anonymous user has not READ access (is denied) on the object
      * @param object The object to check
-     * @return true if the object is restricted, i.e. the READER profile is denied for an anonymous user
+     * @return true if the object is restricted, i.e. an anonymous user has not READ access (is denied) on the object
      */
     public boolean isRestricted(Object object)
     {
         return hasAnonymousProfile(READER_PROFILE_ID, object) == RightResult.RIGHT_DENY;
+    }
+    
+    /**
+     * Returns true if any connected user has READ access allowed on the object
+     * @param object The object to check
+     * @return true if any connected user has READ access allowed on the object
+     */
+    public boolean isAnyConnectedAllowed(Object object)
+    {
+        return hasAnyConnectedUserProfile(READER_PROFILE_ID, object) == RightResult.RIGHT_ALLOW;
+    }
+    
+    /**
+     * Gets the users that have READ access allowed
+     * @param object The object to check
+     * @return the users that have READ access allowed
+     */
+    public Set<UserIdentity> getReaderAllowedUsers(Object object)
+    {
+        return getOnlyAllowedUsers(object, READER_PROFILE_ID);
+    }
+    
+    /**
+     * Gets the users that have READ access denied
+     * @param object The object to check
+     * @return the users that have READ access denied
+     */
+    public Set<UserIdentity> getReaderDeniedUsers(Object object)
+    {
+        return getOnlyDeniedUsers(object, READER_PROFILE_ID);
+    }
+    
+    /**
+     * Gets the groups that have READ access allowed
+     * @param object The object to check
+     * @return the groups that have READ access allowed
+     */
+    public Set<GroupIdentity> getReaderAllowedGroups(Object object)
+    {
+        return getOnlyAllowedGroups(object, READER_PROFILE_ID);
+    }
+    
+    /**
+     * Gets the groups that have READ access denied
+     * @param object The object to check
+     * @return the groups that have READ access denied
+     */
+    public Set<GroupIdentity> getReaderDeniedGroups(Object object)
+    {
+        return getOnlyDeniedGroups(object, READER_PROFILE_ID);
     }
     
     
@@ -849,15 +917,41 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
     }
     
     /**
+     * Gets the users that have the given profile as allowed on the given object (assignment only)
+     * @param object The object context to check
+     * @param profileId The id of the profile
+     * @return the users that have the given profile as allowed on the given object (assignment only)
+     */
+    public Set<UserIdentity> getOnlyAllowedUsers(Object object, String profileId)
+    {
+        return _getFirstProfileAssignmentStorage(object)
+                .map(pas -> pas.getAllowedUsers(object, profileId))
+                .orElse(Collections.EMPTY_SET);
+    }
+    
+    /**
      * Gets the users that have denied profiles assigned on the given object
      * @param context The object context to test 
-     * @return The map of allowed users (keys) with their assigned profiles (values)
+     * @return The map of denied users (keys) with their assigned profiles (values)
      */
     public Map<UserIdentity, Set<String>> getDeniedProfilesForUsers(Object context)
     {
         return _getFirstProfileAssignmentStorage(context)
                 .map(pas -> pas.getDeniedProfilesForUsers(context))
                 .orElse(Collections.EMPTY_MAP);
+    }
+    
+    /**
+     * Gets the users that have the given profile as denied on the given object (assignment only)
+     * @param object The object context to check
+     * @param profileId The id of the profile
+     * @return the users that have the given profile as denied on the given object (assignment only)
+     */
+    public Set<UserIdentity> getOnlyDeniedUsers(Object object, String profileId)
+    {
+        return _getFirstProfileAssignmentStorage(object)
+                .map(pas -> pas.getDeniedUsers(object, profileId))
+                .orElse(Collections.EMPTY_SET);
     }
     
     /**
@@ -926,6 +1020,19 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
     }
     
     /**
+     * Gets the groups that have the given profile as allowed on the given object (assignment only)
+     * @param object The object context to check
+     * @param profileId The id of the profile
+     * @return the groups that have the given profile as allowed on the given object (assignment only)
+     */
+    public Set<GroupIdentity> getOnlyAllowedGroups(Object object, String profileId)
+    {
+        return _getFirstProfileAssignmentStorage(object)
+                .map(pas -> pas.getAllowedGroups(object, profileId))
+                .orElse(Collections.EMPTY_SET);
+    }
+    
+    /**
      * Gets the groups that have denied profiles assigned on the given object
      * @param context The object context to test 
      * @return The map of denied groups (keys) with their assigned profiles (values)
@@ -935,6 +1042,19 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         return _getFirstProfileAssignmentStorage(context)
                 .map(pas -> pas.getDeniedProfilesForGroups(context))
                 .orElse(Collections.EMPTY_MAP);
+    }
+    
+    /**
+     * Gets the groups that have the given profile as denied on the given object (assignment only)
+     * @param object The object context to check
+     * @param profileId The id of the profile
+     * @return the groups that have the given profile as denied on the given object (assignment only)
+     */
+    public Set<GroupIdentity> getOnlyDeniedGroups(Object object, String profileId)
+    {
+        return _getFirstProfileAssignmentStorage(object)
+                .map(pas -> pas.getDeniedGroups(object, profileId))
+                .orElse(Collections.EMPTY_SET);
     }
     
     /**

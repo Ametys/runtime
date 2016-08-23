@@ -1028,4 +1028,12 @@
         </extensions>
     </feature>
     
+    <feature name="reader.profile.init">
+        <extensions>
+            <extension id="org.ametys.plugins.core.right.profile.CreateReaderProfileInit"
+                       point="org.ametys.runtime.plugin.InitExtensionPoint"
+                       class="org.ametys.plugins.core.right.profile.CreateReaderProfileInit"/>
+        </extensions>
+    </feature>
+    
 </plugin>
