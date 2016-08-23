@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
@@ -30,14 +31,25 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.cocoon.components.ContextHelper;
 import org.apache.cocoon.environment.Request;
+import org.apache.cocoon.xml.dom.DOMBuilder;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import org.ametys.core.DevMode;
+import org.ametys.core.group.GroupIdentity;
+import org.ametys.core.group.GroupManager;
+import org.ametys.core.user.CurrentUserProvider;
+import org.ametys.core.user.User;
+import org.ametys.core.user.UserIdentity;
+import org.ametys.core.user.UserManager;
+import org.ametys.core.util.dom.AmetysNodeList;
 import org.ametys.core.util.dom.MapElement;
 import org.ametys.core.version.Version;
 import org.ametys.core.version.VersionsHandler;
+import org.ametys.plugins.core.user.UserHelper;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.ParameterHelper;
@@ -56,6 +68,15 @@ public class AmetysXSLTHelper implements Contextualizable, Serviceable
     /** The versions handler */
     protected static VersionsHandler _versionHandler;
 
+    /** The current user provider */
+    protected static CurrentUserProvider _currentUserProvider;
+    /** The users manager */
+    protected static UserManager _userManager;
+    /** The groups manager */
+    protected static GroupManager _groupManager;
+    /** The user helper */
+    protected static UserHelper _userHelper;
+    
     private static Context _context;
     
     @Override
@@ -68,6 +89,11 @@ public class AmetysXSLTHelper implements Contextualizable, Serviceable
     {
         _i18nUtils = (I18nUtils) manager.lookup(I18nUtils.ROLE);
         _versionHandler = (VersionsHandler) manager.lookup(VersionsHandler.ROLE);
+        
+        _currentUserProvider = (CurrentUserProvider) manager.lookup(CurrentUserProvider.ROLE);
+        _userManager = (UserManager) manager.lookup(UserManager.ROLE);
+        _groupManager = (GroupManager) manager.lookup(GroupManager.ROLE);
+        _userHelper = (UserHelper) manager.lookup(UserHelper.ROLE);
     }
     
     /**
@@ -377,5 +403,62 @@ public class AmetysXSLTHelper implements Contextualizable, Serviceable
         Request request = ContextHelper.getRequest(_context);
         
         return DevMode.isDeveloperMode(request);
+    }
+    
+    /**
+     * Return the user
+     * @return The current connected user object or null
+     * @throws SAXException if a problem occured while getting the user
+     */
+    public static Node user() throws SAXException
+    {
+        DOMBuilder domBuilder = new DOMBuilder();
+        
+        UserIdentity userIdentity = _currentUserProvider.getUser();
+        if (userIdentity != null)
+        {
+            User user = _userManager.getUser(userIdentity.getPopulationId(), userIdentity.getLogin());
+            if (user != null)
+            {
+                _userHelper.saxUser(user, domBuilder);
+            }
+        }
+        
+        return domBuilder.getDocument();
+    }
+    
+    /**
+     * Returns the list of the current user's groups.
+     * @return the list of the current user's groups.
+     */
+    public static NodeList groups()
+    {
+        UserIdentity userIdentity = _currentUserProvider.getUser();
+        return groups(userIdentity.getLogin(), userIdentity.getPopulationId());
+    }
+    
+    /**
+     * Returns the of the given user's group.
+     * @param login the concerned user's login.
+     * @param populationId the concerned user's population.
+     * @return the of the given user's group.
+     */
+    public static NodeList groups(String login, String populationId)
+    {
+        Set<GroupIdentity> userGroups = _groupManager.getUserGroups(login, populationId);
+        
+        ArrayList<Node> groups = new ArrayList<>();
+        
+//        for (String groupId : userGroups)
+//        {
+//            Group group = _foGroupsManager.getGroup(groupId);
+//            if (group != null)
+//            {
+//                groups.add(new StringElement("group", "name", groupId, group.getLabel()));
+//            }
+//        }
+        // FIXME UserManager.FO
+        
+        return new AmetysNodeList(groups);
     }
 }
