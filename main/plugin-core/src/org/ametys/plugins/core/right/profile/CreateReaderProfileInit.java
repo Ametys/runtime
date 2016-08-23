@@ -22,17 +22,15 @@ import java.sql.SQLException;
 
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.service.Serviceable;
 
 import org.ametys.core.datasource.ConnectionHelper;
 import org.ametys.core.right.RightManager;
-import org.ametys.runtime.plugin.Init;
-import org.ametys.runtime.plugin.component.AbstractLogEnabled;
+import org.ametys.core.script.SqlTablesInit;
 
 /**
  * Creates the READER profile at initialization.
  */
-public class CreateReaderProfileInit extends AbstractLogEnabled implements Init, Serviceable
+public class CreateReaderProfileInit extends SqlTablesInit
 {
     private RightManager _rightManager;
     
@@ -45,6 +43,10 @@ public class CreateReaderProfileInit extends AbstractLogEnabled implements Init,
     @Override
     public void init() throws Exception
     {
+        // First create the needed tables for rights, in case the Init extension "org.ametys.core.script.profile.SqlTablesInit" is not called before this one
+        super.init();
+        
+        // Then do the job: create the reader profile
         if (_rightManager.getProfile(RightManager.READER_PROFILE_ID) != null)
         {
             // already exist

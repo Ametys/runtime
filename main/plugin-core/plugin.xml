@@ -1030,9 +1030,14 @@
     
     <feature name="reader.profile.init">
         <extensions>
+            <!-- Same conf as 'org.ametys.core.script.profile.SqlTablesInit' to create the right tables if needed before trying to create READ profile -->
             <extension id="org.ametys.plugins.core.right.profile.CreateReaderProfileInit"
                        point="org.ametys.runtime.plugin.InitExtensionPoint"
-                       class="org.ametys.plugins.core.right.profile.CreateReaderProfileInit"/>
+                       class="org.ametys.plugins.core.right.profile.CreateReaderProfileInit">
+                <datasource type="config">runtime.rights.datasource</datasource>
+                <script testTable="Rights_Profile">profile_rights.sql</script>
+                <script testTable="Rights_AllowedUsers">profile_assignments.sql</script>
+            </extension>
         </extensions>
     </feature>
     
