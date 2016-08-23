@@ -26,4 +26,25 @@
     <xsl:template name="title"><i18n:text i18n:key="PLUGINS_CORE_UI_ERROR_403_TITLE" i18n:catalogue="plugin.core-ui"/></xsl:template>
     <xsl:template name="text"><i18n:text i18n:key="PLUGINS_CORE_UI_ERROR_403_TEXT" i18n:catalogue="plugin.core-ui"/></xsl:template>
     
+    <xsl:template name="main-after">
+        <xsl:variable name="user" select="ametys:user()/user"/>
+        <div class="a-fluent-user-card-wrapper">
+			<div class="a-fluent-user-card">
+				<div class="photo">
+					<img src="{$contextPath}/plugins/core-ui/current-user/image_64" />
+				</div>
+				<div class="main">
+					<div class="name-wrapper">
+						<div class="name"><xsl:value-of select="$user/fullname" /></div>
+						<div class="login"><xsl:value-of select="$user/@login" /><xsl:text> / </xsl:text><xsl:value-of select="$user/populationLabel" /></div>
+					</div>
+					<xsl:if test="$user/email">
+						<div class="email" title="{$user/email}"><xsl:value-of select="$user/email"/></div>
+					</xsl:if>
+				</div>
+			</div>
+	    </div>
+    </xsl:template>
+		
+    
 </xsl:stylesheet>

@@ -76,6 +76,7 @@
                             <tr>
                                 <td class="inner">
                                     <xsl:call-template name="main"/>
+						            <xsl:call-template name="main-after"/>
                                 </td>
                             </tr>
                         </table>
@@ -84,6 +85,7 @@
             </div>
     </xsl:template>
     
+    <xsl:template name="main-after"/>
     <xsl:template name="main">
         <div>
             <xsl:attribute name="class"><xsl:call-template name="wrapper-class"/></xsl:attribute>

@@ -96,3 +96,105 @@ div.stacktrace {
     -o-animation-timing-function: ease;
     animation-timing-function: ease;
 }
+
+/**
+ * USERCARD 
+ */
+
+$ametys-ribbon-tabpanel-usercard-color: #000000;
+$ametys-ribbon-tabpanel-usercard-font-size: 0.9em;
+
+.ametys-common {
+    .a-fluent-user-card-wrapper
+    {
+        position: absolute;
+        top: 5.5em;
+        right: 1em;
+    
+        .a-fluent-user-card 
+        {
+            border: 1px solid $ametys-ribbon-tabpanel-usercard-color;
+            padding: 5px;
+            color: $ametys-ribbon-tabpanel-usercard-color;
+            font-size: $ametys-ribbon-tabpanel-usercard-font-size;
+            white-space: nowrap;
+            position: relative;
+            display: inline-block;
+            
+            &:before {
+                content: " ";
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                background-color: $ametys-ribbon-tabpanel-usercard-color;
+                opacity: 0.1;
+            }
+        
+            .photo
+            {
+                display: inline-block;
+                border-radius: 32px;
+                overflow: hidden;
+                margin: $ametys-ribbon-tabpanel-usercard-font-size/2;
+                width: 64px;
+                height: 64px;
+                text-align: center;
+            }
+            .main
+            {
+                display: inline-block;
+                text-align: center;
+                vertical-align: top;
+                padding: 5px;
+                width: auto;
+                height: auto;
+        
+                .name-wrapper
+                {
+                    display: block;
+                    
+                    .name
+                    {
+                        font-size: $ametys-ribbon-tabpanel-usercard-font-size * 2.2;
+                    }
+                    
+                    .login
+                    {
+                        color: lighten($ametys-ribbon-tabpanel-usercard-color, 20%);
+                        font-size: $ametys-ribbon-tabpanel-usercard-font-size * 0.9;
+                        text-align: right;
+                    }
+                }
+        
+                .email
+                {
+                    font-size: $ametys-ribbon-tabpanel-usercard-font-size * 0.9;    
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 960px) {
+    .ametys-common {
+        .a-fluent-user-card-wrapper
+        {
+            position: static;
+            
+            .a-fluent-user-card 
+            {
+                border-right-width: 0;
+                border-bottom-width: 0;
+                border-left-width: 0;
+                
+                padding: 0; 
+                
+                &:before {
+                    content: none;
+                }
+            }
+        }
+    }
+}
