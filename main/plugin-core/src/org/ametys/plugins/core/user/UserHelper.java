@@ -269,7 +269,9 @@ public class UserHelper implements Component, Serviceable, Contextualizable
         
         XMLUtils.createElement(handler, "fullname", user.getFullName());
         XMLUtils.createElement(handler, "sortablename", user.getSortableName());
-        
+
+        _userPopulationDAO.getUserPopulation(user.getIdentity().getPopulationId()).getLabel().toSAX(handler, "populationLabel");
+
         XMLUtils.endElement(handler, "user");
     }
 }
