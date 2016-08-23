@@ -39,6 +39,7 @@ import org.ametys.core.group.GroupIdentity;
 import org.ametys.core.group.GroupManager;
 import org.ametys.core.right.RightAssignmentContextExtensionPoint;
 import org.ametys.core.right.RightManager;
+import org.ametys.core.ui.right.ProfileAssignmentsToolClientSideElement;
 import org.ametys.core.user.User;
 import org.ametys.core.user.UserIdentity;
 import org.ametys.core.user.UserManager;
@@ -111,12 +112,12 @@ public class GetProfileAssignmentsAction extends ServiceableAction
         assignment.put("assignmentType", "1-anonymous");
         
         // First ask on context object
-        _getAnonymousAssignment(assignment, context, "localAllow", "localDeny");
+        _getAnonymousAssignment(assignment, context, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_ALLOW, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_DENY);
         
         // Then ask on parent contexts
         for (Object parentContext : parentContexts)
         {
-            _getAnonymousAssignment(assignment, parentContext, "inheritAllow", "inheritDeny");
+            _getAnonymousAssignment(assignment, parentContext, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_INHERITED_ALLOW, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_INHERITED_DENY);
         }
         
         return assignment;
@@ -151,12 +152,12 @@ public class GetProfileAssignmentsAction extends ServiceableAction
         assignment.put("assignmentType", "2-anyconnected");
         
         // First ask on context object
-        _getAnyConnectedAssignment(assignment, context, "localAllow", "localDeny");
+        _getAnyConnectedAssignment(assignment, context, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_ALLOW, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_DENY);
         
         // Then ask on parent contexts
         for (Object parentContext : parentContexts)
         {
-            _getAnyConnectedAssignment(assignment, parentContext, "inheritAllow", "inheritDeny");
+            _getAnyConnectedAssignment(assignment, parentContext, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_INHERITED_ALLOW, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_INHERITED_DENY);
         }
         
         return assignment;
@@ -188,12 +189,12 @@ public class GetProfileAssignmentsAction extends ServiceableAction
         Map<UserIdentity, Map<String, Object>> assignments = new LinkedHashMap<>();
         
         // First ask on context object
-        _getUserAssignments(assignments, context, "localAllow", "localDeny");
+        _getUserAssignments(assignments, context, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_ALLOW, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_DENY);
         
         // Then ask on parent contexts
         for (Object parentContext : parentContexts)
         {
-            _getUserAssignments(assignments, parentContext, "inheritAllow", "inheritDeny");
+            _getUserAssignments(assignments, parentContext, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_INHERITED_ALLOW, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_INHERITED_DENY);
         }
         
         return new ArrayList<>(assignments.values());
@@ -275,12 +276,12 @@ public class GetProfileAssignmentsAction extends ServiceableAction
         Map<GroupIdentity, Map<String, Object>> assignments = new LinkedHashMap<>();
         
         // First ask on context object
-        _getGroupAssignments(assignments, context, "localAllow", "localDeny");
+        _getGroupAssignments(assignments, context, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_ALLOW, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_DENY);
         
         // Then ask on parent contexts
         for (Object parentContext : parentContexts)
         {
-            _getGroupAssignments(assignments, parentContext, "inheritAllow", "inheritDeny");
+            _getGroupAssignments(assignments, parentContext, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_INHERITED_ALLOW, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_INHERITED_DENY);
         }
         
         return new ArrayList<>(assignments.values());

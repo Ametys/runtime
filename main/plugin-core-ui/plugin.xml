@@ -3028,6 +3028,7 @@
                 </class>
                 <scripts>
                     <file>js/Ametys/plugins/coreui/profiles/ProfileAssignmentsTool.js</file>
+                    <file>js/Ametys/plugins/coreui/profiles/ProfileAssignmentsTool/AssignmentHelper.js</file>
                     <file>js/Ametys/plugins/coreui/profiles/AbstractRightAssignmentContext.js</file>
                 </scripts>
                 <css>

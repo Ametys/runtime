@@ -49,17 +49,263 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         READER_PROFILE_ID: 'READER',
         
         /**
+         * @readonly
+         * @property {String} ACCESS_TYPE_ALLOW Type of access for an allowed access
+         */
+        ACCESS_TYPE_ALLOW: 'allow',
+        
+        /**
+         * @readonly
+         * @property {String} ACCESS_TYPE_DENY Type of access for an denied access
+         */
+        ACCESS_TYPE_DENY: 'deny',
+        
+        /**
+         * @readonly
+         * @property {String} ACCESS_TYPE_INHERITED_ALLOW Type of access for an allowed access by inheritance
+         */
+        ACCESS_TYPE_INHERITED_ALLOW: 'inherited-allow',
+        
+        /**
+         * @readonly
+         * @property {String} ACCESS_TYPE_DENIED Type of access for an denied access by inheritance
+         */
+        ACCESS_TYPE_INHERITED_DENY: 'inherited-deny',
+        
+        /**
+         * @readonly
+         * @property {String} ACCESS_TYPE_ALLOW_BY_GROUP Type of access for an allowed access through groups
+         */
+        ACCESS_TYPE_ALLOW_BY_GROUP: 'allow-by-group',
+        
+        /**
+         * @readonly
+         * @property {String} ACCESS_TYPE_DENY_BY_GROUP Type of access for a denied access through groups
+         */
+        ACCESS_TYPE_DENY_BY_GROUP: 'deny-by-group',
+        
+        /**
+         * @readonly
+         * @property {String} ACCESS_TYPE_ALLOW_BY_ANONYMOUS Type of access for an allowed access through anonymous
+         */
+        ACCESS_TYPE_ALLOW_BY_ANONYMOUS: 'allow-by-anonymous',
+        
+        /**
+         * @readonly
+         * @property {String} ACCESS_TYPE_ALLOW_BY_ANYCONNECTED Type of access for an allowed access through any connected user
+         */
+        ACCESS_TYPE_ALLOW_BY_ANYCONNECTED: 'allow-by-anyconnected',
+        
+        /**
+         * @readonly
+         * @property {String} ACCESS_TYPE_DENY_BY_ANYCONNECTED Type of access for a denied access through any connected user
+         */
+        ACCESS_TYPE_DENY_BY_ANYCONNECTED: 'deny-by-anyconnected',
+        
+        /**
+         * @readonly
+         * @property {String} ACCESS_TYPE_UNKNOWN Type of access for a undetermined access
+         */
+        ACCESS_TYPE_UNKNOWN: 'unknown',
+        
+        /**
          * Function called when an assignment is clicked in order to change its value
          * @param {String} recordId The id of the record
          * @param {String} profileId The profile id (id of the column)
-         * @param {String} value The current value
          */
-        onCellClick: function(recordId, profileId, value)
+        onCellClick: function(recordId, profileId)
         {
             var tool = Ametys.tool.ToolsManager.getTool("uitool-profile-assignment");
             if (tool != null)
             {
-                tool.onCellClick(recordId, profileId, value);
+                tool.onCellClick(recordId, profileId);
+            }
+        },
+        
+        /**
+         * Compute the tooltip for a given record and access type
+         * @param {Ext.data.Model} record The record
+         * @param {String} The access type
+         * @return The tooltip text
+         */
+        computeTooltip: function (record, accessType)
+        {
+        	var type = record.get('assignmentType');
+        	
+        	if (type == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ASSIGNMENT_TYPE_ANONYMOUS)
+        	{
+        		return this._computeTooltipForAnonymous(record, accessType);
+        	}
+        	else if (type == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ASSIGNMENT_TYPE_ANYCONNECTEDUSER)
+        	{
+        		return this._computeTooltipForAnyconnectedUser(record, accessType);
+        	}
+        	else if (type == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ASSIGNMENT_TYPE_USERS)
+        	{
+        		return this._computeTooltipForUser(record, accessType);
+        	}
+        	else if (type == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ASSIGNMENT_TYPE_GROUPS)
+        	{
+        		return this._computeTooltipForGroup(record, accessType);
+        	}
+        },
+        
+        /**
+         * @private
+         * Compute the tooltip for the Anonymous record and access type
+         * @param {Ext.data.Model} record The Anonymous record
+         * @param {String} The access type
+         * @return The tooltip text
+         */
+        _computeTooltipForAnonymous: function (record, accessType)
+        {
+        	switch (accessType) 
+            {
+                case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW:
+                	// Anonymous is locally allowed 
+                	return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANONYMOUS_LOCAL_ALLOWED}}";
+                case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW:
+                	// Anonymous is allowed by inheritance
+                	return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANONYMOUS_INHERIT_ALLOWED}}";
+                case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY:
+                	// Anonymous is locally denied 
+                	return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANONYMOUS_LOCAL_DENIED}}";
+                case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_DENY:
+                	// Anonymous is denied by inheritance
+                	return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANONYMOUS_INHERIT_DENIED}}";
+                case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_UNKNOWN:
+                default:
+                	return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_UNKNOWN}}";
+            }
+        },
+        
+        /**
+         * @private
+         * Compute the tooltip for the anyconnected user record and access type
+         * @param {Ext.data.Model} record The anyconnected user record
+         * @param {String} The access type
+         * @return The tooltip text
+         */
+        _computeTooltipForAnyconnectedUser: function (record, accessType)
+        {
+        	switch (accessType) 
+            {
+            	case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANONYMOUS:
+            		// Any connected users are allowed because Anonymous is allowed
+            		return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANYCONNECTED_DISABLED}}";
+            	case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW:
+                	// Any connected users are locally allowed 
+                	return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANYCONNECTED_LOCAL_ALLOWED}}";
+            	case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW:
+                	// Any connected users are allowed by inheritance
+                	return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANYCONNECTED_INHERIT_ALLOWED}}";
+            	case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY:
+                	// Any connected users are locally denied 
+                	return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANYCONNECTED_LOCAL_DENIED}}";
+            	case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_DENY:
+                	// Any connected users are denied by inheritance
+                	return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANYCONNECTED_INHERIT_DENIED}}";
+            	case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_UNKNOWN:
+                default:
+                	return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_UNKNOWN}}";
+            }
+        },
+        
+        /**
+         * @private
+         * Compute the tooltip for a user record and access type
+         * @param {Ext.data.Model} record The user record
+         * @param {String} The access type
+         * @return The tooltip text
+         */
+        _computeTooltipForUser: function (record, accessType)
+        {
+        	switch (accessType) 
+            {
+            	case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANONYMOUS:
+        			// The user is allowed because Anonymous is allowed
+                    return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_ALLOWED_BY_ANONYMOUS}}";
+                    
+            	case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW:
+                	// The user is locally allowed 
+                	return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_LOCAL_ALLOWED}}";
+                	
+                case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_GROUP:
+                	// The user is allowed because he belongs to a allowed group locally
+                    return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_ALLOWED_BY_GROUP}}";
+                    
+                case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANYCONNECTED:
+                	// The user is allowed because any connected users are allowed
+                    return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_ALLOWED_BY_ANYCONNECTED}}";
+                    
+                case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW:
+                	// The user is allowed by inheritance
+                	return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_INHERIT_ALLOWED}}";
+                	
+                case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY:
+                	// The user is denied 
+                	return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_LOCAL_DENIED}}";
+                	
+                case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY_BY_GROUP:
+                	// The user is denied because he belongs to a denied group locally
+                    return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_DENIED_BY_GROUP}}";
+                    
+                case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY_BY_ANYCONNECTED:
+                	// The user is denied because any connected users are denied
+                	return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_DENIED_BY_ANYCONNECTED}}";
+                	
+                case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_DENY:
+                	// The user is denied by inheritance
+                	return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_INHERIT_DENIED}}";
+                	
+                case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_UNKNOWN:
+                default:
+                	return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_UNKNOWN}}";
+            }
+        },
+        
+        /**
+         * @private
+         * Compute the tooltip for a group record and access type
+         * @param {Ext.data.Model} record The group record
+         * @param {String} The access type
+         * @return The tooltip text
+         */
+        _computeTooltipForGroup: function (record, accessType)
+        {
+        	switch (accessType) 
+            {
+	            case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANONYMOUS:
+	    			// The group is allowed because Anonymous is allowed
+	                return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_ALLOWED_BY_ANONYMOUS}}";
+	                
+	        	case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW:
+	            	// The group is locally allowed 
+	            	return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_LOCAL_ALLOWED}}";
+	            	
+	            case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANYCONNECTED:
+	            	// The group is allowed because any connected users are allowed
+	                return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_ALLOWED_BY_ANYCONNECTED}}";
+	                
+	            case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW:
+	            	// The group is allowed by inheritance
+	            	return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_INHERIT_ALLOWED}}";
+	            	
+	            case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY:
+	            	// The group is denied 
+	            	return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_LOCAL_DENIED}}";
+	            	
+	            case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY_BY_ANYCONNECTED:
+	            	// The group is denied because any connected users are denied
+	            	return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_DENIED_BY_ANYCONNECTED}}";
+	            	
+	            case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_DENY:
+	            	// The group is denied by inheritance
+	            	return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_INHERIT_DENIED}}";
+	            	
+	            case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_UNKNOWN:
+	            default:
+	            	return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_UNKNOWN}}";
             }
         }
     },
@@ -115,8 +361,8 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     
     /**
      * @private
-     * @property {Object} _columns Object containing the columns representing the profiles. 
-     * The key is the profile id, the value is an object (where its key is the record id, the value is the cell value from the server data before computing possible induced values, so it can only be 'unknown', 'localAllow', 'inheritAllow', 'localDenied' or 'inheritDenied')
+     * @property {Object} _storedValues The stored assignments by profile (server-side) 
+     * The key is the profile id, the value is an object (where its key is the record id, the value is the server-side value (with no induced local changes)
      */
     
     createPanel: function()
@@ -125,12 +371,14 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         
         this._contextPanel = Ext.create('Ext.panel.Panel', {
             width: 500,
-            minWidth: 300,
+            minWidth: 340,
             scrollable: true,
             layout: 'card',
+            cls: 'context-panel',
             
             dockedItems: [{
                 xtype: 'toolbar',
+                cls: 'context-toolbar',
                 layout: { 
                     type: 'hbox',
                     align: 'stretch'
@@ -264,13 +512,9 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
             valueField: 'value',
             displayField: 'displayText',
             
-            labelWidth: 150,
-            width: '100%',
-            style: {
-                borderBottomStyle: 'solid',  
-                borderBottomWidth: '1px',
-                paddingBottom: '8px'
-            }
+            labelAlign: 'top',
+            labelSeparator: '',
+            flex: 1
         };
     },
     
@@ -444,74 +688,93 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         this._gridStore.clearFilter(); // We cannot wait for the 'change' event to be fired after the #setValue("") because we created a 500ms buffer and it lead to bugs
         this._assignmentsGrid.down('#user-group-filter').setValue("");
     },
-
+    
+    
+    
     /**
      * Function called when an assignment is clicked in order to change its value
      * @param {String} recordId The id of the record
      * @param {String} profileId The profile id (id of the column)
-     * @param {String} value The current value
      */
-    onCellClick: function(recordId, profileId, currentValue)
+    onCellClick: function(recordId, profileId)
     {
-        // Compute the new value
-        var serverColumn = this._columns[profileId],
-            newValue;
-        
-        if (currentValue == 'localAllow')
+    	var record = this._gridStore.getById(recordId);
+    	if (record.get(profileId) == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANONYMOUS)
+    	{
+    		return;
+    	}
+    	
+    	// Compute and set the new value
+    	var newValue = this._computeNewValue (recordId, profileId);
+    	
+    	// Re-init other local values to be sure to not have previously induced values
+    	this._reinitComputedLocalValues (profileId);
+    	
+        // Compute and update the induced values on other records of same column
+    	var records = this._getUnfilteredRecords();
+    	Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelper.updateLocalAssignments (records, profileId);
+    },
+    
+    /**
+     * @private
+     * Compute the new value for assignment and save the new value on record.
+     * The value is computed on following rotation : Allow <-> Deny <-> Unknown <-> Allow
+     * @param {String} recordId The id of record
+     * @param {String} profileId The id of profile
+     * @return the computed value
+     */
+    _computeNewValue: function (recordId, profileId)
+    {
+    	var record = this._gridStore.getById(recordId);
+
+    	var newValue;
+    	// Local value (client-side)
+    	var currentValue = record.get(profileId);
+    	// Stored value (server-side)
+    	var storedValue = this._storedValues[profileId][recordId] || Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_UNKNOWN;
+    	
+    	if (currentValue == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW)
         {
-            newValue = 'localDeny';
+    		newValue = Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY;
         }
-        else if (currentValue == 'localDeny')
+    	else if (currentValue == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY)
         {
-            var serverValue = serverColumn[recordId]
-            if (serverValue != 'localAllow' && serverValue != 'localDeny')
+    		if (storedValue != Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW && storedValue != Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY)
             {
-                // it's a 'unknown' or 'inheritAllow' or 'inheritDeny' or 'disabled'
-                newValue = serverValue;
+                // Could be unknown or inherit value
+    			newValue = storedValue;
             }
             else
             {
-                newValue = 'unknown';
+            	newValue = Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_UNKNOWN;
             }
         }
-        else
+    	else
         {
-            newValue = 'localAllow';
+    		newValue = Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW;
         }
-        
-        // Change the clicked cell with this new value
-        var dirty = newValue != serverColumn[recordId];
-        this._gridStore.getById(recordId).set(profileId, newValue, {
-            dirty: dirty
-        });
-        
-        // Be sure to not have previously induced values for the entire column...
-        this._getRecordsInStore().each(function(record) {
-            var localRecordId = record.get('id'),
-                serverValue = serverColumn[localRecordId],
-                localValue = record.get(profileId);
-            
-            if (localValue == 'localInducedAllow' || localValue == 'localInducedDeny' || localValue == 'disabled')
-            {
-                this._gridStore.getById(localRecordId).set(profileId, serverValue, {dirty: false});
-            }
-        }, this);
-        
-        // ...but still compute with possible other local dirty assignments
-        var columnWithLocalChanges = {}; // this object represents the column with local changes but without induced values
-        this._getRecordsInStore().each(function(record) {
-            if (record.get('id') != recordId)
-            {
-                columnWithLocalChanges[record.get('id')] = record.get(profileId);
-            }
-            else // the clicked cell
-            {
-                columnWithLocalChanges[recordId] = newValue;
-            }
-        }, this);
-        
-        // Computes and possibly change some cells to induced values on the same column
-        this._computeInducedAssignments(profileId, columnWithLocalChanges, dirty ? recordId : null);
+    	
+    	record.set(profileId, newValue, {dirty: storedValue != newValue});
+    	return newValue;
+    },
+    
+    /**
+     * @private
+     * Reinitialize the local values (client-side) of records with the last stored values (server-side) for the given profile (column) except for the given record
+     * @param {String} profileId The id of profile
+     * @param {String} recordId The id of record to ignore
+     */
+    _reinitComputedLocalValues: function (profileId)
+    {
+    	var storedValues = this._storedValues[profileId]
+    	
+    	this._getUnfilteredRecords().each(function(record) {
+    		if (!record.dirty)
+    		{
+    			var storedValue = storedValues[record.getId()] || Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_UNKNOWN;
+        		record.set(profileId, storedValue, {dirty: false})
+    		}
+    	});
     },
     
     /**
@@ -541,7 +804,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
             if (recordsToAdd.length == count)
             {
                 this._gridStore.add(recordsToAdd);
-                this._onStoreUpdated(this._getRecordsInStore().getRange());
+                this._onStoreUpdated(this._getUnfilteredRecords().getRange());
             }
         }
         
@@ -571,7 +834,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
             });
         }, this);
         
-        this._onStoreUpdated(this._getRecordsInStore().getRange());
+        this._onStoreUpdated(this._getUnfilteredRecords().getRange());
     },
     
     /**
@@ -594,7 +857,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
                 Ext.Array.forEach(this._profiles, function(profile) {
                     var profileId = profile.id,
                         currentAssignment = record.get(profileId);
-                    if (currentAssignment == 'localAllow' || currentAssignment == 'localDeny')
+                    if (currentAssignment == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW || currentAssignment == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY)
                     {
                         var assignmentInfo = {
                             profileId: profileId,
@@ -650,7 +913,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
             Ext.Object.each(record.modified, function(profileId) {
                 var assignmentInfo = {
                     profileId: profileId,
-                    assignment: record.get(profileId) // 'localAllow', 'localDeny' or others
+                    assignment: record.get(profileId) // 'allow', 'deny' or others
                 };
                 switch (record.get('assignmentType')) {
                     case this.self.ASSIGNMENT_TYPE_ANONYMOUS:
@@ -792,19 +1055,24 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     
     /**
      * @private
-     * This function has to be called after the store is modified 
-     * For instance, callback of the store loading, or after adding a new user record.
+     * This function has to be invoked after the store is modified 
+     * For instance, callback of the store loading, or after adding a new user/group record.
      * @param {Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.Entry[]} records The records of the grid
      */
     _onStoreUpdated: function(records)
     {
-        this._updateColumnsObject(records);
-        // Now update the records
-        Ext.Object.each(this._columns, function(profileId, column) {
-            this._computeInducedAssignments(profileId, column, null);
-        }, this);
-        
-        // Clear the selection
+    	var me = this;
+    	
+    	// Update the server-side values
+    	this._reinitStoredValues();
+    	
+    	// Update local assignments for each profiles
+    	var records = this._getUnfilteredRecords();
+    	Ext.Array.forEach(this._profiles, function(profile) {
+    		Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelper.updateLocalAssignments (records, profile.id);
+    	});
+    	
+    	// Clear the selection
         this._assignmentsGrid.getSelectionModel().deselectAll();
     },
     
@@ -813,273 +1081,20 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
      * Create a columns object representing the columns
      * @param {Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.Entry[]} records The records read from the server
      */
-    _updateColumnsObject: function(records)
+    _reinitStoredValues: function(records)
     {
-        this._columns = {};
+        this._storedValues = {};
         Ext.Array.forEach(this._profiles, function(profile) {
-            this._columns[profile.id] = {};
+            this._storedValues[profile.id] = {};
         }, this);
         
-        Ext.Array.forEach(records, function(record) {
-            Ext.Object.each(this._columns, function(profileId, column) {
-                if (record.get(profileId) != null)
-                {
-                    column[record.get('id')] = record.get(profileId);
-                }
-                else
-                {
-                    column[record.get('id')] = 'unknown';
-                }
+        var records = this._getUnfilteredRecords();
+        records.each(function(record) {
+            Ext.Object.each(this._storedValues, function(profileId, assignments) {
+            	assignments[record.getId()] = record.get(profileId) || Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_UNKNOWN;
             }, this)
         }, this);
     },
-    
-    /**
-     * @private
-     * Computes the induces assignments on a column.
-     * @param {String} profileId The id of the column (the id of the profile)
-     * @param {Object} column The column
-     * @param {String} [dirtyRecordId] The id of the record which has to be set with the 'dirty' option to true. Other records will be set with 'dirty' at false'. 
-     * Typically when one cell is currently modified and need to be visually marked. Can be null
-     */
-    _computeInducedAssignments: function(profileId, column, dirtyRecordId)
-    {
-        // When iterating, we need to be sure anonymous and anyconnected are the two first records (for then computing the others)
-        // and we need to be sure group records come before all user records, as user records can be computed from their groups values
-        
-        var groups = {},
-            users = {};
-        
-        Ext.Object.each(column, function(recordId, assignment) {
-            var dirty = recordId === dirtyRecordId,
-                type = this._gridStore.getById(recordId).get('assignmentType');
-            switch (type) {
-                case this.self.ASSIGNMENT_TYPE_ANONYMOUS:
-                    this._checkDenyInducedByAnyConnected(this._getRecordsInStore(), profileId, column, recordId, assignment, dirty);
-                    break;
-                case this.self.ASSIGNMENT_TYPE_ANYCONNECTEDUSER:
-                    this._checkAllowInducedByAnonymous(this._getRecordsInStore(), profileId, column, recordId, assignment, dirty);
-                    break;
-                case this.self.ASSIGNMENT_TYPE_GROUPS:
-                    groups[recordId] = assignment;
-                    break;
-                case this.self.ASSIGNMENT_TYPE_USERS:
-                    users[recordId] = assignment;
-                    break;
-                default:
-                    break;
-            }
-        }, this);
-        
-        Ext.Object.each(groups, function(recordId, assignment) {
-            var dirty = recordId === dirtyRecordId;
-            this._checkInducedByAnyConnectedAndAnonymous(this._getRecordsInStore(), profileId, column, recordId, assignment, dirty);
-        }, this);
-        
-        Ext.Object.each(users, function(recordId, assignment) {
-            var dirty = recordId === dirtyRecordId;
-            var wasChanged = this._checkInducedByGroups(this._getRecordsInStore(), profileId, column, recordId, assignment, dirty);
-            if (!wasChanged)
-            {
-                this._checkInducedByAnyConnectedAndAnonymous(this._getRecordsInStore(), profileId, column, recordId, assignment, dirty);
-            }
-        }, this);
-    },
-    
-    /**
-     * @private
-     * Checks if there are 'disabled' assignments from anonymous and updates the record if so
-     * @param {Ext.util.Collection} allRecords The records
-     * @param {String} profileId The id of the profile
-     * @param {Object} column The object representing the column
-     * @param {String} recordId The id of the record
-     * @param {String} assignment The assignment of the cell
-     * @param {Boolean} dirty true if the update is dirty
-     */
-    _checkAllowInducedByAnonymous: function(allRecords, profileId, column, recordId, assignment, dirty)
-    {
-        if (assignment != 'localAllow' && assignment != 'localDeny')
-        {
-            // Check anonymous value
-            var anonymousRecordId = this._getAnonymousRecord(allRecords).get('id');
-            if (column[anonymousRecordId] == 'localAllow' || column[anonymousRecordId] == 'inheritAllow')
-            {
-                allRecords.get(recordId).set(profileId, 'disabled', {dirty: dirty})
-            }
-        }
-    },
-    
-    /**
-     * @private
-     * Gets the anonymous record
-     * @param {Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.Entry[]} records The records
-     * @return {Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.Entry} the anonymous record
-     */
-    _getAnonymousRecord: function(records)
-    {
-        var result;
-        records.each(function(record) {
-            if (record.get('assignmentType') == this.self.ASSIGNMENT_TYPE_ANONYMOUS)
-            {
-                result = record;
-                return false;
-            }
-        }, this);
-        
-        return result;
-    },
-    
-    /**
-     * @private
-     * Checks if there are 'localInducedDeny' assignments from anyconnected and updates the record if so
-     * @param {Ext.util.Collection} allRecords The records
-     * @param {String} profileId The id of the profile
-     * @param {Object} column The object representing the column
-     * @param {String} recordId The id of the record
-     * @param {String} assignment The assignment of the cell
-     * @param {Boolean} dirty true if the update is dirty
-     */
-    _checkDenyInducedByAnyConnected: function(allRecords, profileId, column, recordId, assignment, dirty)
-    {
-        if (assignment != 'localAllow' && assignment != 'localDeny')
-        {
-            // Check anyconnected value
-            var anyconnectedRecordId = this._getAnyConnectedRecord(allRecords).get('id');
-            if (column[anyconnectedRecordId] == 'localDeny')
-            {
-                allRecords.get(recordId).set(profileId, 'localInducedDeny', {dirty: dirty})
-            }
-        }
-    },
-    
-    /**
-     * @private
-     * Gets the anyconnected record
-     * @param {Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.Entry[]} records The records
-     * @return {Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.Entry} the anyconnected record
-     */
-    _getAnyConnectedRecord: function(records)
-    {
-        var result;
-        records.each(function(record) {
-            if (record.get('assignmentType') == this.self.ASSIGNMENT_TYPE_ANYCONNECTEDUSER)
-            {
-                result = record;
-                return false;
-            }
-        }, this);
-        
-        return result;
-    },
-    
-    /**
-     * @private
-     * Checks if there are induced assignments from anyconnected and anonymous and updates the record if so
-     * @param {Ext.util.Collection} allRecords The records
-     * @param {String} profileId The id of the profile
-     * @param {Object} column The object representing the column
-     * @param {String} recordId The id of the record
-     * @param {String} assignment The assignment of the cell
-     * @param {Boolean} dirty true if the update is dirty
-     */
-    _checkInducedByAnyConnectedAndAnonymous: function(allRecords, profileId, column, recordId, assignment, dirty)
-    {
-        if (assignment != 'localAllow' && assignment != 'localDeny')
-        {
-            // Check anyconnected value, then anonymous value
-            var anyconnectedRecordId = this._getAnyConnectedRecord(allRecords).get('id');
-            var anonymousRecordId = this._getAnonymousRecord(allRecords).get('id');
-            
-            if (column[anonymousRecordId] == 'localAllow' || column[anonymousRecordId] == 'inheritAllow')
-            {
-                allRecords.get(recordId).set(profileId, 'disabled', {dirty: dirty})
-            }
-            else if (column[anyconnectedRecordId] == 'localDeny')
-            {
-                allRecords.get(recordId).set(profileId, 'localInducedDeny', {dirty: dirty})
-            }
-//            else if (column[anyconnectedRecordId] == 'inheritDeny')
-//            {
-//                allRecords.get(recordId).set(profileId, 'inheritDeny', {dirty: dirty})
-//            }
-            else if (column[anyconnectedRecordId] == 'localAllow')
-            {
-                allRecords.get(recordId).set(profileId, 'localInducedAllow', {dirty: dirty})
-            }
-//            else if (column[anyconnectedRecordId] == 'inheritAllow')
-//            {
-//                allRecords.get(recordId).set(profileId, 'inheritAllow', {dirty: dirty})
-//            }
-        }
-    },
-    
-    /**
-     * @private
-     * Checks if there are induced assignments for a user from its groups 
-     * @param {Ext.util.Collection} allRecords The records
-     * @param {String} profileId The id of the profile
-     * @param {Object} column The object representing the column
-     * @param {String} recordId The id of the record
-     * @param {String} assignment The assignment of the cell
-     * @param {Boolean} dirty true if the update is dirty
-     */
-    _checkInducedByGroups: function(allRecords, profileId, column, recordId, assignment, dirty)
-    {
-        var isAllowed = false,
-            isDenied = false;;
-        
-        if (assignment != 'localAllow' && assignment != 'localDeny')
-        {
-            Ext.Array.forEach(allRecords.get(recordId).get('groups'), function(group) {
-                var groupRecord = this._getGroupRecord(group.groupId, group.groupDirectory, allRecords);
-                if (groupRecord != null)
-                {
-                    var groupRecordId = groupRecord.get('id'); 
-                    if (column[groupRecordId] == 'localDeny')
-                    {
-                        // at least one denied group
-                        allRecords.get(recordId).set(profileId, 'localInducedDeny', {dirty: dirty});
-                        isDenied = true;
-                    }
-                    else if (column[groupRecordId] == 'localAllow')
-                    {
-                        isAllowed = true;
-                    }
-                }
-            }, this);
-            
-        }
-        
-        if (isAllowed)
-        {
-            allRecords.get(recordId).set(profileId, 'localInducedAllow', {dirty: dirty});
-        }
-        return isDenied || isAllowed;
-    },
-    
-    /**
-     * @private
-     * Gets the record of the corresponding group 
-     * @param {String} groupId the id of the group
-     * @param {String} groupDirectory the id of the group directory
-     * @param {Ext.util.Collection} allRecords  the records
-     * @return {Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.Entry} the record of the corresponding group. Can be null
-     */
-    _getGroupRecord: function(groupId, groupDirectory, allRecords)
-    {
-        var result = null;
-        allRecords.each(function(record) {
-            if (record.get('groupId') == groupId && record.get('groupDirectory') == groupDirectory)
-            {
-                // found, stop iteration
-                result = record;
-                return false;
-            }
-        }, this);
-        
-        return result;
-    },
-        
     
     /**
      * @private
@@ -1231,7 +1246,6 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         
         var newColumns = [];
         Ext.Array.forEach(profiles, function(profile) {
-            var tdCls = profile.id == this.self.READER_PROFILE_ID ? 'a-grid-cell-reader' : ''; 
             newColumns.push({
                 stateId: 'grid-profile-' + profile.id,
                 text: profile.label,
@@ -1239,7 +1253,8 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
                 hideable: profile.id != this.self.READER_PROFILE_ID,
                 sortable: false,
                 align: 'center',
-                tdCls: tdCls,
+                cls: profile.id == this.self.READER_PROFILE_ID ? 'a-column-header-reader' : '',
+                tdCls: profile.id == this.self.READER_PROFILE_ID ? 'a-grid-cell-reader' : '',
                 renderer: this._renderAssignment
             });
         }, this);
@@ -1290,7 +1305,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
             Ext.Array.each(me._profiles, function(profile) {
                 var profileId = profile.id,
                     assignment = record.get(profileId);
-                if (assignment == 'localAllow' || assignment == 'localDeny')
+                if (assignment == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW || assignment == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY)
                 {
                     result = true;
                     return false;
@@ -1364,84 +1379,68 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     {
         var me = Ametys.plugins.coreui.profiles.ProfileAssignmentsTool;
         
-        var img, color, tooltip;
+        var glyph, suffix;
         
+        if (record.get('sortableLabel') == 'User Administrator')
+        {
+        	console.info('Assignement ' + value + ' for record ' + (record.get('sortableLabel') || record.getId()) + " and column " + metaData.column.dataIndex);
+        }
         switch (value) 
         {
-            case "disabled":
-                img = "check";
-                color = "lightgreen";
-                tooltip = "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_DISABLED}}";
+            case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANONYMOUS:
+                glyph = "ametysicon-check";
+                suffix = "allowed disabled";
                 break;
-            case "localAllow":
-                img = "check-1";
-                color = "green";
-                tooltip = "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_ALLOW}}"
+            case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW:
+                glyph = "ametysicon-check-1";
+                suffix = "allowed";
                 break;
-            case "localInducedAllow":
-                img = "check";
-                color = "green";
-                if (record.get('assignmentType') == me.ASSIGNMENT_TYPE_USERS)
-                {
-                    tooltip = "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_INDUCED_ALLOW_USER}}"
-                }
-                else
-                {
-                    tooltip = "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_INDUCED_ALLOW_OTHER}}"
-                }
+            case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_GROUP:
+            case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANYCONNECTED:
+                glyph = "ametysicon-check";
+                suffix = "allowed";
                 break;
-            case "inheritAllow":
-                img = "check";
-                color = "black";
-                tooltip = "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_INHERIT_ALLOW}}"
+            case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW:
+                glyph = "ametysicon-check";
+                suffix = "inherit-allowed";
                 break;
-                
-            case "localDeny":
-                img = "cross-1";
-                color = "red";
-                tooltip = "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_DENY}}"
+            case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY:
+                glyph = "ametysicon-cross-1";
+                suffix = "denied"; 
                 break;
-            case "localInducedDeny":
-                img = "cross"; 
-                color = "red";
-                if (record.get('assignmentType') == me.ASSIGNMENT_TYPE_USERS)
-                {
-                    tooltip = "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_INDUCED_DENY_USER}}"
-                }
-                else
-                {
-                    tooltip = "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_LOCAL_INDUCED_DENY_OTHER}}"
-                }
+            case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY_BY_GROUP:
+            case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY_BY_ANYCONNECTED:
+                glyph = "ametysicon-cross"; 
+                suffix = "denied"; 
                 break;
-            case "inheritDeny":
-                img = "cross"; 
-                color = "black";
-                tooltip = "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_INHERIT_DENY}}"
+            case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_DENY:
+            	// Denied by inheritance
+                glyph = "ametysicon-cross"; 
+                suffix = "inherit-denied"; 
                 break;
-                
-            case "unknown":
+            case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_UNKNOWN:
             default:
-                img = "circle";
-                color = "black";
-                tooltip = "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_UNKNOWN}}"
+            	// Undetermined
+                glyph = "ametysicon-question13";
+                suffix = "inherit";
         }
+        
+        var tooltip = Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.computeTooltip(record, value);
         
         metaData.tdAttr = 'data-qtip="' + tooltip + '"';
         
-        var onclickFn = "Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.onCellClick('" + record.get('id') + "', '" + metaData.column.dataIndex + "', '" + value + "')";
+        var onclickFn = "Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.onCellClick('" + record.get('id') + "', '" + metaData.column.dataIndex + "')";
         
-        if (value == "disabled")
+        if (value == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANONYMOUS)
         {
-            return '<span class="a-grid-glyph a-grid-assignment-glyph ametysicon-' + img
-                    + ' a-grid-glyph-' + color
-                    + '" />';
+        	// Disable cell (no action available)
+        	//console.info("Disable " + (record.get('sortableLabel') || record.getId()) + " / " + metaData.column.dataIndex);
+            return '<span class="a-grid-assignment-glyph ' + glyph + ' ' + suffix + '" />';
         }
         else
         {
-            return '<a class="a-grid-glyph a-grid-assignment-glyph ametysicon-' + img
-                    + ' a-grid-glyph-' + color
-                    + '" href="javascript:void(0)" onclick="' 
-                    + onclickFn + '" />';
+        	//console.info("Enable " + (record.get('sortableLabel') || record.getId()) + " / " + metaData.column.dataIndex);
+            return '<span class="a-grid-assignment-glyph ' + glyph + ' ' + suffix + '" onclick="' + onclickFn + '" />';
         }
     },
     
@@ -1450,7 +1449,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
      * Gets all records in the assignment grid store, even the unfiltered items if there is a filter in this store.
      * @return {Ext.util.Collection}
      */
-    _getRecordsInStore: function()
+    _getUnfilteredRecords: function()
     {
         var collection = this._gridStore.getData(),
             unfilteredItems = collection.getSource();

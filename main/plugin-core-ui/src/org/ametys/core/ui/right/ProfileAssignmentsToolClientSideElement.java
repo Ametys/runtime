@@ -45,6 +45,15 @@ import org.ametys.core.user.UserIdentity;
  */
 public class ProfileAssignmentsToolClientSideElement extends StaticClientSideElement
 {
+    /** Allowed access */
+    public static final String ACCESS_TYPE_ALLOW = "allow";
+    /** Denied access */
+    public static final String ACCESS_TYPE_DENY = "deny";
+    /** Allowed access by inheritance */
+    public static final String ACCESS_TYPE_INHERITED_ALLOW = "inherited-allow";
+    /** Denied access by inheritance */
+    public static final String ACCESS_TYPE_INHERITED_DENY = "inherited-deny";
+    
     /** The extension point for right assignment contexts */
     protected RightAssignmentContextExtensionPoint _rightAssignmentContextEP;
     /** The DAO for group directories */
@@ -162,7 +171,7 @@ public class ProfileAssignmentsToolClientSideElement extends StaticClientSideEle
      * @param assignmentsInfo The list of all the changes to make. Each map in the list must contain the following keys:
      * <ol>
      * <li><b>profileId</b> for the id of the profile (as a string)</li>
-     * <li><b>assignment</b> for the kind of assignment (can be "localAllow", "localDeny"...)</li>
+     * <li><b>assignment</b> for the kind of assignment (can be ACCESS_TYPE_ALLOW, ACCESS_TYPE_DENY...)</li>
      * <li><b>assignmentType</b> expects one of these four strings: "user", "group", "anonymous", "anyConnectedUser"</li>
      * <li><b>identity</b> Can be null if assignmentType is "anonymous" or "anyConnectedUser". If "user", must be a map with the keys "login" and "population". If "group", must be a map with the keys "groupId" and "groupDirectory"</li>
      * </ol>
@@ -192,12 +201,12 @@ public class ProfileAssignmentsToolClientSideElement extends StaticClientSideEle
         switch (assignmentType)
         {
             case "anonymous":
-                if ("localAllow".equals(assignment))
+                if (ACCESS_TYPE_ALLOW.equals(assignment))
                 {
                     _rightManager.removeDeniedProfileFromAnonymous(profileId, context);
                     _rightManager.allowProfileToAnonymous(profileId, context);
                 }
-                else if ("localDeny".equals(assignment))
+                else if (ACCESS_TYPE_DENY.equals(assignment))
                 {
                     _rightManager.removeAllowedProfileFromAnonymous(profileId, context);
                     _rightManager.denyProfileToAnonymous(profileId, context);
@@ -210,12 +219,12 @@ public class ProfileAssignmentsToolClientSideElement extends StaticClientSideEle
                 break;
                 
             case "anyConnectedUser":
-                if ("localAllow".equals(assignment))
+                if (ACCESS_TYPE_ALLOW.equals(assignment))
                 {
                     _rightManager.removeDeniedProfileFromAnyConnectedUser(profileId, context);
                     _rightManager.allowProfileToAnyConnectedUser(profileId, context);
                 }
-                else if ("localDeny".equals(assignment))
+                else if (ACCESS_TYPE_DENY.equals(assignment))
                 {
                     _rightManager.removeAllowedProfileFromAnyConnectedUser(profileId, context);
                     _rightManager.denyProfileToAnyConnectedUser(profileId, context);
@@ -229,12 +238,12 @@ public class ProfileAssignmentsToolClientSideElement extends StaticClientSideEle
                 
             case "user":
                 UserIdentity user = new UserIdentity(identity.get("login"), identity.get("population"));
-                if ("localAllow".equals(assignment))
+                if (ACCESS_TYPE_ALLOW.equals(assignment))
                 {
                     _rightManager.removeDeniedProfileFromUser(user, profileId, context);
                     _rightManager.allowProfileToUser(user, profileId, context);
                 }
-                else if ("localDeny".equals(assignment))
+                else if (ACCESS_TYPE_DENY.equals(assignment))
                 {
                     _rightManager.removeAllowedProfileFromUser(user, profileId, context);
                     _rightManager.denyProfileToUser(user, profileId, context);
@@ -249,12 +258,12 @@ public class ProfileAssignmentsToolClientSideElement extends StaticClientSideEle
             case "group":
             default:
                 GroupIdentity group = new GroupIdentity(identity.get("groupId"), identity.get("groupDirectory"));
-                if ("localAllow".equals(assignment))
+                if (ACCESS_TYPE_ALLOW.equals(assignment))
                 {
                     _rightManager.removeDeniedProfileFromGroup(group, profileId, context);
                     _rightManager.allowProfileToGroup(group, profileId, context);
                 }
-                else if ("localDeny".equals(assignment))
+                else if (ACCESS_TYPE_DENY.equals(assignment))
                 {
                     _rightManager.removeAllowedProfileFromGroup(group, profileId, context);
                     _rightManager.denyProfileToGroup(group, profileId, context);

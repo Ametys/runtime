@@ -13,8 +13,26 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
- 
- .uitool-profile-assignment > .x-box-inner > .x-box-target > .x-panel:first-child {
+
+.uitool-profile-assignment .context-toolbar {
+	background-color: #e5f8ff;
+	padding: 0 0 4px 5px;
+	border-bottom: 1px solid #35baf6 !important;
+}
+
+.uitool-profile-assignment .context-panel .x-panel-body {
+	padding-top: 5px;
+}
+
+.uitool-profile-assignment .a-grid-cell-reader {
+	background-color: #def1d8;
+}
+
+.uitool-profile-assignment .a-column-header-reader {
+	background-color: #def1d8;
+}
+
+.uitool-profile-assignment > .x-box-inner > .x-box-target > .x-panel:first-child {
     border-right-style: solid;
     border-right-width: 1px;
  }
@@ -24,27 +42,30 @@
     border-left-width: 1px;
  }
  
-.x-grid-cell .a-grid-glyph.a-grid-glyph-black:before {
-	color: black;
-}
-
-.x-grid-cell .a-grid-glyph.a-grid-glyph-red:before {
-	color: #CC3333;
-}
-
-.x-grid-cell .a-grid-glyph.a-grid-glyph-green:before {
-	color: #00BDC0;
-}
-
-.x-grid-cell .a-grid-glyph.a-grid-glyph-lightgreen:before {
-	color: #00BDC0;
-	opacity: 0.4;
-}
-
 .a-grid-assignment-glyph {
 	text-decoration: none;
 }
 
-.a-grid-cell-reader {
-	background-color: #e1e1e1;
+.a-grid-assignment-glyph:before {
+	font-size: 18px;
 }
+ 
+.a-grid-assignment-glyph.inherit:before,
+.a-grid-assignment-glyph.inherit-denied:before,
+.a-grid-assignment-glyph.inherit-allowed:before {
+	color: #555555;
+}
+
+.a-grid-assignment-glyph.denied:before {
+	color: #CC0000;
+}
+
+.a-grid-assignment-glyph.allowed:before {
+	color: #74c559;
+}
+
+.a-grid-assignment-glyph.disabled:before {
+	opacity: 0.4;
+}
+
+
