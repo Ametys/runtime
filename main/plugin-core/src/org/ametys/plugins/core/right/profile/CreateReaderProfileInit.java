@@ -37,6 +37,7 @@ public class CreateReaderProfileInit extends SqlTablesInit
     @Override
     public void service(ServiceManager manager) throws ServiceException
     {
+        super.service(manager);
         _rightManager = (RightManager) manager.lookup(RightManager.ROLE);
     }
     
