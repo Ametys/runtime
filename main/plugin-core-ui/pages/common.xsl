@@ -125,6 +125,7 @@
     
     <xsl:template name="button">
         <xsl:param name="text"/>
+        <xsl:param name="title"/>
         <xsl:param name="action"/>
         <xsl:param name="href">javascript:void(0)</xsl:param>
         <xsl:param name="condition"/>
@@ -136,7 +137,7 @@
                 {
             </xsl:if>
             document.write("&lt;p class='additionnal'>\
-                          &lt;a href=\"<xsl:value-of select='$href'/>\" onclick=\"<xsl:if test="$type = 'toggle'">this.className = (this.className == '') ? 'toggled' : ''; </xsl:if><xsl:if test="$type = 'load'">this.parentNode.remove(this); document.body.className = 'done'; document.getElementById('pulse').style.display = '';</xsl:if> <xsl:copy-of select='$action'/>\">\
+                          &lt;a <xsl:if test="$title">title=\"<xsl:value-of select='$title'/>\"</xsl:if> href=\"<xsl:value-of select='$href'/>\" onclick=\"<xsl:if test="$type = 'toggle'">this.className = (this.className == '') ? 'toggled' : ''; </xsl:if><xsl:if test="$type = 'load'">this.parentNode.remove(this); document.body.className = 'done'; document.getElementById('pulse').style.display = '';</xsl:if> <xsl:copy-of select='$action'/>\">\
                           <xsl:copy-of select="$text"/>\
                           &lt;/a>\
                           &lt;/p>\

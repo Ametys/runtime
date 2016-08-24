@@ -426,6 +426,11 @@ public class AmetysXSLTHelper implements Contextualizable, Serviceable
             }
         }
         
+        if (_currentUserProvider.canLogout())
+        {
+            domBuilder.getDocument().getDocumentElement().setAttribute("logoutable", "true");
+        }
+        
         return domBuilder.getDocument();
     }
     

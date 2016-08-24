@@ -111,9 +111,19 @@ $ametys-ribbon-tabpanel-usercard-font-size: 0.9em;
         top: 5.5em;
         right: 1em;
     
+        p {
+            font-size: 1.7em;
+            margin: 0;
+        }
+        .la-ball-pulse
+        {
+            margin-top: 0;
+        }
+    
         .a-fluent-user-card 
         {
             border: 1px solid $ametys-ribbon-tabpanel-usercard-color;
+            background-color: rgba(0,0,0,0.1);
             padding: 5px;
             color: $ametys-ribbon-tabpanel-usercard-color;
             font-size: $ametys-ribbon-tabpanel-usercard-font-size;
@@ -121,17 +131,6 @@ $ametys-ribbon-tabpanel-usercard-font-size: 0.9em;
             position: relative;
             display: inline-block;
             
-            &:before {
-                content: " ";
-                position: absolute;
-                top: 0;
-                left: 0;
-                bottom: 0;
-                right: 0;
-                background-color: $ametys-ribbon-tabpanel-usercard-color;
-                opacity: 0.1;
-            }
-        
             .photo
             {
                 display: inline-block;
@@ -189,11 +188,8 @@ $ametys-ribbon-tabpanel-usercard-font-size: 0.9em;
                 border-bottom-width: 0;
                 border-left-width: 0;
                 
+                background-color: transparent;
                 padding: 0; 
-                
-                &:before {
-                    content: none;
-                }
             }
         }
     }

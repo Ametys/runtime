@@ -42,7 +42,37 @@
 						<div class="email" title="{$user/email}"><xsl:value-of select="$user/email"/></div>
 					</xsl:if>
 				</div>
+				
+				<script type="text/javascript">
+				    function logout()
+				    {
+				        var iframe = document.createElement("iframe");
+				        iframe.src = "<xsl:value-of select='$contextPath'/>/plugins/core-ui/servercomm/messages.xml?content={%220%22:{%22pluginOrWorkspace%22:%22core-ui%22,%22responseType%22:%22text%22,%22url%22:%22client-call%22,%22parameters%22:{%22role%22:%22org.ametys.core.ui.RibbonControlsManager%22,%22id%22:%22org.ametys.core.ui.user.logout%22,%22methodName%22:%22logout%22,%22parameters%22:[]}}}";
+				        iframe.style.position = "absolute";
+				        iframe.style.top = "-10000px";
+                        iframe.style.left = "-10000px";
+                        iframe.style.width = "1px";
+                        iframe.style.height = "1px";
+                        iframe.onload = function() {
+                            if (iframe.contentWindow.document)
+                            {
+                                // We do not test iframe.contentWindow.document.children[0].children[0].innerHTML == "true" since we do not know what we could do if it was false :(
+				                window.location.reload();
+                            }
+                        }
+                        document.body.appendChild(iframe);
+				    }
+				</script>
+				
+				<xsl:if test="$user/@logoutable">
+			        <xsl:call-template name="button">
+			            <xsl:with-param name="text"><i18n:text i18n:key='PLUGINS_CORE_UI_USER_LOGOUT_LABEL' i18n:catalogue='plugin.core-ui'/></xsl:with-param>
+                        <xsl:with-param name="title"><i18n:text i18n:key='ui:PLUGINS_CORE_UI_USER_LOGOUT_DESCRIPTION' i18n:catalogue='plugin.core-ui'/></xsl:with-param>
+			            <xsl:with-param name="action" select="'logout()'"/>
+			        </xsl:call-template>
+				</xsl:if>
 			</div>
+			
 	    </div>
     </xsl:template>
 		
