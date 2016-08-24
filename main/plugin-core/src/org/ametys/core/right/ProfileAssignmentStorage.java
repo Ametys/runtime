@@ -45,17 +45,17 @@ public interface ProfileAssignmentStorage
     public boolean hasPermission(UserIdentity user, Set<GroupIdentity> userGroups, Set<String> profileIds);
     
     
-    /* ------------------------------------------------- */
-    /* HAS PERMISSION WITH ANY PROFILE AND ON ANY OBJECT */
-    /* ------------------------------------------------- */
+    /* ------------------------------ */
+    /* ALLOWED PROFILES ON ANY OBJECT */
+    /* ------------------------------ */
     
     /**
-     * Returns true if the user has a permission on at least one object supported by this profile asssignment storage
+     * Returns the allowed and not denied profiles on any object supported by this profile asssignment storage
      * @param user The user
      * @param userGroups The groups
-     * @return true if the user has a permission on at least one object supported by this profile asssignment storage
+     * @return the allowed and not denied profiles on any object supported by this profile asssignment storage
      */
-    public boolean hasPermission(UserIdentity user, Set<GroupIdentity> userGroups);
+    public Set<String> getAllowedProfiles(UserIdentity user, Set<GroupIdentity> userGroups);
     
     
     /* --------------------------------------- */

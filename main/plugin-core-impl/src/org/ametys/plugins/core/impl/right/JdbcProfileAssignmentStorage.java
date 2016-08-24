@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -798,51 +799,36 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
     }
     
     
-    /* ------------------------------------------------- */
-    /* HAS PERMISSION WITH ANY PROFILE AND ON ANY OBJECT */
-    /* ------------------------------------------------- */
+    /* ------------------------------ */
+    /* ALLOWED PROFILES ON ANY OBJECT */
+    /* ------------------------------ */
     
     @Override
-    public boolean hasPermission(UserIdentity user, Set<GroupIdentity> userGroups)
+    public Set<String> getAllowedProfiles(UserIdentity user, Set<GroupIdentity> userGroups)
     {
-        // 1) Search at least one allowed profile for a context which is not in denied for the user
-        if (_hasAllowedProfile(user, null))
-        {
-            return true;
-        }
+        Set<String> profiles = new HashSet<>();
         
-        // 2) Search at least one allowed profile for a context which is not in denied for a group
+        profiles.addAll(_getAllowedProfiles(user, null));
+        
         for (GroupIdentity group : userGroups)
         {
-            if (_hasAllowedProfile(group, null))
-            {
-                return true;
-            }
+            profiles.addAll(_getAllowedProfiles(group, null));
         }
         
-        // 3) Search at least one allowed profile for a context which is not in denied for any connected user
-        if (_hasAnyConnectedAllowedProfile(null))
-        {
-            return true;
-        }
+        profiles.addAll(_getAnyConnectedAllowedProfiles(null));
         
-        // 4) Search at least one allowed profile for a context which is not in denied for anonymous
-        if (_hasAnonymousAllowedProfile(null))
-        {
-            return true;
-        }
+        profiles.addAll(_getAnonymousAllowedProfiles(null));
         
-        // 5) Not found, return false
-        return false;
+        return profiles;
     }
     
     /**
-     * Returns true if the user has at least one allowed profile on any context object (and has not the denied profile on the same object)
+     * Returns the allowed profiles for the user on any context object (and not denied on the same object)
      * @param user The user
      * @param prefix If not null, add a 'LIKE prefix%' clause to restrict the search over the contexts begining with the prefix
-     * @return true if the user has at least one allowed profile on any context object (and has not the denied profile on the same object)
+     * @return the allowed profiles for the user on any context object (and not denied on the same object)
      */
-    protected boolean _hasAllowedProfile(UserIdentity user, String prefix)
+    protected Set<String> _getAllowedProfiles(UserIdentity user, String prefix)
     {
         Map<String, Set<String>> profilesByContext = new HashMap<>();
         
@@ -966,16 +952,17 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
             ConnectionHelper.cleanup(connection);
         }
         
-        return !profilesByContext.isEmpty();
+        // Return remaining profiles ignoring their context object
+        return profilesByContext.entrySet().stream().flatMap(entry -> entry.getValue().stream()).collect(Collectors.toSet());
     }
     
     /**
-     * Returns true if the group has at least one allowed profile on any context object (and has not the denied profile on the same object)
+     * Returns the allowed profiles for the group on any context object (and not denied on the same object)
      * @param group The group
      * @param prefix If not null, add a 'LIKE prefix%' clause to restrict the search over the contexts begining with the prefix
-     * @return true if the group has at least one allowed profile on any context object (and has not the denied profile on the same object)
+     * @return the allowed profiles for the group on any context object (and not denied on the same object)
      */
-    protected boolean _hasAllowedProfile(GroupIdentity group, String prefix)
+    protected Set<String> _getAllowedProfiles(GroupIdentity group, String prefix)
     {
         Map<String, Set<String>> profilesByContext = new HashMap<>();
         
@@ -1099,15 +1086,16 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
             ConnectionHelper.cleanup(connection);
         }
         
-        return !profilesByContext.isEmpty();
+        // Return remaining profiles ignoring their context object
+        return profilesByContext.entrySet().stream().flatMap(entry -> entry.getValue().stream()).collect(Collectors.toSet());
     }
     
     /**
-     * Returns true if there is at least one allowed profile for any connected user on any context object (and has not the denied profile on the same object)
+     * Returns the allowed profiles for any connected user on any context object (and not denied on the same object)
      * @param prefix If not null, add a 'LIKE prefix%' clause to restrict the search over the contexts begining with the prefix
-     * @return true if there is at least one allowed profile for any connected user on any context object (and has not the denied profile on the same object)
+     * @return the allowed profiles for any connected user on any context object (and not denied on the same object)
      */
-    protected boolean _hasAnyConnectedAllowedProfile(String prefix)
+    protected Set<String> _getAnyConnectedAllowedProfiles(String prefix)
     {
         Map<String, Set<String>> profilesByContext = new HashMap<>();
         
@@ -1225,15 +1213,16 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
             ConnectionHelper.cleanup(connection);
         }
         
-        return !profilesByContext.isEmpty();
+        // Return remaining profiles ignoring their context object
+        return profilesByContext.entrySet().stream().flatMap(entry -> entry.getValue().stream()).collect(Collectors.toSet());
     }
     
     /**
-     * Returns true if there is at least one allowed profile for anonymous on any context object (and has not the denied profile on the same object)
+     * Returns the allowed profiles for anonymous on any context object (and not denied on the same object)
      * @param prefix If not null, add a 'LIKE prefix%' clause to restrict the search over the contexts begining with the prefix
-     * @return true if there is at least one allowed profile for anonymous user on any context object (and has not the denied profile on the same object)
+     * @return the allowed profiles for anonymous on any context object (and not denied on the same object)
      */
-    protected boolean _hasAnonymousAllowedProfile(String prefix)
+    protected Set<String> _getAnonymousAllowedProfiles(String prefix)
     {
         Map<String, Set<String>> profilesByContext = new HashMap<>();
         
@@ -1351,7 +1340,8 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
             ConnectionHelper.cleanup(connection);
         }
         
-        return !profilesByContext.isEmpty();
+        // Return remaining profiles ignoring their context object
+        return profilesByContext.entrySet().stream().flatMap(entry -> entry.getValue().stream()).collect(Collectors.toSet());
     }
     
     /* --------------------------------------- */

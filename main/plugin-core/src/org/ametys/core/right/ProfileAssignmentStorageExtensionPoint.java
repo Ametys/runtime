@@ -232,13 +232,15 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
     }
     
     /**
-     * Checks if the given user has at least one allowed profile on any object
+     * Returns the allowed and not denied profiles on any object for this user
      * @param user the user
-     * @param userGroups The groups
-     * @return true if the given user has at least one allowed profile on any object
+     * @param userGroups The groups of the user
+     * @return the allowed and not denied profiles on any object for this user
      */
-    public boolean hasOneAllowedProfile(UserIdentity user, Set<GroupIdentity> userGroups)
+    public Set<String> getAllowedProfiles(UserIdentity user, Set<GroupIdentity> userGroups)
     {
+        Set<String> result = new HashSet<>();
+        
         List<ProfileAssignmentStorage> sortedPas = getExtensionsIds().stream()
                 .map(this::getExtension)
                 .sorted(Comparator.comparing(ProfileAssignmentStorage::getPriority))
@@ -246,12 +248,10 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
         
         for (ProfileAssignmentStorage profileAssignmentStorage : sortedPas)
         {
-            if (profileAssignmentStorage.hasPermission(user, userGroups))
-            {
-                return true;
-            }
+            result.addAll(profileAssignmentStorage.getAllowedProfiles(user, userGroups));
         }
-        return false;
+        
+        return result;
     }
     
     /**

@@ -1341,7 +1341,17 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         // Retrieve groups the user belongs to
         Set<GroupIdentity> groups = _getGroups(userIdentity);
         
-        return _profileAssignmentStorageEP.hasOneAllowedProfile(userIdentity, groups);
+        // We cannot just ask if there is at least one allowed profile on any object, since a profile can contains 0 rights. 
+        // Thus, we ask all allowed profiles and check if among them, there is one with at least one right in it
+        Set<String> allowedProfiles = _profileAssignmentStorageEP.getAllowedProfiles(userIdentity, groups);
+        for (String profile : allowedProfiles)
+        {
+            if (!getProfile(profile).getRights().isEmpty())
+            {
+                return true;
+            }
+        }
+        return false;
     }
     
     
