@@ -37,9 +37,9 @@ import org.ametys.core.group.Group;
 import org.ametys.core.group.GroupDirectoryDAO;
 import org.ametys.core.group.GroupIdentity;
 import org.ametys.core.group.GroupManager;
+import org.ametys.core.right.RightAssignmentContext;
 import org.ametys.core.right.RightAssignmentContextExtensionPoint;
 import org.ametys.core.right.RightManager;
-import org.ametys.core.ui.right.ProfileAssignmentsToolClientSideElement;
 import org.ametys.core.ui.right.ProfileAssignmentsToolClientSideElement.AccessType;
 import org.ametys.core.ui.right.ProfileAssignmentsToolClientSideElement.TargetType;
 import org.ametys.core.user.User;
@@ -85,21 +85,27 @@ public class GetProfileAssignmentsAction extends ServiceableAction
         Request request = ObjectModelHelper.getRequest(objectModel);
         
         Map jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
-        String rightAssignmentContextId = (String) jsParameters.get("rightAssignmentContextId");
         
-        List<Object> jsParentContexts = (List<Object>) jsParameters.get("parentContexts"); // order is important, the first item is the direct parent, etc.
+        String rightAssignmentCtxId = (String) jsParameters.get("rightAssignmentContextId");
+        RightAssignmentContext rightCtx = _rightAssignmentContextEP.getExtension(rightAssignmentCtxId);
+        
         Object jsContext = jsParameters.get("context");
+        Object context = rightCtx.convertJSContext(jsContext);
+        
+        List<String> profileIds = (List<String>) jsParameters.get("profileIds");
+        if (profileIds == null)
+        {
+            // Get the identifiers of all existing profiles
+            profileIds = _rightManager.getProfiles().stream().map(profile -> profile.getId()).collect(Collectors.toList());
+        }
         
         List<Map<String, Object>> assignments = new ArrayList<>();
         
-        Object context = _rightAssignmentContextEP.getExtension(rightAssignmentContextId).convertJSContext(jsContext);
-        List<Object> parentContexts = jsParentContexts.stream()
-                .map(parentContext -> _rightAssignmentContextEP.getExtension(rightAssignmentContextId).convertJSContext(parentContext))
-                .collect(Collectors.toList());
-        assignments.add(_getAnonymousAssignmentWithInheritance(context, parentContexts));
-        assignments.add(_getAnyConnectedAssignmentWithInheritance(context, parentContexts));
-        assignments.addAll(_getUserAssignmentsWithInheritance(context, parentContexts));
-        assignments.addAll(_getGroupAssignmentsWithInheritance(context, parentContexts));
+        assignments.add(_getAssignmentForAnonymous(rightCtx, context, profileIds));
+        assignments.add(_getAssignmentForAnyConnectedUser(rightCtx, context, profileIds));
+        assignments.addAll(_getAssignmentForUsers(rightCtx, context, profileIds));
+        assignments.addAll(_getAssignmentForGroups(rightCtx, context, profileIds));
+        
         result.put("assignments", assignments);
         
         request.setAttribute(JSonReader.OBJECT_TO_READ, result);
@@ -107,153 +113,185 @@ public class GetProfileAssignmentsAction extends ServiceableAction
         return EMPTY_MAP;
     }
     
-    private Map<String, Object> _getAnonymousAssignmentWithInheritance(Object context, List<Object> parentContexts)
+    private Map<String, Object> _getAssignmentForAnonymous(RightAssignmentContext rightCtx, Object context, List<String> profileIds)
     {
         Map<String, Object> assignment = new HashMap<>();
         
         assignment.put("targetType", TargetType.ANONYMOUS.toString());
         
-        // First ask on context object
-        _getAnonymousAssignment(assignment, context, ProfileAssignmentsToolClientSideElement.AccessType.ALLOW, ProfileAssignmentsToolClientSideElement.AccessType.DENY);
-        
-        // Then ask on parent contexts
-        for (Object parentContext : parentContexts)
+        for (String profileId : profileIds)
         {
-            _getAnonymousAssignment(assignment, parentContext, ProfileAssignmentsToolClientSideElement.AccessType.INHERITED_ALLOW, ProfileAssignmentsToolClientSideElement.AccessType.INHERITED_DENY);
+            boolean found = false;
+            
+            Object currentContext = context;
+            while (currentContext != null && !found)
+            {
+                Set<String> deniedProfiles = _rightManager.getDeniedProfilesForAnonymous(currentContext);
+                if (deniedProfiles.contains(profileId))
+                {
+                    assignment.put(profileId, currentContext == context ? AccessType.DENY.toString() : AccessType.INHERITED_DENY.toString());
+                    found = true; // stop iteration
+                }
+                
+                Set<String> allowedProfiles = _rightManager.getAllowedProfilesForAnonymous(currentContext);
+                if (allowedProfiles.contains(profileId))
+                {
+                    assignment.put(profileId, currentContext == context ? AccessType.ALLOW.toString() : AccessType.INHERITED_ALLOW.toString());
+                    found = true; // stop iteration
+                }
+                
+                // Can not determines assignment on current context, up to parent context
+                currentContext = rightCtx.getParentContext(currentContext);
+            }
         }
         
         return assignment;
     }
     
-    private void _getAnonymousAssignment(Map<String, Object> assignment, Object context, AccessType allow, AccessType deny)
-    {
-        Set<String> deniedProfilesForAnonymous = _rightManager.getDeniedProfilesForAnonymous(context);
-        for (String profileId : deniedProfilesForAnonymous)
-        {
-            if (!assignment.containsKey(profileId) && _rightManager.getProfile(profileId) != null)
-            {
-                assignment.put(profileId, deny.toString());
-            }
-        }
-        
-        Set<String> allowedProfilesForAnonymous = _rightManager.getAllowedProfilesForAnonymous(context);
-        for (String profileId : allowedProfilesForAnonymous)
-        {
-            if (!assignment.containsKey(profileId) && _rightManager.getProfile(profileId) != null)
-            {
-                assignment.put(profileId, allow.toString());
-            }
-        }
-        
-    }
-    
-    private Map<String, Object> _getAnyConnectedAssignmentWithInheritance(Object context, List<Object> parentContexts)
+    private Map<String, Object> _getAssignmentForAnyConnectedUser(RightAssignmentContext rightCtx, Object context, List<String> profileIds)
     {
         Map<String, Object> assignment = new HashMap<>();
         
         assignment.put("targetType", TargetType.ANYCONNECTED_USER.toString());
         
-        // First ask on context object
-        _getAnyConnectedAssignment(assignment, context, AccessType.ALLOW, AccessType.DENY);
-        
-        // Then ask on parent contexts
-        for (Object parentContext : parentContexts)
+        for (String profileId : profileIds)
         {
-            _getAnyConnectedAssignment(assignment, parentContext, AccessType.INHERITED_ALLOW, AccessType.INHERITED_DENY);
+            boolean found = false;
+            
+            Object currentContext = context;
+            while (currentContext != null && !found)
+            {
+                Set<String> deniedProfiles = _rightManager.getDeniedProfilesForAnyConnectedUser(currentContext);
+                if (deniedProfiles.contains(profileId))
+                {
+                    assignment.put(profileId, currentContext == context ? AccessType.DENY.toString() : AccessType.INHERITED_DENY.toString());
+                    found = true; // stop iteration
+                }
+                
+                Set<String> allowedProfiles = _rightManager.getAllowedProfilesForAnyConnectedUser(currentContext);
+                if (allowedProfiles.contains(profileId))
+                {
+                    assignment.put(profileId, currentContext == context ? AccessType.ALLOW.toString() : AccessType.INHERITED_ALLOW.toString());
+                    found = true; // stop iteration
+                }
+                
+                // Can not determines assignment on current context, up to parent context
+                currentContext = rightCtx.getParentContext(currentContext);
+            }
         }
         
         return assignment;
     }
     
-    private void _getAnyConnectedAssignment(Map<String, Object> assignment, Object context, AccessType allow, AccessType deny)
-    {
-        Set<String> deniedProfilesForAnyConnectedUser = _rightManager.getDeniedProfilesForAnyConnectedUser(context);
-        for (String profileId : deniedProfilesForAnyConnectedUser)
-        {
-            if (!assignment.containsKey(profileId) && _rightManager.getProfile(profileId) != null)
-            {
-                assignment.put(profileId, deny.toString());
-            }
-        }
-        
-        Set<String> allowedProfilesForAnyConnectedUser = _rightManager.getAllowedProfilesForAnyConnectedUser(context);
-        for (String profileId : allowedProfilesForAnyConnectedUser)
-        {
-            if (!assignment.containsKey(profileId) && _rightManager.getProfile(profileId) != null)
-            {
-                assignment.put(profileId, allow.toString());
-            }
-        }
-    }
-    
-    private List<Map<String, Object>> _getUserAssignmentsWithInheritance(Object context, List<Object> parentContexts)
+    private List<Map<String, Object>> _getAssignmentForUsers(RightAssignmentContext rightCtx, Object context, List<String> profileIds)
     {
         Map<UserIdentity, Map<String, Object>> assignments = new LinkedHashMap<>();
         
-        // First ask on context object
-        _getUserAssignments(assignments, context, AccessType.ALLOW, AccessType.DENY);
-        
-        // Then ask on parent contexts
-        for (Object parentContext : parentContexts)
+        Object currentContext = context;
+        while (currentContext != null)
         {
-            _getUserAssignments(assignments, parentContext, AccessType.INHERITED_ALLOW, AccessType.INHERITED_DENY);
+            // Get all user with a denied profile on current context
+            Map<UserIdentity, Set<String>> deniedProfilesForUsers = _rightManager.getDeniedProfilesForUsers(currentContext);
+            for (UserIdentity userIdentity : deniedProfilesForUsers.keySet())
+            {
+                if (!assignments.containsKey(userIdentity))
+                {
+                    assignments.put(userIdentity, _user2json(userIdentity));
+                }
+                
+                Map<String, Object> userAssignment = assignments.get(userIdentity);
+                
+                for (String profileId : deniedProfilesForUsers.get(userIdentity))
+                {
+                    if (profileIds.contains(profileId) && !userAssignment.containsKey(profileId))
+                    {
+                        userAssignment.put(profileId, currentContext == context ? AccessType.DENY.toString() : AccessType.INHERITED_DENY.toString());
+                    }
+                }
+            }
+            
+            // Get all user with a allowed profile on current context
+            Map<UserIdentity, Set<String>> allowedProfilesForUsers = _rightManager.getAllowedProfilesForUsers(currentContext);
+            for (UserIdentity userIdentity : allowedProfilesForUsers.keySet())
+            {
+                if (!assignments.containsKey(userIdentity))
+                {
+                    assignments.put(userIdentity, _user2json(userIdentity));
+                }
+                
+                Map<String, Object> userAssignment = assignments.get(userIdentity);
+                
+                for (String profileId : allowedProfilesForUsers.get(userIdentity))
+                {
+                    if (profileIds.contains(profileId) && !userAssignment.containsKey(profileId))
+                    {
+                        userAssignment.put(profileId, currentContext == context ? AccessType.ALLOW.toString() : AccessType.INHERITED_ALLOW.toString());
+                    }
+                }
+            }
+            
+            // Up to parent context
+            currentContext = rightCtx.getParentContext(currentContext);
         }
         
         return new ArrayList<>(assignments.values());
     }
     
-    private void _getUserAssignments(Map<UserIdentity, Map<String, Object>> assignments, Object context, AccessType allow, AccessType deny)
+    private List<Map<String, Object>> _getAssignmentForGroups(RightAssignmentContext rightCtx, Object context, List<String> profileIds)
     {
-        Map<UserIdentity, Set<String>> deniedProfilesForUsers = _rightManager.getDeniedProfilesForUsers(context);
-        for (UserIdentity userIdentity : deniedProfilesForUsers.keySet())
+        Map<GroupIdentity, Map<String, Object>> assignments = new LinkedHashMap<>();
+        
+        Object currentContext = context;
+        while (currentContext != null)
         {
-            Map<String, Object> assignment;
-            if (assignments.containsKey(userIdentity))
+            // Get all user with a denied profile on current context
+            Map<GroupIdentity, Set<String>> deniedProfilesForGroups = _rightManager.getDeniedProfilesForGroups(currentContext);
+            for (GroupIdentity gpIdentity : deniedProfilesForGroups.keySet())
             {
-                assignment = assignments.get(userIdentity);
-            }
-            else
-            {
-                assignment = _getUserInfo(userIdentity);
-            }
-            
-            for (String profileId : deniedProfilesForUsers.get(userIdentity))
-            {
-                if (!assignment.containsKey(profileId) && _rightManager.getProfile(profileId) != null)
+                if (!assignments.containsKey(gpIdentity))
                 {
-                    assignment.put(profileId, deny.toString());
+                    assignments.put(gpIdentity, _group2json(gpIdentity));
+                }
+                
+                Map<String, Object> gpAssignment = assignments.get(gpIdentity);
+                
+                for (String profileId : deniedProfilesForGroups.get(gpIdentity))
+                {
+                    if (profileIds.contains(profileId) && !gpAssignment.containsKey(profileId))
+                    {
+                        gpAssignment.put(profileId, currentContext == context ? AccessType.DENY.toString() : AccessType.INHERITED_DENY.toString());
+                    }
                 }
             }
             
-            assignments.put(userIdentity, assignment);
+            // Get all user with a allowed profile on current context
+            Map<GroupIdentity, Set<String>> allowedProfilesForGroups = _rightManager.getAllowedProfilesForGroups(context);
+            for (GroupIdentity gpIdentity : allowedProfilesForGroups.keySet())
+            {
+                if (!assignments.containsKey(gpIdentity))
+                {
+                    assignments.put(gpIdentity, _group2json(gpIdentity));
+                }
+                
+                Map<String, Object> gpAssignment = assignments.get(gpIdentity);
+                
+                for (String profileId : allowedProfilesForGroups.get(gpIdentity))
+                {
+                    if (profileIds.contains(profileId) && !gpAssignment.containsKey(profileId))
+                    {
+                        gpAssignment.put(profileId, currentContext == context ? AccessType.ALLOW.toString() : AccessType.INHERITED_ALLOW.toString());
+                    }
+                }
+            }
+            
+            // Up to parent context
+            currentContext = rightCtx.getParentContext(currentContext);
         }
         
-        Map<UserIdentity, Set<String>> allowedProfilesForUsers = _rightManager.getAllowedProfilesForUsers(context);
-        for (UserIdentity userIdentity : allowedProfilesForUsers.keySet())
-        {
-            Map<String, Object> assignment;
-            if (assignments.containsKey(userIdentity))
-            {
-                assignment = assignments.get(userIdentity);
-            }
-            else
-            {
-                assignment = _getUserInfo(userIdentity);
-            }
-            
-            for (String profileId : allowedProfilesForUsers.get(userIdentity))
-            {
-                if (!assignment.containsKey(profileId) && _rightManager.getProfile(profileId) != null)
-                {
-                    assignment.put(profileId, allow.toString());
-                }
-            }
-            
-            assignments.put(userIdentity, assignment);
-        }
+        return new ArrayList<>(assignments.values());
     }
     
-    private Map<String, Object> _getUserInfo(UserIdentity userIdentity)
+    private Map<String, Object> _user2json(UserIdentity userIdentity)
     {
         Map<String, Object> assignment = new HashMap<>();
         assignment.put("targetType", TargetType.USER.toString());
@@ -264,7 +302,7 @@ public class GetProfileAssignmentsAction extends ServiceableAction
         assignment.put("population", populationId);
         assignment.put("populationLabel", _userPopulationDAO.getUserPopulation(populationId).getLabel());
         assignment.put("groups", _groupManager.getUserGroups(userIdentity).stream()
-                                    .map(this::_groupToJson)
+                                    .map(this::_userGroup2json)
                                     .collect(Collectors.toList()));
         
         User user = _userManager.getUser(populationId, login);
@@ -272,76 +310,9 @@ public class GetProfileAssignmentsAction extends ServiceableAction
         
         return assignment;
     }
+   
     
-    private List<Map<String, Object>> _getGroupAssignmentsWithInheritance(Object context, List<Object> parentContexts)
-    {
-        Map<GroupIdentity, Map<String, Object>> assignments = new LinkedHashMap<>();
-        
-        // First ask on context object
-        _getGroupAssignments(assignments, context, AccessType.ALLOW, AccessType.DENY);
-        
-        // Then ask on parent contexts
-        for (Object parentContext : parentContexts)
-        {
-            _getGroupAssignments(assignments, parentContext, AccessType.INHERITED_ALLOW, AccessType.INHERITED_DENY);
-        }
-        
-        return new ArrayList<>(assignments.values());
-    }
-    
-    private void _getGroupAssignments(Map<GroupIdentity, Map<String, Object>> assignments, Object context, AccessType allow, AccessType deny)
-    {
-        Map<GroupIdentity, Set<String>> allowedProfilesForGroups = _rightManager.getAllowedProfilesForGroups(context);
-        
-        for (GroupIdentity groupIdentity : allowedProfilesForGroups.keySet())
-        {
-            Map<String, Object> assignment;
-            if (assignments.containsKey(groupIdentity))
-            {
-                assignment = assignments.get(groupIdentity);
-            }
-            else
-            {
-                assignment = _getGroupInfo(groupIdentity);
-            }
-            
-            for (String profileId : allowedProfilesForGroups.get(groupIdentity))
-            {
-                if (!assignment.containsKey(profileId) && _rightManager.getProfile(profileId) != null)
-                {
-                    assignment.put(profileId, allow.toString());
-                }
-            }
-            
-            assignments.put(groupIdentity, assignment);
-        }
-        
-        Map<GroupIdentity, Set<String>> deniedProfilesForGroups = _rightManager.getDeniedProfilesForGroups(context);
-        for (GroupIdentity groupIdentity : deniedProfilesForGroups.keySet())
-        {
-            Map<String, Object> assignment;
-            if (assignments.containsKey(groupIdentity))
-            {
-                assignment = assignments.get(groupIdentity);
-            }
-            else
-            {
-                assignment = _getGroupInfo(groupIdentity);
-            }
-            
-            for (String profileId : deniedProfilesForGroups.get(groupIdentity))
-            {
-                if (!assignment.containsKey(profileId) && _rightManager.getProfile(profileId) != null)
-                {
-                    assignment.put(profileId, deny.toString());
-                }
-            }
-            
-            assignments.put(groupIdentity, assignment);
-        }
-    }
-    
-    private Map<String, Object> _getGroupInfo(GroupIdentity groupIdentity)
+    private Map<String, Object> _group2json(GroupIdentity groupIdentity)
     {
         Map<String, Object> assignment = new HashMap<>();
         assignment.put("targetType", TargetType.GROUP.toString());
@@ -358,7 +329,7 @@ public class GetProfileAssignmentsAction extends ServiceableAction
         return assignment;
     }
     
-    private Map<String, Object> _groupToJson(GroupIdentity group)
+    private Map<String, Object> _userGroup2json(GroupIdentity group)
     {
         Map<String, Object> result = new HashMap<>();
         result.put("groupId", group.getId());

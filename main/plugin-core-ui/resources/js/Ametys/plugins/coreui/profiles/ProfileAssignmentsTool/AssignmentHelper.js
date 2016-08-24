@@ -126,21 +126,39 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelp
         	var anyconnectedRecord = this.findAnyConnectedRecord(records);
         	var assignmentForAnyconnected = anyconnectedRecord.get(profileId);
         	
-            if (assignmentForAnonymous == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW || assignmentForAnonymous == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW)
+            if (assignmentForAnonymous == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW)
             {
-            	// If Anonymous is allowed (by inheritance or not), the group is allowed
+            	// If Anonymous is locally allowed, the user/group is allowed
                 record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANONYMOUS, {dirty: false}); 
                 return true;
             }
-            else if (assignmentForAnyconnected == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY || assignmentForAnyconnected == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_DENY)
+            else if (assignmentForAnonymous == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW && currentValue != Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW && currentValue != Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_DENY)
             {
-            	// If any connected user is denied (by inheritance or not), the group is denied
+            	// If Anonymous is allowed by inheritance, the user/group is allowed except if it is already allowed/denied itself by inheritance
+                record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANONYMOUS, {dirty: false}); 
+                return true;
+            }
+            else if (assignmentForAnyconnected == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY)
+            {
+            	// If any connected user is locally denied, the user/group is denied
             	record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY_BY_ANYCONNECTED, {dirty: false}); 
             	return true;
             }
-            else if (assignmentForAnyconnected == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW || assignmentForAnyconnected == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW)
+            else if (assignmentForAnyconnected == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_DENY && currentValue != Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW && currentValue != Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_DENY)
             {
-            	// If any connected user is allowed (by inheritance or not), the group is allowed
+            	// If any connected user is denied by inheritance, the user/group is denied except if it is already allowed/denied itself by inheritance
+            	record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY_BY_ANYCONNECTED, {dirty: false}); 
+            	return true;
+            }
+            else if (assignmentForAnyconnected == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW)
+            {
+            	// If any connected user is locally allowed, the user/group is allowed
+            	record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANYCONNECTED, {dirty: false}); 
+            	return true;
+            }
+            else if (assignmentForAnyconnected == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW && currentValue != Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW && currentValue != Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_DENY)
+            {
+            	// If any connected user is locally by inheritance, the user/group is allowed except if it is already allowed/denied itself by inheritance
             	record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANYCONNECTED, {dirty: false}); 
             	return true;
             }

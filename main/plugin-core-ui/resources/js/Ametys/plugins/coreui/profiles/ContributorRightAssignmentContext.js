@@ -38,7 +38,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ContributorRightAssignmentContext', {
         
         initialize: function()
         {
-            this._changeObjectContext("/contributor", [], "{{i18n plugin.core-impl:PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_CONTRIBUTOR_HINT}}");
+            this._changeObjectContext("/contributor", "{{i18n plugin.core-impl:PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_CONTRIBUTOR_HINT}}");
         }
     }
 });

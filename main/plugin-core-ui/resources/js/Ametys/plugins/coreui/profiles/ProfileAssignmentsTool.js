@@ -347,11 +347,6 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     
     /**
      * @private
-     * @property {Object[]} _parentObjectContexts The current parent object contexts. First item in the array is the direct parent, etc. Must be up-to-date before loading the grid store 
-     */
-    
-    /**
-     * @private
      * @property {Object[]} _profiles The profiles of the application.
      * @property {String} _profiles.id The id of the profile
      * @property {String} _profiles.label The label of the profile
@@ -599,7 +594,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
      * @param {Object[]} parentObjects The new parent object contexts
      * @param {String} hintTextContext The hint text to update
      */
-    _internalChangeObjectContext: function(object, parentObjects, hintTextContext)
+    _internalChangeObjectContext: function(object, hintTextContext)
     {
         this._clearFilters(); // avoid bugs in the grid store before loading it
         
@@ -613,7 +608,6 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         else
         {
         	this.getContentPanel().down('#right-card-container').getLayout().setActiveItem(1);
-        	this._parentObjectContexts = parentObjects;
             
             this._assignmentsGrid.getDockedItems('#context-helper-text')[0].update("{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_HINT1}}" + hintTextContext);
             this._updateGrid();
@@ -1028,8 +1022,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     {
         operation.setParams(Ext.apply(operation.getParams() || {}, {
             rightAssignmentContextId: this._contextCombobox.getValue(),
-            context: this._objectContext,
-            parentContexts: this._parentObjectContexts
+            context: this._objectContext
         }));
     },
     
@@ -1179,7 +1172,6 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     {
         this.callParent(arguments);
         this._objectContext = null;
-        this._parentObjectContexts = [];
         this.serverCall('getJSClassNames', [], this._createContextPanels);
         
         this.showOutOfDate();
