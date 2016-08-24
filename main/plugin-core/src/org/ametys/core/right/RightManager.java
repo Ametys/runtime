@@ -1156,7 +1156,8 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
      */
     public Set<UserIdentity> getAllowedUsers(String rightId, Object object) throws RightsException
     {
-        // FIXME not enough, we have to take account of allowed/denied profiles on anonymous/anyconnected
+        // FIXME not enough, we have to take account of allowed/denied profiles on anonymous/anyconnected => how to do it
+        Set<UserIdentity> result = new HashSet<>();
         
         // Retrieve all profiles containing the right rightId
         Set<String> profileIds = _getProfiles(rightId);
@@ -1209,24 +1210,27 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
             }
         }
         
-        // Retrieve the users from the allowed groups and add them all
+        // Retrieve the users from the allowed groups and add them all to the result
         for (GroupIdentity allowedGroup : allAllowedGroups)
         {
             Set<UserIdentity> groupUsers = _groupManager.getGroup(allowedGroup).getUsers();
-            allAllowedUsers.addAll(groupUsers);
+            result.addAll(groupUsers);
         }
         
-        // Remove the users from the denied users
-        allAllowedUsers.removeAll(allDeniedUsers);
-        
-        // Remove the users from the denied groups
+        // Remove the users of the denied groups from the result
         for (GroupIdentity deniedGroup : allDeniedGroups)
         {
             Set<UserIdentity> groupUsers = _groupManager.getGroup(deniedGroup).getUsers();
-            allAllowedUsers.removeAll(groupUsers);
+            result.removeAll(groupUsers);
         }
         
-        return allAllowedUsers;
+        // Add all allowed users to the result
+        result.addAll(allAllowedUsers);
+        
+        // Remove the denied users from the result
+        result.removeAll(allDeniedUsers);
+        
+        return result;
     }
     
     
