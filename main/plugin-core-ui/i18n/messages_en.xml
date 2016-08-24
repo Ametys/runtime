@@ -1227,10 +1227,10 @@
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_FILTERS">Filters</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_RIGHT_FILTER">Right label</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_USERGROUP_FILTER">User or group</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ASSIGNMENT_TYPE_ANONYMOUS">Anonymous</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ASSIGNMENT_TYPE_ANYCONNECTEDUSERS">Connected users</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ASSIGNMENT_TYPE_USERS">Users</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ASSIGNMENT_TYPE_GROUPS">Groups</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TARGET_TYPE_ANONYMOUS">Anonymous</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TARGET_TYPE_ANYCONNECTEDUSERS">Any connected users</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TARGET_TYPE_USERS">Users</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TARGET_TYPE_GROUPS">Groups</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CLOSE_BOX_TITLE">Close and save</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CLOSE_BOX_MESSAGE">There are some unsaved local changes. &lt;br/&gt;Do you want to save your modifications before closing the tool ?</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CHANGE_CONTEXT_BOX_TITLE">Save the modifications</message>

@@ -32,4 +32,10 @@ public class ContributorRightAssignmentContext extends StaticClientSideElement i
         }
         return null;
     }
+    
+    @Override
+    public Object getParentContext(Object context)
+    {
+        return null;
+    }
 }

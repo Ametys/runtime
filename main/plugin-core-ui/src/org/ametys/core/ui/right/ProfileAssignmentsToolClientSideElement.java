@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -45,21 +46,125 @@ import org.ametys.core.user.UserIdentity;
  */
 public class ProfileAssignmentsToolClientSideElement extends StaticClientSideElement
 {
-    /** Allowed access */
-    public static final String ACCESS_TYPE_ALLOW = "allow";
-    /** Denied access */
-    public static final String ACCESS_TYPE_DENY = "deny";
-    /** Allowed access by inheritance */
-    public static final String ACCESS_TYPE_INHERITED_ALLOW = "inherited-allow";
-    /** Denied access by inheritance */
-    public static final String ACCESS_TYPE_INHERITED_DENY = "inherited-deny";
-    
     /** The extension point for right assignment contexts */
     protected RightAssignmentContextExtensionPoint _rightAssignmentContextEP;
     /** The DAO for group directories */
     protected GroupDirectoryDAO _groupDirectoryDAO;
     /** The group manager */
     protected GroupManager _groupManager;
+    
+    /**
+     * Enumeration of all possible access types
+     */
+    public enum AccessType
+    {
+        /**
+         * Indicates that the access is allowed
+         */
+        ALLOW 
+        {
+            @Override
+            public String toString()
+            {
+                return "allow";
+            }
+        },
+        /**
+         * Indicates that the access is denied
+         */
+        DENY 
+        {
+            @Override
+            public String toString()
+            {
+                return "deny";
+            }
+        },
+        /**
+         * Indicates that the access is allowed by inheritance
+         */
+        INHERITED_ALLOW 
+        {
+            @Override
+            public String toString()
+            {
+                return "inherited_allow";
+            }
+        },
+        /**
+         * Indicates that the access is denied by inheritance
+         */
+        INHERITED_DENY 
+        {
+            @Override
+            public String toString()
+            {
+                return "inherited_deny";
+            }
+        },
+        /**
+         * Indicates that the access can not be determined
+         */
+        UNKNOWN 
+        {
+            @Override
+            public String toString()
+            {
+                return "unknown";
+            }
+        }
+    }
+    
+    /**
+     * Enumeration of all possible target types
+     */
+    public enum TargetType 
+    {
+        /**
+         * Indicates that the target is the anonymous user
+         */
+        ANONYMOUS 
+        {
+            @Override
+            public String toString()
+            {
+                return "anonymous";
+            }
+        },
+        /**
+         * Indicates that the target is the anonymous user
+         */
+        ANYCONNECTED_USER 
+        {
+            @Override
+            public String toString()
+            {
+                return "anyconnected_user";
+            }
+        },
+        /**
+         * Indicates that the target is a user
+         */
+        USER 
+        {
+            @Override
+            public String toString()
+            {
+                return "user";
+            }
+        },
+        /**
+         * Indicates that the target is a group
+         */
+        GROUP 
+        {
+            @Override
+            public String toString()
+            {
+                return "group";
+            }
+        }
+    }
 
     @Override
     public void service(ServiceManager smanager) throws ServiceException
@@ -166,8 +271,8 @@ public class ProfileAssignmentsToolClientSideElement extends StaticClientSideEle
     
     /**
      * Save some changes made client-side.
-     * @param rightAssignmentId The id of the right assignment context extesnion
-     * @param objectContext The JS object context
+     * @param rightAssignmentCtxId The id of the right assignment context
+     * @param jsContext The JS object context
      * @param assignmentsInfo The list of all the changes to make. Each map in the list must contain the following keys:
      * <ol>
      * <li><b>profileId</b> for the id of the profile (as a string)</li>
@@ -178,101 +283,229 @@ public class ProfileAssignmentsToolClientSideElement extends StaticClientSideEle
      */
     @SuppressWarnings("unchecked")
     @Callable
-    public void saveChanges(String rightAssignmentId, Object objectContext, List<Map<String, Object>> assignmentsInfo)
+    public void saveChanges(String rightAssignmentCtxId, Object jsContext, List<Map<String, Object>> assignmentsInfo)
     {
         if (_rightManager.hasRight(_currentUserProvider.getUser(), "Runtime_Rights_Rights_Handle", "/contributor") != RightResult.RIGHT_ALLOW)
         {
-            throw new RightsException("Insufficient rights to assign profiles");
+            throw new RightsException("The user '" + _currentUserProvider.getUser().getLogin() + "' try to assign profile without sufficient rights");
         }
         
-        Object context = _rightAssignmentContextEP.getExtension(rightAssignmentId).convertJSContext(objectContext);
+        Object context = _rightAssignmentContextEP.getExtension(rightAssignmentCtxId).convertJSContext(jsContext);
         for (Map<String, Object> assignmentInfo : assignmentsInfo)
         {
             String profileId = (String) assignmentInfo.get("profileId");
             String assignment = (String) assignmentInfo.get("assignment");
-            String assignmentType = (String) assignmentInfo.get("assignmentType");
+            String targetType = (String) assignmentInfo.get("targetType");
             Map<String, String> identity = (Map<String, String>) assignmentInfo.get("identity");
-            _saveChange(context, profileId, assignment, assignmentType, identity);
+            _saveChange(context, profileId, assignment, targetType, identity);
         }
     }
     
-    private void _saveChange(Object context, String profileId, String assignment, String assignmentType, Map<String, String> identity)
+    /**
+     * Get the first permission given by inheritance for a object context and a specific profile
+     * @param rightAssignmentCtxId The id of the right assignment context
+     * @param jsContext The JS object context
+     * @param profileId The id of profile 
+     * @param targetType The type of target : anonymous, any connected users, a user or a group
+     * @param identity The identity of the target. Can be null if the target is anonymous or any connected users
+     * @return The first access type given by inheritance
+     */
+    @Callable
+    public String getInheritedAssignment (String rightAssignmentCtxId, Object jsContext, String profileId, String targetType, Map<String, String> identity)
     {
-        switch (assignmentType)
+        RightAssignmentContext rightCtx = _rightAssignmentContextEP.getExtension(rightAssignmentCtxId);
+        Object context = rightCtx.convertJSContext(jsContext);
+        
+        switch (TargetType.valueOf(targetType.toUpperCase()))
         {
-            case "anonymous":
-                if (ACCESS_TYPE_ALLOW.equals(assignment))
-                {
-                    _rightManager.removeDeniedProfileFromAnonymous(profileId, context);
-                    _rightManager.allowProfileToAnonymous(profileId, context);
-                }
-                else if (ACCESS_TYPE_DENY.equals(assignment))
-                {
-                    _rightManager.removeAllowedProfileFromAnonymous(profileId, context);
-                    _rightManager.denyProfileToAnonymous(profileId, context);
-                }
-                else
-                {
-                    _rightManager.removeAllowedProfileFromAnonymous(profileId, context);
-                    _rightManager.removeDeniedProfileFromAnonymous(profileId, context);
-                }
-                break;
-                
-            case "anyConnectedUser":
-                if (ACCESS_TYPE_ALLOW.equals(assignment))
-                {
-                    _rightManager.removeDeniedProfileFromAnyConnectedUser(profileId, context);
-                    _rightManager.allowProfileToAnyConnectedUser(profileId, context);
-                }
-                else if (ACCESS_TYPE_DENY.equals(assignment))
-                {
-                    _rightManager.removeAllowedProfileFromAnyConnectedUser(profileId, context);
-                    _rightManager.denyProfileToAnyConnectedUser(profileId, context);
-                }
-                else
-                {
-                    _rightManager.removeAllowedProfileFromAnyConnectedUser(profileId, context);
-                    _rightManager.removeDeniedProfileFromAnyConnectedUser(profileId, context);
-                }
-                break;
-                
-            case "user":
+            case ANONYMOUS:
+                return _getInheritedAssignmentForAnonymous(rightCtx, context, profileId);
+            case ANYCONNECTED_USER:
+                return _getInheritedAssignmentForAnyconnected(rightCtx, context, profileId);
+            case USER:
                 UserIdentity user = new UserIdentity(identity.get("login"), identity.get("population"));
-                if (ACCESS_TYPE_ALLOW.equals(assignment))
+                return _getInheritedAssignmentForUser(rightCtx, context, profileId, user);
+            case GROUP:
+                GroupIdentity group = new GroupIdentity(identity.get("groupId"), identity.get("groupDirectory"));
+                return _getInheritedAssignmentForGroup(rightCtx, context, profileId, group);
+            default:
+                return AccessType.UNKNOWN.toString();
+        }
+    }
+    
+    private String _getInheritedAssignmentForAnonymous (RightAssignmentContext extension, Object context, String profileId)
+    {
+        Object parentContext = extension.getParentContext(context);
+        while (parentContext != null)
+        {
+            Set<String> deniedProfiles = _rightManager.getDeniedProfilesForAnonymous(parentContext);
+            if (deniedProfiles.contains(profileId))
+            {
+                return AccessType.INHERITED_DENY.toString();
+            }
+            
+            Set<String> allowedProfiles = _rightManager.getAllowedProfilesForAnonymous(parentContext);
+            if (allowedProfiles.contains(profileId))
+            {
+                return AccessType.INHERITED_ALLOW.toString();
+            }
+            
+            parentContext = extension.getParentContext(parentContext);
+        }
+        
+        return AccessType.UNKNOWN.toString();
+    }
+    
+    private String _getInheritedAssignmentForAnyconnected (RightAssignmentContext extension, Object context, String profileId)
+    {
+        Object parentContext = extension.getParentContext(context);
+        while (parentContext != null)
+        {
+            Set<String> deniedProfiles = _rightManager.getDeniedProfilesForAnyConnectedUser(parentContext);
+            if (deniedProfiles.contains(profileId))
+            {
+                return AccessType.INHERITED_DENY.toString();
+            }
+            
+            Set<String> allowedProfiles = _rightManager.getAllowedProfilesForAnyConnectedUser(parentContext);
+            if (allowedProfiles.contains(profileId))
+            {
+                return AccessType.INHERITED_ALLOW.toString();
+            }
+            
+            parentContext = extension.getParentContext(parentContext);
+        }
+        
+        return AccessType.UNKNOWN.toString();
+    }
+    
+    private String _getInheritedAssignmentForUser (RightAssignmentContext extension, Object context, String profileId, UserIdentity user)
+    {
+        Object parentContext = extension.getParentContext(context);
+        while (parentContext != null)
+        {
+            // FIXME Optimization _rightManager.getDeniedProfilesForUser(parentContext, user)
+            Map<UserIdentity, Set<String>> deniedProfiles = _rightManager.getDeniedProfilesForUsers(parentContext);
+            if (deniedProfiles.containsKey(user) && deniedProfiles.get(user).contains(profileId))
+            {
+                return AccessType.INHERITED_DENY.toString();
+            }
+            
+            Map<UserIdentity, Set<String>> allowedProfiles = _rightManager.getAllowedProfilesForUsers(parentContext);
+            if (allowedProfiles.containsKey(user) && allowedProfiles.get(user).contains(profileId))
+            {
+                return AccessType.INHERITED_ALLOW.toString();
+            }
+            
+            parentContext = extension.getParentContext(parentContext);
+        }
+        
+        return AccessType.UNKNOWN.toString();
+    }
+    
+    private String _getInheritedAssignmentForGroup (RightAssignmentContext extension, Object context, String profileId, GroupIdentity group)
+    {
+        Object parentContext = extension.getParentContext(context);
+        while (parentContext != null)
+        {
+            // FIXME Optimization _rightManager.getDeniedProfilesForUser(parentContext, user)
+            Map<GroupIdentity, Set<String>> deniedProfiles = _rightManager.getDeniedProfilesForGroups(parentContext);
+            if (deniedProfiles.containsKey(group) && deniedProfiles.get(group).contains(profileId))
+            {
+                return AccessType.INHERITED_DENY.toString();
+            }
+            
+            Map<GroupIdentity, Set<String>> allowedProfiles = _rightManager.getAllowedProfilesForGroups(parentContext);
+            if (allowedProfiles.containsKey(group) && allowedProfiles.get(group).contains(profileId))
+            {
+                return AccessType.INHERITED_ALLOW.toString();
+            }
+            
+            parentContext = extension.getParentContext(parentContext);
+        }
+        
+        return AccessType.UNKNOWN.toString();
+    }
+    
+    private void _saveChange(Object context, String profileId, String assignment, String targetType, Map<String, String> identity)
+    {
+        AccessType accessType = AccessType.valueOf(assignment.toUpperCase());
+        switch (TargetType.valueOf(targetType.toUpperCase()))
+        {
+            case ANONYMOUS:
+                switch (accessType)
                 {
-                    _rightManager.removeDeniedProfileFromUser(user, profileId, context);
-                    _rightManager.allowProfileToUser(user, profileId, context);
-                }
-                else if (ACCESS_TYPE_DENY.equals(assignment))
-                {
-                    _rightManager.removeAllowedProfileFromUser(user, profileId, context);
-                    _rightManager.denyProfileToUser(user, profileId, context);
-                }
-                else
-                {
-                    _rightManager.removeAllowedProfileFromUser(user, profileId, context);
-                    _rightManager.removeDeniedProfileFromUser(user, profileId, context);
+                    case ALLOW:
+                        _rightManager.removeDeniedProfileFromAnonymous(profileId, context);
+                        _rightManager.allowProfileToAnonymous(profileId, context);
+                        break;
+                    case DENY:
+                        _rightManager.removeAllowedProfileFromAnonymous(profileId, context);
+                        _rightManager.denyProfileToAnonymous(profileId, context);
+                        break;
+                    default:
+                        _rightManager.removeAllowedProfileFromAnonymous(profileId, context);
+                        _rightManager.removeDeniedProfileFromAnonymous(profileId, context);
+                        break;
                 }
                 break;
                 
-            case "group":
-            default:
+            case ANYCONNECTED_USER:
+                switch (accessType)
+                {
+                    case ALLOW:
+                        _rightManager.removeDeniedProfileFromAnyConnectedUser(profileId, context);
+                        _rightManager.allowProfileToAnyConnectedUser(profileId, context);
+                        break;
+                    case DENY:
+                        _rightManager.removeAllowedProfileFromAnyConnectedUser(profileId, context);
+                        _rightManager.denyProfileToAnyConnectedUser(profileId, context);
+                        break;
+                    default:
+                        _rightManager.removeAllowedProfileFromAnyConnectedUser(profileId, context);
+                        _rightManager.removeDeniedProfileFromAnyConnectedUser(profileId, context);
+                        break;
+                }
+                break;
+                
+            case USER:
+                UserIdentity user = new UserIdentity(identity.get("login"), identity.get("population"));
+                switch (accessType)
+                {
+                    case ALLOW:
+                        _rightManager.removeDeniedProfileFromUser(user, profileId, context);
+                        _rightManager.allowProfileToUser(user, profileId, context);
+                        break;
+                    case DENY:    
+                        _rightManager.removeAllowedProfileFromUser(user, profileId, context);
+                        _rightManager.denyProfileToUser(user, profileId, context);
+                        break;
+                    default:
+                        _rightManager.removeAllowedProfileFromUser(user, profileId, context);
+                        _rightManager.removeDeniedProfileFromUser(user, profileId, context);
+                        break;
+                }
+                break;
+                
+            case GROUP:
                 GroupIdentity group = new GroupIdentity(identity.get("groupId"), identity.get("groupDirectory"));
-                if (ACCESS_TYPE_ALLOW.equals(assignment))
+                switch (accessType)
                 {
-                    _rightManager.removeDeniedProfileFromGroup(group, profileId, context);
-                    _rightManager.allowProfileToGroup(group, profileId, context);
+                    case ALLOW:
+                        _rightManager.removeDeniedProfileFromGroup(group, profileId, context);
+                        _rightManager.allowProfileToGroup(group, profileId, context);
+                        break;
+                    case DENY:  
+                        _rightManager.removeAllowedProfileFromGroup(group, profileId, context);
+                        _rightManager.denyProfileToGroup(group, profileId, context);
+                        break;
+                    default:
+                        _rightManager.removeAllowedProfileFromGroup(group, profileId, context);
+                        _rightManager.removeDeniedProfileFromGroup(group, profileId, context);
+                        break;
                 }
-                else if (ACCESS_TYPE_DENY.equals(assignment))
-                {
-                    _rightManager.removeAllowedProfileFromGroup(group, profileId, context);
-                    _rightManager.denyProfileToGroup(group, profileId, context);
-                }
-                else
-                {
-                    _rightManager.removeAllowedProfileFromGroup(group, profileId, context);
-                    _rightManager.removeDeniedProfileFromGroup(group, profileId, context);
-                }
+                break;
+            default:
                 break;
         }
     }

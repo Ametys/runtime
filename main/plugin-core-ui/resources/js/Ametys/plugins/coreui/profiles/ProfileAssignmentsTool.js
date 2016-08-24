@@ -23,24 +23,24 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     statics: {
         /**
          * @readonly
-         * @property {String} ASSIGNMENT_TYPE_ANONYMOUS The record is an assignment for an anonymous user
+         * @property {String} TARGET_TYPE_ANONYMOUS The record is an assignment for an anonymous user
          */
-        ASSIGNMENT_TYPE_ANONYMOUS: '1-anonymous',
+        TARGET_TYPE_ANONYMOUS: 'anonymous',
         /**
          * @readonly
-         * @property {String} ASSIGNMENT_TYPE_ANYCONNECTEDUSER The record is an assignment for any connected user
+         * @property {String} TARGET_TYPE_ANYCONNECTEDUSER The record is an assignment for any connected user
          */
-        ASSIGNMENT_TYPE_ANYCONNECTEDUSER: '2-anyconnected',
+        TARGET_TYPE_ANYCONNECTEDUSER: 'anyconnected_user',
         /**
          * @readonly
-         * @property {String} ASSIGNMENT_TYPE_USERS The record is an assignment for a user
+         * @property {String} TARGET_TYPE_USER The record is an assignment for a user
          */
-        ASSIGNMENT_TYPE_USERS: '3-users',
+        TARGET_TYPE_USER: 'user',
         /**
          * @readonly
-         * @property {String} ASSIGNMENT_TYPE_GROUPS The record is an assignment for a group
+         * @property {String} TARGET_TYPE_GROUP The record is an assignment for a group
          */
-        ASSIGNMENT_TYPE_GROUPS: '4-groups',
+        TARGET_TYPE_GROUP: 'group',
         
         /**
          * @readonly
@@ -64,43 +64,43 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
          * @readonly
          * @property {String} ACCESS_TYPE_INHERITED_ALLOW Type of access for an allowed access by inheritance
          */
-        ACCESS_TYPE_INHERITED_ALLOW: 'inherited-allow',
+        ACCESS_TYPE_INHERITED_ALLOW: 'inherited_allow',
         
         /**
          * @readonly
          * @property {String} ACCESS_TYPE_DENIED Type of access for an denied access by inheritance
          */
-        ACCESS_TYPE_INHERITED_DENY: 'inherited-deny',
+        ACCESS_TYPE_INHERITED_DENY: 'inherited_deny',
         
         /**
          * @readonly
-         * @property {String} ACCESS_TYPE_ALLOW_BY_GROUP Type of access for an allowed access through groups
+         * @property {String} ACCESS_TYPE_ALLOW_BY_GROUP Type of access for an allowed access through groups (client-side only)
          */
-        ACCESS_TYPE_ALLOW_BY_GROUP: 'allow-by-group',
+        ACCESS_TYPE_ALLOW_BY_GROUP: 'allow_by_group',
         
         /**
          * @readonly
-         * @property {String} ACCESS_TYPE_DENY_BY_GROUP Type of access for a denied access through groups
+         * @property {String} ACCESS_TYPE_DENY_BY_GROUP Type of access for a denied access through groups (client-side only)
          */
-        ACCESS_TYPE_DENY_BY_GROUP: 'deny-by-group',
+        ACCESS_TYPE_DENY_BY_GROUP: 'deny_by_group',
         
         /**
          * @readonly
-         * @property {String} ACCESS_TYPE_ALLOW_BY_ANONYMOUS Type of access for an allowed access through anonymous
+         * @property {String} ACCESS_TYPE_ALLOW_BY_ANONYMOUS Type of access for an allowed access through anonymous (client-side only)
          */
-        ACCESS_TYPE_ALLOW_BY_ANONYMOUS: 'allow-by-anonymous',
+        ACCESS_TYPE_ALLOW_BY_ANONYMOUS: 'allow_by_anonymous',
         
         /**
          * @readonly
-         * @property {String} ACCESS_TYPE_ALLOW_BY_ANYCONNECTED Type of access for an allowed access through any connected user
+         * @property {String} ACCESS_TYPE_ALLOW_BY_ANYCONNECTED Type of access for an allowed access through any connected user (client-side only)
          */
-        ACCESS_TYPE_ALLOW_BY_ANYCONNECTED: 'allow-by-anyconnected',
+        ACCESS_TYPE_ALLOW_BY_ANYCONNECTED: 'allow_by_anyconnected',
         
         /**
          * @readonly
-         * @property {String} ACCESS_TYPE_DENY_BY_ANYCONNECTED Type of access for a denied access through any connected user
+         * @property {String} ACCESS_TYPE_DENY_BY_ANYCONNECTED Type of access for a denied access through any connected user (client-side only)
          */
-        ACCESS_TYPE_DENY_BY_ANYCONNECTED: 'deny-by-anyconnected',
+        ACCESS_TYPE_DENY_BY_ANYCONNECTED: 'deny_by_anyconnected',
         
         /**
          * @readonly
@@ -130,21 +130,21 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
          */
         computeTooltip: function (record, accessType)
         {
-        	var type = record.get('assignmentType');
+        	var type = record.get('targetType');
         	
-        	if (type == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ASSIGNMENT_TYPE_ANONYMOUS)
+        	if (type == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.TARGET_TYPE_ANONYMOUS)
         	{
         		return this._computeTooltipForAnonymous(record, accessType);
         	}
-        	else if (type == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ASSIGNMENT_TYPE_ANYCONNECTEDUSER)
+        	else if (type == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.TARGET_TYPE_ANYCONNECTEDUSER)
         	{
         		return this._computeTooltipForAnyconnectedUser(record, accessType);
         	}
-        	else if (type == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ASSIGNMENT_TYPE_USERS)
+        	else if (type == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.TARGET_TYPE_USER)
         	{
         		return this._computeTooltipForUser(record, accessType);
         	}
-        	else if (type == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ASSIGNMENT_TYPE_GROUPS)
+        	else if (type == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.TARGET_TYPE_GROUP)
         	{
         		return this._computeTooltipForGroup(record, accessType);
         	}
@@ -404,7 +404,26 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
                     rootProperty: 'assignments'
                 }
             },
-            groupField: 'assignmentType',
+            grouper: {
+            	property: 'targetType',
+            	direction: 'ASC',
+            	transform: function (value)
+            	{
+            		// This is done to order the target types in the grid
+            		switch (type) {
+	                    case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.TARGET_TYPE_ANONYMOUS:
+	                        return 0;
+	                    case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.TARGET_TYPE_ANYCONNECTEDUSER:
+	                        return 1;
+	                    case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.TARGET_TYPE_USER:
+	                        return 2;
+	                    case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.TARGET_TYPE_GROUP:
+	                        return 3;
+	                    default:
+	                        return 4;
+            		}
+            	}
+            },
             sortOnLoad: true,
             sorters: [{property: 'sortableLabel', direction:'ASC'}],
             
@@ -441,18 +460,18 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
                 expandTip: "",
                 collapseTip: "",
                 groupHeaderTpl: [
-                    '{name:this.formatAssignmentType}', 
+                    '{name:this.formatTargetType}', 
                     {
-                        formatAssignmentType: Ext.bind(function(type) {
+                    	formatTargetType: Ext.bind(function(type) {
                             switch (type) {
-                                case this.self.ASSIGNMENT_TYPE_ANONYMOUS:
-                                    return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ASSIGNMENT_TYPE_ANONYMOUS}}";
-                                case this.self.ASSIGNMENT_TYPE_ANYCONNECTEDUSER:
-                                    return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ASSIGNMENT_TYPE_ANYCONNECTEDUSERS}}";
-                                case this.self.ASSIGNMENT_TYPE_USERS:
-                                    return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ASSIGNMENT_TYPE_USERS}}";
-                                case this.self.ASSIGNMENT_TYPE_GROUPS:
-                                    return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ASSIGNMENT_TYPE_GROUPS}}";
+                                case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.TARGET_TYPE_ANONYMOUS:
+                                    return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TARGET_TYPE_ANONYMOUS}}";
+                                case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.TARGET_TYPE_ANYCONNECTEDUSER:
+                                    return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TARGET_TYPE_ANYCONNECTEDUSERS}}";
+                                case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.TARGET_TYPE_USER:
+                                    return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TARGET_TYPE_USERS}}";
+                                case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.TARGET_TYPE_GROUP:
+                                    return "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TARGET_TYPE_GROUPS}}";
                                 default:
                                     // would never go there
                                     return "";
@@ -730,15 +749,18 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     		return;
     	}
     	
+    	function callback (computedValue)
+    	{
+    		// Re-init other local values to be sure to not have previously induced values
+        	this._reinitComputedLocalValues (profileId);
+        	
+            // Compute and update the induced values on other records of same column
+        	var records = this._getUnfilteredRecords();
+        	Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelper.computeAndUpdateLocalInducedAssignments (records, profileId);
+    	}
+    	
     	// Compute and set the new value
-    	var newValue = this._computeNewValue (recordId, profileId);
-    	
-    	// Re-init other local values to be sure to not have previously induced values
-    	this._reinitComputedLocalValues (profileId);
-    	
-        // Compute and update the induced values on other records of same column
-    	var records = this._getUnfilteredRecords();
-    	Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelper.updateLocalAssignments (records, profileId);
+    	var newValue = this._computeNewValue (recordId, profileId, callback, this);
     },
     
     /**
@@ -747,9 +769,11 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
      * The value is computed on following rotation : Allow <-> Deny <-> Unknown <-> Allow
      * @param {String} recordId The id of record
      * @param {String} profileId The id of profile
-     * @return the computed value
+     * @param {Function} callback The callback function invoked after computing the new value. The arguments are:
+	 * @param {Function} callback.value The computed value
+	 * @param {Object} [scope] The scope of callback function
      */
-    _computeNewValue: function (recordId, profileId)
+    _computeNewValue: function (recordId, profileId, callback, scope)
     {
     	var record = this._gridStore.getById(recordId);
 
@@ -761,27 +785,45 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     	
     	if (currentValue == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW)
         {
-    		newValue = Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY;
+    		this._setComputedValue(Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY, record, profileId, callback, scope);
         }
     	else if (currentValue == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY)
         {
-    		if (storedValue != Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW && storedValue != Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY)
-            {
-                // Could be unknown or inherit value
-    			newValue = storedValue;
-            }
-            else
-            {
-            	newValue = Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_UNKNOWN;
-            }
+    		// When go to 'unknown' value, the value is computed from parent contexts
+    		var parameters = [
+    		       this._contextCombobox.getValue(), 
+    		       this._objectContext, 
+    		       profileId, 
+    		       record.get('targetType'), 
+    		       this._getIdentity(record)
+    		];
+    		this.serverCall('getInheritedAssignment', parameters, Ext.bind(this._setComputedValue, this, [record, profileId, callback, scope], 1), {waitMessage: false});
         }
     	else
         {
-    		newValue = Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW;
+    		this._setComputedValue(Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW, record, profileId, callback, scope);
         }
-    	
+    },
+    
+    /**
+     * @private
+     * Function invoked after computing the new assignment value. Set the new value.
+     * @param {String} newValue The computed value
+     * @param {String} record The record to update
+     * @param {String} profileId The id of profile
+     * @param {Function} callback The callback function invoked after computing the new value. The arguments are:
+	 * @param {Function} callback.value The computed value
+	 * @param {Object} [scope] The scope of callback function
+     */
+    _setComputedValue: function (newValue, record, profileId, callback, scope)
+    {
+    	var storedValue = this._storedValues[profileId][record.getId()] || Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_UNKNOWN;
     	record.set(profileId, newValue, {dirty: storedValue != newValue});
-    	return newValue;
+    	
+    	if (Ext.isFunction(callback))
+    	{
+    		callback.call (scope, newValue);
+    	}
     },
     
     /**
@@ -833,7 +875,6 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
                     groups: groups
                 });
             }
-            
             
             if (recordsToAdd.length == count)
             {
@@ -901,28 +942,6 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     },
     
     /**
-     * @private
-     * Gets the first group record from the store that matches the given id and group directory id.
-     * @param {String} groupId The group id
-     * @param {String} groupDirectory The group directory id
-     * @return {Ext.data.Model} the found record, or null if not found.
-     */
-    _findGroupRecord: function(groupId, groupDirectory)
-    {
-        var foundRecord;
-        
-        Ext.Array.each(this._gridStore.getRange(), function(record) {
-            if (record.get('groupId') == groupId && record.get('groupDirectory') == groupDirectory)
-            {
-                foundRecord = record;
-                return false;
-            }
-        }, this);
-        
-        return foundRecord;
-    },
-    
-    /**
      * Removes the given assignments
      * @param {Object[]} assignments The assignments to remove
      * @param {String} assignments.id The record id
@@ -935,8 +954,8 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
             var record = this._gridStore.getById(assignment.id);
             if (assignment.context == this._objectContext 
                 && assignment != null
-                && record.get('assignmentType') != this.self.ASSIGNMENT_TYPE_ANONYMOUS
-                && record.get('assignmentType') != this.self.ASSIGNMENT_TYPE_ANYCONNECTEDUSER)
+                && record.get('targetType') != this.self.TARGET_TYPE_ANONYMOUS
+                && record.get('targetType') != this.self.TARGET_TYPE_ANYCONNECTEDUSER)
             {
                 // Iterate through the profiles, only keep the ones with local assignments to avoid useless removal
                 Ext.Array.forEach(this._profiles, function(profile) {
@@ -946,11 +965,12 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
                     {
                         var assignmentInfo = {
                             profileId: profileId,
+                            targetType: record.get('targetType'),
                             assignment: ''
                         };
-                        if (record.get('assignmentType') == this.self.ASSIGNMENT_TYPE_USERS)
+                        
+                        if (record.get('targetType') == this.self.TARGET_TYPE_USER)
                         {
-                            assignmentInfo.assignmentType = "user";
                             assignmentInfo.identity = {
                                 login: record.get('login'),
                                 population: record.get('population')
@@ -958,7 +978,6 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
                         }
                         else
                         {
-                            assignmentInfo.assignmentType = "group";
                             assignmentInfo.identity = {
                                 groupId: record.get('groupId'),
                                 groupDirectory: record.get('groupDirectory')
@@ -996,34 +1015,12 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         var assignmentsInfo = [];
         Ext.Array.forEach(this._gridStore.getModifiedRecords(), function(record) {
             Ext.Object.each(record.modified, function(profileId) {
-                var assignmentInfo = {
+                assignmentsInfo.push({
                     profileId: profileId,
-                    assignment: record.get(profileId) // 'allow', 'deny' or others
-                };
-                switch (record.get('assignmentType')) {
-                    case this.self.ASSIGNMENT_TYPE_ANONYMOUS:
-                        assignmentInfo.assignmentType = "anonymous";
-                        break;
-                    case this.self.ASSIGNMENT_TYPE_ANYCONNECTEDUSER:
-                        assignmentInfo.assignmentType = "anyConnectedUser";
-                        break;
-                    case this.self.ASSIGNMENT_TYPE_USERS:
-                        assignmentInfo.assignmentType = "user";
-                        assignmentInfo.identity = {
-                            login: record.get('login'),
-                            population: record.get('population')
-                        };
-                        break;
-                    case this.self.ASSIGNMENT_TYPE_GROUPS:
-                    default:
-                        assignmentInfo.assignmentType = "group";
-                        assignmentInfo.identity = {
-                            groupId: record.get('groupId'),
-                            groupDirectory: record.get('groupDirectory')
-                        };
-                        break;
-                }
-                assignmentsInfo.push(assignmentInfo);
+                    targetType: record.get('targetType'),
+                    assignment: record.get(profileId), // 'allow', 'deny' or others
+                    identity: this._getIdentity (record)
+                });
             }, this);
         }, this);
         
@@ -1154,7 +1151,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     	// Update local assignments for each profiles
     	var records = this._getUnfilteredRecords();
     	Ext.Array.forEach(this._profiles, function(profile) {
-    		Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelper.updateLocalAssignments (records, profile.id);
+    		Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelper.computeAndUpdateLocalInducedAssignments (records, profile.id);
     	});
     	
     	// Clear the selection
@@ -1403,8 +1400,8 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         var selection = this._assignmentsGrid.getSelection();
         
         var targets = Ext.Array.map(selection, function(record) {
-            var type = record.get('assignmentType'),
-                removable = (type == this.self.ASSIGNMENT_TYPE_USERS || type == this.self.ASSIGNMENT_TYPE_GROUPS)
+            var type = record.get('targetType'),
+                removable = (type == this.self.TARGET_TYPE_USER || type == this.self.TARGET_TYPE_GROUP)
                             && hasLocalAssignments(record);
             return {
                 id: Ametys.message.MessageTarget.PROFILE_ASSIGNMENT,
@@ -1433,18 +1430,18 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
      */
     _renderWho: function(value, metaData, record)
     {
-        var type = record.get('assignmentType');
+        var type = record.get('targetType');
         switch (type) {
-            case this.self.ASSIGNMENT_TYPE_ANONYMOUS:
-                var text = "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ASSIGNMENT_TYPE_ANONYMOUS}}";
+            case this.self.TARGET_TYPE_ANONYMOUS:
+                var text = "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TARGET_TYPE_ANONYMOUS}}";
                 return '<span class="ametysicon-carnival23"></span> ' + text;
-            case this.self.ASSIGNMENT_TYPE_ANYCONNECTEDUSER:
-                var text = "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ASSIGNMENT_TYPE_ANYCONNECTEDUSERS}}";
+            case this.self.TARGET_TYPE_ANYCONNECTEDUSER:
+                var text = "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TARGET_TYPE_ANYCONNECTEDUSERS}}";
                 return '<span class="ametysicon-key162"></span> ' + text;
-            case this.self.ASSIGNMENT_TYPE_USERS:
+            case this.self.TARGET_TYPE_USER:
                 var text = Ametys.plugins.core.users.UsersDAO.renderUser(record.get('login'), record.get('populationLabel'), value);
                 return '<img src="' + Ametys.getPluginDirectPrefix('core-ui') + '/user/' + record.get('population') + '/' + record.get('login') + '/image_16" class="a-grid-icon a-grid-icon-user"/>' + text;
-            case this.self.ASSIGNMENT_TYPE_GROUPS:
+            case this.self.TARGET_TYPE_GROUP:
                 var text = value + ' (' + record.get('groupId') + ', ' + record.get('groupDirectoryLabel') + ')';
                 return '<span class="ametysicon-multiple25"></span> ' + text;
             default:
@@ -1486,8 +1483,8 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
                 suffix = "allowed";
                 break;
             case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW:
-                glyph = "ametysicon-check";
-                suffix = "inherit-allowed";
+                glyph = "ametysicon-check decorator-ametysicon-up-arrow";
+                suffix = "allowed";
                 break;
             case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY:
                 glyph = "ametysicon-cross-1";
@@ -1500,14 +1497,14 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
                 break;
             case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_DENY:
             	// Denied by inheritance
-                glyph = "ametysicon-cross"; 
-                suffix = "inherit-denied"; 
+                glyph = "ametysicon-cross decorator-ametysicon-up-arrow"; 
+                suffix = "denied"; 
                 break;
             case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_UNKNOWN:
             default:
             	// Undetermined
-                glyph = "ametysicon-question13";
-                suffix = "inherit";
+                glyph = "ametysicon-minus-symbol";
+                suffix = "unknown";
         }
         
         var tooltip = Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.computeTooltip(record, value);
@@ -1547,7 +1544,32 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         {
             return collection;
         }
-    }
+    },
+    
+    /**
+     * @private
+     * Returns a Object representing the identity of the record
+     * @param {Ext.data.Model} The target record
+     * @return {Object} The identity
+     */
+    _getIdentity: function (record)
+    {
+    	if (record.get('targetType') == this.self.TARGET_TYPE_USER)
+        {
+    		return {
+    			login: record.get('login'),
+    			population: record.get('population')
+    		}
+        }
+        else if (record.get('targetType') == this.self.TARGET_TYPE_GROUP)
+        {
+        	return {
+        		groupId: record.get('groupId'),
+        		groupDirectory: record.get('groupDirectory')
+        	}
+        }
+    	return null;
+    },
 });
 
  /**
@@ -1572,7 +1594,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.Entry', {
         {name: 'groupLabel'},
         
         /* For grouping feature */
-        {name: 'assignmentType'},
+        {name: 'targetType'},
         
         /* For sorting */
         {

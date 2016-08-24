@@ -40,6 +40,8 @@ import org.ametys.core.group.GroupManager;
 import org.ametys.core.right.RightAssignmentContextExtensionPoint;
 import org.ametys.core.right.RightManager;
 import org.ametys.core.ui.right.ProfileAssignmentsToolClientSideElement;
+import org.ametys.core.ui.right.ProfileAssignmentsToolClientSideElement.AccessType;
+import org.ametys.core.ui.right.ProfileAssignmentsToolClientSideElement.TargetType;
 import org.ametys.core.user.User;
 import org.ametys.core.user.UserIdentity;
 import org.ametys.core.user.UserManager;
@@ -109,28 +111,28 @@ public class GetProfileAssignmentsAction extends ServiceableAction
     {
         Map<String, Object> assignment = new HashMap<>();
         
-        assignment.put("assignmentType", "1-anonymous");
+        assignment.put("targetType", TargetType.ANONYMOUS.toString());
         
         // First ask on context object
-        _getAnonymousAssignment(assignment, context, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_ALLOW, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_DENY);
+        _getAnonymousAssignment(assignment, context, ProfileAssignmentsToolClientSideElement.AccessType.ALLOW, ProfileAssignmentsToolClientSideElement.AccessType.DENY);
         
         // Then ask on parent contexts
         for (Object parentContext : parentContexts)
         {
-            _getAnonymousAssignment(assignment, parentContext, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_INHERITED_ALLOW, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_INHERITED_DENY);
+            _getAnonymousAssignment(assignment, parentContext, ProfileAssignmentsToolClientSideElement.AccessType.INHERITED_ALLOW, ProfileAssignmentsToolClientSideElement.AccessType.INHERITED_DENY);
         }
         
         return assignment;
     }
     
-    private void _getAnonymousAssignment(Map<String, Object> assignment, Object context, String allow, String deny)
+    private void _getAnonymousAssignment(Map<String, Object> assignment, Object context, AccessType allow, AccessType deny)
     {
         Set<String> deniedProfilesForAnonymous = _rightManager.getDeniedProfilesForAnonymous(context);
         for (String profileId : deniedProfilesForAnonymous)
         {
             if (!assignment.containsKey(profileId) && _rightManager.getProfile(profileId) != null)
             {
-                assignment.put(profileId, deny);
+                assignment.put(profileId, deny.toString());
             }
         }
         
@@ -139,7 +141,7 @@ public class GetProfileAssignmentsAction extends ServiceableAction
         {
             if (!assignment.containsKey(profileId) && _rightManager.getProfile(profileId) != null)
             {
-                assignment.put(profileId, allow);
+                assignment.put(profileId, allow.toString());
             }
         }
         
@@ -149,28 +151,28 @@ public class GetProfileAssignmentsAction extends ServiceableAction
     {
         Map<String, Object> assignment = new HashMap<>();
         
-        assignment.put("assignmentType", "2-anyconnected");
+        assignment.put("targetType", TargetType.ANYCONNECTED_USER.toString());
         
         // First ask on context object
-        _getAnyConnectedAssignment(assignment, context, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_ALLOW, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_DENY);
+        _getAnyConnectedAssignment(assignment, context, AccessType.ALLOW, AccessType.DENY);
         
         // Then ask on parent contexts
         for (Object parentContext : parentContexts)
         {
-            _getAnyConnectedAssignment(assignment, parentContext, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_INHERITED_ALLOW, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_INHERITED_DENY);
+            _getAnyConnectedAssignment(assignment, parentContext, AccessType.INHERITED_ALLOW, AccessType.INHERITED_DENY);
         }
         
         return assignment;
     }
     
-    private void _getAnyConnectedAssignment(Map<String, Object> assignment, Object context, String allow, String deny)
+    private void _getAnyConnectedAssignment(Map<String, Object> assignment, Object context, AccessType allow, AccessType deny)
     {
         Set<String> deniedProfilesForAnyConnectedUser = _rightManager.getDeniedProfilesForAnyConnectedUser(context);
         for (String profileId : deniedProfilesForAnyConnectedUser)
         {
             if (!assignment.containsKey(profileId) && _rightManager.getProfile(profileId) != null)
             {
-                assignment.put(profileId, deny);
+                assignment.put(profileId, deny.toString());
             }
         }
         
@@ -179,7 +181,7 @@ public class GetProfileAssignmentsAction extends ServiceableAction
         {
             if (!assignment.containsKey(profileId) && _rightManager.getProfile(profileId) != null)
             {
-                assignment.put(profileId, allow);
+                assignment.put(profileId, allow.toString());
             }
         }
     }
@@ -189,18 +191,18 @@ public class GetProfileAssignmentsAction extends ServiceableAction
         Map<UserIdentity, Map<String, Object>> assignments = new LinkedHashMap<>();
         
         // First ask on context object
-        _getUserAssignments(assignments, context, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_ALLOW, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_DENY);
+        _getUserAssignments(assignments, context, AccessType.ALLOW, AccessType.DENY);
         
         // Then ask on parent contexts
         for (Object parentContext : parentContexts)
         {
-            _getUserAssignments(assignments, parentContext, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_INHERITED_ALLOW, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_INHERITED_DENY);
+            _getUserAssignments(assignments, parentContext, AccessType.INHERITED_ALLOW, AccessType.INHERITED_DENY);
         }
         
         return new ArrayList<>(assignments.values());
     }
     
-    private void _getUserAssignments(Map<UserIdentity, Map<String, Object>> assignments, Object context, String allow, String deny)
+    private void _getUserAssignments(Map<UserIdentity, Map<String, Object>> assignments, Object context, AccessType allow, AccessType deny)
     {
         Map<UserIdentity, Set<String>> deniedProfilesForUsers = _rightManager.getDeniedProfilesForUsers(context);
         for (UserIdentity userIdentity : deniedProfilesForUsers.keySet())
@@ -219,7 +221,7 @@ public class GetProfileAssignmentsAction extends ServiceableAction
             {
                 if (!assignment.containsKey(profileId) && _rightManager.getProfile(profileId) != null)
                 {
-                    assignment.put(profileId, deny);
+                    assignment.put(profileId, deny.toString());
                 }
             }
             
@@ -243,7 +245,7 @@ public class GetProfileAssignmentsAction extends ServiceableAction
             {
                 if (!assignment.containsKey(profileId) && _rightManager.getProfile(profileId) != null)
                 {
-                    assignment.put(profileId, allow);
+                    assignment.put(profileId, allow.toString());
                 }
             }
             
@@ -254,7 +256,7 @@ public class GetProfileAssignmentsAction extends ServiceableAction
     private Map<String, Object> _getUserInfo(UserIdentity userIdentity)
     {
         Map<String, Object> assignment = new HashMap<>();
-        assignment.put("assignmentType", "3-users");
+        assignment.put("targetType", TargetType.USER.toString());
         
         String login = userIdentity.getLogin();
         String populationId = userIdentity.getPopulationId();
@@ -276,18 +278,18 @@ public class GetProfileAssignmentsAction extends ServiceableAction
         Map<GroupIdentity, Map<String, Object>> assignments = new LinkedHashMap<>();
         
         // First ask on context object
-        _getGroupAssignments(assignments, context, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_ALLOW, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_DENY);
+        _getGroupAssignments(assignments, context, AccessType.ALLOW, AccessType.DENY);
         
         // Then ask on parent contexts
         for (Object parentContext : parentContexts)
         {
-            _getGroupAssignments(assignments, parentContext, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_INHERITED_ALLOW, ProfileAssignmentsToolClientSideElement.ACCESS_TYPE_INHERITED_DENY);
+            _getGroupAssignments(assignments, parentContext, AccessType.INHERITED_ALLOW, AccessType.INHERITED_DENY);
         }
         
         return new ArrayList<>(assignments.values());
     }
     
-    private void _getGroupAssignments(Map<GroupIdentity, Map<String, Object>> assignments, Object context, String allow, String deny)
+    private void _getGroupAssignments(Map<GroupIdentity, Map<String, Object>> assignments, Object context, AccessType allow, AccessType deny)
     {
         Map<GroupIdentity, Set<String>> allowedProfilesForGroups = _rightManager.getAllowedProfilesForGroups(context);
         
@@ -307,7 +309,7 @@ public class GetProfileAssignmentsAction extends ServiceableAction
             {
                 if (!assignment.containsKey(profileId) && _rightManager.getProfile(profileId) != null)
                 {
-                    assignment.put(profileId, allow);
+                    assignment.put(profileId, allow.toString());
                 }
             }
             
@@ -331,7 +333,7 @@ public class GetProfileAssignmentsAction extends ServiceableAction
             {
                 if (!assignment.containsKey(profileId) && _rightManager.getProfile(profileId) != null)
                 {
-                    assignment.put(profileId, deny);
+                    assignment.put(profileId, deny.toString());
                 }
             }
             
@@ -342,7 +344,7 @@ public class GetProfileAssignmentsAction extends ServiceableAction
     private Map<String, Object> _getGroupInfo(GroupIdentity groupIdentity)
     {
         Map<String, Object> assignment = new HashMap<>();
-        assignment.put("assignmentType", "4-groups");
+        assignment.put("targetType", TargetType.GROUP.toString());
         
         String groupId = groupIdentity.getId();
         String directoryId = groupIdentity.getDirectoryId();

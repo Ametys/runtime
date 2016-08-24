@@ -20,37 +20,37 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelp
 	singleton: true,
 	
 	/**
-	 * Update the local assignments of a given column (=profile)
+	 * Compute and update the local assignments of a given column (=profile)
 	 * @param {Ext.data.Model[]} records The records to update.
 	 * @param {String} profileId The id of profile which is the id of column
 	 */
-	updateLocalAssignments: function (records, profileId)
+	computeAndUpdateLocalInducedAssignments: function (records, profileId, callback)
 	{
 		// When iterating, we need to be sure anonymous and anyconnected are the two first records (for then computing the others)
         // and we need to be sure group records come before all user records, as user records can be computed from their groups values
         
         // First, update local values for Anonymous and "any connected user" records
         var anonymousRecord = this.findAnonymousRecord(records);
-        this.updateLocalAssignmentForAnonymous (records, anonymousRecord, anonymousRecord.get(profileId), profileId);
+        this.computeAndUpdateLocalInducedAssignmentsForAnonymous (records, anonymousRecord, anonymousRecord.get(profileId), profileId);
         
         var anyConnectedRecord = this.findAnyConnectedRecord(records);
-        this.updateLocalAssignmentForAnyconnected (records, anyConnectedRecord, anyConnectedRecord.get(profileId), profileId);
+        this.computeAndUpdateLocalInducedAssignmentsForAnyconnected (records, anyConnectedRecord, anyConnectedRecord.get(profileId), profileId);
         
         // Then, do a first iteration to update group records
         records.each(function(record) {
-            var type = record.get('assignmentType');
-            if (type == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ASSIGNMENT_TYPE_GROUPS)
+            var type = record.get('targetType');
+            if (type == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.TARGET_TYPE_GROUP)
             {
-            	this.updateLocalAssignmentForGroup(records, record, record.get(profileId), profileId);
+            	this.computeAndUpdateLocalInducedAssignmentsForGroup(records, record, record.get(profileId), profileId);
             }
         }, this);
         
         // Finally, do a second iteration to update user records
         records.each(function(record) {
-            var type = record.get('assignmentType');
-            if (type == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ASSIGNMENT_TYPE_USERS)
+            var type = record.get('targetType');
+            if (type == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.TARGET_TYPE_USER)
             {
-            	this.updateLocalAssignmentForUser(records, record, record.get(profileId), profileId);
+            	this.computeAndUpdateLocalInducedAssignmentsForUser(records, record, record.get(profileId), profileId);
             }
         }, this);
 	},
@@ -62,7 +62,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelp
 	 * @param {String} profileId The id of concerned profile
 	 * @return {Boolean} true if changes were made, false otherwise
 	 */
-	updateLocalAssignmentForAnonymous: function (records, record, currentValue, profileId)
+	computeAndUpdateLocalInducedAssignmentsForAnonymous: function (records, record, currentValue, profileId)
 	{
 		var hasLocalAssignment = currentValue == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW || currentValue == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY;
 		if (!hasLocalAssignment)
@@ -74,7 +74,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelp
             if (assignmentForAnyconnected == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY)
             {
             	// If there is no local assignment and any connected user is denied, so Anonymous will be denied
-                record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY_BY_ANYCONNECTED, {dirty: false}); //, {dirty: dirty}
+                record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY_BY_ANYCONNECTED, {dirty: false}); 
                 return true;
             }
 		}
@@ -89,7 +89,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelp
 	 * @param {String} profileId The id of concerned profile
 	 * @return {Boolean} true if changes were made, false otherwise
 	 */
-	updateLocalAssignmentForAnyconnected: function (records, record, currentValue, profileId)
+	computeAndUpdateLocalInducedAssignmentsForAnyconnected: function (records, record, currentValue, profileId)
 	{
 		var hasLocalAssignment = currentValue == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW || currentValue == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY;
 		if (!hasLocalAssignment)
@@ -101,7 +101,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelp
             if (assignmentForAnonymous == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW || assignmentForAnonymous == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW)
             {
             	// If there is no local assignment and anonymous user is allowed, so any connected user will be allowed
-            	record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANONYMOUS, {dirty: false}); //, {dirty: dirty}
+            	record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANONYMOUS, {dirty: false}); 
             }
 		}
 	},
@@ -113,7 +113,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelp
 	 * @param {String} profileId The id of concerned profile
 	 * @return {Boolean} true if changes were made, false otherwise
 	 */
-	updateLocalAssignmentForGroup: function (records, record, currentValue, profileId)
+	computeAndUpdateLocalInducedAssignmentsForGroup: function (records, record, currentValue, profileId)
 	{
 		var hasLocalAssignment = currentValue == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW || currentValue == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY;
 		if (!hasLocalAssignment)
@@ -128,30 +128,22 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelp
         	
             if (assignmentForAnonymous == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW || assignmentForAnonymous == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW)
             {
-            	// If Anonymous is allowed, the group is allowed
-                record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANONYMOUS, {dirty: false}); //, {dirty: dirty})
+            	// If Anonymous is allowed (by inheritance or not), the group is allowed
+                record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANONYMOUS, {dirty: false}); 
                 return true;
             }
-            else if (assignmentForAnyconnected == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY)
+            else if (assignmentForAnyconnected == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY || assignmentForAnyconnected == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_DENY)
             {
-            	// If any connected user is denied, the group is denied
-            	record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY_BY_ANYCONNECTED, {dirty: false}); //, {dirty: dirty})
+            	// If any connected user is denied (by inheritance or not), the group is denied
+            	record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY_BY_ANYCONNECTED, {dirty: false}); 
             	return true;
             }
-//            else if (assignmentForAnyconnected == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_DENY)
-//            {
-//                record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_DENY, {dirty: dirty})
-//            }
-            else if (assignmentForAnyconnected == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW)
+            else if (assignmentForAnyconnected == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW || assignmentForAnyconnected == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW)
             {
-            	// If any connected user is allowed, the group is allowed
-            	record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANYCONNECTED, {dirty: false}); //, {dirty: dirty})
+            	// If any connected user is allowed (by inheritance or not), the group is allowed
+            	record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANYCONNECTED, {dirty: false}); 
             	return true;
             }
-//            else if (assignmentForAnyconnected == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW)
-//            {
-//                record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW, {dirty: dirty})
-//            }
 		}
 		
 		return false;
@@ -164,7 +156,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelp
 	 * @param {String} profileId The id of concerned profile
 	 * @return {Boolean} true if changes were made, false otherwise
 	 */
-	updateLocalAssignmentForUser: function (records, record, currentValue, profileId)
+	computeAndUpdateLocalInducedAssignmentsForUser: function (records, record, currentValue, profileId)
 	{
 		var hasLocalAssignment = currentValue == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW || currentValue == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY;
 		if (!hasLocalAssignment)
@@ -181,13 +173,13 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelp
 				if (groupRecord != null)
 				{
 					var assignmentForGroup = groupRecord.get(profileId);
-					if (assignmentForGroup == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY)
+					if (assignmentForGroup == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY || assignmentForGroup == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_DENY)
 					{
 						// If at least one user's group is denied, so the user is denied
-						record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY_BY_GROUP, {dirty: false}); //, {dirty: dirty})
+						record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY_BY_GROUP, {dirty: false}); 
 		            	return true;
 					}
-					else if (assignmentForGroup == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW)
+					else if (assignmentForGroup == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW || assignmentForGroup == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW)
 					{
 						isAllowedByGroup = true;
 					}
@@ -197,12 +189,12 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelp
 			// If at least one user's group is allowed, the user is allowed
 			if (isAllowedByGroup)
 			{
-				record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_GROUP, {dirty: false}); //, {dirty: dirty})
+				record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_GROUP, {dirty: false}); 
             	return true;
 			}
 			
 			// If no user's group has allowed to determine access, check anonymous and any connected user access as for a group 
-			return this.updateLocalAssignmentForGroup(records, record, currentValue, profileId);
+			return this.computeAndUpdateLocalInducedAssignmentsForGroup(records, record, currentValue, profileId);
 		}
 		return false;
 	},
@@ -216,7 +208,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelp
     {
     	var anonymousRecord = null;
         records.each(function(record) {
-            if (record.get('assignmentType') == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ASSIGNMENT_TYPE_ANONYMOUS)
+            if (record.get('targetType') == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.TARGET_TYPE_ANONYMOUS)
             {
             	anonymousRecord = record; // stop iteration
             	return false;
@@ -235,7 +227,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelp
     {
     	var anyconnectedRecord = null;
         records.each(function(record) {
-            if (record.get('assignmentType') == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ASSIGNMENT_TYPE_ANYCONNECTEDUSER)
+            if (record.get('targetType') == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.TARGET_TYPE_ANYCONNECTEDUSER)
             {
             	anyconnectedRecord = record;
             	return false; // stop iteration

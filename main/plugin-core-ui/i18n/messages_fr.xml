@@ -1229,10 +1229,10 @@
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_FILTERS">Filtres</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_RIGHT_FILTER">Libellé du droit</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_USERGROUP_FILTER">Utilisateur ou groupe</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ASSIGNMENT_TYPE_ANONYMOUS">Anonyme</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ASSIGNMENT_TYPE_ANYCONNECTEDUSERS">Utilisateurs connectés</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ASSIGNMENT_TYPE_USERS">Utilisateurs</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ASSIGNMENT_TYPE_GROUPS">Groupes</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TARGET_TYPE_ANONYMOUS">Anonyme</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TARGET_TYPE_ANYCONNECTEDUSERS">Utilisateurs connectés</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TARGET_TYPE_USERS">Utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TARGET_TYPE_GROUPS">Groupes</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CLOSE_BOX_TITLE">Fermer et enregistrer</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CLOSE_BOX_MESSAGE">Il y a des modifications locales non sauvegardées. &lt;br/&gt;Souhaitez-vous enregistrer vos modifications avant de fermer l'outil ?</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CHANGE_CONTEXT_BOX_TITLE">Enregister les changements</message>
@@ -1240,34 +1240,34 @@
     
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_UNKNOWN">Aucune affectation n'a pu être déterminée sur le contexte de droit courant</message>
     
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_LOCAL_ALLOWED">L'utilisateur est autorisé sur le contexte de droit courant</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_INHERIT_ALLOWED">L'utilisateur est autorisé par héritage sur un contexte de droit parent</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_LOCAL_DENIED">L'utilisateur est exclu sur le contexte de droit courant</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_INHERIT_DENIED">L'utilisateur est exclu par héritage sur un contexte de droit parent</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_ALLOWED_BY_ANONYMOUS">L'utilisateur est autorisé car l'utilisateur Anonyme est autorisé sur le contexte de droit courant</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_ALLOWED_BY_GROUP">L'utilisateur est autorisé car il est membre d'un groupe autorisé sur le contexte de droit courant</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_DENIED_BY_GROUP">L'utilisateur est exclu car il est membre d'un groupe exclu sur le contexte de droit courant</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_ALLOWED_BY_ANYCONNECTED">L'utilisateur est autorisé car tous les utilisateurs connectés sont autorisés sur le contexte de droit courant</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_DENIED_BY_ANYCONNECTED">L'utilisateur est exclu car tous les utilisateurs connectés sont exclu sur le contexte de droit courant</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_LOCAL_ALLOWED">L'utilisateur est autorisé</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_INHERIT_ALLOWED">L'utilisateur est autorisé par héritage</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_LOCAL_DENIED">L'utilisateur est exclu</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_INHERIT_DENIED">L'utilisateur est exclu par héritage</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_ALLOWED_BY_ANONYMOUS">L'utilisateur est autorisé car l'utilisateur Anonyme est autorisé</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_ALLOWED_BY_GROUP">L'utilisateur est autorisé car il est membre d'un groupe autorisé</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_DENIED_BY_GROUP">L'utilisateur est exclu car il est membre d'un groupe exclu</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_ALLOWED_BY_ANYCONNECTED">L'utilisateur est autorisé car tous les utilisateurs connectés sont autorisés</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_DENIED_BY_ANYCONNECTED">L'utilisateur est exclu car tous les utilisateurs connectés sont exclu</message>
     
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_LOCAL_ALLOWED">Le groupe est autorisé sur le contexte de droit courant</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_INHERIT_ALLOWED">Le groupe est autorisé par héritage sur un contexte de droit parent</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_LOCAL_DENIED">Le groupe est exclu sur le contexte de droit courant</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_INHERIT_DENIED">Le groupe est exclu par héritage sur un contexte de droit parent</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_ALLOWED_BY_ANYCONNECTED">Le groupe est autorisé car tous les utilisateurs connectés sont autorisés sur le contexte de droit courant</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_DENIED_BY_ANYCONNECTED">Le groupe est exclu car tous les utilisateurs connectés sont exclus sur le contexte de droit courant</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_ALLOWED_BY_ANONYMOUS">Le groupe est autorisé car l'utilisateur Anonyme est autorisé sur le contexte de droit courant</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_LOCAL_ALLOWED">Le groupe est autorisé</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_INHERIT_ALLOWED">Le groupe est autorisé par héritage</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_LOCAL_DENIED">Le groupe est exclu</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_INHERIT_DENIED">Le groupe est exclu par héritage</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_ALLOWED_BY_ANYCONNECTED">Le groupe est autorisé car tous les utilisateurs connectés sont autorisés</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_DENIED_BY_ANYCONNECTED">Le groupe est exclu car tous les utilisateurs connectés sont exclus</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_GROUP_ALLOWED_BY_ANONYMOUS">Le groupe est autorisé car l'utilisateur Anonyme est autorisé</message>
     
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANONYMOUS_LOCAL_ALLOWED">Anonyme est autorisé sur le contexte de droit courant</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANONYMOUS_INHERIT_ALLOWED">Anonyme est autorisé par héritage sur un contexte de droit parent</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANONYMOUS_LOCAL_DENIED">Anonyme est exclu sur le contexte de droit courant</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANONYMOUS_INHERIT_DENIED">Anonyme est exclu par héritage sur un contexte de droit parent</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANONYMOUS_LOCAL_ALLOWED">Anonyme est autorisé</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANONYMOUS_INHERIT_ALLOWED">Anonyme est autorisé par héritage</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANONYMOUS_LOCAL_DENIED">Anonyme est exclu</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANONYMOUS_INHERIT_DENIED">Anonyme est exclu par héritage</message>
     
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANYCONNECTED_LOCAL_ALLOWED">Tous les utilisateurs connectés sont autorisés sur le contexte de droit courant</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANYCONNECTED_INHERIT_ALLOWED">Tous les utilisateurs connectés sont autorisés par héritage sur un contexte de droit parent</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANYCONNECTED_LOCAL_DENIED">Tous les utilisateurs connectés sont exclus sur le contexte de droit courant</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANYCONNECTED_INHERIT_DENIED">Tous les utilisateurs connectés sont exclus par héritage sur un contexte de droit parent</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANYCONNECTED_DISABLED">Tous les utilisateurs connectés sont autorisés car l'utilisateur Anonyme est autorisé sur le contexte de droit courant</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANYCONNECTED_LOCAL_ALLOWED">Tous les utilisateurs connectés sont autorisés</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANYCONNECTED_INHERIT_ALLOWED">Tous les utilisateurs connectés sont autorisés par héritage</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANYCONNECTED_LOCAL_DENIED">Tous les utilisateurs connectés sont exclus</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANYCONNECTED_INHERIT_DENIED">Tous les utilisateurs connectés sont exclus par héritage</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_ANYCONNECTED_DISABLED">Tous les utilisateurs connectés sont autorisés car l'utilisateur Anonyme est autorisé</message>
     
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ADD_USERS_LABEL">Ajouter des utilisateurs</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ADD_USERS_DESCRIPTION">Ajouter des utilisateurs dans le tableau des affectations. Ceci ne modifie pas leurs affectations.</message>

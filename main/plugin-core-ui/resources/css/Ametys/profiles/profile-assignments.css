@@ -43,28 +43,34 @@
  }
  
 .a-grid-assignment-glyph {
-	text-decoration: none;
+	cursor:pointer;
+	position:relative;
 }
 
 .a-grid-assignment-glyph:before {
 	font-size: 18px;
 }
+
+.a-grid-assignment-glyph:after {
+	font-size: 7px;
+	position: absolute;
+	top: -7px;
+    right: -9px;
+}
  
-.a-grid-assignment-glyph.inherit:before,
-.a-grid-assignment-glyph.inherit-denied:before,
-.a-grid-assignment-glyph.inherit-allowed:before {
+.a-grid-assignment-glyph.unknown:before {
 	color: #555555;
 }
 
-.a-grid-assignment-glyph.denied:before {
+.a-grid-assignment-glyph.denied:before, .a-grid-assignment-glyph.denied:after {
 	color: #CC0000;
 }
 
-.a-grid-assignment-glyph.allowed:before {
+.a-grid-assignment-glyph.allowed:before, .a-grid-assignment-glyph.allowed:after {
 	color: #74c559;
 }
 
-.a-grid-assignment-glyph.disabled:before {
+.a-grid-assignment-glyph.disabled:before, .a-grid-assignment-glyph.disabled:after {
 	opacity: 0.4;
 }
 

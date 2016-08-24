@@ -24,8 +24,15 @@ public interface RightAssignmentContext extends ClientSideElement
 {
     /**
      * From a JavaScript context object, converts it into a Java object
-     * @param context the JS context object
+     * @param jsContext the JS context object
      * @return the Java object
      */
-    public Object convertJSContext(Object context);
+    public Object convertJSContext(Object jsContext);
+    
+    /**
+     * Get the parent context of the object context
+     * @param context The object context
+     * @return The parent if exist or <code>null</code> otherwise
+     */
+    public Object getParentContext(Object context);
 }
