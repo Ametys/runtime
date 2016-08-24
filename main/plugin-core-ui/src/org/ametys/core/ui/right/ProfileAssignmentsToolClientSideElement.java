@@ -429,7 +429,7 @@ public class ProfileAssignmentsToolClientSideElement extends StaticClientSideEle
     
     private void _saveChange(Object context, String profileId, String assignment, String targetType, Map<String, String> identity)
     {
-        AccessType accessType = AccessType.valueOf(assignment.toUpperCase());
+        AccessType accessType = assignment != null ? AccessType.valueOf(assignment.toUpperCase()) : AccessType.UNKNOWN;
         switch (TargetType.valueOf(targetType.toUpperCase()))
         {
             case ANONYMOUS:

@@ -257,6 +257,28 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelp
         }, this);
     	
         return groupRecord;
+    },
+    
+    /**
+     * @private
+     * Find a user record
+     * @param {Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.Entry} records The records to search into
+     * @param {String} login the login of user
+     * @param {String} population the id of population
+     * @return {Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.Entry} the user record or null if not found
+     */
+    findUserRecord: function(records, login, population)
+    {
+    	var userRecord = null;
+    	records.each(function(record) {
+            if (record.get('login') == login && record.get('population') == population)
+            {
+            	userRecord = record;
+            	return false; // stop iteration
+            }
+        }, this);
+    	
+        return userRecord;
     }
 
 });

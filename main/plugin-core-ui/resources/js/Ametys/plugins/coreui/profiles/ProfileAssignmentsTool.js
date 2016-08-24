@@ -855,60 +855,43 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
      */
     addUsers: function(users)
     {
-        var recordsToAdd = [],
-            count = users.length;
-        
+    	var usersToAdd = [],
+    		records = this._getUnfilteredRecords();
+    	
+    	Ext.Array.forEach(users, function(user) {
+        	if (!Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelper.findUserRecord(records, user.login, user.population))
+        	{
+        		usersToAdd.push(user);
+        	}
+        }, this);
+    	
+    	var total = usersToAdd.length,
+    		count = 0;
+    	
         function addInStore(groups, user)
         {
-            if (this._findUserRecord(user.login, user.population) != null)
+        	this._gridStore.add({
+                targetType: this.self.TARGET_TYPE_USER,
+                login: user.login,
+                population: user.population,
+                populationLabel: user.populationName,
+                userSortableName: user.fullName,
+                groups: groups
+            });
+        	count++;
+        	
+        	if (count == total)
             {
-                // do not add user if already in store
-            }
-            else
-            {
-                recordsToAdd.push({
-                    assignmentType: this.self.ASSIGNMENT_TYPE_USERS,
-                    login: user.login,
-                    population: user.population,
-                    populationLabel: user.populationName,
-                    userSortableName: user.fullName,
-                    groups: groups
-                });
-            }
-            
-            if (recordsToAdd.length == count)
-            {
-                this._gridStore.add(recordsToAdd);
-                this._onStoreUpdated(this._getUnfilteredRecords().getRange());
+            	this._onStoreUpdated(records.getRange());
             }
         }
         
-        Ext.Array.forEach(users, function(user) {
-            // Need to know the groups the user belongs to
+        Ext.Array.forEach(usersToAdd, function(user) {
+        	// Need to know the groups the user belongs to
             this.serverCall('getUserGroups', [user.login, user.population], Ext.bind(addInStore, this, [user], 1));
         }, this);
-    },
-    
-    /**
-     * @private
-     * Gets the first user record from the store that matches the given login and population id.
-     * @param {String} login The user login
-     * @param {String} population The population id
-     * @return {Ext.data.Model} the found record, or null if not found.
-     */
-    _findUserRecord: function(login, population)
-    {
-        var foundRecord;
         
-        Ext.Array.each(this._gridStore.getRange(), function(record) {
-            if (record.get('login') == login && record.get('population') == population)
-            {
-                foundRecord = record;
-                return false;
-            }
-        }, this);
         
-        return foundRecord;
     },
     
     /**
@@ -921,24 +904,28 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
      */
     addGroups: function(groups)
     {
+    	var needUpdate = false,
+			records = this._getUnfilteredRecords();
+    	
         Ext.Array.forEach(groups, function(group) {
-            if (this._findGroupRecord(group.id, group.groupDirectory) != null)
-            {
-                // do not add group if already in store
-            }
-            else
-            {
-                this._gridStore.add({
-                    assignmentType: this.self.ASSIGNMENT_TYPE_GROUPS,
-                    groupId: group.id,
-                    groupDirectory: group.groupDirectory,
-                    groupDirectoryLabel: group.groupDirectoryName,
-                    groupLabel: group.label
-                });
-            }
+        	if (!Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelper.findGroupRecord(records, group.id, group.groupDirectory))
+        	{
+	        	this._gridStore.add({
+	                targetType: this.self.TARGET_TYPE_GROUP,
+	                groupId: group.id,
+	                groupDirectory: group.groupDirectory,
+	                groupDirectoryLabel: group.groupDirectoryName,
+	                groupLabel: group.label
+	            });
+	        	
+	        	needUpdate = true;
+        	}
         }, this);
         
-        this._onStoreUpdated(this._getUnfilteredRecords().getRange());
+        if (needUpdate)
+        {
+        	this._onStoreUpdated(records.getRange());
+        }
     },
     
     /**
@@ -966,7 +953,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
                         var assignmentInfo = {
                             profileId: profileId,
                             targetType: record.get('targetType'),
-                            assignment: ''
+                            assignment: null
                         };
                         
                         if (record.get('targetType') == this.self.TARGET_TYPE_USER)
