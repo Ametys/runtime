@@ -59,12 +59,11 @@ Ext.define('Ametys.plugins.coreui.profiles.AbstractRightAssignmentContext', {
          * Fires an event to notify the Profile Assignment Tool that the current object context has been changed.
          * This method has to be called at least once.
          * @param {Object} object The object context
-         * @param {Object[]} parentObjects The parent object contexts
          * @param {String} hintTextContext A quick description on the current object context to display in the hint text.
          */
-        _changeObjectContext: function(object, parentObjects, hintTextContext)
+        _changeObjectContext: function(object, hintTextContext)
         {
-            this._contextPanel.fireEvent('objectcontextchange', object, parentObjects, hintTextContext);
+            this._contextPanel.fireEvent('objectcontextchange', object, hintTextContext);
         }
     }
 });

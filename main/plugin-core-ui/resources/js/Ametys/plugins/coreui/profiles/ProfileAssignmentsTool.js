@@ -553,10 +553,9 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
      * @private
      * Function called when the current object context has changed.
      * @param {Object} object The new object context
-     * @param {Object[]} parentObjects The new parent object contexts
      * @param {String} hintTextContext The hint text to update
      */
-    _onObjectContextChange: function(object, parentObjects, hintTextContext)
+    _onObjectContextChange: function(object, hintTextContext)
     {
         if (this.isDirty())
         {
@@ -565,23 +564,23 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
                 msg: "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CHANGE_CONTEXT_BOX_MESSAGE}}",
                 buttons: Ext.Msg.YESNO,
                 icon: Ext.MessageBox.QUESTION,
-                fn: Ext.bind(callback, this, [object, parentObjects, hintTextContext], 1)
+                fn: Ext.bind(callback, this, [object, hintTextContext], 1)
             });
         }
         else
         {
-            this._internalChangeObjectContext(object, parentObjects, hintTextContext);
+            this._internalChangeObjectContext(object, hintTextContext);
         }
         
         function callback(btn, object, parentObjects, hintTextContext)
         {
             if (btn == 'yes')
             {
-                this._saveChanges(this._contextCombobox.getValue(), Ext.bind(this._internalChangeObjectContext, this, [object, parentObjects, hintTextContext]));
+                this._saveChanges(this._contextCombobox.getValue(), Ext.bind(this._internalChangeObjectContext, this, [object, hintTextContext]));
             }
             else
             {
-                this._internalChangeObjectContext(object, parentObjects, hintTextContext);
+                this._internalChangeObjectContext(object, hintTextContext);
             }
             
         }
@@ -589,9 +588,8 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     
     /**
      * @private
-     * Changes the internal representation of the object context (and its parent object contexts), update the hint text of the grid and updates the grid.
+     * Changes the internal representation of the object context, update the hint text of the grid and updates the grid.
      * @param {Object} object The new object context
-     * @param {Object[]} parentObjects The new parent object contexts
      * @param {String} hintTextContext The hint text to update
      */
     _internalChangeObjectContext: function(object, hintTextContext)
