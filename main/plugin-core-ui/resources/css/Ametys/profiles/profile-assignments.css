@@ -47,6 +47,10 @@
 	position:relative;
 }
 
+.a-grid-assignment-glyph.disabled {
+	cursor:initial;
+}
+
 .a-grid-assignment-glyph:before {
 	font-size: 18px;
 }

@@ -737,12 +737,6 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
      */
     onCellClick: function(recordId, profileId)
     {
-    	var record = this._gridStore.getById(recordId);
-    	if (record.get(profileId) == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANONYMOUS)
-    	{
-    		return;
-    	}
-    	
     	function callback (computedValue)
     	{
     		// Re-init other local values to be sure to not have previously induced values
@@ -1442,10 +1436,6 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         
         var glyph, suffix;
         
-        if (record.get('sortableLabel') == 'User Administrator')
-        {
-        	console.info('Assignement ' + value + ' for record ' + (record.get('sortableLabel') || record.getId()) + " and column " + metaData.column.dataIndex);
-        }
         switch (value) 
         {
             case Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANONYMOUS:
@@ -1495,13 +1485,12 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         if (value == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANONYMOUS)
         {
         	// Disable cell (no action available)
-        	//console.info("Disable " + (record.get('sortableLabel') || record.getId()) + " / " + metaData.column.dataIndex);
-            return '<span class="a-grid-assignment-glyph ' + glyph + ' ' + suffix + '" />';
+        	// We need to reinitialize onclick to empty otherwise the last setted onclick function remains attached to the span (strange ...)
+            return '<span class="a-grid-assignment-glyph ' + glyph + ' ' + suffix + '" onclick=""/>';
         }
         else
         {
-        	//console.info("Enable " + (record.get('sortableLabel') || record.getId()) + " / " + metaData.column.dataIndex);
-            return '<span class="a-grid-assignment-glyph ' + glyph + ' ' + suffix + '" onclick="' + onclickFn + '" />';
+            return '<span class="a-grid-assignment-glyph ' + glyph + ' ' + suffix + '" onclick="' + onclickFn + '"/>';
         }
     },
     
