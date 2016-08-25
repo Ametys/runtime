@@ -21,6 +21,8 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.SourceResolver;
 
@@ -39,15 +41,23 @@ public class HasRightAction extends AbstractCurrentUserProviderServiceableAction
 {
     /** The runtime rights manager */
     protected RightManager _rightManager;
-    
-    private boolean _hasRight;
-    
-    private String _baseContext;
+    /** Is the action in has right mode? or has not right mode? */
+    protected boolean _hasRight;
+    /** The right context to use */
+    protected String _baseContext;
     
     public void configure(Configuration configuration) throws ConfigurationException
     {
         _hasRight = "true".equals(configuration.getChild("has-right").getValue("true"));
         _baseContext = configuration.getChild("base-context").getValue("");
+    }
+    
+    @Override
+    public void service(ServiceManager smanager) throws ServiceException
+    {
+        super.service(smanager);
+        
+        _rightManager = (RightManager) manager.lookup(RightManager.ROLE);
     }
     
     /**
@@ -63,11 +73,6 @@ public class HasRightAction extends AbstractCurrentUserProviderServiceableAction
     
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
-        if (_rightManager == null)
-        {
-            _rightManager = (RightManager) manager.lookup(RightManager.ROLE);
-        }
-
         boolean hasRight = false;
         String context = parameters.getParameter("context", null);
         if (context == null || "".equals(context))
@@ -78,8 +83,7 @@ public class HasRightAction extends AbstractCurrentUserProviderServiceableAction
         UserIdentity user = _getCurrentUser();
         if (user == null)
         {
-            getLogger().error("Anonymous user tried to access a privileged feature without convenient right. Should have in right between those : '" + source + "' on context '" + context + "'");
-            throw new IllegalStateException("You have no right to access this feature.");
+            throw new AccessDeniedException("Anonymous user tried to access a privileged feature without convenient right. Should have in right between those : '" + source + "' on context '" + context + "'");
         }
         else
         {

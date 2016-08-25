@@ -72,6 +72,7 @@ import org.ametys.runtime.plugin.PluginsManager;
 import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 import org.ametys.runtime.request.RequestListener;
 import org.ametys.runtime.request.RequestListenerManager;
+import org.ametys.runtime.workspaces.admin.authentication.AdminAuthenticateAction;
 
 /**
  * Abstraction for testing a right associated with a resource and a user from a single source.
@@ -609,6 +610,11 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         Set<AccessResult> accessResults = new HashSet<>();
         for (Object obj : objects)
         {
+            if (obj instanceof String && StringUtils.equals((String) obj, AdminAuthenticateAction.ADMIN_RIGHT_CONTEXT) && StringUtils.equals(userIdentity.getPopulationId(), UserPopulationDAO.ADMIN_POPULATION_ID))
+            {
+                accessResults.add(AccessResult.USER_ALLOWED);
+            }
+            
             for (String controllerId : _accessControllerEP.getExtensionsIds())
             {
                 AccessController accessController = _accessControllerEP.getExtension(controllerId);
@@ -1172,6 +1178,11 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         
         for (Object obj : objects)
         {
+            if (obj instanceof String && StringUtils.equals((String) object, AdminAuthenticateAction.ADMIN_RIGHT_CONTEXT))
+            {
+                allAllowedUsers.addAll(_userManager.getUsers(UserPopulationDAO.ADMIN_POPULATION_ID).stream().map(user -> user.getIdentity()).collect(Collectors.toSet()));
+            }
+            
             for (String controllerId : _accessControllerEP.getExtensionsIds())
             {
                 AccessController accessController = _accessControllerEP.getExtension(controllerId);
@@ -1251,6 +1262,12 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         
         // Get the objects to check
         Set<Object> objects = _getConvertedObjects(object);
+        
+        // An admin population user in admin context have all rights
+        if (objects.contains(AdminAuthenticateAction.ADMIN_RIGHT_CONTEXT) && StringUtils.equals(userIdentity.getPopulationId(), UserPopulationDAO.ADMIN_POPULATION_ID))
+        {
+            return _rightsEP.getExtensionsIds();
+        }
         
         // Gets the allowed profiles
         Map<String, RightResult> rightResultByProfile = _getRightResultByProfile(userIdentity, groups, objects);

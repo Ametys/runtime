@@ -34,6 +34,12 @@
     
     <message key="PLUGINS_ADMIN_SAVE_DIALOG_TITLE">Save</message>
     
+    <!-- ADMINITRATOR RIGHTS -->
+    <message key="PLUGINS_ADMIN_RIGHTS_CATEGORY">Administration</message>
+    
+    <message key="PLUGINS_ADMIN_RIGHTS_ACCESS_LABEL">Access</message>
+    <message key="PLUGINS_ADMIN_RIGHTS_ACCESS_DESCRIPTION">Give access to the administrator area</message>
+    
     <!-- ADMINISTRATOR JVMSTATUS -->
     <message key="PLUGINS_ADMIN_TOOL_JVMSTATUS_LABEL">General</message>
     <message key="PLUGINS_ADMIN_TOOL_JVMSTATUS_DESC">This tool allows you to see the system state</message>

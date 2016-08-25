@@ -28,6 +28,7 @@
             <map:action name="authenticate" src="org.ametys.runtime.workspaces.admin.authentication.AdminAuthenticateAction" logger="org.ametys.runtime.workspaces.admin.sitemap.action.authentication"/>
             <map:action name="set-authorization-header" src="org.ametys.runtime.workspaces.admin.authentication.SetAuthorizationHeaderAction"  logger="org.ametys.runtime.workspaces.admin.sitemap.action.setheader"/>
             <map:action name="resource-not-exists" src="org.ametys.core.util.cocoon.ResourceNotExistsAction"/>
+            <map:action name="has-not-admin-right" src="org.ametys.runtime.plugins.admin.HasNotAdminRightAction" logger="org.ametys.runtime.plugins.admin.right"/>
         </map:actions>
         
         <map:transformers>
@@ -112,6 +113,8 @@
                 <map:act type="authenticate">
                 	<map:parameter name="context" value="/admin"/>
                 </map:act>
+
+                <map:act type="has-not-admin-right" src="Runtime_Rights_Admin_Access"/>
             </map:match>
             
             <map:match pattern="index.html">

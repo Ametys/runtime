@@ -31,8 +31,8 @@
         
 		<map:actions>
             <map:action name="set-header" src="org.apache.cocoon.acting.HttpHeaderAction" logger="org.ametys.runtime.plugins.admin.action"/>
-            <map:action name="is-admin-user" src="org.ametys.runtime.plugins.admin.IsAdminAction" logger="org.ametys.runtime.plugins.admin.action"/>
-            
+            <map:action name="has-not-admin-right" src="org.ametys.runtime.plugins.admin.HasNotAdminRightAction" logger="org.ametys.runtime.plugins.admin.right"/>
+                        
             <map:action name="logs-level" src="org.ametys.runtime.plugins.admin.logs.GetLogsLevel" logger="org.ametys.runtime.plugins.admin.action"/>
             <map:action name="change-plugins" src="org.ametys.runtime.plugins.admin.plugins.ChangePlugins" logger="org.ametys.runtime.plugins.admin.action"/>
             <map:action name="system-announcements" src="org.ametys.runtime.plugins.admin.system.GetSystemAnnouncements" logger="org.ametys.runtime.plugins.admin.action"/>
@@ -70,7 +70,7 @@
                  | Protecting all administrator urls
                  + -->
             <map:match pattern="**">
-                <map:act type="is-admin-user"/>
+                <map:act type="has-not-admin-right" src="Runtime_Rights_Admin_Access"/>
             </map:match>
             
              <map:match pattern="restart">
