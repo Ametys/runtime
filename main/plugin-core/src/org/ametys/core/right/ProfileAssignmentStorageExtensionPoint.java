@@ -334,9 +334,13 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
     
     private Set<String> _getAllowedProfilesForAnonymous(Object object)
     {
-        return _getFirstProfileAssignmentStorage(object)
+        Set<String> allowedProfiles = _getFirstProfileAssignmentStorage(object)
                 .map(pas -> pas.getAllowedProfilesForAnonymous(object))
                 .orElse(Collections.EMPTY_SET);
+        
+        Set<String> deniedProfiles = _getDeniedProfilesForAnonymous(object);
+        
+        return new HashSet<>(CollectionUtils.removeAll(allowedProfiles, deniedProfiles));
     }
     
     /**
