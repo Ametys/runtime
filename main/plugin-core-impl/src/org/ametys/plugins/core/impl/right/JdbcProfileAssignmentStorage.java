@@ -797,30 +797,6 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
         return false;
     }
     
-    
-    /* ------------------------------ */
-    /* ALLOWED PROFILES ON ANY OBJECT */
-    /* ------------------------------ */
-    
-    @Override
-    public Set<String> getAllowedProfiles(UserIdentity user, Set<GroupIdentity> userGroups)
-    {
-        Set<String> profiles = new HashSet<>();
-        
-        profiles.addAll(_getAllowedProfiles(user, null));
-        
-        for (GroupIdentity group : userGroups)
-        {
-            profiles.addAll(_getAllowedProfiles(group, null));
-        }
-        
-        profiles.addAll(_getAnyConnectedAllowedProfiles(null));
-        
-        profiles.addAll(_getAnonymousAllowedProfiles(null));
-        
-        return profiles;
-    }
-    
     /**
      * Returns the allowed profiles for the user on any context object (and not denied on the same object)
      * @param user The user

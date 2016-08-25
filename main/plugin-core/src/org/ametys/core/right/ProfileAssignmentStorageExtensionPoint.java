@@ -233,29 +233,6 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
     }
     
     /**
-     * Returns the allowed and not denied profiles on any object for this user
-     * @param user the user
-     * @param userGroups The groups of the user
-     * @return the allowed and not denied profiles on any object for this user
-     */
-    public Set<String> getAllowedProfiles(UserIdentity user, Set<GroupIdentity> userGroups)
-    {
-        Set<String> result = new HashSet<>();
-        
-        List<ProfileAssignmentStorage> sortedPas = getExtensionsIds().stream()
-                .map(this::getExtension)
-                .sorted(Comparator.comparing(ProfileAssignmentStorage::getPriority))
-                .collect(Collectors.toList());
-        
-        for (ProfileAssignmentStorage profileAssignmentStorage : sortedPas)
-        {
-            result.addAll(profileAssignmentStorage.getAllowedProfiles(user, userGroups));
-        }
-        
-        return result;
-    }
-    
-    /**
      * Gets the permission by user only on an object, according to the given profiles. It does not take account of the groups of the user, etc.
      * @param profileIds The ids of the profiles
      * @param object The object

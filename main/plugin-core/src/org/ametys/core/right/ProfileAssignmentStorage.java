@@ -44,20 +44,6 @@ public interface ProfileAssignmentStorage
      */
     public boolean hasPermission(UserIdentity user, Set<GroupIdentity> userGroups, Set<String> profileIds);
     
-    
-    /* ------------------------------ */
-    /* ALLOWED PROFILES ON ANY OBJECT */
-    /* ------------------------------ */
-    
-    /**
-     * Returns the allowed and not denied profiles on any object supported by this profile asssignment storage
-     * @param user The user
-     * @param userGroups The groups
-     * @return the allowed and not denied profiles on any object supported by this profile asssignment storage
-     */
-    public Set<String> getAllowedProfiles(UserIdentity user, Set<GroupIdentity> userGroups);
-    
-    
     /* --------------------------------------- */
     /* ALLOWED PROFILES FOR ANY CONNECTED USER */
     /* --------------------------------------- */

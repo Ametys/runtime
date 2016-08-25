@@ -88,108 +88,76 @@ public abstract class AbstractHierarchicalAccessController<T> implements AccessC
     @Override
     public Map<String, AccessResult> getPermissionsByProfile(UserIdentity user, Set<GroupIdentity> userGroups, Object object)
     {
-        return _getPermissionsByProfile(new HashMap<>(), user, userGroups, object);
-    }
-    
-    private Map<String, AccessResult> _getPermissionsByProfile(Map<String, AccessResult> permissionsByProfile, UserIdentity user, Set<GroupIdentity> userGroups, Object object)
-    {
-        // Compute the permissions on this object only
-        Map<String, AccessResult> currentPermissionsByProfile = _profileAssignmentStorageEP.getPermissionsByProfile(user, userGroups, object);
-        
-        // Now take account of permissions on the children
-        for (String currentAllowedProfile : currentPermissionsByProfile.keySet())
-        {
-            AccessResult childrenPermission = permissionsByProfile.get(currentAllowedProfile);
-            if (childrenPermission == null || childrenPermission.equals(AccessResult.UNKNOWN))
-            {
-                // We can override the value
-                permissionsByProfile.put(currentAllowedProfile, currentPermissionsByProfile.get(currentAllowedProfile));
-            }
-        }
-        
+        // Get permissions on object itself
+        Map<String, AccessResult> permissionsByProfile = _profileAssignmentStorageEP.getPermissionsByProfile(user, userGroups, object);
+
+        // Add recursively the permission given by parent context
         @SuppressWarnings("unchecked")
         T parent = _getParent((T) object);
         if (parent != null)
         {
-            // Not root, pass to its parent
-            return _getPermissionsByProfile(permissionsByProfile, user, userGroups, parent);
+            Map<String, AccessResult> parentResult = getPermissionsByProfile(user, userGroups, parent);
+            
+            for (String profileId : parentResult.keySet())
+            {
+                if (!permissionsByProfile.containsKey(profileId) || AccessResult.UNKNOWN.equals(permissionsByProfile.get(profileId)))
+                {
+                    permissionsByProfile.put(profileId, parentResult.get(profileId));
+                }
+            }
         }
-        else
-        {
-            // We climbed up to the root object, the result is ready
-            return permissionsByProfile;
-        }
+        
+        return permissionsByProfile;
     }
     
     @Override
     public Map<UserIdentity, AccessResult> getPermissionsByUser(Set<String> profileIds, Object object)
     {
-        return _getPermissionsByUser(new HashMap<>(), profileIds, object);
-    }
-    
-    private Map<UserIdentity, AccessResult> _getPermissionsByUser(Map<UserIdentity, AccessResult> permissionsByUser, Set<String> profileIds, Object object)
-    {
-        // Compute the permissions on this object only
-        Map<UserIdentity, AccessResult> currentPermissionsByUser = _profileAssignmentStorageEP.getPermissionsByUser(profileIds, object);
+        // Get permissions on object itself
+        Map<UserIdentity, AccessResult> permissionsByUser = _profileAssignmentStorageEP.getPermissionsByUser(profileIds, object);
         
-        // Now take account of permissions on the children
-        for (UserIdentity currentUser : currentPermissionsByUser.keySet())
-        {
-            AccessResult childrenPermission = permissionsByUser.get(currentUser);
-            if (childrenPermission == null || childrenPermission.equals(AccessResult.UNKNOWN))
-            {
-                // We can override the value
-                permissionsByUser.put(currentUser, currentPermissionsByUser.get(currentUser));
-            }
-        }
-        
+        // Add recursively the permission given by parent context
         @SuppressWarnings("unchecked")
         T parent = _getParent((T) object);
         if (parent != null)
         {
-            // Not root, pass to its parent
-            return _getPermissionsByUser(permissionsByUser, profileIds, parent);
+            Map<UserIdentity, AccessResult> parentResult = getPermissionsByUser(profileIds, parent);
+            
+            for (UserIdentity user : parentResult.keySet())
+            {
+                if (!permissionsByUser.containsKey(user) || AccessResult.UNKNOWN.equals(permissionsByUser.get(user)))
+                {
+                    permissionsByUser.put(user, parentResult.get(user));
+                }
+            }
         }
-        else
-        {
-            // We climbed up to the root object, the result is ready
-            return permissionsByUser;
-        }
+        
+        return permissionsByUser;
+        
     }
     
     @Override
     public Map<GroupIdentity, AccessResult> getPermissionsByGroup(Set<String> profileIds, Object object)
     {
-        return _getPermissionsByGroup(new HashMap<>(), profileIds, object);
-    }
-    
-    private Map<GroupIdentity, AccessResult> _getPermissionsByGroup(Map<GroupIdentity, AccessResult> permissionsByGroup, Set<String> profileIds, Object object)
-    {
-        // Compute the permissions on this object only
-        Map<GroupIdentity, AccessResult> currentPermissionsByGroup = _profileAssignmentStorageEP.getPermissionsByGroup(profileIds, object);
+        // Get permissions on object itself
+        Map<GroupIdentity, AccessResult> permissionsByGroup = _profileAssignmentStorageEP.getPermissionsByGroup(profileIds, object);
         
-        // Now take account of permissions on the children
-        for (GroupIdentity currentGroup : currentPermissionsByGroup.keySet())
-        {
-            AccessResult childrenPermission = permissionsByGroup.get(currentGroup);
-            if (childrenPermission == null || childrenPermission.equals(AccessResult.UNKNOWN))
-            {
-                // We can override the value
-                permissionsByGroup.put(currentGroup, currentPermissionsByGroup.get(currentGroup));
-            }
-        }
-        
+        // Add recursively the permission given by parent context
         @SuppressWarnings("unchecked")
         T parent = _getParent((T) object);
         if (parent != null)
         {
-            // Not root, pass to its parent
-            return _getPermissionsByGroup(permissionsByGroup, profileIds, parent);
+            Map<GroupIdentity, AccessResult> parentResult = getPermissionsByGroup(profileIds, parent);
+            
+            for (GroupIdentity group : parentResult.keySet())
+            {
+                if (!permissionsByGroup.containsKey(group) || AccessResult.UNKNOWN.equals(permissionsByGroup.get(group)))
+                {
+                    permissionsByGroup.put(group, parentResult.get(group));
+                }
+            }
         }
-        else
-        {
-            // We climbed up to the root object, the result is ready
-            return permissionsByGroup;
-        }
+        
+        return permissionsByGroup;
     }
 }

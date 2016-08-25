@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -646,6 +647,11 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         return accessResults.stream().min(Comparator.naturalOrder()).orElse(AccessResult.UNKNOWN);
     }
     
+    private AccessResult _computeAccess(AccessResult ... accessResults)
+    {
+        return Arrays.stream(accessResults).min(Comparator.naturalOrder()).orElse(AccessResult.UNKNOWN);
+    }
+    
     private RightResult _computeRight(AccessResult access)
     {
         switch (access)
@@ -1257,9 +1263,6 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
      */
     public Set<String> getUserRights(UserIdentity userIdentity, Object object) throws RightsException
     {
-        // Retrieve groups the user belongs to
-        Set<GroupIdentity> groups = _getGroups(userIdentity);
-        
         // Get the objects to check
         Set<Object> objects = _getConvertedObjects(object);
         
@@ -1269,11 +1272,16 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
             return _rightsEP.getExtensionsIds();
         }
         
-        // Gets the allowed profiles
-        Map<String, RightResult> rightResultByProfile = _getRightResultByProfile(userIdentity, groups, objects);
-        Set<String> allowedProfiles = _getAllowedProfiles(rightResultByProfile);
-        Set<String> deniedProfiles = _getDeniedProfiles(rightResultByProfile);
+        // Retrieve groups the user belongs to
+        Set<GroupIdentity> groups = _getGroups(userIdentity);
         
+        // Gets the access by profiles
+        Map<String, AccessResult> accessResults = _getAccessResultByProfile(userIdentity, groups, objects);
+        // Convert AccessResult to RightResult
+        Map<String, RightResult> rightsResults = accessResults.entrySet().stream().collect(Collectors.toMap(entry -> entry.getKey(), entry -> _computeRight(entry.getValue())));
+        
+        Set<String> allowedProfiles = _getAllowedProfiles(rightsResults);
+        Set<String> deniedProfiles = _getDeniedProfiles(rightsResults);
         
         Set<String> rights = new HashSet<>();
         // Iterate over allowed profiles and add all their rights
@@ -1293,9 +1301,10 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         return rights;
     }
     
-    private Map<String, RightResult> _getRightResultByProfile(UserIdentity userIdentity, Set<GroupIdentity> groups, Set<Object> objects)
+    private Map<String, AccessResult> _getAccessResultByProfile(UserIdentity userIdentity, Set<GroupIdentity> groups, Set<Object> objects)
     {
-        Map<String, RightResult> rightResultByProfile = new HashMap<>();
+        Map<String, AccessResult> result = new HashMap<>();
+        
         for (Object obj : objects)
         {
             for (String controllerId : _accessControllerEP.getExtensionsIds())
@@ -1304,26 +1313,23 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
                 if (accessController.isSupported(obj))
                 {
                     // Update the result map
-                    Map<String, AccessResult> newValues = accessController.getPermissionsByProfile(userIdentity, groups, obj);
-                    _updateRightResultMap(rightResultByProfile, newValues);
+                    Map<String, AccessResult> permissionsByProfile = accessController.getPermissionsByProfile(userIdentity, groups, obj);
+                    for (String profileId : permissionsByProfile.keySet())
+                    {
+                        if (!result.containsKey(profileId))
+                        {
+                            result.put(profileId, permissionsByProfile.get(profileId));
+                        }
+                        else
+                        {
+                            result.put(profileId, _computeAccess(result.get(profileId), permissionsByProfile.get(profileId)));
+                        }
+                    }
                 }
             }
         }
         
-        return rightResultByProfile;
-    }
-    
-    private void _updateRightResultMap(Map<String, RightResult> originalMap, Map<String, AccessResult> newValues)
-    {
-        for (String profileId : newValues.keySet())
-        {
-            RightResult rightResult = _computeRight(newValues.get(profileId));
-            // Update only if key profileId not present or it is a 'RIGHT_DENY' 
-            if (!originalMap.containsKey(profileId) || RightResult.RIGHT_DENY.equals(rightResult))
-            {
-                originalMap.put(profileId, rightResult);
-            }
-        }
+        return result;
     }
     
     private Set<String> _getAllowedProfiles(Map<String, RightResult> rightResultByProfile)
@@ -1341,35 +1347,6 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
                 .map(Entry::getKey)
                 .collect(Collectors.toSet());
     }
-    
-    
-    /* ------------------------------------------------- */
-    /* METHOD FOR CHECKING A USER HAS AT LEAST ONE RIGHT */
-    /* ------------------------------------------------- */
-    
-    /**
-     * Checks if the given user has at least one right on any object
-     * @param userIdentity The user
-     * @return true if the given user has at least one right on any object
-     */
-    public boolean hasAtLeastOneRight(UserIdentity userIdentity)
-    {
-        // Retrieve groups the user belongs to
-        Set<GroupIdentity> groups = _getGroups(userIdentity);
-        
-        // We cannot just ask if there is at least one allowed profile on any object, since a profile can contains 0 rights. 
-        // Thus, we ask all allowed profiles and check if among them, there is one with at least one right in it
-        Set<String> allowedProfiles = _profileAssignmentStorageEP.getAllowedProfiles(userIdentity, groups);
-        for (String profile : allowedProfiles)
-        {
-            if (!getProfile(profile).getRights().isEmpty())
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-    
     
     /* ------------------- */
     /* PROFILES MANAGEMENT */
