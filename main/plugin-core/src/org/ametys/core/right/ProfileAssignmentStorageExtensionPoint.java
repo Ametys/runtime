@@ -64,10 +64,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
     
     private AccessResultContext _getPermission(UserIdentity user, Set<GroupIdentity> userGroups, String profileId, Object object)
     {
-        if (getLogger().isDebugEnabled())
-        {
-            getLogger().debug("Try to determine permission for user '{}' and groups {} on context {} with the single profile '{}'", user, userGroups, object, profileId);
-        }
+        getLogger().debug("Try to determine permission for user '{}' and groups {} on context {} with the single profile '{}'", user, userGroups, object, profileId);
         
         // Is part of the allowed profiles for anonymous ?
         if (_getAllowedProfilesForAnonymous(object).contains(profileId))
@@ -137,10 +134,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
     
     private void _logResult(UserIdentity user, Set<GroupIdentity> userGroups, String profileId, Object object, AccessResult result)
     {
-        if (getLogger().isDebugEnabled())
-        {
-            getLogger().debug("Access result found is {} for user '{}' and groups {} on context {} with the single profile '{}'", result, user, userGroups, object, profileId);
-        }
+        getLogger().debug("Access result found is {} for user '{}' and groups {} on context {} with the single profile '{}'", result, user, userGroups, object, profileId);
     }
     
     /**
@@ -152,10 +146,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      */
     public boolean hasPermission(UserIdentity user, Set<GroupIdentity> userGroups, Set<String> profileIds)
     {
-        if (getLogger().isDebugEnabled())
-        {
-            getLogger().debug("Try to determine permissions on any context for user '{}' and groups {} with profiles {}", user, userGroups, profileIds);
-        }
+        getLogger().debug("Try to determine permissions on any context for user '{}' and groups {} with profiles {}", user, userGroups, profileIds);
         
         List<ProfileAssignmentStorage> sortedPas = getExtensionsIds().stream()
                 .map(this::getExtension)
@@ -166,18 +157,12 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
         {
             if (profileAssignmentStorage.hasPermission(user, userGroups, profileIds))
             {
-                if (getLogger().isDebugEnabled())
-                {
-                    getLogger().debug("Find permission on any context for user '{}' and groups {} with profiles {}", user, userGroups, profileIds);
-                }
+                getLogger().debug("Find permission on any context for user '{}' and groups {} with profiles {}", user, userGroups, profileIds);
                 return true;
             }
         }
         
-        if (getLogger().isDebugEnabled())
-        {
-            getLogger().debug("Find no permission on any context for user '{}' and groups {} with profiles {}", user, userGroups, profileIds);
-        }
+        getLogger().debug("Find no permission on any context for user '{}' and groups {} with profiles {}", user, userGroups, profileIds);
         return false;
     }
     
@@ -190,10 +175,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      */
     public Map<String, AccessResult> getPermissionsByProfile(UserIdentity user, Set<GroupIdentity> userGroups, Object object)
     {
-        if (getLogger().isDebugEnabled())
-        {
-            getLogger().debug("Try to determine permissions for each profile on context {} for user '{}' and groups {}", object, user, userGroups);
-        }
+        getLogger().debug("Try to determine permissions for each profile on context {} for user '{}' and groups {}", object, user, userGroups);
         
         Map<String, AccessResult> result = new HashMap<>();
         
@@ -235,10 +217,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
         Set<String> deniedProfilesForAnonymous = _getDeniedProfilesForAnonymous(object);
         _updatePermissionsMap(result, deniedProfilesForAnonymous, AccessResult.ANONYMOUS_DENIED);
         
-        if (getLogger().isDebugEnabled())
-        {
-            getLogger().debug("The permissions by profile on context {} for user '{}' and groups {} are : {}", object, user, userGroups, result);
-        }
+        getLogger().debug("The permissions by profile on context {} for user '{}' and groups {} are : {}", object, user, userGroups, result);
         return result;
     }
     
@@ -284,10 +263,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      */
     public Map<UserIdentity, AccessResult> getPermissionsByUser(Set<String> profileIds, Object object)
     {
-        if (getLogger().isDebugEnabled())
-        {
-            getLogger().debug("Try to determine permissions by users on context {} and profiles {}", object, profileIds);
-        }
+        getLogger().debug("Try to determine permissions by users on context {} and profiles {}", object, profileIds);
         
         Map<UserIdentity, AccessResult> result = new HashMap<>();
         
@@ -308,10 +284,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
             }
         }
         
-        if (getLogger().isDebugEnabled())
-        {
-            getLogger().debug("The permissions by users on context {} and profiles {} are: ", object, profileIds, result);
-        }
+        getLogger().debug("The permissions by users on context {} and profiles {} are: ", object, profileIds, result);
         return result;
     }
     
@@ -323,10 +296,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      */
     public Map<GroupIdentity, AccessResult> getPermissionsByGroup(Set<String> profileIds, Object object)
     {
-        if (getLogger().isDebugEnabled())
-        {
-            getLogger().debug("Try to determine permissions by groups on context {} and profiles {}", object, profileIds);
-        }
+        getLogger().debug("Try to determine permissions by groups on context {} and profiles {}", object, profileIds);
         
         Map<GroupIdentity, AccessResult> result = new HashMap<>();
         
@@ -347,10 +317,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
             }
         }
         
-        if (getLogger().isDebugEnabled())
-        {
-            getLogger().debug("The permissions by groups on context {} and profiles {} are: ", object, profileIds, result);
-        }
+        getLogger().debug("The permissions by groups on context {} and profiles {} are: ", object, profileIds, result);
         return result;
     }
     
