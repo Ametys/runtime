@@ -118,19 +118,25 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
             return false;
         }
         
-        // 1.1) Search at least one profile in "denied-profiles" for user, if found return false
+        // 1.1) Search at least one profile in "allowed-anonymous-profiles", if found return true
+        if (_hasAnonymousAllowedProfile(profileIds, null))
+        {
+            return true;
+        }
+        
+        // 2.1) Search at least one profile in "denied-profiles" for user, if found return false
         if (_hasDeniedProfile(user, profileIds, null))
         {
             return false;
         }
         
-        // 1.2) Search at least one profile in "allowed-profiles" for user, if found return true
+        // 2.2) Search at least one profile in "allowed-profiles" for user, if found return true
         if (_hasAllowedProfile(user, profileIds, null))
         {
             return true;
         }
         
-        // 2.1) Search at least one profile in "denied-profiles" for groups, if found return false
+        // 3.1) Search at least one profile in "denied-profiles" for groups, if found return false
         for (GroupIdentity group : userGroups)
         {
             if (_hasDeniedProfile(group, profileIds, null))
@@ -139,7 +145,7 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
             }
         }
         
-        // 2.2) Search at least one profile in "allowed-profiles" for groups, if found return true
+        // 3.2) Search at least one profile in "allowed-profiles" for groups, if found return true
         for (GroupIdentity group : userGroups)
         {
             if (_hasAllowedProfile(group, profileIds, null))
@@ -148,29 +154,22 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
             }
         }
         
-        // 3.1) Search at least one profile in "denied-any-connected-profiles", if found return false
+        // 4.1) Search at least one profile in "denied-any-connected-profiles", if found return false
         if (_hasAnyConnectedDeniedProfile(profileIds, null))
         {
             return false;
         }
             
-        // 3.2) Search at least one profile in "allowed-any-connected-profiles", if found return true
+        // 4.2) Search at least one profile in "allowed-any-connected-profiles", if found return true
         if (_hasAnyConnectedAllowedProfile(profileIds, null))
         {
             return true;
         }
         
-        
-        // 4.1) Search at least one profile in "denied-any-connected-profiles", if found return false
+        // 5.1) Search at least one profile in "denied-any-connected-profiles", if found return false
         if (_hasAnonymousDeniedProfile(profileIds, null))
         {
             return false;
-        }
-        
-        // 4.2) Search at least one profile in "allowed-any-connected-profiles", if found return true
-        if (_hasAnonymousAllowedProfile(profileIds, null))
-        {
-            return true;
         }
         
         // 5) Not found, return false

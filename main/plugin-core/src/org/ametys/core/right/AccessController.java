@@ -33,6 +33,8 @@ public interface AccessController
     {
         /* Note: the order of the values are important ! */
         
+        /** If the user is allowed because one of the profiles is allowed for any anonymous user */
+        ANONYMOUS_ALLOWED,
         /** If the user is directly denied */
         USER_DENIED,
         /** If the user is directly allowed */
@@ -47,8 +49,6 @@ public interface AccessController
         ANY_CONNECTED_ALLOWED,
         /** If the user is denied because one of the profiles is denied for any anonymous user */
         ANONYMOUS_DENIED,
-        /** If the user is allowed because one of the profiles is allowed for any anonymous user */
-        ANONYMOUS_ALLOWED,
         /** Cannot determine */
         UNKNOWN
     }

@@ -369,7 +369,10 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
      */
     public RightResult hasRight(UserIdentity userIdentity, String rightId, Object object) throws RightsException
     {
-        getLogger().debug("RightManager is asked if user '{}' has the right {} on the object '{}'", userIdentity, rightId, object);
+        if (getLogger().isDebugEnabled())
+        {
+            getLogger().debug("Try to determine if user '{}' has the right '{}' on the object context {}", userIdentity, rightId, object);
+        }
         
         // Retrieve all profiles containing the right rightId
         Set<String> profileIds = _getProfiles(rightId);
@@ -387,12 +390,18 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
             RightResult cacheResult = _hasRightResultInSecondCache(userIdentity, profileIds);
             if (cacheResult != null)
             {
-                getLogger().debug("RightManager is responding {}", cacheResult);
+                if (getLogger().isDebugEnabled())
+                {
+                    getLogger().debug("Find entry in cache2 for [{}, {}] => {}", userIdentity, profileIds, cacheResult);
+                }
                 return cacheResult;
             }
             else
             {
-                getLogger().debug("Did not find entry in cache for [{}, '{}', '{}']", userIdentity, profileIds, object);
+                if (getLogger().isDebugEnabled())
+                {
+                    getLogger().debug("Did not find entry in cache for [{}, {}, {}]", userIdentity, profileIds, object);
+                }
             }
         }
         else
@@ -401,12 +410,18 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
             RightResult cacheResult = _hasRightResultInFirstCache(userIdentity, profileIds, object);
             if (cacheResult != null)
             {
-                getLogger().debug("RightManager is responding {}", cacheResult);
+                if (getLogger().isDebugEnabled())
+                {
+                    getLogger().debug("Find entry in cache for [{}, {}, {}] => {}", userIdentity, profileIds, object, cacheResult);
+                }
                 return cacheResult;
             }
             else
             {
-                getLogger().debug("Did not find entry in cache for [{}, '{}', '{}']", userIdentity, profileIds, object);
+                if (getLogger().isDebugEnabled())
+                {
+                    getLogger().debug("Did not find entry in cache for [{}, {}, {}]", userIdentity, profileIds, object);
+                }
             }
         }
         
@@ -419,7 +434,10 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
             boolean hasPermission = _profileAssignmentStorageEP.hasPermission(userIdentity, groups, profileIds);
             RightResult rightResult = hasPermission ? RightResult.RIGHT_ALLOW : RightResult.RIGHT_UNKNOWN;
             
-            getLogger().debug("RightManager is responding {}", rightResult);
+            if (getLogger().isDebugEnabled())
+            {
+                getLogger().debug("Right result found for [{}, {}] => {}", userIdentity, profileIds, rightResult);
+            }
             _putInSecondCache(userIdentity, profileIds, rightResult);
             return rightResult;
         }
@@ -434,7 +452,11 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         AccessResult access = _computeAccess(accessResults);
         
         RightResult rightResult = _computeRight(access);
-        getLogger().debug("RightManager is responding {} ({})", rightResult, access);
+        
+        if (getLogger().isDebugEnabled())
+        {
+            getLogger().debug("Right result found for [{}, {}, {}] => {} ({})", userIdentity, profileIds, rightResult, access);
+        }
         _putInFirstCache(userIdentity, profileIds, object, rightResult);
         
         return rightResult;
@@ -457,7 +479,6 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
                 Map<Object, RightResult> mapContext = mapRight.get(profileIds);
                 if (mapContext.containsKey(object))
                 {
-                    getLogger().debug("Find in cache the set of profiles '{}' for user {} on context '{}'", profileIds, userIdentity, object);
                     return mapContext.get(object);
                 }
             }
@@ -508,7 +529,6 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
             Map<Set<String>, RightResult> mapRight = mapCache.get(userIdentity);
             if (mapRight.containsKey(profileIds))
             {
-                getLogger().debug("Find in cache the set of profiles '{}' for user {} on null context", profileIds, userIdentity);
                 return mapRight.get(profileIds);
             }
         }
@@ -551,7 +571,10 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
     
                 stmt = connection.prepareStatement(sql);
     
-                getLogger().debug("{}", sql);
+                if (getLogger().isDebugEnabled())
+                {
+                    getLogger().debug("{}", sql);
+                }
     
                 rs = stmt.executeQuery();
                 
