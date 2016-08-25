@@ -84,7 +84,7 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
         Set<UserIdentity> users = _rightManager.getAllowedUsers("Runtime_Rights_User_Handle", "foo");
         assertEquals(0, users.size());
         
-        assertFalse(_rightManager.hasAtLeastOneRight(new UserIdentity("foo", "population")));
+        assertTrue(_rightManager.getUserRights(new UserIdentity("foo", "population"), "/foo").isEmpty());
         
         Set<Profile> profiles = _rightManager.getProfiles();
         assertEquals(0, profiles.size());
