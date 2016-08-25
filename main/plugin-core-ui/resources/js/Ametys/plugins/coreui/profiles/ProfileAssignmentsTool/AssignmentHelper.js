@@ -31,6 +31,20 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelp
         
         // First, update local values for Anonymous and "any connected user" records
         var anonymousRecord = this.findAnonymousRecord(records);
+        
+        if (anonymousRecord.get(profileId) == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW)
+        {
+        	// If Anonymous is allowed, all others records are allowed and disabled
+        	records.each(function(record) {
+        		if (anonymousRecord.getId() != record.getId())
+        		{
+        			record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANONYMOUS, {dirty: false}); 
+        		}
+            }, this);
+        	
+        	return;
+        }
+        
         this.computeAndUpdateLocalInducedAssignmentsForAnonymous (records, anonymousRecord, anonymousRecord.get(profileId), profileId);
         
         var anyConnectedRecord = this.findAnyConnectedRecord(records);
@@ -126,13 +140,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelp
         	var anyconnectedRecord = this.findAnyConnectedRecord(records);
         	var assignmentForAnyconnected = anyconnectedRecord.get(profileId);
         	
-            if (assignmentForAnonymous == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW)
-            {
-            	// If Anonymous is locally allowed, the user/group is allowed
-                record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANONYMOUS, {dirty: false}); 
-                return true;
-            }
-            else if (assignmentForAnonymous == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW && currentValue != Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW && currentValue != Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_DENY)
+            if (assignmentForAnonymous == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW && currentValue != Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW && currentValue != Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_DENY)
             {
             	// If Anonymous is allowed by inheritance, the user/group is allowed except if it is already allowed/denied itself by inheritance
                 record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANONYMOUS, {dirty: false}); 
