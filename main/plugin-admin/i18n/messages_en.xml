@@ -399,8 +399,17 @@
     <!-- SUPER USER -->
     <message key="PLUGINS_ADMIN_SUPERUSER_LABEL">Assign super user</message>
     <message key="PLUGINS_ADMIN_SUPERUSER_DESCRIPTION">Set the administrator of the site.</message>
-    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_ERROR">An error occurred: the allocation has failed.</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_OK_BUTTON">OK</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_CANCEL_BUTTON">Cancel</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_HINT_1">Please select a user to affect as a superuser:</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_USER">User</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_HINT_2">You can affect this user to an already existing right profile or create a new profile containing all rights.</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_CHOOSE_PROFILE">Choose the administrator profile</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_CREATE_PROFILE">Create a super-profile with all rights</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_PROFILE_NAME">Profile name</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_PROFILE_NAME_DEFAULT_VALUE">Administrator</message>
     <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_TITLE">Assign super user</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_ERROR">An error occurred: the allocation has failed.</message>
     <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_SUCCESS">The allocation has been completed.</message>
     <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_NO_POPULATION_DESCRIPTION">Your application does not have any allowed user population. Please choose a user population allowed to access to the contributor area before being able to continue.</message>
     

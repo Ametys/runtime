@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,16 +15,14 @@
  */
 package org.ametys.runtime.plugins.admin.superuser;
 
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 
+import org.ametys.core.right.Profile;
 import org.ametys.core.right.RightManager;
+import org.ametys.core.right.RightsExtensionPoint;
 import org.ametys.core.ui.Callable;
 import org.ametys.core.ui.StaticClientSideElement;
 import org.ametys.core.user.UserIdentity;
@@ -37,6 +35,9 @@ public class SuperUserClientSideElement extends StaticClientSideElement
     /** The service manager */
     private ServiceManager _sManager;
     
+    /** The extension point for the rights */
+    private RightsExtensionPoint _rightsEP;
+    
     @Override
     public void service(ServiceManager smanager) throws ServiceException
     {
@@ -45,13 +46,14 @@ public class SuperUserClientSideElement extends StaticClientSideElement
     }
     
     /**
-     * Affect a user as super user on a given context
-     * @param users the list of users to affect
-     * @param context the context 
-     * @return A map containing the assigned profile ids
+     * Affect a user to the given profile on the given context
+     * @param user The user
+     * @param profileId The profile id
+     * @param context The context
+     * @param additionalParameters The additional parameters
      */
     @Callable
-    public Map<String, Object> affectSuperUser(List<Map<String, String>> users, String context)
+    public void affectUserToProfile(String user, String profileId, String context, Map<String, Object> additionalParameters)
     {
         try
         {
@@ -65,23 +67,63 @@ public class SuperUserClientSideElement extends StaticClientSideElement
             throw new IllegalStateException(e);
         }
         
-        if (users.size() == 0)
+        UserIdentity userIdentity = UserIdentity.stringToUserIdentity(user);
+        _rightManager.allowProfileToUser(userIdentity, profileId, context);
+    }
+    
+    /**
+     * Affect a user to a new super profile on the given context. First, a new profile with the given name will be created and filled with all rights, and then the user will be affected.
+     * @param user The user
+     * @param newProfileName The name of the super profile to create
+     * @param context The context
+     * @param additionalParameters The additional parameters
+     * @return The id of the created profile
+     */
+    @Callable
+    public String affectUserToNewProfile(String user, String newProfileName, String context, Map<String, Object> additionalParameters)
+    {
+        try
         {
-            throw new IllegalArgumentException("No login to initialize.");
+            if (_rightManager == null)
+            {
+                _rightManager = (RightManager) _sManager.lookup(RightManager.ROLE);
+            }
+            if (_rightsEP == null)
+            {
+                _rightsEP = (RightsExtensionPoint) _sManager.lookup(RightsExtensionPoint.ROLE);
+            }
+        }
+        catch (ServiceException e)
+        {
+            throw new IllegalStateException(e);
         }
         
-        Map<String, Object> result = new LinkedHashMap<>();
-        Set<String> profileIds = new HashSet<>();
-        result.put("profileIds", profileIds);
-        for (Map<String, String> user : users)
+        String id = _generateUniqueId(newProfileName);
+        Profile newSuperProfile = _rightManager.addProfile(id, newProfileName, null);
+        
+        // Add all rights
+        newSuperProfile.startUpdate();
+        _rightsEP.getExtensionsIds().stream().forEach(newSuperProfile::addRight);
+        newSuperProfile.endUpdate();
+        
+        UserIdentity userIdentity = UserIdentity.stringToUserIdentity(user);
+        _rightManager.allowProfileToUser(userIdentity, id, context);
+        
+        return id;
+    }
+    
+    private String _generateUniqueId(String label)
+    {
+        // Id generated from name lowercased, trimmed, and spaces and underscores replaced by dashes
+        String value = label.toLowerCase().trim().replaceAll("[\\W_]", "-").replaceAll("-+", "-").replaceAll("^-", "");
+        int i = 2;
+        String suffixedValue = value;
+        while (_rightManager.getProfile(suffixedValue) != null)
         {
-            String login = user.get("login");
-            String populationId = user.get("population");
-            UserIdentity userIdentity = new UserIdentity(login, populationId);
-            String profileId = _rightManager.grantAllPrivileges(userIdentity, context);
-            profileIds.add(profileId);
+            suffixedValue = value + i;
+            i++;
         }
         
-        return result;
+        return suffixedValue;
     }
 }

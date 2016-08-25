@@ -398,6 +398,15 @@
     <!-- SUPER USER -->
     <message key="PLUGINS_ADMIN_SUPERUSER_LABEL">Affecter un gestionnaire</message>
     <message key="PLUGINS_ADMIN_SUPERUSER_DESCRIPTION">Affecte un gestionnaire</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_OK_BUTTON">OK</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_CANCEL_BUTTON">Annuler</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_HINT_1">Veuillez sélectionner un utilisateur à affecter en tant que gestionnaire :</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_USER">Utilisateur</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_HINT_2">Vous pouvez affecter cet utilisateur à un profil de droits déjà existant ou bien créer un nouveau profil contenant tous les droits.</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_CHOOSE_PROFILE">Choisir le profil administrateur</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_CREATE_PROFILE">Créer un super-profil avec tous les droits</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_PROFILE_NAME">Nom du profile</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_PROFILE_NAME_DEFAULT_VALUE">Administrateur</message>
     <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_TITLE">Affecter un gestionnaire</message>
     <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_ERROR">Une erreur est survenue. Impossible d'affecter ce ou ces utilisateurs.</message>
     <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_SUCCESS">L'affectation a été effectuée.</message>

@@ -1384,7 +1384,7 @@
                     <file>js/Ametys/plugins/admin/superuser/SuperUserActions.js</file>
                 </scripts>
                 <depends>
-                    <org.ametys.core.ui.StaticFileImportsManager>org.ametys.runtime.helpers</org.ametys.core.ui.StaticFileImportsManager>
+                    <org.ametys.core.ui.widgets.WidgetsManager>edition.user</org.ametys.core.ui.widgets.WidgetsManager>
                 </depends>
             </extension>
         </extensions>

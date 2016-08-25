@@ -22,7 +22,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -85,8 +84,6 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
     
     /** The id of the READER profile */
     public static final String READER_PROFILE_ID = "READER";
-    
-    private static final String __INITIAL_PROFILE_ID = "TEMPORARY ADMINISTRATOR";
     
     /** Avalon ServiceManager */
     protected ServiceManager _manager;
@@ -1353,7 +1350,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
     /* ------------------- */
     
     /**
-     * Add a new Profile
+     * Add a new Profile to null context. An id will be generated
      * @param name the name of the new Profile
      * @return the newly created Profile
      * @throws RightsException if an error occurs.
@@ -1364,7 +1361,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
     }
     
     /**
-     * Add a new Profile
+     * Add a new Profile. An id will be generated
      * @param name the name of the new Profile
      * @param context the context. Can be null.
      * @return the newly created Profile
@@ -1374,11 +1371,24 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
     {
         String id = UUID.randomUUID().toString();
 
-        return _addProfile(id, name, context);
+        return addProfile(id, name, context);
     }
     
-    private Profile _addProfile(String id, String name, String context) throws RightsException
+    /**
+     * Add a new Profile
+     * @param id the id of the profile
+     * @param name the name of the new Profile
+     * @param context the context. Can be null.
+     * @return the newly created Profile
+     * @throws RightsException if an error occurs.
+     */
+    public Profile addProfile(String id, String name, String context) throws RightsException
     {
+        if (getProfile(id) != null)
+        {
+            throw new RightsException(String.format("The profile of id %s already exists. Thus the profile cannot be added.", id));
+        }
+        
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -1588,64 +1598,6 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         _profileAssignmentStorageEP.getExtensionsIds().stream()
             .map(_profileAssignmentStorageEP::getExtension)
             .forEach(pas -> pas.removeProfile(id));
-    }
-
-    /**
-     * This method has to ensure that the user identified by its login will have all power by assigning a profile containing all rights.
-     * @param user The user that will obtain all privilege on the right manager.
-     * @param context The context of the right (cannot be null)
-     * @param profileName The name of the profile to affect
-     * @return The assigned profile id
-     * @throws RightsException if an error occurs.
-     */
-    public String grantAllPrivileges(UserIdentity user, String context, String profileName) throws RightsException
-    {
-        // Create or get the temporary admin profile
-        Profile adminProfile = null;
-        for (Profile profile : getProfiles())
-        {
-            if (profileName.equals(profile.getId()))
-            {
-                adminProfile = profile;
-                break;
-            }
-        }
-        if (adminProfile == null)
-        {
-            adminProfile = _addProfile(profileName, profileName, null);
-        }
-
-        // Set all rights
-        Collection currentRights = adminProfile.getRights();
-
-        adminProfile.startUpdate();
-
-        for (Object rightId : _rightsEP.getExtensionsIds())
-        {
-            if (!currentRights.contains(rightId))
-            {
-                adminProfile.addRight((String) rightId);
-            }
-        }
-
-        adminProfile.endUpdate();
-
-        // Assign the profile
-        allowProfileToUser(user, adminProfile.getId(), context);
-
-        return adminProfile.getId();
-    }
-    
-    /**
-     * This method has to ensure that the user identified by its login will have all power.
-     * @param user The user that will obtain all privilege on the right manager.
-     * @param context The context of the right (cannot be null)
-     * @return The assigned profile id
-     * @throws RightsException if an error occurs.
-     */
-    public String grantAllPrivileges(UserIdentity user, String context) throws RightsException
-    {
-        return grantAllPrivileges(user, context, __INITIAL_PROFILE_ID);
     }
     
     @Override

@@ -641,7 +641,7 @@
             </extension>
         </extensions>
     </feature>    
-    <feature name="widgets.others.right" safe="true">
+    <feature name="widgets.others.right">
         <extensions>
             <extension id="edition.right"
                 point="org.ametys.core.ui.widgets.WidgetsManager"
@@ -658,7 +658,7 @@
                 </scripts>
             </extension>
         </extensions>
-    </feature>    
+    </feature>   
     <feature name="widgets.others.geocode" safe="true">
         <config>
             <param-ref id="runtime.google-api-key"/>

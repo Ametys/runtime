@@ -24,6 +24,22 @@ Ext.define('Ametys.form.widget.User', {
   
 	valueField: 'value',
 	displayField: 'displayName',
+    
+    /**
+     * @private
+     * @property {String[]} _contexts The contexts for the populations where to retrieve users
+     */
+    /**
+     * @cfg {String[]} [contexts] The contexts for the populations where to retrieve users. Default to the default ametys context
+     */
+    
+    constructor: function(config)
+    {
+        config = config || {};
+        this._contexts = config.contexts || [Ametys.getAppParameter('context')];
+        
+        this.callParent(arguments);
+    },
 	
     getStore: function()
     {
@@ -90,12 +106,13 @@ Ext.define('Ametys.form.widget.User', {
      */
     _onStoreBeforeLoad: function(store, operation)
     {
-        operation.setParams(Ext.apply(operation.getParams() || {}, {
-            criteria: operation.getParams().query,
-            login: operation.getParams().login ? operation.getParams().login.split(',') : null,
+        var params = operation.getParams() || {};
+        operation.setParams(Ext.apply(params, {
+            criteria: params.query,
+            login: params.login ? params.login.split(',') : null,
             count: this.maxResult, 
             offset: 0 ,
-            contexts: [Ametys.getAppParameter('context')]
+            contexts: this._contexts
         }));
     },
     
