@@ -55,7 +55,7 @@ public class DefaultVersionsHandler extends AbstractLogEnabled implements Versio
         
         if (_ametysVersion == null)
         {
-            _ametysVersion = _getVersionFromClasspath("/org/ametys/runtime/version.xml", "Ametys");
+            _ametysVersion = _getVersionFromClasspath("/org/ametys/runtime/kernel/version.xml", "Ametys");
         }
         
         versions.add(_applicationVersion);
