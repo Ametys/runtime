@@ -1056,7 +1056,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         
         for (Object obj : objects)
         {
-            if (obj instanceof String && StringUtils.equals((String) object, AdminAuthenticateAction.ADMIN_RIGHT_CONTEXT))
+            if (obj instanceof String && StringUtils.equals((String) obj, AdminAuthenticateAction.ADMIN_RIGHT_CONTEXT))
             {
                 allAllowedUsers.addAll(_userManager.getUsers(UserPopulationDAO.ADMIN_POPULATION_ID).stream().map(user -> user.getIdentity()).collect(Collectors.toSet()));
             }
