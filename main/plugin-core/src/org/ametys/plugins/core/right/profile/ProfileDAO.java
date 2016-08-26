@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
@@ -33,6 +32,7 @@ import org.ametys.core.right.RightProfilesDAO;
 import org.ametys.core.ui.Callable;
 import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.core.user.UserIdentity;
+import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 
 /**
  * DAO for manipulating {@link Profile}
@@ -90,27 +90,18 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
     {
         RightManager profiles = (RightManager) _smanager.lookup(RightManager.ROLE);
         
-        if (getLogger().isDebugEnabled())
-        {
-            getLogger().debug("Starting profile creation");
-        }
-        
+        getLogger().debug("Starting profile creation");
+    
         if (StringUtils.isBlank(name))
         {
             throw new IllegalArgumentException("The profile name cannot be empty");
         }
         
-        if (getLogger().isInfoEnabled())
-        {
-            getLogger().info(String.format("User %s is adding a new profile '%s'", _getCurrentUser(), name));
-        }
+        getLogger().info("User {} is adding a new profile '{}'", _getCurrentUser(), name);
         
         Profile profile = profiles.addProfile(name, context);
         
-        if (getLogger().isDebugEnabled())
-        {
-            getLogger().debug("Ending profile creation");
-        }
+        getLogger().debug("Ending profile creation");
         
         return profile.toJSON();
     }
@@ -128,20 +119,14 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
     {
         RightManager profiles = (RightManager) _smanager.lookup(RightManager.ROLE);
         
-        if (getLogger().isDebugEnabled())
-        {
-            getLogger().debug("Starting profile modification");
-        }
+        getLogger().debug("Starting profile modification");
         
         if (StringUtils.isBlank(name))
         {
             throw new IllegalArgumentException("The profile new name cannot be empty");
         }
         
-        if (getLogger().isInfoEnabled())
-        {
-            getLogger().info(String.format("User %s is renaming the profile '%s' to '%s'", _getCurrentUser(), id, name));
-        }
+        getLogger().info("User {} is renaming the profile '{}' to '{}'", _getCurrentUser(), id, name);
         
         Profile profile = profiles.getProfile(id);
         if (profile == null)
@@ -155,10 +140,7 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
             _rightsDAO.renameProfile(profile, name);
         }
         
-        if (getLogger().isDebugEnabled())
-        {
-            getLogger().debug("Ending profile modification");
-        }
+        getLogger().debug("Ending profile modification");
         
         return profile.toJSON();
     }
@@ -176,15 +158,9 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
     {
         RightManager profiles = (RightManager) _smanager.lookup(RightManager.ROLE);
         
-        if (getLogger().isDebugEnabled())
-        {
-            getLogger().debug("Starting profile modification");
-        }
+        getLogger().debug("Starting profile modification");
         
-        if (getLogger().isInfoEnabled())
-        {
-            getLogger().info(String.format("User %s is edit rights of profile '%s'", _getCurrentUser(), id));
-        }
+        getLogger().info("User {} is edit rights of profile '{}'", _getCurrentUser(), id);
         
         Profile profile = profiles.getProfile(id);
         if (profile == null)
@@ -198,10 +174,7 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
             _rightsDAO.updateRights(profile, rights);
         }
         
-        if (getLogger().isDebugEnabled())
-        {
-            getLogger().debug("Ending profile modification");
-        }
+        getLogger().debug("Ending profile modification");
         
         return profile.toJSON();
     }
@@ -218,33 +191,24 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
     {
         RightManager profiles = (RightManager) _smanager.lookup(RightManager.ROLE);
         
-        if (getLogger().isDebugEnabled())
-        {
-            getLogger().debug("Starting profile removal");
-        }
+        getLogger().debug("Starting profile removal");
         
         for (String id : ids)
         {
-            if (getLogger().isInfoEnabled())
-            {
-                getLogger().info(String.format("User %s is is removing profile '%s'", _getCurrentUser(), id));
-            }
+            getLogger().info("User {} is is removing profile '{}'", _getCurrentUser(), id);
             
             Profile profile = profiles.getProfile(id);
             if (profile != null)
             {
                 _rightManager.removeProfile(id);
             }
-            else if (getLogger().isWarnEnabled())
+            else
             {
-                getLogger().info(String.format("User %s is trying to remove an unexisting profile '%s'", _getCurrentUser(), id));
+                getLogger().info("User {} is trying to remove an unexisting profile '{}'", _getCurrentUser(), id);
             }
         }
 
-        if (getLogger().isDebugEnabled())
-        {
-            getLogger().debug("Ending profile removal");
-        }
+        getLogger().debug("Ending profile removal");
     }
     
     /**
