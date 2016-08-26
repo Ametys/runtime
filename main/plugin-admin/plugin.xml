@@ -1681,4 +1681,21 @@
             </extension>
         </extensions>
     </feature>
+    
+<!--     <feature name="right.assignment.context.admin"> -->
+<!--         <extensions> -->
+<!--             <extension id="org.ametys.plugins.admin.rights.RightAssignmentContext" -->
+<!--                        point="org.ametys.core.right.RightAssignmentContextExtensionPoint" -->
+<!--                        class="org.ametys.core.ui.StaticClientSideElement"> -->
+<!--                 <workspace>^admin$</workspace> -->
+<!--                 <class name="Ametys.plugins.cms.profiles.ContentRightAssignmentContext"> -->
+<!--                     <label i18n="true">plugin.cms:PLUGINS_CMS_RIGHT_ASSIGNMENT_CONTEXT_CONTENTS_LABEL</label> -->
+<!--                 </class> -->
+<!--                 <scripts> -->
+<!--                     <file plugin="cms">js/Ametys/plugins/cms/profiles/ContentRightAssignmentContext.js</file> -->
+<!--                     <file>js/Ametys/plugins/web/profiles/WebContentRightAssignmentContext.js</file> -->
+<!--                 </scripts> -->
+<!--             </extension> -->
+<!--         </extensions> -->
+<!--     </feature> -->
 </plugin>

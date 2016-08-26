@@ -20,25 +20,23 @@
 Ext.define('Ametys.plugins.coreui.profiles.ContributorRightAssignmentContext', {
     extend: 'Ametys.plugins.coreui.profiles.AbstractRightAssignmentContext',
     
-    statics: {
-        getCurrentObjectContext: function()
-        {
-            return "/contributor";
-        },
-        
-        getComponent: function()
-        {
-            return Ext.create('Ext.Component', {
-                html: '{{i18n plugin.core-impl:PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_CONTRIBUTOR_MESSAGE}}',
-                style: {
-                    paddingLeft: '8px'
-                }
-            });
-        },
-        
-        initialize: function()
-        {
-            this._changeObjectContext("/contributor", "{{i18n plugin.core-impl:PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_CONTRIBUTOR_HINT}}");
-        }
+    getCurrentObjectContext: function()
+    {
+        return "/contributor";
+    },
+    
+    getComponent: function()
+    {
+        return Ext.create('Ext.Component', {
+            html: '{{i18n plugin.core-impl:PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_CONTRIBUTOR_MESSAGE}}',
+            style: {
+                paddingLeft: '8px'
+            }
+        });
+    },
+    
+    initialize: function()
+    {
+        this._changeObjectContext("/contributor", "{{i18n plugin.core-impl:PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_CONTRIBUTOR_HINT}}");
     }
 });

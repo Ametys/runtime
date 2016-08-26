@@ -15,13 +15,13 @@
  */
 package org.ametys.plugins.core.impl.right;
 
+import org.ametys.core.right.AbstractStaticRightAssignmentContext;
 import org.ametys.core.right.RightAssignmentContext;
-import org.ametys.core.ui.StaticClientSideElement;
 
 /**
  * {@link RightAssignmentContext} for assign rights to the contributor context
  */
-public class ContributorRightAssignmentContext extends StaticClientSideElement implements RightAssignmentContext
+public class ContributorRightAssignmentContext extends AbstractStaticRightAssignmentContext
 {
     @Override
     public Object convertJSContext(Object context)

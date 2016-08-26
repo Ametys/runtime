@@ -74,6 +74,7 @@
                 </group>
                 <group label="plugin.core:RIBBON_TABS_TAB_USERS_GROUPS_GROUP_RIGHTS_LABEL" icon="">
                     <control id="org.ametys.core.Profiles"/>
+                    <control id="org.ametys.core.ui.profile.Assign"/>
                 </group>
             </groups>
         </tab>

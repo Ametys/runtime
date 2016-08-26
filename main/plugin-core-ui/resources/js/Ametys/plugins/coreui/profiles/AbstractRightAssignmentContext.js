@@ -19,51 +19,94 @@
  * For creating a new context of right assignments, extends this class and implements its template methods.
  */
 Ext.define('Ametys.plugins.coreui.profiles.AbstractRightAssignmentContext', {
-
-    inheritableStatics: {
-        /**
-         * @private
-         * @property {Ext.panel.Panel} _contextPanel The context panel
-         */
-        
-        /**
-         * @template
-         * Gets the panel of this context
-         * @return {Ext.Component} the component of this context
-         */
-        getComponent: function()
-        {
-            throw new Error("This method is not implemented in " + this.getName());
-        },
-        
-        /**
-         * @template
-         * Method called when the panel is set as active item, to initialize it (such as a server call, etc.).
-         */
-        initialize: function(contextPanel)
-        {
-            throw new Error("This method is not implemented in " + this.getName());
-        },
-        
-        /**
-         * Sets the context panel
-         * @param {Ext.panel.panel} contextPanel The context panel to set
-         */
-        setContextPanel: function(contextPanel)
-        {
-            this._contextPanel = contextPanel;
-        },
-        
-        /**
-         * @protected
-         * Fires an event to notify the Profile Assignment Tool that the current object context has been changed.
-         * This method has to be called at least once.
-         * @param {Object} object The object context
-         * @param {String} hintTextContext A quick description on the current object context to display in the hint text.
-         */
-        _changeObjectContext: function(object, hintTextContext)
-        {
-            this._contextPanel.fireEvent('objectcontextchange', object, hintTextContext);
-        }
+    /**
+     * @cfg {String} label The readable label
+     */
+    
+    /**
+     * @private
+     * @property {Ext.panel.Panel} _contextPanel The context panel
+     */
+    /**
+     * @private
+     * @property {String} _serverId The id of this component on the server side
+     */
+    
+    /**
+     * Creates the instance
+     * @param {Object} config The configuration
+     */
+    constructor: function(config)
+    {
+        this._config = config;
+    },
+    
+    /**
+     * @template
+     * Gets the panel of this context
+     * @return {Ext.Component} the component of this context
+     */
+    getComponent: function()
+    {
+        throw new Error("This method is not implemented in " + this.getName());
+    },
+    
+    /**
+     * Get the label
+     * @return {String} the label
+     */
+    getLabel: function()
+    {
+        return this._config.label;
+    },
+    
+    /**
+     * @protected
+     * This methods should return the server-side role of the component to call.
+     * @return {String} The component role
+     */
+    getServerId: function()
+    {
+        return this._serverId;
+    },
+    
+    /**
+     * @protected
+     * This methods set the server-side role of the component to call.
+     * @param {String} The component role
+     */
+    setServerId: function(serverId)
+    {
+        this._serverId = serverId;
+    },
+    
+    /**
+     * @template
+     * Method called when the panel is set as active item, to initialize it (such as a server call, etc.).
+     */
+    initialize: function(contextPanel)
+    {
+        throw new Error("This method is not implemented in " + this.getName());
+    },
+    
+    /**
+     * Sets the context panel
+     * @param {Ext.panel.panel} contextPanel The context panel to set
+     */
+    setContextPanel: function(contextPanel)
+    {
+        this._contextPanel = contextPanel;
+    },
+    
+    /**
+     * @protected
+     * Fires an event to notify the Profile Assignment Tool that the current object context has been changed.
+     * This method has to be called at least once.
+     * @param {Object} object The object context
+     * @param {String} hintTextContext A quick description on the current object context to display in the hint text.
+     */
+    _changeObjectContext: function(object, hintTextContext)
+    {
+        this._contextPanel.fireEvent('objectcontextchange', object, hintTextContext);
     }
 });

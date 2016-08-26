@@ -16,16 +16,12 @@
 package org.ametys.core.ui.right;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 
@@ -38,6 +34,7 @@ import org.ametys.core.right.RightManager.RightResult;
 import org.ametys.core.right.RightsException;
 import org.ametys.core.ui.Callable;
 import org.ametys.core.ui.ClientSideElement;
+import org.ametys.core.ui.ClientSideElementHelper;
 import org.ametys.core.ui.StaticClientSideElement;
 import org.ametys.core.user.UserIdentity;
 
@@ -176,75 +173,41 @@ public class ProfileAssignmentsToolClientSideElement extends StaticClientSideEle
     }
     
     @Override
-    protected Script _configureScript(Configuration configuration) throws ConfigurationException
+    public List<Script> getScripts(boolean ignoreRights, Map<String, Object> contextParameters)
     {
-        Script script = super._configureScript(configuration);
+        List<Script> scripts = super.getScripts(ignoreRights, contextParameters);
         
-        // Scripts of the tool
-        List<ScriptFile> scriptsImports = new ArrayList<>(script.getScriptFiles());
-        List<ScriptFile> cssImports = new ArrayList<>(script.getCSSFiles());
+        if (scripts.size() > 0)
+        {
+            Script script = ClientSideElementHelper.cloneScript(scripts.get(0));
+            
+            Map<String, Object> jsClasses = new HashMap<>();
+            script.getParameters().put("classes", jsClasses);
+            
+            for (String extensionId: _rightAssignmentContextEP.getExtensionsIds())
+            {
+                RightAssignmentContext rightAssignmentContext = _rightAssignmentContextEP.getExtension(extensionId);
+                
+                List<Script> rightAssignmentContextScripts = rightAssignmentContext.getScripts(ignoreRights, contextParameters);
+                int index = 0;
+                for (Script rightAssignmentContextScript: rightAssignmentContextScripts)
+                {
+                    Map<String, Object> classInfo = new HashMap<>();
+                    classInfo.put("className", rightAssignmentContextScript.getScriptClassname());
+                    classInfo.put("serverId", extensionId);
+                    classInfo.put("parameters", rightAssignmentContextScript.getParameters());
+                    jsClasses.put(extensionId + "-" + index++, classInfo);
+                    
+                    script.getScriptFiles().addAll(rightAssignmentContextScript.getScriptFiles());
+                    script.getCSSFiles().addAll(rightAssignmentContextScript.getCSSFiles());
+                }
+            }
+            
+            scripts = new ArrayList<>();
+            scripts.add(script);
+        }
         
-        // Then, for each right assignment context, add its own scripts
-        _rightAssignmentContextEP.getExtensionsIds().stream()
-            .map(_rightAssignmentContextEP::getExtension)
-            .forEach(context -> this._addScripts(context, scriptsImports, cssImports));
-        
-        return new Script(script.getId(), script.getScriptClassname(), scriptsImports, cssImports, script.getParameters());
-    }
-    
-    private void _addScripts(RightAssignmentContext rightAssignmentContext, List<ScriptFile> scriptsImports, List<ScriptFile> cssImports)
-    {
-        List<Script> scripts = rightAssignmentContext.getScripts(Collections.EMPTY_MAP);
-        
-        List<ScriptFile> contextScriptFilesImports = scripts.stream()
-                .map(Script::getScriptFiles)
-                .flatMap(List::stream)
-                .collect(Collectors.toList());
-        scriptsImports.addAll(contextScriptFilesImports);
-        
-        List<ScriptFile> contextCssFilesImports = scripts.stream()
-                .map(Script::getCSSFiles)
-                .flatMap(List::stream)
-                .collect(Collectors.toList());
-        cssImports.addAll(contextCssFilesImports);
-    }
-    
-    /**
-     * Gets the contexts in JSON format
-     * @return the contexts in JSON format
-     */
-    public List<Map<String, Object>> getContextsAsJson()
-    {
-        return _rightAssignmentContextEP.getExtensionsIds().stream()
-            .map(_rightAssignmentContextEP::getExtension)
-            .map(this::_getContextMap)
-            .collect(Collectors.toList());
-    }
-    
-    private Map<String, Object> _getContextMap(RightAssignmentContext context)
-    {
-        Map<String, Object> result = new HashMap<>();
-        result.put("value", context.getId());
-        List<Script> scripts = context.getScripts(Collections.EMPTY_MAP);
-        result.put("displayText", scripts.get(0).getParameters().get("label"));
-        return result;
-    }
-    
-    /**
-     * Gets the names of the JavaScript class name for each right assignment context
-     * @return the names of the JavaScript class name for each right assignment context
-     */
-    @Callable
-    public Map<String, String> getJSClassNames()
-    {
-        return _rightAssignmentContextEP.getExtensionsIds().stream()
-                .collect(Collectors.toMap(Function.identity(), this::_getJSClassName));
-    }
-    
-    private String _getJSClassName(String rightAssignmentContextId)
-    {
-        List<Script> scripts = _rightAssignmentContextEP.getExtension(rightAssignmentContextId).getScripts(Collections.EMPTY_MAP);
-        return scripts.get(0).getScriptClassname();
+        return scripts;
     }
     
     /**

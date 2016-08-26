@@ -3018,7 +3018,7 @@
             <extension id="uitool-profile-assignment"
                        point="org.ametys.core.ui.UIToolsFactoriesManager"
                        class="org.ametys.core.ui.right.ProfileAssignmentsToolClientSideElement">
-                <class name="Ametys.tool.factory.UniqueToolFactory">
+                <class name="Ametys.plugins.coreui.profiles.ProfileAssignmentsToolFactory">
                     <toolClass>Ametys.plugins.coreui.profiles.ProfileAssignmentsTool</toolClass>
                     
                     <title i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_LABEL</title>
@@ -3029,6 +3029,7 @@
                     <default-location>cl</default-location>
                 </class>
                 <scripts>
+                    <file>js/Ametys/plugins/coreui/profiles/ProfileAssignmentsToolFactory.js</file>
                     <file>js/Ametys/plugins/coreui/profiles/ProfileAssignmentsTool.js</file>
                     <file>js/Ametys/plugins/coreui/profiles/ProfileAssignmentsTool/AssignmentHelper.js</file>
                     <file>js/Ametys/plugins/coreui/profiles/AbstractRightAssignmentContext.js</file>

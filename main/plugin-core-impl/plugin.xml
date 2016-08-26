@@ -1362,6 +1362,7 @@
             <extension id="org.ametys.plugins.core.impl.right.ContributorRightAssignmentContext"
                        point="org.ametys.core.right.RightAssignmentContextExtensionPoint"
                        class="org.ametys.plugins.core.impl.right.ContributorRightAssignmentContext">
+                <workspace>!^admin$</workspace>
                 <class name="Ametys.plugins.coreui.profiles.ContributorRightAssignmentContext">
 	                <label i18n="true">PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_CONTRIBUTOR_LABEL</label>
                 </class>

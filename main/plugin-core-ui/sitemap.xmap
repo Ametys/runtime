@@ -34,7 +34,6 @@
             <map:action name="group-directories" src="org.ametys.plugins.core.ui.groupdirectories.GetGroupDirectoriesAction"/>
             <map:action name="modifiable-group-directories" src="org.ametys.plugins.core.ui.groupdirectories.GetModifiableGroupDirectoriesAction"/>
             <map:action name="scheduled-tasks" src="org.ametys.plugins.core.ui.schedule.GetScheduledTasksAction"/>
-            <map:action name="right-assignment-contexts" src="org.ametys.plugins.core.ui.right.GetRightAssignmentContextsAction"/>
             <map:action name="profile-assignments" src="org.ametys.plugins.core.ui.right.GetProfileAssignmentsAction"/>
         </map:actions>
         
@@ -184,12 +183,6 @@
 	            
 	            <map:match pattern="scheduledTasks.json">
                     <map:act type="scheduled-tasks">
-                        <map:read type="json"/>
-                    </map:act>
-                </map:match>
-	            
-	            <map:match pattern="rightAssignmentContexts.json">
-                    <map:act type="right-assignment-contexts">
                         <map:read type="json"/>
                     </map:act>
                 </map:match>

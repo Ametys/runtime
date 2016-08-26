@@ -327,11 +327,6 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     
     /**
      * @private
-     * @property {Object} _classNames An object containing the ExtJS class names for each right assignment context (the key is the right assignment context id)
-     */
-    
-    /**
-     * @private
      * @property {Ext.grid.Panel} _assignmentsGrid The grid panel on the right of the tool, showing the assignment on current object context.
      */
     
@@ -387,6 +382,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
                 'objectcontextchange': Ext.bind(this._onObjectContextChange, this)
             }
         });
+        this._createContextPanels();
         
         this._gridStore = Ext.create('Ext.data.Store', {
             model: 'Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.Entry',
@@ -514,21 +510,22 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
      */
     _getContextComboCfg: function()
     {
+        var data = [];
+        Ext.Object.each(this.getFactory()._rightAssignmentContexts, function(id, rightAssignmentContext) {
+            data.push({
+                value: id,
+                displayText: rightAssignmentContext.getLabel()
+            });            
+        });
+        
         return {
             store: {
                 fields: ['value', {name: 'displayText', sortType: Ext.data.SortTypes.asNonAccentedUCString}],
-                proxy: {
-                    type: 'ametys',
-                    plugin: 'core-ui',
-                    url: 'rightAssignmentContexts.json',
-                    reader: {
-                        type: 'json',
-                        rootProperty: 'contexts'
-                    }
-                },
+                data: data,
                 sorters: [{property: 'displayText', direction: 'ASC'}]
             },
             autoSelect: false,
+            editable: false,
             
             listeners: {
                 'change': Ext.bind(this._onComboboxChange, this)
@@ -999,7 +996,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         
         if (assignmentsInfo.length > 0)
         {
-            var parameters = [rightAssignmentId, this._objectContext, assignmentsInfo];
+            var parameters = [this.getFactory()._rightAssignmentContexts[rightAssignmentId].getServerId(), this._objectContext, assignmentsInfo];
             this.serverCall('saveChanges', parameters, callback);
         }
     },
@@ -1013,7 +1010,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     _onBeforeLoadGrid: function(store, operation)
     {
         operation.setParams(Ext.apply(operation.getParams() || {}, {
-            rightAssignmentContextId: this._contextCombobox.getValue(),
+            rightAssignmentContextId: this.getFactory()._rightAssignmentContexts[this._contextCombobox.getValue()].getServerId(),
             context: this._objectContext
         }));
     },
@@ -1091,8 +1088,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         this._contextPanel.getLayout().setActiveItem(this._contextComponents[rightAssignmentContextId]);
         
         // Call its initialize() method
-        var className = this._classNames[rightAssignmentContextId];
-        eval(className + '.initialize()');
+        this.getFactory()._rightAssignmentContexts[rightAssignmentContextId].initialize();
     },
     
     /**
@@ -1164,7 +1160,6 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     {
         this.callParent(arguments);
         this._objectContext = null;
-        this.serverCall('getJSClassNames', [], this._createContextPanels);
         
         this.showOutOfDate();
     },
@@ -1213,19 +1208,17 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     /**
      * @private
      * Creates the context panels
-     * @param {Object} classNames The names of right assignment context classes
      */
-    _createContextPanels: function(classNames)
+    _createContextPanels: function()
     {
-        this._classNames = classNames;
         this._contextComponents = {};
-        Ext.Object.each(classNames, function(contextId, className) {
-            var cmp = eval(className + '.getComponent()');
+        Ext.Object.each(this.getFactory()._rightAssignmentContexts, function(contextId, rightAssignmentContext) {
+            var cmp = rightAssignmentContext.getComponent();
             this._contextComponents[contextId] = cmp;
             // Add the component in the context panel (which has a card layout)
             this._contextPanel.add(cmp);
             // Give the reference to the context panel
-            eval(className + '.setContextPanel(this._contextPanel)');
+            rightAssignmentContext.setContextPanel(this._contextPanel);
         }, this);
     },
     
@@ -1535,7 +1528,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         	}
         }
     	return null;
-    },
+    }
 });
 
  /**
