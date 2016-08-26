@@ -16,68 +16,81 @@
    limitations under the License.
    -->
    
-<mapper namespace="Subscribers" >
+<mapper namespace="Profiles">
 
-  <resultMap type="org.ametys.plugins.newsletter.daos.Subscriber" id="subscriberResult">
-        <result property="email" column="Email"/>
-    	<result property="siteName" column="Site_Name"/>
-    	<result property="categoryId" column="Category"/>
-    	<result property="subscribedAt" column="Subscribed_At"/>
-    	<result property="token" column="Token"/>
+  <resultMap type="org.ametys.core.right.Profile" id="profileResult">
+	<result property="id" column="Id" />
+	<result property="label" column="Label" />
+	<result property="context" column="Context"/>
+  </resultMap>
+  
+  <resultMap type="java.util.HashMap" id="profileRightsResult">
+	<result property="profileId" column="Profile_Id" />
+	<result property="rightId" column="Right_Id" />
   </resultMap>
 
-  <sql id="getSubscribers">
-    SELECT Email, Site_Name, Category, Subscribed_At, Token
-    FROM Newsletter_Subscribers
+  <sql id="getProfiles">
+    SELECT Id, Label, Context
+    FROM Rights_Profile
+  </sql>
+  
+  <sql id="getProfileRights">
+    SELECT Profile_Id, Right_Id
+    FROM Rights_ProfileRights
   </sql>
 
-  <select id="getSubscribers" resultMap="subscriberResult">
-    <include refid="getSubscribers"/>
-    ORDER BY Email
+  <select id="getProfiles" resultMap="profileResult">
+    <include refid="getProfiles"/>
   </select>
   
-  <select id="getSubscriber" resultMap="subscriberResult">
-    <include refid="getSubscribers"/>
-     WHERE Site_Name = #{siteName} and Category = #{category} and Email = #{email}
+  <select id="getProfile" resultMap="profileResult">
+    <include refid="getProfiles"/>
+    WHERE Id = #{value}
   </select>
   
-  <select id="getSubscriberByToken" parameterType="map" resultMap="subscriberResult">
-    <include refid="getSubscribers"/>
-     WHERE Token = #{token}
-  </select>
-
-  <select id="getSubscribersByCategory" parameterType="map" resultMap="subscriberResult">
-  	<include refid="getSubscribers"/>
-    WHERE Site_Name = #{siteName} and Category = #{category}
-  </select>
-
-  <select id="getSubscriptionsByEmail" parameterType="map" resultMap="subscriberResult">
-    <include refid="getSubscribers"/>
-    WHERE Site_Name = #{siteName} and Email = #{email}
+  <select id="getProfilesByContext" parameterType="string" resultMap="profileResult">
+    <include refid="getProfiles"/>
+    WHERE Context = #{value}
   </select>
   
-  <select id="getSubscribersCount" parameterType="map" resultType="int">
-    SELECT count(*) FROM Newsletter_Subscribers
-    WHERE Site_Name = #{siteName} and Category = #{category}
+  <select id="getProfilesWithNullContext" parameterType="string" resultMap="profileResult">
+    <include refid="getProfiles"/>
+    WHERE Context is null
   </select>
-
-  <insert id="subscribe" parameterType="org.ametys.plugins.newsletter.daos.Subscriber">
-    INSERT INTO Newsletter_Subscribers (Email, Site_Name, Category, Subscribed_At, Token)
-    VALUES (#{email}, #{siteName}, #{categoryId}, #{subscribedAt}, #{token})
+  
+  <select id="getProfileRights" resultMap="profileRightsResult">
+    <include refid="getProfileRights"/>
+  </select>
+  
+  <select id="getRights" parameterType="string" resultType="string">
+    SELECT Right_Id
+    FROM Rights_ProfileRights
+    WHERE Profile_Id = #{value}
+  </select>
+  
+  <insert id="addProfile" parameterType="org.ametys.core.right.Profile">
+    INSERT INTO Rights_Profile (Id, Label, Context)
+    VALUES (#{id}, #{label}, #{context,jdbcType=VARCHAR})
   </insert>
-
-  <delete id="unsubscribe" parameterType="string">
-	DELETE FROM Newsletter_Subscribers 
-	WHERE Token = #{value}
+  
+  <insert id="addRight" parameterType="java.util.Map">
+    INSERT INTO Rights_ProfileRights (Profile_Id, Right_Id)
+    VALUES (#{profileId}, #{rightId})
+  </insert>
+  
+  <insert id="renameProfile" parameterType="java.util.Map">
+    UPDATE Rights_Profile
+    SET Label = #{label}
+    WHERE Id = #{id}
+  </insert>
+  
+  <delete id="deleteProfile" parameterType="string">
+	DELETE FROM Rights_Profile 
+	WHERE Id = #{value}
   </delete>
   
-  <delete id="removeSubscriptionsByEmail" parameterType="java.util.Map">
-	DELETE FROM Newsletter_Subscribers 
-	WHERE Site_Name = #{siteName} and Email = #{email}
-  </delete>
-  
-  <delete id="empty" parameterType="java.util.Map">
-	DELETE FROM Newsletter_Subscribers 
-	WHERE Category = #{categoryId} AND Site_Name = #{siteName}
+  <delete id="deleteProfileRights" parameterType="string">
+	DELETE FROM Rights_ProfileRights 
+	WHERE Profile_Id = #{value}
   </delete>
 </mapper>

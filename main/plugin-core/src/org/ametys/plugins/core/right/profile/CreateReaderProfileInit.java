@@ -15,16 +15,12 @@
  */
 package org.ametys.plugins.core.right.profile;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 
-import org.ametys.core.datasource.ConnectionHelper;
+import org.ametys.core.right.Profile;
 import org.ametys.core.right.RightManager;
+import org.ametys.core.right.RightProfilesDAO;
 import org.ametys.core.script.SqlTablesInit;
 
 /**
@@ -33,12 +29,14 @@ import org.ametys.core.script.SqlTablesInit;
 public class CreateReaderProfileInit extends SqlTablesInit
 {
     private RightManager _rightManager;
+    private RightProfilesDAO _profileDAO;
     
     @Override
     public void service(ServiceManager manager) throws ServiceException
     {
         super.service(manager);
         _rightManager = (RightManager) manager.lookup(RightManager.ROLE);
+        _profileDAO = (RightProfilesDAO) manager.lookup(RightProfilesDAO.ROLE);
     }
     
     @Override
@@ -54,41 +52,9 @@ public class CreateReaderProfileInit extends SqlTablesInit
             getLogger().info("READER profile already exists, it will not be created");
             return;
         }
-        
-        getLogger().info("Creating READER profile");
-        String profileLabel = RightManager.READER_PROFILE_ID;
-        String tableProfile = _rightManager.getTableProfile();
-        String context = null;
-        
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet rs = null;
 
-        try
-        {
-            connection = getSQLConnection();
-
-            statement = connection.prepareStatement("INSERT INTO " + tableProfile + " (Id, Label, Context) VALUES(?, ?, ?)");
-            statement.setString(1, RightManager.READER_PROFILE_ID);
-            statement.setString(2, profileLabel);
-            statement.setString(3, context);
-
-            statement.executeUpdate();
-        }
-        catch (SQLException ex)
-        {
-            throw new RuntimeException(ex);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(statement);
-            ConnectionHelper.cleanup(connection);
-        }
-    }
-    
-    private Connection getSQLConnection ()
-    {
-        return ConnectionHelper.getConnection(_rightManager.getDataSourceId());
+        // FIXME The reader profile is a system profile, it should not be created
+        Profile readerProfile = new Profile(RightManager.READER_PROFILE_ID, RightManager.READER_PROFILE_ID);
+        _profileDAO.addProfile(readerProfile);
     }
 }

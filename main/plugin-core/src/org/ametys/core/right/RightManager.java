@@ -16,16 +16,13 @@
 package org.ametys.core.right;
 
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -45,11 +42,11 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
 
-import org.ametys.core.datasource.ConnectionHelper;
 import org.ametys.core.group.GroupDirectoryDAO;
 import org.ametys.core.group.GroupIdentity;
 import org.ametys.core.group.GroupListener;
@@ -66,7 +63,6 @@ import org.ametys.core.user.directory.ModifiableUserDirectory;
 import org.ametys.core.user.directory.UserDirectory;
 import org.ametys.core.user.population.UserPopulation;
 import org.ametys.core.user.population.UserPopulationDAO;
-import org.ametys.runtime.config.Config;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.plugin.PluginsManager;
 import org.ametys.runtime.plugin.component.AbstractLogEnabled;
@@ -105,14 +101,10 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
     protected UserPopulationDAO _userPopulationDAO;
     /** The DAO for group directories */
     protected GroupDirectoryDAO _groupDirectoryDAO;
-    /** The id of the data source to use */
-    protected String _dataSourceId;
-    /** The jdbc table name for profiles' list */
-    protected String _tableProfile;
-    /** The jdbc table name for profiles' rights */
-    protected String _tableProfileRights;
     /** The current user provider */
     protected CurrentUserProvider _currentUserProvider;
+    /** The rights DAO */
+    protected RightProfilesDAO _profilesDAO;
     
     /**
      * This first cache is for right result on non-null contexts when calling {@link #hasRight(UserIdentity, String, Object)}
@@ -136,13 +128,6 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
      * We are caching the set of profiles instead of right id because many rights belong to the exact same profiles
      */
     private final ThreadLocal<Map<UserIdentity, Map<Set<String>, RightResult>>> _cache2TL = new ThreadLocal<>();
-    
-    /**
-     * This cache is for storing the set of profiles a right belongs to.
-     * 
-     * { RightId : {[ProfileIds]}
-     */
-    private final ThreadLocal<Map<String, Set<String>>> _cacheProfilesTL = new ThreadLocal<>();
     
     /**
      * Enumeration of all possible values returned by hasRight(user, right, context)
@@ -169,6 +154,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
     public void service(ServiceManager manager) throws ServiceException
     {
         _manager = manager;
+        _profilesDAO = (RightProfilesDAO) manager.lookup(RightProfilesDAO.ROLE);
         _userManager = (UserManager) manager.lookup(UserManager.ROLE);
         _groupManager = (GroupManager) manager.lookup(GroupManager.ROLE);
         _userPopulationDAO = (UserPopulationDAO) manager.lookup(UserPopulationDAO.ROLE);
@@ -262,27 +248,6 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         {
             configureRights(rightsConfiguration);
         }
-
-        Configuration dataSourceConf = configuration.getChild("datasource", false);
-        if (dataSourceConf == null)
-        {
-            throw new ConfigurationException("The 'datasource' configuration node must be defined.", dataSourceConf);
-        }
-        
-        String dataSourceConfParam = dataSourceConf.getValue();
-        String dataSourceConfType = dataSourceConf.getAttribute("type", "config");
-        
-        if (StringUtils.equals(dataSourceConfType, "config"))
-        {
-            _dataSourceId = Config.getInstance().getValueAsString(dataSourceConfParam);
-        }
-        else // expecting type="id"
-        {
-            _dataSourceId = dataSourceConfParam;
-        }
-        
-        _tableProfile = configuration.getChild("table-profile").getValue("Rights_Profile");
-        _tableProfileRights = configuration.getChild("table-profile-rights").getValue("Rights_ProfileRights");
     }
     
     private void configureRights(Configuration configuration) throws ConfigurationException
@@ -311,34 +276,6 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
             _rightsEP.addRight(id, i18nLabel, i18nDescription, i18nCategory);
         }
     }
-    
-    /**
-     * Gets the id of the datasource storing the profiles, rights and assignments
-     * @return the id of the datasource storing the profiles, rights and assignments
-     */
-    public String getDataSourceId()
-    {
-        return _dataSourceId;
-    }
-    
-    /**
-     * Gets the table name for storing profiles
-     * @return the table name for storing profiles
-     */
-    public String getTableProfile()
-    {
-        return _tableProfile;
-    }
-    
-    /**
-     * Get the connection to the database 
-     * @return the SQL connection
-     */
-    protected Connection getSQLConnection ()
-    {
-        return ConnectionHelper.getConnection(_dataSourceId);
-    }
-    
     
     /* --------- */
     /* HAS RIGHT */
@@ -371,7 +308,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         getLogger().debug("Try to determine if user '{}' has the right '{}' on the object context {}", userIdentity, rightId, object);
         
         // Retrieve all profiles containing the right rightId
-        Set<String> profileIds = _getProfiles(rightId);
+        Set<String> profileIds = _profilesDAO.getProfilesWithRight(rightId);
         
         RightResult rightResult = _hasRight(userIdentity, profileIds, object);
         
@@ -527,68 +464,6 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
             Map<Set<String>, RightResult> mapRight = new HashMap<>();
             mapRight.put(profileIds, rightResult);
             mapCache.put(userIdentity, mapRight);
-        }
-    }
-    
-    private Set<String> _getProfiles(String rightId)
-    {
-        Map<String, Set<String>> mapCache = _cacheProfilesTL.get();
-        
-        if (mapCache == null)
-        {
-            // Build the cache with only one SQL query
-            mapCache = new HashMap<>();
-            
-            Connection connection = getSQLConnection();
-            PreparedStatement stmt = null;
-            ResultSet rs = null;
-    
-            try
-            {
-                String sql = "SELECT Profile_Id, Right_Id FROM " + _tableProfileRights;
-    
-                stmt = connection.prepareStatement(sql);
-    
-                getLogger().debug("{}", sql);
-    
-                rs = stmt.executeQuery();
-                
-                while (rs.next())
-                {
-                    String currentProfileId = rs.getString(1);
-                    String currentRightId = rs.getString(2);
-                    if (mapCache.containsKey(currentRightId))
-                    {
-                        mapCache.get(currentRightId).add(currentProfileId);
-                    }
-                    else
-                    {
-                        Set<String> profiles = new HashSet<>();
-                        profiles.add(currentProfileId);
-                        mapCache.put(currentRightId, profiles);
-                    }
-                }
-            }
-            catch (SQLException e)
-            {
-                getLogger().error("Error communicating with database", e);
-                throw new RightsException("Error communicating with database", e);
-            }
-            finally
-            {
-                ConnectionHelper.cleanup(rs);
-                ConnectionHelper.cleanup(stmt);
-                ConnectionHelper.cleanup(connection);
-            }
-        }
-        
-        if (mapCache.containsKey(rightId))
-        {
-            return mapCache.get(rightId);
-        }
-        else
-        {
-            return Collections.EMPTY_SET;
         }
     }
     
@@ -1168,7 +1043,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         Set<UserIdentity> result = new HashSet<>();
         
         // Retrieve all profiles containing the right rightId
-        Set<String> profileIds = _getProfiles(rightId);
+        Set<String> profileIds = _profilesDAO.getProfilesWithRight(rightId);
         
         // Get the objects to check
         Set<Object> objects = _getConvertedObjects(object);
@@ -1285,14 +1160,14 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         for (String profileId : allowedProfiles)
         {
             Profile profile = getProfile(profileId);
-            rights.addAll(profile.getRights());
+            rights.addAll(_profilesDAO.getRights(profile));
         }
         
         // Then iterate over denied profiles and remove all their rights
         for (String profileId : deniedProfiles)
         {
             Profile profile = getProfile(profileId);
-            rights.removeAll(profile.getRights());
+            rights.removeAll(_profilesDAO.getRights(profile));
         }
         
         return rights;
@@ -1389,33 +1264,9 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
             throw new RightsException(String.format("The profile of id %s already exists. Thus the profile cannot be added.", id));
         }
         
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        
-        try
-        {
-            connection = getSQLConnection();
-            
-            statement = connection.prepareStatement("INSERT INTO " + _tableProfile + " (Id, Label, Context) VALUES(?, ?, ?)");
-            statement.setString(1, id);
-            statement.setString(2, name);
-            statement.setString(3, context);
-            
-            statement.executeUpdate();
-        }
-        catch (SQLException ex)
-        {
-            throw new RuntimeException(ex);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(statement);
-            ConnectionHelper.cleanup(connection);
-        }
-        
-        return new Profile(id, name, context, _dataSourceId, _tableProfile, _tableProfileRights);
+        Profile profile = new Profile(id, name, context);
+        _profilesDAO.addProfile(profile);
+        return profile;
     }
     
     /**
@@ -1426,37 +1277,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
      */
     public Profile getProfile(String id) throws RightsException
     {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-
-        try
-        {
-            connection = getSQLConnection();
-            statement = connection.prepareStatement("SELECT Label, Context FROM " + _tableProfile + " WHERE Id = ?");
-            statement.setString(1, id);
-
-            rs = statement.executeQuery();
-
-            if (rs.next())
-            {
-                String label = rs.getString("Label");
-                String context = rs.getString("Context");
-                return new Profile(id, label, context, _dataSourceId, _tableProfile, _tableProfileRights);
-            }
-
-            return null;
-        }
-        catch (SQLException ex)
-        {
-            throw new RuntimeException(ex);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(statement);
-            ConnectionHelper.cleanup(connection);
-        }
+        return _profilesDAO.getProfile(id);
     }
 
     /**
@@ -1464,40 +1285,9 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
      * @return all known profiles
      * @throws RightsException if an error occurs.
      */
-    public Set<Profile> getAllProfiles() throws RightsException
+    public List<Profile> getAllProfiles() throws RightsException
     {
-        Set<Profile> profiles = new HashSet<>();
-
-        Connection connection = null;
-        Statement stmt = null;
-        ResultSet rs = null;
-
-        try
-        {
-            connection = getSQLConnection();
-            stmt = connection.createStatement();
-            rs = stmt.executeQuery("SELECT Id, Label, Context FROM " + _tableProfile);
-
-            while (rs.next())
-            {
-                String id = rs.getString("Id");
-                String label = rs.getString("Label");
-                String context = rs.getString("Context");
-                profiles.add(new Profile(id, label, context, _dataSourceId, _tableProfile, _tableProfileRights));
-            }
-        }
-        catch (SQLException ex)
-        {
-            throw new RuntimeException(ex);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(connection);
-        }
-
-        return profiles;
+        return _profilesDAO.getProfiles();
     }
     
     /**
@@ -1505,7 +1295,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
      * @return profiles with no context
      * @throws RightsException if an error occurs.
      */
-    public Set<Profile> getProfiles() throws RightsException
+    public List<Profile> getProfiles() throws RightsException
     {
         return getProfiles(null);
     }
@@ -1516,48 +1306,9 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
      * @return profiles of a given context 
      * @throws RightsException if an error occurs.
      */
-    public Set<Profile> getProfiles(String context) throws RightsException
+    public List<Profile> getProfiles(String context) throws RightsException
     {
-        Set<Profile> profiles = new HashSet<>();
-
-        Connection connection = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try
-        {
-            connection = getSQLConnection();
-            if (context == null)
-            {
-                stmt = connection.prepareStatement("SELECT Id, Label FROM " + _tableProfile + " WHERE Context is null");
-            }
-            else
-            {
-                stmt = connection.prepareStatement("SELECT Id, Label FROM " + _tableProfile + " WHERE Context=?");
-                stmt.setString(1, context);
-            }
-
-            rs = stmt.executeQuery();
-
-            while (rs.next())
-            {
-                String id = rs.getString("Id");
-                String label = rs.getString("Label");
-                profiles.add(new Profile(id, label, context, _dataSourceId, _tableProfile, _tableProfileRights));
-            }
-        }
-        catch (SQLException ex)
-        {
-            throw new RuntimeException(ex);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(connection);
-        }
-
-        return profiles;
+        return _profilesDAO.getProfiles(context);
     }
     
     /**
@@ -1566,38 +1317,51 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
      */
     public void removeProfile(String id)
     {
-        // Remove the storing of the profile and the rights linked to it
-        Connection connection = null;
-        PreparedStatement statement = null;
-        PreparedStatement statement2 = null;
-
-        try
-        {
-            connection = getSQLConnection();
-
-            statement = connection.prepareStatement("DELETE FROM " + _tableProfile + " WHERE Id = ?");
-            statement.setString(1, id);
-            statement.executeUpdate();
-
-            statement2 = connection.prepareStatement("DELETE FROM " + _tableProfileRights + " WHERE Profile_Id = ?");
-            statement2.setString(1, id);
-            statement2.executeUpdate();
-        }
-        catch (SQLException ex)
-        {
-            throw new RuntimeException(ex);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(statement);
-            ConnectionHelper.cleanup(statement2);
-            ConnectionHelper.cleanup(connection);
-        }
+        _profilesDAO.deleteProfile(id);
         
         // Removes this profile in the profile assignment storages
         _profileAssignmentStorageEP.getExtensionsIds().stream()
             .map(_profileAssignmentStorageEP::getExtension)
             .forEach(pas -> pas.removeProfile(id));
+    }
+
+    /**
+     * This method has to ensure that the user identified by its login will have all power by assigning a profile containing all rights.
+     * @param user The user that will obtain all privilege on the right manager.
+     * @param context The context of the right (cannot be null)
+     * @param profileName The name of the profile to affect
+     * @return The assigned profile id
+     * @throws RightsException if an error occurs.
+     */
+    public String grantAllPrivileges(UserIdentity user, String context, String profileName) throws RightsException
+    {
+        // Create or get the temporary admin profile
+        Profile adminProfile = null;
+        for (Profile profile : getProfiles())
+        {
+            if (profileName.equals(profile.getId()))
+            {
+                adminProfile = profile;
+                break;
+            }
+        }
+        if (adminProfile == null)
+        {
+            adminProfile = new Profile(profileName, profileName);
+            _profilesDAO.addProfile(adminProfile);
+        }
+
+        // Set all rights
+        List<String> currentRights = _profilesDAO.getRights(adminProfile);
+        Set<String> allRights = _rightsEP.getExtensionsIds();
+        
+        List<String> rightsToAdd = new ArrayList<>(CollectionUtils.removeAll(allRights, currentRights));
+        _profilesDAO.addRights(adminProfile, rightsToAdd);
+        
+        // Assign the profile
+        allowProfileToUser(user, adminProfile.getId(), context);
+
+        return adminProfile.getId();
     }
     
     @Override
@@ -1656,10 +1420,6 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         if (_cache2TL.get() != null)
         {
             _cache2TL.set(null);
-        }
-        if (_cacheProfilesTL.get() != null)
-        {
-            _cacheProfilesTL.set(null);
         }
     }
     

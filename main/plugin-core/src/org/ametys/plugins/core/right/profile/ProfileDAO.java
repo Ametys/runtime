@@ -29,6 +29,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.ametys.core.group.InvalidModificationException;
 import org.ametys.core.right.Profile;
 import org.ametys.core.right.RightManager;
+import org.ametys.core.right.RightProfilesDAO;
 import org.ametys.core.ui.Callable;
 import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.core.user.UserIdentity;
@@ -45,11 +46,14 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
     protected CurrentUserProvider _currentUserProvider;
     /** The right manager */
     protected RightManager _rightManager;
+    /** The SQL DAO */
+    protected RightProfilesDAO _rightsDAO;
 
     public void service(ServiceManager smanager) throws ServiceException
     {
         _smanager = smanager;
         _rightManager = (RightManager) smanager.lookup(RightManager.ROLE);
+        _rightsDAO = (RightProfilesDAO) smanager.lookup(RightProfilesDAO.ROLE);
     }
     
     /**
@@ -69,7 +73,7 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
         {
             return null;
         }
-        return profile2Json(profile);
+        return profile.toJSON();
         
     }
 
@@ -108,7 +112,7 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
             getLogger().debug("Ending profile creation");
         }
         
-        return profile2Json(profile);
+        return profile.toJSON();
     }
     
     /**
@@ -148,7 +152,7 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
         }
         else
         {
-            profile.rename(name);
+            _rightsDAO.renameProfile(profile, name);
         }
         
         if (getLogger().isDebugEnabled())
@@ -156,7 +160,7 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
             getLogger().debug("Ending profile modification");
         }
         
-        return profile2Json(profile);
+        return profile.toJSON();
     }
     
     /**
@@ -191,21 +195,7 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
         }
         else
         {
-            profile.startUpdate();
-            
-            // Removes old rights first
-            profile.removeRights();
-            
-            if (rights != null)
-            {
-                // Then add rights
-                for (String right : rights)
-                {
-                    profile.addRight(right);
-                }
-            }
-            
-            profile.endUpdate();
+            _rightsDAO.updateRights(profile, rights);
         }
         
         if (getLogger().isDebugEnabled())
@@ -213,7 +203,7 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
             getLogger().debug("Ending profile modification");
         }
         
-        return profile2Json(profile);
+        return profile.toJSON();
     }
     
     
@@ -255,20 +245,6 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
         {
             getLogger().debug("Ending profile removal");
         }
-    }
-    
-    /**
-     * Get the JSON representation of a profile
-     * @param profile The profile
-     * @return The profile
-     */
-    protected Map<String, Object> profile2Json (Profile profile)
-    {
-        Map<String, Object> infos = new HashMap<>();
-        infos.put("id", profile.getId());
-        infos.put("label", profile.getName());
-        infos.put("context", profile.getContext());
-        return infos;
     }
     
     /**

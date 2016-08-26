@@ -23,9 +23,11 @@ import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributesImpl;
 
 import org.ametys.core.right.Profile;
 import org.ametys.core.right.RightManager;
+import org.ametys.core.right.RightProfilesDAO;
 
 
 /**
@@ -33,13 +35,17 @@ import org.ametys.core.right.RightManager;
  */
 public class ProfilesListGenerator extends ServiceableGenerator
 {
-    private RightManager _rightManager;
+    /** The rights manager */
+    protected RightManager _rightManager;
+    /** The profiles DAO */
+    protected RightProfilesDAO _rightsDAO;
     
     @Override
     public void service(ServiceManager m) throws ServiceException
     {
         super.service(m);
         _rightManager = (RightManager) m.lookup(RightManager.ROLE);
+        _rightsDAO = (RightProfilesDAO) m.lookup(RightProfilesDAO.ROLE);
     }
 
     public void generate() throws IOException, SAXException, ProcessingException
@@ -50,11 +56,43 @@ public class ProfilesListGenerator extends ServiceableGenerator
         
         for (Profile profile : _rightManager.getProfiles())
         {
-            profile.toSAX(contentHandler);
+            saxProfile(profile);
         }
         
         XMLUtils.endElement(contentHandler, "Profiles");
         
         contentHandler.endDocument();
+    }
+    
+    /**
+     * SAX a profile with its rights
+     * @param profile The profile
+     * @throws SAXException if an error occurred while saxing
+     */
+    protected void saxProfile (Profile profile) throws SAXException
+    {
+        AttributesImpl atts = new AttributesImpl();
+        atts.addAttribute("", "id", "id", "CDATA", profile.getId());
+        XMLUtils.startElement(contentHandler, "profile", atts);
+
+        XMLUtils.createElement(contentHandler, "label", profile.getLabel());
+
+        String context = profile.getContext();
+        if (context != null)
+        {
+            XMLUtils.createElement(contentHandler, "context", context);
+        }
+
+        contentHandler.startElement("", "rights", "rights", new AttributesImpl());
+
+        for (String right : _rightsDAO.getRights(profile))
+        {
+            AttributesImpl attsRight = new AttributesImpl();
+            attsRight.addAttribute("", "id", "id", "CDATA", right);
+            XMLUtils.createElement(contentHandler, "right", attsRight);
+        }
+
+        XMLUtils.endElement(contentHandler, "rights");
+        XMLUtils.endElement(contentHandler, "profile");
     }
 }

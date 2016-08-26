@@ -15,6 +15,7 @@
  */
 package org.ametys.runtime.plugins.admin.superuser;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.apache.avalon.framework.service.ServiceException;
@@ -22,10 +23,12 @@ import org.apache.avalon.framework.service.ServiceManager;
 
 import org.ametys.core.right.Profile;
 import org.ametys.core.right.RightManager;
+import org.ametys.core.right.RightProfilesDAO;
 import org.ametys.core.right.RightsExtensionPoint;
 import org.ametys.core.ui.Callable;
 import org.ametys.core.ui.StaticClientSideElement;
 import org.ametys.core.user.UserIdentity;
+import org.ametys.plugins.core.right.profile.ProfileDAO;
 
 /**
  * This implementation creates a control allowing to affect a super user to a given context
@@ -37,6 +40,8 @@ public class SuperUserClientSideElement extends StaticClientSideElement
     
     /** The extension point for the rights */
     private RightsExtensionPoint _rightsEP;
+    
+    private RightProfilesDAO _profilesDAO;
     
     @Override
     public void service(ServiceManager smanager) throws ServiceException
@@ -92,20 +97,22 @@ public class SuperUserClientSideElement extends StaticClientSideElement
             {
                 _rightsEP = (RightsExtensionPoint) _sManager.lookup(RightsExtensionPoint.ROLE);
             }
+            if (_profilesDAO == null)
+            {
+                _profilesDAO = (RightProfilesDAO) _sManager.lookup(RightProfilesDAO.ROLE);
+            }
         }
         catch (ServiceException e)
         {
             throw new IllegalStateException(e);
         }
         
+        // Create a super profile
         String id = _generateUniqueId(newProfileName);
         Profile newSuperProfile = _rightManager.addProfile(id, newProfileName, null);
+        _profilesDAO.addRights(newSuperProfile, new ArrayList<>(_rightsEP.getExtensionsIds()));
         
-        // Add all rights
-        newSuperProfile.startUpdate();
-        _rightsEP.getExtensionsIds().stream().forEach(newSuperProfile::addRight);
-        newSuperProfile.endUpdate();
-        
+        // Affect user to this profile
         UserIdentity userIdentity = UserIdentity.stringToUserIdentity(user);
         _rightManager.allowProfileToUser(userIdentity, id, context);
         

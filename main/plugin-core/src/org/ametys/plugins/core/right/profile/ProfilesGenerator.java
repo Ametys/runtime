@@ -24,18 +24,18 @@ import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.SAXException;
 
 import org.ametys.core.right.Profile;
-import org.ametys.core.right.RightsExtensionPoint;
 import org.ametys.core.right.RightManager;
-import org.ametys.core.util.cocoon.AbstractCurrentUserProviderServiceableGenerator;
+import org.ametys.core.right.RightProfilesDAO;
+import org.ametys.core.right.RightsExtensionPoint;
+import org.ametys.plugins.core.right.ProfilesListGenerator;
 
 
 /**
  * Generates default profiles
  */
-public class ProfilesGenerator extends AbstractCurrentUserProviderServiceableGenerator
+public class ProfilesGenerator extends ProfilesListGenerator
 {
     private RightsExtensionPoint _rights;
-    private RightManager _rightManager;
     
     @Override
     public void service(ServiceManager m) throws ServiceException
@@ -43,8 +43,10 @@ public class ProfilesGenerator extends AbstractCurrentUserProviderServiceableGen
         super.service(m);
         _rights = (RightsExtensionPoint) m.lookup(RightsExtensionPoint.ROLE);
         _rightManager = (RightManager) m.lookup(RightManager.ROLE);
+        _rightsDAO = (RightProfilesDAO) m.lookup(RightProfilesDAO.ROLE);
     }
     
+    @Override
     public void generate() throws IOException, SAXException, ProcessingException
     {
         contentHandler.startDocument();
@@ -58,10 +60,9 @@ public class ProfilesGenerator extends AbstractCurrentUserProviderServiceableGen
         XMLUtils.startElement(contentHandler, "profiles");
         for (Profile profile : _rightManager.getProfiles())
         {
-            profile.toSAX(contentHandler);
+            saxProfile(profile);
         }
         XMLUtils.endElement(contentHandler, "profiles");
-        
         
         XMLUtils.createElement(contentHandler, "AdministratorUI", "false");
         

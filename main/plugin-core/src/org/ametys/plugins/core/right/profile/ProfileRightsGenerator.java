@@ -16,7 +16,7 @@
 package org.ametys.plugins.core.right.profile;
 
 import java.io.IOException;
-import java.util.Set;
+import java.util.List;
 
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
@@ -31,8 +31,9 @@ import org.xml.sax.SAXException;
 
 import org.ametys.core.right.Profile;
 import org.ametys.core.right.Right;
-import org.ametys.core.right.RightsExtensionPoint;
 import org.ametys.core.right.RightManager;
+import org.ametys.core.right.RightProfilesDAO;
+import org.ametys.core.right.RightsExtensionPoint;
 
 /**
  * Generates the rights of a profile
@@ -41,6 +42,7 @@ public class ProfileRightsGenerator extends ServiceableGenerator
 {
     private RightsExtensionPoint _rights;
     private RightManager _rightManager;
+    private RightProfilesDAO _rightsDAO;
     
     @Override
     public void service(ServiceManager m) throws ServiceException
@@ -48,6 +50,7 @@ public class ProfileRightsGenerator extends ServiceableGenerator
         super.service(m);
         _rights = (RightsExtensionPoint) m.lookup(RightsExtensionPoint.ROLE);
         _rightManager = (RightManager) m.lookup(RightManager.ROLE);
+        _rightsDAO = (RightProfilesDAO) m.lookup(RightProfilesDAO.ROLE);
     }
     
     @Override
@@ -61,9 +64,8 @@ public class ProfileRightsGenerator extends ServiceableGenerator
         if (StringUtils.isEmpty(id))
         {
             XMLUtils.startElement(contentHandler, "profiles");
-            
                 
-            Set<Profile> profiles = _rightManager.getAllProfiles();
+            List<Profile> profiles = _rightManager.getAllProfiles();
             for (Profile profile : profiles)
             {
                 _saxProfileRights(profile);
@@ -93,7 +95,7 @@ public class ProfileRightsGenerator extends ServiceableGenerator
         attr.addCDATAAttribute("id", profile.getId());
         XMLUtils.startElement(contentHandler, "profile", attr);
         
-        Set<String> rights = profile.getRights();
+        List<String> rights = _rightsDAO.getRights(profile);
         for (String rightId : rights)
         {
             Right right = _rights.getExtension(rightId);

@@ -18,6 +18,7 @@ package org.ametys.runtime.test.rights.manager;
 import java.io.File;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,6 +27,7 @@ import org.ametys.core.group.GroupDirectoryDAO;
 import org.ametys.core.group.directory.GroupDirectory;
 import org.ametys.core.right.Profile;
 import org.ametys.core.right.RightManager;
+import org.ametys.core.right.RightProfilesDAO;
 import org.ametys.core.user.UserIdentity;
 import org.ametys.runtime.test.AbstractJDBCTestCase;
 import org.ametys.runtime.test.Init;
@@ -36,6 +38,7 @@ import org.ametys.runtime.test.Init;
 public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
 {
     private RightManager _rightManager;
+    private RightProfilesDAO _profilesDAO;
     
     /**
      * Provide the scripts to run before each test invocation.
@@ -86,7 +89,7 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
         
         assertTrue(_rightManager.getUserRights(new UserIdentity("foo", "population"), "/foo").isEmpty());
         
-        Set<Profile> profiles = _rightManager.getProfiles();
+        List<Profile> profiles = _rightManager.getProfiles();
         assertEquals(0, profiles.size());
     }
     
@@ -150,31 +153,32 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
      */
     public void testProfiles() throws Exception
     {
-        Set<Profile> profiles;
+        List<Profile> profiles;
         Profile profile;
-        Set<String> rights;
+        List<String> rights;
         
         profile = _rightManager.addProfile("Profile 1");
         profile = _rightManager.getProfile(profile.getId());
-        assertEquals("Profile 1", profile.getName());
+        assertEquals("Profile 1", profile.getLabel());
         
         profiles = _rightManager.getProfiles();
         assertEquals(1, profiles.size());
-        assertEquals("Profile 1", profiles.iterator().next().getName());
+        assertEquals("Profile 1", profiles.iterator().next().getLabel());
         
-        profile.rename("Profile 1 renamed");
-        profile.addRight("right1");
-        profile.addRight("right2");
+        _profilesDAO.renameProfile(profile, "Profile 1 renamed");
+        _profilesDAO.addRight(profile, "right1");
+        _profilesDAO.addRight(profile, "right2");
+        
         profile = _rightManager.getProfile(profile.getId());
-        assertEquals("Profile 1 renamed", profile.getName());
-        rights = profile.getRights();
+        assertEquals("Profile 1 renamed", profile.getLabel());
+        rights = _profilesDAO.getRights(profile);
         assertEquals(2, rights.size());
         assertTrue(rights.contains("right1"));
         assertTrue(rights.contains("right2"));
         
-        profile.removeRights();
+        _profilesDAO.removeRights(profile);
         profile = _rightManager.getProfile(profile.getId());
-        rights = profile.getRights();
+        rights = _profilesDAO.getRights(profile);
         assertEquals(0, rights.size());
         
         _rightManager.removeProfile(profile.getId());
@@ -203,10 +207,10 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
         }
         
         Profile profile1 = _rightManager.addProfile("MyProfil1");
-        profile1.addRight("right1");
-        profile1.addRight("right2");
+        _profilesDAO.addRight(profile1, "right1");
+        _profilesDAO.addRight(profile1, "right2");
         Profile profile2 = _rightManager.addProfile("MyProfil2");
-        profile2.addRight("right3");
+        _profilesDAO.addRight(profile2, "right3");
 
         // USER
         _rightManager.allowProfileToUser(test, profile1.getId(), "/contributor/test");

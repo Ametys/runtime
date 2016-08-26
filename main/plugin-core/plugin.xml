@@ -685,7 +685,13 @@
                        id="org.ametys.core.right.RightManager"
                        class="org.ametys.core.right.RightManager">
                 <rights config="/WEB-INF/param/rights.xml"/>
+            </component>
+            
+            <component role="org.ametys.core.right.RightProfilesDAO"
+                       id="org.ametys.core.right.RightProfilesDAO"
+                       class="org.ametys.core.right.RightProfilesDAO">
                 <datasource type="config">runtime.rights.datasource</datasource>
+                <sqlMap resource="/org/ametys/core/right/profiles.xml" />
             </component>
         </components>
     </feature>
