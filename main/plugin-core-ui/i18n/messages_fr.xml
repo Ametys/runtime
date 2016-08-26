@@ -1304,6 +1304,7 @@
     <message key="PLUGINS_CORE_UI_PROFILES_UNSELECT_ALL">Désélectionner tout</message>
     <message key="PLUGINS_CORE_UI_PROFILES_UNSELECT_ALL_DESCRIPTION">Désélectionne tous les droits</message>
     <message key="PLUGINS_CORE_UI_PROFILES_DESCRIPTION_NO_SELECTION">Ce bouton est désactivé car aucun profil n'est sélectionné ou le profil sélectionné n'est pas modifiable via cette interface.</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_DESCRIPTION_NO_REMOVABLE">Ce bouton est désactivé car le profil sélectionné ne peut pas être supprimé.</message>
     <message key="PLUGINS_CORE_UI_PROFILES_DESCRIPTION_NO_RIGHT">Ce bouton est désactivé car vos droits sont insuffisants.</message>
     
     <!-- Helper -->

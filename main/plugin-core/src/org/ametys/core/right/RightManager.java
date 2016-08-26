@@ -1317,6 +1317,11 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
      */
     public void removeProfile(String id)
     {
+        if (READER_PROFILE_ID.equals(id))
+        {
+            throw new RightsException("You cannot remove the system profile 'READER'");
+        }
+        
         _profilesDAO.deleteProfile(id);
         
         // Removes this profile in the profile assignment storages

@@ -1302,6 +1302,7 @@
     <message key="PLUGINS_CORE_UI_PROFILES_UNSELECT_ALL">Unselect all</message>
     <message key="PLUGINS_CORE_UI_PROFILES_UNSELECT_ALL_DESCRIPTION">Unselect all rights</message>
     <message key="PLUGINS_CORE_UI_PROFILES_DESCRIPTION_NO_SELECTION">This button is disabled because no profile is selected or the selected profile can not be changed through this interface.</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_DESCRIPTION_NO_REMOVABLE">This button is disabled because the selected profile can not be removed.</message>
     <message key="PLUGINS_CORE_UI_PROFILES_DESCRIPTION_NO_RIGHT">This button is disabled because your rights are insufficient.</message>
     
     <!-- Helper -->

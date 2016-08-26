@@ -2295,13 +2295,14 @@
             <extension id="org.ametys.core.profiles.Delete"
                        point="org.ametys.core.ui.RibbonControlsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
-                <class name="Ametys.ribbon.element.ui.ButtonController">
+                <class name="Ametys.plugins.coreui.profile.controller.RemoveProfileButtonController">
                     <action>Ametys.plugins.coreui.profiles.ProfilesActions.delete</action>
                     <selection-target-id>^profile$</selection-target-id>
                     
                     <label i18n="true">PLUGINS_CORE_UI_PROFILES_DELETE_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_PROFILES_DELETE_DESCRIPTION</description>
                     <no-selection-description i18n="true">PLUGINS_CORE_UI_PROFILES_DESCRIPTION_NO_SELECTION</no-selection-description>
+                    <no-removable-description i18n="true">PLUGINS_CORE_UI_PROFILES_DESCRIPTION_NO_REMOVABLE</no-removable-description>
                     
                     <icon-glyph>ametysicon-id16</icon-glyph>
                     <icon-decorator>decorator-ametysicon-remove11</icon-decorator>
@@ -2312,6 +2313,7 @@
                 <scripts>
                     <file plugin="core">js/Ametys/plugins/core/profiles/ProfilesDAO.js</file>
                     <file>js/Ametys/plugins/coreui/profiles/ProfilesActions.js</file>
+                    <file>js/Ametys/plugins/coreui/profiles/controller/RemoveProfileButtonController.js</file>
                 </scripts>
                 <right>Runtime_Rights_Rights_Profile_Handle</right>
             </extension>
