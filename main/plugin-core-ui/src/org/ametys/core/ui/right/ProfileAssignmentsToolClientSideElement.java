@@ -265,6 +265,27 @@ public class ProfileAssignmentsToolClientSideElement extends StaticClientSideEle
     }
     
     /**
+     * Get the first permission given by inheritance for a object context and profiles
+     * @param rightAssignmentCtxId The id of the right assignment context
+     * @param jsContext The JS object context
+     * @param profileIds The list of profiles
+     * @param targetType The type of target : anonymous, any connected users, a user or a group
+     * @param identity The identity of the target. Can be null if the target is anonymous or any connected users
+     * @return The first access type given by inheritance for each profile
+     */
+    @Callable
+    public Map<String, String> getInheritedAssignments (String rightAssignmentCtxId, Object jsContext, List<String> profileIds, String targetType, Map<String, String> identity)
+    {
+        Map<String, String> assignments = new HashMap<>();
+        
+        for (String profileId : profileIds)
+        {
+            assignments.put(profileId, getInheritedAssignment(rightAssignmentCtxId, jsContext, profileId, targetType, identity));
+        }
+        return assignments;
+    }
+    
+    /**
      * Get the first permission given by inheritance for a object context and a specific profile
      * @param rightAssignmentCtxId The id of the right assignment context
      * @param jsContext The JS object context

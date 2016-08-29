@@ -38,7 +38,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelp
         	records.each(function(record) {
         		if (anonymousRecord.getId() != record.getId())
         		{
-        			record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANONYMOUS, {dirty: false}); 
+        			record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANONYMOUS, {dirty: record.dirty}); 
         		}
             }, this);
         	
@@ -88,7 +88,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelp
             if (assignmentForAnyconnected == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY)
             {
             	// If there is no local assignment and any connected user is denied, so Anonymous will be denied
-                record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY_BY_ANYCONNECTED, {dirty: false}); 
+                record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY_BY_ANYCONNECTED, {dirty: record.dirty}); 
                 return true;
             }
 		}
@@ -115,7 +115,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelp
             if (assignmentForAnonymous == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW || assignmentForAnonymous == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW)
             {
             	// If there is no local assignment and anonymous user is allowed, so any connected user will be allowed
-            	record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANONYMOUS, {dirty: false}); 
+            	record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANONYMOUS, {dirty: record.dirty}); 
             }
 		}
 	},
@@ -143,31 +143,31 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelp
             if (assignmentForAnonymous == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW && currentValue != Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW && currentValue != Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_DENY)
             {
             	// If Anonymous is allowed by inheritance, the user/group is allowed except if it is already allowed/denied itself by inheritance
-                record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANONYMOUS, {dirty: false}); 
+                record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANONYMOUS, {dirty: record.dirty}); 
                 return true;
             }
             else if (assignmentForAnyconnected == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY)
             {
             	// If any connected user is locally denied, the user/group is denied
-            	record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY_BY_ANYCONNECTED, {dirty: false}); 
+            	record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY_BY_ANYCONNECTED, {dirty: record.dirty}); 
             	return true;
             }
             else if (assignmentForAnyconnected == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_DENY && currentValue != Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW && currentValue != Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_DENY)
             {
             	// If any connected user is denied by inheritance, the user/group is denied except if it is already allowed/denied itself by inheritance
-            	record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY_BY_ANYCONNECTED, {dirty: false}); 
+            	record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY_BY_ANYCONNECTED, {dirty: record.dirty}); 
             	return true;
             }
             else if (assignmentForAnyconnected == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW)
             {
             	// If any connected user is locally allowed, the user/group is allowed
-            	record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANYCONNECTED, {dirty: false}); 
+            	record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANYCONNECTED, {dirty: record.dirty}); 
             	return true;
             }
             else if (assignmentForAnyconnected == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW && currentValue != Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW && currentValue != Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_DENY)
             {
             	// If any connected user is locally by inheritance, the user/group is allowed except if it is already allowed/denied itself by inheritance
-            	record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANYCONNECTED, {dirty: false}); 
+            	record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANYCONNECTED, {dirty: record.dirty}); 
             	return true;
             }
 		}
@@ -202,7 +202,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelp
 					if (assignmentForGroup == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY || assignmentForGroup == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_DENY)
 					{
 						// If at least one user's group is denied, so the user is denied
-						record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY_BY_GROUP, {dirty: false}); 
+						record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY_BY_GROUP, {dirty: record.dirty}); 
 		            	return true;
 					}
 					else if (assignmentForGroup == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW || assignmentForGroup == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW)
@@ -215,7 +215,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelp
 			// If at least one user's group is allowed, the user is allowed
 			if (isAllowedByGroup)
 			{
-				record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_GROUP, {dirty: false}); 
+				record.set(profileId, Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_GROUP, {dirty: record.dirty}); 
             	return true;
 			}
 			

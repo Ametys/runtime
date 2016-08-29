@@ -774,7 +774,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         {
     		// When go to 'unknown' value, the value is computed from parent contexts
     		var parameters = [
-    		       this._contextCombobox.getValue(), 
+    		       this.getFactory()._rightAssignmentContexts[this._contextCombobox.getValue()].getServerId(), 
     		       this._objectContext, 
     		       profileId, 
     		       record.get('targetType'), 
@@ -839,6 +839,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     addUsers: function(users)
     {
     	var usersToAdd = [],
+    		addedRecords = [],
     		records = this._getUnfilteredRecords();
     	
     	Ext.Array.forEach(users, function(user) {
@@ -853,19 +854,19 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     	
         function addInStore(groups, user)
         {
-        	this._gridStore.add({
+        	addedRecords = Ext.Array.merge (addedRecords, this._gridStore.add({
                 targetType: this.self.TARGET_TYPE_USER,
                 login: user.login,
                 population: user.population,
                 populationLabel: user.populationName,
                 userSortableName: user.fullName,
                 groups: groups
-            });
+            }));
         	count++;
         	
         	if (count == total)
             {
-            	this._onStoreUpdated(records.getRange());
+        		this._updateAddedRecords(addedRecords);
             }
         }
         
@@ -887,28 +888,80 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
      */
     addGroups: function(groups)
     {
-    	var needUpdate = false,
+    	var addedRecords = [],
 			records = this._getUnfilteredRecords();
     	
         Ext.Array.forEach(groups, function(group) {
         	if (!Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelper.findGroupRecord(records, group.id, group.groupDirectory))
         	{
-	        	this._gridStore.add({
+        		addedRecords = Ext.Array.merge (addedRecords, this._gridStore.add({
 	                targetType: this.self.TARGET_TYPE_GROUP,
 	                groupId: group.id,
 	                groupDirectory: group.groupDirectory,
 	                groupDirectoryLabel: group.groupDirectoryName,
 	                groupLabel: group.label
-	            });
-	        	
-	        	needUpdate = true;
+	            }));
         	}
         }, this);
         
-        if (needUpdate)
+        if (addedRecords.length > 0)
         {
-        	this._onStoreUpdated(records.getRange());
+        	this._updateAddedRecords(addedRecords);
         }
+    },
+    
+    /**
+     * @private
+     * This function is invoked when adding manually user or group records
+     * Update the assignment for each profile with the inherited assignment
+     * @param {Ext.data.Model[]} The added records (users or groups)
+     */
+    _updateAddedRecords: function (addedRecords)
+    {
+    	var me = this,
+    		records = this._getUnfilteredRecords(),
+    		count = 0;
+    		total = addedRecords.length;
+    	
+		Ext.Array.forEach(addedRecords, function(record) {
+			function callback (inheritedValues)
+    		{
+				for (var i in inheritedValues)
+				{
+					record.set(i, inheritedValues[i], {dirty: false});
+				}
+    			count++;
+    			
+    			if (count == total)
+    			{
+    				this._onStoreUpdated(records.getRange());
+    			}
+    		}
+			
+			// Get the inherited assignment for each profile for the added user or group
+    		var parameters = [
+    		       me.getFactory()._rightAssignmentContexts[me._contextCombobox.getValue()].getServerId(), 
+    		       me._objectContext, 
+    		       me._getProfileIds(), 
+    		       record.get('targetType'), 
+    		       me._getIdentity(record)
+    		];
+    		me.serverCall('getInheritedAssignments', parameters, Ext.bind(callback, me), {waitMessage: false});
+    	});
+    },
+    
+    /**
+     * @private
+     * Returns the id of current profiles
+     * @return the id of current profiles
+     */
+    _getProfileIds ()
+    {
+    	var profileIds = [];
+    	Ext.Array.forEach(this._profiles, function (profile) {
+    		profileIds.push (profile.id)
+    	});
+    	return profileIds;
     },
     
     /**
@@ -961,7 +1014,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         
         if (assignmentsInfo.length > 0)
         {
-            var parameters = [this._contextCombobox.getValue(), this._objectContext, assignmentsInfo];
+            var parameters = [this.getFactory()._rightAssignmentContexts[this._contextCombobox.getValue()].getServerId(), this._objectContext, assignmentsInfo];
             this.serverCall('saveChanges', parameters, this._updateGrid);
         }
     },
@@ -985,10 +1038,16 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         var assignmentsInfo = [];
         Ext.Array.forEach(this._gridStore.getModifiedRecords(), function(record) {
             Ext.Object.each(record.modified, function(profileId) {
+            	var assignment = record.get(profileId);
+            	if (assignment != Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW && assignment != Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY)
+            	{
+            		assignment = Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_UNKNOWN;
+            	}
+            	
                 assignmentsInfo.push({
                     profileId: profileId,
                     targetType: record.get('targetType'),
-                    assignment: record.get(profileId), // 'allow', 'deny' or others
+                    assignment: assignment, 
                     identity: this._getIdentity (record)
                 });
             }, this);

@@ -899,7 +899,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
                 Map<String, Object> parameters = new HashMap<>();
                 parameters.put("login", userIdentity.getLogin());
                 parameters.put("population", userIdentity.getPopulationId());
-                parameters.put("profileId", profileId);
+                parameters.put("profileIds", Arrays.asList(profileId));
                 if (object != null)
                 {
                     parameters.put("context", object);
@@ -1033,7 +1033,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
                 Map<String, Object> parameters = new HashMap<>();
                 parameters.put("groupId", group.getId());
                 parameters.put("groupDirectory", group.getDirectoryId());
-                parameters.put("profileId", profileId);
+                parameters.put("profileIds", Arrays.asList(profileId));
                 if (object != null)
                 {
                     parameters.put("context", object);
@@ -1168,7 +1168,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
                 Map<String, Object> parameters = new HashMap<>();
                 parameters.put("login", userIdentity.getLogin());
                 parameters.put("population", userIdentity.getPopulationId());
-                parameters.put("profileId", profileId);
+                parameters.put("profileIds", Arrays.asList(profileId));
                 if (object != null)
                 {
                     parameters.put("context", object);
@@ -1302,7 +1302,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
                 Map<String, Object> parameters = new HashMap<>();
                 parameters.put("groupId", group.getId());
                 parameters.put("groupDirectory", group.getDirectoryId());
-                parameters.put("profileId", profileId);
+                parameters.put("profileIds", Arrays.asList(profileId));
                 if (object != null)
                 {
                     parameters.put("context", object);
