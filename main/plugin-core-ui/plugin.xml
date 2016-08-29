@@ -3141,6 +3141,28 @@
                 </depends>
                 <right context-prefix="/contributor">Runtime_Rights_Rights_Handle</right>
             </extension>
+            
+            <extension id="org.ametys.core.ui.profile.assignments.Cancel"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+            	<class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.coreui.profiles.ProfileAssignmentsActions.cancel</action>
+                    <tool-id>^uitool-profile-assignment$</tool-id>
+                    
+                    <label i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CANCEL_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CANCEL_DESCRIPTION</description>
+                    
+                    <icon-glyph>ametysicon-save31</icon-glyph>
+                    <icon-decorator>decorator-ametysicon-remove11</icon-decorator>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/profiles/ProfileAssignmentsActions.js</file>
+                </scripts>
+                <depends>
+                    <org.ametys.core.ui.UIToolsFactoriesManager>uitool-profile-assignment</org.ametys.core.ui.UIToolsFactoriesManager>
+                </depends>
+                <right context-prefix="/contributor">Runtime_Rights_Rights_Handle</right>
+            </extension>
         </extensions>
     </feature>
     
@@ -3160,6 +3182,7 @@
                            class="org.ametys.core.ui.StaticRibbonImportManager">
                 <workspace>
                     <file>ribbon/default-ribbon.xml</file>
+                    <file>ribbon/cms-ribbon-rights.xml</file>
                     <file>ribbon/cms-ribbon-developer.xml</file>
                 </workspace>
 

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2010 Anyware Services
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
+<ribbon  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://ametys.org/cms/3.0/ribbon.xsd">
+
+	<tabs>
+		<tab label="plugin.core-ui:RIBBON_TABS_TAB_PROFILE_ASSIGNMENT_LABEL" controlId="org.ametys.core.ui.profile.assignments.Tab" contextualColor="1" contextualLabel="plugin.core-ui:RIBBON_TABS_TAB_PROFILE_ASSIGNMENT_LABEL" order="2010">
+			<groups>
+				<group label="plugin.core-ui:RIBBON_TABS_TAB_PROFILE_ASSIGNMENT_GROUPS_GROUP_ASSIGNMENT_LABEL" icon="">
+					<control id="org.ametys.core.ui.profile.assignments.AddUsers"/>
+					<control id="org.ametys.core.ui.profile.assignments.AddGroups"/>
+					<control id="org.ametys.core.ui.profile.assignments.Remove"/>
+				</group>
+				<group label="plugin.core-ui:RIBBON_TABS_TAB_PROFILE_ASSIGNMENT_GROUPS_GROUP_ACTION_LABEL" icon="">
+					<control id="org.ametys.core.ui.profile.assignments.Save"/>
+					<control id="org.ametys.core.ui.profile.assignments.Cancel"/>
+				</group>
+			</groups>
+		</tab>
+        
+        <tab controlId="org.ametys.core.rights.UserTab" label="plugin.core:RIBBON_TABS_TAB_USERS_LABEL" contextualColor="2" contextualLabel="plugin.core:RIBBON_TABS_TAB_USERS_LABEL" order="2020">
+            <groups>
+                <group label="plugin.core:RIBBON_TABS_TAB_USERS_GROUPS_GROUP_ACTION_LABEL" icon="">
+                    <control id="org.ametys.core.users.Add"/>
+                    <control id="org.ametys.core.users.Edit"/>
+                    <control id="org.ametys.core.users.Delete"/>
+                </group>
+            </groups>
+        </tab>
+
+		<tab controlId="org.ametys.core.rights.GroupTab" label="plugin.core:RIBBON_TABS_TAB_GROUPS_LABEL" contextualColor="3" contextualLabel="plugin.core:RIBBON_TABS_TAB_GROUPS_GROUP_LABEL" order="2030">
+			<groups>
+				<group label="plugin.core:RIBBON_TABS_TAB_GROUPS_GROUPS_GROUP_ACTION_LABEL" icon="">
+				<control id="org.ametys.core.groups.Add"/>
+				<control id="org.ametys.core.groups.Edit"/>
+				<control id="org.ametys.core.groups.Delete"/>
+				</group>
+				<group label="plugin.core:RIBBON_TABS_TAB_GROUPS_GROUPS_GROUP_USER_LABEL" icon="">
+				<control id="org.ametys.core.groups.AddUsers"/>
+				<control id="org.ametys.core.groups.RemoveUsers"/>
+				</group>
+			</groups>
+		</tab>
+		
+		<tab controlId="org.ametys.core.rights.ProfileTab" label="plugin.core:RIBBON_TABS_TAB_PROFILES_LABEL" contextualColor="4" contextualLabel="plugin.core:RIBBON_TABS_TAB_PROFILES_GROUP_LABEL" order="2040">
+			<groups>
+				<group label="plugin.core:RIBBON_TABS_TAB_PROFILES_GROUPS_GROUP_ACTION_LABEL" icon="">
+                    <control id="org.ametys.core.profiles.Add"/>
+                    <control id="org.ametys.core.profiles.Edit"/>
+                    <control id="org.ametys.core.profiles.Delete"/>
+				</group>
+                <group label="plugin.core:RIBBON_TABS_TAB_PROFILES_GROUPS_GROUP_PROFILE_LABEL" icon="">
+                    <control id="org.ametys.core.profiles.SwitchMode"/>
+                    <control id="org.ametys.core.profiles.SaveRights"/>
+                    <control id="org.ametys.core.profiles.Discard"/>
+                </group>
+                <group label="plugin.core:RIBBON_TABS_TAB_PROFILES_GROUPS_GROUP_RIGHTS_LABEL" icon="">
+                    <layout size="small">
+                        <control id="org.ametys.core.profiles.SelectAll"/>
+                        <control id="org.ametys.core.profiles.UnselectAll"/>
+                    </layout>
+                </group>
+			</groups>
+		</tab>
+		
+	</tabs>
+</ribbon>

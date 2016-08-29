@@ -1213,6 +1213,11 @@
     <!-- +
          | PROFILES
          + -->
+    <!-- Ribbon -->
+    <message key="RIBBON_TABS_TAB_PROFILE_ASSIGNMENT_LABEL">Rights management</message>
+    <message key="RIBBON_TABS_TAB_PROFILE_ASSIGNMENT_GROUPS_GROUP_ASSIGNMENT_LABEL">Assignment</message>
+    <message key="RIBBON_TABS_TAB_PROFILE_ASSIGNMENT_GROUPS_GROUP_ACTION_LABEL">Actions</message>
+    
     <!-- Tool -->
     <message key="PLUGINS_CORE_UI_TOOL_PROFILES_LABEL">Rights profiles</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILES_DESCRIPTION">Rights profiles administration.&lt;br/&gt;A profile consists of a set of rights. Each user is assigned a profile which grants particular rights.</message>
@@ -1236,7 +1241,7 @@
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CHANGE_CONTEXT_BOX_TITLE">Save the modifications</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CHANGE_CONTEXT_BOX_MESSAGE">There are some unsaved local changes. &lt;br/&gt;Do you want to save your modifications before changing the assignment context ?</message>
     
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_UNKNOWN">Aucune affectation n'a pu être déterminée sur le contexte de droit courant</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_UNKNOWN">No assignment could be determined</message>
     
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_LOCAL_ALLOWED">The user is allowed on current context</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_INHERIT_ALLOWED">The user is allowed by inheritance on a parent context</message>

@@ -1215,6 +1215,11 @@
     <!-- +
          | PROFILES
          + -->
+    <!-- Ribbon -->
+    <message key="RIBBON_TABS_TAB_PROFILE_ASSIGNMENT_LABEL">Gestion des droits</message>
+    <message key="RIBBON_TABS_TAB_PROFILE_ASSIGNMENT_GROUPS_GROUP_ASSIGNMENT_LABEL">Affectation</message>
+    <message key="RIBBON_TABS_TAB_PROFILE_ASSIGNMENT_GROUPS_GROUP_ACTION_LABEL">Actions</message>
+    
     <!-- Tool -->
     <message key="PLUGINS_CORE_UI_TOOL_PROFILES_LABEL">Profils de droits</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILES_DESCRIPTION">Gestion des profils de droits.&lt;br/&gt;Un profil est un ensemble de droits. Chaque utilisateur possède un profil qui permet de connaître la liste de ses droits.</message>
@@ -1276,8 +1281,10 @@
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_REMOVE_LABEL">Supprimer des affectations</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_REMOVE_DESCRIPTION">Supprime des affectations aux utilisateurs et/ou groupes sélectionnés.</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_REMOVE_NO_REMOVABLE_DESCRIPTION">Aucun utilisateur ou groupe avec au minimum une affectation locale n'est sélectionné.</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_SAVE_LABEL">Sauvegarder les changements</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_SAVE_DESCRIPTION">Sauvegarder les changements effectués dans l'outil d'affectation des profils.</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_SAVE_LABEL">Enregistrer les modifications</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_SAVE_DESCRIPTION">Enregistre l'ensemble modifications non sauvegardées</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CANCEL_LABEL">Annuler les modifications</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CANCEL_DESCRIPTION">Annule l'ensemble modifications non sauvegardées</message>
     
     <!-- Actions -->
     <message key="PLUGINS_CORE_UI_PROFILES_ADD_LABEL">Nouveau profil</message>
