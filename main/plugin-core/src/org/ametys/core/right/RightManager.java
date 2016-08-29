@@ -154,7 +154,6 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
     public void service(ServiceManager manager) throws ServiceException
     {
         _manager = manager;
-        _profilesDAO = (RightProfilesDAO) manager.lookup(RightProfilesDAO.ROLE);
         _userManager = (UserManager) manager.lookup(UserManager.ROLE);
         _groupManager = (GroupManager) manager.lookup(GroupManager.ROLE);
         _userPopulationDAO = (UserPopulationDAO) manager.lookup(UserPopulationDAO.ROLE);
@@ -165,6 +164,26 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         _accessControllerEP = (AccessControllerExtensionPoint) manager.lookup(AccessControllerExtensionPoint.ROLE);
         _resolver = (SourceResolver) _manager.lookup(SourceResolver.ROLE);
         _currentUserProvider = (CurrentUserProvider) _manager.lookup(CurrentUserProvider.ROLE);
+    }
+    
+    /**
+     * Returns the DAO for profiles
+     * @return The DAO 
+     */
+    protected RightProfilesDAO _getProfileDAO ()
+    {
+        try
+        {
+            if (_profilesDAO == null)
+            {
+                _profilesDAO = (RightProfilesDAO) _manager.lookup(RightProfilesDAO.ROLE);
+            }
+            return _profilesDAO;
+        }
+        catch (ServiceException e)
+        {
+            throw new RuntimeException("Failed to retrieve the DAO for profiles", e);
+        }
     }
     
     @Override
@@ -308,7 +327,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         getLogger().debug("Try to determine if user '{}' has the right '{}' on the object context {}", userIdentity, rightId, object);
         
         // Retrieve all profiles containing the right rightId
-        Set<String> profileIds = _profilesDAO.getProfilesWithRight(rightId);
+        Set<String> profileIds = _getProfileDAO().getProfilesWithRight(rightId);
         
         RightResult rightResult = _hasRight(userIdentity, profileIds, object);
         
@@ -1043,7 +1062,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         Set<UserIdentity> result = new HashSet<>();
         
         // Retrieve all profiles containing the right rightId
-        Set<String> profileIds = _profilesDAO.getProfilesWithRight(rightId);
+        Set<String> profileIds = _getProfileDAO().getProfilesWithRight(rightId);
         
         // Get the objects to check
         Set<Object> objects = _getConvertedObjects(object);
@@ -1160,14 +1179,14 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         for (String profileId : allowedProfiles)
         {
             Profile profile = getProfile(profileId);
-            rights.addAll(_profilesDAO.getRights(profile));
+            rights.addAll(_getProfileDAO().getRights(profile));
         }
         
         // Then iterate over denied profiles and remove all their rights
         for (String profileId : deniedProfiles)
         {
             Profile profile = getProfile(profileId);
-            rights.removeAll(_profilesDAO.getRights(profile));
+            rights.removeAll(_getProfileDAO().getRights(profile));
         }
         
         return rights;
@@ -1265,7 +1284,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         }
         
         Profile profile = new Profile(id, name, context);
-        _profilesDAO.addProfile(profile);
+        _getProfileDAO().addProfile(profile);
         return profile;
     }
     
@@ -1277,7 +1296,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
      */
     public Profile getProfile(String id) throws RightsException
     {
-        return _profilesDAO.getProfile(id);
+        return _getProfileDAO().getProfile(id);
     }
 
     /**
@@ -1287,7 +1306,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
      */
     public List<Profile> getAllProfiles() throws RightsException
     {
-        return _profilesDAO.getProfiles();
+        return _getProfileDAO().getProfiles();
     }
     
     /**
@@ -1308,7 +1327,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
      */
     public List<Profile> getProfiles(String context) throws RightsException
     {
-        return _profilesDAO.getProfiles(context);
+        return _getProfileDAO().getProfiles(context);
     }
     
     /**
@@ -1322,7 +1341,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
             throw new RightsException("You cannot remove the system profile 'READER'");
         }
         
-        _profilesDAO.deleteProfile(id);
+        _getProfileDAO().deleteProfile(id);
         
         // Removes this profile in the profile assignment storages
         _profileAssignmentStorageEP.getExtensionsIds().stream()
@@ -1353,15 +1372,15 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         if (adminProfile == null)
         {
             adminProfile = new Profile(profileName, profileName);
-            _profilesDAO.addProfile(adminProfile);
+            _getProfileDAO().addProfile(adminProfile);
         }
 
         // Set all rights
-        List<String> currentRights = _profilesDAO.getRights(adminProfile);
+        List<String> currentRights = _getProfileDAO().getRights(adminProfile);
         Set<String> allRights = _rightsEP.getExtensionsIds();
         
         List<String> rightsToAdd = new ArrayList<>(CollectionUtils.removeAll(allRights, currentRights));
-        _profilesDAO.addRights(adminProfile, rightsToAdd);
+        _getProfileDAO().addRights(adminProfile, rightsToAdd);
         
         // Assign the profile
         allowProfileToUser(user, adminProfile.getId(), context);
