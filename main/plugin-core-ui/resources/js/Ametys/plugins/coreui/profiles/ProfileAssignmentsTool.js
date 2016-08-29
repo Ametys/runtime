@@ -355,6 +355,16 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
      * The key is the profile id, the value is an object (where its key is the record id, the value is the server-side value (with no induced local changes)
      */
     
+    /**
+     * @private
+     * @property {String} [_profilesPluginName=core] The name of the plugin used to get the list of profiles
+     */
+    
+    /**
+     * @private
+     * @property {String} [_profilesUrl=rights/profiles.json] The url used to get the the list of profiles
+     */
+    
     createPanel: function()
     {
         this._contextCombobox = Ext.create('Ext.form.field.ComboBox', this._getContextComboCfg());
@@ -1215,8 +1225,16 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         return [{stateId: 'grid-first-column', text: "", dataIndex: "sortableLabel", minWidth: 300, hideable: false, sortable: true, renderer: Ext.bind(this._renderWho, this)}];
     },
     
+    /**
+     * @inheritdoc
+     * @param {String} [params.profilesPluginName=core] The name of the plugin used to get the list of profiles
+     * @param {String} [params.profilesUrl=rights/profiles.json] The name of the plugin used to get the list of profiles
+     */
     setParams: function(params)
     {
+        this._profilesPluginName = params['profilesPluginName'] || 'core';
+        this._profilesUrl = params['profilesUrl'] || 'rights/profiles.json';
+        
         this.callParent(arguments);
         this._objectContext = null;
         
@@ -1287,8 +1305,8 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         
         // First, retrieve the profiles to reconfigure the grid panel (every profile is a column)
         Ametys.data.ServerComm.send({
-            plugin: 'core',
-            url: 'rights/profiles.json',
+            plugin: this._profilesPluginName,
+            url: this._profilesUrl,
             parameters: {
                 limit: null
             },
