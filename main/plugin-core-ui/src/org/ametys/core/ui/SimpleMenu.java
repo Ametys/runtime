@@ -155,15 +155,18 @@ public class SimpleMenu extends StaticClientSideElement implements MenuClientSid
                 }
             }
             
-            // Gallery items
-            _getGalleryItems(parameters, contextParameters);
-
-            // Menu items
-            _getMenuItems(parameters, contextParameters);
-            
-            List<Script> result = new ArrayList<>();
-            result.add(new Script(this.getId(), scriptClassName, scriptFiles, cssFiles, parameters));
-            return result;
+            if (StringUtils.isNotBlank(scriptClassName))
+            {
+                // Gallery items
+                _getGalleryItems(parameters, contextParameters);
+    
+                // Menu items
+                _getMenuItems(parameters, contextParameters);
+                
+                List<Script> result = new ArrayList<>();
+                result.add(new Script(this.getId(), scriptClassName, scriptFiles, cssFiles, parameters));
+                return result;
+            }
         }
         
         return new ArrayList<>();
