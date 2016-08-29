@@ -15,97 +15,27 @@
  */
 package org.ametys.plugins.core.impl.right;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.commons.lang.StringUtils;
+import org.apache.ibatis.session.SqlSession;
 
-import org.ametys.core.datasource.ConnectionHelper;
+import org.ametys.core.datasource.AbstractMyBatisDAO;
 import org.ametys.core.group.GroupIdentity;
 import org.ametys.core.right.ProfileAssignmentStorage;
-import org.ametys.core.right.RightsException;
 import org.ametys.core.user.UserIdentity;
-import org.ametys.runtime.config.Config;
-import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 
 /**
  * Jdbc implementation of {@link ProfileAssignmentStorage} which stores profile assignments in database.
  * This only supports String objects as contexts.
  */
-public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements ProfileAssignmentStorage, Configurable
+public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements ProfileAssignmentStorage
 {
-    /** The id of the data source to use */
-    protected String _dataSourceId;
-    
-    /** The jdbc table name for association between profiles and contexts (any connected user will get the given allowed profile on the given context) */
-    protected String _tableAllowedProfilesAnyConnected;
-    /** The jdbc table name for association between profiles and contexts (any connected user will get the given denied profile on the given context) */
-    protected String _tableDeniedProfilesAnyConnected;
-    /** The jdbc table name for association between profiles and contexts (any connected user will get the given allowed profile on the given context) */
-    protected String _tableAllowedProfilesAnonymous;
-    /** The jdbc table name for association between profiles and contexts (any connected user will get the given denied profile on the given context) */
-    protected String _tableDeniedProfilesAnonymous;
-    
-    /** The jdbc table name for association between allowed users, profiles and contexts */
-    protected String _tableAllowedUsers;
-    /** The jdbc table name for association between denied users, profiles and contexts */
-    protected String _tableDeniedUsers;
-    /** The jdbc table name for association between allowed groups, profiles and contexts */
-    protected String _tableAllowedGroups;
-    /** The jdbc table name for association between denied groups, profiles and contexts */
-    protected String _tableDeniedGroups;
-    
-    @Override
-    public void configure(Configuration configuration) throws ConfigurationException
-    {
-        Configuration dataSourceConf = configuration.getChild("datasource", false);
-        if (dataSourceConf == null)
-        {
-            throw new ConfigurationException("The 'datasource' configuration node must be defined.", dataSourceConf);
-        }
-        
-        String dataSourceConfParam = dataSourceConf.getValue();
-        String dataSourceConfType = dataSourceConf.getAttribute("type", "config");
-        
-        if (StringUtils.equals(dataSourceConfType, "config"))
-        {
-            _dataSourceId = Config.getInstance().getValueAsString(dataSourceConfParam);
-        }
-        else // expecting type="id"
-        {
-            _dataSourceId = dataSourceConfParam;
-        }
-        
-        _tableAllowedProfilesAnyConnected = configuration.getChild("table-allowed-profiles-any-connected").getValue("Rights_AllowedProfilesAnyCon");
-        _tableDeniedProfilesAnyConnected = configuration.getChild("table-denied-profiles-any-connected").getValue("Rights_DeniedProfilesAnyCon");
-        _tableAllowedProfilesAnonymous = configuration.getChild("table-allowed-profiles-anonymous").getValue("Rights_AllowedProfilesAnonym");
-        _tableDeniedProfilesAnonymous = configuration.getChild("table-denied-profiles-anonymous").getValue("Rights_DeniedProfilesAnonym");
-        
-        _tableAllowedUsers = configuration.getChild("table-profile-allowed-users").getValue("Rights_AllowedUsers");
-        _tableDeniedUsers = configuration.getChild("table-profile-denied-users").getValue("Rights_DeniedUsers");
-        _tableAllowedGroups = configuration.getChild("table-profile-allowed-groups").getValue("Rights_AllowedGroups");
-        _tableDeniedGroups = configuration.getChild("table-profile-denied-groups").getValue("Rights_DeniedGroups");
-    }
-    
-    /**
-     * Get the connection to the database 
-     * @return the SQL connection
-     */
-    protected Connection getSQLConnection ()
-    {
-        return ConnectionHelper.getConnection(_dataSourceId);
-    }
-    
     /* -------------- */
     /* HAS PERMISSION */
     /* -------------- */
@@ -185,77 +115,20 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
      */
     protected boolean _hasDeniedProfile(UserIdentity user, Set<String> profileIds, String prefix)
     {
-        Connection connection = getSQLConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        
-        try
+        try (SqlSession session = getSession())
         {
-            StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM ");
-            sqlBuilder.append(_tableDeniedUsers);
-            sqlBuilder.append(" WHERE Login=? AND UserPopulation_Id=?");
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("login", user.getLogin());
+            parameters.put("population", user.getPopulationId());
             if (prefix != null)
             {
-                sqlBuilder.append(" AND UPPER(Context) LIKE UPPER(?)");
+                parameters.put("contextPrefix", prefix);
             }
-            sqlBuilder.append(" AND (");
-            for (int j = 0; j < profileIds.size(); j++)
-            {
-                sqlBuilder.append(j == 0 ? "Profile_Id = ?" : " OR Profile_Id = ?");
-            }
-            sqlBuilder.append(")");
+            parameters.put("profileIds", profileIds);
             
-            String sql = sqlBuilder.toString();
-            stmt = connection.prepareStatement(sql);
-            stmt.setString(1, user.getLogin());
-            stmt.setString(2, user.getPopulationId());
-            int i;
-            if (prefix != null)
-            {
-                stmt.setString(3, prefix + "%");
-                i = 4;
-            }
-            else
-            {
-                i = 3;
-            }
-            for (String profileId : profileIds)
-            {
-                stmt.setString(i++, profileId);
-            }
-            
-            if (prefix != null)
-            {
-                getLogger().debug("{}\n[{}, {}, {}, {}]", sql, user.getLogin(), user.getPopulationId(), prefix + "%", profileIds);
-            }
-            else
-            {
-                getLogger().debug("{}\n[{}, {}, {}]", sql, user.getLogin(), user.getPopulationId(), profileIds);
-            }
-            rs = stmt.executeQuery();
-            if (rs.next())
-            {
-                return true;
-            }
+            List<Map<String, String>> deniedProfiles = session.selectList("ProfilesAssignment.getUserDeniedProfiles", parameters);
+            return !deniedProfiles.isEmpty();
         }
-        catch (NumberFormatException ex)
-        {
-            getLogger().error("Profile ID must be an integer.", ex);
-            throw new RightsException("Profile ID must be an integer.", ex);
-        }
-        catch (SQLException ex)
-        {
-            getLogger().error("Error in sql query", ex);
-            throw new RightsException("Error in sql query", ex);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(connection);
-        }
-        
-        return false;
     }
     
     /**
@@ -267,72 +140,20 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
      */
     protected boolean _hasAllowedProfile(UserIdentity user, Set<String> profileIds, String prefix)
     {
-        Connection connection = getSQLConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        
-        try
-        {  
-            StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM ");
-            sqlBuilder.append(_tableAllowedUsers);
-            sqlBuilder.append(" WHERE Login=? AND UserPopulation_Id=?");
-            if (prefix != null)
-            {
-                sqlBuilder.append(" AND UPPER(Context) LIKE UPPER(?)");
-            }
-            sqlBuilder.append(" AND (");
-            for (int j = 0; j < profileIds.size(); j++)
-            {
-                sqlBuilder.append(j == 0 ? "Profile_Id = ?" : " OR Profile_Id = ?");
-            }
-            sqlBuilder.append(")");
-            
-            String sql = sqlBuilder.toString();
-            stmt = connection.prepareStatement(sql);
-            stmt.setString(1, user.getLogin());
-            stmt.setString(2, user.getPopulationId());
-            int i;
-            if (prefix != null)
-            {
-                stmt.setString(3, prefix + "%");
-                i = 4;
-            }
-            else
-            {
-                i = 3;
-            }
-            for (String profileId : profileIds)
-            {
-                stmt.setString(i++, profileId);
-            }
-            
-            if (prefix != null)
-            {
-                getLogger().debug("{}\n[{}, {}, {}, {}]", sql, user.getLogin(), user.getPopulationId(), prefix + "%", profileIds);
-            }
-            else
-            {
-                getLogger().debug("{}\n[{}, {}, {}]", sql, user.getLogin(), user.getPopulationId(), profileIds);
-            }
-            rs = stmt.executeQuery();
-            if (rs.next())
-            {
-                return true;
-            }
-        }
-        catch (SQLException ex)
+        try (SqlSession session = getSession())
         {
-            getLogger().error("Error in sql query", ex);
-            throw new RightsException("Error in sql query", ex);
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("login", user.getLogin());
+            parameters.put("population", user.getPopulationId());
+            if (prefix != null)
+            {
+                parameters.put("contextPrefix", prefix);
+            }
+            parameters.put("profileIds", profileIds);
+            
+            List<Map<String, String>> allowedProfiles = session.selectList("ProfilesAssignment.getUserAllowedProfiles", parameters);
+            return !allowedProfiles.isEmpty();
         }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(connection);
-        }
-        
-        return false;
     }
     
     /**
@@ -344,72 +165,20 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
      */
     protected boolean _hasDeniedProfile(GroupIdentity group, Set<String> profileIds, String prefix)
     {
-        Connection connection = getSQLConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        
-        try
+        try (SqlSession session = getSession())
         {
-            StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM ");
-            sqlBuilder.append(_tableDeniedGroups);
-            sqlBuilder.append(" WHERE Group_Id=? AND GroupDirectory_Id=?");
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("groupId", group.getId());
+            parameters.put("groupDirectory", group.getDirectoryId());
             if (prefix != null)
             {
-                sqlBuilder.append(" AND UPPER(Context) LIKE UPPER(?)");
+                parameters.put("contextPrefix", prefix);
             }
-            sqlBuilder.append(" AND (");
-            for (int j = 0; j < profileIds.size(); j++)
-            {
-                sqlBuilder.append(j == 0 ? "Profile_Id = ?" : " OR Profile_Id = ?");
-            }
-            sqlBuilder.append(")");
+            parameters.put("profileIds", profileIds);
             
-            String sql = sqlBuilder.toString();
-            stmt = connection.prepareStatement(sql);
-            stmt.setString(1, group.getId());
-            stmt.setString(2, group.getDirectoryId());
-            int i;
-            if (prefix != null)
-            {
-                stmt.setString(3, prefix + "%");
-                i = 4;
-            }
-            else
-            {
-                i = 3;
-            }
-            for (String profileId : profileIds)
-            {
-                stmt.setString(i++, profileId);
-            }
-            
-            if (prefix != null)
-            {
-                getLogger().debug("{}\n[{}, {}, {}, {}]", sql, group.getId(), group.getDirectoryId(), prefix + "%", profileIds);
-            }
-            else
-            {
-                getLogger().debug("{}\n[{}, {}, {}]", sql, group.getId(), group.getDirectoryId(), profileIds);
-            }
-            rs = stmt.executeQuery();
-            if (rs.next())
-            {
-                return true;
-            }
+            List<Map<String, String>> deniedProfiles = session.selectList("ProfilesAssignment.getGroupDeniedProfiles", parameters);
+            return !deniedProfiles.isEmpty();
         }
-        catch (SQLException ex)
-        {
-            getLogger().error("Error in sql query", ex);
-            throw new RightsException("Error in sql query", ex);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(connection);
-        }
-        
-        return false;
     }
     
     /**
@@ -421,72 +190,20 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
      */
     protected boolean _hasAllowedProfile(GroupIdentity group, Set<String> profileIds, String prefix)
     {
-        Connection connection = getSQLConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        
-        try
-        {  
-            StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM ");
-            sqlBuilder.append(_tableAllowedGroups);
-            sqlBuilder.append(" WHERE Group_Id=? AND GroupDirectory_Id=?");
-            if (prefix != null)
-            {
-                sqlBuilder.append(" AND UPPER(Context) LIKE UPPER(?)");
-            }
-            sqlBuilder.append(" AND (");
-            for (int j = 0; j < profileIds.size(); j++)
-            {
-                sqlBuilder.append(j == 0 ? "Profile_Id = ?" : " OR Profile_Id = ?");
-            }
-            sqlBuilder.append(")");
-            
-            String sql = sqlBuilder.toString();
-            stmt = connection.prepareStatement(sql);
-            stmt.setString(1, group.getId());
-            stmt.setString(2, group.getDirectoryId());
-            int i;
-            if (prefix != null)
-            {
-                stmt.setString(3, prefix + "%");
-                i = 4;
-            }
-            else
-            {
-                i = 3;
-            }
-            for (String profileId : profileIds)
-            {
-                stmt.setString(i++, profileId);
-            }
-            
-            if (prefix != null)
-            {
-                getLogger().debug("{}\n[{}, {}, {}, {}]", sql, group.getId(), group.getDirectoryId(), prefix + "%", profileIds);
-            }
-            else
-            {
-                getLogger().debug("{}\n[{}, {}, {}]", sql, group.getId(), group.getDirectoryId(), profileIds);
-            }
-            rs = stmt.executeQuery();
-            if (rs.next())
-            {
-                return true;
-            }
-        }
-        catch (SQLException ex)
+        try (SqlSession session = getSession())
         {
-            getLogger().error("Error in sql query", ex);
-            throw new RightsException("Error in sql query", ex);
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("groupId", group.getId());
+            parameters.put("groupDirectory", group.getDirectoryId());
+            if (prefix != null)
+            {
+                parameters.put("contextPrefix", prefix);
+            }
+            parameters.put("profileIds", profileIds);
+            
+            List<Map<String, String>> allowedProfiles = session.selectList("ProfilesAssignment.getGroupAllowedProfiles", parameters);
+            return !allowedProfiles.isEmpty();
         }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(connection);
-        }
-        
-        return false;
     }
     
     /**
@@ -497,73 +214,18 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
      */
     protected boolean _hasAnyConnectedDeniedProfile(Set<String> profileIds, String prefix)
     {
-        Connection connection = getSQLConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null; 
-        
-        try
+        try (SqlSession session = getSession())
         {
-            StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM ");
-            sqlBuilder.append(_tableDeniedProfilesAnyConnected);
-            sqlBuilder.append(" WHERE ");
+            Map<String, Object> parameters = new HashMap<>();
             if (prefix != null)
             {
-                sqlBuilder.append("UPPER(Context) LIKE UPPER(?) AND (");
+                parameters.put("contextPrefix", prefix);
             }
+            parameters.put("profileIds", profileIds);
             
-            for (int j = 0; j < profileIds.size(); j++)
-            {
-                sqlBuilder.append(j == 0 ? "Profile_Id = ?" : " OR Profile_Id = ?");
-            }
-            if (prefix != null)
-            {
-                sqlBuilder.append(")");
-            }
-            
-            String sql = sqlBuilder.toString();
-            stmt = connection.prepareStatement(sql);
-            int i;
-            if (prefix != null)
-            {
-                stmt.setString(1, prefix + "%");
-                i = 2;
-            }
-            else
-            {
-                i = 1;
-            }
-            for (String profileId : profileIds)
-            {
-                stmt.setString(i++, profileId);
-            }
-            
-            if (prefix != null)
-            {
-                getLogger().debug("{}\n[{}, {}]", sql, prefix + "%", profileIds);
-            }
-            else
-            {
-                getLogger().debug("{}\n[{}]", sql, profileIds);
-            }
-            rs = stmt.executeQuery();
-            if (rs.next())
-            {
-                return true;
-            }
+            List<Map<String, String>> deniedProfiles = session.selectList("ProfilesAssignment.getAnyConnectedDeniedProfiles", parameters);
+            return !deniedProfiles.isEmpty();
         }
-        catch (SQLException ex)
-        {
-            getLogger().error("Error in sql query", ex);
-            throw new RightsException("Error in sql query", ex);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(connection);
-        }
-        
-        return false;
     }
     
     /**
@@ -574,73 +236,18 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
      */
     protected boolean _hasAnyConnectedAllowedProfile(Set<String> profileIds, String prefix)
     {
-        Connection connection = getSQLConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        
-        try
-        {  
-            StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM ");
-            sqlBuilder.append(_tableAllowedProfilesAnyConnected);
-            sqlBuilder.append(" WHERE ");
-            if (prefix != null)
-            {
-                sqlBuilder.append("UPPER(Context) LIKE UPPER(?) AND (");
-            }
-            
-            for (int j = 0; j < profileIds.size(); j++)
-            {
-                sqlBuilder.append(j == 0 ? "Profile_Id = ?" : " OR Profile_Id = ?");
-            }
-            if (prefix != null)
-            {
-                sqlBuilder.append(")");
-            }
-            
-            String sql = sqlBuilder.toString();
-            stmt = connection.prepareStatement(sql);
-            int i;
-            if (prefix != null)
-            {
-                stmt.setString(1, prefix + "%");
-                i = 2;
-            }
-            else
-            {
-                i = 1;
-            }
-            for (String profileId : profileIds)
-            {
-                stmt.setString(i++, profileId);
-            }
-            
-            if (prefix != null)
-            {
-                getLogger().debug("{}\n[{}, {}]", sql, prefix + "%", profileIds);
-            }
-            else
-            {
-                getLogger().debug("{}\n[{}]", sql, profileIds);
-            }
-            rs = stmt.executeQuery();
-            if (rs.next())
-            {
-                return true;
-            }
-        }
-        catch (SQLException ex)
+        try (SqlSession session = getSession())
         {
-            getLogger().error("Error in sql query", ex);
-            throw new RightsException("Error in sql query", ex);
+            Map<String, Object> parameters = new HashMap<>();
+            if (prefix != null)
+            {
+                parameters.put("contextPrefix", prefix);
+            }
+            parameters.put("profileIds", profileIds);
+            
+            List<Map<String, String>> allowedProfiles = session.selectList("ProfilesAssignment.getAnyConnectedAllowedProfiles", parameters);
+            return !allowedProfiles.isEmpty();
         }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(connection);
-        }
-        
-        return false;
     }
     
     /**
@@ -651,73 +258,18 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
      */
     protected boolean _hasAnonymousDeniedProfile(Set<String> profileIds, String prefix)
     {
-        Connection connection = getSQLConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        
-        try
+        try (SqlSession session = getSession())
         {
-            StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM ");
-            sqlBuilder.append(_tableDeniedProfilesAnonymous);
-            sqlBuilder.append(" WHERE ");
+            Map<String, Object> parameters = new HashMap<>();
             if (prefix != null)
             {
-                sqlBuilder.append("UPPER(Context) LIKE UPPER(?) AND (");
+                parameters.put("contextPrefix", prefix);
             }
+            parameters.put("profileIds", profileIds);
             
-            for (int j = 0; j < profileIds.size(); j++)
-            {
-                sqlBuilder.append(j == 0 ? "Profile_Id = ?" : " OR Profile_Id = ?");
-            }
-            if (prefix != null)
-            {
-                sqlBuilder.append(")");
-            }
-            
-            String sql = sqlBuilder.toString();
-            stmt = connection.prepareStatement(sql);
-            int i;
-            if (prefix != null)
-            {
-                stmt.setString(1, prefix + "%");
-                i = 2;
-            }
-            else
-            {
-                i = 1;
-            }
-            for (String profileId : profileIds)
-            {
-                stmt.setString(i++, profileId);
-            }
-            
-            if (prefix != null)
-            {
-                getLogger().debug("{}\n[{}, {}]", sql, prefix + "%", profileIds);
-            }
-            else
-            {
-                getLogger().debug("{}\n[{}]", sql, profileIds);
-            }
-            rs = stmt.executeQuery();
-            if (rs.next())
-            {
-                return true;
-            }
+            List<Map<String, String>> deniedProfiles = session.selectList("ProfilesAssignment.getAnonymousDeniedProfiles", parameters);
+            return !deniedProfiles.isEmpty();
         }
-        catch (SQLException ex)
-        {
-            getLogger().error("Error in sql query", ex);
-            throw new RightsException("Error in sql query", ex);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(connection);
-        }
-        
-        return false;
     }
     
     /**
@@ -728,73 +280,18 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
      */
     protected boolean _hasAnonymousAllowedProfile(Set<String> profileIds, String prefix)
     {
-        Connection connection = getSQLConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        
-        try
-        {  
-            StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM ");
-            sqlBuilder.append(_tableAllowedProfilesAnonymous);
-            sqlBuilder.append(" WHERE ");
-            if (prefix != null)
-            {
-                sqlBuilder.append("UPPER(Context) LIKE UPPER(?) AND (");
-            }
-            
-            for (int j = 0; j < profileIds.size(); j++)
-            {
-                sqlBuilder.append(j == 0 ? "Profile_Id = ?" : " OR Profile_Id = ?");
-            }
-            if (prefix != null)
-            {
-                sqlBuilder.append(")");
-            }
-            
-            String sql = sqlBuilder.toString();
-            stmt = connection.prepareStatement(sql);
-            int i;
-            if (prefix != null)
-            {
-                stmt.setString(1, prefix + "%");
-                i = 2;
-            }
-            else
-            {
-                i = 1;
-            }
-            for (String profileId : profileIds)
-            {
-                stmt.setString(i++, profileId);
-            }
-            
-            if (prefix != null)
-            {
-                getLogger().debug("{}\n[{}, {}]", sql, prefix + "%", profileIds);
-            }
-            else
-            {
-                getLogger().debug("{}\n[{}]", sql, profileIds);
-            }
-            rs = stmt.executeQuery();
-            if (rs.next())
-            {
-                return true;
-            }
-        }
-        catch (SQLException ex)
+        try (SqlSession session = getSession())
         {
-            getLogger().error("Error in sql query", ex);
-            throw new RightsException("Error in sql query", ex);
+            Map<String, Object> parameters = new HashMap<>();
+            if (prefix != null)
+            {
+                parameters.put("contextPrefix", prefix);
+            }
+            parameters.put("profileIds", profileIds);
+            
+            List<Map<String, String>> allowedProfiles = session.selectList("ProfilesAssignment.getAnonymousAllowedProfiles", parameters);
+            return !allowedProfiles.isEmpty();
         }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(connection);
-        }
-        
-        return false;
     }
     
     /**
@@ -805,130 +302,56 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
      */
     protected Set<String> _getAllowedProfiles(UserIdentity user, String prefix)
     {
-        Map<String, Set<String>> profilesByContext = new HashMap<>();
-        
-        Connection connection = getSQLConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        
-        try
+        try (SqlSession session = getSession())
         {
-            // First get allowed profiles by context
-            StringBuilder sqlBuilder = new StringBuilder("SELECT Context, Profile_Id FROM ");
-            sqlBuilder.append(_tableAllowedUsers);
-            sqlBuilder.append(" WHERE Login=? AND UserPopulation_Id=?");
+            Map<String, Set<String>> profilesByContext = new HashMap<>();
+            
+            // First get allowed profiles on context
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("login", user.getLogin());
+            parameters.put("population", user.getPopulationId());
             if (prefix != null)
             {
-                sqlBuilder.append(" AND UPPER(Context) LIKE UPPER(?)");
+                parameters.put("contextPrefix", prefix);
             }
             
-            String sql = sqlBuilder.toString();
-            stmt = connection.prepareStatement(sql);
-            stmt.setString(1, user.getLogin());
-            stmt.setString(2, user.getPopulationId());
-            if (prefix != null)
+            List<Map<String, String>> allowedProfiles = session.selectList("ProfilesAssignment.getUserAllowedProfiles", parameters);
+            
+            for (Map<String, String> allowedProfile : allowedProfiles)
             {
-                stmt.setString(3, prefix + "%");
+                String context = allowedProfile.get("context");
+                String profileId = allowedProfile.get("profileId");
+                
+                if (!profilesByContext.containsKey(context))
+                {
+                    profilesByContext.put(context, new HashSet<>());
+                }
+                
+                profilesByContext.get(context).add(profileId);
             }
             
-            if (prefix != null)
-            {
-                getLogger().debug("{}\n[{}, {}, {}]", sql, user.getLogin(), user.getPopulationId(), prefix + "%");
-            }
-            else
-            {
-                getLogger().debug("{}\n[{}, {}]", sql, user.getLogin(), user.getPopulationId());
-            }
-            rs = stmt.executeQuery();
+            // Then remove the denied profiles one same context
             
-            while (rs.next())
+            List<Map<String, String>> deniedProfiles = session.selectList("ProfilesAssignment.getUserDeniedProfiles", parameters);
+            for (Map<String, String> deniedProfile : deniedProfiles)
             {
-                String context = rs.getString(1);
-                String profileId = rs.getString(2);
+                String context = deniedProfile.get("context");
+                String profileId = deniedProfile.get("profileId");
+                
                 if (profilesByContext.containsKey(context))
                 {
-                    profilesByContext.get(context).add(profileId);
-                }
-                else
-                {
-                    Set<String> profiles = new HashSet<>();
-                    profiles.add(profileId);
-                    profilesByContext.put(context, profiles);
-                }
-            }
-        }
-        catch (SQLException ex)
-        {
-            getLogger().error("Error in sql query", ex);
-            throw new RightsException("Error in sql query", ex);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(connection);
-        }
-        
-        connection = getSQLConnection();
-        try
-        {
-            // Then remove the denied profiles for the same contexts
-            StringBuilder sqlBuilder = new StringBuilder("SELECT Context, Profile_Id FROM ");
-            sqlBuilder.append(_tableDeniedUsers);
-            sqlBuilder.append(" WHERE Login=? AND UserPopulation_Id=?");
-            if (prefix != null)
-            {
-                sqlBuilder.append(" AND UPPER(Context) LIKE UPPER(?)");
-            }
-            
-            String sql = sqlBuilder.toString();
-            stmt = connection.prepareStatement(sql);
-            stmt.setString(1, user.getLogin());
-            stmt.setString(2, user.getPopulationId());
-            if (prefix != null)
-            {
-                stmt.setString(3, prefix + "%");
-            }
-            
-            if (prefix != null)
-            {
-                getLogger().debug("{}\n[{}, {}, {}]", sql, user.getLogin(), user.getPopulationId(), prefix + "%");
-            }
-            else
-            {
-                getLogger().debug("{}\n[{}, {}]", sql, user.getLogin(), user.getPopulationId());
-            }
-            rs = stmt.executeQuery();
-            
-            while (rs.next())
-            {
-                String context = rs.getString(1);
-                String profileId = rs.getString(2);
-                if (profilesByContext.containsKey(context))
-                {
-                    Set<String> profiles = profilesByContext.get(context);
-                    profiles.remove(profileId);
-                    if (profiles.isEmpty())
+                    profilesByContext.get(context).remove(profileId);
+                    
+                    if (profilesByContext.get(context).size() == 0)
                     {
                         profilesByContext.remove(context);
                     }
                 }
             }
+            
+            // Return remaining profiles ignoring their context object
+            return profilesByContext.entrySet().stream().flatMap(entry -> entry.getValue().stream()).collect(Collectors.toSet());
         }
-        catch (SQLException ex)
-        {
-            getLogger().error("Error in sql query", ex);
-            throw new RightsException("Error in sql query", ex);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(connection);
-        }
-        
-        // Return remaining profiles ignoring their context object
-        return profilesByContext.entrySet().stream().flatMap(entry -> entry.getValue().stream()).collect(Collectors.toSet());
     }
     
     /**
@@ -939,130 +362,56 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
      */
     protected Set<String> _getAllowedProfiles(GroupIdentity group, String prefix)
     {
-        Map<String, Set<String>> profilesByContext = new HashMap<>();
-        
-        Connection connection = getSQLConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        
-        try
+        try (SqlSession session = getSession())
         {
-            // First get allowed profiles by context
-            StringBuilder sqlBuilder = new StringBuilder("SELECT Context, Profile_Id FROM ");
-            sqlBuilder.append(_tableAllowedGroups);
-            sqlBuilder.append(" WHERE Group_Id=? AND GroupDirectory_Id=?");
+            Map<String, Set<String>> profilesByContext = new HashMap<>();
+            
+            // First get allowed profiles on context
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("groupId", group.getId());
+            parameters.put("groupDirectory", group.getDirectoryId());
             if (prefix != null)
             {
-                sqlBuilder.append(" AND UPPER(Context) LIKE UPPER(?)");
+                parameters.put("contextPrefix", prefix);
             }
             
-            String sql = sqlBuilder.toString();
-            stmt = connection.prepareStatement(sql);
-            stmt.setString(1, group.getId());
-            stmt.setString(2, group.getDirectoryId());
-            if (prefix != null)
+            List<Map<String, String>> allowedProfiles = session.selectList("ProfilesAssignment.getGroupAllowedProfiles", parameters);
+            
+            for (Map<String, String> allowedProfile : allowedProfiles)
             {
-                stmt.setString(3, prefix + "%");
+                String context = allowedProfile.get("context");
+                String profileId = allowedProfile.get("profileId");
+                
+                if (!profilesByContext.containsKey(context))
+                {
+                    profilesByContext.put(context, new HashSet<>());
+                }
+                
+                profilesByContext.get(context).add(profileId);
             }
             
-            if (prefix != null)
-            {
-                getLogger().debug("{}\n[{}, {}, {}]", sql, group.getId(), group.getDirectoryId(), prefix + "%");
-            }
-            else
-            {
-                getLogger().debug("{}\n[{}, {}]", sql, group.getId(), group.getDirectoryId());
-            }
-            rs = stmt.executeQuery();
+            // Then remove the denied profiles one same context
             
-            while (rs.next())
+            List<Map<String, String>> deniedProfiles = session.selectList("ProfilesAssignment.getGroupDeniedProfiles", parameters);
+            for (Map<String, String> deniedProfile : deniedProfiles)
             {
-                String context = rs.getString(1);
-                String profileId = rs.getString(2);
+                String context = deniedProfile.get("context");
+                String profileId = deniedProfile.get("profileId");
+                
                 if (profilesByContext.containsKey(context))
                 {
-                    profilesByContext.get(context).add(profileId);
-                }
-                else
-                {
-                    Set<String> profiles = new HashSet<>();
-                    profiles.add(profileId);
-                    profilesByContext.put(context, profiles);
-                }
-            }
-        }
-        catch (SQLException ex)
-        {
-            getLogger().error("Error in sql query", ex);
-            throw new RightsException("Error in sql query", ex);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(connection);
-        }
-        
-        connection = getSQLConnection();
-        try
-        {
-            // Then remove the denied profiles for the same contexts
-            StringBuilder sqlBuilder = new StringBuilder("SELECT Context, Profile_Id FROM ");
-            sqlBuilder.append(_tableDeniedGroups);
-            sqlBuilder.append(" WHERE Group_Id=? AND GroupDirectory_Id=?");
-            if (prefix != null)
-            {
-                sqlBuilder.append(" AND UPPER(Context) LIKE UPPER(?)");
-            }
-            
-            String sql = sqlBuilder.toString();
-            stmt = connection.prepareStatement(sql);
-            stmt.setString(1, group.getId());
-            stmt.setString(2, group.getDirectoryId());
-            if (prefix != null)
-            {
-                stmt.setString(3, prefix + "%");
-            }
-            
-            if (prefix != null)
-            {
-                getLogger().debug("{}\n[{}, {}, {}]", sql, group.getId(), group.getDirectoryId(), prefix + "%");
-            }
-            else
-            {
-                getLogger().debug("{}\n[{}, {}]", sql, group.getId(), group.getDirectoryId());
-            }
-            rs = stmt.executeQuery();
-            
-            while (rs.next())
-            {
-                String context = rs.getString(1);
-                String profileId = rs.getString(2);
-                if (profilesByContext.containsKey(context))
-                {
-                    Set<String> profiles = profilesByContext.get(context);
-                    profiles.remove(profileId);
-                    if (profiles.isEmpty())
+                    profilesByContext.get(context).remove(profileId);
+                    
+                    if (profilesByContext.get(context).size() == 0)
                     {
                         profilesByContext.remove(context);
                     }
                 }
             }
+            
+            // Return remaining profiles ignoring their context object
+            return profilesByContext.entrySet().stream().flatMap(entry -> entry.getValue().stream()).collect(Collectors.toSet());
         }
-        catch (SQLException ex)
-        {
-            getLogger().error("Error in sql query", ex);
-            throw new RightsException("Error in sql query", ex);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(connection);
-        }
-        
-        // Return remaining profiles ignoring their context object
-        return profilesByContext.entrySet().stream().flatMap(entry -> entry.getValue().stream()).collect(Collectors.toSet());
     }
     
     /**
@@ -1072,124 +421,54 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
      */
     protected Set<String> _getAnyConnectedAllowedProfiles(String prefix)
     {
-        Map<String, Set<String>> profilesByContext = new HashMap<>();
-        
-        Connection connection = getSQLConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        
-        try
+        try (SqlSession session = getSession())
         {
-            // First get allowed profiles by context
-            StringBuilder sqlBuilder = new StringBuilder("SELECT Context, Profile_Id FROM ");
-            sqlBuilder.append(_tableAllowedProfilesAnyConnected);
+            Map<String, Set<String>> profilesByContext = new HashMap<>();
+            
+            // First get allowed profiles on context
+            Map<String, Object> parameters = new HashMap<>();
             if (prefix != null)
             {
-                sqlBuilder.append(" WHERE UPPER(Context) LIKE UPPER(?)");
+                parameters.put("contextPrefix", prefix);
             }
             
-            String sql = sqlBuilder.toString();
-            stmt = connection.prepareStatement(sql);
-            if (prefix != null)
+            List<Map<String, String>> allowedProfiles = session.selectList("ProfilesAssignment.getAnyConnectedAllowedProfiles", parameters);
+            
+            for (Map<String, String> allowedProfile : allowedProfiles)
             {
-                stmt.setString(1, prefix + "%");
+                String context = allowedProfile.get("context");
+                String profileId = allowedProfile.get("profileId");
+                
+                if (!profilesByContext.containsKey(context))
+                {
+                    profilesByContext.put(context, new HashSet<>());
+                }
+                
+                profilesByContext.get(context).add(profileId);
             }
             
-            if (prefix != null)
-            {
-                getLogger().debug("{}\n[{}]", sql, prefix + "%");
-            }
-            else
-            {
-                getLogger().debug("{}]", sql);
-            }
-            rs = stmt.executeQuery();
+            // Then remove the denied profiles one same context
             
-            while (rs.next())
+            List<Map<String, String>> deniedProfiles = session.selectList("ProfilesAssignment.getAnyConnectedDeniedProfiles", parameters);
+            for (Map<String, String> deniedProfile : deniedProfiles)
             {
-                String context = rs.getString(1);
-                String profileId = rs.getString(2);
+                String context = deniedProfile.get("context");
+                String profileId = deniedProfile.get("profileId");
+                
                 if (profilesByContext.containsKey(context))
                 {
-                    profilesByContext.get(context).add(profileId);
-                }
-                else
-                {
-                    Set<String> profiles = new HashSet<>();
-                    profiles.add(profileId);
-                    profilesByContext.put(context, profiles);
-                }
-            }
-        }
-        catch (SQLException ex)
-        {
-            getLogger().error("Error in sql query", ex);
-            throw new RightsException("Error in sql query", ex);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(connection);
-        }
-        
-        connection = getSQLConnection();
-        try
-        {
-            // Then remove the denied profiles for the same contexts
-            StringBuilder sqlBuilder = new StringBuilder("SELECT Context, Profile_Id FROM ");
-            sqlBuilder.append(_tableDeniedProfilesAnyConnected);
-            if (prefix != null)
-            {
-                sqlBuilder.append(" WHERE UPPER(Context) LIKE UPPER(?)");
-            }
-            
-            String sql = sqlBuilder.toString();
-            stmt = connection.prepareStatement(sql);
-            if (prefix != null)
-            {
-                stmt.setString(1, prefix + "%");
-            }
-            
-            if (prefix != null)
-            {
-                getLogger().debug("{}\n[{}]", sql, prefix + "%");
-            }
-            else
-            {
-                getLogger().debug("{}]", sql);
-            }
-            rs = stmt.executeQuery();
-            
-            while (rs.next())
-            {
-                String context = rs.getString(1);
-                String profileId = rs.getString(2);
-                if (profilesByContext.containsKey(context))
-                {
-                    Set<String> profiles = profilesByContext.get(context);
-                    profiles.remove(profileId);
-                    if (profiles.isEmpty())
+                    profilesByContext.get(context).remove(profileId);
+                    
+                    if (profilesByContext.get(context).size() == 0)
                     {
                         profilesByContext.remove(context);
                     }
                 }
             }
+            
+            // Return remaining profiles ignoring their context object
+            return profilesByContext.entrySet().stream().flatMap(entry -> entry.getValue().stream()).collect(Collectors.toSet());
         }
-        catch (SQLException ex)
-        {
-            getLogger().error("Error in sql query", ex);
-            throw new RightsException("Error in sql query", ex);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(connection);
-        }
-        
-        // Return remaining profiles ignoring their context object
-        return profilesByContext.entrySet().stream().flatMap(entry -> entry.getValue().stream()).collect(Collectors.toSet());
     }
     
     /**
@@ -1199,124 +478,54 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
      */
     protected Set<String> _getAnonymousAllowedProfiles(String prefix)
     {
-        Map<String, Set<String>> profilesByContext = new HashMap<>();
-        
-        Connection connection = getSQLConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        
-        try
+        try (SqlSession session = getSession())
         {
-            // First get allowed profiles by context
-            StringBuilder sqlBuilder = new StringBuilder("SELECT Context, Profile_Id FROM ");
-            sqlBuilder.append(_tableAllowedProfilesAnonymous);
+            Map<String, Set<String>> profilesByContext = new HashMap<>();
+            
+            // First get allowed profiles on context
+            Map<String, Object> parameters = new HashMap<>();
             if (prefix != null)
             {
-                sqlBuilder.append(" WHERE UPPER(Context) LIKE UPPER(?)");
+                parameters.put("contextPrefix", prefix);
             }
             
-            String sql = sqlBuilder.toString();
-            stmt = connection.prepareStatement(sql);
-            if (prefix != null)
+            List<Map<String, String>> allowedProfiles = session.selectList("ProfilesAssignment.getAnonymousAllowedProfiles", parameters);
+            
+            for (Map<String, String> allowedProfile : allowedProfiles)
             {
-                stmt.setString(1, prefix + "%");
+                String context = allowedProfile.get("context");
+                String profileId = allowedProfile.get("profileId");
+                
+                if (!profilesByContext.containsKey(context))
+                {
+                    profilesByContext.put(context, new HashSet<>());
+                }
+                
+                profilesByContext.get(context).add(profileId);
             }
             
-            if (prefix != null)
-            {
-                getLogger().debug("{}\n[{}]", sql, prefix + "%");
-            }
-            else
-            {
-                getLogger().debug("{}]", sql);
-            }
-            rs = stmt.executeQuery();
+            // Then remove the denied profiles one same context
             
-            while (rs.next())
+            List<Map<String, String>> deniedProfiles = session.selectList("ProfilesAssignment.getAnonymousDeniedProfiles", parameters);
+            for (Map<String, String> deniedProfile : deniedProfiles)
             {
-                String context = rs.getString(1);
-                String profileId = rs.getString(2);
+                String context = deniedProfile.get("context");
+                String profileId = deniedProfile.get("profileId");
+                
                 if (profilesByContext.containsKey(context))
                 {
-                    profilesByContext.get(context).add(profileId);
-                }
-                else
-                {
-                    Set<String> profiles = new HashSet<>();
-                    profiles.add(profileId);
-                    profilesByContext.put(context, profiles);
-                }
-            }
-        }
-        catch (SQLException ex)
-        {
-            getLogger().error("Error in sql query", ex);
-            throw new RightsException("Error in sql query", ex);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(connection);
-        }
-        
-        connection = getSQLConnection();
-        try
-        {
-            // Then remove the denied profiles for the same contexts
-            StringBuilder sqlBuilder = new StringBuilder("SELECT Context, Profile_Id FROM ");
-            sqlBuilder.append(_tableDeniedProfilesAnonymous);
-            if (prefix != null)
-            {
-                sqlBuilder.append(" WHERE UPPER(Context) LIKE UPPER(?)");
-            }
-            
-            String sql = sqlBuilder.toString();
-            stmt = connection.prepareStatement(sql);
-            if (prefix != null)
-            {
-                stmt.setString(1, prefix + "%");
-            }
-            
-            if (prefix != null)
-            {
-                getLogger().debug("{}\n[{}]", sql, prefix + "%");
-            }
-            else
-            {
-                getLogger().debug("{}]", sql);
-            }
-            rs = stmt.executeQuery();
-            
-            while (rs.next())
-            {
-                String context = rs.getString(1);
-                String profileId = rs.getString(2);
-                if (profilesByContext.containsKey(context))
-                {
-                    Set<String> profiles = profilesByContext.get(context);
-                    profiles.remove(profileId);
-                    if (profiles.isEmpty())
+                    profilesByContext.get(context).remove(profileId);
+                    
+                    if (profilesByContext.get(context).size() == 0)
                     {
                         profilesByContext.remove(context);
                     }
                 }
             }
+            
+            // Return remaining profiles ignoring their context object
+            return profilesByContext.entrySet().stream().flatMap(entry -> entry.getValue().stream()).collect(Collectors.toSet());
         }
-        catch (SQLException ex)
-        {
-            getLogger().error("Error in sql query", ex);
-            throw new RightsException("Error in sql query", ex);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(connection);
-        }
-        
-        // Return remaining profiles ignoring their context object
-        return profilesByContext.entrySet().stream().flatMap(entry -> entry.getValue().stream()).collect(Collectors.toSet());
     }
     
     /* --------------------------------------- */
@@ -1326,7 +535,17 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
     @Override
     public Set<String> getAllowedProfilesForAnyConnectedUser(Object object)
     {
-        return _getProfiles(_tableAllowedProfilesAnyConnected, object);
+        try (SqlSession session = getSession())
+        {
+            Map<String, String> parameters = new HashMap<>();
+            if (object != null)
+            {
+                parameters.put("context", (String) object);
+            }
+            
+            List<Map<String, String>> allowedProfiles = session.selectList("ProfilesAssignment.getAnyConnectedAllowedProfiles", parameters);
+            return allowedProfiles.stream().map(profile -> profile.get("profileId")).collect(Collectors.toSet());
+        }
     }
     
     @Override
@@ -1338,13 +557,42 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
     @Override
     public void addAllowedProfilesForAnyConnectedUser(Object object, Set<String> profileIds)
     {
-        _addProfiles(_tableAllowedProfilesAnyConnected, object, profileIds);
+        try (SqlSession session = getSession())
+        {
+            for (String profileId : profileIds)
+            {
+                Map<String, Object> parameters = new HashMap<>();
+                parameters.put("context", object);
+                parameters.put("profileIds", Arrays.asList(profileId));
+                
+                List<Map<String, String>> allowedProfiles = session.selectList("ProfilesAssignment.getAnyConnectedAllowedProfiles", parameters);
+                
+                if (allowedProfiles.isEmpty())
+                {
+                    parameters.put("profileId", profileId);
+                    session.insert("ProfilesAssignment.addAllowedAnyConnected", parameters);
+                }
+                else
+                {
+                    getLogger().debug("Profile {} is already allowed for anyconnected on context {}", profileId, object);
+                }
+                
+            }
+            
+            session.commit();
+        }
     }
     
     @Override
     public void removeAllowedProfilesForAnyConnectedUser(Object object, Set<String> profileIds)
     {
-        _removeProfiles(_tableAllowedProfilesAnyConnected, object, profileIds);
+        try (SqlSession session = getSession(true))
+        {
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("context", object);
+            parameters.put("profileIds", profileIds);
+            session.delete("ProfilesAssignment.deleteAllowedAnyConnected", parameters);
+        }
     }
     
     
@@ -1355,7 +603,17 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
     @Override
     public Set<String> getDeniedProfilesForAnyConnectedUser(Object object)
     {
-        return _getProfiles(_tableDeniedProfilesAnyConnected, object);
+        try (SqlSession session = getSession())
+        {
+            Map<String, String> parameters = new HashMap<>();
+            if (object != null)
+            {
+                parameters.put("context", (String) object);
+            }
+            
+            List<Map<String, String>> deniedProfiles = session.selectList("ProfilesAssignment.getAnyConnectedDeniedProfiles", parameters);
+            return deniedProfiles.stream().map(profile -> profile.get("profileId")).collect(Collectors.toSet());
+        }
     }
     
     @Override
@@ -1367,13 +625,42 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
     @Override
     public void addDeniedProfilesForAnyConnectedUser(Object object, Set<String> profileIds)
     {
-        _addProfiles(_tableDeniedProfilesAnyConnected, object, profileIds);
+        try (SqlSession session = getSession())
+        {
+            for (String profileId : profileIds)
+            {
+                Map<String, Object> parameters = new HashMap<>();
+                parameters.put("context", object);
+                parameters.put("profileIds", Arrays.asList(profileId));
+                
+                List<Map<String, String>> deniedProfiles = session.selectList("ProfilesAssignment.getAnyConnectedDeniedProfiles", parameters);
+                
+                if (deniedProfiles.isEmpty())
+                {
+                    parameters.put("profileId", profileId);
+                    session.insert("ProfilesAssignment.addDeniedAnyConnected", parameters);
+                }
+                else
+                {
+                    getLogger().debug("Profile {} is already denied for anyconnected on context {}", profileId, object);
+                }
+                
+            }
+            
+            session.commit();
+        }
     }
     
     @Override
     public void removeDeniedProfilesForAnyConnectedUser(Object object, Set<String> profileIds)
     {
-        _removeProfiles(_tableDeniedProfilesAnyConnected, object, profileIds);
+        try (SqlSession session = getSession(true))
+        {
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("context", object);
+            parameters.put("profileIds", profileIds);
+            session.delete("ProfilesAssignment.deleteDeniedAnyConnected", parameters);
+        }
     }
     
     
@@ -1384,7 +671,17 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
     @Override
     public Set<String> getAllowedProfilesForAnonymous(Object object)
     {
-        return _getProfiles(_tableAllowedProfilesAnonymous, object);
+        try (SqlSession session = getSession())
+        {
+            Map<String, String> parameters = new HashMap<>();
+            if (object != null)
+            {
+                parameters.put("context", (String) object);
+            }
+            
+            List<Map<String, String>> allowedProfiles = session.selectList("ProfilesAssignment.getAnonymousAllowedProfiles", parameters);
+            return allowedProfiles.stream().map(profile -> profile.get("profileId")).collect(Collectors.toSet());
+        }
     }
     
     @Override
@@ -1396,13 +693,41 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
     @Override
     public void addAllowedProfilesForAnonymous(Object object, Set<String> profileIds)
     {
-        _addProfiles(_tableAllowedProfilesAnonymous, object, profileIds);
+        try (SqlSession session = getSession())
+        {
+            for (String profileId : profileIds)
+            {
+                Map<String, Object> parameters = new HashMap<>();
+                parameters.put("context", object);
+                parameters.put("profileIds", Arrays.asList(profileId));
+                
+                List<Map<String, String>> allowedProfiles = session.selectList("ProfilesAssignment.getAnonymousAllowedProfiles", parameters);
+                
+                if (allowedProfiles.isEmpty())
+                {
+                    parameters.put("profileId", profileId);
+                    session.insert("ProfilesAssignment.addAllowedAnonymous", parameters);
+                }
+                else
+                {
+                    getLogger().debug("Profile {} is already allowed for anonymous on context {}", profileId, object);
+                }
+            }
+            
+            session.commit();
+        }
     }
     
     @Override
     public void removeAllowedProfilesForAnonymous(Object object, Set<String> profileIds)
     {
-        _removeProfiles(_tableAllowedProfilesAnonymous, object, profileIds);
+        try (SqlSession session = getSession(true))
+        {
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("context", object);
+            parameters.put("profileIds", profileIds);
+            session.delete("ProfilesAssignment.deleteAllowedAnonymous", parameters);
+        }
     }
     
     
@@ -1413,7 +738,17 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
     @Override
     public Set<String> getDeniedProfilesForAnonymous(Object object)
     {
-        return _getProfiles(_tableDeniedProfilesAnonymous, object);
+        try (SqlSession session = getSession())
+        {
+            Map<String, String> parameters = new HashMap<>();
+            if (object != null)
+            {
+                parameters.put("context", (String) object);
+            }
+            
+            List<Map<String, String>> deniedProfiles = session.selectList("ProfilesAssignment.getAnonymousDeniedProfiles", parameters);
+            return deniedProfiles.stream().map(profile -> profile.get("profileId")).collect(Collectors.toSet());
+        }
     }
     
     @Override
@@ -1425,13 +760,41 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
     @Override
     public void addDeniedProfilesForAnonymous(Object object, Set<String> profileIds)
     {
-        _addProfiles(_tableDeniedProfilesAnonymous, object, profileIds);
+        try (SqlSession session = getSession())
+        {
+            for (String profileId : profileIds)
+            {
+                Map<String, Object> parameters = new HashMap<>();
+                parameters.put("context", object);
+                parameters.put("profileIds", Arrays.asList(profileId));
+                
+                List<Map<String, String>> deniedProfiles = session.selectList("ProfilesAssignment.getAnonymousDeniedProfiles", parameters);
+                
+                if (deniedProfiles.isEmpty())
+                {
+                    parameters.put("profileId", profileId);
+                    session.insert("ProfilesAssignment.addDeniedAnonymous", parameters);
+                }
+                else
+                {
+                    getLogger().debug("Profile {} is already denied for anonymous on context {}", profileId, object);
+                }
+            }
+            
+            session.commit();
+        }
     }
     
     @Override
     public void removeDeniedProfilesForAnonymous(Object object, Set<String> profileIds)
     {
-        _removeProfiles(_tableDeniedProfilesAnonymous, object, profileIds);
+        try (SqlSession session = getSession(true))
+        {
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("context", object);
+            parameters.put("profileIds", profileIds);
+            session.delete("ProfilesAssignment.deleteDeniedAnonymous", parameters);
+        }
     }
     
     
@@ -1442,31 +805,131 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
     @Override
     public Map<UserIdentity, Set<String>> getAllowedProfilesForUsers(Object object)
     {
-        return _getProfilesForUsers(_tableAllowedUsers, object);
+        try (SqlSession session = getSession())
+        {
+            Map<UserIdentity, Set<String>> profiledByUsers = new HashMap<>();
+            
+            Map<String, String> parameters = new HashMap<>();
+            if (object != null)
+            {
+                parameters.put("context", (String) object);
+            }
+            
+            List<Map<String, String>> allowedProfiles = session.selectList("ProfilesAssignment.getUserAllowedProfiles", parameters);
+            
+            for (Map<String, String> allowedProfile : allowedProfiles)
+            {
+                UserIdentity userIdentity = new UserIdentity(allowedProfile.get("login"), allowedProfile.get("population"));
+                String profileId = allowedProfile.get("profileId");
+                
+                if (!profiledByUsers.containsKey(userIdentity))
+                {
+                    profiledByUsers.put(userIdentity, new HashSet<>());
+                }
+                profiledByUsers.get(userIdentity).add(profileId);
+            }
+            
+            return profiledByUsers;
+        }
     }
     
     @Override
     public Set<UserIdentity> getAllowedUsers(Object object, String profileId)
     {
-        return _getUsers(_tableAllowedUsers, object, profileId);
+        try (SqlSession session = getSession())
+        {
+            Set<UserIdentity> users = new HashSet<>();
+            
+            Map<String, Object> parameters = new HashMap<>();
+            if (object != null)
+            {
+                parameters.put("context", object);
+            }
+            parameters.put("profileIds", Arrays.asList(profileId));
+            
+            List<Map<String, String>> allowedProfiles = session.selectList("ProfilesAssignment.getUserAllowedProfiles", parameters);
+            
+            for (Map<String, String> allowedProfile : allowedProfiles)
+            {
+                users.add(new UserIdentity(allowedProfile.get("login"), allowedProfile.get("population")));
+            }
+            
+            return users;
+        }
     }
     
     @Override
     public void addAllowedUsers(Set<UserIdentity> users, Object object, String profileId)
     {
-        _addUsers(_tableAllowedUsers, users, object, profileId);
+        try (SqlSession session = getSession())
+        {
+            for (UserIdentity userIdentity : users)
+            {
+                Map<String, Object> parameters = new HashMap<>();
+                parameters.put("login", userIdentity.getLogin());
+                parameters.put("population", userIdentity.getPopulationId());
+                parameters.put("context", object);
+                parameters.put("profileIds", Arrays.asList(profileId));
+                
+                List<Map<String, String>> allowedProfiles = session.selectList("ProfilesAssignment.getUserAllowedProfiles", parameters);
+                
+                if (allowedProfiles.isEmpty())
+                {
+                    parameters.put("profileId", profileId);
+                    session.insert("ProfilesAssignment.addAllowedUser", parameters);
+                }
+                else
+                {
+                    getLogger().debug("Login {} has already profile {} on context {}", userIdentity, profileId, object);
+                }
+                
+            }
+            
+            session.commit();
+        }
     }
     
     @Override
     public void removeAllowedUsers(Set<UserIdentity> users, Object object, String profileId)
     {
-        _removeUsers(_tableAllowedUsers, users, object, profileId);
+        try (SqlSession session = getSession())
+        {
+            for (UserIdentity userIdentity : users)
+            {
+                Map<String, Object> parameters = new HashMap<>();
+                parameters.put("login", userIdentity.getLogin());
+                parameters.put("population", userIdentity.getPopulationId());
+                parameters.put("profileId", profileId);
+                if (object != null)
+                {
+                    parameters.put("context", object);
+                }
+                
+                session.delete("ProfilesAssignment.deleteAllowedUser", parameters);
+            }
+            session.commit();
+        }
     }
     
     @Override
     public void removeAllowedUsers(Set<UserIdentity> users, Object object)
     {
-        _removeUsers(_tableAllowedUsers, users, object);
+        try (SqlSession session = getSession())
+        {
+            for (UserIdentity userIdentity : users)
+            {
+                Map<String, Object> parameters = new HashMap<>();
+                parameters.put("login", userIdentity.getLogin());
+                parameters.put("population", userIdentity.getPopulationId());
+                if (object != null)
+                {
+                    parameters.put("context", object);
+                }
+                
+                session.delete("ProfilesAssignment.deleteAllowedUser", parameters);
+            }
+            session.commit();
+        }
     }
     
     
@@ -1477,31 +940,130 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
     @Override
     public Map<GroupIdentity, Set<String>> getAllowedProfilesForGroups(Object object)
     {
-        return _getGroups(_tableAllowedGroups, object);
+        try (SqlSession session = getSession())
+        {
+            Map<GroupIdentity, Set<String>> profiledByGroups = new HashMap<>();
+            
+            Map<String, String> parameters = new HashMap<>();
+            if (object != null)
+            {
+                parameters.put("context", (String) object);
+            }
+            
+            List<Map<String, String>> allowedProfiles = session.selectList("ProfilesAssignment.getGroupAllowedProfiles", parameters);
+            
+            for (Map<String, String> allowedProfile : allowedProfiles)
+            {
+                GroupIdentity gpIdentity = new GroupIdentity(allowedProfile.get("groupId"), allowedProfile.get("groupDirectory"));
+                String profileId = allowedProfile.get("profileId");
+                
+                if (!profiledByGroups.containsKey(gpIdentity))
+                {
+                    profiledByGroups.put(gpIdentity, new HashSet<>());
+                }
+                profiledByGroups.get(gpIdentity).add(profileId);
+            }
+            
+            return profiledByGroups;
+        }
     }
     
     @Override
     public Set<GroupIdentity> getAllowedGroups(Object object, String profileId)
     {
-        return _getGroups(_tableAllowedGroups, object, profileId);
+        try (SqlSession session = getSession())
+        {
+            Set<GroupIdentity> groups = new HashSet<>();
+            
+            Map<String, Object> parameters = new HashMap<>();
+            if (object != null)
+            {
+                parameters.put("context", object);
+            }
+            parameters.put("profileIds", Arrays.asList(profileId));
+            
+            List<Map<String, String>> allowedProfiles = session.selectList("ProfilesAssignment.getGroupAllowedProfiles", parameters);
+            
+            for (Map<String, String> allowedProfile : allowedProfiles)
+            {
+                groups.add(new GroupIdentity(allowedProfile.get("groupId"), allowedProfile.get("groupDirectory")));
+            }
+            
+            return groups;
+        }
     }
     
     @Override
     public void addAllowedGroups(Set<GroupIdentity> groups, Object object, String profileId)
     {
-        _addGroups(_tableAllowedGroups, groups, object, profileId);
+        try (SqlSession session = getSession())
+        {
+            for (GroupIdentity group : groups)
+            {
+                Map<String, Object> parameters = new HashMap<>();
+                parameters.put("groupId", group.getId());
+                parameters.put("groupDirectory", group.getDirectoryId());
+                parameters.put("context", object);
+                parameters.put("profileIds", Arrays.asList(profileId));
+                
+                List<Map<String, String>> allowedProfiles = session.selectList("ProfilesAssignment.getGroupAllowedProfiles", parameters);
+                
+                if (allowedProfiles.isEmpty())
+                {
+                    parameters.put("profileId", profileId);
+                    session.insert("ProfilesAssignment.addAllowedGroup", parameters);
+                }
+                else
+                {
+                    getLogger().debug("Group {} is already allowed for profile {} on context {}", group, profileId, object);
+                }
+            }
+            
+            session.commit();
+        }
     }
     
     @Override
     public void removeAllowedGroups(Set<GroupIdentity> groups, Object object, String profileId)
     {
-        _removeGroups(_tableAllowedGroups, groups, object, profileId);
+        try (SqlSession session = getSession())
+        {
+            for (GroupIdentity group : groups)
+            {
+                Map<String, Object> parameters = new HashMap<>();
+                parameters.put("groupId", group.getId());
+                parameters.put("groupDirectory", group.getDirectoryId());
+                parameters.put("profileId", profileId);
+                if (object != null)
+                {
+                    parameters.put("context", object);
+                }
+                
+                session.delete("ProfilesAssignment.deleteAllowedGroup", parameters);
+            }
+            session.commit();
+        }
     }
     
     @Override
     public void removeAllowedGroups(Set<GroupIdentity> groups, Object object)
     {
-        _removeGroups(_tableAllowedGroups, groups, object);
+        try (SqlSession session = getSession())
+        {
+            for (GroupIdentity group : groups)
+            {
+                Map<String, Object> parameters = new HashMap<>();
+                parameters.put("groupId", group.getId());
+                parameters.put("groupDirectory", group.getDirectoryId());
+                if (object != null)
+                {
+                    parameters.put("context", object);
+                }
+                
+                session.delete("ProfilesAssignment.deleteAllowedGroup", parameters);
+            }
+            session.commit();
+        }
     }
     
     
@@ -1512,31 +1074,131 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
     @Override
     public Map<UserIdentity, Set<String>> getDeniedProfilesForUsers(Object object)
     {
-        return _getProfilesForUsers(_tableDeniedUsers, object);
+        try (SqlSession session = getSession())
+        {
+            Map<UserIdentity, Set<String>> profiledByUsers = new HashMap<>();
+            
+            Map<String, String> parameters = new HashMap<>();
+            if (object != null)
+            {
+                parameters.put("context", (String) object);
+            }
+            
+            List<Map<String, String>> deniedProfiles = session.selectList("ProfilesAssignment.getUserDeniedProfiles", parameters);
+            
+            for (Map<String, String> deniedProfile : deniedProfiles)
+            {
+                UserIdentity userIdentity = new UserIdentity(deniedProfile.get("login"), deniedProfile.get("population"));
+                String profileId = deniedProfile.get("profileId");
+                
+                if (!profiledByUsers.containsKey(userIdentity))
+                {
+                    profiledByUsers.put(userIdentity, new HashSet<>());
+                }
+                profiledByUsers.get(userIdentity).add(profileId);
+            }
+            
+            return profiledByUsers;
+        }
     }
     
     @Override
     public Set<UserIdentity> getDeniedUsers(Object object, String profileId)
     {
-        return _getUsers(_tableDeniedUsers, object, profileId);
+        try (SqlSession session = getSession())
+        {
+            Set<UserIdentity> users = new HashSet<>();
+            
+            Map<String, Object> parameters = new HashMap<>();
+            if (object != null)
+            {
+                parameters.put("context", object);
+            }
+            parameters.put("profileIds", Arrays.asList(profileId));
+            
+            List<Map<String, String>> deniedProfiles = session.selectList("ProfilesAssignment.getUserDeniedProfiles", parameters);
+            
+            for (Map<String, String> deniedProfile : deniedProfiles)
+            {
+                users.add(new UserIdentity(deniedProfile.get("login"), deniedProfile.get("population")));
+            }
+            
+            return users;
+        }
     }
     
     @Override
     public void addDeniedUsers(Set<UserIdentity> users, Object object, String profileId)
     {
-        _addUsers(_tableDeniedUsers, users, object, profileId);
+        try (SqlSession session = getSession())
+        {
+            for (UserIdentity userIdentity : users)
+            {
+                Map<String, Object> parameters = new HashMap<>();
+                parameters.put("login", userIdentity.getLogin());
+                parameters.put("population", userIdentity.getPopulationId());
+                parameters.put("context", object);
+                parameters.put("profileIds", Arrays.asList(profileId));
+                
+                List<Map<String, String>> deniedProfiles = session.selectList("ProfilesAssignment.getUserDeniedProfiles", parameters);
+                
+                if (deniedProfiles.isEmpty())
+                {
+                    parameters.put("profileId", profileId);
+                    session.insert("ProfilesAssignment.addDeniedUser", parameters);
+                }
+                else
+                {
+                    getLogger().debug("Login {} is already denied for profile {} on context {}", userIdentity, profileId, object);
+                }
+                
+            }
+            
+            session.commit();
+        }
     }
     
     @Override
     public void removeDeniedUsers(Set<UserIdentity> users, Object object, String profileId)
     {
-        _removeUsers(_tableDeniedUsers, users, object, profileId);
+        try (SqlSession session = getSession())
+        {
+            for (UserIdentity userIdentity : users)
+            {
+                Map<String, Object> parameters = new HashMap<>();
+                parameters.put("login", userIdentity.getLogin());
+                parameters.put("population", userIdentity.getPopulationId());
+                parameters.put("profileId", profileId);
+                if (object != null)
+                {
+                    parameters.put("context", object);
+                }
+                
+                session.delete("ProfilesAssignment.deleteDeniedUser", parameters);
+            }
+            session.commit();
+        }
     }
     
     @Override
     public void removeDeniedUsers(Set<UserIdentity> users, Object object)
     {
-        _removeUsers(_tableDeniedUsers, users, object);
+        try (SqlSession session = getSession())
+        {
+            for (UserIdentity userIdentity : users)
+            {
+                Map<String, Object> parameters = new HashMap<>();
+                parameters.put("login", userIdentity.getLogin());
+                parameters.put("population", userIdentity.getPopulationId());
+                if (object != null)
+                {
+                    parameters.put("context", object);
+                }
+                
+                session.delete("ProfilesAssignment.deleteDeniedUser", parameters);
+            }
+            session.commit();
+        }
     }
     
     
@@ -1547,667 +1209,129 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
     @Override
     public Map<GroupIdentity, Set<String>> getDeniedProfilesForGroups(Object object)
     {
-        return _getGroups(_tableDeniedGroups, object);
+        try (SqlSession session = getSession())
+        {
+            Map<GroupIdentity, Set<String>> profiledByGroups = new HashMap<>();
+            
+            Map<String, String> parameters = new HashMap<>();
+            if (object != null)
+            {
+                parameters.put("context", (String) object);
+            }
+            
+            List<Map<String, String>> deniedProfiles = session.selectList("ProfilesAssignment.getGroupDeniedProfiles", parameters);
+            
+            for (Map<String, String> deniedProfile : deniedProfiles)
+            {
+                GroupIdentity gpIdentity = new GroupIdentity(deniedProfile.get("groupId"), deniedProfile.get("groupDirectory"));
+                String profileId = deniedProfile.get("profileId");
+                
+                if (!profiledByGroups.containsKey(gpIdentity))
+                {
+                    profiledByGroups.put(gpIdentity, new HashSet<>());
+                }
+                profiledByGroups.get(gpIdentity).add(profileId);
+            }
+            
+            return profiledByGroups;
+        }
     }
     
     @Override
     public Set<GroupIdentity> getDeniedGroups(Object object, String profileId)
     {
-        return _getGroups(_tableDeniedGroups, object, profileId);
+        try (SqlSession session = getSession())
+        {
+            Set<GroupIdentity> groups = new HashSet<>();
+            
+            Map<String, Object> parameters = new HashMap<>();
+            if (object != null)
+            {
+                parameters.put("context", object);
+            }
+            parameters.put("profileIds", Arrays.asList(profileId));
+            
+            List<Map<String, String>> deniedProfiles = session.selectList("ProfilesAssignment.getGroupDeniedProfiles", parameters);
+            
+            for (Map<String, String> deniedProfile : deniedProfiles)
+            {
+                groups.add(new GroupIdentity(deniedProfile.get("groupId"), deniedProfile.get("groupDirectory")));
+            }
+            
+            return groups;
+        }
     }
     
     @Override
     public void addDeniedGroups(Set<GroupIdentity> groups, Object object, String profileId)
     {
-        _addGroups(_tableDeniedGroups, groups, object, profileId);
+        try (SqlSession session = getSession())
+        {
+            for (GroupIdentity group : groups)
+            {
+                Map<String, Object> parameters = new HashMap<>();
+                parameters.put("groupId", group.getId());
+                parameters.put("groupDirectory", group.getDirectoryId());
+                parameters.put("context", object);
+                parameters.put("profileIds", Arrays.asList(profileId));
+                
+                List<Map<String, String>> deniedProfiles = session.selectList("ProfilesAssignment.getGroupDeniedProfiles", parameters);
+                
+                if (deniedProfiles.isEmpty())
+                {
+                    parameters.put("profileId", profileId);
+                    session.insert("ProfilesAssignment.addDeniedGroup", parameters);
+                }
+                else
+                {
+                    getLogger().debug("Group {} is already denied for profile {} on context {}", group, profileId, object);
+                }
+            }
+            
+            session.commit();
+        }
     }
     
     @Override
     public void removeDeniedGroups(Set<GroupIdentity> groups, Object object, String profileId)
     {
-        _removeGroups(_tableDeniedGroups, groups, object, profileId);
+        try (SqlSession session = getSession())
+        {
+            for (GroupIdentity group : groups)
+            {
+                Map<String, Object> parameters = new HashMap<>();
+                parameters.put("groupId", group.getId());
+                parameters.put("groupDirectory", group.getDirectoryId());
+                parameters.put("profileId", profileId);
+                if (object != null)
+                {
+                    parameters.put("context", object);
+                }
+                
+                session.delete("ProfilesAssignment.deleteDeniedGroup", parameters);
+            }
+            session.commit();
+        }
     }
     
     @Override
     public void removeDeniedGroups(Set<GroupIdentity> groups, Object object)
     {
-        _removeGroups(_tableDeniedGroups, groups, object);
-    }
-    
-    
-    /* --------------- */
-    /* PRIVATE METHODS */
-    /* --------------- */
-    
-    private Set<String> _getProfiles(String tableName, Object object)
-    {
-        String context = (String) object;
-        Set<String> profiles = new HashSet<>();
-        
-        Connection connection = getSQLConnection();
-
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try
+        try (SqlSession session = getSession())
         {
-            String sql = "SELECT DISTINCT Profile_Id, Context " + "FROM " + tableName + " WHERE LOWER(Context) = ?";
-
-            stmt = connection.prepareStatement(sql);
-
-            stmt.setString(1, context);
-
-            getLogger().debug("{}\n[{}]", sql, context);
-
-            rs = stmt.executeQuery();
-
-            while (rs.next())
+            for (GroupIdentity group : groups)
             {
-                String profileId = rs.getString(1);
-                profiles.add(profileId);
-            }
-        }
-        catch (SQLException ex)
-        {
-            getLogger().error("Error in sql query", ex);
-            throw new RightsException("Error in sql query", ex);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(connection);
-        }
-        
-        return profiles;
-    }
-    
-    private Map<UserIdentity, Set<String>> _getProfilesForUsers(String tableName, Object object)
-    {
-        String context = (String) object;
-        Map<UserIdentity, Set<String>> users = new HashMap<>();
-
-        Connection connection = getSQLConnection();
-
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try
-        {
-            String sql = "SELECT DISTINCT Login, UserPopulation_Id, Profile_Id " + "FROM " + tableName + " WHERE LOWER(Context) = ?";
-
-            stmt = connection.prepareStatement(sql);
-
-            stmt.setString(1, context);
-
-            getLogger().debug("{}\n[{}]", sql, context);
-
-            rs = stmt.executeQuery();
-
-            while (rs.next())
-            {
-                String login = rs.getString(1);
-                String populationId = rs.getString(2);
-                UserIdentity userIdentity = new UserIdentity(login, populationId);
-                String profileId = rs.getString(3);
-                if (users.containsKey(userIdentity))
+                Map<String, Object> parameters = new HashMap<>();
+                parameters.put("groupId", group.getId());
+                parameters.put("groupDirectory", group.getDirectoryId());
+                if (object != null)
                 {
-                    users.get(userIdentity).add(profileId);
+                    parameters.put("context", object);
                 }
-                else
-                {
-                    Set<String> profiles = new HashSet<>();
-                    profiles.add(profileId);
-                    users.put(userIdentity, profiles);
-                }
+                
+                session.delete("ProfilesAssignment.deleteDeniedGroup", parameters);
             }
-        }
-        catch (SQLException ex)
-        {
-            getLogger().error("Error in sql query", ex);
-            throw new RightsException("Error in sql query", ex);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(connection);
-        }
-
-        return users;
-    }
-    
-    private void _addProfiles(String tableName, Object object, Set<String> profileIds)
-    {
-        String context = (String) object;
-        for (String profileId : profileIds)
-        {
-            Connection connection = getSQLConnection();
-            PreparedStatement stmt = null;
-            ResultSet rs = null;
-            try
-            {
-                // Check if already exists
-                String sql = "SELECT Profile_Id, Context FROM " + tableName + " WHERE Profile_Id=? AND Context=?";
-                stmt = connection.prepareStatement(sql);
-                stmt.setString(1, profileId);
-                stmt.setString(2, context);
-
-                rs = stmt.executeQuery();
-                if (rs.next())
-                {
-                    getLogger().debug("Profile ID {} is already a 'anyConnectedUsersProfile' on context {}", profileId, context);
-                    break;
-                }
-
-                ConnectionHelper.cleanup(stmt);
-
-                sql = "INSERT INTO " + tableName + " (Profile_Id, Context) VALUES(?, ?)";
-
-                stmt = connection.prepareStatement(sql);
-
-                stmt.setString(1, profileId);
-                stmt.setString(2, context);
-
-                getLogger().debug("{}\n[{}, {}]", sql, profileId, context);
-
-                stmt.executeUpdate();
-            }
-            catch (SQLException ex)
-            {
-                getLogger().error("Error in sql query", ex);
-                throw new RightsException("Error in sql query", ex);
-            }
-            finally
-            {
-                ConnectionHelper.cleanup(rs);
-                ConnectionHelper.cleanup(stmt);
-                ConnectionHelper.cleanup(connection);
-            }
-        }
-    }
-    
-    private void _removeProfiles(String tableName, Object object, Set<String> profileIds)
-    {
-        String context = (String) object;
-        for (String profileId : profileIds)
-        {
-            Connection connection = getSQLConnection();
-            PreparedStatement stmt = null;
-
-            try
-            {
-                String sql = "DELETE FROM " + tableName + " WHERE Profile_Id = ? AND LOWER(Context) = ?";
-
-                stmt = connection.prepareStatement(sql);
-
-                stmt.setString(1, profileId);
-                stmt.setString(2, context);
-
-                getLogger().debug("{}\n[{}]", sql, context);
-
-                stmt.executeUpdate();
-            }
-            catch (NumberFormatException ex)
-            {
-                getLogger().error("Profile ID must be an integer.", ex);
-                throw new RightsException("Profile ID must be an integer.", ex);
-            }
-            catch (SQLException ex)
-            {
-                getLogger().error("Error in sql query", ex);
-                throw new RightsException("Error in sql query", ex);
-            }
-            finally
-            {
-                ConnectionHelper.cleanup(stmt);
-                ConnectionHelper.cleanup(connection);
-            }
-        }
-    }
-    
-    private Set<UserIdentity> _getUsers(String tableName, Object object, String profileId)
-    {
-        String context = (String) object;
-        Set<UserIdentity> users = new HashSet<>();
-
-        Connection connection = getSQLConnection();
-
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try
-        {
-            String sql = "SELECT DISTINCT Login, UserPopulation_Id " + "FROM " + tableName + " WHERE Profile_Id = ? AND LOWER(Context) = ?";
-
-            stmt = connection.prepareStatement(sql);
-
-            stmt.setString(1, profileId);
-            stmt.setString(2, context);
-
-            getLogger().debug("{}\n[{}, {}]", sql, profileId, context);
-
-            rs = stmt.executeQuery();
-
-            while (rs.next())
-            {
-                String login = rs.getString(1);
-                String populationId = rs.getString(2);
-                users.add(new UserIdentity(login, populationId));
-            }
-        }
-        catch (NumberFormatException ex)
-        {
-            getLogger().error("Profile ID must be an integer.", ex);
-            throw new RightsException("Profile ID must be an integer.", ex);
-        }
-        catch (SQLException ex)
-        {
-            getLogger().error("Error in sql query", ex);
-            throw new RightsException("Error in sql query", ex);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(connection);
-        }
-
-        return users;
-    }
-    
-    private void _addUsers(String tableName, Set<UserIdentity> users, Object object, String profileId)
-    {
-        String context = (String) object;
-        for (UserIdentity userIdentity : users)
-        {
-            Connection connection = getSQLConnection();
-            PreparedStatement stmt = null;
-            ResultSet rs = null;
-            try
-            {
-                // Check if already exists
-                String sql = "SELECT Profile_Id FROM " + tableName + " WHERE Profile_Id=? and Login=? AND UserPopulation_Id=? and Context=?";
-                stmt = connection.prepareStatement(sql);
-                stmt.setString(1, profileId);
-                stmt.setString(2, userIdentity.getLogin());
-                stmt.setString(3, userIdentity.getPopulationId());
-                stmt.setString(4, context);
-
-                rs = stmt.executeQuery();
-                if (rs.next())
-                {
-                    getLogger().debug("Login {} has already profile {} on context {}", userIdentity, profileId, context);
-                    break;
-                }
-
-                ConnectionHelper.cleanup(stmt);
-
-                sql = "INSERT INTO " + tableName + " (Profile_Id, Login, UserPopulation_Id, Context) VALUES(?, ?, ?, ?)";
-
-                stmt = connection.prepareStatement(sql);
-
-                stmt.setString(1, profileId);
-                stmt.setString(2, userIdentity.getLogin());
-                stmt.setString(3, userIdentity.getPopulationId());
-                stmt.setString(4, context);
-
-                getLogger().debug("{}\n[{}, {}, {}, {}]", sql, profileId, userIdentity.getLogin(), userIdentity.getPopulationId(), context);
-
-                stmt.executeUpdate();
-            }
-            catch (NumberFormatException ex)
-            {
-                getLogger().error("Profile ID must be an integer.", ex);
-                throw new RightsException("Profile ID must be an integer.", ex);
-            }
-            catch (SQLException ex)
-            {
-                getLogger().error("Error in sql query", ex);
-                throw new RightsException("Error in sql query", ex);
-            }
-            finally
-            {
-                ConnectionHelper.cleanup(rs);
-                ConnectionHelper.cleanup(stmt);
-                ConnectionHelper.cleanup(connection);
-            }
-        }
-    }
-    
-    private void _removeUsers(String tableName, Set<UserIdentity> users, Object object, String profileId)
-    {
-        String context = (String) object;
-        for (UserIdentity userIdentity : users)
-        {
-            Connection connection = getSQLConnection();
-            PreparedStatement stmt = null;
-    
-            try
-            {
-                String sql = "DELETE FROM " + tableName + " WHERE Login = ? AND UserPopulation_Id = ? AND Profile_Id = ? AND LOWER(Context) = ? ";
-    
-                stmt = connection.prepareStatement(sql);
-    
-                stmt.setString(1, userIdentity.getLogin());
-                stmt.setString(2, userIdentity.getPopulationId());
-                stmt.setString(3, profileId);
-                stmt.setString(4, context);
-    
-                getLogger().debug("{}\n[{}, {}, {}, {}]", sql, userIdentity.getLogin(), userIdentity.getPopulationId(), profileId, context);
-    
-                stmt.executeUpdate();
-            }
-            catch (NumberFormatException ex)
-            {
-                getLogger().error("Profile ID must be an integer.", ex);
-                throw new RightsException("Profile ID must be an integer.", ex);
-            }
-            catch (SQLException ex)
-            {
-                getLogger().error("Error in sql query", ex);
-                throw new RightsException("Error in sql query", ex);
-            }
-            finally
-            {
-                ConnectionHelper.cleanup(stmt);
-                ConnectionHelper.cleanup(connection);
-            }
-        }
-    }
-    
-    private void _removeUsers(String tableName, Set<UserIdentity> users, Object object)
-    {
-        String context = (String) object;
-        for (UserIdentity userIdentity : users)
-        {
-            Connection connection = getSQLConnection();
-            PreparedStatement stmt = null;
-
-            try
-            {
-                String sql = "DELETE FROM " + tableName + " WHERE Login = ? AND UserPopulation_Id = ?";
-                if (context != null)
-                {
-                    sql += " AND LOWER(Context) = ?";
-                }
-
-                stmt = connection.prepareStatement(sql);
-
-                stmt.setString(1, userIdentity.getLogin());
-                stmt.setString(2, userIdentity.getPopulationId());
-                if (context != null)
-                {
-                    stmt.setString(3, context);
-                }
-
-                getLogger().debug("{}\n[{}, {}, {}]", sql, userIdentity.getLogin(), userIdentity.getPopulationId(), context);
-
-                stmt.executeUpdate();
-            }
-            catch (SQLException ex)
-            {
-                getLogger().error("Error in sql query", ex);
-                throw new RightsException("Error in sql query", ex);
-            }
-            finally
-            {
-                ConnectionHelper.cleanup(stmt);
-                ConnectionHelper.cleanup(connection);
-            }
-        }
-    }
-
-    private Map<GroupIdentity, Set<String>> _getGroups(String tableName, Object object)
-    {
-        String context = (String) object;
-        Map<GroupIdentity, Set<String>> groups = new HashMap<>();
-
-        Connection connection = getSQLConnection();
-
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try
-        {
-            String sql = "SELECT DISTINCT Group_Id, GroupDirectory_Id, Profile_Id " + "FROM " + tableName + " WHERE LOWER(Context) = ?";
-
-            stmt = connection.prepareStatement(sql);
-
-            stmt.setString(1, context);
-
-            getLogger().debug("{}\n[{}]", sql, context);
-
-            rs = stmt.executeQuery();
-
-            while (rs.next())
-            {
-                String groupId = rs.getString(1);
-                String directoryId = rs.getString(2);
-                GroupIdentity groupIdentity = new GroupIdentity(groupId, directoryId);
-                String profileId = rs.getString(3);
-                if (groups.containsKey(groupIdentity))
-                {
-                    groups.get(groupIdentity).add(profileId);
-                }
-                else
-                {
-                    Set<String> profiles = new HashSet<>();
-                    profiles.add(profileId);
-                    groups.put(groupIdentity, profiles);
-                }
-            }
-        }
-        catch (NumberFormatException ex)
-        {
-            getLogger().error("Profile ID must be an integer.", ex);
-            throw new RightsException("Profile ID must be an integer.", ex);
-        }
-        catch (SQLException ex)
-        {
-            getLogger().error("Error in sql query", ex);
-            throw new RightsException("Error in sql query", ex);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(connection);
-        }
-
-        return groups;
-    }
-
-    private Set<GroupIdentity> _getGroups(String tableName, Object object, String profileId)
-    {
-        String context = (String) object;
-        Set<GroupIdentity> groups = new HashSet<>();
-
-        Connection connection = getSQLConnection();
-
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try
-        {
-            String sql = "SELECT DISTINCT Group_Id, GroupDirectory_Id " + "FROM " + tableName + " WHERE Profile_Id = ? AND LOWER(Context) = ? ";
-
-            stmt = connection.prepareStatement(sql);
-
-            stmt.setString(1, profileId);
-            stmt.setString(2, context);
-
-            getLogger().debug("{}\n[{}, {}]", sql, profileId, context);
-
-            rs = stmt.executeQuery();
-
-            while (rs.next())
-            {
-                String groupId = rs.getString(1);
-                String groupDirectoryId = rs.getString(2);
-                groups.add(new GroupIdentity(groupId, groupDirectoryId));
-            }
-        }
-        catch (NumberFormatException ex)
-        {
-            getLogger().error("Profile ID must be an integer.", ex);
-            throw new RightsException("Profile ID must be an integer.", ex);
-        }
-        catch (SQLException ex)
-        {
-            getLogger().error("Error in sql query", ex);
-            throw new RightsException("Error in sql query", ex);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(connection);
-        }
-
-        return groups;
-    }
-    
-    private void _addGroups(String tableName, Set<GroupIdentity> groups, Object object, String profileId)
-    {
-        String context = (String) object;
-        for (GroupIdentity groupIdentity : groups)
-        {
-            Connection connection = getSQLConnection();
-            PreparedStatement stmt = null;
-            ResultSet rs = null;
-            try
-            {
-                // Check if already exists
-                String sql = "SELECT Profile_Id FROM " + tableName + " WHERE Profile_Id=? and Group_Id=? and GroupDirectory_Id=? and Context=?";
-                stmt = connection.prepareStatement(sql);
-                stmt.setString(1, profileId);
-                stmt.setString(2, groupIdentity.getId());
-                stmt.setString(3, groupIdentity.getDirectoryId());
-                stmt.setString(4, context);
-
-                rs = stmt.executeQuery();
-                if (rs.next())
-                {
-                    getLogger().debug("Group of id {} has already profile {} on context {}", groupIdentity, profileId, context);
-                    break;
-                }
-
-                ConnectionHelper.cleanup(stmt);
-
-                sql = "INSERT INTO " + tableName + " (Profile_Id, Group_Id, GroupDirectory_Id, Context) VALUES(?, ?, ?, ?)";
-
-                stmt = connection.prepareStatement(sql);
-
-                stmt.setString(1, profileId);
-                stmt.setString(2, groupIdentity.getId());
-                stmt.setString(3, groupIdentity.getDirectoryId());
-                stmt.setString(4, context);
-
-                getLogger().debug("{}\n[{}, {}, {}, {}]", sql, profileId, groupIdentity.getId(), groupIdentity.getDirectoryId(), context);
-
-                stmt.executeUpdate();
-            }
-            catch (NumberFormatException ex)
-            {
-                getLogger().error("Profile ID must be an integer.", ex);
-                throw new RightsException("Profile ID must be an integer.", ex);
-            }
-            catch (SQLException ex)
-            {
-                getLogger().error("Error in sql query", ex);
-                throw new RightsException("Error in sql query", ex);
-            }
-            finally
-            {
-                ConnectionHelper.cleanup(rs);
-                ConnectionHelper.cleanup(stmt);
-                ConnectionHelper.cleanup(connection);
-            }
-        }
-    }
-    
-    private void _removeGroups(String tableName, Set<GroupIdentity> groups, Object object, String profileId)
-    {
-        String context = (String) object;
-        for (GroupIdentity groupIdentity : groups)
-        {
-            Connection connection = getSQLConnection();
-            PreparedStatement stmt = null;
-
-            try
-            {
-                String sql = "DELETE FROM " + tableName + " WHERE Group_Id = ? AND GroupDirectory_Id = ? AND Profile_Id = ? AND LOWER(Context) = ?";
-
-                stmt = connection.prepareStatement(sql);
-
-                stmt.setString(1, groupIdentity.getId());
-                stmt.setString(2, groupIdentity.getDirectoryId());
-                stmt.setString(3, profileId);
-                stmt.setString(4, context);
-
-                getLogger().debug("{}\n[{}, {}, {}, {}]", sql, groupIdentity.getId(), groupIdentity.getDirectoryId(), profileId, context);
-
-                stmt.executeUpdate();
-            }
-            catch (NumberFormatException ex)
-            {
-                getLogger().error("Profile ID must be an integer.", ex);
-                throw new RightsException("Profile ID must be an integer.", ex);
-            }
-            catch (SQLException ex)
-            {
-                getLogger().error("Error in sql query", ex);
-                throw new RightsException("Error in sql query", ex);
-            }
-            finally
-            {
-                ConnectionHelper.cleanup(stmt);
-                ConnectionHelper.cleanup(connection);
-            }
-        }
-    }
-    
-    private void _removeGroups(String tableName, Set<GroupIdentity> groups, Object object)
-    {
-        String context = (String) object;
-        for (GroupIdentity groupIdentity : groups)
-        {
-            Connection connection = getSQLConnection();
-            PreparedStatement stmt = null;
-
-            try
-            {
-                String sql = "DELETE FROM " + tableName + " WHERE Group_Id = ? AND groupDirectory_Id = ?";
-
-                if (context != null)
-                {
-                    sql += " AND LOWER(Context) = ?";
-                }
-
-                stmt = connection.prepareStatement(sql);
-
-                stmt.setString(1, groupIdentity.getId());
-                stmt.setString(2, groupIdentity.getDirectoryId());
-                if (context != null)
-                {
-                    stmt.setString(3, context);
-                }
-
-                getLogger().debug("{}\n[{}, {}, {}]", sql, groupIdentity.getId(), groupIdentity.getDirectoryId(), context);
-
-                stmt.executeUpdate();
-            }
-            catch (SQLException ex)
-            {
-                getLogger().error("Error in sql query", ex);
-                throw new RightsException("Error in sql query", ex);
-            }
-            finally
-            {
-                ConnectionHelper.cleanup(stmt);
-                ConnectionHelper.cleanup(connection);
-            }
+            session.commit();
         }
     }
     
@@ -2219,129 +1343,53 @@ public class JdbcProfileAssignmentStorage extends AbstractLogEnabled implements 
     @Override
     public void removeProfile(String profileId)
     {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        PreparedStatement statement2 = null;
-        PreparedStatement statement3 = null;
-        PreparedStatement statement4 = null;
-        PreparedStatement statement5 = null;
-        PreparedStatement statement6 = null;
-        PreparedStatement statement7 = null;
-        PreparedStatement statement8 = null;
-
-        try
+        try (SqlSession session = getSession())
         {
-            connection = getSQLConnection();
-
-            statement = connection.prepareStatement("DELETE FROM " + _tableAllowedUsers + " WHERE Profile_Id = ?");
-            statement.setString(1, profileId);
-            statement.executeUpdate();
-
-            statement2 = connection.prepareStatement("DELETE FROM " + _tableAllowedGroups + " WHERE Profile_Id = ?");
-            statement2.setString(1, profileId);
-            statement2.executeUpdate();
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("profileIds", Arrays.asList(profileId));
             
-            statement3 = connection.prepareStatement("DELETE FROM " + _tableDeniedUsers + " WHERE Profile_Id = ?");
-            statement3.setString(1, profileId);
-            statement3.executeUpdate();
+            session.delete("ProfilesAssignment.deleteAllowedUser", parameters);
+            session.delete("ProfilesAssignment.deleteDeniedUser", parameters);
+            session.delete("ProfilesAssignment.deleteAllowedGroup", parameters);
+            session.delete("ProfilesAssignment.deleteDeniedGroup", parameters);
+            session.delete("ProfilesAssignment.deleteAllowedAnonymous", parameters);
+            session.delete("ProfilesAssignment.deleteDeniedAnonymous", parameters);
+            session.delete("ProfilesAssignment.deleteAllowedAnyConnected", parameters);
+            session.delete("ProfilesAssignment.deleteDeniedAnyConnected", parameters);
             
-            statement4 = connection.prepareStatement("DELETE FROM " + _tableDeniedGroups + " WHERE Profile_Id = ?");
-            statement4.setString(1, profileId);
-            statement4.executeUpdate();
-            
-            statement5 = connection.prepareStatement("DELETE FROM " + _tableAllowedProfilesAnyConnected + " WHERE Profile_Id = ?");
-            statement5.setString(1, profileId);
-            statement5.executeUpdate();
-            
-            statement6 = connection.prepareStatement("DELETE FROM " + _tableDeniedProfilesAnyConnected + " WHERE Profile_Id = ?");
-            statement6.setString(1, profileId);
-            statement6.executeUpdate();
-            
-            statement7 = connection.prepareStatement("DELETE FROM " + _tableAllowedProfilesAnonymous + " WHERE Profile_Id = ?");
-            statement7.setString(1, profileId);
-            statement7.executeUpdate();
-            
-            statement8 = connection.prepareStatement("DELETE FROM " + _tableDeniedProfilesAnonymous + " WHERE Profile_Id = ?");
-            statement8.setString(1, profileId);
-            statement8.executeUpdate();
-        }
-        catch (SQLException ex)
-        {
-            throw new RuntimeException(ex);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(statement);
-            ConnectionHelper.cleanup(statement2);
-            ConnectionHelper.cleanup(statement3);
-            ConnectionHelper.cleanup(statement4);
-            ConnectionHelper.cleanup(connection);
+            session.commit();
         }
     }
     
     @Override
     public void removeUser(UserIdentity user)
     {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        PreparedStatement statement2 = null;
-
-        try
+        try (SqlSession session = getSession())
         {
-            connection = getSQLConnection();
-
-            statement = connection.prepareStatement("DELETE FROM " + _tableAllowedUsers + " WHERE Login = ? AND UserPopulation_Id = ?");
-            statement.setString(1, user.getLogin());
-            statement.setString(2, user.getPopulationId());
-            statement.executeUpdate();
-
-            statement2 = connection.prepareStatement("DELETE FROM " + _tableDeniedUsers + " WHERE Login = ? AND UserPopulation_Id = ?");
-            statement2.setString(1, user.getLogin());
-            statement2.setString(2, user.getPopulationId());
-            statement2.executeUpdate();
-        }
-        catch (SQLException ex)
-        {
-            throw new RuntimeException(ex);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(statement);
-            ConnectionHelper.cleanup(statement2);
-            ConnectionHelper.cleanup(connection);
+            Map<String, String> parameters = new HashMap<>();
+            parameters.put("login", user.getLogin());
+            parameters.put("populationId", user.getPopulationId());
+            
+            session.delete("ProfilesAssignment.deleteAllowedUser", parameters);
+            session.delete("ProfilesAssignment.deleteDeniedUser", parameters);
+            
+            session.commit();
         }
     }
     
     @Override
     public void removeGroup(GroupIdentity group)
     {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        PreparedStatement statement2 = null;
-
-        try
+        try (SqlSession session = getSession())
         {
-            connection = getSQLConnection();
-
-            statement = connection.prepareStatement("DELETE FROM " + _tableAllowedGroups + " WHERE Group_Id = ? AND GroupDirectory_Id = ?");
-            statement.setString(1, group.getId());
-            statement.setString(2, group.getDirectoryId());
-            statement.executeUpdate();
-
-            statement2 = connection.prepareStatement("DELETE FROM " + _tableDeniedGroups + " WHERE Group_Id = ? AND GroupDirectory_Id = ?");
-            statement2.setString(1, group.getId());
-            statement2.setString(2, group.getDirectoryId());
-            statement2.executeUpdate();
-        }
-        catch (SQLException ex)
-        {
-            throw new RuntimeException(ex);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(statement);
-            ConnectionHelper.cleanup(statement2);
-            ConnectionHelper.cleanup(connection);
+            Map<String, String> parameters = new HashMap<>();
+            parameters.put("groupId", group.getId());
+            parameters.put("groupDirectory", group.getDirectoryId());
+            
+            session.delete("ProfilesAssignment.deleteAllowedGroup", parameters);
+            session.delete("ProfilesAssignment.deleteDeniedGroup", parameters);
+            
+            session.commit();
         }
     }
     

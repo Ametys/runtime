@@ -1342,6 +1342,7 @@
                        class="org.ametys.plugins.core.impl.right.JdbcProfileAssignmentStorage"
                        point="org.ametys.core.right.ProfileAssignmentStorageExtensionPoint">
                 <datasource type="config">runtime.rights.datasource</datasource>
+            	<sqlMap resource="/org/ametys/plugins/core/impl/right/profile-assignment.xml" />
             </extension>
         </extensions>
     </feature>

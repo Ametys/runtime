@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+   Copyright 2010 Anyware Services
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
+   
+<mapper namespace="ProfilesAssignment">
+
+  <resultMap type="java.util.HashMap" id="anonymousOrAnyconnectedAssignment">
+	<result property="profileId" column="Profile_Id" />
+	<result property="context" column="Context" />
+  </resultMap>
+  
+  <resultMap type="java.util.HashMap" id="userAssignment">
+	<result property="profileId" column="Profile_Id" />
+	<result property="login" column="Login" />
+	<result property="population" column="UserPopulation_Id" />
+	<result property="context" column="Context" />
+  </resultMap>
+
+  <resultMap type="java.util.HashMap" id="groupAssignment">
+	<result property="profileId" column="Profile_Id" />
+	<result property="groupId" column="Group_Id" />
+	<result property="groupDirectory" column="GroupDirectory_Id" />
+	<result property="context" column="Context" />
+  </resultMap>
+  
+  <sql id="getAnonymousAllowedProfiles">
+    SELECT Profile_Id, Context 
+    FROM Rights_AllowedProfilesAnonym
+  </sql>
+  
+  <sql id="getAnonymousDeniedProfiles">
+    SELECT Profile_Id, Context 
+    FROM Rights_DeniedProfilesAnonym
+  </sql>
+  
+  <sql id="getAnyConnectedAllowedProfiles">
+    SELECT Profile_Id, Context 
+    FROM Rights_AllowedProfilesAnyCon
+  </sql>
+  
+  <sql id="getAnyConnectedDeniedProfiles">
+    SELECT Profile_Id, Context 
+    FROM Rights_DeniedProfilesAnyCon
+  </sql>
+  
+  <sql id="getUserAllowedProfiles">
+    SELECT Profile_Id, Login, UserPopulation_Id, Context 
+    FROM Rights_AllowedUsers
+  </sql>
+  
+  <sql id="getUserDeniedProfiles">
+    SELECT Profile_Id, Login, UserPopulation_Id, Context 
+    FROM Rights_DeniedUsers
+  </sql>
+  
+  <sql id="getGroupDeniedProfiles">
+    SELECT Profile_Id, Group_Id, GroupDirectory_Id, Context 
+    FROM Rights_DeniedGroups
+  </sql>
+  
+  <sql id="getGroupAllowedProfiles">
+    SELECT Profile_Id, Group_Id, GroupDirectory_Id, Context 
+    FROM Rights_AllowedGroups
+  </sql>
+  
+  <!--
+  		Get the denied profiles for a user 
+  		Can be restricted to context wildcard and a list or profiles
+   -->
+  <select id="getUserDeniedProfiles" parameterType="java.util.Map" resultMap="userAssignment">
+    <include refid="getUserDeniedProfiles"/>
+    <where>
+    	<if test="login != null and population != null">
+    		Login=#{login} AND UserPopulation_Id=#{population}
+    	</if>
+    	<choose>
+		    <when test="context != null">
+		    	AND Context = #{context}
+		    </when>
+		    <when test="contextPrefix != null">
+		    	<bind name="pattern" value="contextPrefix + '%'" />
+		    	AND Context like #{pattern}
+		    </when>
+		</choose>
+	    <if test="profileIds != null">
+		    <foreach collection="profileIds" item="item" separator=" OR " open="AND (" close=")" >
+		    	Profile_Id=#{item}
+		    </foreach>
+		</if>
+    </where>
+  </select>
+  
+  <!--
+  		Get the allowed profiles for a user 
+  		Can be restricted to context wildcard and a list or profiles
+   -->
+  <select id="getUserAllowedProfiles" parameterType="java.util.Map" resultMap="userAssignment">
+    <include refid="getUserAllowedProfiles"/>
+    <where>
+    	<if test="login != null and population != null">
+    		Login=#{login} AND UserPopulation_Id=#{population}
+    	</if>
+    	<choose>
+		    <when test="context != null">
+		    	AND Context = #{context}
+		    </when>
+		    <when test="contextPrefix != null">
+		    	<bind name="pattern" value="contextPrefix + '%'" />
+		    	AND Context like #{pattern}
+		    </when>
+		</choose>
+	    <if test="profileIds != null">
+		    <foreach collection="profileIds" item="item" separator=" OR " open="AND (" close=")" >
+		    	Profile_Id=#{item}
+		    </foreach>
+		</if>
+    </where>
+  </select>
+  
+  <!--
+  		Get the denied profiles for a group 
+  		Can be restricted to context wildcard and a list or profiles
+   -->
+  <select id="getGroupDeniedProfiles" parameterType="java.util.Map" resultMap="groupAssignment">
+    <include refid="getGroupDeniedProfiles"/>
+    <where>
+    	<if test="groupId != null and groupDirectory != null">
+    		Group_Id=#{groupId} AND GroupDirectory_Id=#{groupDirectory}
+    	</if>
+    	<choose>
+		    <when test="context != null">
+		    	AND Context = #{context}
+		    </when>
+		    <when test="contextPrefix != null">
+		    	<bind name="pattern" value="contextPrefix + '%'" />
+		    	AND Context like #{pattern}
+		    </when>
+		</choose>
+	    <if test="profileIds != null">
+		    <foreach collection="profileIds" item="item" separator=" OR " open="AND (" close=")" >
+		    	Profile_Id=#{item}
+		    </foreach>
+		</if>
+    </where>
+  </select>
+  
+  <!--
+  		Get the allowed profiles for a group 
+  		Can be restricted to context wildcard and a list or profiles
+   -->
+  <select id="getGroupAllowedProfiles" parameterType="java.util.Map" resultMap="groupAssignment">
+    <include refid="getGroupAllowedProfiles"/>
+    <where>
+    	<if test="groupId != null and groupDirectory != null">
+    		Group_Id=#{groupId} AND GroupDirectory_Id=#{groupDirectory}
+    	</if>
+    	<choose>
+		    <when test="context != null">
+		    	AND Context = #{context}
+		    </when>
+		    <when test="contextPrefix != null">
+		    	<bind name="pattern" value="contextPrefix + '%'" />
+		    	AND Context like #{pattern}
+		    </when>
+		</choose>
+	    <if test="profileIds != null">
+		    <foreach collection="profileIds" item="item" separator=" OR " open="AND (" close=")" >
+		    	Profile_Id=#{item}
+		    </foreach>
+		</if>
+    </where>
+  </select>
+  
+  <!--
+  		Get the denied profiles for a any connected user 
+  		Can be restricted to context wildcard and a list or profiles
+   -->
+  <select id="getAnyConnectedDeniedProfiles" parameterType="java.util.Map" resultMap="anonymousOrAnyconnectedAssignment">
+    <include refid="getAnyConnectedDeniedProfiles"/>
+    <where>	
+    	<if test="profileIds != null">
+		    <foreach collection="profileIds" item="item" separator=" OR " open="(" close=")" >
+		    	Profile_Id=#{item}
+		    </foreach>
+		</if>
+	    <choose>
+		    <when test="context != null">
+		    	AND Context = #{context}
+		    </when>
+		    <when test="contextPrefix != null">
+		    	<bind name="pattern" value="contextPrefix + '%'" />
+		    	AND Context like #{pattern}
+		    </when>
+		</choose>
+	</where>
+  </select>
+  
+  <!--
+  		Get the allowed profiles for a any connected user 
+  		Can be restricted to context wildcard and a list or profiles
+   -->
+  <select id="getAnyConnectedAllowedProfiles" parameterType="java.util.Map" resultMap="anonymousOrAnyconnectedAssignment">
+    <include refid="getAnyConnectedAllowedProfiles"/>
+    <where>	
+    	<if test="profileIds != null">
+		    <foreach collection="profileIds" item="item" separator=" OR " open="(" close=")" >
+		    	Profile_Id=#{item}
+		    </foreach>
+		</if>
+	    <choose>
+		    <when test="context != null">
+		    	AND Context = #{context}
+		    </when>
+		    <when test="contextPrefix != null">
+		    	<bind name="pattern" value="contextPrefix + '%'" />
+		    	AND Context like #{pattern}
+		    </when>
+		</choose>
+	</where>
+  </select>
+  
+  <!--
+  		Get the denied profiles for Anonymous
+  		Can be restricted to context wildcard and a list or profiles
+   -->
+  <select id="getAnonymousDeniedProfiles" parameterType="java.util.Map" resultMap="anonymousOrAnyconnectedAssignment">
+    <include refid="getAnonymousDeniedProfiles"/>
+   	<where>	
+    	<if test="profileIds != null">
+		    <foreach collection="profileIds" item="item" separator=" OR " open="(" close=")" >
+		    	Profile_Id=#{item}
+		    </foreach>
+		</if>
+	    <choose>
+		    <when test="context != null">
+		    	AND Context = #{context}
+		    </when>
+		    <when test="contextPrefix != null">
+		    	<bind name="pattern" value="contextPrefix + '%'" />
+		    	AND Context like #{pattern}
+		    </when>
+		</choose>
+	</where>
+  </select>
+  
+  <!--
+  		Get the allowed profiles for Anonymous
+  		Can be restricted to context wildcard and a list or profiles
+   -->
+  <select id="getAnonymousAllowedProfiles" parameterType="java.util.Map" resultMap="anonymousOrAnyconnectedAssignment">
+    <include refid="getAnonymousAllowedProfiles"/>
+    <where>	
+    	<if test="profileIds != null">
+		    <foreach collection="profileIds" item="item" separator=" OR " open="(" close=")" >
+		    	Profile_Id=#{item}
+		    </foreach>
+		</if>
+	    <choose>
+		    <when test="context != null">
+		    	AND Context = #{context}
+		    </when>
+		    <when test="contextPrefix != null">
+		    	<bind name="pattern" value="contextPrefix + '%'" />
+		    	AND Context like #{pattern}
+		    </when>
+		</choose>
+	</where>
+  </select>
+  
+  <insert id="addAllowedUser" parameterType="java.util.Map">
+  	INSERT INTO Rights_AllowedUsers (Profile_Id, Login, UserPopulation_Id, Context)
+    VALUES (#{profileId}, #{login}, #{population}, #{context})
+  </insert>
+  
+  <insert id="addDeniedUser" parameterType="java.util.Map">
+  	INSERT INTO Rights_DeniedUsers (Profile_Id, Login, UserPopulation_Id, Context)
+    VALUES (#{profileId}, #{login}, #{population}, #{context})
+  </insert>
+  
+  <insert id="addAllowedGroup" parameterType="java.util.Map">
+  	INSERT INTO Rights_AllowedGroups (Profile_Id, Group_Id, GroupDirectory_Id, Context)
+    VALUES (#{profileId}, #{groupId}, #{groupDirectory}, #{context})
+  </insert>
+  
+  <insert id="addDeniedGroup" parameterType="java.util.Map">
+  	INSERT INTO Rights_DeniedGroups (Profile_Id, Group_Id, GroupDirectory_Id, Context)
+    VALUES (#{profileId}, #{groupId}, #{groupDirectory}, #{context})
+  </insert>
+  
+  <insert id="addAllowedAnonymous" parameterType="java.util.Map">
+  	INSERT INTO Rights_AllowedProfilesAnonym (Profile_Id, Context)
+    VALUES (#{profileId}, #{context})
+  </insert>
+  
+  <insert id="addDeniedAnonymous" parameterType="java.util.Map">
+  	INSERT INTO Rights_DeniedProfilesAnonym (Profile_Id, Context)
+    VALUES (#{profileId}, #{context})
+  </insert>
+  
+  <insert id="addAllowedAnyConnected" parameterType="java.util.Map">
+  	INSERT INTO Rights_AllowedProfilesAnyCon (Profile_Id, Context)
+    VALUES (#{profileId}, #{context})
+  </insert>
+  
+  <insert id="addDeniedAnyConnected" parameterType="java.util.Map">
+  	INSERT INTO Rights_DeniedProfilesAnyCon (Profile_Id, Context)
+    VALUES (#{profileId}, #{context})
+  </insert>
+  
+  <delete id="deleteAllowedUser" parameterType="java.util.Map">
+	DELETE FROM Rights_AllowedUsers 
+	<where>
+		<if test="login != null and population != null">
+			Login = #{login} AND UserPopulation_Id = #{population}
+		</if>
+		<if test="profileIds != null">
+		    <foreach collection="profileIds" item="item" separator=" OR " open="AND (" close=")" >
+		    	Profile_Id=#{item}
+		    </foreach>
+		</if>
+		<if test="context != null">
+			AND Context = #{context}
+		</if>
+	</where>
+  </delete>
+  
+  <delete id="deleteDeniedUser" parameterType="java.util.Map">
+	DELETE FROM Rights_DeniedUsers 
+	<where>
+		<if test="login != null and population != null">
+			Login = #{login} AND UserPopulation_Id = #{population}
+		</if>
+		<if test="profileIds != null">
+		    <foreach collection="profileIds" item="item" separator=" OR " open="AND (" close=")" >
+		    	Profile_Id=#{item}
+		    </foreach>
+		</if>
+		<if test="context != null">
+			AND Context = #{context}
+		</if>
+	</where>
+  </delete>
+  
+  <delete id="deleteAllowedGroup" parameterType="java.util.Map">
+	DELETE FROM Rights_AllowedGroups 
+	<where>
+		<if test="groupId != null and groupDirectory != null">
+			Group_Id = #{groupId} AND GroupDirectory_Id = #{groupDirectory}
+		</if>
+		<if test="profileIds != null">
+		    <foreach collection="profileIds" item="item" separator=" OR " open="AND (" close=")" >
+		    	Profile_Id=#{item}
+		    </foreach>
+		</if>
+		<if test="context != null">
+			AND Context = #{context}
+		</if>
+	</where>
+  </delete>
+  
+  <delete id="deleteDeniedGroup" parameterType="java.util.Map">
+	DELETE FROM Rights_DeniedGroups 
+	<where>
+		<if test="groupId != null and groupDirectory != null">
+			Group_Id = #{groupId} AND GroupDirectory_Id = #{groupDirectory}
+		</if>
+		<if test="profileIds != null">
+		    <foreach collection="profileIds" item="item" separator=" OR " open="AND (" close=")" >
+		    	Profile_Id=#{item}
+		    </foreach>
+		</if>
+		<if test="context != null">
+			AND Context = #{context}
+		</if>
+	</where>
+  </delete>
+  
+  <delete id="deleteAllowedAnonymous" parameterType="java.util.Map">
+	DELETE FROM Rights_AllowedProfilesAnonym 
+	<where>
+		<if test="context != null">
+			Context = #{context}
+		</if>
+		<if test="profileIds != null">
+		    <foreach collection="profileIds" item="item" separator=" OR " open="AND (" close=")" >
+		    	Profile_Id=#{item}
+		    </foreach>
+		</if>
+	</where>
+  </delete>
+  
+  <delete id="deleteDeniedAnonymous" parameterType="java.util.Map">
+	DELETE FROM Rights_DeniedProfilesAnonym 
+	<where>
+		<if test="context != null">
+			Context = #{context}
+		</if>
+		<if test="profileIds != null">
+		    <foreach collection="profileIds" item="item" separator=" OR " open="AND (" close=")" >
+		    	Profile_Id=#{item}
+		    </foreach>
+		</if>
+	</where>
+  </delete>
+  
+  <delete id="deleteAllowedAnyConnected" parameterType="java.util.Map">
+	DELETE FROM Rights_AllowedProfilesAnyCon 
+	<where>
+		<if test="context != null">
+			Context = #{context}
+		</if>
+		<if test="profileIds != null">
+		    <foreach collection="profileIds" item="item" separator=" OR " open="AND (" close=")" >
+		    	Profile_Id=#{item}
+		    </foreach>
+		</if>
+	</where>
+  </delete>
+  
+  <delete id="deleteDeniedAnyConnected" parameterType="java.util.Map">
+	DELETE FROM Rights_DeniedProfilesAnyCon 
+	<where>
+		<if test="context != null">
+			Context = #{context}
+		</if>
+		<if test="profileIds != null">
+		    <foreach collection="profileIds" item="item" separator=" OR " open="AND (" close=")" >
+		    	Profile_Id=#{item}
+		    </foreach>
+		</if>
+	</where>
+  </delete>
+</mapper>
