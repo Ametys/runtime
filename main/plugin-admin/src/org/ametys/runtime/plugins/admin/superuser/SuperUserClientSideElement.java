@@ -28,7 +28,6 @@ import org.ametys.core.right.RightsExtensionPoint;
 import org.ametys.core.ui.Callable;
 import org.ametys.core.ui.StaticClientSideElement;
 import org.ametys.core.user.UserIdentity;
-import org.ametys.plugins.core.right.profile.ProfileDAO;
 
 /**
  * This implementation creates a control allowing to affect a super user to a given context
@@ -73,6 +72,7 @@ public class SuperUserClientSideElement extends StaticClientSideElement
         }
         
         UserIdentity userIdentity = UserIdentity.stringToUserIdentity(user);
+        _rightManager.removeAllowedProfileFromUser(userIdentity, profileId, context);
         _rightManager.allowProfileToUser(userIdentity, profileId, context);
     }
     
@@ -114,6 +114,7 @@ public class SuperUserClientSideElement extends StaticClientSideElement
         
         // Affect user to this profile
         UserIdentity userIdentity = UserIdentity.stringToUserIdentity(user);
+        _rightManager.removeAllowedProfileFromUser(userIdentity, id, context);
         _rightManager.allowProfileToUser(userIdentity, id, context);
         
         return id;
