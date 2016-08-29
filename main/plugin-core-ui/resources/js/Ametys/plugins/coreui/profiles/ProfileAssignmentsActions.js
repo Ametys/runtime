@@ -75,6 +75,16 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsActions', {
     },
     
     /**
+     * Cancel the changes made in the assignment tool
+     * @param {Ametys.ribbon.element.ui.ButtonController} controller The controller calling this function
+     */
+    cancel: function(controller)
+    {
+        var tool = this._getTool();
+        tool.cancelChanges();
+    },
+    
+    /**
      * @private
      * Gets the assignment tool
      * @return Ametys.plugins.coreui.profiles.ProfileAssignmentsTool{} the assignment tool

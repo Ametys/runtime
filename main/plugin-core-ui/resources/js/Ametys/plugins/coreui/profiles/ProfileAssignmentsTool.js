@@ -351,6 +351,12 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     
     /**
      * @private
+     * @property {Object[]} The unsaved assignments induced by the removal of records 
+     */
+    _removedAssignments: [],
+    
+    /**
+     * @private
      * @property {Object} _storedValues The stored assignments by profile (server-side) 
      * The key is the profile id, the value is an object (where its key is the record id, the value is the server-side value (with no induced local changes)
      */
@@ -870,7 +876,8 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
                 population: user.population,
                 populationLabel: user.populationName,
                 userSortableName: user.fullName,
-                groups: groups
+                groups: groups,
+                isNew: true
             }));
         	count++;
         	
@@ -909,7 +916,8 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
 	                groupId: group.id,
 	                groupDirectory: group.groupDirectory,
 	                groupDirectoryLabel: group.groupDirectoryName,
-	                groupLabel: group.label
+	                groupLabel: group.label,
+	                isNew: true
 	            }));
         	}
         }, this);
@@ -982,10 +990,11 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
      */
     removeAssignments: function(assignments)
     {
-        var assignmentsInfo = [];
+        var me = this;
         Ext.Array.forEach(assignments, function(assignment) {
             var record = this._gridStore.getById(assignment.id);
-            if (assignment.context == this._objectContext 
+            if (!record.get('isNew') 
+            	&& assignment.context == this._objectContext 
                 && assignment != null
                 && record.get('targetType') != this.self.TARGET_TYPE_ANONYMOUS
                 && record.get('targetType') != this.self.TARGET_TYPE_ANYCONNECTEDUSER)
@@ -1016,17 +1025,26 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
                                 groupDirectory: record.get('groupDirectory')
                             };
                         }
-                        assignmentsInfo.push(assignmentInfo);
+                        me._removedAssignments.push(assignmentInfo);
                     }
                 }, this);
             }
+            
+            // Remove record from the grid
+            this._gridStore.remove([record]);
+            
+            if (this._removedAssignments.length > 0)
+            {
+            	this.setDirty(true);
+            }
+            
         }, this);
-        
-        if (assignmentsInfo.length > 0)
-        {
-            var parameters = [this.getFactory()._rightAssignmentContexts[this._contextCombobox.getValue()].getServerId(), this._objectContext, assignmentsInfo];
-            this.serverCall('saveChanges', parameters, this._updateGrid);
-        }
+    },
+    
+    cancelChanges: function ()
+    {
+    	this._gridStore.rejectChanges();
+    	this._updateGrid();
     },
     
     /**
@@ -1062,6 +1080,9 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
                 });
             }, this);
         }, this);
+        
+        // Add the assignment due to removed records
+        assignmentsInfo = Ext.Array.merge(this._removedAssignments, assignmentsInfo);
         
         if (assignmentsInfo.length > 0)
         {
@@ -1166,6 +1187,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
      */
     _updateGrid: function()
     {
+    	this._removedAssignments = [];
         this._gridStore.load({
             callback: this._onStoreUpdated,
             scope: this
@@ -1622,6 +1644,8 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.Entry', {
         {name: 'populationLabel'},
         {name: 'userSortableName'},
         {name: 'groups'},
+        
+        {name: 'isNew', type: 'boolean', defaultValue: false},
         
         /* For group entries */
         {name: 'groupId'},
