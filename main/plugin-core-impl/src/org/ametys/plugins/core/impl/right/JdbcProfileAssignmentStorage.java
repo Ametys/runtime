@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.ibatis.session.SqlSession;
 
 import org.ametys.core.datasource.AbstractMyBatisDAO;
@@ -36,6 +38,16 @@ import org.ametys.core.user.UserIdentity;
  */
 public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements ProfileAssignmentStorage
 {
+    /** The handled context */
+    protected String _supportedContext;
+    
+    @Override
+    public void configure(Configuration configuration) throws ConfigurationException
+    {
+        super.configure(configuration);
+        _supportedContext = configuration.getChild("context").getValue();
+    }
+    
     /* -------------- */
     /* HAS PERMISSION */
     /* -------------- */
@@ -48,20 +60,22 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
             return false;
         }
         
+        String prefix = getPrefix();
+        
         // 1.1) Search at least one profile in "allowed-anonymous-profiles", if found return true
-        if (_hasAnonymousAllowedProfile(profileIds, null))
+        if (_hasAnonymousAllowedProfile(profileIds, prefix))
         {
             return true;
         }
         
         // 2.1) Search at least one profile in "denied-profiles" for user, if found return false
-        if (_hasDeniedProfile(user, profileIds, null))
+        if (_hasDeniedProfile(user, profileIds, prefix))
         {
             return false;
         }
         
         // 2.2) Search at least one profile in "allowed-profiles" for user, if found return true
-        if (_hasAllowedProfile(user, profileIds, null))
+        if (_hasAllowedProfile(user, profileIds, prefix))
         {
             return true;
         }
@@ -69,7 +83,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
         // 3.1) Search at least one profile in "denied-profiles" for groups, if found return false
         for (GroupIdentity group : userGroups)
         {
-            if (_hasDeniedProfile(group, profileIds, null))
+            if (_hasDeniedProfile(group, profileIds, prefix))
             {
                 return false;
             }
@@ -78,32 +92,47 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
         // 3.2) Search at least one profile in "allowed-profiles" for groups, if found return true
         for (GroupIdentity group : userGroups)
         {
-            if (_hasAllowedProfile(group, profileIds, null))
+            if (_hasAllowedProfile(group, profileIds, prefix))
             {
                 return true;
             }
         }
         
         // 4.1) Search at least one profile in "denied-any-connected-profiles", if found return false
-        if (_hasAnyConnectedDeniedProfile(profileIds, null))
+        if (_hasAnyConnectedDeniedProfile(profileIds, prefix))
         {
             return false;
         }
             
         // 4.2) Search at least one profile in "allowed-any-connected-profiles", if found return true
-        if (_hasAnyConnectedAllowedProfile(profileIds, null))
+        if (_hasAnyConnectedAllowedProfile(profileIds, prefix))
         {
             return true;
         }
         
         // 5.1) Search at least one profile in "denied-any-connected-profiles", if found return false
-        if (_hasAnonymousDeniedProfile(profileIds, null))
+        if (_hasAnonymousDeniedProfile(profileIds, prefix))
         {
             return false;
         }
         
         // 5) Not found, return false
         return false;
+    }
+    
+    /**
+     * Get the object context with prefix if necessary
+     * @param context The context object
+     * @return The prefixed object
+     */
+    protected Object getObjectWithPrefix (Object context)
+    {
+        return context;
+    }
+    
+    protected String getPrefix ()
+    {
+        return null;
     }
     
     /**
@@ -540,7 +569,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
             Map<String, String> parameters = new HashMap<>();
             if (object != null)
             {
-                parameters.put("context", (String) object);
+                parameters.put("context", (String) getObjectWithPrefix(object));
             }
             
             List<Map<String, String>> allowedProfiles = session.selectList("ProfilesAssignment.getAnyConnectedAllowedProfiles", parameters);
@@ -559,10 +588,11 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
     {
         try (SqlSession session = getSession())
         {
+            Object prefixedObject = getObjectWithPrefix(object);
             for (String profileId : profileIds)
             {
                 Map<String, Object> parameters = new HashMap<>();
-                parameters.put("context", object);
+                parameters.put("context", prefixedObject);
                 parameters.put("profileIds", Arrays.asList(profileId));
                 
                 List<Map<String, String>> allowedProfiles = session.selectList("ProfilesAssignment.getAnyConnectedAllowedProfiles", parameters);
@@ -574,7 +604,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
                 }
                 else
                 {
-                    getLogger().debug("Profile {} is already allowed for anyconnected on context {}", profileId, object);
+                    getLogger().debug("Profile {} is already allowed for anyconnected on context {}", profileId, prefixedObject);
                 }
                 
             }
@@ -608,7 +638,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
             Map<String, String> parameters = new HashMap<>();
             if (object != null)
             {
-                parameters.put("context", (String) object);
+                parameters.put("context", (String) getObjectWithPrefix(object));
             }
             
             List<Map<String, String>> deniedProfiles = session.selectList("ProfilesAssignment.getAnyConnectedDeniedProfiles", parameters);
@@ -627,10 +657,12 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
     {
         try (SqlSession session = getSession())
         {
+            Object prefixedObject = getObjectWithPrefix(object);
+            
             for (String profileId : profileIds)
             {
                 Map<String, Object> parameters = new HashMap<>();
-                parameters.put("context", object);
+                parameters.put("context", prefixedObject);
                 parameters.put("profileIds", Arrays.asList(profileId));
                 
                 List<Map<String, String>> deniedProfiles = session.selectList("ProfilesAssignment.getAnyConnectedDeniedProfiles", parameters);
@@ -642,7 +674,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
                 }
                 else
                 {
-                    getLogger().debug("Profile {} is already denied for anyconnected on context {}", profileId, object);
+                    getLogger().debug("Profile {} is already denied for anyconnected on context {}", profileId, prefixedObject);
                 }
                 
             }
@@ -657,7 +689,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
         try (SqlSession session = getSession(true))
         {
             Map<String, Object> parameters = new HashMap<>();
-            parameters.put("context", object);
+            parameters.put("context", getObjectWithPrefix(object));
             parameters.put("profileIds", profileIds);
             session.delete("ProfilesAssignment.deleteDeniedAnyConnected", parameters);
         }
@@ -676,7 +708,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
             Map<String, String> parameters = new HashMap<>();
             if (object != null)
             {
-                parameters.put("context", (String) object);
+                parameters.put("context", (String) getObjectWithPrefix(object));
             }
             
             List<Map<String, String>> allowedProfiles = session.selectList("ProfilesAssignment.getAnonymousAllowedProfiles", parameters);
@@ -695,10 +727,12 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
     {
         try (SqlSession session = getSession())
         {
+            Object prefixedObject = getObjectWithPrefix(object);
+            
             for (String profileId : profileIds)
             {
                 Map<String, Object> parameters = new HashMap<>();
-                parameters.put("context", object);
+                parameters.put("context", prefixedObject);
                 parameters.put("profileIds", Arrays.asList(profileId));
                 
                 List<Map<String, String>> allowedProfiles = session.selectList("ProfilesAssignment.getAnonymousAllowedProfiles", parameters);
@@ -710,7 +744,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
                 }
                 else
                 {
-                    getLogger().debug("Profile {} is already allowed for anonymous on context {}", profileId, object);
+                    getLogger().debug("Profile {} is already allowed for anonymous on context {}", profileId, prefixedObject);
                 }
             }
             
@@ -724,7 +758,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
         try (SqlSession session = getSession(true))
         {
             Map<String, Object> parameters = new HashMap<>();
-            parameters.put("context", object);
+            parameters.put("context", getObjectWithPrefix(object));
             parameters.put("profileIds", profileIds);
             session.delete("ProfilesAssignment.deleteAllowedAnonymous", parameters);
         }
@@ -743,7 +777,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
             Map<String, String> parameters = new HashMap<>();
             if (object != null)
             {
-                parameters.put("context", (String) object);
+                parameters.put("context", (String) getObjectWithPrefix(object));
             }
             
             List<Map<String, String>> deniedProfiles = session.selectList("ProfilesAssignment.getAnonymousDeniedProfiles", parameters);
@@ -762,10 +796,11 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
     {
         try (SqlSession session = getSession())
         {
+            Object prefixedObject = getObjectWithPrefix(object);
             for (String profileId : profileIds)
             {
                 Map<String, Object> parameters = new HashMap<>();
-                parameters.put("context", object);
+                parameters.put("context", prefixedObject);
                 parameters.put("profileIds", Arrays.asList(profileId));
                 
                 List<Map<String, String>> deniedProfiles = session.selectList("ProfilesAssignment.getAnonymousDeniedProfiles", parameters);
@@ -777,7 +812,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
                 }
                 else
                 {
-                    getLogger().debug("Profile {} is already denied for anonymous on context {}", profileId, object);
+                    getLogger().debug("Profile {} is already denied for anonymous on context {}", profileId, prefixedObject);
                 }
             }
             
@@ -791,7 +826,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
         try (SqlSession session = getSession(true))
         {
             Map<String, Object> parameters = new HashMap<>();
-            parameters.put("context", object);
+            parameters.put("context", getObjectWithPrefix(object));
             parameters.put("profileIds", profileIds);
             session.delete("ProfilesAssignment.deleteDeniedAnonymous", parameters);
         }
@@ -812,7 +847,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
             Map<String, String> parameters = new HashMap<>();
             if (object != null)
             {
-                parameters.put("context", (String) object);
+                parameters.put("context", (String) getObjectWithPrefix(object));
             }
             
             List<Map<String, String>> allowedProfiles = session.selectList("ProfilesAssignment.getUserAllowedProfiles", parameters);
@@ -843,7 +878,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
             Map<String, Object> parameters = new HashMap<>();
             if (object != null)
             {
-                parameters.put("context", object);
+                parameters.put("context", getObjectWithPrefix(object));
             }
             parameters.put("profileIds", Arrays.asList(profileId));
             
@@ -863,12 +898,14 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
     {
         try (SqlSession session = getSession())
         {
+            Object prefixedObject = getObjectWithPrefix(object);
+            
             for (UserIdentity userIdentity : users)
             {
                 Map<String, Object> parameters = new HashMap<>();
                 parameters.put("login", userIdentity.getLogin());
                 parameters.put("population", userIdentity.getPopulationId());
-                parameters.put("context", object);
+                parameters.put("context", prefixedObject);
                 parameters.put("profileIds", Arrays.asList(profileId));
                 
                 List<Map<String, String>> allowedProfiles = session.selectList("ProfilesAssignment.getUserAllowedProfiles", parameters);
@@ -880,7 +917,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
                 }
                 else
                 {
-                    getLogger().debug("Login {} has already profile {} on context {}", userIdentity, profileId, object);
+                    getLogger().debug("Login {} has already profile {} on context {}", userIdentity, profileId, prefixedObject);
                 }
                 
             }
@@ -902,7 +939,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
                 parameters.put("profileIds", Arrays.asList(profileId));
                 if (object != null)
                 {
-                    parameters.put("context", object);
+                    parameters.put("context", getObjectWithPrefix(object));
                 }
                 
                 session.delete("ProfilesAssignment.deleteAllowedUser", parameters);
@@ -923,7 +960,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
                 parameters.put("population", userIdentity.getPopulationId());
                 if (object != null)
                 {
-                    parameters.put("context", object);
+                    parameters.put("context", getObjectWithPrefix(object));
                 }
                 
                 session.delete("ProfilesAssignment.deleteAllowedUser", parameters);
@@ -947,7 +984,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
             Map<String, String> parameters = new HashMap<>();
             if (object != null)
             {
-                parameters.put("context", (String) object);
+                parameters.put("context", (String) getObjectWithPrefix(object));
             }
             
             List<Map<String, String>> allowedProfiles = session.selectList("ProfilesAssignment.getGroupAllowedProfiles", parameters);
@@ -978,7 +1015,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
             Map<String, Object> parameters = new HashMap<>();
             if (object != null)
             {
-                parameters.put("context", object);
+                parameters.put("context", getObjectWithPrefix(object));
             }
             parameters.put("profileIds", Arrays.asList(profileId));
             
@@ -998,12 +1035,13 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
     {
         try (SqlSession session = getSession())
         {
+            Object prefixedObject = getObjectWithPrefix(object);
             for (GroupIdentity group : groups)
             {
                 Map<String, Object> parameters = new HashMap<>();
                 parameters.put("groupId", group.getId());
                 parameters.put("groupDirectory", group.getDirectoryId());
-                parameters.put("context", object);
+                parameters.put("context", prefixedObject);
                 parameters.put("profileIds", Arrays.asList(profileId));
                 
                 List<Map<String, String>> allowedProfiles = session.selectList("ProfilesAssignment.getGroupAllowedProfiles", parameters);
@@ -1015,7 +1053,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
                 }
                 else
                 {
-                    getLogger().debug("Group {} is already allowed for profile {} on context {}", group, profileId, object);
+                    getLogger().debug("Group {} is already allowed for profile {} on context {}", group, profileId, prefixedObject);
                 }
             }
             
@@ -1036,7 +1074,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
                 parameters.put("profileIds", Arrays.asList(profileId));
                 if (object != null)
                 {
-                    parameters.put("context", object);
+                    parameters.put("context", getObjectWithPrefix(object));
                 }
                 
                 session.delete("ProfilesAssignment.deleteAllowedGroup", parameters);
@@ -1057,7 +1095,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
                 parameters.put("groupDirectory", group.getDirectoryId());
                 if (object != null)
                 {
-                    parameters.put("context", object);
+                    parameters.put("context", getObjectWithPrefix(object));
                 }
                 
                 session.delete("ProfilesAssignment.deleteAllowedGroup", parameters);
@@ -1081,7 +1119,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
             Map<String, String> parameters = new HashMap<>();
             if (object != null)
             {
-                parameters.put("context", (String) object);
+                parameters.put("context", (String) getObjectWithPrefix(object));
             }
             
             List<Map<String, String>> deniedProfiles = session.selectList("ProfilesAssignment.getUserDeniedProfiles", parameters);
@@ -1112,7 +1150,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
             Map<String, Object> parameters = new HashMap<>();
             if (object != null)
             {
-                parameters.put("context", object);
+                parameters.put("context", getObjectWithPrefix(object));
             }
             parameters.put("profileIds", Arrays.asList(profileId));
             
@@ -1132,12 +1170,13 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
     {
         try (SqlSession session = getSession())
         {
+            Object prefixedObject = getObjectWithPrefix(object);
             for (UserIdentity userIdentity : users)
             {
                 Map<String, Object> parameters = new HashMap<>();
                 parameters.put("login", userIdentity.getLogin());
                 parameters.put("population", userIdentity.getPopulationId());
-                parameters.put("context", object);
+                parameters.put("context", prefixedObject);
                 parameters.put("profileIds", Arrays.asList(profileId));
                 
                 List<Map<String, String>> deniedProfiles = session.selectList("ProfilesAssignment.getUserDeniedProfiles", parameters);
@@ -1149,7 +1188,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
                 }
                 else
                 {
-                    getLogger().debug("Login {} is already denied for profile {} on context {}", userIdentity, profileId, object);
+                    getLogger().debug("Login {} is already denied for profile {} on context {}", userIdentity, profileId, prefixedObject);
                 }
                 
             }
@@ -1171,7 +1210,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
                 parameters.put("profileIds", Arrays.asList(profileId));
                 if (object != null)
                 {
-                    parameters.put("context", object);
+                    parameters.put("context", getObjectWithPrefix(object));
                 }
                 
                 session.delete("ProfilesAssignment.deleteDeniedUser", parameters);
@@ -1192,7 +1231,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
                 parameters.put("population", userIdentity.getPopulationId());
                 if (object != null)
                 {
-                    parameters.put("context", object);
+                    parameters.put("context", getObjectWithPrefix(object));
                 }
                 
                 session.delete("ProfilesAssignment.deleteDeniedUser", parameters);
@@ -1216,7 +1255,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
             Map<String, String> parameters = new HashMap<>();
             if (object != null)
             {
-                parameters.put("context", (String) object);
+                parameters.put("context", (String) getObjectWithPrefix(object));
             }
             
             List<Map<String, String>> deniedProfiles = session.selectList("ProfilesAssignment.getGroupDeniedProfiles", parameters);
@@ -1247,7 +1286,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
             Map<String, Object> parameters = new HashMap<>();
             if (object != null)
             {
-                parameters.put("context", object);
+                parameters.put("context", getObjectWithPrefix(object));
             }
             parameters.put("profileIds", Arrays.asList(profileId));
             
@@ -1267,12 +1306,13 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
     {
         try (SqlSession session = getSession())
         {
+            Object prefixedObject = getObjectWithPrefix(object);
             for (GroupIdentity group : groups)
             {
                 Map<String, Object> parameters = new HashMap<>();
                 parameters.put("groupId", group.getId());
                 parameters.put("groupDirectory", group.getDirectoryId());
-                parameters.put("context", object);
+                parameters.put("context", prefixedObject);
                 parameters.put("profileIds", Arrays.asList(profileId));
                 
                 List<Map<String, String>> deniedProfiles = session.selectList("ProfilesAssignment.getGroupDeniedProfiles", parameters);
@@ -1284,7 +1324,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
                 }
                 else
                 {
-                    getLogger().debug("Group {} is already denied for profile {} on context {}", group, profileId, object);
+                    getLogger().debug("Group {} is already denied for profile {} on context {}", group, profileId, prefixedObject);
                 }
             }
             
@@ -1305,7 +1345,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
                 parameters.put("profileIds", Arrays.asList(profileId));
                 if (object != null)
                 {
-                    parameters.put("context", object);
+                    parameters.put("context", getObjectWithPrefix(object));
                 }
                 
                 session.delete("ProfilesAssignment.deleteDeniedGroup", parameters);
@@ -1326,7 +1366,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
                 parameters.put("groupDirectory", group.getDirectoryId());
                 if (object != null)
                 {
-                    parameters.put("context", object);
+                    parameters.put("context", getObjectWithPrefix(object));
                 }
                 
                 session.delete("ProfilesAssignment.deleteDeniedGroup", parameters);
@@ -1400,7 +1440,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
     @Override
     public boolean isSupported(Object object)
     {
-        return object instanceof String;
+        return object instanceof String && _supportedContext.equals(object);
     }
 
     @Override

@@ -1330,24 +1330,6 @@
     </feature>
     
     <!-- +
-         |  STORAGE OF PROFILE ASSIGNEMENTS
-         + -->
-    <feature name="runtime.rights.storage.assignments.impl.jdbc" depends="core/runtime.core.sql.profile.init">
-        <config>
-            <param-ref id="runtime.rights.datasource"/>
-        </config>
-        
-        <extensions>
-            <extension id="org.ametys.plugins.core.impl.right.JdbcProfileAssignmentStorage"
-                       class="org.ametys.plugins.core.impl.right.JdbcProfileAssignmentStorage"
-                       point="org.ametys.core.right.ProfileAssignmentStorageExtensionPoint">
-                <datasource type="config">runtime.rights.datasource</datasource>
-            	<sqlMap resource="/org/ametys/plugins/core/impl/right/profile-assignment.xml" />
-            </extension>
-        </extensions>
-    </feature>
-    
-    <!-- +
          |  CONTRIBUTOR ACCESS CONTROLLER
          + -->
     <feature name="runtime.rights.access.controller.impl.contributor">
