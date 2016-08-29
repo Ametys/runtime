@@ -41,6 +41,7 @@ public class PostgresUserPreferencesTestCase extends AbstractUserPreferencesTest
     protected File[] getScripts()
     {
         return new File[] {
+            new File("test/environments/scripts/jdbc-postgres/dropTables.sql"),
             new File("main/plugin-core/scripts/postgresql/user_prefs.sql")
         };
     }

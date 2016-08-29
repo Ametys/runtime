@@ -33,6 +33,7 @@ public class PostgresAccessControllerTestCase extends AbstractContributorAccessC
     protected File[] getScripts()
     {
         return new File[] {
+            new File("test/environments/scripts/jdbc-postgres/dropTables.sql"),
             new File("main/plugin-core/scripts/postgresql/profile_rights.sql"),
             new File("main/plugin-core/scripts/postgresql/profile_assignments.sql")
         };

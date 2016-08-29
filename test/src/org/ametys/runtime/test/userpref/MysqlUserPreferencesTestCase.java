@@ -41,7 +41,7 @@ public class MysqlUserPreferencesTestCase extends AbstractUserPreferencesTestCas
     protected File[] getScripts()
     {
         return new File[] {
-//            new File("main/plugin-core/scripts/mysql/jdbc_users.sql"),
+            new File("test/environments/scripts/jdbc-mysql/dropTables.sql"),
             new File("main/plugin-core/scripts/mysql/user_prefs.sql")
         };
     }

@@ -68,6 +68,7 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
         _setDatabase(Arrays.asList(getScripts()));
 
         _rightManager = (RightManager) Init.getPluginServiceManager().lookup(RightManager.ROLE);
+        _profilesDAO = (RightProfilesDAO) Init.getPluginServiceManager().lookup(RightProfilesDAO.ROLE);
     }
     
     @Override

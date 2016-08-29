@@ -41,8 +41,10 @@ public class MysqlJdbcGroupsTestCase extends AbstractJdbcGroupsTestCase
     protected File[] getScripts()
     {
         return new File[] {
+            new File("test/environments/scripts/jdbc-mysql/dropTables.sql"),
             new File("main/plugin-core/scripts/mysql/jdbc_users.sql"),
-            new File("main/plugin-core/scripts/mysql/jdbc_groups.sql")
+            new File("main/plugin-core/scripts/mysql/jdbc_groups.sql"),
+            new File("main/plugin-core/scripts/mysql/profile_rights.sql")
         };
     }
 

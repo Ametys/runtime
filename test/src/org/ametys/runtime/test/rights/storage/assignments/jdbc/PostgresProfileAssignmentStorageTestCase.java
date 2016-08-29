@@ -33,6 +33,7 @@ public class PostgresProfileAssignmentStorageTestCase extends AbstractJdbcProfil
     protected File[] getScripts()
     {
         return new File[] {
+            new File("test/environments/scripts/jdbc-postgres/dropTables.sql"),
             new File("main/plugin-core/scripts/postgresql/profile_assignments.sql")
         };
     }

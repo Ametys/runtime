@@ -33,6 +33,7 @@ public class MysqlProfileAssignmentStorageTestCase extends AbstractJdbcProfileAs
     protected File[] getScripts()
     {
         return new File[] {
+            new File("test/environments/scripts/jdbc-mysql/dropTables.sql"),
             new File("main/plugin-core/scripts/mysql/profile_assignments.sql")
         };
     }

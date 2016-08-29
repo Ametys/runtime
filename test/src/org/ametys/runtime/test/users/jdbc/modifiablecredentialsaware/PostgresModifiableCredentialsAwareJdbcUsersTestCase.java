@@ -39,7 +39,12 @@ public class PostgresModifiableCredentialsAwareJdbcUsersTestCase extends Abstrac
     @Override
     protected File[] getScripts()
     {
-        return new File[] {new File("main/plugin-core/scripts/postgresql/jdbc_users.sql")};
+        return new File[] {
+            new File("test/environments/scripts/jdbc-postgres/dropTables.sql"),
+            new File("main/plugin-core/scripts/postgresql/jdbc_users.sql"),
+            new File("main/plugin-core/scripts/postgresql/jdbc_groups.sql"),
+            new File("main/plugin-core/scripts/postgresql/profile_rights.sql")
+        };
     }
     
 }
