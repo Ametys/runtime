@@ -40,6 +40,10 @@
     <message key="PLUGINS_ADMIN_RIGHTS_ACCESS_LABEL">Accès</message>
     <message key="PLUGINS_ADMIN_RIGHTS_ACCESS_DESCRIPTION">Donne l'accès à l'espace administrateur</message>
     
+    <message key="PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_ADMINISTRATOR_LABEL">Administration</message>
+    <message key="PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_ADMINISTRATOR_MESSAGE">Affectation des profils sur le contexte d'administration</message>
+    <message key="PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_ADMINISTRATOR_HINT">le contexte d'administration</message>
+    
     <!-- ADMINISTRATOR JVMSTATUS -->
     <message key="PLUGINS_ADMIN_TOOL_JVMSTATUS_LABEL">Général</message>
     <message key="PLUGINS_ADMIN_TOOL_JVMSTATUS_DESC">Cet outil vous permet de consulter l'état général du système et de la JVM</message>

@@ -1679,20 +1679,47 @@
         </extensions>
     </feature>
     
-<!--     <feature name="right.assignment.context.admin"> -->
-<!--         <extensions> -->
-<!--             <extension id="org.ametys.plugins.admin.rights.RightAssignmentContext" -->
-<!--                        point="org.ametys.core.right.RightAssignmentContextExtensionPoint" -->
-<!--                        class="org.ametys.core.ui.StaticClientSideElement"> -->
-<!--                 <workspace>^admin$</workspace> -->
-<!--                 <class name="Ametys.plugins.cms.profiles.ContentRightAssignmentContext"> -->
-<!--                     <label i18n="true">plugin.cms:PLUGINS_CMS_RIGHT_ASSIGNMENT_CONTEXT_CONTENTS_LABEL</label> -->
-<!--                 </class> -->
-<!--                 <scripts> -->
-<!--                     <file plugin="cms">js/Ametys/plugins/cms/profiles/ContentRightAssignmentContext.js</file> -->
-<!--                     <file>js/Ametys/plugins/web/profiles/WebContentRightAssignmentContext.js</file> -->
-<!--                 </scripts> -->
-<!--             </extension> -->
-<!--         </extensions> -->
-<!--     </feature> -->
+    <feature name="rights" safe="true">
+        <extensions>
+            <extension point="org.ametys.core.right.RightsExtensionPoint"
+                       id="admin">
+                <right id="Runtime_Rights_Admin_Access">
+                    <label>PLUGINS_ADMIN_RIGHTS_ACCESS_LABEL</label>
+                    <description>PLUGINS_ADMIN_RIGHTS_ACCESS_DESCRIPTION</description>
+                    <category>PLUGINS_ADMIN_RIGHTS_CATEGORY</category>
+                </right>
+            </extension>
+        </extensions>
+    </feature>
+                
+    <feature name="right.assignment.context.admin">
+        <config>
+            <param-ref id="runtime.rights.datasource"/>
+        </config>
+        <extensions>
+        
+            <extension id="org.ametys.plugins.admin.rights.JdbcProfileAssignmentStorage"
+                       class="org.ametys.plugins.core.impl.right.JdbcProfileAssignmentStorage"
+                       point="org.ametys.core.right.ProfileAssignmentStorageExtensionPoint">
+                <datasource type="config">runtime.rights.datasource</datasource>
+                <sqlMap resource="/org/ametys/plugins/core/impl/right/profile-assignment.xml" />
+                <context>/admin</context>
+            </extension>
+
+            <extension id="org.ametys.plugins.admin.rights.RightAssignmentContext"
+                       point="org.ametys.core.right.RightAssignmentContextExtensionPoint"
+                       class="org.ametys.plugins.core.impl.right.StringRightAssignmentContext">
+                <workspace>^admin$</workspace>
+                <class name="Ametys.plugins.coreui.profiles.StringRightAssignmentContext">
+                    <label i18n="true">PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_ADMINISTRATOR_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_ADMINISTRATOR_MESSAGE</description>
+                    <hint i18n="true">PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_ADMINISTRATOR_HINT</hint>
+                    <context>/admin</context>
+                </class>
+                <scripts>
+                    <file plugin="core-ui">js/Ametys/plugins/coreui/profiles/StringRightAssignmentContext.js</file>
+                </scripts>
+            </extension>
+        </extensions>
+    </feature>
 </plugin>

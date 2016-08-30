@@ -30,7 +30,7 @@
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_ERROR">An error occurred on the server and parameters have not been updated.&lt;br/&gt;Consult applications and servlet engines logfiles for more details.</message>
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_FIELDS_ERROR">One or more form fields are invalid.&lt;br/&gt;Please correct them to continue.</message>
     <message key="PLUGINS_ADMIN_CONFIG_DIRTY_CLOSE_MBOX_LABEL">Close without saving</message>
-    <message key="PLUGINS_ADMIN_CONFIG_DIRTY_CLOSE_MBOX_TEXT">Caution!&lt;br/&gt;If you quit now all your modifications will be lost !&lt;br/&gt;Do you wish to discard your modifications ?</message>
+    <message key="PLUGINS_ADMIN_CONFIG_DIRTY_CLOSE_MBOX_TEXT">Caution!&lt;br/&gt;If you quit now all your modifications will be lost!&lt;br/&gt;Do you wish to discard your modifications?</message>
     
     <message key="PLUGINS_ADMIN_SAVE_DIALOG_TITLE">Save</message>
     
@@ -39,6 +39,10 @@
     
     <message key="PLUGINS_ADMIN_RIGHTS_ACCESS_LABEL">Access</message>
     <message key="PLUGINS_ADMIN_RIGHTS_ACCESS_DESCRIPTION">Give access to the administrator area</message>
+    
+    <message key="PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_ADMINISTRATOR_LABEL">Administration</message>
+    <message key="PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_ADMINISTRATOR_MESSAGE">Profile assignment on the administration context</message>
+    <message key="PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_ADMINISTRATOR_HINT">the administration context</message>
     
     <!-- ADMINISTRATOR JVMSTATUS -->
     <message key="PLUGINS_ADMIN_TOOL_JVMSTATUS_LABEL">General</message>
