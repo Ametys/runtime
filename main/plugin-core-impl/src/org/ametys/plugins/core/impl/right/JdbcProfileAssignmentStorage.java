@@ -1408,7 +1408,7 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
         {
             Map<String, String> parameters = new HashMap<>();
             parameters.put("login", user.getLogin());
-            parameters.put("populationId", user.getPopulationId());
+            parameters.put("population", user.getPopulationId());
             
             session.delete("ProfilesAssignment.deleteAllowedUser", parameters);
             session.delete("ProfilesAssignment.deleteDeniedUser", parameters);
