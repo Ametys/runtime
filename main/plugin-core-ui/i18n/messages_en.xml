@@ -1279,8 +1279,10 @@
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_REMOVE_LABEL">Remove assignments</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_REMOVE_DESCRIPTION">Remove assignements to selected users and/or groups.</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_REMOVE_NO_REMOVABLE_DESCRIPTION">No user nor group with at least one local assignment is selected.</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_SAVE_LABEL">Save modifications</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_SAVE_DESCRIPTION">SAve the local modifications made in the profile assignment tool.</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_SAVE_LABEL">Save changes</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_SAVE_DESCRIPTION">Save the local changes made.</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CANCEL_LABEL">Cancel changes</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CANCEL_DESCRIPTION">Discard the unsaved changes</message>
     
     <!-- Actions -->
     <message key="PLUGINS_CORE_UI_PROFILES_ADD_LABEL">New profile</message>
