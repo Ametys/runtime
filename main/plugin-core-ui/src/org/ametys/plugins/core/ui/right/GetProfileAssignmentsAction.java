@@ -269,7 +269,7 @@ public class GetProfileAssignmentsAction extends ServiceableAction
             }
             
             // Get all user with a allowed profile on current context
-            Map<GroupIdentity, Set<String>> allowedProfilesForGroups = _profileAssignmentStorageEP.getAllowedProfilesForGroups(context);
+            Map<GroupIdentity, Set<String>> allowedProfilesForGroups = _profileAssignmentStorageEP.getAllowedProfilesForGroups(currentContext);
             for (GroupIdentity gpIdentity : allowedProfilesForGroups.keySet())
             {
                 if (!assignments.containsKey(gpIdentity))
