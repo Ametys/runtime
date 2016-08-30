@@ -3044,7 +3044,7 @@
                        point="org.ametys.core.ui.RibbonTabsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.tab.TabController">
-                    <tool-id>^uitool-profile-assignment$</tool-id>
+                    <selection-target-id>^profileContext$</selection-target-id>
                 </class>
                 <right context-prefix="/contributor">Runtime_Rights_Rights_Handle</right>
             </extension>
@@ -3054,7 +3054,7 @@
                        class="org.ametys.core.ui.StaticClientSideElement">
             <class name="Ametys.ribbon.element.ui.ButtonController">
                     <action>Ametys.plugins.coreui.profiles.ProfileAssignmentsActions.addUsers</action>
-                    <tool-id>^uitool-profile-assignment$</tool-id>
+                    <selection-target-id>^profileContext$</selection-target-id>
                     
                     <label i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ADD_USERS_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ADD_USERS_DESCRIPTION</description>
@@ -3076,7 +3076,7 @@
                        class="org.ametys.core.ui.StaticClientSideElement">
             <class name="Ametys.ribbon.element.ui.ButtonController">
                     <action>Ametys.plugins.coreui.profiles.ProfileAssignmentsActions.addGroups</action>
-                    <tool-id>^uitool-profile-assignment$</tool-id>
+                    <selection-target-id>^profileContext$</selection-target-id>
                     
                     <label i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ADD_GROUPS_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ADD_GROUPS_DESCRIPTION</description>
@@ -3126,7 +3126,7 @@
                        class="org.ametys.core.ui.StaticClientSideElement">
             <class name="Ametys.ribbon.element.ui.ButtonController">
                     <action>Ametys.plugins.coreui.profiles.ProfileAssignmentsActions.save</action>
-                    <tool-id>^uitool-profile-assignment$</tool-id>
+                    <selection-target-id>^profileContext$</selection-target-id>
                     
                     <label i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_SAVE_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_SAVE_DESCRIPTION</description>

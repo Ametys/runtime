@@ -1479,7 +1479,13 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         
         Ext.create('Ametys.message.Message', {
             type: Ametys.message.Message.SELECTION_CHANGED,
-            targets: targets
+            targets: {
+                id: Ametys.message.MessageTarget.PROFILE_CONTEXT,
+                parameters: {
+                    context: this._objectContext
+                },
+                subtargets: targets
+            }
         });
     },
     
@@ -1692,7 +1698,14 @@ Ext.define("Ametys.message.ProfileAssignmentMessageTarget",{
          * @property {Object} PROFILE_ASSIGNMENT.context The object context of the assignment
          * @property {Boolean} PROFILE_ASSIGNMENT.removable true if the record is removable
          */
-        PROFILE_ASSIGNMENT: "profileAssignment"
+        PROFILE_ASSIGNMENT: "profileAssignment",
+        /**
+         * @member Ametys.message.MessageTarget
+         * @readonly
+         * @property {String} PROFILE_CONTEXT The target of the message is a profile assignment
+         * @property {Object} PROFILE_CONTEXT.context The object context of the assignment
+         */
+        PROFILE_CONTEXT: "profileContext"
     }
 });
 
