@@ -41,7 +41,7 @@ public abstract class AbstractJdbcProfileAssignmentStorageTestCase extends Abstr
     @Override
     protected String _getExtensionId()
     {
-        return "profile.assignment.test.JdbcProfileAssignmentStorage";
+        return "profile.assignment.test.JdbcProfileAssignmentStorage1";
     }
     
     @Override
@@ -65,7 +65,7 @@ public abstract class AbstractJdbcProfileAssignmentStorageTestCase extends Abstr
      */
     protected void _startAppAndResetDB(String runtimeFilename, String configFileName, String sqlDataSourceFileName) throws Exception
     {
-        _startApplication("test/environments/runtimes/" + runtimeFilename, "test/environments/configs/" + configFileName, "test/environments/datasources/" + sqlDataSourceFileName, null, "test/environments/webapp1");
+        _startApplication("test/environments/runtimes/" + runtimeFilename, "test/environments/configs/" + configFileName, "test/environments/datasources/" + sqlDataSourceFileName, null, "test/environments/webapp4");
 
         _setDatabase(Arrays.asList(getScripts()));
     }

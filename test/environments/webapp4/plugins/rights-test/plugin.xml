@@ -25,13 +25,29 @@
         </config>
         
         <extensions>
-            <extension id="profile.assignment.test.JdbcProfileAssignmentStorage"
+            <extension id="profile.assignment.test.JdbcProfileAssignmentStorage1"
                        class="org.ametys.plugins.core.impl.right.JdbcProfileAssignmentStorage"
                        point="org.ametys.core.right.ProfileAssignmentStorageExtensionPoint">
                 <datasource type="config">runtime.rights.datasource</datasource>
                 <sqlMap resource="/org/ametys/plugins/core/impl/right/profile-assignment.xml" />
                 <context>/test</context>
             </extension>
+            
+            <extension id="profile.assignment.test.JdbcProfileAssignmentStorage2"
+                       class="org.ametys.plugins.core.impl.right.JdbcProfileAssignmentStorage"
+                       point="org.ametys.core.right.ProfileAssignmentStorageExtensionPoint">
+                <datasource type="config">runtime.rights.datasource</datasource>
+                <sqlMap resource="/org/ametys/plugins/core/impl/right/profile-assignment.xml" />
+                <context>/test2</context>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="rights.access.controller.test.string">
+        <extensions>
+            <extension id="org.ametys.runtime.test.rights.manager.TestAccessController"
+                       class="org.ametys.runtime.test.rights.manager.TestAccessController"
+                       point="org.ametys.core.right.AccessControllerExtensionPoint"/>
         </extensions>
     </feature>
 </plugin>

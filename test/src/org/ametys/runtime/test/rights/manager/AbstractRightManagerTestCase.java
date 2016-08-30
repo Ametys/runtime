@@ -26,6 +26,7 @@ import org.ametys.core.group.Group;
 import org.ametys.core.group.GroupDirectoryDAO;
 import org.ametys.core.group.directory.GroupDirectory;
 import org.ametys.core.right.Profile;
+import org.ametys.core.right.ProfileAssignmentStorageExtensionPoint;
 import org.ametys.core.right.RightManager;
 import org.ametys.core.right.RightProfilesDAO;
 import org.ametys.core.user.UserIdentity;
@@ -38,6 +39,7 @@ import org.ametys.runtime.test.Init;
 public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
 {
     private RightManager _rightManager;
+    private ProfileAssignmentStorageExtensionPoint _profileAssignmentStorageEP;
     private RightProfilesDAO _profilesDAO;
     
     /**
@@ -63,11 +65,12 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
     {
         super.setUp();
         
-        _startApplication("test/environments/runtimes/" + runtimeFilename, "test/environments/configs/" + configFileName, "test/environments/datasources/" + sqlDataSourceFileName, null, "test/environments/webapp1");
+        _startApplication("test/environments/runtimes/" + runtimeFilename, "test/environments/configs/" + configFileName, "test/environments/datasources/" + sqlDataSourceFileName, null, "test/environments/webapp4");
 
         _setDatabase(Arrays.asList(getScripts()));
 
         _rightManager = (RightManager) Init.getPluginServiceManager().lookup(RightManager.ROLE);
+        _profileAssignmentStorageEP = (ProfileAssignmentStorageExtensionPoint) Init.getPluginServiceManager().lookup(ProfileAssignmentStorageExtensionPoint.ROLE);
         _profilesDAO = (RightProfilesDAO) Init.getPluginServiceManager().lookup(RightProfilesDAO.ROLE);
     }
     
@@ -109,42 +112,22 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
         
         _createGroupDirectory();
 
-        users = _rightManager.getAllowedUsers("right1", "/contributor/test");
+        users = _rightManager.getAllowedUsers("right1", "/test");
         assertEquals(1, users.size());
         assertTrue(users.contains(test));
-        users = _rightManager.getAllowedUsers("right1", "/contributor/test2");
+        users = _rightManager.getAllowedUsers("right1", "/test2");
         assertEquals(0, users.size());
-        users = _rightManager.getAllowedUsers("right1", "/contributor/test2/test2");
-        assertEquals(1, users.size());
-        assertTrue(users.contains(test));
-        users = _rightManager.getAllowedUsers("right1", "/contributor/test3");
-        assertEquals(1, users.size());
-        assertTrue(users.contains(test));
-        users = _rightManager.getAllowedUsers("right3", "/contributor/test");
+        users = _rightManager.getAllowedUsers("right3", "/test");
         assertEquals(0, users.size());
-        users = _rightManager.getAllowedUsers("right3", "/contributor/test2/test2");
-        assertEquals(1, users.size());
-        assertTrue(users.contains(test2));
-        users = _rightManager.getAllowedUsers("right3", "/contributor/test3");
-        assertEquals(1, users.size());
-        assertTrue(users.contains(test));
         
         Set<String> rights;
-        rights = _rightManager.getUserRights(test, "/contributor/test");
+        rights = _rightManager.getUserRights(test, "/test");
         assertEquals(2, rights.size());
-        rights = _rightManager.getUserRights(test, "/contributor/test2");
+        rights = _rightManager.getUserRights(test, "/test2");
         assertEquals(0, rights.size());
-        rights = _rightManager.getUserRights(test, "/contributor/test2/test2");
-        assertEquals(2, rights.size());
-        rights = _rightManager.getUserRights(test, "/contributor/test3");
-        assertEquals(3, rights.size());
-        rights = _rightManager.getUserRights(test2, "/contributor/test");
+        rights = _rightManager.getUserRights(test2, "/test");
         assertEquals(0, rights.size());
-        rights = _rightManager.getUserRights(test2, "/contributor/test2");
-        assertEquals(0, rights.size());
-        rights = _rightManager.getUserRights(test2, "/contributor/test2/test2");
-        assertEquals(1, rights.size());
-        rights = _rightManager.getUserRights(test2, "/contributor/test3");
+        rights = _rightManager.getUserRights(test2, "/test2");
         assertEquals(0, rights.size());
     }
     
@@ -214,36 +197,36 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
         _profilesDAO.addRight(profile2, "right3");
 
         // USER
-        _rightManager.allowProfileToUser(test, profile1.getId(), "/contributor/test");
-        rights = _rightManager.getUserRights(test, "/contributor/test");
+        _profileAssignmentStorageEP.allowProfileToUser(test, profile1.getId(), "/test");
+        rights = _rightManager.getUserRights(test, "/test");
         assertEquals(2, rights.size());
         
-        _rightManager.allowProfileToUser(test, profile2.getId(), "/contributor/test");
-        rights = _rightManager.getUserRights(test, "/contributor/test");
+        _profileAssignmentStorageEP.allowProfileToUser(test, profile2.getId(), "/test");
+        rights = _rightManager.getUserRights(test, "/test");
         assertEquals(3, rights.size());
         
-        _rightManager.removeAllowedProfileFromUser(test, profile2.getId(), "/contributor/test");
-        rights = _rightManager.getUserRights(test, "/contributor/test");
+        _profileAssignmentStorageEP.removeAllowedProfileFromUser(test, profile2.getId(), "/test");
+        rights = _rightManager.getUserRights(test, "/test");
         assertEquals(2, rights.size());
         
-        _rightManager.allowProfileToUser(test, profile2.getId(), "/contributor/test2");
-        rights = _rightManager.getUserRights(test, "/contributor/test");
+        _profileAssignmentStorageEP.allowProfileToUser(test, profile2.getId(), "/test2");
+        rights = _rightManager.getUserRights(test, "/test");
         assertEquals(2, rights.size());
-        rights = _rightManager.getUserRights(test, "/contributor/test2");
+        rights = _rightManager.getUserRights(test, "/test2");
         assertEquals(1, rights.size());
 
-        _rightManager.removeAllowedProfileFromUser(test, profile1.getId(), "/contributor/test");
-        _rightManager.removeAllowedProfileFromUser(test, profile2.getId(), "/contributor/test");
-        rights = _rightManager.getUserRights(test, "/contributor/test");
+        _profileAssignmentStorageEP.removeAllowedProfileFromUser(test, profile1.getId(), "/test");
+        _profileAssignmentStorageEP.removeAllowedProfileFromUser(test, profile2.getId(), "/test");
+        rights = _rightManager.getUserRights(test, "/test");
         assertEquals(0, rights.size());
-        rights = _rightManager.getUserRights(test, "/contributor/test2");
+        rights = _rightManager.getUserRights(test, "/test2");
         assertEquals(1, rights.size());
 
-        _rightManager.removeAllowedProfileFromUser(test, profile1.getId(), "/contributor/test2");
-        _rightManager.removeAllowedProfileFromUser(test, profile2.getId(), "/contributor/test2");
-        rights = _rightManager.getUserRights(test, "/contributor/test1");
+        _profileAssignmentStorageEP.removeAllowedProfileFromUser(test, profile1.getId(), "/test2");
+        _profileAssignmentStorageEP.removeAllowedProfileFromUser(test, profile2.getId(), "/test2");
+        rights = _rightManager.getUserRights(test, "/test");
         assertEquals(0, rights.size());
-        rights = _rightManager.getUserRights(test, "/contributor/test2");
+        rights = _rightManager.getUserRights(test, "/test2");
         assertEquals(0, rights.size());
 
         
@@ -251,36 +234,36 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
         Group group = _createGroupDirectory().getGroups().iterator().next(); 
         UserIdentity userIdentity = group.getUsers().iterator().next();
 
-        _rightManager.allowProfileToGroup(group.getIdentity(), profile1.getId(), "/contributor/test");
-        rights = _rightManager.getUserRights(userIdentity, "/contributor/test");
+        _profileAssignmentStorageEP.allowProfileToGroup(group.getIdentity(), profile1.getId(), "/test");
+        rights = _rightManager.getUserRights(userIdentity, "/test");
         assertEquals(2, rights.size());
         
-        _rightManager.allowProfileToGroup(group.getIdentity(), profile2.getId(), "/contributor/test");
-        rights = _rightManager.getUserRights(userIdentity, "/contributor/test");
+        _profileAssignmentStorageEP.allowProfileToGroup(group.getIdentity(), profile2.getId(), "/test");
+        rights = _rightManager.getUserRights(userIdentity, "/test");
         assertEquals(3, rights.size());
         
-        _rightManager.removeAllowedProfileFromGroup(group.getIdentity(), profile2.getId(), "/contributor/test");
-        rights = _rightManager.getUserRights(userIdentity, "/contributor/test");
+        _profileAssignmentStorageEP.removeAllowedProfileFromGroup(group.getIdentity(), profile2.getId(), "/test");
+        rights = _rightManager.getUserRights(userIdentity, "/test");
         assertEquals(2, rights.size());
         
-        _rightManager.allowProfileToGroup(group.getIdentity(), profile2.getId(), "/contributor/test2");
-        rights = _rightManager.getUserRights(userIdentity, "/contributor/test");
+        _profileAssignmentStorageEP.allowProfileToGroup(group.getIdentity(), profile2.getId(), "/test2");
+        rights = _rightManager.getUserRights(userIdentity, "/test");
         assertEquals(2, rights.size());
-        rights = _rightManager.getUserRights(userIdentity, "/contributor/test2");
+        rights = _rightManager.getUserRights(userIdentity, "/test2");
         assertEquals(1, rights.size());
 
-        _rightManager.removeAllowedProfileFromGroup(group.getIdentity(), profile1.getId(), "/contributor/test");
-        _rightManager.removeAllowedProfileFromGroup(group.getIdentity(), profile2.getId(), "/contributor/test");
-        rights = _rightManager.getUserRights(userIdentity, "/contributor/test");
+        _profileAssignmentStorageEP.removeAllowedProfileFromGroup(group.getIdentity(), profile1.getId(), "/test");
+        _profileAssignmentStorageEP.removeAllowedProfileFromGroup(group.getIdentity(), profile2.getId(), "/test");
+        rights = _rightManager.getUserRights(userIdentity, "/test");
         assertEquals(0, rights.size());
-        rights = _rightManager.getUserRights(userIdentity, "/contributor/test2");
+        rights = _rightManager.getUserRights(userIdentity, "/test2");
         assertEquals(1, rights.size());
 
-        _rightManager.removeAllowedProfileFromGroup(group.getIdentity(), profile1.getId(), "/contributor/test2");
-        _rightManager.removeAllowedProfileFromGroup(group.getIdentity(), profile2.getId(), "/contributor/test2");
-        rights = _rightManager.getUserRights(userIdentity, "/contributor/test");
+        _profileAssignmentStorageEP.removeAllowedProfileFromGroup(group.getIdentity(), profile1.getId(), "/test2");
+        _profileAssignmentStorageEP.removeAllowedProfileFromGroup(group.getIdentity(), profile2.getId(), "/test2");
+        rights = _rightManager.getUserRights(userIdentity, "/test");
         assertEquals(0, rights.size());
-        rights = _rightManager.getUserRights(userIdentity, "/contributor/test2");
+        rights = _rightManager.getUserRights(userIdentity, "/test2");
         assertEquals(0, rights.size());
     }
     

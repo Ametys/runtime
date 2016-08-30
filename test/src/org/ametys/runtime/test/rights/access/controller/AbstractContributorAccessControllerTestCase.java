@@ -45,13 +45,13 @@ public abstract class AbstractContributorAccessControllerTestCase extends Abstra
     @Override
     protected Object _getTest1()
     {
-        return "/contributor/test1";
+        return "/test";
     }
     
     @Override
     protected Object _getTest2()
     {
-        return "/contributor/test2";
+        return "/test-not-supported";
     }
     
     /**
@@ -63,7 +63,7 @@ public abstract class AbstractContributorAccessControllerTestCase extends Abstra
      */
     protected void _startAppAndResetDB(String runtimeFilename, String configFileName, String sqlDataSourceFileName) throws Exception
     {
-        _startApplication("test/environments/runtimes/" + runtimeFilename, "test/environments/configs/" + configFileName, "test/environments/datasources/" + sqlDataSourceFileName, null, "test/environments/webapp1");
+        _startApplication("test/environments/runtimes/" + runtimeFilename, "test/environments/configs/" + configFileName, "test/environments/datasources/" + sqlDataSourceFileName, null, "test/environments/webapp4");
 
         _setDatabase(Arrays.asList(getScripts()));
     }
