@@ -21,7 +21,7 @@ import org.ametys.core.right.RightAssignmentContext;
 /**
  * {@link RightAssignmentContext} for assign rights to the contributor context
  */
-public class ContributorRightAssignmentContext extends AbstractStaticRightAssignmentContext
+public class StringRightAssignmentContext extends AbstractStaticRightAssignmentContext
 {
     @Override
     public Object convertJSContext(Object context)
