@@ -41,7 +41,7 @@ public abstract class AbstractJdbcProfileAssignmentStorageTestCase extends Abstr
     @Override
     protected String _getExtensionId()
     {
-        return JdbcProfileAssignmentStorage.class.getName();
+        return "profile.assignment.test.JdbcProfileAssignmentStorage";
     }
     
     @Override
@@ -99,8 +99,9 @@ public abstract class AbstractJdbcProfileAssignmentStorageTestCase extends Abstr
      */
     public void testSupport()
     {
-        assertTrue(_profileAssignmentStorage.isSupported(""));
-        assertTrue(_profileAssignmentStorage.isSupported("foo"));
+        assertFalse(_profileAssignmentStorage.isSupported(""));
+        assertFalse(_profileAssignmentStorage.isSupported("foo"));
+        assertTrue(_profileAssignmentStorage.isSupported("/test"));
         assertFalse(_profileAssignmentStorage.isSupported(new Object()));
     }
     
