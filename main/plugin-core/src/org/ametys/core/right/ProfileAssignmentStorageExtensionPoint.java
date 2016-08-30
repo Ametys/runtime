@@ -233,6 +233,64 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
     }
     
     /**
+     * Gets the permissions for Anonymous for the given profiles
+     * @param profileIds The profiles to get permissions on
+     * @param object The object
+     * @return the access result for each profile
+     */
+    public AccessResult getPermissionForAnonymous (Set<String> profileIds, Object object)
+    {
+        getLogger().debug("Try to determine permission for Anonymous on context {} and profiles {}", object, profileIds);
+     
+        AccessResult result = AccessResult.UNKNOWN;
+        
+        for (String profileId : profileIds)
+        {
+            Set<String> allowedProfiles = _getAllowedProfilesForAnonymous(object);
+            Set<String> deniedProfiles = _getDeniedProfilesForAnonymous(object);
+            if (deniedProfiles.contains(profileId))
+            {
+                return AccessResult.ANONYMOUS_DENIED;
+            }
+            else if (allowedProfiles.contains(profileId))
+            {
+                result = AccessResult.ANONYMOUS_ALLOWED;
+            }
+        }
+        
+        return result;
+    }
+    
+    /**
+     * Gets the permissions for Anonymous for the given profiles
+     * @param profileIds The profiles to get permissions on
+     * @param object The object
+     * @return the access result for each profile
+     */
+    public AccessResult getPermissionForAnyConnectedUser (Set<String> profileIds, Object object)
+    {
+        getLogger().debug("Try to determine permission for Anonymous on context {} and profiles {}", object, profileIds);
+     
+        AccessResult result = AccessResult.UNKNOWN;
+        
+        for (String profileId : profileIds)
+        {
+            Set<String> allowedProfiles = _getAllowedProfilesForAnyConnectedUser(object);
+            Set<String> deniedProfiles = _getDeniedProfilesForAnyConnectedUser(object);
+            if (deniedProfiles.contains(profileId))
+            {
+                return AccessResult.ANONYMOUS_DENIED;
+            }
+            else if (allowedProfiles.contains(profileId))
+            {
+                result = AccessResult.ANONYMOUS_ALLOWED;
+            }
+        }
+        
+        return result;
+    }
+    
+    /**
      * Gets the permission by user only on an object, according to the given profiles. It does not take account of the groups of the user, etc.
      * @param profileIds The ids of the profiles
      * @param object The object

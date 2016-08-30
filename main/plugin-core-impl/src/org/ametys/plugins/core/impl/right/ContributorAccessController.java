@@ -51,6 +51,18 @@ public class ContributorAccessController implements AccessController, Component,
     }
     
     @Override
+    public AccessResult getPermissionForAnonymous(Set<String> profileIds, Object object)
+    {
+        return _profileAssignmentStorageEP.getPermissionForAnonymous(profileIds, object);
+    }
+    
+    @Override
+    public AccessResult getPermissionForAnyConnectedUser(Set<String> profileIds, Object object)
+    {
+        return _profileAssignmentStorageEP.getPermissionForAnonymous(profileIds, object);
+    }
+    
+    @Override
     public Map<String, AccessResult> getPermissionsByProfile(UserIdentity user, Set<GroupIdentity> userGroups, Object object)
     {
         return _profileAssignmentStorageEP.getPermissionsByProfile(user, userGroups, object);

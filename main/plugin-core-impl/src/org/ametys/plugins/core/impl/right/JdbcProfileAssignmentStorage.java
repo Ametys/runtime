@@ -130,6 +130,10 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
         return context;
     }
     
+    /**
+     * Get the prefix for object context 
+     * @return The prefix. Can be null if no prefix is necessary
+     */
     protected String getPrefix ()
     {
         return null;

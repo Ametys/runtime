@@ -162,6 +162,22 @@ public interface AccessController
     public Map<String, AccessResult> getPermissionsByProfile(UserIdentity user, Set<GroupIdentity> userGroups, Object object);
     
     /**
+     * Gets the permission for Anonymous only on an object, according to the given profiles.
+     * @param profileIds The ids of the profiles
+     * @param object The object
+     * @return the permission for Anonymous only on an object, according to the given profiles
+     */
+    public AccessResult getPermissionForAnonymous(Set<String> profileIds, Object object);
+    
+    /**
+     * Gets the permission for any connected user only on an object, according to the given profiles.
+     * @param profileIds The ids of the profiles
+     * @param object The object
+     * @return the permission for any connected user only on an object, according to the given profiles
+     */
+    public AccessResult getPermissionForAnyConnectedUser(Set<String> profileIds, Object object);
+    
+    /**
      * Gets the permission by user only on an object, according to the given profiles. It does not take account of the groups of the user, etc.
      * @param profileIds The ids of the profiles
      * @param object The object

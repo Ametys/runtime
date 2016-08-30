@@ -111,6 +111,46 @@ public abstract class AbstractHierarchicalAccessController<T> implements AccessC
     }
     
     @Override
+    public AccessResult getPermissionForAnonymous(Set<String> profileIds, Object object)
+    {
+        // Get permission on object it self
+        AccessResult permissionForAnonymous = _profileAssignmentStorageEP.getPermissionForAnonymous(profileIds, object);
+        
+        if (AccessResult.UNKNOWN.equals(permissionForAnonymous))
+        {
+            // Add recursively the permission given by parent context
+            @SuppressWarnings("unchecked")
+            T parent = _getParent((T) object);
+            if (parent != null)
+            {
+                return getPermissionForAnonymous(profileIds, parent);
+            }
+        }
+        
+        return permissionForAnonymous;
+    }
+    
+    @Override
+    public AccessResult getPermissionForAnyConnectedUser(Set<String> profileIds, Object object)
+    {
+     // Get permission on object it self
+        AccessResult permissionForAnonymous = _profileAssignmentStorageEP.getPermissionForAnyConnectedUser(profileIds, object);
+        
+        if (AccessResult.UNKNOWN.equals(permissionForAnonymous))
+        {
+            // Add recursively the permission given by parent context
+            @SuppressWarnings("unchecked")
+            T parent = _getParent((T) object);
+            if (parent != null)
+            {
+                return getPermissionForAnonymous(profileIds, parent);
+            }
+        }
+        
+        return permissionForAnonymous;
+    }
+    
+    @Override
     public Map<UserIdentity, AccessResult> getPermissionsByUser(Set<String> profileIds, Object object)
     {
         // Get permissions on object itself

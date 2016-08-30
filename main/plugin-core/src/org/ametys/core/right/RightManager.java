@@ -64,7 +64,6 @@ import org.ametys.core.user.directory.UserDirectory;
 import org.ametys.core.user.population.UserPopulation;
 import org.ametys.core.user.population.UserPopulationDAO;
 import org.ametys.runtime.i18n.I18nizableText;
-import org.ametys.runtime.plugin.PluginsManager;
 import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 import org.ametys.runtime.request.RequestListener;
 import org.ametys.runtime.request.RequestListenerManager;
@@ -217,13 +216,6 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        // FIXME handle safe-mode case
-        if (PluginsManager.getInstance().isSafeMode())
-        {
-            getLogger().warn("Cannot configure the RightManager in safe mode ! Please fix me !");
-            return;
-        }
-        
         Configuration rightsConfiguration = configuration.getChild("rights");
 
         String externalFile = rightsConfiguration.getAttribute("config", null);
@@ -325,6 +317,11 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
     public RightResult hasRight(UserIdentity userIdentity, String rightId, Object object) throws RightsException
     {
         getLogger().debug("Try to determine if user '{}' has the right '{}' on the object context {}", userIdentity, rightId, object);
+        
+        if (object instanceof String && StringUtils.equals((String) object, AdminAuthenticateAction.ADMIN_RIGHT_CONTEXT) && StringUtils.equals(userIdentity.getPopulationId(), UserPopulationDAO.ADMIN_POPULATION_ID))
+        {
+            return RightResult.RIGHT_ALLOW;
+        }
         
         // Retrieve all profiles containing the right rightId
         Set<String> profileIds = _getProfileDAO().getProfilesWithRight(rightId);
@@ -502,11 +499,6 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         Set<AccessResult> accessResults = new HashSet<>();
         for (Object obj : objects)
         {
-            if (obj instanceof String && StringUtils.equals((String) obj, AdminAuthenticateAction.ADMIN_RIGHT_CONTEXT) && StringUtils.equals(userIdentity.getPopulationId(), UserPopulationDAO.ADMIN_POPULATION_ID))
-            {
-                accessResults.add(AccessResult.USER_ALLOWED);
-            }
-            
             for (String controllerId : _accessControllerEP.getExtensionsIds())
             {
                 AccessController accessController = _accessControllerEP.getExtension(controllerId);
@@ -576,10 +568,33 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
      */
     public RightResult hasAnonymousProfile(String profileId, Object object)
     {
-        boolean isAnonymousAllowed = _getFirstProfileAssignmentStorage(object)
-                .map(pas -> pas.isAnonymousAllowed(object, profileId))
-                .orElse(false);
-        return isAnonymousAllowed ? RightResult.RIGHT_ALLOW : RightResult.RIGHT_DENY;
+        Set<Object> objects = _getConvertedObjects(object);
+        
+        Set<String> profileIds = new HashSet<>();
+        profileIds.add(profileId);
+        
+        Set<AccessResult> results = new HashSet<>();
+        
+        for (Object obj : objects)
+        {
+            for (String controllerId : _accessControllerEP.getExtensionsIds())
+            {
+                AccessController accessController = _accessControllerEP.getExtension(controllerId);
+                if (accessController.isSupported(obj))
+                {
+                    AccessResult result = accessController.getPermissionForAnonymous(profileIds, obj);
+                    if (result.equals(AccessResult.ANONYMOUS_DENIED))
+                    {
+                        // Stop iteration, one object returns a denied permission
+                        return RightResult.RIGHT_DENY;
+                    }
+                    
+                    results.add(result);
+                }
+            }
+        }
+        
+        return _computeRight(_computeAccess(results));
     }
     
     /**
@@ -590,10 +605,33 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
      */
     public RightResult hasAnyConnectedUserProfile(String profileId, Object object)
     {
-        boolean isAnonymousAllowed = _getFirstProfileAssignmentStorage(object)
-                .map(pas -> pas.isAnyConnectedUserAllowed(object, profileId))
-                .orElse(false);
-        return isAnonymousAllowed ? RightResult.RIGHT_ALLOW : RightResult.RIGHT_DENY;
+        Set<Object> objects = _getConvertedObjects(object);
+        
+        Set<String> profileIds = new HashSet<>();
+        profileIds.add(profileId);
+        
+        Set<AccessResult> results = new HashSet<>();
+        
+        for (Object obj : objects)
+        {
+            for (String controllerId : _accessControllerEP.getExtensionsIds())
+            {
+                AccessController accessController = _accessControllerEP.getExtension(controllerId);
+                if (accessController.isSupported(obj))
+                {
+                    AccessResult result = accessController.getPermissionForAnyConnectedUser(profileIds, obj);
+                    if (result.equals(AccessResult.ANONYMOUS_DENIED))
+                    {
+                        // Stop iteration, one object returns a denied permission
+                        return RightResult.RIGHT_DENY;
+                    }
+                    
+                    results.add(result);
+                }
+            }
+        }
+        
+        return _computeRight(_computeAccess(results));
     }
     
     
@@ -619,6 +657,11 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
      */
     public boolean hasReaderRight(UserIdentity userIdentity, Object object)
     {
+        if (object instanceof String && StringUtils.equals((String) object, AdminAuthenticateAction.ADMIN_RIGHT_CONTEXT) && StringUtils.equals(userIdentity.getPopulationId(), UserPopulationDAO.ADMIN_POPULATION_ID))
+        {
+            return true;
+        }
+        
         return _hasRight(userIdentity, Collections.singleton(READER_PROFILE_ID), object) == RightResult.RIGHT_ALLOW;
     }
     
@@ -629,7 +672,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
      */
     public boolean isRestricted(Object object)
     {
-        return hasAnonymousProfile(READER_PROFILE_ID, object) == RightResult.RIGHT_DENY;
+        return hasAnonymousProfile(READER_PROFILE_ID, object) != RightResult.RIGHT_ALLOW;
     }
     
     /**
