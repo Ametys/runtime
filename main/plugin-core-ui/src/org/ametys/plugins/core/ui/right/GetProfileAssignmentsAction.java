@@ -37,6 +37,7 @@ import org.ametys.core.group.Group;
 import org.ametys.core.group.GroupDirectoryDAO;
 import org.ametys.core.group.GroupIdentity;
 import org.ametys.core.group.GroupManager;
+import org.ametys.core.right.ProfileAssignmentStorageExtensionPoint;
 import org.ametys.core.right.RightAssignmentContext;
 import org.ametys.core.right.RightAssignmentContextExtensionPoint;
 import org.ametys.core.right.RightManager;
@@ -52,6 +53,8 @@ import org.ametys.core.user.population.UserPopulationDAO;
  */
 public class GetProfileAssignmentsAction extends ServiceableAction
 {
+    /** The profile assignment storage component */
+    protected ProfileAssignmentStorageExtensionPoint _profileAssignmentStorageEP;
     /** The extension point for right assignment contexts */
     protected RightAssignmentContextExtensionPoint _rightAssignmentContextEP;
     /** The right manager */
@@ -69,6 +72,7 @@ public class GetProfileAssignmentsAction extends ServiceableAction
     public void service(ServiceManager smanager) throws ServiceException
     {
         super.service(smanager);
+        _profileAssignmentStorageEP = (ProfileAssignmentStorageExtensionPoint) smanager.lookup(ProfileAssignmentStorageExtensionPoint.ROLE);
         _rightAssignmentContextEP = (RightAssignmentContextExtensionPoint) smanager.lookup(RightAssignmentContextExtensionPoint.ROLE);
         _rightManager = (RightManager) smanager.lookup(RightManager.ROLE);
         _userPopulationDAO = (UserPopulationDAO) smanager.lookup(UserPopulationDAO.ROLE);
@@ -126,14 +130,14 @@ public class GetProfileAssignmentsAction extends ServiceableAction
             Object currentContext = context;
             while (currentContext != null && !found)
             {
-                Set<String> deniedProfiles = _rightManager.getDeniedProfilesForAnonymous(currentContext);
+                Set<String> deniedProfiles = _profileAssignmentStorageEP.getDeniedProfilesForAnonymous(currentContext);
                 if (deniedProfiles.contains(profileId))
                 {
                     assignment.put(profileId, currentContext == context ? AccessType.DENY.toString() : AccessType.INHERITED_DENY.toString());
                     found = true; // stop iteration
                 }
                 
-                Set<String> allowedProfiles = _rightManager.getAllowedProfilesForAnonymous(currentContext);
+                Set<String> allowedProfiles = _profileAssignmentStorageEP.getAllowedProfilesForAnonymous(currentContext);
                 if (allowedProfiles.contains(profileId))
                 {
                     assignment.put(profileId, currentContext == context ? AccessType.ALLOW.toString() : AccessType.INHERITED_ALLOW.toString());
@@ -161,14 +165,14 @@ public class GetProfileAssignmentsAction extends ServiceableAction
             Object currentContext = context;
             while (currentContext != null && !found)
             {
-                Set<String> deniedProfiles = _rightManager.getDeniedProfilesForAnyConnectedUser(currentContext);
+                Set<String> deniedProfiles = _profileAssignmentStorageEP.getDeniedProfilesForAnyConnectedUser(currentContext);
                 if (deniedProfiles.contains(profileId))
                 {
                     assignment.put(profileId, currentContext == context ? AccessType.DENY.toString() : AccessType.INHERITED_DENY.toString());
                     found = true; // stop iteration
                 }
                 
-                Set<String> allowedProfiles = _rightManager.getAllowedProfilesForAnyConnectedUser(currentContext);
+                Set<String> allowedProfiles = _profileAssignmentStorageEP.getAllowedProfilesForAnyConnectedUser(currentContext);
                 if (allowedProfiles.contains(profileId))
                 {
                     assignment.put(profileId, currentContext == context ? AccessType.ALLOW.toString() : AccessType.INHERITED_ALLOW.toString());
@@ -191,7 +195,7 @@ public class GetProfileAssignmentsAction extends ServiceableAction
         while (currentContext != null)
         {
             // Get all user with a denied profile on current context
-            Map<UserIdentity, Set<String>> deniedProfilesForUsers = _rightManager.getDeniedProfilesForUsers(currentContext);
+            Map<UserIdentity, Set<String>> deniedProfilesForUsers = _profileAssignmentStorageEP.getDeniedProfilesForUsers(currentContext);
             for (UserIdentity userIdentity : deniedProfilesForUsers.keySet())
             {
                 if (!assignments.containsKey(userIdentity))
@@ -211,7 +215,7 @@ public class GetProfileAssignmentsAction extends ServiceableAction
             }
             
             // Get all user with a allowed profile on current context
-            Map<UserIdentity, Set<String>> allowedProfilesForUsers = _rightManager.getAllowedProfilesForUsers(currentContext);
+            Map<UserIdentity, Set<String>> allowedProfilesForUsers = _profileAssignmentStorageEP.getAllowedProfilesForUsers(currentContext);
             for (UserIdentity userIdentity : allowedProfilesForUsers.keySet())
             {
                 if (!assignments.containsKey(userIdentity))
@@ -245,7 +249,7 @@ public class GetProfileAssignmentsAction extends ServiceableAction
         while (currentContext != null)
         {
             // Get all user with a denied profile on current context
-            Map<GroupIdentity, Set<String>> deniedProfilesForGroups = _rightManager.getDeniedProfilesForGroups(currentContext);
+            Map<GroupIdentity, Set<String>> deniedProfilesForGroups = _profileAssignmentStorageEP.getDeniedProfilesForGroups(currentContext);
             for (GroupIdentity gpIdentity : deniedProfilesForGroups.keySet())
             {
                 if (!assignments.containsKey(gpIdentity))
@@ -265,7 +269,7 @@ public class GetProfileAssignmentsAction extends ServiceableAction
             }
             
             // Get all user with a allowed profile on current context
-            Map<GroupIdentity, Set<String>> allowedProfilesForGroups = _rightManager.getAllowedProfilesForGroups(context);
+            Map<GroupIdentity, Set<String>> allowedProfilesForGroups = _profileAssignmentStorageEP.getAllowedProfilesForGroups(context);
             for (GroupIdentity gpIdentity : allowedProfilesForGroups.keySet())
             {
                 if (!assignments.containsKey(gpIdentity))

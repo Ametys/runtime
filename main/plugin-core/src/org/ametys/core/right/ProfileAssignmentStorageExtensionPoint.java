@@ -67,7 +67,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
         getLogger().debug("Try to determine permission for user '{}' and groups {} on context {} with the single profile '{}'", user, userGroups, object, profileId);
         
         // Is part of the allowed profiles for anonymous ?
-        if (_getAllowedProfilesForAnonymous(object).contains(profileId))
+        if (getAllowedProfilesForAnonymous(object).contains(profileId))
         {
             _logResult(user, userGroups, profileId, object, AccessResult.ANONYMOUS_ALLOWED);
             
@@ -75,21 +75,21 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
         }
         
         // Does the profile respond "the user is denied" ?
-        if (_getDeniedUsers(object, profileId).contains(user))
+        if (getDeniedUsers(object, profileId).contains(user))
         {
             _logResult(user, userGroups, profileId, object, AccessResult.USER_DENIED);
             return new AccessResultContext(AccessResult.USER_DENIED, null);
         }
         
         // Does the profile respond "the user is allowed" ?
-        if (_getAllowedUsers(object, profileId).contains(user))
+        if (getAllowedUsers(object, profileId).contains(user))
         {
             _logResult(user, userGroups, profileId, object, AccessResult.USER_ALLOWED);
             return new AccessResultContext(AccessResult.USER_ALLOWED, null);
         }
         
         // Does the profile respond "one of the user groups is denied" ?
-        Set<GroupIdentity> deniedGroups = _getDeniedGroups(object, profileId);
+        Set<GroupIdentity> deniedGroups = getDeniedGroups(object, profileId);
         Collection<GroupIdentity> intersection = CollectionUtils.intersection(deniedGroups, userGroups);
         if (!intersection.isEmpty())
         {
@@ -98,7 +98,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
         }
         
         // Does the profile respond "one of the user groups is allowed" ?
-        Set<GroupIdentity> allowedGroups = _getAllowedGroups(object, profileId);
+        Set<GroupIdentity> allowedGroups = getAllowedGroups(object, profileId);
         intersection = CollectionUtils.intersection(allowedGroups, userGroups);
         if (!intersection.isEmpty())
         {
@@ -107,14 +107,14 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
         }
         
         // Is part of the denied profiles for any connected user ?
-        if (_getDeniedProfilesForAnyConnectedUser(object).contains(profileId))
+        if (getDeniedProfilesForAnyConnectedUser(object).contains(profileId))
         {
             _logResult(user, userGroups, profileId, object, AccessResult.ANY_CONNECTED_DENIED);
             return new AccessResultContext(AccessResult.ANY_CONNECTED_DENIED, null);
         }
         
         // Is part of the allowed profiles for any connected user ?
-        if (_getAllowedProfilesForAnyConnectedUser(object).contains(profileId))
+        if (getAllowedProfilesForAnyConnectedUser(object).contains(profileId))
         {
             _logResult(user, userGroups, profileId, object, AccessResult.ANY_CONNECTED_ALLOWED);
            
@@ -122,7 +122,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
         }
         
         // Is part of the denied profiles for anonymous ?
-        if (_getDeniedProfilesForAnonymous(object).contains(profileId))
+        if (getDeniedProfilesForAnonymous(object).contains(profileId))
         {
             _logResult(user, userGroups, profileId, object, AccessResult.ANONYMOUS_DENIED);
             return new AccessResultContext(AccessResult.ANONYMOUS_DENIED, null);
@@ -180,41 +180,41 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
         Map<String, AccessResult> result = new HashMap<>();
         
         // Allowed profiles for anonymous
-        Set<String> allowedProfilesForAnonymous = _getAllowedProfilesForAnonymous(object);
+        Set<String> allowedProfilesForAnonymous = getAllowedProfilesForAnonymous(object);
         _updatePermissionsMap(result, allowedProfilesForAnonymous, AccessResult.ANONYMOUS_ALLOWED);
         
         // Denied profiles for user
-        Set<String> deniedProfilesForUser = _getDeniedProfilesForUser(object, user);
+        Set<String> deniedProfilesForUser = getDeniedProfilesForUser(object, user);
         _updatePermissionsMap(result, deniedProfilesForUser, AccessResult.USER_DENIED);
         
         // Allowed profiles for user
-        Set<String> allowedProfilesForUser = _getAllowedProfilesForUser(object, user);
+        Set<String> allowedProfilesForUser = getAllowedProfilesForUser(object, user);
         _updatePermissionsMap(result, allowedProfilesForUser, AccessResult.USER_ALLOWED);
         
         // Denied profiles for groups
         for (GroupIdentity group : userGroups)
         {
-            Set<String> deniedProfilesForGroup = _getDeniedProfilesForGroup(object, group);
+            Set<String> deniedProfilesForGroup = getDeniedProfilesForGroup(object, group);
             _updatePermissionsMap(result, deniedProfilesForGroup, AccessResult.GROUP_DENIED);
         }
         
         // Allowed profiles for groups
         for (GroupIdentity group : userGroups)
         {
-            Set<String> allowedProfilesForGroup = _getAllowedProfilesForGroup(object, group);
+            Set<String> allowedProfilesForGroup = getAllowedProfilesForGroup(object, group);
             _updatePermissionsMap(result, allowedProfilesForGroup, AccessResult.GROUP_ALLOWED);
         }
         
         // Denied profiles for any connected user
-        Set<String> deniedProfilesForAnyConnectedUser = _getDeniedProfilesForAnyConnectedUser(object);
+        Set<String> deniedProfilesForAnyConnectedUser = getDeniedProfilesForAnyConnectedUser(object);
         _updatePermissionsMap(result, deniedProfilesForAnyConnectedUser, AccessResult.ANY_CONNECTED_DENIED);
         
         // Allowed profiles for any connected user
-        Set<String> allowedProfilesForAnyConnectedUser = _getAllowedProfilesForAnyConnectedUser(object);
+        Set<String> allowedProfilesForAnyConnectedUser = getAllowedProfilesForAnyConnectedUser(object);
         _updatePermissionsMap(result, allowedProfilesForAnyConnectedUser, AccessResult.ANY_CONNECTED_ALLOWED);
         
         // Denied profiles for anonymous
-        Set<String> deniedProfilesForAnonymous = _getDeniedProfilesForAnonymous(object);
+        Set<String> deniedProfilesForAnonymous = getDeniedProfilesForAnonymous(object);
         _updatePermissionsMap(result, deniedProfilesForAnonymous, AccessResult.ANONYMOUS_DENIED);
         
         getLogger().debug("The permissions by profile on context {} for user '{}' and groups {} are : {}", object, user, userGroups, result);
@@ -246,8 +246,8 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
         
         for (String profileId : profileIds)
         {
-            Set<String> allowedProfiles = _getAllowedProfilesForAnonymous(object);
-            Set<String> deniedProfiles = _getDeniedProfilesForAnonymous(object);
+            Set<String> allowedProfiles = getAllowedProfilesForAnonymous(object);
+            Set<String> deniedProfiles = getDeniedProfilesForAnonymous(object);
             if (deniedProfiles.contains(profileId))
             {
                 return AccessResult.ANONYMOUS_DENIED;
@@ -275,8 +275,8 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
         
         for (String profileId : profileIds)
         {
-            Set<String> allowedProfiles = _getAllowedProfilesForAnyConnectedUser(object);
-            Set<String> deniedProfiles = _getDeniedProfilesForAnyConnectedUser(object);
+            Set<String> allowedProfiles = getAllowedProfilesForAnyConnectedUser(object);
+            Set<String> deniedProfiles = getDeniedProfilesForAnyConnectedUser(object);
             if (deniedProfiles.contains(profileId))
             {
                 return AccessResult.ANONYMOUS_DENIED;
@@ -304,7 +304,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
         
         for (String profileId : profileIds)
         {
-            for (UserIdentity user : _getAllowedUsers(object, profileId))
+            for (UserIdentity user : getAllowedUsers(object, profileId))
             {
                 if (!result.containsKey(user))
                 {
@@ -312,7 +312,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
                     result.put(user, AccessResult.USER_ALLOWED);
                 }
             }
-            for (UserIdentity user : _getDeniedUsers(object, profileId))
+            for (UserIdentity user : getDeniedUsers(object, profileId))
             {
                 // Even if already found before, in allowed for example, we override it to set him as denied
                 result.put(user, AccessResult.USER_DENIED);
@@ -337,7 +337,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
         
         for (String profileId : profileIds)
         {
-            for (GroupIdentity group : _getAllowedGroups(object, profileId))
+            for (GroupIdentity group : getAllowedGroups(object, profileId))
             {
                 if (!result.containsKey(group))
                 {
@@ -345,7 +345,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
                     result.put(group, AccessResult.GROUP_ALLOWED);
                 }
             }
-            for (GroupIdentity group : _getDeniedGroups(object, profileId))
+            for (GroupIdentity group : getDeniedGroups(object, profileId))
             {
                 // Even if already found before, in allowed for example, we override it to set it as denied
                 result.put(group, AccessResult.GROUP_DENIED);
@@ -360,59 +360,148 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
     /* ------------------ */
     /* ANY CONNECTED USER */
     /* ------------------ */
-    
     /**
-     * Gets the allowed profiles any connected user has on the given object
-     * @param object The object
-     * @return the allowed profiles any connected user has on the given object
+     * Gets the allowed profiles for any connected user on the given object
+     * @param context The object context
+     * @return the allowed profiles for any connected user on the given object
      */
-    private Set<String> _getAllowedProfilesForAnyConnectedUser(Object object)
+    public Set<String> getAllowedProfilesForAnyConnectedUser(Object context)
     {
-        return _getFirstProfileAssignmentStorage(object)
-                .map(pas -> pas.getAllowedProfilesForAnyConnectedUser(object))
+        return _getFirstProfileAssignmentStorage(context)
+                .map(pas -> pas.getAllowedProfilesForAnyConnectedUser(context))
                 .orElse(Collections.EMPTY_SET);
     }
     
     /**
-     * Gets the denied profiles any connected user has on the given object
-     * @param object The object
-     * @return the denied profiles any connected user has on the given object
+     * Gets the denied profiles for any connected user on the given object
+     * @param context The object context
+     * @return the denied profiles for any connected user on the given object
      */
-    private Set<String> _getDeniedProfilesForAnyConnectedUser(Object object)
+    public Set<String> getDeniedProfilesForAnyConnectedUser(Object context)
     {
-        return _getFirstProfileAssignmentStorage(object)
-                .map(pas -> pas.getDeniedProfilesForAnyConnectedUser(object))
+        return _getFirstProfileAssignmentStorage(context)
+                .map(pas -> pas.getDeniedProfilesForAnyConnectedUser(context))
                 .orElse(Collections.EMPTY_SET);
     }
     
+    /**
+     * Adds allowed profile any connected user has on the given object
+     * @param context The object context
+     * @param profileId The profile to add
+     */
+    public void allowProfileToAnyConnectedUser(String profileId, Object context)
+    {
+        _getFirstProfileAssignmentStorage(context)
+                .ifPresent(pas -> pas.addAllowedProfilesForAnyConnectedUser(context, Collections.singleton(profileId)));
+    }
+    
+    /**
+     * Adds denied profile any connected user has on the given object
+     * @param profileId The profile to add
+     * @param context The object context
+     */
+    public void denyProfileToAnyConnectedUser(String profileId, Object context)
+    {
+        _getFirstProfileAssignmentStorage(context)
+                .ifPresent(pas -> pas.addDeniedProfilesForAnyConnectedUser(context, Collections.singleton(profileId)));
+    }
+    
+    /**
+     * Removes allowed profile any connected user has on the given object
+     * @param profileId The profile to remove
+     * @param context The object context
+     */
+    public void removeAllowedProfileFromAnyConnectedUser(String profileId, Object context)
+    {
+        _getFirstProfileAssignmentStorage(context)
+                .ifPresent(pas -> pas.removeAllowedProfilesForAnyConnectedUser(context, Collections.singleton(profileId)));
+    }
+    
+    /**
+     * Removes denied profile any connected user has on the given object
+     * @param context The object context
+     * @param profileId The profile to remove
+     */
+    public void removeDeniedProfileFromAnyConnectedUser(String profileId, Object context)
+    {
+        _getFirstProfileAssignmentStorage(context)
+                .ifPresent(pas -> pas.removeDeniedProfilesForAnyConnectedUser(context, Collections.singleton(profileId)));
+    }
     
     /* --------- */
     /* ANONYMOUS */
     /* --------- */
-    
-    private Set<String> _getAllowedProfilesForAnonymous(Object object)
+    /**
+     * Gets the allowed profiles for Anonymous user on the given object
+     * @param context The object context
+     * @return the allowed profiles for Anonymous user on the given object
+     */
+    public Set<String> getAllowedProfilesForAnonymous(Object context)
     {
-        Set<String> allowedProfiles = _getFirstProfileAssignmentStorage(object)
-                .map(pas -> pas.getAllowedProfilesForAnonymous(object))
+        Set<String> allowedProfiles = _getFirstProfileAssignmentStorage(context)
+                .map(pas -> pas.getAllowedProfilesForAnonymous(context))
                 .orElse(Collections.EMPTY_SET);
         
-        Set<String> deniedProfiles = _getDeniedProfilesForAnonymous(object);
+        Set<String> deniedProfiles = getDeniedProfilesForAnonymous(context);
         
         return new HashSet<>(CollectionUtils.removeAll(allowedProfiles, deniedProfiles));
     }
     
     /**
-     * Gets the denied profiles an anonymous user has on the given object
-     * @param object The object
-     * @return the denied profiles any connected user has on the given object
+     * Gets the denied profiles for Anonymous user on the given object
+     * @param context The object context
+     * @return the denied profiles for Anonymous user on the given object
      */
-    private Set<String> _getDeniedProfilesForAnonymous(Object object)
+    public Set<String> getDeniedProfilesForAnonymous(Object context)
     {
-        return _getFirstProfileAssignmentStorage(object)
-                .map(pas -> pas.getDeniedProfilesForAnonymous(object))
+        return _getFirstProfileAssignmentStorage(context)
+                .map(pas -> pas.getDeniedProfilesForAnonymous(context))
                 .orElse(Collections.EMPTY_SET);
     }
     
+    /**
+     * Adds allowed profile an anonymous user has on the given object
+     * @param profileId The profile to add
+     * @param context The object context
+     */
+    public void allowProfileToAnonymous(String profileId, Object context)
+    {
+        _getFirstProfileAssignmentStorage(context)
+                .ifPresent(pas -> pas.addAllowedProfilesForAnonymous(context, Collections.singleton(profileId)));
+    }
+    
+    /**
+     * Adds denied profile an anonymous user has on the given object
+     * @param profileId The profile to add
+     * @param context The object context
+     */
+    public void denyProfileToAnonymous(String profileId, Object context)
+    {
+        _getFirstProfileAssignmentStorage(context)
+                .ifPresent(pas -> pas.addDeniedProfilesForAnonymous(context, Collections.singleton(profileId)));
+    }
+    
+    /**
+     * Removes allowed profile an anonymous user has on the given object
+     * @param profileId The profile to remove
+     * @param context The object context
+     */
+    public void removeAllowedProfileFromAnonymous(String profileId, Object context)
+    {
+        _getFirstProfileAssignmentStorage(context)
+                .ifPresent(pas -> pas.removeAllowedProfilesForAnonymous(context, Collections.singleton(profileId)));
+    }
+    
+    /**
+     * Removes denied profile an anonymous user has on the given object
+     * @param context The object context
+     * @param profileId The profile to remove
+     */
+    public void removeDeniedProfileFromAnonymous(String profileId, Object context)
+    {
+        _getFirstProfileAssignmentStorage(context)
+                .ifPresent(pas -> pas.removeDeniedProfilesForAnonymous(context, Collections.singleton(profileId)));
+    }
     
     /* ----- */
     /* USERS */
@@ -424,23 +513,10 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      * @param profileId The id of the profile
      * @return The allowed users with that profile on that object
      */
-    private Set<UserIdentity> _getAllowedUsers(Object object, String profileId)
+    public Set<UserIdentity> getAllowedUsers(Object object, String profileId)
     {
         return _getFirstProfileAssignmentStorage(object)
                 .map(pas -> pas.getAllowedUsers(object, profileId))
-                .orElse(Collections.EMPTY_SET);
-    }
-    
-    /**
-     * Gets the allowed profiles for the given user on the given object
-     * @param object The object to test
-     * @param user The user
-     * @return The allowed profiles for the user
-     */
-    private Set<String> _getAllowedProfilesForUser(Object object, UserIdentity user)
-    {
-        return _getFirstProfileAssignmentStorage(object)
-                .map(pas -> pas.getAllowedProfilesForUsers(object).get(user))
                 .orElse(Collections.EMPTY_SET);
     }
     
@@ -450,10 +526,23 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      * @param profileId The id of the profile
      * @return The allowed users with that profile on that object
      */
-    private Set<UserIdentity> _getDeniedUsers(Object object, String profileId)
+    public Set<UserIdentity> getDeniedUsers(Object object, String profileId)
     {
         return _getFirstProfileAssignmentStorage(object)
                 .map(pas -> pas.getDeniedUsers(object, profileId))
+                .orElse(Collections.EMPTY_SET);
+    }
+    
+    /**
+     * Gets the allowed profiles for the given user on the given object
+     * @param object The object to test
+     * @param user The user
+     * @return The allowed profiles for the user
+     */
+    public Set<String> getAllowedProfilesForUser(Object object, UserIdentity user)
+    {
+        return _getFirstProfileAssignmentStorage(object)
+                .map(pas -> pas.getAllowedProfilesForUsers(object).get(user))
                 .orElse(Collections.EMPTY_SET);
     }
     
@@ -463,11 +552,83 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      * @param user The user
      * @return The denied profiles for the user
      */
-    private Set<String> _getDeniedProfilesForUser(Object object, UserIdentity user)
+    public Set<String> getDeniedProfilesForUser(Object object, UserIdentity user)
     {
         return _getFirstProfileAssignmentStorage(object)
                 .map(pas -> pas.getDeniedProfilesForUsers(object).get(user))
                 .orElse(Collections.EMPTY_SET);
+    }
+    
+    /**
+     * Gets the allowed profiles by users on the given object
+     * @param object The context object
+     * @return The allowed profiles by users
+     */
+    public Map<UserIdentity, Set<String>> getAllowedProfilesForUsers(Object object)
+    {
+        return _getFirstProfileAssignmentStorage(object)
+                .map(pas -> pas.getAllowedProfilesForUsers(object))
+                .orElse(Collections.EMPTY_MAP);
+    }
+    
+    /**
+     * Gets the denied profiles by users on the given object
+     * @param object The context object
+     * @return The denied profiles by users
+     */
+    public Map<UserIdentity, Set<String>> getDeniedProfilesForUsers(Object object)
+    {
+        return _getFirstProfileAssignmentStorage(object)
+                .map(pas -> pas.getDeniedProfilesForUsers(object))
+                .orElse(Collections.EMPTY_MAP);
+    }
+    
+    /**
+     * Allows a user to a profile on a given object
+     * @param user The user to add
+     * @param profileId The id of the profile
+     * @param context The object context
+     */
+    public void allowProfileToUser(UserIdentity user, String profileId, Object context)
+    {
+        _getFirstProfileAssignmentStorage(context)
+                .ifPresent(pas -> pas.addAllowedUsers(Collections.singleton(user), context, profileId));
+    }
+    
+    /**
+     * Denies a user to a profile on a given object
+     * @param user The user to add
+     * @param profileId The id of the profile
+     * @param context The object context
+     */
+    public void denyProfileToUser(UserIdentity user, String profileId, Object context)
+    {
+        _getFirstProfileAssignmentStorage(context)
+                .ifPresent(pas -> pas.addDeniedUsers(Collections.singleton(user), context, profileId));
+    }
+    
+    /**
+     * Removes the association between a user and an allowed profile on a given object
+     * @param user The user to remove
+     * @param context The object context
+     * @param profileId The id of the profile
+     */
+    public void removeAllowedProfileFromUser(UserIdentity user, String profileId, Object context)
+    {
+        _getFirstProfileAssignmentStorage(context)
+                .ifPresent(pas -> pas.removeAllowedUsers(Collections.singleton(user), context, profileId));
+    }
+    
+    /**
+     * Removes the association between a user and a denied profile on a given object
+     * @param user The user to remove
+     * @param profileId The id of the profile
+     * @param context The object context
+     */
+    public void removeDeniedProfileFromUser(UserIdentity user, String profileId, Object context)
+    {
+        _getFirstProfileAssignmentStorage(context)
+                .ifPresent(pas -> pas.removeDeniedUsers(Collections.singleton(user), context, profileId));
     }
     
     
@@ -481,23 +642,10 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      * @param profileId The id of the profile
      * @return The allowed groups with that profile on that object
      */
-    private Set<GroupIdentity> _getAllowedGroups(Object object, String profileId)
+    public Set<GroupIdentity> getAllowedGroups(Object object, String profileId)
     {
         return _getFirstProfileAssignmentStorage(object)
                 .map(pas -> pas.getAllowedGroups(object, profileId))
-                .orElse(Collections.EMPTY_SET);
-    }
-    
-    /**
-     * Gets the allowed profiles for the given group on the given object
-     * @param object The object to test
-     * @param group The group
-     * @return The allowed profiles for the group
-     */
-    private Set<String> _getAllowedProfilesForGroup(Object object, GroupIdentity group)
-    {
-        return _getFirstProfileAssignmentStorage(object)
-                .map(pas -> pas.getAllowedProfilesForGroups(object).get(group))
                 .orElse(Collections.EMPTY_SET);
     }
     
@@ -507,13 +655,25 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      * @param profileId The id of the profile
      * @return The denied groups with that profile on that object
      */
-    private Set<GroupIdentity> _getDeniedGroups(Object object, String profileId)
+    public Set<GroupIdentity> getDeniedGroups(Object object, String profileId)
     {
         return _getFirstProfileAssignmentStorage(object)
                 .map(pas -> pas.getDeniedGroups(object, profileId))
                 .orElse(Collections.EMPTY_SET);
     }
     
+    /**
+     * Gets the allowed profiles for the given group on the given object
+     * @param object The object to test
+     * @param group The group
+     * @return The allowed profiles for the group
+     */
+    public Set<String> getAllowedProfilesForGroup(Object object, GroupIdentity group)
+    {
+        return _getFirstProfileAssignmentStorage(object)
+                .map(pas -> pas.getAllowedProfilesForGroups(object).get(group))
+                .orElse(Collections.EMPTY_SET);
+    }
     
     /**
      * Gets the denied profiles for the given group on the given object
@@ -521,11 +681,83 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      * @param group The group
      * @return The denied profiles for the group
      */
-    private Set<String> _getDeniedProfilesForGroup(Object object, GroupIdentity group)
+    public Set<String> getDeniedProfilesForGroup(Object object, GroupIdentity group)
     {
         return _getFirstProfileAssignmentStorage(object)
                 .map(pas -> pas.getDeniedProfilesForGroups(object).get(group))
                 .orElse(Collections.EMPTY_SET);
+    }
+    
+    /**
+     * Gets the allowed profiles by groups on the given object
+     * @param object The context object
+     * @return The allowed profiles by groups
+     */
+    public Map<GroupIdentity, Set<String>> getAllowedProfilesForGroups(Object object)
+    {
+        return _getFirstProfileAssignmentStorage(object)
+                .map(pas -> pas.getAllowedProfilesForGroups(object))
+                .orElse(Collections.EMPTY_MAP);
+    }
+    
+    /**
+     * Gets the denied profiles by groups on the given object
+     * @param context The object context to test 
+     * @return The denied profiles by groups
+     */
+    public Map<GroupIdentity, Set<String>> getDeniedProfilesForGroups(Object context)
+    {
+        return _getFirstProfileAssignmentStorage(context)
+                .map(pas -> pas.getDeniedProfilesForGroups(context))
+                .orElse(Collections.EMPTY_MAP);
+    }
+    
+    /**
+     * Allows a group to a profile on a given object
+     * @param group The group to add
+     * @param profileId The id of the profile
+     * @param context The object context
+     */
+    public void allowProfileToGroup(GroupIdentity group, String profileId, Object context)
+    {
+        _getFirstProfileAssignmentStorage(context)
+                .ifPresent(pas -> pas.addAllowedGroups(Collections.singleton(group), context, profileId));
+    }
+    
+    /**
+     * Denies a group to a profile on a given object
+     * @param group The group to add
+     * @param profileId The id of the profile
+     * @param context The object context
+     */
+    public void denyProfileToGroup(GroupIdentity group, String profileId, Object context)
+    {
+        _getFirstProfileAssignmentStorage(context)
+                .ifPresent(pas -> pas.addDeniedGroups(Collections.singleton(group), context, profileId));
+    }
+    
+    /**
+     * Removes the association between a group and an allowed profile on a given object
+     * @param group The group to remove
+     * @param profileId The id of the profile
+     * @param context The object context
+     */
+    public void removeAllowedProfileFromGroup(GroupIdentity group, String profileId, Object context)
+    {
+        _getFirstProfileAssignmentStorage(context)
+                .ifPresent(pas -> pas.removeAllowedGroups(Collections.singleton(group), context, profileId));
+    }
+    
+    /**
+     * Removes the association between a group and a denied profile on a given object
+     * @param group The group to remove
+     * @param profileId The id of the profile
+     * @param context The object context
+     */
+    public void removeDeniedProfileFromGroup(GroupIdentity group, String profileId, Object context)
+    {
+        _getFirstProfileAssignmentStorage(context)
+                .ifPresent(pas -> pas.removeDeniedGroups(Collections.singleton(group), context, profileId));
     }
     
     /* -------------------------- */

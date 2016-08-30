@@ -22,6 +22,7 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 
 import org.ametys.core.right.Profile;
+import org.ametys.core.right.ProfileAssignmentStorageExtensionPoint;
 import org.ametys.core.right.RightManager;
 import org.ametys.core.right.RightProfilesDAO;
 import org.ametys.core.right.RightsExtensionPoint;
@@ -42,6 +43,8 @@ public class SuperUserClientSideElement extends StaticClientSideElement
     
     private RightProfilesDAO _profilesDAO;
     
+    private ProfileAssignmentStorageExtensionPoint _profileAssignmentStorageEP;
+    
     @Override
     public void service(ServiceManager smanager) throws ServiceException
     {
@@ -61,9 +64,9 @@ public class SuperUserClientSideElement extends StaticClientSideElement
     {
         try
         {
-            if (_rightManager == null)
+            if (_profileAssignmentStorageEP == null)
             {
-                _rightManager = (RightManager) _sManager.lookup(RightManager.ROLE);
+                _profileAssignmentStorageEP = (ProfileAssignmentStorageExtensionPoint) _sManager.lookup(ProfileAssignmentStorageExtensionPoint.ROLE);
             }
         }
         catch (ServiceException e)
@@ -72,8 +75,8 @@ public class SuperUserClientSideElement extends StaticClientSideElement
         }
         
         UserIdentity userIdentity = UserIdentity.stringToUserIdentity(user);
-        _rightManager.removeAllowedProfileFromUser(userIdentity, profileId, context);
-        _rightManager.allowProfileToUser(userIdentity, profileId, context);
+        _profileAssignmentStorageEP.removeAllowedProfileFromUser(userIdentity, profileId, context);
+        _profileAssignmentStorageEP.allowProfileToUser(userIdentity, profileId, context);
     }
     
     /**
@@ -101,6 +104,10 @@ public class SuperUserClientSideElement extends StaticClientSideElement
             {
                 _profilesDAO = (RightProfilesDAO) _sManager.lookup(RightProfilesDAO.ROLE);
             }
+            if (_profileAssignmentStorageEP == null)
+            {
+                _profileAssignmentStorageEP = (ProfileAssignmentStorageExtensionPoint) _sManager.lookup(ProfileAssignmentStorageExtensionPoint.ROLE);
+            }
         }
         catch (ServiceException e)
         {
@@ -114,8 +121,8 @@ public class SuperUserClientSideElement extends StaticClientSideElement
         
         // Affect user to this profile
         UserIdentity userIdentity = UserIdentity.stringToUserIdentity(user);
-        _rightManager.removeAllowedProfileFromUser(userIdentity, id, context);
-        _rightManager.allowProfileToUser(userIdentity, id, context);
+        _profileAssignmentStorageEP.removeAllowedProfileFromUser(userIdentity, id, context);
+        _profileAssignmentStorageEP.allowProfileToUser(userIdentity, id, context);
         
         return id;
     }

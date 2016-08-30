@@ -28,6 +28,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.ametys.core.group.GroupDirectoryDAO;
 import org.ametys.core.group.GroupIdentity;
 import org.ametys.core.group.GroupManager;
+import org.ametys.core.right.ProfileAssignmentStorageExtensionPoint;
 import org.ametys.core.right.RightAssignmentContext;
 import org.ametys.core.right.RightAssignmentContextExtensionPoint;
 import org.ametys.core.right.RightManager.RightResult;
@@ -43,6 +44,8 @@ import org.ametys.core.user.UserIdentity;
  */
 public class ProfileAssignmentsToolClientSideElement extends StaticClientSideElement
 {
+    /** The profile assignment storage component */
+    protected ProfileAssignmentStorageExtensionPoint _profileAssignmentStorageEP;
     /** The extension point for right assignment contexts */
     protected RightAssignmentContextExtensionPoint _rightAssignmentContextEP;
     /** The DAO for group directories */
@@ -167,6 +170,7 @@ public class ProfileAssignmentsToolClientSideElement extends StaticClientSideEle
     public void service(ServiceManager smanager) throws ServiceException
     {
         super.service(smanager);
+        _profileAssignmentStorageEP = (ProfileAssignmentStorageExtensionPoint) smanager.lookup(ProfileAssignmentStorageExtensionPoint.ROLE);
         _rightAssignmentContextEP = (RightAssignmentContextExtensionPoint) smanager.lookup(RightAssignmentContextExtensionPoint.ROLE);
         _groupDirectoryDAO = (GroupDirectoryDAO) smanager.lookup(GroupDirectoryDAO.ROLE);
         _groupManager = (GroupManager) smanager.lookup(GroupManager.ROLE);
@@ -322,13 +326,13 @@ public class ProfileAssignmentsToolClientSideElement extends StaticClientSideEle
         Object parentContext = extension.getParentContext(context);
         while (parentContext != null)
         {
-            Set<String> deniedProfiles = _rightManager.getDeniedProfilesForAnonymous(parentContext);
+            Set<String> deniedProfiles = _profileAssignmentStorageEP.getDeniedProfilesForAnonymous(parentContext);
             if (deniedProfiles.contains(profileId))
             {
                 return AccessType.INHERITED_DENY.toString();
             }
             
-            Set<String> allowedProfiles = _rightManager.getAllowedProfilesForAnonymous(parentContext);
+            Set<String> allowedProfiles = _profileAssignmentStorageEP.getAllowedProfilesForAnonymous(parentContext);
             if (allowedProfiles.contains(profileId))
             {
                 return AccessType.INHERITED_ALLOW.toString();
@@ -345,13 +349,13 @@ public class ProfileAssignmentsToolClientSideElement extends StaticClientSideEle
         Object parentContext = extension.getParentContext(context);
         while (parentContext != null)
         {
-            Set<String> deniedProfiles = _rightManager.getDeniedProfilesForAnyConnectedUser(parentContext);
+            Set<String> deniedProfiles = _profileAssignmentStorageEP.getDeniedProfilesForAnyConnectedUser(parentContext);
             if (deniedProfiles.contains(profileId))
             {
                 return AccessType.INHERITED_DENY.toString();
             }
             
-            Set<String> allowedProfiles = _rightManager.getAllowedProfilesForAnyConnectedUser(parentContext);
+            Set<String> allowedProfiles = _profileAssignmentStorageEP.getAllowedProfilesForAnyConnectedUser(parentContext);
             if (allowedProfiles.contains(profileId))
             {
                 return AccessType.INHERITED_ALLOW.toString();
@@ -368,14 +372,14 @@ public class ProfileAssignmentsToolClientSideElement extends StaticClientSideEle
         Object parentContext = extension.getParentContext(context);
         while (parentContext != null)
         {
-            // FIXME Optimization _rightManager.getDeniedProfilesForUser(parentContext, user)
-            Map<UserIdentity, Set<String>> deniedProfiles = _rightManager.getDeniedProfilesForUsers(parentContext);
+            // FIXME Optimization _profileAssignmentStorageEP.getDeniedProfilesForUser(parentContext, user)
+            Map<UserIdentity, Set<String>> deniedProfiles = _profileAssignmentStorageEP.getDeniedProfilesForUsers(parentContext);
             if (deniedProfiles.containsKey(user) && deniedProfiles.get(user).contains(profileId))
             {
                 return AccessType.INHERITED_DENY.toString();
             }
             
-            Map<UserIdentity, Set<String>> allowedProfiles = _rightManager.getAllowedProfilesForUsers(parentContext);
+            Map<UserIdentity, Set<String>> allowedProfiles = _profileAssignmentStorageEP.getAllowedProfilesForUsers(parentContext);
             if (allowedProfiles.containsKey(user) && allowedProfiles.get(user).contains(profileId))
             {
                 return AccessType.INHERITED_ALLOW.toString();
@@ -392,14 +396,14 @@ public class ProfileAssignmentsToolClientSideElement extends StaticClientSideEle
         Object parentContext = extension.getParentContext(context);
         while (parentContext != null)
         {
-            // FIXME Optimization _rightManager.getDeniedProfilesForUser(parentContext, user)
-            Map<GroupIdentity, Set<String>> deniedProfiles = _rightManager.getDeniedProfilesForGroups(parentContext);
+            // FIXME Optimization _profileAssignmentStorageEP.getDeniedProfilesForUser(parentContext, user)
+            Map<GroupIdentity, Set<String>> deniedProfiles = _profileAssignmentStorageEP.getDeniedProfilesForGroups(parentContext);
             if (deniedProfiles.containsKey(group) && deniedProfiles.get(group).contains(profileId))
             {
                 return AccessType.INHERITED_DENY.toString();
             }
             
-            Map<GroupIdentity, Set<String>> allowedProfiles = _rightManager.getAllowedProfilesForGroups(parentContext);
+            Map<GroupIdentity, Set<String>> allowedProfiles = _profileAssignmentStorageEP.getAllowedProfilesForGroups(parentContext);
             if (allowedProfiles.containsKey(group) && allowedProfiles.get(group).contains(profileId))
             {
                 return AccessType.INHERITED_ALLOW.toString();
@@ -420,16 +424,16 @@ public class ProfileAssignmentsToolClientSideElement extends StaticClientSideEle
                 switch (accessType)
                 {
                     case ALLOW:
-                        _rightManager.removeDeniedProfileFromAnonymous(profileId, context);
-                        _rightManager.allowProfileToAnonymous(profileId, context);
+                        _profileAssignmentStorageEP.removeDeniedProfileFromAnonymous(profileId, context);
+                        _profileAssignmentStorageEP.allowProfileToAnonymous(profileId, context);
                         break;
                     case DENY:
-                        _rightManager.removeAllowedProfileFromAnonymous(profileId, context);
-                        _rightManager.denyProfileToAnonymous(profileId, context);
+                        _profileAssignmentStorageEP.removeAllowedProfileFromAnonymous(profileId, context);
+                        _profileAssignmentStorageEP.denyProfileToAnonymous(profileId, context);
                         break;
                     default:
-                        _rightManager.removeAllowedProfileFromAnonymous(profileId, context);
-                        _rightManager.removeDeniedProfileFromAnonymous(profileId, context);
+                        _profileAssignmentStorageEP.removeAllowedProfileFromAnonymous(profileId, context);
+                        _profileAssignmentStorageEP.removeDeniedProfileFromAnonymous(profileId, context);
                         break;
                 }
                 break;
@@ -438,16 +442,16 @@ public class ProfileAssignmentsToolClientSideElement extends StaticClientSideEle
                 switch (accessType)
                 {
                     case ALLOW:
-                        _rightManager.removeDeniedProfileFromAnyConnectedUser(profileId, context);
-                        _rightManager.allowProfileToAnyConnectedUser(profileId, context);
+                        _profileAssignmentStorageEP.removeDeniedProfileFromAnyConnectedUser(profileId, context);
+                        _profileAssignmentStorageEP.allowProfileToAnyConnectedUser(profileId, context);
                         break;
                     case DENY:
-                        _rightManager.removeAllowedProfileFromAnyConnectedUser(profileId, context);
-                        _rightManager.denyProfileToAnyConnectedUser(profileId, context);
+                        _profileAssignmentStorageEP.removeAllowedProfileFromAnyConnectedUser(profileId, context);
+                        _profileAssignmentStorageEP.denyProfileToAnyConnectedUser(profileId, context);
                         break;
                     default:
-                        _rightManager.removeAllowedProfileFromAnyConnectedUser(profileId, context);
-                        _rightManager.removeDeniedProfileFromAnyConnectedUser(profileId, context);
+                        _profileAssignmentStorageEP.removeAllowedProfileFromAnyConnectedUser(profileId, context);
+                        _profileAssignmentStorageEP.removeDeniedProfileFromAnyConnectedUser(profileId, context);
                         break;
                 }
                 break;
@@ -457,16 +461,16 @@ public class ProfileAssignmentsToolClientSideElement extends StaticClientSideEle
                 switch (accessType)
                 {
                     case ALLOW:
-                        _rightManager.removeDeniedProfileFromUser(user, profileId, context);
-                        _rightManager.allowProfileToUser(user, profileId, context);
+                        _profileAssignmentStorageEP.removeDeniedProfileFromUser(user, profileId, context);
+                        _profileAssignmentStorageEP.allowProfileToUser(user, profileId, context);
                         break;
                     case DENY:    
-                        _rightManager.removeAllowedProfileFromUser(user, profileId, context);
-                        _rightManager.denyProfileToUser(user, profileId, context);
+                        _profileAssignmentStorageEP.removeAllowedProfileFromUser(user, profileId, context);
+                        _profileAssignmentStorageEP.denyProfileToUser(user, profileId, context);
                         break;
                     default:
-                        _rightManager.removeAllowedProfileFromUser(user, profileId, context);
-                        _rightManager.removeDeniedProfileFromUser(user, profileId, context);
+                        _profileAssignmentStorageEP.removeAllowedProfileFromUser(user, profileId, context);
+                        _profileAssignmentStorageEP.removeDeniedProfileFromUser(user, profileId, context);
                         break;
                 }
                 break;
@@ -476,16 +480,16 @@ public class ProfileAssignmentsToolClientSideElement extends StaticClientSideEle
                 switch (accessType)
                 {
                     case ALLOW:
-                        _rightManager.removeDeniedProfileFromGroup(group, profileId, context);
-                        _rightManager.allowProfileToGroup(group, profileId, context);
+                        _profileAssignmentStorageEP.removeDeniedProfileFromGroup(group, profileId, context);
+                        _profileAssignmentStorageEP.allowProfileToGroup(group, profileId, context);
                         break;
                     case DENY:  
-                        _rightManager.removeAllowedProfileFromGroup(group, profileId, context);
-                        _rightManager.denyProfileToGroup(group, profileId, context);
+                        _profileAssignmentStorageEP.removeAllowedProfileFromGroup(group, profileId, context);
+                        _profileAssignmentStorageEP.denyProfileToGroup(group, profileId, context);
                         break;
                     default:
-                        _rightManager.removeAllowedProfileFromGroup(group, profileId, context);
-                        _rightManager.removeDeniedProfileFromGroup(group, profileId, context);
+                        _profileAssignmentStorageEP.removeAllowedProfileFromGroup(group, profileId, context);
+                        _profileAssignmentStorageEP.removeDeniedProfileFromGroup(group, profileId, context);
                         break;
                 }
                 break;
@@ -493,4 +497,6 @@ public class ProfileAssignmentsToolClientSideElement extends StaticClientSideEle
                 break;
         }
     }
+    
+    
 }
