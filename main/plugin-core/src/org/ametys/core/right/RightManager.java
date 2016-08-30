@@ -669,7 +669,9 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
      */
     public boolean isRestricted(Object object)
     {
-        return hasAnonymousProfile(READER_PROFILE_ID, object) != RightResult.RIGHT_ALLOW;
+        /** FIXME Can not work from FO side until RUNTIME-2075 is not fixed **/ 
+        // return hasAnonymousProfile(READER_PROFILE_ID, object) != RightResult.RIGHT_ALLOW;
+        return false;
     }
     
     /**
