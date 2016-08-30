@@ -48,11 +48,16 @@ public class ProfileSearchAction extends ServiceableAction
     {
         super.service(m);
         _rightManager = (RightManager) m.lookup(RightManager.ROLE);
-        _rightsDAO = (RightProfilesDAO) m.lookup(RightProfilesDAO.ROLE);
     }
     
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
+        if (_rightsDAO == null)
+        {
+            // Lazy loading for safe mode
+            _rightsDAO = (RightProfilesDAO) manager.lookup(RightProfilesDAO.ROLE);
+        }
+        
         Map<String, Object> result = new HashMap<>();
         
         List<Map<String, Object>> profiles = new ArrayList<>();
