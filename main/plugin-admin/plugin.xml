@@ -1383,9 +1383,6 @@
                 <scripts>
                     <file>js/Ametys/plugins/admin/superuser/SuperUserActions.js</file>
                 </scripts>
-                <depends>
-                    <org.ametys.core.ui.widgets.WidgetsManager>edition.user</org.ametys.core.ui.widgets.WidgetsManager>
-                </depends>
             </extension>
         </extensions>
      </feature>
