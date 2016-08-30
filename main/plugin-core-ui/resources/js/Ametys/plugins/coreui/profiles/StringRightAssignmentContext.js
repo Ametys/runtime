@@ -17,18 +17,20 @@
 /**
  * Contributor context for profile assignments.
  */
-Ext.define('Ametys.plugins.coreui.profiles.ContributorRightAssignmentContext', {
+Ext.define('Ametys.plugins.coreui.profiles.StringRightAssignmentContext', {
     extend: 'Ametys.plugins.coreui.profiles.AbstractRightAssignmentContext',
+    
+    /** @cfg {String} context The string context to read/write rights */
     
     getCurrentObjectContext: function()
     {
-        return "/contributor";
+        return this._config.context;
     },
     
     getComponent: function()
     {
         return Ext.create('Ext.Component', {
-            html: '{{i18n plugin.core-impl:PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_CONTRIBUTOR_MESSAGE}}',
+            html: this._config.description,
             style: {
                 paddingLeft: '8px'
             }
@@ -37,6 +39,6 @@ Ext.define('Ametys.plugins.coreui.profiles.ContributorRightAssignmentContext', {
     
     initialize: function()
     {
-        this._changeObjectContext("/contributor", "{{i18n plugin.core-impl:PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_CONTRIBUTOR_HINT}}");
+        this._changeObjectContext(this.getCurrentObjectContext(), this._config.hint);
     }
 });
