@@ -16,7 +16,6 @@
 package org.ametys.core.right;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -42,7 +41,6 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
@@ -1390,45 +1388,6 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         _profileAssignmentStorageEP.getExtensionsIds().stream()
             .map(_profileAssignmentStorageEP::getExtension)
             .forEach(pas -> pas.removeProfile(id));
-    }
-
-    /**
-     * This method has to ensure that the user identified by its login will have all power by assigning a profile containing all rights.
-     * @param user The user that will obtain all privilege on the right manager.
-     * @param context The context of the right (cannot be null)
-     * @param profileName The name of the profile to affect
-     * @return The assigned profile id
-     * @throws RightsException if an error occurs.
-     */
-    public String grantAllPrivileges(UserIdentity user, String context, String profileName) throws RightsException
-    {
-        // Create or get the temporary admin profile
-        Profile adminProfile = null;
-        for (Profile profile : getProfiles())
-        {
-            if (profileName.equals(profile.getId()))
-            {
-                adminProfile = profile;
-                break;
-            }
-        }
-        if (adminProfile == null)
-        {
-            adminProfile = new Profile(profileName, profileName);
-            _getProfileDAO().addProfile(adminProfile);
-        }
-
-        // Set all rights
-        List<String> currentRights = _getProfileDAO().getRights(adminProfile);
-        Set<String> allRights = _rightsEP.getExtensionsIds();
-        
-        List<String> rightsToAdd = new ArrayList<>(CollectionUtils.removeAll(allRights, currentRights));
-        _getProfileDAO().addRights(adminProfile, rightsToAdd);
-        
-        // Assign the profile
-        allowProfileToUser(user, adminProfile.getId(), context);
-
-        return adminProfile.getId();
     }
     
     @Override
