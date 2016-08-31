@@ -110,7 +110,7 @@ Open source web application framework based on Apache Cocoon.
 	
     <!-- Compile and test -->
     <dependency org="javax.servlet" name="javax.servlet-api" rev="3.1.0" conf="compile_base->default"/>
-    <dependency org="org.jasig.cas.client" name="cas-client-core" rev="3.4.0" conf="compile_base,test->default"/>
+    <dependency org="org.jasig.cas.client" name="cas-client-core" rev="3.4.0" conf="common_dependencies,test->default"/>
     
     <dependency org="com.oracle" name="ojdbc7" rev="12.1.0.2" conf="test->default"/>
 
