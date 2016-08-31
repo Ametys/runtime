@@ -689,7 +689,10 @@
         </components>
     </feature>
     
-    <feature name="runtime.rights.profiles.dao">
+    <feature name="runtime.rights.profiles.dao" depends="core/runtime.core.sql.profile.init">
+        <config>
+            <param-ref id="runtime.rights.datasource"/>
+        </config>
     	<components>
 	    	<component role="org.ametys.core.right.RightProfilesDAO"
 	                       id="org.ametys.core.right.RightProfilesDAO"
