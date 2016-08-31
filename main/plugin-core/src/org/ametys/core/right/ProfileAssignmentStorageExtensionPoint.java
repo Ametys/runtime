@@ -15,6 +15,7 @@
  */
 package org.ametys.core.right;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -23,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -57,88 +57,233 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      */
     public Map<String, AccessResultContext> getPermissions(UserIdentity user, Set<GroupIdentity> userGroups, Set<String> profileIds, Object object)
     {
-        // For each profile, create an entry in the result map with its AccessResultContext
-        return profileIds.stream().collect(Collectors.toMap(Function.identity(), profileId -> _getPermission(user, userGroups, profileId, object)));
+        getLogger().debug("Try to determine permissions for user '{}' and groups {} on context {} for profiles [{}]", user, userGroups, object, profileIds);
+        
+        Map<String, AccessResultContext> results = new HashMap<>();
+        Collection<String> unknownProfiles = new HashSet<>(profileIds);
+        
+        // 1) First initialize the access results with the allowed profiles for Anonymous
+        _fillAllowedProfilesForAnonymous(results, user, userGroups, unknownProfiles, object);
+        
+        if (results.size() == profileIds.size())
+        {
+            // Stop process here if access were determined for all profiles
+            return results;
+        }
+        
+        // 2) Add to access results the denied profiles for user (among the still undetermined profiles)
+        unknownProfiles = CollectionUtils.removeAll(unknownProfiles, results.keySet());
+        _fillDeniedProfilesForUser(results, user, userGroups, unknownProfiles, object);
+        
+        if (results.size() == profileIds.size())
+        {
+            // Stop process here if access were determined for all profiles
+            return results;
+        }
+        
+        // 3) Add to access results the allowed profiles for user (among the still undetermined profiles)
+        unknownProfiles = CollectionUtils.removeAll(unknownProfiles, results.keySet());
+        _fillAllowedProfilesForUser(results, user, userGroups, unknownProfiles, object);
+        
+        if (results.size() == profileIds.size())
+        {
+            // Stop process here if access were determined for all profiles
+            return results;
+        }
+        
+        // 4) Add to access results the denied profiles for group (among the still undetermined profiles)
+        unknownProfiles = CollectionUtils.removeAll(unknownProfiles, results.keySet());
+        _fillDeniedProfilesForGroups(results, user, userGroups, unknownProfiles, object);
+        
+        if (results.size() == profileIds.size())
+        {
+            // Stop process here if access were determined for all profiles
+            return results;
+        }
+        
+        // 5) Add to access results the allowed profiles for group (among the still undetermined profiles)
+        unknownProfiles = CollectionUtils.removeAll(unknownProfiles, results.keySet());
+        _fillAllowedProfilesForGroups(results, user, userGroups, unknownProfiles, object);
+        
+        if (results.size() == profileIds.size())
+        {
+            // Stop process here if access were determined for all profiles
+            return results;
+        }
+        
+        // 6) Add to access results the denied profiles for any connected user (among the still undetermined profiles)
+        unknownProfiles = CollectionUtils.removeAll(unknownProfiles, results.keySet());
+        _fillDeniedProfilesAnyConnectedUser(results, user, userGroups, unknownProfiles, object);
+        
+        if (results.size() == profileIds.size())
+        {
+            // Stop process here if access were determined for all profiles
+            return results;
+        }
+        
+        // 7) Add to access results the allowed profiles for any connected user (among the still undetermined profiles)
+        unknownProfiles = CollectionUtils.removeAll(unknownProfiles, results.keySet());
+        _fillAllowedProfilesAnyConnectedUser(results, user, userGroups, unknownProfiles, object);
+        
+        if (results.size() == profileIds.size())
+        {
+            // Stop process here if access were determined for all profiles
+            return results;
+        }
+        
+        // 8) Add to access results the denied profiles for any connected user (among the still undetermined profiles)
+        unknownProfiles = CollectionUtils.removeAll(unknownProfiles, results.keySet());
+        _fillDeniedProfilesForAnonymous(results, user, userGroups, unknownProfiles, object);
+        
+        if (results.size() == profileIds.size())
+        {
+            // Stop process here if access were determined for all profiles
+            return results;
+        }
+        
+        // 9) Finally, add to access results the profiles for which no access could be determined
+        unknownProfiles = CollectionUtils.removeAll(unknownProfiles, results.keySet());
+        for (String profileId : (Collection<String>) CollectionUtils.removeAll(profileIds, results.keySet()))
+        {
+            _logResult(user, userGroups, profileId, object, AccessResult.UNKNOWN);
+            results.put(profileId, new AccessResultContext(AccessResult.UNKNOWN, null));
+        }
+        
+        return results;
     }
     
-    private AccessResultContext _getPermission(UserIdentity user, Set<GroupIdentity> userGroups, String profileId, Object object)
+    private void _fillAllowedProfilesForAnonymous (Map<String, AccessResultContext> results, UserIdentity user, Set<GroupIdentity> userGroups, Collection<String> profileIds, Object object)
     {
-        getLogger().debug("Try to determine permission for user '{}' and groups {} on context {} with the single profile '{}'", user, userGroups, object, profileId);
-        
-        // Is part of the allowed profiles for anonymous ?
-        if (getAllowedProfilesForAnonymous(object).contains(profileId))
+        Set<String> allowedProfilesForAnonymous = getAllowedProfilesForAnonymous(object);
+        for (String profileId : (Collection<String>) CollectionUtils.retainAll(profileIds, allowedProfilesForAnonymous))
         {
-            _logResult(user, userGroups, profileId, object, AccessResult.ANONYMOUS_ALLOWED);
-            
-            return new AccessResultContext(AccessResult.ANONYMOUS_ALLOWED, null);
+            if (!results.containsKey(profileId))
+            {
+                _logResult(user, userGroups, profileId, object, AccessResult.ANONYMOUS_ALLOWED);
+                results.put(profileId, new AccessResultContext(AccessResult.ANONYMOUS_ALLOWED, null));
+            }
         }
-        
-        if (getDeniedProfilesForUser(object, user).contains(profileId))
+    }
+    
+    private void _fillDeniedProfilesForAnonymous (Map<String, AccessResultContext> results, UserIdentity user, Set<GroupIdentity> userGroups, Collection<String> profileIds, Object object)
+    {
+        Set<String> deniedProfilesForAnonymous = getDeniedProfilesForAnonymous(object);
+        for (String profileId : (Collection<String>) CollectionUtils.retainAll(profileIds, deniedProfilesForAnonymous))
         {
-            _logResult(user, userGroups, profileId, object, AccessResult.USER_DENIED);
-            return new AccessResultContext(AccessResult.USER_DENIED, null);
+            if (!results.containsKey(profileId))
+            {
+                _logResult(user, userGroups, profileId, object, AccessResult.ANONYMOUS_DENIED);
+                results.put(profileId, new AccessResultContext(AccessResult.ANONYMOUS_DENIED, null));
+            }
         }
-        
-        // Does the profile respond "the user is allowed" ?
-        if (getAllowedProfilesForUser(object, user).contains(profileId))
+    }
+    
+    private void _fillDeniedProfilesForUser (Map<String, AccessResultContext> results, UserIdentity user, Set<GroupIdentity> userGroups, Collection<String> profileIds, Object object)
+    {
+        Set<String> deniedProfilesForUser = getDeniedProfilesForUser(object, user);
+        for (String profileId : (Collection<String>) CollectionUtils.retainAll(profileIds, deniedProfilesForUser))
         {
-            _logResult(user, userGroups, profileId, object, AccessResult.USER_ALLOWED);
-            return new AccessResultContext(AccessResult.USER_ALLOWED, null);
+            if (!results.containsKey(profileId))
+            {
+                _logResult(user, userGroups, profileId, object, AccessResult.USER_DENIED);
+                results.put(profileId, new AccessResultContext(AccessResult.USER_DENIED, null));
+            }
         }
-        
-        // Does the profile respond "one of the user groups is denied" ?
-        Set<GroupIdentity> deniedGroups = new HashSet<>();
+    }
+    
+    private void _fillAllowedProfilesForUser (Map<String, AccessResultContext> results, UserIdentity user, Set<GroupIdentity> userGroups, Collection<String> profileIds, Object object)
+    {
+        Set<String> allowedProfilesForUser = getAllowedProfilesForUser(object, user);
+        for (String profileId : (Collection<String>) CollectionUtils.retainAll(profileIds, allowedProfilesForUser))
+        {
+            if (!results.containsKey(profileId))
+            {
+                _logResult(user, userGroups, profileId, object, AccessResult.USER_ALLOWED);
+                results.put(profileId, new AccessResultContext(AccessResult.USER_ALLOWED, null));
+            }
+        }
+    }
+    
+    private void _fillDeniedProfilesAnyConnectedUser (Map<String, AccessResultContext> results, UserIdentity user, Set<GroupIdentity> userGroups, Collection<String> profileIds, Object object)
+    {
+        Set<String> deniedProfilesForAnyConnectedUser = getDeniedProfilesForAnyConnectedUser(object);
+        for (String profileId : (Collection<String>) CollectionUtils.retainAll(profileIds, deniedProfilesForAnyConnectedUser))
+        {
+            if (!results.containsKey(profileId))
+            {
+                _logResult(user, userGroups, profileId, object, AccessResult.ANY_CONNECTED_DENIED);
+                results.put(profileId, new AccessResultContext(AccessResult.ANY_CONNECTED_DENIED, null));
+            }
+        }
+    }
+    
+    private void _fillAllowedProfilesAnyConnectedUser(Map<String, AccessResultContext> results, UserIdentity user, Set<GroupIdentity> userGroups, Collection<String> profileIds, Object object)
+    {
+        Set<String> allowedProfilesForAnyConnectedUser = getAllowedProfilesForAnyConnectedUser(object);
+        for (String profileId : (Collection<String>) CollectionUtils.retainAll(profileIds, allowedProfilesForAnyConnectedUser))
+        {
+            if (!results.containsKey(profileId))
+            {
+                _logResult(user, userGroups, profileId, object, AccessResult.ANY_CONNECTED_ALLOWED);
+                results.put(profileId, new AccessResultContext(AccessResult.ANY_CONNECTED_ALLOWED, null));
+            }
+        }
+    }
+    
+    private void _fillDeniedProfilesForGroups (Map<String, AccessResultContext> results, UserIdentity user, Set<GroupIdentity> userGroups, Collection<String> profileIds, Object object)
+    {
+        Map<String, Set<GroupIdentity>> deniedGroups = new HashMap<>();
         for (GroupIdentity userGroup : userGroups)
         {
-            if (getDeniedProfilesForGroup(object, userGroup).contains(profileId))
+            Set<String> deniedProfilesForGroup = getDeniedProfilesForGroup(object, userGroup);
+            for (String profileId : (Collection<String>) CollectionUtils.retainAll(profileIds, deniedProfilesForGroup))
             {
-                deniedGroups.add(userGroup);
+                if (!results.containsKey(profileId))
+                {
+                    if (!deniedGroups.containsKey(profileId))
+                    {
+                        deniedGroups.put(profileId, new HashSet<>());
+                    }
+                    deniedGroups.get(profileId).add(userGroup);
+                }
             }
         }
         if (deniedGroups.size() > 0)
         {
-            _logResult(user, userGroups, profileId, object, AccessResult.GROUP_DENIED);
-            return new AccessResultContext(AccessResult.GROUP_DENIED, deniedGroups);
+            for (String profileId : deniedGroups.keySet())
+            {
+                _logResult(user, userGroups, profileId, object, AccessResult.GROUP_DENIED);
+                results.put(profileId, new AccessResultContext(AccessResult.GROUP_DENIED, deniedGroups.get(profileId)));
+            }
         }
-        
-        Set<GroupIdentity> allowedGroups = new HashSet<>();
+    }
+    
+    private void _fillAllowedProfilesForGroups (Map<String, AccessResultContext> results, UserIdentity user, Set<GroupIdentity> userGroups, Collection<String> profileIds, Object object)
+    {
+        Map<String, Set<GroupIdentity>> allowedGroups = new HashMap<>();
         for (GroupIdentity userGroup : userGroups)
         {
-            if (getAllowedProfilesForGroup(object, userGroup).contains(profileId))
+            Set<String> allowedProfilesForGroup = getAllowedProfilesForGroup(object, userGroup);
+            for (String profileId : (Collection<String>) CollectionUtils.retainAll(profileIds, allowedProfilesForGroup))
             {
-                allowedGroups.add(userGroup);
+                if (!results.containsKey(profileId))
+                {
+                    if (!allowedGroups.containsKey(profileId))
+                    {
+                        allowedGroups.put(profileId, new HashSet<>());
+                    }
+                    allowedGroups.get(profileId).add(userGroup);
+                }
             }
         }
         if (allowedGroups.size() > 0)
         {
-            _logResult(user, userGroups, profileId, object, AccessResult.GROUP_ALLOWED);
-            return new AccessResultContext(AccessResult.GROUP_ALLOWED, allowedGroups);
+            for (String profileId : allowedGroups.keySet())
+            {
+                _logResult(user, userGroups, profileId, object, AccessResult.GROUP_ALLOWED);
+                results.put(profileId, new AccessResultContext(AccessResult.GROUP_ALLOWED, allowedGroups.get(profileId)));
+            }
         }
-        
-        // Is part of the denied profiles for any connected user ?
-        if (getDeniedProfilesForAnyConnectedUser(object).contains(profileId))
-        {
-            _logResult(user, userGroups, profileId, object, AccessResult.ANY_CONNECTED_DENIED);
-            return new AccessResultContext(AccessResult.ANY_CONNECTED_DENIED, null);
-        }
-        
-        // Is part of the allowed profiles for any connected user ?
-        if (getAllowedProfilesForAnyConnectedUser(object).contains(profileId))
-        {
-            _logResult(user, userGroups, profileId, object, AccessResult.ANY_CONNECTED_ALLOWED);
-           
-            return new AccessResultContext(AccessResult.ANY_CONNECTED_ALLOWED, null);
-        }
-        
-        // Is part of the denied profiles for anonymous ?
-        if (getDeniedProfilesForAnonymous(object).contains(profileId))
-        {
-            _logResult(user, userGroups, profileId, object, AccessResult.ANONYMOUS_DENIED);
-            return new AccessResultContext(AccessResult.ANONYMOUS_DENIED, null);
-        }
-        
-        _logResult(user, userGroups, profileId, object, AccessResult.UNKNOWN);
-        return new AccessResultContext(AccessResult.UNKNOWN, null);
     }
     
     private void _logResult(UserIdentity user, Set<GroupIdentity> userGroups, String profileId, Object object, AccessResult result)

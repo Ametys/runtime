@@ -15,10 +15,10 @@
  */
 package org.ametys.plugins.core.impl.right;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.service.ServiceException;
@@ -55,34 +55,27 @@ public abstract class AbstractHierarchicalAccessController<T> implements AccessC
     @Override
     public Map<String, AccessResultContext> getPermissions(UserIdentity user, Set<GroupIdentity> userGroups, Set<String> profileIds, Object object)
     {
-        Map<String, AccessResultContext> result = new HashMap<>();
+        // Get the permission by profiles on current object
+        Map<String, AccessResultContext> permissions = _profileAssignmentStorageEP.getPermissions(user, userGroups, profileIds, object);
         
-        // TODO this is not the optimized version
-        for (String profileId : profileIds)
-        {
-            result.put(profileId, _getPermission(user, userGroups, profileId, object));
-        }
+        // Extract the profiles with UNKNOWN access 
+        Set<String> unknownProfiles = permissions.entrySet().stream()
+                .filter(entry -> AccessResult.UNKNOWN.equals(entry.getValue().getResult()))
+                .map(Entry::getKey)
+                .collect(Collectors.toSet());
         
-        return result;
-    }
-    
-    private AccessResultContext _getPermission(UserIdentity user, Set<GroupIdentity> userGroups, String profileId, Object object)
-    {
-        AccessResultContext permission = _profileAssignmentStorageEP.getPermissions(user, userGroups, Collections.singleton(profileId), object).get(profileId);
-        boolean unknown = AccessResult.UNKNOWN.equals(permission.getResult());
-        
-        @SuppressWarnings("unchecked")
-        T parent = _getParent((T) object);
-        if (unknown && parent != null)
+        if (unknownProfiles.size() > 0)
         {
-            // Unknown and not root, ask its parent
-            return _getPermission(user, userGroups, profileId, parent);
+            @SuppressWarnings("unchecked")
+            T parent = _getParent((T) object);
+            if (parent != null)
+            {
+                // For each profile with UNKNOWN access, get the permission on parent context
+                permissions.putAll(getPermissions(user, userGroups, unknownProfiles, parent));
+            }
         }
-        else
-        {
-            // Return a known permission or unknown as we climbed up to the root object
-            return permission;
-        }
+
+        return permissions;
     }
     
     @Override
