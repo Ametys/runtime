@@ -840,6 +840,23 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
     /* --------------------------- */
     /* MANAGEMENT OF ALLOWED USERS */
     /* --------------------------- */
+    @Override
+    public Set<String> getAllowedProfilesForUser(UserIdentity user, Object object)
+    {
+        try (SqlSession session = getSession())
+        {
+            Map<String, String> parameters = new HashMap<>();
+            parameters.put("login", user.getLogin());
+            parameters.put("population", user.getPopulationId());
+            if (object != null)
+            {
+                parameters.put("context", (String) getObjectWithPrefix(object));
+            }
+            
+            List<Map<String, String>> allowedProfiles = session.selectList("ProfilesAssignment.getUserAllowedProfiles", parameters);
+            return allowedProfiles.stream().map(profile -> profile.get("profileId")).collect(Collectors.toSet());
+        }
+    }
     
     @Override
     public Map<UserIdentity, Set<String>> getAllowedProfilesForUsers(Object object)
@@ -1112,6 +1129,23 @@ public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements 
     /* ---------------------------- */
     /* MANAGEMENT OF DENIED USERS */
     /* ---------------------------- */
+    @Override
+    public Set<String> getDeniedProfilesForUser(UserIdentity user, Object object)
+    {
+        try (SqlSession session = getSession())
+        {
+            Map<String, String> parameters = new HashMap<>();
+            parameters.put("login", user.getLogin());
+            parameters.put("population", user.getPopulationId());
+            if (object != null)
+            {
+                parameters.put("context", (String) getObjectWithPrefix(object));
+            }
+            
+            List<Map<String, String>> deniedProfiles = session.selectList("ProfilesAssignment.getUserDeniedProfiles", parameters);
+            return deniedProfiles.stream().map(profile -> profile.get("profileId")).collect(Collectors.toSet());
+        }
+    }
     
     @Override
     public Map<UserIdentity, Set<String>> getDeniedProfilesForUsers(Object object)

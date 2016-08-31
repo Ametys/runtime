@@ -313,12 +313,12 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
      */
     public RightResult hasRight(UserIdentity userIdentity, String rightId, Object object) throws RightsException
     {
-        getLogger().debug("Try to determine if user '{}' has the right '{}' on the object context {}", userIdentity, rightId, object);
-        
         if (object instanceof String && StringUtils.equals((String) object, AdminAuthenticateAction.ADMIN_RIGHT_CONTEXT) && StringUtils.equals(userIdentity.getPopulationId(), UserPopulationDAO.ADMIN_POPULATION_ID))
         {
             return RightResult.RIGHT_ALLOW;
         }
+        
+        getLogger().debug("Try to determine if user '{}' has the right '{}' on the object context {}", userIdentity, rightId, object);
         
         // Retrieve all profiles containing the right rightId
         Set<String> profileIds = _getProfileDAO().getProfilesWithRight(rightId);
@@ -383,8 +383,6 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         AccessResult access = _computeAccess(accessResults);
         
         RightResult rightResult = _computeRight(access);
-        
-        getLogger().debug("Right result found for [{}, {}, {}] => {} ({})", userIdentity, profileIds, rightResult, access);
         _putInFirstCache(userIdentity, profileIds, object, rightResult);
         
         return rightResult;

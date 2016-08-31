@@ -185,6 +185,14 @@ public interface ProfileAssignmentStorage
     /* --------------------------- */
     
     /**
+     * Get the allowed profiles assigned on the given object for the given user
+     * @param user The user
+     * @param object The object to test 
+     * @return The allowed profiles
+     */
+    public Set<String> getAllowedProfilesForUser(UserIdentity user, Object object);
+    
+    /**
      * Gets the users that have allowed profiles assigned on the given object
      * @param object The object to test 
      * @return The map of allowed users (keys) with their assigned profiles (values)
@@ -269,6 +277,14 @@ public interface ProfileAssignmentStorage
     /* ---------------------------- */
     /* MANAGEMENT OF DENIED USERS */
     /* ---------------------------- */
+    
+    /**
+     * Get the denied profiles assigned on the given object for the given user
+     * @param user The user
+     * @param object The object to test 
+     * @return The denied profiles
+     */
+    public Set<String> getDeniedProfilesForUser(UserIdentity user, Object object);
     
     /**
      * Gets the users that have denied profiles assigned on the given object

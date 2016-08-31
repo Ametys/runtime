@@ -74,36 +74,46 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
             return new AccessResultContext(AccessResult.ANONYMOUS_ALLOWED, null);
         }
         
-        // Does the profile respond "the user is denied" ?
-        if (getDeniedUsers(object, profileId).contains(user))
+        if (getDeniedProfilesForUser(object, user).contains(profileId))
         {
             _logResult(user, userGroups, profileId, object, AccessResult.USER_DENIED);
             return new AccessResultContext(AccessResult.USER_DENIED, null);
         }
         
         // Does the profile respond "the user is allowed" ?
-        if (getAllowedUsers(object, profileId).contains(user))
+        if (getAllowedProfilesForUser(object, user).contains(profileId))
         {
             _logResult(user, userGroups, profileId, object, AccessResult.USER_ALLOWED);
             return new AccessResultContext(AccessResult.USER_ALLOWED, null);
         }
         
         // Does the profile respond "one of the user groups is denied" ?
-        Set<GroupIdentity> deniedGroups = getDeniedGroups(object, profileId);
-        Collection<GroupIdentity> intersection = CollectionUtils.intersection(deniedGroups, userGroups);
-        if (!intersection.isEmpty())
+        Set<GroupIdentity> deniedGroups = new HashSet<>();
+        for (GroupIdentity userGroup : userGroups)
+        {
+            if (getDeniedProfilesForGroup(object, userGroup).contains(profileId))
+            {
+                deniedGroups.add(userGroup);
+            }
+        }
+        if (deniedGroups.size() > 0)
         {
             _logResult(user, userGroups, profileId, object, AccessResult.GROUP_DENIED);
-            return new AccessResultContext(AccessResult.GROUP_DENIED, new HashSet<>(intersection));
+            return new AccessResultContext(AccessResult.GROUP_DENIED, deniedGroups);
         }
         
-        // Does the profile respond "one of the user groups is allowed" ?
-        Set<GroupIdentity> allowedGroups = getAllowedGroups(object, profileId);
-        intersection = CollectionUtils.intersection(allowedGroups, userGroups);
-        if (!intersection.isEmpty())
+        Set<GroupIdentity> allowedGroups = new HashSet<>();
+        for (GroupIdentity userGroup : userGroups)
+        {
+            if (getAllowedProfilesForGroup(object, userGroup).contains(profileId))
+            {
+                allowedGroups.add(userGroup);
+            }
+        }
+        if (allowedGroups.size() > 0)
         {
             _logResult(user, userGroups, profileId, object, AccessResult.GROUP_ALLOWED);
-            return new AccessResultContext(AccessResult.GROUP_ALLOWED, new HashSet<>(intersection));
+            return new AccessResultContext(AccessResult.GROUP_ALLOWED, allowedGroups);
         }
         
         // Is part of the denied profiles for any connected user ?
@@ -542,7 +552,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
     public Set<String> getAllowedProfilesForUser(Object object, UserIdentity user)
     {
         return _getFirstProfileAssignmentStorage(object)
-                .map(pas -> pas.getAllowedProfilesForUsers(object).get(user))
+                .map(pas -> pas.getAllowedProfilesForUser(user, object))
                 .orElse(Collections.EMPTY_SET);
     }
     
@@ -555,7 +565,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
     public Set<String> getDeniedProfilesForUser(Object object, UserIdentity user)
     {
         return _getFirstProfileAssignmentStorage(object)
-                .map(pas -> pas.getDeniedProfilesForUsers(object).get(user))
+                .map(pas -> pas.getDeniedProfilesForUser(user, object))
                 .orElse(Collections.EMPTY_SET);
     }
     
