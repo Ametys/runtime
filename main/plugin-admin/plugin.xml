@@ -1692,7 +1692,7 @@
         </extensions>
     </feature>
                 
-    <feature name="right.assignment.context.admin">
+    <feature name="right.assignment.context.admin" depends="core/runtime.core.sql.profile.init">
         <config>
             <param-ref id="runtime.rights.datasource"/>
         </config>
