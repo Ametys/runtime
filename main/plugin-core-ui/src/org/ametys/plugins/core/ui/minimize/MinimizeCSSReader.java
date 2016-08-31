@@ -65,7 +65,7 @@ public class MinimizeCSSReader extends AbstractMinimizeReader
             String s0;
             try (InputStream is = cssSource.getInputStream())
             {
-                s0 = IOUtils.toString(is);
+                s0 = IOUtils.toString(is, "UTF-8");
             }
             
             String s1 = _remplaceRelativeUri(s0, contextPath + fileUri, CSS_URL_PATTERN_SRC);
@@ -153,12 +153,15 @@ public class MinimizeCSSReader extends AbstractMinimizeReader
         {
             String fullMatch = urlMatcher.group();
             String cssUrl = urlMatcher.group(1);
-            URI uri = new URI(cssUrl);
             
-            if (cssUrl != null && !uri.isAbsolute())
+            if (cssUrl != null && !cssUrl.startsWith("data:"))
             {
-                String fullPathUrl = FilenameUtils.normalize(FilenameUtils.concat(FilenameUtils.getFullPath(fileUri), cssUrl), true);
-                urlMatcher.appendReplacement(sb, fullMatch.replace(cssUrl, fullPathUrl));
+                URI uri = new URI(cssUrl);
+                if (!uri.isAbsolute())
+                {
+                    String fullPathUrl = FilenameUtils.normalize(FilenameUtils.concat(FilenameUtils.getFullPath(fileUri), cssUrl), true);
+                    urlMatcher.appendReplacement(sb, fullMatch.replace(cssUrl, fullPathUrl));
+                }
             }
         }
         
