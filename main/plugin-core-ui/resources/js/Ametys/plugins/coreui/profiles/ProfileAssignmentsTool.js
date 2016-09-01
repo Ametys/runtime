@@ -378,7 +378,8 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         this._contextPanel = Ext.create('Ext.panel.Panel', {
             width: 500,
             minWidth: 340,
-            scrollable: true,
+            scrollable: false,
+            split: true,
             layout: 'card',
             cls: 'context-panel',
             
@@ -386,12 +387,21 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
                 xtype: 'toolbar',
                 cls: 'context-toolbar',
                 layout: { 
-                    type: 'hbox',
+                    type: 'vbox',
                     align: 'stretch'
                 },
                 dock: 'top',
                 
-                items: [this._contextCombobox]
+                items: [{
+                		xtype: 'component',
+                		html: "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CONTEXT}}",
+                		style: {
+                			paddingTop: '5px',
+                			paddingBottom: '5px'
+                		}
+                	}, 
+                	this._contextCombobox
+                ]
             }],
             
             listeners: {
@@ -444,7 +454,6 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         this._assignmentsGrid = Ext.create('Ext.grid.Panel', {
             dockedItems: this._getGridDockedItemsCfg(),
             
-            split: true,
             scrollable: true,
             enableColumnMove: true,
             
@@ -547,7 +556,6 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
                 'change': Ext.bind(this._onComboboxChange, this)
             },
             
-            fieldLabel : "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CONTEXT}}",
             queryMode: 'local',
             allowBlank: false,
             forceSelection: true,
@@ -556,9 +564,8 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
             valueField: 'value',
             displayField: 'displayText',
             
-            labelAlign: 'top',
-            labelSeparator: '',
-            flex: 1
+            hideLabel: true,
+            flex: 0.5
         };
     },
     
