@@ -409,7 +409,7 @@
     <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_HINT_2">Vous pouvez affecter cet utilisateur à un profil de droits déjà existant ou bien créer un nouveau profil contenant tous les droits.</message>
     <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_CHOOSE_PROFILE">Choisir le profil administrateur</message>
     <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_CREATE_PROFILE">Créer un super-profil avec tous les droits</message>
-    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_PROFILE_NAME">Nom du profile</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_PROFILE_NAME">Nom du profil</message>
     <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_PROFILE_NAME_DEFAULT_VALUE">Administrateur</message>
     <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_TITLE">Affecter un gestionnaire</message>
     <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_ERROR">Une erreur est survenue. Impossible d'affecter ce ou ces utilisateurs.</message>
