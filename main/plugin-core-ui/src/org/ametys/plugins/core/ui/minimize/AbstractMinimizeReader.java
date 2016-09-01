@@ -104,39 +104,4 @@ public abstract class AbstractMinimizeReader extends ServiceableReader implement
      * @return The included file
      */
     protected abstract String _handleFile(FileData file, String contextPath);
-
-    /**
-     * Error reporter in a logger 
-     */
-    public class LoggerErrorReporter implements org.mozilla.javascript.ErrorReporter
-    {
-        private final Logger _logger;
-
-        /** 
-         * Create the a reporter based uppon a logger
-         * @param logger The logger
-         */
-        public LoggerErrorReporter(Logger logger)
-        {
-            _logger = logger;
-        }
-
-        @Override
-        public void warning(String message, String sourceName, int line, String lineSource, int lineOffset)
-        {
-            _logger.warn(message + " " + sourceName + " line " + line + " " + lineSource + " col " + lineOffset);
-        }
-        @Override
-        public void error(String message, String sourceName, int line, String lineSource, int lineOffset)
-        {
-            _logger.error(message + " " + sourceName + " line " + line + " " + lineSource + " col " + lineOffset);
-        }
-
-        @Override
-        public EvaluatorException runtimeError(String message, String sourceName, int line, String lineSource, int lineOffset)
-        {
-            error(message, sourceName, line, lineSource, lineOffset);
-            return new EvaluatorException(message);
-        }
-    }
 }

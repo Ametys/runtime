@@ -25,6 +25,7 @@ import java.net.URI;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.excalibur.source.Source;
+import org.mozilla.javascript.EvaluatorException;
 
 import org.ametys.plugins.core.ui.minimize.MinimizeTransformer.FileData;
 
@@ -48,6 +49,7 @@ public class MinimizeJSReader extends AbstractMinimizeReader
         StringBuffer sb = new StringBuffer();
         
         Source jssource = null;
+        LoggerErrorReporter loggerErrorReporter = null;
         try
         {
             URI uriToResolve = new URI(file.getUri());
@@ -63,10 +65,12 @@ public class MinimizeJSReader extends AbstractMinimizeReader
                 s = IOUtils.toString(is);
             }
             
+            loggerErrorReporter = new LoggerErrorReporter();
+            
             JavaScriptCompressor compressor;
             try (Reader r = new StringReader(s))
             {
-                compressor = new JavaScriptCompressor(r, new LoggerErrorReporter(getLogger()));
+                compressor = new JavaScriptCompressor(r, loggerErrorReporter);
             }
             
             Writer w = new StringWriter();
@@ -78,7 +82,14 @@ public class MinimizeJSReader extends AbstractMinimizeReader
         }
         catch (Exception e)
         {
-            getLogger().error("Cannot minimize JS for aggregation " + file, e);
+            if (loggerErrorReporter != null)
+            {
+                getLogger().error("Cannot minimize JS for file '" + file + "'. Due to the following errors:" + loggerErrorReporter.toString(), e);
+            }
+            else
+            {
+                getLogger().error("Cannot minimize JS for file '" + file + "'.", e);
+            }
             sb.append("/** ERROR " + e.getMessage() + "*/");
         }
         finally
@@ -87,5 +98,46 @@ public class MinimizeJSReader extends AbstractMinimizeReader
         }
 
         return sb.toString();
+    }
+    
+
+    /**
+     * Error reporter in a logger 
+     */
+    public class LoggerErrorReporter implements org.mozilla.javascript.ErrorReporter
+    {
+        private StringBuffer _sb;
+
+        /** 
+         * Create the a reporter based
+         */
+        public LoggerErrorReporter()
+        {
+            _sb = new StringBuffer();
+        }
+        
+        @Override
+        public String toString()
+        {
+            return _sb.toString();
+        }
+
+        @Override
+        public void warning(String message, String sourceName, int line, String lineSource, int lineOffset)
+        {
+            _sb.append("\n[WARN] " + message + " (" + lineSource + ": " + lineOffset + ")");
+        }
+        @Override
+        public void error(String message, String sourceName, int line, String lineSource, int lineOffset)
+        {
+            _sb.append("\n[ERROR] " + message + " (" + lineSource + ": " + lineOffset + ")");
+        }
+
+        @Override
+        public EvaluatorException runtimeError(String message, String sourceName, int line, String lineSource, int lineOffset)
+        {
+            error(message, sourceName, line, lineSource, lineOffset);
+            return new EvaluatorException(message);
+        }
     }
 }
