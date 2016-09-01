@@ -186,7 +186,7 @@ public class CASCredentialProvider extends AbstractCredentialProvider implements
         {
             Session session = request.getSession(false);
             String userLogin = _getLogin(request);
-            String connectedLogin = session == null ? null : ((UserIdentity) session.getAttribute(AuthenticateAction.SESSION_USERIDENTITY)).getLogin();
+            String connectedLogin = session == null || session.getAttribute(AuthenticateAction.SESSION_USERIDENTITY) == null ? null : ((UserIdentity) session.getAttribute(AuthenticateAction.SESSION_USERIDENTITY)).getLogin();
             valid = (userLogin != null) && userLogin.equals(connectedLogin);
         }
         
