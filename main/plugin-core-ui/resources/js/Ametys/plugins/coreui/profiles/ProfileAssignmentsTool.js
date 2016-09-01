@@ -408,9 +408,53 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
                 'objectcontextchange': Ext.bind(this._onObjectContextChange, this)
             }
         });
+        
+        
         this._createContextPanels();
         
-        this._gridStore = Ext.create('Ext.data.Store', {
+        var mainPanel = Ext.create("Ext.container.Container", {
+            layout: {
+                type: 'hbox',
+                align: 'stretch'
+            },
+            cls: 'uitool-profile-assignment',
+            items: [
+                this._contextPanel, 
+                {
+                	xtype: 'container',
+                	itemId: 'right-card-container',
+	            	layout: 'card',
+	    			activeItem: 0,
+	    			split: true,
+	    			flex: 3,
+	            	items: [{
+							xtype: 'component',
+							cls: 'a-panel-text-empty',
+							border: false,
+							html: "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_NO_OBJECT_CONTEXT}}"
+						}, 
+						{
+							xtype: 'container',
+							itemId: 'grid-wrapper',
+							html: ''
+						}
+					]
+                }
+            ]
+        });
+        
+        return mainPanel;
+    },
+    
+    /**
+     * @private 
+     * Create the grid for assignments
+     * @param {Object[]} columns The columns
+     * @return the created grid
+     */
+    _createGrid: function (columns)
+    {
+    	this._gridStore = Ext.create('Ext.data.Store', {
             model: 'Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.Entry',
             proxy: {
                 type: 'ametys',
@@ -451,7 +495,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
             }
         });
         
-        this._assignmentsGrid = Ext.create('Ext.grid.Panel', {
+        return Ext.create('Ext.grid.Panel', {
             dockedItems: this._getGridDockedItemsCfg(),
             
             scrollable: true,
@@ -495,37 +539,10 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
                         }, this)
                     }
                 ]
-            }]
+            }],
+            
+            columns: columns
         });
-        
-        var mainPanel = Ext.create("Ext.container.Container", {
-            layout: {
-                type: 'hbox',
-                align: 'stretch'
-            },
-            cls: 'uitool-profile-assignment',
-            items: [
-                this._contextPanel, 
-                {
-                	xtype: 'container',
-                	itemId: 'right-card-container',
-	            	layout: 'card',
-	    			activeItem: 0,
-	    			split: true,
-	    			flex: 3,
-	            	items: [{
-							xtype: 'component',
-							cls: 'a-panel-text-empty',
-							border: false,
-							html: "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_NO_OBJECT_CONTEXT}}"
-						}, 
-						this._assignmentsGrid
-					]
-                }
-            ]
-        });
-        
-        return mainPanel;
     },
     
     /**
@@ -1362,8 +1379,19 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         var stringData = response.firstChild.textContent;
         var data = Ext.decode(stringData, true);
         
-        // Add the columns in the grid
-        this._addColumns(data.profiles);
+        this._profiles = data.profiles;
+        
+        // Get the columns and create the grid
+        var columns = this._getColumns();
+        this._assignmentsGrid = this._createGrid(columns);
+        
+        var newFields = Ext.Array.map(this._profiles, function(profile) {
+            return {name: profile.id};
+        }, this);
+        
+        this._gridStore.getModel().addFields(newFields);
+        
+        this.getContentPanel().down('#grid-wrapper').add(this._assignmentsGrid);
         
         // Load the contexts store
         this._contextCombobox.getStore().load({callback: function(records) {
@@ -1389,22 +1417,43 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
      * Updates the model and the columns with the retrieved profiles
      * @param {Object[]} profiles The profiles
      */
-    _addColumns: function(profiles)
+    _getColumns: function(profiles)
     {
-        this._profiles = profiles;
-        var newFields = Ext.Array.map(profiles, function(profile) {
-            return {name: profile.id};
-        }, this);
+        function _renderHeaderProfile (text)
+        {
+        	if (text.length < 15 || text.indexOf(" ") == -1)
+            {
+                return text;
+            }
+            else
+            {
+                var middleCharIndex = Math.ceil(text.length/2);
+                var spaceBeforeMiddleIndex = text.substring(0, middleCharIndex).lastIndexOf(' ');
+                var spaceAfterMiddleIndex = text.indexOf(' ', middleCharIndex);
+                
+                if (spaceBeforeMiddleIndex == -1
+                   || (spaceAfterMiddleIndex != -1 && spaceAfterMiddleIndex - middleCharIndex < middleCharIndex - spaceBeforeMiddleIndex))
+                {
+                        return text.substring(0, spaceAfterMiddleIndex) + "<br/>" + text.substring(spaceAfterMiddleIndex + 1);
+                }
+                else
+                {
+                        return text.substring(0, spaceBeforeMiddleIndex) + "<br/>" + text.substring(spaceBeforeMiddleIndex + 1);
+                }
+            }
+        }
         
-        var newColumns = [];
-        Ext.Array.forEach(profiles, function(profile) {
-            newColumns.push({
+        var columns = [];
+        Ext.Array.forEach(this._profiles, function(profile) {
+        	columns.push({
                 stateId: 'grid-profile-' + profile.id,
-                text: profile.label,
+                text: _renderHeaderProfile(profile.label),
+                tooltip: profile.label,
                 dataIndex: profile.id,
                 hideable: profile.id != this.self.READER_PROFILE_ID,
                 sortable: false,
                 align: 'center',
+                width: 115,
                 cls: profile.id == this.self.READER_PROFILE_ID ? 'a-column-header-reader' : '',
                 tdCls: profile.id == this.self.READER_PROFILE_ID ? 'a-grid-cell-reader' : '',
                 renderer: this._renderAssignment
@@ -1413,7 +1462,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         
         // All columns are the initial ones and then all the profiles alphabetically sorted
         var me = this;
-        var allColumns = this._getInitialColumns().concat(newColumns.sort(function(a, b) {
+        columns = this._getInitialColumns().concat(columns.sort(function(a, b) {
             if (a.dataIndex == me.self.READER_PROFILE_ID)
             {
                 return -1;
@@ -1428,8 +1477,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
             }
         }));
         
-        this._gridStore.getModel().addFields(newFields);
-        this._assignmentsGrid.reconfigure(allColumns);
+        return columns;
     },
     
     /**
@@ -1467,7 +1515,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
             return result;
         }
         
-        var selection = this._assignmentsGrid.getSelection();
+        var selection = this._assignmentsGrid ? this._assignmentsGrid.getSelection() : [];
         
         var targets = Ext.Array.map(selection, function(record) {
             var type = record.get('targetType'),
