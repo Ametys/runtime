@@ -224,9 +224,7 @@ public class CASCredentialProvider extends AbstractCredentialProvider implements
 
         if (userLogin == null)
         {
-            String errorMessage = "CAS authentication needs a CAS filter to be configured into the WEB-INF/web.xml file. Please see documentation for more details. It is recommanded to use the filter: {}";
-            getLogger().error(errorMessage, AuthenticationFilter.class.getName());
-            throw new IllegalStateException(errorMessage);
+            throw new IllegalStateException("CAS authentication needs a CAS filter.");
         }
         
         getLogger().debug("User authenticated by CAS : {}", userLogin);
