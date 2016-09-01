@@ -973,7 +973,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
      * Returns the id of current profiles
      * @return the id of current profiles
      */
-    _getProfileIds ()
+    _getProfileIds: function()
     {
     	var profileIds = [];
     	Ext.Array.forEach(this._profiles, function (profile) {
