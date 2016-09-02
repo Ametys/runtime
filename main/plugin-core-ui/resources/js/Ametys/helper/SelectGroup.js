@@ -50,7 +50,7 @@ Ext.define('Ametys.helper.SelectGroup', {
 	 * @property {String} url=groups/search.json The url of the currently selected plugin to use for requests. Selected by the {@link #act} call.
 	 */
     /**
-     * @property {String[]} [contexts] The contexts for the group directories to display in the combobox. Default to the current context.
+     * @property {String[]} [contexts] The contexts for the group directories to display in the combobox. Default to the current contexts.
      */
     /**
      * @private
@@ -102,7 +102,7 @@ Ext.define('Ametys.helper.SelectGroup', {
 	 * @param {Boolean} [config.allowMultiselection=true] Set to false to disable multiple selection of users.
 	 * @param {String} [config.plugin=core] The plugin to use for search request.
 	 * @param {String} [config.url=groups/search.json] The url to use for search request.
-     * @param {String/String[]} [config.contexts] The contexts for the group directories to display in the combobox. Default to the current context.
+     * @param {String/String[]} [config.contexts] The contexts for the group directories to display in the combobox. Default to the current contexts.
      * @param {Boolean} [config.enableAllDirectoriesOption=true] True to add an option in the directory combobx for searching over all the directories.
 	 */
 	act: function (config)
@@ -114,7 +114,7 @@ Ext.define('Ametys.helper.SelectGroup', {
 	    this.allowMultiselection = config.allowMultiselection || true;
 	    this.pluginName = config.plugin || 'core';
 	    this.url = config.url || 'groups/search.json';
-        this.contexts = Ext.Array.from(config.contexts || Ametys.getAppParameter('context'));
+        this.contexts = Ext.Array.from(config.contexts || Ametys.getAppParameter('populationContexts'));
         this._enableAllDirectoriesOption = config.enableAllDirectoriesOption !== false;
 	    
 		this.delayedInitialize();

@@ -113,7 +113,7 @@ Ext.define('Ametys.helper.SelectUser', {
      * @param {Boolean} [config.allowMultiselection=true] Set to false to disable multiple selection of users.
      * @param {String} [config.plugin=core] The plugin to use for search request.
      * @param {String} [config.url=users/search.json] The url to use for search request.
-     * @param {String/String[]} [config.contexts] The contexts for the populations to display in the combobox. Default to the current context.
+     * @param {String/String[]} [config.contexts] The contexts for the populations to display in the combobox. Default to the current contexts.
      * @param {Boolean} [config.enableAllPopulationsOption=true] True to add an option in the populations combobx for searching over all the populations.
      * @param {String} [config.noPopulationMessage] The message to display when there is no user population available for the contexts. There is a default message if not provided.
      * @param {Boolean} [config.showDirectoryCombobox] True to show the user directory combobox field (then it is possible to filter with user directories).
@@ -127,7 +127,7 @@ Ext.define('Ametys.helper.SelectUser', {
         this.allowMultiselection = config.allowMultiselection || true;
         this.pluginName = config.plugin || 'core';
         this.url = config.url || 'users/search.json';
-        this.contexts = Ext.Array.from(config.contexts || Ametys.getAppParameter('context'));
+        this.contexts = Ext.Array.from(config.contexts || Ametys.getAppParameter('populationContexts'));
         this._enableAllPopulationsOption = config.enableAllPopulationsOption !== false;
         this._noPopulationMessage = config.noPopulationMessage || "{{i18n PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_NO_POPULATION_DESCRIPTION}}";
         

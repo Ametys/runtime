@@ -21,12 +21,6 @@
  */
 Ext.define('Ametys.form.widget.Group', {
     extend: 'Ametys.form.AbstractQueryableComboBox',
-  
-    /**
-	 * @private
-	 * @property {String} groupsManagerRole The currently selected GroupsManager to use to list the group. The string is the role name on the server-side. Null/Empty means the default groups manager.
-	 */
-    groupsManagerRole: null,
 	
 	valueField: 'id',
 	displayField: 'label',
@@ -81,7 +75,7 @@ Ext.define('Ametys.form.widget.Group', {
             id: operation.getParams().id ? operation.getParams().id.split(',') : null,
             count: this.maxResult, 
             offset: 0,
-            contexts: [Ametys.getAppParameter('context')]
+            contexts: Ametys.getAppParameter('populationContexts')
         }));
     },
     

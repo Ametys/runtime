@@ -30,13 +30,13 @@ Ext.define('Ametys.form.widget.User', {
      * @property {String[]} _contexts The contexts for the populations where to retrieve users
      */
     /**
-     * @cfg {String[]} [contexts] The contexts for the populations where to retrieve users. Default to the default ametys context
+     * @cfg {String[]} [contexts] The contexts for the populations where to retrieve users. Default to the default ametys contexts
      */
     
     constructor: function(config)
     {
         config = config || {};
-        this._contexts = config.contexts || [Ametys.getAppParameter('context')];
+        this._contexts = config.contexts || Ametys.getAppParameter('populationContexts');
         
         this.callParent(arguments);
     },

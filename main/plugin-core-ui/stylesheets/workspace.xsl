@@ -164,7 +164,7 @@
                 
                 <script type="text/javascript">
                     Ametys.setAppParameter("debug.mode", "<xsl:value-of select="$debug-mode"/>");        
-                    Ametys.setAppParameter("context", "<xsl:call-template name="app-context"/>");
+                    Ametys.setAppParameter("populationContexts", <xsl:call-template name="app-contexts"/>);
 
                     Ametys.setAppParameter("user", {
                         login: "<xsl:value-of select="user/@login"/>",
@@ -658,8 +658,9 @@
     </xsl:template>
     
     
-    <xsl:template name="app-context">
+    <xsl:template name="app-contexts">
         <!-- Keep empty. Here for inheritance purpose. -->
+        []
     </xsl:template>
     
 <!--     <xsl:template name="theme-scripts"> -->

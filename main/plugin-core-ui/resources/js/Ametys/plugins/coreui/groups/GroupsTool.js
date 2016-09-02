@@ -65,14 +65,14 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsTool', {
     
     /**
      * @inheritdoc
-     * @param {String} [params.contexts] The contexts for the group directories to display in the combobox. Default to the current context.
+     * @param {String} [params.contexts] The contexts for the group directories to display in the combobox. Default to the current contexts.
      * @param {Boolean/String} [params.enableAllDirectoriesOption=false] True to add an option in the group directories combobox for searching over all the directories.
      */
     setParams: function(params)
     {
         this.callParent(arguments);
         
-        this._contexts = Ext.Array.from(params.contexts || Ametys.getAppParameter('context'));
+        this._contexts = Ext.Array.from(params.contexts || Ametys.getAppParameter('populationContexts'));
         this._enableAllDirectoriesOption = Ext.isBoolean(params.enableAllDirectoriesOption) ? params.enableAllDirectoriesOption : params.enableAllDirectoriesOption == "true";
         this._loadDirectories();
     },

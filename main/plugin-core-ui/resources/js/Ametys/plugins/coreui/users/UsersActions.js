@@ -29,7 +29,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersActions', {
 	{
 		var userTargetId = controller.getInitialConfig('message-target-id') || Ametys.message.MessageTarget.USER;
 		var userToolId = controller.getInitialConfig('users-tool-id');
-        var contexts = Ext.Array.from(controller.getInitialConfig('contexts') || [Ametys.getAppParameter('context')]);
+        var contexts = Ext.Array.from(controller.getInitialConfig('contexts') || Ametys.getAppParameter('populationContexts'));
 		
 		Ametys.plugins.coreui.users.EditUserHelper.add(contexts, userTargetId, userToolId, Ext.bind (this._addCb, this, [userToolId], 1));
 	},

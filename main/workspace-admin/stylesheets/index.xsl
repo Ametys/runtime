@@ -26,6 +26,6 @@
         Ametys.plugins.admin.notificator.AdministratorNotificator.notify();
     </xsl:template>
     
-    <xsl:template name="app-context">/admin</xsl:template>
+    <xsl:template name="app-contexts">["/admin"]</xsl:template>
     
 </xsl:stylesheet>

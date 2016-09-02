@@ -28,7 +28,7 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsActions', {
     add: function (controller)
     {
         var groupMessageTargetId = controller.getInitialConfig('group-message-target-id') || Ametys.message.MessageTarget.GROUP;
-        var contexts = [Ametys.getAppParameter('context')];
+        var contexts = Ametys.getAppParameter('populationContexts');
         
         Ametys.plugins.coreui.groups.EditGroupHelper.add(contexts, groupMessageTargetId);
     },
@@ -99,7 +99,7 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsActions', {
         if (groupTargets != null && groupTargets.length > 0)
         {
             Ametys.helper.SelectUser.act({
-                contexts: Ext.Array.from(controller.getInitialConfig('contexts') || Ametys.getAppParameter('context')),
+                contexts: Ext.Array.from(controller.getInitialConfig('contexts') || Ametys.getAppParameter('populationContexts')),
                 callback: Ext.bind(this._selectUsersCb, this, [groupTargets[0], controller], 1)
             });
         }

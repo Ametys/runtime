@@ -96,7 +96,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
     /**
      * @inheritdoc
      * @param {Object[]} [params.selectedUsers] The users to initially select
-     * @param {String[]} [params.contexts] The contexts for the populations to display in the combobox. Default to the current context.
+     * @param {String[]} [params.contexts] The contexts for the populations to display in the combobox. Default to the current contexts.
      * @param {Boolean/String} [params.enableAllPopulationsOption=false] True to add an option in the populations combobox for searching over all the populations.
      * @param {Boolean/String} [params.showDirectoryColumn=false] True to show the user directory column
      * @param {Boolean/String} [params.showDirectoryCombobox=false] True to show the user directory combobox field
@@ -106,7 +106,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
         this.callParent(arguments);
         
         this._initialSelectedUsers = params.selectedUsers || [];
-        this._contexts = Ext.Array.from(params.contexts || Ametys.getAppParameter('context'));
+        this._contexts = Ext.Array.from(params.contexts || Ametys.getAppParameter('populationContexts'));
         this._enableAllPopulationsOption = Ext.isBoolean(params.enableAllPopulationsOption) ? params.enableAllPopulationsOption : params.enableAllPopulationsOption == "true";
         this._showDirectoryColumn = Ext.isBoolean(params.showDirectoryColumn) ? params.showDirectoryColumn : params.showDirectoryColumn == "true";
         this._grid.down('[dataIndex=directory]').setVisible(this._showDirectoryColumn);
