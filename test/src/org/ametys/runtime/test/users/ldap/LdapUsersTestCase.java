@@ -52,7 +52,7 @@ public class LdapUsersTestCase extends AbstractRuntimeTestCase
      */
     protected void _startApp() throws Exception
     {
-        _startApplication("test/environments/runtimes/runtime8.xml", "test/environments/configs/config3.xml", "test/environments/datasources/datasource-mysql.xml", "test/environments/datasources/datasource-ldap.xml", "test/environments/webapp1");
+        _startApplication("test/environments/runtimes/runtime8.xml", "test/environments/configs/config3.xml", "test/environments/datasources/datasource-ldap.xml", "test/environments/webapp1");
         _userDirectory = _createLdapUserDirectory();
     }
     

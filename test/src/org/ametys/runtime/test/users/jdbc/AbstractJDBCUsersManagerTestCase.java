@@ -15,8 +15,6 @@
  */
 package org.ametys.runtime.test.users.jdbc;
 
-import java.io.File;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -33,27 +31,14 @@ public abstract class AbstractJDBCUsersManagerTestCase extends AbstractJDBCTestC
     /** the user manager */
     protected UserDirectory _userDirectory;
     
-    /**
-     * Reset the db
-     * @param runtimeFilename The file name in runtimes env dir
-     * @param configFileName The file name in config env dir
-     * @param sqlDataSourceFileName the path of the data sources configuration file
-     * @throws Exception if an error occurs
-     */
-    protected void _resetDB(String runtimeFilename, String configFileName, String sqlDataSourceFileName) throws Exception
+    @Override
+    protected void setUp() throws Exception
     {
-        _startApplication("test/environments/runtimes/" + runtimeFilename, "test/environments/configs/" + configFileName, "test/environments/datasources/" + sqlDataSourceFileName, null, "test/environments/webapp1");
-
-        _setDatabase(Arrays.asList(getScripts()));
+        super.setUp();
+        _startApplication("test/environments/runtimes/runtime6.xml", "test/environments/configs/config1.xml", null, "test/environments/webapp1");
         
         _userDirectory = _createUserDirectory();
     }
-
-    /**
-     * Provide the scripts to run before each test invocation.
-     * @return the scripts to run.
-     */
-    protected abstract File[] getScripts();
     
     private UserDirectory _createUserDirectory() throws Exception
     {

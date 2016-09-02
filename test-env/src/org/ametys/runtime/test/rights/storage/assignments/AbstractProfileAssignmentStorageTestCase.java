@@ -27,6 +27,7 @@ import org.ametys.core.right.ProfileAssignmentStorage;
 import org.ametys.core.right.ProfileAssignmentStorageExtensionPoint;
 import org.ametys.core.user.UserIdentity;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
+import org.ametys.runtime.test.CocoonWrapper;
 import org.ametys.runtime.test.Init;
 
 /**
@@ -38,10 +39,19 @@ public abstract class AbstractProfileAssignmentStorageTestCase extends AbstractR
     protected ProfileAssignmentStorage _profileAssignmentStorage;
     
     @Override
-    protected void setUp() throws Exception
+    protected CocoonWrapper _startApplication(String runtimeFile, String configFile, String ldapDataSourceFile, String contextPath) throws Exception
     {
-        super.setUp();
+        CocoonWrapper cocoonWrapper = super._startApplication(runtimeFile, configFile, ldapDataSourceFile, contextPath);
         _initProfileAssignmentStorage();
+        return cocoonWrapper;
+    }
+    
+    @Override
+    protected CocoonWrapper _startApplication(String runtimeFile, String configFile, String contextPath) throws Exception
+    {
+        CocoonWrapper cocoonWrapper = super._startApplication(runtimeFile, configFile, contextPath);
+        _initProfileAssignmentStorage();
+        return cocoonWrapper;
     }
     
     /**

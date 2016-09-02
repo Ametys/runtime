@@ -22,29 +22,19 @@ import java.io.File;
  */
 public class MysqlJdbcGroupsTestCase extends AbstractJdbcGroupsTestCase
 {
-    
     @Override
-    protected void setUp() throws Exception
+    protected String _getDataSourceFile()
     {
-        super.setUp();
-        _resetDB("runtime4.xml", "config1.xml", "datasource-mysql.xml");
+        return "test/environments/datasources/datasource-mysql.xml";
     }
     
     @Override
-    protected void tearDown() throws Exception
-    {
-        _cocoon.dispose();
-        super.tearDown();
-    }
-    
-    @Override
-    protected File[] getScripts()
+    protected File[] _getStartScripts()
     {
         return new File[] {
             new File("test/environments/scripts/jdbc-mysql/dropTables.sql"),
             new File("main/plugin-core/scripts/mysql/jdbc_users.sql"),
-            new File("main/plugin-core/scripts/mysql/jdbc_groups.sql"),
-            new File("main/plugin-core/scripts/mysql/profile_rights.sql")
+            new File("main/plugin-core/scripts/mysql/jdbc_groups.sql")
         };
     }
 

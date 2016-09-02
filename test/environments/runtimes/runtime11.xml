@@ -31,9 +31,6 @@
         <locations>
             <location>location2</location>
         </locations>
-        <exclude>
-            <feature>core/reader.profile.init</feature>
-        </exclude>
     </plugins>
     
     <components>

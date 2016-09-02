@@ -54,11 +54,11 @@ public class ObserversTestCase extends AbstractRuntimeTestCase
     @Override
     protected void setUp() throws Exception
     {
+        super.setUp();
+        
         _startApplication("test/environments/runtimes/runtime01.xml", "test/environments/configs/config1.xml", "test/environments/webapp2");
         _observerExtPt  = (ObserverExtensionPoint) Init.getPluginServiceManager().lookup(ObserverExtensionPoint.ROLE);
         _observationManager = (ObservationManager) Init.getPluginServiceManager().lookup(ObservationManager.ROLE);
-        
-        super.setUp();
     }
     
     @Override

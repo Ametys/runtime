@@ -22,11 +22,10 @@ import java.io.File;
  */
 public class OracleModifiableCredentialsAwareJdbcUsersTestCase extends AbstractModifiableCredentialsAwareJdbcUsersTestCase
 {
-
     @Override
-    protected void setUp() throws Exception
+    protected String _getDataSourceFile()
     {
-        _resetDB("runtime6.xml", "config1.xml", "datasource-oracle.xml");
+        return "test/environments/datasources/datasource-oracle.xml";
     }
     
     @Override
@@ -37,13 +36,12 @@ public class OracleModifiableCredentialsAwareJdbcUsersTestCase extends AbstractM
     }
     
     @Override
-    protected File[] getScripts()
+    protected File[] _getStartScripts()
     {
         return new File[] {
             new File("test/environments/scripts/jdbc-oracle/dropTables.sql"),
             new File("main/plugin-core/scripts/oracle/jdbc_users.sql"),
-            new File("main/plugin-core/scripts/oracle/jdbc_groups.sql"),
-            new File("main/plugin-core/scripts/oracle/profile_rights.sql")
+            new File("main/plugin-core/scripts/oracle/jdbc_groups.sql")
         };
     }
     

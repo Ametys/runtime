@@ -23,18 +23,16 @@ import java.io.File;
 public class HsqlProfileAssignmentStorageTestCase extends AbstractJdbcProfileAssignmentStorageTestCase
 {
     @Override
-    protected void setUp() throws Exception
+    protected String _getDataSourceFile()
     {
-        _startAppAndResetDB("runtime4.xml", "config1.xml", "datasource-hsql.xml");
-        super.setUp();
+        return "test/environments/datasources/datasource-hsql.xml";
     }
     
     @Override
-    protected File[] getScripts()
+    protected File[] _getStartScripts()
     {
         return new File[] {
-            new File("test/environments/scripts/jdbc-hsqldb/dropTables.sql"),
-            new File("main/plugin-core/scripts/hsqldb/profile_assignments.sql")
+            new File("test/environments/scripts/jdbc-hsqldb/dropTables.sql")
         };
     }
 }

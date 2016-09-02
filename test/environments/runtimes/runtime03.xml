@@ -31,7 +31,6 @@
     <plugins>
         <exclude>
             <feature>core/runtime.upload</feature>
-            <feature>core/reader.profile.init</feature>
         </exclude>
     </plugins>
     

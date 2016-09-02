@@ -22,12 +22,10 @@ import java.io.File;
  */
 public class DerbyUserPreferencesTestCase extends AbstractUserPreferencesTestCase
 {
-    
     @Override
-    protected void setUp() throws Exception
+    protected String _getDataSourceFile()
     {
-        super.setUp();
-        _resetDB("runtime4.xml", "config1.xml", "datasource-derby.xml");
+        return "test/environments/datasources/datasource-derby.xml";
     }
     
     @Override
@@ -38,11 +36,10 @@ public class DerbyUserPreferencesTestCase extends AbstractUserPreferencesTestCas
     }
     
     @Override
-    protected File[] getScripts()
+    protected File[] _getStartScripts()
     {
         return new File[] {
-            new File("test/environments/scripts/jdbc-derby/dropTables.sql"),
-            new File("main/plugin-core/scripts/derby/user_prefs.sql")
+            new File("test/environments/scripts/jdbc-derby/dropTables.sql")
         };
     }
     

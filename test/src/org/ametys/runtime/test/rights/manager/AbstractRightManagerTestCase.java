@@ -43,32 +43,17 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
     private RightProfilesDAO _profilesDAO;
     
     /**
-     * Provide the scripts to run before each test invocation.
-     * @return the scripts to run.
-     */
-    protected abstract File[] getScripts();
-    
-    /**
      * Provide the scripts to run to populate the database.
      * @return the scripts to run.
      */
     protected abstract File[] getPopulateScripts();
     
-    /**
-     * Reset the db
-     * @param runtimeFilename The file name in runtimes env dir
-     * @param configFileName The file name in config env dir
-     * @param sqlDataSourceFileName The file name in config env dir
-     * @throws Exception if an error occurs
-     */
-    protected void _resetDB(String runtimeFilename, String configFileName, String sqlDataSourceFileName) throws Exception
+    @Override
+    protected void setUp() throws Exception
     {
         super.setUp();
+        _startApplication("test/environments/runtimes/runtime5.xml", "test/environments/configs/config1.xml", null, "test/environments/webapp4");
         
-        _startApplication("test/environments/runtimes/" + runtimeFilename, "test/environments/configs/" + configFileName, "test/environments/datasources/" + sqlDataSourceFileName, null, "test/environments/webapp4");
-
-        _setDatabase(Arrays.asList(getScripts()));
-
         _rightManager = (RightManager) Init.getPluginServiceManager().lookup(RightManager.ROLE);
         _profileAssignmentStorageEP = (ProfileAssignmentStorageExtensionPoint) Init.getPluginServiceManager().lookup(ProfileAssignmentStorageExtensionPoint.ROLE);
         _profilesDAO = (RightProfilesDAO) Init.getPluginServiceManager().lookup(RightProfilesDAO.ROLE);
@@ -94,7 +79,7 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
         assertTrue(_rightManager.getUserRights(new UserIdentity("foo", "population"), "/foo").isEmpty());
         
         List<Profile> profiles = _rightManager.getProfiles();
-        assertEquals(0, profiles.size());
+        assertEquals(1, profiles.size()); // There is the READER profile only
     }
     
     /**
@@ -146,8 +131,14 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
         assertEquals("Profile 1", profile.getLabel());
         
         profiles = _rightManager.getProfiles();
-        assertEquals(1, profiles.size());
-        assertEquals("Profile 1", profiles.iterator().next().getLabel());
+        assertEquals(2, profiles.size()); // The added profile "Profile 1" and READER
+        for (Profile currentProfile : profiles)
+        {
+            if (!RightManager.READER_PROFILE_ID.equals(currentProfile.getId()))
+            {
+                assertEquals("Profile 1", currentProfile.getLabel());
+            }
+        }
         
         _profilesDAO.renameProfile(profile, "Profile 1 renamed");
         _profilesDAO.addRight(profile, "right1");
@@ -170,7 +161,7 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
         assertNull(profile);
         
         profiles = _rightManager.getProfiles();
-        assertEquals(0, profiles.size());
+        assertEquals(1, profiles.size()); // Only READER profile
     }
     
     /**
@@ -187,7 +178,10 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
         
         for (Profile profile : _rightManager.getProfiles())
         {
-            _rightManager.removeProfile(profile.getId());
+            if (!RightManager.READER_PROFILE_ID.equals(profile.getId()))
+            {
+                _rightManager.removeProfile(profile.getId());
+            }
         }
         
         Profile profile1 = _rightManager.addProfile("MyProfil1");

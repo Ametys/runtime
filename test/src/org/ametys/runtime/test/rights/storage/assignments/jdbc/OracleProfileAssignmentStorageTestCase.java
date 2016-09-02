@@ -23,18 +23,16 @@ import java.io.File;
 public class OracleProfileAssignmentStorageTestCase extends AbstractJdbcProfileAssignmentStorageTestCase
 {
     @Override
-    protected void setUp() throws Exception
+    protected String _getDataSourceFile()
     {
-        _startAppAndResetDB("runtime4.xml", "config1.xml", "datasource-oracle.xml");
-        super.setUp();
+        return "test/environments/datasources/datasource-oracle.xml";
     }
     
     @Override
-    protected File[] getScripts()
+    protected File[] _getStartScripts()
     {
         return new File[] {
-            new File("test/environments/scripts/jdbc-oracle/dropTables.sql"),
-            new File("main/plugin-core/scripts/oracle/profile_assignments.sql")
+            new File("test/environments/scripts/jdbc-oracle/dropTables.sql")
         };
     }
 }

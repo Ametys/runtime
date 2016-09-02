@@ -22,29 +22,19 @@ import java.io.File;
  */
 public class OracleJdbcGroupsTestCase extends AbstractJdbcGroupsTestCase
 {
-    
     @Override
-    protected void setUp() throws Exception
+    protected String _getDataSourceFile()
     {
-        super.setUp();
-        _resetDB("runtime4.xml", "config1.xml", "datasource-oracle.xml");
+        return "test/environments/datasources/datasource-oracle.xml";
     }
     
     @Override
-    protected void tearDown() throws Exception
-    {
-        _cocoon.dispose();
-        super.tearDown();
-    }
-    
-    @Override
-    protected File[] getScripts()
+    protected File[] _getStartScripts()
     {
         return new File[] {
             new File("test/environments/scripts/jdbc-oracle/dropTables.sql"),
             new File("main/plugin-core/scripts/oracle/jdbc_users.sql"),
-            new File("main/plugin-core/scripts/oracle/jdbc_groups.sql"),
-            new File("main/plugin-core/scripts/oracle/profile_rights.sql")
+            new File("main/plugin-core/scripts/oracle/jdbc_groups.sql")
         };
     }
 

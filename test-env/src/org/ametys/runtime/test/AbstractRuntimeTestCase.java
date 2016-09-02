@@ -19,6 +19,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.SAXParserFactory;
@@ -29,12 +35,19 @@ import junit.framework.TestCase;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+import org.apache.commons.dbcp2.ConnectionFactory;
+import org.apache.commons.dbcp2.DriverManagerConnectionFactory;
+import org.apache.commons.dbcp2.PoolableConnection;
+import org.apache.commons.dbcp2.PoolableConnectionFactory;
+import org.apache.commons.dbcp2.PoolingDataSource;
+import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.XMLReader;
 
 import org.ametys.core.datasource.LDAPDataSourceManager;
 import org.ametys.core.datasource.SQLDataSourceManager;
+import org.ametys.core.script.ScriptRunner;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.data.AmetysHomeLock;
 import org.ametys.runtime.data.AmetysHomeLockException;
@@ -78,6 +91,158 @@ public abstract class AbstractRuntimeTestCase extends TestCase
     public AbstractRuntimeTestCase(String name)
     {
         super(name);
+    }
+    
+    /**
+     * Provides the SQL scripts to run before each test invocation.
+     * Those scripts are executed before starting Ametys, usually for dropping tables.
+     * By default, returns a script which drop all tables for MySQL.
+     * If you override this method, you probably have to also override {@link #_getDataSourceFile()} method.
+     * @return the SQL scripts to run.
+     */
+    protected File[] _getStartScripts()
+    {
+        return new File[] {
+            new File("test/environments/scripts/jdbc-mysql/dropTables.sql")
+        };
+    }
+    
+    /**
+     * Gets the datasource configuration file to use.
+     * The start scripts from {@link #_getStartScripts()} will be executed on the "SQL-test" datasource if found.
+     * By default, returns the {@link #__DEFAULT_SQL_DATASOURCE_FILE} file for MySQL datasource.
+     * If you override this method, you probably have to also override {@link #_getStartScripts()} method.
+     * @return the datasource file to use.
+     */
+    protected String _getDataSourceFile()
+    {
+        return __DEFAULT_SQL_DATASOURCE_FILE;
+    }
+    
+    @Override
+    protected void setUp() throws Exception
+    {
+        super.setUp();
+        String dataSourceFilePath = _getDataSourceFile();
+        _executeStartScripts(Arrays.asList(_getStartScripts()), dataSourceFilePath);
+    }
+    
+    private void _executeStartScripts(List<File> scripts, String dataSourceFileName) throws Exception
+    {
+        // Execute the start scripts, before starting Ametys, so without using any component
+        if (dataSourceFileName == null)
+        {
+            return;
+        }
+        
+        File dataSourceFile = new File(dataSourceFileName);
+        GenericObjectPool<PoolableConnection> connectionPool = _getConnectionPool(dataSourceFile, "SQL-test");
+        if (connectionPool == null)
+        {
+            // SQL-test was not found
+            return;
+        }
+        Connection connection = null;
+        
+        try (PoolingDataSource<PoolableConnection> dataSource = new PoolingDataSource<>(connectionPool))
+        {
+            connection = dataSource.getConnection();
+            
+            for (File script : scripts)
+            {
+                ScriptRunner.runScript(connection, new FileInputStream(script));
+            }
+        }
+        finally 
+        {
+            _cleanup(connection);
+            connectionPool.close();
+        }
+    }
+    
+    private GenericObjectPool<PoolableConnection> _getConnectionPool(File file, String datasourceId) throws Exception
+    {
+        // Read datasources
+        if (file.exists())
+        {
+            Configuration configuration = new DefaultConfigurationBuilder().buildFromFile(file);
+            for (Configuration dsConfig : configuration.getChildren("datasource"))
+            {
+                String id = dsConfig.getAttribute("id");
+                if (!id.equals(datasourceId))
+                {
+                    // this is not the wanted datasource
+                    break;
+                }
+                
+                Map<String, String> parameters = new HashMap<>();
+                
+                Configuration[] paramsConfig = dsConfig.getChild("parameters").getChildren();
+                for (Configuration paramConfig : paramsConfig)
+                {
+                    String value = paramConfig.getValue("");
+                    parameters.put(paramConfig.getName(), value);
+                }
+                
+                // Create datasource;
+                String url = parameters.get(SQLDataSourceManager.PARAM_DATABASE_URL);
+                String user = parameters.get(SQLDataSourceManager.PARAM_DATABASE_USER);
+                String password = parameters.get(SQLDataSourceManager.PARAM_DATABASE_PASSWORD);
+                
+                ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(url, user, password);
+                PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(connectionFactory, null);
+                
+                GenericObjectPool<PoolableConnection> connectionPool = new GenericObjectPool<>(poolableConnectionFactory);
+                connectionPool.setMaxTotal(-1);
+                connectionPool.setMaxIdle(10);
+                connectionPool.setMinIdle(2);
+                connectionPool.setTestOnBorrow(true);
+                connectionPool.setTestOnReturn(false);
+                connectionPool.setTestWhileIdle(true);
+                connectionPool.setTimeBetweenEvictionRunsMillis(1000 * 60 * 30);
+                
+                poolableConnectionFactory.setPool(connectionPool);
+                poolableConnectionFactory.setValidationQuery(_getValidationQuery(file));
+                poolableConnectionFactory.setDefaultAutoCommit(true);
+                poolableConnectionFactory.setDefaultReadOnly(false);
+                
+                return connectionPool;
+            }
+        }
+        
+        return null;
+    }
+    
+    private String _getValidationQuery(File file)
+    {
+        // Dirty way to do it, but we have not access to SQLDataSourcemanager at this time...
+        String fileName = file.getName();
+        switch (fileName)
+        {
+            case "datasource-derby.xml":
+                return "SELECT 1 FROM SYS.SYSTABLES";
+            case "datasource-hsql.xml":
+                return "SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS";
+            case "datasource-oracle.xml":
+                return "SELECT 1 FROM DUAL";
+            case "datasource-mysql.xml":
+            case "datasource-postgresql.xml":
+            default:
+                return "SELECT 1";
+        }
+    }
+    
+    private void _cleanup(Connection con) throws SQLException
+    {
+        if (con != null)
+        {
+            if (!con.getAutoCommit())
+            {
+                con.commit();
+            }
+
+            con.close();
+        }
     }
     
     @Override
@@ -203,40 +368,26 @@ public abstract class AbstractRuntimeTestCase extends TestCase
      */
     protected CocoonWrapper _startApplication(String runtimeFile, String configFile, String contextPath) throws Exception
     {
-        return _startApplication(runtimeFile, configFile, __DEFAULT_SQL_DATASOURCE_FILE, __DEFAULT_LDAP_DATASOURCE_FILE, contextPath);
+        return _startApplication(runtimeFile, configFile, __DEFAULT_LDAP_DATASOURCE_FILE, contextPath);
     }
     
     /**
-     * Starts the application with the default LDAP data source and the provided sql data source file. This a shorthand to _configureRuntime, then _startCocoon.
+     * Starts the application with the provided LDAP data sources file. This a shorthand to _configureRuntime, then _startCocoon.
+     * The SQL data source used is the one returned by {@link #_getDataSourceFile()}
      * @param runtimeFile the name of the runtime file used
      * @param configFile the name of the config file
-     * @param sqlDataSourceFile the name of the SQL data source file
-     * @param contextPath the environment application
-     * @return the CocoonWrapper used to process URIs
-     * @throws Exception if an error occurred
-     */
-    protected CocoonWrapper _startApplication(String runtimeFile, String configFile, String sqlDataSourceFile, String contextPath) throws Exception
-    {
-        return _startApplication(runtimeFile, configFile, sqlDataSourceFile, __DEFAULT_LDAP_DATASOURCE_FILE, contextPath);
-    }
-    
-    /**
-     * Starts the application with the provided SQL and LDAP data sources files. This a shorthand to _configureRuntime, then _startCocoon.
-     * @param runtimeFile the name of the runtime file used
-     * @param configFile the name of the config file
-     * @param sqlDataSourceFile the name of the SQL data source file
      * @param ldapDataSourceFile the name of the LDAP data source file
      * @param contextPath the environment application
      * @return the CocoonWrapper used to process URIs
      * @throws Exception if an error occurred
      */
-    protected CocoonWrapper _startApplication(String runtimeFile, String configFile, String sqlDataSourceFile, String ldapDataSourceFile, String contextPath) throws Exception
+    protected CocoonWrapper _startApplication(String runtimeFile, String configFile, String ldapDataSourceFile, String contextPath) throws Exception
     {
         _configureRuntime(runtimeFile, contextPath);
         
         Config.setFilename(configFile);
         
-        SQLDataSourceManager.setFilename(sqlDataSourceFile);
+        SQLDataSourceManager.setFilename(_getDataSourceFile());
         LDAPDataSourceManager.setFilename(ldapDataSourceFile);
         
         return _startCocoon(contextPath);

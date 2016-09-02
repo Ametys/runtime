@@ -22,12 +22,10 @@ import java.io.File;
  */
 public class OracleUserPreferencesTestCase extends AbstractUserPreferencesTestCase
 {
-    
     @Override
-    protected void setUp() throws Exception
+    protected String _getDataSourceFile()
     {
-        super.setUp();
-        _resetDB("runtime4.xml", "config1.xml", "datasource-oracle.xml");
+        return "test/environments/datasources/datasource-oracle.xml";
     }
     
     @Override
@@ -38,11 +36,10 @@ public class OracleUserPreferencesTestCase extends AbstractUserPreferencesTestCa
     }
     
     @Override
-    protected File[] getScripts()
+    protected File[] _getStartScripts()
     {
         return new File[] {
-            new File("test/environments/scripts/jdbc-oracle/dropTables.sql"),
-            new File("main/plugin-core/scripts/oracle/user_prefs.sql")
+            new File("test/environments/scripts/jdbc-oracle/dropTables.sql")
         };
     }
     

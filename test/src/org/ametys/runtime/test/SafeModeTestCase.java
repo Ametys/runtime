@@ -25,8 +25,8 @@ public class SafeModeTestCase extends AbstractRuntimeTestCase
     @Override
     protected void setUp() throws Exception
     {
-        _startApplication("test/environments/runtimes/runtime01.xml", "test/environments/configs/config0.xml", "test/environments/webapp1");
         super.setUp();
+        _startApplication("test/environments/runtimes/runtime01.xml", "test/environments/configs/config0.xml", "test/environments/webapp1");
     }
     
     @Override

@@ -33,7 +33,6 @@
         </locations>
         <exclude>
             <feature>test/test-feature5</feature>
-            <feature>core/reader.profile.init</feature>
         </exclude>
     </plugins>
     

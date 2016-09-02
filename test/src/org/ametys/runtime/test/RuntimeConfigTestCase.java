@@ -58,7 +58,7 @@ public class RuntimeConfigTestCase extends AbstractRuntimeTestCase
         assertTrue(config.getPluginsLocations().contains("plugins/"));
         assertTrue(config.getPluginsLocations().contains("test"));
         
-        assertEquals(2, config.getExcludedFeatures().size()); // FIXME RUNTIME-2062
+        assertEquals(1, config.getExcludedFeatures().size());
         assertTrue(config.getExcludedFeatures().contains("test"));
         
         assertEquals(1, config.getExcludedWorkspaces().size());

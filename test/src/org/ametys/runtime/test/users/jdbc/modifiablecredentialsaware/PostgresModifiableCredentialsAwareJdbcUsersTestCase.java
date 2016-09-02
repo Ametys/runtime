@@ -22,11 +22,10 @@ import java.io.File;
  */
 public class PostgresModifiableCredentialsAwareJdbcUsersTestCase extends AbstractModifiableCredentialsAwareJdbcUsersTestCase
 {
-
     @Override
-    protected void setUp() throws Exception
+    protected String _getDataSourceFile()
     {
-        _resetDB("runtime6.xml", "config1.xml", "datasource-postgresql.xml");
+        return "test/environments/datasources/datasource-postgresql.xml";
     }
     
     @Override
@@ -37,13 +36,12 @@ public class PostgresModifiableCredentialsAwareJdbcUsersTestCase extends Abstrac
     }
     
     @Override
-    protected File[] getScripts()
+    protected File[] _getStartScripts()
     {
         return new File[] {
             new File("test/environments/scripts/jdbc-postgres/dropTables.sql"),
             new File("main/plugin-core/scripts/postgresql/jdbc_users.sql"),
-            new File("main/plugin-core/scripts/postgresql/jdbc_groups.sql"),
-            new File("main/plugin-core/scripts/postgresql/profile_rights.sql")
+            new File("main/plugin-core/scripts/postgresql/jdbc_groups.sql")
         };
     }
     

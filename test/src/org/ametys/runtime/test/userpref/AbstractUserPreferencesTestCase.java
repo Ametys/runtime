@@ -41,30 +41,17 @@ public abstract class AbstractUserPreferencesTestCase extends AbstractJDBCTestCa
     private UserPreferencesManager _userPrefs;
     
     /**
-     * Provide the scripts to run before each test invocation.
-     * @return the scripts to run.
-     */
-    protected abstract File[] getScripts();
-    
-    /**
      * Provide the scripts to run to populate the database.
      * @return the scripts to run.
      */
     protected abstract File[] getPopulateScripts();
     
-    /**
-     * Reset the db
-     * @param runtimeFilename The file name in runtimes env dir
-     * @param configFileName The file name in config env dir
-     * @param sqlDataSourceFileName the configuration file name for data sources
-     * @throws Exception if an error occurs
-     */
-    protected void _resetDB(String runtimeFilename, String configFileName, String sqlDataSourceFileName) throws Exception
+    @Override
+    protected void setUp() throws Exception
     {
-        _startApplication("test/environments/runtimes/" + runtimeFilename, "test/environments/configs/" + configFileName, "test/environments/datasources/" + sqlDataSourceFileName, null, "test/environments/webapp1");
+        super.setUp();
+        _startApplication("test/environments/runtimes/runtime4.xml", "test/environments/configs/config1.xml", null, "test/environments/webapp1");
         
-        _setDatabase(Arrays.asList(getScripts()));
-
         _userPrefsEP = (UserPreferencesExtensionPoint) Init.getPluginServiceManager().lookup(UserPreferencesExtensionPoint.ROLE);
         _userPrefs = (UserPreferencesManager) Init.getPluginServiceManager().lookup(UserPreferencesManager.ROLE);
     }

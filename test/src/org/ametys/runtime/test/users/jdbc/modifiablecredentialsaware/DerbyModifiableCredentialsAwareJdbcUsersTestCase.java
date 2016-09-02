@@ -22,11 +22,10 @@ import java.io.File;
  */
 public class DerbyModifiableCredentialsAwareJdbcUsersTestCase extends AbstractModifiableCredentialsAwareJdbcUsersTestCase
 {
-
     @Override
-    protected void setUp() throws Exception
+    protected String _getDataSourceFile()
     {
-        _resetDB("runtime6.xml", "config1.xml", "datasource-derby.xml");
+        return "test/environments/datasources/datasource-derby.xml";
     }
     
     @Override
@@ -37,13 +36,12 @@ public class DerbyModifiableCredentialsAwareJdbcUsersTestCase extends AbstractMo
     }
     
     @Override
-    protected File[] getScripts()
+    protected File[] _getStartScripts()
     {
         return new File[] {
             new File("test/environments/scripts/jdbc-derby/dropTables.sql"),
             new File("main/plugin-core/scripts/derby/jdbc_users.sql"),
-            new File("main/plugin-core/scripts/derby/jdbc_groups.sql"),
-            new File("main/plugin-core/scripts/derby/profile_rights.sql")
+            new File("main/plugin-core/scripts/derby/jdbc_groups.sql")
         };
     }
     

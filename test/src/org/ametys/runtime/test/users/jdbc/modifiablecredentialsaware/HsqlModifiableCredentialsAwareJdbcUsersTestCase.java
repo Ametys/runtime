@@ -22,11 +22,10 @@ import java.io.File;
  */
 public class HsqlModifiableCredentialsAwareJdbcUsersTestCase extends AbstractModifiableCredentialsAwareJdbcUsersTestCase
 {
-
     @Override
-    protected void setUp() throws Exception
+    protected String _getDataSourceFile()
     {
-        _resetDB("runtime6.xml", "config1.xml", "datasource-hsql.xml");
+        return "test/environments/datasources/datasource-hsql.xml";
     }
     
     @Override
@@ -37,13 +36,12 @@ public class HsqlModifiableCredentialsAwareJdbcUsersTestCase extends AbstractMod
     }
     
     @Override
-    protected File[] getScripts()
+    protected File[] _getStartScripts()
     {
         return new File[] {
             new File("test/environments/scripts/jdbc-hsqldb/dropTables.sql"),
             new File("main/plugin-core/scripts/hsqldb/jdbc_users.sql"),
-            new File("main/plugin-core/scripts/hsqldb/jdbc_groups.sql"),
-            new File("main/plugin-core/scripts/hsqldb/profile_rights.sql")
+            new File("main/plugin-core/scripts/hsqldb/jdbc_groups.sql")
         };
     }
     

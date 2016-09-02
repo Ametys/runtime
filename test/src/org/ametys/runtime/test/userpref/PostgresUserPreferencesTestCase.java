@@ -22,12 +22,10 @@ import java.io.File;
  */
 public class PostgresUserPreferencesTestCase extends AbstractUserPreferencesTestCase
 {
-    
     @Override
-    protected void setUp() throws Exception
+    protected String _getDataSourceFile()
     {
-        super.setUp();
-        _resetDB("runtime4.xml", "config1.xml", "datasource-postgresql.xml");
+        return "test/environments/datasources/datasource-postgresql.xml";
     }
     
     @Override
@@ -38,11 +36,10 @@ public class PostgresUserPreferencesTestCase extends AbstractUserPreferencesTest
     }
     
     @Override
-    protected File[] getScripts()
+    protected File[] _getStartScripts()
     {
         return new File[] {
-            new File("test/environments/scripts/jdbc-postgres/dropTables.sql"),
-            new File("main/plugin-core/scripts/postgresql/user_prefs.sql")
+            new File("test/environments/scripts/jdbc-postgres/dropTables.sql")
         };
     }
     
