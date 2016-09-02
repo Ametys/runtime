@@ -195,6 +195,24 @@
         </param>
         
         <!-- +
+             | MAIL - MASSIVE SENDING
+             + -->
+        <param id="runtime.mail.massive.sending" type="boolean">
+	        <!-- 
+	            When false, if allowed users with a right on a context are any connected user, no user is returned. This can be considered as a security to avoid massive mail sending by mistake.
+	            Otherwise, all users (normal behavior) are returned in this case.
+	         -->
+            <label i18n="true">PLUGINS_CORE_MAIL_CONFIG_ANYCONNECTED_USER_RETURN_ALL_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_MAIL_CONFIG_ANYCONNECTED_USER_RETURN_ALL_DESCRIPTION</description>
+            <validation>
+                <mandatory/>
+            </validation>
+            <default-value>false</default-value>
+            <category i18n="true">PLUGINS_CORE_MAIL_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_MAIL_CONFIG_ANYCONNECTED_USER_RETURN_ALL_GROUP</group>
+        </param>
+        
+        <!-- +
              | CAPTCHA
              + -->
              

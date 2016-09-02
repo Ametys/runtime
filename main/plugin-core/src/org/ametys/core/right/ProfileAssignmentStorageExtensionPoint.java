@@ -423,7 +423,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      */
     public AccessResult getPermissionForAnyConnectedUser (Set<String> profileIds, Object object)
     {
-        getLogger().debug("Try to determine permission for Anonymous on context {} and profiles {}", object, profileIds);
+        getLogger().debug("Try to determine permission for AnyConnectedUser on context {} and profiles {}", object, profileIds);
      
         AccessResult result = AccessResult.UNKNOWN;
         
@@ -433,11 +433,11 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
             Set<String> deniedProfiles = getDeniedProfilesForAnyConnectedUser(object);
             if (deniedProfiles.contains(profileId))
             {
-                return AccessResult.ANONYMOUS_DENIED;
+                return AccessResult.ANY_CONNECTED_DENIED;
             }
             else if (allowedProfiles.contains(profileId))
             {
-                result = AccessResult.ANONYMOUS_ALLOWED;
+                result = AccessResult.ANY_CONNECTED_ALLOWED;
             }
         }
         
@@ -473,7 +473,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
             }
         }
         
-        getLogger().debug("The permissions by users on context {} and profiles {} are: ", object, profileIds, result);
+        getLogger().debug("The permissions by users on context {} and profiles {} are: {}", object, profileIds, result);
         return result;
     }
     

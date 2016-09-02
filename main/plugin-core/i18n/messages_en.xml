@@ -40,6 +40,10 @@
 	<message key="PLUGINS_CORE_MAIL_CONFIG_FROM_ADDRESS_DESCRIPTION">E-mail address used by default as the sender of the e-mails. &lt;br/&gt;The &lt;b&gt;Ametys.org &amp;lt;admin@ametys.org&amp;gt;&lt;/b&gt; form can be used.</message>
 	<message key="PLUGINS_CORE_MAIL_CONFIG_SYSADMINTO_ADDRESS">System administrator email</message>
 	<message key="PLUGINS_CORE_MAIL_CONFIG_SYSADMINTO_ADDRESS_DESCRIPTION">E-mail address of the system administrator for alert purposes.</message>
+	
+    <message key="PLUGINS_CORE_MAIL_CONFIG_ANYCONNECTED_USER_RETURN_ALL_GROUP">Massive sending</message>
+    <message key="PLUGINS_CORE_MAIL_CONFIG_ANYCONNECTED_USER_RETURN_ALL_LABEL">Send to all</message>
+    <message key="PLUGINS_CORE_MAIL_CONFIG_ANYCONNECTED_USER_RETURN_ALL_DESCRIPTION">When this case is unchecked, if allowed users by a right on a context are any connected user, no one is returned. This is a security to avoid massive mail sending by mistake.&lt;br/&gt; Check this case for going back to a normal behavior et return all users in this specific case.</message>
     
     <!-- Applications -->
 	<message key="PLUGINS_CORE_APPLICATIONS_CONFIG_CATEGORY">Applications</message>

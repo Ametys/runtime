@@ -88,7 +88,7 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
      */
     public void testEmpty() throws Exception
     {
-        Set<UserIdentity> users = _rightManager.getAllowedUsers("Runtime_Rights_User_Handle", "foo");
+        Set<UserIdentity> users = _rightManager.getAllowedUsers("Runtime_Rights_User_Handle", "foo").actualAllowedUsers(true);
         assertEquals(0, users.size());
         
         assertTrue(_rightManager.getUserRights(new UserIdentity("foo", "population"), "/foo").isEmpty());
@@ -112,12 +112,12 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
         
         _createGroupDirectory();
 
-        users = _rightManager.getAllowedUsers("right1", "/test");
+        users = _rightManager.getAllowedUsers("right1", "/test").actualAllowedUsers(true);
         assertEquals(1, users.size());
         assertTrue(users.contains(test));
-        users = _rightManager.getAllowedUsers("right1", "/test2");
+        users = _rightManager.getAllowedUsers("right1", "/test2").actualAllowedUsers(true);
         assertEquals(0, users.size());
-        users = _rightManager.getAllowedUsers("right3", "/test");
+        users = _rightManager.getAllowedUsers("right3", "/test").actualAllowedUsers(true);
         assertEquals(0, users.size());
         
         Set<String> rights;

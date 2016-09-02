@@ -40,6 +40,10 @@
 	<message key="PLUGINS_CORE_MAIL_CONFIG_FROM_ADDRESS_DESCRIPTION">Adresse e-mail utilisée par défaut comme expéditeur des mails.&lt;br/&gt;La forme &lt;b&gt;Ametys.org &amp;lt;admin@ametys.org&amp;gt;&lt;/b&gt; peut être utilisée.</message>
 	<message key="PLUGINS_CORE_MAIL_CONFIG_SYSADMINTO_ADDRESS">Email de l'administrateur système</message>
 	<message key="PLUGINS_CORE_MAIL_CONFIG_SYSADMINTO_ADDRESS_DESCRIPTION">Adresse email de l'adminitrateur système afin de recevoir des alertes par mail.</message>
+	
+	<message key="PLUGINS_CORE_MAIL_CONFIG_ANYCONNECTED_USER_RETURN_ALL_GROUP">Envoi massif</message>
+    <message key="PLUGINS_CORE_MAIL_CONFIG_ANYCONNECTED_USER_RETURN_ALL_LABEL">Envoyer à tous</message>
+    <message key="PLUGINS_CORE_MAIL_CONFIG_ANYCONNECTED_USER_RETURN_ALL_DESCRIPTION">Lorsque cette case est décochée, si les utilisateurs autorisés par un droit sur un contexte sont tous les utilisateurs, aucun n'est renvoyé. Ceci est une sécurité afin d'éviter un envoi massif de mail par erreur.&lt;br/&gt; Cochez cette case pour avoir un comportement normal et retourner tous les utilisateurs dans ce cas spécifique.</message>
     
     <!-- Applications -->
     <message key="PLUGINS_CORE_APPLICATIONS_CONFIG_CATEGORY">Applications</message>
