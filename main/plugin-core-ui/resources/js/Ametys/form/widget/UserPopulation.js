@@ -84,20 +84,17 @@ Ext.define('Ametys.form.widget.UserPopulation', {
     {
         var items = this.callParent(arguments);
         
-        if (!this.readOnly)
+        if (!this.readOnly && (this.allowCreation == true || this.allowCreation == 'true'))
         {
             // Button that opens the create dialog box. 
-            if (this.allowCreation == true || this.allowCreation == 'true')
-            {
-                var createButton = Ext.create('Ext.button.Button', {
-                    text: this.createButtonText,
-                    icon: this.createButtonIcon,
-                    tooltip: this.createButtonTooltip,
-                    handler: this._createUserPopulation,
-                    scope: this
-                });
-                items.push(createButton);
-            }
+            var createButton = Ext.create('Ext.button.Button', {
+                text: this.createButtonText,
+                icon: this.createButtonIcon,
+                tooltip: this.createButtonTooltip,
+                handler: this._createUserPopulation,
+                scope: this
+            });
+            items.push(createButton);
         }
         
         return items;

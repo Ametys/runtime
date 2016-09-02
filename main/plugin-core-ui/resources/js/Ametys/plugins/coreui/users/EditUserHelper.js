@@ -44,13 +44,13 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
 	
 	/**
 	 * Open dialog box to create a new user
-	 * @param {String[]} contexts The contexts for the populations to display in the combobox.
+	 * @param {String[]} populationContexts The contexts for the populations to display in the combobox.
 	 * @param {String} [userMessageTargetType=user] the type of user message target
 	 * @param {String} userToolRole The role of users tool
 	 * @param {Function} [callback] the callback function. Parameters are:
 	 * @param {Object} callback.user The user's properties
 	 */
-	add: function (contexts, userMessageTargetType, userToolRole, callback)
+	add: function (populationContexts, userMessageTargetType, userToolRole, callback)
 	{
 		this._mode = 'new';
 		this._userMessageTargetType = userMessageTargetType;
@@ -99,18 +99,17 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
 					                proxy: {
 					                    type: 'ametys',
 					                    plugin: 'core-ui',
-					                    url: 'modifiable-populations.json',
+					                    url: 'populations.json',
+                                        extraParams: {
+                                            contexts: populationContexts,
+                                            modifiable: true
+                                        },
 					                    reader: {
 					                        type: 'json',
 					                        rootProperty: 'userPopulations'
 					                    }
 					                },
 					                listeners: {
-					                    'beforeload': Ext.bind(function(store, operation) {
-		                                    operation.setParams( Ext.apply(operation.getParams() || {}, {
-									            contexts: contexts
-									        }));
-		                                }, this),
                                         'load': Ext.bind(function(store, records) {
                                             if (records.length == 0)
                                             {
@@ -132,10 +131,13 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
 					                    var data = [];
 					                    var record = combo.getStore().getById(newValue);
 					                    Ext.Array.forEach(record.get('userDirectories'), function(userDirectory, index) {
-					                        data.push({
-					                            index: userDirectory.index,
-					                            label: userDirectory.label
-					                        });
+                                            if (userDirectory.modifiable)
+                                            {
+    					                        data.push({
+    					                            index: userDirectory.index,
+    					                            label: userDirectory.label
+    					                        });
+                                            }
 					                    }, this);
 					                     this._chooseUserDirectoryDialog.down('#userDirectories').getStore().loadData(data, false);
 					                }, this)

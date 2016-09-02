@@ -71,7 +71,7 @@ Ext.define('Ametys.plugins.coreui.populations.PopulationTool', {
             columns: [
                  {stateId: 'grid-title', header: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_TOOL_COLUMN_TITLE}}", flex: 1, sortable: true, dataIndex: 'label', renderer: this._renderLabel},
                  {stateId: 'grid-id', header: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_TOOL_COLUMN_ID}}", width: 200, dataIndex: 'id'},
-                 {stateId: 'grid-user-directories', header: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_TOOL_COLUMN_USER_DIRECTORIES}}", width: 350, dataIndex: 'userDirectories', renderer: this._renderArray},
+                 {stateId: 'grid-user-directories', header: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_TOOL_COLUMN_USER_DIRECTORIES}}", width: 350, dataIndex: 'userDirectories', renderer: this._renderUserDirectories},
                  {stateId: 'grid-credential-providers', header: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_TOOL_COLUMN_CREDENTIAL_PROVIDERS}}", width: 350, dataIndex: 'credentialProviders', renderer: this._renderArray},
                  {stateId: 'grid-is-in-use', header: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_TOOL_COLUMN_IS_IN_USE}}", width: 80, dataIndex: 'isInUse', align: 'center', renderer: this._renderBoolean}
             ],
@@ -189,6 +189,26 @@ Ext.define('Ametys.plugins.coreui.populations.PopulationTool', {
 	            result += ", ";
             }
             result += item;
+        }, this);
+        
+        return result;
+    },
+    
+    /**
+     * Renders an array of usersdirectory
+     * @param {Array} value The data value for the current cell.
+     * @return {String} The html representation
+     * @private
+     */
+    _renderUserDirectories: function(value)
+    {
+        var result = "";
+        Ext.Array.forEach(value, function(item, index) {
+            if (index > 0)
+            {
+                result += ", ";
+            }
+            result += item.label;
         }, this);
         
         return result;

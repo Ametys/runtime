@@ -489,8 +489,8 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
         var record = combo.getStore().getById(newValue);
         Ext.Array.forEach(record.get('userDirectories'), function(item, index) {
             data.push({
-                index: index,
-                label: item
+                index: item.index,
+                label: item.label
             });
         }, this);
         this._userDirectoriesField.getStore().loadData(data, false);

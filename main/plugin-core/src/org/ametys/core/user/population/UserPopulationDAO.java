@@ -61,6 +61,7 @@ import org.ametys.core.authentication.CredentialProviderFactory;
 import org.ametys.core.authentication.CredentialProviderModel;
 import org.ametys.core.datasource.SQLDataSourceManager;
 import org.ametys.core.ui.Callable;
+import org.ametys.core.user.directory.ModifiableUserDirectory;
 import org.ametys.core.user.directory.UserDirectory;
 import org.ametys.core.user.directory.UserDirectoryFactory;
 import org.ametys.core.user.directory.UserDirectoryModel;
@@ -155,12 +156,18 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         result.put("valid", isValid(userPopulation.getId()));
         result.put("isInUse", _populationConsumerEP.isInUse(userPopulation.getId()));
         
-        List<I18nizableText> userDirectories = new ArrayList<>();
+        List<Object> userDirectories = new ArrayList<>();
+        int directoryIndex = 0;
         for (UserDirectory ud : userPopulation.getUserDirectories())
         {
             String udModelId = ud.getUserDirectoryModelId();
             UserDirectoryModel udModel = _userDirectoryFactory.getExtension(udModelId);
-            userDirectories.add(udModel.getLabel());
+            
+            Map<String, Object> directory = new HashMap<>();
+            directory.put("index", directoryIndex++);
+            directory.put("label", udModel.getLabel());
+            directory.put("modifiable", ud instanceof ModifiableUserDirectory);
+            userDirectories.add(directory);
         }
         result.put("userDirectories", userDirectories);
         

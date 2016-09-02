@@ -33,6 +33,7 @@ import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
 
 import org.ametys.core.cocoon.JSonReader;
+import org.ametys.core.user.directory.ModifiableUserDirectory;
 import org.ametys.core.user.population.PopulationContextHelper;
 import org.ametys.core.user.population.UserPopulation;
 import org.ametys.core.user.population.UserPopulationDAO;
@@ -58,7 +59,7 @@ public class GetUserPopulationsAction extends ServiceableAction
     @Override
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
-        List<Object> populations;
+        List<UserPopulation> populations;
         
         @SuppressWarnings("unchecked")
         Map jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
@@ -66,15 +67,18 @@ public class GetUserPopulationsAction extends ServiceableAction
         @SuppressWarnings("unchecked")
         List<String> contexts = (List<String>) jsParameters.get("contexts");
         
+        
+        // GET POPULATIONS
         Boolean showDisabled = (Boolean) jsParameters.get("showDisabled");
-        if (contexts == null && showDisabled != null && showDisabled)
+        
+        if (contexts == null && showDisabled == Boolean.TRUE)
         {
             Boolean withAdmin = Boolean.FALSE;
             if (jsParameters.get("withAdmin") != null)
             {
                 withAdmin = (Boolean) jsParameters.get("withAdmin");
             }
-            populations = _userPopulationDAO.getUserPopulationsAsJson(withAdmin);
+            populations = _userPopulationDAO.getUserPopulations(withAdmin);
         }
         else if (contexts == null)
         {
@@ -83,7 +87,7 @@ public class GetUserPopulationsAction extends ServiceableAction
             {
                 withAdmin = (Boolean) jsParameters.get("withAdmin");
             }
-            populations = _userPopulationDAO.getEnabledUserPopulations(withAdmin).stream().map(_userPopulationDAO::getUserPopulationAsJson).collect(Collectors.toList());
+            populations = _userPopulationDAO.getEnabledUserPopulations(withAdmin);
         }
         else
         {
@@ -92,13 +96,21 @@ public class GetUserPopulationsAction extends ServiceableAction
             Set<String> populationIds = _populationContextHelper.getUserPopulationsOnContexts(new HashSet<>(contexts));
             for (String populationId : populationIds)
             {
-                UserPopulation up = _userPopulationDAO.getUserPopulation(populationId);
-                populations.add(_userPopulationDAO.getUserPopulationAsJson(up));
+                populations.add(_userPopulationDAO.getUserPopulation(populationId));
             }
         }
         
+        // FILTER MODIFIABLE ONLY
+        Boolean modifiable = (Boolean) jsParameters.get("modifiable");
+        if (modifiable == Boolean.TRUE)
+        {
+            populations = populations.stream().filter(up -> containsModifiableUserDirectory(up)).collect(Collectors.toList());
+        }
+        
+        // CONVERT TO JSON
         Map<String, Object> result = new HashMap<>();
-        result.put("userPopulations", populations);
+        List<Object> populationsAsJson = populations.stream().map(_userPopulationDAO::getUserPopulationAsJson).collect(Collectors.toList());
+        result.put("userPopulations", populationsAsJson);
         
         Request request = ObjectModelHelper.getRequest(objectModel);
         request.setAttribute(JSonReader.OBJECT_TO_READ, result);
@@ -106,4 +118,8 @@ public class GetUserPopulationsAction extends ServiceableAction
         return EMPTY_MAP;
     }
 
+    private boolean containsModifiableUserDirectory(UserPopulation up)
+    {
+        return up.getUserDirectories().stream().anyMatch(ud -> ud instanceof ModifiableUserDirectory);
+    }
 }
