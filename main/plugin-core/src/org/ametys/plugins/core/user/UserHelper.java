@@ -257,9 +257,26 @@ public class UserHelper implements Component, Serviceable, Contextualizable
      */
     public void saxUser(User user, ContentHandler handler) throws SAXException
     {
+        saxUser(user, handler, null);
+    }
+
+    
+    /**
+     * SAX an user
+     * @param user The user
+     * @param handler The content handler
+     * @param saxLogoutable When not null add an attribute "logoutable" on root node to specify if the use can logout. Usefull only when saxing current user.
+     * @throws SAXException If a SAX error occurs
+     */
+    public void saxUser(User user, ContentHandler handler, Boolean saxLogoutable) throws SAXException
+    {
         AttributesImpl attr = new AttributesImpl();
         attr.addCDATAAttribute("login", user.getIdentity().getLogin());
         attr.addCDATAAttribute("population", user.getIdentity().getPopulationId());
+        if (saxLogoutable != null)
+        {
+            attr.addCDATAAttribute("logoutable", saxLogoutable.toString());
+        }
         
         XMLUtils.startElement(handler, "user", attr);
         

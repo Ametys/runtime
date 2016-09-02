@@ -422,13 +422,8 @@ public class AmetysXSLTHelper implements Contextualizable, Serviceable
             User user = _userManager.getUser(userIdentity.getPopulationId(), userIdentity.getLogin());
             if (user != null)
             {
-                _userHelper.saxUser(user, domBuilder);
+                _userHelper.saxUser(user, domBuilder, _currentUserProvider.canLogout());
             }
-        }
-        
-        if (_currentUserProvider.canLogout())
-        {
-            domBuilder.getDocument().getDocumentElement().setAttribute("logoutable", "true");
         }
         
         return domBuilder.getDocument();
