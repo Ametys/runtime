@@ -48,7 +48,7 @@ public class GroupIdentity
      * @param groupIdentity The group identity
      * @return The string representation of the group identity.
      */
-    public static String toString(GroupIdentity groupIdentity)
+    public static String groupIdentityToString(GroupIdentity groupIdentity)
     {
         return groupIdentity.getId() + __SEPARATOR + groupIdentity.getDirectoryId();
     }
@@ -58,7 +58,7 @@ public class GroupIdentity
      * @param string The string representation of the group identity
      * @return The group identity from its string representation
      */
-    public static GroupIdentity fromString(String string)
+    public static GroupIdentity stringToGroupIdentity(String string)
     {
         String[] fields = StringUtils.split(string, __SEPARATOR);
         String id = fields[0];
