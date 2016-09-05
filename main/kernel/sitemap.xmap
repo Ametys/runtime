@@ -228,7 +228,6 @@
 					</map:when>
                     <map:when test="service-unavailable">
                         <map:act type="exception" src="503">
-                            <map:act type="set-authorization-header"/>
                             <map:generate type="exception" label="content"/>
                             <map:transform src="{xsl}">
                                 <map:parameter name="realPath" value="{realpath:}"/>
