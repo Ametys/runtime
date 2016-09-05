@@ -66,7 +66,10 @@ public class LogoutAction extends ServiceableAction
             _currentUserProvider.logout(redirector);
         }
         
-        redirector.globalRedirect(true, StringUtils.defaultIfEmpty(request.getContextPath(), "/"));
+        if (!redirector.hasRedirected())
+        {
+            redirector.globalRedirect(true, StringUtils.defaultIfEmpty(request.getContextPath(), "/"));
+        }
         
         return EMPTY_MAP;
     }
