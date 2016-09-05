@@ -20,7 +20,7 @@ import java.io.File;
 /**
  * Hsql-specific contributor access controller test case.
  */
-public class HsqlAccessControllerTestCase extends AbstractContributorAccessControllerTestCase
+public class HsqlAccessControllerTestCase extends AbstractStringBasedAccessControllerTestCase
 {
     @Override
     protected String _getDataSourceFile()

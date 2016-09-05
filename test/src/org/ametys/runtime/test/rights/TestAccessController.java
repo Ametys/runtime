@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.ametys.plugins.core.impl.right;
+package org.ametys.runtime.test.rights;
 
 import java.util.Map;
 import java.util.Set;
@@ -29,12 +29,10 @@ import org.ametys.core.right.ProfileAssignmentStorageExtensionPoint;
 import org.ametys.core.user.UserIdentity;
 
 /**
- * {@link AccessController} for a context objects (strings starting with "/contributor").
+ * {@link AccessController} for handling all string objects for test purposes
  */
-public class ContributorAccessController implements AccessController, Component, Serviceable
+public class TestAccessController implements AccessController, Component, Serviceable
 {
-    private static final String __PREFIX_CONTEXT = "/contributor";
-    
     /** The extension point for the profile assignment storage */
     protected ProfileAssignmentStorageExtensionPoint _profileAssignmentStorageEP;
     
@@ -83,6 +81,6 @@ public class ContributorAccessController implements AccessController, Component,
     @Override
     public boolean isSupported(Object object)
     {
-        return object instanceof String && ((String) object).startsWith(__PREFIX_CONTEXT);
+        return object instanceof String;
     }
 }

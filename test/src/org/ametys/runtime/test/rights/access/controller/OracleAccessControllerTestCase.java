@@ -20,7 +20,7 @@ import java.io.File;
 /**
  * Oracle-specific contributor access controller test case.
  */
-public class OracleAccessControllerTestCase extends AbstractContributorAccessControllerTestCase
+public class OracleAccessControllerTestCase extends AbstractStringBasedAccessControllerTestCase
 {
     @Override
     protected String _getDataSourceFile()

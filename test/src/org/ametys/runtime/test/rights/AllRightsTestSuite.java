@@ -18,7 +18,7 @@ package org.ametys.runtime.test.rights;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.ametys.runtime.test.rights.access.controller.AllContributorAccessControllerTestSuite;
+import org.ametys.runtime.test.rights.access.controller.AllStringBasedAccessControllerTestSuite;
 import org.ametys.runtime.test.rights.manager.AllRightManagerTestSuite;
 import org.ametys.runtime.test.rights.storage.assignments.jdbc.AllJdbcProfileAssignmentStorageTestSuite;
 
@@ -42,7 +42,7 @@ public final class AllRightsTestSuite extends TestSuite
         
         //$JUnit-BEGIN$
         suite.addTest(AllJdbcProfileAssignmentStorageTestSuite.suite());
-        suite.addTest(AllContributorAccessControllerTestSuite.suite());
+        suite.addTest(AllStringBasedAccessControllerTestSuite.suite());
         suite.addTest(AllRightManagerTestSuite.suite());
         //$JUnit-END$
         

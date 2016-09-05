@@ -1328,34 +1328,4 @@
             </extension>
         </extensions>
     </feature>
-    
-    <!-- +
-         |  CONTRIBUTOR ACCESS CONTROLLER
-         + -->
-    <feature name="runtime.rights.access.controller.impl.contributor">
-        <extensions>
-            <extension id="org.ametys.plugins.core.impl.right.ContributorAccessController"
-                       class="org.ametys.plugins.core.impl.right.ContributorAccessController"
-                       point="org.ametys.core.right.AccessControllerExtensionPoint"/>
-        </extensions>
-    </feature>
-    
-    <feature name="right.assignment.context.contributor">
-        <extensions>
-            <extension id="org.ametys.plugins.core.impl.right.ContributorRightAssignmentContext"
-                       point="org.ametys.core.right.RightAssignmentContextExtensionPoint"
-                       class="org.ametys.plugins.core.impl.right.StringRightAssignmentContext">
-                <workspace>!^admin$</workspace>
-                <class name="Ametys.plugins.coreui.profiles.StringRightAssignmentContext">
-	                <label i18n="true">PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_CONTRIBUTOR_LABEL</label>
-	                <description i18n="true">PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_CONTRIBUTOR_MESSAGE</description>
-	                <hint i18n="true">PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_CONTRIBUTOR_HINT</hint>
-	                <context>/contributor</context>
-                </class>
-                <scripts>
-                    <file plugin="core-ui">js/Ametys/plugins/coreui/profiles/StringRightAssignmentContext.js</file>
-                </scripts>
-            </extension>
-        </extensions>
-    </feature>
 </plugin>

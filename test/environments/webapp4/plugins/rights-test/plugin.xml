@@ -45,8 +45,8 @@
     
     <feature name="rights.access.controller.test.string">
         <extensions>
-            <extension id="org.ametys.runtime.test.rights.manager.TestAccessController"
-                       class="org.ametys.runtime.test.rights.manager.TestAccessController"
+            <extension id="org.ametys.runtime.test.rights.TestAccessController"
+                       class="org.ametys.runtime.test.rights.TestAccessController"
                        point="org.ametys.core.right.AccessControllerExtensionPoint"/>
         </extensions>
     </feature>

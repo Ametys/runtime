@@ -21,9 +21,9 @@ import junit.framework.TestSuite;
 /**
  * Test suite for JDBC profile assignment storage tests.
  */
-public final class AllContributorAccessControllerTestSuite extends TestSuite
+public final class AllStringBasedAccessControllerTestSuite extends TestSuite
 {
-    private AllContributorAccessControllerTestSuite()
+    private AllStringBasedAccessControllerTestSuite()
     {
         // empty constructor
     }

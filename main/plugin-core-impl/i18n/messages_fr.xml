@@ -231,9 +231,4 @@
     <message key="PLUGINS_CORE_SCHEDULER_EXECUTE_SCRIPT_CODE_LABEL">Script</message>
     <message key="PLUGINS_CORE_SCHEDULER_EXECUTE_SCRIPT_CODE_DESCRIPTION">Script à exécuter. Vous avez accès aux mêmes variables et fonctions que celles disponibles dans l'outil des scripts</message>
     
-    <!-- CONTRIBUTOR RIGHT ASSIGNMENT CONTEXT -->
-    <message key="PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_CONTRIBUTOR_LABEL">Général</message>
-    <message key="PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_CONTRIBUTOR_MESSAGE">Affectation des profils sur le contexte applicatif</message>
-    <message key="PLUGINS_CORE_RIGHT_ASSIGNMENT_CONTEXT_CONTRIBUTOR_HINT">le contexte applicatif</message>
-    
 </catalogue>

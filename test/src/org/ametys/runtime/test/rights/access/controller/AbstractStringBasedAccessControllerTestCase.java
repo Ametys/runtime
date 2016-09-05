@@ -15,17 +15,18 @@
  */
 package org.ametys.runtime.test.rights.access.controller;
 
-import org.ametys.plugins.core.impl.right.ContributorAccessController;
+import org.ametys.core.right.AccessController;
+import org.ametys.runtime.test.rights.TestAccessController;
 
 /**
- * Common test class for testing the {@link ContributorAccessController}
+ * Common test class for testing a string based {@link AccessController}
  */
-public abstract class AbstractContributorAccessControllerTestCase extends AbstractAccessControllerTestCase
+public abstract class AbstractStringBasedAccessControllerTestCase extends AbstractAccessControllerTestCase
 {
     @Override
     protected String _getExtensionId()
     {
-        return ContributorAccessController.class.getName();
+        return TestAccessController.class.getName();
     }
 
     @Override
@@ -37,7 +38,7 @@ public abstract class AbstractContributorAccessControllerTestCase extends Abstra
     @Override
     protected Object _getTest2()
     {
-        return "/test-not-supported";
+        return "/test2";
     }
     
     @Override

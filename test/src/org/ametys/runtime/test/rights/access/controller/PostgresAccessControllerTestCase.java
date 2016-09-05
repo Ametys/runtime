@@ -20,7 +20,7 @@ import java.io.File;
 /**
  * Postgres-specific contributor access controller test case.
  */
-public class PostgresAccessControllerTestCase extends AbstractContributorAccessControllerTestCase
+public class PostgresAccessControllerTestCase extends AbstractStringBasedAccessControllerTestCase
 {
     @Override
     protected String _getDataSourceFile()

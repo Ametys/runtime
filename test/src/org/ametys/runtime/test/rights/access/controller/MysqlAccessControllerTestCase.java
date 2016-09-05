@@ -20,7 +20,7 @@ import java.io.File;
 /**
  * Mysql-specific contributor access controller test case.
  */
-public class MysqlAccessControllerTestCase extends AbstractContributorAccessControllerTestCase
+public class MysqlAccessControllerTestCase extends AbstractStringBasedAccessControllerTestCase
 {
     @Override
     protected String _getDataSourceFile()

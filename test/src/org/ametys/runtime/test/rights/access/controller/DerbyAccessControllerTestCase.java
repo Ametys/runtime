@@ -20,7 +20,7 @@ import java.io.File;
 /**
  * Derby-specific contributor access controller test case.
  */
-public class DerbyAccessControllerTestCase extends AbstractContributorAccessControllerTestCase
+public class DerbyAccessControllerTestCase extends AbstractStringBasedAccessControllerTestCase
 {
     @Override
     protected String _getDataSourceFile()
