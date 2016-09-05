@@ -41,6 +41,10 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
      * @property {Ametys.window.DialogBox} _box The dialog box for creating/editing a user.
      * @private
      */
+    /**
+     * @private
+     * @property {Ametys.form.field.SelectUserDirectory} _directoryField The main field
+     */
 	
 	/**
 	 * Open dialog box to create a new user
@@ -58,6 +62,57 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
         
         if (!this._chooseUserDirectoryInitialized)
         {
+            this._directoryField = Ext.create("Ametys.form.field.SelectUserDirectory", { 
+                itemId: 'userDirectories',
+                labelWidth: 150,
+                allowBlank: false,
+                
+                onlyModifiable: true,
+                showLabels: true,
+                layout: {
+                    type: 'vbox',
+                    align : 'stretch',
+                    pack  : 'start'                    
+                }
+            });
+            this._directoryField.getStore().on('load', function(store, records) {
+                if (records.length == 0)
+                {
+                    this._chooseUserDirectoryDialog.close();
+                    Ext.Msg.show({
+                        title: "{{i18n PLUGINS_CORE_UI_USERS_DIALOG_NO_MODIFIABLE_POPULATION_WARNING_TITLE}}",
+                        msg: "{{i18n PLUGINS_CORE_UI_USERS_DIALOG_NO_MODIFIABLE_POPULATION_WARNING_MSG}}",
+                        buttons: Ext.Msg.OK,
+                        icon: Ext.MessageBox.INFO
+                    });
+                }
+                else
+                {
+                    this._directoryField._userPopulations.select(records[0].get('id'));
+                    
+                    // If UserTool opened, try to select the same values in the comboboxes
+                    if (userToolRole)
+                    {
+                        var tool = Ametys.tool.ToolsManager.getTool(userToolRole);
+                        if (tool != null)
+                        {
+                            var value = tool.getPopulationComboValue();
+                            if (value && value != '#all')
+                            {
+                                this._directoryField.setValue(value); // First set the first combobox to update the second one
+                                
+                                var userDirectoryIndex = tool.getUserDirectoryComboValue();
+                                if (this._directoryField._userDirectories.getStore().findExact('index', userDirectoryIndex) >= 0) // test if the value selected in the tool is present in the dialog box
+                                {
+                                    value += "#" + userDirectoryIndex;
+                                    this._directoryField.setValue(value);
+                                }
+                            }
+                        }
+                    }
+                }
+            }, this);
+            
 		    this._chooseUserDirectoryDialog = Ext.create('Ametys.window.DialogBox', {
 		        title: "{{i18n PLUGINS_CORE_UI_USERS_DIALOG_ADD_TITLE}}",
 		        icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/users/add_16.png',
@@ -69,98 +124,14 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
 		        },
 		        width: 450,
                 
-		        defaultFocus: 'userPopulations',
+		        defaultFocus: 'userDirectories',
 		        items: [
 		            {
 		                xtype: 'component',
                         html: "{{i18n PLUGINS_CORE_UI_USERS_DIALOG_CHOOSE_USER_DIRECTORY_HINT}}",
                         height: 25
 		            },
-		            {
-		                xtype: 'form',
-                        itemId: 'form',
-		                defaults: {
-		                    xtype: 'combobox',
-		                    cls: 'ametys',
-				            labelWidth: 150,
-		                    displayField: 'label',
-				            queryMode: 'local',
-				            forceSelection: true,
-				            triggerAction: 'all',
-                            allowBlank: false
-		                },
-		                items: [
-			                {
-			                    fieldLabel: "{{i18n PLUGINS_CORE_UI_TOOL_USERS_POPULATION_FIELD}}",
-					            name: "userPopulations",
-					            itemId: "userPopulations",
-		                        store: {
-					                fields: ['id', 'label'],
-					                proxy: {
-					                    type: 'ametys',
-					                    plugin: 'core-ui',
-					                    url: 'populations.json',
-                                        extraParams: {
-                                            contexts: populationContexts,
-                                            modifiable: true
-                                        },
-					                    reader: {
-					                        type: 'json',
-					                        rootProperty: 'userPopulations'
-					                    }
-					                },
-					                listeners: {
-                                        'load': Ext.bind(function(store, records) {
-                                            if (records.length == 0)
-                                            {
-                                                this._chooseUserDirectoryDialog.close();
-                                                Ext.Msg.show({
-									                title: "{{i18n PLUGINS_CORE_UI_USERS_DIALOG_NO_MODIFIABLE_POPULATION_WARNING_TITLE}}",
-									                msg: "{{i18n PLUGINS_CORE_UI_USERS_DIALOG_NO_MODIFIABLE_POPULATION_WARNING_MSG}}",
-									                buttons: Ext.Msg.OK,
-									                icon: Ext.MessageBox.INFO
-									            });
-                                            }
-                                        }, this)
-					                }
-					            },
-		                        valueField: 'id',
-		                        
-		                        listeners: {
-					                'change': Ext.bind(function(combo, newValue, oldValue) {
-					                    var data = [];
-					                    var record = combo.getStore().getById(newValue);
-					                    Ext.Array.forEach(record.get('userDirectories'), function(userDirectory, index) {
-                                            if (userDirectory.modifiable)
-                                            {
-    					                        data.push({
-    					                            index: userDirectory.index,
-    					                            label: userDirectory.label
-    					                        });
-                                            }
-					                    }, this);
-					                     this._chooseUserDirectoryDialog.down('#userDirectories').getStore().loadData(data, false);
-					                }, this)
-					            }
-			                },
-			                {
-			                    fieldLabel: "{{i18n PLUGINS_CORE_UI_TOOL_USERS_USER_DIRECTORY_FIELD}}",
-					            name: "userDirectories",
-					            itemId: "userDirectories",
-		                        store: {
-					                fields: ['index', 'label'],
-					                data: [],
-					                listeners: {
-					                    'datachanged': Ext.bind(function(store) {
-					                        this._chooseUserDirectoryDialog.down('#userDirectories').clearValue();
-					                        this._chooseUserDirectoryDialog.down('#userDirectories').setValue(store.getRange()[0]);
-					                    }, this)
-					                }
-					            },
-		                        valueField: 'index'
-			                }
-		                ]
-		            }
+                    this._directoryField
 		        ],
 		        
 		        closeAction: 'hide',
@@ -176,8 +147,8 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
                         {
                             return;
                         }
-		                var populationId = this._chooseUserDirectoryDialog.down('#userPopulations').getValue();
-		                var udIndex = this._chooseUserDirectoryDialog.down('#userDirectories').getValue();
+		                var populationId = this._chooseUserDirectoryDialog.down('#userPopulations').getValue(); // FIXME
+		                var udIndex = this._chooseUserDirectoryDialog.down('#userDirectories').getValue(); // FIXME
 		                this._open(populationId, udIndex, null);
                         this._chooseUserDirectoryDialog.close();
 		            },this)
@@ -189,39 +160,10 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
             
             this._chooseUserDirectoryInitialized = true;
         }
+
+        this._directoryField.getStore().load();
         
         this._chooseUserDirectoryDialog.show();
-        this._chooseUserDirectoryDialog.down('#userPopulations').getStore().load({
-            scope: this,
-            callback: function(records) {
-                var selectSuccess = false;
-                // If UserTool opened, try to select the same values in the comboboxes
-                if (userToolRole)
-		        {
-		            var tool = Ametys.tool.ToolsManager.getTool(userToolRole);
-		            if (tool != null)
-		            {
-		                var populationId = tool.getPopulationComboValue();
-                        if (this._chooseUserDirectoryDialog.down('#userPopulations').getStore().getById(populationId) != null)
-                        {
-                            this._chooseUserDirectoryDialog.down('#userPopulations').select(populationId);
-                            
-	                        var userDirectoryIndex = tool.getUserDirectoryComboValue();
-                            if (this._chooseUserDirectoryDialog.down('#userDirectories').getStore().findExact('index', userDirectoryIndex) >= 0) // test if the value selected in the tool is present in the dialog box
-                            {
-		                        this._chooseUserDirectoryDialog.down('#userDirectories').setValue(userDirectoryIndex);
-                            }
-                            selectSuccess = true;
-                        }
-		            }
-		        }
-                // Otherwise, select the first data
-                if (records.length > 0 && !selectSuccess)
-                {
-                    this._chooseUserDirectoryDialog.down('#userPopulations').select(records[0].get('id'));
-                }
-            }
-        });
 	},
 	
 	/**

@@ -176,6 +176,7 @@
         <script>/plugins/core-ui/resources/js/Ametys/form/field/RichText/SplitterTracker.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/form/field/TextArea.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/form/field/ColorSelector.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/form/field/SelectUserDirectory.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/form/field/SelectGroupDirectories.js</script>
         <script debug="true">/plugins/tiny_mce/resources/js/tinymce.js</script>
         <script debug="false">/plugins/tiny_mce/resources/js/tinymce.min.js</script>
