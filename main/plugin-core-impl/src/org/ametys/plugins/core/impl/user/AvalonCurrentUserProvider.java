@@ -24,6 +24,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.components.ContextHelper;
 import org.apache.cocoon.environment.ObjectModelHelper;
+import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.Session;
 
@@ -105,7 +106,7 @@ public class AvalonCurrentUserProvider extends AbstractLogEnabled implements Cur
     }
     
     @Override
-    public boolean logout()
+    public boolean logout(Redirector redirector)
     {
         Map objectModel = ContextHelper.getObjectModel(_context);
         Request request = ObjectModelHelper.getRequest(objectModel);
@@ -119,7 +120,7 @@ public class AvalonCurrentUserProvider extends AbstractLogEnabled implements Cur
                 // Invalidate session
                 session.invalidate();
                 // Logout process
-                return ((LogoutCapable) cp).logout();
+                return ((LogoutCapable) cp).logout(redirector);
             }
         }
         

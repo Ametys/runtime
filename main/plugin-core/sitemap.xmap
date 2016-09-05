@@ -27,7 +27,6 @@
             <map:generator name="user-prefs-errors" src="org.ametys.plugins.core.userpref.UserPreferencesErrorsGenerator" logger="org.ametys.plugins.core.userpref.UserPreferencesErrorsGenerator"/>
             
             <map:generator name="login-screen" src="org.ametys.plugins.core.authentication.LoginScreenGenerator"/>
-            
         </map:generators>
         
 		<map:actions>
@@ -55,6 +54,8 @@
              <map:action name="has-not-right" src="org.ametys.plugins.core.right.HasRightAction" logger="org.ametys.plugins.core.right">
                 <has-right>false</has-right>
             </map:action>
+            
+            <map:action name="logout" src="org.ametys.core.authentication.LogoutAction"/>
 		</map:actions>
 		
         <map:readers>
@@ -134,6 +135,10 @@
         </map:pipeline>
         
 		<map:pipeline>
+		    <map:match pattern="logout">
+		          <map:act type="logout"/>
+		    </map:match>
+		
             <!-- +
                  | USERS
                  + -->

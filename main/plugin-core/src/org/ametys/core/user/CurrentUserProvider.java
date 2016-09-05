@@ -15,6 +15,7 @@
  */
 package org.ametys.core.user;
 
+import org.apache.cocoon.environment.Redirector;
 
 /**
  * Component which:
@@ -42,7 +43,8 @@ public interface CurrentUserProvider
     
     /**
      * Logout the current user if he can be.
+     * @param redirector The cocoon redirector
      * @return True if the logging out succeeded
      */
-    boolean logout();
+    boolean logout(Redirector redirector);
 }

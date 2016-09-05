@@ -235,7 +235,7 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
     }
 
     @Override
-    public boolean logout()
+    public boolean logout(Redirector redirector)
     {
         Request request = ContextHelper.getRequest(_context);
         deleteCookie(request,  ContextHelper.getResponse(_context), _cookieName, (int) _cookieLifetime);

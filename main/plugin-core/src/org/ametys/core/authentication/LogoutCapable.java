@@ -15,6 +15,8 @@
  */
 package org.ametys.core.authentication;
 
+import org.apache.cocoon.environment.Redirector;
+
 /**
  * Defines a logout capable authentication mode of users.
  */
@@ -22,7 +24,8 @@ public interface LogoutCapable
 {
     /**
      * Logout a particular user.
+     * @param redirector The cocoon redirector if a redirection is required
      * @return <code>true</code> if the logging out succeeded
      */
-    public boolean logout();
+    public boolean logout(Redirector redirector);
 }

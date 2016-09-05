@@ -29,24 +29,7 @@ Ext.define('Ametys.plugins.coreui.user.LogoutButtonController', {
          */
         logout: function(controller)
         {
-            controller.serverCall("logout", [], this._logoutCb);
-        },
-        
-        _logoutCb: function(response)
-        {
-            if (response == true)
-            {
-                // Reload the application
-                Ametys.reload();
-            }
-            else
-            {
-                Ametys.log.ErrorDialog.display({
-					title: "{{i18n PLUGINS_CORE_UI_LOGOUT_ERROR_TITLE}}",
-					text: "{{i18n PLUGINS_CORE_UI_LOGOUT_ERROR_TEXT}}",
-                    category: this.self.getName()
-                });
-            }
+            window.location.href = Ametys.CONTEXT_PATH + "/plugins/core/logout";
         }
     }
     

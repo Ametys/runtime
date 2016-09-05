@@ -15,8 +15,8 @@
  */
 package org.ametys.core.ui;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,29 +24,10 @@ import java.util.Map;
  */
 public class LogoutClientSideElement extends StaticClientSideElement
 {
-    /**
-     * Logout the current logged user
-     * @return True if the logging out succeeded
-     */
-    @Callable
-    public boolean logout()
-    {
-        return _currentUserProvider.logout();
-    }
-    
-    /**
-     * Check if the current logged user can logout
-     * @return True if the current logged user can logout
-     */
-    public boolean canLogout()
-    {
-        return _currentUserProvider.canLogout();
-    }
-    
     @Override
     public List<Script> getScripts(boolean ignoreRights, Map<String, Object> contextParameters)
     {
-        if (canLogout())
+        if (_currentUserProvider.canLogout())
         {
             return super.getScripts(ignoreRights, contextParameters);
         }
