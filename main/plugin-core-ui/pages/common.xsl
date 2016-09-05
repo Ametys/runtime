@@ -195,7 +195,7 @@
 	                    }
 	                </script>
 	                
-	                <xsl:if test="$user/@logoutable">
+	                <xsl:if test="$user/@logoutable = 'true'">
 	                    <xsl:call-template name="button">
 	                        <xsl:with-param name="text"><i18n:text i18n:key='PLUGINS_CORE_UI_USER_LOGOUT_LABEL' i18n:catalogue='plugin.core-ui'/></xsl:with-param>
 	                        <xsl:with-param name="title"><i18n:text i18n:key='ui:PLUGINS_CORE_UI_USER_LOGOUT_DESCRIPTION' i18n:catalogue='plugin.core-ui'/></xsl:with-param>
