@@ -87,6 +87,48 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
      * @return the existing data sources
      * @throws Exception if an error occurred
      */
+    public List<Map<String, Object>> getDataSources (DataSourceType dataSourceType, boolean includePrivate, boolean includeInternal, boolean includeDefault, List<String> allowedTypes) throws Exception
+    {
+        List<Map<String, Object>> datasources = new ArrayList<>();
+        
+        switch (dataSourceType)
+        {
+            case SQL:
+                Map<String, DataSourceDefinition> sqlDataSources = _sqlDataSourceManager.getDataSourceDefinitions(includePrivate, includeInternal, includeDefault);
+                for (String id : sqlDataSources.keySet())
+                {
+                    if (allowedTypes == null || allowedTypes.contains(sqlDataSources.get(id).getParameters().get(SQLDataSourceManager.PARAM_DATABASE_TYPE)))
+                    {
+                        datasources.add(getSQLDataSource(id));
+                    }
+                }
+                break;
+
+            case LDAP:
+                Map<String, DataSourceDefinition> ldapDataSources = _ldapDataSourceManager.getDataSourceDefinitions(includePrivate, includeInternal, includeDefault);
+                for (String id : ldapDataSources.keySet())
+                {
+                    datasources.add(getLDAPDataSource(id));
+                }
+                break;
+                
+            default:
+                break;
+        }
+        
+        return datasources;
+    }
+    
+    /**
+     * Get the existing data sources
+     * @param dataSourceType the data source type. Can be empty or null to get all data sources
+     * @param includePrivate true to include private data sources
+     * @param includeInternal true to include internal data sources
+     * @param includeDefault true to include the default data sources
+     * @param allowedTypes The sub-types of datasource allowed. Can be null. For now, this parameter is only used for sql data sources. The types are the type of databases (mysql, oarcle, ...)
+     * @return the existing data sources
+     * @throws Exception if an error occurred
+     */
     @Callable
     public List<Map<String, Object>> getDataSources (String dataSourceType, boolean includePrivate, boolean includeInternal, boolean includeDefault, List<String> allowedTypes) throws Exception
     {
@@ -94,23 +136,12 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
         
         if (StringUtils.isEmpty(dataSourceType) || dataSourceType.equals(DataSourceType.SQL.toString()))
         {
-            Map<String, DataSourceDefinition> sqlDataSources = _sqlDataSourceManager.getDataSourceDefinitions(includePrivate, includeInternal, includeDefault);
-            for (String id : sqlDataSources.keySet())
-            {
-                if (allowedTypes == null || allowedTypes.contains(sqlDataSources.get(id).getParameters().get(SQLDataSourceManager.PARAM_DATABASE_TYPE)))
-                {
-                    datasources.add(getSQLDataSource(id));
-                }
-            }
+            datasources.addAll(getDataSources(DataSourceType.SQL, includePrivate, includeInternal, includeDefault, allowedTypes));
         }
         
         if (StringUtils.isEmpty(dataSourceType) || dataSourceType.equals(DataSourceType.LDAP.toString()))
         {
-            Map<String, DataSourceDefinition> ldapDataSources = _ldapDataSourceManager.getDataSourceDefinitions(includePrivate, includeInternal, includeDefault);
-            for (String id : ldapDataSources.keySet())
-            {
-                datasources.add(getLDAPDataSource(id));
-            }
+            datasources.addAll(getDataSources(DataSourceType.LDAP, includePrivate, includeInternal, includeDefault, allowedTypes));
         }
         
         return datasources;
@@ -127,7 +158,7 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
     @Callable
     public List<Map<String, Object>> getDataSources (boolean includePrivate, boolean includeInternal, boolean includeDefault) throws Exception
     {
-        return getDataSources(null, includePrivate, includeInternal, includeDefault, null);
+        return getDataSources((String) null, includePrivate, includeInternal, includeDefault, null);
     }
     
     /**
