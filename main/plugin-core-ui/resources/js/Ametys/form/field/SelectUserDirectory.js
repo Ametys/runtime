@@ -102,7 +102,6 @@ Ext.define('Ametys.form.field.SelectUserDirectory', {
             queryMode: 'local',
             forceSelection: true,
             triggerAction: 'all',
-            allowBlank: this.getInitialConfig().allowBlank,
                             
             store: {
                 fields: ['index', 'label'],
@@ -133,7 +132,6 @@ Ext.define('Ametys.form.field.SelectUserDirectory', {
             queryMode: 'local',
             forceSelection: true,
             triggerAction: 'all',
-            allowBlank: this.getInitialConfig().allowBlank,
             
             listeners: {
                 'change': Ext.bind(function(combo, newValue, oldValue) {
@@ -163,7 +161,9 @@ Ext.define('Ametys.form.field.SelectUserDirectory', {
     
     getValue: function()
     {
-        return this._userPopulations.getValue() + '#' + this._userDirectories.getValue();
+        var userPopValue = this._userPopulations.getValue();
+        var directoryValue = this._userDirectories.getValue();
+        return userPopValue != null && directoryValue != null ? userPopValue + '#' + directoryValue : null;
     },
     
     setValue: function(value)
@@ -173,16 +173,28 @@ Ext.define('Ametys.form.field.SelectUserDirectory', {
             this._userPopulations.setValue(null);
             this._userDirectories.setValue(null);
         }
-        
-        var index = value.indexOf('#');
-        if (index == -1)
-        {
-            this._userPopulations.setValue(value);
-        }
         else
         {
-            this._userPopulations.setValue(value.substring(0, index));
-            this._userDirectories.setValue(value.substring(index+1));
+            var index = value.indexOf('#');
+            if (index == -1)
+            {
+                this._userPopulations.setValue(value);
+            }
+            else
+            {
+                this._userPopulations.setValue(value.substring(0, index));
+                this._userDirectories.setValue(value.substring(index+1));
+            }
         }
+    },
+    
+    getErrors: function (value) 
+    {
+        var errors = this.callParent(arguments);
+        
+        errors = errors.concat(this.items.get(0).getErrors());
+        errors = errors.concat(this.items.get(1).getErrors());
+
+        return errors;
     }
 });
