@@ -160,7 +160,7 @@
         <xsl:variable name="user" select="ametys:user()/user"/>
         <xsl:if test="$user">
 	        <div class="a-fluent-user-card-wrapper">
-	            <div class="a-fluent-user-card">
+	            <div class="a-fluent-user-card text">
 	                <div class="photo">
 	                    <img src="{$contextPath}/plugins/core-ui/current-user/image_64" />
 	                </div>

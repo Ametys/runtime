@@ -641,6 +641,21 @@
             </extension>
         </extensions>
     </feature>    
+    <feature name="widgets.others.userdirectory" safe="true">
+        <extensions>
+            <extension id="edition.userdirectory"
+                point="org.ametys.core.ui.widgets.WidgetsManager"
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.form.field.SelectUserDirectory">
+                    <ftypes>string</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+            </extension>
+        </extensions>
+    </feature>    
     <feature name="widgets.others.right">
         <extensions>
             <extension id="edition.right"
