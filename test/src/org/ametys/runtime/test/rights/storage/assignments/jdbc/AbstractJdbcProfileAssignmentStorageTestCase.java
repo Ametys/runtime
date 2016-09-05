@@ -24,12 +24,6 @@ import org.ametys.runtime.test.rights.storage.assignments.AbstractProfileAssignm
  */
 public abstract class AbstractJdbcProfileAssignmentStorageTestCase extends AbstractProfileAssignmentStorageTestCase
 {
-    /**
-     * Provide the scripts to run before each test invocation.
-     * @return the scripts to run.
-     */
-//    protected abstract File[] getScripts();
-    
     @Override
     protected String _getExtensionId()
     {
