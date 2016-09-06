@@ -22,8 +22,8 @@
 Ext.define('Ametys.form.widget.Group', {
     extend: 'Ametys.form.AbstractQueryableComboBox',
 	
-	valueField: 'id',
-	displayField: 'label',
+	valueField: 'value',
+	displayField: 'displayName',
 	
     getStore: function()
     {
@@ -32,11 +32,28 @@ Ext.define('Ametys.form.widget.Group', {
                 extend: 'Ext.data.Model',
                 
                 fields: [
-                     {name: 'label', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
-                     {name: 'id', mapping: 'id'}
-                ],
-                
-                idProperty: 'id'
+                     {name: 'label', mapping: 'label', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+                     {name: 'groupId', mapping: 'id'},
+                     {name: 'groupDirectory', mapping: 'groupDirectory'},
+                     {name: 'groupDirectoryLabel', mapping: 'groupDirectoryLabel', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+                     {
+                        name: 'value', 
+                        type: 'string',
+                        calculate: function(data)
+                        {
+                            return data.groupId + '#' + data.groupDirectory;
+                        }
+                     },
+                     {
+                         name: 'displayName',
+                         type: 'string',
+                         sortType: Ext.data.SortTypes.asNonAccentedUCString,
+                         calculate: function(data)
+                         {
+                            return data.label + ' (' + data.groupId + ', ' + data.groupDirectoryLabel + ')';
+                         }
+                     }
+                ]
             });
         }
 
