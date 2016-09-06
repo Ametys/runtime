@@ -21,6 +21,7 @@
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
     
     <xsl:variable name="contextPath" select="ametys:uriPrefix(false())"/>
+    <xsl:variable name="workspacePath" select="ametys:uriPrefix(true())"/>
     
     <xsl:template match="/">
         <html class="ametys-common">
@@ -174,13 +175,11 @@
 	                    </xsl:if>
 	                </div>
 	                
-	                <xsl:if test="$user/@logoutable = 'true'">
-	                    <xsl:call-template name="button">
-	                        <xsl:with-param name="text"><i18n:text i18n:key='PLUGINS_CORE_UI_USER_LOGOUT_LABEL' i18n:catalogue='plugin.core-ui'/></xsl:with-param>
-	                        <xsl:with-param name="title"><i18n:text i18n:key='ui:PLUGINS_CORE_UI_USER_LOGOUT_DESCRIPTION' i18n:catalogue='plugin.core-ui'/></xsl:with-param>
-	                        <xsl:with-param name="href" select="concat($contextPath, '/plugins/core/logout')"/>
-	                    </xsl:call-template>
-	                </xsl:if>
+                    <xsl:call-template name="button">
+                        <xsl:with-param name="text"><i18n:text i18n:key='PLUGINS_CORE_UI_USER_LOGOUT_LABEL' i18n:catalogue='plugin.core-ui'/></xsl:with-param>
+                        <xsl:with-param name="title"><i18n:text i18n:key='ui:PLUGINS_CORE_UI_USER_LOGOUT_DESCRIPTION' i18n:catalogue='plugin.core-ui'/></xsl:with-param>
+                        <xsl:with-param name="href" select="concat($workspacePath, '/logout.html')"/>
+                    </xsl:call-template>
 	            </div>
 	            
 	        </div>

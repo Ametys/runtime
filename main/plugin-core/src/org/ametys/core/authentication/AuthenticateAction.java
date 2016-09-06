@@ -33,7 +33,9 @@ import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.Session;
 import org.apache.cocoon.environment.SourceResolver;
+import org.apache.commons.lang3.StringUtils;
 
+import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.core.user.User;
 import org.ametys.core.user.UserIdentity;
 import org.ametys.core.user.UserManager;
@@ -45,6 +47,7 @@ import org.ametys.plugins.core.impl.authentication.FormCredentialProvider;
 import org.ametys.plugins.core.impl.authentication.token.TokenCredentials;
 import org.ametys.runtime.authentication.AccessDeniedException;
 import org.ametys.runtime.config.Config;
+import org.ametys.runtime.workspace.WorkspaceMatcher;
 
 /**
  * Cocoon action to perform authentication.<br>
@@ -85,6 +88,8 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     
     /** The url for the different login screens */
     protected static final String __REDIRECT_URL_LOGIN_SCREEN = "cocoon://_plugins/core/login.html";
+    /** The url for the logout screen */
+    protected static final String __REDIRECT_URL_LOGOUT_SCREEN = "cocoon://_plugins/core/logout.html";
     
     /** The DAO for user populations */
     protected UserPopulationDAO _userPopulationDAO;
@@ -94,6 +99,8 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     protected PopulationContextHelper _populationContextHelper;
     /** The value of Ametys Public config */
     protected Boolean _ametysPublic;
+    /** The current user provider */
+    protected CurrentUserProvider _currentUserProvider;
 
     @Override
     public void initialize() throws Exception
@@ -103,39 +110,45 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         _userPopulationDAO = (UserPopulationDAO) manager.lookup(UserPopulationDAO.ROLE);
         _userManager = (UserManager) manager.lookup(UserManager.ROLE);
         _populationContextHelper = (PopulationContextHelper) manager.lookup(PopulationContextHelper.ROLE);
+        
+        _currentUserProvider = (CurrentUserProvider) manager.lookup(CurrentUserProvider.ROLE);
     }
 
     @Override
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
         Request request = ObjectModelHelper.getRequest(objectModel);
-        if ("true".equals(request.getAttribute(REQUEST_AUTHENTICATED)))
-        {
-            // If the authentication has already been processed, don't do it twice.
-            return EMPTY_MAP;
-        }
-        else if (request.getAttribute(Authentication.INTERNAL_ALLOWED_REQUEST_ATTR) != null)
-        {
-            // Allow bypassing the authentication for an internal request.
-            return EMPTY_MAP;
-        }
         
-        String context = parameters.getParameter("context");
-        if (context == null)
+        if (StringUtils.equals(request.getContextPath() + request.getAttribute(WorkspaceMatcher.WORKSPACE_URI) + "/logout.html", request.getRequestURI()))
         {
-            throw new AccessDeniedException();
+            // The user logs out
+            _currentUserProvider.logout(redirector);
+            if (!redirector.hasRedirected())
+            {
+                redirector.redirect(false, __REDIRECT_URL_LOGOUT_SCREEN);
+            }
         }
-        
-        boolean authenticated = _doAuthenticate(redirector, request, context);
-        
-        if (authenticated)
+        // If the authentication has already been processed, don't do it twice.
+        // Allow bypassing the authentication for an internal request.
+        else if (!"true".equals(request.getAttribute(REQUEST_AUTHENTICATED)) && request.getAttribute(Authentication.INTERNAL_ALLOWED_REQUEST_ATTR) == null)
         {
-            // Set the flag indicating the authentication as processed
-            request.setAttribute(REQUEST_AUTHENTICATED, "true");
-        }
-        else
-        {
-            throw new AccessDeniedException();
+            String context = parameters.getParameter("context");
+            if (context == null)
+            {
+                throw new AccessDeniedException();
+            }
+            
+            boolean authenticated = _doAuthenticate(redirector, request, context);
+            
+            if (authenticated)
+            {
+                // Set the flag indicating the authentication as processed
+                request.setAttribute(REQUEST_AUTHENTICATED, "true");
+            }
+            else
+            {
+                throw new AccessDeniedException();
+            }
         }
         
         return EMPTY_MAP;

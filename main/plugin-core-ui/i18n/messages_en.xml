@@ -56,6 +56,11 @@
     <message key="PLUGINS_CORE_UI_USER_LOGOUT_LABEL">Logout</message>
     <message key="PLUGINS_CORE_UI_USER_LOGOUT_DESCRIPTION">Click here to logout</message>
     
+    <message key="PLUGINS_CORE_UI_LOGOUT_HEAD">Disconnection</message>
+    <message key="PLUGINS_CORE_UI_LOGOUT_TITLE">You are now disconnected</message>
+    <message key="PLUGINS_CORE_UI_LOGOUT_TEXT">You are now disconnected of the application. For security purpose, you can close your browser.<br/><br/>Click on the link below to reconnect to the application.</message>
+    <message key="PLUGINS_CORE_UI_LOGOUT_LINK">Reconnect</message>
+        
     <!-- +
          | Login screen
          + -->

@@ -1722,8 +1722,8 @@
     	<extensions>
     		<extension id="org.ametys.core.ui.user.logout"
     				   point="org.ametys.core.ui.RibbonControlsManager"
-    				   class="org.ametys.core.ui.LogoutClientSideElement">
-				<class name="Ametys.plugins.coreui.user.LogoutButtonController">
+    				   class="org.ametys.core.ui.StaticClientSideElement">
+				<class name="Ametys.ribbon.element.ui.ButtonController">
 					<action>Ametys.plugins.coreui.user.LogoutButtonController.logout</action>
 					<label i18n="true">PLUGINS_CORE_UI_USER_LOGOUT_LABEL</label>
 					<description i18n="true">PLUGINS_CORE_UI_USER_LOGOUT_DESCRIPTION</description>

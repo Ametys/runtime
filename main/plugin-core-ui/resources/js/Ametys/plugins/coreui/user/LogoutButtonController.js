@@ -19,18 +19,14 @@
  * @private
  */
 Ext.define('Ametys.plugins.coreui.user.LogoutButtonController', {
-    extend: 'Ametys.ribbon.element.ui.ButtonController',
+    singleton: true,
     
-    statics: {
-        
-        /**
-         * Logs out the current logged user.
-         * @param {Ametys.ribbon.element.ui.ButtonController} controller The button controller
-         */
-        logout: function(controller)
-        {
-            window.location.href = Ametys.CONTEXT_PATH + "/plugins/core/logout";
-        }
+    /**
+     * Logs out the current logged user.
+     * @param {Ametys.ribbon.element.ui.ButtonController} controller The button controller
+     */
+    logout: function(controller)
+    {
+        window.location.href = Ametys.WORKSPACE_URI + "/logout.html";
     }
-    
 });

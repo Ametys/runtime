@@ -22,6 +22,7 @@ import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.components.ContextHelper;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
@@ -90,7 +91,7 @@ public class AvalonCurrentUserProvider extends AbstractLogEnabled implements Cur
     }
     
     @Override
-    public boolean canLogout()
+    public void logout(Redirector redirector) throws ProcessingException
     {
         Map objectModel = ContextHelper.getObjectModel(_context);
         Request request = ObjectModelHelper.getRequest(objectModel);
@@ -99,31 +100,15 @@ public class AvalonCurrentUserProvider extends AbstractLogEnabled implements Cur
         if (session != null)
         {
             CredentialProvider cp = (CredentialProvider) session.getAttribute(AuthenticateAction.SESSION_CREDENTIALPROVIDER);
-            return cp instanceof LogoutCapable;
-        }
-        
-        return false;
-    }
-    
-    @Override
-    public boolean logout(Redirector redirector)
-    {
-        Map objectModel = ContextHelper.getObjectModel(_context);
-        Request request = ObjectModelHelper.getRequest(objectModel);
-        Session session = request.getSession(false);
-        
-        if (session != null)
-        {
-            CredentialProvider cp = (CredentialProvider) session.getAttribute(AuthenticateAction.SESSION_CREDENTIALPROVIDER);
+            
+            // Invalidate session
+            session.invalidate();
+            
             if (cp instanceof LogoutCapable)
             {
-                // Invalidate session
-                session.invalidate();
                 // Logout process
-                return ((LogoutCapable) cp).logout(redirector);
+                ((LogoutCapable) cp).logout(redirector); 
             }
         }
-        
-        return false;
     }
 }
