@@ -654,7 +654,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
      */
     public boolean currentUserHasReaderRight(Object object)
     {
-        return hasReaderRight(_currentUserProvider.getUser(), object);
+        return hasReadAccess(_currentUserProvider.getUser(), object);
     }
 
     /**
@@ -663,7 +663,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
      * @param object The object to check the right. Can be null to search on any object.
      * @return true if the given user has READ access on the given object
      */
-    public boolean hasReaderRight(UserIdentity userIdentity, Object object)
+    public boolean hasReadAccess(UserIdentity userIdentity, Object object)
     {
         if (object instanceof String && StringUtils.equals((String) object, AdminAuthenticateAction.ADMIN_RIGHT_CONTEXT) && StringUtils.equals(userIdentity.getPopulationId(), UserPopulationDAO.ADMIN_POPULATION_ID))
         {
@@ -678,7 +678,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
      * @param object The object to check
      * @return true if the object is restricted, i.e. an anonymous user has not READ access (is denied) on the object
      */
-    public boolean isRestricted(Object object)
+    public boolean isReadingRestricted(Object object)
     {
         /** FIXME Can not work from FO side until RUNTIME-2075 is not fixed **/ 
         // return hasAnonymousProfile(READER_PROFILE_ID, object) != RightResult.RIGHT_ALLOW;
@@ -690,9 +690,21 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
      * @param object The object to check
      * @return true if any connected user has READ access allowed on the object
      */
-    public boolean isAnyConnectedAllowed(Object object)
+    public boolean hasAnyConnectedReadAccess(Object object)
     {
         return hasAnyConnectedUserProfile(READER_PROFILE_ID, object) == RightResult.RIGHT_ALLOW;
+    }
+    
+    /**
+     * Get the users with a READ access on given object
+     * @param object The object
+     * @return The representation of allowed users 
+     */
+    public AllowedUsers getUsersWithReadAccess(Object object)
+    {
+        Set<String> profileIds = new HashSet<>();
+        profileIds.add(READER_PROFILE_ID);
+        return getAllowedUsers(profileIds, object);
     }
     
     /* ----------------- */
@@ -706,11 +718,21 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
      * @return The list of users allowed with that right as a Set of String (user identities).
      * @throws RightsException if an error occurs.
      */
-    public AllowedUsers getAllowedUsers(String rightId, Object object) throws RightsException
+    public AllowedUsers getAllowedUsers(String rightId, Object object)
     {
         // Retrieve all profiles containing the right rightId
         Set<String> profileIds = _getProfileDAO().getProfilesWithRight(rightId);
-        
+        return getAllowedUsers(profileIds, object);
+    }
+    
+    /**
+     * Get the list of users that have a particular right in a particular context.
+     * @param profileIds The id of profiles to check.
+     * @param object The object to check the right. Cannot be null.
+     * @return The list of users allowed with that right as a Set of String (user identities).
+     */
+    public AllowedUsers getAllowedUsers(Set<String> profileIds, Object object)
+    {
         // Get the objects to check
         Set<Object> objects = _getConvertedObjects(object);
         
@@ -736,7 +758,7 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
                     if (accessController.getPermissionForAnonymous(profileIds, obj) == AccessResult.ANONYMOUS_ALLOWED)
                     {
                         // Any anonymous user is allowed
-                        return new AllowedUsers(true, false, null, null, _userManager, null);
+                        return new AllowedUsers(true, false, null, null, null, null, _userManager, _groupManager, null);
                     }
                     
                     AccessResult permissionForAnyConnectedUser = accessController.getPermissionForAnyConnectedUser(profileIds, obj);
@@ -782,65 +804,13 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
             }
         }
         
+        Request request = ContextHelper.getRequest(_context);
+        @SuppressWarnings("unchecked")
+        List<String> populationContexts = (List<String>) request.getAttribute("populationContexts");
+        
         // Then, return the AllowedUsers object
-        return _computeAllowedUsers(isAnyConnectedAllowed, allAllowedUsers, allDeniedUsers, allAllowedGroups, allDeniedGroups);
+        return new AllowedUsers(false, isAnyConnectedAllowed != null && isAnyConnectedAllowed.booleanValue(), allAllowedUsers, allDeniedUsers, allAllowedGroups, allDeniedGroups, _userManager, _groupManager, new HashSet<>(populationContexts));
     }
-    
-    private AllowedUsers _computeAllowedUsers(Boolean isAnyConnectedAllowed, Set<UserIdentity> allAllowedUsers, Set<UserIdentity> allDeniedUsers, Set<GroupIdentity> allAllowedGroups, Set<GroupIdentity> allDeniedGroups)
-    {
-        if (isAnyConnectedAllowed != null && isAnyConnectedAllowed.booleanValue())
-        {
-            Set<UserIdentity> resolvedDeniedUsers = new HashSet<>();
-            resolvedDeniedUsers.addAll(allDeniedUsers);
-            
-            // Remove the users of the denied groups to the resolvedDeniedUsers
-            // The users to remove are only those which are in deniedGroups and not in allAllowedUsers
-            for (GroupIdentity deniedGroup : allDeniedGroups)
-            {
-                Set<UserIdentity> groupUsers = _groupManager.getGroup(deniedGroup).getUsers();
-                for (UserIdentity groupUser : groupUsers)
-                {
-                    if (!allAllowedUsers.contains(groupUser))
-                    {
-                        resolvedDeniedUsers.add(groupUser);
-                    }
-                }
-            }
-            
-            Request request = ContextHelper.getRequest(_context);
-            @SuppressWarnings("unchecked")
-            List<String> populationContexts = (List<String>) request.getAttribute("populationContexts");
-            
-            return new AllowedUsers(false, true, null, resolvedDeniedUsers, _userManager, new HashSet<>(populationContexts));
-        }
-        else
-        {
-            Set<UserIdentity> resolvedAllowedUsers = new HashSet<>();
-            
-            // Retrieve the users from the allowed groups and add them all to the resolvedAllowedUsers
-            for (GroupIdentity allowedGroup : allAllowedGroups)
-            {
-                Set<UserIdentity> groupUsers = _groupManager.getGroup(allowedGroup).getUsers();
-                resolvedAllowedUsers.addAll(groupUsers);
-            }
-            
-            // Remove the users of the denied groups from the resolvedAllowedUsers
-            for (GroupIdentity deniedGroup : allDeniedGroups)
-            {
-                Set<UserIdentity> groupUsers = _groupManager.getGroup(deniedGroup).getUsers();
-                resolvedAllowedUsers.removeAll(groupUsers);
-            }
-            
-            // Add all allowed users to the resolvedAllowedUsers
-            resolvedAllowedUsers.addAll(allAllowedUsers);
-            
-            // Remove the denied users from the resolvedAllowedUsers
-            resolvedAllowedUsers.removeAll(allDeniedUsers);
-            
-            return new AllowedUsers(false, false, resolvedAllowedUsers, Collections.EMPTY_SET, _userManager, null);
-        }
-    }
-    
     
     /* --------------- */
     /* GET USER RIGHTS */

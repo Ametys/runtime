@@ -22,6 +22,8 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
 
+import org.ametys.core.group.GroupIdentity;
+import org.ametys.core.group.GroupManager;
 import org.ametys.core.user.User;
 import org.ametys.core.user.UserIdentity;
 import org.ametys.core.user.UserManager;
@@ -31,29 +33,37 @@ import org.ametys.core.user.UserManager;
  */
 public class AllowedUsers
 {
-    private boolean _anonymous;
-    private boolean _anyConnectedUser;
+    private boolean _anonymousAllowed;
+    private boolean _anyConnectedUserAllowed;
     private Set<UserIdentity> _allowedUsers;
     private Set<UserIdentity> _deniedUsers;
+    private Set<GroupIdentity> _allowedGroups;
+    private Set<GroupIdentity> _deniedGroups;
+    
     private UserManager _userManager;
     private Set<String> _populationContexts;
+    private GroupManager _groupManager;
 
     /**
      * Creates an object representing allowed users.
-     * @param anonymous true to indicate any anonymous user is allowed
-     * @param anyConnectedUser if anonymous is false, true to indicate any connected user is allowed  
+     * @param anonymousAllowed true to indicate any anonymous user is allowed
+     * @param anyConnectedUserAllowed if anonymous is false, true to indicate any connected user is allowed  
      * @param allowedUsers the allowed users, not taking into account the denied users. Must be null if anonymous or anyConnectedUser is true, must not otherwise.
      * @param deniedUsers the denied users. Must be null if anonymous is true, must not otherwise.
      * @param userManager The user manager
      * @param populationContexts The population contexts for retrieving users from user manager. Can be null if anyConnectedUser is false
      */
-    public AllowedUsers(boolean anonymous, boolean anyConnectedUser, Set<UserIdentity> allowedUsers, Set<UserIdentity> deniedUsers, UserManager userManager, Set<String> populationContexts)
+    AllowedUsers(boolean anonymousAllowed, boolean anyConnectedUserAllowed, Set<UserIdentity> allowedUsers, Set<UserIdentity> deniedUsers, Set<GroupIdentity> allowedGroups, Set<GroupIdentity> deniedGroups, UserManager userManager, GroupManager groupManager, Set<String> populationContexts)
     {
-        _anonymous = anonymous;
-        _anyConnectedUser = anyConnectedUser;
+        _anonymousAllowed = anonymousAllowed;
+        _anyConnectedUserAllowed = anyConnectedUserAllowed;
         _allowedUsers = allowedUsers;
         _deniedUsers = deniedUsers;
+        _allowedGroups = allowedGroups;
+        _deniedGroups = deniedGroups;
+        
         _userManager = userManager;
+        _groupManager = groupManager;
         _populationContexts = populationContexts;
     }
     
@@ -63,7 +73,7 @@ public class AllowedUsers
      */
     public boolean isAnonymousAllowed()
     {
-        return _anonymous;
+        return _anonymousAllowed;
     }
     
     /**
@@ -72,32 +82,106 @@ public class AllowedUsers
      */
     public boolean isAnyConnectedUserAllowed()
     {
-        return !_anonymous && _anyConnectedUser;
+        return !_anonymousAllowed && _anyConnectedUserAllowed;
     }
     
     /**
-     * Computes the actual allowed users, taking into account the anyconnected, allowed and denied users.
+     * Get the allowed users
+     * @return The allowed users
+     */
+    public Set<UserIdentity> getAllowedUsers()
+    {
+        return _allowedUsers;
+    }
+    
+    /**
+     * Get the denied users
+     * @return The denied users
+     */
+    public Set<UserIdentity> getDeniedUsers()
+    {
+        return _deniedUsers;
+    }
+    
+    /**
+     * Get the allowed groups
+     * @return The allowed groups
+     */
+    public Set<GroupIdentity> getAllowedGroups()
+    {
+        return _allowedGroups;
+    }
+    
+    /**
+     * Get the allowed groups
+     * @return The allowed groups
+     */
+    public Set<GroupIdentity> getDeniedGroups()
+    {
+        return _deniedGroups;
+    }
+    
+    /**
+     * Resolve the actual allowed users, taking into account the anyconnected, allowed and denied users and groups.
      * If anonymous is allowed, it will return an empty list.
-     * @param returnAll Set this to true to have normal behavior, and return all users in case {@link AllowedUsers#isAnyConnectedUserAllowed()} returns true. Set this to false to return an empty list in case {@link AllowedUsers#isAnyConnectedUserAllowed()} returns true
+     * @param returnAll Set to <code>true</code> to resolve all users if any connected user is allowed. If <code>false</code>, returns an empty Set if any connected user is allowed.
      * @return the computed actual allowed users
      */
-    public Set<UserIdentity> actualAllowedUsers(boolean returnAll)
+    public Set<UserIdentity> resolveAllowedUsers (boolean returnAll)
     {
-        if (_anonymous || _anyConnectedUser && !returnAll)
+        if (_anonymousAllowed || (_anyConnectedUserAllowed && !returnAll))
         {
             return Collections.EMPTY_SET;
         }
-        else if (_anyConnectedUser)
+        else if (_anyConnectedUserAllowed)
         {
             // Retrieve all users from the user manager, and remove just the denied ones
-            Set<UserIdentity> allUsers = _userManager.getUsersByContext(_populationContexts).stream().map(User::getIdentity).collect(Collectors.toSet());
+            Set<UserIdentity> allowedUsers = _userManager.getUsersByContext(_populationContexts).stream().map(User::getIdentity).collect(Collectors.toSet());
             
-            return new HashSet<>(CollectionUtils.removeAll(allUsers, _deniedUsers));
+            Set<UserIdentity> resolvedDeniedUsers = new HashSet<>();
+            resolvedDeniedUsers.addAll(_deniedUsers);
+            
+            // Remove the users of the denied groups to the resolvedDeniedUsers
+            // The users to remove are only those which are in deniedGroups and not in allAllowedUsers
+            for (GroupIdentity deniedGroup : _deniedGroups)
+            {
+                Set<UserIdentity> groupUsers = _groupManager.getGroup(deniedGroup).getUsers();
+                for (UserIdentity groupUser : groupUsers)
+                {
+                    if (!_allowedUsers.contains(groupUser))
+                    {
+                        resolvedDeniedUsers.add(groupUser);
+                    }
+                }
+            }
+            
+            return new HashSet<>(CollectionUtils.removeAll(allowedUsers, resolvedDeniedUsers));
         }
         else
         {
-            // It's just _allowedUsers, minus _deniedUsers
-            return new HashSet<>(CollectionUtils.removeAll(_allowedUsers, _deniedUsers));
+            Set<UserIdentity> resolvedAllowedUsers = new HashSet<>();
+            
+            // Retrieve the users from the allowed groups
+            for (GroupIdentity allowedGroup : _allowedGroups)
+            {
+                Set<UserIdentity> groupUsers = _groupManager.getGroup(allowedGroup).getUsers();
+                resolvedAllowedUsers.addAll(groupUsers);
+            }
+            
+            // Remove the users of the denied groups
+            for (GroupIdentity deniedGroup : _deniedGroups)
+            {
+                Set<UserIdentity> groupUsers = _groupManager.getGroup(deniedGroup).getUsers();
+                resolvedAllowedUsers.removeAll(groupUsers);
+            }
+            
+            // Add the allowed users
+            resolvedAllowedUsers.addAll(_allowedUsers);
+            
+            // Remove the denied users
+            resolvedAllowedUsers.removeAll(_deniedUsers);
+            
+            return resolvedAllowedUsers;
         }
     }
 }
