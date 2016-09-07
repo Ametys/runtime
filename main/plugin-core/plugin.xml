@@ -707,6 +707,14 @@
         </components>
     </feature>
     
+    <feature name="runtime.rights.assignments.observer">
+    	<extensions>
+    		<extension point="org.ametys.core.observation.ObserverExtensionPoint" 
+                       id="org.ametys.core.right.ProfileAssignmentStorageObserver"
+                       class="org.ametys.core.right.ProfileAssignmentStorageObserver"/>
+    	</extensions>
+    </feature>
+    	
     <feature name="runtime.rights.profiles.dao" depends="core/runtime.core.sql.profile.init">
         <config>
             <param-ref id="runtime.rights.datasource"/>
