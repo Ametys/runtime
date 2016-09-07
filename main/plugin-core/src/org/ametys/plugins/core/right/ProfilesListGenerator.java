@@ -26,7 +26,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
 import org.ametys.core.right.Profile;
-import org.ametys.core.right.RightManager;
 import org.ametys.core.right.RightProfilesDAO;
 
 

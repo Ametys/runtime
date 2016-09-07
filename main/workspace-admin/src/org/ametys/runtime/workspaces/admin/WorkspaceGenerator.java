@@ -17,12 +17,8 @@ package org.ametys.runtime.workspaces.admin;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 
-import org.apache.cocoon.ProcessingException;
 import org.apache.excalibur.source.Source;
-import org.xml.sax.SAXException;
 
 import org.ametys.runtime.plugin.PluginsManager;
 import org.ametys.runtime.plugin.PluginsManager.Status;
@@ -32,14 +28,6 @@ import org.ametys.runtime.plugin.PluginsManager.Status;
  */
 public class WorkspaceGenerator extends org.ametys.plugins.core.ui.WorkspaceGenerator
 {
-    //@Override
-//    public void generate() throws IOException , SAXException, ProcessingException 
-//    {
-//        Map<String, Object> contextParameters = new HashMap<>();
-//        contextParameters.put("workspace", "admin");
-//        doGenerate(contextParameters); //FIXME handle rights for workspace admin, here is a temporary workaround
-//    }
-    
     @Override
     protected Source getRibbonConfiguration() throws IOException
     {
