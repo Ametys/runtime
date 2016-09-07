@@ -40,7 +40,7 @@ import org.ametys.core.group.GroupManager;
 import org.ametys.core.right.ProfileAssignmentStorageExtensionPoint;
 import org.ametys.core.right.RightAssignmentContext;
 import org.ametys.core.right.RightAssignmentContextExtensionPoint;
-import org.ametys.core.right.RightManager;
+import org.ametys.core.right.RightProfilesDAO;
 import org.ametys.core.ui.right.ProfileAssignmentsToolClientSideElement.AccessType;
 import org.ametys.core.ui.right.ProfileAssignmentsToolClientSideElement.TargetType;
 import org.ametys.core.user.User;
@@ -57,8 +57,8 @@ public class GetProfileAssignmentsAction extends ServiceableAction
     protected ProfileAssignmentStorageExtensionPoint _profileAssignmentStorageEP;
     /** The extension point for right assignment contexts */
     protected RightAssignmentContextExtensionPoint _rightAssignmentContextEP;
-    /** The right manager */
-    protected RightManager _rightManager;
+    /** The profiles DAO */
+    protected RightProfilesDAO _profilesDAO;
     /** The DAO for user populations */
     protected UserPopulationDAO _userPopulationDAO;
     /** The user manager */
@@ -74,7 +74,6 @@ public class GetProfileAssignmentsAction extends ServiceableAction
         super.service(smanager);
         _profileAssignmentStorageEP = (ProfileAssignmentStorageExtensionPoint) smanager.lookup(ProfileAssignmentStorageExtensionPoint.ROLE);
         _rightAssignmentContextEP = (RightAssignmentContextExtensionPoint) smanager.lookup(RightAssignmentContextExtensionPoint.ROLE);
-        _rightManager = (RightManager) smanager.lookup(RightManager.ROLE);
         _userPopulationDAO = (UserPopulationDAO) smanager.lookup(UserPopulationDAO.ROLE);
         _userManager = (UserManager) smanager.lookup(UserManager.ROLE);
         _groupDirectoryDAO = (GroupDirectoryDAO) smanager.lookup(GroupDirectoryDAO.ROLE);
@@ -85,6 +84,11 @@ public class GetProfileAssignmentsAction extends ServiceableAction
     @Override
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
+        if (_profilesDAO == null)
+        {
+            _profilesDAO = (RightProfilesDAO) manager.lookup(RightProfilesDAO.ROLE);
+        }
+        
         Map<String, Object> result = new HashMap<>();
         Request request = ObjectModelHelper.getRequest(objectModel);
         
@@ -100,7 +104,7 @@ public class GetProfileAssignmentsAction extends ServiceableAction
         if (profileIds == null)
         {
             // Get the identifiers of all existing profiles
-            profileIds = _rightManager.getProfiles().stream().map(profile -> profile.getId()).collect(Collectors.toList());
+            profileIds = _profilesDAO.getProfiles().stream().map(profile -> profile.getId()).collect(Collectors.toList());
         }
         
         List<Map<String, Object>> assignments = new ArrayList<>();
