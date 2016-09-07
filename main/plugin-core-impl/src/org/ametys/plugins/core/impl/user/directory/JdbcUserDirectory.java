@@ -43,12 +43,15 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.ArrayUtils;
 
+import org.ametys.core.ObservationConstants;
 import org.ametys.core.authentication.Credentials;
 import org.ametys.core.datasource.ConnectionHelper;
+import org.ametys.core.observation.Event;
+import org.ametys.core.observation.ObservationManager;
+import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.core.user.InvalidModificationException;
 import org.ametys.core.user.User;
 import org.ametys.core.user.UserIdentity;
-import org.ametys.core.user.UserListener;
 import org.ametys.core.user.directory.ModifiableUserDirectory;
 import org.ametys.core.util.CachingComponent;
 import org.ametys.plugins.core.impl.user.jdbc.JdbcParameter;
@@ -88,9 +91,6 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
     private static final String __COLUMN_EMAIL = "email";
     private static final String __COLUMN_SALT = "salt";
     
-    /** List on user listener */
-    protected List<UserListener> _listeners = new ArrayList<>();
-    
     /** The identifier of data source */
     protected String _dataSourceId;
     /** The name of users' SQL table */
@@ -113,6 +113,9 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
     
     //ComponentManager for the Enumerators
     private ThreadSafeComponentManager<Enumerator> _enumeratorManager;
+    
+    private ObservationManager _observationManager;
+    private CurrentUserProvider _currentUserProvider;
     
     private String _udModelId;
     private Map<String, Object> _paramValues;
@@ -156,6 +159,46 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
         _dataSourceId = (String) paramValues.get(__DATASOURCE_PARAM_NAME);
         
         configureModelParameters();
+    }
+    
+    /**
+     * Lazy lookup the {@link ObservationManager}
+     * @return the observation manager
+     */
+    protected ObservationManager getObservationManager()
+    {
+        if (_observationManager == null)
+        {
+            try
+            {
+                _observationManager = (ObservationManager) _manager.lookup(ObservationManager.ROLE);
+            }
+            catch (ServiceException e)
+            {
+                throw new RuntimeException("Unable to lookup ObservationManager component", e);
+            }
+        }
+        return _observationManager;
+    }
+    
+    /**
+     * Lazy lookup the {@link CurrentUserProvider}
+     * @return the current user provider
+     */
+    protected CurrentUserProvider getCurrentUserProvider()
+    {
+        if (_currentUserProvider == null)
+        {
+            try
+            {
+                _currentUserProvider = (CurrentUserProvider) _manager.lookup(CurrentUserProvider.ROLE);
+            }
+            catch (ServiceException e)
+            {
+                throw new RuntimeException("Unable to lookup CurrentUserProvider component", e);
+            }
+        }
+        return _currentUserProvider;
     }
     
     @Override
@@ -356,10 +399,9 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
                 throw new InvalidModificationException("Error no user inserted");
             }
 
-            for (UserListener listener : _listeners)
-            {
-                listener.userAdded(new UserIdentity(login, _populationId));
-            }
+            Map<String, Object> eventParams = new HashMap<>();
+            eventParams.put(ObservationConstants.ARGS_USER, new UserIdentity(login, _populationId));
+            getObservationManager().notify(new Event(ObservationConstants.EVENT_USER_ADDED, getCurrentUserProvider().getUser(), eventParams));
         }
         catch (SQLException e)
         {
@@ -462,11 +504,10 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
                 throw new InvalidModificationException("Error. User '" + login + "' not updated");
             }
 
-            for (UserListener listener : _listeners)
-            {
-                listener.userUpdated(new UserIdentity(login, _populationId));
-            }
-
+            Map<String, Object> eventParams = new HashMap<>();
+            eventParams.put(ObservationConstants.ARGS_USER, new UserIdentity(login, _populationId));
+            getObservationManager().notify(new Event(ObservationConstants.EVENT_USER_UPDATED, _currentUserProvider.getUser(), eventParams));
+            
             if (isCacheEnabled())
             {
                 removeObjectFromCache(login);
@@ -512,11 +553,10 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
                 throw new InvalidModificationException("Error user was not deleted");
             }
 
-            for (UserListener listener : _listeners)
-            {
-                listener.userRemoved(new UserIdentity(login, _populationId));
-            }
-
+            Map<String, Object> eventParams = new HashMap<>();
+            eventParams.put(ObservationConstants.ARGS_USER, new UserIdentity(login, _populationId));
+            getObservationManager().notify(new Event(ObservationConstants.EVENT_USER_DELETED, _currentUserProvider.getUser(), eventParams));
+            
             if (isCacheEnabled())
             {
                 removeObjectFromCache(login);
@@ -644,18 +684,6 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
         return parameter;
     }
 
-    @Override
-    public void registerListener(UserListener listener)
-    {
-        _listeners.add(listener);
-    }
-
-    @Override
-    public void removeListener(UserListener listener)
-    {
-        _listeners.remove(listener);
-    }
-    
     /**
      * Get the mandatory predicate to use when querying users by pattern.
      * @param pattern The pattern to match, can be null.

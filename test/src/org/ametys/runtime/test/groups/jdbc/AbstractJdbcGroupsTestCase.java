@@ -30,7 +30,6 @@ import java.util.Set;
 import org.ametys.core.datasource.ConnectionHelper;
 import org.ametys.core.group.Group;
 import org.ametys.core.group.GroupIdentity;
-import org.ametys.core.group.GroupListener;
 import org.ametys.core.group.InvalidModificationException;
 import org.ametys.core.group.directory.GroupDirectory;
 import org.ametys.core.group.directory.GroupDirectoryFactory;
@@ -276,20 +275,10 @@ public abstract class AbstractJdbcGroupsTestCase extends AbstractJDBCTestCase
     {
         ModifiableGroupDirectory groupDirectory = (ModifiableGroupDirectory) _groupDirectory;
         
-        MyGroupListener listener1 = new MyGroupListener();
-        MyGroupListener listener2 = new MyGroupListener();
-        groupDirectory.registerListener(listener1);
-        groupDirectory.registerListener(listener2);
-        
         // Correct additions
         Group group1 = groupDirectory.add("Group 1");
-        _checkListener(listener1, listener2, 1, 0, 0);
-        
         Group group2 = groupDirectory.add("Group 2");
-        _checkListener(listener1, listener2, 2, 0, 0);
-
         Group group3 = groupDirectory.add("Group 3");
-        _checkListener(listener1, listener2, 3, 0, 0);
 
         assertNotNull(groupDirectory.getGroup(group1.getIdentity().getId()));
         assertNotNull(groupDirectory.getGroup(group2.getIdentity().getId()));
@@ -305,11 +294,6 @@ public abstract class AbstractJdbcGroupsTestCase extends AbstractJDBCTestCase
     {
         ModifiableGroupDirectory groupDirectory = (ModifiableGroupDirectory) _groupDirectory;
         
-        MyGroupListener listener1 = new MyGroupListener();
-        MyGroupListener listener2 = new MyGroupListener();
-        groupDirectory.registerListener(listener1);
-        groupDirectory.registerListener(listener2);
-        
         // Incorrect modification
         try
         {
@@ -323,7 +307,6 @@ public abstract class AbstractJdbcGroupsTestCase extends AbstractJDBCTestCase
         catch (InvalidModificationException e)
         {
             // normal behavior since login does not exist
-            _checkListener(listener1, listener2, 0, 0, 0);
         }
     }
     
@@ -335,32 +318,22 @@ public abstract class AbstractJdbcGroupsTestCase extends AbstractJDBCTestCase
     {
         ModifiableGroupDirectory groupDirectory = (ModifiableGroupDirectory) _groupDirectory;
         
-        MyGroupListener listener1 = new MyGroupListener();
-        MyGroupListener listener2 = new MyGroupListener();
-        groupDirectory.registerListener(listener1);
-        groupDirectory.registerListener(listener2);
-        
         Group group1 = groupDirectory.add("Group 1");
-        _checkListener(listener1, listener2, 1, 0, 0);
         
         group1.addUser(new UserIdentity("test", "population"));
         groupDirectory.update(group1);
-        _checkListener(listener1, listener2, 1, 1, 0);
         assertEquals(1, groupDirectory.getGroup(group1.getIdentity().getId()).getUsers().size());
 
         group1.addUser(new UserIdentity("test2", "population"));
         groupDirectory.update(group1);
-        _checkListener(listener1, listener2, 1, 2, 0);
         assertEquals(2, groupDirectory.getGroup(group1.getIdentity().getId()).getUsers().size());
         
         group1.addUser(new UserIdentity("test", "population"));
         groupDirectory.update(group1);
-        _checkListener(listener1, listener2, 1, 3, 0);
         assertEquals(2, groupDirectory.getGroup(group1.getIdentity().getId()).getUsers().size());
         
         group1.getUsers().remove(new UserIdentity("test", "population"));
         groupDirectory.update(group1);
-        _checkListener(listener1, listener2, 1, 4, 0);
         assertEquals(1, groupDirectory.getGroup(group1.getIdentity().getId()).getUsers().size());
     }
     
@@ -372,11 +345,6 @@ public abstract class AbstractJdbcGroupsTestCase extends AbstractJDBCTestCase
     {
         ModifiableGroupDirectory groupDirectory = (ModifiableGroupDirectory) _groupDirectory;
 
-        MyGroupListener listener1 = new MyGroupListener();
-        MyGroupListener listener2 = new MyGroupListener();
-        groupDirectory.registerListener(listener1);
-        groupDirectory.registerListener(listener2);
-
         try
         {
             groupDirectory.remove("foo");
@@ -385,11 +353,9 @@ public abstract class AbstractJdbcGroupsTestCase extends AbstractJDBCTestCase
         catch (InvalidModificationException e)
         {
             // normal behavior
-            _checkListener(listener1, listener2, 0, 0, 0);
         }
 
         Group group1 = groupDirectory.add("Group 1");
-        _checkListener(listener1, listener2, 1, 0, 0);
 
         try
         {
@@ -399,7 +365,6 @@ public abstract class AbstractJdbcGroupsTestCase extends AbstractJDBCTestCase
         catch (InvalidModificationException e)
         {
             // normal behavior
-            _checkListener(listener1, listener2, 1, 0, 0);
             Group group = groupDirectory.getGroup(group1.getIdentity().getId());
             assertNotNull(group);
         }
@@ -413,32 +378,13 @@ public abstract class AbstractJdbcGroupsTestCase extends AbstractJDBCTestCase
     {
         ModifiableGroupDirectory groupDirectory = (ModifiableGroupDirectory) _groupDirectory;
 
-        MyGroupListener listener1 = new MyGroupListener();
-        MyGroupListener listener2 = new MyGroupListener();
-        groupDirectory.registerListener(listener1);
-        groupDirectory.registerListener(listener2);
-
         Group group1 = groupDirectory.add("Group 1");
-        _checkListener(listener1, listener2, 1, 0, 0);
         group1.addUser(new UserIdentity("test", "population"));
         groupDirectory.update(group1);
-        _checkListener(listener1, listener2, 1, 1, 0);
 
         groupDirectory.remove(group1.getIdentity().getId());
-        _checkListener(listener1, listener2, 1, 1, 1);
         
         assertNull(groupDirectory.getGroup(group1.getIdentity().getId()));
-    }
-    
-    private void _checkListener(MyGroupListener listener1, MyGroupListener listener2, int added, int updated, int removed)
-    {
-        assertEquals(added, listener1.getAddedGroups().size());
-        assertEquals(updated, listener1.getUpdatedGroups().size());
-        assertEquals(removed, listener1.getRemovedGroups().size());
-
-        assertEquals(added, listener2.getAddedGroups().size());
-        assertEquals(updated, listener2.getUpdatedGroups().size());
-        assertEquals(removed, listener2.getRemovedGroups().size());
     }
     
     private GroupDirectory _createGroupDirectory() throws Exception
@@ -454,70 +400,4 @@ public abstract class AbstractJdbcGroupsTestCase extends AbstractJDBCTestCase
         
         return ((GroupDirectoryFactory) Init.getPluginServiceManager().lookup(GroupDirectoryFactory.ROLE)).createGroupDirectory("jdbc-groups", new I18nizableText("JDBC"), modelId, parameters);
     }
-    
-    /**
-     * Group listener
-     */
-    public class MyGroupListener implements GroupListener
-    {
-        private List<GroupIdentity> _addedGroups = new ArrayList<>();
-        private List<GroupIdentity> _removedGroups = new ArrayList<>();
-        private List<GroupIdentity> _updatedGroups = new ArrayList<>();
-
-        /**
-         * Returns the added groups'list
-         * @return the added groups'list
-         */
-        public List<GroupIdentity> getAddedGroups()
-        {
-            return _addedGroups;
-        }
-
-        /**
-         * Returns the removed groups'list
-         * @return the removed groups'list
-         */
-        public List<GroupIdentity> getRemovedGroups()
-        {
-            return _removedGroups;
-        }
-        
-        /**
-         * Returns the updated groups'list
-         * @return the updated groups'list
-         */
-        public List<GroupIdentity> getUpdatedGroups()
-        {
-            return _updatedGroups;
-        }
-        
-        public void groupAdded(GroupIdentity group)
-        {
-            if (group == null)
-            {
-                throw new RuntimeException("Listener detected a null group addition");
-            }
-            _addedGroups.add(group);
-        }
-
-        public void groupRemoved(GroupIdentity group)
-        {
-            if (group == null)
-            {
-                throw new RuntimeException("Listener detected a null group removal");
-            }
-            _removedGroups.add(group);
-        }
-
-        public void groupUpdated(GroupIdentity group)
-        {
-            if (group == null)
-            {
-                throw new RuntimeException("Listener detected a null group update");
-            }
-            _updatedGroups.add(group);
-        }
-        
-    }
-
 }

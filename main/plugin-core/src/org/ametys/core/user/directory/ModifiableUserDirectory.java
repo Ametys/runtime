@@ -19,7 +19,6 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.ametys.core.user.InvalidModificationException;
-import org.ametys.core.user.UserListener;
 import org.ametys.runtime.parameter.Errors;
 import org.ametys.runtime.parameter.Parameter;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
@@ -65,16 +64,4 @@ public interface ModifiableUserDirectory extends UserDirectory
      * @return the user's edition model as a Collection of parameters.
      */
     public Collection<? extends Parameter<ParameterType>> getModel();
-    
-    /**
-     * Registers a user listener
-     * @param listener the user listener
-     */
-    public void registerListener(UserListener listener);
-    
-    /**
-     * Removes a user listener
-     * @param listener the user listener
-     */
-    public void removeListener(UserListener listener);
 }

@@ -15,10 +15,7 @@
  */
 package org.ametys.core.group.directory;
 
-import java.util.List;
-
 import org.ametys.core.group.Group;
-import org.ametys.core.group.GroupListener;
 import org.ametys.core.group.InvalidModificationException;
 
 /**
@@ -48,22 +45,4 @@ public interface ModifiableGroupDirectory extends GroupDirectory
      * @throws InvalidModificationException if the group id does not exist.
      */
     public void remove(String groupID) throws InvalidModificationException;
-    
-    /**
-     * Registers an user listener
-     * @param listener the user listener
-     */
-    public void registerListener(GroupListener listener);
-    
-    /**
-     * Removes an user listener
-     * @param listener the user listener
-     */
-    public void removeListener(GroupListener listener);
-    
-    /**
-     * Get the list of user listeners
-     * @return The user listeners as a list
-     */
-    public List getListeners();
 }

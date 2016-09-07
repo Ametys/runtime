@@ -78,7 +78,7 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
         
         assertTrue(_rightManager.getUserRights(new UserIdentity("foo", "population"), "/foo").isEmpty());
         
-        List<Profile> profiles = _rightManager.getProfiles();
+        List<Profile> profiles = _profilesDAO.getProfiles();
         assertEquals(1, profiles.size()); // There is the READER profile only
     }
     
@@ -126,11 +126,11 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
         Profile profile;
         List<String> rights;
         
-        profile = _rightManager.addProfile("Profile 1");
-        profile = _rightManager.getProfile(profile.getId());
+        profile = _profilesDAO.addProfile("Profile 1");
+        profile = _profilesDAO.getProfile(profile.getId());
         assertEquals("Profile 1", profile.getLabel());
         
-        profiles = _rightManager.getProfiles();
+        profiles = _profilesDAO.getProfiles();
         assertEquals(2, profiles.size()); // The added profile "Profile 1" and READER
         for (Profile currentProfile : profiles)
         {
@@ -144,7 +144,7 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
         _profilesDAO.addRight(profile, "right1");
         _profilesDAO.addRight(profile, "right2");
         
-        profile = _rightManager.getProfile(profile.getId());
+        profile = _profilesDAO.getProfile(profile.getId());
         assertEquals("Profile 1 renamed", profile.getLabel());
         rights = _profilesDAO.getRights(profile);
         assertEquals(2, rights.size());
@@ -152,15 +152,15 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
         assertTrue(rights.contains("right2"));
         
         _profilesDAO.removeRights(profile);
-        profile = _rightManager.getProfile(profile.getId());
+        profile = _profilesDAO.getProfile(profile.getId());
         rights = _profilesDAO.getRights(profile);
         assertEquals(0, rights.size());
         
-        _rightManager.removeProfile(profile.getId());
-        profile = _rightManager.getProfile(profile.getId());
+        _profilesDAO.deleteProfile(profile.getId());
+        profile = _profilesDAO.getProfile(profile.getId());
         assertNull(profile);
         
-        profiles = _rightManager.getProfiles();
+        profiles = _profilesDAO.getProfiles();
         assertEquals(1, profiles.size()); // Only READER profile
     }
     
@@ -176,18 +176,18 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
         
         UserIdentity test = new UserIdentity("test", "population");
         
-        for (Profile profile : _rightManager.getProfiles())
+        for (Profile profile : _profilesDAO.getProfiles())
         {
             if (!RightManager.READER_PROFILE_ID.equals(profile.getId()))
             {
-                _rightManager.removeProfile(profile.getId());
+                _profilesDAO.deleteProfile(profile.getId());
             }
         }
         
-        Profile profile1 = _rightManager.addProfile("MyProfil1");
+        Profile profile1 = _profilesDAO.addProfile("MyProfil1");
         _profilesDAO.addRight(profile1, "right1");
         _profilesDAO.addRight(profile1, "right2");
-        Profile profile2 = _rightManager.addProfile("MyProfil2");
+        Profile profile2 = _profilesDAO.addProfile("MyProfil2");
         _profilesDAO.addRight(profile2, "right3");
 
         // USER

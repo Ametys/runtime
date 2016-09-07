@@ -30,16 +30,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 import org.apache.commons.lang3.StringUtils;
 
+import org.ametys.core.ObservationConstants;
 import org.ametys.core.datasource.ConnectionHelper;
 import org.ametys.core.group.Group;
 import org.ametys.core.group.GroupIdentity;
-import org.ametys.core.group.GroupListener;
 import org.ametys.core.group.InvalidModificationException;
 import org.ametys.core.group.directory.GroupDirectory;
 import org.ametys.core.group.directory.GroupDirectoryModel;
 import org.ametys.core.group.directory.ModifiableGroupDirectory;
+import org.ametys.core.observation.Event;
+import org.ametys.core.observation.ObservationManager;
+import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.core.user.UserIdentity;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.plugin.component.AbstractLogEnabled;
@@ -47,7 +53,7 @@ import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 /**
  * Standard implementation of {@link GroupDirectory} from the core database.
  */
-public class JdbcGroupDirectory extends AbstractLogEnabled implements ModifiableGroupDirectory
+public class JdbcGroupDirectory extends AbstractLogEnabled implements ModifiableGroupDirectory, Serviceable
 {
     /** Name of the parameter holding the datasource id */
     private static final String __DATASOURCE_PARAM_NAME = "runtime.groups.jdbc.datasource";
@@ -62,8 +68,10 @@ public class JdbcGroupDirectory extends AbstractLogEnabled implements Modifiable
     private static final String __GROUPS_COMPOSITION_COLUMN_LOGIN = "Login";
     private static final String __GROUPS_COMPOSITION_COLUMN_POPULATIONID = "UserPopulation_Id";
     
-    /** Group listeners */
-    protected List<GroupListener> _listeners = new ArrayList<>();
+    /** The observation manager */
+    protected ObservationManager _observationManager;
+    /** The current user provider */
+    protected CurrentUserProvider _currentUserProvider;
     
     /** The identifier of data source */
     protected String _dataSourceId;
@@ -80,6 +88,12 @@ public class JdbcGroupDirectory extends AbstractLogEnabled implements Modifiable
     private String _groupDirectoryModelId;
     /** The map of the values of the parameters */
     private Map<String, Object> _paramValues;
+    
+    public void service(ServiceManager manager) throws ServiceException
+    {
+        _observationManager = (ObservationManager) manager.lookup(ObservationManager.ROLE);
+        _currentUserProvider = (CurrentUserProvider) manager.lookup(CurrentUserProvider.ROLE);
+    }
     
     @Override
     public String getId()
@@ -510,10 +524,9 @@ public class JdbcGroupDirectory extends AbstractLogEnabled implements Modifiable
 
             if (id != null)
             {
-                for (GroupListener listener : _listeners)
-                {
-                    listener.groupAdded(new GroupIdentity(id, getId()));
-                }
+                Map<String, Object> eventParams = new HashMap<>();
+                eventParams.put(ObservationConstants.ARGS_GROUP, new GroupIdentity(id, getId()));
+                _observationManager.notify(new Event(ObservationConstants.EVENT_GROUP_ADDED, _currentUserProvider.getUser(), eventParams));
             }
         }
         catch (SQLException ex)
@@ -597,10 +610,9 @@ public class JdbcGroupDirectory extends AbstractLogEnabled implements Modifiable
             // Commit transaction.
             connection.commit();
 
-            for (GroupListener listener : _listeners)
-            {
-                listener.groupUpdated(userGroup.getIdentity());
-            }
+            Map<String, Object> eventParams = new HashMap<>();
+            eventParams.put(ObservationConstants.ARGS_GROUP, userGroup.getIdentity());
+            _observationManager.notify(new Event(ObservationConstants.EVENT_GROUP_UPDATED, _currentUserProvider.getUser(), eventParams));
         }
         catch (NumberFormatException ex)
         {
@@ -641,10 +653,9 @@ public class JdbcGroupDirectory extends AbstractLogEnabled implements Modifiable
 
             statement.executeUpdate();
 
-            for (GroupListener listener : _listeners)
-            {
-                listener.groupRemoved(new GroupIdentity(groupID, getId()));
-            }
+            Map<String, Object> eventParams = new HashMap<>();
+            eventParams.put(ObservationConstants.ARGS_GROUP, new GroupIdentity(groupID, getId()));
+            _observationManager.notify(new Event(ObservationConstants.EVENT_GROUP_DELETED, _currentUserProvider.getUser(), eventParams));
         }
         catch (NumberFormatException ex)
         {
@@ -660,23 +671,4 @@ public class JdbcGroupDirectory extends AbstractLogEnabled implements Modifiable
             ConnectionHelper.cleanup(connection);       
         }
     }
-
-    @Override
-    public void registerListener(GroupListener listener)
-    {
-        _listeners.add(listener);
-    }
-
-    @Override
-    public void removeListener(GroupListener listener)
-    {
-        _listeners.remove(listener);
-    }
-
-    @Override
-    public List getListeners()
-    {
-        return _listeners;
-    }
-
 }
