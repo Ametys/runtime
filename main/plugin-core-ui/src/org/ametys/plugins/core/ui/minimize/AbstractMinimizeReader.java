@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.ProcessingException;
@@ -32,7 +31,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.excalibur.source.SourceResolver;
 import org.apache.excalibur.source.SourceValidity;
 import org.apache.excalibur.source.impl.validity.NOPValidity;
-import org.mozilla.javascript.EvaluatorException;
 import org.xml.sax.SAXException;
 
 import org.ametys.plugins.core.ui.minimize.MinimizeTransformer.FileData;
@@ -85,13 +83,15 @@ public abstract class AbstractMinimizeReader extends ServiceableReader implement
         StringBuffer sb = new StringBuffer("");
 
         List<FileData> files = MinimizeTransformer.getFilesForHash(source);
-        if (files != null) 
+        if (files == null) 
         {
-            for (FileData file : files)
-            {
-                sb.append(_handleFile(file, ObjectModelHelper.getRequest(objectModel).getContextPath()));
-            }
-        } 
+            throw new IllegalStateException("There is no list of file to minimize for hashcode '" + source + "'");
+        }
+        
+        for (FileData file : files)
+        {
+            sb.append(_handleFile(file, ObjectModelHelper.getRequest(objectModel).getContextPath()));
+        }
 
         IOUtils.write(sb.toString(), out);
         IOUtils.closeQuietly(out);
