@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,19 +50,12 @@ import org.apache.excalibur.source.SourceResolver;
 
 import org.ametys.core.group.GroupDirectoryDAO;
 import org.ametys.core.group.GroupIdentity;
-import org.ametys.core.group.GroupListener;
 import org.ametys.core.group.GroupManager;
-import org.ametys.core.group.directory.GroupDirectory;
-import org.ametys.core.group.directory.ModifiableGroupDirectory;
 import org.ametys.core.right.AccessController.AccessResult;
 import org.ametys.core.right.AccessController.AccessResultContext;
 import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.core.user.UserIdentity;
-import org.ametys.core.user.UserListener;
 import org.ametys.core.user.UserManager;
-import org.ametys.core.user.directory.ModifiableUserDirectory;
-import org.ametys.core.user.directory.UserDirectory;
-import org.ametys.core.user.population.UserPopulation;
 import org.ametys.core.user.population.UserPopulationDAO;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.plugin.component.AbstractLogEnabled;
@@ -74,7 +66,7 @@ import org.ametys.runtime.workspaces.admin.authentication.AdminAuthenticateActio
 /**
  * Abstraction for testing a right associated with a resource and a user from a single source.
  */
-public class RightManager extends AbstractLogEnabled implements UserListener, GroupListener, Serviceable, Configurable, Initializable, RequestListener, ThreadSafe, Component, Contextualizable
+public class RightManager extends AbstractLogEnabled implements Serviceable, Configurable, Initializable, RequestListener, ThreadSafe, Component, Contextualizable
 {
     /** For avalon service manager */
     public static final String ROLE = RightManager.class.getName();
@@ -198,27 +190,6 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
     @Override
     public void initialize() throws Exception
     {
-        for (UserPopulation userPopulation : _userPopulationDAO.getUserPopulations(true))
-        {
-            for (UserDirectory userDirectory : userPopulation.getUserDirectories())
-            {
-                if (userDirectory instanceof ModifiableUserDirectory)
-                {
-                    ModifiableUserDirectory modifiableUserDirectory = (ModifiableUserDirectory) userDirectory;
-                    modifiableUserDirectory.registerListener(this);
-                }
-            }
-        }
-        
-        for (GroupDirectory groupDirectory : _groupDirectoryDAO.getGroupDirectories())
-        {
-            if (groupDirectory instanceof ModifiableGroupDirectory)
-            {
-                ModifiableGroupDirectory modifiableGroupDirectory = (ModifiableGroupDirectory) groupDirectory;
-                modifiableGroupDirectory.registerListener(this);
-            }
-        }
-
         RequestListenerManager rlm = (RequestListenerManager) _manager.lookup(RequestListenerManager.ROLE);
         rlm.registerListener(this);
     }
@@ -849,14 +820,14 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
         // Iterate over allowed profiles and add all their rights
         for (String profileId : allowedProfiles)
         {
-            Profile profile = getProfile(profileId);
+            Profile profile = _getProfileDAO().getProfile(profileId);
             rights.addAll(_getProfileDAO().getRights(profile));
         }
         
         // Then iterate over denied profiles and remove all their rights
         for (String profileId : deniedProfiles)
         {
-            Profile profile = getProfile(profileId);
+            Profile profile = _getProfileDAO().getProfile(profileId);
             rights.removeAll(_getProfileDAO().getRights(profile));
         }
         
@@ -908,156 +879,6 @@ public class RightManager extends AbstractLogEnabled implements UserListener, Gr
                 .filter(entry -> RightResult.RIGHT_DENY.equals(entry.getValue()))
                 .map(Entry::getKey)
                 .collect(Collectors.toSet());
-    }
-    
-    /* ------------------- */
-    /* PROFILES MANAGEMENT */
-    /* ------------------- */
-    
-    /**
-     * Add a new Profile to null context. An id will be generated
-     * @param name the name of the new Profile
-     * @return the newly created Profile
-     * @throws RightsException if an error occurs.
-     */
-    public Profile addProfile(String name) throws RightsException
-    {
-        return addProfile(name, null);
-    }
-    
-    /**
-     * Add a new Profile. An id will be generated
-     * @param name the name of the new Profile
-     * @param context the context. Can be null.
-     * @return the newly created Profile
-     * @throws RightsException if an error occurs.
-     */
-    public Profile addProfile(String name, String context) throws RightsException
-    {
-        String id = UUID.randomUUID().toString();
-
-        return addProfile(id, name, context);
-    }
-    
-    /**
-     * Add a new Profile
-     * @param id the id of the profile
-     * @param name the name of the new Profile
-     * @param context the context. Can be null.
-     * @return the newly created Profile
-     * @throws RightsException if an error occurs.
-     */
-    public Profile addProfile(String id, String name, String context) throws RightsException
-    {
-        if (getProfile(id) != null)
-        {
-            throw new RightsException(String.format("The profile of id %s already exists. Thus the profile cannot be added.", id));
-        }
-        
-        Profile profile = new Profile(id, name, context);
-        _getProfileDAO().addProfile(profile);
-        return profile;
-    }
-    
-    /**
-     * Returns the Profile with the given Id
-     * @param id the id oif the wanted Profile
-     * @return the Profile with the given Id
-     * @throws RightsException if an error occurs.
-     */
-    public Profile getProfile(String id) throws RightsException
-    {
-        return _getProfileDAO().getProfile(id);
-    }
-
-    /**
-     * Returns all known profiles
-     * @return all known profiles
-     * @throws RightsException if an error occurs.
-     */
-    public List<Profile> getAllProfiles() throws RightsException
-    {
-        return _getProfileDAO().getProfiles();
-    }
-    
-    /**
-     * Returns profiles with no context
-     * @return profiles with no context
-     * @throws RightsException if an error occurs.
-     */
-    public List<Profile> getProfiles() throws RightsException
-    {
-        return getProfiles(null);
-    }
-    
-    /**
-     * Returns profiles of a given context
-     * @param context The context. Can be null. If null, the profiles with no context are returned.
-     * @return profiles of a given context 
-     * @throws RightsException if an error occurs.
-     */
-    public List<Profile> getProfiles(String context) throws RightsException
-    {
-        return _getProfileDAO().getProfiles(context);
-    }
-    
-    /**
-     * Remove the given profile from database
-     * @param id The id of the profile
-     */
-    public void removeProfile(String id)
-    {
-        if (READER_PROFILE_ID.equals(id))
-        {
-            throw new RightsException("You cannot remove the system profile 'READER'");
-        }
-        
-        _getProfileDAO().deleteProfile(id);
-        
-        // Removes this profile in the profile assignment storages
-        _profileAssignmentStorageEP.getExtensionsIds().stream()
-            .map(_profileAssignmentStorageEP::getExtension)
-            .forEach(pas -> pas.removeProfile(id));
-    }
-    
-    @Override
-    public void userRemoved(UserIdentity user)
-    {
-        _profileAssignmentStorageEP.getExtensionsIds().stream()
-            .map(_profileAssignmentStorageEP::getExtension)
-            .forEach(pas -> pas.removeUser(user));
-    }
-
-    @Override
-    public void userAdded(UserIdentity user)
-    {
-        // Nothing
-    }
-
-    @Override
-    public void userUpdated(UserIdentity user)
-    {
-        // Nothing
-    }
-
-    @Override
-    public void groupRemoved(GroupIdentity group)
-    {
-        _profileAssignmentStorageEP.getExtensionsIds().stream()
-            .map(_profileAssignmentStorageEP::getExtension)
-            .forEach(pas -> pas.removeGroup(group));
-    }
-
-    @Override
-    public void groupAdded(GroupIdentity group)
-    {
-        // Nothing
-    }
-
-    @Override
-    public void groupUpdated(GroupIdentity group)
-    {
-        // Nothing
     }
 
     @Override

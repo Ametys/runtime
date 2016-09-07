@@ -137,6 +137,59 @@ public class RightProfilesDAO extends AbstractMyBatisDAO implements Component, R
     }
     
     /**
+     * Creates a new profile with null context. The identifier of the profile will be automatically generated from label.
+     * @param label The label of profile
+     * @return The create profile
+     */
+    public Profile addProfile (String label)
+    {
+        return addProfile(label, null);
+    }
+    
+    /**
+     * Creates a new profile. The identifier of the profile will be automatically generated from label.
+     * @param label The label of profile
+     * @param context The context. Can be null
+     * @return The create profile
+     */
+    public Profile addProfile (String label, String context)
+    {
+        String id = _generateUniqueId(label);
+        Profile profile = new Profile(id, label, context);
+        addProfile(profile);
+        return profile;
+    }
+    
+    private String _generateUniqueId(String label)
+    {
+        // Id generated from name lowercased, trimmed, and spaces and underscores replaced by dashes
+        String value = label.toLowerCase().trim().replaceAll("[\\W_]", "-").replaceAll("-+", "-").replaceAll("^-", "");
+        int i = 2;
+        String suffixedValue = value;
+        while (getProfile(suffixedValue) != null)
+        {
+            suffixedValue = value + i;
+            i++;
+        }
+        
+        return suffixedValue;
+    }
+    
+    /**
+     * Creates a new profile
+     * @param id The unique identifier of profile
+     * @param label The label of profile
+     * @param context The context. Can be null
+     * @return The create profile
+     */
+    public Profile addProfile (String id, String label, String context)
+    {
+        Profile profile = new Profile(id, label, context);
+        addProfile(profile);
+        return profile;
+    }
+    
+    /**
      * Add a new profile
      * @param profile The profile to add
      */

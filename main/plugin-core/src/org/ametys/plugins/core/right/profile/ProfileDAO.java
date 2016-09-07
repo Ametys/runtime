@@ -25,10 +25,14 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.commons.lang3.StringUtils;
 
+import org.ametys.core.ObservationConstants;
 import org.ametys.core.group.InvalidModificationException;
+import org.ametys.core.observation.Event;
+import org.ametys.core.observation.ObservationManager;
 import org.ametys.core.right.Profile;
 import org.ametys.core.right.RightManager;
 import org.ametys.core.right.RightProfilesDAO;
+import org.ametys.core.right.RightsException;
 import org.ametys.core.ui.Callable;
 import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.core.user.UserIdentity;
@@ -47,13 +51,16 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
     /** The right manager */
     protected RightManager _rightManager;
     /** The SQL DAO */
-    protected RightProfilesDAO _rightsDAO;
+    protected RightProfilesDAO _profilesDAO;
+    /** The observation manager */
+    protected ObservationManager _observationManager;
 
     public void service(ServiceManager smanager) throws ServiceException
     {
         _smanager = smanager;
         _rightManager = (RightManager) smanager.lookup(RightManager.ROLE);
-        _rightsDAO = (RightProfilesDAO) smanager.lookup(RightProfilesDAO.ROLE);
+        _profilesDAO = (RightProfilesDAO) smanager.lookup(RightProfilesDAO.ROLE);
+        _observationManager = (ObservationManager) smanager.lookup(ObservationManager.ROLE);
     }
     
     /**
@@ -66,9 +73,7 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
     @Callable
     public Map<String, Object> getProfile (String id) throws ServiceException, InvalidModificationException
     {
-        RightManager profiles = (RightManager) _smanager.lookup(RightManager.ROLE);
-        
-        Profile profile = profiles.getProfile(id);
+        Profile profile = _profilesDAO.getProfile(id);
         if (profile == null)
         {
             return null;
@@ -88,8 +93,6 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
     @Callable
     public Map<String, Object> addProfile (String name, String context) throws ServiceException, InvalidModificationException
     {
-        RightManager profiles = (RightManager) _smanager.lookup(RightManager.ROLE);
-        
         getLogger().debug("Starting profile creation");
     
         if (StringUtils.isBlank(name))
@@ -99,7 +102,11 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
         
         getLogger().info("User {} is adding a new profile '{}'", _getCurrentUser(), name);
         
-        Profile profile = profiles.addProfile(name, context);
+        Profile profile = _profilesDAO.addProfile(name, context);
+        
+        Map<String, Object> eventParams = new HashMap<>();
+        eventParams.put(ObservationConstants.ARGS_PROFILE, profile);
+        _observationManager.notify(new Event(ObservationConstants.EVENT_PROFILE_ADDED, _currentUserProvider.getUser(), eventParams));
         
         getLogger().debug("Ending profile creation");
         
@@ -117,8 +124,6 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
     @Callable
     public Map<String, Object> renameProfile (String id, String name) throws ServiceException, InvalidModificationException
     {
-        RightManager profiles = (RightManager) _smanager.lookup(RightManager.ROLE);
-        
         getLogger().debug("Starting profile modification");
         
         if (StringUtils.isBlank(name))
@@ -128,7 +133,7 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
         
         getLogger().info("User {} is renaming the profile '{}' to '{}'", _getCurrentUser(), id, name);
         
-        Profile profile = profiles.getProfile(id);
+        Profile profile = _profilesDAO.getProfile(id);
         if (profile == null)
         {
             Map<String, Object> result = new HashMap<>();
@@ -137,8 +142,12 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
         }
         else
         {
-            _rightsDAO.renameProfile(profile, name);
+            _profilesDAO.renameProfile(profile, name);
         }
+        
+        Map<String, Object> eventParams = new HashMap<>();
+        eventParams.put(ObservationConstants.ARGS_PROFILE, profile);
+        _observationManager.notify(new Event(ObservationConstants.EVENT_PROFILE_UPDATED, _currentUserProvider.getUser(), eventParams));
         
         getLogger().debug("Ending profile modification");
         
@@ -156,13 +165,11 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
     @Callable
     public Map<String, Object> editProfileRights (String id, List<String> rights) throws ServiceException, InvalidModificationException
     {
-        RightManager profiles = (RightManager) _smanager.lookup(RightManager.ROLE);
-        
         getLogger().debug("Starting profile modification");
         
         getLogger().info("User {} is edit rights of profile '{}'", _getCurrentUser(), id);
         
-        Profile profile = profiles.getProfile(id);
+        Profile profile = _profilesDAO.getProfile(id);
         if (profile == null)
         {
             Map<String, Object> result = new HashMap<>();
@@ -171,8 +178,12 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
         }
         else
         {
-            _rightsDAO.updateRights(profile, rights);
+            _profilesDAO.updateRights(profile, rights);
         }
+        
+        Map<String, Object> eventParams = new HashMap<>();
+        eventParams.put(ObservationConstants.ARGS_PROFILE, profile);
+        _observationManager.notify(new Event(ObservationConstants.EVENT_PROFILE_UPDATED, _currentUserProvider.getUser(), eventParams));
         
         getLogger().debug("Ending profile modification");
         
@@ -189,18 +200,25 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
     @Callable
     public void deleteProfiles (List<String> ids) throws InvalidModificationException, ServiceException
     {
-        RightManager profiles = (RightManager) _smanager.lookup(RightManager.ROLE);
-        
         getLogger().debug("Starting profile removal");
         
         for (String id : ids)
         {
+            if (RightManager.READER_PROFILE_ID.equals(id))
+            {
+                throw new RightsException("You cannot remove the system profile 'READER'");
+            }
+            
             getLogger().info("User {} is is removing profile '{}'", _getCurrentUser(), id);
             
-            Profile profile = profiles.getProfile(id);
+            Profile profile = _profilesDAO.getProfile(id);
             if (profile != null)
             {
-                _rightManager.removeProfile(id);
+                _profilesDAO.deleteProfile(id);
+                
+                Map<String, Object> eventParams = new HashMap<>();
+                eventParams.put(ObservationConstants.ARGS_PROFILE, profile);
+                _observationManager.notify(new Event(ObservationConstants.EVENT_PROFILE_DELETED, _currentUserProvider.getUser(), eventParams));
             }
             else
             {

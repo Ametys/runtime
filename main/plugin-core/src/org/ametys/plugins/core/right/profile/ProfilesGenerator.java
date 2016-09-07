@@ -24,8 +24,6 @@ import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.SAXException;
 
 import org.ametys.core.right.Profile;
-import org.ametys.core.right.RightManager;
-import org.ametys.core.right.RightProfilesDAO;
 import org.ametys.core.right.RightsExtensionPoint;
 import org.ametys.plugins.core.right.ProfilesListGenerator;
 
@@ -42,8 +40,6 @@ public class ProfilesGenerator extends ProfilesListGenerator
     {
         super.service(m);
         _rights = (RightsExtensionPoint) m.lookup(RightsExtensionPoint.ROLE);
-        _rightManager = (RightManager) m.lookup(RightManager.ROLE);
-        _rightsDAO = (RightProfilesDAO) m.lookup(RightProfilesDAO.ROLE);
     }
     
     @Override
@@ -58,7 +54,7 @@ public class ProfilesGenerator extends ProfilesListGenerator
         XMLUtils.endElement(contentHandler, "rights");
         
         XMLUtils.startElement(contentHandler, "profiles");
-        for (Profile profile : _rightManager.getProfiles())
+        for (Profile profile : _profilesDAO.getProfiles())
         {
             saxProfile(profile);
         }

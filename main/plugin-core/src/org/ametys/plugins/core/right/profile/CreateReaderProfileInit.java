@@ -19,6 +19,7 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 
 import org.ametys.core.right.RightManager;
+import org.ametys.core.right.RightProfilesDAO;
 import org.ametys.core.script.SqlTablesInit;
 
 /**
@@ -26,13 +27,13 @@ import org.ametys.core.script.SqlTablesInit;
  */
 public class CreateReaderProfileInit extends SqlTablesInit
 {
-    private RightManager _rightManager;
+    private RightProfilesDAO _profilesDAO;
     
     @Override
     public void service(ServiceManager manager) throws ServiceException
     {
         super.service(manager);
-        _rightManager = (RightManager) manager.lookup(RightManager.ROLE);
+        _profilesDAO = (RightProfilesDAO) manager.lookup(RightProfilesDAO.ROLE);
     }
     
     @Override
@@ -42,7 +43,7 @@ public class CreateReaderProfileInit extends SqlTablesInit
         super.init();
         
         // Then do the job: create the reader profile
-        if (_rightManager.getProfile(RightManager.READER_PROFILE_ID) != null)
+        if (_profilesDAO.getProfile(RightManager.READER_PROFILE_ID) != null)
         {
             // already exist
             getLogger().info("READER profile already exists, it will not be created");
@@ -51,6 +52,6 @@ public class CreateReaderProfileInit extends SqlTablesInit
         
         getLogger().info("Creating READER profile");
         String profileName = RightManager.READER_PROFILE_ID; // We give the same name as its id
-        _rightManager.addProfile(profileName, RightManager.READER_PROFILE_ID, null);
+        _profilesDAO.addProfile(profileName, RightManager.READER_PROFILE_ID, null);
     }
 }

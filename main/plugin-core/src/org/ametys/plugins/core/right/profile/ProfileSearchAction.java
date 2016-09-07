@@ -21,8 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.acting.ServiceableAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
@@ -31,7 +29,6 @@ import org.apache.cocoon.environment.SourceResolver;
 
 import org.ametys.core.cocoon.JSonReader;
 import org.ametys.core.right.Profile;
-import org.ametys.core.right.RightManager;
 import org.ametys.core.right.RightProfilesDAO;
 
 /**
@@ -40,32 +37,24 @@ import org.ametys.core.right.RightProfilesDAO;
  */
 public class ProfileSearchAction extends ServiceableAction
 {
-    private RightManager _rightManager;
-    private RightProfilesDAO _rightsDAO;
-    
-    @Override
-    public void service(ServiceManager m) throws ServiceException
-    {
-        super.service(m);
-        _rightManager = (RightManager) m.lookup(RightManager.ROLE);
-    }
+    private RightProfilesDAO _profilesDAO;
     
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
-        if (_rightsDAO == null)
+        if (_profilesDAO == null)
         {
             // Lazy loading for safe mode
-            _rightsDAO = (RightProfilesDAO) manager.lookup(RightProfilesDAO.ROLE);
+            _profilesDAO = (RightProfilesDAO) manager.lookup(RightProfilesDAO.ROLE);
         }
         
         Map<String, Object> result = new HashMap<>();
         
         List<Map<String, Object>> profiles = new ArrayList<>();
         
-        for (Profile profile : _rightManager.getProfiles())
+        for (Profile profile : _profilesDAO.getProfiles())
         {
             Map<String, Object> profile2json = profile.toJSON();
-            profile2json.put("rights", _rightsDAO.getRights(profile));
+            profile2json.put("rights", _profilesDAO.getRights(profile));
             profiles.add(profile2json);
         }
         

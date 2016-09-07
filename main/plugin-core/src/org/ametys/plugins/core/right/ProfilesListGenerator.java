@@ -35,17 +35,14 @@ import org.ametys.core.right.RightProfilesDAO;
  */
 public class ProfilesListGenerator extends ServiceableGenerator
 {
-    /** The rights manager */
-    protected RightManager _rightManager;
     /** The profiles DAO */
-    protected RightProfilesDAO _rightsDAO;
+    protected RightProfilesDAO _profilesDAO;
     
     @Override
     public void service(ServiceManager m) throws ServiceException
     {
         super.service(m);
-        _rightManager = (RightManager) m.lookup(RightManager.ROLE);
-        _rightsDAO = (RightProfilesDAO) m.lookup(RightProfilesDAO.ROLE);
+        _profilesDAO = (RightProfilesDAO) m.lookup(RightProfilesDAO.ROLE);
     }
 
     public void generate() throws IOException, SAXException, ProcessingException
@@ -54,7 +51,7 @@ public class ProfilesListGenerator extends ServiceableGenerator
 
         XMLUtils.startElement(contentHandler, "Profiles");
         
-        for (Profile profile : _rightManager.getProfiles())
+        for (Profile profile : _profilesDAO.getProfiles())
         {
             saxProfile(profile);
         }
@@ -85,7 +82,7 @@ public class ProfilesListGenerator extends ServiceableGenerator
 
         contentHandler.startElement("", "rights", "rights", new AttributesImpl());
 
-        for (String right : _rightsDAO.getRights(profile))
+        for (String right : _profilesDAO.getRights(profile))
         {
             AttributesImpl attsRight = new AttributesImpl();
             attsRight.addAttribute("", "id", "id", "CDATA", right);
