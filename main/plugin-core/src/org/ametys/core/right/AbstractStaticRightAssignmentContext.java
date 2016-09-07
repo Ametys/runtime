@@ -25,8 +25,6 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.cocoon.components.ContextHelper;
-import org.apache.cocoon.environment.Request;
 import org.apache.commons.lang3.StringUtils;
 
 import org.ametys.core.ui.StaticClientSideElement;
@@ -69,17 +67,31 @@ public abstract class AbstractStaticRightAssignmentContext extends StaticClientS
     @Override
     public List<Script> getScripts(boolean ignoreRights, Map<String, Object> contextParameters)
     {
-        Request request = ContextHelper.getRequest(_context);
-        String currentWorkspace = (String) request.getAttribute(WorkspaceMatcher.WORKSPACE_NAME);
+        if (!matchWorkspace(contextParameters))
+        {
+            return new ArrayList<>();
+        }
+        
+        return super.getScripts(ignoreRights, contextParameters);
+    }
+    
+    /**
+     * Determines if the current workspace matches the configured workspace regexp
+     * @param contextParameters The contextual parameters 
+     * @return true if the current workspace matches
+     */
+    protected boolean matchWorkspace (Map<String, Object> contextParameters)
+    {
+        String currentWorkspace = (String) contextParameters.get(WorkspaceMatcher.WORKSPACE_NAME);
         if (_workspaceMatcher != null)
         {
             boolean match = _workspaceMatcher.matcher(currentWorkspace).matches();
             if (match && _reverseWorkspaceMather || !match && !_reverseWorkspaceMather)
             {
-                return new ArrayList<>();
+                return false;
             }
         }
         
-        return super.getScripts(ignoreRights, contextParameters);
+        return true;
     }
 }

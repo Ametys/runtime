@@ -32,13 +32,13 @@ import org.ametys.runtime.plugin.PluginsManager.Status;
  */
 public class WorkspaceGenerator extends org.ametys.plugins.core.ui.WorkspaceGenerator
 {
-    @Override
-    public void generate() throws IOException , SAXException, ProcessingException 
-    {
-        Map<String, Object> contextParameters = new HashMap<>();
-        contextParameters.put("workspace", "admin");
-        doGenerate(contextParameters); //FIXME handle rights for workspace admin, here is a temporary workaround
-    }
+    //@Override
+//    public void generate() throws IOException , SAXException, ProcessingException 
+//    {
+//        Map<String, Object> contextParameters = new HashMap<>();
+//        contextParameters.put("workspace", "admin");
+//        doGenerate(contextParameters); //FIXME handle rights for workspace admin, here is a temporary workaround
+//    }
     
     @Override
     protected Source getRibbonConfiguration() throws IOException

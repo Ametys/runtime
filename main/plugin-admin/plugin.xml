@@ -1375,6 +1375,9 @@
                     
                     <label i18n="true">PLUGINS_ADMIN_SUPERUSER_LABEL</label>
                     <description i18n="true">PLUGINS_ADMIN_SUPERUSER_DESCRIPTION</description>
+                    
+                    <workspaceName>admin</workspaceName>
+                    
                     <icon-glyph>ametysicon-tie6</icon-glyph>                    
                     <icon-small file="true">img/superuser/super_user_16.png</icon-small>
                     <icon-medium file="true">img/superuser/super_user_32.png</icon-medium>

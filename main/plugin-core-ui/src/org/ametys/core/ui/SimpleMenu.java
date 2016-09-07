@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
+import org.ametys.runtime.workspace.WorkspaceMatcher;
 
 /**
  * This element creates a control button with a menu
@@ -118,7 +119,7 @@ public class SimpleMenu extends StaticClientSideElement implements MenuClientSid
         }
         
         // FIXME handle rights for workspace admin, here is a temporary workaround
-        if (ignoreRights || (contextParameters != null && "admin".equals(contextParameters.get("workspace"))) || hasRight(getRights(contextParameters)))
+        if (ignoreRights || (contextParameters != null && "admin".equals(contextParameters.get(WorkspaceMatcher.WORKSPACE_NAME))) || hasRight(getRights(contextParameters)))
         {
             List<Script> scripts = super.getScripts(ignoreRights, contextParameters);
             Map<String, Object> parameters = new HashMap<>();

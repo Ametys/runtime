@@ -33,6 +33,7 @@ import org.ametys.core.right.AccessController.AccessResultContext;
 import org.ametys.core.right.AccessControllerExtensionPoint;
 import org.ametys.core.right.ProfileAssignmentStorageExtensionPoint;
 import org.ametys.core.right.RightManager;
+import org.ametys.core.right.RightProfilesDAO;
 import org.ametys.core.user.UserIdentity;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.CocoonWrapper;
@@ -51,6 +52,8 @@ public abstract class AbstractAccessControllerTestCase extends AbstractRuntimeTe
 
     /** The right manager */
     protected RightManager _rightManager;
+    /** The profiles DAO */
+    protected RightProfilesDAO _profilesDAO;
     
     @Override
     protected CocoonWrapper _startApplication(String runtimeFile, String configFile, String contextPath) throws Exception
@@ -83,6 +86,7 @@ public abstract class AbstractAccessControllerTestCase extends AbstractRuntimeTe
         assertNotNull("The #_getExtensionId method should point to an AccessController extension", _accessController);
         _profileAssignmentStorageEP = (ProfileAssignmentStorageExtensionPoint) Init.getPluginServiceManager().lookup(ProfileAssignmentStorageExtensionPoint.ROLE);
         _rightManager = (RightManager) Init.getPluginServiceManager().lookup(RightManager.ROLE);
+        _profilesDAO = (RightProfilesDAO) Init.getPluginServiceManager().lookup(RightProfilesDAO.ROLE);
     }
     
     @Override
@@ -271,10 +275,10 @@ public abstract class AbstractAccessControllerTestCase extends AbstractRuntimeTe
                 _accessController.getPermissionsByProfile(user1, Collections.singleton(group1), test1));
         
         // Let's restart from scratch
-        _rightManager.removeProfile(profile1);
-        _rightManager.removeProfile(profile2);
-        _rightManager.removeProfile(profile3);
-        _rightManager.removeProfile(profile4);
+        _profilesDAO.deleteProfile(profile1);
+        _profilesDAO.deleteProfile(profile2);
+        _profilesDAO.deleteProfile(profile3);
+        _profilesDAO.deleteProfile(profile4);
         expectedMap.clear();
         
         // test 1

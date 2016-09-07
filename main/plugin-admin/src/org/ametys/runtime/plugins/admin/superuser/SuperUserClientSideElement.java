@@ -16,6 +16,8 @@
 package org.ametys.runtime.plugins.admin.superuser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.avalon.framework.service.ServiceException;
@@ -23,12 +25,14 @@ import org.apache.avalon.framework.service.ServiceManager;
 
 import org.ametys.core.right.Profile;
 import org.ametys.core.right.ProfileAssignmentStorageExtensionPoint;
-import org.ametys.core.right.RightManager;
+import org.ametys.core.right.RightAssignmentContext;
+import org.ametys.core.right.RightAssignmentContextExtensionPoint;
 import org.ametys.core.right.RightProfilesDAO;
 import org.ametys.core.right.RightsExtensionPoint;
 import org.ametys.core.ui.Callable;
 import org.ametys.core.ui.StaticClientSideElement;
 import org.ametys.core.user.UserIdentity;
+import org.ametys.runtime.workspace.WorkspaceMatcher;
 
 /**
  * This implementation creates a control allowing to affect a super user to a given context
@@ -36,14 +40,15 @@ import org.ametys.core.user.UserIdentity;
 public class SuperUserClientSideElement extends StaticClientSideElement
 {
     /** The service manager */
-    private ServiceManager _sManager;
-    
+    protected ServiceManager _sManager;
     /** The extension point for the rights */
-    private RightsExtensionPoint _rightsEP;
-    
-    private RightProfilesDAO _profilesDAO;
-    
-    private ProfileAssignmentStorageExtensionPoint _profileAssignmentStorageEP;
+    protected RightsExtensionPoint _rightsEP;
+    /** The profiles DAO */
+    protected RightProfilesDAO _profilesDAO;
+    /** The profile assignments storage */
+    protected ProfileAssignmentStorageExtensionPoint _profileAssignmentStorageEP;
+    /** The extension point for right contexts */
+    protected RightAssignmentContextExtensionPoint _rightCtxEP;
     
     @Override
     public void service(ServiceManager smanager) throws ServiceException
@@ -56,11 +61,10 @@ public class SuperUserClientSideElement extends StaticClientSideElement
      * Affect a user to the given profile on the given context
      * @param user The user
      * @param profileId The profile id
-     * @param context The context
-     * @param additionalParameters The additional parameters
+     * @param jsParameters The client-side parameters
      */
     @Callable
-    public void affectUserToProfile(String user, String profileId, String context, Map<String, Object> additionalParameters)
+    public void affectUserToProfile(String user, String profileId, Map<String, Object> jsParameters)
     {
         try
         {
@@ -68,34 +72,45 @@ public class SuperUserClientSideElement extends StaticClientSideElement
             {
                 _profileAssignmentStorageEP = (ProfileAssignmentStorageExtensionPoint) _sManager.lookup(ProfileAssignmentStorageExtensionPoint.ROLE);
             }
+            if (_rightCtxEP == null)
+            {
+                _rightCtxEP = (RightAssignmentContextExtensionPoint) _sManager.lookup(RightAssignmentContextExtensionPoint.ROLE);
+            }
         }
         catch (ServiceException e)
         {
             throw new IllegalStateException(e);
         }
         
+        // Get all root contexts for the configured workspace
+        List<Object> rootContexts = new ArrayList<>();
+        for (String id : _rightCtxEP.getExtensionsIds())
+        {
+            RightAssignmentContext rightCtx = _rightCtxEP.getExtension(id);
+            rootContexts.addAll(rightCtx.getRootContexts(getContextualParameters(jsParameters)));
+        }
+        
+        // Affect user to this profile
         UserIdentity userIdentity = UserIdentity.stringToUserIdentity(user);
-        _profileAssignmentStorageEP.removeAllowedProfileFromUser(userIdentity, profileId, context);
-        _profileAssignmentStorageEP.allowProfileToUser(userIdentity, profileId, context);
+        for (Object rootContext : rootContexts)
+        {
+            _profileAssignmentStorageEP.removeDeniedProfileFromUser(userIdentity, profileId, rootContext);
+            _profileAssignmentStorageEP.allowProfileToUser(userIdentity, profileId, rootContext);
+        }
     }
     
     /**
      * Affect a user to a new super profile on the given context. First, a new profile with the given name will be created and filled with all rights, and then the user will be affected.
      * @param user The user
      * @param newProfileName The name of the super profile to create
-     * @param context The context
-     * @param additionalParameters The additional parameters
+     * @param jsParameters The client-side parameters
      * @return The id of the created profile
      */
     @Callable
-    public String affectUserToNewProfile(String user, String newProfileName, String context, Map<String, Object> additionalParameters)
+    public String affectUserToNewProfile(String user, String newProfileName, Map<String, Object> jsParameters)
     {
         try
         {
-            if (_rightManager == null)
-            {
-                _rightManager = (RightManager) _sManager.lookup(RightManager.ROLE);
-            }
             if (_rightsEP == null)
             {
                 _rightsEP = (RightsExtensionPoint) _sManager.lookup(RightsExtensionPoint.ROLE);
@@ -104,10 +119,6 @@ public class SuperUserClientSideElement extends StaticClientSideElement
             {
                 _profilesDAO = (RightProfilesDAO) _sManager.lookup(RightProfilesDAO.ROLE);
             }
-            if (_profileAssignmentStorageEP == null)
-            {
-                _profileAssignmentStorageEP = (ProfileAssignmentStorageExtensionPoint) _sManager.lookup(ProfileAssignmentStorageExtensionPoint.ROLE);
-            }
         }
         catch (ServiceException e)
         {
@@ -115,30 +126,25 @@ public class SuperUserClientSideElement extends StaticClientSideElement
         }
         
         // Create a super profile
-        String id = _generateUniqueId(newProfileName);
-        Profile newSuperProfile = _rightManager.addProfile(id, newProfileName, null);
+        Profile newSuperProfile = _profilesDAO.addProfile(newProfileName, null);
         _profilesDAO.addRights(newSuperProfile, new ArrayList<>(_rightsEP.getExtensionsIds()));
+
+        affectUserToProfile(user, newSuperProfile.getId(), jsParameters);
         
-        // Affect user to this profile
-        UserIdentity userIdentity = UserIdentity.stringToUserIdentity(user);
-        _profileAssignmentStorageEP.removeAllowedProfileFromUser(userIdentity, id, context);
-        _profileAssignmentStorageEP.allowProfileToUser(userIdentity, id, context);
-        
-        return id;
+        return newSuperProfile.getId();
     }
     
-    private String _generateUniqueId(String label)
+    /**
+     * Get the contextual parameters used to determines the root contexts
+     * @param jsParameters the client-side parameters
+     * @return the contextual parameters
+     */
+    protected Map<String, Object> getContextualParameters(Map<String, Object> jsParameters)
     {
-        // Id generated from name lowercased, trimmed, and spaces and underscores replaced by dashes
-        String value = label.toLowerCase().trim().replaceAll("[\\W_]", "-").replaceAll("-+", "-").replaceAll("^-", "");
-        int i = 2;
-        String suffixedValue = value;
-        while (_rightManager.getProfile(suffixedValue) != null)
-        {
-            suffixedValue = value + i;
-            i++;
-        }
+        Map<String, Object> contextParameters = new HashMap<>(jsParameters);
         
-        return suffixedValue;
+        String workspaceName = (String) _script.getParameters().get(WorkspaceMatcher.WORKSPACE_NAME);
+        contextParameters.put(WorkspaceMatcher.WORKSPACE_NAME, workspaceName);
+        return contextParameters;
     }
 }

@@ -31,6 +31,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.Constants;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.environment.ObjectModelHelper;
+import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
@@ -62,6 +63,7 @@ import org.ametys.core.user.UserManager;
 import org.ametys.core.util.JSONUtils;
 import org.ametys.plugins.core.user.UserHelper;
 import org.ametys.runtime.plugin.PluginsManager;
+import org.ametys.runtime.workspace.WorkspaceMatcher;
 
 /**
  * Generates the uitools factories definition using the component associated 
@@ -131,7 +133,22 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
     @Override
     public void generate() throws IOException, SAXException, ProcessingException
     {
-        doGenerate(new HashMap<String, Object>());
+        doGenerate(getContextualParameters());
+    }
+    
+    /**
+     * Get the contextual parameters
+     * @return The contextual parameters
+     */
+    protected Map<String, Object> getContextualParameters()
+    {
+        Request request = ObjectModelHelper.getRequest(objectModel);
+        String workspaceName = (String) request.getAttribute(WorkspaceMatcher.WORKSPACE_NAME);
+        
+        Map<String, Object> contextParameters = new HashMap<>();
+        contextParameters.put(WorkspaceMatcher.WORKSPACE_NAME, workspaceName);
+        
+        return contextParameters;
     }
     
     /**

@@ -15,6 +15,10 @@
  */
 package org.ametys.plugins.core.impl.right;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.ametys.core.right.AbstractStaticRightAssignmentContext;
 import org.ametys.core.right.RightAssignmentContext;
 
@@ -37,5 +41,17 @@ public class StringRightAssignmentContext extends AbstractStaticRightAssignmentC
     public Object getParentContext(Object context)
     {
         return null;
+    }
+    
+    @Override
+    public List<Object> getRootContexts(Map<String, Object> contextParameters)
+    {
+        List<Object> rootContexts = new ArrayList<>();
+        
+        if (matchWorkspace(contextParameters))
+        {
+            rootContexts.add(_script.getParameters().get("context"));
+        }
+        return rootContexts;
     }
 }

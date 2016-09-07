@@ -36,6 +36,7 @@ import org.ametys.core.user.UserIdentity;
 import org.ametys.plugins.core.ui.util.ConfigurationHelper;
 import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 import org.ametys.runtime.plugin.component.PluginAware;
+import org.ametys.runtime.workspace.WorkspaceMatcher;
 
 
 /**
@@ -302,7 +303,7 @@ public class StaticFileImportsClientSideElement extends AbstractLogEnabled imple
         }
         
      // FIXME handle rights for workspace admin, here is a temporary workaround
-        if ((contextParameters != null && "admin".equals(contextParameters.get("workspace"))) || hasRight(getRights(contextParameters)))
+        if ((contextParameters != null && "admin".equals(contextParameters.get(WorkspaceMatcher.WORKSPACE_NAME))) || hasRight(getRights(contextParameters)))
         {
             List<Script> scripts = new ArrayList<>();
             scripts.add(_script);

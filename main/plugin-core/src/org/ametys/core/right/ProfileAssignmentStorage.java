@@ -373,7 +373,7 @@ public interface ProfileAssignmentStorage
     /* ------ */
     
     /**
-     * Removes all the assignments betwwen this profile and users/groups/anonymous/any connected
+     * Removes all the assignments between this profile and users/groups/anonymous/any connected
      * @param profileId The profile to remove
      */
     public void removeProfile(String profileId);

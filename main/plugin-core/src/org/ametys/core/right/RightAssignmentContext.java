@@ -15,6 +15,9 @@
  */
 package org.ametys.core.right;
 
+import java.util.List;
+import java.util.Map;
+
 import org.ametys.core.ui.ClientSideElement;
 
 /**
@@ -35,4 +38,11 @@ public interface RightAssignmentContext extends ClientSideElement
      * @return The parent if exist or <code>null</code> otherwise
      */
     public Object getParentContext(Object context);
+    
+    /**
+     * Get the list of root contexts if the current workspace matches the allowed workspace
+     * @param contextParameters The contextual parameters
+     * @return The root context object in a list
+     */
+    public List<Object> getRootContexts(Map<String, Object> contextParameters);
 }

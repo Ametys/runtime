@@ -233,12 +233,12 @@ Ext.define('Ametys.plugins.admin.superuser.SuperUserActions', {
         };
         if (values['radio-profile'] == 'create')
         {
-            var params = [values.users, values.name, "/contributor", additionalParameters];
+            var params = [values.users, values.name, additionalParameters];
             controller.serverCall('affectUserToNewProfile', params, this._affectUserToNewProfileCb, opts);
         }
         else if (values['radio-profile'] == 'choose')
         {
-            var params = [values.users, values.profile, "/contributor", additionalParameters];
+            var params = [values.users, values.profile, additionalParameters];
             opts.arguments = [values.profile];
             controller.serverCall('affectUserToProfile', params, this._affectUserToProfileCb, opts);
         }
