@@ -19,14 +19,14 @@
 <mapper namespace="Profiles">
 
   <resultMap type="org.ametys.core.right.Profile" id="profileResult">
-	<result property="id" column="Id" />
-	<result property="label" column="Label" />
-	<result property="context" column="Context"/>
+    <result property="id" column="Id" />
+    <result property="label" column="Label" />
+    <result property="context" column="Context"/>
   </resultMap>
   
   <resultMap type="java.util.HashMap" id="profileRightsResult">
-	<result property="profileId" column="Profile_Id" />
-	<result property="rightId" column="Right_Id" />
+    <result property="profileId" column="Profile_Id" />
+    <result property="rightId" column="Right_Id" />
   </resultMap>
 
   <sql id="getProfiles">
@@ -85,12 +85,12 @@
   </insert>
   
   <delete id="deleteProfile" parameterType="string">
-	DELETE FROM Rights_Profile 
-	WHERE Id = #{value}
+    DELETE FROM Rights_Profile 
+    WHERE Id = #{value}
   </delete>
   
   <delete id="deleteProfileRights" parameterType="string">
-	DELETE FROM Rights_ProfileRights 
-	WHERE Profile_Id = #{value}
+    DELETE FROM Rights_ProfileRights 
+    WHERE Profile_Id = #{value}
   </delete>
 </mapper>
