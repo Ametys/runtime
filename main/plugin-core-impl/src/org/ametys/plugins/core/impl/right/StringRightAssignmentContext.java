@@ -23,7 +23,7 @@ import org.ametys.core.right.AbstractStaticRightAssignmentContext;
 import org.ametys.core.right.RightAssignmentContext;
 
 /**
- * {@link RightAssignmentContext} for assign rights to the contributor context
+ * {@link RightAssignmentContext} for assign rights to a configured context
  */
 public class StringRightAssignmentContext extends AbstractStaticRightAssignmentContext
 {
