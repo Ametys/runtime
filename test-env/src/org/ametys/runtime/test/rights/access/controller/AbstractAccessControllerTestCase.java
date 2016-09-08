@@ -31,6 +31,7 @@ import org.ametys.core.right.AccessController;
 import org.ametys.core.right.AccessController.AccessResult;
 import org.ametys.core.right.AccessController.AccessResultContext;
 import org.ametys.core.right.AccessControllerExtensionPoint;
+import org.ametys.core.right.Profile;
 import org.ametys.core.right.ProfileAssignmentStorageExtensionPoint;
 import org.ametys.core.right.RightManager;
 import org.ametys.core.right.RightProfilesDAO;
@@ -219,10 +220,10 @@ public abstract class AbstractAccessControllerTestCase extends AbstractRuntimeTe
     {
         Object test1 = _getTest1();
         
-        String profile1 = "1";
-        String profile2 = "2";
-        String profile3 = "3";
-        String profile4 = "4";
+        Profile profile1 = new Profile("1", "Profile 1");
+        Profile profile2 = new Profile("2", "Profile 2");
+        Profile profile3 = new Profile("3", "Profile 3");
+        Profile profile4 = new Profile("4", "Profile 4");
         
         UserIdentity user1 = new UserIdentity("user1", "population1");
         
@@ -232,44 +233,44 @@ public abstract class AbstractAccessControllerTestCase extends AbstractRuntimeTe
         assertEquals(Collections.EMPTY_MAP,
                      _accessController.getPermissionsByProfile(user1, Collections.singleton(group1), test1));
         // test 1
-        _profileAssignmentStorageEP.allowProfileToAnonymous(profile1, test1);
-        _profileAssignmentStorageEP.allowProfileToAnyConnectedUser(profile2, test1);
-        _profileAssignmentStorageEP.allowProfileToGroup(group1, profile3, test1);
-        _profileAssignmentStorageEP.allowProfileToUser(user1, profile4, test1);
+        _profileAssignmentStorageEP.allowProfileToAnonymous(profile1.getId(), test1);
+        _profileAssignmentStorageEP.allowProfileToAnyConnectedUser(profile2.getId(), test1);
+        _profileAssignmentStorageEP.allowProfileToGroup(group1, profile3.getId(), test1);
+        _profileAssignmentStorageEP.allowProfileToUser(user1, profile4.getId(), test1);
         
         Map<String, AccessResult> expectedMap = new HashMap<>();
-        expectedMap.put(profile1, AccessResult.ANONYMOUS_ALLOWED);
-        expectedMap.put(profile2, AccessResult.ANY_CONNECTED_ALLOWED);
-        expectedMap.put(profile3, AccessResult.GROUP_ALLOWED);
-        expectedMap.put(profile4, AccessResult.USER_ALLOWED);
+        expectedMap.put(profile1.getId(), AccessResult.ANONYMOUS_ALLOWED);
+        expectedMap.put(profile2.getId(), AccessResult.ANY_CONNECTED_ALLOWED);
+        expectedMap.put(profile3.getId(), AccessResult.GROUP_ALLOWED);
+        expectedMap.put(profile4.getId(), AccessResult.USER_ALLOWED);
         
         assertEquals(expectedMap,
                 _accessController.getPermissionsByProfile(user1, Collections.singleton(group1), test1));
         
         // test 2
-        _profileAssignmentStorageEP.denyProfileToAnonymous(profile1, test1);
-        expectedMap.put(profile1, AccessResult.ANONYMOUS_DENIED);
+        _profileAssignmentStorageEP.denyProfileToAnonymous(profile1.getId(), test1);
+        expectedMap.put(profile1.getId(), AccessResult.ANONYMOUS_DENIED);
         
         assertEquals(expectedMap,
                 _accessController.getPermissionsByProfile(user1, Collections.singleton(group1), test1));
         
         // test 3
-        _profileAssignmentStorageEP.denyProfileToAnyConnectedUser(profile2, test1);
-        expectedMap.put(profile2, AccessResult.ANY_CONNECTED_DENIED);
+        _profileAssignmentStorageEP.denyProfileToAnyConnectedUser(profile2.getId(), test1);
+        expectedMap.put(profile2.getId(), AccessResult.ANY_CONNECTED_DENIED);
         
         assertEquals(expectedMap,
                 _accessController.getPermissionsByProfile(user1, Collections.singleton(group1), test1));
         
         // test 4
-        _profileAssignmentStorageEP.denyProfileToGroup(group1, profile3, test1);
-        expectedMap.put(profile3, AccessResult.GROUP_DENIED);
+        _profileAssignmentStorageEP.denyProfileToGroup(group1, profile3.getId(), test1);
+        expectedMap.put(profile3.getId(), AccessResult.GROUP_DENIED);
         
         assertEquals(expectedMap,
                 _accessController.getPermissionsByProfile(user1, Collections.singleton(group1), test1));
         
         // test 5
-        _profileAssignmentStorageEP.denyProfileToUser(user1, profile4, test1);
-        expectedMap.put(profile4, AccessResult.USER_DENIED);
+        _profileAssignmentStorageEP.denyProfileToUser(user1, profile4.getId(), test1);
+        expectedMap.put(profile4.getId(), AccessResult.USER_DENIED);
         
         assertEquals(expectedMap,
                 _accessController.getPermissionsByProfile(user1, Collections.singleton(group1), test1));
@@ -282,22 +283,22 @@ public abstract class AbstractAccessControllerTestCase extends AbstractRuntimeTe
         expectedMap.clear();
         
         // test 1
-        _profileAssignmentStorageEP.denyProfileToAnonymous(profile1, test1);
-        expectedMap.put(profile1, AccessResult.ANONYMOUS_DENIED);
+        _profileAssignmentStorageEP.denyProfileToAnonymous(profile1.getId(), test1);
+        expectedMap.put(profile1.getId(), AccessResult.ANONYMOUS_DENIED);
         
         assertEquals(expectedMap,
                 _accessController.getPermissionsByProfile(user1, Collections.singleton(group1), test1));
         
         // test 2
-        _profileAssignmentStorageEP.allowProfileToAnonymous(profile1, test1);
-        expectedMap.put(profile1, AccessResult.ANY_CONNECTED_ALLOWED);
+        _profileAssignmentStorageEP.allowProfileToAnonymous(profile1.getId(), test1);
+        expectedMap.put(profile1.getId(), AccessResult.ANY_CONNECTED_ALLOWED);
         
         // test 3
-        _profileAssignmentStorageEP.allowProfileToGroup(group1, profile1, test1);
-        expectedMap.put(profile1, AccessResult.GROUP_ALLOWED);
+        _profileAssignmentStorageEP.allowProfileToGroup(group1, profile1.getId(), test1);
+        expectedMap.put(profile1.getId(), AccessResult.GROUP_ALLOWED);
         
         // test 4
-        _profileAssignmentStorageEP.allowProfileToUser(user1, profile1, test1);
-        expectedMap.put(profile1, AccessResult.USER_ALLOWED);
+        _profileAssignmentStorageEP.allowProfileToUser(user1, profile1.getId(), test1);
+        expectedMap.put(profile1.getId(), AccessResult.USER_ALLOWED);
     }
 }

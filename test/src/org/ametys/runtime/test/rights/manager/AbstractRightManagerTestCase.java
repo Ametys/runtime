@@ -156,7 +156,7 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
         rights = _profilesDAO.getRights(profile);
         assertEquals(0, rights.size());
         
-        _profilesDAO.deleteProfile(profile.getId());
+        _profilesDAO.deleteProfile(profile);
         profile = _profilesDAO.getProfile(profile.getId());
         assertNull(profile);
         
@@ -180,7 +180,7 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
         {
             if (!RightManager.READER_PROFILE_ID.equals(profile.getId()))
             {
-                _profilesDAO.deleteProfile(profile.getId());
+                _profilesDAO.deleteProfile(profile);
             }
         }
         
