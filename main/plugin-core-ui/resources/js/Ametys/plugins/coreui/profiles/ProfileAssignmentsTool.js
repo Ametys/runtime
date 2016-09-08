@@ -112,10 +112,11 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
          * Function called when an assignment is clicked in order to change its value
          * @param {String} recordId The id of the record
          * @param {String} profileId The profile id (id of the column)
+         * @param {String} toolId The id of the tool
          */
-        onCellClick: function(recordId, profileId)
+        onCellClick: function(recordId, profileId, toolId)
         {
-            var tool = Ametys.tool.ToolsManager.getTool("uitool-profile-assignment");
+            var tool = Ametys.tool.ToolsManager.getTool(toolId);
             if (tool != null)
             {
                 tool.onCellClick(recordId, profileId);
@@ -1456,7 +1457,8 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
                 width: 115,
                 cls: profile.id == this.self.READER_PROFILE_ID ? 'a-column-header-reader' : '',
                 tdCls: profile.id == this.self.READER_PROFILE_ID ? 'a-grid-cell-reader' : '',
-                renderer: this._renderAssignment
+                renderer: this._renderAssignment,
+                scope: this
             });
         }, this);
         
@@ -1583,8 +1585,6 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
      */
     _renderAssignment: function(value, metaData, record)
     {
-        var me = Ametys.plugins.coreui.profiles.ProfileAssignmentsTool;
-        
         var glyph, suffix;
         
         switch (value) 
@@ -1631,7 +1631,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         
         metaData.tdAttr = 'data-qtip="' + tooltip + '"';
         
-        var onclickFn = "Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.onCellClick('" + record.get('id') + "', '" + metaData.column.dataIndex + "')";
+        var onclickFn = "Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.onCellClick('" + record.get('id') + "', '" + metaData.column.dataIndex + "', '" + this.id + "')";
         
         if (value == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW_BY_ANONYMOUS)
         {
