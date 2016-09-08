@@ -224,8 +224,8 @@ public class ObserversTestCase extends AbstractRuntimeTestCase
     {
         public boolean supports(Event event)
         {
-            // support all by default
-            return true;
+            String id = event.getId();
+            return "basic".equals(id) || "priority".equals(id) || "async".equals(id) || "non-parallelizable-async".equals(id) || "pressure".equals(id);
         }
 
         public int getPriority(Event event)
