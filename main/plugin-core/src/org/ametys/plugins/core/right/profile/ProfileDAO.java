@@ -52,15 +52,12 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
     protected RightManager _rightManager;
     /** The SQL DAO */
     protected RightProfilesDAO _profilesDAO;
-    /** The observation manager */
-    protected ObservationManager _observationManager;
 
     public void service(ServiceManager smanager) throws ServiceException
     {
         _smanager = smanager;
         _rightManager = (RightManager) smanager.lookup(RightManager.ROLE);
         _profilesDAO = (RightProfilesDAO) smanager.lookup(RightProfilesDAO.ROLE);
-        _observationManager = (ObservationManager) smanager.lookup(ObservationManager.ROLE);
     }
     
     /**
@@ -104,10 +101,6 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
         
         Profile profile = _profilesDAO.addProfile(name, context);
         
-        Map<String, Object> eventParams = new HashMap<>();
-        eventParams.put(ObservationConstants.ARGS_PROFILE, profile);
-        _observationManager.notify(new Event(ObservationConstants.EVENT_PROFILE_ADDED, _currentUserProvider.getUser(), eventParams));
-        
         getLogger().debug("Ending profile creation");
         
         return profile.toJSON();
@@ -145,10 +138,6 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
             _profilesDAO.renameProfile(profile, name);
         }
         
-        Map<String, Object> eventParams = new HashMap<>();
-        eventParams.put(ObservationConstants.ARGS_PROFILE, profile);
-        _observationManager.notify(new Event(ObservationConstants.EVENT_PROFILE_UPDATED, _currentUserProvider.getUser(), eventParams));
-        
         getLogger().debug("Ending profile modification");
         
         return profile.toJSON();
@@ -181,10 +170,6 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
             _profilesDAO.updateRights(profile, rights);
         }
         
-        Map<String, Object> eventParams = new HashMap<>();
-        eventParams.put(ObservationConstants.ARGS_PROFILE, profile);
-        _observationManager.notify(new Event(ObservationConstants.EVENT_PROFILE_UPDATED, _currentUserProvider.getUser(), eventParams));
-        
         getLogger().debug("Ending profile modification");
         
         return profile.toJSON();
@@ -214,11 +199,7 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
             Profile profile = _profilesDAO.getProfile(id);
             if (profile != null)
             {
-                _profilesDAO.deleteProfile(id);
-                
-                Map<String, Object> eventParams = new HashMap<>();
-                eventParams.put(ObservationConstants.ARGS_PROFILE, profile);
-                _observationManager.notify(new Event(ObservationConstants.EVENT_PROFILE_DELETED, _currentUserProvider.getUser(), eventParams));
+                _profilesDAO.deleteProfile(profile);
             }
             else
             {

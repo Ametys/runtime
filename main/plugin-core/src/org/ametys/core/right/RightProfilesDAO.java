@@ -25,9 +25,15 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.avalon.framework.component.Component;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.ibatis.session.SqlSession;
 
+import org.ametys.core.ObservationConstants;
 import org.ametys.core.datasource.AbstractMyBatisDAO;
+import org.ametys.core.observation.Event;
+import org.ametys.core.observation.ObservationManager;
+import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.runtime.request.RequestListener;
 
 /**
@@ -43,6 +49,19 @@ public class RightProfilesDAO extends AbstractMyBatisDAO implements Component, R
      * { RightId : {[ProfileIds]}
      */
     private final ThreadLocal<Map<String, Set<String>>> _cacheProfilesTL = new ThreadLocal<>();
+
+    private ServiceManager _smanager;
+
+    private ObservationManager _observationManager;
+
+    private CurrentUserProvider _currentUserProvider;
+    
+    @Override
+    public void service(ServiceManager smanager) throws ServiceException
+    {
+        _smanager = smanager;
+        super.service(smanager);
+    }
     
     /**
      * Get all existing profiles
@@ -198,6 +217,8 @@ public class RightProfilesDAO extends AbstractMyBatisDAO implements Component, R
         try (SqlSession session = getSession(true))
         {
             session.insert("Profiles.addProfile", profile);
+            
+            _notifyEvent(profile, ObservationConstants.EVENT_PROFILE_ADDED);
         }
     }
     
@@ -214,6 +235,8 @@ public class RightProfilesDAO extends AbstractMyBatisDAO implements Component, R
             params.put("id", profile.getId());
             params.put("label", newLabel);
             session.update("Profiles.renameProfile", params);
+            
+            _notifyEvent(profile, ObservationConstants.EVENT_PROFILE_UPDATED);
         }
     }
     
@@ -281,6 +304,8 @@ public class RightProfilesDAO extends AbstractMyBatisDAO implements Component, R
             }
             
             session.commit();
+            
+            _notifyEvent(profile, ObservationConstants.EVENT_PROFILE_UPDATED);
         }
     }
     
@@ -302,21 +327,25 @@ public class RightProfilesDAO extends AbstractMyBatisDAO implements Component, R
         try (SqlSession session = getSession(true))
         {
             session.delete("Profiles.deleteProfileRights", profile.getId());
+            
+            _notifyEvent(profile, ObservationConstants.EVENT_PROFILE_UPDATED);
         }
     }
     
     /**
      * Delete a profile
-     * @param id The id of profile to delete
+     * @param profile The profile to delete
      */
-    public void deleteProfile (String id)
+    public void deleteProfile (Profile profile)
     {
         try (SqlSession session = getSession())
         {
-            session.delete("Profiles.deleteProfile", id);
-            session.delete("Profiles.deleteProfileRights", id);
+            session.delete("Profiles.deleteProfile", profile.getId());
+            session.delete("Profiles.deleteProfileRights", profile.getId());
             
             session.commit();
+            
+            _notifyEvent(profile, ObservationConstants.EVENT_PROFILE_DELETED);
         }
     }
     
@@ -335,5 +364,28 @@ public class RightProfilesDAO extends AbstractMyBatisDAO implements Component, R
             _cacheProfilesTL.set(null);
         }
         
+    }
+    
+    private void _notifyEvent (Profile profile, String eventId)
+    {
+        try
+        {
+            if (_observationManager == null)
+            {
+                _observationManager = (ObservationManager) _smanager.lookup(ObservationManager.ROLE);
+            }
+            if (_currentUserProvider == null)
+            {
+                _currentUserProvider = (CurrentUserProvider) _smanager.lookup(CurrentUserProvider.ROLE);
+            }
+            
+            Map<String, Object> eventParams = new HashMap<>();
+            eventParams.put(ObservationConstants.ARGS_PROFILE, profile);
+            _observationManager.notify(new Event(eventId, _currentUserProvider.getUser(), eventParams));
+        }
+        catch (ServiceException e)
+        {
+            getLogger().error("Fail to notify observers for event '" + eventId + "'", e);
+        }
     }
 }
