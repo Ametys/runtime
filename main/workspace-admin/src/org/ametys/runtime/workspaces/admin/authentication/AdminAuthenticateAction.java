@@ -30,7 +30,6 @@ import org.apache.cocoon.environment.SourceResolver;
 import org.ametys.core.authentication.AuthenticateAction;
 import org.ametys.core.right.RightManager;
 import org.ametys.core.right.RightManager.RightResult;
-import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.runtime.plugin.PluginsManager;
 
 /**
@@ -40,8 +39,6 @@ public class AdminAuthenticateAction extends AuthenticateAction
 {
     /** The right context for administration area */
     public static final String ADMIN_RIGHT_CONTEXT = "/admin";
-    /** The current user provider */
-    protected  CurrentUserProvider _currentUserProvider;
     /** The runtime rights manager */
     protected RightManager _rightManager;
     
@@ -49,7 +46,6 @@ public class AdminAuthenticateAction extends AuthenticateAction
     public void service(ServiceManager smanager) throws ServiceException
     {
         super.service(smanager);
-        _currentUserProvider = (CurrentUserProvider) smanager.lookup(CurrentUserProvider.ROLE);
         _rightManager = (RightManager) manager.lookup(RightManager.ROLE);
     }
     
