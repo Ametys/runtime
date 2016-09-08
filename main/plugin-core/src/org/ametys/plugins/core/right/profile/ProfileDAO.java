@@ -25,10 +25,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.commons.lang3.StringUtils;
 
-import org.ametys.core.ObservationConstants;
 import org.ametys.core.group.InvalidModificationException;
-import org.ametys.core.observation.Event;
-import org.ametys.core.observation.ObservationManager;
 import org.ametys.core.right.Profile;
 import org.ametys.core.right.RightManager;
 import org.ametys.core.right.RightProfilesDAO;
