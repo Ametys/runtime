@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
  /**
- * This class provides a widget to query and select one or more user populations.
+ * This class provides a widget to query and select one user directory.
  * 
  * This widget is registered for fields of type Ametys.form.WidgetManager#TYPE_STRING.<br>
  */
@@ -59,6 +59,7 @@ Ext.define('Ametys.form.field.SelectUserDirectory', {
         if (!this._store)
         {
             this._store = Ext.create('Ext.data.Store', {
+                autoLoad: true,
                 autoDestroy: true,
                 proxy: {
                     type: 'ametys',
