@@ -275,7 +275,7 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
         // location = plugin:PLUGIN_NAME://scripts/SCRIPT_FOLDER/SQL_FILENAME
         String locationPrefix = "plugin:core://scripts/" + scriptFolder + "/";
         
-        String tableName = "qrtz_job_details"; // assume that either none of the tables are created, either all are created
+        String tableName = "QRTZ_JOB_DETAILS"; // assume that either none of the tables are created, either all are created
         if (!_tableExists(connection, tableName))
         {
             String location = locationPrefix + "quartz.sql";
