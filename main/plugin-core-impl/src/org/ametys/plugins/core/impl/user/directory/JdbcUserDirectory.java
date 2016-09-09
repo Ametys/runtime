@@ -506,7 +506,7 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
 
             Map<String, Object> eventParams = new HashMap<>();
             eventParams.put(ObservationConstants.ARGS_USER, new UserIdentity(login, _populationId));
-            getObservationManager().notify(new Event(ObservationConstants.EVENT_USER_UPDATED, _currentUserProvider.getUser(), eventParams));
+            getObservationManager().notify(new Event(ObservationConstants.EVENT_USER_UPDATED, getCurrentUserProvider().getUser(), eventParams));
             
             if (isCacheEnabled())
             {
@@ -555,7 +555,7 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
 
             Map<String, Object> eventParams = new HashMap<>();
             eventParams.put(ObservationConstants.ARGS_USER, new UserIdentity(login, _populationId));
-            getObservationManager().notify(new Event(ObservationConstants.EVENT_USER_DELETED, _currentUserProvider.getUser(), eventParams));
+            getObservationManager().notify(new Event(ObservationConstants.EVENT_USER_DELETED, getCurrentUserProvider().getUser(), eventParams));
             
             if (isCacheEnabled())
             {
