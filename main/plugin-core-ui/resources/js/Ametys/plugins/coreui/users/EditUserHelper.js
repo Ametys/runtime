@@ -143,13 +143,13 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
 		        	reference: 'next',
 		            text: "{{i18n PLUGINS_CORE_UI_USERS_DIALOG_NEXT}}",
 		            handler: Ext.bind(function() {
-                        if (!this._chooseUserDirectoryDialog.down('#form').isValid())
+                        var userDirectoryField = this._chooseUserDirectoryDialog.items.getByKey('userDirectories');
+                        if (!userDirectoryField.isValid())
                         {
                             return;
                         }
-		                var populationId = this._chooseUserDirectoryDialog.down('#userPopulations').getValue(); // FIXME
-		                var udIndex = this._chooseUserDirectoryDialog.down('#userDirectories').getValue(); // FIXME
-		                this._open(populationId, udIndex, null);
+                        var userDirectoryValue = userDirectoryField.getValue().split('#', 2);
+		                this._open(userDirectoryValue[0], parseInt(userDirectoryValue[1], 10), null);
                         this._chooseUserDirectoryDialog.close();
 		            },this)
 		        }, {
