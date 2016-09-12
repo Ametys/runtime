@@ -73,6 +73,8 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
      */
     public void testEmpty() throws Exception
     {
+        Map<String, Object> environmentInformation = _cocoon._enterEnvironment();
+        
         Set<UserIdentity> users = _rightManager.getAllowedUsers("Runtime_Rights_User_Handle", "foo").resolveAllowedUsers(true);
         assertEquals(0, users.size());
         
@@ -80,6 +82,8 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
         
         List<Profile> profiles = _profilesDAO.getProfiles();
         assertEquals(1, profiles.size()); // There is the READER profile only
+        
+        _cocoon._leaveEnvironment(environmentInformation);
     }
     
     /**
@@ -88,6 +92,8 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
      */
     public void testFilled() throws Exception
     {
+        Map<String, Object> environmentInformation = _cocoon._enterEnvironment();
+        
         Set<UserIdentity> users;
         UserIdentity test = new UserIdentity("test", "population");
         UserIdentity test2 = new UserIdentity("test2", "population");
@@ -114,6 +120,8 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
         assertEquals(0, rights.size());
         rights = _rightManager.getUserRights(test2, "/test2");
         assertEquals(0, rights.size());
+        
+        _cocoon._leaveEnvironment(environmentInformation);
     }
     
     /**
