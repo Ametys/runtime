@@ -1105,6 +1105,18 @@
         </components>
     </feature>
     
+    <feature name="runtime.user.preferences.usermanager">
+        <!-- 
+            The users'preferences manager implementation, based on user manager.
+        -->
+        <components>
+            <component role="org.ametys.plugins.core.userpref.UserManagerUserPreferencesStorage"
+                       id="org.ametys.plugins.core.userpref.UserManagerUserPreferencesStorage"
+                       class="org.ametys.plugins.core.impl.userpref.UserManagerUserPreferenceStorage">
+            </component>
+        </components>
+    </feature>
+    
     <feature name="runtime.upload.manager.fs">
         <!--
             This feature defines components needed by the file system upload manager
