@@ -18,6 +18,7 @@ package org.ametys.plugins.core.right.profile;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 
+import org.ametys.core.right.Profile;
 import org.ametys.core.right.RightManager;
 import org.ametys.core.right.RightProfilesDAO;
 import org.ametys.core.script.SqlTablesInit;
@@ -52,6 +53,8 @@ public class CreateReaderProfileInit extends SqlTablesInit
         
         getLogger().info("Creating READER profile");
         String profileName = RightManager.READER_PROFILE_ID; // We give the same name as its id
-        _profilesDAO.addProfile(profileName, RightManager.READER_PROFILE_ID, null);
+        
+        Profile profile = new Profile(RightManager.READER_PROFILE_ID, profileName);
+        _profilesDAO.addProfile(profile, true);
     }
 }

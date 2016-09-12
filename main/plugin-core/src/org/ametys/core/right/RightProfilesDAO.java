@@ -211,15 +211,28 @@ public class RightProfilesDAO extends AbstractMyBatisDAO implements Component, R
     /**
      * Add a new profile
      * @param profile The profile to add
+     * @param silent Set to true to not notify observer of this update
      */
-    public void addProfile (Profile profile)
+    public void addProfile (Profile profile, boolean silent)
     {
         try (SqlSession session = getSession(true))
         {
             session.insert("Profiles.addProfile", profile);
             
-            _notifyEvent(profile, ObservationConstants.EVENT_PROFILE_ADDED);
+            if (!silent)
+            {
+                _notifyEvent(profile, ObservationConstants.EVENT_PROFILE_ADDED);
+            }
         }
+    }
+    
+    /**
+     * Add a new profile
+     * @param profile The profile to add
+     */
+    public void addProfile (Profile profile)
+    {
+        addProfile(profile, false);
     }
     
     /**
@@ -229,6 +242,17 @@ public class RightProfilesDAO extends AbstractMyBatisDAO implements Component, R
      */
     public void renameProfile (Profile profile, String newLabel)
     {
+        renameProfile(profile, newLabel, false);
+    }
+    
+    /**
+     * Rename a profile
+     * @param profile The profile to rename
+     * @param newLabel The updated label
+     * @param silent Set to true to not notify observer of this update
+     */
+    public void renameProfile (Profile profile, String newLabel, boolean silent)
+    {
         try (SqlSession session = getSession(true))
         {
             Map<String, Object> params = new HashMap<>();
@@ -236,7 +260,10 @@ public class RightProfilesDAO extends AbstractMyBatisDAO implements Component, R
             params.put("label", newLabel);
             session.update("Profiles.renameProfile", params);
             
-            _notifyEvent(profile, ObservationConstants.EVENT_PROFILE_UPDATED);
+            if (!silent)
+            {
+                _notifyEvent(profile, ObservationConstants.EVENT_PROFILE_UPDATED);
+            }
         }
     }
     
@@ -291,6 +318,17 @@ public class RightProfilesDAO extends AbstractMyBatisDAO implements Component, R
      */
     public void updateRights (Profile profile, List<String> rights)
     {
+        updateRights(profile, rights, false);
+    }
+    
+    /**
+     * Update the rights of a profile
+     * @param profile The profile
+     * @param rights The rights of the profile
+     * @param silent Set to true to not notify observer of this update
+     */
+    public void updateRights (Profile profile, List<String> rights, boolean silent)
+    {
         try (SqlSession session = getSession())
         {
             session.delete("Profiles.deleteProfileRights", profile.getId());
@@ -305,7 +343,10 @@ public class RightProfilesDAO extends AbstractMyBatisDAO implements Component, R
             
             session.commit();
             
-            _notifyEvent(profile, ObservationConstants.EVENT_PROFILE_UPDATED);
+            if (!silent)
+            {
+                _notifyEvent(profile, ObservationConstants.EVENT_PROFILE_UPDATED);
+            }
         }
     }
     
@@ -324,11 +365,24 @@ public class RightProfilesDAO extends AbstractMyBatisDAO implements Component, R
      */
     public void removeRights (Profile profile)
     {
+        removeRights(profile, false);
+    }
+    
+    /**
+     * Add a right to a profile
+     * @param profile The profile
+     * @param silent Set to true to not notify observer of this update
+     */
+    public void removeRights (Profile profile, boolean silent)
+    {
         try (SqlSession session = getSession(true))
         {
             session.delete("Profiles.deleteProfileRights", profile.getId());
             
-            _notifyEvent(profile, ObservationConstants.EVENT_PROFILE_UPDATED);
+            if (!silent)
+            {
+                _notifyEvent(profile, ObservationConstants.EVENT_PROFILE_UPDATED);
+            }
         }
     }
     
@@ -338,6 +392,16 @@ public class RightProfilesDAO extends AbstractMyBatisDAO implements Component, R
      */
     public void deleteProfile (Profile profile)
     {
+        deleteProfile(profile, false);
+    }
+    
+    /**
+     * Delete a profile
+     * @param profile The profile to delete
+     * @param silent Set to true to not notify observer of this update
+     */
+    public void deleteProfile (Profile profile, boolean silent)
+    {
         try (SqlSession session = getSession())
         {
             session.delete("Profiles.deleteProfile", profile.getId());
@@ -345,7 +409,10 @@ public class RightProfilesDAO extends AbstractMyBatisDAO implements Component, R
             
             session.commit();
             
-            _notifyEvent(profile, ObservationConstants.EVENT_PROFILE_DELETED);
+            if (!silent)
+            {
+                _notifyEvent(profile, ObservationConstants.EVENT_PROFILE_DELETED);
+            }
         }
     }
     

@@ -105,7 +105,7 @@ public class GroupDirectoryFactory extends AbstractLogEnabled implements Extensi
             Class<GroupDirectory> groupDirectoryClass = groupDirectoryModel.getGroupDirectoryClass();
             try
             {
-                groupDirectory = groupDirectoryModel.getGroupDirectoryClass().newInstance();
+                groupDirectory = groupDirectoryClass.newInstance();
             }
             catch (InstantiationException | IllegalAccessException  e)
             {
