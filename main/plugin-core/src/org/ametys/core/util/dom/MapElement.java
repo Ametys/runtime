@@ -17,6 +17,7 @@ package org.ametys.core.util.dom;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -31,6 +32,7 @@ import org.w3c.dom.NodeList;
 public class MapElement extends AbstractAmetysElement
 {
     private Map<String, ? extends Object> _values;
+    private Map<String, String> _attributes;
     
     /**
      * Constructor.
@@ -39,10 +41,22 @@ public class MapElement extends AbstractAmetysElement
      */
     public MapElement(String tagName, Map<String, ? extends Object> values)
     {
+        this(tagName, Collections.emptyMap(), values);
+    }
+    
+    /**
+     * Constructor.
+     * @param tagName the tag name.
+     * @param attributes The attributes names and values.
+     * @param values the values.
+     */
+    public MapElement(String tagName, Map<String, String> attributes, Map<String, ? extends Object> values)
+    {
         super(tagName);
         _values = values;
+        _attributes = attributes;
     }
-
+    
     /**
      * Constructor.
      * @param tagName the tag name.
@@ -54,11 +68,36 @@ public class MapElement extends AbstractAmetysElement
         super(tagName, parent);
         _values = values;
     }
+    
+    /**
+     * Constructor.
+     * @param tagName the tag name.
+     * @param attributes The attributes names and values.
+     * @param values the values.
+     * @param parent the parent {@link Element} if any.
+     */
+    public MapElement(String tagName, Map<String, String> attributes, Map<String, ? extends Object> values, Element parent)
+    {
+        super(tagName, parent);
+        _values = values;
+        _attributes = attributes;
+    }
+    
 
     @Override
     protected Map<String, AmetysAttribute> _lookupAttributes()
     {
-        return Collections.emptyMap();
+        Map<String, AmetysAttribute> attrs = new HashMap<>();
+        
+        if (_attributes != null)
+        {
+            for (String name : _attributes.keySet())
+            {
+                attrs.put(name, new AmetysAttribute(name, name, null, _attributes.get(name), this));
+            }
+        }
+        
+        return attrs;
     }
     
     @Override
@@ -97,17 +136,25 @@ public class MapElement extends AbstractAmetysElement
                 
                 for (Object value : values)
                 {
-                    if (value == null)
+                    Object realValue = value;
+                    Map<String, String> attributes = null;
+                    if (value instanceof MapNode)
                     {
-                        list.add(new StringElement(entry.getKey(), "", this));
+                        realValue = ((MapNode) value).getValue();
+                        attributes = ((MapNode) value).getAttributes();
                     }
-                    else if (value instanceof String)
+                    
+                    if (realValue == null)
                     {
-                        list.add(new StringElement(entry.getKey(), (String) value, this));
+                        list.add(new StringElement(entry.getKey(), attributes, "", this));
                     }
-                    else if (value instanceof Map)
+                    else if (realValue instanceof String)
                     {
-                        list.add(new MapElement(entry.getKey(), (Map<String, ? extends Object>) value, this));
+                        list.add(new StringElement(entry.getKey(), attributes, (String) realValue, this));
+                    }
+                    else if (realValue instanceof Map)
+                    {
+                        list.add(new MapElement(entry.getKey(), attributes, (Map<String, ? extends Object>) realValue, this));
                     }
                     else
                     {
@@ -118,5 +165,44 @@ public class MapElement extends AbstractAmetysElement
         }
         
         return new AmetysNodeList(list);
+    }
+    
+    /**
+     * This class represents a element 
+     *
+     */
+    public static class MapNode
+    {
+        private Object _value;
+        private Map<String, String> _attrs;
+
+        /**
+         * Constructor
+         * @param value The value
+         * @param attributes The attributes
+         */
+        public MapNode (Object value, Map<String, String> attributes)
+        {
+            _value = value;
+            _attrs = attributes;
+        }
+        
+        /**
+         * Get the attributes
+         * @return the attributes
+         */
+        public Map<String, String> getAttributes()
+        {
+            return _attrs;
+        }
+        
+        /**
+         * Get the value
+         * @return the value
+         */
+        public Object getValue ()
+        {
+            return _value;
+        }
     }
 }
