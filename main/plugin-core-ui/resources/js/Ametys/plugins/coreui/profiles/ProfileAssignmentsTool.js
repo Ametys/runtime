@@ -1257,7 +1257,20 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         var records = this._getUnfilteredRecords();
         records.each(function(record) {
             Ext.Object.each(this._storedValues, function(profileId, assignments) {
-            	assignments[record.getId()] = record.get(profileId) || Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_UNKNOWN;
+            	var assignment = record.get(profileId);
+            	
+            	if (assignment && (assignment == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_ALLOW
+            			|| assignment == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_DENY
+            			|| assignment == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_ALLOW
+            			|| assignment == Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_INHERITED_DENY))
+            	{
+            		assignments[record.getId()] = record.get(profileId)
+            	}
+            	else
+            	{
+            		// All other assignment values can not be server-side values
+            		assignments[record.getId()] = Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.ACCESS_TYPE_UNKNOWN;
+            	}
             }, this)
         }, this);
     },
