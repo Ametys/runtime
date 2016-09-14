@@ -22,6 +22,10 @@ Ext.define('Ametys.plugins.coreui.profiles.AbstractRightAssignmentContext', {
     /**
      * @cfg {String} label The readable label
      */
+	
+	/**
+     * @cfg {String} [priority=0] The priority of this context. The context of max priority will be selected at opening of the tool.
+     */
     
     /**
      * @private
@@ -49,6 +53,16 @@ Ext.define('Ametys.plugins.coreui.profiles.AbstractRightAssignmentContext', {
     getComponent: function()
     {
         throw new Error("This method is not implemented in " + this.getName());
+    },
+    
+    /**
+     * Get the priority of this context
+     * The context of max priority will be selected at opening of the Ametys.plugins.coreui.profiles.ProfileAssignmentsTool tool.
+     * By default the priority the get from configuration options
+     */
+    getPriority: function ()
+    {
+    	return this._config.priority ? parseInt(this._config.priority) : 0;
     },
     
     /**

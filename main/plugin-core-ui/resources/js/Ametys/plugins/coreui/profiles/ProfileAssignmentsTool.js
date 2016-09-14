@@ -1395,22 +1395,37 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         this.getContentPanel().down('#grid-wrapper').add(this._assignmentsGrid);
         
         // Load the contexts store
-        this._contextCombobox.getStore().load({callback: function(records) {
-            var rightAssignmentContextIds = Ext.Array.map(records, function(record) {return record.get('value');}),
-                contributorContext = "org.ametys.plugins.core.impl.right.ContributorRightAssignmentContext";
-            
-            if (records.length > 0 && Ext.Array.contains(rightAssignmentContextIds, contributorContext))
+        this._contextCombobox.getStore().load({callback: this._onLoadContextCb, scope: this});
+    },
+    
+    /**
+     * @private
+     * Callback invoked after loading the right contexts.
+     * Select the context of max priority
+     */
+    _onLoadContextCb: function ()
+    {
+    	var contextIdToSelect = null;
+    	var maxPriority = 0;
+    	
+    	Ext.Object.each(this.getFactory()._rightAssignmentContexts, function(contextId, rightAssignmentContext) {
+            if (rightAssignmentContext.getPriority() > maxPriority)
             {
-                // By default select the contributor context
-                this._contextCombobox.select(contributorContext);
+            	contextIdToSelect = contextId;
+            	maxPriority = rightAssignmentContext.getPriority();
             }
-            else if (records.length > 0)
-            {
-                // In case contributor context was not found, select first option
-                this._contextCombobox.select(records[0].get('value'));
-            }
-            this._refreshCb();
-        }, scope: this});
+        }, this);
+    	
+    	if (contextIdToSelect != null)
+    	{
+    		this._contextCombobox.select(contextIdToSelect);
+    	}
+    	else
+    	{
+    		this._contextCombobox.select(this._contextCombobox.getStore().getAt(0).get('value'));
+    	}
+    	
+    	this.showRefreshed();
     },
     
     /**
@@ -1480,16 +1495,6 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         }));
         
         return columns;
-    },
-    
-    /**
-     * @private
-     * Called when the refresh process is over.
-     */
-    _refreshCb: function()
-    {
-        this.showRefreshed();
-        this.showUpToDate();
     },
     
     getMBSelectionInteraction: function() 
