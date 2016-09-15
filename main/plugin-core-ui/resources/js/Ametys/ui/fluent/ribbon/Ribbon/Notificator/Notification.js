@@ -16,22 +16,18 @@
 
 /**
  * The model of a notification.
- * The main fields to set:
- * 
- * * {String} title The notification title
- * * {String} description The notification description
- * * {Function} action The function to execute when clicking on '<a>' elements of description
- * * {String} actionFunction The function called to execute the functions of 'action' field
- * * {String} type=info The notification type between 'info', 'warn', 'error'.
- * 
- * Other fields:
- * 
- * * {Boolean} displayed Is the notification currently visible on a toast
- * * {Boolean} read Was the notification already read?
  */
 Ext.define("Ametys.ui.fluent.ribbon.Ribbon.Notificator.Notification", {
     extend: 'Ext.data.Model',
 
+    /** @cfg {String} title (required) The notification title */
+    /** @cfg {String} description (required) The notification description */
+    /** @cfg {Function} action The function to execute when clicking on '&lt;a&gt;' elements of description */
+    /** @cfg {String} actionFunction The function called to execute the functions of 'action' field */
+    /** @cfg {String} type=info The notification type between 'info', 'warn', 'error' */
+    /** @cfg {Boolean} displayed Is the notification currently visible on a toast */
+    /** @cfg {Boolean} read Was the notification already read? */
+    
     fields: [
      	{name: 'id', type: 'string'},
         {name: 'title',  type: 'string'},
