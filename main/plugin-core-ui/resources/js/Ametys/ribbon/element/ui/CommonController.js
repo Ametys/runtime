@@ -258,7 +258,7 @@ Ext.define(
 		 */
 		
 		/**
-		 * @cfg {String} tool-id When specified, the button will only be enabled if a tool with this role is focused/activated or opened (see #tool-enable-on-status). This is a regexp. A leading '!' will reverse the regexp condition.
+		 * @cfg {String} tool-id When specified, the button will only be enabled if a tool with this role is focused/activated or opened (see {@link #tool-enable-on-status}). This is a regexp. A leading '!' will reverse the regexp condition.
 		 */
 		/**
 		 * @cfg {String} [tool-enable-on-status=focus] Will determine the tool-id mode.
@@ -269,11 +269,21 @@ Ext.define(
 		 */
 		
 		/**
+		 * @cfg {Boolean} tool-enable-on-dirty-state When specified, the button will only be enabled if the dirty state of configured matching tool (see {@link #tool-id}) matches the value
+		 */
+		/**
+		 * @cfg {String} tool-dirty-state-description-nomatch When a {@link #tool-enable-on-dirty-state} is specified, this description is used to explain why the button is inactive.
+		 */
+		
+		/**
 		 * @property {Boolean} _toolStatus See #cfg-tool-id. True means the button takes care of the status of some tools.
 		 * @private
 		 */
 		/**
-		 * @property {Boolean} _toolStatusMatch Boolean indicating if the current state of the controller  matches the prerequisite towards the tool status. Only used if #_toolStatus is true
+		 * @property {Boolean} _toolStatusMatch Boolean indicating if the current state of the controller matches the prerequisite towards the tool status. Only used if #_toolStatus is true
+		 */
+		/**
+		 * @property {Boolean} _toolDirtyStateMatch Boolean indicating if the current state of the controller matches the prerequisite towards the current tool dirty state. Only used if #_enableOnDirtyState is not null.
 		 */
 		/**
 		 * @property {RegExp} _toolId The #cfg-tool-id converted as a regexp. The '!' condition is available in #_toolReveredRole.
@@ -300,11 +310,15 @@ Ext.define(
 		 * @private
 		 */
 		/**
-		 * @property {Boolean} _enableOnToolOpen Indicates that this controllers must react to open event for the matching tools (see #tool-id and #tool-enable-on-status)
+		 * @property {Boolean} _enableOnToolOpen Indicates that this controller must react to open event for the matching tools (see #tool-id and #tool-enable-on-status)
 		 * @private
 		 */
 		/**
-		 * @property {Boolean} _enableOnToolFocus Indicates that this controllers must react to focus event for the matching tools (see #tool-id and #tool-enable-on-status)
+		 * @property {Boolean} _enableOnToolFocus Indicates that this controller must react to focus event for the matching tools (see #tool-id and #tool-enable-on-status)
+		 * @private
+		 */
+		/**
+		 * @property {Boolean} _enableOnDirtyState Indicates the dirty state value of the matching tool for which this controller must be enable (see #tool-id and #tool-enable-on-dirty-state)
 		 * @private
 		 */
 		
@@ -536,6 +550,8 @@ Ext.define(
 				this.setAdditionalDescription(this.getInitialConfig("tool-description-inactive"));
 				
 				this._toolStatusMatch = false;
+				this._enableOnDirtyState = null;
+				this._toolDirtyStateMatch = null;
 				this._toolOpened = false;
 				this._toolActivated = false;
 				this._toolFocused = false;
@@ -556,6 +572,14 @@ Ext.define(
 						this._enableOnToolFocus = true;
 						Ametys.message.MessageBus.on(Ametys.message.Message.TOOL_FOCUSED, this._onAnyToolStatusChange, this);
 						Ametys.message.MessageBus.on(Ametys.message.Message.TOOL_BLURRED, this._onAnyToolStatusChange, this);
+				}
+				
+				if (this.getInitialConfig('tool-enable-on-dirty-state'))
+				{
+					this._enableOnDirtyState = this.getInitialConfig('tool-enable-on-dirty-state') == "true";
+					// At the opening of the tool, the tool is not dirty (dirty state is equals to false)
+					this._lastDirtyStateUpdate = false;
+					Ametys.message.MessageBus.on(Ametys.message.Message.TOOL_DIRTY_STATE_CHANGED, this._onDirtyStateChange, this);
 				}
 				
 				var i = toolId.indexOf('!');
@@ -846,6 +870,20 @@ Ext.define(
 				this.refresh(false);
 			}
 		},
+		
+		/**
+		 * Listener when the dirty state of a tool has changed. Registered only if #cfg-tool-id and #cfg-tool-enable-on-dirty-state is specified. Will enable the buttons effectively.
+		 * @param {Ametys.message.Message} message The tool message
+		 * @private
+		 */
+		_onDirtyStateChange: function (message)
+		{
+			if (this._getMatchingToolsTarget(message).length > 0)
+			{
+				this._lastDirtyStateUpdate = message.getParameters().dirty;
+				this.refresh(false);
+			}
+		},
 
 		/**
 		 * Listener when the selection has changed. Registered only if #cfg-selection-target-id is specified. 
@@ -875,6 +913,12 @@ Ext.define(
 				return;
 			}
 			
+			var toolDirtyStateChanged = this._testToolDirtyStateChanges();
+			if (this._toolDirtyStateMatch === false)
+			{
+				return;
+			}
+			
 			var selectionChanged = this._testSelectionChanges();
 			if (this._selectionMatch === false)
 			{
@@ -882,9 +926,9 @@ Ext.define(
 			}
 			
 			var forcedUpdate = force !== false; // force update except if 'force' is explicitly set to false 
-			if (forcedUpdate || toolStatusChanged || selectionChanged)
+			if (forcedUpdate || toolStatusChanged || toolDirtyStateChanged || selectionChanged)
 			{
-				this.updateState(selectionChanged, toolStatusChanged);
+				this.updateState(selectionChanged, toolStatusChanged, toolDirtyStateChanged);
 			}
 		},
 		
@@ -921,6 +965,34 @@ Ext.define(
 			{
 				this.disable();
 				this.setAdditionalDescription(this.getInitialConfig("tool-description-inactive"));
+			}
+			
+			return hasChanged;
+		},
+		
+		/**
+		 * Detect if the tool dirty state has changed for this controller and update the #_toolDirtyStateMatch internal variable
+		 * If the tool dirty state does not match anymore, the controller will be disabled with a configured additional description.
+		 * @return {Boolean} true if changes have been detected.
+		 * @private
+		 */
+		_testToolDirtyStateChanges: function ()
+		{
+			if (this._enableOnDirtyState == null)
+			{
+				return false;
+			}
+			
+			var currentMatch = this._toolDirtyStateMatch;
+			
+			this._toolDirtyStateMatch = this._enableOnDirtyState == this._lastDirtyStateUpdate;
+			
+			var hasChanged = currentMatch !== this._toolDirtyStateMatch;
+			
+			if (hasChanged && this._toolDirtyStateMatch === false)
+			{
+				this.disable();
+				this.setAdditionalDescription(this.getInitialConfig("tool-dirty-state-description-nomatch"));
 			}
 			
 			return hasChanged;
@@ -1447,10 +1519,13 @@ Ext.define(
 		 * This means that at this point, all prerequisite given the current selection and the tool status are valid.
 		 * This is the place to add additional treatments and/or to make a server request (with the server call mechanism).
 		 * By default it only enable the controller and reset its additional description.
+		 * @param {Boolean} selectionChanged true if this method has been invoked because the selection has changed
+		 * @param {Boolean} toolStatusChanged true if this method has been invoked because the tool status has changed
+		 * @param {Boolean} selectionChanged true if this method has been invoked because the tool dirty state has changed
 		 * @template
 		 * @protected
 		 */
-		updateState: function(selectionChanged, toolStatusChanged)
+		updateState: function(selectionChanged, toolStatusChanged, toolDirtyStateChanged)
 		{
 			this.setAdditionalDescription('');
 			this.enable();

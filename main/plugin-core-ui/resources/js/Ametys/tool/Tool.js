@@ -534,11 +534,25 @@ Ext.define("Ametys.tool.Tool",
          */
         setDirty: function (dirty)
         {
-            this._dirty = dirty;
-            if (this.getWrapper()) 
-            {
-            	this.getWrapper().setDirtyState(this.isDirty());
-            }
+        	if (this._dirty != dirty)
+        	{
+        		this._dirty = dirty;
+                if (this.getWrapper()) 
+                {
+                	this.getWrapper().setDirtyState(this.isDirty());
+                }
+                
+                Ext.create("Ametys.message.Message", {
+    				type: Ametys.message.Message.TOOL_DIRTY_STATE_CHANGED,
+    				parameters: {
+    					dirty: dirty
+    				},
+    				targets: {
+    					id: Ametys.message.MessageTarget.TOOL,
+    					parameters: { tools: [this] }
+    				}
+    			});
+        	}
         },
         
 		/**
@@ -1182,6 +1196,18 @@ Ext.define("Ametys.message.ToolMessage",
 			 * This event has no parameters
 			 */
 			TOOL_PARAMS_UPDATED: "toolParamsUpdated",
+			
+			/**
+			 * @readonly
+			 * @static
+			 * @member Ametys.message.Message
+			 * @property {String} TOOL_DIRTY_STATE_CHANGED Event when the dirty state of the tool has changed.
+			 * The target is a Ametys.tool.Tool. 
+			 * This event has one parameter:
+			 * @property {Boolean} TOOL_DIRTY_STATE_CHANGED.dirty The new dirty state
+			 * 
+			 */
+			TOOL_DIRTY_STATE_CHANGED: "toolDirtyStateChanged",
 			
 			/**
 			 * @readonly

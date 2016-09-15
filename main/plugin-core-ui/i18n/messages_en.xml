@@ -1288,6 +1288,7 @@
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_SAVE_DESCRIPTION">Save the local changes made.</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CANCEL_LABEL">Cancel changes</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CANCEL_DESCRIPTION">Discard the unsaved changes</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_NO_CHANGE">This button is disabled because no changes were made</message>
     
     <!-- Actions -->
     <message key="PLUGINS_CORE_UI_PROFILES_ADD_LABEL">New profile</message>

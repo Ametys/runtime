@@ -1285,11 +1285,12 @@
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ADD_GROUPS_DESCRIPTION">Ajouter des groupes dans le tableau des affectations. Ceci ne modifie pas leurs affectations.</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_REMOVE_LABEL">Supprimer des affectations</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_REMOVE_DESCRIPTION">Supprime des affectations aux utilisateurs et/ou groupes sélectionnés.</message>
-    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_REMOVE_NO_REMOVABLE_DESCRIPTION">Aucun utilisateur ou groupe avec au minimum une affectation locale n'est sélectionné.</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_REMOVE_NO_REMOVABLE_DESCRIPTION">Ce bouton est désactivé car utilisateur ou groupe avec au minimum une affectation locale n'est sélectionné.</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_SAVE_LABEL">Enregistrer les modifications</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_SAVE_DESCRIPTION">Enregistre l'ensemble modifications non sauvegardées</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CANCEL_LABEL">Annuler les modifications</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CANCEL_DESCRIPTION">Annule l'ensemble modifications non sauvegardées</message>
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_NO_CHANGE">Ce bouton est désactivé car aucune modification n'a été effectuée</message>
     
     <!-- Actions -->
     <message key="PLUGINS_CORE_UI_PROFILES_ADD_LABEL">Nouveau profil</message>
