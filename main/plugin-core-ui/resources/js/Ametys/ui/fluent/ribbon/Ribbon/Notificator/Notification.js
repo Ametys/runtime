@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -23,10 +23,9 @@ Ext.define("Ametys.ui.fluent.ribbon.Ribbon.Notificator.Notification", {
     /** @cfg {String} title (required) The notification title */
     /** @cfg {String} description (required) The notification description */
     /** @cfg {Function} action The function to execute when clicking on '&lt;a&gt;' elements of description */
-    /** @cfg {String} actionFunction The function called to execute the functions of 'action' field */
     /** @cfg {String} type=info The notification type between 'info', 'warn', 'error' */
-    /** @cfg {Boolean} displayed Is the notification currently visible on a toast */
-    /** @cfg {Boolean} read Was the notification already read? */
+    /** @cfg {Boolean} displayed=false Is the notification currently visible on a toast */
+    /** @cfg {Boolean} read=false Was the notification already read? */
     
     fields: [
      	{name: 'id', type: 'string'},
