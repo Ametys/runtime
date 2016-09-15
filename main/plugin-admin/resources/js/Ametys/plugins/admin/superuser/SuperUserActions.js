@@ -271,11 +271,9 @@ Ext.define('Ametys.plugins.admin.superuser.SuperUserActions', {
             }]
         });
         
-        Ametys.Msg.show ({
+        Ametys.notify({
             title: "{{i18n PLUGINS_ADMIN_SUPERUSER_AFFECT_TITLE}}",
-            msg: "{{i18n PLUGINS_ADMIN_SUPERUSER_AFFECT_SUCCESS}}",
-            buttons: Ext.Msg.OK,
-            icon: Ext.MessageBox.INFO
+            description: "{{i18n PLUGINS_ADMIN_SUPERUSER_AFFECT_SUCCESS}}"
         });
     },
     
@@ -295,11 +293,9 @@ Ext.define('Ametys.plugins.admin.superuser.SuperUserActions', {
             }]
         });
         
-        Ametys.Msg.show ({
+        Ametys.notify({
             title: "{{i18n PLUGINS_ADMIN_SUPERUSER_AFFECT_TITLE}}",
-            msg: "{{i18n PLUGINS_ADMIN_SUPERUSER_AFFECT_SUCCESS}}",
-            buttons: Ext.Msg.OK,
-            icon: Ext.MessageBox.INFO
+            description: "{{i18n PLUGINS_ADMIN_SUPERUSER_AFFECT_SUCCESS}}"
         });
     }
 });
