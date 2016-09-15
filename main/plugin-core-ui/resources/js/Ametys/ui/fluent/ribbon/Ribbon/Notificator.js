@@ -192,7 +192,7 @@ Ext.override(Ametys, {
     * @method notify 
     * @since Ametys Runtime 4.0
     * @ametys
-    * Simple alias for #Ametys.ui.fluent.ribbon.Ribbon.Notificator.notify.
+    * Simple alias for Ametys.ui.fluent.ribbon.Ribbon.Notificator#notify.
     */
 	notify: function(config)
 	{
