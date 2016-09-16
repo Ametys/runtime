@@ -17,6 +17,7 @@ package org.ametys.core.ui.right;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -38,6 +39,8 @@ import org.ametys.core.ui.ClientSideElement;
 import org.ametys.core.ui.ClientSideElementHelper;
 import org.ametys.core.ui.StaticClientSideElement;
 import org.ametys.core.user.UserIdentity;
+
+import com.google.common.collect.Sets;
 
 /**
  * {@link ClientSideElement} for the tool displaying the profile assignments
@@ -176,6 +179,7 @@ public class ProfileAssignmentsToolClientSideElement extends StaticClientSideEle
         _groupManager = (GroupManager) smanager.lookup(GroupManager.ROLE);
     }
     
+    @SuppressWarnings("unchecked")
     @Override
     public List<Script> getScripts(boolean ignoreRights, Map<String, Object> contextParameters)
     {
@@ -188,23 +192,44 @@ public class ProfileAssignmentsToolClientSideElement extends StaticClientSideEle
             Map<String, Object> jsClasses = new HashMap<>();
             script.getParameters().put("classes", jsClasses);
             
-            for (String extensionId: _rightAssignmentContextEP.getExtensionsIds())
+            boolean excludePrivate = true;
+            Set<String> rightContextIds = _rightAssignmentContextEP.getExtensionsIds();
+            if (script.getParameters().containsKey("right-contexts"))
             {
-                RightAssignmentContext rightAssignmentContext = _rightAssignmentContextEP.getExtension(extensionId);
-                
-                List<Script> rightAssignmentContextScripts = rightAssignmentContext.getScripts(ignoreRights, contextParameters);
-                int index = 0;
-                for (Script rightAssignmentContextScript: rightAssignmentContextScripts)
+                excludePrivate = false;
+                // Restrict the right contexts to the configured right contexts if exist
+                Object ctxConfig = ((Map<String, Object>) script.getParameters().get("right-contexts")).get("right-context");
+                if (ctxConfig instanceof List)
                 {
-                    Map<String, Object> classInfo = new HashMap<>();
-                    classInfo.put("className", rightAssignmentContextScript.getScriptClassname());
-                    classInfo.put("serverId", extensionId);
-                    classInfo.put("parameters", rightAssignmentContextScript.getParameters());
-                    jsClasses.put(extensionId + "-" + index++, classInfo);
-                    
-                    script.getScriptFiles().addAll(rightAssignmentContextScript.getScriptFiles());
-                    script.getCSSFiles().addAll(rightAssignmentContextScript.getCSSFiles());
+                    rightContextIds = new HashSet<>((List<String>) ctxConfig);
                 }
+                else
+                {
+                    rightContextIds = Sets.newHashSet((String) ctxConfig);
+                }
+            }
+            
+            for (String rightContextId: rightContextIds)
+            {
+                RightAssignmentContext rightAssignmentContext = _rightAssignmentContextEP.getExtension(rightContextId);
+                
+                if (!excludePrivate || !rightAssignmentContext.isPrivate())
+                {
+                    List<Script> rightAssignmentContextScripts = rightAssignmentContext.getScripts(ignoreRights, contextParameters);
+                    int index = 0;
+                    for (Script rightAssignmentContextScript: rightAssignmentContextScripts)
+                    {
+                        Map<String, Object> classInfo = new HashMap<>();
+                        classInfo.put("className", rightAssignmentContextScript.getScriptClassname());
+                        classInfo.put("serverId", rightContextId);
+                        classInfo.put("parameters", rightAssignmentContextScript.getParameters());
+                        jsClasses.put(rightContextId + "-" + index++, classInfo);
+                        
+                        script.getScriptFiles().addAll(rightAssignmentContextScript.getScriptFiles());
+                        script.getCSSFiles().addAll(rightAssignmentContextScript.getCSSFiles());
+                    }
+                }
+                
             }
             
             scripts = new ArrayList<>();

@@ -363,14 +363,38 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
      */
     
     /**
-     * @private
-     * @property {String} [_profilesPluginName=core] The name of the plugin used to get the list of profiles
+     * @cfg {String} rightContextHintPrefix=PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_HINT1 The prefix text to use for right context hint
+     */
+    /**
+     * @private 
+     * @property {String} _rightContextHintPrefix. See #cfg-rightContextHintPrefix
      */
     
     /**
-     * @private
-     * @property {String} [_profilesUrl=rights/profiles.json] The url used to get the the list of profiles
+     * @cfg {String} profilesPluginName=core The name of the plugin used to get the list of profiles.
      */
+    /**
+     * @private
+     * @property {String} _profilesPluginName See #cfg-profilesPluginName
+     */
+    
+    /**
+     * @cfg {String} profilesUrl=rights/profiles.json The plugin url used to get the the list of profiles.
+     */
+    /**
+     * @private
+     * @property {String} See #cfg-profilesUrl
+     */
+    
+    constructor: function (config)
+    {
+    	this._profilesPluginName = config.profilesPluginName || 'core';
+        this._profilesUrl = config.profilesUrl || 'rights/profiles.json';
+        
+        this._rightContextHintPrefix = config.rightContextHintPrefix || "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_HINT1}}";
+        
+        this.callParent(arguments);
+    },
     
     createPanel: function()
     {
@@ -409,7 +433,6 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
                 'objectcontextchange': Ext.bind(this._onObjectContextChange, this)
             }
         });
-        
         
         this._createContextPanels();
         
@@ -645,7 +668,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         {
         	this.getContentPanel().down('#right-card-container').getLayout().setActiveItem(1);
             
-            this._assignmentsGrid.getDockedItems('#context-helper-text')[0].update("{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_HINT1}}" + hintTextContext);
+            this._assignmentsGrid.getDockedItems('#context-helper-text')[0].update(this._rightContextHintPrefix + hintTextContext);
             this._updateGrid();
         }
     },
@@ -1292,9 +1315,6 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
      */
     setParams: function(params)
     {
-        this._profilesPluginName = params['profilesPluginName'] || 'core';
-        this._profilesUrl = params['profilesUrl'] || 'rights/profiles.json';
-        
         this.callParent(arguments);
         this._objectContext = null;
         
@@ -1407,18 +1427,8 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         
         this.getContentPanel().down('#grid-wrapper').add(this._assignmentsGrid);
         
-        // Load the contexts store
-        this._contextCombobox.getStore().load({callback: this._onLoadContextCb, scope: this});
-    },
-    
-    /**
-     * @private
-     * Callback invoked after loading the right contexts.
-     * Select the context of max priority
-     */
-    _onLoadContextCb: function ()
-    {
-    	var contextIdToSelect = null;
+        // Select the context of max priority
+        var contextIdToSelect = null;
     	var maxPriority = 0;
     	
     	Ext.Object.each(this.getFactory()._rightAssignmentContexts, function(contextId, rightAssignmentContext) {
@@ -1436,6 +1446,16 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     	else
     	{
     		this._contextCombobox.select(this._contextCombobox.getStore().getAt(0).get('value'));
+    	}
+    	
+    	if (this._contextCombobox.getStore().getCount() == 1)
+    	{
+    		this._contextPanel.down("toolbar").hide();
+    	}
+    	
+    	if (this._profiles.length < 2)
+    	{
+    		this.getContentPanel().down('#profile-filter').hide();
     	}
     	
     	this.showRefreshed();
