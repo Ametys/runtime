@@ -1709,7 +1709,7 @@
                 <context>/admin</context>
             </extension>
 
-            <extension id="org.ametys.plugins.admin.rights.RightAssignmentContext"
+            <extension id="right.assignment.context.admin"
                        point="org.ametys.core.right.RightAssignmentContextExtensionPoint"
                        class="org.ametys.plugins.core.impl.right.StringRightAssignmentContext">
                 <workspace>^admin$</workspace>
