@@ -35,6 +35,8 @@ import org.ametys.runtime.workspace.WorkspaceMatcher;
  */
 public abstract class AbstractStaticRightAssignmentContext extends StaticClientSideElement implements RightAssignmentContext, Contextualizable
 {
+    /** The private property */
+    protected boolean _isPrivate;
     /** The avalon context */
     protected Context _context;
     /** The regexp that should match current workspace */
@@ -62,6 +64,8 @@ public abstract class AbstractStaticRightAssignmentContext extends StaticClientS
             }
             _workspaceMatcher = Pattern.compile(workspace);
         }
+        
+        _isPrivate = configuration.getChild("private").getValueAsBoolean(false);
     }
     
     @Override
@@ -73,6 +77,12 @@ public abstract class AbstractStaticRightAssignmentContext extends StaticClientS
         }
         
         return super.getScripts(ignoreRights, contextParameters);
+    }
+    
+    @Override
+    public boolean isPrivate()
+    {
+        return _isPrivate;
     }
     
     /**

@@ -26,6 +26,12 @@ import org.ametys.core.ui.ClientSideElement;
 public interface RightAssignmentContext extends ClientSideElement
 {
     /**
+     * Determines if this rights assignment context is a private context
+     * @return true if is private 
+     */
+    public boolean isPrivate();
+    
+    /**
      * From a JavaScript context object, converts it into a Java object
      * @param jsContext the JS context object
      * @return the Java object
