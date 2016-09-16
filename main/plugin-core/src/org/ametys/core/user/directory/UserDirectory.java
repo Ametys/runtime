@@ -19,7 +19,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.ametys.core.authentication.Credentials;
 import org.ametys.core.user.User;
 
 /**
@@ -83,9 +82,10 @@ public interface UserDirectory
     
     /**
      * Authenticate a user with its credentials
-     * @param credentials the credentials of the user. Cannot be null.
+     * @param login The login to check. Cannot be null.
+     * @param password The password to check.
      * @return true if the user is authenticated, false otherwise.
      */
-    public boolean checkCredentials(Credentials credentials);  
+    public boolean checkCredentials(String login, String password);  
     
 }

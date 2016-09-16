@@ -23,10 +23,11 @@ import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.cocoon.components.ContextHelper;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
+import org.apache.commons.lang3.StringUtils;
 
 import org.ametys.core.authentication.AbstractCredentialProvider;
-import org.ametys.core.authentication.Credentials;
 import org.ametys.core.authentication.NonBlockingCredentialProvider;
+import org.ametys.core.user.UserIdentity;
 
 /**
  * This manager gets the credentials given by a J2EE filter authentication.<br>
@@ -67,14 +68,14 @@ public class RemoteUserCredentialProvider extends AbstractCredentialProvider imp
     }
 
     @Override
-    public boolean validateNonBlocking(Redirector redirector) throws Exception
+    public boolean nonBlockingIsStillConnected(UserIdentity userIdentity, Redirector redirector) throws Exception
     {
         // this manager is always valid
         return true;
     }
 
     @Override
-    public boolean acceptNonBlocking()
+    public boolean nonBlockingGrantAnonymousRequest()
     {
         // this implementation does not have any particular request
         // to take into account
@@ -82,46 +83,54 @@ public class RemoteUserCredentialProvider extends AbstractCredentialProvider imp
     }
 
     @Override
-    public Credentials getCredentialsNonBlocking(Redirector redirector) throws Exception
+    public UserIdentity nonBlockingGetUserIdentity(Redirector redirector) throws Exception
     {
         Map objectModel = ContextHelper.getObjectModel(_context);
         String remoteLogin = ObjectModelHelper.getRequest(objectModel).getHeader(_headerName);
         if (remoteLogin == null)
         {
-            getLogger().error("Remote User is null ! Missing filter ?");
+            getLogger().error("Remote User is null! Missing filter?");
             return null;
         }
-        
-        int begin = remoteLogin.indexOf("\\");
-        if (begin <= 0)
+
+        if (StringUtils.isNotBlank(_realm))
         {
-            /* Domain authentication but non compliant */
-            getLogger().error("Remote User '{}' does not match realm\\login", remoteLogin);
-            return null;
+            int begin = remoteLogin.indexOf("\\");
+            if (begin <= 0)
+            {
+                /* Domain authentication but non compliant */
+                getLogger().error("Remote User '{}' does not match realm\\login", remoteLogin);
+                return null;
+            }
+    
+            String userLogin = remoteLogin.substring(begin + 1);
+            String userRealm = remoteLogin.substring(0, begin);
+            
+            if (!_realm.equals(userRealm))
+            {
+                getLogger().error("Remote user realm '{}' does not match application realm '{}'", userRealm, _realm);
+                return null;
+            }
+            
+            return new UserIdentity(userLogin, null);
         }
-
-        String userLogin = remoteLogin.substring(begin + 1);
-        String userRealm = remoteLogin.substring(0, begin);
-
-        if (_realm == null || !_realm.equals(userRealm))
+        else
         {
-            getLogger().error("Remote user realm '{}' does not match application realm '{}'", userRealm, _realm);
-            return null;
+            return new UserIdentity(remoteLogin, null);
         }
 
-        return new Credentials(userLogin, "");
+
     }
 
     @Override
-    public void notAllowedNonBlocking(Redirector redirector) throws Exception
+    public void nonBlockingUserNotAllowed(Redirector redirector) throws Exception
     {
         // nothing to do
     }
 
     @Override
-    public void allowedNonBlocking(Redirector redirector)
+    public void nonBlockingUserAllowed(UserIdentity userIdentity)
     {
-        // empty method, nothing more to do
+        // nothing to do
     }
-
 }

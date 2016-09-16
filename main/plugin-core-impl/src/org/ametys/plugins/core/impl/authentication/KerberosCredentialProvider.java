@@ -15,6 +15,8 @@
  */
 package org.ametys.plugins.core.impl.authentication;
 
+import java.io.File;
+import java.io.IOException;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import java.util.Map;
@@ -36,6 +38,7 @@ import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.Response;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.FileUtils;
 import org.ietf.jgss.GSSContext;
 import org.ietf.jgss.GSSCredential;
 import org.ietf.jgss.GSSException;
@@ -44,14 +47,15 @@ import org.ietf.jgss.GSSName;
 import org.ietf.jgss.Oid;
 
 import org.ametys.core.authentication.AbstractCredentialProvider;
-import org.ametys.core.authentication.BlockingCredentialProvider;
-import org.ametys.core.authentication.Credentials;
+import org.ametys.core.authentication.NonBlockingCredentialProvider;
+import org.ametys.core.user.UserIdentity;
 import org.ametys.runtime.authentication.AuthorizationRequiredException;
+import org.ametys.runtime.util.AmetysHomeHelper;
 
 /**
- * Kerberos http authentication based on AuthenticationManager.
+ * Kerberos http authentication.
  */
-public class KerberosCredentialProvider extends AbstractCredentialProvider implements BlockingCredentialProvider, Contextualizable
+public class KerberosCredentialProvider extends AbstractCredentialProvider implements NonBlockingCredentialProvider, Contextualizable
 {
     /** Name of the parameter holding the authentication server kdc adress */
     protected static final String __PARAM_KDC = "runtime.authentication.kerberos.kdc";
@@ -63,7 +67,7 @@ public class KerberosCredentialProvider extends AbstractCredentialProvider imple
     protected static final String __PARAM_PASSWORD = "runtime.authentication.kerberos.password";
     
     /** Name of the login config file */
-    protected static final String __LOGIN_CONF_FILE = "login.conf";
+    protected static final String __LOGIN_CONF_FILE = "jaas.conf";
     
     private Context _context;
     private GSSCredential _gssCredential;
@@ -89,7 +93,16 @@ public class KerberosCredentialProvider extends AbstractCredentialProvider imple
             System.setProperty("java.security.krb5.kdc", kdc);
             System.setProperty("java.security.krb5.realm", realm);
             org.apache.cocoon.environment.Context context = (org.apache.cocoon.environment.Context) _context.get(Constants.CONTEXT_ENVIRONMENT_CONTEXT);
-            System.setProperty("java.security.auth.login.config", context.getRealPath("/WEB-INF/param/" + __LOGIN_CONF_FILE));
+            if (System.getProperty("java.security.auth.login.config") == null)
+            {
+                String jaasConfLocation = context.getRealPath("/WEB-INF/param/" + __LOGIN_CONF_FILE);
+                if (!new File(jaasConfLocation).exists())
+                {
+                    jaasConfLocation = AmetysHomeHelper.getAmetysHomeTmp() + File.pathSeparator + __LOGIN_CONF_FILE;
+                    FileUtils.write(new File(jaasConfLocation), "kerberos {\ncom.sun.security.auth.module.Krb5LoginModule required\nstoreKey=true\nisInitiator=false;\n};");
+                }
+                System.setProperty("java.security.auth.login.config", jaasConfLocation);
+            }
             
             LoginContext loginContext = new LoginContext("kerberos", new CallbackHandler()
             {
@@ -127,21 +140,21 @@ public class KerberosCredentialProvider extends AbstractCredentialProvider imple
             
             _gssCredential = Subject.doAs(loginContext.getSubject(), action);
         }
-        catch (LoginException | PrivilegedActionException | ContextException e)
+        catch (IOException | LoginException | PrivilegedActionException | ContextException e)
         {
             throw new RuntimeException("Unable to initialize the KerberosCredentialProvider", e);
         }
     }
     
     @Override
-    public boolean validateBlocking(Redirector redirector) throws Exception
+    public boolean nonBlockingIsStillConnected(UserIdentity userIdentity, Redirector redirector) throws Exception
     {
         // this manager is always valid
         return true;
     }
     
     @Override
-    public boolean acceptBlocking()
+    public boolean nonBlockingGrantAnonymousRequest()
     {
         // this implementation does not have any particular request
         // to take into account
@@ -149,7 +162,7 @@ public class KerberosCredentialProvider extends AbstractCredentialProvider imple
     }
 
     @Override
-    public Credentials getCredentialsBlocking(Redirector redirector) throws Exception
+    public UserIdentity nonBlockingGetUserIdentity(Redirector redirector) throws Exception
     {
         Request request = ContextHelper.getRequest(_context);
         
@@ -176,7 +189,7 @@ public class KerberosCredentialProvider extends AbstractCredentialProvider imple
             GSSName gssSrcName = gssContext.getSrcName();
             if (gssSrcName == null)
             {
-                return null;
+                throw new AuthorizationRequiredException(true, null);
             }
             
             String login = gssSrcName.toString();
@@ -186,25 +199,24 @@ public class KerberosCredentialProvider extends AbstractCredentialProvider imple
                 login = login.substring(0, login.indexOf('@'));
             }
             
-            return new Credentials(login, "");
+            return new UserIdentity(login, null);
         }
         else
         {
-            return null;
+            throw new AuthorizationRequiredException(true, null);
         }
     }
 
     @Override
-    public void notAllowedBlocking(Redirector redirector) throws Exception
+    public void nonBlockingUserNotAllowed(Redirector redirector) throws Exception
     {
-        // Start negotiating
-        throw new AuthorizationRequiredException(true, null);
+        // Nothing
     }
-
+    
     @Override
-    public void allowedBlocking(Redirector redirector)
+    public void nonBlockingUserAllowed(UserIdentity userIdentity)
     {
-        // empty method, nothing more to do
+        // Nothing
     }
 
 }

@@ -32,6 +32,7 @@ import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.Session;
 import org.apache.cocoon.environment.http.HttpEnvironment;
+import org.apache.commons.lang3.StringUtils;
 import org.jasig.cas.client.authentication.AuthenticationFilter;
 import org.jasig.cas.client.util.AbstractCasFilter;
 import org.jasig.cas.client.util.HttpServletRequestWrapperFilter;
@@ -39,9 +40,7 @@ import org.jasig.cas.client.validation.Assertion;
 import org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter;
 
 import org.ametys.core.authentication.AbstractCredentialProvider;
-import org.ametys.core.authentication.AuthenticateAction;
 import org.ametys.core.authentication.BlockingCredentialProvider;
-import org.ametys.core.authentication.Credentials;
 import org.ametys.core.authentication.NonBlockingCredentialProvider;
 import org.ametys.core.authentication.filter.RuntimeFilter;
 import org.ametys.core.user.UserIdentity;
@@ -100,18 +99,18 @@ public class CASCredentialProvider extends AbstractCredentialProvider implements
     }
 
     @Override
-    public boolean validateBlocking(Redirector redirector) throws Exception
+    public boolean blockingIsStillConnected(UserIdentity userIdentity, Redirector redirector) throws Exception
     {
-        return _validate(redirector, false);
+        return StringUtils.equals(userIdentity.getLogin(), _getLoginFromFilter(false, redirector));
     }
     
     @Override
-    public boolean validateNonBlocking(Redirector redirector) throws Exception
+    public boolean nonBlockingIsStillConnected(UserIdentity userIdentity, Redirector redirector) throws Exception
     {
-        return _validate(redirector, true);
+        return blockingIsStillConnected(userIdentity, redirector);
     }
     
-    private boolean _validate(Redirector redirector, boolean gateway) throws Exception
+    private String _getLoginFromFilter(boolean gateway, Redirector redirector) throws Exception
     {
         Map objectModel = ContextHelper.getObjectModel(_context);
         Request request = ObjectModelHelper.getRequest(objectModel);
@@ -179,96 +178,71 @@ public class CASCredentialProvider extends AbstractCredentialProvider implements
             filter.doFilter(objectModel, redirector);
         }
         
-        boolean valid = true;
-        
         // If a redirect was sent, the getSession call won't work.
         if (!redirector.hasRedirected())
         {
-            Session session = request.getSession(false);
-            String userLogin = _getLogin(request);
-            String connectedLogin = session == null || session.getAttribute(AuthenticateAction.SESSION_USERIDENTITY) == null ? null : ((UserIdentity) session.getAttribute(AuthenticateAction.SESSION_USERIDENTITY)).getLogin();
-            valid = (userLogin != null) && userLogin.equals(connectedLogin);
+            return _getLogin(request);
         }
         
-        return valid;
+        return null;
     }
 
     @Override
-    public boolean acceptBlocking()
+    public boolean blockingGrantAnonymousRequest()
     {       
         return false;
     }
     
     @Override
-    public boolean acceptNonBlocking()
+    public boolean nonBlockingGrantAnonymousRequest()
     {
-        Map objectModel = ContextHelper.getObjectModel(_context);
-        Request request = ObjectModelHelper.getRequest(objectModel);
-        String userLogin = _getLogin(request);
-        
-        if (userLogin == null)
-        {
-            getLogger().debug("Gateway CAS : unauthenticated user, letting him through.");
-            return true;
-        }
-        
         return false;
     }
 
     @Override
-    public Credentials getCredentialsBlocking(Redirector redirector) throws Exception
+    public UserIdentity blockingGetUserIdentity(Redirector redirector) throws Exception
     {
-        Map objectModel = ContextHelper.getObjectModel(_context);
-        Request request = ObjectModelHelper.getRequest(objectModel);
-        String userLogin = _getLogin(request);
-
+        String userLogin = _getLoginFromFilter(false, redirector);
         if (userLogin == null)
         {
             throw new IllegalStateException("CAS authentication needs a CAS filter.");
         }
         
-        getLogger().debug("User authenticated by CAS : {}", userLogin);
-        
-        return new Credentials(userLogin, "");
+        return new UserIdentity(userLogin, null);
     }
     
     @Override
-    public Credentials getCredentialsNonBlocking(Redirector redirector) throws Exception
+    public UserIdentity nonBlockingGetUserIdentity(Redirector redirector) throws Exception
     {
-        Map objectModel = ContextHelper.getObjectModel(_context);
-        Request request = ObjectModelHelper.getRequest(objectModel);
-        String userLogin = _getLogin(request);
-
+        String userLogin = _getLoginFromFilter(false, redirector);
         if (userLogin == null)
         {
             return null;
         }
         
-        getLogger().debug("User authenticated by Gateway CAS : {}", userLogin);
-        
-        return new Credentials(userLogin, "");
+        return new UserIdentity(userLogin, null);
     }
 
     @Override
-    public void notAllowedBlocking(Redirector redirector) throws Exception
+    public void blockingUserNotAllowed(Redirector redirector) throws Exception
     {
         // Nothing to do.
     }
     
     @Override
-    public void notAllowedNonBlocking(Redirector redirector) throws Exception
+    public void nonBlockingUserNotAllowed(Redirector redirector) throws Exception
     {
         // Nothing to do.
     }
 
     @Override
-    public void allowedBlocking(Redirector redirector)
+    public void blockingUserAllowed(UserIdentity userIdentity)
     {
         // Empty method, nothing more to do.
     }
     
     @Override
-    public void allowedNonBlocking(Redirector redirector)
+    public void nonBlockingUserAllowed(UserIdentity userIdentity)
     {
         // Empty method, nothing more to do.
     }

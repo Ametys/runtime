@@ -19,7 +19,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -73,9 +73,9 @@ public class PopulationContextHelper extends AbstractLogEnabled implements Compo
      */
     @SuppressWarnings("resource")
     @Callable
-    public Set<String> link(String context, List<String> ids)
+    public List<String> link(String context, List<String> ids)
     {
-        Set<String> result = getUserPopulationsOnContext(context); // Get the already linked ids
+        List<String> result = getUserPopulationsOnContext(context); // Get the already linked ids
         
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -138,12 +138,12 @@ public class PopulationContextHelper extends AbstractLogEnabled implements Compo
      * @return The ids of populations linked to the context
      */
     @Callable
-    public Set<String> getUserPopulationsOnContext(String context)
+    public List<String> getUserPopulationsOnContext(String context)
     {
         if (ADMIN_CONTEXT.equals(context))
         {
             // Return all the enabled populations
-            return _userPopulationDAO.getEnabledUserPopulations(true).stream().map(UserPopulation::getId).collect(Collectors.toSet());
+            return _userPopulationDAO.getEnabledUserPopulations(true).stream().map(UserPopulation::getId).collect(Collectors.toList());
         }
         else
         {
@@ -157,17 +157,17 @@ public class PopulationContextHelper extends AbstractLogEnabled implements Compo
      * @return The ids of populations linked to the contexts
      */
     @Callable
-    public Set<String> getUserPopulationsOnContexts(Set<String> contexts)
+    public List<String> getUserPopulationsOnContexts(Set<String> contexts)
     {
         return contexts.stream()
                 .map(this::getUserPopulationsOnContext)
-                .flatMap(Set::stream)
-                .collect(Collectors.toSet());
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
     }
     
-    private Set<String> _getPopulationsOnContextFromDatabase(String context)
+    private List<String> _getPopulationsOnContextFromDatabase(String context)
     {
-        Set<String> result = new HashSet<>();
+        List<String> result = new ArrayList<>();
         
         Connection connection = null;
         PreparedStatement stmt = null;

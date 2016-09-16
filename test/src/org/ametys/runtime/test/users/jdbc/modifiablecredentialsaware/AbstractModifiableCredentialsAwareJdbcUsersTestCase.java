@@ -18,7 +18,6 @@ package org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.ametys.core.authentication.Credentials;
 import org.ametys.core.user.InvalidModificationException;
 import org.ametys.core.user.User;
 import org.ametys.core.user.directory.ModifiableUserDirectory;
@@ -129,9 +128,9 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         userInformation.put("email", "");
         userInformation.put("password", "testpassword");
         modifiableUserDirectory.add(userInformation);
-        assertTrue(_userDirectory.checkCredentials(new Credentials("test", "testpassword")));
-        assertFalse(_userDirectory.checkCredentials(new Credentials("test", "wrongpassword")));
-        assertFalse(_userDirectory.checkCredentials(new Credentials("test2", "testpassword")));
+        assertTrue(_userDirectory.checkCredentials("test", "testpassword"));
+        assertFalse(_userDirectory.checkCredentials("test", "wrongpassword"));
+        assertFalse(_userDirectory.checkCredentials("test2", "testpassword"));
         
         userInformation = new HashMap<>();
         userInformation.put("login", "test2");
@@ -140,9 +139,9 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         userInformation.put("email", "test2@test.te");
         userInformation.put("password", "testpassword");
         modifiableUserDirectory.add(userInformation);
-        assertTrue(_userDirectory.checkCredentials(new Credentials("test", "testpassword")));
-        assertFalse(_userDirectory.checkCredentials(new Credentials("test", "wrongpassword")));
-        assertTrue(_userDirectory.checkCredentials(new Credentials("test2", "testpassword")));
+        assertTrue(_userDirectory.checkCredentials("test", "testpassword"));
+        assertFalse(_userDirectory.checkCredentials("test", "wrongpassword"));
+        assertTrue(_userDirectory.checkCredentials("test2", "testpassword"));
         
         user = _userDirectory.getUser("test");
         assertNotNull(user);
@@ -260,9 +259,9 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
             // normal behavior since password is empty
         }
         
-        assertTrue(_userDirectory.checkCredentials(new Credentials("test", "testpassword")));
-        assertFalse(_userDirectory.checkCredentials(new Credentials("test", "wrongpassword")));
-        assertFalse(_userDirectory.checkCredentials(new Credentials("test2", "testpassword")));
+        assertTrue(_userDirectory.checkCredentials("test", "testpassword"));
+        assertFalse(_userDirectory.checkCredentials("test", "wrongpassword"));
+        assertFalse(_userDirectory.checkCredentials("test2", "testpassword"));
     }
     
     /**
@@ -291,8 +290,8 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         userInformation.put("email", "testModified@test.te");
         userInformation.put("password", "testpassword2");
         modifiableUserDirectory.update(userInformation);
-        assertFalse(_userDirectory.checkCredentials(new Credentials("test", "testpassword")));
-        assertTrue(_userDirectory.checkCredentials(new Credentials("test", "testpassword2")));
+        assertFalse(_userDirectory.checkCredentials("test", "testpassword"));
+        assertTrue(_userDirectory.checkCredentials("test", "testpassword2"));
         
         user = _userDirectory.getUser("test");
         assertNotNull(user);
@@ -308,8 +307,8 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         userInformation.put("login", "test");
         userInformation.put("firstname", "Testmodifiedtwice");
         modifiableUserDirectory.update(userInformation);
-        assertFalse(_userDirectory.checkCredentials(new Credentials("test", "testpassword")));
-        assertTrue(_userDirectory.checkCredentials(new Credentials("test", "testpassword2")));
+        assertFalse(_userDirectory.checkCredentials("test", "testpassword"));
+        assertTrue(_userDirectory.checkCredentials("test", "testpassword2"));
         
         user = _userDirectory.getUser("test");
         assertNotNull(user);
@@ -380,7 +379,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
             assertNotNull(user);
         }
 
-        assertTrue(_userDirectory.checkCredentials(new Credentials("test", "testpassword2")));
+        assertTrue(_userDirectory.checkCredentials("test", "testpassword2"));
     }
     
     /**
@@ -409,8 +408,8 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         modifiableUserDirectory.add(userInformation);
 
         modifiableUserDirectory.remove("test");
-        assertFalse(_userDirectory.checkCredentials(new Credentials("test", "testpassword")));
-        assertTrue(_userDirectory.checkCredentials(new Credentials("test2", "test2password")));
+        assertFalse(_userDirectory.checkCredentials("test", "testpassword"));
+        assertTrue(_userDirectory.checkCredentials("test2", "test2password"));
         
         User user = _userDirectory.getUser("test2");
         assertNotNull(user);

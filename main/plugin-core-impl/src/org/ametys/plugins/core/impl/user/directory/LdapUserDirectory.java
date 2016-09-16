@@ -44,7 +44,6 @@ import javax.naming.ldap.SortControl;
 import org.apache.avalon.framework.component.Component;
 import org.apache.commons.lang3.StringUtils;
 
-import org.ametys.core.authentication.Credentials;
 import org.ametys.core.user.User;
 import org.ametys.core.user.UserIdentity;
 import org.ametys.core.user.directory.UserDirectory;
@@ -313,11 +312,8 @@ public class LdapUserDirectory extends AbstractLDAPConnector implements UserDire
     }
 
     @Override
-    public boolean checkCredentials(Credentials credentials)
+    public boolean checkCredentials(String login, String password)
     {
-        String login = credentials.getLogin();
-        String password = credentials.getPassword();
-        
         boolean authenticated = false;
 
         // Check password is not empty

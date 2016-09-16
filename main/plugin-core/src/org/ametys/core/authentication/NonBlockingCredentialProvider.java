@@ -17,20 +17,13 @@ package org.ametys.core.authentication;
 
 import org.apache.cocoon.environment.Redirector;
 
+import org.ametys.core.user.UserIdentity;
+
 /**
  * Defines a {@link CredentialProvider} that can be non-blocking.
  */
 public interface NonBlockingCredentialProvider extends CredentialProvider
 {
-    /**
-     * Validates this CredentialProvider.
-     * It may declare as invalid an already connected user
-     * @param redirector the cocoon Redirector that can be used for redirecting response.
-     * @return true if this CredentialProvider was in a valid state, false to restart authentication process
-     * @throws Exception if something wrong occurs
-     */
-    public abstract boolean validateNonBlocking(Redirector redirector) throws Exception;
-
     /**
      * Method called by AuthenticateAction before asking for credentials. This
      * method is used to bypass authentication. If this method returns true, no
@@ -39,17 +32,26 @@ public interface NonBlockingCredentialProvider extends CredentialProvider
      * 
      * @return true if the Request is not authenticated
      */
-    public abstract boolean acceptNonBlocking();
+    public abstract boolean nonBlockingGrantAnonymousRequest();
+
+    /**
+     * Validates that the user specify is still connected
+     * @param userIdentity the user previously correctly identified with this credential provider
+     * @param redirector The cocoon redirector
+     * @return true if this CredentialProvider was in a valid state, false to restart authentication process
+     * @throws Exception If an error occurred
+     */
+    public abstract boolean nonBlockingIsStillConnected(UserIdentity userIdentity, Redirector redirector) throws Exception;
 
     /**
      * Method called by AuthenticateAction each time a request need
      * authentication.
      * 
      * @param redirector the cocoon redirector.
-     * @return the <code>Credentials</code> corresponding to the user, or null if user could not get authenticated.
+     * @return the <code>UserIdentity</code> corresponding to the user (with or without population specified), or null if user could not get authenticated.
      * @throws Exception if something wrong occurs
      */
-    public abstract Credentials getCredentialsNonBlocking(Redirector redirector) throws Exception;
+    public abstract UserIdentity nonBlockingGetUserIdentity(Redirector redirector) throws Exception;
 
     /**
      * Method called by AuthenticateAction each a user could not get
@@ -59,13 +61,11 @@ public interface NonBlockingCredentialProvider extends CredentialProvider
      * @param redirector the cocoon Redirector that can be used for redirecting response.
      * @throws Exception if something wrong occurs
      */
-    public abstract void notAllowedNonBlocking(Redirector redirector) throws Exception;
+    public abstract void nonBlockingUserNotAllowed(Redirector redirector) throws Exception;
 
     /**
-     * Method called by AuthenticateAction after authentication process
-     * succeeded
-     * 
-     * @param redirector the cocoon Redirector that can be used for redirecting response.
+     * Method called by AuthenticateAction after authentication process succeeded
+     * @param userIdentity The user correctly connected
      */
-    public abstract void allowedNonBlocking(Redirector redirector);
+    public abstract void nonBlockingUserAllowed(UserIdentity userIdentity);
 }

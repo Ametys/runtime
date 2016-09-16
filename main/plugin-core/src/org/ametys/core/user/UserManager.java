@@ -61,8 +61,7 @@ public class UserManager extends AbstractLogEnabled implements Component, Servic
     public Collection<User> getUsersByContext(Set<String> contexts)
     {
         List<UserPopulation> userPopulations = new ArrayList<>();
-        Set<String> upIds = _populationContextHelper.getUserPopulationsOnContexts(contexts);
-        
+        List<String> upIds = _populationContextHelper.getUserPopulationsOnContexts(contexts);
         for (String upId : upIds)
         {
             userPopulations.add(_userPopulationDAO.getUserPopulation(upId));
@@ -169,8 +168,7 @@ public class UserManager extends AbstractLogEnabled implements Component, Servic
     public List<User> getUsersByContext(Set<String> contexts, int count, int offset, Map<String, Object> parameters)
     {
         List<UserPopulation> userPopulations = new ArrayList<>();
-        Set<String> upIds = _populationContextHelper.getUserPopulationsOnContexts(contexts);
-        
+        List<String> upIds = _populationContextHelper.getUserPopulationsOnContexts(contexts);
         for (String upId : upIds)
         {
             userPopulations.add(_userPopulationDAO.getUserPopulation(upId));
@@ -322,7 +320,7 @@ public class UserManager extends AbstractLogEnabled implements Component, Servic
      */
     public User getUserByContext(Set<String> contexts, String login)
     {
-        Set<String> upIds = _populationContextHelper.getUserPopulationsOnContexts(contexts);
+        List<String> upIds = _populationContextHelper.getUserPopulationsOnContexts(contexts);
         for (String upId : upIds)
         {
             UserPopulation userPopulation = _userPopulationDAO.getUserPopulation(upId);

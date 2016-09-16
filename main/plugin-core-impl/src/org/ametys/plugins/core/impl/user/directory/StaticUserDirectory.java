@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 import org.apache.avalon.framework.component.Component;
 import org.apache.commons.lang3.StringUtils;
 
-import org.ametys.core.authentication.Credentials;
 import org.ametys.core.user.User;
 import org.ametys.core.user.UserIdentity;
 import org.ametys.core.user.directory.UserDirectory;
@@ -112,9 +111,9 @@ public class StaticUserDirectory extends AbstractLogEnabled implements UserDirec
     }
 
     @Override
-    public boolean checkCredentials(Credentials credentials)
+    public boolean checkCredentials(String login, String password)
     {
-        return _staticUsers.containsKey(credentials.getLogin());
+        return _staticUsers.containsKey(login);
     }
     
     @SuppressWarnings("fallthrough")

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -16,25 +16,20 @@
 package org.ametys.core.authentication;
 
 /**
- * Credentials represents the caracteristics of a user needed to log him
+ * Credentials represents the characteristics of a user needed to log him
  */
 public class Credentials
 {
     /** The login */
     protected String _login;
-    /** The password */
-    protected String _passwd;
 
     /**
      * Create credentials
-     * 
      * @param login Login of the user
-     * @param password Password associated to the login
      */
-    public Credentials(String login, String password)
+    public Credentials(String login)
     {
         _login = login != null ? login : "";
-        _passwd = password != null ? password : "";
     }
 
     /**
@@ -44,14 +39,5 @@ public class Credentials
     public String getLogin()
     {
         return _login;
-    }
-
-    /**
-     * Returns the password. Can not be null.
-     * @return the password
-     */
-    public String getPassword()
-    {
-        return _passwd;
     }
 }

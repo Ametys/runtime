@@ -19,7 +19,6 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.ametys.core.authentication.Credentials;
 import org.ametys.core.user.User;
 import org.ametys.core.user.directory.ModifiableUserDirectory;
 import org.ametys.core.user.directory.UserDirectory;
@@ -85,13 +84,9 @@ public class StaticUsersTestCase extends AbstractRuntimeTestCase
         assertEquals(users.iterator().next(), user);
         
         // LOGIN
-        Credentials credentials;
-        
-        credentials = new Credentials("foo", null);
-        assertFalse(userDirectory.checkCredentials(credentials));
+        assertFalse(userDirectory.checkCredentials("foo", null));
 
-        credentials = new Credentials("anonymous", null);
-        assertTrue(userDirectory.checkCredentials(credentials));
+        assertTrue(userDirectory.checkCredentials("anonymous", null));
     }
     
     private UserDirectory _createStaticUserDirectory() throws Exception

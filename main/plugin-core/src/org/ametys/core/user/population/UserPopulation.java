@@ -17,6 +17,7 @@ package org.ametys.core.user.population;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.cocoon.components.LifecycleHelper;
 
 import org.ametys.core.authentication.CredentialProvider;
@@ -178,5 +179,11 @@ public class UserPopulation
             LifecycleHelper.dispose(cp);
         }
         resetCredentialProviders();
+    }
+    
+    @Override
+    public String toString()
+    {
+        return super.toString() + "[" + _id + "]";
     }
 }

@@ -55,7 +55,7 @@ public class RelationsManager extends AbstractClientSideExtensionPoint<ClientSid
         
         for (String extensionId : getExtensionsIds())
         {
-            ClientSideRelation extension = (ClientSideRelation) getExtension(extensionId);
+            ClientSideRelation extension = getExtension(extensionId);
             if (extension.getSourceRelationType().contains(pattern))
             {
                 result.add(extension);
@@ -72,7 +72,7 @@ public class RelationsManager extends AbstractClientSideExtensionPoint<ClientSid
         List<ClientSideElement> result = new ArrayList<>();
         for (String extensionId : getExtensionsIds())
         {
-            ClientSideRelation extension = (ClientSideRelation) getExtension(extensionId);
+            ClientSideRelation extension = getExtension(extensionId);
             if (extension.getTargetRelationType().contains(pattern))
             {
                 result.add(extension);

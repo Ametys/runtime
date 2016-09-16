@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.avalon.framework.parameters.Parameters;
@@ -93,7 +92,7 @@ public class GetUserPopulationsAction extends ServiceableAction
         {
             populations = new ArrayList<>();
             
-            Set<String> populationIds = _populationContextHelper.getUserPopulationsOnContexts(new HashSet<>(contexts));
+            List<String> populationIds = _populationContextHelper.getUserPopulationsOnContexts(new HashSet<>(contexts));
             for (String populationId : populationIds)
             {
                 populations.add(_userPopulationDAO.getUserPopulation(populationId));

@@ -223,6 +223,69 @@ div.connection .formbased button:disabled:active {
     border-color: $ametys-color;
 }
 
+div.connection  .formbased table.input.captcha {
+    input.captcha
+    {
+        width: 100%;
+    }
+    img.captcha-image
+    {
+        width: 80% !important;
+    }
+    td.image:after {
+        content: "\f17b";
+    }
+    
+    /* jcaptcha */
+    &.jcaptcha {
+        button.captcha-refresh-btn
+        {
+            width: 20%;
+            vertical-align: top;
+            
+            background-color: transparent;
+            color: $ametys-color;
+            border-color: transparent;
+            
+            &:hover { color: lighten($ametys-color, 8); }
+            &:active { color: darken($ametys-color, 8); }
+            &:focus { 
+                -webkit-box-shadow: inset 0px 0px 0px 1px $ametys-color;
+                -moz-box-shadow: inset 0px 0px 0px 1px $ametys-color;
+                box-shadow: inset 0px 0px 0px 1px $ametys-color;
+            }
+            
+            &:after {
+                content: '\f021';
+                width: 100%;
+                right: 0;
+            }
+            
+            span {
+                text-indent: -50000px;
+                white-space: nowrap;
+                display: inline-block;
+            }
+        }
+    }
+    
+    /* recaptcha */
+    &.recaptcha {
+        background-color: #f9f9f9;
+        .g-recaptcha > div { 
+            width: 100% !important; 
+            height: 30px !important;
+            overflow: hidden;
+            
+            > div {
+                position: relative; 
+                top: -20px;
+                left: -1px;
+            }
+        }
+    }
+}
+
 /**
  * CONNECTION BUTTONS
  */

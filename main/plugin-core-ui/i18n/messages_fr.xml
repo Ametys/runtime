@@ -69,6 +69,7 @@
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_LABEL">Entrez vos identifiants</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_LOGIN">Identifiant</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_PASSWORD">Mot de passe</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_CAPTCHA">Recopier le code ci-dessous</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_POPULATION">Population</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_SUBMIT">Se connecter</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FORGOT_PASSWORD">Mot de passe oublié ?</message>
@@ -78,8 +79,8 @@
     
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_INVALID_POPULATION">Identifiant de population invalide</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_AUTH_FAILURE">Identifiant ou mot de passe incorrect</message>
-    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_WITH_CAPTCHA">Nom d'utilisateur, mot de passe ou captcha incorrect</message>
-    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_MANY_TIME">Veuillez valider le captcha car il y a eu trop d'erreurs de connexion avec ce nom d'utilisateur</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_WITH_CAPTCHA">Identifiant, mot de passe ou code de vérification incorrect</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_MANY_TIME">Veuillez valider le code de vérification car il y a eu trop d'erreurs de connexion avec cet identifiant</message>
     
     <!-- +
          | Incomplete configuration

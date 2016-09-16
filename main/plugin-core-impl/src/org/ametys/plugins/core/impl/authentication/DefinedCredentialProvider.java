@@ -20,8 +20,8 @@ import java.util.Map;
 import org.apache.cocoon.environment.Redirector;
 
 import org.ametys.core.authentication.AbstractCredentialProvider;
-import org.ametys.core.authentication.Credentials;
 import org.ametys.core.authentication.NonBlockingCredentialProvider;
+import org.ametys.core.user.UserIdentity;
 
 /**
  * This implementation will always provide the same credentials
@@ -32,44 +32,43 @@ public class DefinedCredentialProvider extends AbstractCredentialProvider implem
     private static final String __PARAM_USER = "runtime.authentication.defined.user";
     
     /** The credentials */
-    private Credentials _credentials;
+    private UserIdentity _userIdentity;
     
     @Override
     public void init(String cpModelId, Map<String, Object> paramValues)
     {
         super.init(cpModelId, paramValues);
         String login = (String) paramValues.get(__PARAM_USER);
-        _credentials = new Credentials(login, null);
+        _userIdentity = new UserIdentity(login, null);
     }
 
     @Override
-    public boolean validateNonBlocking(Redirector redirector) throws Exception
+    public boolean nonBlockingIsStillConnected(UserIdentity userIdentity, Redirector redirector) throws Exception
     {
         return true;
     }
 
     @Override
-    public boolean acceptNonBlocking()
+    public boolean nonBlockingGrantAnonymousRequest()
     {
         return false;
     }
 
     @Override
-    public Credentials getCredentialsNonBlocking(Redirector redirector) throws Exception
+    public UserIdentity nonBlockingGetUserIdentity(Redirector redirector) throws Exception
     {
-        return _credentials;
+        return _userIdentity;
     }
 
     @Override
-    public void notAllowedNonBlocking(Redirector redirector) throws Exception
+    public void nonBlockingUserNotAllowed(Redirector redirector) throws Exception
     {
         // nothing
     }
 
     @Override
-    public void allowedNonBlocking(Redirector redirector)
+    public void nonBlockingUserAllowed(UserIdentity userIdentity)
     {
         // nothing
     }
-
 }

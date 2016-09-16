@@ -15,7 +15,6 @@
  */
 package org.ametys.runtime.test.users.ldap;
 
-import org.ametys.core.authentication.Credentials;
 import org.ametys.core.user.directory.ModifiableUserDirectory;
 import org.ametys.plugins.core.impl.user.directory.LdapUserDirectory;
 
@@ -48,15 +47,12 @@ public class CredentialAwareLdapUsersTestCase extends LdapUsersTestCase
      */
     public void testIncorrectAuthentication() throws Exception
     {
-        Credentials credentials;
         boolean result;
 
-        credentials = new Credentials("foo", "foo");
-        result = _userDirectory.checkCredentials(credentials);
+        result = _userDirectory.checkCredentials("foo", "foo");
         assertFalse(result);
 
-        credentials = new Credentials("user1", "wrongpassword");
-        result = _userDirectory.checkCredentials(credentials);
+        result = _userDirectory.checkCredentials("user1", "wrongpassword");
         assertFalse(result);
     }
 
@@ -66,11 +62,9 @@ public class CredentialAwareLdapUsersTestCase extends LdapUsersTestCase
      */
     public void testCorrectAuthentication() throws Exception
     {
-        Credentials credentials;
         boolean result;
 
-        credentials = new Credentials("user1", "user1");
-        result = _userDirectory.checkCredentials(credentials);
+        result = _userDirectory.checkCredentials("user1", "user1");
         assertTrue(result);
     }
 }

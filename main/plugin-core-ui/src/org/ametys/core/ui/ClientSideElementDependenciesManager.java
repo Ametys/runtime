@@ -115,6 +115,7 @@ public class ClientSideElementDependenciesManager
         for (Entry<String, List<String>> dependencyToProcess : dependenciesToProcess.entrySet())
         {
             String extensionPointId = dependencyToProcess.getKey();
+            @SuppressWarnings("unchecked")
             AbstractClientSideExtensionPoint<ClientSideElement> extensionPoint = (AbstractClientSideExtensionPoint<ClientSideElement>) _manager.lookup(extensionPointId);
             
             if (!computedDependencies.containsKey(extensionPointId))

@@ -16,6 +16,7 @@
 package org.ametys.plugins.core.impl.authentication;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,6 +24,7 @@ import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -46,13 +48,16 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 
 import org.ametys.core.authentication.AbstractCredentialProvider;
+import org.ametys.core.authentication.AuthenticateAction;
 import org.ametys.core.authentication.BlockingCredentialProvider;
-import org.ametys.core.authentication.Credentials;
 import org.ametys.core.authentication.LogoutCapable;
 import org.ametys.core.authentication.NonBlockingCredentialProvider;
 import org.ametys.core.captcha.CaptchaHelper;
 import org.ametys.core.datasource.ConnectionHelper;
-import org.ametys.plugins.core.impl.authentication.token.TokenCredentials;
+import org.ametys.core.user.UserIdentity;
+import org.ametys.core.user.directory.UserDirectory;
+import org.ametys.core.user.population.UserPopulation;
+import org.ametys.runtime.authentication.AccessDeniedException;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.workspace.WorkspaceMatcher;
 
@@ -98,7 +103,7 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
     /** Number of connection attempts allowed */
     public static final Integer NB_CONNECTION_ATTEMPTS = 3;
     /** Default cookie lifetime (15 days in seconds) */
-    public static final int DEFAULT_COOKIE_LIFETIME = 1209600;
+    public static final int COOKIE_LIFETIME = 1209600;
     
     /** Name of the parameter holding the security level */
     private static final String __PARAM_SECURITY_LEVEL = "runtime.authentication.form.security.level";
@@ -241,20 +246,21 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
         deleteCookie(request,  ContextHelper.getResponse(_context), _cookieName, (int) _cookieLifetime);
     }
 
+    
     @Override
-    public boolean validateBlocking(Redirector redirector) throws Exception
+    public boolean nonBlockingIsStillConnected(UserIdentity userIdentity, Redirector redirector)
     {
         return true;
     }
     
     @Override
-    public boolean validateNonBlocking(Redirector redirector) throws Exception
+    public boolean blockingIsStillConnected(UserIdentity userIdentity, Redirector redirector)
     {
         return true;
     }
 
     @Override
-    public boolean acceptBlocking()
+    public boolean blockingGrantAnonymousRequest()
     {
         Request request = ContextHelper.getRequest(_context);
         
@@ -320,65 +326,64 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
     }
     
     @Override
-    public boolean acceptNonBlocking()
+    public boolean nonBlockingGrantAnonymousRequest()
     {
-        return acceptBlocking();
+        return blockingGrantAnonymousRequest();
     }
 
     @Override
-    public Credentials getCredentialsBlocking(Redirector redirector) throws Exception
+    public UserIdentity blockingGetUserIdentity(Redirector redirector) throws Exception
     {
         Request request = ContextHelper.getRequest(_context);
 
-        String login = request.getParameter(_usernameField);
-        String password = request.getParameter(_passwordField);
-
-        if (login != null && password != null)
+        try
         {
-            if (SECURITY_LEVEL_HIGH.equals(_securityLevel))
+            UserIdentity userIdentity = _getUserIdentityFromRequest(request);
+            if (userIdentity != null)
             {
-                Integer nbConnect = _requestNbConnectBDD(login);
-                if (nbConnect >= NB_CONNECTION_ATTEMPTS)
-                {
-                    String answer = request.getParameter(_captchaField);
-                    String captchaKey = request.getParameter(_captchaKeyField);
-
-                    if (!CaptchaHelper.checkAndInvalidate(captchaKey, answer)) 
-                    {
-                        // Captcha is invalid
-                        return null;
-                    }
-                }
+                return userIdentity;
             }
             
-            return new Credentials(login, password);
+            String redirectUrl;
+            if (_loginUrlInternal)
+            {
+                redirectUrl = "cocoon://" + getLoginURL();
+            }
+            else
+            {
+                redirectUrl = request.getContextPath() + "/" + getLoginURL();
+            }
+            redirector.redirect(false, redirectUrl);
+            return null;
         }
-
-        String redirectUrl;
-        if (_loginUrlInternal)
+        catch (AccessDeniedException e)
         {
-            redirectUrl = "cocoon://" + getLoginURL();
+            blockingUserNotAllowed(redirector);
+            return null;
         }
-        else
-        {
-            redirectUrl = request.getContextPath() + "/" + getLoginURL();
-        }
-        redirector.redirect(false, redirectUrl);
-        return null;
     }
     
     @Override
-    public Credentials getCredentialsNonBlocking(Redirector redirector) throws Exception
+    public UserIdentity nonBlockingGetUserIdentity(Redirector redirector) throws Exception
     {
         Request request = ContextHelper.getRequest(_context);
         
-        String value = getCookieValue(request, _cookieName);
-        if (StringUtils.isNotEmpty(value))
+        UserIdentity userIdentity = _getUserIdentityFromRequest(request);
+        if (userIdentity != null)
         {
-            if (value.contains(","))
+            return userIdentity;
+        }
+
+        String value = getCookieValue(request, _cookieName);
+        if (StringUtils.isNotEmpty(value) && SECURITY_LEVEL_LOW.equals(_securityLevel))
+        {
+            String [] values = value.split(",");
+            if (values.length == 3)
             {
-                String [] values = value.split(",");
-                return new TokenCredentials(values[0], values[1]);
+                if (checkToken(values[0], values[1], values[2]))
+                {
+                    return new UserIdentity(values[1], values[0]);
+                }
             }
             else
             {
@@ -389,9 +394,66 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
 
         return null;
     }
+    
+    private UserIdentity _getUserIdentityFromRequest(Request request) throws AccessDeniedException
+    {
+        UserPopulation userPopulation = _getPopulation(request);
+
+        String login = request.getParameter(_usernameField);
+        String password = request.getParameter(_passwordField);
+
+        if (login != null && password != null)
+        {
+            if (SECURITY_LEVEL_HIGH.equals(_securityLevel))
+            {
+                Integer nbConnect = _requestNbConnectBDD(login, userPopulation.getId());
+                if (nbConnect >= NB_CONNECTION_ATTEMPTS)
+                {
+                    String answer = request.getParameter(_captchaField);
+                    String captchaKey = request.getParameter(_captchaKeyField);
+
+                    if (!CaptchaHelper.checkAndInvalidate(captchaKey, answer)) 
+                    {
+                        // Captcha is invalid
+                        throw new AccessDeniedException("Captcha is invalid for user '" + login + "'");
+                    }
+                }
+            }
+            
+            // Let's check password
+            for (UserDirectory userDirectory : userPopulation.getUserDirectories())
+            {
+                if (userDirectory.getUser(login) != null)
+                {
+                    if (userDirectory.checkCredentials(login, password))
+                    {
+                        return new UserIdentity(login, userPopulation.getId());
+                    }
+                    else
+                    {
+                        throw new AccessDeniedException("Password is incorrect for user '" + login + "'");
+                    }
+                }
+            }
+        }
+        
+        return null;
+    }
+
+    private UserPopulation _getPopulation(Request request)
+    {
+        // With forms, the population should always be known!
+        @SuppressWarnings("unchecked")
+        List<UserPopulation> userPopulations = (List<UserPopulation>) request.getAttribute(AuthenticateAction.REQUEST_ATTRIBUTE_POPULATIONS);
+        if (userPopulations.size() != 1)
+        {
+            throw new IllegalStateException("The " + this.getClass().getName() + " does not work when population is not known");
+        }
+        return userPopulations.get(0);
+    }
 
     @Override
-    public void notAllowedBlocking(Redirector redirector) throws Exception
+    public void blockingUserNotAllowed(Redirector redirector) throws Exception
     {
         Request request = ContextHelper.getRequest(_context);
 
@@ -406,7 +468,7 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
         if (SECURITY_LEVEL_HIGH.equals(_securityLevel))
         {
             String captchaKey = request.getParameter(_captchaKeyField);
-            int nbConnect = _setNbConnectBDD(request.getParameter(_usernameField));
+            int nbConnect = _setNbConnectBDD(request.getParameter(_usernameField), _getPopulation(request).getId());
             int nbAttempts = NB_CONNECTION_ATTEMPTS - 1;
             
             if (nbConnect == nbAttempts || (captchaKey == null && nbConnect > nbAttempts))
@@ -434,65 +496,44 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
     }
     
     @Override
-    public void notAllowedNonBlocking(Redirector redirector) throws Exception
+    public void nonBlockingUserNotAllowed(Redirector redirector) throws Exception
     {
         // Do nothing
     }
 
     @Override
-    public void allowedBlocking(Redirector redirector)
+    public void blockingUserAllowed(UserIdentity userConnected)
     {
         if (!SECURITY_LEVEL_HIGH.equals(_securityLevel))
         {
-            Request request = ContextHelper.getRequest(_context);
+            // Hash token + salt
+            String token = RandomStringUtils.randomAlphanumeric(16);
+            String salt = RandomStringUtils.randomAlphanumeric(48);
+            String hashedTokenAndSalt = DigestUtils.sha512Hex(token + salt);
             
-            String cookieValue = getCookieValue(request, _cookieName);
-            
-            String login = null;
-            String rememberMe = request.getParameter(_rememberMeField);
-            
-            if ("true".equals(rememberMe))
-            {
-                login = request.getParameter(_usernameField);
-            }
-            else if (StringUtils.isNotEmpty(cookieValue))
-            {
-                login = cookieValue.split(",")[0];
-            }
-            
-            if (login != null)
-            {
-                // Hash token + salt
-                String token = RandomStringUtils.randomAlphanumeric(16);
-                String salt = RandomStringUtils.randomAlphanumeric(48);
-                String hashedTokenAndSalt = DigestUtils.sha512Hex(token + salt);
-                
-                _insertUserToken(login, salt, hashedTokenAndSalt);
-                updateCookie(login + "," + token, _cookieName, (int) _cookieLifetime, _context);
-            }
+            _insertUserToken(userConnected.getPopulationId(), userConnected.getLogin(), salt, hashedTokenAndSalt);
+            updateCookie(userConnected.getPopulationId() + "," + userConnected.getLogin() + "," + token, _cookieName, (int) _cookieLifetime, _context);
         }
         else
         {
-            Request request = ContextHelper.getRequest(_context);
-            String login = request.getParameter(_usernameField);
-
-            _deleteLoginFailedBDD(login);
+            _deleteLoginFailedBDD(userConnected.getLogin(), userConnected.getPopulationId());
             
         }
     }
     
     @Override
-    public void allowedNonBlocking(Redirector redirector)
+    public void nonBlockingUserAllowed(UserIdentity userConnected)
     {
-        allowedBlocking(redirector);
+        blockingUserAllowed(userConnected);
     }
     
     /**
      * Get the number of failed connections with this login
      * @param login The login to request
-     * @return nthe nb of connection failed
+     * @param populationId The user's population
+     * @return the number of connection failed
      */
-    protected Integer _requestNbConnectBDD(String login)
+    protected Integer _requestNbConnectBDD(String login, String populationId)
     {
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -502,10 +543,11 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
             connection = getSQLConnection();
             
             // Build request for authenticating the user
-            String sql = "SELECT nb_connect FROM Users_FormConnectionFailed WHERE login = ?";
+            String sql = "SELECT nb_connect FROM Users_FormConnectionFailed WHERE login = ? and population_id = ?";
             
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, login);
+            stmt.setString(2, populationId);
     
             // Do the request
             rs = stmt.executeQuery();
@@ -534,18 +576,19 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
     /**
      * Get the number of failed connections with this login
      * @param login The login to set
+     * @param populationId The population id of the user
      * @return the number of failed connection
      */
-    protected Integer _setNbConnectBDD(String login)
+    protected Integer _setNbConnectBDD(String login, String populationId)
     {
-        Integer nbConnect = _requestNbConnectBDD(login);
+        Integer nbConnect = _requestNbConnectBDD(login, populationId);
         if (nbConnect == 0)
         {
-            _insertLoginNbConnectBDD(login);
+            _insertLoginNbConnectBDD(login, populationId);
         }
         else
         {
-            _updateLoginNbConnectBDD(login, nbConnect);
+            _updateLoginNbConnectBDD(login, populationId, nbConnect);
         }
         
         return nbConnect;
@@ -555,8 +598,9 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
     /**
      * Insert the login with one failed connection in the BDD
      * @param login The login to insert
+     * @param populationId The population id
      */
-    protected void _insertLoginNbConnectBDD(String login)
+    protected void _insertLoginNbConnectBDD(String login, String populationId)
     {
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -565,16 +609,17 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
         {
             connection = getSQLConnection();
             
-            String sqlUpdate = "INSERT INTO Users_FormConnectionFailed (login, nb_connect, last_connect) VALUES (?, ?, ?)";
+            String sqlUpdate = "INSERT INTO Users_FormConnectionFailed (login, population_id, nb_connect, last_connect) VALUES (?, ?, ?, ?)";
            
             stmt = connection.prepareStatement(sqlUpdate);
             stmt.setString(1, login);
-            stmt.setInt(2, 1);
+            stmt.setString(2, populationId);
+            stmt.setInt(3, 1);
             
             DateTime dateToday = new DateTime(); 
             
             Timestamp date = new Timestamp(dateToday.getMillis());
-            stmt.setTimestamp(3, date);
+            stmt.setTimestamp(4, date);
             
             stmt.execute();
         }
@@ -593,11 +638,12 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
     
     /**
      * Inserts a new line into the users token table
+     * @param populationId The user's population id
      * @param login the login of the user
      * @param salt the salt associated to this user
      * @param hashedTokenAndSalt token + salt hashed with SHA-512
      */
-    protected void _insertUserToken(String login, String salt, String hashedTokenAndSalt)
+    protected void _insertUserToken(String populationId, String login, String salt, String hashedTokenAndSalt)
     {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -620,21 +666,23 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
                 ConnectionHelper.cleanup(rs);
                 ConnectionHelper.cleanup(statement);
                 
-                statement = connection.prepareStatement("INSERT INTO UsersToken (id, login, token, salt, creation_date) VALUES (?, ?, ?, ?, ?)");
+                statement = connection.prepareStatement("INSERT INTO Users_Token (id, login, population_id, token, salt, creation_date) VALUES (?, ?, ?, ?, ?, ?)");
                 statement.setString(1, id);
                 statement.setString(2, login);
-                statement.setString(3, hashedTokenAndSalt);
-                statement.setString(4, salt);
-                statement.setDate(5, new java.sql.Date(System.currentTimeMillis()));
+                statement.setString(3, populationId);
+                statement.setString(4, hashedTokenAndSalt);
+                statement.setString(5, salt);
+                statement.setDate(6, new java.sql.Date(System.currentTimeMillis()));
             }
             else
             {
-                statement = connection.prepareStatement("INSERT INTO UsersToken (login, token, salt, creation_date) VALUES (?, ?, ?, ?)");
+                statement = connection.prepareStatement("INSERT INTO Users_Token (login, population_id, token, salt, creation_date) VALUES (?, ?, ?, ?, ?)");
                 
                 statement.setString(1, login);
-                statement.setString(2, hashedTokenAndSalt);
-                statement.setString(3, salt);
-                statement.setDate(4, new java.sql.Date(System.currentTimeMillis()));
+                statement.setString(2, populationId);
+                statement.setString(3, hashedTokenAndSalt);
+                statement.setString(4, salt);
+                statement.setDate(5, new java.sql.Date(System.currentTimeMillis()));
             }
             
             statement.executeUpdate();
@@ -652,8 +700,9 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
     /**
      * Delete the login from the table of the failed connection
      * @param login The login to remove
+     * @param populationId The populationId of the user
      */
-    protected void _deleteLoginFailedBDD(String login)
+    protected void _deleteLoginFailedBDD(String login, String populationId)
     {
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -663,10 +712,11 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
             connection = getSQLConnection();
             
             // Build request for authenticating the user
-            String sql = "DELETE FROM Users_FormConnectionFailed WHERE login = ?";
+            String sql = "DELETE FROM Users_FormConnectionFailed WHERE login = ? and population_id = ?";
             
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, login);
+            stmt.setString(2, populationId);
             
             // Do the request
             stmt.execute();
@@ -688,9 +738,10 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
     /**
      * Update the number of failed connections of the login in the BDD
      * @param login The login to update
+     * @param populationId The user's population
      * @param nbConnect The nb of connection to set
      */
-    protected void _updateLoginNbConnectBDD(String login, Integer nbConnect)
+    protected void _updateLoginNbConnectBDD(String login, String populationId, Integer nbConnect)
     {
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -699,11 +750,12 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
         {
             connection = getSQLConnection();
             
-            String sqlUpdate = "UPDATE Users_FormConnectionFailed SET nb_connect = ? WHERE login = ?";
+            String sqlUpdate = "UPDATE Users_FormConnectionFailed SET nb_connect = ? WHERE login = ? and population_id = ?";
            
             stmt = connection.prepareStatement(sqlUpdate);
             stmt.setInt(1, nbConnect + 1);
             stmt.setString(2, login);
+            stmt.setString(3, populationId);
             
             stmt.execute();
         }
@@ -803,5 +855,107 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
         cookie.setMaxAge(cookieDuration);
         response.addCookie(cookie);
     }
+    
+    /**
+     * Test if the user is already authenticated by the CredentialsProvider ?
+     * @param populationId The population id
+     * @param login The login to check
+     * @param token The token to check
+     * @return true if the user is already authenticated by the CredentialsProvider, false otherwise.
+     */
+    public boolean checkToken(String populationId, String login, String token)
+    {
+        Connection connection = null;
+        PreparedStatement deleteStatement = null;   
+        
+        try
+        {
+            String dataSourceId = Config.getInstance().getValueAsString("runtime.login.form.datasource");
+            connection = ConnectionHelper.getConnection(dataSourceId);
+                    
+            // Delete 2 weeks or more old entries
+            deleteStatement = _getDeleteOldUserTokenStatement(connection);
+            deleteStatement.executeUpdate();
 
+            try (PreparedStatement selectStatement = _getSelectUserTokenStatement(connection, populationId, login);
+                 ResultSet resultSet = selectStatement.executeQuery())
+            {
+                // Find the database entry using this token
+                while (resultSet.next())
+                {
+                    if (resultSet.getString("token").equals(DigestUtils.sha512Hex(token + resultSet.getString("salt"))))
+                    {
+                        // Delete it
+                        _deleteUserToken(connection, resultSet.getString("token"));
+                        return true;
+                    }
+                }
+                    
+                return false;
+            }
+        }
+        catch (Exception e)
+        {
+            getLogger().error("Communication error with the database", e); 
+            return false;
+        }
+        finally
+        {
+            ConnectionHelper.cleanup(deleteStatement);
+            ConnectionHelper.cleanup(connection);
+        }
+    }
+    
+    /**
+     * Generates the sql statement that deletes the entries of the users token database that are at least 2 weeks old
+     * @param connection the database's session
+     * @return statement the delete statement
+     * @throws SQLException if a sql exception occurs
+     */
+    private PreparedStatement _getDeleteOldUserTokenStatement(Connection connection) throws SQLException
+    {
+        String sqlRequest = null;
+        sqlRequest = "DELETE FROM Users_Token WHERE creation_date < ?";
+
+        Date thresholdDate = new Date(System.currentTimeMillis() - COOKIE_LIFETIME * 1000);
+
+        PreparedStatement statement = connection.prepareStatement(sqlRequest);
+        statement.setDate(1, thresholdDate);
+
+        return statement;
+    }
+    
+    /**
+     * Generates the statement that selects the users having the specified login in the Users_Token table
+     * @param connection the database's session
+     * @param populationId The population id of the user
+     * @param login the user's login
+     * @return the retrieve statement
+     * @throws SQLException if a sql exception occurs
+     */
+    private PreparedStatement _getSelectUserTokenStatement(Connection connection, String populationId, String login) throws SQLException
+    {
+        String sqlRequest = "SELECT id, token, salt FROM Users_Token WHERE login= ? and population_id= ?";
+        
+        PreparedStatement statement = connection.prepareStatement(sqlRequest);
+        statement.setString(1, login);
+        statement.setString(2, populationId);
+
+        return statement;
+    }
+    
+    /**
+     * Deletes the database entry that has this token 
+     * @param connection the database's session
+     * @param token the token
+     * @throws SQLException if an error occurred
+     */
+    private void _deleteUserToken(Connection connection, String token) throws SQLException
+    {
+        try (PreparedStatement statement = connection.prepareStatement("DELETE FROM Users_Token WHERE token = ?"))
+        {
+            statement.setString(1, token);
+            statement.executeUpdate();
+        }
+    }
 }

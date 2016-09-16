@@ -68,6 +68,7 @@
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_LABEL">Sign into your account</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_LOGIN">User id</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_PASSWORD">Password</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_CAPTCHA">Copy the bellow verification code</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_POPULATION">Population</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_SUBMIT">Login</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FORGOT_PASSWORD">Forgot password?</message>
@@ -76,9 +77,9 @@
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_BACK">Back</message>
     
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_INVALID_POPULATION">Invalid population identifier</message>
-    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_AUTH_FAILURE">Invalid user id or password</message>
-    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_WITH_CAPTCHA">Username, login or captcha incorrect</message>
-    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_MANY_TIME">Please verify the captcha because there were too many failed attempts with this username</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_AUTH_FAILURE">Invalid login or password</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_WITH_CAPTCHA">Login, password or verification code is incorrect</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_MANY_TIME">Please valid the verification code because there were too many failed attempts with this login</message>
     
     <!-- +
          | Incomplete configuration

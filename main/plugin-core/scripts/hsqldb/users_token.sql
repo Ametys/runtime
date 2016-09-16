@@ -13,9 +13,10 @@
 --  See the License for the specific language governing permissions and
 --  limitations under the License.
 --
-CREATE CACHED TABLE UsersToken (
+CREATE CACHED TABLE Users_Token (
   id int PRIMARY KEY NOT NULL IDENTITY,
   login varchar(64),
+  population_id VARCHAR (200) NOT NULL,
   -- the hashed token + salt are stocked here
   token varchar(128)  NOT NULL,
   salt varchar(64) NOT NULL,

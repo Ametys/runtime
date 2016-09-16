@@ -44,7 +44,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.ArrayUtils;
 
 import org.ametys.core.ObservationConstants;
-import org.ametys.core.authentication.Credentials;
 import org.ametys.core.datasource.ConnectionHelper;
 import org.ametys.core.observation.Event;
 import org.ametys.core.observation.ObservationManager;
@@ -275,11 +274,8 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
     }
 
     @Override
-    public boolean checkCredentials(Credentials credentials)
+    public boolean checkCredentials(String login, String password)
     {
-        String login = credentials.getLogin();
-        String password = credentials.getPassword();
-        
         boolean updateNeeded = false;
         
         Connection con = null;

@@ -336,10 +336,6 @@
                          safe="true"/>
         <!-- FIXME InitEP was temporary set safe for creating admin users SQL table in feature 'runtime.core.sql.users.and.groups.init' -->
                          
-        <!-- <extension-point id="org.ametys.core.authentication.AuthenticationManager"
-                         class="org.ametys.core.authentication.AuthenticationManager"
-                         safe="true"/> -->
-
 		<extension-point id="org.ametys.core.user.directory.UserDirectoryFactory"
 						 class="org.ametys.core.user.directory.UserDirectoryFactory"
                          safe="true"/>
@@ -577,16 +573,6 @@
                 <generator name="file" src="org.ametys.core.cocoon.RuntimeFileGenerator" label="content" logger="org.ametys.runtime.kernel.sitemap.generator.file" pool-grow="4" pool-max="32" pool-min="8"/>
                 <generator name="action-result" src="org.ametys.core.cocoon.ActionResultGenerator" label="content" logger="org.ametys.runtime.kernel.sitemap.generator.actionresult" pool-grow="4" pool-max="32" pool-min="8"/>
             </extension>
-            
-            <!-- <extension point="org.ametys.core.authentication.AuthenticationManager"
-                       id="org.ametys.plugins.core.impl.authentication.UsersManagerAuthentication"
-                       class="org.ametys.plugins.core.impl.authentication.UsersManagerAuthentication"
-                       logger="org.ametys.plugins.core.impl.authentication.UsersManagerAuthentication"/> -->
-                       
-            <!-- <extension point="org.ametys.core.authentication.AuthenticationManager"
-                       id="org.ametys.plugins.core.impl.authentication.HasRightAuthentication"
-                       class="org.ametys.plugins.core.impl.authentication.HasRightAuthentication"
-                       logger="org.ametys.plugins.core.impl.authentication.HasRightAuthentication"/> -->
         </extensions>
     </feature>
     
@@ -1000,7 +986,7 @@
                        class="org.ametys.core.script.SqlTablesInit">
                 <datasource type="config">runtime.login.form.datasource</datasource>
                 <script testTable="Users_FormConnectionFailed">users_form_failed_connection.sql</script>
-                <script testTable="UsersToken">users_token.sql</script>
+                <script testTable="Users_Token">users_token.sql</script>
             </extension>
         </extensions>
     </feature>

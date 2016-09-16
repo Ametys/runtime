@@ -21,7 +21,7 @@
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
     
     <xsl:import href="../common.xsl"/> 
-    <xsl:import href="plugin:core://stylesheets/helper/common.xsl"/>    
+    <xsl:import href="plugin:core://stylesheets/helper/common_3.3.xsl"/>    
     
     <xsl:param name="authFailure"/><!-- true to display a login failed message -->
     <xsl:param name="login"/><!-- the login previously submitted -->
@@ -29,6 +29,7 @@
     <xsl:param name="cookieFailure"/><!-- true when the remember me function failed to authenticate -->
     
     <xsl:variable name="uniqueId" select="substring-after(math:random(), '.')"/>
+    <xsl:variable name="uri-prefix" select="ametys:uriPrefix()"/>
     
     <xsl:template name="css-file"><xsl:value-of select="ametys:workspaceThemeURL()"/>/sass/special/login.scss</xsl:template>
     
@@ -38,17 +39,17 @@
         <xsl:call-template name="login-left-column"/>
         
     	<div class="wrapin">
-			<xsl:if test="/LoginScreen/PopulationsForm">
+			<xsl:if test="/LoginScreen/populations and count(/LoginScreen/populations/population) != 1">
 				<div class="connection">
 					<form method="post" class="choosepopulation" action="">
 						<div>
-							<xsl:if test="/LoginScreen/PopulationsForm/invalidError = 'true'">
+							<xsl:if test="/LoginScreen/populations/@invalidError = 'true'">
 	                            <div class="error">
                                     <i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_INVALID_POPULATION" i18n:catalogue="plugin.core-ui"/>
 	                            </div>
 	                        </xsl:if>
 							<xsl:choose>
-								<xsl:when test="/LoginScreen/PopulationsForm/populationCombobox = 'true'">
+								<xsl:when test="/LoginScreen/populations/population">
 									<style type="text/css">
 										div.connection table.population td.input.empty:before {
 											content: "<i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_POPULATION" i18n:catalogue="plugin.core-ui" />"
@@ -57,9 +58,10 @@
 									<table class="input inputtext population">
 										<tr>
 											<td class="input select empty">
-												<select id="Population" required="">
-													<xsl:for-each select="/LoginScreen/PopulationsForm/populations/population">
-														<option value='{id}'><xsl:value-of select="label" /></option>
+												<select id="Population" name="hiddenPopulation" required="">
+													<xsl:for-each select="/LoginScreen/populations/population">
+													   <xsl:sort select="label"/>
+														<option value='{@id}'><xsl:value-of select="label" /></option>
 													</xsl:for-each>
 												</select>
 											</td>
@@ -96,12 +98,6 @@
                                                     elements[i].className = elements[i].className.replace('disabled', ''); 
                                                 }
                                             } 
-                                            
-                                            // Update the value of the hidden fields hiddenPopulation
-                                            var fields = document.getElementsByName('hiddenPopulation');
-                                            for (i = 0; i &lt; fields.length; i++) {
-                                                fields[i].setAttribute('value', this.value);
-                                            }
                                         }
                                     </script>
 								</xsl:when>
@@ -109,7 +105,7 @@
 									<table class="input inputtext population">
 										<tr>
 											<td class="input">
-												<input type="text" id="Population" placeholder="plugin.core-ui:PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_POPULATION" i18n:attr="placeholder" autofocus="true" required="" />
+												<input type="text" id="Population" name="hiddenPopulation" placeholder="plugin.core-ui:PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_POPULATION" i18n:attr="placeholder" autofocus="true" required="" />
 											</td>
 											<td class="image"></td>
 										</tr>
@@ -131,13 +127,6 @@
                                                 }
                                             }
                                         }
-                                        document.getElementById("Population").onchange = function() {
-                                            // Update the value of the hidden fields hiddenPopulation
-                                            var fields = document.getElementsByName('hiddenPopulation');
-                                            for (i = 0; i &lt; fields.length; i++) {
-                                                fields[i].setAttribute('value', this.value);
-                                            }
-                                        }
                                     </script>
 								</xsl:otherwise>
 							</xsl:choose>
@@ -153,7 +142,6 @@
 							</xsl:when>
 							<xsl:otherwise>
 								<!-- Submit button only if no LoginForm -->
-								<input type="hidden" name="hiddenPopulation" value=""/>
 					    		<xsl:call-template name="submit-button">
 									<xsl:with-param name="text"><i18n:text i18n:key='PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_SUBMIT' i18n:catalogue='plugin.core-ui'/></xsl:with-param>
 								</xsl:call-template>
@@ -167,25 +155,22 @@
 				<div class="connection" id="authForms">	
 			    	<xsl:call-template name="login-form"/>
 					
-					<xsl:if test="/LoginScreen/credentialProviders">
-			    		<xsl:for-each select="/LoginScreen/credentialProviders/credentialProvider">
-			    			<xsl:if test="/LoginScreen/PopulationsForm or /LoginScreen/LoginForm or position() != 1">
-		                		<div class="separator"><div class="textin"><i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_SEPARATOR" i18n:catalogue="plugin.core-ui" /></div></div>
-		                	</xsl:if>
-		                	<form method="post" action="">
-		                		<fieldset>
-		                			<xsl:if test="/LoginScreen/PopulationsForm"><xsl:attribute name="disabled"/></xsl:if>
-							    	<xsl:if test="/LoginScreen/populationId"><input type="hidden" name="hiddenPopulation" value="{/LoginScreen/populationId}"/></xsl:if>
-			                		<input type="hidden" name="CredentialProviderIndex" value="{index}"/>
-			                		<xsl:call-template name="submit-button">
-			                			<xsl:with-param name="text"><xsl:value-of select="label"/><span class="{iconGlyph}"></span></xsl:with-param>
-			                			<xsl:with-param name="style">background-color: #<xsl:value-of select="color"/>; border: 1px solid #<xsl:value-of select="color"/>;</xsl:with-param>
-			                			<xsl:with-param name="class">otherauth</xsl:with-param>
-			                		</xsl:call-template>
-		                		</fieldset>
-		                	</form>
-		                </xsl:for-each>
-		            </xsl:if>
+		    		<xsl:for-each select="/LoginScreen/credentialProviders/credentialProvider">
+		    			<xsl:if test="/LoginScreen/PopulationsForm or /LoginScreen/LoginForm or position() != 1">
+	                		<div class="separator"><div class="textin"><i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_SEPARATOR" i18n:catalogue="plugin.core-ui" /></div></div>
+	                	</xsl:if>
+	                	<form method="post" action="">
+	                		<fieldset>
+	                			<xsl:if test="/LoginScreen/PopulationsForm"><xsl:attribute name="disabled"/></xsl:if>
+		                		<input type="hidden" name="CredentialProviderIndex" value="{index}"/>
+		                		<xsl:call-template name="submit-button">
+		                			<xsl:with-param name="text"><xsl:value-of select="label"/><span class="{iconGlyph}"></span></xsl:with-param>
+		                			<xsl:with-param name="style">background-color: #<xsl:value-of select="color"/>; border: 1px solid #<xsl:value-of select="color"/>;</xsl:with-param>
+		                			<xsl:with-param name="class">otherauth</xsl:with-param>
+		                		</xsl:call-template>
+	                		</fieldset>
+	                	</form>
+	                </xsl:for-each>
 					<xsl:if test="/LoginScreen/backButton = 'true'">
 						<form method="post" class="back" action="">
 							<xsl:for-each select="/LoginScreen/backButtonParams/backButtonParam"><input type="hidden" name="{@name}" id="{@name}" value="{@value}"/></xsl:for-each>
@@ -205,7 +190,6 @@
 		    <form method="post" class="formbased" action="">
 			    <fieldset>
 			    	<xsl:if test="/LoginScreen/PopulationsForm"><xsl:attribute name="disabled"/></xsl:if>
-			    	<input type="hidden" name="hiddenPopulation" value="{/LoginScreen/populationId}"/>
 		    	
 		    		<xsl:variable name="autocomplete">
 			            <xsl:choose>
@@ -218,13 +202,11 @@
                         <div class="error">
                             <xsl:choose>
                                 <xsl:when test="$tooManyAttempts = 'true'"><i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_MANY_TIME" i18n:catalogue="plugin.core-ui"/></xsl:when>
-                                <xsl:when test="/LoginForm/useCaptcha = 'true'"><i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_WITH_CAPTCHA" i18n:catalogue="plugin.core-ui"/></xsl:when>
+                                <xsl:when test="/LoginScreen/LoginForm/useCaptcha = 'true'"><i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_WITH_CAPTCHA" i18n:catalogue="plugin.core-ui"/></xsl:when>
                                 <xsl:when test="$cookieFailure != 'true'"><i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_AUTH_FAILURE" i18n:catalogue="plugin.core-ui"/></xsl:when>
                             </xsl:choose>
                         </div>
                     </xsl:if>
-	                      
-	                <input type="hidden" name="CredentialProviderIndex" value="{/LoginScreen/LoginForm/indexForm}"/>
 	                      
 	                <table>
 	                      	<xsl:attribute name="class">input inputtext login<xsl:if test="/LoginScreen/PopulationsForm"> disabled</xsl:if></xsl:attribute>
@@ -243,25 +225,34 @@
 	                </table>                            
 	                      
 	                <xsl:if test="/LoginScreen/LoginForm/useCaptcha = 'true'">
-	                          <div class="input">
-	                              <xsl:call-template name="captcha">
-	                                  <xsl:with-param name="key-name" select="'CaptchaKey'"/>
-	                      
-	                                  <xsl:with-param name="value-name" select="'Captcha'"/>
-	                                  <xsl:with-param name="value-id" select="concat('captcha-', $uniqueId)"/>
-	                                  <xsl:with-param name="value-class">captcha</xsl:with-param>
-	                      
-	                                  <xsl:with-param name="image-alt"/>
-	                                  <xsl:with-param name="image-alt-i18n" select="false()"/>
-	                                  <xsl:with-param name="image-class">captcha-image</xsl:with-param>
-	                                  
-	                                  <xsl:with-param name="image-height">50</xsl:with-param>
-	                                  <xsl:with-param name="image-width">160</xsl:with-param>
-	                                  
-	                                  <xsl:with-param name="contextPath" select="$contextPath"/>
-	                              </xsl:call-template>         
-	                          </div>
-	                          <br style="clear: left"/>
+	                          <table>
+	                               <xsl:attribute name="class">input captcha <xsl:value-of select="ametys:config('runtime.captcha.type')"/></xsl:attribute>
+	                              <tr>
+	                                  <td class="input">
+				                              <xsl:call-template name="captcha">
+				                                  <xsl:with-param name="key-name" select="'CaptchaKey'"/>
+				                      
+				                                  <xsl:with-param name="value-name" select="'Captcha'"/>
+				                                  <xsl:with-param name="value-id" select="concat('captcha-', $uniqueId)"/>
+				                                  <xsl:with-param name="value-class">captcha</xsl:with-param>
+				                      
+				                                  <xsl:with-param name="image-alt"/>
+				                                  <xsl:with-param name="image-alt-i18n" select="false()"/>
+				                                  <xsl:with-param name="image-class">captcha-image</xsl:with-param>
+				                                  
+				                                  <xsl:with-param name="image-height">50</xsl:with-param>
+				                                  <xsl:with-param name="image-width">160</xsl:with-param>
+				                                  
+				                                  <xsl:with-param name="placeholder">PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_CAPTCHA</xsl:with-param>
+				                                  <xsl:with-param name="placeholder-i18n" select="true()"/>
+                                                  <xsl:with-param name="placeholder-catalogue">plugin.core-ui</xsl:with-param>
+				                                  
+				                                  <xsl:with-param name="contextPath" select="$contextPath"/>
+				                              </xsl:call-template>         
+	                                  </td>
+	                                  <td class="image"></td>
+	                              </tr>
+                              </table>
 		            </xsl:if>
 		                        
 	<!-- 	                        <div class="forgotten"> -->
@@ -290,11 +281,6 @@
     	<xsl:param name="style"/>
     	<xsl:param name="class"/>
     	
-    	<xsl:choose>
-    		<xsl:when test="$formbased = 'true'"></xsl:when>
-    		<xsl:otherwise><input type="hidden" name="inputParameters" value="{/LoginScreen/inputParams}"/></xsl:otherwise>
-    	</xsl:choose>
-		
     	<button type="submit">
     		<xsl:attribute name="style"><xsl:copy-of select="$style"/></xsl:attribute>
     		<xsl:attribute name="class"><xsl:copy-of select="$class"/></xsl:attribute>

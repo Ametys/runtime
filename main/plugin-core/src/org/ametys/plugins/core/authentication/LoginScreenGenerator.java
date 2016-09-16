@@ -16,9 +16,9 @@
 package org.ametys.plugins.core.authentication;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
@@ -39,6 +39,7 @@ import org.ametys.core.user.population.UserPopulation;
 import org.ametys.core.util.I18nUtils;
 import org.ametys.core.util.JSONUtils;
 import org.ametys.plugins.core.impl.authentication.FormCredentialProvider;
+import org.ametys.runtime.config.Config;
 
 /**
  * SAX configuration of the login screen
@@ -78,25 +79,16 @@ public class LoginScreenGenerator extends ServiceableGenerator
         contentHandler.startDocument();
         XMLUtils.startElement(contentHandler, "LoginScreen");
         
-        if (request.getAttribute(AuthenticateAction.REQUEST_POPULATIONS) != null && ((List<UserPopulation>) request.getAttribute(AuthenticateAction.REQUEST_POPULATIONS)).size() == 1)
-        {
-            // The population is already known
-            XMLUtils.createElement(contentHandler, "populationId", ((List<UserPopulation>) request.getAttribute(AuthenticateAction.REQUEST_POPULATIONS)).get(0).getId());
-        }
-        else if (request.getAttribute(AuthenticateAction.REQUEST_POPULATIONS) != null)
-        {
-            _generatePopulations(request);
-        }
         
-        if (request.getAttribute(AuthenticateAction.REQUEST_CHOOSE_CP_LIST) != null)
-        {
-            _generateCredentialProviders(request);
-        }
+        boolean isAmetysPublic = Config.getInstance() != null ? Config.getInstance().getValueAsBoolean("runtime.ametys.public") : false/* in safe mode, we only have one population */;
+        Boolean tryedAnInvalidPopulationId = (Boolean) request.getAttribute(AuthenticateAction.REQUEST_ATTRIBUTE_INVALID_POPULATION);
+        List<UserPopulation> usersPopulations = (List<UserPopulation>) request.getAttribute(AuthenticateAction.REQUEST_ATTRIBUTE_POPULATIONS);
+        List<CredentialProvider> availableCredentialProviders = (List<CredentialProvider>) request.getAttribute(AuthenticateAction.REQUEST_ATTRIBUTE_CREDENTIAL_PROVIDER_LIST);
         
-        if (request.getAttribute(AuthenticateAction.REQUEST_FORM_BASED_CREDENTIAL_PROVIDER) != null)
-        {
-            _generateLoginForm(request);
-        }
+        _generatePopulations(usersPopulations, isAmetysPublic, tryedAnInvalidPopulationId == Boolean.TRUE);
+        
+        boolean formGenerated = _generateLoginForm(request, availableCredentialProviders);
+        _generateCredentialProviders(availableCredentialProviders, formGenerated);
         
         _generateBackButton(request);
         
@@ -104,64 +96,85 @@ public class LoginScreenGenerator extends ServiceableGenerator
         contentHandler.endDocument();
     }
     
-    private void _generatePopulations(Request request) throws SAXException
+    private void _generatePopulations(List<UserPopulation> usersPopulations, boolean isAmetysPublic, boolean tryedAnInvalidPopulationId) throws SAXException
     {
-        boolean withCombobox = (boolean) request.getAttribute(AuthenticateAction.REQUEST_AMETYS_PUBLIC);
+        AttributesImpl attrs = new AttributesImpl();
+        attrs.addCDATAAttribute("invalid", tryedAnInvalidPopulationId ? "true" : "false");
+        XMLUtils.startElement(contentHandler, "populations", attrs);
         
-        XMLUtils.startElement(contentHandler, "PopulationsForm");
-        XMLUtils.createElement(contentHandler, "invalidError", Boolean.toString("true".equals(request.getAttribute(AuthenticateAction.REQUEST_INVALID_POPULATION))));
-        XMLUtils.createElement(contentHandler, "populationCombobox", String.valueOf(withCombobox));
-        if (withCombobox)
+        if (isAmetysPublic)
         {
-            @SuppressWarnings("unchecked")
-            List<UserPopulation> ups = (List) request.getAttribute(AuthenticateAction.REQUEST_POPULATIONS);
-            XMLUtils.startElement(contentHandler, "populations");
-            for (UserPopulation up : ups)
+            for (UserPopulation up : usersPopulations)
             {
-                XMLUtils.startElement(contentHandler, "population");
-                XMLUtils.createElement(contentHandler, "id", String.valueOf(up.getId()));
+                AttributesImpl attrs2 = new AttributesImpl();
+                attrs2.addCDATAAttribute("id", up.getId());
+                XMLUtils.startElement(contentHandler, "population", attrs2);
                 XMLUtils.createElement(contentHandler, "label", String.valueOf(up.getLabel()));
                 XMLUtils.endElement(contentHandler, "population");
             }
-            XMLUtils.endElement(contentHandler, "populations");
         }
-        XMLUtils.endElement(contentHandler, "PopulationsForm");
+    
+        XMLUtils.endElement(contentHandler, "populations");
     }
     
-    private void _generateCredentialProviders(Request request) throws SAXException
+    private void _generateCredentialProviders(List<CredentialProvider> credentialProviders, boolean formAlreadyGenerated) throws SAXException
     {
-        @SuppressWarnings("unchecked")
-        List<CredentialProvider> credentialProviders = (List<CredentialProvider>) request.getAttribute(AuthenticateAction.REQUEST_CHOOSE_CP_LIST);
+        if (credentialProviders == null)
+        {
+            return;
+        }
         
         XMLUtils.startElement(contentHandler, "credentialProviders");
         for (int index = 0; index < credentialProviders.size(); index++)
         {
             CredentialProvider cp = credentialProviders.get(index);
-            CredentialProviderModel cpModel = _credentialProviderFactory.getExtension(cp.getCredentialProviderModelId());
-            
-            XMLUtils.startElement(contentHandler, "credentialProvider");
-            XMLUtils.createElement(contentHandler, "index", String.valueOf(index));
-            XMLUtils.createElement(contentHandler, "label", I18nUtils.getInstance().translate(cpModel.getConnectionLabel()));
-            if (StringUtils.isNotEmpty(cpModel.getIconGlyph()))
+            // We should not send the FormCredentialProvider button, if it have been inlined
+            if (!formAlreadyGenerated || !(cp instanceof FormCredentialProvider))
             {
-                XMLUtils.createElement(contentHandler, "iconGlyph", cpModel.getIconGlyph());
-                XMLUtils.createElement(contentHandler, "iconDecorator", cpModel.getIconDecorator());
+                CredentialProviderModel cpModel = _credentialProviderFactory.getExtension(cp.getCredentialProviderModelId());
+                
+                AttributesImpl attrs = new AttributesImpl();
+                attrs.addCDATAAttribute("index", String.valueOf(index));
+                XMLUtils.startElement(contentHandler, "credentialProvider", attrs);
+                XMLUtils.createElement(contentHandler, "label", I18nUtils.getInstance().translate(cpModel.getConnectionLabel()));
+                if (StringUtils.isNotEmpty(cpModel.getIconGlyph()))
+                {
+                    XMLUtils.createElement(contentHandler, "iconGlyph", cpModel.getIconGlyph());
+                    XMLUtils.createElement(contentHandler, "iconDecorator", cpModel.getIconDecorator());
+                }
+                else if (StringUtils.isNotEmpty(cpModel.getIconMedium()))
+                {
+                    XMLUtils.createElement(contentHandler, "iconMedium", cpModel.getIconMedium());
+                }
+                XMLUtils.createElement(contentHandler, "color", cpModel.getColor());
+                XMLUtils.endElement(contentHandler, "credentialProvider");
             }
-            else if (StringUtils.isNotEmpty(cpModel.getIconMedium()))
-            {
-                XMLUtils.createElement(contentHandler, "iconMedium", cpModel.getIconMedium());
-            }
-            XMLUtils.createElement(contentHandler, "color", cpModel.getColor());
-            XMLUtils.endElement(contentHandler, "credentialProvider");
         }
         XMLUtils.endElement(contentHandler, "credentialProviders");
     }
     
-    private void _generateLoginForm(Request request) throws SAXException
+    private boolean _generateLoginForm(Request request, List<CredentialProvider> availableCredentialProviders) throws SAXException
     {
+        if (availableCredentialProviders == null)
+        {
+            return false;
+        }
+        
+        FormCredentialProvider formBasedCP;
+        
+        Optional<CredentialProvider> foundAnyFormCredentialProvider = availableCredentialProviders.stream().filter(cp -> cp instanceof FormCredentialProvider).findAny();
+        if (foundAnyFormCredentialProvider.isPresent())
+        {
+            formBasedCP = (FormCredentialProvider) foundAnyFormCredentialProvider.get();
+        }
+        else
+        {
+            // We found no form based
+            return false;
+        }
+        
         _loginFormManager.deleteAllPastLoginFailedBDD();
         
-        FormCredentialProvider formBasedCP = (FormCredentialProvider) request.getAttribute(AuthenticateAction.REQUEST_FORM_BASED_CREDENTIAL_PROVIDER);
         String level = (String) formBasedCP.getParameterValues().get("runtime.authentication.form.security.level");
         
         boolean autoComplete = false;
@@ -184,7 +197,7 @@ public class LoginScreenGenerator extends ServiceableGenerator
             captcha = false;
         }
         
-        boolean showErrors = !"true".equals(request.getAttribute(AuthenticateAction.REQUEST_INVALID_POPULATION));
+        boolean showErrors = !"true".equals(request.getAttribute(AuthenticateAction.REQUEST_ATTRIBUTE_INVALID_POPULATION));
         
         XMLUtils.startElement(contentHandler, "LoginForm");
         
@@ -193,28 +206,15 @@ public class LoginScreenGenerator extends ServiceableGenerator
         XMLUtils.createElement(contentHandler, "useCaptcha", String.valueOf(captcha));
         XMLUtils.createElement(contentHandler, "showErrors", String.valueOf(showErrors));
         
-        // We want to store what is the index of the FormCredentialProvider among its siblings
-        XMLUtils.createElement(contentHandler, "indexForm", String.valueOf(request.getAttribute(AuthenticateAction.REQUEST_INDEX_FORM_CP)));
-        
         XMLUtils.endElement(contentHandler, "LoginForm");
+        
+        return true;
     }
     
     private void _generateBackButton(Request request) throws SAXException
     {
-        // generate an hidden input for accessing the previous page for "back" feature
-        Map<String, Object> inputParams = new HashMap<>();
-        if (request.getParameter(AuthenticateAction.SUBMITTED_POPULATION_PARAMETER_NAME) != null)
-        {
-            inputParams.put(AuthenticateAction.SUBMITTED_POPULATION_PARAMETER_NAME, request.getParameter(AuthenticateAction.SUBMITTED_POPULATION_PARAMETER_NAME));
-        }
-        if (request.getParameter(AuthenticateAction.SUBMITTED_CP_INDEX_PARAMETER_NAME) != null)
-        {
-            inputParams.put(AuthenticateAction.SUBMITTED_CP_INDEX_PARAMETER_NAME, request.getParameter(AuthenticateAction.SUBMITTED_CP_INDEX_PARAMETER_NAME));
-        }
-        XMLUtils.createElement(contentHandler, "inputParams", _jsonUtils.convertObjectToJson(inputParams));
-        
         // display a back button if there is a previous screen, i.e. there is at least one parameter
-        boolean drawBackButton = request.getParameter(AuthenticateAction.SUBMITTED_POPULATION_PARAMETER_NAME) != null || request.getParameter(AuthenticateAction.SUBMITTED_CP_INDEX_PARAMETER_NAME) != null; 
+        boolean drawBackButton = request.getParameter(AuthenticateAction.REQUEST_PARAMETER_POPULATION_NAME) != null || request.getParameter(AuthenticateAction.REQUEST_PARAMETER_CREDENTIALPROVIDER_INDEX) != null; 
         XMLUtils.createElement(contentHandler, "backButton", Boolean.toString(drawBackButton));
         
         if (drawBackButton)

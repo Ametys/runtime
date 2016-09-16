@@ -13,9 +13,10 @@
 --  See the License for the specific language governing permissions and
 --  limitations under the License.
 --
-CREATE TABLE UsersToken (
+CREATE TABLE Users_Token (
   id int PRIMARY KEY NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
   login varchar(64),
+  population_id VARCHAR (200) NOT NULL,
   -- the hashed token + salt is stocked here
   token varchar(128)  NOT NULL,
   salt varchar(64) NOT NULL,

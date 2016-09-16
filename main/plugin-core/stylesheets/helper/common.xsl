@@ -32,6 +32,8 @@
 		<xsl:param name="value-class"/>
 		
         <xsl:param name="placeholder"/>
+        <xsl:param name="placeholder-i18n"/>
+        <xsl:param name="placeholder-catalogue"/>
         
 		<xsl:param name="image-id" select="concat('id', substring-after(math:random(), '.'))"/>
 		<xsl:param name="image-alt"/>
@@ -65,6 +67,8 @@
                 <xsl:with-param name="value-style" select="$value-style"/>
                 <xsl:with-param name="value-class" select="$value-class"/>
                 <xsl:with-param name="placeholder" select="$placeholder"/>
+                <xsl:with-param name="placeholder-i18n" select="$placeholder-i18n"/>
+                <xsl:with-param name="placeholder-catalogue" select="$placeholder-catalogue"/>
                 <xsl:with-param name="image-id" select="$image-id"/>
                 <xsl:with-param name="image-alt" select="$image-alt"/>
                 <xsl:with-param name="image-alt-i18n" select="$image-alt-i18n"/>
@@ -102,6 +106,8 @@
         <xsl:param name="value-style"/>
         <xsl:param name="value-class"/>
         <xsl:param name="placeholder"/>
+        <xsl:param name="placeholder-i18n"/>
+        <xsl:param name="placeholder-catalogue"/>
         <xsl:param name="image-id"/>
         <xsl:param name="image-alt"/>
         <xsl:param name="image-alt-i18n"/>
@@ -121,7 +127,16 @@
             <input type="hidden" name="{$key-name}" id="{$key-id}" value="{$id}"/>
             
             <input type="text" name="{$value-name}" maxlength="6" id="{$value-id}" style="{$value-style}" class="{$value-class}">
-                <xsl:if test="$placeholder != ''"><xsl:attribute name="placeholder"><xsl:value-of select="$placeholder"/></xsl:attribute></xsl:if>
+                <xsl:if test="$placeholder != ''">
+	                <xsl:attribute name="placeholder">
+	                    <xsl:if test="$placeholder-i18n and $placeholder-catalogue != ''">
+	                        <xsl:value-of select="$placeholder-catalogue"/>
+	                        <xsl:text>:</xsl:text>
+	                    </xsl:if>
+	                    <xsl:value-of select="$placeholder"/>
+	                </xsl:attribute>
+	                <xsl:if test="$placeholder-i18n"><xsl:attribute name="i18n:attr">placeholder</xsl:attribute></xsl:if>
+                </xsl:if>
             </input>
             
             <img style="{$image-style}" class="{$image-class}" src="{$contextPath}/plugins/{$plugin}/captcha/{$id}/image.png?width={$image-width}&amp;height={$image-height}" id="{$image-id}">
@@ -140,7 +155,7 @@
         
         <script type="text/javascript">
             document.write("&lt;input type=\"hidden\" name=\"<xsl:value-of select='$key-name'/>\" id=\"<xsl:value-of select="$key-id"/>\"/&gt;")
-            document.write("&lt;input type=\"text\" placeholder=\"<xsl:value-of select="$placeholder"/>\" name=\"<xsl:value-of select='$value-name'/>\" id=\"<xsl:value-of select="$value-id"/>\" style=\"<xsl:value-of select="$value-style"/>\" class=\"<xsl:value-of select="$value-class"/>\"/ autocomplete=\"off\"&gt;")
+            document.write("&lt;input type=\"text\" name=\"<xsl:value-of select='$value-name'/>\" id=\"<xsl:value-of select="$value-id"/>\" <xsl:if test="$placeholder != ''">placeholder=\"<xsl:choose><xsl:when test="$placeholder-i18n"><i18n:text i18n:key="{$placeholder}"><xsl:if test="$placeholder-catalogue != ''"><xsl:attribute name="i18n:catalogue"><xsl:value-of select="$placeholder-catalogue"/></xsl:attribute></xsl:if></i18n:text></xsl:when><xsl:otherwise><xsl:value-of select="$placeholder"/></xsl:otherwise></xsl:choose>\" </xsl:if>style=\"<xsl:value-of select="$value-style"/>\" class=\"<xsl:value-of select="$value-class"/>\"/ autocomplete=\"off\"&gt;")
             document.write("&lt;img style=\"<xsl:value-of select="$image-style"/>\" class=\"<xsl:value-of select="$image-class"/>\" alt=\"<xsl:choose><xsl:when test="$image-alt-i18n"><i18n:text i18n:key="{$image-alt}"><xsl:if test="$image-alt-catalogue != ''"><xsl:attribute name="i18n:catalogue"><xsl:value-of select="$image-alt-catalogue"/></xsl:attribute></xsl:if></i18n:text></xsl:when><xsl:otherwise><xsl:value-of select="$image-alt"/></xsl:otherwise></xsl:choose>\" id=\"<xsl:value-of select="$image-id"/>\" src=\"\"/&gt;");
             <xsl:if test="$allow-refresh = true()">
                 document.write("&lt;button type=\"button\" title=\"<i18n:text i18n:key="PLUGINS_CORE_CAPTCHA_REFRESH_ALT" i18n:catalogue="plugin.core"/>\" class=\"captcha-refresh-btn\" onclick=\"<xsl:value-of select="$js-funcname-torefresh"/>(false); return false;\"&gt;&lt;span&gt;<i18n:text i18n:key="PLUGINS_CORE_CAPTCHA_REFRESH" i18n:catalogue="plugin.core"/>&lt;/span&gt;&lt;/button&gt;");

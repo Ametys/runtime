@@ -16,6 +16,7 @@
 CREATE TABLE Users_FormConnectionFailed 
 (
     login VARCHAR(255) PRIMARY KEY NOT NULL,
+    population_id VARCHAR (200) NOT NULL,
     nb_connect INT,
     last_connect TIMESTAMP
 )

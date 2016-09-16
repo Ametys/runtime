@@ -15,6 +15,7 @@
  */
 package org.ametys.plugins.core.impl.authentication;
 
+import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -22,17 +23,20 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.cocoon.components.ContextHelper;
-import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
+import org.apache.cocoon.environment.Request;
 import org.apache.commons.codec.binary.Base64;
 
 import org.ametys.core.authentication.AbstractCredentialProvider;
+import org.ametys.core.authentication.AuthenticateAction;
 import org.ametys.core.authentication.BlockingCredentialProvider;
-import org.ametys.core.authentication.Credentials;
+import org.ametys.core.user.UserIdentity;
+import org.ametys.core.user.directory.UserDirectory;
+import org.ametys.core.user.population.UserPopulation;
 import org.ametys.runtime.authentication.AuthorizationRequiredException;
 
 /**
- * Basic http authentication based on AuthenticationManager.
+ * Basic http authentication.
  */
 public class BasicCredentialProvider extends AbstractCredentialProvider implements BlockingCredentialProvider, Contextualizable
 {
@@ -60,14 +64,14 @@ public class BasicCredentialProvider extends AbstractCredentialProvider implemen
     }
     
     @Override
-    public boolean validateBlocking(Redirector redirector) throws Exception
+    public boolean blockingIsStillConnected(UserIdentity userIdentity, Redirector redirector) throws Exception
     {
         // this manager is always valid
         return true;
     }
     
     @Override
-    public boolean acceptBlocking()
+    public boolean blockingGrantAnonymousRequest()
     {
         // this implementation does not have any particular request
         // to take into account
@@ -75,17 +79,16 @@ public class BasicCredentialProvider extends AbstractCredentialProvider implemen
     }
 
     @Override
-    public Credentials getCredentialsBlocking(Redirector redirector) throws Exception
+    public UserIdentity blockingGetUserIdentity(Redirector redirector) throws Exception
     {
-        Map objectModel = ContextHelper.getObjectModel(_context);
+        Request request = ContextHelper.getRequest(_context);
         
         // Check authentication header
-        String auth = ObjectModelHelper.getRequest(objectModel).getHeader("Authorization");
-
+        String auth = request.getHeader("Authorization");
         if (auth == null)
         {
             // no auth
-            return null;
+            throw new AuthorizationRequiredException(_realm);
         }
 
         if (!auth.toUpperCase().startsWith(BASIC_AUTHENTICATION_KEY))
@@ -102,20 +105,41 @@ public class BasicCredentialProvider extends AbstractCredentialProvider implemen
 
         // Login and password are separated with a :
         StringTokenizer stk = new StringTokenizer(userpassDecoded, ":");
-        String log = stk.hasMoreTokens() ? stk.nextToken() : "";
-        String pass = stk.hasMoreTokens() ? stk.nextToken() : "";
+        String login = stk.hasMoreTokens() ? stk.nextToken() : "";
+        String password = stk.hasMoreTokens() ? stk.nextToken() : "";
 
-        return new Credentials(log, pass);
-    }
-
-    @Override
-    public void notAllowedBlocking(Redirector redirector) throws Exception
-    {
+        // Let's check password
+        @SuppressWarnings("unchecked")
+        List<UserPopulation> userPopulations = (List<UserPopulation>) request.getAttribute(AuthenticateAction.REQUEST_ATTRIBUTE_POPULATIONS);
+        for (UserPopulation userPopulation : userPopulations)
+        {
+            for (UserDirectory userDirectory : userPopulation.getUserDirectories())
+            {
+                if (userDirectory.getUser(login) != null)
+                {
+                    if (userDirectory.checkCredentials(login, password))
+                    {
+                        return new UserIdentity(login, userPopulation.getId());
+                    }
+                    else
+                    {
+                        throw new AuthorizationRequiredException(_realm);
+                    }
+                }
+            }
+        }
+        
         throw new AuthorizationRequiredException(_realm);
     }
 
     @Override
-    public void allowedBlocking(Redirector redirector)
+    public void blockingUserNotAllowed(Redirector redirector) throws Exception
+    {
+        // empty method, nothing more to do
+    }
+
+    @Override
+    public void blockingUserAllowed(UserIdentity userIdentity)
     {
         // empty method, nothing more to do
     }

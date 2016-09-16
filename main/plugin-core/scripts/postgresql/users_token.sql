@@ -15,11 +15,12 @@
 --
 BEGIN;
 
-DROP TABLE IF EXISTS UsersToken;
+DROP TABLE IF EXISTS Users_Token;
 
-CREATE TABLE UsersToken(
+CREATE TABLE Users_Token(
   id SERIAL PRIMARY KEY,
   login VARCHAR(64),
+  population_id VARCHAR (200) NOT NULL,
   -- the hashed token + salt are stocked here
   token VARCHAR(128)  NOT NULL,
   salt VARCHAR(64) NOT NULL,
