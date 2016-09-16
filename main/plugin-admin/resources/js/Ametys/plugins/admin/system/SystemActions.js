@@ -226,7 +226,7 @@ Ext.define('Ametys.plugins.admin.system.SystemActions', {
 		
 		this._box = Ext.create('Ametys.window.DialogBox', {
 			title :"{{i18n PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DIALOG_CAPTION}}",
-			icon: Ametys.getPluginResourcesPrefix('admin') + '/img/system/announcement_16.png',
+			iconCls: 'ametysicon-megaphone19',
 			
 			layout :'fit',
 			width: 450,

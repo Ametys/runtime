@@ -70,7 +70,7 @@ Ext.define('Ametys.plugins.coreui.groups.EditGroupHelper', {
         {
             this._chooseGroupDirectoryDialog = Ext.create('Ametys.window.DialogBox', {
                 title: "{{i18n PLUGINS_CORE_UI_GROUPS_DIALOG_ADD_TITLE}}",
-                icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/groups/add_16.png',
+                iconCls: 'ametysicon-multiple25 decorator-ametysicon-agenda3',
                 
                 layout: {
                     type: 'vbox',
@@ -255,7 +255,7 @@ Ext.define('Ametys.plugins.coreui.groups.EditGroupHelper', {
 			
 			this._box = Ext.create('Ametys.window.DialogBox', {
 				title: this._mode == 'new' ? "{{i18n PLUGINS_CORE_UI_GROUPS_DIALOG_ADD_TITLE}}" : "{{i18n PLUGINS_CORE_UI_GROUPS_DIALOG_EDIT_TITLE}}",
-				icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/groups/' + (this._mode == 'new' ? 'add_16.png' : 'rename_16.png'),
+				iconCls: 'ametysicon-multiple25 ' + (this._mode == 'new' ? 'decorator-ametysicon-add64' : 'decorator-ametysicon-edit45'),
 				
 				width: 450,
 				maxHeight: 500,
@@ -285,7 +285,7 @@ Ext.define('Ametys.plugins.coreui.groups.EditGroupHelper', {
 		else
 		{
 			this._box.setTitle(this._mode == 'new' ? "{{i18n PLUGINS_CORE_UI_GROUPS_DIALOG_ADD_TITLE}}" : "{{i18n PLUGINS_CORE_UI_GROUPS_DIALOG_EDIT_TITLE}}");
-			this._box.setIcon(Ametys.getPluginResourcesPrefix('core-ui') + '/img/groups/' + (this._mode == 'new' ? 'add_16.png' : 'rename_16.png'));
+			this._box.setIconCls('ametysicon-multiple25 ' + (this._mode == 'new' ? 'decorator-ametysicon-add64' : 'decorator-ametysicon-edit45'));
 		}
 	},
 	

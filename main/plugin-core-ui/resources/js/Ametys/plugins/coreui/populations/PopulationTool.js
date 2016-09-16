@@ -163,15 +163,15 @@ Ext.define('Ametys.plugins.coreui.populations.PopulationTool', {
     /**
      * @private
      * Renderer for the population's title
-     * @param {String} title the title
+     * @param {String} value the title
      * @param {Object} metadata A collection of metadata about the current cell
      * @param {Ext.data.Model} record The record for the current row
      * @return {String} the html string used for the rendering of the url
      */
-    _renderLabel: function(url, metadata, record)
+    _renderLabel: function(value, metadata, record)
     {
         var decorator = record.get('valid') ? '' : ' decorator-ametysicon-caution9 population-warning';
-        return '<span class="a-grid-glyph ametysicon-agenda3' + decorator + '"></span>' + url;
+        return '<span class="a-grid-glyph ametysicon-agenda3' + decorator + '"></span>' + value;
     },
     
     /**

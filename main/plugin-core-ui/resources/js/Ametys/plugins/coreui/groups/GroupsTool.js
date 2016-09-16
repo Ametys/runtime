@@ -529,7 +529,7 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsTool', {
 	 */
 	_renderGroupName: function(value, metaData, record)
 	{
-		return '<img src="' + Ametys.getPluginResourcesPrefix('core-ui') + '/img/groups/group_16.png' + '" style="float: left; margin-right: 3px"/>' + record.get('label');
+		return '<span class="a-grid-glyph ametysicon-multiple25"></span>' + value;
 	},
 	
 	/**

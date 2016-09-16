@@ -48,7 +48,7 @@ Ext.define('Ametys.plugins.coreui.groupdirectories.GroupDirectoryTool', {
             stateId: this.self.getName() + "$grid",
             
             columns: [
-                 {stateId: 'grid-title', header: "{{i18n PLUGINS_CORE_UI_GROUP_DIRECTORIES_TOOL_COLUMN_TITLE}}", flex: 1, sortable: true, dataIndex: 'label'},
+                 {stateId: 'grid-title', header: "{{i18n PLUGINS_CORE_UI_GROUP_DIRECTORIES_TOOL_COLUMN_TITLE}}", flex: 1, sortable: true, dataIndex: 'label', renderer: this._renderLabel},
                  {stateId: 'grid-id', header: "{{i18n PLUGINS_CORE_UI_GROUP_DIRECTORIES_TOOL_COLUMN_ID}}", width: 250, dataIndex: 'id'},
                  {stateId: 'grid-type', header: "{{i18n PLUGINS_CORE_UI_GROUP_DIRECTORIES_TOOL_COLUMN_TYPE}}", width: 350, dataIndex: 'type'}
             ],
@@ -119,6 +119,19 @@ Ext.define('Ametys.plugins.coreui.groupdirectories.GroupDirectoryTool', {
             type: Ametys.message.Message.SELECTION_CHANGED,
             targets: targets
         });
+    },
+    
+    /**
+     * @private
+     * Renderer for the group directory's label
+     * @param {String} value the label
+     * @param {Object} metadata A collection of metadata about the current cell
+     * @param {Ext.data.Model} record The record for the current row
+     * @return {String} the group directory's label with its icon
+     */
+    _renderLabel: function(value, metadata, record)
+    {
+        return '<span class="a-grid-glyph ametysicon-multiple25 decorator-ametysicon-agenda3"></span>' + value;
     },
     
     /**
