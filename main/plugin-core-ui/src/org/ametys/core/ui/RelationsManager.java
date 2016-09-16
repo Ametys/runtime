@@ -24,7 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * This extension point handle the existing relations on the client side (relation system allow for example drag and drop).
  */
-public class RelationsManager extends AbstractClientSideExtensionPoint
+public class RelationsManager extends AbstractClientSideExtensionPoint<ClientSideRelation>
 {
     /** Avalon role */
     public static final String ROLE = RelationsManager.class.getName();
@@ -52,6 +52,7 @@ public class RelationsManager extends AbstractClientSideExtensionPoint
     private List<ClientSideElement> _findSourceDependencies(String pattern)
     {
         List<ClientSideElement> result = new ArrayList<>();
+        
         for (String extensionId : getExtensionsIds())
         {
             ClientSideRelation extension = (ClientSideRelation) getExtension(extensionId);

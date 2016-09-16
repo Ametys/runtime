@@ -15,14 +15,14 @@
  */
 package org.ametys.core.right;
 
+import org.ametys.core.ui.AbstractClientSideExtensionPoint;
 import org.ametys.core.ui.Callable;
 import org.ametys.runtime.plugin.ExtensionPoint;
-import org.ametys.runtime.plugin.component.AbstractThreadSafeComponentExtensionPoint;
 
 /**
  * {@link ExtensionPoint} handling {@link RightAssignmentContext}s
  */
-public class RightAssignmentContextExtensionPoint extends AbstractThreadSafeComponentExtensionPoint<RightAssignmentContext>
+public class RightAssignmentContextExtensionPoint extends AbstractClientSideExtensionPoint<RightAssignmentContext>
 {
     /** Avalon Role */
     public static final String ROLE = RightAssignmentContextExtensionPoint.class.getName();

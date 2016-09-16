@@ -18,7 +18,7 @@ package org.ametys.core.ui;
 /**
  * This extension point handle the existing ribbon controls.
  */
-public class RibbonControlsManager extends AbstractClientSideExtensionPoint
+public class RibbonControlsManager extends AbstractClientSideExtensionPoint<ClientSideElement>
 {
     /** Avalon role */
     public static final String ROLE = RibbonControlsManager.class.getName();

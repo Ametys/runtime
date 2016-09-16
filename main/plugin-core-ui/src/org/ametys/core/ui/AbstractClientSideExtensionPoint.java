@@ -35,13 +35,14 @@ import org.ametys.runtime.plugin.component.AbstractThreadSafeComponentExtensionP
 
 /**
  * Implementation of an ExtensionPoint for client side elements.
+ * @param <T> The client side element implementation
  */
-public abstract class AbstractClientSideExtensionPoint extends AbstractThreadSafeComponentExtensionPoint<ClientSideElement>
+public abstract class AbstractClientSideExtensionPoint<T extends ClientSideElement> extends AbstractThreadSafeComponentExtensionPoint<T>
 {
     private Map<String, Configuration> _configurations = new HashMap<>();
     private Map<String, String> _configurationPlugins = new HashMap<>();
     
-    private List<AbstractClientSideExtensionPoint> _registeredManagers = new ArrayList<>();
+    private List<AbstractClientSideExtensionPoint<T>> _registeredManagers = new ArrayList<>();
     
     private List<ReferencingExtension> _referencingExtensions = new ArrayList<>();
     
@@ -235,7 +236,7 @@ public abstract class AbstractClientSideExtensionPoint extends AbstractThreadSaf
      * Register a new ribbon manager whose extensions will also be managed by this RibbonControlsManager
      * @param manager The manager to register
      */
-    public void registerRibbonManager(AbstractClientSideExtensionPoint manager)
+    public void registerRibbonManager(AbstractClientSideExtensionPoint<T> manager)
     {
         _registeredManagers.add(manager);
     }
@@ -244,18 +245,18 @@ public abstract class AbstractClientSideExtensionPoint extends AbstractThreadSaf
      * Remove a previously registered ribbon manager
      * @param manager The manager to remove
      */
-    public void unregisterRibbonManager(AbstractClientSideExtensionPoint manager)
+    public void unregisterRibbonManager(AbstractClientSideExtensionPoint<T> manager)
     {
         _registeredManagers.remove(manager);
     }
     
     @Override
-    public ClientSideElement getExtension(String id)
+    public T getExtension(String id)
     {
-        ClientSideElement extension = super.getExtension(id);
+        T extension = super.getExtension(id);
         if (extension == null)
         {
-            for (AbstractClientSideExtensionPoint manager : _registeredManagers)
+            for (AbstractClientSideExtensionPoint<T> manager : _registeredManagers)
             {
                 extension = manager.getExtension(id);
                 if (extension != null)
@@ -272,7 +273,7 @@ public abstract class AbstractClientSideExtensionPoint extends AbstractThreadSaf
     public Set<String> getExtensionsIds()
     {
         Set<String> extensionsIds = super.getExtensionsIds();
-        for (AbstractClientSideExtensionPoint manager : _registeredManagers)
+        for (AbstractClientSideExtensionPoint<T> manager : _registeredManagers)
         {
             extensionsIds.addAll(manager.getExtensionsIds());
         }

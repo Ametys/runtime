@@ -18,7 +18,7 @@ package org.ametys.core.ui;
 /**
  * Manager for ribbon elements that are created live during runtime
  */
-public class RibbonManager extends AbstractClientSideExtensionPoint
+public class RibbonManager extends AbstractClientSideExtensionPoint<ClientSideElement>
 {
     /** Avalon role */
     public static final String ROLE = RibbonManager.class.getName();
