@@ -44,11 +44,13 @@ import org.ametys.runtime.workspace.WorkspaceMatcher;
 /**
  * Cocoon action to perform authentication.<br>
  * The {@link CredentialProvider} define the authentication method and retrieves {@link Credentials}.<br>
- * The {@link Authentication} chain performs actual authentication.<br>
  * Finally, the Users instance extract the Principal corresponding to the {@link Credentials}.
  */
-public class AuthenticateAction extends ServiceableAction implements ThreadSafe, Initializable
+public class AuthenticateAction extends ServiceableAction implements ThreadSafe, Initializable 
 {
+    /** The request attribute to allow internal action from an internal request. */
+    public static final String REQUEST_ATTRIBUTE_INTERNAL_ALLOWED = "Runtime:InternalAllowedRequest";
+    
     /** The session attribute name for storing the identity of the connected user */
     public static final String SESSION_USERIDENTITY = "Runtime:UserIdentity";
     /** The session attribute name for storing the credential provider of the authentication */
@@ -434,7 +436,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
      */
     protected boolean _internalRequest(Request request)
     {
-        return "true".equals(request.getAttribute(__REQUEST_ATTRIBUTE_AUTHENTICATED)) || request.getAttribute(Authentication.INTERNAL_ALLOWED_REQUEST_ATTR) != null;
+        return "true".equals(request.getAttribute(__REQUEST_ATTRIBUTE_AUTHENTICATED)) || request.getAttribute(REQUEST_ATTRIBUTE_INTERNAL_ALLOWED) != null;
     }
 
     /**

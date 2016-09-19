@@ -38,7 +38,7 @@ public class CheckAuthenticationAction extends AbstractAction
         Request request = ObjectModelHelper.getRequest(objectModel);
         Session session = request.getSession(false);
         
-        if (request.getAttribute(Authentication.INTERNAL_ALLOWED_REQUEST_ATTR) == null && (session == null || session.getAttribute(AuthenticateAction.SESSION_USERIDENTITY) == null))
+        if (request.getAttribute(AuthenticateAction.REQUEST_ATTRIBUTE_INTERNAL_ALLOWED) == null && (session == null || session.getAttribute(AuthenticateAction.SESSION_USERIDENTITY) == null))
         {
             // user is not authenticated
             throw new AccessDeniedException("The requested URL '" + request.getSitemapURI() + "' could only be issued by an authenticated user.");
