@@ -228,7 +228,7 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
 		
 		this._box = Ext.create('Ametys.window.DialogBox', {
 			title: this._mode == 'new' ? "{{i18n PLUGINS_CORE_UI_USERS_DIALOG_ADD_TITLE}}" : "{{i18n PLUGINS_CORE_UI_USERS_DIALOG_EDIT_TITLE}}",
-			icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/users/' + (this._mode == 'new' ? 'add_16.png' : 'modify_16.png'),
+			iconCls: 'ametysicon-black302' + (this._mode == 'new' ? ' ametysicon-add64' : ' ametysicon-edit45'),
 			
 			layout: 'fit',
 			width: 500,
