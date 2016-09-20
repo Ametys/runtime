@@ -40,6 +40,9 @@ public class PopulationContextHelper extends AbstractLogEnabled implements Compo
 {
     /** Avalon Role */
     public static final String ROLE = PopulationContextHelper.class.getName();
+ 
+    /** The name of request attribute holding the current population contexts */
+    public static final String POPULATION_CONTEXTS_REQUEST_ATTR = "populationContexts";
     
     /** The "admin" context */
     public static final String ADMIN_CONTEXT = "/admin";

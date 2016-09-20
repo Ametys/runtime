@@ -56,6 +56,7 @@ import org.ametys.core.right.AccessController.AccessResultContext;
 import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.core.user.UserIdentity;
 import org.ametys.core.user.UserManager;
+import org.ametys.core.user.population.PopulationContextHelper;
 import org.ametys.core.user.population.UserPopulationDAO;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.plugin.component.AbstractLogEnabled;
@@ -777,10 +778,10 @@ public class RightManager extends AbstractLogEnabled implements Serviceable, Con
         
         Request request = ContextHelper.getRequest(_context);
         @SuppressWarnings("unchecked")
-        List<String> populationContexts = (List<String>) request.getAttribute("populationContexts");
+        List<String> populationContexts = (List<String>) request.getAttribute(PopulationContextHelper.POPULATION_CONTEXTS_REQUEST_ATTR);
         
         // Then, return the AllowedUsers object
-        return new AllowedUsers(false, isAnyConnectedAllowed != null && isAnyConnectedAllowed.booleanValue(), allAllowedUsers, allDeniedUsers, allAllowedGroups, allDeniedGroups, _userManager, _groupManager, new HashSet<>(populationContexts));
+        return new AllowedUsers(false, isAnyConnectedAllowed != null && isAnyConnectedAllowed.booleanValue(), allAllowedUsers, allDeniedUsers, allAllowedGroups, allDeniedGroups, _userManager, _groupManager, populationContexts != null ? new HashSet<>(populationContexts) : new HashSet<>());
     }
     
     /* --------------- */
