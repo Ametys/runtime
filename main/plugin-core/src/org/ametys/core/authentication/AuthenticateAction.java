@@ -103,20 +103,18 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     {
         Request request = ObjectModelHelper.getRequest(objectModel);
 
-        // Test if user wants to logout
-        boolean logout = _handleLogout(redirector, objectModel, source, parameters);
-        // Test if this request was already authentified or it the request is marked as an internal one
-        boolean internalRequest = _internalRequest(request);
-        // Test if the currently connected user is still valid
-        boolean userIsValid = _validateCurrentlyConnectedUser(request, redirector);
+        if (_handleLogout(redirector, objectModel, source, parameters)  // Test if user wants to logout
+                || _internalRequest(request)                            // Test if this request was already authentified or it the request is marked as an internal one
+                || _validateCurrentlyConnectedUser(request, redirector) // Test if the currently connected user is still valid
+                || redirector.hasRedirected())
+        {
+            // We passed the authentication, let's mark it now
+            request.setAttribute(__REQUEST_ATTRIBUTE_AUTHENTICATED, "true");
+            return EMPTY_MAP;
+        }
         
         // We passed the authentication, let's mark it now
         request.setAttribute(__REQUEST_ATTRIBUTE_AUTHENTICATED, "true");
-        
-        if (logout || internalRequest || userIsValid || redirector.hasRedirected())
-        {
-            return EMPTY_MAP;
-        }
 
         // Get context and associated populations
         String context = _getContext(parameters);
