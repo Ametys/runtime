@@ -117,7 +117,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         request.setAttribute(__REQUEST_ATTRIBUTE_AUTHENTICATED, "true");
 
         // Get context and associated populations
-        String context = _getContext(parameters);
+        String context = _getContext(request, parameters);
         List<UserPopulation> userPopulations = _getUserPopulations(request, context);
         request.setAttribute(REQUEST_ATTRIBUTE_POPULATIONS, userPopulations);
         
@@ -413,11 +413,12 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     
     /**
      * Get the authentication context
+     * @param request The request
      * @param parameters The action parameters
      * @return The context
      * @throws IllegalArgumentException If there is no context set
      */
-    protected String _getContext(Parameters parameters)
+    protected String _getContext(Request request, Parameters parameters)
     {
         String context = parameters.getParameter("context", null);
         if (context == null)
