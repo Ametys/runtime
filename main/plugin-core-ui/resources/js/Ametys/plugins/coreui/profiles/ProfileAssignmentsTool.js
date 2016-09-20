@@ -392,6 +392,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         this._profilesUrl = config.profilesUrl || 'rights/profiles.json';
         
         this._rightContextHintPrefix = config.rightContextHintPrefix || "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_HINT1}}";
+        this._initializing = true;
         
         this.callParent(arguments);
     },
@@ -671,6 +672,8 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
             this._assignmentsGrid.getDockedItems('#context-helper-text')[0].update(this._rightContextHintPrefix + hintTextContext);
             this._updateGrid();
         }
+        
+        this.sendCurrentSelection();
     },
     
     /**
@@ -1308,11 +1311,6 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         return [{stateId: 'grid-first-column', text: "", dataIndex: "sortableLabel", minWidth: 300, hideable: false, sortable: true, renderer: Ext.bind(this._renderWho, this)}];
     },
     
-    /**
-     * @inheritdoc
-     * @param {String} [params.profilesPluginName=core] The name of the plugin used to get the list of profiles
-     * @param {String} [params.profilesUrl=rights/profiles.json] The name of the plugin used to get the list of profiles
-     */
     setParams: function(params)
     {
         this.callParent(arguments);
@@ -1381,6 +1379,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     
     refresh: function()
     {
+    	this._initializing = true;
         this.showRefreshing();
         
         // First, retrieve the profiles to reconfigure the grid panel (every profile is a column)
@@ -1427,27 +1426,6 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         
         this.getContentPanel().down('#grid-wrapper').add(this._assignmentsGrid);
         
-        // Select the context of max priority
-        var contextIdToSelect = null;
-    	var maxPriority = 0;
-    	
-    	Ext.Object.each(this.getFactory()._rightAssignmentContexts, function(contextId, rightAssignmentContext) {
-            if (rightAssignmentContext.getPriority() > maxPriority)
-            {
-            	contextIdToSelect = contextId;
-            	maxPriority = rightAssignmentContext.getPriority();
-            }
-        }, this);
-    	
-    	if (contextIdToSelect != null)
-    	{
-    		this._contextCombobox.select(contextIdToSelect);
-    	}
-    	else
-    	{
-    		this._contextCombobox.select(this._contextCombobox.getStore().getAt(0).get('value'));
-    	}
-    	
     	if (this._contextCombobox.getStore().getCount() == 1)
     	{
     		this._contextPanel.down("toolbar").hide();
@@ -1458,7 +1436,63 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     		this.getContentPanel().down('#profile-filter').hide();
     	}
     	
+    	// Select the default context
+        this._selectDefaultContext();
+        
     	this.showRefreshed();
+    },
+    
+    /**
+     * @private
+     * Initializing the default context from the current selection on the message bus.
+     * If several contexts are supported, this of highest priority will be selected.
+     */
+    _selectDefaultContext: function ()
+    {
+    	var message = Ametys.message.MessageBus.getCurrentSelectionMessage();
+    	
+    	var initContextFound = false;
+    	
+    	// Get the right contexts which support the current selection
+    	var supportedContexts = {};
+		Ext.Object.each(this.getFactory()._rightAssignmentContexts, function(contextId, rightAssignmentContext) {
+            if (rightAssignmentContext.isSupported(message))
+            {
+            	supportedContexts[contextId] = rightAssignmentContext;
+            	initContextFound = true;
+            }
+        }, this);
+		
+		if (Ext.Object.isEmpty(supportedContexts))
+		{
+			// If no contexts support the current selection, re-init with all contexts
+			supportedContexts = this.getFactory()._rightAssignmentContexts;
+		}
+		
+		// Select the context of max priority among the supported context
+		var maxPriority = -1;
+		var contextIdToSelect = null;
+		
+		Ext.Object.each(supportedContexts, function(contextId, rightAssignmentContext) {
+			if (rightAssignmentContext.getPriority() > maxPriority)
+            {
+            	contextIdToSelect = contextId;
+            	maxPriority = rightAssignmentContext.getPriority();
+            }
+        }, this);
+		
+		this._contextCombobox.select(contextIdToSelect);
+		
+		this._initializing = false;
+		
+		if (initContextFound)
+		{
+			this.getFactory()._rightAssignmentContexts[contextIdToSelect].initContext (message);
+		}
+		else
+		{
+			this.sendCurrentSelection();
+		}
     },
     
     /**
@@ -1537,6 +1571,11 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     
     sendCurrentSelection: function()
     {
+    	if (this._initializing)
+    	{
+    		return;
+    	}
+    	
         var me = this;
         
         function hasLocalAssignments(record)
@@ -1557,30 +1596,37 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         
         var selection = this._assignmentsGrid ? this._assignmentsGrid.getSelection() : [];
         
-        var targets = Ext.Array.map(selection, function(record) {
-            var type = record.get('targetType'),
-                removable = (type == this.self.TARGET_TYPE_USER || type == this.self.TARGET_TYPE_GROUP)
-                            && hasLocalAssignments(record);
-            return {
-                id: Ametys.message.MessageTarget.PROFILE_ASSIGNMENT,
-                parameters: {
-                    id: record.get('id'),
-                    type: type,
-                    context: this._objectContext,
-                    removable: removable
-                }
-            };
-        }, this);
+        var targets = [];
         
-        Ext.create('Ametys.message.Message', {
-            type: Ametys.message.Message.SELECTION_CHANGED,
-            targets: {
+        if (this._objectContext != null)
+        {
+        	var subtargets = Ext.Array.map(selection, function(record) {
+                var type = record.get('targetType'),
+                    removable = (type == this.self.TARGET_TYPE_USER || type == this.self.TARGET_TYPE_GROUP)
+                                && hasLocalAssignments(record);
+                return {
+                    id: Ametys.message.MessageTarget.PROFILE_ASSIGNMENT,
+                    parameters: {
+                        id: record.get('id'),
+                        type: type,
+                        context: this._objectContext,
+                        removable: removable
+                    }
+                };
+            }, this);
+        	
+        	targets.push({
                 id: Ametys.message.MessageTarget.PROFILE_CONTEXT,
                 parameters: {
                     context: this._objectContext
                 },
-                subtargets: targets
-            }
+                subtargets: subtargets
+            });
+        }
+        
+        Ext.create('Ametys.message.Message', {
+            type: Ametys.message.Message.SELECTION_CHANGED,
+            targets: targets
         });
     },
     

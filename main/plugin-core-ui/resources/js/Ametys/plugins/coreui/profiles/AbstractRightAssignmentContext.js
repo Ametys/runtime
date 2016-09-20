@@ -56,6 +56,27 @@ Ext.define('Ametys.plugins.coreui.profiles.AbstractRightAssignmentContext', {
     },
     
     /**
+     * @template
+     * Determines if this component is able to extract a supported object context from the current selection.
+     * @param {Ametys.message.Message} message The current selection message
+     * @return true if supported
+     */
+    isSupported: function (message)
+    {
+    	return false;
+    },
+    
+    /**
+     * @template
+     * Initialize the object context from the current selection.
+     * This method is called only if #isSupported returns true
+     */
+    initContext: function (message)
+    {
+    	// Nothing
+    },
+    
+    /**
      * Get the priority of this context
      * The context of max priority will be selected at opening of the Ametys.plugins.coreui.profiles.ProfileAssignmentsTool tool.
      * By default the priority the get from configuration options
