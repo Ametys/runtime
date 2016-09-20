@@ -16,11 +16,16 @@
 package org.ametys.runtime.test.rights.manager;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.apache.cocoon.environment.Environment;
+import org.apache.cocoon.environment.ObjectModelHelper;
+import org.apache.cocoon.environment.Request;
 
 import org.ametys.core.group.Group;
 import org.ametys.core.group.GroupDirectoryDAO;
@@ -75,6 +80,10 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
     {
         Map<String, Object> environmentInformation = _cocoon._enterEnvironment();
         
+        Environment env = (Environment) environmentInformation.get("environment");
+        Request request = (Request) env.getObjectModel().get(ObjectModelHelper.REQUEST_OBJECT);
+        request.setAttribute("populationContexts", new ArrayList<String>());
+        
         Set<UserIdentity> users = _rightManager.getAllowedUsers("Runtime_Rights_User_Handle", "foo").resolveAllowedUsers(true);
         assertEquals(0, users.size());
         
@@ -93,6 +102,10 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
     public void testFilled() throws Exception
     {
         Map<String, Object> environmentInformation = _cocoon._enterEnvironment();
+        
+        Environment env = (Environment) environmentInformation.get("environment");
+        Request request = (Request) env.getObjectModel().get(ObjectModelHelper.REQUEST_OBJECT);
+        request.setAttribute("populationContexts", new ArrayList<String>());
         
         Set<UserIdentity> users;
         UserIdentity test = new UserIdentity("test", "population");
