@@ -1309,7 +1309,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             	header.removeCls(['error', 'warning', 'comment']);
         	}
             
-            if (navigationItem)
+            if (navigationItem && navigationItem.el && navigationItem.el.dom)
         	{
             	var oldNavigationItemClassName = navigationItem.el.dom.className;
             	navigationItem.removeCls(['error', 'warning', 'comment']);
@@ -1370,7 +1370,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             	}
         	}
             
-            if (navigationItem)
+            if (navigationItem && navigationItem.el && navigationItem.el.dom)
         	{
             	hasNavigationItemChanged = navigationItem.el.dom.className != oldNavigationItemClassName;
             	if (hasNavigationItemChanged)
