@@ -202,18 +202,26 @@ public class GetProfileAssignmentsAction extends ServiceableAction
             Map<UserIdentity, Set<String>> deniedProfilesForUsers = _profileAssignmentStorageEP.getDeniedProfilesForUsers(currentContext);
             for (UserIdentity userIdentity : deniedProfilesForUsers.keySet())
             {
-                if (!assignments.containsKey(userIdentity))
-                {
-                    assignments.put(userIdentity, _user2json(userIdentity));
-                }
-                
-                Map<String, Object> userAssignment = assignments.get(userIdentity);
-                
-                for (String profileId : deniedProfilesForUsers.get(userIdentity))
-                {
-                    if (profileIds.contains(profileId) && !userAssignment.containsKey(profileId))
+                // Check if the user still exits
+                if (_userManager.getUser(userIdentity) != null)
+                { 
+                    if (!assignments.containsKey(userIdentity))
                     {
-                        userAssignment.put(profileId, currentContext == context ? AccessType.DENY.toString() : AccessType.INHERITED_DENY.toString());
+                        Map<String, Object> user2json = _user2json(userIdentity);
+                        if (user2json != null)
+                        {
+                            assignments.put(userIdentity, user2json);
+                        }
+                    }
+                    
+                    Map<String, Object> userAssignment = assignments.get(userIdentity);
+                    
+                    for (String profileId : deniedProfilesForUsers.get(userIdentity))
+                    {
+                        if (profileIds.contains(profileId) && !userAssignment.containsKey(profileId))
+                        {
+                            userAssignment.put(profileId, currentContext == context ? AccessType.DENY.toString() : AccessType.INHERITED_DENY.toString());
+                        }
                     }
                 }
             }
@@ -222,18 +230,22 @@ public class GetProfileAssignmentsAction extends ServiceableAction
             Map<UserIdentity, Set<String>> allowedProfilesForUsers = _profileAssignmentStorageEP.getAllowedProfilesForUsers(currentContext);
             for (UserIdentity userIdentity : allowedProfilesForUsers.keySet())
             {
-                if (!assignments.containsKey(userIdentity))
-                {
-                    assignments.put(userIdentity, _user2json(userIdentity));
-                }
-                
-                Map<String, Object> userAssignment = assignments.get(userIdentity);
-                
-                for (String profileId : allowedProfilesForUsers.get(userIdentity))
-                {
-                    if (profileIds.contains(profileId) && !userAssignment.containsKey(profileId))
+                // Check if the user still exits
+                if (_userManager.getUser(userIdentity) != null)
+                { 
+                    if (!assignments.containsKey(userIdentity))
                     {
-                        userAssignment.put(profileId, currentContext == context ? AccessType.ALLOW.toString() : AccessType.INHERITED_ALLOW.toString());
+                        assignments.put(userIdentity, _user2json(userIdentity));
+                    }
+                    
+                    Map<String, Object> userAssignment = assignments.get(userIdentity);
+                    
+                    for (String profileId : allowedProfilesForUsers.get(userIdentity))
+                    {
+                        if (profileIds.contains(profileId) && !userAssignment.containsKey(profileId))
+                        {
+                            userAssignment.put(profileId, currentContext == context ? AccessType.ALLOW.toString() : AccessType.INHERITED_ALLOW.toString());
+                        }
                     }
                 }
             }
