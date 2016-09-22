@@ -48,6 +48,9 @@ public interface ObservationConstants
     /** Event id when a group is deleted. */
     public static final String EVENT_GROUP_DELETED = "group.deleted";
     
+    /** Event id when a group is deleted. */
+    public static final String EVENT_ACL_UPDATED = "acl.update";
+    
     /** Argument name for processed profile */
     public static final String ARGS_PROFILE = "profile";
     
@@ -56,4 +59,7 @@ public interface ObservationConstants
     
     /** Argument name for processed group */
     public static final String ARGS_GROUP = "group";
+    
+    /** Argument name for processed acl context */
+    public static final String ARGS_ACL_CONTEXT = "acl-context";
 }

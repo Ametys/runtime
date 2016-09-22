@@ -26,9 +26,12 @@ import java.util.stream.Collectors;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 
+import org.ametys.core.ObservationConstants;
 import org.ametys.core.group.GroupDirectoryDAO;
 import org.ametys.core.group.GroupIdentity;
 import org.ametys.core.group.GroupManager;
+import org.ametys.core.observation.Event;
+import org.ametys.core.observation.ObservationManager;
 import org.ametys.core.right.ProfileAssignmentStorageExtensionPoint;
 import org.ametys.core.right.RightAssignmentContext;
 import org.ametys.core.right.RightAssignmentContextExtensionPoint;
@@ -55,6 +58,8 @@ public class ProfileAssignmentsToolClientSideElement extends StaticClientSideEle
     protected GroupDirectoryDAO _groupDirectoryDAO;
     /** The group manager */
     protected GroupManager _groupManager;
+    /** The observation manager */
+    protected ObservationManager _observationManager;
     
     /**
      * Enumeration of all possible access types
@@ -177,6 +182,7 @@ public class ProfileAssignmentsToolClientSideElement extends StaticClientSideEle
         _rightAssignmentContextEP = (RightAssignmentContextExtensionPoint) smanager.lookup(RightAssignmentContextExtensionPoint.ROLE);
         _groupDirectoryDAO = (GroupDirectoryDAO) smanager.lookup(GroupDirectoryDAO.ROLE);
         _groupManager = (GroupManager) smanager.lookup(GroupManager.ROLE);
+        _observationManager = (ObservationManager) smanager.lookup(ObservationManager.ROLE);
     }
     
     @SuppressWarnings("unchecked")
@@ -279,7 +285,7 @@ public class ProfileAssignmentsToolClientSideElement extends StaticClientSideEle
     {
         if (_rightManager.hasRight(_currentUserProvider.getUser(), "Runtime_Rights_Rights_Handle", "/contributor") != RightResult.RIGHT_ALLOW)
         {
-            throw new RightsException("The user '" + _currentUserProvider.getUser().getLogin() + "' try to assign profile without sufficient rights");
+            throw new RightsException("The user '" + _currentUserProvider.getUser() + "' try to assign profile without sufficient rights");
         }
         
         Object context = _rightAssignmentContextEP.getExtension(rightAssignmentCtxId).convertJSContext(jsContext);
@@ -291,8 +297,16 @@ public class ProfileAssignmentsToolClientSideElement extends StaticClientSideEle
             Map<String, String> identity = (Map<String, String>) assignmentInfo.get("identity");
             _saveChange(context, profileId, assignment, targetType, identity);
         }
+        _notifyObservers(context);
     }
     
+    private void _notifyObservers(Object context)
+    {
+        Map<String, Object> eventParams = new HashMap<>();
+        eventParams.put(ObservationConstants.ARGS_ACL_CONTEXT, context);
+        _observationManager.notify(new Event(ObservationConstants.EVENT_ACL_UPDATED, _currentUserProvider.getUser(), eventParams));
+    }
+
     /**
      * Get the first permission given by inheritance for a object context and profiles
      * @param rightAssignmentCtxId The id of the right assignment context

@@ -652,9 +652,7 @@ public class RightManager extends AbstractLogEnabled implements Serviceable, Con
      */
     public boolean isReadingRestricted(Object object)
     {
-        /** FIXME Can not work from FO side until RUNTIME-2075 is not fixed **/ 
-        // return hasAnonymousProfile(READER_PROFILE_ID, object) != RightResult.RIGHT_ALLOW;
-        return false;
+        return hasAnonymousProfile(READER_PROFILE_ID, object) != RightResult.RIGHT_ALLOW;
     }
     
     /**
