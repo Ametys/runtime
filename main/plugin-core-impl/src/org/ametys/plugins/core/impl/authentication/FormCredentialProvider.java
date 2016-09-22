@@ -506,13 +506,17 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
     {
         if (!SECURITY_LEVEL_HIGH.equals(_securityLevel))
         {
-            // Hash token + salt
-            String token = RandomStringUtils.randomAlphanumeric(16);
-            String salt = RandomStringUtils.randomAlphanumeric(48);
-            String hashedTokenAndSalt = DigestUtils.sha512Hex(token + salt);
-            
-            _insertUserToken(userConnected.getPopulationId(), userConnected.getLogin(), salt, hashedTokenAndSalt);
-            updateCookie(userConnected.getPopulationId() + "," + userConnected.getLogin() + "," + token, _cookieName, (int) _cookieLifetime, _context);
+            Request request = ContextHelper.getRequest(_context);
+            if ("true".equals(request.getParameter(_rememberMeField)))
+            {
+                // Hash token + salt
+                String token = RandomStringUtils.randomAlphanumeric(16);
+                String salt = RandomStringUtils.randomAlphanumeric(48);
+                String hashedTokenAndSalt = DigestUtils.sha512Hex(token + salt);
+                
+                _insertUserToken(userConnected.getPopulationId(), userConnected.getLogin(), salt, hashedTokenAndSalt);
+                updateCookie(userConnected.getPopulationId() + "," + userConnected.getLogin() + "," + token, _cookieName, (int) _cookieLifetime, _context);
+            }
         }
         else
         {
