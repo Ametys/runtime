@@ -31,7 +31,7 @@
     <xsl:template name="text-additionnal">
         <xsl:call-template name="button">
             <xsl:with-param name="text"><i18n:text i18n:key='PLUGINS_CORE_UI_LOGOUT_LINK' i18n:catalogue='plugin.core-ui'/></xsl:with-param>
-            <xsl:with-param name="href" select="concat(ametys:uriPrefix(), '/')"/>
+            <xsl:with-param name="action">window.location.href = window.location.href.substring(0, window.location.href.lastIndexOf('/'))</xsl:with-param>
         </xsl:call-template>
     </xsl:template> 
     
