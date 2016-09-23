@@ -243,7 +243,7 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
     public void logout(Redirector redirector)
     {
         Request request = ContextHelper.getRequest(_context);
-        deleteCookie(request,  ContextHelper.getResponse(_context), _cookieName, (int) _cookieLifetime);
+        deleteCookie(request,  ContextHelper.getResponse(_context), _cookieName);
     }
 
     
@@ -388,7 +388,7 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
             else
             {
                 // old cookie, delete it
-                deleteCookie(request,  ContextHelper.getResponse(_context), _cookieName, (int) _cookieLifetime);
+                deleteCookie(request,  ContextHelper.getResponse(_context), _cookieName);
             }
         }
 
@@ -480,7 +480,7 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
         if (StringUtils.isNotEmpty(getCookieValue(request, _cookieName)))
         {
             parameters.append("&cookieFailure=" + true);
-            deleteCookie(request, ContextHelper.getResponse(_context), _cookieName, (int) _cookieLifetime); 
+            deleteCookie(request, ContextHelper.getResponse(_context), _cookieName); 
         }
 
         String redirectUrl;
@@ -850,13 +850,12 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
       * @param request the request
       * @param response the response
       * @param cookieName the cookie name 
-      * @param cookieDuration the cookie duration
       */
-    public static void deleteCookie(Request request, Response response, String cookieName, int cookieDuration)
+    public static void deleteCookie(Request request, Response response, String cookieName)
     {
         Cookie cookie = new HttpCookie(cookieName, "");
         cookie.setPath(request.getContextPath());
-        cookie.setMaxAge(cookieDuration);
+        cookie.setMaxAge(0);
         response.addCookie(cookie);
     }
     
