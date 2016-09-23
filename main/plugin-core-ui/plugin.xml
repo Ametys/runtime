@@ -3145,7 +3145,7 @@
                     <label i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_SAVE_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_SAVE_DESCRIPTION</description>
                     
-                    <tool-id>^uitool-profile-assignment$</tool-id>
+                    <tool-id>^(uitool-profile-assignment.*)$</tool-id>
                     <tool-enable-on-dirty-state>true</tool-enable-on-dirty-state>
                     <tool-dirty-state-description-nomatch i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_NO_CHANGE</tool-dirty-state-description-nomatch>
                     <icon-glyph>ametysicon-save31</icon-glyph>
@@ -3168,7 +3168,7 @@
                     <label i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CANCEL_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CANCEL_DESCRIPTION</description>
                     
-                    <tool-id>^uitool-profile-assignment$</tool-id>
+                    <tool-id>^(uitool-profile-assignment.*)$</tool-id>
                     <tool-enable-on-dirty-state>true</tool-enable-on-dirty-state>
                     <tool-dirty-state-description-nomatch i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_NO_CHANGE</tool-dirty-state-description-nomatch>
                     
