@@ -397,13 +397,14 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
     
     private UserIdentity _getUserIdentityFromRequest(Request request) throws AccessDeniedException
     {
-        UserPopulation userPopulation = _getPopulation(request);
 
         String login = request.getParameter(_usernameField);
         String password = request.getParameter(_passwordField);
 
         if (login != null && password != null)
         {
+            UserPopulation userPopulation = _getPopulation(request);
+            
             if (SECURITY_LEVEL_HIGH.equals(_securityLevel))
             {
                 Integer nbConnect = _requestNbConnectBDD(login, userPopulation.getId());
