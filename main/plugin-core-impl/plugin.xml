@@ -1147,14 +1147,13 @@
          + -->   
     <feature name="runtime.current-user" safe="true">
         <!-- 
-            This feature provides a non-null current user
+            This feature provides the current user
          -->
         <components>
-            <!-- Default extension for providing the current user -->
             <component role="org.ametys.core.user.CurrentUserProvider"
                        id="org.ametys.plugins.core.user.AvalonCurrentUserProvider"
                        class="org.ametys.plugins.core.impl.user.AvalonCurrentUserProvider">
-                <user default="admin"/>
+	            <!-- Default extension for providing the current user -->
             </component>
         </components>
     </feature>
