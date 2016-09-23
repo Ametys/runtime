@@ -482,7 +482,8 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     protected boolean _handleLogout(Redirector redirector, Map objectModel, String source, Parameters parameters) throws Exception
     {
         Request request = ObjectModelHelper.getRequest(objectModel);
-        if (StringUtils.equals(request.getContextPath() + request.getAttribute(WorkspaceMatcher.WORKSPACE_URI) + "/logout.html", request.getRequestURI()))
+        if (StringUtils.equals(request.getContextPath() + request.getAttribute(WorkspaceMatcher.WORKSPACE_URI) + "/logout.html", request.getRequestURI())
+                || StringUtils.equals("true", parameters.getParameter("logout", "false")))
         {
             // The user logs out
             _currentUserProvider.logout(redirector);
