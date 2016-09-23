@@ -402,8 +402,8 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         this._contextCombobox = Ext.create('Ext.form.field.ComboBox', this._getContextComboCfg());
         
         this._contextPanel = Ext.create('Ext.panel.Panel', {
-            width: 500,
-            minWidth: 340,
+            minWidth: 300,
+            flex: 1,
             scrollable: false,
             split: true,
             layout: 'card',
@@ -461,6 +461,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
 						{
 							xtype: 'container',
 							itemId: 'grid-wrapper',
+							layout: 'fit',
 							html: ''
 						}
 					]
