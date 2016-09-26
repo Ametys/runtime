@@ -87,7 +87,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsActions', {
     /**
      * @private
      * Gets the assignment tool
-     * @return Ametys.plugins.coreui.profiles.ProfileAssignmentsTool{} the assignment tool
+     * @return {Ametys.tool.Tool} the assignment tool
      */
     _getTool: function()
     {
