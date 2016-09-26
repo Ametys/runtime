@@ -148,7 +148,7 @@ div.connection table.input.password td.image:after {
     content: "\f023";
 }
 
-div.connection form button span:before {
+div.connection button span:before {
 	position: absolute;
     right: 0.4em;
     top: 0.6em;
@@ -343,16 +343,16 @@ table.disabled {
 	background-color: #F0F0F0 !important;
 }
 
-form fieldset {
+fieldset {
 	border: none;
 	margin: 0;
 	padding: 0;
 }
-form fieldset[disabled] { /* 'form fieldset:disabled' not compatible with IE */
+fieldset[disabled] { /* 'form fieldset:disabled' not compatible with IE */
 	position: relative;
 	opacity: 0.8;
 }
-_:-ms-lang(x), form fieldset[disabled]:after { /* for IE10 and above,  disabled fieldsets do not work (see https://connect.microsoft.com/IE/feedbackdetail/view/962368/can-still-edit-input-type-text-within-fieldset-disabled#) */
+_:-ms-lang(x), fieldset[disabled]:after { /* for IE10 and above,  disabled fieldsets do not work (see https://connect.microsoft.com/IE/feedbackdetail/view/962368/can-still-edit-input-type-text-within-fieldset-disabled#) */
     content: ' ';
     position: absolute;
     z-index: 100;

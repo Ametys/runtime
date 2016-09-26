@@ -197,10 +197,11 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     
     /**
      * Get the available populations for the given context
+     * @param request The request
      * @param context The context
      * @return The non-null list of populations
      */
-    protected List<String> _getMaximumUserPopulations(String context)
+    protected List<String> _getMaximumUserPopulations(Request request, String context)
     {
         return _populationContextHelper.getUserPopulationsOnContext(context);
     }
@@ -214,7 +215,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     protected List<UserPopulation> _getUserPopulations(Request request, String context)
     {
         // All user populations
-        List<String> availableUserPopulationsIds = _getMaximumUserPopulations(context);
+        List<String> availableUserPopulationsIds = _getMaximumUserPopulations(request, context);
         
         // Get request population choice
         String userPopulationId = request.getParameter(REQUEST_PARAMETER_POPULATION_NAME);

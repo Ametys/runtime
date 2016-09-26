@@ -39,147 +39,149 @@
         <xsl:call-template name="login-left-column"/>
         
     	<div class="wrapin">
-			<xsl:if test="/LoginScreen/populations and count(/LoginScreen/populations/population) != 1">
-				<div class="connection">
-					<form method="post" class="choosepopulation" action="">
-						<div>
-							<xsl:if test="/LoginScreen/populations/@invalidError = 'true'">
-	                            <div class="error">
-                                    <i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_INVALID_POPULATION" i18n:catalogue="plugin.core-ui"/>
-	                            </div>
-	                        </xsl:if>
+			<form method="post" action="">
+				<xsl:if test="/LoginScreen/populations and count(/LoginScreen/populations/population) != 1">
+					<div class="connection">
+						<div class="choosepopulation">
+							<div>
+								<xsl:if test="/LoginScreen/populations/@invalidError = 'true'">
+		                            <div class="error">
+	                                    <i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_INVALID_POPULATION" i18n:catalogue="plugin.core-ui"/>
+		                            </div>
+		                        </xsl:if>
+								<xsl:choose>
+									<xsl:when test="/LoginScreen/populations/population">
+										<style type="text/css">
+											div.connection table.population td.input.empty:before {
+												content: "<i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_POPULATION" i18n:catalogue="plugin.core-ui" />"
+											}
+										</style>
+										<table class="input inputtext population">
+											<tr>
+												<td class="input select empty">
+													<select id="Population" name="hiddenPopulation" required="">
+														<xsl:for-each select="/LoginScreen/populations/population">
+														   <xsl:sort select="label"/>
+															<option value='{@id}'><xsl:value-of select="label" /></option>
+														</xsl:for-each>
+													</select>
+												</td>
+												<td class="image"></td>
+											</tr>
+										</table>
+	                                    <script>
+	                                        document.getElementById("Population").selectedIndex = -1;
+	                                        
+	                                        var isIE = /*@cc_on!@*/false || !!document.documentMode;
+	                                        if (isIE)
+	                                        {
+	                                            var elements = document.getElementsByTagName("fieldset");
+	                                            for (i = 0; i &lt; elements.length; i++) {
+	                                                elements[i].disabled=true;
+	                                            }
+	                                        }
+	                                        
+	                                        document.getElementById("Population").onchange = function() {
+	                                            // Remove the placeholder for the select population field
+	                                            this.parentNode.className='input select';
+	                                            
+	                                            // Enable the HTML fields
+	                                            var elements = document.getElementsByTagName("fieldset");
+	                                            for (i = 0; i &lt; elements.length; i++) {
+	                                                elements[i].disabled=false;
+	                                            }
+	                                            
+	                                            var authFormsEl = document.getElementById("authForms");
+	                                            if (authFormsEl != null)
+	                                            {
+	                                                elements = authFormsEl.getElementsByTagName("table");
+	                                                for (i = 0; i &lt; elements.length; i++) {
+	                                                    elements[i].className = elements[i].className.replace('disabled', ''); 
+	                                                }
+	                                            } 
+	                                        }
+	                                    </script>
+									</xsl:when>
+									<xsl:otherwise>
+										<table class="input inputtext population">
+											<tr>
+												<td class="input">
+													<input type="text" id="Population" name="hiddenPopulation" placeholder="plugin.core-ui:PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_POPULATION" i18n:attr="placeholder" autofocus="true" required="" />
+												</td>
+												<td class="image"></td>
+											</tr>
+										</table>
+	                                    <script>
+	                                        document.getElementById("Population").oninput = function() {
+	                                            // Enable the HTML fields
+	                                            var elements = document.getElementsByTagName("fieldset");
+	                                            for (i = 0; i &lt; elements.length; i++) {
+	                                                elements[i].disabled=false;
+	                                            }
+	                                            
+	                                            var authFormsEl = document.getElementById("authForms");
+	                                            if (authFormsEl != null)
+	                                            {
+	                                                elements = authFormsEl.getElementsByTagName("table");
+	                                                for (i = 0; i &lt; elements.length; i++) {
+	                                                    elements[i].className = elements[i].className.replace('disabled', ''); 
+	                                                }
+	                                            }
+	                                        }
+	                                    </script>
+									</xsl:otherwise>
+								</xsl:choose>
+							</div>
+							
 							<xsl:choose>
-								<xsl:when test="/LoginScreen/populations/population">
-									<style type="text/css">
-										div.connection table.population td.input.empty:before {
-											content: "<i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_POPULATION" i18n:catalogue="plugin.core-ui" />"
+								<xsl:when test="/LoginScreen/LoginForm">
+									<style>
+										table.input.inputtext.population {
+											margin-bottom: 0;
 										}
 									</style>
-									<table class="input inputtext population">
-										<tr>
-											<td class="input select empty">
-												<select id="Population" name="hiddenPopulation" required="">
-													<xsl:for-each select="/LoginScreen/populations/population">
-													   <xsl:sort select="label"/>
-														<option value='{@id}'><xsl:value-of select="label" /></option>
-													</xsl:for-each>
-												</select>
-											</td>
-											<td class="image"></td>
-										</tr>
-									</table>
-                                    <script>
-                                        document.getElementById("Population").selectedIndex = -1;
-                                        
-                                        var isIE = /*@cc_on!@*/false || !!document.documentMode;
-                                        if (isIE)
-                                        {
-                                            var elements = document.getElementsByTagName("fieldset");
-                                            for (i = 0; i &lt; elements.length; i++) {
-                                                elements[i].disabled=true;
-                                            }
-                                        }
-                                        
-                                        document.getElementById("Population").onchange = function() {
-                                            // Remove the placeholder for the select population field
-                                            this.parentNode.className='input select';
-                                            
-                                            // Enable the HTML fields
-                                            var elements = document.getElementsByTagName("fieldset");
-                                            for (i = 0; i &lt; elements.length; i++) {
-                                                elements[i].disabled=false;
-                                            }
-                                            
-                                            var authFormsEl = document.getElementById("authForms");
-                                            if (authFormsEl != null)
-                                            {
-                                                elements = authFormsEl.getElementsByTagName("table");
-                                                for (i = 0; i &lt; elements.length; i++) {
-                                                    elements[i].className = elements[i].className.replace('disabled', ''); 
-                                                }
-                                            } 
-                                        }
-                                    </script>
 								</xsl:when>
 								<xsl:otherwise>
-									<table class="input inputtext population">
-										<tr>
-											<td class="input">
-												<input type="text" id="Population" name="hiddenPopulation" placeholder="plugin.core-ui:PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_POPULATION" i18n:attr="placeholder" autofocus="true" required="" />
-											</td>
-											<td class="image"></td>
-										</tr>
-									</table>
-                                    <script>
-                                        document.getElementById("Population").oninput = function() {
-                                            // Enable the HTML fields
-                                            var elements = document.getElementsByTagName("fieldset");
-                                            for (i = 0; i &lt; elements.length; i++) {
-                                                elements[i].disabled=false;
-                                            }
-                                            
-                                            var authFormsEl = document.getElementById("authForms");
-                                            if (authFormsEl != null)
-                                            {
-                                                elements = authFormsEl.getElementsByTagName("table");
-                                                for (i = 0; i &lt; elements.length; i++) {
-                                                    elements[i].className = elements[i].className.replace('disabled', ''); 
-                                                }
-                                            }
-                                        }
-                                    </script>
+									<!-- Submit button only if no LoginForm -->
+						    		<xsl:call-template name="submit-button">
+										<xsl:with-param name="text"><i18n:text i18n:key='PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_SUBMIT' i18n:catalogue='plugin.core-ui'/></xsl:with-param>
+									</xsl:call-template>
 								</xsl:otherwise>
 							</xsl:choose>
 						</div>
-						
-						<xsl:choose>
-							<xsl:when test="/LoginScreen/LoginForm">
-								<style>
-									table.input.inputtext.population {
-										margin-bottom: 0;
-									}
-								</style>
-							</xsl:when>
-							<xsl:otherwise>
-								<!-- Submit button only if no LoginForm -->
-					    		<xsl:call-template name="submit-button">
-									<xsl:with-param name="text"><i18n:text i18n:key='PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_SUBMIT' i18n:catalogue='plugin.core-ui'/></xsl:with-param>
-								</xsl:call-template>
-							</xsl:otherwise>
-						</xsl:choose>
-					</form>
-				</div>
-			</xsl:if>
+					</div>
+				</xsl:if>
 			    
-			<xsl:if test="/LoginScreen/LoginForm or /LoginScreen/credentialProviders">
-				<div class="connection" id="authForms">	
-			    	<xsl:call-template name="login-form"/>
-					
-		    		<xsl:for-each select="/LoginScreen/credentialProviders/credentialProvider">
-		    			<xsl:if test="/LoginScreen/PopulationsForm or /LoginScreen/LoginForm or position() != 1">
-	                		<div class="separator"><div class="textin"><i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_SEPARATOR" i18n:catalogue="plugin.core-ui" /></div></div>
-	                	</xsl:if>
-	                	<form method="post" action="">
-	                		<fieldset>
-	                			<xsl:if test="/LoginScreen/PopulationsForm"><xsl:attribute name="disabled"/></xsl:if>
-		                		<input type="hidden" name="CredentialProviderIndex" value="{index}"/>
-		                		<xsl:call-template name="submit-button">
-		                			<xsl:with-param name="text"><xsl:value-of select="label"/><span class="{iconGlyph}"></span></xsl:with-param>
-		                			<xsl:with-param name="style">background-color: #<xsl:value-of select="color"/>; border: 1px solid #<xsl:value-of select="color"/>;</xsl:with-param>
-		                			<xsl:with-param name="class">otherauth</xsl:with-param>
-		                		</xsl:call-template>
-	                		</fieldset>
-	                	</form>
-	                </xsl:for-each>
-					<xsl:if test="/LoginScreen/backButton = 'true'">
-						<form method="post" class="back" action="">
-							<xsl:for-each select="/LoginScreen/backButtonParams/backButtonParam"><input type="hidden" name="{@name}" id="{@name}" value="{@value}"/></xsl:for-each>
-							
-							<button type="submit"><i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_BACK" i18n:catalogue="plugin.core-ui" /></button>
-						</form>
-					</xsl:if>
-				</div>
-			</xsl:if>
+				<xsl:if test="/LoginScreen/LoginForm or /LoginScreen/credentialProviders">
+					<div class="connection" id="authForms">	
+				    	<xsl:call-template name="login-form"/>
+						
+			    		<xsl:for-each select="/LoginScreen/credentialProviders/credentialProvider">
+			    			<xsl:if test="/LoginScreen/PopulationsForm or /LoginScreen/LoginForm or position() != 1">
+		                		<div class="separator"><div class="textin"><i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_SEPARATOR" i18n:catalogue="plugin.core-ui" /></div></div>
+		                	</xsl:if>
+		                	<div>
+		                		<fieldset>
+		                			<xsl:if test="/LoginScreen/PopulationsForm"><xsl:attribute name="disabled"/></xsl:if>
+			                		<input type="hidden" name="CredentialProviderIndex" value="{index}"/>
+			                		<xsl:call-template name="submit-button">
+			                			<xsl:with-param name="text"><xsl:value-of select="label"/><span class="{iconGlyph}"></span></xsl:with-param>
+			                			<xsl:with-param name="style">background-color: #<xsl:value-of select="color"/>; border: 1px solid #<xsl:value-of select="color"/>;</xsl:with-param>
+			                			<xsl:with-param name="class">otherauth</xsl:with-param>
+			                		</xsl:call-template>
+		                		</fieldset>
+		                	</div>
+		                </xsl:for-each>
+						<xsl:if test="/LoginScreen/backButton = 'true'">
+							<div class="back">
+								<xsl:for-each select="/LoginScreen/backButtonParams/backButtonParam"><input type="hidden" name="{@name}" id="{@name}" value="{@value}"/></xsl:for-each>
+								
+								<button type="submit"><i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_BACK" i18n:catalogue="plugin.core-ui" /></button>
+							</div>
+						</xsl:if>
+					</div>
+				</xsl:if>
+            </form>				
 		</div>
 		
 		<xsl:call-template name="login-right-column"/>
@@ -187,7 +189,7 @@
     
     <xsl:template name="login-form">
     	<xsl:if test="/LoginScreen/LoginForm">
-		    <form method="post" class="formbased" action="">
+		    <div class="formbased">
 			    <fieldset>
 			    	<xsl:if test="/LoginScreen/PopulationsForm"><xsl:attribute name="disabled"/></xsl:if>
 		    	
@@ -270,7 +272,7 @@
 						<xsl:with-param name="text"><i18n:text i18n:key='PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_SUBMIT' i18n:catalogue='plugin.core-ui'/></xsl:with-param>
 					</xsl:call-template>
 				</fieldset>
-			</form>
+			</div>
 		</xsl:if>
     </xsl:template>
     
