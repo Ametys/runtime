@@ -16,8 +16,11 @@
 package org.ametys.core.user.population;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -263,6 +266,22 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
     {
         _readPopulations(false);
         return _misconfiguredUserPopulations;
+    }
+    
+    /**
+     * Return the stream of the configuration file
+     * @return The input stream to be closed.
+     */
+    public InputStream getConfigurationFile()
+    {
+        try
+        {
+            return new FileInputStream(__USER_POPULATIONS_FILE);
+        }
+        catch (FileNotFoundException e)
+        {
+            throw new RuntimeException("Cannot get the configuration file", e);
+        }
     }
     
     /**
