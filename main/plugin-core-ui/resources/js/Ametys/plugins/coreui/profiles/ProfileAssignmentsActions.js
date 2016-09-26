@@ -91,6 +91,6 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsActions', {
      */
     _getTool: function()
     {
-        return Ametys.tool.ToolsManager.getTool("uitool-profile-assignment");
+        return Ametys.tool.ToolsManager.getFocusedTool();
     }
 });
