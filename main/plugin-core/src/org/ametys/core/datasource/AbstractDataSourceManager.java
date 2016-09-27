@@ -83,7 +83,7 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
     public void service(ServiceManager serviceManager) throws ServiceException
     {
         _dataSourceConsumerEP = (DataSourceConsumerExtensionPoint) serviceManager.lookup(DataSourceConsumerExtensionPoint.ROLE);
-        _observationManager = (ObservationManager) serviceManager.lookup(ObservationManager.ROLE);
+        _observationManager = serviceManager.hasService(ObservationManager.ROLE) ? (ObservationManager) serviceManager.lookup(ObservationManager.ROLE) : null; // NOT SAFE
         _currentUserProvider = (CurrentUserProvider) serviceManager.lookup(CurrentUserProvider.ROLE);
     }
     
@@ -248,9 +248,12 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
             internalSetDefaultDataSource();
         }
         
-        Map<String, Object> eventParams = new HashMap<>();
-        eventParams.put(ObservationConstants.ARGS_DATASOURCE_IDS, Collections.singletonList(ds.getId()));
-        _observationManager.notify(new Event(ObservationConstants.EVENT_DATASOURCE_ADDED, _currentUserProvider.getUser(), eventParams));
+        if (_observationManager != null)
+        {
+            Map<String, Object> eventParams = new HashMap<>();
+            eventParams.put(ObservationConstants.ARGS_DATASOURCE_IDS, Collections.singletonList(ds.getId()));
+            _observationManager.notify(new Event(ObservationConstants.EVENT_DATASOURCE_ADDED, _currentUserProvider.getUser(), eventParams));
+        }
         
         return ds;
     }
@@ -284,9 +287,12 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
             
             editDataSource(ds);
             
-            Map<String, Object> eventParams = new HashMap<>();
-            eventParams.put(ObservationConstants.ARGS_DATASOURCE_IDS, Collections.singletonList(ds.getId()));
-            _observationManager.notify(new Event(ObservationConstants.EVENT_DATASOURCE_UPDATED, _currentUserProvider.getUser(), eventParams));
+            if (_observationManager != null)
+            {
+                Map<String, Object> eventParams = new HashMap<>();
+                eventParams.put(ObservationConstants.ARGS_DATASOURCE_IDS, Collections.singletonList(ds.getId()));
+                _observationManager.notify(new Event(ObservationConstants.EVENT_DATASOURCE_UPDATED, _currentUserProvider.getUser(), eventParams));
+            }
             
             return ds;
         }
@@ -326,9 +332,12 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
             internalSetDefaultDataSource();
         }
         
-        Map<String, Object> eventParams = new HashMap<>();
-        eventParams.put(ObservationConstants.ARGS_DATASOURCE_IDS, dataSourceIds);
-        _observationManager.notify(new Event(ObservationConstants.EVENT_DATASOURCE_DELETED, _currentUserProvider.getUser(), eventParams));
+        if (_observationManager != null)
+        {
+            Map<String, Object> eventParams = new HashMap<>();
+            eventParams.put(ObservationConstants.ARGS_DATASOURCE_IDS, dataSourceIds);
+            _observationManager.notify(new Event(ObservationConstants.EVENT_DATASOURCE_DELETED, _currentUserProvider.getUser(), eventParams));
+        }
     }
     
     /**
