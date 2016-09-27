@@ -40,6 +40,8 @@ import javax.naming.ldap.LdapContext;
 import javax.naming.ldap.PagedResultsControl;
 import javax.naming.ldap.PagedResultsResponseControl;
 
+import org.apache.commons.lang3.StringUtils;
+
 import org.ametys.core.group.Group;
 import org.ametys.core.group.GroupIdentity;
 import org.ametys.core.user.UserIdentity;
@@ -296,7 +298,7 @@ public class UserDrivenLdapGroupDirectory extends AbstractLdapGroupDirectory
     @Override
     public Set<String> getUserGroups(String login, String populationId)
     {
-        if (populationId != _associatedPopulationId)
+        if (!StringUtils.equals(populationId, _associatedPopulationId))
         {
             return Collections.emptySet();
         }
