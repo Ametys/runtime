@@ -59,11 +59,15 @@ import org.apache.cocoon.xml.XMLUtils;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.xml.sax.SAXException;
 
+import org.ametys.core.ObservationConstants;
 import org.ametys.core.authentication.CredentialProvider;
 import org.ametys.core.authentication.CredentialProviderFactory;
 import org.ametys.core.authentication.CredentialProviderModel;
 import org.ametys.core.datasource.SQLDataSourceManager;
+import org.ametys.core.observation.Event;
+import org.ametys.core.observation.ObservationManager;
 import org.ametys.core.ui.Callable;
+import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.core.user.directory.ModifiableUserDirectory;
 import org.ametys.core.user.directory.UserDirectory;
 import org.ametys.core.user.directory.UserDirectoryFactory;
@@ -118,6 +122,10 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
     /** The extension point for population consumers */
     private PopulationConsumerExtensionPoint _populationConsumerEP;
 
+    private ObservationManager _observationManager;
+
+    private CurrentUserProvider _currentUserProvider;
+
     @Override
     public void initialize()
     {
@@ -133,6 +141,8 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         _userDirectoryFactory = (UserDirectoryFactory) manager.lookup(UserDirectoryFactory.ROLE);
         _credentialProviderFactory = (CredentialProviderFactory) manager.lookup(CredentialProviderFactory.ROLE);
         _populationConsumerEP = (PopulationConsumerExtensionPoint) manager.lookup(PopulationConsumerExtensionPoint.ROLE);
+        _observationManager = manager.hasService(ObservationManager.ROLE) ? (ObservationManager) manager.lookup(ObservationManager.ROLE) : null; // NOT SAFE
+        _currentUserProvider = (CurrentUserProvider) manager.lookup(CurrentUserProvider.ROLE);
     }
     
     /**
@@ -469,6 +479,13 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
             return null;
         }
         
+        if (_observationManager != null)
+        {
+            Map<String, Object> eventParams = new HashMap<>();
+            eventParams.put(ObservationConstants.ARGS_USERPOPULATION_ID, id);
+            _observationManager.notify(new Event(ObservationConstants.EVENT_USERPOPULATION_ADDED, _currentUserProvider.getUser(), eventParams));
+        }
+        
         return id;
     }
     
@@ -518,6 +535,13 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         {
             result.put("error", "server");
             return result;
+        }
+        
+        if (_observationManager != null)
+        {
+            Map<String, Object> eventParams = new HashMap<>();
+            eventParams.put(ObservationConstants.ARGS_USERPOPULATION_ID, id);
+            _observationManager.notify(new Event(ObservationConstants.EVENT_USERPOPULATION_UPDATED, _currentUserProvider.getUser(), eventParams));
         }
         
         result.put("id", id);
@@ -642,6 +666,13 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         {
             result.put("error", "server");
             return result;
+        }
+        
+        if (_observationManager != null)
+        {
+            Map<String, Object> eventParams = new HashMap<>();
+            eventParams.put(ObservationConstants.ARGS_USERPOPULATION_ID, id);
+            _observationManager.notify(new Event(ObservationConstants.EVENT_USERPOPULATION_DELETED, _currentUserProvider.getUser(), eventParams));
         }
         
         result.put("id", id);
