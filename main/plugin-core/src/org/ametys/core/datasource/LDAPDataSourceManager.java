@@ -53,6 +53,9 @@ public class LDAPDataSourceManager extends AbstractDataSourceManager
     /** LDAP parameter's name for administration password */
     public static final String PARAM_ADMIN_PASSWORD = "adminPassword";
     
+    /** The id of the internal DataSource */
+    public static final String LDAP_DATASOURCE_PREFIX = "LDAP-";
+    
     private static String __filename;
     
     /**
@@ -78,7 +81,7 @@ public class LDAPDataSourceManager extends AbstractDataSourceManager
     @Override
     protected String getDataSourcePrefixId()
     {
-        return "LDAP-";
+        return LDAP_DATASOURCE_PREFIX;
     }
     
     @Override
