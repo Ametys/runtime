@@ -69,6 +69,9 @@ public interface ObservationConstants
     /** Event id when a userpopulation is deleted. */
     public static final String EVENT_USERPOPULATION_DELETED = "userpopulation.deleted";
 
+    /** Event id when a userpopulation is assigned. */
+    public static final String EVENT_USERPOPULATIONS_ASSIGNMENT = "userpopulations.assignment";
+
     /** Argument name for processed profile */
     public static final String ARGS_PROFILE = "profile";
     
@@ -86,4 +89,10 @@ public interface ObservationConstants
 
     /** Argument name for processed userpopulation (an id) */
     public static final String ARGS_USERPOPULATION_ID = "userpopulation-id";
+
+    /** Argument name for processed userpopulations (a list of id) */
+    public static final String ARGS_USERPOPULATION_IDS = "userpopulation-ids";
+
+    /** Argument name for processed userpopulations context */
+    public static final String ARGS_USERPOPULATION_CONTEXT = "userpopulation-context";
 }

@@ -20,7 +20,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,8 +31,12 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 
+import org.ametys.core.ObservationConstants;
 import org.ametys.core.datasource.ConnectionHelper;
+import org.ametys.core.observation.Event;
+import org.ametys.core.observation.ObservationManager;
 import org.ametys.core.ui.Callable;
+import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 
 /**
@@ -52,11 +58,17 @@ public class PopulationContextHelper extends AbstractLogEnabled implements Compo
 
     /** The DAO for {@link UserPopulation}s */
     private UserPopulationDAO _userPopulationDAO;
+
+    private ObservationManager _observationManager;
+
+    private CurrentUserProvider _currentUserProvider;
     
     @Override
     public void service(ServiceManager manager) throws ServiceException
     {
         _userPopulationDAO = (UserPopulationDAO) manager.lookup(UserPopulationDAO.ROLE);
+        _observationManager = (ObservationManager) manager.lookup(ObservationManager.ROLE);
+        _currentUserProvider = (CurrentUserProvider) manager.lookup(CurrentUserProvider.ROLE);
     }
     
     /**
@@ -131,6 +143,11 @@ public class PopulationContextHelper extends AbstractLogEnabled implements Compo
             ConnectionHelper.cleanup(connection);
             ConnectionHelper.cleanup(stmt);
         }
+        
+        Map<String, Object> eventParams = new HashMap<>();
+        eventParams.put(ObservationConstants.ARGS_USERPOPULATION_IDS, ids);
+        eventParams.put(ObservationConstants.ARGS_USERPOPULATION_CONTEXT, context);
+        _observationManager.notify(new Event(ObservationConstants.EVENT_USERPOPULATIONS_ASSIGNMENT, _currentUserProvider.getUser(), eventParams));
         
         return result;
     }
