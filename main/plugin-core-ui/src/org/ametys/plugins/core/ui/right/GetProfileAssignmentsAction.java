@@ -203,11 +203,12 @@ public class GetProfileAssignmentsAction extends ServiceableAction
             for (UserIdentity userIdentity : deniedProfilesForUsers.keySet())
             {
                 // Check if the user still exits
-                if (_userManager.getUser(userIdentity) != null)
+                User user = _userManager.getUser(userIdentity);
+                if (user != null)
                 { 
                     if (!assignments.containsKey(userIdentity))
                     {
-                        Map<String, Object> user2json = _user2json(userIdentity);
+                        Map<String, Object> user2json = _user2json(user);
                         if (user2json != null)
                         {
                             assignments.put(userIdentity, user2json);
@@ -231,11 +232,12 @@ public class GetProfileAssignmentsAction extends ServiceableAction
             for (UserIdentity userIdentity : allowedProfilesForUsers.keySet())
             {
                 // Check if the user still exits
-                if (_userManager.getUser(userIdentity) != null)
+                User user = _userManager.getUser(userIdentity);
+                if (user != null)
                 { 
                     if (!assignments.containsKey(userIdentity))
                     {
-                        assignments.put(userIdentity, _user2json(userIdentity));
+                        assignments.put(userIdentity, _user2json(user));
                     }
                     
                     Map<String, Object> userAssignment = assignments.get(userIdentity);
@@ -268,18 +270,22 @@ public class GetProfileAssignmentsAction extends ServiceableAction
             Map<GroupIdentity, Set<String>> deniedProfilesForGroups = _profileAssignmentStorageEP.getDeniedProfilesForGroups(currentContext);
             for (GroupIdentity gpIdentity : deniedProfilesForGroups.keySet())
             {
-                if (!assignments.containsKey(gpIdentity))
+                Group group = _groupManager.getGroup(gpIdentity.getDirectoryId(), gpIdentity.getId());
+                if (group != null)
                 {
-                    assignments.put(gpIdentity, _group2json(gpIdentity));
-                }
-                
-                Map<String, Object> gpAssignment = assignments.get(gpIdentity);
-                
-                for (String profileId : deniedProfilesForGroups.get(gpIdentity))
-                {
-                    if (profileIds.contains(profileId) && !gpAssignment.containsKey(profileId))
+                    if (!assignments.containsKey(gpIdentity))
                     {
-                        gpAssignment.put(profileId, currentContext == context ? AccessType.DENY.toString() : AccessType.INHERITED_DENY.toString());
+                        assignments.put(gpIdentity, _group2json(group));
+                    }
+                    
+                    Map<String, Object> gpAssignment = assignments.get(gpIdentity);
+                    
+                    for (String profileId : deniedProfilesForGroups.get(gpIdentity))
+                    {
+                        if (profileIds.contains(profileId) && !gpAssignment.containsKey(profileId))
+                        {
+                            gpAssignment.put(profileId, currentContext == context ? AccessType.DENY.toString() : AccessType.INHERITED_DENY.toString());
+                        }
                     }
                 }
             }
@@ -288,18 +294,22 @@ public class GetProfileAssignmentsAction extends ServiceableAction
             Map<GroupIdentity, Set<String>> allowedProfilesForGroups = _profileAssignmentStorageEP.getAllowedProfilesForGroups(currentContext);
             for (GroupIdentity gpIdentity : allowedProfilesForGroups.keySet())
             {
-                if (!assignments.containsKey(gpIdentity))
+                Group group = _groupManager.getGroup(gpIdentity.getDirectoryId(), gpIdentity.getId());
+                if (group != null)
                 {
-                    assignments.put(gpIdentity, _group2json(gpIdentity));
-                }
-                
-                Map<String, Object> gpAssignment = assignments.get(gpIdentity);
-                
-                for (String profileId : allowedProfilesForGroups.get(gpIdentity))
-                {
-                    if (profileIds.contains(profileId) && !gpAssignment.containsKey(profileId))
+                    if (!assignments.containsKey(gpIdentity))
                     {
-                        gpAssignment.put(profileId, currentContext == context ? AccessType.ALLOW.toString() : AccessType.INHERITED_ALLOW.toString());
+                        assignments.put(gpIdentity, _group2json(group));
+                    }
+                    
+                    Map<String, Object> gpAssignment = assignments.get(gpIdentity);
+                    
+                    for (String profileId : allowedProfilesForGroups.get(gpIdentity))
+                    {
+                        if (profileIds.contains(profileId) && !gpAssignment.containsKey(profileId))
+                        {
+                            gpAssignment.put(profileId, currentContext == context ? AccessType.ALLOW.toString() : AccessType.INHERITED_ALLOW.toString());
+                        }
                     }
                 }
             }
@@ -311,39 +321,35 @@ public class GetProfileAssignmentsAction extends ServiceableAction
         return new ArrayList<>(assignments.values());
     }
     
-    private Map<String, Object> _user2json(UserIdentity userIdentity)
+    private Map<String, Object> _user2json(User user)
     {
         Map<String, Object> assignment = new HashMap<>();
         assignment.put("targetType", TargetType.USER.toString());
         
-        String login = userIdentity.getLogin();
-        String populationId = userIdentity.getPopulationId();
+        String login = user.getIdentity().getLogin();
+        String populationId = user.getIdentity().getPopulationId();
         assignment.put("login", login);
         assignment.put("population", populationId);
         assignment.put("populationLabel", _userPopulationDAO.getUserPopulation(populationId).getLabel());
-        assignment.put("groups", _groupManager.getUserGroups(userIdentity).stream()
+        assignment.put("groups", _groupManager.getUserGroups(user.getIdentity()).stream()
                                     .map(this::_userGroup2json)
                                     .collect(Collectors.toList()));
-        
-        User user = _userManager.getUser(populationId, login);
         assignment.put("userSortableName", user.getSortableName());
         
         return assignment;
     }
    
     
-    private Map<String, Object> _group2json(GroupIdentity groupIdentity)
+    private Map<String, Object> _group2json(Group group)
     {
         Map<String, Object> assignment = new HashMap<>();
         assignment.put("targetType", TargetType.GROUP.toString());
         
-        String groupId = groupIdentity.getId();
-        String directoryId = groupIdentity.getDirectoryId();
+        String groupId = group.getIdentity().getId();
+        String directoryId = group.getIdentity().getDirectoryId();
         assignment.put("groupId", groupId);
         assignment.put("groupDirectory", directoryId);
         assignment.put("groupDirectoryLabel", _groupDirectoryDAO.getGroupDirectory(directoryId).getLabel());
-        
-        Group group = _groupManager.getGroup(directoryId, groupId);
         assignment.put("groupLabel", group.getLabel());
         
         return assignment;
