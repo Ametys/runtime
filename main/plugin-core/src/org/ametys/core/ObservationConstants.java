@@ -51,14 +51,23 @@ public interface ObservationConstants
     /** Event id when a group is deleted. */
     public static final String EVENT_ACL_UPDATED = "acl.update";
     
-    /** Event id when a group is added. */
+    /** Event id when a datasource is added. */
     public static final String EVENT_DATASOURCE_ADDED = "datasource.added";
     
-    /** Event id when a group is updated. */
+    /** Event id when a datasource is updated. */
     public static final String EVENT_DATASOURCE_UPDATED = "datasource.updated";
     
-    /** Event id when a group is deleted. */
+    /** Event id when a datasource is deleted. */
     public static final String EVENT_DATASOURCE_DELETED = "datasource.deleted";
+
+    /** Event id when a userpopulation is added. */
+    public static final String EVENT_USERPOPULATION_ADDED = "userpopulation.added";
+    
+    /** Event id when a userpopulation is updated. */
+    public static final String EVENT_USERPOPULATION_UPDATED = "userpopulation.updated";
+    
+    /** Event id when a userpopulation is deleted. */
+    public static final String EVENT_USERPOPULATION_DELETED = "userpopulation.deleted";
 
     /** Argument name for processed profile */
     public static final String ARGS_PROFILE = "profile";
@@ -74,4 +83,7 @@ public interface ObservationConstants
     
     /** Argument name for processed datasources (a list of id) */
     public static final String ARGS_DATASOURCE_IDS = "datasource-ids";
+
+    /** Argument name for processed userpopulation (an id) */
+    public static final String ARGS_USERPOPULATION_ID = "userpopulation-id";
 }
