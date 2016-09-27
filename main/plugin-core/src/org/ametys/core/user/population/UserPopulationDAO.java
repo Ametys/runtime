@@ -141,7 +141,14 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         _userDirectoryFactory = (UserDirectoryFactory) manager.lookup(UserDirectoryFactory.ROLE);
         _credentialProviderFactory = (CredentialProviderFactory) manager.lookup(CredentialProviderFactory.ROLE);
         _populationConsumerEP = (PopulationConsumerExtensionPoint) manager.lookup(PopulationConsumerExtensionPoint.ROLE);
-        _observationManager = manager.hasService(ObservationManager.ROLE) ? (ObservationManager) manager.lookup(ObservationManager.ROLE) : null; // NOT SAFE
+        try
+        {
+            _observationManager = (ObservationManager) manager.lookup(ObservationManager.ROLE);
+        }
+        catch (ServiceException e)
+        {
+            // Not a safe component... ignore it
+        }
         _currentUserProvider = (CurrentUserProvider) manager.lookup(CurrentUserProvider.ROLE);
     }
     
