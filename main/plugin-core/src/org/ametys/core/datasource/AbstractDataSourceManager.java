@@ -20,6 +20,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +48,10 @@ import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
+import org.ametys.core.ObservationConstants;
+import org.ametys.core.observation.Event;
+import org.ametys.core.observation.ObservationManager;
+import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.core.util.StringUtils;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
@@ -62,12 +67,25 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
     /** The suffix of any default data source */
     public static final String DEFAULT_DATASOURCE_SUFFIX = "default-datasource";
     
+    /** The observation manager */
+    protected ObservationManager _observationManager;
+    /** The current user provider */
+    protected CurrentUserProvider _currentUserProvider;
+    
     /** The data source definitions */
     protected Map<String, DataSourceDefinition> _dataSourcesDef;
 
     private long _lastUpdate;
 
     private DataSourceConsumerExtensionPoint _dataSourceConsumerEP;
+    
+    @Override
+    public void service(ServiceManager serviceManager) throws ServiceException
+    {
+        _dataSourceConsumerEP = (DataSourceConsumerExtensionPoint) serviceManager.lookup(DataSourceConsumerExtensionPoint.ROLE);
+        _observationManager = (ObservationManager) serviceManager.lookup(ObservationManager.ROLE);
+        _currentUserProvider = (CurrentUserProvider) serviceManager.lookup(CurrentUserProvider.ROLE);
+    }
     
     @Override
     public void initialize() throws Exception
@@ -96,12 +114,6 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
         }
         
         checkDataSources();
-    }
-    
-    @Override
-    public void service(ServiceManager serviceManager) throws ServiceException
-    {
-        _dataSourceConsumerEP = (DataSourceConsumerExtensionPoint) serviceManager.lookup(DataSourceConsumerExtensionPoint.ROLE);
     }
     
     /**
@@ -236,6 +248,10 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
             internalSetDefaultDataSource();
         }
         
+        Map<String, Object> eventParams = new HashMap<>();
+        eventParams.put(ObservationConstants.ARGS_DATASOURCE_IDS, Collections.singletonList(ds.getId()));
+        _observationManager.notify(new Event(ObservationConstants.EVENT_DATASOURCE_ADDED, _currentUserProvider.getUser(), eventParams));
+        
         return ds;
     }
     
@@ -267,6 +283,10 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
             saveConfiguration();
             
             editDataSource(ds);
+            
+            Map<String, Object> eventParams = new HashMap<>();
+            eventParams.put(ObservationConstants.ARGS_DATASOURCE_IDS, Collections.singletonList(ds.getId()));
+            _observationManager.notify(new Event(ObservationConstants.EVENT_DATASOURCE_UPDATED, _currentUserProvider.getUser(), eventParams));
             
             return ds;
         }
@@ -305,6 +325,10 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
         {
             internalSetDefaultDataSource();
         }
+        
+        Map<String, Object> eventParams = new HashMap<>();
+        eventParams.put(ObservationConstants.ARGS_DATASOURCE_IDS, dataSourceIds);
+        _observationManager.notify(new Event(ObservationConstants.EVENT_DATASOURCE_DELETED, _currentUserProvider.getUser(), eventParams));
     }
     
     /**
