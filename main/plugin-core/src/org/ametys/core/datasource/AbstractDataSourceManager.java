@@ -83,7 +83,14 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
     public void service(ServiceManager serviceManager) throws ServiceException
     {
         _dataSourceConsumerEP = (DataSourceConsumerExtensionPoint) serviceManager.lookup(DataSourceConsumerExtensionPoint.ROLE);
-        _observationManager = serviceManager.hasService(ObservationManager.ROLE) ? (ObservationManager) serviceManager.lookup(ObservationManager.ROLE) : null; // NOT SAFE
+        try
+        {
+            _observationManager = (ObservationManager) serviceManager.lookup(ObservationManager.ROLE);
+        }
+        catch (ServiceException e)
+        {
+            // Not a safe component... ignore it
+        }
         _currentUserProvider = (CurrentUserProvider) serviceManager.lookup(CurrentUserProvider.ROLE);
     }
     
