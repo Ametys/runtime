@@ -244,8 +244,12 @@ Ext.define('Ametys.form.ConfigurableFormPanel.TableOfContents', {
 		var withinTabsHeight = 0; // The summed up height of all tabs
 		
 		Ext.Object.each(this._navigationMap, function(fieldsetId) {
-			var fieldsetHeight = Ext.getCmp(fieldsetId).getEl().getHeight();
-			withinTabsHeight += fieldsetHeight;
+            var field = Ext.getCmp(fieldsetId);
+            if (field)
+            {
+    			var fieldsetHeight = field.getEl().getHeight();
+    			withinTabsHeight += fieldsetHeight;
+            }
 		}, this);
 		
 		var formContainer = this.form.getFormContainer();
