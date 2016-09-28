@@ -98,7 +98,6 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
         // initializes locations
         
         _locations.put("application", new Location("application", new String[]{"context://WEB-INF/i18n"}));
-        _locations.put("kernel", new Location("messages", new String[]{"context://WEB-INF/i18n/kernel", "kernel://i18n"}));
         
         PluginsManager pm = PluginsManager.getInstance();
         

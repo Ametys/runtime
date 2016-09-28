@@ -70,29 +70,11 @@ public class I18nTransformer extends org.apache.cocoon.transformation.I18nTransf
             catalogues.addAll(cataloguesConf);
         }
 
-        _configureKernel(catalogues);
         _configurePlugins(catalogues);        
         _configureWorkspaces(catalogues);        
 
         // Load the configuration
         super.configure(newConf);
-    }
-    
-    private void _configureKernel(DefaultConfiguration catalogues)
-    {
-        DefaultConfiguration catalogue = new DefaultConfiguration("catalogue");
-        catalogue.setAttribute("id", "kernel");
-        catalogue.setAttribute("name", "messages");
-
-        DefaultConfiguration location1 = new DefaultConfiguration("location");
-        location1.setValue("context://WEB-INF/i18n/kernel");
-        catalogue.addChild(location1);
-        
-        DefaultConfiguration location2 = new DefaultConfiguration("location");
-        location2.setValue("kernel://i18n");
-        catalogue.addChild(location2);
-        
-        catalogues.addChild(catalogue);
     }
     
     private void _configurePlugins(DefaultConfiguration catalogues)
