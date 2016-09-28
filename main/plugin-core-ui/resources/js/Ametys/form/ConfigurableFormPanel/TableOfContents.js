@@ -231,7 +231,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.TableOfContents', {
 		if (!this._scrollingHandled)
 		{
 			this._scrollingHandled = true;
-			this.form.getFormContainer().getEl().on('scroll', Ext.bind(this._updateScrollPosition, this));
+            this.form.getFormContainer().mon(this.form.getFormContainer().getEl(), 'scroll', Ext.bind(this._updateScrollPosition, this));
 		}
 		
 		// Wait for the scroll by click on a navigation item to finish before updating the scroll position
