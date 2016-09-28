@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -495,7 +495,17 @@ Ext.define(
             var vps = Ext.ComponentQuery.query('viewport'); 
             if (vps.length > 0)
             {
-                vps[0].destroy();
+                try
+                {
+                    vps[0].destroy();
+                }
+                catch(e)
+                {
+                    if (window.console)
+                    {
+                        console.error(e);
+                    }
+                }
             }
 
 			
@@ -509,7 +519,10 @@ Ext.define(
 					}
 					catch (e)
 					{
-						window.console.warn(e);
+                        if (window.console)
+                        {
+						      window.console.warn(e);
+                        }
 					}
 				}
 			});
@@ -523,7 +536,10 @@ Ext.define(
 					}
 					catch (e)
 					{
-						window.console.warn(e);
+                        if (window.console)
+                        {
+    						window.console.warn(e);
+                        }
 					}
 				}
 			});
