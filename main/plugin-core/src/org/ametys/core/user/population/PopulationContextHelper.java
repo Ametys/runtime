@@ -62,13 +62,61 @@ public class PopulationContextHelper extends AbstractLogEnabled implements Compo
     private ObservationManager _observationManager;
 
     private CurrentUserProvider _currentUserProvider;
+
+    private ServiceManager _manager;
     
     @Override
     public void service(ServiceManager manager) throws ServiceException
     {
-        _userPopulationDAO = (UserPopulationDAO) manager.lookup(UserPopulationDAO.ROLE);
-        _observationManager = (ObservationManager) manager.lookup(ObservationManager.ROLE);
-        _currentUserProvider = (CurrentUserProvider) manager.lookup(CurrentUserProvider.ROLE);
+        _manager = manager;
+    }
+    
+    private ObservationManager getObservationManager()
+    {
+        if (_observationManager == null)
+        {
+            try
+            {
+                _observationManager = (ObservationManager) _manager.lookup(ObservationManager.ROLE);
+            }
+            catch (ServiceException e)
+            {
+                throw new RuntimeException(e);
+            }
+        }
+        return _observationManager;
+    }
+    
+    private UserPopulationDAO getUserPopulationDAO()
+    {
+        if (_userPopulationDAO == null)
+        {
+            try
+            {
+                _userPopulationDAO = (UserPopulationDAO) _manager.lookup(UserPopulationDAO.ROLE);
+            }
+            catch (ServiceException e)
+            {
+                throw new RuntimeException(e);
+            }
+        }
+        return _userPopulationDAO;
+    }
+    
+    private CurrentUserProvider getCurrentUserProvider()
+    {
+        if (_currentUserProvider == null)
+        {
+            try
+            {
+                _currentUserProvider = (CurrentUserProvider) _manager.lookup(CurrentUserProvider.ROLE);
+            }
+            catch (ServiceException e)
+            {
+                throw new RuntimeException(e);
+            }
+        }
+        return _currentUserProvider;
     }
     
     /**
@@ -111,7 +159,7 @@ public class PopulationContextHelper extends AbstractLogEnabled implements Compo
             for (int index = 0; index < ids.size(); index++)
             {
                 String id = ids.get(index);
-                if (_userPopulationDAO.getUserPopulation(id) != null)
+                if (getUserPopulationDAO().getUserPopulation(id) != null)
                 {
                     stmt.setString(1, context);
                     stmt.setInt(2, index);
@@ -147,7 +195,7 @@ public class PopulationContextHelper extends AbstractLogEnabled implements Compo
         Map<String, Object> eventParams = new HashMap<>();
         eventParams.put(ObservationConstants.ARGS_USERPOPULATION_IDS, ids);
         eventParams.put(ObservationConstants.ARGS_USERPOPULATION_CONTEXT, context);
-        _observationManager.notify(new Event(ObservationConstants.EVENT_USERPOPULATIONS_ASSIGNMENT, _currentUserProvider.getUser(), eventParams));
+        getObservationManager().notify(new Event(ObservationConstants.EVENT_USERPOPULATIONS_ASSIGNMENT, getCurrentUserProvider().getUser(), eventParams));
         
         return result;
     }
@@ -163,7 +211,7 @@ public class PopulationContextHelper extends AbstractLogEnabled implements Compo
         if (ADMIN_CONTEXT.equals(context))
         {
             // Return all the enabled populations
-            return _userPopulationDAO.getEnabledUserPopulations(true).stream().map(UserPopulation::getId).collect(Collectors.toList());
+            return getUserPopulationDAO().getEnabledUserPopulations(true).stream().map(UserPopulation::getId).collect(Collectors.toList());
         }
         else
         {
@@ -205,11 +253,11 @@ public class PopulationContextHelper extends AbstractLogEnabled implements Compo
             while (rs.next())
             {
                 String userPopulationId = rs.getString(3);
-                if (_userPopulationDAO.getUserPopulation(userPopulationId) == null)
+                if (getUserPopulationDAO().getUserPopulation(userPopulationId) == null)
                 {
                     getLogger().warn("The population of id '{}' is linked to a context, but does not exist anymore.", userPopulationId);
                 }
-                else if (!_userPopulationDAO.getUserPopulation(userPopulationId).isEnabled())
+                else if (!getUserPopulationDAO().getUserPopulation(userPopulationId).isEnabled())
                 {
                     getLogger().warn("The population of id '{}' is linked to a context but disabled. It will not be returned.", userPopulationId);
                 }
