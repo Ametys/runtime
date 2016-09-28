@@ -30,7 +30,7 @@
 			</map:transformer>
     
 			<map:transformer name="i18n" src="org.ametys.core.cocoon.I18nTransformer" logger="org.ametys.runtime.kernel.sitemap.transformer.i18n">
-				<catalogues default="kernel">
+				<catalogues default="application">
 					<catalogue id="application" location="context://WEB-INF/i18n" name="application"/>
 				</catalogues>
 				<untranslated-text>untranslated</untranslated-text>
