@@ -17,6 +17,7 @@ package org.ametys.runtime.test;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Map;
 
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.cocoon.Constants;
@@ -53,15 +54,27 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
      */
     public void testConfigNotPresent() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime01.xml", "test/environments/webapp1");
-        
-        Config.setFilename("test/environments/configs/config0.xml"); // does not exist
-        SQLDataSourceManager.setFilename("test/environments/datasources/datasource-mysql.xml");
-        
-        PluginsManager.getInstance().init(null, _context, "test/environments/webapp1", false);
-        
-        assertTrue(PluginsManager.getInstance().isSafeMode());
-        assertFalse(ConfigManager.getInstance().isComplete());
+        _cocoon = _startApplication("test/environments/runtimes/runtime01.xml", "test/environments/configs/config0.xml", "test/environments/webapp1");
+        try
+        {
+            SQLDataSourceManager.setFilename("test/environments/datasources/datasource-mysql.xml");
+            
+            Map<String, Object> environmentInformation = _cocoon._enterEnvironment();
+    
+            try
+            {
+                assertTrue(PluginsManager.getInstance().isSafeMode());
+                assertFalse(ConfigManager.getInstance().isComplete());
+            }
+            finally
+            {
+                _cocoon._leaveEnvironment(environmentInformation);
+            }
+        }
+        finally
+        {
+            _cocoon.dispose();
+        }
     }
     
     /**
@@ -70,14 +83,27 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
      */
     public void testMissingParameters() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime01.xml", "test/environments/webapp1");
-        Config.setFilename("test/environments/configs/config2.xml"); // missing necessary parameters
-        SQLDataSourceManager.setFilename("test/environments/datasources/datasource-mysql.xml");
-        
-        PluginsManager.getInstance().init(null, _context, "test/environments/webapp1", false);
-        
-        assertTrue(PluginsManager.getInstance().isSafeMode());
-        assertFalse(ConfigManager.getInstance().isComplete());
+        _cocoon = _startApplication("test/environments/runtimes/runtime01.xml", "test/environments/configs/config2.xml", "test/environments/webapp1");
+        try
+        {
+            SQLDataSourceManager.setFilename("test/environments/datasources/datasource-mysql.xml");
+            
+            Map<String, Object> environmentInformation = _cocoon._enterEnvironment();
+    
+            try
+            {
+                assertTrue(PluginsManager.getInstance().isSafeMode());
+                assertFalse(ConfigManager.getInstance().isComplete());
+            }
+            finally
+            {
+                _cocoon._leaveEnvironment(environmentInformation);
+            }
+        }
+        finally
+        {
+            _cocoon.dispose();
+        }
     }
 
     /**
@@ -86,13 +112,26 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
      */
     public void testUnactivation() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime03.xml", "test/environments/webapp1");
-        Config.setFilename("test/environments/configs/config2.xml");
-        SQLDataSourceManager.setFilename("test/environments/datasources/datasource-mysql.xml");
-
-        PluginsManager.getInstance().init(null, _context, "test/environments/webapp1", false);
-        
-        assertTrue(ConfigManager.getInstance().isComplete());
+        _cocoon = _startApplication("test/environments/runtimes/runtime03.xml", "test/environments/configs/config2.xml", "test/environments/webapp1");
+        try
+        {
+            SQLDataSourceManager.setFilename("test/environments/datasources/datasource-mysql.xml");
+            
+            Map<String, Object> environmentInformation = _cocoon._enterEnvironment();
+    
+            try
+            {
+                assertTrue(ConfigManager.getInstance().isComplete());
+            }
+            finally
+            {
+                _cocoon._leaveEnvironment(environmentInformation);
+            }
+        }
+        finally
+        {
+            _cocoon.dispose();
+        }
     }
 
     /**
@@ -101,23 +140,36 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
      */
     public void testConfiguration() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime02.xml", "test/environments/webapp1");
-        Config.setFilename("test/environments/configs/config1.xml");
-        SQLDataSourceManager.setFilename("test/environments/datasources/datasource-mysql.xml");
-        
-        PluginsManager.getInstance().init(null, _context, "test/environments/webapp1", false);
-        
-        assertTrue(ConfigManager.getInstance().isComplete());
-        
-        String[] parameters = ConfigManager.getInstance().getParametersIds();
-        Collection<String> ids = Arrays.asList(parameters);
-        
-        assertFalse(ids.contains("param1"));
-        assertTrue(ids.contains("param2"));
-        assertFalse(ids.contains("param3"));
-        assertTrue(ids.contains("param4"));
-        
-        assertEquals("param2", Config.getInstance().getValueAsString("param2"));
-        assertEquals(4, Config.getInstance().getValueAsLong("param4").longValue());
+        _cocoon = _startApplication("test/environments/runtimes/runtime02.xml", "test/environments/configs/config1.xml", "test/environments/webapp1");
+        try
+        {
+            SQLDataSourceManager.setFilename("test/environments/datasources/datasource-mysql.xml");
+            
+            Map<String, Object> environmentInformation = _cocoon._enterEnvironment();
+    
+            try
+            {
+                assertTrue(ConfigManager.getInstance().isComplete());
+                
+                String[] parameters = ConfigManager.getInstance().getParametersIds();
+                Collection<String> ids = Arrays.asList(parameters);
+                
+                assertFalse(ids.contains("param1"));
+                assertTrue(ids.contains("param2"));
+                assertFalse(ids.contains("param3"));
+                assertTrue(ids.contains("param4"));
+                
+                assertEquals("param2", Config.getInstance().getValueAsString("param2"));
+                assertEquals(4, Config.getInstance().getValueAsLong("param4").longValue());
+            }
+            finally
+            {
+                _cocoon._leaveEnvironment(environmentInformation);
+            }
+        }
+        finally
+        {
+            _cocoon.dispose();
+        }
     }
 }

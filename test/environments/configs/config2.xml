@@ -35,5 +35,6 @@
 <runtime.system.alerts.enable>false</runtime.system.alerts.enable>
 <runtime.login.form.datasource>SQL-test</runtime.login.form.datasource>
 <runtime.scheduler.datasource>SQL-ametys-internal</runtime.scheduler.datasource>
+<runtime.rights.datasource>SQL-ametys-internal</runtime.rights.datasource>
 <runtime.google-api-key/>
 </config>
