@@ -268,16 +268,7 @@
         			   class="org.ametys.core.user.directory.DefaultUserDirectoryModel" 
         			   point="org.ametys.core.user.directory.UserDirectoryFactory" 
         			   logger="org.ametys.plugins.core.user.ldap">
-        		<class name="org.ametys.plugins.core.impl.user.directory.LdapUserDirectory">
-        			<BaseUrl>runtime.datasource.core.ldap.baseUrl</BaseUrl>
-	                <UseSSL>runtime.datasource.core.ldap.useSSL</UseSSL>
-	                <BaseDN>runtime.datasource.core.ldap.baseDN</BaseDN>
-	                <AuthenticationMethod>runtime.datasource.core.ldap.authMethod</AuthenticationMethod>
-	                <AdminDN>runtime.datasource.core.ldap.adminDN</AdminDN>
-	                <AdminPassword>runtime.datasource.core.ldap.adminPasswd</AdminPassword>
-	                <AliasDereferencing>runtime.datasource.core.ldap.aliasDereferencing</AliasDereferencing>
-	                <FollowReferrals>runtime.datasource.core.ldap.followReferrals</FollowReferrals>
-        		</class>
+        		<class name="org.ametys.plugins.core.impl.user.directory.LdapUserDirectory"/>
                 <label i18n="true">PLUGINS_CORE_USERS_LDAPUSER_LABEL</label>
                 <description i18n="true">PLUGINS_CORE_USERS_LDAPUSER_DESCRIPTION</description>
                 
