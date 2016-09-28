@@ -275,29 +275,33 @@ Ext.define('Ametys.form.ConfigurableFormPanel.TableOfContents', {
 		
 		// Within tabs
 		var fieldsetIds = Ext.Object.getKeys(this._navigationMap);
-		var a0 = Ext.get(fieldsetIds[0]).getTop() - outOfTabsHeight;
-		
-		for (var i = 0; i < fieldsetIds.length; i++)
-		{
-			var fieldsetId = fieldsetIds[i];
-			if (i > 0)
-			{
-				last = fieldsetIds[i - 1];
-			}
-			else
-			{
-				last = fieldsetId;
-			}
-			
-			var posY = Ext.get(fieldsetId).getTop() - a0;
-			if (posY >= scrollPosition + p)
-			{
-				this._activateNavigationItem(last);
-				return;
-			}
-		}
-		
-		this._activateNavigationItem(fieldsetIds[fieldsetIds.length - 1]);
+        var field = Ext.get(fieldsetIds[0]);
+        if (!field)
+        {
+    		var a0 = field.getTop() - outOfTabsHeight;
+    		
+    		for (var i = 0; i < fieldsetIds.length; i++)
+    		{
+    			var fieldsetId = fieldsetIds[i];
+    			if (i > 0)
+    			{
+    				last = fieldsetIds[i - 1];
+    			}
+    			else
+    			{
+    				last = fieldsetId;
+    			}
+    			
+    			var posY = Ext.get(fieldsetId).getTop() - a0;
+    			if (posY >= scrollPosition + p)
+    			{
+    				this._activateNavigationItem(last);
+    				return;
+    			}
+    		}
+    		
+    		this._activateNavigationItem(fieldsetIds[fieldsetIds.length - 1]);
+        }
 	},
 	
 	/**
