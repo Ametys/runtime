@@ -276,7 +276,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.TableOfContents', {
 		// Within tabs
 		var fieldsetIds = Ext.Object.getKeys(this._navigationMap);
         var field = Ext.get(fieldsetIds[0]);
-        if (!field)
+        if (field)
         {
     		var a0 = field.getTop() - outOfTabsHeight;
     		
