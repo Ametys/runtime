@@ -34,7 +34,7 @@ import org.ametys.core.cocoon.JSonReader;
 import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.core.user.UserIdentity;
 import org.ametys.core.util.ServerCommHelper;
-import org.ametys.plugins.core.ui.user.ProfileImageProvider.ProfileImageSource;
+import org.ametys.plugins.core.ui.user.DefaultProfileImageProvider.ProfileImageSource;
 
 /**
  * Retrieves the available user profile images
@@ -48,7 +48,7 @@ public class GetUserProfileImagesAction extends ServiceableAction
     protected CurrentUserProvider _currentUserProvider;
     
     /** User profile image provider */
-    protected ProfileImageProvider _profileImageProvider;
+    protected DefaultProfileImageProvider _profileImageProvider;
     
     @Override
     public void service(ServiceManager sm) throws ServiceException
@@ -66,7 +66,7 @@ public class GetUserProfileImagesAction extends ServiceableAction
         {
             try
             {
-                _profileImageProvider = (ProfileImageProvider) manager.lookup(ProfileImageProvider.ROLE);
+                _profileImageProvider = (DefaultProfileImageProvider) manager.lookup(DefaultProfileImageProvider.ROLE);
             }
             catch (ServiceException e)
             {

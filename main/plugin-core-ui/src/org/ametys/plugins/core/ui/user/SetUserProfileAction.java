@@ -38,7 +38,7 @@ import org.ametys.core.upload.UploadManager;
 import org.ametys.core.user.UserIdentity;
 import org.ametys.core.userpref.UserPreferencesErrors;
 import org.ametys.core.util.JSONUtils;
-import org.ametys.plugins.core.ui.user.ProfileImageProvider.ProfileImageSource;
+import org.ametys.plugins.core.ui.user.DefaultProfileImageProvider.ProfileImageSource;
 import org.ametys.plugins.core.userpref.SetUserPreferencesAction;
 
 /**
@@ -50,7 +50,7 @@ public class SetUserProfileAction extends SetUserPreferencesAction
     protected JSONUtils _jsonUtils;
     
     /** User profile image provider */
-    protected ProfileImageProvider _profileImageProvider;
+    protected DefaultProfileImageProvider _profileImageProvider;
     
     /** Upload manager */
     protected UploadManager _uploadManager;
@@ -71,7 +71,7 @@ public class SetUserProfileAction extends SetUserPreferencesAction
             try
             {
                 _uploadManager = (UploadManager) manager.lookup(UploadManager.ROLE);
-                _profileImageProvider = (ProfileImageProvider) manager.lookup(ProfileImageProvider.ROLE);
+                _profileImageProvider = (DefaultProfileImageProvider) manager.lookup(DefaultProfileImageProvider.ROLE);
             }
             catch (ServiceException e)
             {
@@ -81,7 +81,7 @@ public class SetUserProfileAction extends SetUserPreferencesAction
         
         Map<String, String> preferences = super._getValues(request, contextVars, user, preferenceIds, errors);
         
-        String userPrefImageJson = preferences.get(ProfileImageProvider.USERPREF_PROFILE_IMAGE);
+        String userPrefImageJson = preferences.get(DefaultProfileImageProvider.USERPREF_PROFILE_IMAGE);
         if (StringUtils.isNotEmpty(userPrefImageJson))
         {
             Map<String, Object> userPrefImage = null;
@@ -103,7 +103,7 @@ public class SetUserProfileAction extends SetUserPreferencesAction
                 if (ProfileImageSource.USERPREF.equals(profileImageSource))
                 {
                     // Nothing to do, userpref has not changed
-                    preferences.remove(ProfileImageProvider.USERPREF_PROFILE_IMAGE);
+                    preferences.remove(DefaultProfileImageProvider.USERPREF_PROFILE_IMAGE);
                 }
                 else if (ProfileImageSource.UPLOAD.equals(profileImageSource))
                 {
@@ -149,12 +149,12 @@ public class SetUserProfileAction extends SetUserPreferencesAction
                         base64UserPrefImage.put("source", ProfileImageSource.BASE64.name().toLowerCase());
                         base64UserPrefImage.put("parameters", base64SourceParams);
                         
-                        preferences.put(ProfileImageProvider.USERPREF_PROFILE_IMAGE, _jsonUtils.convertObjectToJson(base64UserPrefImage));
+                        preferences.put(DefaultProfileImageProvider.USERPREF_PROFILE_IMAGE, _jsonUtils.convertObjectToJson(base64UserPrefImage));
                     }
                     else
                     {
                         // Upload seems corrupted, remove this data from the values.
-                        preferences.remove(ProfileImageProvider.USERPREF_PROFILE_IMAGE);
+                        preferences.remove(DefaultProfileImageProvider.USERPREF_PROFILE_IMAGE);
                     }
                 }
             }

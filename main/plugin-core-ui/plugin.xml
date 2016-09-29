@@ -1450,11 +1450,19 @@
     		</extension>
     	</extensions>
     </feature>
-    
-    <feature name="core.user.profile">
+
+    <feature name="core.user.safe-avatar" safe="true">
         <components>
-            <component class="org.ametys.plugins.core.ui.user.ProfileImageProvider"
-                       id="org.ametys.plugins.core.ui.user.ProfileImageProvider" 
+            <component class="org.ametys.plugins.core.ui.user.SafeProfileImageProvider"
+                       id="org.ametys.plugins.core.ui.user.SafeProfileImageProvider" 
+                       role="org.ametys.plugins.core.ui.user.ProfileImageProvider"/>
+        </components>
+    </feature>
+    
+    <feature name="core.user.profile" deactivates="core.user.safe-avatar">
+        <components>
+            <component class="org.ametys.plugins.core.ui.user.DefaultProfileImageProvider"
+                       id="org.ametys.plugins.core.ui.user.DefaultProfileImageProvider" 
                        role="org.ametys.plugins.core.ui.user.ProfileImageProvider"/>
         </components>
         
