@@ -505,6 +505,7 @@ Ext.define(
                     {
                         console.error(e);
                     }
+                    vps[0].getElementTarget().remove();
                 }
             }
 
