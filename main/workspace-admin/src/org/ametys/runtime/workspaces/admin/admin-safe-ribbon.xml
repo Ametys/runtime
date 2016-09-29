@@ -21,6 +21,14 @@
         <org.ametys.core.ui.StaticFileImportsManager>org.ametys.runtime.plugins.admin.AdministratorNotifications</org.ametys.core.ui.StaticFileImportsManager>
     </depends>
     
+    <app-menu>
+        <control id="org.ametys.plugins.core.ReloadWorkspace"/>
+    </app-menu>
+    
+    <user-menu>
+        <control id="org.ametys.core.ui.user.logout"/>
+    </user-menu>
+    
     <tabs>
         <tab label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_LABEL" order="10">
             <groups>

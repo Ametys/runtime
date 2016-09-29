@@ -1718,7 +1718,7 @@
     	</extensions>
     </feature>
     
-    <feature name="user.logout">
+    <feature name="user.logout" safe="true">
     	<extensions>
     		<extension id="org.ametys.core.ui.user.logout"
     				   point="org.ametys.core.ui.RibbonControlsManager"
@@ -3194,6 +3194,19 @@
                        logger="org.ametys.core.ui.RibbonManagerCache" />
         </components>
     </feature>
+
+    <feature name="plugin.core.ui.ribbon.imports.safe" safe="true">
+        <extensions>
+            <extension id="org.ametys.core.ui.ribbon.SafeImports"
+                           point="org.ametys.core.ui.RibbonImportManager"
+                           class="org.ametys.core.ui.StaticRibbonImportManager">
+                <workspace>
+                    <file>ribbon/default-safe-ribbon.xml</file>
+                    <file>ribbon/cms-ribbon-developer.xml</file>
+                </workspace>
+           </extension>
+       </extensions>
+    </feature>
     
     <feature name="plugin.core.ui.ribbon.imports">
         <extensions>
@@ -3203,7 +3216,6 @@
                 <workspace>
                     <file>ribbon/default-ribbon.xml</file>
                     <file>ribbon/cms-ribbon-rights.xml</file>
-                    <file>ribbon/cms-ribbon-developer.xml</file>
                 </workspace>
 
                 <workspace match="admin">

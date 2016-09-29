@@ -130,12 +130,12 @@ Ext.define("Ametys.message.ApplicationMessageTarget", {
          * @member Ametys.message.MessageTarget
          * @static
          * @readonly
-         * @property {String} APPLICATION The target application
+         * @property {String} APPLICATION The target application. 
          * Parameters are:
-         * @property {Object} APPLICATION.status An object containing the system status
-         * @property {String[]} APPLICATION.status.current The current system status
-         * @property {String[]} APPLICATION.status.added The system status that have just been added
-         * @property {String[]} APPLICATION.status.removed The system status that have just been removed
+         * * {Object} APPLICATION.status An object containing the system status
+         * * {String[]} APPLICATION.status.current The current system status
+         * * {String[]} APPLICATION.status.added The system status that have just been added
+         * * {String[]} APPLICATION.status.removed The system status that have just been removed
          */
         APPLICATION: "application"
     }

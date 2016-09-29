@@ -37,6 +37,7 @@ import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.excalibur.source.Source;
+import org.apache.excalibur.source.SourceNotFoundException;
 import org.apache.excalibur.source.SourceResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -312,7 +313,7 @@ public class RibbonConfigurationManager
                 src = _resolver.resolveURI(url);
                 if (!src.exists())
                 {
-                    _logger.warn("Cannot import unexisting file " + url);
+                    throw new SourceNotFoundException(url + " does not exists");
                 }
                 else
                 {

@@ -17,18 +17,10 @@
 <ribbon  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:noNamespaceSchemaLocation="http://ametys.org/cms/3.0/ribbon.xsd">
           
-    <app-menu>
-        <control id="org.ametys.plugins.core.ReloadWorkspace"/>
-        <control id="org.ametys.plugins.core.userprefs.ResetWorkspace"/>
-        <separator/>
-        <control id="org.ametys.plugins.core.ui.about"/>
-    </app-menu>
-    
-    <user-menu>
-        <control id="org.ametys.core.userpref.EditProfileImage"/>
-        <control id="org.ametys.plugins.core.userprefs.Edit"/>
-        <separator/>
-        <control id="org.ametys.core.ui.user.logout"/>
-    </user-menu>
+    <depends>
+        <org.ametys.core.ui.UIToolsFactoriesManager>uitool-notification</org.ametys.core.ui.UIToolsFactoriesManager>
+        <org.ametys.core.ui.StaticFileImportsManager>Ametys.plugins.coreui.system.Announce</org.ametys.core.ui.StaticFileImportsManager>
+        <org.ametys.core.ui.StaticFileImportsManager>Ametys.plugins.coreui.system.StartTimeChecker</org.ametys.core.ui.StaticFileImportsManager>
+    </depends>
 
 </ribbon>
