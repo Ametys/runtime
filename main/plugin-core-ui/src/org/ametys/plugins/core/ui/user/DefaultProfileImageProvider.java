@@ -21,10 +21,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -50,20 +46,15 @@ import org.apache.cocoon.components.ContextHelper;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.util.HashUtil;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.excalibur.source.Source;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.message.BasicNameValuePair;
 import org.xml.sax.SAXException;
 
 import org.ametys.core.upload.Upload;
 import org.ametys.core.upload.UploadManager;
 import org.ametys.core.user.User;
 import org.ametys.core.user.UserIdentity;
-import org.ametys.core.user.UserManager;
 import org.ametys.core.userpref.UserPreferencesManager;
 import org.ametys.core.util.ImageHelper;
 import org.ametys.core.util.JSONUtils;
@@ -114,9 +105,6 @@ public class DefaultProfileImageProvider extends SafeProfileImageProvider implem
     /** Ordered list of paths to available backgrounds for 'initials' images */
     protected static List<String> __initialsBgPaths;
     
-    /** Users manager */
-    protected UserManager _userManager;
-    
     /** Upload manager */
     protected UploadManager _uploadManager;
     
@@ -132,7 +120,6 @@ public class DefaultProfileImageProvider extends SafeProfileImageProvider implem
     public void service(ServiceManager smanager) throws ServiceException
     {
         super.service(smanager);
-        _userManager = (UserManager) smanager.lookup(UserManager.ROLE);
         _uploadManager = (UploadManager) smanager.lookup(UploadManager.ROLE);
         _userPreferencesManager = (UserPreferencesManager) smanager.lookup(UserPreferencesManager.ROLE); 
         _jsonUtils = (JSONUtils) smanager.lookup(JSONUtils.ROLE);
@@ -393,6 +380,29 @@ public class DefaultProfileImageProvider extends SafeProfileImageProvider implem
         return new UserProfileImage(is, StringUtils.defaultIfBlank(filename, null), null);
     }
     
+    
+    /**
+     * Extract the gravatar size from the source params if any
+     * @param sourceParams The source params
+     * @return The requested image size for gravatar or null if not provided
+     */
+    private Integer _getGravatarSize(Map<String, Object> sourceParams)
+    {
+        Integer size = (Integer) sourceParams.get("size");
+        if (size != null && size > 0)
+        {
+            return size;
+        }
+        
+        Integer maxSize = (Integer) sourceParams.get("maxSize");
+        if (maxSize != null && maxSize > 0)
+        {
+            return maxSize;
+        }
+        
+        return null;
+    }
+    
     /**
      * Get the image from the user pref
      * @param user The user
@@ -459,7 +469,7 @@ public class DefaultProfileImageProvider extends SafeProfileImageProvider implem
      * @param user The user
      * @return The map stored in the user pref
      */
-    public Map<String, Object> _getRawUserPrefImage(UserIdentity user)
+    private Map<String, Object> _getRawUserPrefImage(UserIdentity user)
     {
         try
         {
@@ -475,158 +485,6 @@ public class DefaultProfileImageProvider extends SafeProfileImageProvider implem
         }
         
         return null;
-    }
-    
-    /**
-     * Extract the gravatar size from the source params if any
-     * @param sourceParams The source params
-     * @return The requested image size for gravatar or null if not provided
-     */
-    private Integer _getGravatarSize(Map<String, Object> sourceParams)
-    {
-        Integer size = (Integer) sourceParams.get("size");
-        if (size != null && size > 0)
-        {
-            return size;
-        }
-        
-        Integer maxSize = (Integer) sourceParams.get("maxSize");
-        if (maxSize != null && maxSize > 0)
-        {
-            return maxSize;
-        }
-        
-        return null;
-    }
-    
-    /**
-     * Test if the gravatar image exists
-     * @param user The user
-     * @return True if the image exists
-     */
-    public boolean hasGravatarImage(UserIdentity user)
-    {
-        Source httpSource = null;
-        try
-        {
-            httpSource = _getGravatarImageSource(user, null);
-            return httpSource != null && httpSource.exists();
-        }
-        catch (IOException e)
-        {
-            getLogger().error("Unable to test the gravatar image for user '" + user + "'.", e);
-        }
-        finally
-        {
-            if (httpSource != null)
-            {
-                _sourceResolver.release(httpSource);
-            }
-        }
-        
-        return false;
-    }
-    
-    /**
-     * Get gravatar image
-     * @param user The user
-     * @param size The requested size
-     * @return The UserProfileImage or null if not found
-     */
-    public UserProfileImage getGravatarImage(UserIdentity user, Integer size)
-    {
-        // Resolve an http source
-        Source httpSource = null;
-        try
-        {
-            httpSource = _getGravatarImageSource(user, size);
-            if (httpSource != null && httpSource.exists())
-            {
-                return new UserProfileImage(httpSource.getInputStream());
-            }
-        }
-        catch (IOException e)
-        {
-            getLogger().error("Unable to retrieve gravatar image for user '" + user + "'.", e);
-        }
-        finally
-        {
-            if (httpSource != null)
-            {
-                _sourceResolver.release(httpSource);
-            }
-        }
-        
-        return null;
-    }
-    
-    /**
-     * Get the source of a gravatar image
-     * @param userIdentity The user
-     * @param size The requested size
-     * @return The source or null
-     * @throws IOException If an error occurs while resolving the source uri
-     */
-    protected Source _getGravatarImageSource(UserIdentity userIdentity, Integer size) throws IOException
-    {
-        User user = _userManager.getUser(userIdentity.getPopulationId(), userIdentity.getLogin());
-        if (user == null)
-        {
-            if (getLogger().isWarnEnabled())
-            {
-                getLogger().warn("Unable to get gravatar image source - user not found " + userIdentity);
-            }
-            return null;
-        }
-        
-        String email = user.getEmail();
-        if (StringUtils.isEmpty(email))
-        {
-            if (getLogger().isInfoEnabled())
-            {
-                getLogger().info(String.format("Unable to get gravatar image for user '%s' - an email is mandatory", userIdentity));
-            }
-            return null;
-        }
-        
-        // Compute hex MD5 hash
-        String hash = null;
-        try
-        {
-            MessageDigest md5 = MessageDigest.getInstance("MD5");
-            md5.reset();
-            md5.update(StandardCharsets.UTF_8.encode(email));
-            byte[] hexBytes = new Hex(StandardCharsets.UTF_8).encode(md5.digest());
-            hash = new String(hexBytes, StandardCharsets.UTF_8);
-        }
-        catch (NoSuchAlgorithmException e)
-        {
-            // This error exception not be raised since MD5 is embedded in the JDK
-            getLogger().error("Cannot encode the user email to md5Base64", e);
-            return null;
-        }
-        
-        // Build gravatar URL request
-        List<NameValuePair> qparams = new ArrayList<>(1);
-        qparams.add(new BasicNameValuePair("d", "404")); // 404 if no image for this user
-        
-        if (size != null && size > 0)
-        {
-            qparams.add(new BasicNameValuePair("s", Integer.toString(size)));
-        }
-        
-        String uri = new URIBuilder()
-            .setScheme("http")
-            .setHost("www.gravatar.com")
-            .setPath("/avatar/" + hash + ".png") // force png
-            .setParameters(qparams).toString();
-        
-        if (getLogger().isDebugEnabled())
-        {
-            getLogger().debug(String.format("Build gravatar uri for user '%s' : %s", userIdentity, uri));
-        }
-        
-        return _sourceResolver.resolveURI(uri);
     }
     
     /**

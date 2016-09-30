@@ -16,16 +16,28 @@
 package org.ametys.plugins.core.ui.user;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.cocoon.ProcessingException;
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.message.BasicNameValuePair;
 
+import org.ametys.core.user.User;
 import org.ametys.core.user.UserIdentity;
+import org.ametys.core.user.UserManager;
 
 /**
  * Image provider working in safe mode
@@ -41,15 +53,27 @@ public class SafeProfileImageProvider extends AbstractLogEnabled implements Prof
     /** Source resolver */
     protected SourceResolver _sourceResolver;
     
+    /** Users manager */
+    protected UserManager _userManager;
+    
     @Override
     public void service(ServiceManager smanager) throws ServiceException
     {
         _sourceResolver = (SourceResolver) smanager.lookup(SourceResolver.ROLE);
+        _userManager = (UserManager) smanager.lookup(UserManager.ROLE);
     }
     
     public UserProfileImage getImage(UserIdentity user, String imageSource, int size, int maxSize) throws ProcessingException
     {
-        return getDefaultImage();
+        UserProfileImage image = getGravatarImage(user, size > 0 ? size : maxSize);
+        if (image == null)
+        {
+            return getDefaultImage();
+        }
+        else
+        {
+            return image;
+        }
     }
     
     /**
@@ -87,5 +111,133 @@ public class SafeProfileImageProvider extends AbstractLogEnabled implements Prof
         }
         
         return null;
+    }
+    
+    /**
+     * Get gravatar image
+     * @param user The user
+     * @param size The image size
+     * @return The UserProfileImage or null if not found
+     */
+    protected UserProfileImage getGravatarImage(UserIdentity user, int size)
+    {
+        // Resolve an http source
+        Source httpSource = null;
+        try
+        {
+            httpSource = _getGravatarImageSource(user, size);
+            if (httpSource != null && httpSource.exists())
+            {
+                return new UserProfileImage(httpSource.getInputStream());
+            }
+        }
+        catch (IOException e)
+        {
+            getLogger().error("Unable to retrieve gravatar image for user '" + user + "'.", e);
+        }
+        finally
+        {
+            if (httpSource != null)
+            {
+                _sourceResolver.release(httpSource);
+            }
+        }
+        
+        return null;
+    }    /**
+     * Get the source of a gravatar image
+     * @param userIdentity The user
+     * @param size The requested size
+     * @return The source or null
+     * @throws IOException If an error occurs while resolving the source uri
+     */
+    private Source _getGravatarImageSource(UserIdentity userIdentity, Integer size) throws IOException
+    {
+        User user = _userManager.getUser(userIdentity.getPopulationId(), userIdentity.getLogin());
+        if (user == null)
+        {
+            if (getLogger().isWarnEnabled())
+            {
+                getLogger().warn("Unable to get gravatar image source - user not found " + userIdentity);
+            }
+            return null;
+        }
+        
+        String email = user.getEmail();
+        if (StringUtils.isEmpty(email))
+        {
+            if (getLogger().isInfoEnabled())
+            {
+                getLogger().info(String.format("Unable to get gravatar image for user '%s' - an email is mandatory", userIdentity));
+            }
+            return null;
+        }
+        
+        // Compute hex MD5 hash
+        String hash = null;
+        try
+        {
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            md5.reset();
+            md5.update(StandardCharsets.UTF_8.encode(email));
+            byte[] hexBytes = new Hex(StandardCharsets.UTF_8).encode(md5.digest());
+            hash = new String(hexBytes, StandardCharsets.UTF_8);
+        }
+        catch (NoSuchAlgorithmException e)
+        {
+            // This error exception not be raised since MD5 is embedded in the JDK
+            getLogger().error("Cannot encode the user email to md5Base64", e);
+            return null;
+        }
+        
+        // Build gravatar URL request
+        List<NameValuePair> qparams = new ArrayList<>(1);
+        qparams.add(new BasicNameValuePair("d", "404")); // 404 if no image for this user
+        
+        if (size != null && size > 0)
+        {
+            qparams.add(new BasicNameValuePair("s", Integer.toString(size)));
+        }
+        
+        String uri = new URIBuilder()
+            .setScheme("http")
+            .setHost("www.gravatar.com")
+            .setPath("/avatar/" + hash + ".png") // force png
+            .setParameters(qparams).toString();
+        
+        if (getLogger().isDebugEnabled())
+        {
+            getLogger().debug(String.format("Build gravatar uri for user '%s' : %s", userIdentity, uri));
+        }
+        
+        return _sourceResolver.resolveURI(uri);
+    }
+    
+    /**
+     * Test if the gravatar image exists
+     * @param user The user
+     * @return True if the image exists
+     */
+    public boolean hasGravatarImage(UserIdentity user)
+    {
+        Source httpSource = null;
+        try
+        {
+            httpSource = _getGravatarImageSource(user, null);
+            return httpSource != null && httpSource.exists();
+        }
+        catch (IOException e)
+        {
+            getLogger().error("Unable to test the gravatar image for user '" + user + "'.", e);
+        }
+        finally
+        {
+            if (httpSource != null)
+            {
+                _sourceResolver.release(httpSource);
+            }
+        }
+        
+        return false;
     }
 }
