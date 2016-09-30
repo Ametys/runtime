@@ -1870,14 +1870,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             regexText: config.regexText || config.invalidText || "{{i18n PLUGINS_CORE_UI_CONFIGURABLE_FORM_INVALID_REGEXP}}" + config.regexp,
             disabled: config.disabled,
             
-            msgTarget: 'side',
-            
-            listeners: 
-            {
-                'focus': { fn: function (fd, e) { this.fireEvent ('inputfocus', fd, e)}, scope: this},
-                'blur': { fn: function (fd, e) { this.fireEvent ('inputblur', fd, e)}, scope: this},
-                'afterrender': { fn: this._onFieldAfterRender, scope: this}
-            }
+            msgTarget: 'side'
         });
         
         var widgetCfg = Ext.apply(config, fieldCfg);
@@ -1888,6 +1881,12 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         }
         
         var field = Ametys.form.WidgetManager.getWidget (config.widget, config.type.toLowerCase(), widgetCfg);
+        
+        field.on({
+            'focus': { fn: function (fd, e) { this.fireEvent ('inputfocus', fd, e)}, scope: this},
+            'blur': { fn: function (fd, e) { this.fireEvent ('inputblur', fd, e)}, scope: this},
+            'afterrender': { fn: this._onFieldAfterRender, scope: this}
+        });
         
         // if field is disabled or not visible (group switch off) we return no errors
         field.getErrors = Ext.Function.createInterceptor(field.getErrors, function() { return this.isVisible() && !this.isDisabled(); }, null, []);
