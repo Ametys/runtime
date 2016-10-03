@@ -1875,10 +1875,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         
         var widgetCfg = Ext.apply(config, fieldCfg);
         
-        if (config.type.toLowerCase() == Ametys.form.WidgetManager.TYPE_RICH_TEXT)
-        {
-            widgetCfg.listeners['editorhtmlnodeselected'] = { fn: function (field, node) { this.fireEvent ('htmlnodeselected', field, node)}, scope: this};
-        }
         
         var field = Ametys.form.WidgetManager.getWidget (config.widget, config.type.toLowerCase(), widgetCfg);
         
@@ -1887,6 +1883,12 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             'blur': { fn: function (fd, e) { this.fireEvent ('inputblur', fd, e)}, scope: this},
             'afterrender': { fn: this._onFieldAfterRender, scope: this}
         });
+        if (config.type.toLowerCase() == Ametys.form.WidgetManager.TYPE_RICH_TEXT)
+        {
+            field.on({
+                'editorhtmlnodeselected': { fn: function (field, node) { this.fireEvent ('htmlnodeselected', field, node)}, scope: this}
+            });
+        }
         
         // if field is disabled or not visible (group switch off) we return no errors
         field.getErrors = Ext.Function.createInterceptor(field.getErrors, function() { return this.isVisible() && !this.isDisabled(); }, null, []);
