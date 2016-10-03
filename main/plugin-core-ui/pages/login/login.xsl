@@ -53,7 +53,8 @@
 									<xsl:when test="/LoginScreen/populations/population">
 										<style type="text/css">
 											div.connection table.population td.input.empty:before {
-												content: "<i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_POPULATION" i18n:catalogue="plugin.core-ui" />"
+												content: "<i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_POPULATION" i18n:catalogue="plugin.core-ui" />";
+												pointer-events: none;
 											}
 										</style>
 										<table class="input inputtext population">
