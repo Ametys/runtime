@@ -42,6 +42,18 @@ Ext.define('Ametys.form.widget.SQLDataSource', {
 			
 		this.callParent(arguments);
 	},
+    
+    isCreateDataSourceSupported: function()
+    {
+        try
+        {
+            return Ext.isFunction(Ametys.plugins.admin.datasource.EditSQLDataSourceHelper.add)
+        }
+        catch (e)
+        {
+            return false;
+        }
+    },
 	
 	createDataSource: function (callback)
 	{

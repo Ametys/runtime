@@ -26,6 +26,19 @@ Ext.define('Ametys.form.widget.LDAPDataSource', {
     createButtonIconCls: 'ametysicon-agenda3 decorator-ametysicon-add64',
     createButtonTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_LDAP_DATASOURCE_BUTTON_TOOLTIP}}",
     
+        
+    isCreateDataSourceSupported: function()
+    {
+        try
+        {
+            return Ext.isFunction(Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper.add)
+        }
+        catch (e)
+        {
+            return false;
+        }
+    },
+    
     createDataSource: function (callback)
     {
         Ametys.plugins.admin.datasource.EditLDAPDataSourceHelper.add(callback);

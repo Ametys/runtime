@@ -120,7 +120,7 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
   	    	    		    }
       			        });
     	
-    	if (this.allowCreation)
+    	if (this.allowCreation && this.isCreateDataSourceSupported())
 		{
     		this.items[1] = Ext.create('Ext.button.Button', 
     						{ 
@@ -138,12 +138,12 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 	
 	constructor: function(config)
 	{
-		this.callParent(arguments);
-		
-		config.allowPrivate = Ext.isBoolean(config.allowPrivate) ? config.allowPrivate : config.allowPrivate == 'true';
-		config.allowCreation = Ext.isBoolean(config.allowCreation) ? config.allowCreation : config.allowCreation == 'true';
+        config.allowPrivate = Ext.isBoolean(config.allowPrivate) ? config.allowPrivate : config.allowPrivate == 'true';
+        config.allowCreation = Ext.isBoolean(config.allowCreation) ? config.allowCreation : config.allowCreation == 'true';
         config.allowInternal = Ext.isBoolean(config.allowInternal) ? config.allowInternal : config.allowInternal == 'true';
         config.allowDefault = Ext.isBoolean(config.allowDefault) ? config.allowDefault : config.allowDefault == 'true';
+        
+		this.callParent(arguments);
 		
 		this._selectedRecordId = null;
 		this._defaultDataSourceId = this.dataSourceType + Ametys.form.widget.AbstractDataSource.DEFAULT_DATASOURCE_SUFFIX;
@@ -259,6 +259,16 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 	            this._dataSourceToSelect = datasource.id;
 	        }
         }
+    },
+    
+    /**
+     * @protected
+     * @template
+     * Test if #createDataSource will be possible
+     */
+    isCreateDataSourceSupported: function()
+    {
+        throw new Error("The method #isCreateDataSourceSupported is not implemented in " + this.self.getName());
     },
 	
 	/**
