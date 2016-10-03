@@ -50,6 +50,9 @@ public final class Config
     
     // Initialization status
     private static boolean _initialized;
+
+    // The last modification date
+    private static long __lastModified = -1;
     
     // Typed value (filled after read)
     private Map<String, String> _values;
@@ -91,6 +94,21 @@ public final class Config
                 return null;
             }
         }
+        else if (__fileExists && new File(__filename).exists() && __lastModified < new File(__filename).lastModified())
+        {
+            try
+            {
+                _logger.info("The config file has changed. Let's reload."); 
+                __config._values = read();
+            }
+            catch (Exception e)
+            {
+                // __lastModified was changed, so we will not fail several times
+                // _values was not modified
+                // __fileExists is still true
+                _logger.error("The config file '" + __filename + "' was modified but could not be reloaded due to an exception", e);
+            }
+        }
         
         return __config;
     }
@@ -121,11 +139,11 @@ public final class Config
     {
         _initialized = initialized;
     }
+    
     /**
      * Returns true if the config filename exists.
      * @return true if the config filename exists.
      */
-    
     public static boolean getFileExists()
     {
         return __fileExists;
@@ -188,7 +206,7 @@ public final class Config
         
         return (Double) ParameterHelper.castValue(value, ParameterType.DOUBLE);
     }
-
+    
     /**
      * Read config file and get untyped values (String object)
      * @return Map (key, untyped value) representing the config file
@@ -204,7 +222,12 @@ public final class Config
         __fileExists = configFile.exists();
         if (__fileExists)
         {
+            __lastModified  = configFile.lastModified();
             SAXParserFactory.newInstance().newSAXParser().parse(configFile, new MapHandler(configValues));
+        }
+        else
+        {
+            __lastModified = -1;
         }
 
         return configValues;
