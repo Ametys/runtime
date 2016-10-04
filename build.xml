@@ -29,7 +29,7 @@
          xmlns:clover="antlib:com.atlassian.clover"
          xmlns:ivy="antlib:org.apache.ivy.ant">
          
-    <property name="common-build" location="../../../bootstrap/4/deliver/jars/common-build.xml"/>
+    <property name="common-build" location="../../../tools/master/build/common-build.xml"/>
     <import file="${common-build}"/>
     
     <property name="project.title" value="Ametys Runtime"/>
