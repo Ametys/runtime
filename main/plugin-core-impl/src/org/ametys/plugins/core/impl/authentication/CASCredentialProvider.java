@@ -135,13 +135,14 @@ public class CASCredentialProvider extends AbstractCredentialProvider implements
         }
         
         String name = serverName.toString();
+        String filterName = name + (gateway ? "-gateway" : "");
         
-        List<RuntimeFilter> runtimeFilters = _filters.get(name);
+        List<RuntimeFilter> runtimeFilters = _filters.get(filterName);
         if (runtimeFilters == null)
         {
             // Create the filter chain.
             runtimeFilters = new ArrayList<>();
-            _filters.put(name, runtimeFilters);
+            _filters.put(filterName, runtimeFilters);
             
             ServletContext servletContext = (ServletContext) objectModel.get(HttpEnvironment.HTTP_SERVLET_CONTEXT);
             Map<String, String> parameters = new HashMap<>();
@@ -214,7 +215,7 @@ public class CASCredentialProvider extends AbstractCredentialProvider implements
     @Override
     public UserIdentity nonBlockingGetUserIdentity(Redirector redirector) throws Exception
     {
-        String userLogin = _getLoginFromFilter(false, redirector);
+        String userLogin = _getLoginFromFilter(true, redirector);
         if (userLogin == null)
         {
             return null;
