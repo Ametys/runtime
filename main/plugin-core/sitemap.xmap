@@ -78,56 +78,21 @@
 	<map:pipelines>
 		<map:pipeline type="noncaching" internal-only="true">
             <map:match pattern="login.html">
+                <map:generate type="login-screen" label="content"/>
+                
             	<map:select type="resource-exists">
             		<map:when test="context://WEB-INF/param/login.xsl">
-		            	<map:generate type="login-screen" label="content"/>
 		            	<map:transform type="xslt" src="context://WEB-INF/param/login.xsl"/>
-		                <map:transform type="i18n" label="xml">
-		                    <map:parameter name="locale" value="{locale:locale}"/>
-		                    <map:parameter name="default-catalogue-id" value="application"/>
-		                </map:transform>
             		</map:when>
             		<map:otherwise>
-		            	<map:generate type="login-screen" label="content"/>
 		            	<map:transform type="xslt" src="plugin:core-ui://pages/login/login.xsl"/>
-		                <map:transform type="i18n" label="xml">
-		                    <map:parameter name="locale" value="{locale:locale}"/>
-		                    <map:parameter name="default-catalogue-id" value="plugin.core-ui"/>
-		                </map:transform>
             		</map:otherwise>
             	</map:select>
-                <map:serialize/>
-            </map:match>
-            
-            <map:match pattern="login_failed.html">
-            	<map:select type="resource-exists">
-            		<map:when test="context://WEB-INF/param/login.xsl">
-		                <map:generate type="login-screen" label="content"/>
-		                <map:transform type="xslt" src="context://WEB-INF/param/login.xsl">
-		                    <map:parameter name="authFailure" value="true"/>
-		                    <map:parameter name="login" value="{request-param:login}"/>
-		                    <map:parameter name="tooManyAttempts" value="{request-param:tooManyAttempts}"/>
-		                    <map:parameter name="cookieFailure" value="{request-param:cookieFailure}"/>
-		                </map:transform>
-		                <map:transform type="i18n" label="xml">
-		                    <map:parameter name="locale" value="{locale:locale}"/>
-		                    <map:parameter name="default-catalogue-id" value="application"/>
-		                </map:transform>
-	                </map:when>
-	           		<map:otherwise>
-		                <map:generate type="login-screen" label="content"/>
-		                <map:transform type="xslt" src="plugin:core-ui://pages/login/login.xsl">
-		                    <map:parameter name="authFailure" value="true"/>
-		                    <map:parameter name="login" value="{request-param:login}"/>
-		                    <map:parameter name="tooManyAttempts" value="{request-param:tooManyAttempts}"/>
-		                    <map:parameter name="cookieFailure" value="{request-param:cookieFailure}"/>
-		                </map:transform>
-		                <map:transform type="i18n" label="xml">
-		                    <map:parameter name="locale" value="{locale:locale}"/>
-		                    <map:parameter name="default-catalogue-id" value="plugin.core-ui"/>
-		                </map:transform>
-	           		</map:otherwise>
-           		</map:select>
+            	
+                <map:transform type="i18n" label="xml">
+                    <map:parameter name="locale" value="{locale:locale}"/>
+                    <map:parameter name="default-catalogue-id" value="application"/>
+                </map:transform>
                 <map:serialize/>
             </map:match>
             

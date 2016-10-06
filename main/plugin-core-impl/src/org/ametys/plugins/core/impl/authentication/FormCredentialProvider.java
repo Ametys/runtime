@@ -133,21 +133,6 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
     /** Cookie duration in seconds, by default 1 week */
     protected long _cookieLifetime;
 
-    /** Redirection in case of no login infos were found from request params or cookie */
-    protected String _loginUrl;
-
-    /** Redirection when the authentication fails */
-    protected String _loginFailedUrl;
-
-    /** When redirecting on failure send the entered login */
-    protected boolean _provideLoginParameter;
-
-    /** Indicates if the login url redirection is internal (default : false). */
-    protected boolean _loginUrlInternal;
-
-    /** Indicates if the failed login url redirection is internal or external (default : false). */
-    protected boolean _loginFailedUrlInternal;
-
     /** Set of accepted url prefixes (default : empty). */
     protected Set<String> _acceptedUrlPrefixes;
     
@@ -187,11 +172,6 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
         _cookieEnabled = configuration.getChild("cookie").getChild("cookieEnabled").getValueAsBoolean(true);
         _cookieLifetime = configuration.getChild("cookie").getChild("cookieLifeTime").getValueAsLong(604800);
         _cookieName = configuration.getChild("cookie").getChild("cookieName").getValue("AmetysAuthentication");
-        _loginUrl = configuration.getChild("loginUrl").getValue("login.html");
-        _loginFailedUrl = configuration.getChild("loginFailedUrl").getValue("login_failed.html");
-        _provideLoginParameter = configuration.getChild("loginFailedUrl").getAttributeAsBoolean("provideLoginParameter", false);
-        _loginUrlInternal = configuration.getChild("loginUrl").getAttributeAsBoolean("internal", false);
-        _loginFailedUrlInternal = configuration.getChild("loginFailedUrl").getAttributeAsBoolean("internal", false);
         _acceptedUrlPrefixes = new HashSet<>();
         for (Configuration prefixConf : configuration.getChild("unauthenticated").getChildren("urlPrefix"))
         {
@@ -207,11 +187,7 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
             getLogger().debug(
                     "FormBasedCredentialsProvider values : " + " Name field=" + _usernameField + ", Pwd field="
                             + _passwordField + ", CookieEnabled=" + _cookieEnabled + ", Cookie duration="
-                            + _cookieLifetime + ", Cookie name=" + _cookieName + ", Login url=" + _loginUrl
-                            + " [" + (_loginUrlInternal ? "internal" : "external") + "]"
-                            + ", Login failed url=" + _loginFailedUrl
-                            + " [" + (_loginFailedUrlInternal ? "internal" : "external")
-                            + ", provide login on redirection : " + _provideLoginParameter + "]"
+                            + _cookieLifetime + ", Cookie name=" + _cookieName
                             + ", accepted prefixes : [" + StringUtils.join(_acceptedUrlPrefixes, ", ") + "]");
         }
     }
@@ -225,24 +201,6 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
         return ConnectionHelper.getConnection(Config.getInstance().getValueAsString("runtime.login.form.datasource"));
     }
     
-    /**
-     * Get the login url
-     * @return the login url
-     */
-    protected String getLoginURL()
-    {
-        return _loginUrl;
-    }
-    
-    /**
-     * Get the login failed url
-     * @return the login failed url
-     */
-    protected String getLoginFailedURL()
-    {
-        return _loginFailedUrl;
-    }
-
     @Override
     public void logout(Redirector redirector)
     {
@@ -276,18 +234,10 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
         // URL without server context and leading slash.
         String url = (String) request.getAttribute(WorkspaceMatcher.IN_WORKSPACE_URL);
         
-        // Always accept the login failed page.
-        accept = getLoginFailedURL().equals(url);
-        
         // Accept the other urls only if the user didn't provide credentials
         // (if credentials are provided, the user is trying to connect). 
         if (login == null || password == null)
         {
-            if (!accept)
-            {
-                accept = getLoginURL().equals(url);
-            }
-            
             if (!accept)
             {
                 for (String prefix : _acceptedUrlPrefixes)
@@ -340,16 +290,9 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
                 return userIdentity;
             }
             
-            String redirectUrl;
-            if (_loginUrlInternal)
-            {
-                redirectUrl = "cocoon://" + getLoginURL();
-            }
-            else
-            {
-                redirectUrl = request.getContextPath() + "/" + getLoginURL();
-            }
-            redirector.redirect(false, redirectUrl);
+            // The general login screen will display the form for us
+            redirector.redirect(false, (String) request.getAttribute(AuthenticateAction.REQUEST_ATTRIBUTE_LOGIN_URL));
+            
             return null;
         }
         catch (AccessDeniedException e)
@@ -477,14 +420,13 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
     {
         Request request = ContextHelper.getRequest(_context);
 
-        StringBuffer parameters = new StringBuffer();
-        parameters.append(getLoginFailedURL().indexOf('?') >= 0 ? "&" : "?");
-        
-        if (_provideLoginParameter)
-        {
-            parameters.append("login=" + request.getParameter(_usernameField));
-        }
-        
+        String url = (String) request.getAttribute(AuthenticateAction.REQUEST_ATTRIBUTE_LOGIN_URL);
+        StringBuilder parameters = new StringBuilder();
+        parameters.append(url.indexOf('?') >= 0 ? "&" : "?");
+        parameters.append("login=");
+        parameters.append(request.getParameter(_usernameField));
+        parameters.append("&authFailure=true");
+
         if (SECURITY_LEVEL_HIGH.equals(_securityLevel))
         {
             String captchaKey = request.getParameter(_captchaKeyField);
@@ -502,17 +444,9 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
             parameters.append("&cookieFailure=" + true);
             deleteCookie(request, ContextHelper.getResponse(_context), _cookieName); 
         }
-
-        String redirectUrl;
-        if (_loginFailedUrlInternal)
-        {
-            redirectUrl = "cocoon://" + getLoginFailedURL() + parameters.toString();
-        }
-        else
-        {
-            redirectUrl = request.getContextPath() + request.getAttribute(WorkspaceMatcher.WORKSPACE_URI) + "/" + getLoginFailedURL() + parameters.toString();
-        }
-        redirector.redirect(false, redirectUrl);
+        
+        // The general login screen will display the form for us
+        redirector.redirect(false, url + parameters);
     }
     
     @Override
@@ -535,7 +469,6 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
         else
         {
             _deleteLoginFailedBDD(userConnected.getLogin(), userConnected.getPopulationId());
-            
         }
     }
     

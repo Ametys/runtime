@@ -23,10 +23,10 @@
     <xsl:import href="../common.xsl"/> 
     <xsl:import href="plugin:core://stylesheets/helper/common_3.3.xsl"/>    
     
-    <xsl:param name="authFailure"/><!-- true to display a login failed message -->
-    <xsl:param name="login"/><!-- the login previously submitted -->
-    <xsl:param name="tooManyAttempts"/><!-- true when authentication failed due to too many attempts with that login -->
-    <xsl:param name="cookieFailure"/><!-- true when the remember me function failed to authenticate -->
+    <xsl:param name="authFailure" select="ametys:requestParameter('authFailure')"/><!-- true to display a login failed message -->
+    <xsl:param name="login" select="ametys:requestParameter('login')"/><!-- the login previously submitted -->
+    <xsl:param name="tooManyAttempts" select="ametys:requestParameter('tooManyAttempts')"/><!-- true when authentication failed due to too many attempts with that login -->
+    <xsl:param name="cookieFailure" select="ametys:requestParameter('cookieFailure')"/><!-- true when the remember me function failed to authenticate -->
     
     <xsl:variable name="uniqueId" select="substring-after(math:random(), '.')"/>
     <xsl:variable name="uri-prefix" select="ametys:uriPrefix()"/>
@@ -275,7 +275,7 @@
                 <xsl:choose>
                     <xsl:when test="$tooManyAttempts = 'true'"><i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_MANY_TIME_{ametys:config('runtime.captcha.type')}" i18n:catalogue="plugin.core-ui"/></xsl:when>
                     <xsl:when test="/LoginScreen/LoginForm/useCaptcha = 'true'"><i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_WITH_CAPTCHA_{ametys:config('runtime.captcha.type')}" i18n:catalogue="plugin.core-ui"/></xsl:when>
-                    <xsl:when test="$cookieFailure != 'true'"><i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_AUTH_FAILURE" i18n:catalogue="plugin.core-ui"/></xsl:when>
+                    <xsl:when test="not($cookieFailure = 'true')"><i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_AUTH_FAILURE" i18n:catalogue="plugin.core-ui"/></xsl:when>
                 </xsl:choose>
             </div>
         </xsl:if>

@@ -71,7 +71,10 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     public static final String REQUEST_ATTRIBUTE_SHOULD_DISPLAY_USER_POPULATIONS_LIST = "Runtime:UserPopulationsListDisplay";
     /** The request attribute name for transmitting the potential list of user populations to the login screen . */
     public static final String REQUEST_ATTRIBUTE_INVALID_POPULATION = "Runtime:RequestInvalidPopulation";
-    
+
+    /** The request attribute name for transmitting the login page url */
+    public static final String REQUEST_ATTRIBUTE_LOGIN_URL = "Runtime:RequestLoginURL";
+
     /** Name of the user population html field */
     public static final String REQUEST_PARAMETER_POPULATION_NAME = "UserPopulation";
     /** Name of the credential provider index html field */
@@ -79,10 +82,6 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     
     /** The request attribute name for indicating that the authentication process has been made. */
     protected static final String __REQUEST_ATTRIBUTE_AUTHENTICATED = "Runtime:RequestAuthenticated";
-    /** The url for the different login screens */
-    protected static final String __REDIRECT_URL_LOGIN_SCREEN = "cocoon://_plugins/core/login.html";
-    /** The url for the logout screen */
-    protected static final String __REDIRECT_URL_LOGOUT_SCREEN = "cocoon://_plugins/core/logout.html";
 
     /** The session attribute name for storing the credential provider mode of the authentication: non-blocking=>false, blocking=>true */
     protected static final String SESSION_CREDENTIALPROVIDER_MODE = "Runtime:CredentialProviderMode";
@@ -107,7 +106,25 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         
         _currentUserProvider = (CurrentUserProvider) manager.lookup(CurrentUserProvider.ROLE);
     }
+    
+    /**
+     * Get the url for the redirector to display the login screen
+     * @return The url. Cannot be null or empty
+     */
+    protected String getRedirectLoginScreenURL()
+    {
+        return "cocoon://_plugins/core/login.html";
+    }
 
+    /**
+     * Get the url for the redirector to display the logout screen
+     * @return The url. Cannot be null or empty
+     */
+    protected String getRedirectLogoutScreenURL()
+    {
+        return "cocoon://_plugins/core/logout.html";
+    }
+    
     @Override
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
@@ -125,6 +142,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         
         // We passed the authentication, let's mark it now
         request.setAttribute(__REQUEST_ATTRIBUTE_AUTHENTICATED, "true");
+        request.setAttribute(REQUEST_ATTRIBUTE_LOGIN_URL, getRedirectLoginScreenURL());
 
         // Get contexts
         List<String> contexts = _getContexts(request, parameters);
@@ -152,7 +170,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         if (availableCredentialProviders == null)
         {
             // Screen "Where Are You From?" with the list of populations to select
-            redirector.redirect(false, __REDIRECT_URL_LOGIN_SCREEN);            
+            redirector.redirect(false, getRedirectLoginScreenURL());            
             return EMPTY_MAP;
         }
         else if (availableCredentialProviders.size() == 0)
@@ -198,7 +216,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         
         // Let's display the blocking list
         _saveStateToSession(request, null, true);
-        redirector.redirect(false, __REDIRECT_URL_LOGIN_SCREEN);
+        redirector.redirect(false, getRedirectLoginScreenURL());
         return EMPTY_MAP;
     }
     
@@ -522,7 +540,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
             _currentUserProvider.logout(redirector);
             if (!redirector.hasRedirected())
             {
-                redirector.redirect(false, __REDIRECT_URL_LOGOUT_SCREEN);
+                redirector.redirect(false, getRedirectLogoutScreenURL());
             }
             return true;
         }

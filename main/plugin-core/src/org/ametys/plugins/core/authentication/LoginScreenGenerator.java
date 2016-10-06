@@ -188,7 +188,7 @@ public class LoginScreenGenerator extends ServiceableGenerator
             String login = request.getParameter("login");
             int nbConnect = _loginFormManager.requestNbConnectBDD(login);
             
-            captcha = nbConnect >= 3;
+            captcha = nbConnect >= FormCredentialProvider.NB_CONNECTION_ATTEMPTS;
             autoComplete = false;
             rememberMe = false;
         }
