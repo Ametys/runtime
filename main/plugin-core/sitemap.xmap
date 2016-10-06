@@ -76,7 +76,7 @@
 
 	
 	<map:pipelines>
-		<map:pipeline internal-only="true">
+		<map:pipeline type="noncaching" internal-only="true">
             <map:match pattern="login.html">
             	<map:select type="resource-exists">
             		<map:when test="context://WEB-INF/param/login.xsl">

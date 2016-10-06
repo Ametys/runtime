@@ -36,6 +36,8 @@ public class WorkspaceMatcher extends WildcardURIMatcher
     public static final String WORKSPACE_NAME = "workspaceName";
     /** The request attribute name where the current workspace uri is saved */
     public static final String WORKSPACE_URI = "workspaceURI";
+    /** The request attribute name where the current url inside the workspace is saved */
+    public static final String IN_WORKSPACE_URL = "inWorkspaceURL";
     /** The request attribute name where the current workspace theme name is saved */
     public static final String WORKSPACE_THEME = "workspaceTheme";
     /** The request attribute name where the current workspace theme url is saved */
@@ -73,6 +75,7 @@ public class WorkspaceMatcher extends WildcardURIMatcher
         Request request = ObjectModelHelper.getRequest(objectModel);
         request.setAttribute(WORKSPACE_NAME, workspaceName);
         request.setAttribute(WORKSPACE_URI, defaultWorkspace ? "" : "/_" + workspaceName);
+        request.setAttribute(IN_WORKSPACE_URL, result.get(defaultWorkspace ? "1" : "2"));
         request.setAttribute(WORKSPACE_THEME, wm.getWorkspaces().get(workspaceName).getThemeName());
         request.setAttribute(WORKSPACE_THEME_URL, wm.getWorkspaces().get(workspaceName).getThemeURL());
         

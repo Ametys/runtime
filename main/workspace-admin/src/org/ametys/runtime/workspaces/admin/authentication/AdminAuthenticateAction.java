@@ -30,7 +30,6 @@ import org.apache.cocoon.environment.SourceResolver;
 import org.ametys.core.authentication.AuthenticateAction;
 import org.ametys.core.right.RightManager;
 import org.ametys.core.right.RightManager.RightResult;
-import org.ametys.core.user.population.UserPopulation;
 import org.ametys.runtime.plugin.PluginsManager;
 
 /**
@@ -51,15 +50,15 @@ public class AdminAuthenticateAction extends AuthenticateAction
     }
     
     @Override
-    protected List<UserPopulation> _getUserPopulations(Request request, String context)
+    protected List<String> _getAvailableUserPopulationsIds(Request request, String context)
     {
         if (PluginsManager.getInstance().isSafeMode() || _userPopulationDAO.getEnabledUserPopulations(false).isEmpty())
         {
-            return Collections.singletonList(_userPopulationDAO.getAdminPopulation());
+            return Collections.singletonList(_userPopulationDAO.getAdminPopulation().getId());
         }
         else
         {
-            return super._getUserPopulations(request, context);
+            return super._getAvailableUserPopulationsIds(request, context);
         }
     }
 

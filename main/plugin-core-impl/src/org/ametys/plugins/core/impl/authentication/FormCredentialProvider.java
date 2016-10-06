@@ -57,6 +57,7 @@ import org.ametys.core.datasource.ConnectionHelper;
 import org.ametys.core.user.UserIdentity;
 import org.ametys.core.user.directory.UserDirectory;
 import org.ametys.core.user.population.UserPopulation;
+import org.ametys.core.user.population.UserPopulationDAO;
 import org.ametys.runtime.authentication.AccessDeniedException;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.workspace.WorkspaceMatcher;
@@ -158,6 +159,9 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
     
     /** Context */
     protected Context _context;
+    
+    /** The user population DAO */
+    protected UserPopulationDAO _userPopulationDAO;
 
     @Override
     public void contextualize(Context context) throws ContextException
@@ -270,15 +274,7 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
         String password = request.getParameter(_passwordField);
         
         // URL without server context and leading slash.
-        String url = request.getRequestURI();
-        if (url.startsWith(request.getContextPath()))
-        {
-            url = url.substring(request.getContextPath().length());
-        }
-        if (url.startsWith("/"))
-        {
-            url = url.substring(1);
-        }
+        String url = (String) request.getAttribute(WorkspaceMatcher.IN_WORKSPACE_URL);
         
         // Always accept the login failed page.
         accept = getLoginFailedURL().equals(url);
@@ -368,28 +364,36 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
     {
         Request request = ContextHelper.getRequest(_context);
         
-        UserIdentity userIdentity = _getUserIdentityFromRequest(request);
-        if (userIdentity != null)
+        try
         {
-            return userIdentity;
-        }
-
-        String value = getCookieValue(request, _cookieName);
-        if (StringUtils.isNotEmpty(value) && SECURITY_LEVEL_LOW.equals(_securityLevel))
-        {
-            String [] values = value.split(",");
-            if (values.length == 3)
+            UserIdentity userIdentity = _getUserIdentityFromRequest(request);
+            if (userIdentity != null)
             {
-                if (checkToken(values[0], values[1], values[2]))
+                return userIdentity;
+            }
+    
+            String value = getCookieValue(request, _cookieName);
+            if (StringUtils.isNotEmpty(value) && SECURITY_LEVEL_LOW.equals(_securityLevel))
+            {
+                String [] values = value.split(",");
+                if (values.length == 3)
                 {
-                    return new UserIdentity(values[1], values[0]);
+                    if (checkToken(values[0], values[1], values[2]))
+                    {
+                        return new UserIdentity(values[1], values[0]);
+                    }
+                }
+                else
+                {
+                    // old cookie, delete it
+                    deleteCookie(request,  ContextHelper.getResponse(_context), _cookieName);
                 }
             }
-            else
-            {
-                // old cookie, delete it
-                deleteCookie(request,  ContextHelper.getResponse(_context), _cookieName);
-            }
+        }
+        catch (AccessDeniedException e)
+        {
+            nonBlockingUserNotAllowed(redirector);
+            return null;
         }
 
         return null;
@@ -436,6 +440,9 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
                     }
                 }
             }
+            
+            // User does not exists in any directory
+            throw new AccessDeniedException("Unknown user '" + login + "'");
         }
         
         return null;
@@ -445,12 +452,24 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
     {
         // With forms, the population should always be known!
         @SuppressWarnings("unchecked")
-        List<UserPopulation> userPopulations = (List<UserPopulation>) request.getAttribute(AuthenticateAction.REQUEST_ATTRIBUTE_POPULATIONS);
-        if (userPopulations.size() != 1)
+        List<UserPopulation> userPopulations = (List<UserPopulation>) request.getAttribute(AuthenticateAction.REQUEST_ATTRIBUTE_AVAILABLE_USER_POPULATIONS_LIST);
+
+        // If the list has one element only...
+        if (userPopulations.size() == 1)
         {
-            throw new IllegalStateException("The " + this.getClass().getName() + " does not work when population is not known");
+            return userPopulations.get(0);
         }
-        return userPopulations.get(0);
+        
+        // In this list a population was maybe chosen?
+        final String chosenUserPopulationId = (String) request.getAttribute(AuthenticateAction.REQUEST_ATTRIBUTE_USER_POPULATION_ID);
+        if (StringUtils.isNotBlank(chosenUserPopulationId))
+        {
+            UserPopulation chosenUserPopulation = userPopulations.stream().filter(userPopulation -> StringUtils.equals(userPopulation.getId(), chosenUserPopulationId)).findFirst().get();
+            return chosenUserPopulation;
+        }
+        
+        // Can not work here...
+        throw new IllegalStateException("The " + this.getClass().getName() + " does not work when population is not known");
     }
 
     @Override
@@ -510,13 +529,7 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
             Request request = ContextHelper.getRequest(_context);
             if ("true".equals(request.getParameter(_rememberMeField)))
             {
-                // Hash token + salt
-                String token = RandomStringUtils.randomAlphanumeric(16);
-                String salt = RandomStringUtils.randomAlphanumeric(48);
-                String hashedTokenAndSalt = DigestUtils.sha512Hex(token + salt);
-                
-                _insertUserToken(userConnected.getPopulationId(), userConnected.getLogin(), salt, hashedTokenAndSalt);
-                updateCookie(userConnected.getPopulationId() + "," + userConnected.getLogin() + "," + token, _cookieName, (int) _cookieLifetime, _context);
+                nonBlockingUserAllowed(userConnected);
             }
         }
         else
@@ -529,7 +542,13 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
     @Override
     public void nonBlockingUserAllowed(UserIdentity userConnected)
     {
-        blockingUserAllowed(userConnected);
+        // Hash token + salt
+        String token = RandomStringUtils.randomAlphanumeric(16);
+        String salt = RandomStringUtils.randomAlphanumeric(48);
+        String hashedTokenAndSalt = DigestUtils.sha512Hex(token + salt);
+        
+        _insertUserToken(userConnected.getPopulationId(), userConnected.getLogin(), salt, hashedTokenAndSalt);
+        updateCookie(userConnected.getPopulationId() + "," + userConnected.getLogin() + "," + token, _cookieName, (int) _cookieLifetime, _context);
     }
     
     /**

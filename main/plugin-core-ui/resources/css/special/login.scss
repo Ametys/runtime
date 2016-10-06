@@ -32,141 +32,236 @@ div.wrapin {
     text-align: left;
 }
 
-div.connection {
-    background-color: rgba(255, 255, 255, 0.8);
-    border: 1px solid $ametys-color;
-    
-    margin: 0 auto 20px auto;
-    
-    padding: 0.7em;
-    width: 20em;
+div.login {
+    div.login-part {
+        background-color: rgba(255, 255, 255, 0.8);
+        border: 1px solid $ametys-color;
+        
+        margin: 0 auto 20px auto;
+        
+        padding: 0.7em;
+        width: 20em;
+        
+        div.login-part-credentialproviders-separator {
+            margin: 0.5em 0;
+            
+            color: #acacac;
+            position: relative;
+            text-align: center;
+            
+            .textin {
+                display: inline-block;
+                margin: 0 auto;
+                text-align: center;
+                padding: 0 0.5em; 
+            }
+            &:before,
+            &:after {
+                content: " ";
+                width: 30%;
+                height: 1px;
+                background-color: #acacac;
+                display: inline-block;
+                vertical-align: middle;
+            }        
+        }
+        
+        button {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 0.8em;
+            position: relative;
+            font-size: 1em;
+            outline-style: none;
+            color: #fff;
+            background-color: $ametys-color;
+            border: 1px solid $ametys-color;
+            
+            &:focus {
+                -webkit-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+                -moz-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+                box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+            }
+            
+            &:hover {
+                opacity: 0.9;
+            }
+            
+            &:active {
+                opacity: 0.85;
+            }            
+            
+            &:after,
+            &:before {
+                font-family: "FontAwesome";
+                font-size: 2em;
+                line-height: 1.5em;
+                position: absolute;
+                top: 0;
+            }
+            &:after {
+                right: 0.5em;
+            }
+            &:before {
+                left: 0.5em;
+            }
+            
+            span:before {
+                position: absolute;
+                right: 0.4em;
+                top: 0.6em;
+                font-size: 1.2em;
+            }            
+        }
+        
+        .login-user-populations-standalone,
+        .login-form {
+            button:after {
+                content: "\f105";
+            }
+        }
+        
+        .login-input-wrapper {
+            position: relative;
+            margin-bottom: 0.5em;
+            
+            border: 1px solid #7f7f7f;
+            background-color: #FFF;
+            
+            &:before, &:after {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                right: 0.5em;
+                width: 1em;
+                text-align: center;                
+                
+                font-family: "FontAwesome";
+                font-size: 1.8em;
+                line-height: 1.7em;
+                color: #E4E4E4;
+            }
+            
+            &.login-input-wrapper-userpopulation-input input,
+            &.login-input-wrapper-userpopulation-select select,
+            &.login-input-wrapper-username input,
+            &.login-input-wrapper-password input,
+            &.login-input-wrapper-captcha-jcaptcha input {
+                width: 100%;
+                
+                padding: 1.1em 3.3em 1.1em 1.1em;
+                
+                border-style: none;
+                outline-style: none;
+                background-color: transparent;    
+            }
+            &.login-input-wrapper-userpopulation:after {
+                content: "\f277";
+            }
+            &.login-input-wrapper-username:after {
+                content: "\f007";
+            }
+            &.login-input-wrapper-password:after {
+                content: "\f023";
+            }
+            &.login-input-wrapper-captcha-jcaptcha {
+                button {
+                    background-color: transparent;
+                    border-color: transparent;
+                    color: $ametys-color;
+                    width: 20%;
+                
+                    &:before {
+                        content: "\f021";
+                        width: 100%;
+                        left: 0;
+                    }   
+                    &:after {
+                        content: none;
+                    }
+                    
+                    span {
+                        text-indent: -50000px;
+                        white-space: nowrap;
+                        display: inline-block;
+                    }
+                }
+                
+                img.captcha-image {
+                    width: 80% !important;
+                }
+                
+                &:after {
+                    content: "\f069";
+                }
+            }
+            &.login-input-wrapper-userpopulation-select {
+                padding-right: 3.3em;
+                
+                &.login-input-wrapper-userpopulation-select-empty:before {
+                    content: attr(placeholder);
+                    pointer-events: none;
+                    
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    
+                    color: #B1B1B1;
+
+                    padding: 1.1em 3.3em 1.1em 1.1em;
+                    font-size: 0.83333em;
+                }
+                
+                select {
+                    padding-right: 1.1em;
+                }
+            }
+            
+            &.login-input-wrapper-rememberme {
+                background-color: transparent;
+                border-style: none;
+                top: -0.25em;
+                
+                input {
+                    width: 0.9em;
+                    height: 0.9em;
+                    vertical-align: middle;
+                }
+                label {
+                    font-size: 0.8em;
+                }
+            }
+        }
+        
+        .login-back {
+            margin-top: 2.375em;
+            
+            button:before {
+                content: "\f104";
+            }
+        }
+        
+        .error {
+            padding-left: 0.5em;
+            margin-bottom: 0.5em;
+            color: #9f0000;
+            font-size: 0.8em;
+            
+            &:before {
+                content: "\f06a";
+                font-family: "FontAwesome";
+                display: inline-block;
+                margin-right: 0.3em;
+            }
+        }
+    }
 }
 
 
-/**
- * FORM
- */
-div.connection div.main-separator {
-    width: 8em;
-    display: inline-block;
-}
 
-div.connection div.separator {
-    margin: 0.5em 0;
-    
-    color: #acacac;
-    position: relative;
-    text-align: center;
-}
-div.connection div.separator .textin {
-    display: inline-block;
-    margin: 0 auto;
-    text-align: center;
-    padding: 0 0.5em; 
-}
-div.connection div.separator:before,
-div.connection div.separator:after {
-    content: " ";
-    width: 30%;
-    height: 1px;
-    background-color: #acacac;
-    display: inline-block;
-    vertical-align: middle;
-}
 
-div.connection button {
-    box-sizing: border-box;
-    width: 100%;
-    padding: 0.8em;
-    position: relative;
-    color: #fff;
-    font-size: 1em;
-    outline-style: none;
-}
-
-div.connection button:after,
-div.connection button:before {
-    font-family: "FontAwesome";
-    font-size: 2em;
-    line-height: 1.39em;
-    position: absolute;
-    top: 0;
-}
-div.connection button:after {
-    right: 0.5em;
-}
-div.connection button:before {
-    left: 0.5em;
-}
-
-/**
- * FORM BASED
- */
-div.connection div.error {
-    margin-bottom: 0.5em;
-    color: #9f0000;
-    font-size: 0.8em;
-}
-
-div.connection table.input {
-    width: 100%;
-    border: 1px solid #7f7f7f;
-    background-color: #FFF;
-    border-collapse: collapse;
-    table-layout: fixed;
-    margin-bottom: 0.5em;
-}
-
-div.connection table.input td.input {
-    padding: 0.7em 0 0.7em 0.7em;
-}
-div.connection table.input td.input input {
-    border-style: none;
-    outline-style: none;
-    background-color: transparent;
-    width: 100%;
-}
-
-div.connection table.input td.image {
-   width: 3.1em;
-   padding: 0 0.7em;
-}
-div.connection table.input td.image:after,
-div.connection div.combo:after {
-    font-family: "FontAwesome";
-    font-size: 1.7em;
-    color: #E4E4E4;
-    vertical-align: middle;
-}
-div.connection table.input.population td.image:after {
-    content: "\f277";
-}
-div.connection table.input.login td.image:after {
-    content: "\f007";
-}
-div.connection table.input.password td.image:after {
-    content: "\f023";
-}
-
-div.connection button span:before {
-	position: absolute;
-    right: 0.4em;
-    top: 0.6em;
-    font-size: 1.2em;
-}
-
-div.connection div.checkbox {
-    margin-bottom: 1em;
-}
-div.connection div.checkbox input {
-    width: 0.9em;
-    height: 0.9em;
-    vertical-align: middle;
-}
-div.connection div.checkbox label {
-    font-size: 0.8em;
-}
-
+/*
 div.connection div.forgotten {
     float: right;
 }
@@ -175,101 +270,9 @@ div.connection div.forgotten a {
     cursor: pointer;
 }
 
-div.connection .formbased button,
-div.connection .choosepopulation button,
-div.connection .back button {
-    clear: both;
-    
-    background-color: $ametys-color;
-    border: 1px solid $ametys-color;
-}
-
-div.connection .formbased button:after,
-div.connection .choosepopulation button:after {
-    content: "\f105";
-}
-
-div.connection .back button:before {
-    content: "\f104";
-}
-
-div.connection .back {
-	margin-top: 2.375em;
-}
-
-div.connection .formbased button:hover,
-div.connection .choosepopulation button:hover,
-div.connection .back button:hover {
-    background-color: lighten($ametys-color, 8);
-    border-color: lighten($ametys-color, 8);
-}
-div.connection .formbased button:active,
-div.connection .choosepopulation button:active,
-div.connection .back button:active {
-    background-color: darken($ametys-color, 8);
-    border-color: darken($ametys-color, 8);
-}
-div.connection .formbased button:focus,
-div.connection .choosepopulation button:focus,
-div.connection .back button:focus {
-    -webkit-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
-    -moz-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
-    box-shadow: inset 0px 0px 0px 1px #F0F0F0;
-}
-
-div.connection .formbased button:disabled:hover,
-div.connection .formbased button:disabled:active {
-	background-color: $ametys-color;
-    border-color: $ametys-color;
-}
 
 div.connection  .formbased table.input.captcha {
-    input.captcha
-    {
-        width: 100%;
-    }
-    img.captcha-image
-    {
-        width: 80% !important;
-    }
-    td.image:after {
-        content: "\f17b";
-    }
-    
-    /* jcaptcha */
-    &.jcaptcha {
-        button.captcha-refresh-btn
-        {
-            width: 20%;
-            vertical-align: top;
-            
-            background-color: transparent;
-            color: $ametys-color;
-            border-color: transparent;
-            
-            &:hover { color: lighten($ametys-color, 8); }
-            &:active { color: darken($ametys-color, 8); }
-            &:focus { 
-                -webkit-box-shadow: inset 0px 0px 0px 1px $ametys-color;
-                -moz-box-shadow: inset 0px 0px 0px 1px $ametys-color;
-                box-shadow: inset 0px 0px 0px 1px $ametys-color;
-            }
-            
-            &:after {
-                content: '\f021';
-                width: 100%;
-                right: 0;
-            }
-            
-            span {
-                text-indent: -50000px;
-                white-space: nowrap;
-                display: inline-block;
-            }
-        }
-    }
-    
-    /* recaptcha */
+    // recaptcha
     &.recaptcha {
         background-color: #f9f9f9;
         .g-recaptcha > div { 
@@ -285,77 +288,4 @@ div.connection  .formbased table.input.captcha {
         }
     }
 }
-
-/**
- * CONNECTION BUTTONS
- */
-div.connection button.otherauth:focus {
-    -webkit-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
-    -moz-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
-    box-shadow: inset 0px 0px 0px 1px #F0F0F0;
-}
-
-div.connection button.otherauth:hover {
-	opacity: 0.9;
-}
-
-div.connection button.otherauth:active {
-	opacity: 0.85;
-}
-
-div.connection button.otherauth:disabled:hover,
-div.connection button.otherauth:disabled:active {
-	opacity: 1;
-}
-
-/**
- * SELECTION OF POPULATION
- */
-div.connection table.population td.input.select {
-	position: relative;
-	padding: 0;
-}
-div.connection table.population td.input select {
-    font-family: 'Open Sans', 'Helvetica Neue', helvetica, arial, verdana, sans-serif;
-	width: 100%;
-	padding: 0.9em 0 0.9em 0.6em;
-	border-style: none;
-    outline-style: none;
-    background-color: transparent;
-}
-
-div.connection table.population td.input select option {
-	font-family: 'Open Sans', 'Helvetica Neue', helvetica, arial, verdana, sans-serif;
-	padding: 0 0.8em;
-    background-color: #FFF;
-    margin-bottom: 0.5em;
-}
-div.connection table.population td.input.empty:before {
-    color: #999;
-	font-family: 'Open Sans', 'Helvetica Neue', helvetica, arial, verdana, sans-serif;
-    font-size: 13px;
-    position: absolute;
-    left: 0.91em;
-    top: 1em;
-}
-
-table.disabled {
-	background-color: #F0F0F0 !important;
-}
-
-fieldset {
-	border: none;
-	margin: 0;
-	padding: 0;
-}
-fieldset[disabled] { /* 'form fieldset:disabled' not compatible with IE */
-	position: relative;
-	opacity: 0.8;
-}
-_:-ms-lang(x), fieldset[disabled]:after { /* for IE10 and above,  disabled fieldsets do not work (see https://connect.microsoft.com/IE/feedbackdetail/view/962368/can-still-edit-input-type-text-within-fieldset-disabled#) */
-    content: ' ';
-    position: absolute;
-    z-index: 100;
-    top: 0; right: 0; bottom: 0; left: 0;
-    background: url(data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==);
-}
+*/

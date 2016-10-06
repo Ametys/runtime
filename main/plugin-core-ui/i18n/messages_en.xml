@@ -71,6 +71,7 @@
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_CAPTCHA">Copy the bellow verification code</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_POPULATION">Population</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_SUBMIT">Login</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_CONTINUE">Continue</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FORGOT_PASSWORD">Forgot password?</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_PERSIST">Remember me</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_SEPARATOR">or</message>

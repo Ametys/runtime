@@ -843,9 +843,7 @@
 	                    <cookieLifeTime>604800</cookieLifeTime>
 	                    <cookieName>AmetysAuthentication</cookieName>
 	                </cookie>
-	                <!-- <loginUrl internal="true">_plugins/core-impl/login.html</loginUrl> -->
 	                <loginUrl internal="true">_plugins/core/login.html</loginUrl>
-	                <!-- <loginFailedUrl provideLoginParameter="true" internal="true">_plugins/core-impl/login_failed.html</loginFailedUrl> -->
 	                <loginFailedUrl provideLoginParameter="true" internal="true">_plugins/core/login_failed.html</loginFailedUrl>
         		</class>
         		<label i18n="true">PLUGINS_CORE_AUTHENTICATION_FORMBASED_LABEL</label>

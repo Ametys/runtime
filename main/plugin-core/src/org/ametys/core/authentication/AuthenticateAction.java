@@ -48,9 +48,6 @@ import org.ametys.runtime.workspace.WorkspaceMatcher;
  */
 public class AuthenticateAction extends ServiceableAction implements ThreadSafe, Initializable 
 {
-    /** The request attribute to allow internal action from an internal request. */
-    public static final String REQUEST_ATTRIBUTE_INTERNAL_ALLOWED = "Runtime:InternalAllowedRequest";
-    
     /** The session attribute name for storing the identity of the connected user */
     public static final String SESSION_USERIDENTITY = "Runtime:UserIdentity";
     /** The session attribute name for storing the credential provider of the authentication */
@@ -60,15 +57,24 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     /** The session attribute name for storing the id of the user population */
     public static final String SESSION_USERPOPULATION_ID = "Runtime:UserPopulation";
     
+    /** The request attribute to allow internal action from an internal request. */
+    public static final String REQUEST_ATTRIBUTE_INTERNAL_ALLOWED = "Runtime:InternalAllowedRequest";
+    
+    /** The request attribute meaning that the request was not authentified but granted */
+    public static final String REQUEST_ATTRIBUTE_GRANTED = "Runtime:GrantedRequest";
     /** The request attribute name for transmitting the list of credential provider to choose. */
     public static final String REQUEST_ATTRIBUTE_CREDENTIAL_PROVIDER_LIST = "Runtime:RequestListCredentialProvider";
-    /** The request attribute name for transmitting the potential list of user populations to the login screen . */
-    public static final String REQUEST_ATTRIBUTE_POPULATIONS = "Runtime:RequestPopulations";
+    /** The request attribute name for transmitting the currently chosen user population */
+    public static final String REQUEST_ATTRIBUTE_USER_POPULATION_ID = "Runtime:CurrentUserPopulationId";
+    /** The request attribute name for transmitting the list of user populations */
+    public static final String REQUEST_ATTRIBUTE_AVAILABLE_USER_POPULATIONS_LIST = "Runtime:UserPopulationsList";
+    /** The request attribute name to know if user population list should be proposed */
+    public static final String REQUEST_ATTRIBUTE_SHOULD_DISPLAY_USER_POPULATIONS_LIST = "Runtime:UserPopulationsListDisplay";
     /** The request attribute name for transmitting the potential list of user populations to the login screen . */
     public static final String REQUEST_ATTRIBUTE_INVALID_POPULATION = "Runtime:RequestInvalidPopulation";
     
     /** Name of the user population html field */
-    public static final String REQUEST_PARAMETER_POPULATION_NAME = "hiddenPopulation";
+    public static final String REQUEST_PARAMETER_POPULATION_NAME = "UserPopulation";
     /** Name of the credential provider index html field */
     public static final String REQUEST_PARAMETER_CREDENTIALPROVIDER_INDEX = "CredentialProviderIndex";
     
@@ -116,14 +122,27 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         // We passed the authentication, let's mark it now
         request.setAttribute(__REQUEST_ATTRIBUTE_AUTHENTICATED, "true");
 
-        // Get context and associated populations
+        // Get context
         String context = _getContext(request, parameters);
-        List<UserPopulation> userPopulations = _getUserPopulations(request, context);
-        request.setAttribute(REQUEST_ATTRIBUTE_POPULATIONS, userPopulations);
         
+        // All user populations
+        List<UserPopulation> availableUserPopulations = _getAvailableUserPopulationsIds(request, context).stream().map(_userPopulationDAO::getUserPopulation).collect(Collectors.toList());
+        request.setAttribute(REQUEST_ATTRIBUTE_AVAILABLE_USER_POPULATIONS_LIST, availableUserPopulations);
+        
+        // Chosen population
+        String userPopulationId = _getChosenUserPopulationId(request, availableUserPopulations);
+        request.setAttribute(REQUEST_ATTRIBUTE_USER_POPULATION_ID, userPopulationId);
+        
+        List<UserPopulation> chosenUserPopulations = userPopulationId == null ? availableUserPopulations : Collections.singletonList(_userPopulationDAO.getUserPopulation(userPopulationId));
+        if (chosenUserPopulations.size() == 0)
+        {
+            throw new IllegalStateException("There is no populations available for context '" + context + "'");
+        }
+
         // Get possible credential providers
-        List<CredentialProvider> availableCredentialProviders = _getCredentialProviders(userPopulations);
+        List<CredentialProvider> availableCredentialProviders = _getCredentialProviders(chosenUserPopulations);
         request.setAttribute(REQUEST_ATTRIBUTE_CREDENTIAL_PROVIDER_LIST, availableCredentialProviders);
+        request.setAttribute(REQUEST_ATTRIBUTE_SHOULD_DISPLAY_USER_POPULATIONS_LIST, userPopulationId == null || _getCredentialProviders(availableUserPopulations) != null);
 
         // null means the credential providers cannot be determine without knowing population first
         if (availableCredentialProviders == null)
@@ -149,7 +168,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
             for (; runningCredentialProviderIndex < availableCredentialProviders.size(); runningCredentialProviderIndex++)
             {
                 CredentialProvider runningCredentialProvider = availableCredentialProviders.get(runningCredentialProviderIndex);
-                if (_process(request, false, runningCredentialProvider, redirector, userPopulations))
+                if (_process(request, false, runningCredentialProvider, redirector, chosenUserPopulations))
                 {
                     // Whatever the user was correctly authentified or he just required a redirect: let's stop here for the moment
                     return EMPTY_MAP;
@@ -164,7 +183,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         if (runningCredentialProviderIndex >= 0 || availableCredentialProviders.size() == 1)
         {
             CredentialProvider runningCredentialProvider = availableCredentialProviders.get(Math.max(0, runningCredentialProviderIndex));
-            if (_process(request, true, runningCredentialProvider, redirector, userPopulations))
+            if (_process(request, true, runningCredentialProvider, redirector, chosenUserPopulations))
             {
                 // Whatever the user was correctly authentified or he just required a redirect: let's stop here for the moment
                 return EMPTY_MAP;
@@ -174,6 +193,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         }
         
         // Let's display the blocking list
+        _saveStateToSession(request, null, true);
         redirector.redirect(false, __REDIRECT_URL_LOGIN_SCREEN);
         return EMPTY_MAP;
     }
@@ -201,7 +221,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
      * @param context The context
      * @return The non-null list of populations
      */
-    protected List<String> _getMaximumUserPopulations(Request request, String context)
+    protected List<String> _getAvailableUserPopulationsIds(Request request, String context)
     {
         return _populationContextHelper.getUserPopulationsOnContext(context);
     }
@@ -209,17 +229,14 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     /**
      * Get the population for the given context
      * @param request The request
-     * @param context The context
-     * @return The non-null list of populations
+     * @param availableUserPopulations The available users populations
+     * @return The chosen population id. Can be null.
      */
-    protected List<UserPopulation> _getUserPopulations(Request request, String context)
+    protected String _getChosenUserPopulationId(Request request, List<UserPopulation> availableUserPopulations)
     {
-        // All user populations
-        List<String> availableUserPopulationsIds = _getMaximumUserPopulations(request, context);
-        
         // Get request population choice
         String userPopulationId = request.getParameter(REQUEST_PARAMETER_POPULATION_NAME);
-        if (StringUtils.isBlank(userPopulationId))
+        if (userPopulationId == null)
         {
             // Get memorized population choice
             Session session = request.getSession(false);
@@ -233,9 +250,10 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         // A population choice was already made
         if (StringUtils.isNotBlank(userPopulationId))
         {
-            if (availableUserPopulationsIds.contains(userPopulationId))
+            final String finalUserPopulationId = userPopulationId;
+            if (availableUserPopulations.stream().anyMatch(userPopulation -> userPopulation.getId().equals(finalUserPopulationId)))
             {
-                availableUserPopulationsIds = Collections.singletonList(userPopulationId);
+                return userPopulationId;
             }
             else
             {
@@ -244,14 +262,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
             }
         }
         
-        // Convert to user population objects
-        List<UserPopulation> availableUserPopulations = availableUserPopulationsIds.stream().map(_userPopulationDAO::getUserPopulation).collect(Collectors.toList());
-        if (availableUserPopulations.size() == 0)
-        {
-            throw new IllegalStateException("There is no populations available for context '" + context + "'");
-        }
-        
-        return availableUserPopulations;
+        return null;
     }
 
     /**
@@ -259,21 +270,13 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
      * @param request The request
      * @param runningBlockingkMode false for non-blocking mode, true for blocking mode
      * @param runningCredentialProvider the Credential provider to test
-     * @param userPopulations The list of user populations that apply.
      */
-    protected void _saveStateToSession(Request request, CredentialProvider runningCredentialProvider, boolean runningBlockingkMode, List<UserPopulation> userPopulations)
+    protected void _saveStateToSession(Request request, CredentialProvider runningCredentialProvider, boolean runningBlockingkMode)
     {
         Session session = request.getSession(true);
         session.setAttribute(SESSION_CREDENTIALPROVIDER, runningCredentialProvider);
         session.setAttribute(SESSION_CREDENTIALPROVIDER_MODE, runningBlockingkMode);
-        if (userPopulations.size() == 1)
-        {
-            session.setAttribute(SESSION_USERPOPULATION_ID, userPopulations.get(0).getId());
-        }
-        else
-        {
-            session.setAttribute(SESSION_USERPOPULATION_ID, null);
-        }
+        session.setAttribute(SESSION_USERPOPULATION_ID, request.getAttribute(REQUEST_ATTRIBUTE_USER_POPULATION_ID));
     }
 
     /**
@@ -290,7 +293,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     protected boolean _process(Request request, boolean runningBlockingkMode, CredentialProvider runningCredentialProvider, Redirector redirector, List<UserPopulation> userPopulations) throws Exception
     {
         boolean existingSession = request.getSession(false) != null;
-        _saveStateToSession(request, runningCredentialProvider, runningBlockingkMode, userPopulations);
+        _saveStateToSession(request, runningCredentialProvider, runningBlockingkMode);
         if (_doProcess(request, runningBlockingkMode, runningCredentialProvider, redirector, userPopulations))
         {
             return true;
@@ -319,6 +322,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         if (runningCredentialProvider.grantAnonymousRequest(runningBlockingkMode))
         {
             // Anonymous request
+            request.setAttribute(REQUEST_ATTRIBUTE_GRANTED, true);
             return true;
         }
         

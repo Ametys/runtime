@@ -15,6 +15,7 @@
  */
 package org.ametys.plugins.core.impl.authentication;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -26,6 +27,7 @@ import org.apache.cocoon.components.ContextHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang.StringUtils;
 
 import org.ametys.core.authentication.AbstractCredentialProvider;
 import org.ametys.core.authentication.AuthenticateAction;
@@ -109,8 +111,7 @@ public class BasicCredentialProvider extends AbstractCredentialProvider implemen
         String password = stk.hasMoreTokens() ? stk.nextToken() : "";
 
         // Let's check password
-        @SuppressWarnings("unchecked")
-        List<UserPopulation> userPopulations = (List<UserPopulation>) request.getAttribute(AuthenticateAction.REQUEST_ATTRIBUTE_POPULATIONS);
+        List<UserPopulation> userPopulations = _getPopulations(request);
         for (UserPopulation userPopulation : userPopulations)
         {
             for (UserDirectory userDirectory : userPopulation.getUserDirectories())
@@ -130,6 +131,24 @@ public class BasicCredentialProvider extends AbstractCredentialProvider implemen
         }
         
         throw new AuthorizationRequiredException(_realm);
+    }
+    
+    private List<UserPopulation> _getPopulations(Request request)
+    {
+        // With forms, the population should always be known!
+        @SuppressWarnings("unchecked")
+        List<UserPopulation> userPopulations = (List<UserPopulation>) request.getAttribute(AuthenticateAction.REQUEST_ATTRIBUTE_AVAILABLE_USER_POPULATIONS_LIST);
+
+        // In this list a population was maybe chosen?
+        final String chosenUserPopulationId = (String) request.getAttribute(AuthenticateAction.REQUEST_ATTRIBUTE_USER_POPULATION_ID);
+        if (StringUtils.isNotBlank(chosenUserPopulationId))
+        {
+            UserPopulation chosenUserPopulation = userPopulations.stream().filter(userPopulation -> StringUtils.equals(userPopulation.getId(), chosenUserPopulationId)).findFirst().get();
+            return Collections.singletonList(chosenUserPopulation);
+        }
+        
+        // If the list has one element only...
+        return userPopulations;
     }
 
     @Override

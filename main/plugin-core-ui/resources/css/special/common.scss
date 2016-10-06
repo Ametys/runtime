@@ -18,8 +18,15 @@
 
 .ametys-common * {
     box-sizing: border-box;
+    font-family: inherit;
 }
-html.ametys-common  {
+.ametys-common {
+    input, select, button {
+        font-size: 0.83333em;
+    }
+}
+
+html.ametys-common {
     height: 100%;
     font-family: 'Open Sans', 'Helvetica Neue', helvetica, arial, verdana, sans-serif;
     margin: 0;
