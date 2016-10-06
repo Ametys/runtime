@@ -121,6 +121,7 @@
             hidden: initialConfig.hidden || false,
             regex: initialConfig.regex || null,
             regexText: initialConfig.regexText || null,
+            readOnly: initialConfig.readOnly || null,
             msgTarget: 'none',
             hideLabel: true,
             value: initialConfig.value,
