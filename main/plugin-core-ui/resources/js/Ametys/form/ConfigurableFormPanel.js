@@ -496,21 +496,23 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         this.callParent(arguments);
     },
     
-    // Inherited to return the disabled/hidden values as well
-    getValues:  function(asString, dirtyOnly, includeEmptyText, useDataValues)
+    /**
+     * Retrieves the fields in the form as a set of key/value pairs, using their getJsonValue() method to collect the values
+     */
+    getJsonValues: function() 
     {
-    	var formValues = this.callParent(arguments);
+        var values  = {},
+            fields  = this.form.getFields().items,
+            fLen    = fields.length,
+            field;
 
-		Ext.Array.each(this._fields, function(fieldName){
-			var field = this.getField(fieldName);
-			if (field.isDisabled() || field.isHidden())
-			{
-				var fieldName = field.name;
-				formValues[fieldName] = field.getValue();
-			}
-		}, this);
-		
-		return formValues;
+        for (f = 0; f < fLen; f++) 
+        {
+            field = fields[f];
+            values[field.getName()] = field.getJsonValue();
+        }
+        
+        return values;
     },
     
     reset: function()
@@ -883,10 +885,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     {
     	if (this.rendered && this._formReady)
 		{	
+    		// Set a high priority on listeners to be sure the focused field will be updated before invoking other listeners
 	    	this.on({
-	    		'inputfocus':  Ext.bind(this._onFieldSelectedOrBlurred, this),
-	    		'inputblur': Ext.bind(this._onFieldSelectedOrBlurred, this, []),
-	    		'htmlnodeselected': Ext.bind(this._onRichTextFieldHTMLNodeSelected, this)
+	    		'inputfocus':  {fn: this._onFieldSelectedOrBlurred, scope: this, priority: 100},
+	    		'inputblur': {fn: this._onFieldSelectedOrBlurred, scope: this, priority: 100},
+	    		'htmlnodeselected': {fn: this._onRichTextFieldHTMLNodeSelected, scope: this, priority: 100}
 	    	});
 		}
     },
@@ -1862,6 +1865,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             labelWidth: Ametys.form.ConfigurableFormPanel.LABEL_WIDTH - offset,
             labelSeparator: '',
             
+            // the field will be submitted even when it is disabled
+            submitDisabledValue: true,
+            
             minWidth: config.minWidth || Ametys.form.ConfigurableFormPanel.LABEL_WIDTH - offset + Ametys.form.ConfigurableFormPanel.FIELD_MINWIDTH,
             anchor: '100%',
             
@@ -1883,7 +1889,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             'blur': { fn: function (fd, e) { this.fireEvent ('inputblur', fd, e)}, scope: this},
             'afterrender': { fn: this._onFieldAfterRender, scope: this}
         });
-        if (config.type.toLowerCase() == Ametys.form.WidgetManager.TYPE_RICH_TEXT)
+        if (field.isRichText)
         {
             field.on({
                 'editorhtmlnodeselected': { fn: function (field, node) { this.fireEvent ('htmlnodeselected', field, node)}, scope: this}

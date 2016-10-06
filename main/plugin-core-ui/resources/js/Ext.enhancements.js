@@ -680,6 +680,15 @@
         /**
          * @member Ext.form.field.Field
          * @ametys
+         * @since Ametys Runtime 4.0
+         * 
+         * Setting this to true will allow the field from being submitted even when it is disabled.
+         */
+        submitDisabledValue: false,
+        
+        /**
+         * @member Ext.form.field.Field
+         * @ametys
          * @since Ametys Runtime 3.9
          * 
          * Get the readable value of a Field. The default implementation returns the same as #getValue.
@@ -689,10 +698,32 @@
         getReadableValue: function ()
         {
             return this.getValue();
-        }
+        },
+        
+        /**
+         * @member Ext.form.field.Field
+         * @ametys
+         * @template
+         * @since Ametys Runtime 4.0
+         *  
+         * Returns the current data value of the field as a JSON serializable value.
+         * By default, returns the result of {@link #getValue}
+         * 
+         * @return {Object} value The field value as a JSON serializable value.
+         */
+    	getJsonValue: function()
+    	{
+    		return this.getValue();
+    	}
     });
     
     var ametysFieldBase = {
+    		
+    	getJsonValue: function()
+    	{
+    		return this.getValue();
+    	},
+    		
         /**
          * @member Ext.form.field.Base
          * @ametys
@@ -774,7 +805,21 @@
     Ext.define("Ametys.form.field.Base", Ext.apply(Ext.clone(ametysFieldBase), { 
         override: 'Ext.form.field.Base',
         
-        ignoreChangeRe: /data\-errorqtip|data\-warnqtip|style\.|className/
+        ignoreChangeRe: /data\-errorqtip|data\-warnqtip|style\.|className/,
+        
+        getSubmitData: function() {
+            var me = this,
+                data = null,
+                val;
+            if ((!me.disabled || me.submitDisabledValue) && me.submitValue) {
+                val = me.getSubmitValue();
+                if (val !== null) {
+                    data = {};
+                    data[me.getName()] = val;
+                }
+            }
+            return data;
+        }
     }));
     
     Ext.define("Ametys.layout.component.field.FieldContainer", {
@@ -829,6 +874,21 @@
             }
             
             return result;
+        }
+    });
+})();
+
+/*
+ * Support for optional label on text field to indicate field is multiple
+ */
+(function() 
+{
+    Ext.define("Ametys.form.field.Date", {
+        override: "Ext.form.field.Date",
+        
+        getJsonValue: function ()
+        {
+        	return this.getSubmitValue();
         }
     });
 })();
