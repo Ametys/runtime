@@ -26,10 +26,13 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsActions', {
      */
     addUsers: function(controller)
     {
-        var tool = this._getTool();
-        Ametys.helper.SelectUser.act({
-            callback: Ext.bind(tool.addUsers, tool)
-        });
+    	var tool = this._getTool(controller);
+        if (tool != null)
+        {
+	        Ametys.helper.SelectUser.act({
+	            callback: Ext.bind(tool.addUsers, tool)
+	        });
+        }
     },
     
     /**
@@ -38,10 +41,13 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsActions', {
      */
     addGroups: function(controller)
     {
-        var tool = this._getTool();
-        Ametys.helper.SelectGroup.act({
-            callback: Ext.bind(tool.addGroups, tool)
-        });
+    	var tool = this._getTool(controller);
+        if (tool != null)
+        {
+	        Ametys.helper.SelectGroup.act({
+	            callback: Ext.bind(tool.addGroups, tool)
+	        });
+        }
     },
     
     /**
@@ -53,7 +59,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsActions', {
         var matchingTargets = controller.getMatchingTargets();
         if (matchingTargets.length > 0)
         {
-            var tool = this._getTool();
+            var tool = this._getTool(controller);
             var assignments = Ext.Array.map(matchingTargets, function(target) {
                 return {
                     id: target.getParameters().id,
@@ -70,8 +76,11 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsActions', {
      */
     save: function(controller)
     {
-        var tool = this._getTool();
-        tool.saveChanges();
+        var tool = this._getTool(controller);
+        if (tool != null)
+        {
+        	tool.saveChanges();
+        }
     },
     
     /**
@@ -80,8 +89,11 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsActions', {
      */
     cancel: function(controller)
     {
-        var tool = this._getTool();
-        tool.cancelChanges();
+    	var tool = this._getTool(controller);
+        if (tool != null)
+        {
+        	tool.cancelChanges();
+        }
     },
     
     /**
@@ -89,8 +101,12 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsActions', {
      * Gets the assignment tool
      * @return {Ametys.tool.Tool} the assignment tool
      */
-    _getTool: function()
+    _getTool: function(controller)
     {
-        return Ametys.tool.ToolsManager.getFocusedTool();
+    	 var toolTarget = controller.getMatchingToolTargets()[0];
+         if (toolTarget != null)
+         {
+        	 return toolTarget.getParameters().tool;
+         }
     }
 });

@@ -812,6 +812,15 @@ Ext.define(
 		},
 		
 		/**
+		 * Get the matching tool targets of the current selection.
+		 * Always empty if {@ link#cfg-tool-id} is not specified.
+		 */
+		getMatchingToolTargets: function()
+		{
+			return this._matchingToolTargets || [];
+		},
+		
+		/**
 		 * Get the matching targets in the message
 		 * Test if the message if matching upon the #_toolId
 		 * @param {Ametys.message.Message} message The message to test
@@ -824,13 +833,14 @@ Ext.define(
 			
 			if (this._toolId)
 			{
-				return message.getTargets(
+				this._matchingToolTargets = message.getTargets(
 						function (target)
 						{
 							return !me._reversedSelectionTargetId && me._toolId.test(target.getParameters()['id'])
 							|| me._reversedSelectionTargetId && !me._toolId.test(target.getParameters()['id']);
 						}
 				);
+				return this._matchingToolTargets;
 			}
 			else
 			{
