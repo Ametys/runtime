@@ -656,6 +656,27 @@
             </extension>
         </extensions>
     </feature>    
+    <feature name="widgets.others.externalizable">
+        <extensions>
+            <extension id="edition.externalizable"
+                point="org.ametys.core.ui.widgets.WidgetsManager"
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.form.widget.Externalizable">
+                    <ftypes>*</ftypes>
+                    <supports-enumerated>true</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>true</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/form/widget/Externalizable.js</file>
+                </scripts>  
+                <css>
+                    <file>css/Ametys/form/externalizable.css</file>
+                </css>                
+            </extension>
+        </extensions>
+    </feature>
     <feature name="widgets.others.right">
         <extensions>
             <extension id="edition.right"
@@ -3078,6 +3099,7 @@
             <class name="Ametys.ribbon.element.ui.ButtonController">
                     <action>Ametys.plugins.coreui.profiles.ProfileAssignmentsActions.addUsers</action>
                     <selection-target-id>^profileContext$</selection-target-id>
+                    <tool-id>^(uitool-profile-assignment.*)$</tool-id>
                     
                     <label i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ADD_USERS_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ADD_USERS_DESCRIPTION</description>
@@ -3100,6 +3122,7 @@
             <class name="Ametys.ribbon.element.ui.ButtonController">
                     <action>Ametys.plugins.coreui.profiles.ProfileAssignmentsActions.addGroups</action>
                     <selection-target-id>^profileContext$</selection-target-id>
+                    <tool-id>^(uitool-profile-assignment.*)$</tool-id>
                     
                     <label i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ADD_GROUPS_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ADD_GROUPS_DESCRIPTION</description>
@@ -3128,6 +3151,7 @@
                     </selection-target-parameter>
                     <selection-description-nomatch i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_REMOVE_NO_REMOVABLE_DESCRIPTION</selection-description-nomatch>
                     <selection-enable-multiselection>true</selection-enable-multiselection>
+                    <tool-id>^(uitool-profile-assignment.*)$</tool-id>
                     
                     <label i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_REMOVE_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_REMOVE_DESCRIPTION</description>

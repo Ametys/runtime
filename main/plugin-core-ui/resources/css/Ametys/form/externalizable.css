@@ -1,0 +1,68 @@
+/*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+.x-field-externalizable .x-btn.x-btn-focus.x-field-externalizable-btn-external,
+.x-field-externalizable .x-btn.x-btn-focus.x-btn-pressed.x-field-externalizable-btn-external {
+	background-color: transparent !important;
+} 
+
+.x-field-externalizable .x-btn.x-field-externalizable-btn-external .x-btn-inner,
+.x-field-externalizable .x-btn.x-btn-pressed.x-field-externalizable-btn-external .x-btn-inner,
+.x-field-externalizable .x-btn.x-btn-focus.x-field-externalizable-btn-external .x-btn-inner,
+.x-field-externalizable .x-btn.x-btn-focus.x-btn-pressed.x-field-externalizable-btn-external .x-btn-inner{
+	color: #36aa42 !important;
+	font-size: 12px;
+}
+
+.x-field-externalizable .x-field-externalizable-radio-external label,
+.x-field-externalizable .x-field-externalizable-radio-external .x-form-radio:before {
+	color: #36aa42;
+}
+
+.x-field-externalizable .x-btn.x-field-externalizable-btn-external .x-btn-icon-el:before {
+	color: #36aa42 !important;
+	font-size: 32px;
+}
+
+.x-field-externalizable .x-btn.x-btn-focus.x-field-externalizable-btn-local .x-btn-inner,
+.x-field-externalizable .x-btn.x-btn-focus.x-btn-pressed.x-field-externalizable-btn-local .x-btn-inner {
+	background-color: transparent !important;
+}
+
+.x-field-externalizable .x-btn.x-field-externalizable-btn-local .x-btn-inner,
+.x-field-externalizable .x-btn.x-btn-pressed.x-field-externalizable-btn-local .x-btn-inner,
+.x-field-externalizable .x-btn.x-btn-focus.x-field-externalizable-btn-local .x-btn-inner,
+.x-field-externalizable .x-btn.x-btn-focus.x-btn-pressed.x-field-externalizable-btn-local .x-btn-inner {
+	color: #808080;
+	font-size: 12px;
+	/*color: #804080 !important;*/
+} 
+
+.x-field-externalizable .x-field-externalizable-radio-local label,
+.x-field-externalizable .x-field-externalizable-radio-local .x-form-radio:before {
+	color: #808080;
+	/*color: #804080;*/
+}
+.x-field-externalizable .x-btn.x-field-externalizable-btn-local .x-btn-icon-el:before {
+	color: #808080;
+	/*color: #804080 !important;*/
+	font-size: 32px;
+}
+
+.x-field-externalizable .x-field-externalizable-switch-text {
+	top: 9px;
+}
+

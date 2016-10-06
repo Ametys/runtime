@@ -466,6 +466,10 @@
     <message key="PLUGINS_CORE_UI_WIDGET_SQL_DATASOURCE_BUTTON_TOOLTIP">Add a new SQL data source</message>   
     <message key="PLUGINS_CORE_UI_WIDGET_LDAP_DATASOURCE_BUTTON_TOOLTIP">Add a new LDAP data source</message>  
     
+    <!-- EXTERNALIZABLE -->
+    <message key="PLUGINS_CORE_UI_WIDGET_EXTERNALIZABLE_SYNCHRO_ON">Synchronized</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_EXTERNALIZABLE_SYNCHRO_OFF">Desynchronized</message>
+    
     <!-- +
          | Announce
          + -->
