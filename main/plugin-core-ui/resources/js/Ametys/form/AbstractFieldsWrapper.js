@@ -19,7 +19,7 @@
  * You have to implement {@link #getValue} and {@link #setValue}.<br/>
  * Default layout is hbox.<br/>
  * To handle global errors override {@link #getErrors}.<br/>
- * To make your field compatible with form, if your are not returning strings, see {@link #getSubmitData}
+ * To make your field compatible with form, if your are not returning strings, see {@link #getSubmitValue}
  * <pre><code>
  *      // A component to enter a number (&gt; 5) with spinner and a two char text
  * 		Ext.define('Ametys.foo', {
@@ -142,6 +142,8 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
             
             field.on('change', this.checkChange, this);
             field.on('specialkey', this._checkSpecialKey, this);
+            field.on('validitychange', this._onValidityChange, this);
+            field.on('warningchange', this._onWarningChange, this);
             
             field.on({
                 'focus': function (fd, e) { 
@@ -163,6 +165,24 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
     {
         this.callParent(arguments);
         this.renderActiveError();
+	},
+	
+	/**
+	 * @private
+	 * Check validity on global field as soon as the validity of a subfields has changed
+	 */
+	_onValidityChange: function ()
+	{
+		this.validate();
+	},
+	
+	/**
+	 * @private
+	 * Check validity on global field as soon as the validity of a subfields has changed
+	 */
+	_onWarningChange: function ()
+	{
+		this.renderActiveWarning();
 	},
 	
 	/**
