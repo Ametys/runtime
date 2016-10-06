@@ -16,7 +16,7 @@
 
 /**
  * Abstract class to creates a field that do not extend {@link Ext.form.field.Base} (field not representing by an input field).<br/>
- * You have to implement {@link #setValue}
+ * You have to implement {@link #setValue} and  {@link #getSubmitValue}
  * To handle global errors override {@link #getErrors}.<br/>
  */
 Ext.define('Ametys.form.AbstractField', {
@@ -186,6 +186,38 @@ Ext.define('Ametys.form.AbstractField', {
         {
             this.removeCls(this.emptyCls)
         }
+    },
+    
+    /**
+     * @private
+     * Private override to use getSubmitValue() as a convenience
+     */
+    getSubmitData: function() 
+    {
+        var me = this,
+            data = null,
+            val;
+        if ((!me.disabled || me.submitDisabledValue) && me.submitValue) 
+        {
+            val = me.getSubmitValue();
+            if (val !== null) {
+                data = {};
+                data[me.getName()] = val;
+            }
+        }
+        return data;
+    },
+    
+    /**
+     * Returns the value that would be included in a standard form submit for this field. This will be combined with the
+     * field's name to form a name=value pair in the {@link #getSubmitData submitted parameters}. If an empty string is
+     * returned then just the name= will be submitted; if null is returned then nothing will be submitted.
+     *
+     * @return {String} The value to be submitted, or null.
+     */
+    getSubmitValue: function ()
+    {
+    	return this.getValue();
     },
     
     /**
