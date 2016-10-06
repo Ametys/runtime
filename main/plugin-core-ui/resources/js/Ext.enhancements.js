@@ -1994,6 +1994,11 @@
         {
             linesToRemove = linesToRemove || 0;
             
+            if (!stack)
+            {
+            	return "";
+            }
+            
             if (!Ext.isString(stack))
             {
                 stack = stack.stack;
