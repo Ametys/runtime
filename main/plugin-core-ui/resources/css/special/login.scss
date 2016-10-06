@@ -198,7 +198,8 @@ div.login {
             }
             &.login-input-wrapper-captcha-recaptcha {
                 background-color: #f9f9f9;
-                height: 3.1em;
+                height: 3.15em;
+                overflow: hidden;
                 
                 .g-recaptcha > div { 
                     width: 80% !important; 
