@@ -58,7 +58,11 @@ Ext.define('Ametys.form.widget.User', {
                             type: 'string',
                             calculate: function(data)
                             {
-                                return data.login + '#' + data.population;
+                            	var val = {
+                            		login: data.login,
+                            		populationId: data.population
+                            	}
+                                return val;
                             }
                          },
 	    		         {name: 'fullname', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
@@ -114,6 +118,12 @@ Ext.define('Ametys.form.widget.User', {
             offset: 0 ,
             contexts: this._contexts
         }));
+    },
+    
+    getSubmitValue: function ()
+    {
+    	var value = this.getValue();
+    	return value != null ? Ext.encode(this.getValue()) : null;
     },
     
     getLabelTpl: function ()

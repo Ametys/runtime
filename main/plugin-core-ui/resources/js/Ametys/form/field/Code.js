@@ -134,12 +134,17 @@ Ext.define('Ametys.form.field.Code', {
     {
         var me = this,
             data = null;
-        if (!me.disabled && me.submitValue && !me.isFileUpload()) 
+        if ((!me.disabled || me.submitDisabledValue) && me.submitValue && !me.isFileUpload()) 
         {
             data = {};
-            data[me.getName()] = '' + me._codeMirror.getValue();
+            data[me.getName()] = me.getSubmitValue();
         }
         return data;
+    },
+    
+    getSubmitValue: function ()
+    {
+    	return '' + this._codeMirror.getValue();
     },
     
     reset: function()

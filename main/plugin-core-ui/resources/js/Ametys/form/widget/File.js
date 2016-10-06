@@ -525,11 +525,9 @@ Ext.define('Ametys.form.widget.File', {
     	return value1 != null && value2 != null && value1.id === value2.id;
     }, 
     
-    getSubmitData: function ()
+    getSubmitValue: function ()
     {
-    	var data = {};
-    	data[this.name] = Ext.encode(this.value);
-        return data;
+        return Ext.encode(this.value);
     },
     
     getReadableValue: function ()

@@ -482,10 +482,8 @@ Ext.define('Ametys.form.widget.FlipFlap', {
     /**
      * @inheritdoc
      */
-    getSubmitData: function() {
-    	var data = {};
-    	data[this.name] = this.getValue();
-    	return data;
+    getSubmitValue: function() {
+    	return this.getValue();
     }
 	
 });

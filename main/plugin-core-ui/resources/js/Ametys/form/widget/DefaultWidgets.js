@@ -41,9 +41,9 @@ Ext.define('Ametys.form.widget.Text', {
 		var me = this,
 		val = me.callParent(arguments);
 		
-		if (val && this.multiple)
+		if (this.multiple)
         {
-            var values = val.split(',');
+            var values = val ? val.split(',') : [];
             for (var i = 0; i < values.length; i++)
             {
                 values[i] = values[i].trim();
@@ -55,27 +55,9 @@ Ext.define('Ametys.form.widget.Text', {
 		return val;
 	},
 	
-	/**
-	 * @inheritdoc
-	 * Overridden to send a JSON-encoded string array to the server in case of a multiple value.
-	 */
-	getSubmitData: function()
+	getSubmitValue: function()
 	{
-	    var me = this,
-        val = me.callParent(arguments);
-        
-        if (val && val[me.name] && this.multiple)
-        {
-            var values = val[me.name].split(',');
-            for (var i = 0; i < values.length; i++)
-            {
-                values[i] = values[i].trim();
-            }
-            
-            val[me.name] = values;
-        }
-        
-        return val;
+		return this.multiple ? Ext.encode(this.getValue()) : this.getValue();
 	}
 });
 

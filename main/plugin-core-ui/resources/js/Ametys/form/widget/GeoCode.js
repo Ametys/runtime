@@ -382,13 +382,11 @@ Ext.define('Ametys.form.widget.GeoCode', {
       	}   	      	
 	}, 	
 	
-	getSubmitData: function() 
-	{
-		var data = {};
-		data[this.getName()] = !this.value ? null : Ext.JSON.encode(this.value);
-		return data;
-	},
-	
+	getSubmitValue: function ()
+    {
+    	return !this.value ? null : Ext.JSON.encode(this.value);
+    },
+    
 	getReadableValue: function ()
 	{
 		if (this.value && this.value.latitude)

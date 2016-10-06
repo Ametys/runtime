@@ -107,6 +107,11 @@ Ext.define('Ametys.form.field.DateTime', {
     	}
     },
     
+    getJsonValue: function()
+    {
+    	return this.getSubmitValue();
+    },
+    
     setValue: function (value)
     {
     	if (!Ext.isDate(value))
@@ -117,20 +122,6 @@ Ext.define('Ametys.form.field.DateTime', {
     	this.items.each (function (item) {
     		item.setValue(value ? Ext.Date.clone(value) : null);
     	});
-    },
-	
-    getSubmitData: function() {
-        var me = this,
-            data = null,
-            val;
-        if (!me.disabled && me.submitValue && !me.isFileUpload()) {
-            val = me.getSubmitValue();
-            if (val !== null) {
-                data = {};
-                data[me.getName()] = val;
-            }
-        }
-        return data;
     },
 	
     /**
