@@ -50,7 +50,7 @@ public class AdminAuthenticateAction extends AuthenticateAction
     }
     
     @Override
-    protected List<String> _getAvailableUserPopulationsIds(Request request, String context)
+    protected List<String> _getAvailableUserPopulationsIds(Request request, List<String> contexts)
     {
         if (PluginsManager.getInstance().isSafeMode() || _userPopulationDAO.getEnabledUserPopulations(false).isEmpty())
         {
@@ -58,7 +58,7 @@ public class AdminAuthenticateAction extends AuthenticateAction
         }
         else
         {
-            return super._getAvailableUserPopulationsIds(request, context);
+            return super._getAvailableUserPopulationsIds(request, contexts);
         }
     }
 

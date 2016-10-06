@@ -15,7 +15,9 @@
  */
 package org.ametys.core.authentication;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -50,12 +52,9 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
 {
     /** The session attribute name for storing the identity of the connected user */
     public static final String SESSION_USERIDENTITY = "Runtime:UserIdentity";
+    
     /** The session attribute name for storing the credential provider of the authentication */
     public static final String SESSION_CREDENTIALPROVIDER = "Runtime:CredentialProvider";
-    /** The session attribute name for storing the credential provider mode of the authentication: non-blocking=>false, blocking=>true */
-    public static final String SESSION_CREDENTIALPROVIDER_MODE = "Runtime:CredentialProviderMode";
-    /** The session attribute name for storing the id of the user population */
-    public static final String SESSION_USERPOPULATION_ID = "Runtime:UserPopulation";
     
     /** The request attribute to allow internal action from an internal request. */
     public static final String REQUEST_ATTRIBUTE_INTERNAL_ALLOWED = "Runtime:InternalAllowedRequest";
@@ -85,6 +84,11 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     /** The url for the logout screen */
     protected static final String __REDIRECT_URL_LOGOUT_SCREEN = "cocoon://_plugins/core/logout.html";
 
+    /** The session attribute name for storing the credential provider mode of the authentication: non-blocking=>false, blocking=>true */
+    protected static final String SESSION_CREDENTIALPROVIDER_MODE = "Runtime:CredentialProviderMode";
+    /** The session attribute name for storing the id of the user population */
+    protected static final String SESSION_USERPOPULATION_ID = "Runtime:UserPopulationId";
+
     /** The DAO for user populations */
     protected UserPopulationDAO _userPopulationDAO;
     /** The user manager */
@@ -111,7 +115,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
 
         if (_handleLogout(redirector, objectModel, source, parameters)  // Test if user wants to logout
                 || _internalRequest(request)                            // Test if this request was already authentified or it the request is marked as an internal one
-                || _validateCurrentlyConnectedUser(request, redirector) // Test if the currently connected user is still valid
+                || _validateCurrentlyConnectedUser(request, redirector, parameters) // Test if the currently connected user is still valid
                 || redirector.hasRedirected())
         {
             // We passed the authentication, let's mark it now
@@ -122,11 +126,11 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         // We passed the authentication, let's mark it now
         request.setAttribute(__REQUEST_ATTRIBUTE_AUTHENTICATED, "true");
 
-        // Get context
-        String context = _getContext(request, parameters);
+        // Get contexts
+        List<String> contexts = _getContexts(request, parameters);
         
-        // All user populations
-        List<UserPopulation> availableUserPopulations = _getAvailableUserPopulationsIds(request, context).stream().map(_userPopulationDAO::getUserPopulation).collect(Collectors.toList());
+        // All user populations for this context
+        List<UserPopulation> availableUserPopulations = _getAvailableUserPopulationsIds(request, contexts).stream().map(_userPopulationDAO::getUserPopulation).collect(Collectors.toList());
         request.setAttribute(REQUEST_ATTRIBUTE_AVAILABLE_USER_POPULATIONS_LIST, availableUserPopulations);
         
         // Chosen population
@@ -136,7 +140,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         List<UserPopulation> chosenUserPopulations = userPopulationId == null ? availableUserPopulations : Collections.singletonList(_userPopulationDAO.getUserPopulation(userPopulationId));
         if (chosenUserPopulations.size() == 0)
         {
-            throw new IllegalStateException("There is no populations available for context '" + context + "'");
+            throw new IllegalStateException("There is no populations available for contexts '" + StringUtils.join(contexts, "', '") + "'");
         }
 
         // Get possible credential providers
@@ -153,7 +157,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         }
         else if (availableCredentialProviders.size() == 0)
         {
-            throw new IllegalStateException("There is no populations credential provider available for context '" + context + "'");
+            throw new IllegalStateException("There is no populations credential provider available for contexts '" + StringUtils.join(contexts, "', '") + "'");
         }
         
         // Get the currently running credential provider
@@ -216,14 +220,22 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     }
     
     /**
-     * Get the available populations for the given context
+     * Get the available populations for the given contexts
      * @param request The request
-     * @param context The context
+     * @param contexts The contexts
      * @return The non-null list of populations
      */
-    protected List<String> _getAvailableUserPopulationsIds(Request request, String context)
+    protected List<String> _getAvailableUserPopulationsIds(Request request, List<String> contexts)
     {
-        return _populationContextHelper.getUserPopulationsOnContext(context);
+        // We return all the populations linked to at least one site
+        List<String> populations = new ArrayList<>();
+        for (String context : contexts)
+        {
+            populations.addAll(_populationContextHelper.getUserPopulationsOnContext(context));
+        }
+        
+        return new ArrayList<>(new LinkedHashSet<>(populations));
+
     }
 
     /**
@@ -289,7 +301,6 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
      * @return false if we should try with another Credential provider, true otherwise
      * @throws Exception If an error occurred
      */
-
     protected boolean _process(Request request, boolean runningBlockingkMode, CredentialProvider runningCredentialProvider, Redirector redirector, List<UserPopulation> userPopulations) throws Exception
     {
         boolean existingSession = request.getSession(false) != null;
@@ -423,14 +434,14 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
      * @return The context
      * @throws IllegalArgumentException If there is no context set
      */
-    protected String _getContext(Request request, Parameters parameters)
+    protected List<String> _getContexts(Request request, Parameters parameters)
     {
         String context = parameters.getParameter("context", null);
         if (context == null)
         {
             throw new IllegalArgumentException("The authentication is not parametrized correctly: an authentication context must be specify");
         }
-        return context;
+        return Collections.singletonList(context);
     }
 
     /**
@@ -447,10 +458,11 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
      * This method ensure that there is a currently connected user and that it is still valid
      * @param request The request
      * @param redirector The cocoon redirector
+     * @param parameters The action parameters
      * @return true if the user is connected and valid
      * @throws Exception if an error occurred
      */
-    protected boolean _validateCurrentlyConnectedUser(Request request, Redirector redirector) throws Exception
+    protected boolean _validateCurrentlyConnectedUser(Request request, Redirector redirector, Parameters parameters) throws Exception
     {
         Session session = request.getSession(false);
         CredentialProvider runningCredentialProvider = session != null ? (CredentialProvider) session.getAttribute(AuthenticateAction.SESSION_CREDENTIALPROVIDER) : null;
@@ -470,6 +482,22 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
                 session.invalidate();
             }
             return false;
+        }
+        
+        // let us make an exception for the user image url since we need it on the 403 page
+        if ("plugins/core-ui/current-user/image_64".equals(request.getAttribute(WorkspaceMatcher.IN_WORKSPACE_URL)))
+        {
+            return true;
+        }
+        
+        // we know this is a valid user, but we need to check if the context is correct
+        List<String> contexts = _getContexts(request, parameters);
+        // All user populations for this context
+        List<String> availableUserPopulationsIds = _getAvailableUserPopulationsIds(request, contexts);
+
+        if (!availableUserPopulationsIds.contains(userCurrentlyConnected.getPopulationId()))
+        {
+            throw new AccessDeniedException("The user " + userCurrentlyConnected + " cannot be authenticated to the contexts '" + StringUtils.join(contexts, "', '") + "' because its populations is not part of the " + availableUserPopulationsIds.size() + " granted populations.");
         }
         
         return true;
