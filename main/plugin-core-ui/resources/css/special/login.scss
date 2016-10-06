@@ -131,7 +131,6 @@ div.login {
             &:before, &:after {
                 position: absolute;
                 top: 0;
-                bottom: 0;
                 right: 0.5em;
                 width: 1em;
                 text-align: center;                
@@ -169,6 +168,8 @@ div.login {
                     background-color: transparent;
                     border-color: transparent;
                     color: $ametys-color;
+                    position: absolute;
+                    right: 0;
                     width: 20%;
                 
                     &:before {
