@@ -348,7 +348,7 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
         String login = request.getParameter(_usernameField);
         String password = request.getParameter(_passwordField);
 
-        if (login != null && password != null)
+        if (StringUtils.isNotBlank(login) && password != null)
         {
             UserPopulation userPopulation = _getPopulation(request);
             
