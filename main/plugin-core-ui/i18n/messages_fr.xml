@@ -80,8 +80,10 @@
     
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_INVALID_POPULATION">Identifiant de population invalide</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_AUTH_FAILURE">Identifiant ou mot de passe incorrect</message>
-    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_WITH_CAPTCHA">Identifiant, mot de passe ou code de vérification incorrect</message>
-    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_MANY_TIME">Veuillez valider le code de vérification car il y a eu trop d'erreurs de connexion avec cet identifiant</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_WITH_CAPTCHA_jcaptcha">Identifiant, mot de passe ou code de vérification incorrect</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_WITH_CAPTCHA_recaptcha">Identifiant, mot de passe ou vérification-robot incorrect</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_MANY_TIME_jcaptcha">Veuillez valider le code de vérification car il y a eu trop d'erreurs de connexion avec cet identifiant</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_MANY_TIME_recaptcha">Veuillez valider que vous n'êtes pas un robot car il y a eu trop d'erreurs de connexion avec cet identifiant</message>
     
     <!-- +
          | Incomplete configuration

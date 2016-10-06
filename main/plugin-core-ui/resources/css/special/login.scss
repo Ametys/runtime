@@ -196,6 +196,27 @@ div.login {
                     content: "\f069";
                 }
             }
+            &.login-input-wrapper-captcha-recaptcha {
+                background-color: #f9f9f9;
+                height: 3.1em;
+                
+                .g-recaptcha > div { 
+                    width: 80% !important; 
+                    height: 2.5em !important;
+                    margin-top: 0.5em;
+                    overflow: hidden;
+                    
+                    > div {
+                        position: relative; 
+                        top: -20px;
+                        left: -1px;
+                    }
+                }
+                
+                &:after {
+                    content: "\f069";
+                }
+            }
             &.login-input-wrapper-userpopulation-select {
                 padding-right: 3.3em;
                 
@@ -269,24 +290,5 @@ div.connection div.forgotten {
 div.connection div.forgotten a {
     font-size: 0.8em;
     cursor: pointer;
-}
-
-
-div.connection  .formbased table.input.captcha {
-    // recaptcha
-    &.recaptcha {
-        background-color: #f9f9f9;
-        .g-recaptcha > div { 
-            width: 100% !important; 
-            height: 30px !important;
-            overflow: hidden;
-            
-            > div {
-                position: relative; 
-                top: -20px;
-                left: -1px;
-            }
-        }
-    }
 }
 */

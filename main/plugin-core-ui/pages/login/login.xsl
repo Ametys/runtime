@@ -273,8 +273,8 @@
         <xsl:if test="/LoginScreen/LoginForm/showErrors = 'true' and $authFailure = 'true'">
             <div class="error">
                 <xsl:choose>
-                    <xsl:when test="$tooManyAttempts = 'true'"><i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_MANY_TIME" i18n:catalogue="plugin.core-ui"/></xsl:when>
-                    <xsl:when test="/LoginScreen/LoginForm/useCaptcha = 'true'"><i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_WITH_CAPTCHA" i18n:catalogue="plugin.core-ui"/></xsl:when>
+                    <xsl:when test="$tooManyAttempts = 'true'"><i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_MANY_TIME_{ametys:config('runtime.captcha.type')}" i18n:catalogue="plugin.core-ui"/></xsl:when>
+                    <xsl:when test="/LoginScreen/LoginForm/useCaptcha = 'true'"><i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_WITH_CAPTCHA_{ametys:config('runtime.captcha.type')}" i18n:catalogue="plugin.core-ui"/></xsl:when>
                     <xsl:when test="$cookieFailure != 'true'"><i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_AUTH_FAILURE" i18n:catalogue="plugin.core-ui"/></xsl:when>
                 </xsl:choose>
             </div>
