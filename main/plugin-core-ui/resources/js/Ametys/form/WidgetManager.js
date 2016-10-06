@@ -171,12 +171,22 @@ Ext.define('Ametys.form.WidgetManager', {
 		
 		if (!widgetsByType[type])
 		{
-			widgetsByType[type] = [];
+			widgetsByType[type] = type == '*' ? [] : Ext.clone(widgetsByType['*'] || []);
 		}
 
 		this.getLogger().debug("Adding widget '" + xtype + (isEnumeration ? "' for enumeration" : "'") + " for type '" + type + "'");
 		
-		widgetsByType[type].push (xtype);
+		widgetsByType[type].push(xtype);
+		if (type == '*')
+		{
+			// loop on all type to add xtype
+			Ext.Object.each(widgetsByType, function(key, value) {
+				if (key != '*')
+				{
+					widgetsByType[key].push(xtype);
+				}
+			})
+		}
 	},
 	
 	/**
