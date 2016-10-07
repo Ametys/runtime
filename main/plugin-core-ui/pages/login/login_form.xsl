@@ -42,7 +42,7 @@
 	</xsl:template>
 
     <xsl:template name="login-user-populations-standalone">
-        <xsl:if test="count(/LoginScreen/UserPopulations/UserPopulation) > 1 and not(/LoginScreen/CredentialProviders/CredentialProvider)">
+        <xsl:if test="not(/LoginScreen/CredentialProviders/CredentialProvider)">
 	        <div class="login-part">
 	            <form method="post">
 	                <div class="login-inner login-user-populations-standalone">
@@ -124,8 +124,8 @@
     <xsl:template name="login-user-populations">
         <xsl:variable name="public" select="/LoginScreen/UserPopulations/@public = 'true'"/>
         <xsl:variable name="list" select="$public = true() and count(/LoginScreen/UserPopulations/UserPopulation) > 1"/>
-        
-        <xsl:if test="$public = true() or $list = true()">
+
+        <xsl:if test="$public = false() or $list = true()">
             <xsl:call-template name="login-user-populations-part">
                 <xsl:with-param name="public" select="$public = true()"/>
             </xsl:call-template>
@@ -136,7 +136,7 @@
         <xsl:param name="public"/>
 
         <div class="login-user-populations">
-             <xsl:if test="/LoginScreen/populations/@invalidError = 'true'">
+             <xsl:if test="/LoginScreen/UserPopulations/@invalid = 'true'">
                  <div class="error">
                      <i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_INVALID_POPULATION" i18n:catalogue="plugin.core-ui"/>
                  </div>
