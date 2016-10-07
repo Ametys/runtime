@@ -1491,9 +1491,9 @@
             <extension point="org.ametys.core.userpref.UserPreferencesExtensionPoint"
                        id="runtime.user.profile.prefs"
                        class="org.ametys.plugins.core.impl.userpref.StaticUserPreferenceProvider">
-                 <param id="profile-image" type="string">
-                    <label i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_WORKSPACE</label>
-                    <description i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_WORKSPACE_DESC</description>
+                 <param id="profile-image" type="string" private="true">
+                    <label i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE</label>
+                    <description i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_PROFILE_IMAGE_DESC</description>
                     <group i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_GROUP_10_DISPLAY</group>
                  </param>
             </extension>
