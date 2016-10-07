@@ -222,7 +222,7 @@ Ext.define('Ametys.plugins.admin.superuser.SuperUserActions', {
             return;
         }
         
-        var values = form.getJsonValues();
+        var mode = form.findField("radio-profile");
         
         var opts = {
             errorMessage: { 
@@ -231,15 +231,20 @@ Ext.define('Ametys.plugins.admin.superuser.SuperUserActions', {
             },
             waitMessage: true
         };
-        if (values['radio-profile'] == 'create')
+        
+        var user = form.findField("users").getValue();
+        
+        if (mode == 'create')
         {
-            var params = [values.users, values.name, additionalParameters];
+        	var name = form.findField("name").getValue();
+            var params = [user, name, additionalParameters];
             controller.serverCall('affectUserToNewProfile', params, this._affectUserToNewProfileCb, opts);
         }
-        else if (values['radio-profile'] == 'choose')
+        else if (mode == 'choose')
         {
-            var params = [values.users, values.profile, additionalParameters];
-            opts.arguments = [values.profile];
+        	var profile = form.findField("profile").getValue();
+            var params = [user, profile, additionalParameters];
+            opts.arguments = [profile];
             controller.serverCall('affectUserToProfile', params, this._affectUserToProfileCb, opts);
         }
         
