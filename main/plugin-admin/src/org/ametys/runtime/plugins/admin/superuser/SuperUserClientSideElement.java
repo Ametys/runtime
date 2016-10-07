@@ -64,7 +64,7 @@ public class SuperUserClientSideElement extends StaticClientSideElement
      * @param jsParameters The client-side parameters
      */
     @Callable
-    public void affectUserToProfile(String user, String profileId, Map<String, Object> jsParameters)
+    public void affectUserToProfile(Map<String, String> user, String profileId, Map<String, Object> jsParameters)
     {
         try
         {
@@ -91,7 +91,7 @@ public class SuperUserClientSideElement extends StaticClientSideElement
         }
         
         // Affect user to this profile
-        UserIdentity userIdentity = UserIdentity.stringToUserIdentity(user);
+        UserIdentity userIdentity = new UserIdentity(user.get("login"), user.get("populationId"));
         for (Object rootContext : rootContexts)
         {
             _profileAssignmentStorageEP.removeDeniedProfileFromUser(userIdentity, profileId, rootContext);
@@ -107,7 +107,7 @@ public class SuperUserClientSideElement extends StaticClientSideElement
      * @return The id of the created profile
      */
     @Callable
-    public String affectUserToNewProfile(String user, String newProfileName, Map<String, Object> jsParameters)
+    public String affectUserToNewProfile(Map<String, String> user, String newProfileName, Map<String, Object> jsParameters)
     {
         try
         {

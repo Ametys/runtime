@@ -222,7 +222,7 @@ Ext.define('Ametys.plugins.admin.superuser.SuperUserActions', {
             return;
         }
         
-        var values = form.getValues();
+        var values = form.getJsonValues();
         
         var opts = {
             errorMessage: { 
