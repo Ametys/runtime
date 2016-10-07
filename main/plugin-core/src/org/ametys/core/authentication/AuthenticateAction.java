@@ -50,9 +50,6 @@ import org.ametys.runtime.workspace.WorkspaceMatcher;
  */
 public class AuthenticateAction extends ServiceableAction implements ThreadSafe, Initializable 
 {
-    /** The session attribute name for storing the identity of the connected user */
-    public static final String SESSION_USERIDENTITY = "Runtime:UserIdentity";
-    
     /** The session attribute name for storing the credential provider of the authentication */
     public static final String SESSION_CREDENTIALPROVIDER = "Runtime:CredentialProvider";
     
@@ -61,17 +58,10 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     
     /** The request attribute meaning that the request was not authentified but granted */
     public static final String REQUEST_ATTRIBUTE_GRANTED = "Runtime:GrantedRequest";
-    /** The request attribute name for transmitting the list of credential provider to choose. */
-    public static final String REQUEST_ATTRIBUTE_CREDENTIAL_PROVIDER_LIST = "Runtime:RequestListCredentialProvider";
-    /** The request attribute name for transmitting the currently chosen user population */
-    public static final String REQUEST_ATTRIBUTE_USER_POPULATION_ID = "Runtime:CurrentUserPopulationId";
     /** The request attribute name for transmitting the list of user populations */
     public static final String REQUEST_ATTRIBUTE_AVAILABLE_USER_POPULATIONS_LIST = "Runtime:UserPopulationsList";
-    /** The request attribute name to know if user population list should be proposed */
-    public static final String REQUEST_ATTRIBUTE_SHOULD_DISPLAY_USER_POPULATIONS_LIST = "Runtime:UserPopulationsListDisplay";
-    /** The request attribute name for transmitting the potential list of user populations to the login screen . */
-    public static final String REQUEST_ATTRIBUTE_INVALID_POPULATION = "Runtime:RequestInvalidPopulation";
-
+    /** The request attribute name for transmitting the currently chosen user population */
+    public static final String REQUEST_ATTRIBUTE_USER_POPULATION_ID = "Runtime:CurrentUserPopulationId";
     /** The request attribute name for transmitting the login page url */
     public static final String REQUEST_ATTRIBUTE_LOGIN_URL = "Runtime:RequestLoginURL";
 
@@ -80,6 +70,12 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     /** Name of the credential provider index html field */
     public static final String REQUEST_PARAMETER_CREDENTIALPROVIDER_INDEX = "CredentialProviderIndex";
     
+    /** The request attribute name for transmitting a boolean that tell if there is a list of credential provider to choose */
+    protected static final String REQUEST_ATTRIBUTE_CREDENTIAL_PROVIDER_LIST = "Runtime:RequestListCredentialProvider";
+    /** The request attribute name to know if user population list should be proposed */
+    protected static final String REQUEST_ATTRIBUTE_SHOULD_DISPLAY_USER_POPULATIONS_LIST = "Runtime:UserPopulationsListDisplay";
+    /** The request attribute name for transmitting the potential list of user populations to the login screen . */
+    protected static final String REQUEST_ATTRIBUTE_INVALID_POPULATION = "Runtime:RequestInvalidPopulation";
     /** The request attribute name for indicating that the authentication process has been made. */
     protected static final String __REQUEST_ATTRIBUTE_AUTHENTICATED = "Runtime:RequestAuthenticated";
 
@@ -87,6 +83,8 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     protected static final String SESSION_CREDENTIALPROVIDER_MODE = "Runtime:CredentialProviderMode";
     /** The session attribute name for storing the id of the user population */
     protected static final String SESSION_USERPOPULATION_ID = "Runtime:UserPopulationId";
+    /** The session attribute name for storing the identity of the connected user */
+    protected static final String SESSION_USERIDENTITY = "Runtime:UserIdentity";
 
     /** The DAO for user populations */
     protected UserPopulationDAO _userPopulationDAO;
@@ -107,24 +105,6 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         _currentUserProvider = (CurrentUserProvider) manager.lookup(CurrentUserProvider.ROLE);
     }
     
-    /**
-     * Get the url for the redirector to display the login screen
-     * @return The url. Cannot be null or empty
-     */
-    protected String getRedirectLoginScreenURL()
-    {
-        return "cocoon://_plugins/core/login.html";
-    }
-
-    /**
-     * Get the url for the redirector to display the logout screen
-     * @return The url. Cannot be null or empty
-     */
-    protected String getRedirectLogoutScreenURL()
-    {
-        return "cocoon://_plugins/core/logout.html";
-    }
-    
     @Override
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
@@ -142,7 +122,6 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         
         // We passed the authentication, let's mark it now
         request.setAttribute(__REQUEST_ATTRIBUTE_AUTHENTICATED, "true");
-        request.setAttribute(REQUEST_ATTRIBUTE_LOGIN_URL, getRedirectLoginScreenURL());
 
         // Get contexts
         List<String> contexts = _getContexts(request, parameters);
@@ -162,24 +141,27 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         }
 
         // Get possible credential providers
-        List<CredentialProvider> availableCredentialProviders = _getCredentialProviders(chosenUserPopulations);
+        boolean availableCredentialProviders = _hasCredentialProviders(chosenUserPopulations);
         request.setAttribute(REQUEST_ATTRIBUTE_CREDENTIAL_PROVIDER_LIST, availableCredentialProviders);
-        request.setAttribute(REQUEST_ATTRIBUTE_SHOULD_DISPLAY_USER_POPULATIONS_LIST, userPopulationId == null || _getCredentialProviders(availableUserPopulations) != null);
+        request.setAttribute(REQUEST_ATTRIBUTE_SHOULD_DISPLAY_USER_POPULATIONS_LIST, userPopulationId == null || _hasCredentialProviders(availableUserPopulations));
+        request.setAttribute(REQUEST_ATTRIBUTE_LOGIN_URL, getLoginURL(request));
 
         // null means the credential providers cannot be determine without knowing population first
-        if (availableCredentialProviders == null)
+        if (!availableCredentialProviders)
         {
             // Screen "Where Are You From?" with the list of populations to select
-            redirector.redirect(false, getRedirectLoginScreenURL());            
+            redirector.redirect(false, getLoginURL(request));            
             return EMPTY_MAP;
         }
-        else if (availableCredentialProviders.size() == 0)
+        
+        List<CredentialProvider> credentialProviders = chosenUserPopulations.get(0).getCredentialProviders();
+        if (credentialProviders.size() == 0)
         {
             throw new IllegalStateException("There is no populations credential provider available for contexts '" + StringUtils.join(contexts, "', '") + "'");
         }
         
         // Get the currently running credential provider
-        int runningCredentialProviderIndex = _getCurrentCredentialProviderIndex(request, availableCredentialProviders);
+        int runningCredentialProviderIndex = _getCurrentCredentialProviderIndex(request, credentialProviders);
         
         // Let's process non-blocking
         if (!_isCurrentCredentialProviderInBlockingMode(request))
@@ -187,9 +169,9 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
             // if there was no one running, let's start with the first one
             runningCredentialProviderIndex = Math.max(0, runningCredentialProviderIndex); 
             
-            for (; runningCredentialProviderIndex < availableCredentialProviders.size(); runningCredentialProviderIndex++)
+            for (; runningCredentialProviderIndex < credentialProviders.size(); runningCredentialProviderIndex++)
             {
-                CredentialProvider runningCredentialProvider = availableCredentialProviders.get(runningCredentialProviderIndex);
+                CredentialProvider runningCredentialProvider = credentialProviders.get(runningCredentialProviderIndex);
                 if (_process(request, false, runningCredentialProvider, redirector, chosenUserPopulations))
                 {
                     // Whatever the user was correctly authentified or he just required a redirect: let's stop here for the moment
@@ -202,9 +184,9 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         }
         
         // Let's process the current one blocking or the only existing one
-        if (runningCredentialProviderIndex >= 0 || availableCredentialProviders.size() == 1)
+        if (runningCredentialProviderIndex >= 0 || credentialProviders.size() == 1)
         {
-            CredentialProvider runningCredentialProvider = availableCredentialProviders.get(Math.max(0, runningCredentialProviderIndex));
+            CredentialProvider runningCredentialProvider = credentialProviders.get(Math.max(0, runningCredentialProviderIndex));
             if (_process(request, true, runningCredentialProvider, redirector, chosenUserPopulations))
             {
                 // Whatever the user was correctly authentified or he just required a redirect: let's stop here for the moment
@@ -216,25 +198,81 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         
         // Let's display the blocking list
         _saveStateToSession(request, null, true);
-        redirector.redirect(false, getRedirectLoginScreenURL());
+        redirector.redirect(false, getLoginURL(request));
         return EMPTY_MAP;
     }
     
     /**
-     * Determine the list of credential providers to use
-     * @param userPopulations The list of applicable user populations
-     * @return the list of applicable credential provider or null if it cannot be determined
+     * Get the url for the redirector to display the login screen
+     * @param request The request
+     * @return The url. Cannot be null or empty
      */
-    protected List<CredentialProvider> _getCredentialProviders(List<UserPopulation> userPopulations)
+    protected String getLoginURL(Request request)
+    {
+        return getLoginURLParameters(request, "cocoon://_plugins/core/login.html");
+    }
+    
+    
+    /**
+     * Get the url for the redirector to display the login screen
+     * @param request The request
+     * @param baseURL The url to complete with parameters
+     * @return The url. Cannot be null or empty
+     */
+    @SuppressWarnings("unchecked")
+    protected String getLoginURLParameters(Request request, String baseURL)
+    {
+        List<String> parameters = new ArrayList<>();
+        
+        Boolean invalidPopulationIds = (Boolean) request.getAttribute(AuthenticateAction.REQUEST_ATTRIBUTE_INVALID_POPULATION);
+        parameters.add("invalidPopulationIds=" + (invalidPopulationIds == Boolean.TRUE ? "true" : "false"));
+        
+        boolean shouldDisplayUserPopulationsList = (boolean) request.getAttribute(AuthenticateAction.REQUEST_ATTRIBUTE_SHOULD_DISPLAY_USER_POPULATIONS_LIST);
+        parameters.add("shouldDisplayUserPopulationsList=" + (shouldDisplayUserPopulationsList ? "true" : "false"));
+        
+        List<UserPopulation> usersPopulations = (List<UserPopulation>) request.getAttribute(AuthenticateAction.REQUEST_ATTRIBUTE_AVAILABLE_USER_POPULATIONS_LIST);
+        if (usersPopulations != null)
+        {
+            parameters.add("usersPopulations=" + org.ametys.core.util.StringUtils.encode(StringUtils.join(usersPopulations.stream().map(UserPopulation::getId).collect(Collectors.toList()), ",")));
+        }
+        
+        String chosenPopulationId = (String) request.getAttribute(AuthenticateAction.REQUEST_ATTRIBUTE_USER_POPULATION_ID);
+        if (chosenPopulationId != null)
+        {
+            parameters.add("chosenPopulationId=" + org.ametys.core.util.StringUtils.encode(chosenPopulationId));
+        }
+        
+        boolean availableCredentialProviders = (boolean) request.getAttribute(AuthenticateAction.REQUEST_ATTRIBUTE_CREDENTIAL_PROVIDER_LIST);
+        parameters.add("availableCredentialProviders=" + (availableCredentialProviders ? "true" : "false"));
+        
+        return baseURL + (baseURL.contains("?") ? "&" : "?") + StringUtils.join(parameters, "&");
+    }
+    
+    /**
+     * Get the url for the redirector to display the logout screen
+     * @param request The request
+     * @return The url. Cannot be null or empty
+     */
+    protected String getLogoutURL(Request request)
+    {
+        return "cocoon://_plugins/core/logout.html";
+    }
+    
+    /**
+     * Determine if there is a list of credential providers to use
+     * @param userPopulations The list of applicable user populations
+     * @return true if credentialproviders can be used
+     */
+    protected boolean _hasCredentialProviders(List<UserPopulation> userPopulations)
     {
         // Is there only one population or all populations have the same credential provider list as the first one?
         if (userPopulations.size() == 1 || userPopulations.stream().map(UserPopulation::getCredentialProviders).distinct().count() == 1)
         {
-            return userPopulations.get(0).getCredentialProviders();
+            return true;
         }
 
         // Cannot determine the list
-        return null;
+        return false;
     }
     
     /**
@@ -294,7 +332,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         
         return null;
     }
-
+    
     /**
      * When the process end successfully, save the state
      * @param request The request
@@ -381,12 +419,47 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         }
 
         // Save user identity
-        request.getSession(true).setAttribute(SESSION_USERIDENTITY, userIdentity);
+        _setUserIdentityInSession(request, userIdentity);
         
         // Authentication succeeded
         runningCredentialProvider.userAllowed(runningBlockingkMode, userIdentity);
             
         return true;
+    }
+    
+    /**
+     * Save user identity in request
+     * @param request The request
+     * @param userIdentity The useridentity to save
+     */
+    protected void _setUserIdentityInSession(Request request, UserIdentity userIdentity)
+    {
+        request.getSession(true).setAttribute(SESSION_USERIDENTITY, userIdentity);
+    }
+    
+    /**
+     * Get the user identity of the connected user from the session 
+     * @param request The request
+     * @return The connected useridentity or null
+     */
+    public UserIdentity _getUserIdentityFromSession(Request request)
+    {
+        return getUserIdentityFromSession(request);
+    }
+    
+    /**
+     * Get the user identity of the connected user from the session 
+     * @param request The request
+     * @return The connected useridentity or null
+     */
+    public static UserIdentity getUserIdentityFromSession(Request request)
+    {
+        Session session = request.getSession(false);
+        if (session != null)
+        {
+            return (UserIdentity) session.getAttribute(SESSION_USERIDENTITY);
+        }
+        return null;
     }
 
     /**
@@ -484,7 +557,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     {
         Session session = request.getSession(false);
         CredentialProvider runningCredentialProvider = session != null ? (CredentialProvider) session.getAttribute(AuthenticateAction.SESSION_CREDENTIALPROVIDER) : null;
-        UserIdentity userCurrentlyConnected = session != null ? (UserIdentity) session.getAttribute(SESSION_USERIDENTITY) : null;
+        UserIdentity userCurrentlyConnected = _getUserIdentityFromSession(request);
         Boolean runningBlockingkMode = session != null ? (Boolean) session.getAttribute(SESSION_CREDENTIALPROVIDER_MODE) : null;
         
         if (runningCredentialProvider == null || userCurrentlyConnected == null || runningBlockingkMode == null || !runningCredentialProvider.isStillConnected(runningBlockingkMode, userCurrentlyConnected, redirector))
@@ -540,7 +613,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
             _currentUserProvider.logout(redirector);
             if (!redirector.hasRedirected())
             {
-                redirector.redirect(false, getRedirectLogoutScreenURL());
+                redirector.redirect(false, getLogoutURL(request));
             }
             return true;
         }

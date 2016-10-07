@@ -57,12 +57,8 @@ public class AvalonCurrentUserProvider extends AbstractLogEnabled implements Cur
         {
             Map objectModel = ContextHelper.getObjectModel(_context);
             Request request = ObjectModelHelper.getRequest(objectModel);
-            Session session = request.getSession(false);
             
-            if (session != null)
-            {
-                user = (UserIdentity) session.getAttribute(AuthenticateAction.SESSION_USERIDENTITY);
-            }
+            user = AuthenticateAction.getUserIdentityFromSession(request);
         }
         catch (Exception e)
         {

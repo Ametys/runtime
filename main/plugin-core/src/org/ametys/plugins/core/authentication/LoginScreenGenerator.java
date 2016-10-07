@@ -16,8 +16,10 @@
 package org.ametys.plugins.core.authentication;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
@@ -30,11 +32,11 @@ import org.apache.cocoon.xml.XMLUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
-import org.ametys.core.authentication.AuthenticateAction;
 import org.ametys.core.authentication.CredentialProvider;
 import org.ametys.core.authentication.CredentialProviderFactory;
 import org.ametys.core.authentication.CredentialProviderModel;
 import org.ametys.core.user.population.UserPopulation;
+import org.ametys.core.user.population.UserPopulationDAO;
 import org.ametys.core.util.I18nUtils;
 import org.ametys.core.util.JSONUtils;
 import org.ametys.plugins.core.impl.authentication.FormCredentialProvider;
@@ -50,6 +52,9 @@ public class LoginScreenGenerator extends ServiceableGenerator
     
     /** Login form manager */
     protected LoginFormManager _loginFormManager;
+    
+    /** The DAO for user populations */
+    protected UserPopulationDAO _userPopulationDAO;
 
     /** The JSON helper */
     protected JSONUtils _jsonUtils;
@@ -57,13 +62,13 @@ public class LoginScreenGenerator extends ServiceableGenerator
     @Override
     public void service(ServiceManager smanager) throws ServiceException
     {
+        super.service(smanager);
         _credentialProviderFactory = (CredentialProviderFactory) smanager.lookup(CredentialProviderFactory.ROLE);
+        _userPopulationDAO = (UserPopulationDAO) smanager.lookup(UserPopulationDAO.ROLE);
         _loginFormManager = (LoginFormManager) smanager.lookup(LoginFormManager.ROLE);
         _jsonUtils = (JSONUtils) smanager.lookup(JSONUtils.ROLE);
-        super.service(smanager);
     }
     
-    @SuppressWarnings("unchecked")
     @Override
     public void generate() throws IOException, SAXException, ProcessingException
     {
@@ -72,22 +77,44 @@ public class LoginScreenGenerator extends ServiceableGenerator
         contentHandler.startDocument();
         XMLUtils.startElement(contentHandler, "LoginScreen");
         
-        
+        // LoginScreenGenerator can be used from the frontoffice AuthenticatAction : it can not use the requests attributes
         boolean isAmetysPublic = Config.getInstance() != null ? Config.getInstance().getValueAsBoolean("runtime.ametys.public") : false/* in safe mode, we only have one population */;
         
-        Boolean invalidPopulationIds = (Boolean) request.getAttribute(AuthenticateAction.REQUEST_ATTRIBUTE_INVALID_POPULATION);
-        boolean shouldDisplayUserPopulationsList = (boolean) request.getAttribute(AuthenticateAction.REQUEST_ATTRIBUTE_SHOULD_DISPLAY_USER_POPULATIONS_LIST);
-        List<UserPopulation> usersPopulations = (List<UserPopulation>) request.getAttribute(AuthenticateAction.REQUEST_ATTRIBUTE_AVAILABLE_USER_POPULATIONS_LIST);
-        String chosenPopulationId = (String) request.getAttribute(AuthenticateAction.REQUEST_ATTRIBUTE_USER_POPULATION_ID);
-        if (shouldDisplayUserPopulationsList)
+        boolean invalidPopulationIds = "true".equals(request.getParameter("invalidPopulationIds"));
+        
+        boolean shouldDisplayUserPopulationsList = "true".equals(request.getParameter("shouldDisplayUserPopulationsList"));
+        
+        List<UserPopulation> usersPopulations = null;
+        String usersPopulationsIdsAsString = request.getParameter("usersPopulations");
+        if (usersPopulationsIdsAsString != null)
         {
-            _generatePopulations(usersPopulations, isAmetysPublic, invalidPopulationIds == Boolean.TRUE, chosenPopulationId);
+            usersPopulations = Arrays.stream(usersPopulationsIdsAsString.split(",")).map(_userPopulationDAO::getUserPopulation).collect(Collectors.toList());
         }
         
-        List<CredentialProvider> availableCredentialProviders = (List<CredentialProvider>) request.getAttribute(AuthenticateAction.REQUEST_ATTRIBUTE_CREDENTIAL_PROVIDER_LIST);
-        _generateCredentialProviders(availableCredentialProviders);
+        String chosenPopulationId = request.getParameter("chosenPopulationId");
         
-        _generateLoginForm(request, availableCredentialProviders);
+        if (shouldDisplayUserPopulationsList)
+        {
+            _generatePopulations(usersPopulations, isAmetysPublic, invalidPopulationIds, chosenPopulationId);
+        }
+        
+        boolean availableCredentialProviders = "true".equals(request.getParameter("availableCredentialProviders"));
+        List<CredentialProvider> credentialProviders = null;
+        if (availableCredentialProviders && usersPopulations != null && !usersPopulations.isEmpty())
+        {
+            if (StringUtils.isNotBlank(chosenPopulationId))
+            {
+                credentialProviders = usersPopulations.stream().filter(userPop -> chosenPopulationId.equals(userPop.getId())).findAny().get().getCredentialProviders();
+            }
+            else
+            {
+                credentialProviders = usersPopulations.get(0).getCredentialProviders();
+            }
+        }
+
+        _generateCredentialProviders(credentialProviders);
+        
+        _generateLoginForm(request, credentialProviders, invalidPopulationIds);
         
         XMLUtils.endElement(contentHandler, "LoginScreen");
         contentHandler.endDocument();
@@ -155,16 +182,16 @@ public class LoginScreenGenerator extends ServiceableGenerator
         XMLUtils.endElement(contentHandler, "CredentialProviders");
     }
     
-    private void _generateLoginForm(Request request, List<CredentialProvider> availableCredentialProviders) throws SAXException
+    private void _generateLoginForm(Request request, List<CredentialProvider> credentialProviders, boolean invalidPopulationIds) throws SAXException
     {
-        if (availableCredentialProviders == null)
+        if (credentialProviders == null)
         {
             return;
         }
         
         FormCredentialProvider formBasedCP;
         
-        Optional<CredentialProvider> foundAnyFormCredentialProvider = availableCredentialProviders.stream().filter(cp -> cp instanceof FormCredentialProvider).findAny();
+        Optional<CredentialProvider> foundAnyFormCredentialProvider = credentialProviders.stream().filter(cp -> cp instanceof FormCredentialProvider).findAny();
         if (foundAnyFormCredentialProvider.isPresent())
         {
             formBasedCP = (FormCredentialProvider) foundAnyFormCredentialProvider.get();
@@ -199,7 +226,7 @@ public class LoginScreenGenerator extends ServiceableGenerator
             captcha = false;
         }
         
-        boolean showErrors = !"true".equals(request.getAttribute(AuthenticateAction.REQUEST_ATTRIBUTE_INVALID_POPULATION));
+        boolean showErrors = !invalidPopulationIds;
         
         XMLUtils.startElement(contentHandler, "LoginForm");
         

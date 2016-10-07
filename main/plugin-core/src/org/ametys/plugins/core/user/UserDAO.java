@@ -454,7 +454,7 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
         {
             Request request = ContextHelper.getRequest(_context);
             
-            request.getSession(true).setAttribute(AuthenticateAction.SESSION_USERIDENTITY, new UserIdentity(login, populationId));
+            //request.getSession(true).setAttribute(AuthenticateAction.SESSION_USERIDENTITY, new UserIdentity(login, populationId));
             request.getSession(true).setAttribute(AuthenticateAction.SESSION_CREDENTIALPROVIDER, null);
             
             result.put("login", login);

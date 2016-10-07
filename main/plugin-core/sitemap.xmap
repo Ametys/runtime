@@ -103,7 +103,6 @@
                     <map:parameter name="locale" value="{locale:locale}"/>
                     <map:parameter name="workspace" value="{request-attr:workspaceName}"/>
                 </map:transform>
-                <!-- Do not minimize here. See RUNTIME-877 -->
                 <map:serialize/>
 		    </map:match>
         </map:pipeline>
