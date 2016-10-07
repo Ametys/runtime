@@ -222,7 +222,7 @@ Ext.define('Ametys.plugins.admin.superuser.SuperUserActions', {
             return;
         }
         
-        var mode = form.findField("radio-profile").getValue();
+        var mode = form.findField("radio-profile").getSubmitValue();
         
         var opts = {
             errorMessage: { 
