@@ -430,7 +430,7 @@ Ext.define('Ametys.plugins.core.populations.UserPopulationDAO', {
         var error = response['error'] || '';
         if (error == "unknown")
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_USER_POPULATION_DAO_ERROR_UNKNOWN_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_USER_POPULATION_DAO_ERROR_UNKNOWN}}",
                 buttons: Ext.Msg.OK,
@@ -460,7 +460,7 @@ Ext.define('Ametys.plugins.core.populations.UserPopulationDAO', {
         }
         else
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_USER_POPULATION_DAO_ERROR_SERVER_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_USER_POPULATION_DAO_ERROR_SERVER}}",
                 buttons: Ext.Msg.OK,
@@ -480,7 +480,7 @@ Ext.define('Ametys.plugins.core.populations.UserPopulationDAO', {
         var id = response['id'];
         if (error == "unknown")
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_USER_POPULATION_DAO_ERROR_UNKNOWN_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_USER_POPULATION_DAO_ERROR_UNKNOWN}}",
                 buttons: Ext.Msg.OK,
@@ -489,7 +489,7 @@ Ext.define('Ametys.plugins.core.populations.UserPopulationDAO', {
         }
         else if (error == "server")
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_USER_POPULATION_DAO_ERROR_SERVER_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_USER_POPULATION_DAO_ERROR_SERVER}}",
                 buttons: Ext.Msg.OK,
@@ -546,7 +546,7 @@ Ext.define('Ametys.plugins.core.populations.UserPopulationDAO', {
         var id = response['id'];
         if (error == 'used')
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_USER_POPULATION_DAO_ERROR_IS_USED_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_USER_POPULATION_DAO_ERROR_IS_USED}}",
                 buttons: Ext.Msg.OK,
@@ -555,7 +555,7 @@ Ext.define('Ametys.plugins.core.populations.UserPopulationDAO', {
         }
         else if (error == "unknown")
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_USER_POPULATION_DAO_ERROR_UNKNOWN_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_USER_POPULATION_DAO_ERROR_UNKNOWN}}",
                 buttons: Ext.Msg.OK,
@@ -564,7 +564,7 @@ Ext.define('Ametys.plugins.core.populations.UserPopulationDAO', {
         }
         else if (error == "server")
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_USER_POPULATION_DAO_ERROR_SERVER_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_USER_POPULATION_DAO_ERROR_SERVER}}",
                 buttons: Ext.Msg.OK,
@@ -595,7 +595,7 @@ Ext.define('Ametys.plugins.core.populations.UserPopulationDAO', {
         var error = response['error'] || '';
         if (error == "unknown")
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_USER_POPULATION_DAO_ERROR_UNKNOWN_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_USER_POPULATION_DAO_ERROR_UNKNOWN}}",
                 buttons: Ext.Msg.OK,

@@ -54,7 +54,7 @@ Ext.define('Ametys.plugins.coreui.schedule.TaskActions', {
         var modifiable = response.modifiable;
         if (!modifiable)
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_UI_TASKS_NO_MODIFIABLE_TITLE}}",
                 message: "{{i18n PLUGINS_CORE_UI_TASKS_NO_MODIFIABLE_MSG}}",
                 buttons: Ext.Msg.OK,
@@ -90,7 +90,7 @@ Ext.define('Ametys.plugins.coreui.schedule.TaskActions', {
         if (messageTargets.length > 0)
         {
             var id = messageTargets[0].getParameters().id;
-            Ext.Msg.confirm("{{i18n PLUGINS_CORE_UI_TASKS_REMOVE_CONFIRM_TITLE}}",
+            Ametys.Msg.confirm("{{i18n PLUGINS_CORE_UI_TASKS_REMOVE_CONFIRM_TITLE}}",
                     "{{i18n PLUGINS_CORE_UI_TASKS_REMOVE_CONFIRM_MSG}}",
                     Ext.bind(this._doRemove, this, [id, messageTargets[0]], 1),
                     this
@@ -129,7 +129,7 @@ Ext.define('Ametys.plugins.coreui.schedule.TaskActions', {
      */
     removeCompletedTasks: function(controller)
     {
-        Ext.Msg.confirm("{{i18n PLUGINS_CORE_UI_TASKS_REMOVE_COMPLETED_TASKS_CONFIRM_TITLE}}",
+        Ametys.Msg.confirm("{{i18n PLUGINS_CORE_UI_TASKS_REMOVE_COMPLETED_TASKS_CONFIRM_TITLE}}",
                 "{{i18n PLUGINS_CORE_UI_TASKS_REMOVE_COMPLETED_TASKS_CONFIRM_MSG}}",
                 Ext.bind(this._doRemoveCompletedTasks, this),
                 this

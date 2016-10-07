@@ -369,7 +369,7 @@ Ext.define(
 		{
 			if (user['error'])
 			{
-				Ext.Msg.show ({
+				Ametys.Msg.show ({
 					title: "{{i18n PLUGINS_CORE_USERS_IMPERSONATE_FAILURE_TITLE}}",
 					msg: "{{i18n PLUGINS_CORE_USERS_IMPERSONATE_FAILURE}}",
 					buttons: Ext.Msg.OK,
@@ -378,7 +378,7 @@ Ext.define(
 			}
 			else
 			{
-				Ext.Msg.show ({
+				Ametys.Msg.show ({
 					title: "{{i18n PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_TITLE}}",
 					msg: "{{i18n PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS}} " + user.name + " (" + user.login + ", " + user.population + ").\n{{i18n PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_2}}",
 					buttons: Ext.Msg.OK,

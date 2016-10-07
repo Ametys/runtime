@@ -83,7 +83,7 @@ Ext.define('Ametys.plugins.coreui.schedule.AddTaskButtonController', {
             
             if (confirmTitle != null && confirmMsg != null)
             {
-                Ext.Msg.confirm(
+                Ametys.Msg.confirm(
                     confirmTitle,
                     confirmMsg,
                     callback,

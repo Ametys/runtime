@@ -297,7 +297,7 @@ Ext.define('Ametys.plugins.core.groupdirectories.GroupDirectoryDAO', {
         var error = response['error'] || '';
         if (error == "unknown")
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_GROUP_DIRECTORY_DAO_ERROR_UNKNOWN_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_GROUP_DIRECTORY_DAO_ERROR_UNKNOWN}}",
                 buttons: Ext.Msg.OK,
@@ -338,7 +338,7 @@ Ext.define('Ametys.plugins.core.groupdirectories.GroupDirectoryDAO', {
         var id = response['id'];
         if (error == "unknown")
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_GROUP_DIRECTORY_DAO_ERROR_UNKNOWN_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_GROUP_DIRECTORY_DAO_ERROR_UNKNOWN}}",
                 buttons: Ext.Msg.OK,
@@ -370,7 +370,7 @@ Ext.define('Ametys.plugins.core.groupdirectories.GroupDirectoryDAO', {
         var id = response['id'];
         if (error == "unknown")
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_GROUP_DIRECTORY_DAO_ERROR_UNKNOWN_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_GROUP_DIRECTORY_DAO_ERROR_UNKNOWN}}",
                 buttons: Ext.Msg.OK,

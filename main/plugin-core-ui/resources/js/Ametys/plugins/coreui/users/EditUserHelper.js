@@ -79,7 +79,7 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
                 if (records.length == 0)
                 {
                     this._chooseUserDirectoryDialog.close();
-                    Ext.Msg.show({
+                    Ametys.Msg.show({
                         title: "{{i18n PLUGINS_CORE_UI_USERS_DIALOG_NO_MODIFIABLE_POPULATION_WARNING_TITLE}}",
                         msg: "{{i18n PLUGINS_CORE_UI_USERS_DIALOG_NO_MODIFIABLE_POPULATION_WARNING_MSG}}",
                         buttons: Ext.Msg.OK,

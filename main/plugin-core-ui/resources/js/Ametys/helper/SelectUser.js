@@ -352,7 +352,7 @@ Ext.define('Ametys.helper.SelectUser', {
     {
         if (records.length == 0)
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_NO_POPULATION_TITLE}}",
                 msg: this._noPopulationMessage,
                 buttons: Ext.Msg.OK,

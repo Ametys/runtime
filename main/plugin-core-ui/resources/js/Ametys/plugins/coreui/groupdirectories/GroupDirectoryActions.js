@@ -61,7 +61,7 @@ Ext.define('Ametys.plugins.coreui.groupdirectories.GroupDirectoryActions', {
         if (messageTargets.length > 0)
         {
             var id = messageTargets[0].getParameters().id;
-            Ext.Msg.confirm("{{i18n PLUGINS_CORE_UI_GROUP_DIRECTORIES_REMOVE_CONFIRM_TITLE}}",
+            Ametys.Msg.confirm("{{i18n PLUGINS_CORE_UI_GROUP_DIRECTORIES_REMOVE_CONFIRM_TITLE}}",
                     "{{i18n PLUGINS_CORE_UI_GROUP_DIRECTORIES_REMOVE_CONFIRM_MSG}}",
                     Ext.bind(this._doRemove, this, [id], 1),
                     this

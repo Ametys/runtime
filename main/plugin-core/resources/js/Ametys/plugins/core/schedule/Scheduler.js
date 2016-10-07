@@ -396,7 +396,7 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
         var error = response['error'] || '';
         if (error == "scheduler-error")
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_SCHEDULER_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_SCHEDULER}}",
                 buttons: Ext.Msg.OK,
@@ -415,7 +415,7 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
         var error = response['error'] || '';
         if (error == "not-found")
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_NOT_FOUND_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_NOT_FOUND}}",
                 buttons: Ext.Msg.OK,
@@ -435,7 +435,7 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
         var id = response['id'];
         if (error == "invalid-schedulable")
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_INVALID_SCHEDULABLE_ID_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_INVALID_SCHEDULABLE_ID}}",
                 buttons: Ext.Msg.OK,
@@ -444,7 +444,7 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
         }
         else if (error == "private")
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_PRIVATE_SCHEDULABLE_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_PRIVATE_SCHEDULABLE}}",
                 buttons: Ext.Msg.OK,
@@ -453,7 +453,7 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
         }
         else if (error == "scheduler-error")
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_SCHEDULER_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_SCHEDULER}}",
                 buttons: Ext.Msg.OK,
@@ -485,7 +485,7 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
         var id = response['id'];
         if (error == "no-modifiable")
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_UNMODIFIABLE_TASK_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_UNMODIFIABLE_TASK}}",
                 buttons: Ext.Msg.OK,
@@ -494,7 +494,7 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
         }
         else if (error == "not-found")
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_NOT_FOUND_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_NOT_FOUND}}",
                 buttons: Ext.Msg.OK,
@@ -503,7 +503,7 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
         }
         else if (error == "scheduler-error")
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_SCHEDULER_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_SCHEDULER}}",
                 buttons: Ext.Msg.OK,
@@ -538,7 +538,7 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
         var messageTarget = parameters[1];
         if (error == "not-found")
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_NOT_FOUND_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_NOT_FOUND}}",
                 buttons: Ext.Msg.OK,
@@ -547,7 +547,7 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
         }
         else if (error == "no-removable")
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_UNREMOVABLE_TASK_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_UNREMOVABLE_TASK}}",
                 buttons: Ext.Msg.OK,
@@ -556,7 +556,7 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
         }
         else if (error == "no-delete")
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_NODELETE_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_NODELETE}}",
                 buttons: Ext.Msg.OK,
@@ -565,7 +565,7 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
         }
         else if (error == "scheduler-error")
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_SCHEDULER_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_SCHEDULER}}",
                 buttons: Ext.Msg.OK,
@@ -592,7 +592,7 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
         var id = response['id'];
         if (error == "not-found")
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_NOT_FOUND_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_NOT_FOUND}}",
                 buttons: Ext.Msg.OK,
@@ -601,7 +601,7 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
         }
         else if (error == "no-deactivatable")
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_UNDEACTIVATABLE_TASK_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_UNDEACTIVATABLE_TASK}}",
                 buttons: Ext.Msg.OK,
@@ -610,7 +610,7 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
         }
         else if (error == "scheduler-error")
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_SCHEDULER_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_SCHEDULER}}",
                 buttons: Ext.Msg.OK,
@@ -659,7 +659,7 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
         var error = response['error'] || '';
         if (error == "not-found")
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_NOT_FOUND_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_NOT_FOUND}}",
                 buttons: Ext.Msg.OK,
@@ -668,7 +668,7 @@ Ext.define('Ametys.plugins.core.schedule.Scheduler', {
         }
         else if (error == "scheduler-error")
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_SCHEDULER_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_SCHEDULER_ERROR_SCHEDULER}}",
                 buttons: Ext.Msg.OK,

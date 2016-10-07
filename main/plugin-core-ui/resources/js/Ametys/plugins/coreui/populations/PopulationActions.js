@@ -61,7 +61,7 @@ Ext.define('Ametys.plugins.coreui.populations.PopulationActions', {
         if (messageTargets.length > 0)
         {
             var id = messageTargets[0].getParameters().id;
-            Ext.Msg.confirm("{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_REMOVE_CONFIRM_TITLE}}",
+            Ametys.Msg.confirm("{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_REMOVE_CONFIRM_TITLE}}",
 	                "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_REMOVE_CONFIRM_MSG}}",
 	                Ext.bind(this._doRemove, this, [id], 1),
 	                this
@@ -96,7 +96,7 @@ Ext.define('Ametys.plugins.coreui.populations.PopulationActions', {
     {
         if (!valid)
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
 			    title: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_MISCONFIGURED_TITLE}}",
 			    message: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_CANNOT_ENABLE_MSG}}",
 			    buttons: Ext.Msg.OK,

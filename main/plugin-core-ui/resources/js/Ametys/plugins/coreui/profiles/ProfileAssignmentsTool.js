@@ -622,7 +622,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     {
         if (this.isDirty())
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CHANGE_CONTEXT_BOX_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CHANGE_CONTEXT_BOX_MESSAGE}}",
                 buttons: Ext.Msg.YESNO,
@@ -1187,7 +1187,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     {
         if (this.isDirty())
         {
-            Ext.Msg.show({
+            Ametys.Msg.show({
                 title: "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CHANGE_CONTEXT_BOX_TITLE}}",
                 msg: "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CHANGE_CONTEXT_BOX_MESSAGE}}",
                 buttons: Ext.Msg.YESNO,
