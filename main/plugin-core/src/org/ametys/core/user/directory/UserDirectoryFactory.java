@@ -95,9 +95,10 @@ public class UserDirectoryFactory extends AbstractLogEnabled implements Extensio
      * @param id The id of the user directory model
      * @param paramsValues The parameters's values
      * @param populationId The id of the population the created user directory belongs to.
+     * @param label The directory optionnal label
      * @return a user's directory
      */
-    public UserDirectory createUserDirectory(String id, Map<String, Object> paramsValues, String populationId)
+    public UserDirectory createUserDirectory(String id, Map<String, Object> paramsValues, String populationId, String label)
     {
         if (_udModels.containsKey(id))
         {
@@ -132,7 +133,7 @@ public class UserDirectoryFactory extends AbstractLogEnabled implements Extensio
             ud.setPopulationId(populationId);
             try
             {
-                ud.init(id, paramsValues);
+                ud.init(id, paramsValues, label);
             }
             catch (Exception e)
             {

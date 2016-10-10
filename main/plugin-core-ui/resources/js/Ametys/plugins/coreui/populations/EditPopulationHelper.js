@@ -511,7 +511,8 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
     {
         var fieldName = "userDirectories";
         var chooseModelFieldId = "udModelId";
-        
+        var labelFieldId = "label";
+
         var composition = {};
         var data = {};
         data[fieldName] = {
@@ -519,7 +520,7 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
             description: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_USER_DIRECTORY_ENTRY_DESCRIPTION}}",
             multiple: false,
             repeater: {
-                'header-label': '{' + chooseModelFieldId + '}',
+                'header-label': '{' + chooseModelFieldId + '} {' + labelFieldId + '}',
                 'add-label': "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_ADD_USER_DIRECTORY_LABEL}}",
                 'del-label': "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_DELETE_USER_DIRECTORY_LABEL}}",
                 'min-size': 1,
@@ -536,6 +537,15 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
 	        validation: {
 	            mandatory: true
 	        }
+        };
+                composition[labelFieldId] = {
+            label: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_USER_DIRECTORY_LABEL_LABEL}}",
+            description: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_USER_DIRECTORY_LABEL_DESCRIPTION}}",
+            multiple: false,
+            type: 'STRING',
+            validation: {
+                mandatory: false
+            }
         };
         this._createRepeaterData(data, fieldName, userDirectoryModels, chooseModelFieldId);
         
@@ -808,7 +818,7 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
         
         // Second card
         var fieldName = "userDirectories";
-        var udData = this._getJsonForFillingForm(valuesToFill[fieldName], fieldName, "udModelId");
+        var udData = this._getJsonForFillingForm(valuesToFill[fieldName], fieldName, ["udModelId", "label"]);
         this._getFormPanel(this._cards[1]).setValues(udData);
         
         // Third card

@@ -43,12 +43,20 @@ public class StaticUserDirectory extends AbstractLogEnabled implements UserDirec
     private Map<String, Object> _paramValues;
 
     private String _populationId;
+
+    private String _label;
+    
+    public String getLabel()
+    {
+        return _label;
+    }
     
     @Override
-    public void init(String udModelId, Map<String, Object> paramValues)
+    public void init(String udModelId, Map<String, Object> paramValues, String label)
     {
         _udModelId = udModelId;
         _staticUsers = new HashMap<>();
+        _label = label;
         
         _paramValues = paramValues;
         

@@ -1048,6 +1048,8 @@
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_DELETE_USER_DIRECTORY_LABEL">Enlever le répertoire d'utilisateurs</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_USER_DIRECTORY_TYPE_LABEL">Répertoire d'utilisateurs</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_USER_DIRECTORY_TYPE_DESCRIPTION">Type de répertoire d'utilisateurs</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_USER_DIRECTORY_LABEL_LABEL">Nom</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_USER_DIRECTORY_LABEL_DESCRIPTION">Si il y a plusieurs fois le même type de répertoire d'utilisateurs, vous pouvez préciser un livellé complémentaire pour les différentier.</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_CREDENTIAL_PROVIDER_ENTRY_LABEL">Identification des utilisateurs</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_CREDENTIAL_PROVIDER_ENTRY_DESCRIPTION">Identification des utilisateurs</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_ADD_CREDENTIAL_PROVIDER_LABEL">Ajouter un mode d'identification</message>
@@ -1055,7 +1057,7 @@
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_CREDENTIAL_PROVIDER_TYPE_LABEL">Mode d'identification</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_CREDENTIAL_PROVIDER_TYPE_DESCRIPTION">Mode d'identification</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_CREDENTIAL_PROVIDER_LABEL_LABEL">Nom</message>
-    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_CREDENTIAL_PROVIDER_LABEL_DESCRIPTION">Si il y a plusieurs fois le même mode d'indentification, vous pouvez préciser un libellé complémentaire pour les rendre différentiables.</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_CREDENTIAL_PROVIDER_LABEL_DESCRIPTION">Si il y a plusieurs fois le même mode d'indentification, vous pouvez préciser un libellé complémentaire pour les différentier.</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_THIRD_CARD_HINT">Sélectionnez et paramétrez les modes d'identification des utilisateurs associés aux répertoires précédemment sélectionnés.&lt;br/&gt;&lt;br/&gt;Vous devez vous assurer de la cohérence des informations saisies. Par exemple, si vous avez sélectionné des utilisateurs en base de données MySQL, et que vous souhaitez les identifier avec un CAS, il est nécessaire que le CAS utilise la même base de données.&lt;br/&gt;Si vous proposez plusieurs modes d'identification, l'utilisateur aura le choix : par exemple CAS ou Formulaire.</message>
     
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_REMOVE_CONFIRM_TITLE">Supprimer la population d'utilisateurs</message>

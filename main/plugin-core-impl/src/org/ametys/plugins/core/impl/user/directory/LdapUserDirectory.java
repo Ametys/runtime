@@ -99,12 +99,19 @@ public class LdapUserDirectory extends AbstractLDAPConnector implements UserDire
     private String _udModelId;
     private Map<String, Object> _paramValues;
     private String _populationId;
+    private String _label;
+    
+    public String getLabel()
+    {
+        return _label;
+    }
     
     @Override
-    public void init(String udModelId, Map<String, Object> paramValues) throws Exception
+    public void init(String udModelId, Map<String, Object> paramValues, String label) throws Exception
     {
         _udModelId = udModelId;
         _paramValues = paramValues;
+        _label = label;
         
         _usersRelativeDN = (String) paramValues.get(__PARAM_USERS_RELATIVE_DN);
         _usersObjectFilter = (String) paramValues.get(__PARAM_USERS_OBJECT_FILTER);

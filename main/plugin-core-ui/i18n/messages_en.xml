@@ -1046,6 +1046,8 @@
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_DELETE_USER_DIRECTORY_LABEL">Remove the user directory</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_USER_DIRECTORY_TYPE_LABEL">User directory</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_USER_DIRECTORY_TYPE_DESCRIPTION">Type of user directory</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_USER_DIRECTORY_LABEL_LABEL">Name</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_USER_DIRECTORY_LABEL_DESCRIPTION">If there are several times the same type of directory, you can set an additional label to makes them unique.</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_CREDENTIAL_PROVIDER_ENTRY_LABEL">Authentication of users</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_CREDENTIAL_PROVIDER_ENTRY_DESCRIPTION">Authentication of users</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_ADD_CREDENTIAL_PROVIDER_LABEL">Add an authentication mode</message>

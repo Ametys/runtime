@@ -190,7 +190,15 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
             
             Map<String, Object> directory = new HashMap<>();
             directory.put("index", directoryIndex++);
-            directory.put("label", udModel.getLabel());
+            
+            if (StringUtils.isNotBlank(ud.getLabel()))
+            {
+                directory.put("label", _i18nutils.translate(udModel.getLabel()) + " (" + ud.getLabel() + ")");
+            }
+            else
+            {
+                directory.put("label", udModel.getLabel());
+            }
             directory.put("modifiable", ud instanceof ModifiableUserDirectory);
             userDirectories.add(directory);
         }
@@ -408,6 +416,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
             Map<String, Object> ud2json = new HashMap<>();
             String udModelId = ud.getUserDirectoryModelId();
             ud2json.put("udModelId", udModelId);
+            ud2json.put("label", ud.getLabel());
             Map<String, Object> params = new HashMap<>();
             for (String key : ud.getParameterValues().keySet())
             {
@@ -577,8 +586,9 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         for (Map<String, String> userDirectoryParameters : userDirectories)
         {
             String modelId = userDirectoryParameters.remove("udModelId");
+            String additionnalLabel = userDirectoryParameters.remove("label");
             Map<String, Object> typedParamValues = _getTypedUDParameters(userDirectoryParameters, modelId);
-            uds.add(_userDirectoryFactory.createUserDirectory(modelId, typedParamValues, up.getId()));
+            uds.add(_userDirectoryFactory.createUserDirectory(modelId, typedParamValues, up.getId(), additionnalLabel));
         }
         up.setUserDirectory(uds);
         
@@ -860,11 +870,12 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         for (Configuration userDirectoryConf : userDirectoriesConf)
         {
             String modelId = userDirectoryConf.getAttribute("modelId");
+            String label = userDirectoryConf.getAttribute("label", null);
             
             try
             {
                 Map<String, Object> paramValues = _getUDParametersFromConfiguration(userDirectoryConf, modelId, upId);
-                UserDirectory ud = _userDirectoryFactory.createUserDirectory(modelId, paramValues, upId);
+                UserDirectory ud = _userDirectoryFactory.createUserDirectory(modelId, paramValues, upId, label);
                 if (ud != null)
                 {
                     userDirectories.add(ud);
@@ -1128,6 +1139,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
             {
                 AttributesImpl attr = new AttributesImpl();
                 attr.addCDATAAttribute("modelId", ud.getUserDirectoryModelId());
+                attr.addCDATAAttribute("label", ud.getLabel() != null ? ud.getLabel() : "");
                 XMLUtils.startElement(handler, "userDirectory", attr);
                 
                 Map<String, Object> paramValues = ud.getParameterValues();
