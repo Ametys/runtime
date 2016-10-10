@@ -66,7 +66,7 @@ public class GetUserProfileImagesAction extends ServiceableAction
         {
             try
             {
-                _profileImageProvider = (DefaultProfileImageProvider) manager.lookup(DefaultProfileImageProvider.ROLE);
+                _profileImageProvider = (DefaultProfileImageProvider) manager.lookup(ProfileImageProvider.ROLE);
             }
             catch (ServiceException e)
             {
