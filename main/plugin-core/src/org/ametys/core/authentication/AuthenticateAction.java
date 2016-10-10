@@ -72,6 +72,8 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     
     /** The request attribute name for transmitting a boolean that tell if there is a list of credential provider to choose */
     protected static final String REQUEST_ATTRIBUTE_CREDENTIAL_PROVIDER_LIST = "Runtime:RequestListCredentialProvider";
+    /** The request attribute name for transmitting the index in the list of chosen credntial provider */
+    protected static final String REQUEST_ATTRIBUTE_CREDENTIAL_PROVIDER_INDEX = "Runtime:RequestCredentialProviderIndex";
     /** The request attribute name to know if user population list should be proposed */
     protected static final String REQUEST_ATTRIBUTE_SHOULD_DISPLAY_USER_POPULATIONS_LIST = "Runtime:UserPopulationsListDisplay";
     /** The request attribute name for transmitting the potential list of user populations to the login screen . */
@@ -144,7 +146,6 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         boolean availableCredentialProviders = _hasCredentialProviders(chosenUserPopulations);
         request.setAttribute(REQUEST_ATTRIBUTE_CREDENTIAL_PROVIDER_LIST, availableCredentialProviders);
         request.setAttribute(REQUEST_ATTRIBUTE_SHOULD_DISPLAY_USER_POPULATIONS_LIST, userPopulationId == null || _hasCredentialProviders(availableUserPopulations));
-        request.setAttribute(REQUEST_ATTRIBUTE_LOGIN_URL, getLoginURL(request));
 
         // null means the credential providers cannot be determine without knowing population first
         if (!availableCredentialProviders)
@@ -162,6 +163,8 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         
         // Get the currently running credential provider
         int runningCredentialProviderIndex = _getCurrentCredentialProviderIndex(request, credentialProviders);
+        request.setAttribute(REQUEST_ATTRIBUTE_CREDENTIAL_PROVIDER_INDEX, runningCredentialProviderIndex);
+        request.setAttribute(REQUEST_ATTRIBUTE_LOGIN_URL, getLoginURL(request));
         
         // Let's process non-blocking
         if (!_isCurrentCredentialProviderInBlockingMode(request))
@@ -244,6 +247,9 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         
         boolean availableCredentialProviders = (boolean) request.getAttribute(AuthenticateAction.REQUEST_ATTRIBUTE_CREDENTIAL_PROVIDER_LIST);
         parameters.add("availableCredentialProviders=" + (availableCredentialProviders ? "true" : "false"));
+        
+        Integer credentialProviderIndex = (Integer) request.getAttribute(REQUEST_ATTRIBUTE_CREDENTIAL_PROVIDER_INDEX);
+        parameters.add("credentialProviderIndex=" + String.valueOf(credentialProviderIndex != null ? credentialProviderIndex : -1));
         
         return baseURL + (baseURL.contains("?") ? "&" : "?") + StringUtils.join(parameters, "&");
     }

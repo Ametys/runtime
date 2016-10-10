@@ -46,6 +46,8 @@
 	        <div class="login-part">
 	            <form method="post">
 	                <div class="login-inner login-user-populations-standalone">
+	                    <input type="hidden" name="CredentialProviderIndex" value="-1"/>
+	                
                         <xsl:call-template name="login-user-populations"/>
 
                         <xsl:call-template name="login-user-populations-submit"/>
@@ -68,7 +70,7 @@
 	                <form method="post">
 			            <input type="hidden" name="CredentialProviderIndex" value="{@index}"/>
 			            <xsl:choose>
-			                <xsl:when test="@isForm = 'true' and count(/LoginScreen/CredentialProviders/CredentialProvider[@isForm = 'true']) = 1">
+			                <xsl:when test="@isForm = 'true' and (count(/LoginScreen/CredentialProviders/CredentialProvider[@isForm = 'true']) = 1 or @selected = 'true')">
 			                    <xsl:call-template name="login-form"/>
 			                </xsl:when>
 			                <xsl:otherwise>

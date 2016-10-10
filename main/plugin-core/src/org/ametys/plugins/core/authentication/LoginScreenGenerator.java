@@ -111,10 +111,11 @@ public class LoginScreenGenerator extends ServiceableGenerator
                 credentialProviders = usersPopulations.get(0).getCredentialProviders();
             }
         }
+        int credentialProviderIndex = Integer.parseInt(request.getParameter("credentialProviderIndex"));
 
-        _generateCredentialProviders(credentialProviders);
+        _generateCredentialProviders(credentialProviders, credentialProviderIndex);
         
-        _generateLoginForm(request, credentialProviders, invalidPopulationIds);
+        _generateLoginForm(request, credentialProviders, credentialProviderIndex, invalidPopulationIds);
         
         XMLUtils.endElement(contentHandler, "LoginScreen");
         contentHandler.endDocument();
@@ -149,7 +150,7 @@ public class LoginScreenGenerator extends ServiceableGenerator
         }
     }
     
-    private void _generateCredentialProviders(List<CredentialProvider> credentialProviders) throws SAXException
+    private void _generateCredentialProviders(List<CredentialProvider> credentialProviders, int currentCredentialProvider) throws SAXException
     {
         if (credentialProviders == null)
         {
@@ -164,6 +165,7 @@ public class LoginScreenGenerator extends ServiceableGenerator
             
             AttributesImpl attrs = new AttributesImpl();
             attrs.addCDATAAttribute("index", String.valueOf(index));
+            attrs.addCDATAAttribute("selected", index == currentCredentialProvider ? "true" : "false");
             attrs.addCDATAAttribute("isForm", cp instanceof FormCredentialProvider ? "true" : "false");
             XMLUtils.startElement(contentHandler, "CredentialProvider", attrs);
             XMLUtils.createElement(contentHandler, "label", I18nUtils.getInstance().translate(cpModel.getConnectionLabel()));
@@ -182,26 +184,32 @@ public class LoginScreenGenerator extends ServiceableGenerator
         XMLUtils.endElement(contentHandler, "CredentialProviders");
     }
     
-    private void _generateLoginForm(Request request, List<CredentialProvider> credentialProviders, boolean invalidPopulationIds) throws SAXException
+    private void _generateLoginForm(Request request, List<CredentialProvider> credentialProviders, int currentCredentialProvider, boolean invalidPopulationIds) throws SAXException
     {
         if (credentialProviders == null)
         {
             return;
         }
         
-        FormCredentialProvider formBasedCP;
-        
-        Optional<CredentialProvider> foundAnyFormCredentialProvider = credentialProviders.stream().filter(cp -> cp instanceof FormCredentialProvider).findAny();
-        if (foundAnyFormCredentialProvider.isPresent())
+        FormCredentialProvider formBasedCP = null;
+        if (currentCredentialProvider != -1 && credentialProviders.get(currentCredentialProvider) instanceof FormCredentialProvider)
         {
-            formBasedCP = (FormCredentialProvider) foundAnyFormCredentialProvider.get();
+            formBasedCP = (FormCredentialProvider) credentialProviders.get(currentCredentialProvider);
         }
         else
         {
-            // We found no form based
-            return;
+            Optional<CredentialProvider> foundAnyFormCredentialProvider = credentialProviders.stream().filter(cp -> cp instanceof FormCredentialProvider).findAny();
+            if (foundAnyFormCredentialProvider.isPresent())
+            {
+                formBasedCP = (FormCredentialProvider) foundAnyFormCredentialProvider.get();
+            }
+            else
+            {
+                // We found no form based
+                return;
+            }
         }
-        
+
         _loginFormManager.deleteAllPastLoginFailedBDD();
         
         String level = (String) formBasedCP.getParameterValues().get("runtime.authentication.form.security.level");
@@ -228,7 +236,8 @@ public class LoginScreenGenerator extends ServiceableGenerator
         
         boolean showErrors = !invalidPopulationIds;
         
-        XMLUtils.startElement(contentHandler, "LoginForm");
+        AttributesImpl attrs = new AttributesImpl();
+        XMLUtils.startElement(contentHandler, "LoginForm", attrs);
         
         XMLUtils.createElement(contentHandler, "autocomplete", String.valueOf(autoComplete));
         XMLUtils.createElement(contentHandler, "rememberMe", String.valueOf(rememberMe));
@@ -236,7 +245,5 @@ public class LoginScreenGenerator extends ServiceableGenerator
         XMLUtils.createElement(contentHandler, "showErrors", String.valueOf(showErrors));
         
         XMLUtils.endElement(contentHandler, "LoginForm");
-        
-        return;
     }
 }
