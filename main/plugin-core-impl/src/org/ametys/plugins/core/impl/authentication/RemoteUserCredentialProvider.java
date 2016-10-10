@@ -60,9 +60,9 @@ public class RemoteUserCredentialProvider extends AbstractCredentialProvider imp
     }
     
     @Override
-    public void init(String cpModelId, Map<String, Object> paramValues)
+    public void init(String cpModelId, Map<String, Object> paramValues, String label)
     {
-        super.init(cpModelId, paramValues);
+        super.init(cpModelId, paramValues, label);
         _realm = (String) paramValues.get(__PARAM_REALM);
         _headerName = (String) paramValues.get(__PARAM_HEADER_NAME);
     }

@@ -56,6 +56,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.xml.sax.SAXException;
 
@@ -72,6 +73,7 @@ import org.ametys.core.user.directory.ModifiableUserDirectory;
 import org.ametys.core.user.directory.UserDirectory;
 import org.ametys.core.user.directory.UserDirectoryFactory;
 import org.ametys.core.user.directory.UserDirectoryModel;
+import org.ametys.core.util.I18nUtils;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.Parameter;
 import org.ametys.runtime.parameter.ParameterCheckerDescriptor;
@@ -126,6 +128,8 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
 
     private CurrentUserProvider _currentUserProvider;
 
+    private I18nUtils _i18nutils;
+
     @Override
     public void initialize()
     {
@@ -150,6 +154,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
             // Not a safe component... ignore it
         }
         _currentUserProvider = (CurrentUserProvider) manager.lookup(CurrentUserProvider.ROLE);
+        _i18nutils = (I18nUtils) manager.lookup(I18nUtils.ROLE);
     }
     
     /**
@@ -196,7 +201,14 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         {
             String cpModelId = cp.getCredentialProviderModelId();
             CredentialProviderModel cpModel = _credentialProviderFactory.getExtension(cpModelId);
-            credentialProviders.add(cpModel.getLabel());
+            if (StringUtils.isNotBlank(cp.getLabel()))
+            {
+                credentialProviders.add(new I18nizableText(_i18nutils.translate(cpModel.getLabel()) + " (" + cp.getLabel() + ")"));
+            }
+            else
+            {
+                credentialProviders.add(cpModel.getLabel());
+            }
         }
         result.put("credentialProviders", credentialProviders);
         
@@ -352,7 +364,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
             Map<String, Object> params = new LinkedHashMap<>();
             for (String paramId : cpModel.getParameters().keySet())
             {
-                // prefix in case of two parameters from two different models have the same id which can lead to some errorsin client-side
+                // prefix in case of two parameters from two different models have the same id which can lead to some errors in client-side
                 params.put(extensionId + "$" + paramId, ParameterHelper.toJSON(cpModel.getParameters().get(paramId)));
             }
             cpMap.put("parameters", params);
@@ -414,6 +426,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
             Map<String, Object> cp2json = new HashMap<>();
             String cpModelId = cp.getCredentialProviderModelId();
             cp2json.put("cpModelId", cpModelId);
+            cp2json.put("label", cp.getLabel());
             Map<String, Object> params = new HashMap<>();
             for (String key : cp.getParameterValues().keySet())
             {
@@ -574,8 +587,9 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         for (Map<String, String> credentialProviderParameters : credentialProviders)
         {
             String modelId = credentialProviderParameters.remove("cpModelId");
+            String additionnalLabel = credentialProviderParameters.remove("label");
             Map<String, Object> typedParamValues = _getTypedCPParameters(credentialProviderParameters, modelId);
-            cps.add(_credentialProviderFactory.createCredentialProvider(modelId, typedParamValues));
+            cps.add(_credentialProviderFactory.createCredentialProvider(modelId, typedParamValues, additionnalLabel));
         }
         up.setCredentialProvider(cps);
     }
@@ -880,11 +894,12 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         for (Configuration credentialProviderConf : credentialProvidersConf)
         {
             String modelId = credentialProviderConf.getAttribute("modelId");
+            String additionnalLabel = credentialProviderConf.getAttribute("label", null);
             
             try
             {
                 Map<String, Object> paramValues = _getCPParametersFromConfiguration(credentialProviderConf, modelId, upId);
-                CredentialProvider cp = _credentialProviderFactory.createCredentialProvider(modelId, paramValues);
+                CredentialProvider cp = _credentialProviderFactory.createCredentialProvider(modelId, paramValues, additionnalLabel);
                 if (cp != null)
                 {
                     credentialProviders.add(cp);
@@ -1131,6 +1146,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
             {
                 AttributesImpl attr = new AttributesImpl();
                 attr.addCDATAAttribute("modelId", cp.getCredentialProviderModelId());
+                attr.addCDATAAttribute("label", cp.getLabel() != null ? cp.getLabel() : "");
                 XMLUtils.startElement(handler, "credentialProvider", attr);
                 
                 Map<String, Object> paramValues = cp.getParameterValues();

@@ -42,8 +42,8 @@ import org.ametys.runtime.parameter.AbstractParameterParser;
 import org.ametys.runtime.parameter.Enumerator;
 import org.ametys.runtime.parameter.Parameter;
 import org.ametys.runtime.parameter.ParameterHelper;
-import org.ametys.runtime.parameter.Validator;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
+import org.ametys.runtime.parameter.Validator;
 import org.ametys.runtime.plugin.ExtensionPoint;
 import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 import org.ametys.runtime.plugin.component.LogEnabled;
@@ -91,9 +91,10 @@ public class CredentialProviderFactory extends AbstractLogEnabled implements Ext
      * Creates a instance of {@link CredentialProvider}
      * @param id The id of the credential provider model
      * @param paramsValues the parameters's values
+     * @param label The optionnal label
      * @return a credential provider
      */
-    public CredentialProvider createCredentialProvider (String id, Map<String, Object> paramsValues)
+    public CredentialProvider createCredentialProvider (String id, Map<String, Object> paramsValues, String label)
     {
         if (_cpModels.containsKey(id))
         {
@@ -127,7 +128,7 @@ public class CredentialProviderFactory extends AbstractLogEnabled implements Ext
             }
             try
             {
-                cp.init(id, paramsValues);
+                cp.init(id, paramsValues, label);
             }
             catch (Exception e)
             {

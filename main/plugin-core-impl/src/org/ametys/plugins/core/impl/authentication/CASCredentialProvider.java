@@ -91,9 +91,9 @@ public class CASCredentialProvider extends AbstractCredentialProvider implements
     }
     
     @Override
-    public void init(String cpModelId, Map<String, Object> paramValues)
+    public void init(String cpModelId, Map<String, Object> paramValues, String label)
     {
-        super.init(cpModelId, paramValues);
+        super.init(cpModelId, paramValues, label);
         _serverUrl = (String) paramValues.get(__PARAM_SERVER_URL);
         _authorizedProxyChains = (String) paramValues.get(__PARAM_AUTHORIZED_PROXY_CHAINS);
     }

@@ -572,6 +572,7 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
     {
         var fieldName = "credentialProviders";
         var chooseModelFieldId = "cpModelId";
+        var labelFieldId = "label";
         
         var composition = {};
         var data = {};
@@ -580,7 +581,7 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
             description: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_CREDENTIAL_PROVIDER_ENTRY_DESCRIPTION}}",
             multiple: false,
             repeater: {
-                'header-label': '{' + chooseModelFieldId + '}',
+                'header-label': '{' + chooseModelFieldId + '} {' + labelFieldId + '}',
                 'add-label': "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_ADD_CREDENTIAL_PROVIDER_LABEL}}",
                 'del-label': "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_DELETE_CREDENTIAL_PROVIDER_LABEL}}",
                 'min-size': 1,
@@ -596,6 +597,15 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
             enumeration: [],
             validation: {
                 mandatory: true
+            }
+        };
+        composition[labelFieldId] = {
+            label: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_CREDENTIAL_PROVIDER_LABEL_LABEL}}",
+            description: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_CREDENTIAL_PROVIDER_LABEL_DESCRIPTION}}",
+            multiple: false,
+            type: 'STRING',
+            validation: {
+                mandatory: false
             }
         };
         this._createRepeaterData(data, fieldName, credentialProviderModels, chooseModelFieldId);
@@ -803,7 +813,7 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
         
         // Third card
         fieldName = "credentialProviders";
-        var cpData = this._getJsonForFillingForm(valuesToFill[fieldName], fieldName, "cpModelId");
+        var cpData = this._getJsonForFillingForm(valuesToFill[fieldName], fieldName, ["cpModelId", "label"]);
         this._getFormPanel(this._cards[2]).setValues(cpData);
     },
     
@@ -812,18 +822,24 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
      * Gets data in good JSON format for filling a {@link ConfigurableFormPanel}
      * @param {Object[]} inputData An array of objects containing a map of parameters (key of the field/value to fill)
      * @param {String} fieldName The name of the composite field
-     * @param {String} idName The name of the id field
+     * @param {String/String[]} idName The name of the id field
      * @return {Object} The object for filling the form
      */
     _getJsonForFillingForm: function(inputData, fieldName, idName)
     {
+        idName = Ext.Array.from(idName);
+        
         var values = {};
         Ext.Array.forEach(inputData, function(object, index) {
             var realIndex = index + 1; // indexes for repeater begin at 1
             var parameters = object.params;
-            var modelId = object[idName];
             
-            values[fieldName + this._separator + realIndex + this._separator + idName] = modelId; // for combobox id field
+            for (var i = 0; i < idName.length; i++)
+            {
+                var id = idName[i];
+                values[fieldName + this._separator + realIndex + this._separator + id] = object[id]; // for special id field
+            }
+            
             Ext.Object.each(parameters, function(paramName, paramValue) { // for parameter fields
                 values[fieldName + this._separator + realIndex + this._separator + paramName] = paramValue;
             }, this);

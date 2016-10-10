@@ -30,6 +30,12 @@ import org.ametys.core.user.UserIdentity;
 public interface CredentialProvider
 {
     /**
+     * Get the label of the CredentialProvider
+     * @return The label
+     */
+    public String getLabel();
+    
+    /**
      * Get the id of the {@link CredentialProviderModel} extension point
      * @return the id of extension point
      */
@@ -45,9 +51,10 @@ public interface CredentialProvider
      * Initialize the credential provider with given parameters' values.
      * @param cpModelId The id of credential provider extension point
      * @param paramValues The parameters' values
-     * @throws Exception If an error occured
+     * @param label The specific label of this instance. Can be null
+     * @throws Exception If an error occurred
      */
-    public void init(String cpModelId, Map<String, Object> paramValues) throws Exception;
+    public void init(String cpModelId, Map<String, Object> paramValues, String label) throws Exception;
     
     /**
      * Method called by AuthenticateAction before asking for credentials. This

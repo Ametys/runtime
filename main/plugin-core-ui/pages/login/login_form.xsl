@@ -89,7 +89,10 @@
         <div class="login-inner login-credential-provider">
             <button type="submit" style="background-color: #{color}; border: 1px solid #{color};">
                 <xsl:value-of select="label"/>
-                <span class="{iconGlyph}"></span>
+                <xsl:if test="additionalLabel">
+                    <span class="login-additionalLabel"><xsl:value-of select="additionalLabel"/></span>
+                </xsl:if>
+                <span class="glyph {iconGlyph}"></span>
             </button>
         </div>
     </xsl:template>
@@ -223,7 +226,12 @@
     <!-- FORM -->
     
     <xsl:template name="login-form-submit">
-        <button type="submit"><i18n:text i18n:key='PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_SUBMIT' i18n:catalogue='plugin.core-ui'/></button>
+        <button type="submit">
+            <i18n:text i18n:key='PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_SUBMIT' i18n:catalogue='plugin.core-ui'/>
+            <xsl:if test="/LoginScreen/LoginForm/additionalLabel">
+                <span class="login-additionalLabel"><xsl:value-of select="/LoginScreen/LoginForm/additionalLabel"/></span>
+            </xsl:if>
+        </button>
     </xsl:template>
     
     <xsl:template name="login-form-inputs">

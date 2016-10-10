@@ -169,6 +169,10 @@ public class LoginScreenGenerator extends ServiceableGenerator
             attrs.addCDATAAttribute("isForm", cp instanceof FormCredentialProvider ? "true" : "false");
             XMLUtils.startElement(contentHandler, "CredentialProvider", attrs);
             XMLUtils.createElement(contentHandler, "label", I18nUtils.getInstance().translate(cpModel.getConnectionLabel()));
+            if (StringUtils.isNotBlank(cp.getLabel()))
+            {
+                XMLUtils.createElement(contentHandler, "additionalLabel", cp.getLabel());
+            }
             if (StringUtils.isNotEmpty(cpModel.getIconGlyph()))
             {
                 XMLUtils.createElement(contentHandler, "iconGlyph", cpModel.getIconGlyph());
@@ -239,6 +243,10 @@ public class LoginScreenGenerator extends ServiceableGenerator
         AttributesImpl attrs = new AttributesImpl();
         XMLUtils.startElement(contentHandler, "LoginForm", attrs);
         
+        if (StringUtils.isNotBlank(formBasedCP.getLabel()))
+        {
+            XMLUtils.createElement(contentHandler, "additionalLabel", formBasedCP.getLabel());
+        }
         XMLUtils.createElement(contentHandler, "autocomplete", String.valueOf(autoComplete));
         XMLUtils.createElement(contentHandler, "rememberMe", String.valueOf(rememberMe));
         XMLUtils.createElement(contentHandler, "useCaptcha", String.valueOf(captcha));

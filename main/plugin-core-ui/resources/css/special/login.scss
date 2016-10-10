@@ -106,12 +106,18 @@ div.login {
                 left: 0.5em;
             }
             
-            span:before {
+            .glyph:before {
                 position: absolute;
                 right: 0.4em;
                 top: 0.6em;
                 font-size: 1.2em;
-            }            
+            }    
+            
+            .login-additionalLabel {
+                display: block;
+                font-size: 0.9em;
+                font-style: italic;
+            }        
         }
         
         .login-user-populations-standalone,

@@ -155,9 +155,9 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
     }
     
     @Override
-    public void init(String cpModelId, Map<String, Object> paramValues)
+    public void init(String cpModelId, Map<String, Object> paramValues, String label)
     {
-        super.init(cpModelId, paramValues);
+        super.init(cpModelId, paramValues, label);
         _securityLevel = (String) paramValues.get(__PARAM_SECURITY_LEVEL);
     }
     

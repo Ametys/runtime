@@ -1052,6 +1052,8 @@
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_DELETE_CREDENTIAL_PROVIDER_LABEL">Remove an authentication mode</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_CREDENTIAL_PROVIDER_TYPE_LABEL">Authentication mode</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_CREDENTIAL_PROVIDER_TYPE_DESCRIPTION">Authentication mode</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_CREDENTIAL_PROVIDER_LABEL_LABEL">Name</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_CREDENTIAL_PROVIDER_LABEL_DESCRIPTION">If there are several times the same authentication mode, you can set an additional label to makes them unique.</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_THIRD_CARD_HINT">Select and parameterize the modes of user authentication associated to the previously selected directories.&lt;br/&gt;&lt;br/&gt;You have to make sure the given information is consistent. For instance, if you selected users from MySQL database, and you wish them to authenticate by CAS, it is necessary the CAS uses the same database.&lt;br/&gt;If you propose several authentication modes, the user will have the choice: for instance CAS or Form.</message>
     
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_REMOVE_CONFIRM_TITLE">Remove the user population</message>
