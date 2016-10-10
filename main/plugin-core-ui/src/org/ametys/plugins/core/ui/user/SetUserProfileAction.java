@@ -71,7 +71,7 @@ public class SetUserProfileAction extends SetUserPreferencesAction
             try
             {
                 _uploadManager = (UploadManager) manager.lookup(UploadManager.ROLE);
-                _profileImageProvider = (DefaultProfileImageProvider) manager.lookup(DefaultProfileImageProvider.ROLE);
+                _profileImageProvider = (DefaultProfileImageProvider) manager.lookup(ProfileImageProvider.ROLE);
             }
             catch (ServiceException e)
             {
