@@ -14,20 +14,11 @@
    See the License for the specific language governing permissions and
    limitations under the License.
    -->
-<project name="generate-font" default="generate">
+<project name="runtime-generate-font" default="generate">
 	
-	<target name="generate-font">
-        <exec executable="fontforge" failonerror="true">
-            <arg value="-script"/>
-            <arg value="generate-font.py"/>
-            <arg value="${svg.dir}"/>
-            <arg value="${font.dir}"/>
-            <arg value="${font.name}"/>
-            <arg value="${font.family}"/>
-            <arg value="${css.prefix}"/>
-        </exec>
-	</target>
-	
+	<property name="common-build" location="../../../../tools/master/dev/fonts/build.xml"/>
+    <import file="${common-build}"/>
+    
 	<target name="generate">
 		<antcall target="generate-font">
             <param name="svg.dir" value="ametys"/>
