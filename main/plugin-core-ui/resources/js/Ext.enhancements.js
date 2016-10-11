@@ -96,6 +96,11 @@
          */
         asNonAccentedUCString: function (s)
         {
+            if (!s)
+            {
+                return s;
+            }
+            
             s = Ext.String.deemphasize(s.toLowerCase());
             
             return Ext.data.SortTypes.asUCString(s);
