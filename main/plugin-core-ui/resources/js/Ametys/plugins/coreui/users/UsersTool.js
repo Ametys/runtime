@@ -369,17 +369,17 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
             hidden: true, // hidden by default, will be shown if told
             
             store: {
-                fields: ['index', {name: 'label', sortType: Ext.data.SortTypes.asNonAccentedUCString}],
+                fields: ['id', {name: 'label', sortType: Ext.data.SortTypes.asNonAccentedUCString}],
                 data: [],
                 sorters: [{property: 'label', direction: 'ASC'}],
                 listeners: {
                     'datachanged': Ext.bind(function(store) {
                         this._userDirectoriesField.clearValue();
-                        this._userDirectoriesField.setValue(-1);
+                        this._userDirectoriesField.setValue("-");
                     }, this)
                 }
             },
-            valueField: 'index',
+            valueField: 'id',
             displayField: 'label',
             queryMode: 'local',
             forceSelection: true,
@@ -483,13 +483,13 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
         
         // Populate the user directories combobox store
         var data = [{
-            index: -1,
+            id: '-',
             label: "{{i18n PLUGINS_CORE_UI_TOOL_USERS_USER_DIRECTORY_FIELD_OPTION_ALL}}"
         }];
         var record = combo.getStore().getById(newValue);
         Ext.Array.forEach(record.get('userDirectories'), function(item, index) {
             data.push({
-                index: item.index,
+                id: item.id,
                 label: item.label
             });
         }, this);
@@ -566,8 +566,8 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
     },
     
     /**
-     * Gets the index of the user directory selected in the user directory combobox of this tool.
-     * @return {Number} The index of the user directory selected in the user directory combobox
+     * Gets the id of the user directory selected in the user directory combobox of this tool.
+     * @return {String} The id of the user directory selected in the user directory combobox
      */
     getUserDirectoryComboValue: function()
     {
@@ -603,7 +603,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
         
         operation.setParams( Ext.apply(operation.getParams() || {}, {
             userPopulationId: this.getPopulationComboValue(),
-            userDirectoryIndex: this.getUserDirectoryComboValue(),
+            userDirectoryId: this.getUserDirectoryComboValue(),
             criteria: this._searchField.getValue(),
             limit: this.self.RESULT_LIMIT
         }));
@@ -624,10 +624,10 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
             var store = this._grid.getStore();
             
             Ext.Array.each (this._initialSelectedUsers, function (login) {
-                var index = store.find("id", login); 
-                if (index != -1)
+                var id = store.find("id", login); 
+                if (id != '-')
                 {
-                    records.push(store.getAt(index));
+                    records.push(store.getAt(id));
                 }
             });
             

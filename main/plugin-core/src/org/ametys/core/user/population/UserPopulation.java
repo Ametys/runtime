@@ -17,8 +17,10 @@ package org.ametys.core.user.population;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.cocoon.components.LifecycleHelper;
+import org.apache.commons.lang3.StringUtils;
 
 import org.ametys.core.authentication.CredentialProvider;
 import org.ametys.core.user.directory.UserDirectory;
@@ -118,11 +120,27 @@ public class UserPopulation
         return _userDirectories;
     }
     
+    
+    /**
+     * Get the select UserDirectory
+     * @param id The id of the directory to get
+     * @return The associated user directory or null
+     */
+    public UserDirectory getUserDirectory(String id)
+    {
+        Optional<UserDirectory> findAny = _userDirectories.stream().filter(ud -> StringUtils.equals(ud.getId(), id)).findAny();
+        if (findAny.isPresent())
+        {
+            return findAny.get();
+        }
+        return null;
+    }
+    
     /**
      * Set the user directories
      * @param userDirectories The list of {@link UserDirectory}s to set.
      */
-    public void setUserDirectory(List<UserDirectory> userDirectories)
+    public void setUserDirectories(List<UserDirectory> userDirectories)
     {
         resetUserDirectories();
         _userDirectories = userDirectories;

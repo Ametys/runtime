@@ -538,7 +538,16 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
 	            mandatory: true
 	        }
         };
-                composition[labelFieldId] = {
+        composition['id'] = {
+            label: "id",
+            multiple: false,
+            type: 'STRING',
+            hidden: true,
+            validation: {
+                mandatory: false
+            }
+        };
+        composition[labelFieldId] = {
             label: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_USER_DIRECTORY_LABEL_LABEL}}",
             description: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_USER_DIRECTORY_LABEL_DESCRIPTION}}",
             multiple: false,
@@ -818,7 +827,7 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
         
         // Second card
         var fieldName = "userDirectories";
-        var udData = this._getJsonForFillingForm(valuesToFill[fieldName], fieldName, ["udModelId", "label"]);
+        var udData = this._getJsonForFillingForm(valuesToFill[fieldName], fieldName, ["udModelId", "label", "id"]);
         this._getFormPanel(this._cards[1]).setValues(udData);
         
         // Third card

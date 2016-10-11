@@ -92,17 +92,18 @@ public class UserDirectoryFactory extends AbstractLogEnabled implements Extensio
     
     /**
      * Creates a instance of {@link UserDirectory}
-     * @param id The id of the user directory model
+     * @param modelId The id of the user directory model
+     * @param id A non-null and non-empty unique identifier
      * @param paramsValues The parameters's values
      * @param populationId The id of the population the created user directory belongs to.
-     * @param label The directory optionnal label
+     * @param label The directory optional label
      * @return a user's directory
      */
-    public UserDirectory createUserDirectory(String id, Map<String, Object> paramsValues, String populationId, String label)
+    public UserDirectory createUserDirectory(String id, String modelId, Map<String, Object> paramsValues, String populationId, String label)
     {
-        if (_udModels.containsKey(id))
+        if (_udModels.containsKey(modelId))
         {
-            UserDirectoryModel userDirectoryModel = _udModels.get(id);
+            UserDirectoryModel userDirectoryModel = _udModels.get(modelId);
             
             UserDirectory ud = null;
             Class<UserDirectory> udClass = userDirectoryModel.getUserDirectoryClass();
@@ -127,17 +128,17 @@ public class UserDirectoryFactory extends AbstractLogEnabled implements Extensio
             }
             catch (Exception e)
             {
-                getLogger().warn("An exception occured during the setup of the component " + id, e);
+                getLogger().warn("An exception occured during the setup of the component " + modelId, e);
             }
             
             ud.setPopulationId(populationId);
             try
             {
-                ud.init(id, paramsValues, label);
+                ud.init(id, modelId, paramsValues, label);
             }
             catch (Exception e)
             {
-                throw new IllegalStateException("An error occured during the initialization of the UserDirectory '" + id + "' of the UserPopulation '" + populationId + "'", e);
+                throw new IllegalStateException("An error occured during the initialization of the UserDirectory '" + modelId + "' of the UserPopulation '" + populationId + "'", e);
             }
             
             return ud;

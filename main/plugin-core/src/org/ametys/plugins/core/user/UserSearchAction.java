@@ -74,12 +74,13 @@ public class UserSearchAction extends AbstractAction implements ThreadSafe, Serv
         {
             // search over the given population
             String userPopulationId = (String) jsParameters.get("userPopulationId");
-            int userDirectoryIndex = -1;
-            if (jsParameters.get("userDirectoryIndex") != null)
+            String userDirectoryId = null;
+            if (jsParameters.get("userDirectoryId") != null)
             {
-                userDirectoryIndex = (int) jsParameters.get("userDirectoryIndex");
+                userDirectoryId = (String) jsParameters.get("userDirectoryId");
+                userDirectoryId = "-".equals(userDirectoryId) ? null : userDirectoryId;
             }
-            _searchUsersByPopulation(users, jsParameters, source, parameters, userPopulationId, userDirectoryIndex);
+            _searchUsersByPopulation(users, jsParameters, source, parameters, userPopulationId, userDirectoryId);
         }
         
         Map<String, Object> result = new HashMap<>();
@@ -127,20 +128,20 @@ public class UserSearchAction extends AbstractAction implements ThreadSafe, Serv
         }
     }
     
-    private void _searchUsersByPopulation(List<Map<String, Object>> users, Map<String, Object> jsParameters, String source, Parameters parameters, String userPopulationId, int userDirectoryIndex)
+    private void _searchUsersByPopulation(List<Map<String, Object>> users, Map<String, Object> jsParameters, String source, Parameters parameters, String userPopulationId, String userDirectoryId)
     {
-        if (jsParameters.get("login") != null && userDirectoryIndex != -1)
+        if (jsParameters.get("login") != null && userDirectoryId != null)
         {
             @SuppressWarnings("unchecked")
             List<String> logins = (List<String>) jsParameters.get("login");
             for (String login : logins)
             {
-                users.add(_userHelper.user2json(_userManager.getUserByDirectory(userPopulationId, userDirectoryIndex, login), true));
+                users.add(_userHelper.user2json(_userManager.getUserByDirectory(userPopulationId, userDirectoryId, login), true));
             }
         }
         else if (jsParameters.get("login") != null)
         {
-            // userDirectoryIndex = -1 => take account of all the user directories
+            // userDirectoryId = null => take account of all the user directories
             @SuppressWarnings("unchecked")
             List<String> logins = (List<String>) jsParameters.get("login");
             for (String login : logins)
@@ -148,7 +149,7 @@ public class UserSearchAction extends AbstractAction implements ThreadSafe, Serv
                 users.add(_userHelper.user2json(_userManager.getUser(userPopulationId, login), true));
             }
         }
-        else if (userDirectoryIndex != -1)
+        else if (userDirectoryId != null)
         {
             int count = parameters.getParameterAsInteger("limit", _DEFAULT_COUNT_VALUE);
             if (count == -1)
@@ -157,11 +158,11 @@ public class UserSearchAction extends AbstractAction implements ThreadSafe, Serv
             }
             int offset = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
             
-            users.addAll(_userHelper.users2json(_userManager.getUsersByDirectory(userPopulationId, userDirectoryIndex, count, offset, _getSearchParameters(source)), true));
+            users.addAll(_userHelper.users2json(_userManager.getUsersByDirectory(userPopulationId, userDirectoryId, count, offset, _getSearchParameters(source)), true));
         }
         else
         {
-            // userDirectoryIndex = -1 => take account of all the user directories
+            // userDirectoryId = null => take account of all the user directories
             int count = parameters.getParameterAsInteger("limit", _DEFAULT_COUNT_VALUE);
             if (count == -1)
             {

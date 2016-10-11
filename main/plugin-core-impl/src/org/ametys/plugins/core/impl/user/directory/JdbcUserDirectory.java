@@ -121,6 +121,8 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
     private String _populationId;
     
     private String _label;
+
+    private String _id;
     
     @Override
     public void setPluginInfo(String pluginName, String featureName, String id)
@@ -150,14 +152,20 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
         _validatorManager = null;
     }
     
+    public String getId()
+    {
+        return _id;
+    }
+    
     public String getLabel()
     {
         return _label;
     }
     
     @Override
-    public void init(String udModelId, Map<String, Object> paramValues, String label)
+    public void init(String id, String udModelId, Map<String, Object> paramValues, String label)
     {
+        _id = id;
         _udModelId = udModelId;
         _paramValues = paramValues;
         _label = label;

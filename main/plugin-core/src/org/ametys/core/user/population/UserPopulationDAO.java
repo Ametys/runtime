@@ -182,14 +182,13 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         result.put("isInUse", _populationConsumerEP.isInUse(userPopulation.getId()));
         
         List<Object> userDirectories = new ArrayList<>();
-        int directoryIndex = 0;
         for (UserDirectory ud : userPopulation.getUserDirectories())
         {
             String udModelId = ud.getUserDirectoryModelId();
             UserDirectoryModel udModel = _userDirectoryFactory.getExtension(udModelId);
             
             Map<String, Object> directory = new HashMap<>();
-            directory.put("index", directoryIndex++);
+            directory.put("id", ud.getId());
             
             if (StringUtils.isNotBlank(ud.getLabel()))
             {
@@ -415,6 +414,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         {
             Map<String, Object> ud2json = new HashMap<>();
             String udModelId = ud.getUserDirectoryModelId();
+            ud2json.put("id", ud.getId());
             ud2json.put("udModelId", udModelId);
             ud2json.put("label", ud.getLabel());
             Map<String, Object> params = new HashMap<>();
@@ -585,12 +585,18 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         List<UserDirectory> uds = new ArrayList<>();
         for (Map<String, String> userDirectoryParameters : userDirectories)
         {
+            String id = userDirectoryParameters.remove("id");
+            if (StringUtils.isBlank(id))
+            {
+                id = org.ametys.core.util.StringUtils.generateKey();
+            }
+            
             String modelId = userDirectoryParameters.remove("udModelId");
             String additionnalLabel = userDirectoryParameters.remove("label");
             Map<String, Object> typedParamValues = _getTypedUDParameters(userDirectoryParameters, modelId);
-            uds.add(_userDirectoryFactory.createUserDirectory(modelId, typedParamValues, up.getId(), additionnalLabel));
+            uds.add(_userDirectoryFactory.createUserDirectory(id, modelId, typedParamValues, up.getId(), additionnalLabel));
         }
-        up.setUserDirectory(uds);
+        up.setUserDirectories(uds);
         
         // Create the credential providers
         List<CredentialProvider> cps = new ArrayList<>();
@@ -851,7 +857,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         up.setLabel(new I18nizableText(configuration.getChild("label").getValue()));
         
         List<UserDirectory> userDirectories = _configureUserDirectories(configuration, upId);
-        up.setUserDirectory(userDirectories);
+        up.setUserDirectories(userDirectories);
         
         List<CredentialProvider> credentialProviders = _configureCredentialProviders(configuration, upId);
         up.setCredentialProvider(credentialProviders);
@@ -869,13 +875,14 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         Configuration[] userDirectoriesConf = configuration.getChild("userDirectories").getChildren("userDirectory");
         for (Configuration userDirectoryConf : userDirectoriesConf)
         {
+            String id = userDirectoryConf.getAttribute("id");
             String modelId = userDirectoryConf.getAttribute("modelId");
             String label = userDirectoryConf.getAttribute("label", null);
             
             try
             {
                 Map<String, Object> paramValues = _getUDParametersFromConfiguration(userDirectoryConf, modelId, upId);
-                UserDirectory ud = _userDirectoryFactory.createUserDirectory(modelId, paramValues, upId, label);
+                UserDirectory ud = _userDirectoryFactory.createUserDirectory(id, modelId, paramValues, upId, label);
                 if (ud != null)
                 {
                     userDirectories.add(ud);
@@ -1138,6 +1145,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
             for (UserDirectory ud : userPopulation.getUserDirectories())
             {
                 AttributesImpl attr = new AttributesImpl();
+                attr.addCDATAAttribute("id", ud.getId());
                 attr.addCDATAAttribute("modelId", ud.getUserDirectoryModelId());
                 attr.addCDATAAttribute("label", ud.getLabel() != null ? ud.getLabel() : "");
                 XMLUtils.startElement(handler, "userDirectory", attr);

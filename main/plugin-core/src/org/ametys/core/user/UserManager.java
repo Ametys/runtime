@@ -239,13 +239,13 @@ public class UserManager extends AbstractLogEnabled implements Component, Servic
     /**
      * Gets all the users of a given {@link UserPopulation} and {@link UserDirectory}
      * @param userPopulationId The ID of user population
-     * @param userDirectoryIndex The index of the user directory
+     * @param userDirectoryId The id of the user directory
      * @param count The limit of users to retrieve
      * @param offset The number of result to ignore before starting to collect users. 
      * @param parameters A map of additional parameters, see implementation.
      * @return list of users as Collection of {@link User}s, empty if a problem occurs.
      */
-    public Collection<User> getUsersByDirectory(String userPopulationId, int userDirectoryIndex, int count, int offset, Map<String, Object> parameters)
+    public Collection<User> getUsersByDirectory(String userPopulationId, String userDirectoryId, int count, int offset, Map<String, Object> parameters)
     {
         UserPopulation userPopulation = _userPopulationDAO.getUserPopulation(userPopulationId);
         
@@ -254,7 +254,11 @@ public class UserManager extends AbstractLogEnabled implements Component, Servic
             return Collections.EMPTY_LIST;
         }
         
-        UserDirectory ud = userPopulation.getUserDirectories().get(userDirectoryIndex);
+        UserDirectory ud = userPopulation.getUserDirectory(userDirectoryId);
+        if (ud == null)
+        {
+            throw new IllegalArgumentException("In the population '" + userPopulationId + "' the directory '" + userDirectoryId + "' was referenced but does not exists");
+        }
         return ud.getUsers(count, offset, parameters);
     }
     
@@ -300,15 +304,15 @@ public class UserManager extends AbstractLogEnabled implements Component, Servic
     /**
      * Gets all the users of a {@link UserPopulation}
      * @param userPopulation The users population
-     * @param userDirectoryIndex The index of the user directory
+     * @param userDirectoryId The id of the user directory
      * @param count The limit of users to retrieve
      * @param offset The number of result to ignore before starting to collect users. 
      * @param parameters A map of additional parameters, see implementation.
      * @return list of users as Collection of {@link User}s, empty if a problem occurs.
      */
-    public Collection<User> getUsersByDirectory(UserPopulation userPopulation, int userDirectoryIndex, int count, int offset, Map<String, Object> parameters)
+    public Collection<User> getUsersByDirectory(UserPopulation userPopulation, String userDirectoryId, int count, int offset, Map<String, Object> parameters)
     {
-        UserDirectory ud = userPopulation.getUserDirectories().get(userDirectoryIndex);
+        UserDirectory ud = userPopulation.getUserDirectory(userDirectoryId);
         return ud.getUsers(count, offset, parameters);
     }
     
@@ -365,16 +369,16 @@ public class UserManager extends AbstractLogEnabled implements Component, Servic
     /**
      * Get a particular user of the given user population and given user directory by his login.
      * @param userPopulationId The ID of user population
-     * @param userDirectoryIndex The index of the user directory
+     * @param userDirectoryId The id of the user directory
      * @param login Login of the user to get. Cannot be null.
      * @return User's information as a {@link User} instance or null if the user login does not exist.
      */
-    public User getUserByDirectory(String userPopulationId, int userDirectoryIndex, String login)
+    public User getUserByDirectory(String userPopulationId, String userDirectoryId, String login)
     {
         UserPopulation userPopulation = _userPopulationDAO.getUserPopulation(userPopulationId);
         if (userPopulation != null)
         {
-            return getUserByDirectory(userPopulation, userDirectoryIndex, login);
+            return getUserByDirectory(userPopulation, userDirectoryId, login);
         }
         else
         {
@@ -404,13 +408,13 @@ public class UserManager extends AbstractLogEnabled implements Component, Servic
     /**
      * Get a particular user of the given user population and given user directory by his login.
      * @param userPopulation The user population
-     * @param userDirectoryIndex The index of the user directory
+     * @param userDirectoryId The id of the user directory
      * @param login Login of the user to get. Cannot be null.
      * @return User's information as a {@link User} instance or null if the user login does not exist.
      */
-    public User getUserByDirectory(UserPopulation userPopulation, int userDirectoryIndex, String login)
+    public User getUserByDirectory(UserPopulation userPopulation, String userDirectoryId, String login)
     {
-        UserDirectory ud = userPopulation.getUserDirectories().get(userDirectoryIndex);
+        UserDirectory ud = userPopulation.getUserDirectory(userDirectoryId);
         
         User user = ud.getUser(login);
         if (user != null)

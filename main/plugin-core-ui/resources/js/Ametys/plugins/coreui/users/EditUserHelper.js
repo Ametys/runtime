@@ -101,10 +101,10 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
                             {
                                 this._directoryField.setValue(value); // First set the first combobox to update the second one
                                 
-                                var userDirectoryIndex = tool.getUserDirectoryComboValue();
-                                if (this._directoryField._userDirectories.getStore().findExact('index', userDirectoryIndex) >= 0) // test if the value selected in the tool is present in the dialog box
+                                var userDirectoryId = tool.getUserDirectoryComboValue();
+                                if (this._directoryField._userDirectories.getStore().findExact('index', userDirectoryId) >= 0) // test if the value selected in the tool is present in the dialog box
                                 {
-                                    value += "#" + userDirectoryIndex;
+                                    value += "#" + userDirectoryId;
                                     this._directoryField.setValue(value);
                                 }
                             }
@@ -149,7 +149,7 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
                             return;
                         }
                         var userDirectoryValue = userDirectoryField.getValue().split('#', 2);
-		                this._open(userDirectoryValue[0], parseInt(userDirectoryValue[1], 10), null);
+		                this._open(userDirectoryValue[0], userDirectoryValue[1], null);
                         this._chooseUserDirectoryDialog.close();
 		            },this)
 		        }, {
@@ -187,10 +187,10 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
 	 * @private
 	 * Show dialog box for user edition
 	 * @param {String} populationId The id of the population of the user. Cannot be null
-	 * @param {String} userDirectoryIndex The index of the user directory in its population. Can be null in 'edit' mode
+	 * @param {String} userDirectoryId The id of the user directory in its population. Can be null in 'edit' mode
 	 * @param {String} login The user's login. Can be null in 'new' mode
 	 */
-	_open: function (populationId, userDirectoryIndex, login)
+	_open: function (populationId, userDirectoryId, login)
 	{
 		var me = this;
 		function configureCallback (success)
@@ -203,7 +203,7 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
 		}
 		
 		// Create dialog box if needed
-		this._createDialogBox(login, populationId, userDirectoryIndex, configureCallback);
+		this._createDialogBox(login, populationId, userDirectoryId, configureCallback);
 	},
 	
 	/**
@@ -211,10 +211,10 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
 	 * Creates the dialog if needed.
      * @param {String} login The user's login. Can be null in 'new' mode.
      * @param {String} populationId The id of the population of the user. Cannot be null.
-     * @param {String} userDirectoryIndex The index of the user directory in its population. Can be null in 'edit' mode
+     * @param {String} userDirectoryId The index of the user directory in its population. Can be null in 'edit' mode
 	 * @param {Function} callback Function to called after drawing box.
 	 */
-	_createDialogBox: function (login, populationId, userDirectoryIndex, callback)
+	_createDialogBox: function (login, populationId, userDirectoryId, callback)
 	{
 		this._form = Ext.create('Ametys.form.ConfigurableFormPanel', {
 			'tab-policy-mode': 'default',
@@ -244,14 +244,14 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
 			buttons : [{
 				reference: 'validate',
 				text: "{{i18n PLUGINS_CORE_UI_USERS_DIALOG_OK}}",
-				handler: Ext.bind(this._validate, this, [populationId, userDirectoryIndex])
+				handler: Ext.bind(this._validate, this, [populationId, userDirectoryId])
 			}, {
 				text: "{{i18n PLUGINS_CORE_UI_USERS_DIALOG_CANCEL}}",
 				handler: Ext.bind(function() {this._box.hide();}, this)
 			}]
 		});
 		
-		this._configureForm(login, populationId, userDirectoryIndex, callback);
+		this._configureForm(login, populationId, userDirectoryId, callback);
 	},
 	
 	/**
@@ -259,17 +259,15 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
 	 * Configures the user edition form.
      * @param {String} login The user's login. Can be null in 'new' mode.
      * @param {String} populationId The id of the population of the user. Cannot be null.
-     * @param {Number} userDirectoryIndex The index of the user directory in its population. Can be null in 'edit' mode
+     * @param {Number} userDirectoryId The id of the user directory in its population. Can be null in 'edit' mode
 	 * @param {Function} callback Function to called after drawing box.
 	 */
-	_configureForm: function (login, populationId, userDirectoryIndex, callback)
+	_configureForm: function (login, populationId, userDirectoryId, callback)
 	{
-        var parameters = this._mode == 'new' ? [populationId, userDirectoryIndex] : [login, populationId];
-        
 		Ametys.data.ServerComm.callMethod({
 			role: "org.ametys.plugins.core.user.UserDAO",
-			methodName: "getEditionModel",
-			parameters: parameters,
+			methodName: this._mode == "new" ? "getEditionModelForDirectory" : "getEditionModelForUSer",
+			parameters: this._mode == "new" ? [populationId, userDirectoryId] : [login, populationId],
 			callback: {
 				handler: this._getEditionModelCb,
 				scope: this,
@@ -344,9 +342,9 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
 	 * Validates the dialog box.
 	 * Creates or edits user.
      * @param {String} populationId The id of the population the user belongs to ('edit' mode) or where the user has to be created ('new' mode)
-     * @param {Number} userDirectoryIndex The index of the user directory in its population. Can be null in 'edit' mode
+     * @param {String} userDirectoryId The index of the user directory in its population. Can be null in 'edit' mode
 	 */
-	_validate: function(populationId, userDirectoryIndex)
+	_validate: function(populationId, userDirectoryId)
 	{
 		if (!this._form.isValid())
 		{
@@ -356,7 +354,7 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
 		var values = this._form.getValues();
 		if (this._mode == 'new')
 		{
-			Ametys.plugins.core.users.UsersDAO.addUser([populationId, userDirectoryIndex, values, this._userMessageTargetType], this._editUserCb, {scope: this, waitMessage: {target: this._box}});
+			Ametys.plugins.core.users.UsersDAO.addUser([populationId, userDirectoryId, values, this._userMessageTargetType], this._editUserCb, {scope: this, waitMessage: {target: this._box}});
 		}
 		else
 		{

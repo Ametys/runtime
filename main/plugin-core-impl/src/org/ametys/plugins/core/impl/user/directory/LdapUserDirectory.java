@@ -100,6 +100,12 @@ public class LdapUserDirectory extends AbstractLDAPConnector implements UserDire
     private Map<String, Object> _paramValues;
     private String _populationId;
     private String _label;
+    private String _id;
+    
+    public String getId()
+    {
+        return _id;
+    }
     
     public String getLabel()
     {
@@ -107,8 +113,9 @@ public class LdapUserDirectory extends AbstractLDAPConnector implements UserDire
     }
     
     @Override
-    public void init(String udModelId, Map<String, Object> paramValues, String label) throws Exception
+    public void init(String id, String udModelId, Map<String, Object> paramValues, String label) throws Exception
     {
+        _id = id;
         _udModelId = udModelId;
         _paramValues = paramValues;
         _label = label;

@@ -98,14 +98,14 @@ Ext.define('Ametys.form.field.SelectUserDirectory', {
                         
             fieldLabel: this.getInitialConfig().showLabels ? "{{i18n PLUGINS_CORE_UI_TOOL_USERS_USER_DIRECTORY_FIELD}}" : undefined,
             flex: 1,
-            valueField: 'index',
+            valueField: 'id',
             displayField: 'label',
             queryMode: 'local',
             forceSelection: true,
             triggerAction: 'all',
                             
             store: {
-                fields: ['index', 'label'],
+                fields: ['id', 'label'],
                 data: [],
                 listeners: {
                     'datachanged': function(store) {
@@ -144,7 +144,7 @@ Ext.define('Ametys.form.field.SelectUserDirectory', {
                             if (userDirectory.modifiable)
                             {
                                 data.push({
-                                    index: userDirectory.index,
+                                    id: userDirectory.id,
                                     label: userDirectory.label
                                 });
                             }

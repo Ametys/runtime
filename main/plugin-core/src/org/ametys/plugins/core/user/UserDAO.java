@@ -145,18 +145,18 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
     /**
      * Creates a User
      * @param populationId The id of the user population
-     * @param userDirectoryIndex The index of the user directory
+     * @param userDirectoryId The id of the user directory
      * @param untypedValues The untyped user's parameters
      * @return The created user as JSON object
      * @throws InvalidModificationException If modification is not possible 
      */
     @Callable
-    public Map<String, Object> addUser (String populationId, int userDirectoryIndex, Map<String, String> untypedValues) throws InvalidModificationException
+    public Map<String, Object> addUser (String populationId, String userDirectoryId, Map<String, String> untypedValues) throws InvalidModificationException
     {
         Map<String, Object> result = new HashMap<>();
         
         UserPopulation userPopulation = _userPopulationDAO.getUserPopulation(populationId);
-        UserDirectory userDirectory = userPopulation.getUserDirectories().get(userDirectoryIndex);
+        UserDirectory userDirectory = userPopulation.getUserDirectory(userDirectoryId);
         
         if (!(userDirectory instanceof ModifiableUserDirectory))
         {
@@ -312,7 +312,7 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
      * @return The edition model as an object
      */
     @Callable
-    public Map<String, Object> getEditionModel (String login, String populationId) throws InvalidModificationException, ProcessingException
+    public Map<String, Object> getEditionModelForUSer(String login, String populationId) throws InvalidModificationException, ProcessingException
     {
         UserDirectory userDirectory = _userManager.getUserDirectory(populationId, login);
         return _getEditionModel(userDirectory);
@@ -321,15 +321,15 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
     /**
      * Get the users edition model 
      * @param populationId The id of the population where to add a user
-     * @param userDirectoryIndex The index of the user directory where to add a user
+     * @param userDirectoryId The id of the user directory where to add a user
      * @throws InvalidModificationException If modification is not possible 
      * @throws ProcessingException If there is another exception
      * @return The edition model as an object
      */
     @Callable
-    public Map<String, Object> getEditionModel (String populationId, int userDirectoryIndex) throws InvalidModificationException, ProcessingException
+    public Map<String, Object> getEditionModelForDirectory(String populationId, String userDirectoryId) throws InvalidModificationException, ProcessingException
     {
-        UserDirectory userDirectory = _userPopulationDAO.getUserPopulation(populationId).getUserDirectories().get(userDirectoryIndex);
+        UserDirectory userDirectory = _userPopulationDAO.getUserPopulation(populationId).getUserDirectory(userDirectoryId);
         return _getEditionModel(userDirectory);
     }
     

@@ -94,6 +94,6 @@ public class StaticUsersTestCase extends AbstractRuntimeTestCase
         String modelId = "org.ametys.plugins.core.user.directory.Static";
         Map<String, Object> parameters = new LinkedHashMap<>();
         parameters.put("runtime.users.static.users", "anonymous:Anonymous:user:user@ametys.org");
-        return ((UserDirectoryFactory) Init.getPluginServiceManager().lookup(UserDirectoryFactory.ROLE)).createUserDirectory(modelId, parameters, "foo", null);
+        return ((UserDirectoryFactory) Init.getPluginServiceManager().lookup(UserDirectoryFactory.ROLE)).createUserDirectory("foostatic", modelId, parameters, "foo", null);
     }
 }

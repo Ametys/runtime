@@ -27,8 +27,14 @@ import org.ametys.core.user.User;
 public interface UserDirectory
 {
     /**
+     * A unique identifier
+     * @return The non-null and non-empty identifier
+     */
+    public String getId();
+    
+    /**
      * Get the label of the CredentialProvider
-     * @return The label
+     * @return The optionnal label
      */
     public String getLabel();
     
@@ -68,12 +74,13 @@ public interface UserDirectory
     
     /**
      * Initialize the user's directory with given parameters' values.
+     * @param id The non-null and non-empty unique identifier
      * @param udModelId The id of user directory extension point
      * @param paramValues The parameters' values
-     * @param label The optionnal label
+     * @param label The optional label
      * @throws Exception If an error occurred
      */
-    public void init(String udModelId, Map<String, Object> paramValues, String label) throws Exception;
+    public void init(String id, String udModelId, Map<String, Object> paramValues, String label) throws Exception;
     
     /**
      * Set the value of the id of the population this user directory belong to.

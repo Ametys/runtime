@@ -187,6 +187,6 @@ public class LdapUsersTestCase extends AbstractRuntimeTestCase
         parameters.put("runtime.users.ldap.emailMandatory", false);
         parameters.put("runtime.users.ldap.serverSideSorting", true);
         
-        return ((UserDirectoryFactory) Init.getPluginServiceManager().lookup(UserDirectoryFactory.ROLE)).createUserDirectory(modelId, parameters, "foo", null);
+        return ((UserDirectoryFactory) Init.getPluginServiceManager().lookup(UserDirectoryFactory.ROLE)).createUserDirectory("fooldap", modelId, parameters, "foo", null);
     }
 }

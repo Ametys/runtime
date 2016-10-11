@@ -211,17 +211,17 @@ Ext.define('Ametys.helper.SelectUser', {
             hidden: true, // hidden by default, will be shown if told
             
             store: {
-                fields: ['index', {name: 'label', sortType: Ext.data.SortTypes.asNonAccentedUCString}],
+                fields: ['id', {name: 'label', sortType: Ext.data.SortTypes.asNonAccentedUCString}],
                 data: [],
                 sorters: [{property: 'label', direction: 'ASC'}],
                 listeners: {
                     'datachanged': Ext.bind(function(store) {
                         this._userDirectoriesField.clearValue();
-                        this._userDirectoriesField.setValue(-1);
+                        this._userDirectoriesField.setValue("-");
                     }, this)
                 }
             },
-            valueField: 'index',
+            valueField: 'id',
             displayField: 'label',
             queryMode: 'local',
             forceSelection: true,
@@ -397,7 +397,7 @@ Ext.define('Ametys.helper.SelectUser', {
         
         // Populate the user directories combobox store
         var data = [{
-            index: -1,
+            id: '-',
             label: "{{i18n PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_USER_DIRECTORY_OPTION_ALL}}"
         }];
         var record = combo.getStore().getById(newValue);
@@ -405,8 +405,8 @@ Ext.define('Ametys.helper.SelectUser', {
         {
 	        Ext.Array.forEach(record.get('userDirectories'), function(item, index) {
 	            data.push({
-	                index: index,
-	                label: item
+	                id: item.id,
+	                label: item.label
 	            });
 	        }, this);
 	        this._userDirectoriesField.getStore().loadData(data, false);
@@ -474,7 +474,7 @@ Ext.define('Ametys.helper.SelectUser', {
         
         operation.setParams( Ext.apply(operation.getParams() || {}, {
             userPopulationId: this._userPopulationsField.getValue(),
-            userDirectoryIndex: this._userDirectoriesField.getValue(),
+            userDirectoryId: this._userDirectoriesField.getValue(),
             criteria: this._searchField.getValue()
         }));
     },

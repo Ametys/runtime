@@ -32,7 +32,7 @@ Ext.define(
 	    	 * This calls the method 'addUser' of the server DAO 'org.ametys.plugins.core.user.UserDAO'.
 	    	 * @param {Object[]} parameters The parameters to transmit to the server method
 	    	 * @param {String} parameters.populationId The id of the population where to add the user
-	    	 * @param {Number} userDirectoryIndex The index of the user directory
+	    	 * @param {Number} userDirectoryId The id of the user directory
 	    	 * @param {String} parameters.values The users's parameters
 	    	 * @param {String} [parameters.userMessageTargetType=user] The type of user target
 	    	 * @param {Function} callback The function to call when the java process is over. Use options.scope for the scope. 

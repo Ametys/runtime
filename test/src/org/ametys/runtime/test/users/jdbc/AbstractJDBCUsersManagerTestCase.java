@@ -49,7 +49,7 @@ public abstract class AbstractJDBCUsersManagerTestCase extends AbstractJDBCTestC
         parameters.put("runtime.users.jdbc.table", "Users");
         
         
-        return ((UserDirectoryFactory) Init.getPluginServiceManager().lookup(UserDirectoryFactory.ROLE)).createUserDirectory(modelId, parameters, "foo", null);
+        return ((UserDirectoryFactory) Init.getPluginServiceManager().lookup(UserDirectoryFactory.ROLE)).createUserDirectory("foo", modelId, parameters, "foo", null);
     }
     
 }
