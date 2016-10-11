@@ -74,14 +74,21 @@ public class UserPreferencesGenerator extends CurrentUserProviderServiceableGene
         {
             contentHandler.startDocument();
             
-            AttributesImpl atts = new AttributesImpl();
-            atts.addCDATAAttribute("username", username);
-            atts.addCDATAAttribute("context", storageContext);
-            XMLUtils.startElement(contentHandler, "UserPreferences", atts);
-            
-            _saxPreferences(storageContext, contextVars, username);
-            
-            XMLUtils.endElement(contentHandler, "UserPreferences");
+            if (StringUtils.isNotEmpty(username))
+            {
+                AttributesImpl atts = new AttributesImpl();
+                atts.addCDATAAttribute("username", username);
+                atts.addCDATAAttribute("context", storageContext);
+                XMLUtils.startElement(contentHandler, "UserPreferences", atts);
+                
+                _saxPreferences(storageContext, contextVars, username);
+                
+                XMLUtils.endElement(contentHandler, "UserPreferences");
+            }
+            else
+            {
+                XMLUtils.createElement(contentHandler, "UserPreferences");
+            }
             
             contentHandler.endDocument();
         }
