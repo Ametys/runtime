@@ -82,15 +82,22 @@ public class UserPreferencesGenerator extends AbstractCurrentUserProviderService
         {
             contentHandler.startDocument();
             
-            AttributesImpl atts = new AttributesImpl();
-            atts.addCDATAAttribute("username", user.getLogin());
-            atts.addCDATAAttribute("userpopulation", user.getPopulationId());
-            atts.addCDATAAttribute("context", storageContext);
-            XMLUtils.startElement(contentHandler, "UserPreferences", atts);
-            
-            _saxPreferences(storageContext, contextVars, user, excludePrivate);
-            
-            XMLUtils.endElement(contentHandler, "UserPreferences");
+            if (user != null)
+            {
+                AttributesImpl atts = new AttributesImpl();
+                atts.addCDATAAttribute("username", user.getLogin());
+                atts.addCDATAAttribute("userpopulation", user.getPopulationId());
+                atts.addCDATAAttribute("context", storageContext);
+                XMLUtils.startElement(contentHandler, "UserPreferences", atts);
+                
+                _saxPreferences(storageContext, contextVars, user, excludePrivate);
+                
+                XMLUtils.endElement(contentHandler, "UserPreferences");
+            }
+            else
+            {
+                XMLUtils.createElement(contentHandler, "UserPreferences");
+            }
             
             contentHandler.endDocument();
         }
