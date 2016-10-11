@@ -156,10 +156,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         }
         
         List<CredentialProvider> credentialProviders = chosenUserPopulations.get(0).getCredentialProviders();
-        if (credentialProviders.size() == 0)
-        {
-            throw new IllegalStateException("There is no populations credential provider available for contexts '" + StringUtils.join(contexts, "', '") + "'");
-        }
+        _check(credentialProviders, contexts);
         
         // Get the currently running credential provider
         int runningCredentialProviderIndex = _getCurrentCredentialProviderIndex(request, credentialProviders);
@@ -205,6 +202,14 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         return EMPTY_MAP;
     }
     
+    private void _check(List<CredentialProvider> credentialProviders, List<String> contexts)
+    {
+        if (credentialProviders.size() == 0)
+        {
+            throw new IllegalStateException("There is no populations credential provider available for contexts '" + StringUtils.join(contexts, "', '") + "'");
+        }
+    }
+
     /**
      * Get the url for the redirector to display the login screen
      * @param request The request
