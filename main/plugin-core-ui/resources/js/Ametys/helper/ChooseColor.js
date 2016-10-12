@@ -111,12 +111,19 @@ Ext.define("Ametys.helper.ChooseColor", {
     */
     _validate: function ()
     {
-        var color = this._colorSelector.getValue();
+    	var value = this._colorSelector.getValue(),
+            color = this._colorSelector.getColor();
+        
+        if (color.a && color.a < 1)
+        {
+        	// Replace hexa value by RGBA value to handle transparency
+        	value = "rgba(" + color.r + "," + color.g + "," + color.b + "," + Math.floor(color.a * 100) / 100 + ")";
+        }
 
         this._box.hide();
         if (Ext.isFunction(this._cbFn))
         {
-            this._cbFn(color);
+            this._cbFn(value);
         }
     },
 

@@ -1988,6 +1988,135 @@
 
 (function()
 {
+		/*
+	     * Override Ext.picker.Color to support rgb and rgba css format
+	     */
+	    Ext.define("Ametys.picker.Color", {
+	        override: 'Ext.picker.Color',
+	        
+	        colorRe: /(?:^|\s)a-color-([0-9]+)(?:\s|$)/,
+	        
+	        /** 
+             * @member Ext.picker.Color
+             * @since Ametys Runtime 4.0
+             * @ametys
+             * @private
+             * @property {RegExp} The regexp for 6-digit color hex code without the # symbol
+             */
+	        hexColorRe: /^([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/,
+	        
+	        renderTpl: [
+                '<tpl for="colors">',
+                    '<a href="#" role="button" class="a-color-{#} {parent.itemCls}" hidefocus="on">',
+                        '<span class="{parent.itemCls}-inner" style="background:{.}">&#160;</span>',
+                    '</a>',
+                '</tpl>'
+            ],
+            
+            initRenderData : function(){
+                var me = this;
+                return Ext.apply(me.callParent(), {
+                    itemCls: me.itemCls,
+                    colors: me._formatColors(me.colors)
+                });
+            },
+            
+            /** 
+             * @member Ext.picker.Color
+             * @since Ametys Runtime 4.0
+             * @ametys
+             * @private
+             * Format the colors to be use directly as background CSS property
+             */
+            _formatColors: function (colors)
+            {
+            	var me = this,
+            		formatColors = [];
+            	
+            	Ext.Array.each (colors, function (color) {
+            		if (me.hexColorRe.test(color))
+            		{
+            			formatColors.push('#' + color);
+            		}
+            		else
+            		{
+            			formatColors.push(color);
+            		}
+            	});
+            	return formatColors;
+            },
+            
+            handleClick: function(event) {
+                var me = this,
+                    colorIndex,
+                    color;
+                event.stopEvent();
+                
+                if (!me.disabled) {
+                	colorIndex = event.currentTarget.className.match(me.colorRe)[1];
+                	color = me.colors[colorIndex - 1];
+                    me.select(color);
+                }
+            },
+            
+            select : function(color, suppressEvent){
+
+                var me = this,
+                    selectedCls = me.selectedCls,
+                    value = me.value,
+                    el, item;
+
+                if (!me.rendered) {
+                    me.value = color;
+                    return;
+                }
+
+                if (color !== value || me.allowReselect) {
+                    el = me.el;
+
+                    if (me.value) {
+                    	item = el.down('a.' + selectedCls, true);
+                    	if (!item)
+                    	{
+                    		var index = Ext.Array.indexOf(me.colors, me.value);
+                    		item = el.down('a.a-color-' + (index + 1), true);
+                    	}
+                        Ext.fly(item).removeCls(selectedCls);
+                    }
+                    
+                    var index = Ext.Array.indexOf(me.colors, color);
+            		item = el.down('a.a-color-' + (index + 1), true);
+            		if (item)
+            		{
+            			Ext.fly(item).addCls(selectedCls);
+            		}
+                    me.value = color;
+                    if (suppressEvent !== true) {
+                        me.fireEvent('select', me, color);
+                    }
+                }
+            },
+            
+            clear: function(){
+                var me = this,
+                    value = me.value,
+                    el;
+                    
+                if (value && me.rendered) {
+                	var index = Ext.Array.indexOf(me.colors, value);
+                	el = me.el.down('a.' + me.selectedCls, true);
+                	if (el)
+                	{
+                		Ext.fly(el).removeCls(me.selectedCls);
+                	}
+                }
+                me.value = null;  
+            }
+	    });    
+})();
+
+(function()
+{
     Ext.override(Ext.String, {
         /**
          * Convert the stacktrace of an exception to a readable HTML string.

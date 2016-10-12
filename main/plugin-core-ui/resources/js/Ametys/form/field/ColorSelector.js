@@ -324,7 +324,7 @@ Ext.define('Ametys.form.field.ColorSelector', {
 	 */
 	_onColorSelect: function (color)
 	{
-		this.setColor(color.toUpperCase());
+		this.setColor(color);
 		
 		var cbFn = this.getInitialConfig("callback");
 		if (Ext.isFunction(cbFn))
