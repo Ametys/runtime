@@ -2001,7 +2001,16 @@
              * @since Ametys Runtime 4.0
              * @ametys
              * @private
-             * @property {RegExp} The regexp for 6-digit color hex code without the # symbol
+             * @property {String[]} colors An array of color code strings. The supported formats are 6-digit color hex code strings (with or without the # symbol),
+             * rgb or rgba string values. This array can contain any number of colors, and each code should be unique.
+             */
+	        
+	        /** 
+             * @member Ext.picker.Color
+             * @since Ametys Runtime 4.0
+             * @ametys
+             * @private
+             * @property {RegExp} hexColorRe The regexp for 6-digit color hex code without the # symbol
              */
 	        hexColorRe: /^([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/,
 	        
