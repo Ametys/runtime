@@ -56,7 +56,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     /** The request attribute to allow internal action from an internal request. */
     public static final String REQUEST_ATTRIBUTE_INTERNAL_ALLOWED = "Runtime:InternalAllowedRequest";
     
-    /** The request attribute meaning that the request was not authentified but granted */
+    /** The request attribute meaning that the request was not authenticated but granted */
     public static final String REQUEST_ATTRIBUTE_GRANTED = "Runtime:GrantedRequest";
     /** The request attribute name for transmitting the list of user populations */
     public static final String REQUEST_ATTRIBUTE_AVAILABLE_USER_POPULATIONS_LIST = "Runtime:UserPopulationsList";
@@ -65,14 +65,14 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     /** The request attribute name for transmitting the login page url */
     public static final String REQUEST_ATTRIBUTE_LOGIN_URL = "Runtime:RequestLoginURL";
 
-    /** Name of the user population html field */
+    /** Name of the user population HTML field */
     public static final String REQUEST_PARAMETER_POPULATION_NAME = "UserPopulation";
-    /** Name of the credential provider index html field */
+    /** Name of the credential provider index HTML field */
     public static final String REQUEST_PARAMETER_CREDENTIALPROVIDER_INDEX = "CredentialProviderIndex";
     
     /** The request attribute name for transmitting a boolean that tell if there is a list of credential provider to choose */
     protected static final String REQUEST_ATTRIBUTE_CREDENTIAL_PROVIDER_LIST = "Runtime:RequestListCredentialProvider";
-    /** The request attribute name for transmitting the index in the list of chosen credntial provider */
+    /** The request attribute name for transmitting the index in the list of chosen credential provider */
     protected static final String REQUEST_ATTRIBUTE_CREDENTIAL_PROVIDER_INDEX = "Runtime:RequestCredentialProviderIndex";
     /** The request attribute name to know if user population list should be proposed */
     protected static final String REQUEST_ATTRIBUTE_SHOULD_DISPLAY_USER_POPULATIONS_LIST = "Runtime:UserPopulationsListDisplay";
@@ -113,7 +113,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         Request request = ObjectModelHelper.getRequest(objectModel);
 
         if (_handleLogout(redirector, objectModel, source, parameters)  // Test if user wants to logout
-                || _internalRequest(request)                            // Test if this request was already authentified or it the request is marked as an internal one
+                || _internalRequest(request)                            // Test if this request was already authenticated or it the request is marked as an internal one
                 || _validateCurrentlyConnectedUser(request, redirector, parameters) // Test if the currently connected user is still valid
                 || redirector.hasRedirected())
         {
@@ -174,7 +174,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
                 CredentialProvider runningCredentialProvider = credentialProviders.get(runningCredentialProviderIndex);
                 if (_process(request, false, runningCredentialProvider, redirector, chosenUserPopulations))
                 {
-                    // Whatever the user was correctly authentified or he just required a redirect: let's stop here for the moment
+                    // Whatever the user was correctly authenticated or he just required a redirect: let's stop here for the moment
                     return EMPTY_MAP;
                 }
             }
@@ -189,7 +189,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
             CredentialProvider runningCredentialProvider = credentialProviders.get(Math.max(0, runningCredentialProviderIndex));
             if (_process(request, true, runningCredentialProvider, redirector, chosenUserPopulations))
             {
-                // Whatever the user was correctly authentified or he just required a redirect: let's stop here for the moment
+                // Whatever the user was correctly authenticated or he just required a redirect: let's stop here for the moment
                 return EMPTY_MAP;
             }
             
@@ -668,7 +668,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         
         if (getLogger().isWarnEnabled())
         {
-            getLogger().warn("The user '" + potentialUserIdentity + "' was authentified by the credential provider '" + runningCredentialProvider.getCredentialProviderModelId() + "' but it does not match any user of the " + userPopulations.size() + " granted populations.");
+            getLogger().warn("The user '" + potentialUserIdentity + "' was authenticated by the credential provider '" + runningCredentialProvider.getCredentialProviderModelId() + "' but it does not match any user of the " + userPopulations.size() + " granted populations.");
         }
         
         return null;
