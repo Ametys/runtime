@@ -124,8 +124,13 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
                 'focus': function (fd, e) { 
                     this.fireEvent ('focus', this, e);
                 },
-                'blur': function (fd, e) { 
-                    if (this.getEl().query(Ext.makeIdSelector(document.activeElement.id)).length == 0) 
+                'blur': function (fd, e) {
+                	var elt = document.activeElement;
+                	while (elt != null && !elt.id)
+                	{
+                		elt = elt.parentNode;
+                	}
+                    if (!elt || this.getEl().query(Ext.makeIdSelector(elt.id)).length == 0) 
                     {
                         // We do not transmit blur if we still are in the same "parent" field
                         this.fireEvent ('blur', this, e); 
