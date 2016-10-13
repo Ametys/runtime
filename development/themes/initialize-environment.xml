@@ -22,7 +22,7 @@
         <antcall target="check-sencha-cmd-version"/>
         
         <!-- ensure that extjs is extracted in bootstrap -->
-        <ant antfile="${ametys-root-dir}/bootstrap/4/deliver/doc/jsdoc/build.xml" target="extract-ext"/>
+        <ant antfile="${ametys-root-dir}/tools/master/build/doc/jsdoc/build.xml" target="extract-ext"/>
 
         <!-- create work dir -->
         <echo>Creating or updating symbolic links</echo>
