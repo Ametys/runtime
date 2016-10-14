@@ -138,10 +138,10 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 	
 	constructor: function(config)
 	{
-        config.allowPrivate = Ext.isBoolean(config.allowPrivate) ? config.allowPrivate : config.allowPrivate == 'true';
-        config.allowCreation = Ext.isBoolean(config.allowCreation) ? config.allowCreation : config.allowCreation == 'true';
-        config.allowInternal = Ext.isBoolean(config.allowInternal) ? config.allowInternal : config.allowInternal == 'true';
-        config.allowDefault = Ext.isBoolean(config.allowDefault) ? config.allowDefault : config.allowDefault == 'true';
+        config.allowPrivate = Ext.isBoolean(config.allowPrivate) ? config.allowPrivate : config.allowPrivate != 'false';
+        config.allowCreation = Ext.isBoolean(config.allowCreation) ? config.allowCreation : config.allowCreation != 'false';
+        config.allowInternal = Ext.isBoolean(config.allowInternal) ? config.allowInternal : config.allowInternal != 'false';
+        config.allowDefault = Ext.isBoolean(config.allowDefault) ? config.allowDefault : config.allowDefault != 'false';
         
 		this.callParent(arguments);
 		
