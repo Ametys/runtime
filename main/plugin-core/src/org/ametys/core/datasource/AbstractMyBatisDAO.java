@@ -17,13 +17,14 @@ package org.ametys.core.datasource;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.sql.DataSource;
 
-import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -53,13 +54,17 @@ import org.ametys.runtime.plugin.component.PluginAware;
  * Interface to be implemented by any object that wishes to have
  * access to one or multiple SqlMapClient.
  */
-public abstract class AbstractMyBatisDAO extends AbstractLogEnabled implements Contextualizable, Serviceable, PluginAware, Configurable, Initializable
+public abstract class AbstractMyBatisDAO extends AbstractLogEnabled implements Contextualizable, Serviceable, PluginAware, Configurable, Component
 {
     private SqlSessionFactory _sessionFactory;
     private SQLDataSourceManager _sqlDataSourceManager;
     private String _contextPath;
     private String _pluginName;
+    
     private String _dataSourceId;
+    
+    private String _dataSourceParameter;
+    private boolean _dataSourceConfigurationParameter;
     private Set<SqlMap> _sqlMaps;
     
     public void contextualize(org.apache.avalon.framework.context.Context context) throws ContextException
@@ -90,14 +95,8 @@ public abstract class AbstractMyBatisDAO extends AbstractLogEnabled implements C
         String dataSourceConfParam = dataSourceConf.getValue();
         String dataSourceConfType = dataSourceConf.getAttribute("type", "config");
         
-        if (StringUtils.equals(dataSourceConfType, "config"))
-        {
-            _dataSourceId = Config.getInstance().getValueAsString(dataSourceConfParam);
-        }
-        else // expecting type="id"
-        {
-            _dataSourceId = dataSourceConfParam;
-        }
+        _dataSourceConfigurationParameter = StringUtils.equals(dataSourceConfType, "config");
+        _dataSourceParameter = dataSourceConfParam;
         
         _sqlMaps = new HashSet<>();
         Configuration[] sqlMaps = configuration.getChildren("sqlMap");
@@ -132,13 +131,34 @@ public abstract class AbstractMyBatisDAO extends AbstractLogEnabled implements C
         }
     }
     
-    public void initialize() throws Exception
+    /**
+     * Reload configuration and object for mybatis
+     */
+    protected void reload()
     {
-        DataSource dataSource = _sqlDataSourceManager.getSQLDataSource(_dataSourceId);
+        // Let's check if MyBatis current configuration is ok
+        String newDatasourceId;
+        if (_dataSourceConfigurationParameter)
+        {
+            newDatasourceId = Config.getInstance().getValueAsString(_dataSourceParameter);
+        }
+        else
+        {
+            newDatasourceId = _dataSourceParameter;
+        }
         
+        if (StringUtils.equals(newDatasourceId, _dataSourceId))
+        {
+            return;
+        }
+        
+        // No it's not ok. Let's reload
+        _dataSourceId = newDatasourceId;
+        
+        DataSource dataSource = _sqlDataSourceManager.getSQLDataSource(_dataSourceId);
         if (dataSource == null)
         {
-            throw new ConfigurationException("Invalid datasource id: " + _dataSourceId);
+            throw new RuntimeException("Cannot (re)load MyBatis: Invalid datasource id: " + _dataSourceId);
         }
         
         SqlSessionFactoryBuilder sessionFactoryBuilder = new SqlSessionFactoryBuilder();
@@ -177,7 +197,14 @@ public abstract class AbstractMyBatisDAO extends AbstractLogEnabled implements C
                     }
                     
                     mapperLocation = file.toURI().toASCIIString();
-                    mapperStream = new FileInputStream(file);
+                    try
+                    {
+                        mapperStream = new FileInputStream(file);
+                    }
+                    catch (FileNotFoundException e)
+                    {
+                        throw new RuntimeException("Cannot (re)load MyBatis: Cannot find configuration file: " + file, e);
+                    }
                 }
                 else
                 {
@@ -218,6 +245,7 @@ public abstract class AbstractMyBatisDAO extends AbstractLogEnabled implements C
      */
     protected SqlSession getSession(boolean autoCommit)
     {
+        reload();
         return _sessionFactory.openSession(autoCommit);
     }
     
