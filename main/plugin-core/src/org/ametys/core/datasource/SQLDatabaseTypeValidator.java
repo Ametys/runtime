@@ -18,6 +18,7 @@ package org.ametys.core.datasource;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -43,11 +44,24 @@ public class SQLDatabaseTypeValidator extends DefaultValidator
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        super.configure(configuration);
-        
         _allowedDbTypes = new HashSet<>();
         
         Configuration validatorConfig = configuration.getChild("validation").getChild("custom-validator");
+        
+        _isMandatory = validatorConfig.getChild("mandatory", false) != null;
+
+        String regexp = validatorConfig.getChild("regexp").getValue(null);
+        if (regexp != null)
+        {
+            _regexp = Pattern.compile(regexp);
+        }
+        
+        Configuration textConfig = validatorConfig.getChild("invalidText", false);
+        if (textConfig != null)
+        {
+            _invalidText = I18nizableText.parseI18nizableText(textConfig, "plugin." + _pluginName);
+        }
+        
         
         Configuration dbtypesConfig = validatorConfig.getChild("allowed-dbtypes", false);
         if (dbtypesConfig != null)
