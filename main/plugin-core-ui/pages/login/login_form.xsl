@@ -407,9 +407,7 @@
 	            <xsl:with-param name="placeholder" select="substring-after($label, ':')"/>
 	            <xsl:with-param name="placeholder-i18n" select="true()"/>
 	            <xsl:with-param name="placeholder-catalogue" select="substring-before($label, ':')"/>
-	            
-	            <xsl:with-param name="contextPath" select="$contextPath"/>
 	        </xsl:call-template> 
 	    </div>        
-    </xsl:template>    
+    </xsl:template>   
 </xsl:stylesheet>
