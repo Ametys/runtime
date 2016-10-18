@@ -23,6 +23,8 @@
     <message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_DESCRIPTION">Choisissez le niveau de sécurité du formulaire de connexion au CMS:&lt;br/&gt;-&lt;b&gt;privilégier le confort&lt;/b&gt;: autocomplétion des champs du formulaire, mémorisation du mot de passe&lt;br/&gt;-&lt;b&gt;privilégier la sécurité&lt;/b&gt;: pas mémorisation du mot de passe, protection par un captcha</message>
     <message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_HIGH">Privilégier la sécurité</message>
     <message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_LOW">Privilégier le confort</message>
+    <message key="PLUGINS_CORE_SECURITY_CONFIG_STORAGE_LABEL">Base de données</message>
+    <message key="PLUGINS_CORE_SECURITY_CONFIG_STORAGE_DESCRIPTION">Choisissez la base de données qui va stocker les cookies de reconnexion ou le nombre d'échec de connexion selon le niveau de sécurité choisi</message>
     
     <!-- DATASOURCE CORE -->
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP">Annuaire LDAP</message>
@@ -48,12 +50,6 @@
     <message key="PLUGINS_CORE_DATASOURCE_CONFIG_RIGHTS_GROUP">Base de données</message>
     <message key="PLUGINS_CORE_DATASOURCE_CONFIG_RIGHTS_DATASOURCE_LABEL">Source de données</message>
     <message key="PLUGINS_CORE_DATASOURCE_CONFIG_RIGHTS_DATASOURCE_DESCRIPTION">Spécifiez ici la source de données à utiliser pour stocker et manipuler les droits.</message>
-    
-    <!-- DATASOURCE LOGIN FORM -->
-    <message key="PLUGINS_CORE_DATASOURCE_CONFIG_LOGIN_FORM_CONFIG_CATEGORY">Formulaire de connexion</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CONFIG_LOGIN_FORM_CONFIG_GROUP">Base de données</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CONFIG_LOGIN_FORM_CONFIG_DATASOURCE_LABEL">Source de données</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CONFIG_LOGIN_FORM_CONFIG_DATASOURCE_DESCRIPTION">Spécifiez ici la source de données à utiliser pour se connecter à la base de données du formulaire de connexion.</message>
     
     <!-- USER LDAP -->
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS">Utilisateurs</message>

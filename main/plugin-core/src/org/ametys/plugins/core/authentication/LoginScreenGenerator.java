@@ -51,9 +51,6 @@ public class LoginScreenGenerator extends ServiceableGenerator
     /** Name of the input parameters html field */
     protected CredentialProviderFactory _credentialProviderFactory;
     
-    /** Login form manager */
-    protected LoginFormManager _loginFormManager;
-    
     /** The DAO for user populations */
     protected UserPopulationDAO _userPopulationDAO;
 
@@ -66,7 +63,6 @@ public class LoginScreenGenerator extends ServiceableGenerator
         super.service(smanager);
         _credentialProviderFactory = (CredentialProviderFactory) smanager.lookup(CredentialProviderFactory.ROLE);
         _userPopulationDAO = (UserPopulationDAO) smanager.lookup(UserPopulationDAO.ROLE);
-        _loginFormManager = (LoginFormManager) smanager.lookup(LoginFormManager.ROLE);
         _jsonUtils = (JSONUtils) smanager.lookup(JSONUtils.ROLE);
     }
     
@@ -116,7 +112,7 @@ public class LoginScreenGenerator extends ServiceableGenerator
 
         _generateCredentialProviders(credentialProviders, credentialProviderIndex);
         
-        _generateLoginForm(request, credentialProviders, credentialProviderIndex, invalidPopulationIds);
+        _generateLoginForm(request, credentialProviders, credentialProviderIndex, invalidPopulationIds, chosenPopulationId != null || usersPopulations == null ? chosenPopulationId : usersPopulations.get(0).getId());
         
         String contextsAsString = request.getParameter("contexts");
         XMLUtils.createElement(contentHandler, "contexts", contextsAsString);
@@ -193,7 +189,7 @@ public class LoginScreenGenerator extends ServiceableGenerator
         XMLUtils.endElement(contentHandler, "CredentialProviders");
     }
     
-    private void _generateLoginForm(Request request, List<CredentialProvider> credentialProviders, int currentCredentialProvider, boolean invalidPopulationIds) throws SAXException
+    private void _generateLoginForm(Request request, List<CredentialProvider> credentialProviders, int currentCredentialProvider, boolean invalidPopulationIds, String chosenPopulationId) throws SAXException
     {
         if (credentialProviders == null)
         {
@@ -219,8 +215,6 @@ public class LoginScreenGenerator extends ServiceableGenerator
             }
         }
 
-        _loginFormManager.deleteAllPastLoginFailedBDD();
-        
         String level = (String) formBasedCP.getParameterValues().get("runtime.authentication.form.security.level");
         
         boolean autoComplete = false;
@@ -230,9 +224,11 @@ public class LoginScreenGenerator extends ServiceableGenerator
         if (FormCredentialProvider.SECURITY_LEVEL_HIGH.equals(level))
         {
             String login = request.getParameter("login");
-            int nbConnect = _loginFormManager.requestNbConnectBDD(login);
-            
-            captcha = nbConnect >= FormCredentialProvider.NB_CONNECTION_ATTEMPTS;
+            if (StringUtils.isNotBlank(login) && StringUtils.isNotBlank(chosenPopulationId))
+            {
+                int nbConnect = formBasedCP.requestNbConnectBDD(login, chosenPopulationId);
+                captcha = nbConnect >= FormCredentialProvider.NB_CONNECTION_ATTEMPTS;
+            }
             autoComplete = false;
             rememberMe = false;
         }

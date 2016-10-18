@@ -23,6 +23,8 @@
     <message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_DESCRIPTION">Choose security level for the login form&lt;br/&gt;-&lt;b&gt;focus on user comfort&lt;/b&gt;: autocompletion on form fields, storing password in cookies&lt;br/&gt;-&lt;b&gt;focus on security&lt;/b&gt;: no storing of password, protection with a captcha</message>
     <message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_HIGH">Focus on security</message>
     <message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_LOW">Focus on user comfort</message>
+    <message key="PLUGINS_CORE_SECURITY_CONFIG_STORAGE_LABEL">Database</message>
+    <message key="PLUGINS_CORE_SECURITY_CONFIG_STORAGE_DESCRIPTION">Choose the database to store the connection cookies or the connection failure count depending on the security level selected</message>
 
     <!-- DATASOURCE CORE -->
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP">LDAP directory</message>
@@ -48,12 +50,6 @@
     <message key="PLUGINS_CORE_DATASOURCE_CONFIG_RIGHTS_GROUP">Data base</message>
     <message key="PLUGINS_CORE_DATASOURCE_CONFIG_RIGHTS_DATASOURCE_LABEL">Data source</message>
     <message key="PLUGINS_CORE_DATASOURCE_CONFIG_RIGHTS_DATASOURCE_DESCRIPTION">Indicate here the data source to use to store and manipulate the rights.</message>
-    
-    <!-- DATASOURCE LOGIN FORM -->
-    <message key="PLUGINS_CORE_DATASOURCE_CONFIG_LOGIN_FORM_CONFIG_CATEGORY">Login form</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CONFIG_LOGIN_FORM_CONFIG_GROUP">Data base</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CONFIG_LOGIN_FORM_CONFIG_DATASOURCE_LABEL">Data source</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CONFIG_LOGIN_FORM_CONFIG_DATASOURCE_DESCRIPTION">Indicate here the data source to use to connect to the data base of login form.</message>
     
     <!-- USER LDAP -->
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS">Users</message>

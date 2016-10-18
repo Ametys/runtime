@@ -979,34 +979,6 @@
         </extensions>
     </feature>
     
-    <feature name="runtime.core.sql.loginform.init">
-        <extensions>
-            <extension point="org.ametys.runtime.plugin.InitExtensionPoint"
-                       id="org.ametys.core.script.loginform.SqlTablesInit"
-                       class="org.ametys.core.script.SqlTablesInit">
-                <datasource type="config">runtime.login.form.datasource</datasource>
-                <script testTable="Users_FormConnectionFailed">users_form_failed_connection.sql</script>
-                <script testTable="Users_Token">users_token.sql</script>
-            </extension>
-        </extensions>
-    </feature>
-    
-    <feature name="runtime.core.login.form">
-        <config>
-            <param-ref id="runtime.login.form.datasource" />
-        </config>
-    
-        <components>
-            <component role="org.ametys.plugins.core.authentication.LoginFormManager"
-                       id="org.ametys.plugins.core.authentication.LoginFormManager"
-                       class="org.ametys.plugins.core.authentication.LoginFormManager"
-                       logger="org.ametys.plugins.core.authentication">
-                <datasource type="config">runtime.login.form.datasource</datasource>
-                <sqlMap resource="/org/ametys/plugins/core/authentication/login-form-manager.xml" />
-            </component>
-        </components>
-    </feature>
-    
     <feature name="runtime.core.resources-handler" safe="true">
         <extensions>
             <extension point="org.ametys.core.cocoon.ResourceHandlerExtensionPoint"

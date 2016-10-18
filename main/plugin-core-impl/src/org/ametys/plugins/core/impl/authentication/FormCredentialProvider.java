@@ -59,7 +59,6 @@ import org.ametys.core.user.directory.UserDirectory;
 import org.ametys.core.user.population.UserPopulation;
 import org.ametys.core.user.population.UserPopulationDAO;
 import org.ametys.runtime.authentication.AccessDeniedException;
-import org.ametys.runtime.config.Config;
 import org.ametys.runtime.workspace.WorkspaceMatcher;
 
 /**
@@ -105,7 +104,11 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
     public static final Integer NB_CONNECTION_ATTEMPTS = 3;
     /** Default cookie lifetime (15 days in seconds) */
     public static final int COOKIE_LIFETIME = 1209600;
+    /** Duration in days a connection failure will last */
+    protected static final Integer TIME_ALLOWED = 1;
     
+    /** Name of the parameter holder the datasource id */
+    private static final String __PARAM_DATASOURCE = "runtime.authentication.form.security.storage";
     /** Name of the parameter holding the security level */
     private static final String __PARAM_SECURITY_LEVEL = "runtime.authentication.form.security.level";
     
@@ -147,6 +150,9 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
     
     /** The user population DAO */
     protected UserPopulationDAO _userPopulationDAO;
+    
+    /** The datasource id */
+    protected String _datasourceId;
 
     @Override
     public void contextualize(Context context) throws ContextException
@@ -159,6 +165,7 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
     {
         super.init(cpModelId, paramValues, label);
         _securityLevel = (String) paramValues.get(__PARAM_SECURITY_LEVEL);
+        _datasourceId = (String) paramValues.get(__PARAM_DATASOURCE);
     }
     
     @Override
@@ -198,7 +205,7 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
      */
     protected Connection getSQLConnection()
     {
-        return ConnectionHelper.getConnection(Config.getInstance().getValueAsString("runtime.login.form.datasource"));
+        return ConnectionHelper.getConnection(_datasourceId);
     }
     
     @Override
@@ -357,7 +364,7 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
             
             if (SECURITY_LEVEL_HIGH.equals(_securityLevel))
             {
-                Integer nbConnect = _requestNbConnectBDD(login, userPopulation.getId());
+                Integer nbConnect = requestNbConnectBDD(login, userPopulation.getId());
                 if (nbConnect >= NB_CONNECTION_ATTEMPTS)
                 {
                     String answer = request.getParameter(_captchaField);
@@ -492,6 +499,48 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
     {
         return false;
     }
+
+    /*************************************************************************************************************
+     * Connection failure management
+     */
+    
+    /**
+     * Delete all past failed connections
+     */
+    protected void _deleteAllPastLoginFailedBDD()
+    {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try
+        {
+            connection = getSQLConnection();
+            
+            // Build request for authenticating the user
+            String sql = "DELETE FROM Users_FormConnectionFailed WHERE last_connect < ?";
+            
+            DateTime dateToday = new DateTime();
+            DateTime thresholdDate = dateToday.minusDays(TIME_ALLOWED);
+            Timestamp threshold = new Timestamp(thresholdDate.getMillis());
+            
+            stmt = connection.prepareStatement(sql);
+            stmt.setTimestamp(1, threshold);
+            
+            // Do the request
+            stmt.execute();
+        }
+        catch (SQLException e)
+        {
+            getLogger().error("Error during the connection to the database", e);
+        }
+        finally
+        {
+            // Close connections
+            ConnectionHelper.cleanup(rs);
+            ConnectionHelper.cleanup(stmt);
+            ConnectionHelper.cleanup(connection);
+        }
+    }
     
     /**
      * Get the number of failed connections with this login
@@ -499,8 +548,10 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
      * @param populationId The user's population
      * @return the number of connection failed
      */
-    protected Integer _requestNbConnectBDD(String login, String populationId)
+    public Integer requestNbConnectBDD(String login, String populationId)
     {
+        _deleteAllPastLoginFailedBDD();
+        
         Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -547,7 +598,7 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
      */
     protected Integer _setNbConnectBDD(String login, String populationId)
     {
-        Integer nbConnect = _requestNbConnectBDD(login, populationId);
+        Integer nbConnect = requestNbConnectBDD(login, populationId);
         if (nbConnect == 0)
         {
             _insertLoginNbConnectBDD(login, populationId);
@@ -603,67 +654,6 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
     }
     
     /**
-     * Inserts a new line into the users token table
-     * @param populationId The user's population id
-     * @param login the login of the user
-     * @param salt the salt associated to this user
-     * @param hashedTokenAndSalt token + salt hashed with SHA-512
-     */
-    protected void _insertUserToken(String populationId, String login, String salt, String hashedTokenAndSalt)
-    {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        try
-        {
-            connection = getSQLConnection();
-            String dbType = ConnectionHelper.getDatabaseType(connection);
-            
-            if (ConnectionHelper.DATABASE_ORACLE.equals(dbType))
-            {
-                statement = connection.prepareStatement("SELECT seq_userstoken.nextval FROM dual");
-                rs = statement.executeQuery();
-                
-                String id = null;
-                if (rs.next())
-                {
-                    id = rs.getString(1);
-                }
-                ConnectionHelper.cleanup(rs);
-                ConnectionHelper.cleanup(statement);
-                
-                statement = connection.prepareStatement("INSERT INTO Users_Token (id, login, population_id, token, salt, creation_date) VALUES (?, ?, ?, ?, ?, ?)");
-                statement.setString(1, id);
-                statement.setString(2, login);
-                statement.setString(3, populationId);
-                statement.setString(4, hashedTokenAndSalt);
-                statement.setString(5, salt);
-                statement.setDate(6, new java.sql.Date(System.currentTimeMillis()));
-            }
-            else
-            {
-                statement = connection.prepareStatement("INSERT INTO Users_Token (login, population_id, token, salt, creation_date) VALUES (?, ?, ?, ?, ?)");
-                
-                statement.setString(1, login);
-                statement.setString(2, populationId);
-                statement.setString(3, hashedTokenAndSalt);
-                statement.setString(4, salt);
-                statement.setDate(5, new java.sql.Date(System.currentTimeMillis()));
-            }
-            
-            statement.executeUpdate();
-        }
-        catch (SQLException e)
-        {
-            getLogger().error("Communication error with the database", e);
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);       
-            ConnectionHelper.cleanup(connection);
-        }
-    }
-    /**
      * Delete the login from the table of the failed connection
      * @param login The login to remove
      * @param populationId The populationId of the user
@@ -698,7 +688,6 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
             ConnectionHelper.cleanup(stmt);
             ConnectionHelper.cleanup(connection);
         }
-        
     }
     
     /**
@@ -820,7 +809,69 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
         cookie.setMaxAge(0);
         response.addCookie(cookie);
     }
-    
+
+    /**
+     * Inserts a new line into the users token table
+     * @param populationId The user's population id
+     * @param login the login of the user
+     * @param salt the salt associated to this user
+     * @param hashedTokenAndSalt token + salt hashed with SHA-512
+     */
+    protected void _insertUserToken(String populationId, String login, String salt, String hashedTokenAndSalt)
+    {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try
+        {
+            connection = getSQLConnection();
+            String dbType = ConnectionHelper.getDatabaseType(connection);
+            
+            if (ConnectionHelper.DATABASE_ORACLE.equals(dbType))
+            {
+                statement = connection.prepareStatement("SELECT seq_userstoken.nextval FROM dual");
+                rs = statement.executeQuery();
+                
+                String id = null;
+                if (rs.next())
+                {
+                    id = rs.getString(1);
+                }
+                ConnectionHelper.cleanup(rs);
+                ConnectionHelper.cleanup(statement);
+                
+                statement = connection.prepareStatement("INSERT INTO Users_Token (id, login, population_id, token, salt, creation_date) VALUES (?, ?, ?, ?, ?, ?)");
+                statement.setString(1, id);
+                statement.setString(2, login);
+                statement.setString(3, populationId);
+                statement.setString(4, hashedTokenAndSalt);
+                statement.setString(5, salt);
+                statement.setDate(6, new java.sql.Date(System.currentTimeMillis()));
+            }
+            else
+            {
+                statement = connection.prepareStatement("INSERT INTO Users_Token (login, population_id, token, salt, creation_date) VALUES (?, ?, ?, ?, ?)");
+                
+                statement.setString(1, login);
+                statement.setString(2, populationId);
+                statement.setString(3, hashedTokenAndSalt);
+                statement.setString(4, salt);
+                statement.setDate(5, new java.sql.Date(System.currentTimeMillis()));
+            }
+            
+            statement.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            getLogger().error("Communication error with the database", e);
+        }
+        finally
+        {
+            ConnectionHelper.cleanup(rs);       
+            ConnectionHelper.cleanup(connection);
+        }
+    }
+
     /**
      * Test if the user is already authenticated by the CredentialsProvider ?
      * @param populationId The population id
@@ -835,8 +886,7 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
         
         try
         {
-            String dataSourceId = Config.getInstance().getValueAsString("runtime.login.form.datasource");
-            connection = ConnectionHelper.getConnection(dataSourceId);
+            connection = getSQLConnection();
                     
             // Delete 2 weeks or more old entries
             deleteStatement = _getDeleteOldUserTokenStatement(connection);

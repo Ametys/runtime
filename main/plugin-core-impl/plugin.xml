@@ -68,31 +68,6 @@
             <group i18n="true">PLUGINS_CORE_DATASOURCE_CONFIG_RIGHTS_GROUP</group>
         </param>
         
-        <!-- LOGIN FORM DATA SOURCE -->
-        <param id="runtime.login.form.datasource" type="datasource">
-            <!-- 
-                This parameter contains the data source to use to connect the login form database
-             -->
-            <label i18n="true">PLUGINS_CORE_DATASOURCE_CONFIG_LOGIN_FORM_CONFIG_DATASOURCE_LABEL</label>
-            <description i18n="true">PLUGINS_CORE_DATASOURCE_CONFIG_LOGIN_FORM_CONFIG_DATASOURCE_DESCRIPTION</description>
-            <widget>edition.datasource-sql</widget>
-            <widget-params>
-                <param name="allowCreation">true</param>
-                <param name="allowPrivate">true</param>
-                <param name="allowInternal">true</param>
-                <param name="allowedDbTypes">derby,mysql,oracle,postgresql,hsql</param>
-            </widget-params>
-            <validation>
-            	<custom-validator class="org.ametys.core.datasource.SQLDatabaseTypeValidator">
-			       <mandatory/>
-			       <allowed-dbtypes>derby,mysql,oracle,postgresql,hsql</allowed-dbtypes>
-			    </custom-validator>
-            </validation>
-            <category i18n="true">PLUGINS_CORE_DATASOURCE_CONFIG_LOGIN_FORM_CONFIG_CATEGORY</category>
-            <group i18n="true">PLUGINS_CORE_DATASOURCE_CONFIG_LOGIN_FORM_CONFIG_GROUP</group>
-            <order>10</order>
-        </param>
-        
         <!-- +
              | AUTHENTICATION
              + -->
@@ -871,6 +846,24 @@
 			                <mandatory/>
 			            </validation>
 			            <default-value>low</default-value>
+        			</param>
+        			<param id="runtime.authentication.form.security.storage" type="datasource">
+        			     <!-- This parameter defines the database that will store cookies/connection failures... -->
+                        <label i18n="true">PLUGINS_CORE_SECURITY_CONFIG_STORAGE_LABEL</label>
+                        <description i18n="true">PLUGINS_CORE_SECURITY_CONFIG_STORAGE_DESCRIPTION</description>
+			            <widget>edition.datasource-sql</widget>
+			            <widget-params>
+			                <param name="allowCreation">true</param>
+			                <param name="allowPrivate">true</param>
+			                <param name="allowInternal">true</param>
+			                <param name="allowedDbTypes">derby,mysql,oracle,postgresql,hsql</param>
+			            </widget-params>
+			            <validation>
+			                <custom-validator class="org.ametys.core.datasource.SQLDatabaseTypeValidator">
+			                   <mandatory/>
+			                   <allowed-dbtypes>derby,mysql,oracle,postgresql,hsql</allowed-dbtypes>
+			                </custom-validator>
+			            </validation>
         			</param>
         		</parameters>
         	</extension>
