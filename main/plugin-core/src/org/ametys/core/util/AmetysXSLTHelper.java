@@ -308,6 +308,16 @@ public class AmetysXSLTHelper implements Contextualizable, Serviceable
     }
     
     /**
+     * Encode the string to be url compliant
+     * @param url The url to encode
+     * @return The encoded url
+     */
+    public static String urlEncode(String url)
+    {
+        return URLEncoder.encode(url);
+    }
+    
+    /**
      * Split the text.
      * @param textToSplit the text to split.
      * @param tokenizers the tokenizer characters.

@@ -95,7 +95,7 @@ public class AvalonCurrentUserProvider extends AbstractLogEnabled implements Cur
         
         if (session != null)
         {
-            CredentialProvider cp = (CredentialProvider) session.getAttribute(AuthenticateAction.SESSION_CREDENTIALPROVIDER);
+            CredentialProvider cp = AuthenticateAction.getCredentialProviderFromSession(request);
             
             // Invalidate session
             session.invalidate();

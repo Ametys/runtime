@@ -32,7 +32,7 @@ public interface BlockingCredentialProvider extends CredentialProvider
      * 
      * @return true if the Request is not authenticated
      */
-    public abstract boolean blockingGrantAnonymousRequest();
+    public boolean blockingGrantAnonymousRequest();
 
     /**
      * Validates that the user specify is still connected
@@ -41,7 +41,7 @@ public interface BlockingCredentialProvider extends CredentialProvider
      * @return true if this CredentialProvider was in a valid state, false to restart authentication process
      * @throws Exception If an error occurred
      */
-    public abstract boolean blockingIsStillConnected(UserIdentity userIdentity, Redirector redirector) throws Exception;
+    public boolean blockingIsStillConnected(UserIdentity userIdentity, Redirector redirector) throws Exception;
     
     /**
      * Method called by AuthenticateAction each time a request need
@@ -51,7 +51,7 @@ public interface BlockingCredentialProvider extends CredentialProvider
      * @return the <code>UserIdentity</code> corresponding to the user (with or without population specified), or null if user could not get authenticated.
      * @throws Exception if something wrong occurs
      */
-    public abstract UserIdentity blockingGetUserIdentity(Redirector redirector) throws Exception;
+    public UserIdentity blockingGetUserIdentity(Redirector redirector) throws Exception;
 
     /**
      * Method called by AuthenticateAction each a user could not get
@@ -61,11 +61,17 @@ public interface BlockingCredentialProvider extends CredentialProvider
      * @param redirector the cocoon Redirector that can be used for redirecting response.
      * @throws Exception if something wrong occurs
      */
-    public abstract void blockingUserNotAllowed(Redirector redirector) throws Exception;
+    public void blockingUserNotAllowed(Redirector redirector) throws Exception;
 
     /**
      * Method called by AuthenticateAction after authentication process succeeded
      * @param userIdentity The user correctly connected
      */
-    public abstract void blockingUserAllowed(UserIdentity userIdentity);
+    public void blockingUserAllowed(UserIdentity userIdentity);
+    
+    /**
+     * Does this blocking credential provider requires a new window to process.
+     * @return true to ask the client to process this credential provider throught a new window
+     */
+    public boolean requiresNewWindow();
 }

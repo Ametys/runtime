@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.ibatis.session.SqlSession;
@@ -39,7 +38,7 @@ import org.ametys.runtime.request.RequestListener;
 /**
  * Manages registration of profiles
  */
-public class RightProfilesDAO extends AbstractMyBatisDAO implements Component, RequestListener
+public class RightProfilesDAO extends AbstractMyBatisDAO implements RequestListener
 {
     /** The component role. */
     public static final String ROLE = RightProfilesDAO.class.getName();

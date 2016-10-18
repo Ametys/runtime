@@ -163,4 +163,9 @@ public class BasicCredentialProvider extends AbstractCredentialProvider implemen
         // empty method, nothing more to do
     }
 
+    @Override
+    public boolean requiresNewWindow()
+    {
+        return false;
+    }
 }

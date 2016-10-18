@@ -15,16 +15,21 @@
  */
 package org.ametys.core.authentication;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.acting.ServiceableAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
@@ -40,6 +45,7 @@ import org.ametys.core.user.UserManager;
 import org.ametys.core.user.population.PopulationContextHelper;
 import org.ametys.core.user.population.UserPopulation;
 import org.ametys.core.user.population.UserPopulationDAO;
+import org.ametys.plugins.core.impl.authentication.FormCredentialProvider;
 import org.ametys.runtime.authentication.AccessDeniedException;
 import org.ametys.runtime.workspace.WorkspaceMatcher;
 
@@ -50,9 +56,6 @@ import org.ametys.runtime.workspace.WorkspaceMatcher;
  */
 public class AuthenticateAction extends ServiceableAction implements ThreadSafe, Initializable 
 {
-    /** The session attribute name for storing the credential provider of the authentication */
-    public static final String SESSION_CREDENTIALPROVIDER = "Runtime:CredentialProvider";
-    
     /** The request attribute to allow internal action from an internal request. */
     public static final String REQUEST_ATTRIBUTE_INTERNAL_ALLOWED = "Runtime:InternalAllowedRequest";
     
@@ -80,11 +83,20 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     protected static final String REQUEST_ATTRIBUTE_INVALID_POPULATION = "Runtime:RequestInvalidPopulation";
     /** The request attribute name for indicating that the authentication process has been made. */
     protected static final String __REQUEST_ATTRIBUTE_AUTHENTICATED = "Runtime:RequestAuthenticated";
+    /** The request attribute name for transmitting the list of contexts */
+    protected static final String REQUEST_ATTRIBUTE_CONTEXTS = "Runtime:Contexts";
 
+    /** The session attribute name for storing the credential provider of the authentication (during connection process) */
+    protected static final String SESSION_CONNECTING_CREDENTIALPROVIDER = "Runtime:ConnectingCredentialProvider";
+    /** The session attribute name for storing the credential provider mode of the authentication: non-blocking=>false, blocking=>true (during connection process) */
+    protected static final String SESSION_CONNECTING_CREDENTIALPROVIDER_MODE = "Runtime:ConnectingCredentialProviderMode";
+    /** The session attribute name for storing the id of the user population (during connection process) */
+    protected static final String SESSION_CONNECTING_USERPOPULATION_ID = "Runtime:ConnectingUserPopulationId";
+    
+    /** The session attribute name for storing the credential provider of the authentication */
+    protected static final String SESSION_CREDENTIALPROVIDER = "Runtime:CredentialProvider";
     /** The session attribute name for storing the credential provider mode of the authentication: non-blocking=>false, blocking=>true */
     protected static final String SESSION_CREDENTIALPROVIDER_MODE = "Runtime:CredentialProviderMode";
-    /** The session attribute name for storing the id of the user population */
-    protected static final String SESSION_USERPOPULATION_ID = "Runtime:UserPopulationId";
     /** The session attribute name for storing the identity of the connected user */
     protected static final String SESSION_USERIDENTITY = "Runtime:UserIdentity";
 
@@ -96,7 +108,11 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     protected PopulationContextHelper _populationContextHelper;
     /** The current user provider */
     protected CurrentUserProvider _currentUserProvider;
+    
+    /** url requires for authentication */
+    protected Collection<Pattern> _acceptedUrlPatterns = Arrays.asList(new Pattern[]{Pattern.compile("^plugins/core/authenticate/[0-9]+$")});
 
+    
     @Override
     public void initialize() throws Exception
     {
@@ -114,6 +130,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
 
         if (_handleLogout(redirector, objectModel, source, parameters)  // Test if user wants to logout
                 || _internalRequest(request)                            // Test if this request was already authenticated or it the request is marked as an internal one
+                || _acceptedUrl(request)                                // Test if the url is used for authentication
                 || _validateCurrentlyConnectedUser(request, redirector, parameters) // Test if the currently connected user is still valid
                 || redirector.hasRedirected())
         {
@@ -125,38 +142,14 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         // We passed the authentication, let's mark it now
         request.setAttribute(__REQUEST_ATTRIBUTE_AUTHENTICATED, "true");
 
-        // Get contexts
-        List<String> contexts = _getContexts(request, parameters);
-        
-        // All user populations for this context
-        List<UserPopulation> availableUserPopulations = _getAvailableUserPopulationsIds(request, contexts).stream().map(_userPopulationDAO::getUserPopulation).collect(Collectors.toList());
-        request.setAttribute(REQUEST_ATTRIBUTE_AVAILABLE_USER_POPULATIONS_LIST, availableUserPopulations);
-        
-        // Chosen population
-        String userPopulationId = _getChosenUserPopulationId(request, availableUserPopulations);
-        request.setAttribute(REQUEST_ATTRIBUTE_USER_POPULATION_ID, userPopulationId);
-        
-        List<UserPopulation> chosenUserPopulations = userPopulationId == null ? availableUserPopulations : Collections.singletonList(_userPopulationDAO.getUserPopulation(userPopulationId));
-        if (chosenUserPopulations.size() == 0)
+        // Get population and if possible credential providers
+        List<UserPopulation> chosenUserPopulations = new ArrayList<>();
+        List<CredentialProvider> credentialProviders = new ArrayList<>();
+        if (!_prepareUserPopulationsAndCredentialProviders(request, parameters, redirector, chosenUserPopulations, credentialProviders))
         {
-            throw new IllegalStateException("There is no populations available for contexts '" + StringUtils.join(contexts, "', '") + "'");
-        }
-
-        // Get possible credential providers
-        boolean availableCredentialProviders = _hasCredentialProviders(chosenUserPopulations);
-        request.setAttribute(REQUEST_ATTRIBUTE_CREDENTIAL_PROVIDER_LIST, availableCredentialProviders);
-        request.setAttribute(REQUEST_ATTRIBUTE_SHOULD_DISPLAY_USER_POPULATIONS_LIST, userPopulationId == null || _hasCredentialProviders(availableUserPopulations));
-
-        // null means the credential providers cannot be determine without knowing population first
-        if (!availableCredentialProviders)
-        {
-            // Screen "Where Are You From?" with the list of populations to select
-            redirector.redirect(false, getLoginURL(request));            
+            // Let's display the population screen
             return EMPTY_MAP;
         }
-        
-        List<CredentialProvider> credentialProviders = chosenUserPopulations.get(0).getCredentialProviders();
-        _check(credentialProviders, contexts);
         
         // Get the currently running credential provider
         int runningCredentialProviderIndex = _getCurrentCredentialProviderIndex(request, credentialProviders);
@@ -184,7 +177,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         }
         
         // Let's process the current one blocking or the only existing one
-        if (runningCredentialProviderIndex >= 0 || credentialProviders.size() == 1)
+        if (_shouldRunBlockingCredentialProvider(runningCredentialProviderIndex, credentialProviders, request, chosenUserPopulations))
         {
             CredentialProvider runningCredentialProvider = credentialProviders.get(Math.max(0, runningCredentialProviderIndex));
             if (_process(request, true, runningCredentialProvider, redirector, chosenUserPopulations))
@@ -197,16 +190,81 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         }
         
         // Let's display the blocking list
-        _saveStateToSession(request, null, true);
+        _saveConnectingStateToSession(request, null, true);
         redirector.redirect(false, getLoginURL(request));
         return EMPTY_MAP;
     }
     
-    private void _check(List<CredentialProvider> credentialProviders, List<String> contexts)
+    @SuppressWarnings("unchecked")
+    private boolean _shouldRunBlockingCredentialProvider(int runningCredentialProviderIndex, List<CredentialProvider> credentialProviders, Request request, List<UserPopulation> chosenUserPopulations)
     {
-        if (credentialProviders.size() == 0)
+        return runningCredentialProviderIndex >= 0 // There is a running credential provider 
+            || credentialProviders.size() == 1 // There is a single credential provider AND 
+                && (
+                        ((List<UserPopulation>) request.getAttribute(REQUEST_ATTRIBUTE_AVAILABLE_USER_POPULATIONS_LIST)).size() == chosenUserPopulations.size() // no population choice screen
+                        || credentialProviders.get(0) instanceof BlockingCredentialProvider && !((BlockingCredentialProvider) credentialProviders.get(0)).requiresNewWindow() // it does not requires a window opening
+                );
+    }
+    
+    /**
+     * Fill the list of available users populations and credential providers
+     * @param request The request
+     * @param parameters The action parameters
+     * @param redirector The cocoon redirector
+     * @param chosenUserPopulations An empty non-null list to fill with with chosen populations
+     * @param credentialProviders An empty non-null list to fill with chosen credential providers
+     * @return true, if the population was determined, false if a redirection was required to choose
+     * @throws IOException If an error occurred
+     * @throws ProcessingException If an error occurred 
+     */
+    protected boolean _prepareUserPopulationsAndCredentialProviders(Request request, Parameters parameters, Redirector redirector, List<UserPopulation> chosenUserPopulations, List<CredentialProvider> credentialProviders) throws ProcessingException, IOException
+    {
+        // Get contexts
+        List<String> contexts = _getContexts(request, parameters);
+        request.setAttribute(REQUEST_ATTRIBUTE_CONTEXTS, contexts);
+        
+        // All user populations for this context
+        List<UserPopulation> availableUserPopulations = _getAvailableUserPopulationsIds(request, contexts).stream().map(_userPopulationDAO::getUserPopulation).collect(Collectors.toList());
+        request.setAttribute(REQUEST_ATTRIBUTE_AVAILABLE_USER_POPULATIONS_LIST, availableUserPopulations);
+        
+        // Chosen population
+        String userPopulationId = _getChosenUserPopulationId(request, availableUserPopulations);
+        request.setAttribute(REQUEST_ATTRIBUTE_USER_POPULATION_ID, userPopulationId);
+        
+        chosenUserPopulations.addAll(userPopulationId == null ? availableUserPopulations : Collections.singletonList(_userPopulationDAO.getUserPopulation(userPopulationId)));
+        if (chosenUserPopulations.size() == 0)
         {
-            throw new IllegalStateException("There is no populations credential provider available for contexts '" + StringUtils.join(contexts, "', '") + "'");
+            throw new IllegalStateException("There is no populations available for contexts '" + StringUtils.join(contexts, "', '") + "'");
+        }
+
+        // Get possible credential providers
+        boolean availableCredentialProviders = _hasCredentialProviders(chosenUserPopulations);
+        request.setAttribute(REQUEST_ATTRIBUTE_CREDENTIAL_PROVIDER_LIST, availableCredentialProviders);
+
+        // null means the credential providers cannot be determine without knowing population first
+        if (!availableCredentialProviders)
+        {
+            request.setAttribute(REQUEST_ATTRIBUTE_SHOULD_DISPLAY_USER_POPULATIONS_LIST, true);
+            
+            // if we are on this screen after a 'back' button hit, we need to reset connecting information
+            _resetConnectingStateToSession(request);
+            
+            // Screen "Where Are You From?" with the list of populations to select
+            if (redirector != null)
+            {
+                redirector.redirect(false, getLoginURL(request));
+            }
+            return false;
+        }
+        else
+        {
+            credentialProviders.addAll(chosenUserPopulations.get(0).getCredentialProviders());
+            if (credentialProviders.size() == 0)
+            {
+                throw new IllegalStateException("There is no populations credential provider available for contexts '" + StringUtils.join(contexts, "', '") + "'");
+            }
+            request.setAttribute(REQUEST_ATTRIBUTE_SHOULD_DISPLAY_USER_POPULATIONS_LIST, userPopulationId == null || _hasCredentialProviders(availableUserPopulations) || credentialProviders.size() == 1 && !credentialProviders.stream().filter(cp -> cp instanceof FormCredentialProvider).findAny().isPresent());
+            return true;
         }
     }
 
@@ -255,6 +313,9 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         
         Integer credentialProviderIndex = (Integer) request.getAttribute(REQUEST_ATTRIBUTE_CREDENTIAL_PROVIDER_INDEX);
         parameters.add("credentialProviderIndex=" + String.valueOf(credentialProviderIndex != null ? credentialProviderIndex : -1));
+        
+        List<String> contexts = (List<String>) request.getAttribute(REQUEST_ATTRIBUTE_CONTEXTS);
+        parameters.add("contexts=" + org.ametys.core.util.StringUtils.encode(StringUtils.join(contexts, ",")));
         
         return baseURL + (baseURL.contains("?") ? "&" : "?") + StringUtils.join(parameters, "&");
     }
@@ -321,8 +382,8 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
             Session session = request.getSession(false);
             if (session != null)
             {
-                userPopulationId = (String) session.getAttribute(SESSION_USERPOPULATION_ID);
-                session.setAttribute(SESSION_USERPOPULATION_ID, null);
+                userPopulationId = (String) session.getAttribute(SESSION_CONNECTING_USERPOPULATION_ID);
+                session.setAttribute(SESSION_CONNECTING_USERPOPULATION_ID, null);
             }
         }
         
@@ -345,20 +406,6 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     }
     
     /**
-     * When the process end successfully, save the state
-     * @param request The request
-     * @param runningBlockingkMode false for non-blocking mode, true for blocking mode
-     * @param runningCredentialProvider the Credential provider to test
-     */
-    protected void _saveStateToSession(Request request, CredentialProvider runningCredentialProvider, boolean runningBlockingkMode)
-    {
-        Session session = request.getSession(true);
-        session.setAttribute(SESSION_CREDENTIALPROVIDER, runningCredentialProvider);
-        session.setAttribute(SESSION_CREDENTIALPROVIDER_MODE, runningBlockingkMode);
-        session.setAttribute(SESSION_USERPOPULATION_ID, request.getAttribute(REQUEST_ATTRIBUTE_USER_POPULATION_ID));
-    }
-
-    /**
      * Try to authenticate with this credential provider in this mode. Delegates to _doProcess
      * @param request The request
      * @param runningBlockingkMode false for non-blocking mode, true for blocking mode
@@ -371,7 +418,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     protected boolean _process(Request request, boolean runningBlockingkMode, CredentialProvider runningCredentialProvider, Redirector redirector, List<UserPopulation> userPopulations) throws Exception
     {
         boolean existingSession = request.getSession(false) != null;
-        _saveStateToSession(request, runningCredentialProvider, runningBlockingkMode);
+        _saveConnectingStateToSession(request, runningBlockingkMode ? null : runningCredentialProvider, runningBlockingkMode);
         if (_doProcess(request, runningBlockingkMode, runningCredentialProvider, redirector, userPopulations))
         {
             return true;
@@ -430,7 +477,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         }
 
         // Save user identity
-        _setUserIdentityInSession(request, userIdentity);
+        _setUserIdentityInSession(request, userIdentity, runningCredentialProvider, runningBlockingkMode);
         
         // Authentication succeeded
         runningCredentialProvider.userAllowed(runningBlockingkMode, userIdentity);
@@ -439,13 +486,48 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     }
     
     /**
+     * Reset the connecting information in session
+     * @param request The request
+     */
+    protected void _resetConnectingStateToSession(Request request)
+    {
+        Session session = request.getSession(false);
+        if (session != null)
+        {
+            session.removeAttribute(SESSION_CONNECTING_CREDENTIALPROVIDER);
+            session.removeAttribute(SESSION_CONNECTING_CREDENTIALPROVIDER_MODE);
+            session.removeAttribute(SESSION_CONNECTING_USERPOPULATION_ID);
+        }
+    }
+    
+    /**
+     * When the process end successfully, save the state
+     * @param request The request
+     * @param runningBlockingkMode false for non-blocking mode, true for blocking mode
+     * @param runningCredentialProvider the Credential provider to test
+     */
+    protected void _saveConnectingStateToSession(Request request, CredentialProvider runningCredentialProvider, boolean runningBlockingkMode)
+    {
+        Session session = request.getSession(true);
+        session.setAttribute(SESSION_CONNECTING_CREDENTIALPROVIDER, runningCredentialProvider);
+        session.setAttribute(SESSION_CONNECTING_CREDENTIALPROVIDER_MODE, runningBlockingkMode);
+        session.setAttribute(SESSION_CONNECTING_USERPOPULATION_ID, request.getAttribute(REQUEST_ATTRIBUTE_USER_POPULATION_ID));
+    }
+
+    /**
      * Save user identity in request
      * @param request The request
      * @param userIdentity The useridentity to save
+     * @param credentialProvider The credential provider used to connect
+     * @param blockingMode The mode used for the credential provider
      */
-    protected void _setUserIdentityInSession(Request request, UserIdentity userIdentity)
+    protected void _setUserIdentityInSession(Request request, UserIdentity userIdentity, CredentialProvider credentialProvider, boolean blockingMode)
     {
-        request.getSession(true).setAttribute(SESSION_USERIDENTITY, userIdentity);
+        Session session = request.getSession(true); 
+        _resetConnectingStateToSession(request);
+        session.setAttribute(SESSION_USERIDENTITY, userIdentity);
+        session.setAttribute(SESSION_CREDENTIALPROVIDER, credentialProvider);
+        session.setAttribute(SESSION_CREDENTIALPROVIDER_MODE, blockingMode);
     }
     
     /**
@@ -453,7 +535,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
      * @param request The request
      * @return The connected useridentity or null
      */
-    public UserIdentity _getUserIdentityFromSession(Request request)
+    protected UserIdentity _getUserIdentityFromSession(Request request)
     {
         return getUserIdentityFromSession(request);
     }
@@ -472,6 +554,56 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         }
         return null;
     }
+   
+    /**
+     * Get the credential provider used for the current connection
+     * @param request The request 
+     * @return The credential provider used or null
+     */
+    protected CredentialProvider _getCredentialProviderFromSession(Request request)
+    {
+        return getCredentialProviderFromSession(request);
+    }
+    
+    /**
+     * Get the credential provider used for the current connection
+     * @param request The request 
+     * @return The credential provider used or null
+     */
+    public static CredentialProvider getCredentialProviderFromSession(Request request)
+    {
+        Session session = request.getSession(false);
+        if (session != null)
+        {
+            return (CredentialProvider) session.getAttribute(SESSION_CREDENTIALPROVIDER);
+        }
+        return null;
+    }
+    
+    /**
+     * Get the credential provider mode used for the current connection
+     * @param request The request 
+     * @return The credential provider mode used or null
+     */
+    protected Boolean _getCredentialProviderModeFromSession(Request request)
+    {
+        return getCredentialProviderModeFromSession(request);
+    }
+    
+    /**
+     * Get the credential provider mode used for the current connection
+     * @param request The request 
+     * @return The credential provider mode used or null
+     */
+    public static Boolean getCredentialProviderModeFromSession(Request request)
+    {
+        Session session = request.getSession(false);
+        if (session != null)
+        {
+            return (Boolean) session.getAttribute(SESSION_CREDENTIALPROVIDER_MODE);
+        }
+        return null;
+    }
 
     /**
      * If there is a running credential provider, was it in non-blocking or blocking mode?
@@ -483,8 +615,8 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         Session session = request.getSession(false);
         if (session != null)
         {
-            Boolean mode = (Boolean) session.getAttribute(SESSION_CREDENTIALPROVIDER_MODE);
-            session.setAttribute(SESSION_CREDENTIALPROVIDER_MODE, null);
+            Boolean mode = (Boolean) session.getAttribute(SESSION_CONNECTING_CREDENTIALPROVIDER_MODE);
+            session.removeAttribute(SESSION_CONNECTING_CREDENTIALPROVIDER_MODE);
             if (mode != null)
             {
                 return mode.booleanValue();
@@ -520,9 +652,19 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         Session session = request.getSession(false);
         if (session != null)
         {
-            CredentialProvider cp = (CredentialProvider) session.getAttribute(SESSION_CREDENTIALPROVIDER);
-            session.setAttribute(SESSION_CREDENTIALPROVIDER, null);
-            return availableCredentialProviders.indexOf(cp);
+            CredentialProvider cp = (CredentialProvider) session.getAttribute(SESSION_CONNECTING_CREDENTIALPROVIDER);
+            session.removeAttribute(SESSION_CONNECTING_CREDENTIALPROVIDER);
+            
+            // We cannot simply return availableCredentialProviders.indexOf(cp)
+            // because this will use equals, and we explicitly want to do ==
+            // equals was overridden so 2 CP with the same parameters are equals but not ==
+            for (int index = 0; index < availableCredentialProviders.size(); index++)
+            {
+                if (availableCredentialProviders.get(index) == cp)
+                {
+                    return index;
+                }
+            }
         }
         
         // Default value
@@ -555,6 +697,29 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     {
         return "true".equals(request.getAttribute(__REQUEST_ATTRIBUTE_AUTHENTICATED)) || request.getAttribute(REQUEST_ATTRIBUTE_INTERNAL_ALLOWED) != null;
     }
+    
+    /**
+     * Determine if the request is one of the authentication process (except the credential providers)
+     * @param request The request
+     * @return true to bypass this authentication
+     */
+    protected boolean _acceptedUrl(Request request)
+    {
+        // URL without server context and leading slash.
+        String url = (String) request.getAttribute(WorkspaceMatcher.IN_WORKSPACE_URL);
+        for (Pattern pattern : _acceptedUrlPatterns)
+        {
+            if (pattern.matcher(url).matches())
+            {
+                // Anonymous request
+                request.setAttribute(REQUEST_ATTRIBUTE_GRANTED, true);
+
+                return true;
+            }
+        }
+        
+        return false;
+    }
 
     /**
      * This method ensure that there is a currently connected user and that it is still valid
@@ -567,9 +732,9 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     protected boolean _validateCurrentlyConnectedUser(Request request, Redirector redirector, Parameters parameters) throws Exception
     {
         Session session = request.getSession(false);
-        CredentialProvider runningCredentialProvider = session != null ? (CredentialProvider) session.getAttribute(AuthenticateAction.SESSION_CREDENTIALPROVIDER) : null;
+        CredentialProvider runningCredentialProvider = _getCredentialProviderFromSession(request);
         UserIdentity userCurrentlyConnected = _getUserIdentityFromSession(request);
-        Boolean runningBlockingkMode = session != null ? (Boolean) session.getAttribute(SESSION_CREDENTIALPROVIDER_MODE) : null;
+        Boolean runningBlockingkMode = _getCredentialProviderModeFromSession(request);
         
         if (runningCredentialProvider == null || userCurrentlyConnected == null || runningBlockingkMode == null || !runningCredentialProvider.isStillConnected(runningBlockingkMode, userCurrentlyConnected, redirector))
         {

@@ -32,6 +32,7 @@ import org.apache.cocoon.xml.XMLUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
+import org.ametys.core.authentication.BlockingCredentialProvider;
 import org.ametys.core.authentication.CredentialProvider;
 import org.ametys.core.authentication.CredentialProviderFactory;
 import org.ametys.core.authentication.CredentialProviderModel;
@@ -117,6 +118,9 @@ public class LoginScreenGenerator extends ServiceableGenerator
         
         _generateLoginForm(request, credentialProviders, credentialProviderIndex, invalidPopulationIds);
         
+        String contextsAsString = request.getParameter("contexts");
+        XMLUtils.createElement(contentHandler, "contexts", contextsAsString);
+        
         XMLUtils.endElement(contentHandler, "LoginScreen");
         contentHandler.endDocument();
     }
@@ -167,6 +171,7 @@ public class LoginScreenGenerator extends ServiceableGenerator
             attrs.addCDATAAttribute("index", String.valueOf(index));
             attrs.addCDATAAttribute("selected", index == currentCredentialProvider ? "true" : "false");
             attrs.addCDATAAttribute("isForm", cp instanceof FormCredentialProvider ? "true" : "false");
+            attrs.addCDATAAttribute("isNewWindowRequired", cp instanceof BlockingCredentialProvider && ((BlockingCredentialProvider) cp).requiresNewWindow() ? "true" : "false");
             XMLUtils.startElement(contentHandler, "CredentialProvider", attrs);
             XMLUtils.createElement(contentHandler, "label", I18nUtils.getInstance().translate(cpModel.getConnectionLabel()));
             if (StringUtils.isNotBlank(cp.getLabel()))

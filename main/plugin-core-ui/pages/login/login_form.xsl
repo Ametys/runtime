@@ -42,7 +42,7 @@
 	</xsl:template>
 
     <xsl:template name="login-user-populations-standalone">
-        <xsl:if test="not(/LoginScreen/CredentialProviders/CredentialProvider)">
+        <xsl:if test="not(/LoginScreen/CredentialProviders/CredentialProvider) or (count(LoginScreen/CredentialProviders/CredentialProvider) = 1 and /LoginScreen/CredentialProviders/CredentialProvider[not(@isForm = 'true')])">
 	        <div class="login-part">
 	            <form method="post">
 	                <div class="login-inner login-user-populations-standalone">
@@ -61,31 +61,44 @@
     
     <xsl:template name="login-credential-providers">
         <xsl:if test="/LoginScreen/CredentialProviders/CredentialProvider">
-	        <div class="login-part">
-		        <xsl:for-each select="/LoginScreen/CredentialProviders/CredentialProvider">
-		            <xsl:if test="position() != 1">
-		                <div class="login-part-credentialproviders-separator"><div class="textin"><i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_SEPARATOR" i18n:catalogue="plugin.core-ui" /></div></div>
-		            </xsl:if>
-		            
-	                <form method="post">
-			            <input type="hidden" name="CredentialProviderIndex" value="{@index}"/>
-			            <xsl:choose>
-			                <xsl:when test="@isForm = 'true' and (count(/LoginScreen/CredentialProviders/CredentialProvider[@isForm = 'true']) = 1 or @selected = 'true')">
-			                    <xsl:call-template name="login-form"/>
-			                </xsl:when>
-			                <xsl:otherwise>
-			                    <xsl:call-template name="login-credential-provider"/>
-			                </xsl:otherwise>
-			            </xsl:choose>
-			        </form>
-    	        </xsl:for-each>
-    	        
-                <xsl:call-template name="login-back"/>
-		    </div>
-		</xsl:if>
+            <xsl:choose>
+		        <xsl:when test="not((count(LoginScreen/CredentialProviders/CredentialProvider) = 1 and /LoginScreen/CredentialProviders/CredentialProvider[not(@isForm = 'true')]))">
+			        <div class="login-part">
+				        <xsl:for-each select="/LoginScreen/CredentialProviders/CredentialProvider">
+				            <xsl:if test="position() != 1">
+				                <div class="login-part-credentialproviders-separator"><div class="textin"><i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_SEPARATOR" i18n:catalogue="plugin.core-ui" /></div></div>
+				            </xsl:if>
+				            
+			                <form method="post">
+					            <input type="hidden" name="CredentialProviderIndex" value="{@index}"/>
+					            <xsl:choose>
+					                <xsl:when test="@isForm = 'true' and (count(/LoginScreen/CredentialProviders/CredentialProvider[@isForm = 'true']) = 1 or @selected = 'true')">
+					                    <xsl:call-template name="login-form"/>
+					                </xsl:when>
+		                            <xsl:when test="@isNewWindowRequired = 'false'">
+		                                <xsl:call-template name="login-credential-provider-reload"/>
+		                            </xsl:when>
+					                <xsl:otherwise>
+					                    <xsl:call-template name="login-credential-provider-popup"/>
+					                </xsl:otherwise>
+					            </xsl:choose>
+					        </form>
+		    	        </xsl:for-each>
+		    	        
+		                <xsl:call-template name="login-back"/>
+				    </div>
+				</xsl:when>
+				<xsl:otherwise>
+				    <script type="text/javascript">
+				        <xsl:call-template name="login-credential-provider-script"/>
+				    </script>
+				</xsl:otherwise>
+            </xsl:choose>
+        </xsl:if>
     </xsl:template>
+
     
-    <xsl:template name="login-credential-provider">
+    <xsl:template name="login-credential-provider-reload">
         <div class="login-inner login-credential-provider">
             <button type="submit" style="background-color: #{color}; border: 1px solid #{color};">
                 <xsl:value-of select="label"/>
@@ -96,6 +109,27 @@
             </button>
         </div>
     </xsl:template>
+    
+    <xsl:template name="login-credential-provider-popup">
+        <div class="login-inner login-credential-provider">
+            <button style="background-color: #{color}; border: 1px solid #{color};">
+                <xsl:attribute name="onclick"><xsl:call-template name="login-credential-provider-script"><xsl:with-param name="index" select="@index"/></xsl:call-template> return false;</xsl:attribute>
+            
+                <xsl:value-of select="label"/>
+                <xsl:if test="additionalLabel">
+                    <span class="login-additionalLabel"><xsl:value-of select="additionalLabel"/></span>
+                </xsl:if>
+                <span class="glyph {iconGlyph}"></span>
+            </button>
+        </div>
+    </xsl:template>
+    
+    <xsl:template name="login-credential-provider-script">
+        <xsl:param name="index">0</xsl:param>
+        
+        try { window.open("<xsl:value-of select="ametys:uriPrefix()"/>/plugins/core/authenticate/<xsl:value-of select="$index"/>?contexts=<xsl:value-of select="ametys:urlEncode(/LoginScreen/contexts)"/>", null, "height: ;") } catch (e) { }
+    </xsl:template>
+    
     
     <!-- BACK -->
     
@@ -208,9 +242,16 @@
 	        <xsl:if test="not(/LoginScreen/UserPopulations/@currentValue)">
 		        <script type="text/javascript">
 		            var cls = ' login-input-wrapper-userpopulation-select-empty';
-		            var select = document.getElementById('Population'); 
+		            var select = document.getElementById('Population');
 		            select.selectedIndex = -1;
-		            select.parentNode.className += cls;
+                    select.parentNode.className += cls;
+		            window.addEventListener('load', function() {
+  	                    if (select.selectedIndex != -1)
+  	                    {
+  	                        // BACK was done
+			                select.onchange();
+			            }
+			        });
 		            select.onchange = function() {
 		               this.parentNode.className = this.parentNode.className.replace(cls, '')
 		            }
@@ -242,7 +283,7 @@
 		        <xsl:call-template name="login-form-inputs-username"/>
 		        
                 <xsl:call-template name="login-form-inputs-password"/>
-                      
+
                 <xsl:if test="/LoginScreen/LoginForm/useCaptcha = 'true'">
                     <xsl:call-template name="login-form-inputs-captcha"/>
                 </xsl:if>

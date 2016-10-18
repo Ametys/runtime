@@ -15,6 +15,8 @@
  */
  
 div.code {
+    pointer-events: none;
+    
     position: absolute;
     font-size: 45em;
     font-weight: 700;
@@ -42,20 +44,21 @@ div.code {
     animation-name: code;
     
     top: 0;
-}
-div.code > div {
-    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=3)";
-}
-div.code > div {
-    opacity: 0.03;
-    position: absolute;
-    -moz-transform: rotateY(28deg) rotateX(14deg) rotateZ(-8deg);
-    -webkit-transform: rotateY(28deg) rotateX(14deg) rotateZ(-8deg);
-    -o-transform: rotateY(28deg) rotateX(14deg) rotateZ(-8deg);
-    -ms-transform: rotateY(28deg) rotateX(14deg) rotateZ(-8deg);
-    transform: rotateY(40deg) rotateX(2deg) rotateZ(-14deg);
-    left: 0.25em;
-    top: -0.05em;
+    
+    > div {
+        -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=3)";
+    }
+    > div {
+        opacity: 0.03;
+        position: absolute;
+        -moz-transform: rotateY(28deg) rotateX(14deg) rotateZ(-8deg);
+        -webkit-transform: rotateY(28deg) rotateX(14deg) rotateZ(-8deg);
+        -o-transform: rotateY(28deg) rotateX(14deg) rotateZ(-8deg);
+        -ms-transform: rotateY(28deg) rotateX(14deg) rotateZ(-8deg);
+        transform: rotateY(40deg) rotateX(2deg) rotateZ(-14deg);
+        left: 0.25em;
+        top: -0.05em;
+    }
 }
 
 /**

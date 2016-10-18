@@ -35,7 +35,6 @@ import org.apache.cocoon.components.ContextHelper;
 import org.apache.cocoon.environment.Request;
 import org.apache.commons.lang3.StringUtils;
 
-import org.ametys.core.authentication.AuthenticateAction;
 import org.ametys.core.ui.Callable;
 import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.core.user.InvalidModificationException;
@@ -454,8 +453,9 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
         {
             Request request = ContextHelper.getRequest(_context);
             
+            //FIXME
             //request.getSession(true).setAttribute(AuthenticateAction.SESSION_USERIDENTITY, new UserIdentity(login, populationId));
-            request.getSession(true).setAttribute(AuthenticateAction.SESSION_CREDENTIALPROVIDER, null);
+            //request.getSession(true).setAttribute(AuthenticateAction.SESSION_CREDENTIALPROVIDER, null);
             
             result.put("login", login);
             result.put("population", populationId);

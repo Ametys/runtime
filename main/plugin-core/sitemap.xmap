@@ -48,6 +48,9 @@
             <map:action name="save-userprefs" src="org.ametys.plugins.core.userpref.SetUserPreferencesAction" logger="org.ametys.plugins.core.userpref.SetUserPreferencesAction"/>
             
             <map:action name="resource-exists" src="org.apache.cocoon.acting.ResourceExistsAction"/>
+            
+            <map:action name="credential-provider" src="org.ametys.core.authentication.BlockingCredentialProviderAction"/>
+            
             <map:action name="has-right" src="org.ametys.plugins.core.right.HasRightAction" logger="org.ametys.plugins.core.right">
                 <has-right>true</has-right>
             </map:action>
@@ -76,6 +79,10 @@
 
 	
 	<map:pipelines>
+	    <!-- +
+	         | AUTHENTICATION PIPELINES
+	         | Session dependent so non cachable
+	         + -->
 		<map:pipeline type="noncaching" internal-only="true">
             <map:match pattern="login.html">
                 <map:generate type="login-screen" label="content"/>
@@ -105,6 +112,18 @@
                 </map:transform>
                 <map:serialize/>
 		    </map:match>
+        </map:pipeline>
+        <map:pipeline type="noncaching">
+            <map:match pattern="authenticate/*">
+                <map:act type="set-header">
+                    <map:parameter name="Cache-Control" value="no-cache, no-store, must-revalidate"/>
+                    <map:parameter name="Pragma" value="no-cache"/>
+                    <map:parameter name="Expires" value="0"/>
+                </map:act>
+                <map:act type="credential-provider" src="{1}">
+                    <map:read src="plugin:core-ui://pages/login/login_success.html"/>
+                </map:act>
+            </map:match>            
         </map:pipeline>
         
 		<map:pipeline>

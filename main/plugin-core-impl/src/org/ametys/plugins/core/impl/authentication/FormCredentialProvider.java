@@ -315,21 +315,24 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
                 return userIdentity;
             }
     
-            String value = getCookieValue(request, _cookieName);
-            if (StringUtils.isNotEmpty(value) && SECURITY_LEVEL_LOW.equals(_securityLevel))
+            if (SECURITY_LEVEL_LOW.equals(_securityLevel))
             {
-                String [] values = value.split(",");
-                if (values.length == 3)
+                String value = getCookieValue(request, _cookieName);
+                if (StringUtils.isNotEmpty(value))
                 {
-                    if (checkToken(values[0], values[1], values[2]))
+                    String [] values = value.split(",");
+                    if (values.length == 3)
                     {
-                        return new UserIdentity(values[1], values[0]);
+                        if (checkToken(values[0], values[1], values[2]))
+                        {
+                            return new UserIdentity(values[1], values[0]);
+                        }
                     }
-                }
-                else
-                {
-                    // old cookie, delete it
-                    deleteCookie(request,  ContextHelper.getResponse(_context), _cookieName);
+                    else
+                    {
+                        // old cookie, delete it
+                        deleteCookie(request,  ContextHelper.getResponse(_context), _cookieName);
+                    }
                 }
             }
         }
@@ -482,6 +485,12 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
         
         _insertUserToken(userConnected.getPopulationId(), userConnected.getLogin(), salt, hashedTokenAndSalt);
         updateCookie(userConnected.getPopulationId() + "," + userConnected.getLogin() + "," + token, _cookieName, (int) _cookieLifetime, _context);
+    }
+
+    @Override
+    public boolean requiresNewWindow()
+    {
+        return false;
     }
     
     /**

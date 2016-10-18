@@ -51,7 +51,7 @@ import org.ametys.core.user.UserIdentity;
  * The filter must set the 'remote user' header into the request. <br>
  * <br>
  * This manager can not get the password of the connected user: the user is
- * already authentified. This manager should not be associated with a
+ * already authenticated. This manager should not be associated with a
  * <code>UsersManagerAuthentication</code>
  */
 public class CASCredentialProvider extends AbstractCredentialProvider implements NonBlockingCredentialProvider, BlockingCredentialProvider, Initializable, Contextualizable
@@ -247,6 +247,11 @@ public class CASCredentialProvider extends AbstractCredentialProvider implements
     {
         // Empty method, nothing more to do.
     }
+
+    public boolean requiresNewWindow()
+    {
+        return true;
+    }
     
     /**
      * Get the connected user login from the request or session.
@@ -267,5 +272,4 @@ public class CASCredentialProvider extends AbstractCredentialProvider implements
         }
         return userLogin;
     }
-
 }
