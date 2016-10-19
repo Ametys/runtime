@@ -141,7 +141,7 @@ public class LoginScreenGenerator extends ServiceableGenerator
                     AttributesImpl attrs2 = new AttributesImpl();
                     attrs2.addCDATAAttribute("id", up.getId());
                     XMLUtils.startElement(contentHandler, "UserPopulation", attrs2);
-                    XMLUtils.createElement(contentHandler, "label", String.valueOf(up.getLabel()));
+                    up.getLabel().toSAX(contentHandler, "label");
                     XMLUtils.endElement(contentHandler, "UserPopulation");
                 }
             }

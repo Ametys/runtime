@@ -223,6 +223,8 @@
     <message key="PLUGINS_CORE_USER_POPULATION_IGNORED_NOTIFICATION_MESSAGE">Les populations suivantes ont une configuration invalide et ne peuvent pas être utilisées:&lt;br/&gt;&lt;ul&gt;{0}&lt;/ul&gt;&lt;br/&gt;Veuillez consulter les journaux pour plus d'information, et modifier le fichier &lt;i&gt;user-populations.xml&lt;/i&gt; en conséquence pour corriger le problème.</message>
     <message key="PLUGINS_CORE_USER_POPULATION_MISCONFIGURED_NOTIFICATION_TITLE">Populations mal configurées</message>
     <message key="PLUGINS_CORE_USER_POPULATION_MISCONFIGURED_NOTIFICATION_MESSAGE">Les populations suivantes sont mal configurées:&lt;br/&gt;&lt;ul&gt;{0}&lt;/ul&gt;&lt;br/&gt;Veuillez vous rendre sur l'&lt;a&gt;outil des populations&lt;/a&gt; pour les corriger.</message>
+
+    <message key="PLUGINS_CORE_USER_POPULATION_ADMIN_LABEL">Administrateurs 'système'</message>
     
     <!-- +
          | GROUP DIRECTORIES

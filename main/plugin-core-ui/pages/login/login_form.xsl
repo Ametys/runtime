@@ -235,7 +235,7 @@
 	               
 	                <option value='{@id}'>
 	                    <xsl:if test="../@currentValue = @id"><xsl:attribute name="selected">selected</xsl:attribute></xsl:if>    
-	                    <xsl:value-of select="label" />
+	                    <xsl:copy-of select="label" />
 	                </option>
 	            </xsl:for-each>
 	        </select>

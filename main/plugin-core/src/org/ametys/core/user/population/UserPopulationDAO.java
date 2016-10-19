@@ -474,7 +474,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         credentialProvider.put("cpModelId", cpModelId); // TODO replace Basic by Form (need Form to be safe) RUNTIME-1764
         credentialProvider.put(cpModelId + "$" + "runtime.authentication.basic.realm", "Ametys workspace admin");
         
-        _fillUserPopulation(_adminUserPopulation, "Admin Population", Collections.singletonList(userDirectory), Collections.singletonList(credentialProvider));
+        _fillUserPopulation(_adminUserPopulation, new I18nizableText("plugin.core", "PLUGINS_CORE_USER_POPULATION_ADMIN_LABEL"), Collections.singletonList(userDirectory), Collections.singletonList(credentialProvider));
         
         return _adminUserPopulation;
     }
@@ -500,7 +500,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         UserPopulation up = new UserPopulation();
         up.setId(id);
         
-        _fillUserPopulation(up, label, userDirectories, credentialProviders);
+        _fillUserPopulation(up, new I18nizableText(label), userDirectories, credentialProviders);
         
         _userPopulations.put(id, up);
         if (_writePopulations())
@@ -558,7 +558,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
             return result;
         }
         
-        _fillUserPopulation(up, label, userDirectories, credentialProviders);
+        _fillUserPopulation(up, new I18nizableText(label), userDirectories, credentialProviders);
         
         if (_writePopulations())
         {
@@ -577,9 +577,9 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         return result;
     }
     
-    private void _fillUserPopulation(UserPopulation up, String label, List<Map<String, String>> userDirectories, List<Map<String, String>> credentialProviders)
+    private void _fillUserPopulation(UserPopulation up, I18nizableText label, List<Map<String, String>> userDirectories, List<Map<String, String>> credentialProviders)
     {
-        up.setLabel(new I18nizableText(label));
+        up.setLabel(label);
         
         // Create the user directories
         List<UserDirectory> uds = new ArrayList<>();
