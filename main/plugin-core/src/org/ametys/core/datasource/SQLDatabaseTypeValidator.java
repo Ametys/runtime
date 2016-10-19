@@ -130,7 +130,7 @@ public class SQLDatabaseTypeValidator extends DefaultValidator
         {
             if (dsDefinition.isDefault())
             {
-                dsDefinitions.put(SQLDataSourceManager.SQL_DATASOURCE_PREFIX + AbstractDataSourceManager.DEFAULT_DATASOURCE_SUFFIX, dsDefinition.clone());
+                dsDefinitions.put(SQLDataSourceManager.SQL_DATASOURCE_PREFIX + AbstractDataSourceManager.DEFAULT_DATASOURCE_SUFFIX, dsDefinition.duplicate());
                 findDefault = true;
                 break;
             }
@@ -143,7 +143,7 @@ public class SQLDatabaseTypeValidator extends DefaultValidator
         if (!findDefault)
         {
             // The internal db is the default data source
-            dsDefinitions.put(SQLDataSourceManager.SQL_DATASOURCE_PREFIX + AbstractDataSourceManager.DEFAULT_DATASOURCE_SUFFIX, internalDsDefinition.clone());
+            dsDefinitions.put(SQLDataSourceManager.SQL_DATASOURCE_PREFIX + AbstractDataSourceManager.DEFAULT_DATASOURCE_SUFFIX, internalDsDefinition.duplicate());
         }
         
         if (dsDefinitions.containsKey(dataSourceId))

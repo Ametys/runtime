@@ -675,10 +675,20 @@ public abstract class AbstractDataSourceManager extends AbstractLogEnabled imple
             return _parameters;
         }
         
-        @Override
-        public DataSourceDefinition clone()
+        /**
+         * Duplicate the object
+         * @return The duplicated object
+         */
+        public DataSourceDefinition duplicate()
         {
             return new DataSourceDefinition(_id, _name, _description, new HashMap<>(_parameters), _isPrivate, _isDefault);
+        }
+        
+        @Override
+        protected Object clone() throws CloneNotSupportedException
+        {
+            // TODO Auto-generated method stub
+            return super.clone();
         }
     }
 }
