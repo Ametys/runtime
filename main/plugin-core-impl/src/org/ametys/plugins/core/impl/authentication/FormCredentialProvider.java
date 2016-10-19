@@ -35,6 +35,9 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 import org.apache.cocoon.components.ContextHelper;
 import org.apache.cocoon.environment.Cookie;
 import org.apache.cocoon.environment.ObjectModelHelper;
@@ -45,6 +48,7 @@ import org.apache.cocoon.environment.http.HttpCookie;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.excalibur.source.SourceResolver;
 import org.joda.time.DateTime;
 
 import org.ametys.core.authentication.AbstractCredentialProvider;
@@ -54,6 +58,7 @@ import org.ametys.core.authentication.LogoutCapable;
 import org.ametys.core.authentication.NonBlockingCredentialProvider;
 import org.ametys.core.captcha.CaptchaHelper;
 import org.ametys.core.datasource.ConnectionHelper;
+import org.ametys.core.script.SQLScriptHelper;
 import org.ametys.core.user.UserIdentity;
 import org.ametys.core.user.directory.UserDirectory;
 import org.ametys.core.user.population.UserPopulation;
@@ -92,7 +97,7 @@ import org.ametys.runtime.workspace.WorkspaceMatcher;
  *               &lt;/unauthenticated&gt;<br>
  * 
  */
-public class FormCredentialProvider extends AbstractCredentialProvider implements NonBlockingCredentialProvider, BlockingCredentialProvider, LogoutCapable, Contextualizable, Configurable
+public class FormCredentialProvider extends AbstractCredentialProvider implements NonBlockingCredentialProvider, BlockingCredentialProvider, LogoutCapable, Contextualizable, Configurable, Serviceable
 {
     /** Password value in case of info retrieved from cookie */
     public static final String AUTHENTICATION_BY_COOKIE = "authentication_by_cookie";
@@ -153,11 +158,24 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
     
     /** The datasource id */
     protected String _datasourceId;
+    /** The avalon source resolver */
+    protected SourceResolver _sourceResolver;
+    
+    /** was lazy initialize done */
+    protected boolean _lazyInitialized;
 
     @Override
     public void contextualize(Context context) throws ContextException
     {
         _context = context;
+    }
+    
+    public void service(ServiceManager manager) throws ServiceException
+    {
+        _sourceResolver = (SourceResolver) manager.lookup(SourceResolver.ROLE);
+        
+        // Ensure statics methods will be available during initialize
+        manager.lookup(ConnectionHelper.ROLE);
     }
     
     @Override
@@ -205,6 +223,27 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
      */
     protected Connection getSQLConnection()
     {
+        if (!_lazyInitialized)
+        {
+            try
+            {
+                if (SECURITY_LEVEL_LOW.equals(_securityLevel))
+                {
+                    SQLScriptHelper.createTableIfNotExists(_datasourceId, "Users_Token", "plugin:core://scripts/%s/users_token.sql", _sourceResolver);
+                }
+                else
+                {
+                    SQLScriptHelper.createTableIfNotExists(_datasourceId, "Users_FormConnectionFailed", "plugin:core://scripts/%s/users_form_failed_connection.sql", _sourceResolver);
+                }
+            }
+            catch (Exception e)
+            {
+                getLogger().error("The tables requires by the FormCredentialProvider could not be created. A degraded behavior will occur", e);
+            }
+            
+            _lazyInitialized = true;
+        }
+        
         return ConnectionHelper.getConnection(_datasourceId);
     }
     
