@@ -57,25 +57,25 @@ import org.ametys.core.util.ldap.ScopeEnumerator;
 public class LdapUserDirectory extends AbstractLDAPConnector implements UserDirectory, Component
 {
     /** Name of the parameter holding the datasource id */
-    protected static final String __PARAM_DATASOURCE_ID = "runtime.users.ldap.datasource";
+    public static final String PARAM_DATASOURCE_ID = "runtime.users.ldap.datasource";
     /** Relative DN for users. */
-    protected static final String __PARAM_USERS_RELATIVE_DN = "runtime.users.ldap.peopleDN";
+    public static final String PARAM_USERS_RELATIVE_DN = "runtime.users.ldap.peopleDN";
     /** Filter for limiting the search. */
-    protected static final String __PARAM_USERS_OBJECT_FILTER = "runtime.users.ldap.baseFilter";
+    public static final String PARAM_USERS_OBJECT_FILTER = "runtime.users.ldap.baseFilter";
     /** The scope used for search. */
-    protected static final String __PARAM_USERS_SEARCH_SCOPE = "runtime.users.ldap.scope";
+    public static final String PARAM_USERS_SEARCH_SCOPE = "runtime.users.ldap.scope";
     /** Name of the login attribute. */
-    protected static final String __PARAM_USERS_LOGIN_ATTRIBUTE = "runtime.users.ldap.loginAttr";
+    public static final String PARAM_USERS_LOGIN_ATTRIBUTE = "runtime.users.ldap.loginAttr";
     /** Name of the first name attribute. */
-    protected static final String __PARAM_USERS_FIRSTNAME_ATTRIBUTE = "runtime.users.ldap.firstnameAttr";
+    public static final String PARAM_USERS_FIRSTNAME_ATTRIBUTE = "runtime.users.ldap.firstnameAttr";
     /** Name of the last name attribute. */
-    protected static final String __PARAM_USERS_LASTNAME_ATTRIBUTE = "runtime.users.ldap.lastnameAttr";
+    public static final String PARAM_USERS_LASTNAME_ATTRIBUTE = "runtime.users.ldap.lastnameAttr";
     /** Name of the email attribute. */
-    protected static final String __PARAM_USERS_EMAIL_ATTRIBUTE = "runtime.users.ldap.emailAttr";
+    public static final String PARAM_USERS_EMAIL_ATTRIBUTE = "runtime.users.ldap.emailAttr";
     /** To know if email is a mandatory attribute */
-    protected static final String __PARAM_USERS_EMAIL_IS_MANDATORY = "runtime.users.ldap.emailMandatory";
+    public static final String PARAM_USERS_EMAIL_IS_MANDATORY = "runtime.users.ldap.emailMandatory";
     /** True to sort the results on the server side, false to get the results unsorted. */
-    protected static final String __PARAM_SERVER_SIDE_SORTING = "runtime.users.ldap.serverSideSorting";
+    public static final String PARAM_SERVER_SIDE_SORTING = "runtime.users.ldap.serverSideSorting";
 
     /** Relative DN for users. */
     protected String _usersRelativeDN;
@@ -120,23 +120,23 @@ public class LdapUserDirectory extends AbstractLDAPConnector implements UserDire
         _paramValues = paramValues;
         _label = label;
         
-        _usersRelativeDN = (String) paramValues.get(__PARAM_USERS_RELATIVE_DN);
-        _usersObjectFilter = (String) paramValues.get(__PARAM_USERS_OBJECT_FILTER);
-        _usersSearchScope = ScopeEnumerator.parseScope((String) paramValues.get(__PARAM_USERS_SEARCH_SCOPE));
-        _usersLoginAttribute = (String) paramValues.get(__PARAM_USERS_LOGIN_ATTRIBUTE);
+        _usersRelativeDN = (String) paramValues.get(PARAM_USERS_RELATIVE_DN);
+        _usersObjectFilter = (String) paramValues.get(PARAM_USERS_OBJECT_FILTER);
+        _usersSearchScope = ScopeEnumerator.parseScope((String) paramValues.get(PARAM_USERS_SEARCH_SCOPE));
+        _usersLoginAttribute = (String) paramValues.get(PARAM_USERS_LOGIN_ATTRIBUTE);
         
-        _usersFirstnameAttribute = (String) paramValues.get(__PARAM_USERS_FIRSTNAME_ATTRIBUTE);
+        _usersFirstnameAttribute = (String) paramValues.get(PARAM_USERS_FIRSTNAME_ATTRIBUTE);
         if (_usersFirstnameAttribute != null && _usersFirstnameAttribute.length() == 0)
         {
             _usersFirstnameAttribute = null;
         }
         
-        _usersLastnameAttribute = (String) paramValues.get(__PARAM_USERS_LASTNAME_ATTRIBUTE);
-        _usersEmailAttribute = (String) paramValues.get(__PARAM_USERS_EMAIL_ATTRIBUTE);
-        _userEmailIsMandatory = (Boolean) paramValues.get(__PARAM_USERS_EMAIL_IS_MANDATORY);
-        _serverSideSorting = (Boolean) paramValues.get(__PARAM_SERVER_SIDE_SORTING);
+        _usersLastnameAttribute = (String) paramValues.get(PARAM_USERS_LASTNAME_ATTRIBUTE);
+        _usersEmailAttribute = (String) paramValues.get(PARAM_USERS_EMAIL_ATTRIBUTE);
+        _userEmailIsMandatory = (Boolean) paramValues.get(PARAM_USERS_EMAIL_IS_MANDATORY);
+        _serverSideSorting = (Boolean) paramValues.get(PARAM_SERVER_SIDE_SORTING);
         
-        String dataSourceId = (String) paramValues.get(__PARAM_DATASOURCE_ID);
+        String dataSourceId = (String) paramValues.get(PARAM_DATASOURCE_ID);
         _delayedInitialize(dataSourceId);
     }
     
