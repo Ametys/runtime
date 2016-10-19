@@ -55,7 +55,8 @@ public final class LambdaUtils
      */
     public static <T, R> Function<T, R> wrap(ThrowingFunction<T, R> function)
     {
-        return value -> {
+        return value -> 
+        {
             try
             {
                 return function.apply(value);
@@ -96,7 +97,8 @@ public final class LambdaUtils
      */
     public static <T> Consumer<T> wrapConsumer(ThrowingConsumer<T> consumer)
     {
-        return value -> {
+        return value -> 
+        {
             try
             {
                 consumer.accept(value);
