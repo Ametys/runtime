@@ -134,7 +134,7 @@ public abstract class AbstractMyBatisDAO extends AbstractLogEnabled implements C
     /**
      * Reload configuration and object for mybatis
      */
-    protected void reload()
+    protected synchronized void reload()
     {
         // Let's check if MyBatis current configuration is ok
         String newDatasourceId;
