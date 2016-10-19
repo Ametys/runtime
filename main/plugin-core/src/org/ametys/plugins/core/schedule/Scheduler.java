@@ -15,11 +15,6 @@
  */
 package org.ametys.plugins.core.schedule;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,8 +24,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import javax.sql.DataSource;
 
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
@@ -42,7 +35,6 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
@@ -62,16 +54,16 @@ import org.quartz.utils.PoolingConnectionProvider;
 
 import org.ametys.core.datasource.ConnectionHelper;
 import org.ametys.core.datasource.SQLDataSourceManager;
-import org.ametys.core.right.RightManager;
 import org.ametys.core.datasource.dbtype.SQLDatabaseType;
 import org.ametys.core.datasource.dbtype.SQLDatabaseTypeExtensionPoint;
+import org.ametys.core.right.RightManager;
 import org.ametys.core.schedule.AmetysJob;
 import org.ametys.core.schedule.Runnable;
 import org.ametys.core.schedule.Runnable.FireProcess;
 import org.ametys.core.schedule.RunnableExtensionPoint;
 import org.ametys.core.schedule.Schedulable;
 import org.ametys.core.schedule.SchedulableExtensionPoint;
-import org.ametys.core.script.ScriptRunner;
+import org.ametys.core.script.SQLScriptHelper;
 import org.ametys.core.ui.Callable;
 import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.core.util.LambdaUtils;
@@ -207,144 +199,27 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
     /* copy/paste of SqlTablesInit#init() because SqlTablesInit comes too late */
     private void _checkAndCreateTables(String dataSourceId)
     {
-        DataSource dataSource = null;
+        // Test and create tables
         try
         {
-            dataSource = _sqlDataSourceManager.getSQLDataSource(dataSourceId);
+            SQLScriptHelper.createTableIfNotExists(dataSourceId, "QRTZ_JOB_DETAILS", "plugin:core://scripts/%s/quartz.sql", _sourceResolver);
         }
         catch (Exception e)
         {
-            // silently ignore
+            getLogger().error("Error during SQL tables initialization for data source id: '%s'.", StringUtils.defaultString(dataSourceId), e);
         }
-        
-        if (dataSource == null)
-        {
-            getLogger().warn("Configured data source could not be found. Data source id: '{}'", StringUtils.defaultString(dataSourceId));
-            return;
-        }
-        
-        try
-        {
-            // Test and create tables
-            Connection connection = dataSource.getConnection();
-            
-            try
-            {
-                _initTables(connection, dataSourceId);
-            }
-            finally
-            {
-                ConnectionHelper.cleanup(connection);
-            }
-        }
-        catch (Exception e)
-        {
-            String errorMsg = String.format("Error during SQL tables initialization for data source id: '%s'.",
-                    StringUtils.defaultString(dataSourceId));
-            getLogger().error(errorMsg, e);
-        }
-    }
-    
-    private void _initTables(Connection connection, String dataSourceId) throws SQLException
-    {
-        String scriptFolder = null;
-        
-        String dbType = ConnectionHelper.getDatabaseType(connection);
-        switch (dbType)
-        {
-            case ConnectionHelper.DATABASE_DERBY:
-                scriptFolder = "derby"; 
-                break;
-            case ConnectionHelper.DATABASE_HSQLDB:
-                scriptFolder = "hsqldb"; 
-                break;
-            case ConnectionHelper.DATABASE_MYSQL:
-                scriptFolder = "mysql"; 
-                break;
-            case ConnectionHelper.DATABASE_ORACLE:
-                scriptFolder = "oracle"; 
-                break;
-            case ConnectionHelper.DATABASE_POSTGRES:
-                scriptFolder = "postgresql"; 
-                break;
-            default:
-                getLogger().warn("This data source is not compatible with the automatic creation of the SQL tables. The tables will not be created. Data source id: '{}'", dataSourceId);
-                return;
-        }
-        
-        // location = plugin:PLUGIN_NAME://scripts/SCRIPT_FOLDER/SQL_FILENAME
-        String locationPrefix = "plugin:core://scripts/" + scriptFolder + "/";
-        
-        String tableName = "QRTZ_JOB_DETAILS"; // assume that either none of the tables are created, either all are created
-        if (!_tableExists(connection, tableName))
-        {
-            String location = locationPrefix + "quartz.sql";
-            Source source = null;
-            
-            try
-            {
-                source = _sourceResolver.resolveURI(location);
-                ScriptRunner.runScript(connection, source.getInputStream());
-            }
-            catch (IOException | SQLException e)
-            {
-                getLogger().error(String.format("Unable to run the SQL script for file at location: %s.\nAll pendings script executions are aborted.", location), e);
-                return;
-            }
-            finally
-            {
-                if (source != null)
-                {
-                    _sourceResolver.release(source);
-                }
-            }
-        }
-    }
-    
-    private boolean _tableExists(Connection connection, String tableName) throws SQLException
-    {
-        ResultSet rs = null;
-        boolean schemaExists = false;
-        
-        String name = tableName;
-        DatabaseMetaData metaData = connection.getMetaData();
-        
-        if (metaData.storesLowerCaseIdentifiers())
-        {
-            name = tableName.toLowerCase();
-        }
-        else if (metaData.storesUpperCaseIdentifiers())
-        {
-            name = tableName.toUpperCase();
-        }
-        
-        try
-        {
-            rs = metaData.getTables(null, null, name, null);
-            schemaExists = rs.next();
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-        }
-        
-        return schemaExists;
     }
     
     private String _getDriverDelegateClass(String dbType)
     {
         switch (dbType)
         {
-            case ConnectionHelper.DATABASE_DERBY:
-            case ConnectionHelper.DATABASE_MYSQL:
-            case ConnectionHelper.DATABASE_ORACLE:
-                return "org.quartz.impl.jdbcjobstore.StdJDBCDelegate";
             case ConnectionHelper.DATABASE_HSQLDB:
                 return "org.quartz.impl.jdbcjobstore.HSQLDBDelegate";
             case ConnectionHelper.DATABASE_POSTGRES:
                 return "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate";
             default:
-                return "";
+                return "org.quartz.impl.jdbcjobstore.StdJDBCDelegate";
         }
     }
     

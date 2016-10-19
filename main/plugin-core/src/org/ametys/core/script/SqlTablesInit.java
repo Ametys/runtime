@@ -15,11 +15,7 @@
  */
 package org.ametys.core.script;
 
-import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,7 +27,6 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
 
 import org.ametys.core.datasource.ConnectionHelper;
@@ -123,11 +118,17 @@ public class SqlTablesInit extends AbstractLogEnabled implements Init, Serviceab
         try
         {
             // Test and create tables
-            Connection connection = ConnectionHelper.getConnection(_dataSourceId);
-            
+            Connection connection = null;
             try
             {
-                initTables(connection);
+                connection = ConnectionHelper.getConnection(_dataSourceId);
+                
+                String scriptFolder = ConnectionHelper.getDatabaseType(connection);
+                
+                for (InitScript initScript : _scripts)
+                {
+                    SQLScriptHelper.createTableIfNotExists(connection, initScript._testTable, "plugin:" + initScript._pluginName + "://scripts/" + scriptFolder + "/" + initScript._fileName, _sourceResolver);
+                }
             }
             finally
             {
@@ -136,111 +137,9 @@ public class SqlTablesInit extends AbstractLogEnabled implements Init, Serviceab
         }
         catch (Exception e)
         {
-            String errorMsg = String.format("Error during SQL tables initialization for data source id: '%s'.",
-                    StringUtils.defaultString(_dataSourceId));
+            String errorMsg = String.format("Error during SQL tables initialization for data source id: '%s'.", StringUtils.defaultString(_dataSourceId));
             getLogger().error(errorMsg, e);
         }
-    }
-    
-    /**
-     * Execute the SQL script to create the tables if the test table does not
-     * exist.
-     * @param connection The database connection
-     * @throws SQLException In an SQL exception occurs
-     */
-    protected void initTables(Connection connection) throws SQLException
-    {
-        String scriptFolder = null;
-        
-        String dbType = ConnectionHelper.getDatabaseType(connection);
-        switch (dbType)
-        {
-            case ConnectionHelper.DATABASE_DERBY:
-                scriptFolder = "derby"; break;
-            case ConnectionHelper.DATABASE_HSQLDB:
-                scriptFolder = "hsqldb"; break;
-            case ConnectionHelper.DATABASE_MYSQL:
-                scriptFolder = "mysql"; break;
-            case ConnectionHelper.DATABASE_ORACLE:
-                scriptFolder = "oracle"; break;
-            case ConnectionHelper.DATABASE_POSTGRES:
-                scriptFolder = "postgresql"; break;
-            default:
-                if (getLogger().isWarnEnabled())
-                {
-                    getLogger().warn(String.format("This data source is not compatible with the automatic creation of the SQL tables. The tables will not be created. Data source id: '%s'", _dataSourceId));
-                }
-                
-                return;
-        }
-        
-        for (InitScript initScript : _scripts)
-        {
-            // location = plugin:PLUGIN_NAME://scripts/SCRIPT_FOLDER/SQL_FILENAME
-            StringBuilder sb = new StringBuilder("plugin:").append(initScript._pluginName).append("://scripts/").append(scriptFolder).append('/');
-            String locationPrefix = sb.toString();
-            
-            if (!tableExists(connection, initScript._testTable))
-            {
-                String location = locationPrefix + initScript._fileName;
-                Source source = null;
-                
-                try
-                {
-                    source = _sourceResolver.resolveURI(location);
-                    ScriptRunner.runScript(connection, source.getInputStream());
-                }
-                catch (IOException | SQLException e)
-                {
-                    getLogger().error(String.format("Unable to run the SQL script for file at location: %s.\nAll pendings script executions are aborted.", location), e);
-                    return;
-                }
-                finally
-                {
-                    if (source != null)
-                    {
-                        _sourceResolver.release(source);
-                    }
-                }
-            }
-        }
-    }
-    
-    /**
-     * Checks whether the given table exists in the database.
-     * @param connection The database connection
-     * @param tableName the name of the table
-     * @return true is the table exists
-     * @throws SQLException In an SQL exception occurs
-     */
-    public boolean tableExists(Connection connection, String tableName) throws SQLException
-    {
-        ResultSet rs = null;
-        boolean schemaExists = false;
-        
-        String name = tableName;
-        DatabaseMetaData metaData = connection.getMetaData();
-        
-        if (metaData.storesLowerCaseIdentifiers())
-        {
-            name = tableName.toLowerCase();
-        }
-        else if (metaData.storesUpperCaseIdentifiers())
-        {
-            name = tableName.toUpperCase();
-        }
-        
-        try
-        {
-            rs = metaData.getTables(null, null, name, null);
-            schemaExists = rs.next();
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-        }
-        
-        return schemaExists;
     }
     
     private static class InitScript

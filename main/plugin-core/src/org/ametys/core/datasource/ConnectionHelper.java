@@ -61,10 +61,28 @@ public final class ConnectionHelper implements Component, Serviceable
     /** The manager for SQL data source */
     private static SQLDataSourceManager _sqlDataSourceManager;
     
+    private static ServiceManager _manager;
+    
     @Override
     public void service(ServiceManager serviceManager) throws ServiceException
     {
-        _sqlDataSourceManager = (SQLDataSourceManager) serviceManager.lookup(SQLDataSourceManager.ROLE); 
+        _manager = serviceManager;
+    }
+    
+    private static SQLDataSourceManager getSQLDataSourceManager()
+    {
+        if (_sqlDataSourceManager == null)
+        {
+            try
+            {
+                _sqlDataSourceManager = (SQLDataSourceManager) _manager.lookup(SQLDataSourceManager.ROLE);
+            }
+            catch (ServiceException e)
+            {
+                throw new RuntimeException(e);
+            }
+        }
+        return _sqlDataSourceManager;
     }
 
     /**
@@ -73,7 +91,7 @@ public final class ConnectionHelper implements Component, Serviceable
      */
     public static Connection getInternalSQLDataSourceConnection()
     {
-        return _sqlDataSourceManager.getInternalSQLDataSourceConnection();
+        return getSQLDataSourceManager().getInternalSQLDataSourceConnection();
     }
     
     /**
@@ -86,9 +104,14 @@ public final class ConnectionHelper implements Component, Serviceable
         DataSource dataSource;
         Connection connection = null;
         
+        if (getSQLDataSourceManager() == null)
+        {
+            throw new RuntimeException("ConnectionHelper cannot be used statically during or before components initialization");
+        }
+        
         try
         {
-            dataSource =  _sqlDataSourceManager.getSQLDataSource(id);
+            dataSource =  getSQLDataSourceManager().getSQLDataSource(id);
             connection = dataSource.getConnection();
         }
         catch (SQLException e)
@@ -193,7 +216,7 @@ public final class ConnectionHelper implements Component, Serviceable
      */
     public static String getDatabaseType(String jdbcURL)
     {
-        Map<String, DataSourceDefinition> dataSourceDefinitions = _sqlDataSourceManager.getDataSourceDefinitions(true, true, false);
+        Map<String, DataSourceDefinition> dataSourceDefinitions = getSQLDataSourceManager().getDataSourceDefinitions(true, true, false);
         for (DataSourceDefinition definition : dataSourceDefinitions.values())
         {
             // Get the definition url without jdbc parameters (e.g. internal-db have ;create=true)
@@ -214,6 +237,6 @@ public final class ConnectionHelper implements Component, Serviceable
      */
     public static DataSourceDefinition getDataSourceDefinition(String id)
     {
-        return _sqlDataSourceManager.getDataSourceDefinition(id);
+        return getSQLDataSourceManager().getDataSourceDefinition(id);
     }
 }

@@ -20,14 +20,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.util.List;
 
-import javax.sql.DataSource;
-
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.service.Serviceable;
-
 import org.ametys.core.datasource.ConnectionHelper;
-import org.ametys.core.datasource.SQLDataSourceManager;
 import org.ametys.runtime.parameter.ParameterChecker;
 import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
 import org.ametys.runtime.plugin.component.AbstractLogEnabled;
@@ -35,43 +28,18 @@ import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 /**
  * Tests the JDBC user directory defines existing tables
  */
-public class JdbcUserDirectoryChecker extends AbstractLogEnabled implements ParameterChecker, Serviceable
+public class JdbcUserDirectoryChecker extends AbstractLogEnabled implements ParameterChecker
 {
-    /** The service manager */
-    private ServiceManager _manager;
-    
-    /** The LDAP data source manager */
-    private SQLDataSourceManager _sqlDataSourceManager;
-    
-    @Override
-    public void service(ServiceManager manager) throws ServiceException
-    {
-        _manager = manager;
-    }
-    
     @Override
     public void check(List<String> values) throws ParameterCheckerTestFailureException
     {
-        if (_sqlDataSourceManager == null)
-        {
-            try
-            {
-                _sqlDataSourceManager = (SQLDataSourceManager) _manager.lookup(SQLDataSourceManager.ROLE);
-            }
-            catch (ServiceException e)
-            {
-                throw new ParameterCheckerTestFailureException("The test cannot be tested now", e);
-            }
-        }
-        
         String datasourceId = values.get(0);
         String tableName = values.get(1);
         
         boolean schemaExists = false;
         try
         {
-            DataSource dataSource = _sqlDataSourceManager.getSQLDataSource(datasourceId);
-            Connection connection = dataSource.getConnection();
+            Connection connection = ConnectionHelper.getConnection(datasourceId);
             ResultSet rs = null;
             
             String name = tableName;

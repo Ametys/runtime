@@ -66,6 +66,7 @@ public abstract class AbstractMyBatisDAO extends AbstractLogEnabled implements C
     private String _dataSourceParameter;
     private boolean _dataSourceConfigurationParameter;
     private Set<SqlMap> _sqlMaps;
+    private ServiceManager _manager;
     
     public void contextualize(org.apache.avalon.framework.context.Context context) throws ContextException
     {
@@ -76,7 +77,23 @@ public abstract class AbstractMyBatisDAO extends AbstractLogEnabled implements C
     @Override
     public void service(ServiceManager manager) throws ServiceException
     {
-        _sqlDataSourceManager = (SQLDataSourceManager) manager.lookup(SQLDataSourceManager.ROLE);
+        _manager = manager;
+    }
+    
+    private SQLDataSourceManager getSQLDataSourceManager()
+    {
+        if (_sqlDataSourceManager == null)
+        {
+            try
+            {
+                _sqlDataSourceManager = (SQLDataSourceManager) _manager.lookup(SQLDataSourceManager.ROLE);
+            }
+            catch (ServiceException e)
+            {
+                throw new RuntimeException(e);
+            }
+        }
+        return _sqlDataSourceManager;
     }
     
     public void setPluginInfo(String pluginName, String featureName, String id)
@@ -155,7 +172,7 @@ public abstract class AbstractMyBatisDAO extends AbstractLogEnabled implements C
         // No it's not ok. Let's reload
         _dataSourceId = newDatasourceId;
         
-        DataSource dataSource = _sqlDataSourceManager.getSQLDataSource(_dataSourceId);
+        DataSource dataSource = getSQLDataSourceManager().getSQLDataSource(_dataSourceId);
         if (dataSource == null)
         {
             throw new RuntimeException("Cannot (re)load MyBatis: Invalid datasource id: " + _dataSourceId);

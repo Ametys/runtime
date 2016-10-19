@@ -82,12 +82,29 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
 
     private SQLDatabaseTypeExtensionPoint _sqlDatabaseTypeEP;
 
+    private ServiceManager _manager;
+    
     @Override
     public void service(ServiceManager serviceManager) throws ServiceException
     {
+        _manager = serviceManager;
         super.service(serviceManager);
-        
-        _sqlDatabaseTypeEP = (SQLDatabaseTypeExtensionPoint) serviceManager.lookup(SQLDatabaseTypeExtensionPoint.ROLE);
+    }
+    
+    private SQLDatabaseTypeExtensionPoint getSQLDatabaseTypeEP()
+    {
+        if (_sqlDatabaseTypeEP == null)
+        {
+            try
+            {
+                _sqlDatabaseTypeEP = (SQLDatabaseTypeExtensionPoint) _manager.lookup(SQLDatabaseTypeExtensionPoint.ROLE);
+            }
+            catch (ServiceException e)
+            {
+                throw new RuntimeException(e);
+            }
+        }
+        return _sqlDatabaseTypeEP;
     }
     
     /**
@@ -319,11 +336,11 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
         String password = parameters.get(PARAM_DATABASE_PASSWORD);
         
         String dbtype = parameters.get(PARAM_DATABASE_TYPE);
-        if (!_sqlDatabaseTypeEP.hasExtension(dbtype))
+        if (!getSQLDatabaseTypeEP().hasExtension(dbtype))
         {
             throw new IllegalArgumentException("Database of type '" + dbtype + "' is not supported");
         }
-        SQLDatabaseType sqlDbType = _sqlDatabaseTypeEP.getExtension(dbtype);
+        SQLDatabaseType sqlDbType = getSQLDatabaseTypeEP().getExtension(dbtype);
         
         ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(url, user, password);
         PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(connectionFactory, null);

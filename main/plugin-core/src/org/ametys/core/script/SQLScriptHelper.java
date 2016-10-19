@@ -1,5 +1,5 @@
 /*
- *  Copyright 2009 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -20,17 +20,25 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.excalibur.source.Source;
+import org.apache.excalibur.source.SourceResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.ametys.core.datasource.ConnectionHelper;
 
 /**
- * Tool to run SQL scripts.<p>
+ * Example of simple use: 
+ * SQLScriptHelper.createTableIfNotExists(dataSourceId, "QRTZ_JOB_DETAILS", "plugin:core://scripts/%s/quartz.sql", _sourceResolver);
+ * Will test if table QRTZ_JOB_DETAILS exits in database from datasource dataSourceId. If not, the script plugin:core://scripts/%s/quartz.sql will be resolved and executed (where %s is replaced by the database type 'mysql', 'derby'...)
+ * 
+ * Tools to run SQL scripts.<p>
  * Default separator for isolating statements is the semi colon
  * character: <code>;</code>.<br>
  * It can be changed by using a comment like the following snippet
@@ -51,7 +59,7 @@ import org.ametys.core.datasource.ConnectionHelper;
  * DROP TABLE MYTABLE;<br>
  * --_ignore_exceptions_=off</code>
  */
-public final class ScriptRunner
+public final class SQLScriptHelper
 {
     /** Default separator used for isolating statements. */
     public static final String DEFAULT_SEPARATOR = ";";
@@ -60,11 +68,109 @@ public final class ScriptRunner
     /** Command to change the separator. */
     public static final String CHANGE_SEPARATOR_COMMAND = "_separator_=";
     /** Logger available to subclasses. */
-    protected static final Logger __LOGGER = LoggerFactory.getLogger(ScriptRunner.class);
+    protected static final Logger __LOGGER = LoggerFactory.getLogger(SQLScriptHelper.class);
     
-    private ScriptRunner()
+    private SQLScriptHelper()
     {
         // Nothing to do
+    }
+
+    /**
+     * This method will test if a table exists, and if not will execute a script to create it
+     * @param datasourceId The data source id to open a connection to the database
+     * @param tableNameToCheck The name of the table that will be checked
+     * @param location The source location where to find the script to execute to create the table. This string will be format with String.format with the dbType as argument.
+     * @param sourceResolver The source resolver
+     * @return true if the table was created, false otherwise
+     * @throws SQLException If an error occurred while executing SQL script, or while testing table existence
+     * @throws IOException If an error occurred while getting the script file, or if the url is malformed
+     */
+    public static boolean createTableIfNotExists(String datasourceId, String tableNameToCheck, String location, SourceResolver sourceResolver) throws SQLException, IOException
+    {
+        Connection connection = null;
+        try
+        {
+            connection = ConnectionHelper.getConnection(datasourceId);
+            
+            return createTableIfNotExists(connection, tableNameToCheck, location, sourceResolver);
+        }
+        finally
+        {
+            ConnectionHelper.cleanup(connection);
+        }
+    }
+    
+    /**
+     * This method will test if a table exists, and if not will execute a script to create it
+     * @param connection The database connection to use
+     * @param tableNameToCheck The name of the table that will be checked
+     * @param location The source location where to find the script to execute to create the table. This string will be format with String.format with the dbType as argument.
+     * @param sourceResolver The source resolver
+     * @return true if the table was created, false otherwise
+     * @throws SQLException If an error occurred while executing SQL script, or while testing table existence
+     * @throws IOException If an error occurred while getting the script file, or if the url is malformed
+     */
+    public static boolean createTableIfNotExists(Connection connection, String tableNameToCheck, String location, SourceResolver sourceResolver) throws SQLException, IOException
+    {
+        if (tableExists(connection, tableNameToCheck))
+        {
+            return false;
+        }
+        
+        String finalLocation = String.format(location, ConnectionHelper.getDatabaseType(connection));
+        
+        Source source = null;
+        try
+        {
+            source = sourceResolver.resolveURI(finalLocation);
+            SQLScriptHelper.runScript(connection, source.getInputStream());
+        }
+        finally
+        {
+            if (source != null)
+            {
+                sourceResolver.release(source);
+            }
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Checks whether the given table exists in the database.
+     * @param connection The database connection
+     * @param tableName the name of the table
+     * @return true is the table exists
+     * @throws SQLException In an SQL exception occurs
+     */
+    public static boolean tableExists(Connection connection, String tableName) throws SQLException
+    {
+        ResultSet rs = null;
+        boolean schemaExists = false;
+        
+        String name = tableName;
+        DatabaseMetaData metaData = connection.getMetaData();
+        
+        if (metaData.storesLowerCaseIdentifiers())
+        {
+            name = tableName.toLowerCase();
+        }
+        else if (metaData.storesUpperCaseIdentifiers())
+        {
+            name = tableName.toUpperCase();
+        }
+        
+        try
+        {
+            rs = metaData.getTables(null, null, name, null);
+            schemaExists = rs.next();
+        }
+        finally
+        {
+            ConnectionHelper.cleanup(rs);
+        }
+        
+        return schemaExists;
     }
 
     /**
