@@ -797,7 +797,7 @@
         </extensions>
     </feature>
     
-    <feature name="runtime.authentication.impl.formbased">
+    <feature name="runtime.authentication.impl.formbased" safe="true">
     	<!-- 
             This features defines the form based credential provider. Data are sent to the provider through a
             html form. If the option is enabled, user's data can be stored with a cookie.
@@ -907,27 +907,6 @@
         </extensions>
     </feature>
         
-    <!-- <feature name="runtime.authentication.impl.jcifs">
-        
-            This feature defines the windows NT credential provider.<br/>
-            Use its extension to automatically get the login of the user connected on the NT domain : 
-            user is authenticated externally and trusted by the NT environment.
-        
-        <config>
-            <param-ref id="runtime.authentication.remote.realm"/>
-            <param-ref id="runtime.authentication.jcifs.production"/>
-            <param-ref id="runtime.authentication.jcifs.clientDomain"/>
-            <param-ref id="runtime.authentication.jcifs.netBios"/>
-            <param-ref id="runtime.authentication.jcifs.domainController"/>
-        </config>
-        <components>
-            <component role="org.ametys.core.authentication.CredentialsProvider"
-                       id="org.ametys.plugins.core.authentication.Jcifs"
-                       class="org.ametys.plugins.core.impl.authentication.JcifsCredentialsProvider"
-                       logger="org.ametys.plugins.core.impl.authentication.jcifs"/>
-        </components>
-    </feature> -->
-    
     <feature name="runtime.authentication.impl.cas">
     	<!-- 
             This feature defines the 'cas' credential provider (i.e. user is authenticated externally and

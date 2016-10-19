@@ -470,9 +470,10 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         userDirectory.put(udModelId + "$" + "runtime.users.jdbc.table", "AdminUsers");
         
         Map<String, String> credentialProvider = new HashMap<>();
-        String cpModelId = "org.ametys.core.authentication.Basic";
-        credentialProvider.put("cpModelId", cpModelId); // TODO replace Basic by Form (need Form to be safe) RUNTIME-1764
-        credentialProvider.put(cpModelId + "$" + "runtime.authentication.basic.realm", "Ametys workspace admin");
+        String cpModelId = "org.ametys.core.authentication.FormBased";
+        credentialProvider.put("cpModelId", cpModelId);
+        credentialProvider.put(cpModelId + "$" + "runtime.authentication.form.security.level", "high");
+        credentialProvider.put(cpModelId + "$" + "runtime.authentication.form.security.storage", SQLDataSourceManager.AMETYS_INTERNAL_DATASOURCE_ID);
         
         _fillUserPopulation(_adminUserPopulation, new I18nizableText("plugin.core", "PLUGINS_CORE_USER_POPULATION_ADMIN_LABEL"), Collections.singletonList(userDirectory), Collections.singletonList(credentialProvider));
         
