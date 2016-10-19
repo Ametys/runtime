@@ -239,7 +239,7 @@ div.login {
                     color: #B1B1B1;
 
                     padding: 1.1em 3.3em 1.1em 1.1em;
-                    font-size: 0.83333em;
+                    font-size: 0.83333rem; /* as all CSS was made using 'em' we should have set 0.83333em BUT IE 10&11 fail to correctly compute it (meanwhile the issue is marked as fixed in Microsoft bug tracker) */
                 }
                 
                 select {
