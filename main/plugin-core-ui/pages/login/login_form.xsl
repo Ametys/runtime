@@ -134,7 +134,7 @@
     <!-- BACK -->
     
     <xsl:template name="login-back">
-        <xsl:if test="not(/LoginScreen/UserPopulations/UserPopulation)">
+        <xsl:if test="not(/LoginScreen/UserPopulations)">
             <form method="post">
                 <div class="login-inner login-back">
                     <input type="hidden" name="UserPopulation" value=""/>
@@ -148,7 +148,7 @@
     
     <xsl:template name="login-form">
         <div class="login-inner login-form">
-            <xsl:if test="count(/LoginScreen/UserPopulations/UserPopulation) > 1">
+            <xsl:if test="/LoginScreen/UserPopulations/@size > 1">
                 <xsl:call-template name="login-user-populations"/>
             </xsl:if>
 
@@ -162,7 +162,7 @@
 
     <xsl:template name="login-user-populations">
         <xsl:variable name="public" select="/LoginScreen/UserPopulations/@public = 'true'"/>
-        <xsl:variable name="list" select="$public = true() and count(/LoginScreen/UserPopulations/UserPopulation) > 1"/>
+        <xsl:variable name="list" select="$public = true() and /LoginScreen/UserPopulations/@size > 1"/>
 
         <xsl:if test="$public = false() or $list = true()">
             <xsl:call-template name="login-user-populations-part">

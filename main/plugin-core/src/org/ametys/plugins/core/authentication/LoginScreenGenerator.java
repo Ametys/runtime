@@ -128,6 +128,7 @@ public class LoginScreenGenerator extends ServiceableGenerator
             AttributesImpl attrs = new AttributesImpl();
             attrs.addCDATAAttribute("invalid", tryedAnInvalidPopulationId ? "true" : "false");
             attrs.addCDATAAttribute("public", isAmetysPublic ? "true" : "false");
+            attrs.addCDATAAttribute("size", Integer.toString(usersPopulations.size()));
             if (chosenPopulationId != null)
             {
                 attrs.addCDATAAttribute("currentValue", chosenPopulationId);
