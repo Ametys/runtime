@@ -31,8 +31,6 @@ import javax.xml.parsers.SAXParserFactory;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import junit.framework.TestCase;
-
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.commons.dbcp2.ConnectionFactory;
@@ -47,11 +45,13 @@ import org.xml.sax.XMLReader;
 
 import org.ametys.core.datasource.LDAPDataSourceManager;
 import org.ametys.core.datasource.SQLDataSourceManager;
-import org.ametys.core.script.ScriptRunner;
+import org.ametys.core.script.SQLScriptHelper;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.data.AmetysHomeLock;
 import org.ametys.runtime.data.AmetysHomeLockException;
 import org.ametys.runtime.servlet.RuntimeConfig;
+
+import junit.framework.TestCase;
 
 /**
  * Abstract test case for all Runtime test cases.
@@ -150,7 +150,7 @@ public abstract class AbstractRuntimeTestCase extends TestCase
             
             for (File script : scripts)
             {
-                ScriptRunner.runScript(connection, new FileInputStream(script));
+                SQLScriptHelper.runScript(connection, new FileInputStream(script));
             }
         }
         finally 

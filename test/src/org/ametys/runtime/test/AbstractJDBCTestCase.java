@@ -21,7 +21,7 @@ import java.sql.Connection;
 import java.util.List;
 
 import org.ametys.core.datasource.ConnectionHelper;
-import org.ametys.core.script.ScriptRunner;
+import org.ametys.core.script.SQLScriptHelper;
 
 /**
  * Abstract test case for jdbc Runtime test cases.
@@ -43,7 +43,7 @@ public abstract class AbstractJDBCTestCase extends AbstractRuntimeTestCase
             
             for (File script : scripts)
             {
-                ScriptRunner.runScript(connection, new FileInputStream(script));
+                SQLScriptHelper.runScript(connection, new FileInputStream(script));
             }
         }
         finally 
