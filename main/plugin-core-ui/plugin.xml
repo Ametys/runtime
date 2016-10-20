@@ -1899,7 +1899,7 @@
             
             <extension id="org.ametys.core.users.Impersonate"
                        point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.plugins.core.user.ImpersonateUserClientSideElement">
+                       class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.ui.ButtonController">
                     <action>Ametys.plugins.coreui.users.UsersActions.impersonate</action>
 
@@ -1920,6 +1920,7 @@
                 <script>
                     <file>js/Ametys/plugins/coreui/users/UsersActions.js</file>
                 </script>
+                <right context="/admin">Runtime_Rights_User_Handle</right>
             </extension>
     	</extensions>
     </feature>

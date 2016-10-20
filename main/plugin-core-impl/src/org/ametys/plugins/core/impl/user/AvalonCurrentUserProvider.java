@@ -25,7 +25,6 @@ import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.components.ContextHelper;
 import org.apache.cocoon.environment.ObjectModelHelper;
-import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.Session;
 
@@ -87,7 +86,7 @@ public class AvalonCurrentUserProvider extends AbstractLogEnabled implements Cur
     }
     
     @Override
-    public void logout(Redirector redirector) throws ProcessingException
+    public void logout() throws ProcessingException
     {
         Map objectModel = ContextHelper.getObjectModel(_context);
         Request request = ObjectModelHelper.getRequest(objectModel);
@@ -103,7 +102,7 @@ public class AvalonCurrentUserProvider extends AbstractLogEnabled implements Cur
             if (cp instanceof LogoutCapable)
             {
                 // Logout process
-                ((LogoutCapable) cp).logout(redirector); 
+                ((LogoutCapable) cp).logout(); 
             }
         }
     }

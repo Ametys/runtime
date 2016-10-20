@@ -32,9 +32,15 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.components.ContextHelper;
+import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
 import org.apache.commons.lang3.StringUtils;
 
+import org.ametys.core.authentication.AbstractCredentialProvider;
+import org.ametys.core.authentication.AuthenticateAction;
+import org.ametys.core.authentication.BlockingCredentialProvider;
+import org.ametys.core.right.RightManager;
+import org.ametys.core.right.RightManager.RightResult;
 import org.ametys.core.ui.Callable;
 import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.core.user.InvalidModificationException;
@@ -45,6 +51,7 @@ import org.ametys.core.user.directory.ModifiableUserDirectory;
 import org.ametys.core.user.directory.UserDirectory;
 import org.ametys.core.user.population.UserPopulation;
 import org.ametys.core.user.population.UserPopulationDAO;
+import org.ametys.runtime.authentication.AccessDeniedException;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.Enumerator;
 import org.ametys.runtime.parameter.Errors;
@@ -74,6 +81,8 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
     protected Context _context;
     /** The user helper */
     protected UserHelper _userHelper;
+    /** The right manager */
+    protected RightManager _rightManager;
 
     public void contextualize(Context context) throws ContextException
     {
@@ -86,6 +95,7 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
         _userManager = (UserManager) smanager.lookup(UserManager.ROLE);
         _userPopulationDAO = (UserPopulationDAO) smanager.lookup(UserPopulationDAO.ROLE);
         _userHelper = (UserHelper) smanager.lookup(UserHelper.ROLE);
+        _rightManager = (RightManager) smanager.lookup(RightManager.ROLE);
     }
     
     /**
@@ -417,45 +427,45 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
      * Impersonate the selected user
      * @param login the login of the user to impersonate
      * @param populationId The id of the population
-     * @throws ServiceException If there is an issue with the service manager
      * @return a map of information on the user
+     * @throws AccessDeniedException If the currently connected user has no right to do so
      */
     @Callable
-    public Map<String, String> impersonate(String login, String populationId) throws ServiceException
+    public Map<String, String> impersonate(String login, String populationId) throws AccessDeniedException
     {
-        Map<String, String> result = new HashMap<>();
-        if (_currentUserProvider == null)
-        {
-            try
-            {
-                _currentUserProvider = (CurrentUserProvider) _smanager.lookup(CurrentUserProvider.ROLE);
-            }
-            catch (ServiceException e)
-            {
-                throw new IllegalStateException(e);
-            }
-        }
+        UserIdentity currentUser = _getCurrentUser();
         
-        // FIXME add a right to impersonate
+        if (_rightManager.hasRight(currentUser, "Runtime_Rights_User_Handle", "/admin") != RightResult.RIGHT_ALLOW)
+        {
+            throw new AccessDeniedException("User " + currentUser + " tried to impersonate but has no right to do so");
+        }
 
         if (StringUtils.isEmpty(login))
         {
             throw new IllegalArgumentException("'login' parameter is null or empty");
         }
         
-        UserManager usersManager = (UserManager) _smanager.lookup(UserManager.ROLE);
-        User user = usersManager.getUser(populationId, login);
+        Map<String, String> result = new HashMap<>();
+        
+        User user = _userManager.getUser(populationId, login);
         if (user == null)
         {
             result.put("error", "unknown-user");   
         }
         else
         {
+            try
+            {
+                _currentUserProvider.logout();
+            }
+            catch (ProcessingException e)
+            {
+                getLogger().error("An error occurred while logging out current user " + currentUser);
+            }
+            
             Request request = ContextHelper.getRequest(_context);
             
-            //FIXME
-            //request.getSession(true).setAttribute(AuthenticateAction.SESSION_USERIDENTITY, new UserIdentity(login, populationId));
-            //request.getSession(true).setAttribute(AuthenticateAction.SESSION_CREDENTIALPROVIDER, null);
+            AuthenticateAction.setUserIdentityInSession(request, user.getIdentity(), new ImpersonateCredentialProvider(), true);
             
             result.put("login", login);
             result.put("population", populationId);
@@ -463,7 +473,7 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
             
             if (getLogger().isInfoEnabled())
             {
-                getLogger().info("Impersonation of the user '" + login + "' from IP " + request.getRemoteAddr());
+                getLogger().info("Impersonation of the user '" + login + "' from IP " + request.getRemoteAddr() + " done by " + currentUser);
             }
         }
         
@@ -491,5 +501,41 @@ public class UserDAO extends AbstractLogEnabled implements Component, Contextual
         return _currentUserProvider.getUser();
     }
     
-    
+    /**
+     * A fake credential provider used by the impersonate process
+     */
+    public static class ImpersonateCredentialProvider extends AbstractCredentialProvider implements BlockingCredentialProvider
+    {
+
+        public boolean blockingGrantAnonymousRequest()
+        {
+            return false;
+        }
+
+        public boolean blockingIsStillConnected(UserIdentity userIdentity, Redirector redirector) throws Exception
+        {
+            return true;
+        }
+
+        public UserIdentity blockingGetUserIdentity(Redirector redirector) throws Exception
+        {
+            return null;
+        }
+
+        public void blockingUserNotAllowed(Redirector redirector) throws Exception
+        {
+            // nothing
+        }
+
+        public void blockingUserAllowed(UserIdentity userIdentity)
+        {
+            // nothing
+        }
+
+        public boolean requiresNewWindow()
+        {
+            return false;
+        }
+        
+    }
 }

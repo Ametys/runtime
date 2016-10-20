@@ -128,7 +128,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     {
         Request request = ObjectModelHelper.getRequest(objectModel);
 
-        if (_handleLogout(redirector, objectModel, source, parameters)  // Test if user wants to logout
+        if (_handleLogout(objectModel, source, parameters)  // Test if user wants to logout
                 || _internalRequest(request)                            // Test if this request was already authenticated or it the request is marked as an internal one
                 || _acceptedUrl(request)                                // Test if the url is used for authentication
                 || _validateCurrentlyConnectedUser(request, redirector, parameters) // Test if the currently connected user is still valid
@@ -477,7 +477,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         }
 
         // Save user identity
-        _setUserIdentityInSession(request, userIdentity, runningCredentialProvider, runningBlockingkMode);
+        setUserIdentityInSession(request, userIdentity, runningCredentialProvider, runningBlockingkMode);
         
         // Authentication succeeded
         runningCredentialProvider.userAllowed(runningBlockingkMode, userIdentity);
@@ -489,7 +489,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
      * Reset the connecting information in session
      * @param request The request
      */
-    protected void _resetConnectingStateToSession(Request request)
+    protected static void _resetConnectingStateToSession(Request request)
     {
         Session session = request.getSession(false);
         if (session != null)
@@ -521,7 +521,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
      * @param credentialProvider The credential provider used to connect
      * @param blockingMode The mode used for the credential provider
      */
-    protected void _setUserIdentityInSession(Request request, UserIdentity userIdentity, CredentialProvider credentialProvider, boolean blockingMode)
+    public static void setUserIdentityInSession(Request request, UserIdentity userIdentity, CredentialProvider credentialProvider, boolean blockingMode)
     {
         Session session = request.getSession(true); 
         _resetConnectingStateToSession(request);
@@ -772,25 +772,20 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     
     /**
      * Test if user wants to logout and handle it
-     * @param redirector The cocoon redirector
      * @param objectModel The cocoon object model
      * @param source The sitemap source
      * @param parameters The sitemap parameters
      * @return true if the user was logged out
      * @throws Exception if an error occurred
      */
-    protected boolean _handleLogout(Redirector redirector, Map objectModel, String source, Parameters parameters) throws Exception
+    protected boolean _handleLogout(Map objectModel, String source, Parameters parameters) throws Exception
     {
         Request request = ObjectModelHelper.getRequest(objectModel);
         if (StringUtils.equals(request.getContextPath() + request.getAttribute(WorkspaceMatcher.WORKSPACE_URI) + "/logout.html", request.getRequestURI())
                 || StringUtils.equals("true", parameters.getParameter("logout", "false")))
         {
             // The user logs out
-            _currentUserProvider.logout(redirector);
-            if (!redirector.hasRedirected())
-            {
-                redirector.redirect(false, getLogoutURL(request));
-            }
+            _currentUserProvider.logout();
             return true;
         }
         return false;

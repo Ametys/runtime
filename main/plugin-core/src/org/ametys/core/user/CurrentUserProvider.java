@@ -16,7 +16,6 @@
 package org.ametys.core.user;
 
 import org.apache.cocoon.ProcessingException;
-import org.apache.cocoon.environment.Redirector;
 
 /**
  * Component which:
@@ -38,8 +37,7 @@ public interface CurrentUserProvider
     
     /**
      * Logout the current user if he can be.
-     * @param redirector The cocoon redirector
      * @throws ProcessingException If an error occurred during the logout process
      */
-    void logout(Redirector redirector) throws ProcessingException;
+    void logout() throws ProcessingException;
 }

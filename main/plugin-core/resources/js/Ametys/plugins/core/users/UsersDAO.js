@@ -385,7 +385,8 @@ Ext.define(
 					icon: Ext.MessageBox.INFO,
 					fn: function() 
 					{ 
-						Ametys.openWindow(Ametys.CONTEXT_PATH);
+                        Ametys.shutdown();
+						window.location.href = Ametys.CONTEXT_PATH;
 					}
 				});
 			}

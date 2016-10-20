@@ -16,7 +16,6 @@
 package org.ametys.core.authentication;
 
 import org.apache.cocoon.ProcessingException;
-import org.apache.cocoon.environment.Redirector;
 
 /**
  * Defines a logout capable authentication mode of users.
@@ -25,8 +24,7 @@ public interface LogoutCapable
 {
     /**
      * Logout a particular user.
-     * @param redirector The cocoon redirector if a redirection is required. Only external redirection are correctly supported.
-     * @throws ProcessingException If an error occurred (e.g. during redirection)
+     * @throws ProcessingException If an error occurred
      */
-    public void logout(Redirector redirector) throws ProcessingException;
+    public void logout() throws ProcessingException;
 }
