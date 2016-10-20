@@ -33,7 +33,9 @@ import java.util.Set;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.excalibur.source.SourceResolver;
 
 import org.ametys.core.ObservationConstants;
 import org.ametys.core.datasource.ConnectionHelper;
@@ -45,6 +47,7 @@ import org.ametys.core.group.directory.GroupDirectoryModel;
 import org.ametys.core.group.directory.ModifiableGroupDirectory;
 import org.ametys.core.observation.Event;
 import org.ametys.core.observation.ObservationManager;
+import org.ametys.core.script.SQLScriptHelper;
 import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.core.user.UserIdentity;
 import org.ametys.runtime.i18n.I18nizableText;
@@ -72,6 +75,8 @@ public class JdbcGroupDirectory extends AbstractLogEnabled implements Modifiable
     protected ObservationManager _observationManager;
     /** The current user provider */
     protected CurrentUserProvider _currentUserProvider;
+    /** The cocoon source resolver */
+    protected SourceResolver _sourceResolver;
     
     /** The identifier of data source */
     protected String _dataSourceId;
@@ -88,11 +93,13 @@ public class JdbcGroupDirectory extends AbstractLogEnabled implements Modifiable
     private String _groupDirectoryModelId;
     /** The map of the values of the parameters */
     private Map<String, Object> _paramValues;
+    private boolean _lazyInitialized;
     
     public void service(ServiceManager manager) throws ServiceException
     {
         _observationManager = (ObservationManager) manager.lookup(ObservationManager.ROLE);
         _currentUserProvider = (CurrentUserProvider) manager.lookup(CurrentUserProvider.ROLE);
+        _sourceResolver = (SourceResolver) manager.lookup(SourceResolver.ROLE);
     }
     
     @Override
@@ -146,9 +153,27 @@ public class JdbcGroupDirectory extends AbstractLogEnabled implements Modifiable
      * Get the connection to the database 
      * @return the SQL connection
      */
-    protected Connection getSQLConnection ()
+    @SuppressWarnings("unchecked")
+    protected Connection getSQLConnection()
     {
-        return ConnectionHelper.getConnection(_dataSourceId);
+        Connection connection = ConnectionHelper.getConnection(_dataSourceId);
+        
+        if (!_lazyInitialized)
+        {
+            try
+            {
+                SQLScriptHelper.createTableIfNotExists(connection, _groupsListTableName, "plugin:core://scripts/%s/jdbc_groups.template.sql", _sourceResolver, 
+                        (Map) ArrayUtils.toMap(new String[][] {{"%TABLENAME%", _groupsListTableName}, {"%TABLENAME_COMPOSITION%", _groupsCompositionTableName}}));
+            }
+            catch (Exception e)
+            {
+                getLogger().error("The tables requires by the " + this.getClass().getName() + " could not be created. A degraded behavior will occur", e);
+            }
+            
+            _lazyInitialized = true;
+        }
+        
+        return connection;
     }
     
     @Override
@@ -449,7 +474,7 @@ public class JdbcGroupDirectory extends AbstractLogEnabled implements Modifiable
             
             if (ConnectionHelper.DATABASE_ORACLE.equals(dbType))
             {
-                statement = connection.prepareStatement("SELECT seq_groups.nextval FROM dual");
+                statement = connection.prepareStatement("SELECT seq_" + _groupsListTableName + ".nextval FROM dual");
                 rs = statement.executeQuery();
                 if (rs.next())
                 {

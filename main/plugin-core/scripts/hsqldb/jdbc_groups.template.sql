@@ -1,5 +1,5 @@
 --
---  Copyright 2013 Anyware Services
+--  Copyright 2016 Anyware Services
 --
 --  Licensed under the Apache License, Version 2.0 (the "License");
 --  you may not use this file except in compliance with the License.
@@ -13,12 +13,12 @@
 --  See the License for the specific language governing permissions and
 --  limitations under the License.
 --
-CREATE CACHED TABLE Groups (
+CREATE CACHED TABLE %TABLENAME% (
   Id int PRIMARY KEY NOT NULL IDENTITY,
   Label VARCHAR(200)
 );
 
-CREATE CACHED TABLE Groups_Users (
+CREATE CACHED TABLE %TABLENAME_COMPOSITION% (
   Group_Id int NOT NULL,
   Login VARCHAR (200) NOT NULL,
   UserPopulation_Id VARCHAR (200) NOT NULL,

@@ -238,7 +238,7 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
             }
             catch (Exception e)
             {
-                getLogger().error("The tables requires by the FormCredentialProvider could not be created. A degraded behavior will occur", e);
+                getLogger().error("The tables requires by the " +  this.getClass().getName() + " could not be created. A degraded behavior will occur", e);
             }
             
             _lazyInitialized = true;

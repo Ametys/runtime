@@ -17,13 +17,14 @@ package org.ametys.core.script;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.LineNumberReader;
+import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.excalibur.source.Source;
@@ -87,12 +88,28 @@ public final class SQLScriptHelper
      */
     public static boolean createTableIfNotExists(String datasourceId, String tableNameToCheck, String location, SourceResolver sourceResolver) throws SQLException, IOException
     {
+        return createTableIfNotExists(datasourceId, tableNameToCheck, location, sourceResolver, null);
+    }
+
+    /**
+     * This method will test if a table exists, and if not will execute a script to create it
+     * @param datasourceId The data source id to open a connection to the database
+     * @param tableNameToCheck The name of the table that will be checked
+     * @param location The source location where to find the script to execute to create the table. This string will be format with String.format with the dbType as argument.
+     * @param sourceResolver The source resolver
+     * @param replace The map of string to replace. Key is the regexp to seek, value is the replacing string.
+     * @return true if the table was created, false otherwise
+     * @throws SQLException If an error occurred while executing SQL script, or while testing table existence
+     * @throws IOException If an error occurred while getting the script file, or if the url is malformed
+     */
+    public static boolean createTableIfNotExists(String datasourceId, String tableNameToCheck, String location, SourceResolver sourceResolver, Map<String, String> replace) throws SQLException, IOException
+    {
         Connection connection = null;
         try
         {
             connection = ConnectionHelper.getConnection(datasourceId);
             
-            return createTableIfNotExists(connection, tableNameToCheck, location, sourceResolver);
+            return createTableIfNotExists(connection, tableNameToCheck, location, sourceResolver, replace);
         }
         finally
         {
@@ -112,6 +129,22 @@ public final class SQLScriptHelper
      */
     public static boolean createTableIfNotExists(Connection connection, String tableNameToCheck, String location, SourceResolver sourceResolver) throws SQLException, IOException
     {
+        return createTableIfNotExists(connection, tableNameToCheck, location, sourceResolver, null);
+    }
+    
+    /**
+     * This method will test if a table exists, and if not will execute a script to create it
+     * @param connection The database connection to use
+     * @param tableNameToCheck The name of the table that will be checked
+     * @param location The source location where to find the script to execute to create the table. This string will be format with String.format with the dbType as argument.
+     * @param sourceResolver The source resolver
+     * @param replace The map of string to replace. Key is the regexp to seek, value is the replacing string.
+     * @return true if the table was created, false otherwise
+     * @throws SQLException If an error occurred while executing SQL script, or while testing table existence
+     * @throws IOException If an error occurred while getting the script file, or if the url is malformed
+     */
+    public static boolean createTableIfNotExists(Connection connection, String tableNameToCheck, String location, SourceResolver sourceResolver, Map<String, String> replace) throws SQLException, IOException
+    {
         if (tableExists(connection, tableNameToCheck))
         {
             return false;
@@ -123,7 +156,21 @@ public final class SQLScriptHelper
         try
         {
             source = sourceResolver.resolveURI(finalLocation);
-            SQLScriptHelper.runScript(connection, source.getInputStream());
+            
+            try (InputStream is = source.getInputStream())
+            {
+                String script = IOUtils.toString(is, "UTF-8");
+
+                if (replace != null)
+                {
+                    for (String replaceKey : replace.keySet())
+                    {
+                        script = script.replaceAll(replaceKey, replace.get(replaceKey));
+                    }
+                }
+                
+                SQLScriptHelper.runScript(connection, script);
+            }
         }
         finally
         {
@@ -176,18 +223,18 @@ public final class SQLScriptHelper
     /**
      * Run a SQL script using the connection passed in.
      * @param connection the connection to use for the script
-     * @param is the input stream containing the script data.
+     * @param script the script data.
      * @throws IOException if an error occurs while reading the script.
      * @throws SQLException if an error occurs while executing the script.
      */
-    public static void runScript(Connection connection, InputStream is) throws IOException, SQLException
+    public static void runScript(Connection connection, String script) throws IOException, SQLException
     {
         ScriptContext scriptContext = new ScriptContext();
         StringBuilder command = new StringBuilder();
         
         try
         {
-            LineNumberReader lineReader = new LineNumberReader(new InputStreamReader(is, "UTF-8"));
+            LineNumberReader lineReader = new LineNumberReader(new StringReader(script));
             String line = null;
             while ((line = lineReader.readLine()) != null)
             {
@@ -235,7 +282,25 @@ public final class SQLScriptHelper
                     __LOGGER.error("Error while rollbacking connection", s);
                 }
             }
-            
+        }
+    }
+    
+    /**
+     * Run a SQL script using the connection passed in.
+     * @param connection the connection to use for the script
+     * @param is the input stream containing the script data.
+     * @throws IOException if an error occurs while reading the script.
+     * @throws SQLException if an error occurs while executing the script.
+     */
+    public static void runScript(Connection connection, InputStream is) throws IOException, SQLException
+    {
+        try
+        {
+            String script = IOUtils.toString(is, "UTF-8");
+            runScript(connection, script);
+        }
+        finally
+        {
             IOUtils.closeQuietly(is);
         }
     }

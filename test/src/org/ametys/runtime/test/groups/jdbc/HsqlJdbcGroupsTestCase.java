@@ -33,8 +33,6 @@ public class HsqlJdbcGroupsTestCase extends AbstractJdbcGroupsTestCase
     {
         return new File[] {
             new File("test/environments/scripts/jdbc-hsqldb/dropTables.sql"),
-            new File("main/plugin-core/scripts/hsqldb/jdbc_users.sql"),
-            new File("main/plugin-core/scripts/hsqldb/jdbc_groups.sql")
         };
     }
 

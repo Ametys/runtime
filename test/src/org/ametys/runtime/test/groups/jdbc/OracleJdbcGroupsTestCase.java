@@ -33,8 +33,6 @@ public class OracleJdbcGroupsTestCase extends AbstractJdbcGroupsTestCase
     {
         return new File[] {
             new File("test/environments/scripts/jdbc-oracle/dropTables.sql"),
-            new File("main/plugin-core/scripts/oracle/jdbc_users.sql"),
-            new File("main/plugin-core/scripts/oracle/jdbc_groups.sql")
         };
     }
 

@@ -33,8 +33,6 @@ public class DerbyRightManagerTestCase extends AbstractRightManagerTestCase
     {
         return new File[] {
             new File("test/environments/scripts/jdbc-derby/dropTables.sql"),
-            new File("main/plugin-core/scripts/derby/jdbc_users.sql"),
-            new File("main/plugin-core/scripts/derby/jdbc_groups.sql")
         };
     }
     

@@ -42,11 +42,13 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.excalibur.source.SourceResolver;
 
 import org.ametys.core.ObservationConstants;
 import org.ametys.core.datasource.ConnectionHelper;
 import org.ametys.core.observation.Event;
 import org.ametys.core.observation.ObservationManager;
+import org.ametys.core.script.SQLScriptHelper;
 import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.core.user.InvalidModificationException;
 import org.ametys.core.user.User;
@@ -107,6 +109,9 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
     /** The avalon context */
     protected Context _context;
     
+    /** The cocoon source resolver */
+    protected SourceResolver _sourceResolver;
+
     // ComponentManager for the Validators
     private ThreadSafeComponentManager<Validator> _validatorManager;
     
@@ -123,6 +128,8 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
     private String _label;
 
     private String _id;
+
+    private boolean _lazyInitialized;
     
     @Override
     public void setPluginInfo(String pluginName, String featureName, String id)
@@ -140,6 +147,7 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
     public void service(ServiceManager manager) throws ServiceException
     {
         _manager = manager;
+        _sourceResolver = (SourceResolver) manager.lookup(SourceResolver.ROLE);
     }
     
     @Override
@@ -214,6 +222,33 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
             }
         }
         return _currentUserProvider;
+    }
+    
+    /**
+     * Get the connection to the database 
+     * @return the SQL connection
+     */
+    @SuppressWarnings("unchecked")
+    protected Connection getSQLConnection()
+    {
+        Connection connection = ConnectionHelper.getConnection(_dataSourceId);
+        
+        if (!_lazyInitialized)
+        {
+            try
+            {
+                SQLScriptHelper.createTableIfNotExists(connection, _userTableName, "plugin:core://scripts/%s/jdbc_users.template.sql", _sourceResolver, 
+                        (Map) ArrayUtils.toMap(new String[][] {{"%TABLENAME%", _userTableName}}));
+            }
+            catch (Exception e)
+            {
+                getLogger().error("The tables requires by the " + this.getClass().getName() + " could not be created. A degraded behavior will occur", e);
+            }
+            
+            _lazyInitialized = true;
+        }
+        
+        return connection;
     }
     
     @Override
@@ -300,7 +335,7 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
         try
         {
             // Connect to the database with connection pool
-            con = ConnectionHelper.getConnection(_dataSourceId);
+            con = getSQLConnection();
 
             // Build request for authenticating the user
             String sql = "SELECT " + __COLUMN_LOGIN + ", " + __COLUMN_PASSWORD + ", " + __COLUMN_SALT + " FROM " + _userTableName + " WHERE " + __COLUMN_LOGIN + " = ?";
@@ -397,7 +432,7 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
         try
         {
             // Connect to the database with connection pool
-            con = ConnectionHelper.getConnection(_dataSourceId);
+            con = getSQLConnection();
 
             stmt = createAddStatement(con, userInformation);
 
@@ -506,7 +541,7 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
         try
         {
             // Connect to the database with connection pool
-            con = ConnectionHelper.getConnection(_dataSourceId);
+            con = getSQLConnection();
 
             stmt = createModifyStatement(con, userInformation);
 
@@ -547,7 +582,7 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
         try
         {
             // Connect to the database with connection pool
-            con = ConnectionHelper.getConnection(_dataSourceId);
+            con = getSQLConnection();
 
             // Build request for removing the user
             String sqlRequest = "DELETE FROM " + _userTableName + " WHERE " + __COLUMN_LOGIN + " = ?";
@@ -743,7 +778,7 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
 
         try
         {
-            con = ConnectionHelper.getConnection(_dataSourceId);
+            con = getSQLConnection();
 
             String generateSaltKey = RandomStringUtils.randomAlphanumeric(48);
             String newEncryptedPassword = DigestUtils.sha512Hex(generateSaltKey + password);
@@ -1050,12 +1085,14 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
         @SuppressWarnings("synthetic-access")
         public T runWithException() throws Exception
         {
-            Connection connection = ConnectionHelper.getConnection(_dataSourceId);
+            Connection connection = null;
             PreparedStatement stmt = null;
             ResultSet rs = null;
 
             try
             {
+                connection = getSQLConnection();
+                
                 String sql = getSqlQuery(connection);
 
                 if (getLogger().isDebugEnabled())

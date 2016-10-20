@@ -949,9 +949,7 @@
                        id="org.ametys.core.script.users.and.groups.SqlTablesInit"
                        class="org.ametys.core.script.SqlTablesInit">
                 <datasource type="id">SQL-ametys-internal</datasource>
-                <script testTable="Users">jdbc_users.sql</script>
                 <script testTable="AdminUsers">jdbc_admin_users.sql</script>
-                <script testTable="Groups">jdbc_groups.sql</script>
             </extension>
         </extensions>
     </feature>

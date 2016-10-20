@@ -1,5 +1,5 @@
 --
---  Copyright 2009 Anyware Services
+--  Copyright 2016 Anyware Services
 --
 --  Licensed under the Apache License, Version 2.0 (the "License");
 --  you may not use this file except in compliance with the License.
@@ -13,11 +13,14 @@
 --  See the License for the specific language governing permissions and
 --  limitations under the License.
 --
-CREATE TABLE Users (
-  login varchar(64) PRIMARY KEY NOT NULL,
-  firstname varchar(64) default NULL,
-  lastname varchar(64) NOT NULL,
-  email varchar(64) DEFAULT NULL,
-  password varchar(128)  NOT NULL,
-  salt varchar(128)  DEFAULT NULL
+CREATE TABLE %TABLENAME%(
+  Id int PRIMARY KEY NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), 
+  Label VARCHAR(200)
 );
+  
+CREATE TABLE %TABLENAME_COMPOSITION%(
+  Group_Id int NOT NULL, 
+  Login VARCHAR (200) NOT NULL, 
+  UserPopulation_Id VARCHAR (200) NOT NULL,
+  PRIMARY KEY (Group_Id, Login, UserPopulation_Id)
+ );

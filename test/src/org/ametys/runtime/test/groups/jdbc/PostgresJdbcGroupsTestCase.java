@@ -33,8 +33,6 @@ public class PostgresJdbcGroupsTestCase extends AbstractJdbcGroupsTestCase
     {
         return new File[] {
             new File("test/environments/scripts/jdbc-postgres/dropTables.sql"),
-            new File("main/plugin-core/scripts/postgresql/jdbc_users.sql"),
-            new File("main/plugin-core/scripts/postgresql/jdbc_groups.sql")
         };
     }
 
