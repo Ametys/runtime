@@ -26,3 +26,4 @@ themes/build-theme-*.xml
 themes/launch-theme-*.xml
 themes/work
 /tmp
+/derby.log
