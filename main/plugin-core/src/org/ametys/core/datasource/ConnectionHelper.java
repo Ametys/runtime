@@ -23,6 +23,7 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
@@ -36,7 +37,7 @@ import org.ametys.core.datasource.AbstractDataSourceManager.DataSourceDefinition
 /**
  * Helper component used to retrieve java.sql.Connection from pools
  */
-public final class ConnectionHelper implements Component, Serviceable
+public final class ConnectionHelper implements Component, Serviceable, Disposable
 {
     /** The Avalon role */
     public static final String ROLE = ConnectionHelper.class.getName();
@@ -67,6 +68,11 @@ public final class ConnectionHelper implements Component, Serviceable
     public void service(ServiceManager serviceManager) throws ServiceException
     {
         _manager = serviceManager;
+    }
+    
+    public void dispose()
+    {
+        _sqlDataSourceManager = null;
     }
     
     private static SQLDataSourceManager getSQLDataSourceManager()
