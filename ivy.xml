@@ -103,7 +103,7 @@ Open source web application framework based on Apache Cocoon.
     <dependency org="codemirror" name="codemirror" rev="3.24-ametys-2" conf="runtime_dependencies->default"/> 
     <dependency org="org.sencha" name="extjs6" rev="6.0.2-1-ametys" conf="runtime_dependencies->default"/>
 
-    <dependency org="mysql" name="mysql-connector-java" rev="5.1.36" conf="runtime_dependencies->default"/>
+    <dependency org="mysql" name="mysql-connector-java" rev="5.1.40" conf="runtime_dependencies->default"/>
     <dependency org="postgresql" name="postgresql" rev="9.1-901-1.jdbc4" conf="runtime_dependencies->default"/>
     <dependency org="org.apache.derby" name="derby" rev="10.5.3.0_1" conf="runtime_dependencies->default"/>
     <dependency org="org.hsqldb" name="hsqldb" rev="2.3.3" conf="runtime_dependencies->default"/>
