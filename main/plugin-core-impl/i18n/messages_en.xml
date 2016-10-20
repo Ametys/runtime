@@ -136,8 +136,6 @@
     <message key="PLUGINS_CORE_USERS_JDBC_DATASOURCE_DESCRIPTION">Datasource to use</message>
     <message key="PLUGINS_CORE_USERS_JDBC_DATASOURCE_TABLE_LABEL">Table of users</message>
     <message key="PLUGINS_CORE_USERS_JDBC_DATASOURCE_TABLE_DESCRIPTION">Name of the table containing the users</message>
-    <message key="PLUGINS_CORE_USERS_JDBC_CHECKER_LABEL">Connection to the SQL base</message>
-    <message key="PLUGINS_CORE_USERS_JDBC_CHECKER_DESCRIPTION">This test checks if the given information is valid.</message>
     
     <message key="PLUGINS_CORE_USERS_LDAPUSER_LABEL">LDAP</message>
     <message key="PLUGINS_CORE_USERS_LDAPUSER_DESCRIPTION">LDAP directory</message>

@@ -216,18 +216,6 @@
 			            </validation>
 			            <default-value>Users</default-value>
 			        </param>
-			        <param-checker id="runtime.users.jdbc.checker" class="org.ametys.plugins.core.impl.checker.JdbcUserDirectoryChecker">
-                        <label i18n="true">PLUGINS_CORE_USERS_JDBC_CHECKER_LABEL</label>
-                        <description i18n="true">PLUGINS_CORE_USERS_JDBC_CHECKER_DESCRIPTION</description>
-                        
-                        <icon-small>img/config/check/test_sqlconnect_16.png</icon-small>
-                        <icon-medium>img/config/check/test_sqlconnect_32.png</icon-medium>
-                        <icon-large >img/config/check/test_sqlconnect_48.png</icon-large>
-                        <linked-params>
-                            <param-ref id="org.ametys.plugins.core.user.directory.Jdbc$runtime.users.jdbc.datasource"/>
-                            <param-ref id="org.ametys.plugins.core.user.directory.Jdbc$runtime.users.jdbc.table"/>
-                        </linked-params>
-                    </param-checker>
                 </parameters>
             </extension>
         </extensions>
