@@ -206,7 +206,8 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
         }
         catch (Exception e)
         {
-            getLogger().error("Error during SQL tables initialization for data source id: '%s'.", StringUtils.defaultString(dataSourceId), e);
+            String errorMsg = String.format("Error during SQL tables initialization for data source id: '%s'.", StringUtils.defaultString(dataSourceId));
+            getLogger().error(errorMsg, e);
         }
     }
     
