@@ -633,7 +633,8 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
             defaultPathSeparator: this._separator,
             hideDisabledFields: true,
             scrollable: true,
-            flex: 1
+            flex: 1,
+            testURL: Ametys.getPluginDirectPrefix('core-impl') + '/credentialprovider/test'
         });
         formPanel.configure(data);
         formPanel.setValues({});

@@ -117,37 +117,6 @@
             <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_JCIFS</group>
             <order>40</order>
         </param>
-        
-        <param-checker id="cas-server-checker" class="org.ametys.plugins.core.impl.checker.HttpUrlChecker">
-            <label i18n="true">PLUGINS_CORE_CAS_SERVER_CHECKER_LABEL</label>
-            <description i18n="true">PLUGINS_CORE_CAS_SERVER_CHECKER_DESC</description>
-            <icon-large>img/config/check/test_casconnect_48.png</icon-large>
-            <icon-medium>img/config/check/test_casconnect_32.png</icon-medium>
-            <icon-small>img/config/check/test_casconnect_16.png</icon-small>
-                        
-            <configuration>
-                <request>
-                    <user-agent>Ametys</user-agent>
-                    <method>HEAD</method>
-                    <timeout>10000</timeout>
-                </request>
-                
-                <response>
-                    <code>200,301</code>
-                    <header>
-                        
-                    </header>
-                </response>
-            </configuration>
-                        
-            <ui-ref>
-                <param-ref id="runtime.authentication.cas.serverUrl"/>
-            </ui-ref>
-            
-            <linked-params>
-                <param-ref id="runtime.authentication.cas.serverUrl"/>
-            </linked-params>
-        </param-checker>
     </config>
     
     <feature name="runtime.user.directory.impl.static" safe="true">
@@ -916,7 +885,7 @@
         		<label i18n="true">PLUGINS_CORE_AUTHENTICATION_CAS_LABEL</label>
         		<description i18n="true">PLUGINS_CORE_AUTHENTICATION_CAS_DESCRIPTION</description>
         		<label-connection i18n="true">PLUGINS_CORE_AUTHENTICATION_CAS_CONNECTION_LABEL</label-connection>
-        		<icon-glyph>ametysicon-key162</icon-glyph>
+        		<icon-glyph>ametysicon-cas</icon-glyph>
         		<color>2d7149</color>
         		<parameters>
         			<param id="runtime.authentication.cas.serverUrl" type="string">
@@ -939,6 +908,39 @@
         				<label i18n="true">PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_AUTHORIZEDPROXY_LABEL</label>
             			<description i18n="true">PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_AUTHORIZEDPROXY_DESCRIPTION</description>
         			</param>
+        
+			        <param-checker id="cas-server-checker" class="org.ametys.plugins.core.impl.checker.HttpUrlChecker">
+			            <label i18n="true">PLUGINS_CORE_CAS_SERVER_CHECKER_LABEL</label>
+			            <description i18n="true">PLUGINS_CORE_CAS_SERVER_CHECKER_DESC</description>
+			            <icon-large>img/config/check/test_casconnect_48.png</icon-large>
+			            <icon-medium>img/config/check/test_casconnect_32.png</icon-medium>
+			            <icon-small>img/config/check/test_casconnect_16.png</icon-small>
+			                        
+			            <configuration>
+			                <request>
+			                    <user-agent>Ametys</user-agent>
+			                    <method>HEAD</method>
+			                    <timeout>10000</timeout>
+			                    <additionnal-url>/login</additionnal-url>
+			                </request>
+			                
+			                <response>
+			                    <code>200</code>
+			                    <header>
+			                        
+			                    </header>
+			                </response>
+			            </configuration>
+			                        
+			            <ui-ref>
+			                <param-ref id="org.ametys.core.authentication.CAS$runtime.authentication.cas.serverUrl"/>
+			            </ui-ref>
+			            
+			            <linked-params>
+			                <param-ref id="org.ametys.core.authentication.CAS$runtime.authentication.cas.serverUrl"/>
+			            </linked-params>
+			        </param-checker>
+        			
         		</parameters>
         	</extension>
         </extensions>

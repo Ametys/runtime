@@ -21,6 +21,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.Parameter;
+import org.ametys.runtime.parameter.ParameterCheckerDescriptor;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
 
 /**
@@ -93,6 +94,12 @@ public interface CredentialProviderModel
      * @return The configuration parameters
      */
     public Map<String, ? extends Parameter<ParameterType>> getParameters();
+    
+    /**
+     * Get the configuration parameter checkers
+     * @return The configuration parameter checkers
+     */
+    public Map<String, ? extends ParameterCheckerDescriptor> getParameterCheckers();
     
     /**
      * Returns the plugin name of declaration (for debug purpose)

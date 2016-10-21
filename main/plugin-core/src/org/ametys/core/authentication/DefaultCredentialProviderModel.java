@@ -21,6 +21,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.Parameter;
+import org.ametys.runtime.parameter.ParameterCheckerDescriptor;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
 
 /**
@@ -41,6 +42,7 @@ public class DefaultCredentialProviderModel implements CredentialProviderModel
     private String _iconLarge;
     private String _color;
     private Map<String, ? extends Parameter<ParameterType>> _parameters;
+    private Map<String, ? extends ParameterCheckerDescriptor> _parameterCheckers;
     private String _pluginName;
     
     /**
@@ -58,9 +60,10 @@ public class DefaultCredentialProviderModel implements CredentialProviderModel
      * @param iconLarge The path of the large icon resource
      * @param color The string representation of the color which will be used for the button in the connection screen
      * @param parameters The parameters
+     * @param parameterCheckers the parameter checkers
      * @param pluginName The plugin's name of declaration (for debug purpose)
      */
-    public DefaultCredentialProviderModel (String id, Class<CredentialProvider> udClass, Configuration cpConfig, I18nizableText label, I18nizableText description, I18nizableText connectionLabel, String iconGlyph, String iconDecorator, String iconSmall, String iconMedium, String iconLarge, String color, Map<String, ? extends Parameter<ParameterType>> parameters, String pluginName)
+    public DefaultCredentialProviderModel (String id, Class<CredentialProvider> udClass, Configuration cpConfig, I18nizableText label, I18nizableText description, I18nizableText connectionLabel, String iconGlyph, String iconDecorator, String iconSmall, String iconMedium, String iconLarge, String color, Map<String, ? extends Parameter<ParameterType>> parameters, Map<String, ? extends ParameterCheckerDescriptor> parameterCheckers, String pluginName)
     {
         _id = id;
         _cpClass = udClass;
@@ -74,6 +77,7 @@ public class DefaultCredentialProviderModel implements CredentialProviderModel
         _iconLarge = iconLarge;
         _color = color;
         _parameters = parameters;
+        _parameterCheckers = parameterCheckers;
         _pluginName = pluginName;
     }
     
@@ -141,6 +145,12 @@ public class DefaultCredentialProviderModel implements CredentialProviderModel
     public Map<String, ? extends Parameter<ParameterType>> getParameters()
     {
         return _parameters;
+    }
+    
+    @Override
+    public Map<String, ? extends ParameterCheckerDescriptor> getParameterCheckers()
+    {
+        return _parameterCheckers;
     }
     
     @Override

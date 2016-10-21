@@ -41,6 +41,9 @@ import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.AbstractParameterParser;
 import org.ametys.runtime.parameter.Enumerator;
 import org.ametys.runtime.parameter.Parameter;
+import org.ametys.runtime.parameter.ParameterChecker;
+import org.ametys.runtime.parameter.ParameterCheckerDescriptor;
+import org.ametys.runtime.parameter.ParameterCheckerParser;
 import org.ametys.runtime.parameter.ParameterHelper;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
 import org.ametys.runtime.parameter.Validator;
@@ -229,9 +232,26 @@ public class CredentialProviderFactory extends AbstractLogEnabled implements Ext
             configureParameters(cpParser, paramConfiguration, pluginName, parameters);
         }
         
+        // Parse parameter checkers
+        Map<String, ParameterCheckerDescriptor> parameterCheckers = new LinkedHashMap<>();
+        
+        ThreadSafeComponentManager<ParameterChecker> parameterCheckerManager = new ThreadSafeComponentManager<>();
+        parameterCheckerManager.setLogger(getLogger());
+        parameterCheckerManager.contextualize(_context);
+        parameterCheckerManager.service(_smanager);
+        
+        ParameterCheckerParser parameterCheckerParser = new ParameterCheckerParser(parameterCheckerManager);
+        
+        Configuration[] paramCheckersConfiguration = configuration.getChild("parameters").getChildren("param-checker");
+        for (Configuration paramCheckerConfiguration : paramCheckersConfiguration)
+        {
+            configureParamChecker(parameterCheckerParser, paramCheckerConfiguration, pluginName, parameterCheckers);
+        }
+        
         try
         {
             cpParser.lookupComponents();
+            parameterCheckerParser.lookupComponents();
         }
         catch (Exception e)
         {
@@ -239,7 +259,7 @@ public class CredentialProviderFactory extends AbstractLogEnabled implements Ext
         }
         
         @SuppressWarnings("unchecked")
-        CredentialProviderModel cpModel = new DefaultCredentialProviderModel(id, (Class<CredentialProvider>) cpClass, classConfig, label, description, connectionLabel, iconGlyph, iconDecorator, iconSmallPath, iconMediumPath, iconLargePath, connectionColor, parameters, pluginName);
+        CredentialProviderModel cpModel = new DefaultCredentialProviderModel(id, (Class<CredentialProvider>) cpClass, classConfig, label, description, connectionLabel, iconGlyph, iconDecorator, iconSmallPath, iconMediumPath, iconLargePath, connectionColor, parameters, parameterCheckers, pluginName);
         if (_cpModels.containsKey(id))
         {
             CredentialProviderModel oldCPModel = _cpModels.get(id);
@@ -268,6 +288,27 @@ public class CredentialProviderFactory extends AbstractLogEnabled implements Ext
         }
         
         parameters.put(id, parameter);
+    }
+    
+    /**
+     * Configure a parameter checker of a user directory
+     * @param parser the parameter checker parser.
+     * @param configuration The parameter checker configuration.
+     * @param pluginName The plugin name
+     * @param parameterCheckers The model's parameter checkers
+     * @throws ConfigurationException if configuration is incomplete or invalid.
+     */
+    protected void configureParamChecker(ParameterCheckerParser parser, Configuration configuration, String pluginName, Map<String, ParameterCheckerDescriptor> parameterCheckers) throws ConfigurationException
+    {
+        ParameterCheckerDescriptor parameterChecker = parser.parseParameterChecker(pluginName, configuration);
+        String id = parameterChecker.getId();
+        
+        if (parameterCheckers.containsKey(id))
+        {
+            throw new ConfigurationException("The parameter checker '" + id + "' is already declared. IDs must be unique.", configuration);
+        }
+        
+        parameterCheckers.put(id, parameterChecker);
     }
     
     @Override

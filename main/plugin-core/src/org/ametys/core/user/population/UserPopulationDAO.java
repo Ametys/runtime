@@ -382,6 +382,14 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
             }
             cpMap.put("parameters", params);
             
+            Map<String, Object> paramCheckers = new LinkedHashMap<>();
+            for (String paramCheckerId : cpModel.getParameterCheckers().keySet())
+            {
+                ParameterCheckerDescriptor paramChecker = cpModel.getParameterCheckers().get(paramCheckerId);
+                paramCheckers.put(extensionId + "$" + paramCheckerId, paramChecker.toJSON());
+            }
+            cpMap.put("parameterCheckers", paramCheckers);
+            
             credentialProviderModels.add(cpMap);
         }
         result.put("credentialProviderModels", credentialProviderModels);
