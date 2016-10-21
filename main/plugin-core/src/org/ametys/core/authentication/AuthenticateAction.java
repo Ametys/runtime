@@ -128,7 +128,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     {
         Request request = ObjectModelHelper.getRequest(objectModel);
 
-        if (_handleLogout(objectModel, source, parameters)  // Test if user wants to logout
+        if (_handleLogout(redirector, objectModel, source, parameters)  // Test if user wants to logout
                 || _internalRequest(request)                            // Test if this request was already authenticated or it the request is marked as an internal one
                 || _acceptedUrl(request)                                // Test if the url is used for authentication
                 || _validateCurrentlyConnectedUser(request, redirector, parameters) // Test if the currently connected user is still valid
@@ -784,13 +784,14 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     
     /**
      * Test if user wants to logout and handle it
+     * * @param redirector The cocoon redirector
      * @param objectModel The cocoon object model
      * @param source The sitemap source
      * @param parameters The sitemap parameters
      * @return true if the user was logged out
      * @throws Exception if an error occurred
      */
-    protected boolean _handleLogout(Map objectModel, String source, Parameters parameters) throws Exception
+    protected boolean _handleLogout(Redirector redirector, Map objectModel, String source, Parameters parameters) throws Exception
     {
         Request request = ObjectModelHelper.getRequest(objectModel);
         if (StringUtils.equals(request.getContextPath() + request.getAttribute(WorkspaceMatcher.WORKSPACE_URI) + "/logout.html", request.getRequestURI())
@@ -798,6 +799,10 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         {
             // The user logs out
             _currentUserProvider.logout();
+            if (!redirector.hasRedirected())
+            {
+                redirector.redirect(false, getLogoutURL(request));
+            }
             return true;
         }
         return false;
