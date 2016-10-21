@@ -15,7 +15,7 @@
  */
 package org.ametys.runtime.test.rights.access.controller;
 
-import java.io.File;
+import org.ametys.core.datasource.ConnectionHelper;
 
 /**
  * Mysql-specific contributor access controller test case.
@@ -23,16 +23,8 @@ import java.io.File;
 public class MysqlAccessControllerTestCase extends AbstractStringBasedAccessControllerTestCase
 {
     @Override
-    protected String _getDataSourceFile()
+    protected String _getDBType()
     {
-        return "test/environments/datasources/datasource-mysql.xml";
-    }
-    
-    @Override
-    protected File[] _getStartScriptFiles()
-    {
-        return new File[] {
-            new File("test/environments/scripts/jdbc-mysql/dropTables.sql"),
-        };
+        return ConnectionHelper.DATABASE_MYSQL;
     }
 }

@@ -15,7 +15,7 @@
  */
 package org.ametys.runtime.test.rights.storage.assignments.jdbc;
 
-import java.io.File;
+import org.ametys.core.datasource.ConnectionHelper;
 
 /**
  * Hsql-specific JDBC ProfileAssignement storage test case.
@@ -23,16 +23,8 @@ import java.io.File;
 public class HsqlProfileAssignmentStorageTestCase extends AbstractJdbcProfileAssignmentStorageTestCase
 {
     @Override
-    protected String _getDataSourceFile()
+    protected String _getDBType()
     {
-        return "test/environments/datasources/datasource-hsql.xml";
-    }
-    
-    @Override
-    protected File[] _getStartScriptFiles()
-    {
-        return new File[] {
-            new File("test/environments/scripts/jdbc-hsqldb/dropTables.sql")
-        };
+        return ConnectionHelper.DATABASE_HSQLDB;
     }
 }
