@@ -145,20 +145,22 @@
     <message key="PLUGINS_CORE_AUTHENTICATION_DEFINED_LABEL">Automatic authentication (for demonstration purpose)</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_DEFINED_DESCRIPTION">Automatic authentication (for demonstration purpose)</message>
     
+    <message key="PLUGINS_CORE_AUTHENTICATION_BLOCKING_CONNECTION_LABEL">Connect with {0}</message>
+    
     <message key="PLUGINS_CORE_AUTHENTICATION_BASIC_LABEL">Browser popup (BASIC protocol)</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_BASIC_DESCRIPTION">Browser popup (BASIC protocol)</message>
-    <message key="PLUGINS_CORE_AUTHENTICATION_BASIC_CONNECTION_LABEL">Connect with popup</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_BASIC_CONNECTION_LABEL">popup</message>
     
     <message key="PLUGINS_CORE_AUTHENTICATION_FORMBASED_LABEL">Form</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_FORMBASED_DESCRIPTION">Form</message>
-    <message key="PLUGINS_CORE_AUTHENTICATION_FORMBASED_CONNECTION_LABEL">Connect with form</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_FORMBASED_CONNECTION_LABEL">form</message>
     
     <message key="PLUGINS_CORE_AUTHENTICATION_REMOTE_LABEL">Request header</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_REMOTE_DESCRIPTION">Request header</message>
     
     <message key="PLUGINS_CORE_AUTHENTICATION_CAS_LABEL">C.A.S. server</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_CAS_DESCRIPTION">C.A.S. server</message>
-    <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONNECTION_LABEL">Connect with CAS</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONNECTION_LABEL">C.A.S.</message>
 
     <!-- USER KERBEROS -->
     <message key="PLUGINS_CORE_AUTHENTICATION_KERBEROS_LABEL">Kerberos</message>

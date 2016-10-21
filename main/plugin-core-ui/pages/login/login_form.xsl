@@ -101,10 +101,15 @@
     <xsl:template name="login-credential-provider-reload">
         <div class="login-inner login-credential-provider">
             <button type="submit" style="background-color: #{color}; border: 1px solid #{color};">
-                <xsl:value-of select="label"/>
-                <xsl:if test="additionalLabel">
-                    <span class="login-additionalLabel"><xsl:value-of select="additionalLabel"/></span>
-                </xsl:if>
+                <i18n:translate>
+                    <i18n:text i18n:key="PLUGINS_CORE_AUTHENTICATION_BLOCKING_CONNECTION_LABEL" i18n:catalogue="plugin.core-impl"/>
+                    <i18n:param>
+		                <xsl:choose>
+		                    <xsl:when test="additionalLabel"><xsl:value-of select="additionalLabel"/></xsl:when>
+		                    <xsl:otherwise><xsl:value-of select="label"/></xsl:otherwise>
+		                </xsl:choose>
+                    </i18n:param>
+                </i18n:translate>
                 <span class="glyph {iconGlyph}"></span>
             </button>
         </div>
@@ -115,10 +120,15 @@
             <button style="background-color: #{color}; border: 1px solid #{color};">
                 <xsl:attribute name="onclick"><xsl:call-template name="login-credential-provider-script"><xsl:with-param name="index" select="@index"/></xsl:call-template> return false;</xsl:attribute>
             
-                <xsl:value-of select="label"/>
-                <xsl:if test="additionalLabel">
-                    <span class="login-additionalLabel"><xsl:value-of select="additionalLabel"/></span>
-                </xsl:if>
+                <i18n:translate>
+                    <i18n:text i18n:key="PLUGINS_CORE_AUTHENTICATION_BLOCKING_CONNECTION_LABEL" i18n:catalogue="plugin.core-impl"/>
+                    <i18n:param>
+                        <xsl:choose>
+                            <xsl:when test="additionalLabel"><xsl:value-of select="additionalLabel"/></xsl:when>
+                            <xsl:otherwise><xsl:value-of select="label"/></xsl:otherwise>
+                        </xsl:choose>
+                    </i18n:param>
+                </i18n:translate>
                 <span class="glyph {iconGlyph}"></span>
             </button>
         </div>
@@ -268,10 +278,15 @@
     
     <xsl:template name="login-form-submit">
         <button type="submit">
-            <i18n:text i18n:key='PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_SUBMIT' i18n:catalogue='plugin.core-ui'/>
-            <xsl:if test="/LoginScreen/LoginForm/additionalLabel">
-                <span class="login-additionalLabel"><xsl:value-of select="/LoginScreen/LoginForm/additionalLabel"/></span>
-            </xsl:if>
+            <i18n:translate>
+                <i18n:text i18n:key="PLUGINS_CORE_AUTHENTICATION_BLOCKING_CONNECTION_LABEL" i18n:catalogue="plugin.core-impl"/>
+                <i18n:param>
+                    <xsl:choose>
+                        <xsl:when test="/LoginScreen/LoginForm/additionalLabel"><xsl:value-of select="/LoginScreen/LoginForm/additionalLabel"/></xsl:when>
+                        <xsl:otherwise><i18n:text i18n:key='PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_SUBMIT' i18n:catalogue='plugin.core-ui'/></xsl:otherwise>
+                    </xsl:choose>
+                </i18n:param>
+            </i18n:translate>
         </button>
     </xsl:template>
     
