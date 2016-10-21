@@ -477,7 +477,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         }
 
         // Save user identity
-        setUserIdentityInSession(request, userIdentity, runningCredentialProvider, runningBlockingkMode);
+        _setUserIdentityInSession(request, userIdentity, runningCredentialProvider, runningBlockingkMode);
         
         // Authentication succeeded
         runningCredentialProvider.userAllowed(runningBlockingkMode, userIdentity);
@@ -514,6 +514,18 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         session.setAttribute(SESSION_CONNECTING_USERPOPULATION_ID, request.getAttribute(REQUEST_ATTRIBUTE_USER_POPULATION_ID));
     }
 
+    /**
+     * Save user identity in request
+     * @param request The request
+     * @param userIdentity The useridentity to save
+     * @param credentialProvider The credential provider used to connect
+     * @param blockingMode The mode used for the credential provider
+     */
+    protected void _setUserIdentityInSession(Request request, UserIdentity userIdentity, CredentialProvider credentialProvider, boolean blockingMode)
+    {
+        setUserIdentityInSession(request, userIdentity, credentialProvider, blockingMode);
+    }
+    
     /**
      * Save user identity in request
      * @param request The request
