@@ -908,6 +908,14 @@
         				<label i18n="true">PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_AUTHORIZEDPROXY_LABEL</label>
             			<description i18n="true">PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_AUTHORIZEDPROXY_DESCRIPTION</description>
         			</param>
+                    <param id="runtime.authentication.cas.enableGateway" type="boolean">
+                        <!-- 
+                            This parameter indicates if the gateway mode is activated
+                         -->
+                        <label i18n="true">PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_GATEWAYMODE_LABEL</label>
+                        <description i18n="true">PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_GATEWAYMODE_DESCRIPTION</description>
+                        <default-value>true</default-value>
+                    </param>
         
 			        <param-checker id="cas-server-checker" class="org.ametys.plugins.core.impl.checker.HttpUrlChecker">
 			            <label i18n="true">PLUGINS_CORE_CAS_SERVER_CHECKER_LABEL</label>

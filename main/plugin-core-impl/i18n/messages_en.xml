@@ -120,6 +120,8 @@
     <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_URL_DESCRIPTION">CAS server Url</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_AUTHORIZEDPROXY_LABEL">Proxy chain</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_AUTHORIZEDPROXY_DESCRIPTION">CAS server authorized proxy chain</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_GATEWAYMODE_LABEL">Use the gateway mode</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_GATEWAYMODE_DESCRIPTION">When the gateway mode is activated, an already CAS-connected user will be connected to Ametys in a transparent way.&lt;br/&gt;If the CAS url is not accessible to all users  that need to connect to Ametys (on an intranet for example), you should deactivate this mode that could prevent them from going to the authentication screen (404 or 403 error code)</message>
     
     <message key="PLUGINS_CORE_CAS_SERVER_CHECKER_LABEL">Check the url of the CAS server</message>
     <message key="PLUGINS_CORE_CAS_SERVER_CHECKER_DESC">This test checks that the specified url is valid by trying to establish a connection.</message>

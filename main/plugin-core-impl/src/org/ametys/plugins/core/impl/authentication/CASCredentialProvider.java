@@ -62,6 +62,9 @@ public class CASCredentialProvider extends AbstractCredentialProvider implements
     /** Parameter name for authorized proxy chains */
     private static final String __PARAM_AUTHORIZED_PROXY_CHAINS = "runtime.authentication.cas.authorizedProxyChain";
     
+    /** Parameter name for the gateway mode */
+    private static final String __PARAM_GATEWAY_ENABLED = "runtime.authentication.cas.enableGateway";
+    
     /** Cas server URL with context (https://cas-server ou https://cas-server/cas) */
     protected String _serverUrl;
     
@@ -77,6 +80,8 @@ public class CASCredentialProvider extends AbstractCredentialProvider implements
      *  Only one proxy chain needs to match for the login to be successful.
      */
     private String _authorizedProxyChains;
+    /** Should the cas gateway mode be used */
+    private boolean _gatewayModeEnabled;
     
     @Override
     public void initialize() throws Exception
@@ -96,6 +101,7 @@ public class CASCredentialProvider extends AbstractCredentialProvider implements
         super.init(cpModelId, paramValues, label);
         _serverUrl = (String) paramValues.get(__PARAM_SERVER_URL);
         _authorizedProxyChains = (String) paramValues.get(__PARAM_AUTHORIZED_PROXY_CHAINS);
+        _gatewayModeEnabled = (boolean) paramValues.get(__PARAM_GATEWAY_ENABLED);
     }
 
     @Override
@@ -215,6 +221,11 @@ public class CASCredentialProvider extends AbstractCredentialProvider implements
     @Override
     public UserIdentity nonBlockingGetUserIdentity(Redirector redirector) throws Exception
     {
+        if (!_gatewayModeEnabled)
+        {
+            return null;
+        }
+        
         String userLogin = _getLoginFromFilter(true, redirector);
         if (userLogin == null)
         {
