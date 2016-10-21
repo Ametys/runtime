@@ -489,7 +489,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         }
         catch (Exception e)
         {
-            throw new RuntimeException("Cannot test is " + __ADMIN_TABLENAME + " table exists in internal database", e);
+            throw new RuntimeException("Cannot test if " + __ADMIN_TABLENAME + " table exists in internal database", e);
         }
         
         _fillUserPopulation(_adminUserPopulation, new I18nizableText("plugin.core", "PLUGINS_CORE_USER_POPULATION_ADMIN_LABEL"), Collections.singletonList(userDirectory), Collections.singletonList(credentialProvider));
