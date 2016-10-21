@@ -942,18 +942,6 @@
         </extensions>
     </feature>
     
-    <feature name="runtime.core.sql.users.and.groups.init" safe="true">
-    <!-- FIXME InitEP and this feature were temporary set safe for creating admin users SQL table  -->
-        <extensions>
-            <extension point="org.ametys.runtime.plugin.InitExtensionPoint"
-                       id="org.ametys.core.script.users.and.groups.SqlTablesInit"
-                       class="org.ametys.core.script.SqlTablesInit">
-                <datasource type="id">SQL-ametys-internal</datasource>
-                <script testTable="AdminUsers">jdbc_admin_users.sql</script>
-            </extension>
-        </extensions>
-    </feature>
-    
     <feature name="runtime.core.sql.profile.init" passive="true">
         <extensions>
             <extension point="org.ametys.runtime.plugin.InitExtensionPoint"

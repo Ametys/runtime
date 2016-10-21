@@ -30,6 +30,7 @@ import org.ametys.core.authentication.CredentialProvider;
 import org.ametys.core.authentication.CredentialProviderFactory;
 import org.ametys.core.authentication.CredentialProviderModel;
 import org.ametys.core.datasource.DataSourceConsumer;
+import org.ametys.core.datasource.SQLDataSourceManager;
 import org.ametys.core.user.directory.UserDirectory;
 import org.ametys.core.user.directory.UserDirectoryFactory;
 import org.ametys.core.user.directory.UserDirectoryModel;
@@ -67,7 +68,7 @@ public class PopulationDataSourceConsumer implements DataSourceConsumer, Compone
     @Override
     public boolean isInUse(String id)
     {
-        return _isInUseByUserDirectories(id) || _isInUseByCredentialProviders(id);
+        return SQLDataSourceManager.AMETYS_INTERNAL_DATASOURCE_ID.equals(id) || _isInUseByUserDirectories(id) || _isInUseByCredentialProviders(id);
     }
     
     private boolean _isInUseByUserDirectories(String id)
@@ -88,7 +89,7 @@ public class PopulationDataSourceConsumer implements DataSourceConsumer, Compone
             }
             
             // search the user directories of this model
-            for (UserPopulation population : _userPopulationDAO.getUserPopulations(true))
+            for (UserPopulation population : _userPopulationDAO.getUserPopulations(false)) // Admin uses internal, no need to test
             {
                 for (UserDirectory userDirectory : population.getUserDirectories())
                 {
@@ -128,7 +129,7 @@ public class PopulationDataSourceConsumer implements DataSourceConsumer, Compone
             }
             
             // search the credential providers of this model
-            for (UserPopulation population : _userPopulationDAO.getUserPopulations(true))
+            for (UserPopulation population : _userPopulationDAO.getUserPopulations(false)) // Admin uses internal, no need to test
             {
                 for (CredentialProvider credentialProvider : population.getCredentialProviders())
                 {
@@ -154,6 +155,7 @@ public class PopulationDataSourceConsumer implements DataSourceConsumer, Compone
     public Set<String> getUsedDataSourceIds()
     {
         Set<String> result = new HashSet<>();
+        result.add(SQLDataSourceManager.AMETYS_INTERNAL_DATASOURCE_ID);
 
         for (String udModelId : _userDirectoryFactory.getExtensionsIds())
         {
@@ -171,7 +173,7 @@ public class PopulationDataSourceConsumer implements DataSourceConsumer, Compone
             }
             
             // search the user directories of this model
-            for (UserPopulation population : _userPopulationDAO.getUserPopulations(true))
+            for (UserPopulation population : _userPopulationDAO.getUserPopulations(false)) // admin uses internal
             {
                 for (UserDirectory userDirectory : population.getUserDirectories())
                 {
@@ -204,7 +206,7 @@ public class PopulationDataSourceConsumer implements DataSourceConsumer, Compone
             }
             
             // search the credential providers of this model
-            for (UserPopulation population : _userPopulationDAO.getUserPopulations(true))
+            for (UserPopulation population : _userPopulationDAO.getUserPopulations(false)) // admin uses internal
             {
                 for (CredentialProvider credentialProvider : population.getCredentialProviders())
                 {

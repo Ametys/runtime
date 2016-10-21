@@ -64,11 +64,14 @@ import org.ametys.core.ObservationConstants;
 import org.ametys.core.authentication.CredentialProvider;
 import org.ametys.core.authentication.CredentialProviderFactory;
 import org.ametys.core.authentication.CredentialProviderModel;
+import org.ametys.core.datasource.ConnectionHelper;
 import org.ametys.core.datasource.SQLDataSourceManager;
 import org.ametys.core.observation.Event;
 import org.ametys.core.observation.ObservationManager;
+import org.ametys.core.script.SQLScriptHelper;
 import org.ametys.core.ui.Callable;
 import org.ametys.core.user.CurrentUserProvider;
+import org.ametys.core.user.InvalidModificationException;
 import org.ametys.core.user.directory.ModifiableUserDirectory;
 import org.ametys.core.user.directory.UserDirectory;
 import org.ametys.core.user.directory.UserDirectoryFactory;
@@ -94,7 +97,10 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
     
     /** The id of the "admin" population */
     public static final String ADMIN_POPULATION_ID = "admin_population";
-    
+
+    /** The sql table for admin users */
+    private static final String __ADMIN_TABLENAME = "AdminUsers";
+
     /** The path of the XML file containing the user populations */
     private static final File __USER_POPULATIONS_FILE = new File(AmetysHomeHelper.getAmetysHome(), "config" + File.separator + "user-populations.xml");
     
@@ -453,7 +459,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
      * Gets the "admin" population
      * @return The "admin" population
      */
-    public UserPopulation getAdminPopulation()
+    public synchronized UserPopulation getAdminPopulation()
     {
         if (_adminUserPopulation != null)
         {
@@ -467,15 +473,46 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         String udModelId = "org.ametys.plugins.core.user.directory.Jdbc";
         userDirectory.put("udModelId", udModelId);
         userDirectory.put(udModelId + "$" + "runtime.users.jdbc.datasource", SQLDataSourceManager.AMETYS_INTERNAL_DATASOURCE_ID);
-        userDirectory.put(udModelId + "$" + "runtime.users.jdbc.table", "AdminUsers");
+        userDirectory.put(udModelId + "$" + "runtime.users.jdbc.table", __ADMIN_TABLENAME);
         
         Map<String, String> credentialProvider = new HashMap<>();
         String cpModelId = "org.ametys.core.authentication.FormBased";
         credentialProvider.put("cpModelId", cpModelId);
         credentialProvider.put(cpModelId + "$" + "runtime.authentication.form.security.level", "high");
         credentialProvider.put(cpModelId + "$" + "runtime.authentication.form.security.storage", SQLDataSourceManager.AMETYS_INTERNAL_DATASOURCE_ID);
+
+        // We may need to create the admin user
+        boolean wasExisting = false;
+        try
+        {
+            wasExisting = SQLScriptHelper.tableExists(ConnectionHelper.getInternalSQLDataSourceConnection(), __ADMIN_TABLENAME);
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException("Cannot test is " + __ADMIN_TABLENAME + " table exists in internal database", e);
+        }
         
         _fillUserPopulation(_adminUserPopulation, new I18nizableText("plugin.core", "PLUGINS_CORE_USER_POPULATION_ADMIN_LABEL"), Collections.singletonList(userDirectory), Collections.singletonList(credentialProvider));
+        
+        if (!wasExisting)
+        {
+            Map<String, String> adminUserInformations = new HashMap<>();
+            adminUserInformations.put("login", "admin");
+            adminUserInformations.put("password", "admin");
+            adminUserInformations.put("firstname", "User");
+            adminUserInformations.put("lastname", "Administrator");
+            adminUserInformations.put("email", "");
+            
+            ModifiableUserDirectory adminJdbcUserDirectoy = (ModifiableUserDirectory) _adminUserPopulation.getUserDirectories().get(0);
+            try
+            {
+                adminJdbcUserDirectoy.add(adminUserInformations);
+            }
+            catch (InvalidModificationException e)
+            {
+                throw new RuntimeException("Cannot create the 'admin' user", e);
+            }
+        }
         
         return _adminUserPopulation;
     }
