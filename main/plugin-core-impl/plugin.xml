@@ -32,12 +32,12 @@
                 <param name="allowCreation">true</param>
                 <param name="allowPrivate">true</param>
                 <param name="allowInternal">true</param>
-                <param name="allowedDbTypes">derby,mysql,oracle,postgresql,hsql</param>
+                <param name="allowedDbTypes">derby,mysql,oracle,postgresql,hsqldb</param>
             </widget-params>
             <validation>
             	<custom-validator class="org.ametys.core.datasource.SQLDatabaseTypeValidator">
 			       <mandatory/>
-			       <allowed-dbtypes>derby,mysql,oracle,postgresql,hsql</allowed-dbtypes>
+			       <allowed-dbtypes>derby,mysql,oracle,postgresql,hsqldb</allowed-dbtypes>
 			    </custom-validator>
             </validation>
             <category i18n="true">PLUGINS_CORE_DATASOURCE_CONFIG_USERPREFS_CATEGORY</category>
@@ -56,12 +56,12 @@
                 <param name="allowCreation">true</param>
                 <param name="allowPrivate">true</param>
                 <param name="allowInternal">true</param>
-                <param name="allowedDbTypes">derby,mysql,oracle,postgresql,hsql</param>
+                <param name="allowedDbTypes">derby,mysql,oracle,postgresql,hsqldb</param>
             </widget-params>
             <validation>
             	<custom-validator class="org.ametys.core.datasource.SQLDatabaseTypeValidator">
 			       <mandatory/>
-			       <allowed-dbtypes>derby,mysql,oracle,postgresql,hsql</allowed-dbtypes>
+			       <allowed-dbtypes>derby,mysql,oracle,postgresql,hsqldb</allowed-dbtypes>
 			    </custom-validator>
             </validation>
             <category i18n="true">PLUGINS_CORE_DATASOURCE_CONFIG_RIGHTS_CATEGORY</category>
@@ -199,12 +199,12 @@
 			                <param name="allowCreation">true</param>
 			                <param name="allowPrivate">true</param>
 			                <param name="allowInternal">true</param>
-			                <param name="allowedDbTypes">derby,mysql,oracle,postgresql,hsql</param>
+			                <param name="allowedDbTypes">derby,mysql,oracle,postgresql,hsqldb</param>
 			            </widget-params>
 			            <validation>
 			            	<custom-validator class="org.ametys.core.datasource.SQLDatabaseTypeValidator">
 						       <mandatory/>
-						       <allowed-dbtypes>derby,mysql,oracle,postgresql,hsql</allowed-dbtypes>
+						       <allowed-dbtypes>derby,mysql,oracle,postgresql,hsqldb</allowed-dbtypes>
 						    </custom-validator>
 			            </validation>
 			        </param>
@@ -389,12 +389,12 @@
 			                <param name="allowCreation">true</param>
 			                <param name="allowPrivate">true</param>
 			                <param name="allowInternal">true</param>
-			                <param name="allowedDbTypes">derby,mysql,oracle,postgresql,hsql</param>
+			                <param name="allowedDbTypes">derby,mysql,oracle,postgresql,hsqldb</param>
 			            </widget-params>
 			            <validation>
 			            	<custom-validator class="org.ametys.core.datasource.SQLDatabaseTypeValidator">
 						       <mandatory/>
-						       <allowed-dbtypes>derby,mysql,oracle,postgresql,hsql</allowed-dbtypes>
+						       <allowed-dbtypes>derby,mysql,oracle,postgresql,hsqldb</allowed-dbtypes>
 						    </custom-validator>
 			            </validation>
 			        </param>
@@ -844,12 +844,12 @@
 			                <param name="allowCreation">true</param>
 			                <param name="allowPrivate">true</param>
 			                <param name="allowInternal">true</param>
-			                <param name="allowedDbTypes">derby,mysql,oracle,postgresql,hsql</param>
+			                <param name="allowedDbTypes">derby,mysql,oracle,postgresql,hsqldb</param>
 			            </widget-params>
 			            <validation>
 			                <custom-validator class="org.ametys.core.datasource.SQLDatabaseTypeValidator">
 			                   <mandatory/>
-			                   <allowed-dbtypes>derby,mysql,oracle,postgresql,hsql</allowed-dbtypes>
+			                   <allowed-dbtypes>derby,mysql,oracle,postgresql,hsqldb</allowed-dbtypes>
 			                </custom-validator>
 			            </validation>
         			</param>
@@ -1152,14 +1152,14 @@
         </extensions>
     </feature>
        
-    <!-- HSQL -->
-    <feature name="runtime.core.datasources.sql.hsql" safe="true">
+    <!-- HSQLDB -->
+    <feature name="runtime.core.datasources.sql.hsqldb" safe="true">
         <extensions>
             <extension point="org.ametys.core.datasource.dbtype.SQLDatabaseTypeExtensionPoint"
-                       id="hsql"
+                       id="hsqldb"
                        class="org.ametys.plugins.core.impl.datasource.StaticSQLDatabaseType">
                  <driver>org.hsqldb.jdbc.JDBCDriver</driver>
-                 <label i18n="true">PLUGINS_CORE_DATASOURCE_HSQL_DRIVER_LABEL</label>
+                 <label i18n="true">PLUGINS_CORE_DATASOURCE_HSQLDB_DRIVER_LABEL</label>
                  <template>jdbc:hsqldb:&lt;path&gt;</template>
                  <validation-query>SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS</validation-query>
                  <driver-not-found-message i18n="true">PLUGINS_CORE_DATASOURCE_DRIVER_NOT_FOUND</driver-not-found-message>

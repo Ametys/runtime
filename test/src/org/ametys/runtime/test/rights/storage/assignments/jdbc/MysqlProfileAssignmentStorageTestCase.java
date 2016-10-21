@@ -29,7 +29,7 @@ public class MysqlProfileAssignmentStorageTestCase extends AbstractJdbcProfileAs
     }
     
     @Override
-    protected File[] _getStartScripts()
+    protected File[] _getStartScriptFiles()
     {
         return new File[] {
             new File("test/environments/scripts/jdbc-mysql/dropTables.sql")

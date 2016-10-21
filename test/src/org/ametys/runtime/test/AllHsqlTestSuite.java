@@ -13,18 +13,22 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.ametys.runtime.test.userpref;
+package org.ametys.runtime.test;
+
+import org.ametys.runtime.test.groups.jdbc.HsqlJdbcGroupsTestCase;
+import org.ametys.runtime.test.rights.manager.HsqlRightManagerTestCase;
+import org.ametys.runtime.test.userpref.HsqlUserPreferencesTestCase;
+import org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware.HsqlModifiableCredentialsAwareJdbcUsersTestCase;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
 /**
- * Test suite for UserPreferences.
+ * Test suite grouping all Runtime tests
  */
-public final class AllUserPreferencesTestSuite extends TestSuite
+public final class AllHsqlTestSuite
 {
-    
-    private AllUserPreferencesTestSuite()
+    private AllHsqlTestSuite()
     {
         // empty constructor
     }
@@ -35,17 +39,18 @@ public final class AllUserPreferencesTestSuite extends TestSuite
      */
     public static Test suite()
     {
-        TestSuite suite = new TestSuite("Test UserPreferences with all DBMS");
+        TestSuite suite = new TestSuite("All Hsqldb-based tests");
         
         //$JUnit-BEGIN$
-        suite.addTestSuite(MysqlUserPreferencesTestCase.class);
-        suite.addTestSuite(PostgresUserPreferencesTestCase.class);
-        suite.addTestSuite(OracleUserPreferencesTestCase.class);
-        suite.addTestSuite(DerbyUserPreferencesTestCase.class);
+        suite.addTestSuite(HsqlModifiableCredentialsAwareJdbcUsersTestCase.class);
+        
+        suite.addTestSuite(HsqlJdbcGroupsTestCase.class);
+        
+        suite.addTestSuite(HsqlRightManagerTestCase.class);
+        
         suite.addTestSuite(HsqlUserPreferencesTestCase.class);
         //$JUnit-END$
         
         return suite;
     }
-    
 }

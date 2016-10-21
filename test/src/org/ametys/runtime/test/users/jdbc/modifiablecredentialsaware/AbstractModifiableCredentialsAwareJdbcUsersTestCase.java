@@ -15,8 +15,12 @@
  */
 package org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.commons.io.IOUtils;
 
 import org.ametys.core.user.InvalidModificationException;
 import org.ametys.core.user.User;
@@ -29,6 +33,27 @@ import org.ametys.runtime.test.users.jdbc.AbstractJDBCUsersManagerTestCase;
  */
 public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extends AbstractJDBCUsersManagerTestCase
 {
+    @Override
+    protected String[] _getStartScripts() throws Exception
+    {
+        String[] scripts = new String[2];
+        
+        try (InputStream is = new FileInputStream("main/plugin-core/scripts/" + _getDBType() + "/jdbc_users.template.sql"))
+        {
+            scripts[0] = IOUtils.toString(is, "UTF-8");
+            scripts[0] = scripts[0].replaceAll("%TABLENAME%", "Users");
+        }
+        
+        try (InputStream is = new FileInputStream("main/plugin-core/scripts/" + _getDBType() + "/jdbc_groups.template.sql"))
+        {
+            scripts[1] = IOUtils.toString(is, "UTF-8");
+            scripts[1] = scripts[1].replaceAll("%TABLENAME%", "Groups");
+            scripts[1] = scripts[1].replaceAll("%TABLENAME_COMPOSITION%", "Groups_Users");
+        }
+        
+        return scripts;
+    }
+    
     /**
      * Test the getting of users on mysql
      * @throws Exception if an error occurs

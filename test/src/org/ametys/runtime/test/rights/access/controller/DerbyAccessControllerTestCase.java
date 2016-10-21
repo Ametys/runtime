@@ -29,7 +29,7 @@ public class DerbyAccessControllerTestCase extends AbstractStringBasedAccessCont
     }
     
     @Override
-    protected File[] _getStartScripts()
+    protected File[] _getStartScriptFiles()
     {
         return new File[] {
             new File("test/environments/scripts/jdbc-derby/dropTables.sql"),

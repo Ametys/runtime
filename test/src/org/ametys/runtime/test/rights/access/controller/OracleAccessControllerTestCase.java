@@ -29,7 +29,7 @@ public class OracleAccessControllerTestCase extends AbstractStringBasedAccessCon
     }
     
     @Override
-    protected File[] _getStartScripts()
+    protected File[] _getStartScriptFiles()
     {
         return new File[] {
             new File("test/environments/scripts/jdbc-oracle/dropTables.sql"),

@@ -198,7 +198,7 @@
          + -->
     <message key="PLUGINS_CORE_DATASOURCE_DERBY_DRIVER_LABEL">Derby</message>
     <message key="PLUGINS_CORE_DATASOURCE_MYSQL_DRIVER_LABEL">MySQL</message>
-    <message key="PLUGINS_CORE_DATASOURCE_HSQL_DRIVER_LABEL">HSQL</message>
+    <message key="PLUGINS_CORE_DATASOURCE_HSQLDB_DRIVER_LABEL">HSQLDB</message>
     <message key="PLUGINS_CORE_DATASOURCE_POSTGRESQL_DRIVER_LABEL">PostGreSQL</message>
     <message key="PLUGINS_CORE_DATASOURCE_ORACLE_DRIVER_LABEL">Oracle</message>
     <message key="PLUGINS_CORE_DATASOURCE_DRIVER_NOT_FOUND">Le driver choisi est introuvable.</message>

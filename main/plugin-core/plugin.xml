@@ -271,12 +271,12 @@
                 <param name="allowCreation">true</param>
                 <param name="allowPrivate">true</param>
                 <param name="allowInternal">true</param>
-                <param name="allowedDbTypes">derby,mysql,oracle,postgresql,hsql</param>
+                <param name="allowedDbTypes">derby,mysql,oracle,postgresql,hsqldb</param>
             </widget-params>
             <validation>
             	<custom-validator class="org.ametys.core.datasource.SQLDatabaseTypeValidator">
 			       <mandatory/>
-			       <allowed-dbtypes>derby,mysql,oracle,postgresql,hsql</allowed-dbtypes>
+			       <allowed-dbtypes>derby,mysql,oracle,postgresql,hsqldb</allowed-dbtypes>
 			    </custom-validator>
             </validation>
             <category i18n="true">PLUGINS_CORE_SCHEDULER_CONFIG_CATEGORY</category>

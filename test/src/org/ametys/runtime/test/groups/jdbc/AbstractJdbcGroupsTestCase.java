@@ -16,6 +16,8 @@
 package org.ametys.runtime.test.groups.jdbc;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,6 +28,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.apache.commons.io.IOUtils;
 
 import org.ametys.core.datasource.ConnectionHelper;
 import org.ametys.core.group.Group;
@@ -48,11 +52,36 @@ public abstract class AbstractJdbcGroupsTestCase extends AbstractJDBCTestCase
     /** the group directory */
     protected GroupDirectory _groupDirectory;
     
+    @Override
+    protected String[] _getStartScripts() throws Exception
+    {
+        String[] scripts = new String[2];
+        
+        try (InputStream is = new FileInputStream("main/plugin-core/scripts/" + _getDBType() + "/jdbc_users.template.sql"))
+        {
+            scripts[0] = IOUtils.toString(is, "UTF-8");
+            scripts[0] = scripts[0].replaceAll("%TABLENAME%", "Users");
+        }
+        
+        try (InputStream is = new FileInputStream("main/plugin-core/scripts/" + _getDBType() + "/jdbc_groups.template.sql"))
+        {
+            scripts[1] = IOUtils.toString(is, "UTF-8");
+            scripts[1] = scripts[1].replaceAll("%TABLENAME%", "Groups");
+            scripts[1] = scripts[1].replaceAll("%TABLENAME_COMPOSITION%", "Groups_Users");
+        }
+        
+        return scripts;
+    }
+    
     /**
      * Provide the scripts to run to populate the database.
      * @return the scripts to run.
      */
-    protected abstract File[] getPopulateScripts();
+    protected File[] getPopulateScripts()
+    {
+        return new File[] {new File("test/environments/scripts/jdbc/" + _getDBType() + "/fillJDBCUsersAndGroups.sql")};
+    }
+    
     
     @Override
     protected void setUp() throws Exception

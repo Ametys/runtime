@@ -40,6 +40,13 @@ public abstract class AbstractJDBCUsersManagerTestCase extends AbstractJDBCTestC
         _userDirectory = _createUserDirectory();
     }
     
+    @Override
+    protected void tearDown() throws Exception
+    {
+        _cocoon.dispose();
+        super.tearDown();
+    }
+    
     private UserDirectory _createUserDirectory() throws Exception
     {
         String modelId = "org.ametys.plugins.core.user.directory.Jdbc";

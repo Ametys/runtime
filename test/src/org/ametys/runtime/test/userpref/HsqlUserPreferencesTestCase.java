@@ -20,14 +20,14 @@ import java.io.File;
 import org.ametys.core.datasource.ConnectionHelper;
 
 /**
- * Derby-specific user preferences test case.
+ * hsqldb-specific user preferences test case.
  */
-public class DerbyUserPreferencesTestCase extends AbstractUserPreferencesTestCase
+public class HsqlUserPreferencesTestCase extends AbstractUserPreferencesTestCase
 {
     @Override
     protected String _getDBType()
     {
-        return ConnectionHelper.DATABASE_DERBY;
+        return ConnectionHelper.DATABASE_HSQLDB;
     }
     
     @Override
@@ -39,6 +39,6 @@ public class DerbyUserPreferencesTestCase extends AbstractUserPreferencesTestCas
     @Override
     public void testFilled() throws Exception
     {
-        // Derby can't fill a blob using SQL commands, so skip this test.
+        // Hsqldb can't fill a blob using SQL commands, so skip this test.
     }
 }

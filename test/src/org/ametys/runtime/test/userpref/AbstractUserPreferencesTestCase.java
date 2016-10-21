@@ -44,7 +44,10 @@ public abstract class AbstractUserPreferencesTestCase extends AbstractJDBCTestCa
      * Provide the scripts to run to populate the database.
      * @return the scripts to run.
      */
-    protected abstract File[] getPopulateScripts();
+    protected File[] getPopulateScripts()
+    {
+        return new File[] {new File("test/environments/scripts/jdbc/" + _getDBType() + "/fillUserPreferences.sql")};
+    }
     
     @Override
     protected void setUp() throws Exception
@@ -54,6 +57,14 @@ public abstract class AbstractUserPreferencesTestCase extends AbstractJDBCTestCa
         
         _userPrefsEP = (UserPreferencesExtensionPoint) Init.getPluginServiceManager().lookup(UserPreferencesExtensionPoint.ROLE);
         _userPrefs = (UserPreferencesManager) Init.getPluginServiceManager().lookup(UserPreferencesManager.ROLE);
+    }
+    
+    
+    @Override
+    protected void tearDown() throws Exception
+    {
+        _cocoon.dispose();
+        super.tearDown();
     }
     
     /**

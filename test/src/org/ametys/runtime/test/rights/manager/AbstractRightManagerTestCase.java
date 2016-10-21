@@ -16,6 +16,8 @@
 package org.ametys.runtime.test.rights.manager;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -26,6 +28,7 @@ import java.util.Set;
 import org.apache.cocoon.environment.Environment;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Request;
+import org.apache.commons.io.IOUtils;
 
 import org.ametys.core.group.Group;
 import org.ametys.core.group.GroupDirectoryDAO;
@@ -51,7 +54,32 @@ public abstract class AbstractRightManagerTestCase extends AbstractJDBCTestCase
      * Provide the scripts to run to populate the database.
      * @return the scripts to run.
      */
-    protected abstract File[] getPopulateScripts();
+    protected File[] getPopulateScripts()
+    {
+        return new File[] {new File("test/environments/scripts/jdbc/" + _getDBType() + "/fillProfileRights.sql")};
+    }
+    
+    
+    @Override
+    protected String[] _getStartScripts() throws Exception
+    {
+        String[] scripts = new String[2];
+        
+        try (InputStream is = new FileInputStream("main/plugin-core/scripts/" + _getDBType() + "/jdbc_users.template.sql"))
+        {
+            scripts[0] = IOUtils.toString(is, "UTF-8");
+            scripts[0] = scripts[0].replaceAll("%TABLENAME%", "Users");
+        }
+        
+        try (InputStream is = new FileInputStream("main/plugin-core/scripts/" + _getDBType() + "/jdbc_groups.template.sql"))
+        {
+            scripts[1] = IOUtils.toString(is, "UTF-8");
+            scripts[1] = scripts[1].replaceAll("%TABLENAME%", "Groups");
+            scripts[1] = scripts[1].replaceAll("%TABLENAME_COMPOSITION%", "Groups_Users");
+        }
+        
+        return scripts;
+    }    
     
     @Override
     protected void setUp() throws Exception

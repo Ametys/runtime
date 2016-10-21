@@ -1,5 +1,5 @@
 /*
- *  Copyright 2011 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 package org.ametys.runtime.test.groups.jdbc;
 
-import java.io.File;
+import org.ametys.core.datasource.ConnectionHelper;
 
 /**
  * Oracle-specific JDBC GroupsManager test case.
@@ -23,22 +23,8 @@ import java.io.File;
 public class OracleJdbcGroupsTestCase extends AbstractJdbcGroupsTestCase
 {
     @Override
-    protected String _getDataSourceFile()
+    protected String _getDBType()
     {
-        return "test/environments/datasources/datasource-oracle.xml";
-    }
-    
-    @Override
-    protected File[] _getStartScripts()
-    {
-        return new File[] {
-            new File("test/environments/scripts/jdbc-oracle/dropTables.sql"),
-        };
-    }
-
-    @Override
-    protected File[] getPopulateScripts()
-    {
-        return new File[] {new File("test/environments/scripts/jdbc-oracle/fillJDBCUsersAndGroups.sql")};
+        return ConnectionHelper.DATABASE_ORACLE;
     }
 }

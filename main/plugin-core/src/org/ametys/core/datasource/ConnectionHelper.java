@@ -53,7 +53,7 @@ public final class ConnectionHelper implements Component, Serviceable, Disposabl
     /** ID of database extension for Derby */
     public static final String DATABASE_DERBY = "derby";
     /** ID of database extension for Hsqldb */
-    public static final String DATABASE_HSQLDB = "hsql";
+    public static final String DATABASE_HSQLDB = "hsqldb";
     
     
     /** Logger for traces */

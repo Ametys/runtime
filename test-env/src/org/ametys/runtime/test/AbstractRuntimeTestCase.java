@@ -43,6 +43,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.XMLReader;
 
+import org.ametys.core.datasource.ConnectionHelper;
 import org.ametys.core.datasource.LDAPDataSourceManager;
 import org.ametys.core.datasource.SQLDataSourceManager;
 import org.ametys.core.script.SQLScriptHelper;
@@ -61,9 +62,6 @@ public abstract class AbstractRuntimeTestCase extends TestCase
     /** Ametys home directory path relative to the context path of the test environment. **/
     public static final String AMETYS_HOME_DIR = "/WEB-INF/data";
 
-    /** Default SQL datasource file */
-    private static String __DEFAULT_SQL_DATASOURCE_FILE = "test/environments/datasources/datasource-mysql.xml";
-    
     /** Default LDAP datasource file */
     private static String __DEFAULT_LDAP_DATASOURCE_FILE = "test/environments/datasources/datasource-ldap.xml"; 
     
@@ -96,27 +94,46 @@ public abstract class AbstractRuntimeTestCase extends TestCase
     /**
      * Provides the SQL scripts to run before each test invocation.
      * Those scripts are executed before starting Ametys, usually for dropping tables.
-     * By default, returns a script which drop all tables for MySQL.
      * If you override this method, you probably have to also override {@link #_getDataSourceFile()} method.
      * @return the SQL scripts to run.
      */
-    protected File[] _getStartScripts()
+    protected File[] _getStartScriptFiles()
     {
         return new File[] {
-            new File("test/environments/scripts/jdbc-mysql/dropTables.sql")
+            new File("test/environments/scripts/jdbc/" + _getDBType() + "/dropTables.sql")
         };
     }
     
     /**
+     * Provides the SQL scripts to run before each test invocation.
+     * Those scripts are executed before starting Ametys, usually for dropping tables.
+     * If you override this method, you probably have to also override {@link #_getDataSourceFile()} method.
+     * @return the SQL scripts to run.
+     * @throws Exception If an error occurred building the script
+     */
+    protected String[] _getStartScripts() throws Exception
+    {
+        return new String[0];
+    }
+    
+    /**
      * Gets the datasource configuration file to use.
-     * The start scripts from {@link #_getStartScripts()} will be executed on the "SQL-test" datasource if found.
-     * By default, returns the {@link #__DEFAULT_SQL_DATASOURCE_FILE} file for MySQL datasource.
-     * If you override this method, you probably have to also override {@link #_getStartScripts()} method.
+     * The start scripts from {@link #_getStartScriptFiles()} will be executed on the "SQL-test" datasource if found.
+     * If you override this method, you probably have to also override {@link #_getStartScriptFiles()} method.
      * @return the datasource file to use.
      */
     protected String _getDataSourceFile()
     {
-        return __DEFAULT_SQL_DATASOURCE_FILE;
+        return "test/environments/datasources/datasource-" + _getDBType() + ".xml";
+    }
+    
+    /**
+     * Get the test dbtype
+     * @return One of 'mysql', 'derby', 'hsqldb', 'oracle', 'postgresql' 
+     */
+    protected String _getDBType()
+    {
+        return ConnectionHelper.DATABASE_MYSQL;
     }
     
     @Override
@@ -124,10 +141,10 @@ public abstract class AbstractRuntimeTestCase extends TestCase
     {
         super.setUp();
         String dataSourceFilePath = _getDataSourceFile();
-        _executeStartScripts(Arrays.asList(_getStartScripts()), dataSourceFilePath);
+        _executeStartScripts(Arrays.asList(_getStartScriptFiles()), Arrays.asList(_getStartScripts()), dataSourceFilePath);
     }
     
-    private void _executeStartScripts(List<File> scripts, String dataSourceFileName) throws Exception
+    private void _executeStartScripts(List<File> scriptFiles, List<String> scripts, String dataSourceFileName) throws Exception
     {
         // Execute the start scripts, before starting Ametys, so without using any component
         if (dataSourceFileName == null)
@@ -148,9 +165,13 @@ public abstract class AbstractRuntimeTestCase extends TestCase
         {
             connection = dataSource.getConnection();
             
-            for (File script : scripts)
+            for (File scriptFile : scriptFiles)
             {
-                SQLScriptHelper.runScript(connection, new FileInputStream(script));
+                SQLScriptHelper.runScript(connection, new FileInputStream(scriptFile));
+            }
+            for (String script : scripts)
+            {
+                SQLScriptHelper.runScript(connection, script);
             }
         }
         finally 
@@ -221,7 +242,7 @@ public abstract class AbstractRuntimeTestCase extends TestCase
         {
             case "datasource-derby.xml":
                 return "SELECT 1 FROM SYS.SYSTABLES";
-            case "datasource-hsql.xml":
+            case "datasource-hsqldb.xml":
                 return "SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS";
             case "datasource-oracle.xml":
                 return "SELECT 1 FROM DUAL";
