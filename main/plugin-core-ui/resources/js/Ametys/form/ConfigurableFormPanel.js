@@ -2142,6 +2142,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
     configure: function(data)
     {
+    	this._formReady = false;
+    	
         if (this._isElement(data))
         {
             this._configureXML(data);
@@ -3982,7 +3984,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         }
         else if (this._formReady)
         {
-            this._onRelativeFieldsChangeFormReady(fieldPaths, field, handler, scope);
+            this._onRelativeFieldsChangeReady(fieldPaths, field, handler, scope);
         }
         else
         {
