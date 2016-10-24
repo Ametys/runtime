@@ -14,7 +14,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
    -->
-<project name="merge" default="kernel-runtime-22">
+<project name="merge" default="kernel-runtime-27">
 
 	<property name="dest-dir" location="../../../.."/>
 
