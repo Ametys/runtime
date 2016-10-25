@@ -206,7 +206,14 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
             def2json.put("id", id); // Keep the 'LDAP-default-datasource' id
             def2json.put("type", "LDAP");
             
-            def2json.putAll(ldapDefinition.getParameters());
+            Map<String, String> parameters = new HashMap<>();
+            parameters.putAll(ldapDefinition.getParameters());
+            // We do not want password to travel in clear
+            if (StringUtils.isNotBlank(parameters.get("adminPassword")))
+            {
+                parameters.put("adminPassword", "PASSWORD");
+            }
+            def2json.putAll(parameters);
             
             // The configuration data source consumer refers to the stored values of the configuration
             // For the default data source, it is "LDAP-default-datasource"
