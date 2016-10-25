@@ -243,7 +243,13 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
             def2json.put("id", id); // Keep the 'SQL-default-datasource' id
             def2json.put("type", "SQL");
             
-            def2json.putAll(sqlDefinition.getParameters());
+            Map<String, String> parameters = sqlDefinition.getParameters();
+            // We do not want password to travel in clear
+            if (StringUtils.isNotBlank(parameters.get("password")))
+            {
+                //parameters.put("password", "PASSWORD");
+            }
+            def2json.putAll(parameters);
             
             // The configuration data source consumer refers to the stored values of the configuration
             // For the default data source, it is "SQL-default-datasource"
