@@ -212,7 +212,14 @@ Ext.define('Ametys.form.field.Password', {
     
     getErrors: function (value) 
     {
-        return Ext.Array.merge(this.callParent(arguments), this._field.getErrors(value));
+        if (this._mode == Ametys.form.field.Password.MODE_SEEPASSWORD)
+        {
+            return [];
+        }
+        else
+        {
+            return Ext.Array.merge(this.callParent(arguments), this._field.getErrors(value));
+        }
     },
     
     getValue: function()
