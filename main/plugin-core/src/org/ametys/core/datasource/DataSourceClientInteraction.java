@@ -247,7 +247,7 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
             // We do not want password to travel in clear
             if (StringUtils.isNotBlank(parameters.get("password")))
             {
-                //parameters.put("password", "PASSWORD");
+                parameters.put("password", "PASSWORD");
             }
             def2json.putAll(parameters);
             
