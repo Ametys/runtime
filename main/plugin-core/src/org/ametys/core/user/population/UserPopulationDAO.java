@@ -428,13 +428,15 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         {
             Map<String, Object> ud2json = new HashMap<>();
             String udModelId = ud.getUserDirectoryModelId();
+            UserDirectoryModel model = _userDirectoryFactory.getExtension(udModelId);
             ud2json.put("id", ud.getId());
             ud2json.put("udModelId", udModelId);
             ud2json.put("label", ud.getLabel());
             Map<String, Object> params = new HashMap<>();
             for (String key : ud.getParameterValues().keySet())
             {
-                params.put(udModelId + "$" + key, ud.getParameterValues().get(key));
+                Parameter<ParameterType> parameter = model.getParameters().get(key);
+                params.put(udModelId + "$" + key, parameter.getType() == ParameterType.PASSWORD ? "PASSWORD" : ud.getParameterValues().get(key));
             }
             ud2json.put("params", params);
             userDirectories.add(ud2json);
@@ -448,12 +450,14 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         {
             Map<String, Object> cp2json = new HashMap<>();
             String cpModelId = cp.getCredentialProviderModelId();
+            CredentialProviderModel model = _credentialProviderFactory.getExtension(cpModelId);
             cp2json.put("cpModelId", cpModelId);
             cp2json.put("label", cp.getLabel());
             Map<String, Object> params = new HashMap<>();
             for (String key : cp.getParameterValues().keySet())
             {
-                params.put(cpModelId + "$" + key, cp.getParameterValues().get(key));
+                Parameter<ParameterType> parameter = model.getParameters().get(key);
+                params.put(cpModelId + "$" + key, parameter.getType() == ParameterType.PASSWORD ? "PASSWORD" : cp.getParameterValues().get(key));
             }
             cp2json.put("params", params);
             credentialProviders.add(cp2json);
