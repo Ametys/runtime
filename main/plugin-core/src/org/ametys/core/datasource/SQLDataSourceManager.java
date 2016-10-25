@@ -18,10 +18,8 @@ package org.ametys.core.datasource;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -41,7 +39,6 @@ import org.ametys.core.datasource.dbtype.SQLDatabaseType;
 import org.ametys.core.datasource.dbtype.SQLDatabaseTypeExtensionPoint;
 import org.ametys.plugins.core.impl.checker.SQLConnectionChecker;
 import org.ametys.runtime.i18n.I18nizableText;
-import org.ametys.runtime.parameter.ParameterChecker;
 import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
 import org.ametys.runtime.servlet.RuntimeConfig;
 import org.ametys.runtime.util.AmetysHomeHelper;
@@ -309,14 +306,7 @@ public class SQLDataSourceManager extends AbstractDataSourceManager implements D
     @Override
     public void checkParameters(Map<String, String> rawParameters) throws ParameterCheckerTestFailureException
     {
-        // Order the parameters
-        List<String> values = new ArrayList<> ();
-        values.add(rawParameters.get(PARAM_DATABASE_URL));
-        values.add(rawParameters.get(PARAM_DATABASE_USER));
-        values.add(rawParameters.get(PARAM_DATABASE_PASSWORD));
-
-        ParameterChecker paramChecker = new SQLConnectionChecker();
-        paramChecker.check(values);
+        SQLConnectionChecker.check(rawParameters.get(PARAM_DATABASE_URL), rawParameters.get(PARAM_DATABASE_USER), rawParameters.get(PARAM_DATABASE_PASSWORD), _manager);
     }
     
     @Override

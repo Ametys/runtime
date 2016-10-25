@@ -21,26 +21,40 @@ import java.sql.DriverManager;
 import java.util.List;
 
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 
 import org.ametys.core.datasource.ConnectionHelper;
+import org.ametys.core.datasource.dbtype.SQLDatabaseTypeExtensionPoint;
 import org.ametys.runtime.parameter.ParameterChecker;
 import org.ametys.runtime.parameter.ParameterCheckerTestFailureException;
 
 /**
  * Checks that a sql connection can be established with the provided values
  */
-public class SQLConnectionChecker extends AbstractLogEnabled implements ParameterChecker
+public class SQLConnectionChecker extends AbstractLogEnabled implements ParameterChecker, Serviceable
 {
-    @Override
-    public void check(List<String> values) throws ParameterCheckerTestFailureException
+    private ServiceManager _manager;
+
+    public void service(ServiceManager manager)
     {
-        String url = values.get(0);
-        String login = values.get(1);
-        String password = values.get(2);
-        
+        _manager = manager;
+    }
+    
+    /**
+     * Check the sql connection info
+     * @param url The sql url
+     * @param login The db login
+     * @param password The db password
+     * @param manager The service manager
+     * @throws ParameterCheckerTestFailureException If an error occurred
+     */
+    public static void check(String url, String login, String password, ServiceManager manager) throws ParameterCheckerTestFailureException
+    {
         Connection connection = null;
         try 
         {
+            manager.lookup(SQLDatabaseTypeExtensionPoint.ROLE);
             connection = DriverManager.getConnection(url, login, password);
         }
         catch (Exception e)
@@ -61,5 +75,15 @@ public class SQLConnectionChecker extends AbstractLogEnabled implements Paramete
                 }
             }
         }
+    }
+    
+    @Override
+    public void check(List<String> values) throws ParameterCheckerTestFailureException
+    {
+        String url = values.get(0);
+        String login = values.get(1);
+        String password = values.get(2);
+        
+        check(url, login, password, _manager);
     }
 }
