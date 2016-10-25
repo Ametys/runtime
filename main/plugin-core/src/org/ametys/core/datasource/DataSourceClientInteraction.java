@@ -243,7 +243,8 @@ public class DataSourceClientInteraction extends AbstractLogEnabled implements C
             def2json.put("id", id); // Keep the 'SQL-default-datasource' id
             def2json.put("type", "SQL");
             
-            Map<String, String> parameters = sqlDefinition.getParameters();
+            Map<String, String> parameters = new HashMap<>();
+            parameters.putAll(sqlDefinition.getParameters());
             // We do not want password to travel in clear
             if (StringUtils.isNotBlank(parameters.get("password")))
             {
