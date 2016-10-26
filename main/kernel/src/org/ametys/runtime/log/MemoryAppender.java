@@ -17,6 +17,7 @@ package org.ametys.runtime.log;
 
 import java.util.Comparator;
 import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.apache.log4j.lf5.LogLevel;
 import org.apache.log4j.lf5.LogLevelFormatException;
@@ -42,7 +43,11 @@ public class MemoryAppender extends org.apache.log4j.AppenderSkeleton
             {
                 long recordTime = record.getMillis();
                 long compareToTime = compareTo.getMillis();
-                return recordTime > compareToTime ? 1 : recordTime < compareToTime ? -1 : 0;
+                if (recordTime == compareToTime)
+                {
+                    return record.getSequenceNumber() > compareTo.getSequenceNumber() ? -1 : record.getSequenceNumber() < compareTo.getSequenceNumber() ? 1 : 0;
+                }
+                return recordTime > compareToTime ? 1 : -1;
             }
         };
 
@@ -98,9 +103,18 @@ public class MemoryAppender extends org.apache.log4j.AppenderSkeleton
      */
     public SortedSet<MemoryLogRecord> getRecentEvents(long timestamp)
     {
+        // New events can occur at current time, retrieve only the fixed logs list: 1ms before now.
+        long now = System.currentTimeMillis() - 1;
+        if (now < timestamp)
+        {
+            return new TreeSet<>();
+        }
+        
+        MemoryLogRecord fromEvent = new MemoryLogRecord();
+        fromEvent.setMillis(timestamp);
         MemoryLogRecord toEvent = new MemoryLogRecord();
-        toEvent.setMillis(timestamp);
-        return this._logsPile.tailSet(toEvent);
+        toEvent.setMillis(now);
+        return this._logsPile.subSet(fromEvent, toEvent);
     }
     
     @Override
