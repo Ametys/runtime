@@ -122,7 +122,7 @@ public class UserPopulation
     
     
     /**
-     * Get the select UserDirectory
+     * Get the selected UserDirectory
      * @param id The id of the directory to get
      * @return The associated user directory or null
      */
@@ -161,6 +161,22 @@ public class UserPopulation
     public List<CredentialProvider> getCredentialProviders()
     {
         return _credentialProviders;
+    }
+    
+    
+    /**
+     * Get the selected CredentialProvider
+     * @param id The id of the credential provider to get
+     * @return The associated credential provider or null
+     */
+    public CredentialProvider getCredentialProvider(String id)
+    {
+        Optional<CredentialProvider> findAny = _credentialProviders.stream().filter(cp -> StringUtils.equals(cp.getId(), id)).findAny();
+        if (findAny.isPresent())
+        {
+            return findAny.get();
+        }
+        return null;
     }
     
     /**
