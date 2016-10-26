@@ -1186,15 +1186,16 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
     	var tmpIndex = itemPanel.index;
     	itemPanel.index = itemPanel2.index;
     	itemPanel2.index = tmpIndex;
-    	
-    	var tmpTitle = itemPanel.title;
-    	itemPanel.setTitle(itemPanel2.title);
-    	itemPanel2.setTitle(tmpTitle);
+
+        // Update title (that depends on position, but also on fields)
+        this._updatePanelHeader(itemPanel);
+        this._updatePanelHeader(itemPanel2);
     	
     	itemPanel.expand();
     	
         // Update tools
         this._updateToolsVisibility();
+        
     },
     
     /**
@@ -1226,9 +1227,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
     	itemPanel.index = itemPanel2.index;
     	itemPanel2.index = tmpIndex;
     	
-    	var tmpTitle = itemPanel.title;
-    	itemPanel.setTitle(itemPanel2.title);
-    	itemPanel2.setTitle(tmpTitle);
+        // Update title (that depends on position, but also on fields)
+        this._updatePanelHeader(itemPanel);
+        this._updatePanelHeader(itemPanel2);
     	
     	itemPanel.expand();
     	
