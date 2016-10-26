@@ -59,9 +59,9 @@ public class BasicCredentialProvider extends AbstractCredentialProvider implemen
     }
     
     @Override
-    public void init(String cpModelId, Map<String, Object> paramValues, String label)
+    public void init(String id, String cpModelId, Map<String, Object> paramValues, String label)
     {
-        super.init(cpModelId, paramValues, label);
+        super.init(id, cpModelId, paramValues, label);
         _realm = (String) paramValues.get(__PARAM_REALM);
     }
     

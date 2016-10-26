@@ -35,9 +35,9 @@ public class DefinedCredentialProvider extends AbstractCredentialProvider implem
     private UserIdentity _userIdentity;
     
     @Override
-    public void init(String cpModelId, Map<String, Object> paramValues, String label)
+    public void init(String id, String cpModelId, Map<String, Object> paramValues, String label)
     {
-        super.init(cpModelId, paramValues, label);
+        super.init(id, cpModelId, paramValues, label);
         String login = (String) paramValues.get(__PARAM_USER);
         _userIdentity = new UserIdentity(login, null);
     }

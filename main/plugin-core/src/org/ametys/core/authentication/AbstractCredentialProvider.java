@@ -31,6 +31,12 @@ public abstract class AbstractCredentialProvider extends AbstractLogEnabled impl
     private String _cpModelId;
     private Map<String, Object> _paramValues;
     private String _label;
+    private String _id;
+    
+    public String getId()
+    {
+        return _id;
+    }
     
     @Override
     public String getLabel()
@@ -51,8 +57,9 @@ public abstract class AbstractCredentialProvider extends AbstractLogEnabled impl
     }
 
     @Override
-    public void init(String cpModelId, Map<String, Object> paramValues, String label)
+    public void init(String id, String cpModelId, Map<String, Object> paramValues, String label)
     {
+        _id = id;
         _cpModelId = cpModelId;
         _paramValues = paramValues;
         _label = label;

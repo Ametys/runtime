@@ -92,16 +92,17 @@ public class CredentialProviderFactory extends AbstractLogEnabled implements Ext
     
     /**
      * Creates a instance of {@link CredentialProvider}
-     * @param id The id of the credential provider model
+     * @param id The unique id of this credential provider instance
+     * @param modelId The id of the credential provider model
      * @param paramsValues the parameters's values
-     * @param label The optionnal label
+     * @param label The optional label
      * @return a credential provider
      */
-    public CredentialProvider createCredentialProvider (String id, Map<String, Object> paramsValues, String label)
+    public CredentialProvider createCredentialProvider (String id, String modelId, Map<String, Object> paramsValues, String label)
     {
-        if (_cpModels.containsKey(id))
+        if (_cpModels.containsKey(modelId))
         {
-            CredentialProviderModel credentialProviderModel = _cpModels.get(id);
+            CredentialProviderModel credentialProviderModel = _cpModels.get(modelId);
             
             CredentialProvider cp = null;
             Class<CredentialProvider> cpClass = credentialProviderModel.getCredentialProviderClass();
@@ -127,15 +128,15 @@ public class CredentialProviderFactory extends AbstractLogEnabled implements Ext
             }
             catch (Exception e)
             {
-                getLogger().warn("An exception occured during the setup of the component " + id, e);
+                getLogger().warn("An exception occured during the setup of the component " + id + " [" + modelId + "]", e);
             }
             try
             {
-                cp.init(id, paramsValues, label);
+                cp.init(id, modelId, paramsValues, label);
             }
             catch (Exception e)
             {
-                getLogger().error("An error occured during the initialization of the CredentialProvider " + id, e);
+                getLogger().error("An error occured during the initialization of the CredentialProvider " + id + " [" + modelId + "]", e);
                 return null;
             }
             

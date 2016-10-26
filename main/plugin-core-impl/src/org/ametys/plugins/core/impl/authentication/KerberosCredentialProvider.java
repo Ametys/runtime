@@ -79,9 +79,9 @@ public class KerberosCredentialProvider extends AbstractCredentialProvider imple
     }
     
     @Override
-    public void init(String cpModelId, Map<String, Object> paramValues, String label)
+    public void init(String id, String cpModelId, Map<String, Object> paramValues, String label)
     {
-        super.init(cpModelId, paramValues, label);
+        super.init(id, cpModelId, paramValues, label);
 
         String kdc = (String) paramValues.get(__PARAM_KDC);
         String realm = (String) paramValues.get(__PARAM_REALM);

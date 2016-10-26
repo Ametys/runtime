@@ -618,6 +618,15 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
                 mandatory: true
             }
         };
+        composition['id'] = {
+            label: "id",
+            multiple: false,
+            type: 'STRING',
+            hidden: true,
+            validation: {
+                mandatory: false
+            }
+        };        
         composition[labelFieldId] = {
             label: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_CREDENTIAL_PROVIDER_LABEL_LABEL}}",
             description: "{{i18n PLUGINS_CORE_UI_USER_POPULATIONS_DIALOG_CREDENTIAL_PROVIDER_LABEL_DESCRIPTION}}",
@@ -833,7 +842,7 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
         
         // Third card
         fieldName = "credentialProviders";
-        var cpData = this._getJsonForFillingForm(valuesToFill[fieldName], fieldName, ["cpModelId", "label"]);
+        var cpData = this._getJsonForFillingForm(valuesToFill[fieldName], fieldName, ["cpModelId", "label", "id"]);
         this._getFormPanel(this._cards[2]).setValues(cpData);
     },
     

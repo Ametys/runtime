@@ -209,19 +209,24 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         }
         result.put("userDirectories", userDirectories);
         
-        List<I18nizableText> credentialProviders = new ArrayList<>();
+        List<Object> credentialProviders = new ArrayList<>();
         for (CredentialProvider cp : userPopulation.getCredentialProviders())
         {
             String cpModelId = cp.getCredentialProviderModelId();
             CredentialProviderModel cpModel = _credentialProviderFactory.getExtension(cpModelId);
+            
+            Map<String, Object> credentialProvider = new HashMap<>();
+            credentialProvider.put("id", cp.getId());
+            
             if (StringUtils.isNotBlank(cp.getLabel()))
             {
-                credentialProviders.add(new I18nizableText(_i18nutils.translate(cpModel.getLabel()) + " (" + cp.getLabel() + ")"));
+                credentialProvider.put("label", _i18nutils.translate(cpModel.getLabel()) + " (" + cp.getLabel() + ")");
             }
             else
             {
-                credentialProviders.add(cpModel.getLabel());
+                credentialProvider.put("label", cpModel.getLabel());
             }
+            credentialProviders.add(credentialProvider);
         }
         result.put("credentialProviders", credentialProviders);
         
@@ -451,6 +456,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
             Map<String, Object> cp2json = new HashMap<>();
             String cpModelId = cp.getCredentialProviderModelId();
             CredentialProviderModel model = _credentialProviderFactory.getExtension(cpModelId);
+            cp2json.put("id", cp.getId());
             cp2json.put("cpModelId", cpModelId);
             cp2json.put("label", cp.getLabel());
             Map<String, Object> params = new HashMap<>();
@@ -652,10 +658,16 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         List<CredentialProvider> cps = new ArrayList<>();
         for (Map<String, String> credentialProviderParameters : credentialProviders)
         {
+            String id = credentialProviderParameters.remove("id");
+            if (StringUtils.isBlank(id))
+            {
+                id = org.ametys.core.util.StringUtils.generateKey();
+            }
+            
             String modelId = credentialProviderParameters.remove("cpModelId");
             String additionnalLabel = credentialProviderParameters.remove("label");
             Map<String, Object> typedParamValues = _getTypedCPParameters(credentialProviderParameters, modelId);
-            cps.add(_credentialProviderFactory.createCredentialProvider(modelId, typedParamValues, additionnalLabel));
+            cps.add(_credentialProviderFactory.createCredentialProvider(id, modelId, typedParamValues, additionnalLabel));
         }
         up.setCredentialProvider(cps);
     }
@@ -961,13 +973,14 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         Configuration[] credentialProvidersConf = configuration.getChild("credentialProviders").getChildren("credentialProvider");
         for (Configuration credentialProviderConf : credentialProvidersConf)
         {
+            String id = credentialProviderConf.getAttribute("id");
             String modelId = credentialProviderConf.getAttribute("modelId");
             String additionnalLabel = credentialProviderConf.getAttribute("label", null);
             
             try
             {
                 Map<String, Object> paramValues = _getCPParametersFromConfiguration(credentialProviderConf, modelId, upId);
-                CredentialProvider cp = _credentialProviderFactory.createCredentialProvider(modelId, paramValues, additionnalLabel);
+                CredentialProvider cp = _credentialProviderFactory.createCredentialProvider(id, modelId, paramValues, additionnalLabel);
                 if (cp != null)
                 {
                     credentialProviders.add(cp);
@@ -1215,6 +1228,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
             for (CredentialProvider cp : userPopulation.getCredentialProviders())
             {
                 AttributesImpl attr = new AttributesImpl();
+                attr.addCDATAAttribute("id", cp.getId());
                 attr.addCDATAAttribute("modelId", cp.getCredentialProviderModelId());
                 attr.addCDATAAttribute("label", cp.getLabel() != null ? cp.getLabel() : "");
                 XMLUtils.startElement(handler, "credentialProvider", attr);
