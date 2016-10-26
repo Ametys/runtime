@@ -97,6 +97,11 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
     
     /** The id of the "admin" population */
     public static final String ADMIN_POPULATION_ID = "admin_population";
+    
+    /** The id of the "user system" population */
+    public static final String SYSTEM_USER_POPULATION_ID = "system_user_population";
+    /** The id of the "user system" login */
+    public static final String SYSTEM_USER_LOGIN = "system-user";
 
     /** The sql table for admin users */
     private static final String __ADMIN_TABLENAME = "AdminUsers";
@@ -120,6 +125,9 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
     
     /** The population admin */
     private UserPopulation _adminUserPopulation;
+    
+    /** The population user system */
+    private UserPopulation _userSystemPopulation;
 
     /** The user directories factory  */
     private UserDirectoryFactory _userDirectoryFactory;
@@ -276,6 +284,11 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         if (ADMIN_POPULATION_ID.equals(id))
         {
             return getAdminPopulation();
+        }
+        
+        if (SYSTEM_USER_POPULATION_ID.equals(id))
+        {
+            return getUserSystemPopulation();
         }
         
         _readPopulations(false);
@@ -533,6 +546,35 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         }
         
         return _adminUserPopulation;
+    }
+    
+    /**
+     * Gets the "user system" population
+     * @return The "user system" population
+     */
+    public synchronized UserPopulation getUserSystemPopulation()
+    {
+        if (_userSystemPopulation != null)
+        {
+            return _userSystemPopulation;
+        }
+        
+        _userSystemPopulation = new UserPopulation();
+        _userSystemPopulation.setId(SYSTEM_USER_POPULATION_ID);
+        
+        Map<String, String> userDirectory = new HashMap<>();
+        String udModelId = "org.ametys.plugins.core.user.directory.Static";
+        userDirectory.put("udModelId", udModelId);
+        userDirectory.put(udModelId + "$" + "runtime.users.static.users", SYSTEM_USER_LOGIN + ":System:User:");
+        
+        Map<String, String> credentialProvider = new HashMap<>();
+        String cpModelId = "org.ametys.core.authentication.Defined";
+        credentialProvider.put("cpModelId", cpModelId);
+        credentialProvider.put(cpModelId + "$" + "runtime.authentication.defined.user", SYSTEM_USER_LOGIN);
+        
+        _fillUserPopulation(_userSystemPopulation, new I18nizableText("plugin.core", "PLUGINS_CORE_USER_POPULATION_USER_SYSTEM_LABEL"), Collections.singletonList(userDirectory), Collections.singletonList(credentialProvider));
+        
+        return _userSystemPopulation;
     }
     
     /**

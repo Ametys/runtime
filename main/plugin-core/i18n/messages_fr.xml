@@ -225,6 +225,7 @@
     <message key="PLUGINS_CORE_USER_POPULATION_MISCONFIGURED_NOTIFICATION_MESSAGE">Les populations suivantes sont mal configurées:&lt;br/&gt;&lt;ul&gt;{0}&lt;/ul&gt;&lt;br/&gt;Veuillez vous rendre sur l'&lt;a&gt;outil des populations&lt;/a&gt; pour les corriger.</message>
 
     <message key="PLUGINS_CORE_USER_POPULATION_ADMIN_LABEL">Administrateurs 'système'</message>
+    <message key="PLUGINS_CORE_USER_POPULATION_USER_SYSTEM_LABEL">Utilisateur 'système'</message>
     
     <!-- +
          | GROUP DIRECTORIES
