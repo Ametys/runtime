@@ -642,14 +642,19 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         for (Map<String, String> userDirectoryParameters : userDirectories)
         {
             String id = userDirectoryParameters.remove("id");
+            String modelId = userDirectoryParameters.remove("udModelId");
+            String additionnalLabel = userDirectoryParameters.remove("label");
+            Map<String, Object> typedParamValues = _getTypedUDParameters(userDirectoryParameters, modelId);
+            
             if (StringUtils.isBlank(id))
             {
                 id = org.ametys.core.util.StringUtils.generateKey();
             }
+            else
+            {
+                _keepExistingUserDirectoryPassword(up, modelId, typedParamValues, id);
+            }
             
-            String modelId = userDirectoryParameters.remove("udModelId");
-            String additionnalLabel = userDirectoryParameters.remove("label");
-            Map<String, Object> typedParamValues = _getTypedUDParameters(userDirectoryParameters, modelId);
             uds.add(_userDirectoryFactory.createUserDirectory(id, modelId, typedParamValues, up.getId(), additionnalLabel));
         }
         up.setUserDirectories(uds);
@@ -659,17 +664,64 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         for (Map<String, String> credentialProviderParameters : credentialProviders)
         {
             String id = credentialProviderParameters.remove("id");
+            String modelId = credentialProviderParameters.remove("cpModelId");
+            String additionnalLabel = credentialProviderParameters.remove("label");
+            Map<String, Object> typedParamValues = _getTypedCPParameters(credentialProviderParameters, modelId);
+            
             if (StringUtils.isBlank(id))
             {
                 id = org.ametys.core.util.StringUtils.generateKey();
             }
+            else
+            {
+                _keepExistingCredentialProviderPassword(up, modelId, typedParamValues, id);
+            }
             
-            String modelId = credentialProviderParameters.remove("cpModelId");
-            String additionnalLabel = credentialProviderParameters.remove("label");
-            Map<String, Object> typedParamValues = _getTypedCPParameters(credentialProviderParameters, modelId);
             cps.add(_credentialProviderFactory.createCredentialProvider(id, modelId, typedParamValues, additionnalLabel));
         }
         up.setCredentialProvider(cps);
+    }
+
+    private void _keepExistingUserDirectoryPassword(UserPopulation up, String modelId, Map<String, Object> typedParamValues, String id)
+    {
+        // An existing id means an existing user directory
+        UserDirectory existingUserDirectory = up.getUserDirectory(id);
+        UserDirectoryModel userDirectoryModel = _userDirectoryFactory.getExtension(modelId);
+        if (StringUtils.equals(modelId, userDirectoryModel.getId()))
+        {
+            // The model did not changed, we want to kee the unmodified passwords
+            for (Map.Entry<String, ? extends Parameter<ParameterType>> parameterEntry : userDirectoryModel.getParameters().entrySet())
+            {
+                Parameter<ParameterType> parameter = parameterEntry.getValue();
+                // If the parameter is a password AND has no value
+                if (parameter.getType() == ParameterType.PASSWORD && typedParamValues.get(parameterEntry.getKey()) == null)
+                {
+                    // Update the submitted data with the existing password
+                    typedParamValues.put(parameterEntry.getKey(), existingUserDirectory.getParameterValues().get(parameterEntry.getKey()));
+                }
+            }
+        }
+    }
+
+    private void _keepExistingCredentialProviderPassword(UserPopulation up, String modelId, Map<String, Object> typedParamValues, String id)
+    {
+        // An existing id means an existing credential provider
+        CredentialProvider existingCredentialProvider = up.getCredentialProvider(id);
+        CredentialProviderModel credentialProviderModel = _credentialProviderFactory.getExtension(modelId);
+        if (StringUtils.equals(modelId, credentialProviderModel.getId()))
+        {
+            // The model did not changed, we want to kee the unmodified passwords
+            for (Map.Entry<String, ? extends Parameter<ParameterType>> parameterEntry : credentialProviderModel.getParameters().entrySet())
+            {
+                Parameter<ParameterType> parameter = parameterEntry.getValue();
+                // If the parameter is a password AND has no value
+                if (parameter.getType() == ParameterType.PASSWORD && typedParamValues.get(parameterEntry.getKey()) == null)
+                {
+                    // Update the submitted data with the existing password
+                    typedParamValues.put(parameterEntry.getKey(), existingCredentialProvider.getParameterValues().get(parameterEntry.getKey()));
+                }
+            }
+        }
     }
     
     private Map<String, Object> _getTypedUDParameters(Map<String, String> parameters, String modelId)
