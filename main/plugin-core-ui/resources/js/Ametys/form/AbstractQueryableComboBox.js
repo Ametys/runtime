@@ -61,7 +61,7 @@ Ext.define('Ametys.form.AbstractQueryableComboBox', {
 	displayField: 'label',
 	
 	/**
-     * @cfg {String} [stacked=false] If set to `true`, the labeled items will fill to the width of the list instead of being only as wide as the displayed value.
+     * @cfg {Boolean/String} [stacked=false] If set to `true`, the labeled items will fill to the width of the list instead of being only as wide as the displayed value.
      */
 	/**
      * @cfg {String} [growMin=false] If not set to `false`, the min height in pixels of the box select
@@ -230,7 +230,7 @@ Ext.define('Ametys.form.AbstractQueryableComboBox', {
             growMin: this.growMin && !isNaN(parseInt(this.growMin)) ? parseInt(this.growMin) : null, 
             growMax: this.growMax && !isNaN(parseInt(this.growMax)) ? parseInt(this.growMax) : null, 
             
-            stacked: this.stacked == 'true',
+            stacked: this.stacked || this.stacked == 'true',
             store: this.getStore(),
             valueField: this.valueField,
             displayField: this.displayField,
