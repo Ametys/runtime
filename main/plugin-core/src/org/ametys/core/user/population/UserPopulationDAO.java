@@ -25,6 +25,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -72,11 +73,13 @@ import org.ametys.core.script.SQLScriptHelper;
 import org.ametys.core.ui.Callable;
 import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.core.user.InvalidModificationException;
+import org.ametys.core.user.UserIdentity;
 import org.ametys.core.user.directory.ModifiableUserDirectory;
 import org.ametys.core.user.directory.UserDirectory;
 import org.ametys.core.user.directory.UserDirectoryFactory;
 import org.ametys.core.user.directory.UserDirectoryModel;
 import org.ametys.core.util.I18nUtils;
+import org.ametys.plugins.core.impl.user.directory.StaticUserDirectory;
 import org.ametys.runtime.i18n.I18nizableText;
 import org.ametys.runtime.parameter.Parameter;
 import org.ametys.runtime.parameter.ParameterCheckerDescriptor;
@@ -98,11 +101,11 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
     /** The id of the "admin" population */
     public static final String ADMIN_POPULATION_ID = "admin_population";
     
-    /** The id of the "user system" population */
-    public static final String SYSTEM_USER_POPULATION_ID = "system_user_population";
     /** The id of the "user system" login */
     public static final String SYSTEM_USER_LOGIN = "system-user";
-
+    /** The id of the "user system" population */
+    public static final UserIdentity SYSTEM_USER_IDENTITY = new UserIdentity(SYSTEM_USER_LOGIN, ADMIN_POPULATION_ID);
+    
     /** The sql table for admin users */
     private static final String __ADMIN_TABLENAME = "AdminUsers";
 
@@ -126,9 +129,6 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
     /** The population admin */
     private UserPopulation _adminUserPopulation;
     
-    /** The population user system */
-    private UserPopulation _userSystemPopulation;
-
     /** The user directories factory  */
     private UserDirectoryFactory _userDirectoryFactory;
 
@@ -284,11 +284,6 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         if (ADMIN_POPULATION_ID.equals(id))
         {
             return getAdminPopulation();
-        }
-        
-        if (SYSTEM_USER_POPULATION_ID.equals(id))
-        {
-            return getUserSystemPopulation();
         }
         
         _readPopulations(false);
@@ -500,11 +495,16 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         _adminUserPopulation = new UserPopulation();
         _adminUserPopulation.setId(ADMIN_POPULATION_ID);
         
-        Map<String, String> userDirectory = new HashMap<>();
-        String udModelId = "org.ametys.plugins.core.user.directory.Jdbc";
-        userDirectory.put("udModelId", udModelId);
-        userDirectory.put(udModelId + "$" + "runtime.users.jdbc.datasource", SQLDataSourceManager.AMETYS_INTERNAL_DATASOURCE_ID);
-        userDirectory.put(udModelId + "$" + "runtime.users.jdbc.table", __ADMIN_TABLENAME);
+        Map<String, String> userDirectory1 = new HashMap<>();
+        userDirectory1.put("udModelId", "org.ametys.plugins.core.user.directory.Static");
+        userDirectory1.put("id", "static");
+        userDirectory1.put("org.ametys.plugins.core.user.directory.Static$runtime.users.static.users", SYSTEM_USER_LOGIN + ":System:User:");
+        userDirectory1.put("org.ametys.plugins.core.user.directory.Static$grantAllCredentials", "false");
+        
+        Map<String, String> userDirectory2 = new HashMap<>();
+        userDirectory2.put("udModelId", "org.ametys.plugins.core.user.directory.Jdbc");
+        userDirectory2.put("org.ametys.plugins.core.user.directory.Jdbc$runtime.users.jdbc.datasource", SQLDataSourceManager.AMETYS_INTERNAL_DATASOURCE_ID);
+        userDirectory2.put("org.ametys.plugins.core.user.directory.Jdbc$runtime.users.jdbc.table", __ADMIN_TABLENAME);
         
         Map<String, String> credentialProvider = new HashMap<>();
         String cpModelId = "org.ametys.core.authentication.FormBased";
@@ -523,7 +523,9 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
             throw new RuntimeException("Cannot test if " + __ADMIN_TABLENAME + " table exists in internal database", e);
         }
         
-        _fillUserPopulation(_adminUserPopulation, new I18nizableText("plugin.core", "PLUGINS_CORE_USER_POPULATION_ADMIN_LABEL"), Collections.singletonList(userDirectory), Collections.singletonList(credentialProvider));
+        _fillUserPopulation(_adminUserPopulation, new I18nizableText("plugin.core", "PLUGINS_CORE_USER_POPULATION_ADMIN_LABEL"), Arrays.asList(userDirectory1, userDirectory2), Collections.singletonList(credentialProvider));
+        
+        ((StaticUserDirectory) _adminUserPopulation.getUserDirectory("static")).setGrantAllCredentials(false);
         
         if (!wasExisting)
         {
@@ -546,35 +548,6 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         }
         
         return _adminUserPopulation;
-    }
-    
-    /**
-     * Gets the "user system" population
-     * @return The "user system" population
-     */
-    public synchronized UserPopulation getUserSystemPopulation()
-    {
-        if (_userSystemPopulation != null)
-        {
-            return _userSystemPopulation;
-        }
-        
-        _userSystemPopulation = new UserPopulation();
-        _userSystemPopulation.setId(SYSTEM_USER_POPULATION_ID);
-        
-        Map<String, String> userDirectory = new HashMap<>();
-        String udModelId = "org.ametys.plugins.core.user.directory.Static";
-        userDirectory.put("udModelId", udModelId);
-        userDirectory.put(udModelId + "$" + "runtime.users.static.users", SYSTEM_USER_LOGIN + ":System:User:");
-        
-        Map<String, String> credentialProvider = new HashMap<>();
-        String cpModelId = "org.ametys.core.authentication.Defined";
-        credentialProvider.put("cpModelId", cpModelId);
-        credentialProvider.put(cpModelId + "$" + "runtime.authentication.defined.user", SYSTEM_USER_LOGIN);
-        
-        _fillUserPopulation(_userSystemPopulation, new I18nizableText("plugin.core", "PLUGINS_CORE_USER_POPULATION_USER_SYSTEM_LABEL"), Collections.singletonList(userDirectory), Collections.singletonList(credentialProvider));
-        
-        return _userSystemPopulation;
     }
     
     /**

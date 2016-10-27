@@ -47,6 +47,8 @@ public class StaticUserDirectory extends AbstractLogEnabled implements UserDirec
     private String _label;
 
     private String _id;
+
+    private boolean _grantAllCredentials = true;
     
     public String getId()
     {
@@ -94,6 +96,15 @@ public class StaticUserDirectory extends AbstractLogEnabled implements UserDirec
         return _paramValues;
     }
     
+    /**
+     * Set to false to disallow any user to be authenticated by its credentials
+     * @param grantAllCredentials 
+     */
+    public void setGrantAllCredentials(boolean grantAllCredentials)
+    {
+        _grantAllCredentials  = grantAllCredentials;
+    }
+    
     @Override
     public String getUserDirectoryModelId()
     {
@@ -129,7 +140,7 @@ public class StaticUserDirectory extends AbstractLogEnabled implements UserDirec
     @Override
     public boolean checkCredentials(String login, String password)
     {
-        return _staticUsers.containsKey(login);
+        return _grantAllCredentials && _staticUsers.containsKey(login);
     }
     
     @SuppressWarnings("fallthrough")
