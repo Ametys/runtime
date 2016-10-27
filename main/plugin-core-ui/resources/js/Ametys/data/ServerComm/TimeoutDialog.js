@@ -96,7 +96,7 @@ Ext.define(
 	    		width: 530,
 	    		height: 120,
 	    		scrollable: true,
-	    		icon: Ametys.CONTEXT_PATH + "/kernel/resources/img/Ametys/theme/gray/timeout_16.png",
+	    		icon: Ametys.getPluginResourcesPrefix("core-ui") + "/img/Ametys/theme/gray/timeout_16.png",
 	    		items: [ centralMsg, detailledMsg ],
 	    		closeAction: 'close',
 	    		closable: false,
