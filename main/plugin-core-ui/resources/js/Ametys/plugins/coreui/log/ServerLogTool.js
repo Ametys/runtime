@@ -61,15 +61,20 @@ Ext.define('Ametys.plugins.coreui.log.ServerLogTool', {
     
     setParams: function(params)
     {
+        if (this._timer)
+        {
+            clearTimeout(this._timer);
+        }
+
         this.callParent(arguments);
-        
+
         this.logsCategory = Ext.Array.from(params.category);
         this._refreshTimer = params.refreshTimer || 2000;
         
         this._lastLogTimestamp = null;
         this.isRunning = true;
         this._logsQueue = [];
-        
+
         this._store.removeAll();
         this.updateLogs();
     },
@@ -273,15 +278,15 @@ Ext.define('Ametys.plugins.coreui.log.ServerLogTool', {
         
         if (logs.length > 0)
         {
-            var newRecords = this._store.add(logs);
-            this._logsQueue = this._logsQueue.concat(newRecords);
+            this._logsQueue = this._logsQueue.concat(logs);
             
-            var count = this._store.getCount();
+            var count = this._logsQueue.length;
             if (count > 1000)
             {
-                var toRemove = this._logsQueue.splice(0, count - 1000);
-                this._store.remove(toRemove);
+                this._logsQueue.splice(0, count - 1000);
             }
+
+            this._store.loadData(this._logsQueue);
         }
         
         if (this.isRunning)

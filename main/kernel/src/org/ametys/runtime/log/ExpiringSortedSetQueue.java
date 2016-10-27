@@ -110,7 +110,7 @@ public class ExpiringSortedSetQueue<T>
      */
     public SortedSet<T> tailSet(T fromElement)
     {
-        synchronized (_expirationDate)
+        synchronized (_queue)
         {
             removeAllExpired(now());
             return new TreeSet<>(_queue.tailSet(fromElement));
@@ -124,7 +124,7 @@ public class ExpiringSortedSetQueue<T>
      */
     public SortedSet<T> headSet(T toElement)
     {
-        synchronized (_expirationDate)
+        synchronized (_queue)
         {
             removeAllExpired(now());
             return new TreeSet<>(_queue.headSet(toElement));
@@ -139,7 +139,7 @@ public class ExpiringSortedSetQueue<T>
      */
     public SortedSet<T> subSet(T fromElement, T toElement)
     {
-        synchronized (_expirationDate)
+        synchronized (_queue)
         {
             removeAllExpired(now());
             return new TreeSet<>(_queue.subSet(fromElement, toElement));

@@ -116,6 +116,8 @@ Ext.define('Ametys.plugins.coreui.log.AbstractLogTool', {
         this._updateStatusBar();
         this.grid.store.on("add", this._updateStatusBar, this);
         this.grid.store.on("add", this._loadScrollPosition, this);
+        this.grid.store.on("datachanged", this._updateStatusBar, this);
+        this.grid.store.on("datachanged", this._loadScrollPosition, this);
         this.grid.store.on("remove", this._updateStatusBar, this);
         this.grid.store.on("filterchange", this._updateStatusBar, this);
         this.grid.store.on("clear", this._updateStatusBar, this);
@@ -268,6 +270,8 @@ Ext.define('Ametys.plugins.coreui.log.AbstractLogTool', {
     {
         this.grid.store.un("add", this._updateStatusBar, this);
         this.grid.store.un("add", this._loadScrollPosition, this);
+        this.grid.store.un("datachanged", this._updateStatusBar, this);
+        this.grid.store.un("datachanged", this._loadScrollPosition, this);
         this.grid.store.un("remove", this._updateStatusBar, this);
         this.grid.store.un("filterchange", this._updateStatusBar, this);
         this.grid.store.un("clear", this._updateStatusBar, this);
