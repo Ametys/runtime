@@ -2522,7 +2522,7 @@
             <extension id="uitool-server-logs"
                        point="org.ametys.core.ui.UIToolsFactoriesManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
-                <class name="Ametys.tool.factory.UniqueToolFactory">
+                <class name="Ametys.tool.factory.BasicToolFactory">
                     <toolClass>Ametys.plugins.coreui.log.ServerLogTool</toolClass>
                     
                     <title i18n="true">PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LABEL</title>
@@ -2543,6 +2543,9 @@
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
                     <opentool-id>uitool-server-logs</opentool-id>
+                    <opentool-params>
+                        <id>server-logs</id>
+                    </opentool-params>
                     
                     <label i18n="true">PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LABEL</label>
                     <description i18n="true">PLUGINS_CORE_UI_TOOLS_SERVERLOGS_DESCRIPTION</description>

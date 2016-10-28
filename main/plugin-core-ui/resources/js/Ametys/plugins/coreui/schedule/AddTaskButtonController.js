@@ -114,7 +114,7 @@ Ext.define('Ametys.plugins.coreui.schedule.AddTaskButtonController', {
                 }
             }
             
-            Ametys.tool.ToolsManager.openTool('uitool-server-logs', {category: arguments.category, title: arguments.title}, "cr");
+            Ametys.tool.ToolsManager.openTool('uitool-server-logs', {id: arguments.category, category: arguments.category, title: arguments.title}, "cr");
             var scheduledTasksTool = Ametys.tool.ToolsManager.openTool('uitool-scheduled-tasks', {}, "cl");
             if (scheduledTasksTool)
             {
