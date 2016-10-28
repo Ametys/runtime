@@ -2561,7 +2561,7 @@
                        point="org.ametys.core.ui.RibbonTabsManager"
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.ribbon.element.tab.TabController">
-                    <tool-id>^uitool-server-logs$</tool-id>
+                    <tool-id>^uitool-server-logs\$.*$</tool-id>
                 </class>
             </extension>
             
