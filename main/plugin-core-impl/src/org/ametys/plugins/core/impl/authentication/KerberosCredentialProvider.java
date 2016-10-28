@@ -98,7 +98,7 @@ public class KerberosCredentialProvider extends AbstractCredentialProvider imple
                 String jaasConfLocation = context.getRealPath("/WEB-INF/param/" + __LOGIN_CONF_FILE);
                 if (!new File(jaasConfLocation).exists())
                 {
-                    jaasConfLocation = AmetysHomeHelper.getAmetysHomeTmp() + File.pathSeparator + __LOGIN_CONF_FILE;
+                    jaasConfLocation = AmetysHomeHelper.getAmetysHomeTmp() + File.separator + __LOGIN_CONF_FILE;
                     FileUtils.write(new File(jaasConfLocation), "kerberos {\ncom.sun.security.auth.module.Krb5LoginModule required\nstoreKey=true\nisInitiator=false;\n};");
                 }
                 System.setProperty("java.security.auth.login.config", jaasConfLocation);
