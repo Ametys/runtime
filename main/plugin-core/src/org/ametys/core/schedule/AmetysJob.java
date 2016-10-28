@@ -24,6 +24,9 @@ import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.Constants;
+import org.apache.cocoon.environment.ObjectModelHelper;
+import org.apache.cocoon.environment.Request;
+import org.apache.cocoon.environment.background.BackgroundEnvironment;
 import org.apache.cocoon.util.log.SLF4JLoggerAdapter;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
@@ -36,9 +39,12 @@ import org.quartz.PersistJobDataAfterExecution;
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 
+import org.ametys.core.authentication.AuthenticateAction;
 import org.ametys.core.engine.BackgroundEngineHelper;
 import org.ametys.core.schedule.Runnable.FireProcess;
+import org.ametys.core.user.population.UserPopulationDAO;
 import org.ametys.plugins.core.schedule.Scheduler;
+import org.ametys.plugins.core.user.UserDAO;
 
 /**
  * Ametys implementation of a {@link Job} which delegates the execution of the task to the right {@link Schedulable}
@@ -118,6 +124,8 @@ public class AmetysJob implements Job
         
         Map<String, Object> environmentInformation = BackgroundEngineHelper.createAndEnterEngineEnvironment(_serviceManager, _environmentContext, new SLF4JLoggerAdapter(_logger));
         
+        _setUserSystemInSession(environmentInformation);
+        
         _logger.info("Executing the Runnable '{}' of the Schedulable '{}' with jobDataMap:\n '{}'", runnableId, schedulableId, jobDataMap.getWrappedMap().toString());
         Instant start = Instant.now();
         try
@@ -152,6 +160,14 @@ public class AmetysJob implements Job
                 jobDataMap.put(Scheduler.KEY_RUNNABLE_STARTUP_COMPLETED, true);
             }
         }
+    }
+    
+    private void _setUserSystemInSession (Map<String, Object> environmentInformation)
+    {
+        BackgroundEnvironment bgEnv = (BackgroundEnvironment) environmentInformation.get("environment");
+        Request request = ObjectModelHelper.getRequest(bgEnv.getObjectModel());
+        
+        AuthenticateAction.setUserIdentityInSession(request, UserPopulationDAO.SYSTEM_USER_IDENTITY, new UserDAO.ImpersonateCredentialProvider(), true);
     }
     
     private boolean _checkConcurrency(String schedulableId, String runnableId, JobKey currentJobKey) throws JobExecutionException
