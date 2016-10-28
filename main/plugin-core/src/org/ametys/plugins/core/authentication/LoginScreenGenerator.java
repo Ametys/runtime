@@ -162,30 +162,33 @@ public class LoginScreenGenerator extends ServiceableGenerator
         for (int index = 0; index < credentialProviders.size(); index++)
         {
             CredentialProvider cp = credentialProviders.get(index);
-            CredentialProviderModel cpModel = _credentialProviderFactory.getExtension(cp.getCredentialProviderModelId());
-            
-            AttributesImpl attrs = new AttributesImpl();
-            attrs.addCDATAAttribute("index", String.valueOf(index));
-            attrs.addCDATAAttribute("selected", index == currentCredentialProvider ? "true" : "false");
-            attrs.addCDATAAttribute("isForm", cp instanceof FormCredentialProvider ? "true" : "false");
-            attrs.addCDATAAttribute("isNewWindowRequired", cp instanceof BlockingCredentialProvider && ((BlockingCredentialProvider) cp).requiresNewWindow() ? "true" : "false");
-            XMLUtils.startElement(contentHandler, "CredentialProvider", attrs);
-            XMLUtils.createElement(contentHandler, "label", I18nUtils.getInstance().translate(cpModel.getConnectionLabel()));
-            if (StringUtils.isNotBlank(cp.getLabel()))
+            if (cp instanceof BlockingCredentialProvider)
             {
-                XMLUtils.createElement(contentHandler, "additionalLabel", cp.getLabel());
+                CredentialProviderModel cpModel = _credentialProviderFactory.getExtension(cp.getCredentialProviderModelId());
+                
+                AttributesImpl attrs = new AttributesImpl();
+                attrs.addCDATAAttribute("index", String.valueOf(index));
+                attrs.addCDATAAttribute("selected", index == currentCredentialProvider ? "true" : "false");
+                attrs.addCDATAAttribute("isForm", cp instanceof FormCredentialProvider ? "true" : "false");
+                attrs.addCDATAAttribute("isNewWindowRequired", cp instanceof BlockingCredentialProvider && ((BlockingCredentialProvider) cp).requiresNewWindow() ? "true" : "false");
+                XMLUtils.startElement(contentHandler, "CredentialProvider", attrs);
+                XMLUtils.createElement(contentHandler, "label", I18nUtils.getInstance().translate(cpModel.getConnectionLabel()));
+                if (StringUtils.isNotBlank(cp.getLabel()))
+                {
+                    XMLUtils.createElement(contentHandler, "additionalLabel", cp.getLabel());
+                }
+                if (StringUtils.isNotEmpty(cpModel.getIconGlyph()))
+                {
+                    XMLUtils.createElement(contentHandler, "iconGlyph", cpModel.getIconGlyph());
+                    XMLUtils.createElement(contentHandler, "iconDecorator", cpModel.getIconDecorator());
+                }
+                else if (StringUtils.isNotEmpty(cpModel.getIconMedium()))
+                {
+                    XMLUtils.createElement(contentHandler, "iconMedium", cpModel.getIconMedium());
+                }
+                XMLUtils.createElement(contentHandler, "color", cpModel.getColor());
+                XMLUtils.endElement(contentHandler, "CredentialProvider");
             }
-            if (StringUtils.isNotEmpty(cpModel.getIconGlyph()))
-            {
-                XMLUtils.createElement(contentHandler, "iconGlyph", cpModel.getIconGlyph());
-                XMLUtils.createElement(contentHandler, "iconDecorator", cpModel.getIconDecorator());
-            }
-            else if (StringUtils.isNotEmpty(cpModel.getIconMedium()))
-            {
-                XMLUtils.createElement(contentHandler, "iconMedium", cpModel.getIconMedium());
-            }
-            XMLUtils.createElement(contentHandler, "color", cpModel.getColor());
-            XMLUtils.endElement(contentHandler, "CredentialProvider");
         }
         XMLUtils.endElement(contentHandler, "CredentialProviders");
     }
