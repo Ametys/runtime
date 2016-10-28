@@ -68,8 +68,21 @@ Ext.define('Ametys.plugins.coreui.log.ServerLogTool', {
 
         this.callParent(arguments);
 
+        this.setTitle(params.title || this.getInitialConfig().title);
+
         this.logsCategory = Ext.Array.from(params.category);
         this._refreshTimer = params.refreshTimer || 2000;
+
+        var hint = this.grid.getDockedItems("#categories-hint")[0];
+        if (this.logsCategory.length > 0)
+        {
+            hint.setText(Ext.String.format("{{i18n PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CATEGORIES_HINT}}", this.logsCategory.join(", ")));
+            hint.show();
+        }
+        else
+        {
+            hint.hide();
+        }
         
         this._lastLogTimestamp = null;
         this.isRunning = true;
@@ -225,6 +238,29 @@ Ext.define('Ametys.plugins.coreui.log.ServerLogTool', {
         };
         
         return this._detailsTpl.applyTemplate(data);
+    },
+
+    getDockedItems: function()
+    {
+        return [{
+            dock: 'top',
+            xtype: 'button',
+            hidden: true,
+            itemId: 'categories-hint',
+            ui: 'tool-hintmessage',
+            text: "",
+            scope: this,
+            handler: this._openLogLevelTool
+        }];
+    },
+
+    /**
+     * Open the tool to set the log level for the current category
+     * @private
+     */
+    _openLogLevelTool: function()
+    {
+        // TODO
     },
     
     /**

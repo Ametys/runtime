@@ -846,6 +846,7 @@
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LOCATION_HEADER">Emplacement</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_THREAD_HEADER">Thread</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CALLSTACK_HEADER">Pile d'appel</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CATEGORIES_HINT">Seuls les journaux appartenant aux catégories suivantes sont affichés : \{0\}</message>
     
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_PAUSE_LABEL">Pause</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_PAUSE_DESCRIPTION">Interrompre la communication avec le serveur pour ne plus recevoir de nouveaux messages.</message>

@@ -75,11 +75,11 @@ Ext.define('Ametys.plugins.coreui.schedule.AddTaskButtonController', {
                         this._openTools, 
                         {
                             scope: this, 
-                            arguments: {category: controller['log-category']}
+                            arguments: {category: controller['log-category'], title: controller['log-title']}
                         }
                     );
                 }
-            };
+            }
             
             if (confirmTitle != null && confirmMsg != null)
             {
@@ -114,7 +114,7 @@ Ext.define('Ametys.plugins.coreui.schedule.AddTaskButtonController', {
                 }
             }
             
-            Ametys.tool.ToolsManager.openTool('uitool-server-logs', {category: arguments.category}, "cr");
+            Ametys.tool.ToolsManager.openTool('uitool-server-logs', {category: arguments.category, title: arguments.title}, "cr");
             var scheduledTasksTool = Ametys.tool.ToolsManager.openTool('uitool-scheduled-tasks', {}, "cl");
             if (scheduledTasksTool)
             {
