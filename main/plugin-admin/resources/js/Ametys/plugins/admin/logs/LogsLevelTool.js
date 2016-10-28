@@ -26,9 +26,18 @@
 Ext.define('Ametys.plugins.admin.logs.LogsLevelTool', {
 	extend: 'Ametys.tool.Tool',
 	
+    /**
+     * @cfg {String[]} [expandCategories] A list of categories and select to expand on load
+     */
+    
 	/**
 	 * @private
 	 * @property {Ext.tree.Panel} _logsTree The logs tree panel
+	 */
+	
+	/**
+	 * @private
+	 * @property {String[]} _expandCategories paths to expand on load
 	 */
 	
 	constructor: function(config)
@@ -68,6 +77,13 @@ Ext.define('Ametys.plugins.admin.logs.LogsLevelTool', {
 			targets: targets
 		});
 	},
+
+	setParams: function(params)
+	{
+		this._expandCategories = params.expandCategories;
+
+		this.showOutOfDate();
+	},
 	
 	/**
 	 * Refreshes the tool
@@ -75,7 +91,15 @@ Ext.define('Ametys.plugins.admin.logs.LogsLevelTool', {
 	refresh: function ()
 	{
 		this.showRefreshing();
-		this._logsTree.getStore().load({node: this._logsTree.getRootNode(), callback: this.showRefreshed, scope: this});
+		this._logsTree.getStore().load({node: this._logsTree.getRootNode(), callback: this._loadCb, scope: this});
+	},
+
+	_loadCb: function ()
+	{
+        // Expand first nodes
+        this._logsTree.getRootNode().expandChildren(false, this._onRootNodesChangedAndExpanded, this);
+
+		this.showRefreshed();
 	},
 
     /**
@@ -141,9 +165,6 @@ Ext.define('Ametys.plugins.admin.logs.LogsLevelTool', {
 		
 		// Set the parent level field on each node of the tree
 		this._setParentLevels(rootNode.firstChild.data.level, rootNode.firstChild.childNodes);
-		
-        // Expand first nodes
-        this._logsTree.getRootNode().expandChildren(false, false, this._logsTree._onRootNodesChangedAndExpanded, this);
     },
     
     /**
@@ -172,8 +193,50 @@ Ext.define('Ametys.plugins.admin.logs.LogsLevelTool', {
      */
     _onRootNodesChangedAndExpanded: function()
     {
-        // Select first node
-        this._logsTree.getSelectionModel().select(this._logsTree.getRootNode().firstChild);
+		if (this._expandCategories)
+		{
+			var rootNode = this._logsTree.getRootNode().firstChild;
+			this._expandCategories.forEach(function (path) {
+				var pathArray = path.split(".");
+				if (pathArray.length > 0)
+				{
+					var category = pathArray[0];
+					pathArray.splice(0, 1);
+					this._expandNode(rootNode, category, pathArray);
+				}
+			}, this);
+		}
+		else
+		{
+	        // Select first node
+    	    this._logsTree.getSelectionModel().select(this._logsTree.getRootNode().firstChild);
+		}
+	},
+
+	/**
+	 * Expand to a node in the tree matching the category
+	 * @param {Ext.data.NodeInterface} currentNode A node
+	 * @param {String} target The target category of the child to find under currentNode
+	 * @param {String[]} path The path of all the childs to expand under currentNode
+	 */
+	_expandNode: function(currentNode, target, path)
+	{
+		currentNode = currentNode.findChild("category", target);
+		if (currentNode != null)
+		{
+			if (path.length > 0)
+			{
+				currentNode.expand();
+				target = target + "." + path[0];
+				path.splice(0, 1);
+				this._expandNode(currentNode, target, path);
+			}
+			else
+			{
+				this._logsTree.getSelectionModel().select(currentNode);
+				this._logsTree.ensureVisible(currentNode.getPath());
+			}
+		}
     },
 	
     /**

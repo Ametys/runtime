@@ -68,7 +68,14 @@ Ext.define('Ametys.plugins.coreui.log.ServerLogTool', {
 
         this.callParent(arguments);
 
-        this.setTitle(params.title || this.getInitialConfig().title);
+        if (params.title)
+        {
+            this.setTitle(Ext.String.format("{{i18n PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LABEL_WITH_CATEGORIES}}", params.title));
+        }
+        else
+        {
+            this.setTitle(this.getInitialConfig().title);
+        }
 
         this.logsCategory = Ext.Array.from(params.category);
         this._refreshTimer = params.refreshTimer || 2000;
@@ -76,7 +83,7 @@ Ext.define('Ametys.plugins.coreui.log.ServerLogTool', {
         var hint = this.grid.getDockedItems("#categories-hint")[0];
         if (this.logsCategory.length > 0)
         {
-            hint.setText(Ext.String.format("{{i18n PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CATEGORIES_HINT}}", this.logsCategory.join(", ")));
+            hint.items.get(0).update(Ext.String.format("{{i18n PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CATEGORIES_HINT}}", this.logsCategory.join(", ")));
             hint.show();
         }
         else
@@ -244,13 +251,21 @@ Ext.define('Ametys.plugins.coreui.log.ServerLogTool', {
     {
         return [{
             dock: 'top',
-            xtype: 'button',
+            xtype: 'container',
             hidden: true,
             itemId: 'categories-hint',
-            ui: 'tool-hintmessage',
-            text: "",
-            scope: this,
-            handler: this._openLogLevelTool
+            layout: 'hbox',
+            cls: 'x-component-tool-hintmessage',
+            items: [{
+                xtype: 'component',
+                flex: 1
+            },{
+                xtype: 'button',
+                text: "{{i18n PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CATEGORIES_HINT_OPEN}}",
+                width: 180,
+                scope: this,
+                handler: this._openLogLevelTool
+            }]
         }];
     },
 
@@ -260,7 +275,7 @@ Ext.define('Ametys.plugins.coreui.log.ServerLogTool', {
      */
     _openLogLevelTool: function()
     {
-        // TODO
+        Ametys.tool.ToolsManager.openTool('uitool-admin-logslevel', {'expandCategories' : this.logsCategory});
     },
     
     /**

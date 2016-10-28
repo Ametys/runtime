@@ -820,6 +820,7 @@
          | LOG
          + -->
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LABEL">Live logs</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LABEL_WITH_CATEGORIES">Live logs: \{0\}</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_DESCRIPTION">Display the server logs in real time.</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_STOP_REQUESTS">Stop receiving server logs.</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CLEAR_GRID">Clear the logs list.</message>
@@ -845,6 +846,7 @@
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LOCATION_HEADER">Location</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CALLSTACK_HEADER">Callstack</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CATEGORIES_HINT">Only the logs within the following categories are displayed : \{0\}</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CATEGORIES_HINT_OPEN">Change logs level</message>
     
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_PAUSE_LABEL">Pause</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_PAUSE_DESCRIPTION">Temporary interrupt the communication with the server and pause the update of the logs.</message>

@@ -822,6 +822,7 @@
          | LOG
          + -->
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LABEL">Journaux en direct</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_LABEL_WITH_CATEGORIES">Journaux en direct : \{0\}</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_DESCRIPTION">Consultez les journaux du serveur en temps réel.</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_STOP_REQUESTS">Mettre en pause la réception des messages du serveur.</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CLEAR_GRID">Vide la liste des messages reçus.</message>
@@ -847,6 +848,7 @@
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_THREAD_HEADER">Thread</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CALLSTACK_HEADER">Pile d'appel</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CATEGORIES_HINT">Seuls les journaux appartenant aux catégories suivantes sont affichés : \{0\}</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_CATEGORIES_HINT_OPEN">Changer la configuration</message>
     
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_PAUSE_LABEL">Pause</message>
     <message key="PLUGINS_CORE_UI_TOOLS_SERVERLOGS_PAUSE_DESCRIPTION">Interrompre la communication avec le serveur pour ne plus recevoir de nouveaux messages.</message>
