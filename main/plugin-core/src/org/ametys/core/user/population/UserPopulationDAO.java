@@ -536,7 +536,7 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
             adminUserInformations.put("lastname", "Administrator");
             adminUserInformations.put("email", "");
             
-            ModifiableUserDirectory adminJdbcUserDirectoy = (ModifiableUserDirectory) _adminUserPopulation.getUserDirectories().get(0);
+            ModifiableUserDirectory adminJdbcUserDirectoy = (ModifiableUserDirectory) _adminUserPopulation.getUserDirectories().get(1);
             try
             {
                 adminJdbcUserDirectoy.add(adminUserInformations);
