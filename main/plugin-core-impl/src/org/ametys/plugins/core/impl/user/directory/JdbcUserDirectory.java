@@ -198,7 +198,8 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
             }
             catch (ServiceException e)
             {
-                throw new RuntimeException("Unable to lookup ObservationManager component", e);
+                // We may be in safe mode
+                getLogger().error("Unable to lookup ObservationManager component. Is safe mode ? It can not be retrieve in safe mode ", e);
             }
         }
         return _observationManager;
@@ -446,9 +447,13 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
                 throw new InvalidModificationException("Error no user inserted");
             }
 
-            Map<String, Object> eventParams = new HashMap<>();
-            eventParams.put(ObservationConstants.ARGS_USER, new UserIdentity(login, _populationId));
-            getObservationManager().notify(new Event(ObservationConstants.EVENT_USER_ADDED, getCurrentUserProvider().getUser(), eventParams));
+            if (getObservationManager() != null)
+            {
+                // Observation manager can be null in safe mode
+                Map<String, Object> eventParams = new HashMap<>();
+                eventParams.put(ObservationConstants.ARGS_USER, new UserIdentity(login, _populationId));
+                getObservationManager().notify(new Event(ObservationConstants.EVENT_USER_ADDED, getCurrentUserProvider().getUser(), eventParams));
+            }
         }
         catch (SQLException e)
         {
@@ -551,9 +556,13 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
                 throw new InvalidModificationException("Error. User '" + login + "' not updated");
             }
 
-            Map<String, Object> eventParams = new HashMap<>();
-            eventParams.put(ObservationConstants.ARGS_USER, new UserIdentity(login, _populationId));
-            getObservationManager().notify(new Event(ObservationConstants.EVENT_USER_UPDATED, getCurrentUserProvider().getUser(), eventParams));
+            if (getObservationManager() != null)
+            {
+                // Observation manager can be null in safe mode
+                Map<String, Object> eventParams = new HashMap<>();
+                eventParams.put(ObservationConstants.ARGS_USER, new UserIdentity(login, _populationId));
+                getObservationManager().notify(new Event(ObservationConstants.EVENT_USER_UPDATED, getCurrentUserProvider().getUser(), eventParams));
+            }
             
             if (isCacheEnabled())
             {
@@ -600,9 +609,13 @@ public class JdbcUserDirectory extends CachingComponent<User> implements Modifia
                 throw new InvalidModificationException("Error user was not deleted");
             }
 
-            Map<String, Object> eventParams = new HashMap<>();
-            eventParams.put(ObservationConstants.ARGS_USER, new UserIdentity(login, _populationId));
-            getObservationManager().notify(new Event(ObservationConstants.EVENT_USER_DELETED, getCurrentUserProvider().getUser(), eventParams));
+            if (getObservationManager() != null)
+            {
+                // Observation manager can be null in safe mode
+                Map<String, Object> eventParams = new HashMap<>();
+                eventParams.put(ObservationConstants.ARGS_USER, new UserIdentity(login, _populationId));
+                getObservationManager().notify(new Event(ObservationConstants.EVENT_USER_DELETED, getCurrentUserProvider().getUser(), eventParams));
+            }
             
             if (isCacheEnabled())
             {
