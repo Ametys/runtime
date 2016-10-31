@@ -80,7 +80,7 @@ public class SassResourceHandler extends AbstractCompiledResourceHandler
     {
         Output compiledString = null;
         Options options = new Options();
-        AmetysSassImporter sassImporter = new AmetysSassImporter(_sourceResolver);
+        AmetysSassImporter sassImporter = new AmetysSassImporter();
         options.getImporters().add(sassImporter);
         options.getFunctionProviders().add(_ametysSASSHelper);
         
@@ -107,6 +107,7 @@ public class SassResourceHandler extends AbstractCompiledResourceHandler
         
         try (InputStream is = inputSource.getInputStream())
         {
+            String previous = inputSource.getURI();
             String content = IOUtils.toString(is);
             
             Matcher matcher = IMPORT_PATTERN.matcher(content);
@@ -117,16 +118,15 @@ public class SassResourceHandler extends AbstractCompiledResourceHandler
                 
                 if (!StringUtils.contains(cssUrl, "http://") && !StringUtils.contains(cssUrl, "https://")) 
                 {
-                    if (!StringUtils.endsWith(cssUrl, ".css") && !StringUtils.endsWith(cssUrl, ".scss") && !StringUtils.endsWith(cssUrl, ".sass"))
-                    {
-                        cssUrl += ".scss";
-                    }
+                    URI currentUri = new URI(FilenameUtils.getFullPath(previous.toString()) + cssUrl);
+            
+                    Source importSource = _getImportSource(currentUri.toString());
                     
-                    result.add(cssUrl);
+                    result.add(importSource.getURI().toString());
                 }
             }
         }
-        catch (IOException e)
+        catch (IOException | URISyntaxException e)
         {
             getLogger().warn("Invalid " + inputSource.getURI(), e);
         }
@@ -139,23 +139,61 @@ public class SassResourceHandler extends AbstractCompiledResourceHandler
     {
         return "text/css";
     }
+    
+    /**
+     * Get the Sass source from the current Uri
+     * @param currentUri The URI
+     * @return The Sass source
+     * @throws URISyntaxException If the Uri does not match a source
+     * @throws IOException If an error occurred
+     */
+    protected Source _getImportSource(String currentUri) throws URISyntaxException, IOException
+    {
+        List<String> uriMatching = new ArrayList<>();
+        uriMatching.add(currentUri);
+        
+        // extension is optional
+        uriMatching.add(currentUri + ".scss");
+        uriMatching.add(currentUri + ".sass");
+        
+        // add an underscore prefix to the file name for sass partial imports
+        String name = FilenameUtils.getName(currentUri);
+        String partialUri = currentUri.substring(0, currentUri.length() - name.length()) + "_" + name;
+        uriMatching.add(partialUri);
+        uriMatching.add(partialUri + ".scss");
+        uriMatching.add(partialUri + ".sass");
+        
+        for (String uri : uriMatching)
+        {
+            try
+            {
+                Source importSource = _sourceResolver.resolveURI(uri);
+                if (importSource.exists())
+                {
+                    return importSource;
+                }
+            }
+            catch (SourceNotFoundException e)
+            {
+                // source does not exists. Do nothing
+            }
+        }
+        
+        throw new URISyntaxException(currentUri, "Unable to resolve SASS import, no matching source found");
+    }
 
     /**
      * Sass Importer which can resolve Ametys resources
      */
     private class AmetysSassImporter implements Importer 
     {
-        private SourceResolver _sResolver;
-        
         private Map<String, String> _validURIsRegistered;
     
         /**
          * Default constructor for the Ametys SassImporter. Provides information for resolving imported resources.
-         * @param sourceResolver The source resolver
          */
-        public AmetysSassImporter(SourceResolver sourceResolver)
+        public AmetysSassImporter()
         {
-            _sResolver = sourceResolver;
             _validURIsRegistered = new HashMap<>();
         }
         
@@ -226,39 +264,6 @@ public class SassResourceHandler extends AbstractCompiledResourceHandler
             return list;
         }
 
-        private Source _getImportSource(String currentUri) throws URISyntaxException, IOException
-        {
-            List<String> uriMatching = new ArrayList<>();
-            uriMatching.add(currentUri);
-            
-            // extension is optional
-            uriMatching.add(currentUri + ".scss");
-            uriMatching.add(currentUri + ".sass");
-            
-            // add an underscore prefix to the file name for sass partial imports
-            String name = FilenameUtils.getName(currentUri);
-            String partialUri = currentUri.substring(0, currentUri.length() - name.length()) + "_" + name;
-            uriMatching.add(partialUri);
-            uriMatching.add(partialUri + ".scss");
-            uriMatching.add(partialUri + ".sass");
-            
-            for (String uri : uriMatching)
-            {
-                try
-                {
-                    Source importSource = _sResolver.resolveURI(uri);
-                    if (importSource.exists())
-                    {
-                        return importSource;
-                    }
-                }
-                catch (SourceNotFoundException e)
-                {
-                    // source does not exists. Do nothing
-                }
-            }
-            
-            throw new URISyntaxException(currentUri, "Unable to resolve SASS import, no matching source found");
-        }
+
     }
 }
