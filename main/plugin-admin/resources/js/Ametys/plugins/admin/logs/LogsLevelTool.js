@@ -91,15 +91,7 @@ Ext.define('Ametys.plugins.admin.logs.LogsLevelTool', {
 	refresh: function ()
 	{
 		this.showRefreshing();
-		this._logsTree.getStore().load({node: this._logsTree.getRootNode(), callback: this._loadCb, scope: this});
-	},
-
-	_loadCb: function ()
-	{
-        // Expand first nodes
-        this._logsTree.getRootNode().expandChildren(false, this._onRootNodesChangedAndExpanded, this);
-
-		this.showRefreshed();
+		this._logsTree.getStore().load({node: this._logsTree.getRootNode()});
 	},
 
     /**
@@ -165,6 +157,11 @@ Ext.define('Ametys.plugins.admin.logs.LogsLevelTool', {
 		
 		// Set the parent level field on each node of the tree
 		this._setParentLevels(rootNode.firstChild.data.level, rootNode.firstChild.childNodes);
+
+        // Expand first nodes
+        this._logsTree.getRootNode().expandChildren(false, this._onRootNodesChangedAndExpanded, this);
+
+		this.showRefreshed();
     },
     
     /**
