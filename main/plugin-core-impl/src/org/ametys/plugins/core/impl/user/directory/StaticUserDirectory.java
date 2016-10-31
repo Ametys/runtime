@@ -98,7 +98,7 @@ public class StaticUserDirectory extends AbstractLogEnabled implements UserDirec
     
     /**
      * Set to false to disallow any user to be authenticated by its credentials
-     * @param grantAllCredentials 
+     * @param grantAllCredentials true if the directory should grant all call to checkCredentials
      */
     public void setGrantAllCredentials(boolean grantAllCredentials)
     {
