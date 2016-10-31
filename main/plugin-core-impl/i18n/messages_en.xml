@@ -176,6 +176,8 @@
     <message key="PLUGINS_CORE_AUTHENTICATION_KERBEROS_AMETYS_LOGIN_DESC">Ametys login on the Active Directory</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_KERBEROS_AMETYS_PASSWORD_LABEL">Password</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_KERBEROS_AMETYS_PASSWORD_DESC">Ametys password on the Active Directory</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_KERBEROS_IPLIMITATION_REGEXP_LABEL">IP restriction</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_KERBEROS_IPLIMITATION_REGEXP_DESC">Regular expression to list all authorized IP addresses that can use this authentication.&lt;br&gt;&lt;br&gt;Indeed, if the server is not part of the list of the 'trusted' websites the client, the HTTP authentication may  display a connection popup and that is making this process blocking.&lt;br/&gt;It is strongly recommended to  restric the IP addresses to computer which browser configuration is known and correct (this generally concerns the local network).&lt;br/&gt;Examples:&lt;ul&gt;&lt;li&gt;&lt;strong&gt;^172\.&lt;/strong&gt;: Will accept all addresses starting by '172.'.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;(^172\.)|(^168\.)|(^127\.0\.0\.1$)&lt;/strong&gt;: Will accept all addresses starting by '172.' or '168.' and also '127.0.0.1'.&lt;/li&gt;&lt;/ul&gt;</message>
     
     <!-- GROUP DIRECTORY -->
     <message key="PLUGINS_CORE_GROUPS_JDBC_LABEL">SQL database</message>

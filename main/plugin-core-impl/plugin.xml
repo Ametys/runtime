@@ -1003,13 +1003,20 @@
                     </param>
                     <param id="runtime.authentication.kerberos.password" type="password">
                         <!-- 
-                            This parameter contains the ametys user pâssword on the kerberos server
+                            This parameter contains the ametys user password on the kerberos server
                          -->
                         <label i18n="true">PLUGINS_CORE_AUTHENTICATION_KERBEROS_AMETYS_PASSWORD_LABEL</label>
                         <description i18n="true">PLUGINS_CORE_AUTHENTICATION_KERBEROS_AMETYS_PASSWORD_DESC</description>
                         <validation>
                             <mandatory/>
                         </validation>
+                    </param>
+                    <param id="runtime.authentication.kerberos.ip-limitation-regexp" type="string">
+                        <!-- 
+                            This parameter contains a regexp that will test user IP address to know if it should use kerneros or not
+                         -->
+                        <label i18n="true">PLUGINS_CORE_AUTHENTICATION_KERBEROS_IPLIMITATION_REGEXP_LABEL</label>
+                        <description i18n="true">PLUGINS_CORE_AUTHENTICATION_KERBEROS_IPLIMITATION_REGEXP_DESC</description>
                     </param>
                 </parameters>
             </extension>

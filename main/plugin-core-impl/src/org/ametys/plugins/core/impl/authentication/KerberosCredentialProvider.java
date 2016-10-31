@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.security.auth.Subject;
 import javax.security.auth.callback.Callback;
@@ -39,6 +40,7 @@ import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.Response;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.ietf.jgss.GSSContext;
 import org.ietf.jgss.GSSCredential;
 import org.ietf.jgss.GSSException;
@@ -65,12 +67,15 @@ public class KerberosCredentialProvider extends AbstractCredentialProvider imple
     protected static final String __PARAM_LOGIN = "runtime.authentication.kerberos.login";
     /** Name of the parameter holding the ametys password */
     protected static final String __PARAM_PASSWORD = "runtime.authentication.kerberos.password";
+    /** Name of the parameter holding the regexp to match ip adresses */
+    protected static final String __PARAM_IPRESTRICTION = "runtime.authentication.kerberos.ip-limitation-regexp";
     
     /** Name of the login config file */
     protected static final String __LOGIN_CONF_FILE = "jaas.conf";
     
     private Context _context;
     private GSSCredential _gssCredential;
+    private Pattern _ipRestriction;
 
     @Override
     public void contextualize(Context context) throws ContextException
@@ -83,6 +88,16 @@ public class KerberosCredentialProvider extends AbstractCredentialProvider imple
     {
         super.init(id, cpModelId, paramValues, label);
 
+        String ipRegexp = (String) paramValues.get(__PARAM_IPRESTRICTION);;
+        if (StringUtils.isNotBlank(ipRegexp))
+        {
+            _ipRestriction = Pattern.compile(ipRegexp);
+        }
+        else
+        {
+            _ipRestriction = null;
+        }
+        
         String kdc = (String) paramValues.get(__PARAM_KDC);
         String realm = (String) paramValues.get(__PARAM_REALM);
         String login = (String) paramValues.get(__PARAM_LOGIN);
@@ -166,10 +181,21 @@ public class KerberosCredentialProvider extends AbstractCredentialProvider imple
     {
         Request request = ContextHelper.getRequest(_context);
         
+        if (!_isIPAuthorized(request))
+        {
+            return null;
+        }
+        
         String authorization = request.getHeader("Authorization");
         if (authorization != null && authorization.startsWith("Negotiate "))
         {
             String negotiateToken = authorization.substring("Negotiate ".length());
+            
+            if (negotiateToken.startsWith("TlRMTVNT"))
+            {
+                // Oups, this is a NTLM token => the user is not on the domain => let's give up
+                return null;
+            }
             byte[] token = Base64.decodeBase64(negotiateToken);
             GSSContext gssContext = GSSManager.getInstance().createContext(_gssCredential);
             byte[] kdcTokenAnswer = gssContext.acceptSecContext(token, 0, token.length);
@@ -205,6 +231,37 @@ public class KerberosCredentialProvider extends AbstractCredentialProvider imple
         {
             throw new AuthorizationRequiredException(true, null);
         }
+    }
+
+    private boolean _isIPAuthorized(Request request)
+    {
+        if (_ipRestriction == null)
+        {
+            // There is no restriction
+            getLogger().debug("There is no IP restriction for Kerberos");
+            return true;
+        }
+        
+        // The real client IP may have been put in the non-standard "X-Forwarded-For" request header, in case of reverse proxy
+        String xff = request.getHeader("X-Forwarded-For");
+        String ip = null;
+        
+        if (xff != null)
+        {
+            ip = xff.split(",")[0];
+        }
+        else
+        {
+            ip = request.getRemoteAddr();
+        }
+        
+        if (!_ipRestriction.matcher(ip).matches())
+        {
+            getLogger().info("Ip '" + ip + "' was not authorized to use Kerberos authentication with filter " + _ipRestriction.pattern());
+            return false;
+        }
+        
+        return true;
     }
 
     @Override
