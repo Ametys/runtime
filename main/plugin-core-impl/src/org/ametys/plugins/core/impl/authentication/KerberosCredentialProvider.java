@@ -220,10 +220,7 @@ public class KerberosCredentialProvider extends AbstractCredentialProvider imple
             
             String login = gssSrcName.toString();
             // gssSrcName should be <login>@<realm>
-            if (login.indexOf('@') > 0)
-            {
-                login = login.substring(0, login.indexOf('@'));
-            }
+            login = StringUtils.substringBefore(login, "@");
             
             return new UserIdentity(login, null);
         }

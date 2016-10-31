@@ -32,6 +32,9 @@
 		<map:actions>
             <map:action name="set-header" src="org.apache.cocoon.acting.HttpHeaderAction" logger="org.ametys.plugins.core.administrator.sitemap.action.httpHeader"/>
 
+            <map:action name="user-directory-test" src="org.ametys.plugins.core.authentication.CheckUserDirectoryAction" />
+            <map:action name="credential-provider-test" src="org.ametys.plugins.core.authentication.CheckCredentialProviderAction" />
+
             <map:action name="users-search" src="org.ametys.plugins.core.user.UserSearchAction" logger="org.ametys.plugins.core.user"/>
             <map:action name="groups-search" src="org.ametys.plugins.core.group.GroupSearchAction" logger="org.ametys.plugins.core.group"/>
             <map:action name="group-users" src="org.ametys.plugins.core.group.UsersGroupAction" logger="org.ametys.plugins.core.group"/>
@@ -127,6 +130,21 @@
         </map:pipeline>
         
 		<map:pipeline>
+		    <!-- AUTHENTICATION -->
+            <map:match pattern="userdirectory/test">
+                <map:act type="user-directory-test">
+                    <map:generate type="action-result"/>
+                    <map:serialize type="xml"/>
+                </map:act>
+            </map:match>
+            
+            <map:match pattern="credentialprovider/test">
+                <map:act type="credential-provider-test">
+                    <map:generate type="action-result"/>
+                    <map:serialize type="xml"/>
+                </map:act>
+            </map:match>
+            		
             <!-- +
                  | USERS
                  + -->

@@ -563,7 +563,7 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
             hideDisabledFields: true,
             scrollable: true,
             flex: 1,
-            testURL: Ametys.getPluginDirectPrefix('core-impl') + '/userdirectory/test'
+            testURL: Ametys.getPluginDirectPrefix('core') + '/userdirectory/test'
         });
         formPanel.configure(data);
         formPanel.setValues({});
@@ -643,7 +643,7 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
             hideDisabledFields: true,
             scrollable: true,
             flex: 1,
-            testURL: Ametys.getPluginDirectPrefix('core-impl') + '/credentialprovider/test'
+            testURL: Ametys.getPluginDirectPrefix('core') + '/credentialprovider/test'
         });
         formPanel.configure(data);
         formPanel.setValues({});
