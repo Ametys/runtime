@@ -118,7 +118,11 @@ public class SassResourceHandler extends AbstractCompiledResourceHandler
                 
                 if (!StringUtils.contains(cssUrl, "http://") && !StringUtils.contains(cssUrl, "https://")) 
                 {
-                    URI currentUri = new URI(FilenameUtils.getFullPath(previous.toString()) + cssUrl);
+                    URI currentUri = new URI(cssUrl);
+                    if (!currentUri.isAbsolute())
+                    {
+                        currentUri = new URI(FilenameUtils.getFullPath(previous.toString()) + cssUrl);
+                    }
             
                     Source importSource = _getImportSource(currentUri.toString());
                     
