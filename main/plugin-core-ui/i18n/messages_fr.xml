@@ -1417,8 +1417,8 @@
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_NEXT_STARTUP_TASK">Sera exécutée au prochain démarrage</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_RUNNING_TASK">En cours d'exécution...</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COMPLETED_TASK">Terminée</message>
-    <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_ENABLED_LABEL">Activée(s)</message>
-    <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_DISABLED_LABEL">Désactivée(s)</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_ENABLED_LABEL">Active(s)</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_DISABLED_LABEL">Inactive(s)</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_COMPLETED_LABEL">Terminée(s)</message>
     
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_ADD_TITLE">Nouvelle tâche</message>
