@@ -44,13 +44,6 @@ Ext.define('Ametys.form.widget.UserPopulation', {
      * @property {Ext.data.Store} _store The store of the combobox
      */
     
-    constructor: function(config)
-    {
-        this.callParent(arguments);
-        
-        Ametys.message.MessageBus.on(Ametys.message.Message.CREATED, this._onMessageCreated, this);
-    },
-    
     onDestroy: function()
     {
         Ametys.message.MessageBus.unAll(this);
@@ -106,28 +99,22 @@ Ext.define('Ametys.form.widget.UserPopulation', {
      */
     _createUserPopulation: function()
     {
-        Ametys.plugins.coreui.populations.EditPopulationHelper.open(null, 'add');
+        Ametys.plugins.coreui.populations.EditPopulationHelper.open(null, 'add', null, Ext.bind(this._onPopulationCreated, this));
     },
     
     /**
-     * Listener on creation message.
-     * @param {Ametys.message.Message} message The creation message.
      * @private
+     * Selects in the combobox the created population
+     * @param {String} populationId The id of the created population
      */
-    _onMessageCreated: function(message)
+    _onPopulationCreated: function(populationId)
     {
-        var targets = message.getTargets(Ametys.message.MessageTarget.USER_POPULATION);
-        if (targets.length > 0)
-        {
-            var createdPopulations = Ext.Array.map(targets, function(target) {return target.getParameters().id;}, this);
-            this._store.load({
-                scope: this,
-                callback: function(records)
-                {
-                    this.combobox.addValue(createdPopulations);
-                }
-            });
-        }
+        this._store.load({
+            scope: this,
+            callback: function(records)
+            {
+                this.combobox.addValue(this.multiple ? [populationId] : populationId);
+            }
+        });
     }
-    
 });

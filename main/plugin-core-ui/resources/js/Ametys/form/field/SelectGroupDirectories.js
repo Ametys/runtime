@@ -42,13 +42,6 @@ Ext.define('Ametys.form.field.SelectGroupDirectories', {
      * @property {Ext.data.Store} _store The store of the combobox
      */
     
-    constructor: function(config)
-    {
-        this.callParent(arguments);
-        
-        Ametys.message.MessageBus.on(Ametys.message.Message.CREATED, this._onMessageCreated, this);
-    },
-    
     onDestroy: function()
     {
         Ametys.message.MessageBus.unAll(this);
@@ -107,28 +100,22 @@ Ext.define('Ametys.form.field.SelectGroupDirectories', {
      */
     _createGroupDirectory: function()
     {
-        Ametys.plugins.coreui.groupdirectories.EditGroupDirectoryHelper.open(null, 'add');
+        Ametys.plugins.coreui.groupdirectories.EditGroupDirectoryHelper.open(null, 'add', null, Ext.bind(this._onGroupDirectoryCreated, this));
     },
     
     /**
-     * Listener on creation message.
-     * @param {Ametys.message.Message} message The creation message.
      * @private
+     * Selects in the combobox the created group directory
+     * @param {String} populationId The id of the created group directory
      */
-    _onMessageCreated: function(message)
+    _onGroupDirectoryCreated: function(groupDirectoryId)
     {
-        var targets = message.getTargets(Ametys.message.MessageTarget.GROUP_DIRECTORY);
-        if (targets.length > 0)
-        {
-            var createdDirectories = Ext.Array.map(targets, function(target) {return target.getParameters().id;}, this);
-            this._store.load({
-                scope: this,
-                callback: function(records)
-                {
-                    this.combobox.addValue(createdDirectories);
-                }
-            });
-        }
+        this._store.load({
+            scope: this,
+            callback: function(records)
+            {
+                this.combobox.addValue(this.multiple ? [groupDirectoryId] : groupDirectoryId);
+            }
+        });
     }
-    
 });

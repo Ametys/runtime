@@ -31,6 +31,11 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
     
     /**
      * @private
+     * @property {Function} _callback The callback function called when the population is created/modified.
+     */
+    
+    /**
+     * @private
      * @property {Ametys.window.DialogBox} _box The dialog box.
      */
     
@@ -61,11 +66,13 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
      * @param {Object} [valuesToFill] If in edit mode, an object containing the data to fill the form
      * @param {String} [mode='add'] The edition mode for the dialog box. Can only be 'add' (for creation) or 'edit' (for edition).
      * @param {String} [populationId] If in edition mode, the id of the population being edited.
+     * @param {Function} [callback] A callback function called when the population is created/modified.
      */
-    open: function(valuesToFill, mode, populationId)
+    open: function(valuesToFill, mode, populationId, callback)
     {
         this._mode = mode || 'add';
         this._populationId = populationId;
+        this._callback = callback;
         if (mode == 'add')
         {
             // We need to know the existing ids for checking the id given by the user is not used
@@ -819,6 +826,10 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
         if (response && !response.error)
         {
             this._box.close();
+            if (Ext.isFunction(this._callback))
+            {
+                this._callback(response);
+            }
         }
     },
     
@@ -885,5 +896,4 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
         
         return outputData;
     }
-    
 });

@@ -31,6 +31,11 @@ Ext.define('Ametys.plugins.coreui.groupdirectories.EditGroupDirectoryHelper', {
     
     /**
      * @private
+     * @property {Function} _callback The callback function called when the group directory is created/modified.
+     */
+    
+    /**
+     * @private
      * @property {Ametys.window.DialogBox} _box The dialog box.
      */
     
@@ -56,11 +61,13 @@ Ext.define('Ametys.plugins.coreui.groupdirectories.EditGroupDirectoryHelper', {
      * @param {Object} [valuesToFill] If in edit mode, an object containing the data to fill the form
      * @param {String} mode The edition mode for the dialog box. Can only be 'add' (for creation) or 'edit' (for edition).
      * @param {String} [groupDirectoryId] If in edition mode, the id of the group directory being edited.
+     * @param {Function} [callback] A callback function called when the group directory is created/modified.
      */
-    open: function(valuesToFill, mode, groupDirectoryId)
+    open: function(valuesToFill, mode, groupDirectoryId, callback)
     {
         this._mode = mode || 'add';
         this._groupDirectoryId = groupDirectoryId;
+        this._callback = callback;
         if (mode == 'add')
         {
             // We need to know the existing ids for checking the id given by the user is not used
@@ -406,6 +413,10 @@ Ext.define('Ametys.plugins.coreui.groupdirectories.EditGroupDirectoryHelper', {
         if (!response.error)
         {
             this._box.close();
+            if (Ext.isFunction(this._callback))
+            {
+                this._callback(response);
+            }
         }
     },
     
@@ -427,5 +438,4 @@ Ext.define('Ametys.plugins.coreui.groupdirectories.EditGroupDirectoryHelper', {
         
         this._getFormPanel().setValues({values: values});
     }
-    
 });
