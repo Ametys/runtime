@@ -159,7 +159,7 @@ public class CheckConfigAction extends ServiceableAction
                 }
                 else
                 {
-                    values.add(ParameterHelper.valueToString(paramRawValues.get(i)));
+                    values.add(untypedValue);
                 }
             }
             
