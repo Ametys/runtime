@@ -82,9 +82,10 @@ public class HttpUrlChecker implements ParameterChecker, Configurable
     @Override
     public void check(List<String> values) throws ParameterCheckerTestFailureException
     {
+        String configUrl = values.get(0);
+        
         try
         {
-            String configUrl = values.get(0);
             HttpURLConnection httpUrlConnection = _prepareConnection(configUrl + _additionnalURL);
             
             // Do the connection
@@ -95,7 +96,7 @@ public class HttpUrlChecker implements ParameterChecker, Configurable
         }
         catch (IOException e)
         {
-            throw new ParameterCheckerTestFailureException(e.getMessage(), e);
+            throw new ParameterCheckerTestFailureException("Unable to contact '" + configUrl + _additionnalURL + "' (" + e.getMessage() + ")", e);
         }
     }
 
