@@ -1007,7 +1007,7 @@
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_EDIT_DESCRIPTION">Edite une population d'utilisateurs</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_REMOVE_LABEL">Supprimer</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_REMOVE_DESCRIPTION">Supprime une population d'utilisateurs</message>
-    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_REMOVE_UNABLE_DESCRIPTION">Cette population ne peut pas être supprimée car elle est liée à un contexte d'utilisation</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_REMOVE_UNABLE_DESCRIPTION">Cette population ne peut pas être supprimée car elle est utilisée</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_ENABLE_LABEL">Population activée</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_ENABLE_DESCRIPTION">La population est actuellement désactivée.&lt;br/&gt;Cliquez ici pour activer la population d'utilisateurs sélectionnée.</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DISABLE_DESCRIPTION">La population est actuellement activée.&lt;br/&gt;Cliquez ici pour désactiver la population d'utilisateurs sélectionnée.</message>

@@ -1005,7 +1005,7 @@
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_EDIT_DESCRIPTION">Edit a user population</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_REMOVE_LABEL">Remove</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_REMOVE_DESCRIPTION">Remove a user population</message>
-    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_REMOVE_UNABLE_DESCRIPTION">This population cannot be removed because it is linked to a context</message>
+    <message key="PLUGINS_CORE_UI_USER_POPULATIONS_REMOVE_UNABLE_DESCRIPTION">This population cannot be removed because it is used</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_ENABLE_LABEL">Population enabled</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_ENABLE_DESCRIPTION">Enable a user population</message>
     <message key="PLUGINS_CORE_UI_USER_POPULATIONS_DISABLE_DESCRIPTION">Disable a user population</message>
