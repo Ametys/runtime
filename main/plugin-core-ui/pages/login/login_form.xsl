@@ -306,13 +306,8 @@
                     <xsl:call-template name="login-form-inputs-captcha"/>
                 </xsl:if>
                 
-
-
-                      
-<!-- 	                        <div class="forgotten"> -->
-<!-- 	                           <a>Mot de passe oublié</a> -->
-<!-- 	                        </div> -->
-                      
+                <xsl:call-template name="login-form-inputs-forgotten"/>
+                
             	<xsl:if test="/LoginScreen/LoginForm/rememberMe = 'true'">
                     <xsl:call-template name="login-form-inputs-rememberme"/>
             	</xsl:if>
@@ -332,6 +327,22 @@
         </xsl:if>
     </xsl:template>
 
+    <xsl:template name="login-form-inputs-forgotten">
+<!--         Feature not supported in backoffice -->
+<!--         <xsl:call-template name="login-form-inputs-forgotten-internal"> -->
+<!--             <xsl:with-param name="label"><i18n:text i18n:key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_PASSWORD_FORGOTTEN" i18n:catalogue="plugin.core-ui"/></xsl:with-param> -->
+<!--             <xsl:with-param name="url"/> -->
+<!--         </xsl:call-template> -->
+    </xsl:template>
+    <xsl:template name="login-form-inputs-forgotten-internal">
+        <xsl:param name="label"/>
+        <xsl:param name="url"/>
+    
+        <div class="login-link-wrapper-forgotten">
+            <a href="{$url}"><xsl:copy-of select="$label"/></a>
+        </div>
+    </xsl:template>
+    
     <xsl:template name="login-form-inputs-username">
         <xsl:call-template name="login-form-inputs-username-internal">
             <xsl:with-param name="label">plugin.core-ui:PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_LOGIN</xsl:with-param>
