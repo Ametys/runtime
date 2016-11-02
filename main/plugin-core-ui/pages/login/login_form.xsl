@@ -88,10 +88,13 @@
 		                <xsl:call-template name="login-back"/>
 				    </div>
 				</xsl:when>
-				<xsl:otherwise>
+				<xsl:when test="/LoginScreen/CredentialProviders/CredentialProvider[@isNewWindowRequired = 'true']">
 				    <script type="text/javascript">
 				        <xsl:call-template name="login-credential-provider-script"/>
 				    </script>
+				</xsl:when>
+				<xsl:otherwise>
+				    <!-- We are in a population with a single blocking CP that does not require a new window... this should not happen -->
 				</xsl:otherwise>
             </xsl:choose>
         </xsl:if>
