@@ -151,7 +151,7 @@
     
     <message key="PLUGINS_CORE_AUTHENTICATION_BASIC_LABEL">Browser popup (BASIC protocol)</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_BASIC_DESCRIPTION">Browser popup (BASIC protocol)</message>
-    <message key="PLUGINS_CORE_AUTHENTICATION_BASIC_CONNECTION_LABEL">popup</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_BASIC_CONNECTION_LABEL">browser</message>
     
     <message key="PLUGINS_CORE_AUTHENTICATION_FORMBASED_LABEL">Form</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_FORMBASED_DESCRIPTION">Form</message>
