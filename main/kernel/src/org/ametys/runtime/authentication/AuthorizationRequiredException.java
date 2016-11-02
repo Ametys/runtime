@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -21,8 +21,14 @@ package org.ametys.runtime.authentication;
 public class AuthorizationRequiredException extends Exception
 {
     private String _realm;
-    private String _token;
-    private boolean _isNegotiate;
+    
+    /**
+     * Constructor
+     */
+    public AuthorizationRequiredException()
+    {
+        this(null);
+    }
     
     /**
      * Constructor
@@ -30,34 +36,7 @@ public class AuthorizationRequiredException extends Exception
      */
     public AuthorizationRequiredException(String realm)
     {
-        this(false, realm);
-    }
-    
-    /**
-     * Constructor
-     * @param isNegotiate True if the authorization can be negotiated
-     * @param data The data associated with the exception, either the token or the realm
-     */
-    public AuthorizationRequiredException(boolean isNegotiate, String data)
-    {
-        _isNegotiate = isNegotiate;
-        if (isNegotiate)
-        {
-            _realm = data;
-        }
-        else
-        {
-            _token = data;
-        }
-    }
-    
-    /**
-     * Returns true if the authorization can be negotiated
-     * @return Ture if the authorization can be negotiated
-     */
-    public boolean isNegotiate()
-    {
-        return _isNegotiate;
+        _realm = realm;
     }
     
     /**
@@ -67,14 +46,5 @@ public class AuthorizationRequiredException extends Exception
     public String getRealm()
     {
         return _realm;
-    }
-    
-    /**
-     * Returns the token associated with the negotiation
-     * @return The token. Can be null
-     */
-    public String getToken()
-    {
-        return _token;
     }
 }

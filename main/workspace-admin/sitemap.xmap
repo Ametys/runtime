@@ -26,7 +26,6 @@
         
         <map:actions>
             <map:action name="authenticate" src="org.ametys.runtime.workspaces.admin.authentication.AdminAuthenticateAction" logger="org.ametys.runtime.workspaces.admin.sitemap.action.authentication"/>
-            <map:action name="set-authorization-header" src="org.ametys.runtime.workspaces.admin.authentication.SetAuthorizationHeaderAction"  logger="org.ametys.runtime.workspaces.admin.sitemap.action.setheader"/>
             <map:action name="resource-not-exists" src="org.ametys.core.util.cocoon.ResourceNotExistsAction"/>
             <map:action name="has-not-admin-right" src="org.ametys.runtime.plugins.admin.HasNotAdminRightAction" logger="org.ametys.runtime.plugins.admin.right"/>
             <map:action name="is-not-a-granted-request" src="org.ametys.core.authentication.IsGrantedAction">

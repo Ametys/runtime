@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -47,6 +48,7 @@ import org.ametys.core.user.population.UserPopulation;
 import org.ametys.core.user.population.UserPopulationDAO;
 import org.ametys.plugins.core.impl.authentication.FormCredentialProvider;
 import org.ametys.runtime.authentication.AccessDeniedException;
+import org.ametys.runtime.authentication.AuthorizationRequiredException;
 import org.ametys.runtime.workspace.WorkspaceMatcher;
 
 /**
@@ -86,8 +88,8 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     /** The request attribute name for transmitting the list of contexts */
     protected static final String REQUEST_ATTRIBUTE_CONTEXTS = "Runtime:Contexts";
 
-    /** The session attribute name for storing the credential provider of the authentication (during connection process) */
-    protected static final String SESSION_CONNECTING_CREDENTIALPROVIDER = "Runtime:ConnectingCredentialProvider";
+    /** The session attribute name for storing the credential provider index of the authentication (during connection process) */
+    protected static final String SESSION_CONNECTING_CREDENTIALPROVIDER_INDEX = "Runtime:ConnectingCredentialProviderIndex";
     /** The session attribute name for storing the credential provider mode of the authentication: non-blocking=>false, blocking=>true (during connection process) */
     protected static final String SESSION_CONNECTING_CREDENTIALPROVIDER_MODE = "Runtime:ConnectingCredentialProviderMode";
     /** The session attribute name for storing the id of the user population (during connection process) */
@@ -160,12 +162,12 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         if (!_isCurrentCredentialProviderInBlockingMode(request))
         {
             // if there was no one running, let's start with the first one
-            runningCredentialProviderIndex = Math.max(0, runningCredentialProviderIndex); 
+            runningCredentialProviderIndex = Math.max(0, runningCredentialProviderIndex);
             
             for (; runningCredentialProviderIndex < credentialProviders.size(); runningCredentialProviderIndex++)
             {
                 CredentialProvider runningCredentialProvider = credentialProviders.get(runningCredentialProviderIndex);
-                if (_process(request, false, runningCredentialProvider, redirector, chosenUserPopulations))
+                if (_process(request, false, runningCredentialProvider, runningCredentialProviderIndex, redirector, chosenUserPopulations))
                 {
                     // Whatever the user was correctly authenticated or he just required a redirect: let's stop here for the moment
                     return EMPTY_MAP;
@@ -177,33 +179,54 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         }
         
         // Let's process the current one blocking or the only existing one
-        if (_shouldRunBlockingCredentialProvider(runningCredentialProviderIndex, credentialProviders, request, chosenUserPopulations))
+        if (_shouldRunFirstBlockingCredentialProvider(runningCredentialProviderIndex, credentialProviders, request, chosenUserPopulations))
         {
-            CredentialProvider runningCredentialProvider = credentialProviders.get(Math.max(0, runningCredentialProviderIndex));
-            if (_process(request, true, runningCredentialProvider, redirector, chosenUserPopulations))
+            CredentialProvider runningCredentialProvider = runningCredentialProviderIndex == -1 ? _getFirstBlockingCredentialProvider(credentialProviders) : credentialProviders.get(runningCredentialProviderIndex);
+            if (_process(request, true, runningCredentialProvider, runningCredentialProviderIndex, redirector, chosenUserPopulations))
             {
                 // Whatever the user was correctly authenticated or he just required a redirect: let's stop here for the moment
                 return EMPTY_MAP;
             }
             
-            throw new AccessDeniedException();
+            throw new AuthorizationRequiredException();
         }
         
-        // Let's display the blocking list
-        _saveConnectingStateToSession(request, null, true);
-        redirector.redirect(false, getLoginURL(request));
-        return EMPTY_MAP;
+        // Let's display the blocking list (if there is one at least)
+        if (credentialProviders.stream().filter(cp -> cp instanceof BlockingCredentialProvider).findFirst().isPresent())
+        {
+            _saveConnectingStateToSession(request, -1, true);
+            redirector.redirect(false, getLoginURL(request));
+            return EMPTY_MAP;
+        }
+        else
+        {
+            // No way to login
+            throw new AuthorizationRequiredException();
+        }
     }
     
     @SuppressWarnings("unchecked")
-    private boolean _shouldRunBlockingCredentialProvider(int runningCredentialProviderIndex, List<CredentialProvider> credentialProviders, Request request, List<UserPopulation> chosenUserPopulations)
+    private boolean _shouldRunFirstBlockingCredentialProvider(int runningCredentialProviderIndex, List<CredentialProvider> credentialProviders, Request request, List<UserPopulation> chosenUserPopulations)
     {
         return runningCredentialProviderIndex >= 0 // There is a running credential provider 
-            || credentialProviders.size() == 1 // There is a single credential provider AND 
+            || credentialProviders.stream().filter(cp -> cp instanceof BlockingCredentialProvider).count() == 1 // There is a single blocking credential provider AND 
                 && (
                         ((List<UserPopulation>) request.getAttribute(REQUEST_ATTRIBUTE_AVAILABLE_USER_POPULATIONS_LIST)).size() == chosenUserPopulations.size() // no population choice screen
-                        || credentialProviders.get(0) instanceof BlockingCredentialProvider && !((BlockingCredentialProvider) credentialProviders.get(0)).requiresNewWindow() // it does not requires a window opening
+                        || _getFirstBlockingCredentialProvider(credentialProviders).requiresNewWindow() // it does not requires a window opening
                 );
+    }
+    
+    private BlockingCredentialProvider _getFirstBlockingCredentialProvider(List<CredentialProvider> credentialProviders)
+    {
+        Optional<CredentialProvider> findFirst = credentialProviders.stream().filter(cp -> cp instanceof BlockingCredentialProvider).findFirst();
+        if (findFirst.isPresent())
+        {
+            return (BlockingCredentialProvider) findFirst.get();
+        }
+        else
+        {
+            return null;
+        }
     }
     
     /**
@@ -410,15 +433,16 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
      * @param request The request
      * @param runningBlockingkMode false for non-blocking mode, true for blocking mode
      * @param runningCredentialProvider the Credential provider to test
+     * @param runningCredentialProviderIndex The index of the currently tested credential provider
      * @param redirector The cocoon redirector
      * @param userPopulations The list of possible user populations
      * @return false if we should try with another Credential provider, true otherwise
      * @throws Exception If an error occurred
      */
-    protected boolean _process(Request request, boolean runningBlockingkMode, CredentialProvider runningCredentialProvider, Redirector redirector, List<UserPopulation> userPopulations) throws Exception
+    protected boolean _process(Request request, boolean runningBlockingkMode, CredentialProvider runningCredentialProvider, int runningCredentialProviderIndex, Redirector redirector, List<UserPopulation> userPopulations) throws Exception
     {
         boolean existingSession = request.getSession(false) != null;
-        _saveConnectingStateToSession(request, runningBlockingkMode ? null : runningCredentialProvider, runningBlockingkMode);
+        _saveConnectingStateToSession(request, runningBlockingkMode ? -1 : runningCredentialProviderIndex, runningBlockingkMode);
         if (_doProcess(request, runningBlockingkMode, runningCredentialProvider, redirector, userPopulations))
         {
             return true;
@@ -494,7 +518,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         Session session = request.getSession(false);
         if (session != null)
         {
-            session.removeAttribute(SESSION_CONNECTING_CREDENTIALPROVIDER);
+            session.removeAttribute(SESSION_CONNECTING_CREDENTIALPROVIDER_INDEX);
             session.removeAttribute(SESSION_CONNECTING_CREDENTIALPROVIDER_MODE);
             session.removeAttribute(SESSION_CONNECTING_USERPOPULATION_ID);
         }
@@ -504,12 +528,12 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
      * When the process end successfully, save the state
      * @param request The request
      * @param runningBlockingkMode false for non-blocking mode, true for blocking mode
-     * @param runningCredentialProvider the Credential provider to test
+     * @param runningCredentialProviderIndex the currently tested credential provider
      */
-    protected void _saveConnectingStateToSession(Request request, CredentialProvider runningCredentialProvider, boolean runningBlockingkMode)
+    protected void _saveConnectingStateToSession(Request request, int runningCredentialProviderIndex, boolean runningBlockingkMode)
     {
         Session session = request.getSession(true);
-        session.setAttribute(SESSION_CONNECTING_CREDENTIALPROVIDER, runningCredentialProvider);
+        session.setAttribute(SESSION_CONNECTING_CREDENTIALPROVIDER_INDEX, runningCredentialProviderIndex);
         session.setAttribute(SESSION_CONNECTING_CREDENTIALPROVIDER_MODE, runningBlockingkMode);
         session.setAttribute(SESSION_CONNECTING_USERPOPULATION_ID, request.getAttribute(REQUEST_ATTRIBUTE_USER_POPULATION_ID));
     }
@@ -624,6 +648,12 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
      */
     protected boolean _isCurrentCredentialProviderInBlockingMode(Request request)
     {
+        Integer requestedCredentialParameterIndex = _getCurrentCredentialProviderIndexFromParameter(request);
+        if (requestedCredentialParameterIndex != null && requestedCredentialParameterIndex != -1)
+        {
+            return true;
+        }
+        
         Session session = request.getSession(false);
         if (session != null)
         {
@@ -636,7 +666,43 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         }
         return false;
     }
+    
+    /**
+     * Call this to skip the currently used credential provider and proceed to the next one.
+     * Useful for non blocking
+     * @param request The request
+     */
+    public static void skipCurrentCredentialProvider(Request request)
+    {
+        Session session = request.getSession();
+        if (session != null)
+        {
+            Integer cpIndex = (Integer) session.getAttribute(SESSION_CONNECTING_CREDENTIALPROVIDER_INDEX);
+            if (cpIndex != null)
+            {
+                cpIndex++;
+                session.setAttribute(SESSION_CONNECTING_CREDENTIALPROVIDER_INDEX, cpIndex);
+            }
+        }
+    }
 
+    /**
+     * Get the current credential provider index or -1 if there no running provider FROM REQUEST PARAMETER
+     * @param request The request
+     * @return The credential provider index to use in the availablesCredentialProviders list or -1 or null
+     */
+    protected Integer _getCurrentCredentialProviderIndexFromParameter(Request request)
+    {
+        // Is the CP requested?
+        String requestedCredentialParameterIndex = request.getParameter(REQUEST_PARAMETER_CREDENTIALPROVIDER_INDEX);
+        if (StringUtils.isNotBlank(requestedCredentialParameterIndex))
+        {
+            int index = Integer.parseInt(requestedCredentialParameterIndex);
+            return index;
+        }
+        return null;
+    }
+    
     /**
      * Get the current credential provider index or -1 if there no running provider
      * @param request The request
@@ -646,13 +712,12 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     protected int _getCurrentCredentialProviderIndex(Request request, List<CredentialProvider> availableCredentialProviders)
     {
         // Is the CP requested?
-        String requestedCredentialParameterIndex = request.getParameter(REQUEST_PARAMETER_CREDENTIALPROVIDER_INDEX);
-        if (StringUtils.isNotBlank(requestedCredentialParameterIndex))
+        Integer requestedCredentialParameterIndex = _getCurrentCredentialProviderIndexFromParameter(request);
+        if (requestedCredentialParameterIndex != null)
         {
-            int index = Integer.parseInt(requestedCredentialParameterIndex);
-            if (index < availableCredentialProviders.size())
+            if (requestedCredentialParameterIndex < availableCredentialProviders.size())
             {
-                return index;
+                return requestedCredentialParameterIndex;
             }
             else
             {
@@ -664,18 +729,12 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         Session session = request.getSession(false);
         if (session != null)
         {
-            CredentialProvider cp = (CredentialProvider) session.getAttribute(SESSION_CONNECTING_CREDENTIALPROVIDER);
-            session.removeAttribute(SESSION_CONNECTING_CREDENTIALPROVIDER);
+            Integer cpIndex = (Integer) session.getAttribute(SESSION_CONNECTING_CREDENTIALPROVIDER_INDEX);
+            session.removeAttribute(SESSION_CONNECTING_CREDENTIALPROVIDER_INDEX);
             
-            // We cannot simply return availableCredentialProviders.indexOf(cp)
-            // because this will use equals, and we explicitly want to do ==
-            // equals was overridden so 2 CP with the same parameters are equals but not ==
-            for (int index = 0; index < availableCredentialProviders.size(); index++)
+            if (cpIndex != null)
             {
-                if (availableCredentialProviders.get(index) == cp)
-                {
-                    return index;
-                }
+                return cpIndex;
             }
         }
         

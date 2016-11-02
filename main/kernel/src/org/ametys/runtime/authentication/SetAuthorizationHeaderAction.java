@@ -35,20 +35,9 @@ public class SetAuthorizationHeaderAction extends AbstractAction implements Thre
         Throwable throwable = ObjectModelHelper.getThrowable(objectModel);
         AuthorizationRequiredException ex = _unrollException(throwable);
         
-        if (ex == null)
+        if (ex != null && ex.getRealm() != null)
         {
-            getLogger().warn("Cannot get the necessary data from the exception !");
-            return null;
-        }
-        
-        Response response = ObjectModelHelper.getResponse(objectModel);
-        
-        if (ex.isNegotiate())
-        {
-            response.setHeader("WWW-Authenticate", "Negotiate" + (ex.getToken() != null ? " " + ex.getToken() : ""));
-        }
-        else
-        {
+            Response response = ObjectModelHelper.getResponse(objectModel);
             response.setHeader("WWW-Authenticate", "BASIC realm=\"" + ex.getRealm() + "\"");
         }
         

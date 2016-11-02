@@ -51,8 +51,8 @@ import org.ietf.jgss.Oid;
 import org.ametys.core.authentication.AbstractCredentialProvider;
 import org.ametys.core.authentication.NonBlockingCredentialProvider;
 import org.ametys.core.user.UserIdentity;
-import org.ametys.runtime.authentication.AuthorizationRequiredException;
 import org.ametys.runtime.util.AmetysHomeHelper;
+import org.ametys.runtime.workspace.WorkspaceMatcher;
 
 /**
  * Kerberos http authentication.
@@ -72,6 +72,10 @@ public class KerberosCredentialProvider extends AbstractCredentialProvider imple
     
     /** Name of the login config file */
     protected static final String __LOGIN_CONF_FILE = "jaas.conf";
+
+    /** The url to redirect to skip kerberos current authentication */
+    protected static final String __SKIP_KERBEROS_URL = "cocoon://plugins/core-impl/userpopulations/credentialproviders/kerberos";
+
     
     private Context _context;
     private GSSCredential _gssCredential;
@@ -88,7 +92,7 @@ public class KerberosCredentialProvider extends AbstractCredentialProvider imple
     {
         super.init(id, cpModelId, paramValues, label);
 
-        String ipRegexp = (String) paramValues.get(__PARAM_IPRESTRICTION);;
+        String ipRegexp = (String) paramValues.get(__PARAM_IPRESTRICTION);
         if (StringUtils.isNotBlank(ipRegexp))
         {
             _ipRestriction = Pattern.compile(ipRegexp);
@@ -171,15 +175,19 @@ public class KerberosCredentialProvider extends AbstractCredentialProvider imple
     @Override
     public boolean nonBlockingGrantAnonymousRequest()
     {
-        // this implementation does not have any particular request
-        // to take into account
-        return false;
+        Request request = ContextHelper.getRequest(_context);
+        
+        // URL without server context and leading slash.
+        String url = (String) request.getAttribute(WorkspaceMatcher.IN_WORKSPACE_URL);
+        
+        return "plugins/core-impl/userpopulations/credentialproviders/kerberos/skip".equals(url);
     }
 
     @Override
     public UserIdentity nonBlockingGetUserIdentity(Redirector redirector) throws Exception
     {
         Request request = ContextHelper.getRequest(_context);
+        Response response = ContextHelper.getResponse(_context);
         
         if (!_isIPAuthorized(request))
         {
@@ -194,6 +202,7 @@ public class KerberosCredentialProvider extends AbstractCredentialProvider imple
             if (negotiateToken.startsWith("TlRMTVNT"))
             {
                 // Oups, this is a NTLM token => the user is not on the domain => let's give up
+                getLogger().debug("A user tried an NTLM token. Let's ignore it.");
                 return null;
             }
             byte[] token = Base64.decodeBase64(negotiateToken);
@@ -203,19 +212,22 @@ public class KerberosCredentialProvider extends AbstractCredentialProvider imple
             if (!gssContext.isEstablished())
             {
                 // Handshake is not over, send new token
-                throw new AuthorizationRequiredException(true, tokenAnswer);
+                response.setHeader("WWW-Authenticate", "Negotiate " + tokenAnswer);
+                redirector.redirect(false, __SKIP_KERBEROS_URL);
+                return null;
             }
             
             if (tokenAnswer != null)
             {
-                Response response = ContextHelper.getResponse(_context);
                 response.setHeader("WWW-Authenticate", "Negotiate " + tokenAnswer);
             }
             
             GSSName gssSrcName = gssContext.getSrcName();
             if (gssSrcName == null)
             {
-                throw new AuthorizationRequiredException(true, null);
+                response.setHeader("WWW-Authenticate", "Negotiate");
+                redirector.redirect(false, __SKIP_KERBEROS_URL);
+                return null;
             }
             
             String login = gssSrcName.toString();
@@ -226,7 +238,9 @@ public class KerberosCredentialProvider extends AbstractCredentialProvider imple
         }
         else
         {
-            throw new AuthorizationRequiredException(true, null);
+            response.setHeader("WWW-Authenticate", "Negotiate");
+            redirector.redirect(false, __SKIP_KERBEROS_URL);
+            return null;
         }
     }
 
@@ -272,5 +286,4 @@ public class KerberosCredentialProvider extends AbstractCredentialProvider imple
     {
         // Nothing
     }
-
 }

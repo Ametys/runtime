@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Anyware Services
+ *  Copyright 2016 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,33 +13,28 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.ametys.runtime.workspaces.admin.authentication;
+package org.ametys.runtime.authentication;
 
 import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.acting.AbstractAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
-import org.apache.cocoon.environment.Response;
+import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
 
-import org.ametys.runtime.authentication.AuthorizationRequiredException;
-
+import org.ametys.core.authentication.AuthenticateAction;
 
 /**
- * Action setting the response Header for 401 reponse
+ * During the authentication process, we need to go the next unblocking credential provider if kerberos fail 
  */
-public class SetAuthorizationHeaderAction extends AbstractAction implements ThreadSafe
+public class SkipCurrentCredentialProviderAction extends AbstractAction
 {
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
-        AuthorizationRequiredException ex =  (AuthorizationRequiredException) ObjectModelHelper.getThrowable(objectModel);
-        Response response = ObjectModelHelper.getResponse(objectModel);
-        
-        response.setHeader("WWW-Authenticate", "BASIC realm=\"" + ex.getRealm() + "\"");
-        
+        Request request = ObjectModelHelper.getRequest(objectModel);
+        AuthenticateAction.skipCurrentCredentialProvider(request);
         return EMPTY_MAP;
     }
 }

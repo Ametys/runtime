@@ -51,7 +51,7 @@ public class BlockingCredentialProviderAction extends AuthenticateAction
         int credentialProviderIndex = Integer.parseInt(source);
         CredentialProvider credentialProvider = credentialProviders.get(credentialProviderIndex);
         
-        if (_process(request, true, credentialProvider, redirector, chosenUserPopulations))
+        if (_process(request, true, credentialProvider, credentialProviderIndex, redirector, chosenUserPopulations))
         {
             // Whatever the user was correctly authenticated or he just required a redirect: let's stop here for the moment
             return EMPTY_MAP;

@@ -22,7 +22,6 @@
         
         <map:actions>
             <map:action name="authenticate" src="org.ametys.runtime.authentication.AuthenticateAction" logger="workspace.action.authenticate"/>
-            <map:action name="set-authorization-header" src="org.ametys.runtime.authentication.SetAuthorizationHeaderAction"  logger="workspace.action.setheader"/>
         </map:actions>
         
         <map:transformers>
@@ -120,8 +119,6 @@
                         </map:act>
                     </map:when>
                     <map:when test="authorization-required">
-                        <!-- Basic authentication need to set a special header when this exception is thrown -->
-                        <map:act type="set-authorization-header"/>
                         <map:act type="exception" src="401">
                             <map:generate type="exception" label="content"/>
                             <map:transform src="{xsl}">
