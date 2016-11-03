@@ -143,8 +143,7 @@ public class CheckConfigAction extends ServiceableAction
                 // Handle password field
                 if (untypedValue == null && configParams.get(paramName).getType() == ParameterType.PASSWORD)
                 {
-                    Object typedValue = ParameterHelper.castValue(untypedValue, configParams.get(paramName).getType());
-
+                    String typedValue = null;
                     if (Config.getInstance() != null)
                     {
                         // Fetch the value of an empty password field
@@ -155,7 +154,7 @@ public class CheckConfigAction extends ServiceableAction
                         typedValue = oldUntypedValues.get(paramName);
                     }
                     
-                    values.add((String) typedValue);
+                    values.add(typedValue);
                 }
                 else
                 {
