@@ -21,7 +21,7 @@ import junit.framework.TestSuite;
 import org.ametys.runtime.test.groups.jdbc.OracleJdbcGroupsTestCase;
 import org.ametys.runtime.test.rights.manager.OracleRightManagerTestCase;
 import org.ametys.runtime.test.userpref.OracleUserPreferencesTestCase;
-import org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware.OracleModifiableCredentialsAwareJdbcUsersTestCase;
+import org.ametys.runtime.test.users.jdbc.OracleJdbcUsersTestCase;
 
 /**
  * Test suite grouping all Runtime tests
@@ -42,7 +42,7 @@ public final class AllOracleTestSuite
         TestSuite suite = new TestSuite("All Oracle-based tests");
         
         //$JUnit-BEGIN$
-        suite.addTestSuite(OracleModifiableCredentialsAwareJdbcUsersTestCase.class);
+        suite.addTestSuite(OracleJdbcUsersTestCase.class);
         
         suite.addTestSuite(OracleJdbcGroupsTestCase.class);
         

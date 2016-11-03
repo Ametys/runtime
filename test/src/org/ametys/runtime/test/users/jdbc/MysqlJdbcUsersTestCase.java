@@ -13,18 +13,18 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware;
+package org.ametys.runtime.test.users.jdbc;
 
 import org.ametys.core.datasource.ConnectionHelper;
 
 /**
- * Derby-specific modifiable credentials aware JDBC UsersManager test case.
+ * MySQL-specific JDBC user directory test case.
  */
-public class HsqlModifiableCredentialsAwareJdbcUsersTestCase extends AbstractModifiableCredentialsAwareJdbcUsersTestCase
+public class MysqlJdbcUsersTestCase extends AbstractJdbcUsersTestCase
 {
     @Override
     protected String _getDBType()
     {
-        return ConnectionHelper.DATABASE_HSQLDB;
+        return ConnectionHelper.DATABASE_MYSQL;
     }
 }

@@ -13,18 +13,18 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware;
+package org.ametys.runtime.test.users.jdbc;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
 /**
- * Test suite for modifiable credentials aware UsersManagers.
+ * Test suite for JDBC user directory.
  */
-public final class AllModifiableCredentialsAwareJdbcUsersTestSuite extends TestSuite
+public final class AllJdbcUsersTestSuite extends TestSuite
 {
     
-    private AllModifiableCredentialsAwareJdbcUsersTestSuite()
+    private AllJdbcUsersTestSuite()
     {
         // empty constructor
     }
@@ -38,11 +38,11 @@ public final class AllModifiableCredentialsAwareJdbcUsersTestSuite extends TestS
         TestSuite suite = new TestSuite("Test ModifiableCredentialsAwareJdbcUsersManager with all DBMS");
         
         //$JUnit-BEGIN$
-        suite.addTestSuite(MysqlModifiableCredentialsAwareJdbcUsersTestCase.class);
-        suite.addTestSuite(PostgresModifiableCredentialsAwareJdbcUsersTestCase.class);
-        suite.addTestSuite(OracleModifiableCredentialsAwareJdbcUsersTestCase.class);
-        suite.addTestSuite(DerbyModifiableCredentialsAwareJdbcUsersTestCase.class);
-        suite.addTestSuite(HsqlModifiableCredentialsAwareJdbcUsersTestCase.class);
+        suite.addTestSuite(MysqlJdbcUsersTestCase.class);
+        suite.addTestSuite(PostgresJdbcUsersTestCase.class);
+        suite.addTestSuite(OracleJdbcUsersTestCase.class);
+        suite.addTestSuite(DerbyJdbcUsersTestCase.class);
+        suite.addTestSuite(HsqlJdbcUsersTestCase.class);
         //$JUnit-END$
         
         return suite;

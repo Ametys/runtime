@@ -21,7 +21,7 @@ import junit.framework.TestSuite;
 import org.ametys.runtime.test.groups.jdbc.PostgresJdbcGroupsTestCase;
 import org.ametys.runtime.test.rights.manager.PostgresRightManagerTestCase;
 import org.ametys.runtime.test.userpref.PostgresUserPreferencesTestCase;
-import org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware.PostgresModifiableCredentialsAwareJdbcUsersTestCase;
+import org.ametys.runtime.test.users.jdbc.PostgresJdbcUsersTestCase;
 
 /**
  * Test suite grouping all Runtime tests
@@ -42,7 +42,7 @@ public final class AllPostgresTestSuite
         TestSuite suite = new TestSuite("All PostgreSQL tests");
         
         //$JUnit-BEGIN$
-        suite.addTestSuite(PostgresModifiableCredentialsAwareJdbcUsersTestCase.class);
+        suite.addTestSuite(PostgresJdbcUsersTestCase.class);
         
         suite.addTestSuite(PostgresJdbcGroupsTestCase.class);
         

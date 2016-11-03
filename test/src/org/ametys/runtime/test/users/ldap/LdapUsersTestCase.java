@@ -31,7 +31,7 @@ import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.Init;
 
 /**
- * Tests the LdapUsersManager
+ * Tests the LdapUserDirectory
  */
 public class LdapUsersTestCase extends AbstractRuntimeTestCase
 {
@@ -52,7 +52,8 @@ public class LdapUsersTestCase extends AbstractRuntimeTestCase
      */
     protected void _startApp() throws Exception
     {
-        _startApplication("test/environments/runtimes/runtime8.xml", "test/environments/configs/config3.xml", "test/environments/datasources/datasource-ldap.xml", "test/environments/webapp1");
+        _startApplication("test/environments/runtimes/runtime9.xml", "test/environments/configs/config4.xml", "test/environments/datasources/datasource-ldap.xml", "test/environments/webapp1");
+        
         _userDirectory = _createLdapUserDirectory();
     }
     
@@ -163,6 +164,33 @@ public class LdapUsersTestCase extends AbstractRuntimeTestCase
         assertTrue(results.contains("user8"));
         assertTrue(results.contains("user9"));
         assertTrue(results.contains("user10"));
+    }
+    
+    /**
+     * Test that LDAP can authentify incorrectly
+     * @throws Exception if an error occurs
+     */
+    public void testIncorrectAuthentication() throws Exception
+    {
+        boolean result;
+
+        result = _userDirectory.checkCredentials("foo", "foo");
+        assertFalse(result);
+
+        result = _userDirectory.checkCredentials("user1", "wrongpassword");
+        assertFalse(result);
+    }
+
+    /**
+     * Test that LDAP can authentify correctly
+     * @throws Exception if an error occurs
+     */
+    public void testCorrectAuthentication() throws Exception
+    {
+        boolean result;
+
+        result = _userDirectory.checkCredentials("user1", "user1");
+        assertTrue(result);
     }
     
     /**

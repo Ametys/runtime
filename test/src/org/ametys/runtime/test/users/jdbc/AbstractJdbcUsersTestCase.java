@@ -1,5 +1,5 @@
 /*
- *  Copyright 2009 Anyware Services
+ *  Copyright 2009 Anyware Services_configureRuntime
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,11 +13,12 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware;
+package org.ametys.runtime.test.users.jdbc;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
@@ -25,14 +26,48 @@ import org.apache.commons.io.IOUtils;
 import org.ametys.core.user.InvalidModificationException;
 import org.ametys.core.user.User;
 import org.ametys.core.user.directory.ModifiableUserDirectory;
+import org.ametys.core.user.directory.UserDirectory;
+import org.ametys.core.user.directory.UserDirectoryFactory;
 import org.ametys.plugins.core.impl.user.directory.JdbcUserDirectory;
-import org.ametys.runtime.test.users.jdbc.AbstractJDBCUsersManagerTestCase;
+import org.ametys.runtime.test.AbstractJDBCTestCase;
+import org.ametys.runtime.test.Init;
 
 /**
- * Tests the ModifiableCredentialAwareJdbcUsersTestCase
+ * Tests JDBC user directory
  */
-public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extends AbstractJDBCUsersManagerTestCase
+public abstract class AbstractJdbcUsersTestCase extends AbstractJDBCTestCase
 {
+    /** the user manager */
+    protected UserDirectory _userDirectory;
+    
+    @Override
+    protected void setUp() throws Exception
+    {
+        super.setUp();
+        _startApplication("test/environments/runtimes/runtime6.xml", "test/environments/configs/config1.xml", null, "test/environments/webapp1");
+        
+        _userDirectory = _createUserDirectory();
+    }
+    
+    @Override
+    protected void tearDown() throws Exception
+    {
+        _cocoon.dispose();
+        super.tearDown();
+    }
+    
+    private UserDirectory _createUserDirectory() throws Exception
+    {
+        String modelId = "org.ametys.plugins.core.user.directory.Jdbc";
+        
+        Map<String, Object> parameters = new LinkedHashMap<>();
+        parameters.put("runtime.users.jdbc.datasource", "SQL-test");
+        parameters.put("runtime.users.jdbc.table", "Users");
+        
+        
+        return ((UserDirectoryFactory) Init.getPluginServiceManager().lookup(UserDirectoryFactory.ROLE)).createUserDirectory("foo", modelId, parameters, "foo", null);
+    }
+    
     @Override
     protected String[] _getStartScripts() throws Exception
     {

@@ -18,7 +18,7 @@ package org.ametys.runtime.test;
 import org.ametys.runtime.test.groups.jdbc.HsqlJdbcGroupsTestCase;
 import org.ametys.runtime.test.rights.manager.HsqlRightManagerTestCase;
 import org.ametys.runtime.test.userpref.HsqlUserPreferencesTestCase;
-import org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware.HsqlModifiableCredentialsAwareJdbcUsersTestCase;
+import org.ametys.runtime.test.users.jdbc.HsqlJdbcUsersTestCase;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -42,7 +42,7 @@ public final class AllHsqlTestSuite
         TestSuite suite = new TestSuite("All Hsqldb-based tests");
         
         //$JUnit-BEGIN$
-        suite.addTestSuite(HsqlModifiableCredentialsAwareJdbcUsersTestCase.class);
+        suite.addTestSuite(HsqlJdbcUsersTestCase.class);
         
         suite.addTestSuite(HsqlJdbcGroupsTestCase.class);
         

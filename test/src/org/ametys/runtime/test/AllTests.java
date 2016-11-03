@@ -15,9 +15,6 @@
  */
 package org.ametys.runtime.test;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.ametys.runtime.test.administrator.jvmstatus.RequestCountListenerTestCase;
 import org.ametys.runtime.test.administrator.jvmstatus.SessionCountListenerTestCase;
 import org.ametys.runtime.test.cocoon.XHTMLSerializerTestCase;
@@ -31,14 +28,16 @@ import org.ametys.runtime.test.resources.CompiledResourceReaderTestCase;
 import org.ametys.runtime.test.rights.AllRightsTestSuite;
 import org.ametys.runtime.test.ui.StaticUIItemFactoryTestCase;
 import org.ametys.runtime.test.userpref.AllUserPreferencesTestSuite;
-import org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware.AllModifiableCredentialsAwareJdbcUsersTestSuite;
-import org.ametys.runtime.test.users.ldap.CredentialAwareLdapUsersTestCase;
+import org.ametys.runtime.test.users.jdbc.AllJdbcUsersTestSuite;
 import org.ametys.runtime.test.users.ldap.LdapUsersTestCase;
 import org.ametys.runtime.test.users.others.StaticUsersTestCase;
 import org.ametys.runtime.test.util.DateConversionTestCase;
 import org.ametys.runtime.test.util.I18nTestCase;
 import org.ametys.runtime.test.util.JSONTestCase;
 import org.ametys.runtime.test.workspaces.WorkspaceGeneratorTestCase;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * Test suite grouping all Runtime tests
@@ -73,9 +72,8 @@ public final class AllTests
         suite.addTestSuite(XHTMLSerializerTestCase.class);
         
         suite.addTestSuite(StaticUsersTestCase.class);
-        suite.addTest(AllModifiableCredentialsAwareJdbcUsersTestSuite.suite());
+        suite.addTest(AllJdbcUsersTestSuite.suite());
         suite.addTestSuite(LdapUsersTestCase.class);
-        suite.addTestSuite(CredentialAwareLdapUsersTestCase.class);
 
         suite.addTest(AllGroupsTestSuite.suite());
         suite.addTestSuite(GroupDrivenLdapGroupsTestCase.class);

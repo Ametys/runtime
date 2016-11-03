@@ -21,7 +21,7 @@ import junit.framework.TestSuite;
 import org.ametys.runtime.test.groups.jdbc.MysqlJdbcGroupsTestCase;
 import org.ametys.runtime.test.rights.manager.MysqlRightManagerTestCase;
 import org.ametys.runtime.test.userpref.MysqlUserPreferencesTestCase;
-import org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware.MysqlModifiableCredentialsAwareJdbcUsersTestCase;
+import org.ametys.runtime.test.users.jdbc.MysqlJdbcUsersTestCase;
 
 /**
  * Test suite grouping all Mysql-based tests
@@ -42,7 +42,7 @@ public final class AllMysqlTestSuite
         TestSuite suite = new TestSuite("All MySQL tests");
         
         //$JUnit-BEGIN$
-        suite.addTestSuite(MysqlModifiableCredentialsAwareJdbcUsersTestCase.class);
+        suite.addTestSuite(MysqlJdbcUsersTestCase.class);
         
         suite.addTestSuite(MysqlJdbcGroupsTestCase.class);
         
