@@ -1812,6 +1812,9 @@
                     <file>js/Ametys/plugins/coreui/users/UsersTool.js</file>
                     <file>js/Ametys/plugins/coreui/users/UsersTool/User.js</file>
                 </scripts>
+                <depends>
+                    <org.ametys.core.ui.RelationsManager>source:user</org.ametys.core.ui.RelationsManager>
+                </depends>
             </extension>
             
             <extension id="org.ametys.core.rights.UserTab"
@@ -2100,6 +2103,9 @@
                     <file>js/Ametys/plugins/coreui/groups/GroupsTool/Group.js</file>
                     <file>js/Ametys/plugins/coreui/groups/GroupsTool/UserGroup.js</file>
                 </scripts>
+                <depends>
+                    <org.ametys.core.ui.RelationsManager>target:group</org.ametys.core.ui.RelationsManager>
+                </depends>
             </extension>
             
             <extension id="org.ametys.core.rights.GroupTab"

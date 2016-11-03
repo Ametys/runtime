@@ -469,7 +469,7 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsTool', {
 			item.target = {
 				relationTypes: [Ametys.relation.Relation.REFERENCE], 
 				targets: {
-					type: me._groupTargetId,
+					id: me._groupTargetId,
 					parameters: { 
 						id: groups[0].get('groupId'),
                         groupDirectory: groups[0].get('groupDirectory')
