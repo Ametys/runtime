@@ -287,7 +287,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
     	    	
                 this._increaseIndexOfFields(itemPanel.index + 1);
                 itemPanel.index = itemPanel.index + 1;
-                itemPanel.setTitle(itemPanel.minTitle + ' (' + (itemPanel.index + 1) + ')');
+                this._updatePanelHeader(itemPanel);
 	    	}
     	    
     	    // Position is 0 -> insert at position #1 to insert after the size field.
@@ -437,7 +437,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
             // Update the repeater fields index.
             this._decreaseIndexOfFields(itemPanel.index + 1);
             itemPanel.index = itemPanel.index - 1;
-            itemPanel.setTitle(itemPanel.minTitle + ' (' + (itemPanel.index + 1) + ')');
+            this._updatePanelHeader(itemPanel);
             
             itemPanel = itemPanel.nextSibling();
         }
