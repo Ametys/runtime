@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.ametys.core.group.GroupIdentity;
+import org.ametys.core.right.ModifiableProfileAssignmentStorage;
 import org.ametys.core.right.ProfileAssignmentStorage;
 import org.ametys.core.right.ProfileAssignmentStorageExtensionPoint;
 import org.ametys.core.user.UserIdentity;
@@ -114,93 +115,99 @@ public abstract class AbstractProfileAssignmentStorageTestCase extends AbstractR
         // test initially empty
         assertFalse(_profileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
         
-        // ### USER TEST ###
-        // Add another profile as allowed to test1
-        _profileAssignmentStorage.addAllowedUsers(Collections.singleton(user1), test1, profile3);
-        assertFalse(_profileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
+        if (_profileAssignmentStorage instanceof ModifiableProfileAssignmentStorage)
+        {
+            ModifiableProfileAssignmentStorage mProfileAssignmentStorage = (ModifiableProfileAssignmentStorage) _profileAssignmentStorage;
+         
+            // ### USER TEST ###
+            // Add another profile as allowed to test1
+            mProfileAssignmentStorage.addAllowedUsers(Collections.singleton(user1), test1, profile3);
+            assertFalse(mProfileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
+            
+            // Add profile1 as allowed to test1, but on another user
+            mProfileAssignmentStorage.addAllowedUsers(Collections.singleton(user2), test1, profile1);
+            assertFalse(mProfileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
+            
+            // Add profile1 as allowed to test1
+            mProfileAssignmentStorage.addAllowedUsers(Collections.singleton(user1), test1, profile1);
+            assertTrue(mProfileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
+            
+            // Add profile1 as denied to test1
+            mProfileAssignmentStorage.addDeniedUsers(Collections.singleton(user1), test1, profile1);
+            assertFalse(mProfileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
+            
+            // Add profile2 as allowed to test1
+            mProfileAssignmentStorage.addAllowedUsers(Collections.singleton(user1), test1, profile2);
+            assertFalse(mProfileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
+            
+            // ### GROUPS TEST ###
+            // Clean for testing with assignments on groups
+            mProfileAssignmentStorage.removeProfile(profile1);
+            mProfileAssignmentStorage.removeProfile(profile2);
+            
+            // Add another profile as allowed to group1
+            mProfileAssignmentStorage.addAllowedGroups(Collections.singleton(group1), test1, profile3);
+            assertFalse(mProfileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
+            
+            // Add profile1 as allowed to test1, but on another group
+            mProfileAssignmentStorage.addAllowedGroups(Collections.singleton(group3), test1, profile1);
+            assertFalse(mProfileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
+            
+            // Add profile1 as allowed to test1
+            mProfileAssignmentStorage.addAllowedGroups(Collections.singleton(group1), test1, profile1);
+            assertTrue(mProfileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
+            
+            // Add profile1 as denied to test1
+            mProfileAssignmentStorage.addDeniedGroups(Collections.singleton(group2), test1, profile1);
+            assertFalse(mProfileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
+            
+            // Add profile2 as allowed to test1
+            mProfileAssignmentStorage.addAllowedGroups(Collections.singleton(group1), test1, profile2);
+            assertFalse(mProfileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
+            
+            // ### ANYCONNECTED TEST ###
+            // Clean for testing with assignments on anyconnected
+            mProfileAssignmentStorage.removeProfile(profile1);
+            mProfileAssignmentStorage.removeProfile(profile2);
+            
+            // Add another profile as allowed
+            mProfileAssignmentStorage.addAllowedProfilesForAnyConnectedUser(test1, Collections.singleton(profile3));
+            assertFalse(mProfileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
+            
+            // Add profile1 as allowed to test1
+            mProfileAssignmentStorage.addAllowedProfilesForAnyConnectedUser(test1, Collections.singleton(profile1));
+            assertTrue(mProfileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
+            
+            // Add profile1 as denied to test1
+            mProfileAssignmentStorage.addDeniedProfilesForAnyConnectedUser(test1, Collections.singleton(profile1));
+            assertFalse(mProfileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
+            
+            // Add profile2 as allowed to test1
+            mProfileAssignmentStorage.addAllowedProfilesForAnyConnectedUser(test1, Collections.singleton(profile2));
+            assertFalse(mProfileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
+            
+            // ### ANONYMOUS TEST ###
+            // Clean for testing with assignments on anonymous
+            mProfileAssignmentStorage.removeProfile(profile1);
+            mProfileAssignmentStorage.removeProfile(profile2);
+            
+            // Add another profile as allowed
+            mProfileAssignmentStorage.addAllowedProfilesForAnonymous(test1, Collections.singleton(profile3));
+            assertFalse(mProfileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
+            
+            // Add profile1 as allowed to test1
+            mProfileAssignmentStorage.addAllowedProfilesForAnonymous(test1, Collections.singleton(profile1));
+            assertTrue(mProfileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
+            
+            // Add profile1 as denied to test1
+            mProfileAssignmentStorage.addDeniedProfilesForAnonymous(test1, Collections.singleton(profile1));
+//            assertFalse(mProfileAssignmentStorage.hasPermission(user1, userGroups, userProfiles)); // FIXME RUNTIME-2073
+            
+            // Add profile2 as allowed to test1
+            mProfileAssignmentStorage.addAllowedProfilesForAnonymous(test1, Collections.singleton(profile2));
+//            assertFalse(mProfileAssignmentStorage.hasPermission(user1, userGroups, userProfiles)); // FIXME RUNTIME-2073
+        }
         
-        // Add profile1 as allowed to test1, but on another user
-        _profileAssignmentStorage.addAllowedUsers(Collections.singleton(user2), test1, profile1);
-        assertFalse(_profileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
-        
-        // Add profile1 as allowed to test1
-        _profileAssignmentStorage.addAllowedUsers(Collections.singleton(user1), test1, profile1);
-        assertTrue(_profileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
-        
-        // Add profile1 as denied to test1
-        _profileAssignmentStorage.addDeniedUsers(Collections.singleton(user1), test1, profile1);
-        assertFalse(_profileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
-        
-        // Add profile2 as allowed to test1
-        _profileAssignmentStorage.addAllowedUsers(Collections.singleton(user1), test1, profile2);
-        assertFalse(_profileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
-        
-        // ### GROUPS TEST ###
-        // Clean for testing with assignments on groups
-        _profileAssignmentStorage.removeProfile(profile1);
-        _profileAssignmentStorage.removeProfile(profile2);
-        
-        // Add another profile as allowed to group1
-        _profileAssignmentStorage.addAllowedGroups(Collections.singleton(group1), test1, profile3);
-        assertFalse(_profileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
-        
-        // Add profile1 as allowed to test1, but on another group
-        _profileAssignmentStorage.addAllowedGroups(Collections.singleton(group3), test1, profile1);
-        assertFalse(_profileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
-        
-        // Add profile1 as allowed to test1
-        _profileAssignmentStorage.addAllowedGroups(Collections.singleton(group1), test1, profile1);
-        assertTrue(_profileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
-        
-        // Add profile1 as denied to test1
-        _profileAssignmentStorage.addDeniedGroups(Collections.singleton(group2), test1, profile1);
-        assertFalse(_profileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
-        
-        // Add profile2 as allowed to test1
-        _profileAssignmentStorage.addAllowedGroups(Collections.singleton(group1), test1, profile2);
-        assertFalse(_profileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
-        
-        // ### ANYCONNECTED TEST ###
-        // Clean for testing with assignments on anyconnected
-        _profileAssignmentStorage.removeProfile(profile1);
-        _profileAssignmentStorage.removeProfile(profile2);
-        
-        // Add another profile as allowed
-        _profileAssignmentStorage.addAllowedProfilesForAnyConnectedUser(test1, Collections.singleton(profile3));
-        assertFalse(_profileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
-        
-        // Add profile1 as allowed to test1
-        _profileAssignmentStorage.addAllowedProfilesForAnyConnectedUser(test1, Collections.singleton(profile1));
-        assertTrue(_profileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
-        
-        // Add profile1 as denied to test1
-        _profileAssignmentStorage.addDeniedProfilesForAnyConnectedUser(test1, Collections.singleton(profile1));
-        assertFalse(_profileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
-        
-        // Add profile2 as allowed to test1
-        _profileAssignmentStorage.addAllowedProfilesForAnyConnectedUser(test1, Collections.singleton(profile2));
-        assertFalse(_profileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
-        
-        // ### ANONYMOUS TEST ###
-        // Clean for testing with assignments on anonymous
-        _profileAssignmentStorage.removeProfile(profile1);
-        _profileAssignmentStorage.removeProfile(profile2);
-        
-        // Add another profile as allowed
-        _profileAssignmentStorage.addAllowedProfilesForAnonymous(test1, Collections.singleton(profile3));
-        assertFalse(_profileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
-        
-        // Add profile1 as allowed to test1
-        _profileAssignmentStorage.addAllowedProfilesForAnonymous(test1, Collections.singleton(profile1));
-        assertTrue(_profileAssignmentStorage.hasPermission(user1, userGroups, userProfiles));
-        
-        // Add profile1 as denied to test1
-        _profileAssignmentStorage.addDeniedProfilesForAnonymous(test1, Collections.singleton(profile1));
-//        assertFalse(_profileAssignmentStorage.hasPermission(user1, userGroups, userProfiles)); // FIXME RUNTIME-2073
-        
-        // Add profile2 as allowed to test1
-        _profileAssignmentStorage.addAllowedProfilesForAnonymous(test1, Collections.singleton(profile2));
-//        assertFalse(_profileAssignmentStorage.hasPermission(user1, userGroups, userProfiles)); // FIXME RUNTIME-2073
     }
     
     /**
@@ -222,25 +229,30 @@ public abstract class AbstractProfileAssignmentStorageTestCase extends AbstractR
         // test initially empty
         assertTrue(_profileAssignmentStorage.getAllowedProfilesForAnyConnectedUser(test1).isEmpty());
         
-        // test add
-        _profileAssignmentStorage.addAllowedProfilesForAnyConnectedUser(test1, profilesTest1);
-        
-        _profileAssignmentStorage.addAllowedProfilesForAnyConnectedUser(test2, profilesTest2);
-        
-        assertEquals(profilesTest1, _profileAssignmentStorage.getAllowedProfilesForAnyConnectedUser(test1));
-        assertEquals(profilesTest2, _profileAssignmentStorage.getAllowedProfilesForAnyConnectedUser(test2));
-        
-        // test remove
-        Set<String> profilesToRemove = Stream.of(profile1, profile4, profile5).collect(Collectors.toSet());
-        Set<String> remainingProfiles = Collections.singleton(profile3);
-        _profileAssignmentStorage.removeAllowedProfilesForAnyConnectedUser(test2, profilesToRemove);
-        assertEquals(profilesTest1, _profileAssignmentStorage.getAllowedProfilesForAnyConnectedUser(test1));
-        assertEquals(remainingProfiles, _profileAssignmentStorage.getAllowedProfilesForAnyConnectedUser(test2));
-        
-        // test add
-        Set<String> expectedProfiles = Stream.of(profile1, profile2, profile4).collect(Collectors.toSet());
-        _profileAssignmentStorage.addAllowedProfilesForAnyConnectedUser(test1, Collections.singleton(profile4));
-        assertEquals(expectedProfiles, _profileAssignmentStorage.getAllowedProfilesForAnyConnectedUser(test1));
+        if (_profileAssignmentStorage instanceof ModifiableProfileAssignmentStorage)
+        {
+            ModifiableProfileAssignmentStorage mProfileAssignmentStorage = (ModifiableProfileAssignmentStorage) _profileAssignmentStorage;
+            
+            // test add
+            mProfileAssignmentStorage.addAllowedProfilesForAnyConnectedUser(test1, profilesTest1);
+            
+            mProfileAssignmentStorage.addAllowedProfilesForAnyConnectedUser(test2, profilesTest2);
+            
+            assertEquals(profilesTest1, mProfileAssignmentStorage.getAllowedProfilesForAnyConnectedUser(test1));
+            assertEquals(profilesTest2, mProfileAssignmentStorage.getAllowedProfilesForAnyConnectedUser(test2));
+            
+            // test remove
+            Set<String> profilesToRemove = Stream.of(profile1, profile4, profile5).collect(Collectors.toSet());
+            Set<String> remainingProfiles = Collections.singleton(profile3);
+            mProfileAssignmentStorage.removeAllowedProfilesForAnyConnectedUser(test2, profilesToRemove);
+            assertEquals(profilesTest1, mProfileAssignmentStorage.getAllowedProfilesForAnyConnectedUser(test1));
+            assertEquals(remainingProfiles, mProfileAssignmentStorage.getAllowedProfilesForAnyConnectedUser(test2));
+            
+            // test add
+            Set<String> expectedProfiles = Stream.of(profile1, profile2, profile4).collect(Collectors.toSet());
+            mProfileAssignmentStorage.addAllowedProfilesForAnyConnectedUser(test1, Collections.singleton(profile4));
+            assertEquals(expectedProfiles, mProfileAssignmentStorage.getAllowedProfilesForAnyConnectedUser(test1));
+        }
     }
     
     /**
@@ -262,25 +274,30 @@ public abstract class AbstractProfileAssignmentStorageTestCase extends AbstractR
         // test initially empty
         assertTrue(_profileAssignmentStorage.getDeniedProfilesForAnyConnectedUser(test1).isEmpty());
         
-        // test add
-        _profileAssignmentStorage.addDeniedProfilesForAnyConnectedUser(test1, profilesTest1);
-        
-        _profileAssignmentStorage.addDeniedProfilesForAnyConnectedUser(test2, profilesTest2);
-        
-        assertEquals(profilesTest1, _profileAssignmentStorage.getDeniedProfilesForAnyConnectedUser(test1));
-        assertEquals(profilesTest2, _profileAssignmentStorage.getDeniedProfilesForAnyConnectedUser(test2));
-        
-        // test remove
-        Set<String> profilesToRemove = Stream.of(profile1, profile4, profile5).collect(Collectors.toSet());
-        Set<String> remainingProfiles = Collections.singleton(profile3);
-        _profileAssignmentStorage.removeDeniedProfilesForAnyConnectedUser(test2, profilesToRemove);
-        assertEquals(profilesTest1, _profileAssignmentStorage.getDeniedProfilesForAnyConnectedUser(test1));
-        assertEquals(remainingProfiles, _profileAssignmentStorage.getDeniedProfilesForAnyConnectedUser(test2));
-        
-        // test add
-        Set<String> expectedProfiles = Stream.of(profile1, profile2, profile4).collect(Collectors.toSet());
-        _profileAssignmentStorage.addDeniedProfilesForAnyConnectedUser(test1, Collections.singleton(profile4));
-        assertEquals(expectedProfiles, _profileAssignmentStorage.getDeniedProfilesForAnyConnectedUser(test1));
+        if (_profileAssignmentStorage instanceof ModifiableProfileAssignmentStorage)
+        {
+            ModifiableProfileAssignmentStorage mProfileAssignmentStorage = (ModifiableProfileAssignmentStorage) _profileAssignmentStorage;
+            
+            // test add
+            mProfileAssignmentStorage.addDeniedProfilesForAnyConnectedUser(test1, profilesTest1);
+            
+            mProfileAssignmentStorage.addDeniedProfilesForAnyConnectedUser(test2, profilesTest2);
+            
+            assertEquals(profilesTest1, mProfileAssignmentStorage.getDeniedProfilesForAnyConnectedUser(test1));
+            assertEquals(profilesTest2, mProfileAssignmentStorage.getDeniedProfilesForAnyConnectedUser(test2));
+            
+            // test remove
+            Set<String> profilesToRemove = Stream.of(profile1, profile4, profile5).collect(Collectors.toSet());
+            Set<String> remainingProfiles = Collections.singleton(profile3);
+            mProfileAssignmentStorage.removeDeniedProfilesForAnyConnectedUser(test2, profilesToRemove);
+            assertEquals(profilesTest1, mProfileAssignmentStorage.getDeniedProfilesForAnyConnectedUser(test1));
+            assertEquals(remainingProfiles, mProfileAssignmentStorage.getDeniedProfilesForAnyConnectedUser(test2));
+            
+            // test add
+            Set<String> expectedProfiles = Stream.of(profile1, profile2, profile4).collect(Collectors.toSet());
+            mProfileAssignmentStorage.addDeniedProfilesForAnyConnectedUser(test1, Collections.singleton(profile4));
+            assertEquals(expectedProfiles, mProfileAssignmentStorage.getDeniedProfilesForAnyConnectedUser(test1));
+        }
     }
     
     /**
@@ -302,25 +319,30 @@ public abstract class AbstractProfileAssignmentStorageTestCase extends AbstractR
         // test initially empty
         assertTrue(_profileAssignmentStorage.getAllowedProfilesForAnonymous(test1).isEmpty());
         
-        // test add
-        _profileAssignmentStorage.addAllowedProfilesForAnonymous(test1, profilesTest1);
-        
-        _profileAssignmentStorage.addAllowedProfilesForAnonymous(test2, profilesTest2);
-        
-        assertEquals(profilesTest1, _profileAssignmentStorage.getAllowedProfilesForAnonymous(test1));
-        assertEquals(profilesTest2, _profileAssignmentStorage.getAllowedProfilesForAnonymous(test2));
-        
-        // test remove
-        Set<String> profilesToRemove = Stream.of(profile1, profile4, profile5).collect(Collectors.toSet());
-        Set<String> remainingProfiles = Collections.singleton(profile3);
-        _profileAssignmentStorage.removeAllowedProfilesForAnonymous(test2, profilesToRemove);
-        assertEquals(profilesTest1, _profileAssignmentStorage.getAllowedProfilesForAnonymous(test1));
-        assertEquals(remainingProfiles, _profileAssignmentStorage.getAllowedProfilesForAnonymous(test2));
-        
-        // test add
-        Set<String> expectedProfiles = Stream.of(profile1, profile2, profile4).collect(Collectors.toSet());
-        _profileAssignmentStorage.addAllowedProfilesForAnonymous(test1, Collections.singleton(profile4));
-        assertEquals(expectedProfiles, _profileAssignmentStorage.getAllowedProfilesForAnonymous(test1));
+        if (_profileAssignmentStorage instanceof ModifiableProfileAssignmentStorage)
+        {
+            ModifiableProfileAssignmentStorage mProfileAssignmentStorage = (ModifiableProfileAssignmentStorage) _profileAssignmentStorage;
+            
+            // test add
+            mProfileAssignmentStorage.addAllowedProfilesForAnonymous(test1, profilesTest1);
+            
+            mProfileAssignmentStorage.addAllowedProfilesForAnonymous(test2, profilesTest2);
+            
+            assertEquals(profilesTest1, mProfileAssignmentStorage.getAllowedProfilesForAnonymous(test1));
+            assertEquals(profilesTest2, mProfileAssignmentStorage.getAllowedProfilesForAnonymous(test2));
+            
+            // test remove
+            Set<String> profilesToRemove = Stream.of(profile1, profile4, profile5).collect(Collectors.toSet());
+            Set<String> remainingProfiles = Collections.singleton(profile3);
+            mProfileAssignmentStorage.removeAllowedProfilesForAnonymous(test2, profilesToRemove);
+            assertEquals(profilesTest1, mProfileAssignmentStorage.getAllowedProfilesForAnonymous(test1));
+            assertEquals(remainingProfiles, mProfileAssignmentStorage.getAllowedProfilesForAnonymous(test2));
+            
+            // test add
+            Set<String> expectedProfiles = Stream.of(profile1, profile2, profile4).collect(Collectors.toSet());
+            mProfileAssignmentStorage.addAllowedProfilesForAnonymous(test1, Collections.singleton(profile4));
+            assertEquals(expectedProfiles, mProfileAssignmentStorage.getAllowedProfilesForAnonymous(test1));
+        }
     }
     
     /**
@@ -342,25 +364,30 @@ public abstract class AbstractProfileAssignmentStorageTestCase extends AbstractR
         // test initially empty
         assertTrue(_profileAssignmentStorage.getDeniedProfilesForAnonymous(test1).isEmpty());
         
-        // test add
-        _profileAssignmentStorage.addDeniedProfilesForAnonymous(test1, profilesTest1);
-        
-        _profileAssignmentStorage.addDeniedProfilesForAnonymous(test2, profilesTest2);
-        
-        assertEquals(profilesTest1, _profileAssignmentStorage.getDeniedProfilesForAnonymous(test1));
-        assertEquals(profilesTest2, _profileAssignmentStorage.getDeniedProfilesForAnonymous(test2));
-        
-        // test remove
-        Set<String> profilesToRemove = Stream.of(profile1, profile4, profile5).collect(Collectors.toSet());
-        Set<String> remainingProfiles = Collections.singleton(profile3);
-        _profileAssignmentStorage.removeDeniedProfilesForAnonymous(test2, profilesToRemove);
-        assertEquals(profilesTest1, _profileAssignmentStorage.getDeniedProfilesForAnonymous(test1));
-        assertEquals(remainingProfiles, _profileAssignmentStorage.getDeniedProfilesForAnonymous(test2));
-        
-        // test add
-        Set<String> expectedProfiles = Stream.of(profile1, profile2, profile4).collect(Collectors.toSet());
-        _profileAssignmentStorage.addDeniedProfilesForAnonymous(test1, Collections.singleton(profile4));
-        assertEquals(expectedProfiles, _profileAssignmentStorage.getDeniedProfilesForAnonymous(test1));
+        if (_profileAssignmentStorage instanceof ModifiableProfileAssignmentStorage)
+        {
+            ModifiableProfileAssignmentStorage mProfileAssignmentStorage = (ModifiableProfileAssignmentStorage) _profileAssignmentStorage;
+            
+            // test add
+            mProfileAssignmentStorage.addDeniedProfilesForAnonymous(test1, profilesTest1);
+            
+            mProfileAssignmentStorage.addDeniedProfilesForAnonymous(test2, profilesTest2);
+            
+            assertEquals(profilesTest1, mProfileAssignmentStorage.getDeniedProfilesForAnonymous(test1));
+            assertEquals(profilesTest2, mProfileAssignmentStorage.getDeniedProfilesForAnonymous(test2));
+            
+            // test remove
+            Set<String> profilesToRemove = Stream.of(profile1, profile4, profile5).collect(Collectors.toSet());
+            Set<String> remainingProfiles = Collections.singleton(profile3);
+            mProfileAssignmentStorage.removeDeniedProfilesForAnonymous(test2, profilesToRemove);
+            assertEquals(profilesTest1, mProfileAssignmentStorage.getDeniedProfilesForAnonymous(test1));
+            assertEquals(remainingProfiles, mProfileAssignmentStorage.getDeniedProfilesForAnonymous(test2));
+            
+            // test add
+            Set<String> expectedProfiles = Stream.of(profile1, profile2, profile4).collect(Collectors.toSet());
+            mProfileAssignmentStorage.addDeniedProfilesForAnonymous(test1, Collections.singleton(profile4));
+            assertEquals(expectedProfiles, mProfileAssignmentStorage.getDeniedProfilesForAnonymous(test1));
+        }
     }
     
     /**
@@ -388,44 +415,49 @@ public abstract class AbstractProfileAssignmentStorageTestCase extends AbstractR
         assertTrue(_profileAssignmentStorage.getAllowedProfilesForUsers(test1).isEmpty());
         assertTrue(_profileAssignmentStorage.getAllowedUsers(test1, profile1).isEmpty());
         
-        // test add
-        _profileAssignmentStorage.addAllowedUsers(bothUsers, test1, profile1);
-        _profileAssignmentStorage.addAllowedUsers(Collections.singleton(user1), test1, profile2);
-        expectedUsers.put(user1, bothProfiles);
-        expectedUsers.put(user2, Collections.singleton(profile1));
-        assertEquals(expectedUsers, _profileAssignmentStorage.getAllowedProfilesForUsers(test1));
-        assertEquals(Collections.EMPTY_MAP, _profileAssignmentStorage.getAllowedProfilesForUsers(test2));
-        assertEquals(bothUsers, _profileAssignmentStorage.getAllowedUsers(test1, profile1));
-        assertEquals(Collections.singleton(user1), _profileAssignmentStorage.getAllowedUsers(test1, profile2));
-        assertEquals(Collections.EMPTY_SET, _profileAssignmentStorage.getAllowedUsers(test2, profile1));
-        
-        // test removing non-existing associations
-        _profileAssignmentStorage.removeAllowedUsers(Collections.singleton(user3), test1, profile1);
-        assertEquals(bothUsers, _profileAssignmentStorage.getAllowedUsers(test1, profile1));
-        _profileAssignmentStorage.removeAllowedUsers(Collections.singleton(user1), test2, profile1);
-        assertEquals(Collections.EMPTY_MAP, _profileAssignmentStorage.getAllowedProfilesForUsers(test2));
-        _profileAssignmentStorage.removeAllowedUsers(Collections.singleton(user2), test1, profile2);
-        assertEquals(Collections.singleton(user1), _profileAssignmentStorage.getAllowedUsers(test1, profile2));
-        
-        // test remove profile
-        _profileAssignmentStorage.addAllowedUsers(Collections.singleton(user1), test2, profile1); //for testing the deletion is not made on another object
-        _profileAssignmentStorage.removeAllowedUsers(Collections.singleton(user1), test1, profile1);
-        assertEquals(Collections.singleton(user2), _profileAssignmentStorage.getAllowedUsers(test1, profile1));
-        assertEquals(Collections.singleton(user1), _profileAssignmentStorage.getAllowedUsers(test1, profile2)); //but still have the profile2
-        assertEquals(Collections.singleton(user1), _profileAssignmentStorage.getAllowedUsers(test2, profile1)); //but still it on another object
-        _profileAssignmentStorage.removeAllowedUsers(Collections.singleton(user2), test1, profile1);
-        assertEquals(Collections.EMPTY_SET, _profileAssignmentStorage.getAllowedUsers(test1, profile1));
-        
-        // test remove all profiles
-        _profileAssignmentStorage.addAllowedUsers(threeUsers, test1, profile1); // populate
-        _profileAssignmentStorage.addAllowedUsers(bothUsers, test1, profile2); // populate
-        _profileAssignmentStorage.removeAllowedUsers(bothUsers, test1); // this is what we want to test
-        expectedUsers.clear();
-        expectedUsers.put(user3, Collections.singleton(profile1));
-        assertEquals(expectedUsers, _profileAssignmentStorage.getAllowedProfilesForUsers(test1));
-        expectedUsers.clear();
-        expectedUsers.put(user1, Collections.singleton(profile1));
-        assertEquals(expectedUsers, _profileAssignmentStorage.getAllowedProfilesForUsers(test2));
+        if (_profileAssignmentStorage instanceof ModifiableProfileAssignmentStorage)
+        {
+            ModifiableProfileAssignmentStorage mProfileAssignmentStorage = (ModifiableProfileAssignmentStorage) _profileAssignmentStorage;
+            
+            // test add
+            mProfileAssignmentStorage.addAllowedUsers(bothUsers, test1, profile1);
+            mProfileAssignmentStorage.addAllowedUsers(Collections.singleton(user1), test1, profile2);
+            expectedUsers.put(user1, bothProfiles);
+            expectedUsers.put(user2, Collections.singleton(profile1));
+            assertEquals(expectedUsers, mProfileAssignmentStorage.getAllowedProfilesForUsers(test1));
+            assertEquals(Collections.EMPTY_MAP, mProfileAssignmentStorage.getAllowedProfilesForUsers(test2));
+            assertEquals(bothUsers, mProfileAssignmentStorage.getAllowedUsers(test1, profile1));
+            assertEquals(Collections.singleton(user1), mProfileAssignmentStorage.getAllowedUsers(test1, profile2));
+            assertEquals(Collections.EMPTY_SET, mProfileAssignmentStorage.getAllowedUsers(test2, profile1));
+            
+            // test removing non-existing associations
+            mProfileAssignmentStorage.removeAllowedUsers(Collections.singleton(user3), test1, profile1);
+            assertEquals(bothUsers, mProfileAssignmentStorage.getAllowedUsers(test1, profile1));
+            mProfileAssignmentStorage.removeAllowedUsers(Collections.singleton(user1), test2, profile1);
+            assertEquals(Collections.EMPTY_MAP, mProfileAssignmentStorage.getAllowedProfilesForUsers(test2));
+            mProfileAssignmentStorage.removeAllowedUsers(Collections.singleton(user2), test1, profile2);
+            assertEquals(Collections.singleton(user1), mProfileAssignmentStorage.getAllowedUsers(test1, profile2));
+            
+            // test remove profile
+            mProfileAssignmentStorage.addAllowedUsers(Collections.singleton(user1), test2, profile1); //for testing the deletion is not made on another object
+            mProfileAssignmentStorage.removeAllowedUsers(Collections.singleton(user1), test1, profile1);
+            assertEquals(Collections.singleton(user2), mProfileAssignmentStorage.getAllowedUsers(test1, profile1));
+            assertEquals(Collections.singleton(user1), mProfileAssignmentStorage.getAllowedUsers(test1, profile2)); //but still have the profile2
+            assertEquals(Collections.singleton(user1), mProfileAssignmentStorage.getAllowedUsers(test2, profile1)); //but still it on another object
+            mProfileAssignmentStorage.removeAllowedUsers(Collections.singleton(user2), test1, profile1);
+            assertEquals(Collections.EMPTY_SET, mProfileAssignmentStorage.getAllowedUsers(test1, profile1));
+            
+            // test remove all profiles
+            mProfileAssignmentStorage.addAllowedUsers(threeUsers, test1, profile1); // populate
+            mProfileAssignmentStorage.addAllowedUsers(bothUsers, test1, profile2); // populate
+            mProfileAssignmentStorage.removeAllowedUsers(bothUsers, test1); // this is what we want to test
+            expectedUsers.clear();
+            expectedUsers.put(user3, Collections.singleton(profile1));
+            assertEquals(expectedUsers, mProfileAssignmentStorage.getAllowedProfilesForUsers(test1));
+            expectedUsers.clear();
+            expectedUsers.put(user1, Collections.singleton(profile1));
+            assertEquals(expectedUsers, mProfileAssignmentStorage.getAllowedProfilesForUsers(test2));
+        }
     }
     
     /**
@@ -453,44 +485,49 @@ public abstract class AbstractProfileAssignmentStorageTestCase extends AbstractR
         assertTrue(_profileAssignmentStorage.getDeniedProfilesForUsers(test1).isEmpty());
         assertTrue(_profileAssignmentStorage.getDeniedUsers(test1, profile1).isEmpty());
         
-        // test add
-        _profileAssignmentStorage.addDeniedUsers(bothUsers, test1, profile1);
-        _profileAssignmentStorage.addDeniedUsers(Collections.singleton(user1), test1, profile2);
-        expectedUsers.put(user1, bothProfiles);
-        expectedUsers.put(user2, Collections.singleton(profile1));
-        assertEquals(expectedUsers, _profileAssignmentStorage.getDeniedProfilesForUsers(test1));
-        assertEquals(Collections.EMPTY_MAP, _profileAssignmentStorage.getDeniedProfilesForUsers(test2));
-        assertEquals(bothUsers, _profileAssignmentStorage.getDeniedUsers(test1, profile1));
-        assertEquals(Collections.singleton(user1), _profileAssignmentStorage.getDeniedUsers(test1, profile2));
-        assertEquals(Collections.EMPTY_SET, _profileAssignmentStorage.getDeniedUsers(test2, profile1));
-        
-        // test removing non-existing associations
-        _profileAssignmentStorage.removeDeniedUsers(Collections.singleton(user3), test1, profile1);
-        assertEquals(bothUsers, _profileAssignmentStorage.getDeniedUsers(test1, profile1));
-        _profileAssignmentStorage.removeDeniedUsers(Collections.singleton(user1), test2, profile1);
-        assertEquals(Collections.EMPTY_MAP, _profileAssignmentStorage.getDeniedProfilesForUsers(test2));
-        _profileAssignmentStorage.removeDeniedUsers(Collections.singleton(user2), test1, profile2);
-        assertEquals(Collections.singleton(user1), _profileAssignmentStorage.getDeniedUsers(test1, profile2));
-        
-        // test remove profile
-        _profileAssignmentStorage.addDeniedUsers(Collections.singleton(user1), test2, profile1); //for testing the deletion is not made on another object
-        _profileAssignmentStorage.removeDeniedUsers(Collections.singleton(user1), test1, profile1);
-        assertEquals(Collections.singleton(user2), _profileAssignmentStorage.getDeniedUsers(test1, profile1));
-        assertEquals(Collections.singleton(user1), _profileAssignmentStorage.getDeniedUsers(test1, profile2)); //but still have the profile2
-        assertEquals(Collections.singleton(user1), _profileAssignmentStorage.getDeniedUsers(test2, profile1)); //but still it on another object
-        _profileAssignmentStorage.removeDeniedUsers(Collections.singleton(user2), test1, profile1);
-        assertEquals(Collections.EMPTY_SET, _profileAssignmentStorage.getDeniedUsers(test1, profile1));
-        
-        // test remove all profiles
-        _profileAssignmentStorage.addDeniedUsers(threeUsers, test1, profile1); // populate
-        _profileAssignmentStorage.addDeniedUsers(bothUsers, test1, profile2); // populate
-        _profileAssignmentStorage.removeDeniedUsers(bothUsers, test1); // this is what we want to test
-        expectedUsers.clear();
-        expectedUsers.put(user3, Collections.singleton(profile1));
-        assertEquals(expectedUsers, _profileAssignmentStorage.getDeniedProfilesForUsers(test1));
-        expectedUsers.clear();
-        expectedUsers.put(user1, Collections.singleton(profile1));
-        assertEquals(expectedUsers, _profileAssignmentStorage.getDeniedProfilesForUsers(test2));
+        if (_profileAssignmentStorage instanceof ModifiableProfileAssignmentStorage)
+        {
+            ModifiableProfileAssignmentStorage mProfileAssignmentStorage = (ModifiableProfileAssignmentStorage) _profileAssignmentStorage;
+            
+            // test add
+            mProfileAssignmentStorage.addDeniedUsers(bothUsers, test1, profile1);
+            mProfileAssignmentStorage.addDeniedUsers(Collections.singleton(user1), test1, profile2);
+            expectedUsers.put(user1, bothProfiles);
+            expectedUsers.put(user2, Collections.singleton(profile1));
+            assertEquals(expectedUsers, mProfileAssignmentStorage.getDeniedProfilesForUsers(test1));
+            assertEquals(Collections.EMPTY_MAP, mProfileAssignmentStorage.getDeniedProfilesForUsers(test2));
+            assertEquals(bothUsers, mProfileAssignmentStorage.getDeniedUsers(test1, profile1));
+            assertEquals(Collections.singleton(user1), mProfileAssignmentStorage.getDeniedUsers(test1, profile2));
+            assertEquals(Collections.EMPTY_SET, mProfileAssignmentStorage.getDeniedUsers(test2, profile1));
+            
+            // test removing non-existing associations
+            mProfileAssignmentStorage.removeDeniedUsers(Collections.singleton(user3), test1, profile1);
+            assertEquals(bothUsers, mProfileAssignmentStorage.getDeniedUsers(test1, profile1));
+            mProfileAssignmentStorage.removeDeniedUsers(Collections.singleton(user1), test2, profile1);
+            assertEquals(Collections.EMPTY_MAP, mProfileAssignmentStorage.getDeniedProfilesForUsers(test2));
+            mProfileAssignmentStorage.removeDeniedUsers(Collections.singleton(user2), test1, profile2);
+            assertEquals(Collections.singleton(user1), mProfileAssignmentStorage.getDeniedUsers(test1, profile2));
+            
+            // test remove profile
+            mProfileAssignmentStorage.addDeniedUsers(Collections.singleton(user1), test2, profile1); //for testing the deletion is not made on another object
+            mProfileAssignmentStorage.removeDeniedUsers(Collections.singleton(user1), test1, profile1);
+            assertEquals(Collections.singleton(user2), mProfileAssignmentStorage.getDeniedUsers(test1, profile1));
+            assertEquals(Collections.singleton(user1), mProfileAssignmentStorage.getDeniedUsers(test1, profile2)); //but still have the profile2
+            assertEquals(Collections.singleton(user1), mProfileAssignmentStorage.getDeniedUsers(test2, profile1)); //but still it on another object
+            mProfileAssignmentStorage.removeDeniedUsers(Collections.singleton(user2), test1, profile1);
+            assertEquals(Collections.EMPTY_SET, mProfileAssignmentStorage.getDeniedUsers(test1, profile1));
+            
+            // test remove all profiles
+            mProfileAssignmentStorage.addDeniedUsers(threeUsers, test1, profile1); // populate
+            mProfileAssignmentStorage.addDeniedUsers(bothUsers, test1, profile2); // populate
+            mProfileAssignmentStorage.removeDeniedUsers(bothUsers, test1); // this is what we want to test
+            expectedUsers.clear();
+            expectedUsers.put(user3, Collections.singleton(profile1));
+            assertEquals(expectedUsers, mProfileAssignmentStorage.getDeniedProfilesForUsers(test1));
+            expectedUsers.clear();
+            expectedUsers.put(user1, Collections.singleton(profile1));
+            assertEquals(expectedUsers, mProfileAssignmentStorage.getDeniedProfilesForUsers(test2));
+        }
     }
     
     /**
@@ -516,45 +553,50 @@ public abstract class AbstractProfileAssignmentStorageTestCase extends AbstractR
         assertTrue(_profileAssignmentStorage.getAllowedProfilesForGroups(test1).isEmpty());
         assertTrue(_profileAssignmentStorage.getAllowedGroups(test1, profile1).isEmpty());
         
-        // test add
-        _profileAssignmentStorage.addAllowedGroups(bothGroups, test1, profile1);
-        _profileAssignmentStorage.addAllowedGroups(Collections.singleton(group1), test1, profile2);
-        Map<GroupIdentity, Set<String>> expectedGroups = new HashMap<>();
-        expectedGroups.put(group1, bothProfiles);
-        expectedGroups.put(group2, Collections.singleton(profile1));
-        assertEquals(expectedGroups, _profileAssignmentStorage.getAllowedProfilesForGroups(test1));
-        assertEquals(Collections.EMPTY_MAP, _profileAssignmentStorage.getAllowedProfilesForGroups(test2));
-        assertEquals(bothGroups, _profileAssignmentStorage.getAllowedGroups(test1, profile1));
-        assertEquals(Collections.singleton(group1), _profileAssignmentStorage.getAllowedGroups(test1, profile2));
-        assertEquals(Collections.EMPTY_SET, _profileAssignmentStorage.getAllowedGroups(test2, profile1));
-        
-        // test removing non-existing associations
-        _profileAssignmentStorage.removeAllowedGroups(Collections.singleton(group3), test1, profile1);
-        assertEquals(bothGroups, _profileAssignmentStorage.getAllowedGroups(test1, profile1));
-        _profileAssignmentStorage.removeAllowedGroups(Collections.singleton(group1), test2, profile1);
-        assertEquals(Collections.EMPTY_MAP, _profileAssignmentStorage.getAllowedProfilesForGroups(test2));
-        _profileAssignmentStorage.removeAllowedGroups(Collections.singleton(group2), test1, profile2);
-        assertEquals(Collections.singleton(group1), _profileAssignmentStorage.getAllowedGroups(test1, profile2));
-        
-        // test remove profile
-        _profileAssignmentStorage.addAllowedGroups(Collections.singleton(group1), test2, profile1); //for testing the deletion is not made on another object
-        _profileAssignmentStorage.removeAllowedGroups(Collections.singleton(group1), test1, profile1);
-        assertEquals(Collections.singleton(group2), _profileAssignmentStorage.getAllowedGroups(test1, profile1));
-        assertEquals(Collections.singleton(group1), _profileAssignmentStorage.getAllowedGroups(test1, profile2)); //but still have the profile2
-        assertEquals(Collections.singleton(group1), _profileAssignmentStorage.getAllowedGroups(test2, profile1)); //but still it on another object
-        _profileAssignmentStorage.removeAllowedGroups(Collections.singleton(group2), test1, profile1);
-        assertEquals(Collections.EMPTY_SET, _profileAssignmentStorage.getAllowedGroups(test1, profile1));
-        
-        // test remove all profiles
-        _profileAssignmentStorage.addAllowedGroups(threeGroups, test1, profile1); // populate
-        _profileAssignmentStorage.addAllowedGroups(bothGroups, test1, profile2); // populate
-        _profileAssignmentStorage.removeAllowedGroups(bothGroups, test1); // this is what we want to test
-        expectedGroups.clear();
-        expectedGroups.put(group3, Collections.singleton(profile1));
-        assertEquals(expectedGroups, _profileAssignmentStorage.getAllowedProfilesForGroups(test1));
-        expectedGroups.clear();
-        expectedGroups.put(group1, Collections.singleton(profile1));
-        assertEquals(expectedGroups, _profileAssignmentStorage.getAllowedProfilesForGroups(test2));
+        if (_profileAssignmentStorage instanceof ModifiableProfileAssignmentStorage)
+        {
+            ModifiableProfileAssignmentStorage mProfileAssignmentStorage = (ModifiableProfileAssignmentStorage) _profileAssignmentStorage;
+            
+            // test add
+            mProfileAssignmentStorage.addAllowedGroups(bothGroups, test1, profile1);
+            mProfileAssignmentStorage.addAllowedGroups(Collections.singleton(group1), test1, profile2);
+            Map<GroupIdentity, Set<String>> expectedGroups = new HashMap<>();
+            expectedGroups.put(group1, bothProfiles);
+            expectedGroups.put(group2, Collections.singleton(profile1));
+            assertEquals(expectedGroups, mProfileAssignmentStorage.getAllowedProfilesForGroups(test1));
+            assertEquals(Collections.EMPTY_MAP, mProfileAssignmentStorage.getAllowedProfilesForGroups(test2));
+            assertEquals(bothGroups, mProfileAssignmentStorage.getAllowedGroups(test1, profile1));
+            assertEquals(Collections.singleton(group1), mProfileAssignmentStorage.getAllowedGroups(test1, profile2));
+            assertEquals(Collections.EMPTY_SET, mProfileAssignmentStorage.getAllowedGroups(test2, profile1));
+            
+            // test removing non-existing associations
+            mProfileAssignmentStorage.removeAllowedGroups(Collections.singleton(group3), test1, profile1);
+            assertEquals(bothGroups, mProfileAssignmentStorage.getAllowedGroups(test1, profile1));
+            mProfileAssignmentStorage.removeAllowedGroups(Collections.singleton(group1), test2, profile1);
+            assertEquals(Collections.EMPTY_MAP, mProfileAssignmentStorage.getAllowedProfilesForGroups(test2));
+            mProfileAssignmentStorage.removeAllowedGroups(Collections.singleton(group2), test1, profile2);
+            assertEquals(Collections.singleton(group1), mProfileAssignmentStorage.getAllowedGroups(test1, profile2));
+            
+            // test remove profile
+            mProfileAssignmentStorage.addAllowedGroups(Collections.singleton(group1), test2, profile1); //for testing the deletion is not made on another object
+            mProfileAssignmentStorage.removeAllowedGroups(Collections.singleton(group1), test1, profile1);
+            assertEquals(Collections.singleton(group2), mProfileAssignmentStorage.getAllowedGroups(test1, profile1));
+            assertEquals(Collections.singleton(group1), mProfileAssignmentStorage.getAllowedGroups(test1, profile2)); //but still have the profile2
+            assertEquals(Collections.singleton(group1), mProfileAssignmentStorage.getAllowedGroups(test2, profile1)); //but still it on another object
+            mProfileAssignmentStorage.removeAllowedGroups(Collections.singleton(group2), test1, profile1);
+            assertEquals(Collections.EMPTY_SET, mProfileAssignmentStorage.getAllowedGroups(test1, profile1));
+            
+            // test remove all profiles
+            mProfileAssignmentStorage.addAllowedGroups(threeGroups, test1, profile1); // populate
+            mProfileAssignmentStorage.addAllowedGroups(bothGroups, test1, profile2); // populate
+            mProfileAssignmentStorage.removeAllowedGroups(bothGroups, test1); // this is what we want to test
+            expectedGroups.clear();
+            expectedGroups.put(group3, Collections.singleton(profile1));
+            assertEquals(expectedGroups, mProfileAssignmentStorage.getAllowedProfilesForGroups(test1));
+            expectedGroups.clear();
+            expectedGroups.put(group1, Collections.singleton(profile1));
+            assertEquals(expectedGroups, mProfileAssignmentStorage.getAllowedProfilesForGroups(test2));
+        }
     }
     
     /**
@@ -580,45 +622,50 @@ public abstract class AbstractProfileAssignmentStorageTestCase extends AbstractR
         assertTrue(_profileAssignmentStorage.getDeniedProfilesForGroups(test1).isEmpty());
         assertTrue(_profileAssignmentStorage.getDeniedGroups(test1, profile1).isEmpty());
         
-        // test add
-        _profileAssignmentStorage.addDeniedGroups(bothGroups, test1, profile1);
-        _profileAssignmentStorage.addDeniedGroups(Collections.singleton(group1), test1, profile2);
-        Map<GroupIdentity, Set<String>> expectedGroups = new HashMap<>();
-        expectedGroups.put(group1, bothProfiles);
-        expectedGroups.put(group2, Collections.singleton(profile1));
-        assertEquals(expectedGroups, _profileAssignmentStorage.getDeniedProfilesForGroups(test1));
-        assertEquals(Collections.EMPTY_MAP, _profileAssignmentStorage.getDeniedProfilesForGroups(test2));
-        assertEquals(bothGroups, _profileAssignmentStorage.getDeniedGroups(test1, profile1));
-        assertEquals(Collections.singleton(group1), _profileAssignmentStorage.getDeniedGroups(test1, profile2));
-        assertEquals(Collections.EMPTY_SET, _profileAssignmentStorage.getDeniedGroups(test2, profile1));
-        
-        // test removing non-existing associations
-        _profileAssignmentStorage.removeDeniedGroups(Collections.singleton(group3), test1, profile1);
-        assertEquals(bothGroups, _profileAssignmentStorage.getDeniedGroups(test1, profile1));
-        _profileAssignmentStorage.removeDeniedGroups(Collections.singleton(group1), test2, profile1);
-        assertEquals(Collections.EMPTY_MAP, _profileAssignmentStorage.getDeniedProfilesForGroups(test2));
-        _profileAssignmentStorage.removeDeniedGroups(Collections.singleton(group2), test1, profile2);
-        assertEquals(Collections.singleton(group1), _profileAssignmentStorage.getDeniedGroups(test1, profile2));
-        
-        // test remove profile
-        _profileAssignmentStorage.addDeniedGroups(Collections.singleton(group1), test2, profile1); //for testing the deletion is not made on another object
-        _profileAssignmentStorage.removeDeniedGroups(Collections.singleton(group1), test1, profile1);
-        assertEquals(Collections.singleton(group2), _profileAssignmentStorage.getDeniedGroups(test1, profile1));
-        assertEquals(Collections.singleton(group1), _profileAssignmentStorage.getDeniedGroups(test1, profile2)); //but still have the profile2
-        assertEquals(Collections.singleton(group1), _profileAssignmentStorage.getDeniedGroups(test2, profile1)); //but still it on another object
-        _profileAssignmentStorage.removeDeniedGroups(Collections.singleton(group2), test1, profile1);
-        assertEquals(Collections.EMPTY_SET, _profileAssignmentStorage.getDeniedGroups(test1, profile1));
-        
-        // test remove all profiles
-        _profileAssignmentStorage.addDeniedGroups(threeGroups, test1, profile1); // populate
-        _profileAssignmentStorage.addDeniedGroups(bothGroups, test1, profile2); // populate
-        _profileAssignmentStorage.removeDeniedGroups(bothGroups, test1); // this is what we want to test
-        expectedGroups.clear();
-        expectedGroups.put(group3, Collections.singleton(profile1));
-        assertEquals(expectedGroups, _profileAssignmentStorage.getDeniedProfilesForGroups(test1));
-        expectedGroups.clear();
-        expectedGroups.put(group1, Collections.singleton(profile1));
-        assertEquals(expectedGroups, _profileAssignmentStorage.getDeniedProfilesForGroups(test2));
+        if (_profileAssignmentStorage instanceof ModifiableProfileAssignmentStorage)
+        {
+            ModifiableProfileAssignmentStorage mProfileAssignmentStorage = (ModifiableProfileAssignmentStorage) _profileAssignmentStorage;
+          
+            // test add
+            mProfileAssignmentStorage.addDeniedGroups(bothGroups, test1, profile1);
+            mProfileAssignmentStorage.addDeniedGroups(Collections.singleton(group1), test1, profile2);
+            Map<GroupIdentity, Set<String>> expectedGroups = new HashMap<>();
+            expectedGroups.put(group1, bothProfiles);
+            expectedGroups.put(group2, Collections.singleton(profile1));
+            assertEquals(expectedGroups, mProfileAssignmentStorage.getDeniedProfilesForGroups(test1));
+            assertEquals(Collections.EMPTY_MAP, mProfileAssignmentStorage.getDeniedProfilesForGroups(test2));
+            assertEquals(bothGroups, mProfileAssignmentStorage.getDeniedGroups(test1, profile1));
+            assertEquals(Collections.singleton(group1), mProfileAssignmentStorage.getDeniedGroups(test1, profile2));
+            assertEquals(Collections.EMPTY_SET, mProfileAssignmentStorage.getDeniedGroups(test2, profile1));
+            
+            // test removing non-existing associations
+            mProfileAssignmentStorage.removeDeniedGroups(Collections.singleton(group3), test1, profile1);
+            assertEquals(bothGroups, mProfileAssignmentStorage.getDeniedGroups(test1, profile1));
+            mProfileAssignmentStorage.removeDeniedGroups(Collections.singleton(group1), test2, profile1);
+            assertEquals(Collections.EMPTY_MAP, mProfileAssignmentStorage.getDeniedProfilesForGroups(test2));
+            mProfileAssignmentStorage.removeDeniedGroups(Collections.singleton(group2), test1, profile2);
+            assertEquals(Collections.singleton(group1), mProfileAssignmentStorage.getDeniedGroups(test1, profile2));
+            
+            // test remove profile
+            mProfileAssignmentStorage.addDeniedGroups(Collections.singleton(group1), test2, profile1); //for testing the deletion is not made on another object
+            mProfileAssignmentStorage.removeDeniedGroups(Collections.singleton(group1), test1, profile1);
+            assertEquals(Collections.singleton(group2), mProfileAssignmentStorage.getDeniedGroups(test1, profile1));
+            assertEquals(Collections.singleton(group1), mProfileAssignmentStorage.getDeniedGroups(test1, profile2)); //but still have the profile2
+            assertEquals(Collections.singleton(group1), mProfileAssignmentStorage.getDeniedGroups(test2, profile1)); //but still it on another object
+            mProfileAssignmentStorage.removeDeniedGroups(Collections.singleton(group2), test1, profile1);
+            assertEquals(Collections.EMPTY_SET, mProfileAssignmentStorage.getDeniedGroups(test1, profile1));
+            
+            // test remove all profiles
+            mProfileAssignmentStorage.addDeniedGroups(threeGroups, test1, profile1); // populate
+            mProfileAssignmentStorage.addDeniedGroups(bothGroups, test1, profile2); // populate
+            mProfileAssignmentStorage.removeDeniedGroups(bothGroups, test1); // this is what we want to test
+            expectedGroups.clear();
+            expectedGroups.put(group3, Collections.singleton(profile1));
+            assertEquals(expectedGroups, mProfileAssignmentStorage.getDeniedProfilesForGroups(test1));
+            expectedGroups.clear();
+            expectedGroups.put(group1, Collections.singleton(profile1));
+            assertEquals(expectedGroups, mProfileAssignmentStorage.getDeniedProfilesForGroups(test2));
+        }
     }
     
     /**
@@ -635,43 +682,48 @@ public abstract class AbstractProfileAssignmentStorageTestCase extends AbstractR
         
         GroupIdentity group1 = new GroupIdentity("group1", "foo");
         
-        // populate
-        _profileAssignmentStorage.addAllowedUsers(Collections.singleton(user1), test1, profile1);
-        _profileAssignmentStorage.addAllowedUsers(Collections.singleton(user1), test1, profile2);
-        
-        _profileAssignmentStorage.addDeniedUsers(Collections.singleton(user1), test1, profile1);
-        _profileAssignmentStorage.addDeniedUsers(Collections.singleton(user1), test1, profile2);
-        
-        _profileAssignmentStorage.addAllowedGroups(Collections.singleton(group1), test1, profile1);
-        _profileAssignmentStorage.addAllowedGroups(Collections.singleton(group1), test1, profile2);
-        
-        _profileAssignmentStorage.addDeniedGroups(Collections.singleton(group1), test1, profile1);
-        _profileAssignmentStorage.addDeniedGroups(Collections.singleton(group1), test1, profile2);
-        
-        _profileAssignmentStorage.addAllowedProfilesForAnyConnectedUser(test1, bothProfiles);
-        _profileAssignmentStorage.addDeniedProfilesForAnyConnectedUser(test1, bothProfiles);
-        
-        _profileAssignmentStorage.addAllowedProfilesForAnonymous(test1, bothProfiles);
-        _profileAssignmentStorage.addDeniedProfilesForAnonymous(test1, bothProfiles);
-        
-        // test removing
-        _profileAssignmentStorage.removeProfile(profile1);
-        
-        Map<UserIdentity, Set<String>> expectedUsers = new HashMap<>();
-        Map<GroupIdentity, Set<String>> expectedGroups = new HashMap<>();
-        
-        expectedUsers.put(user1, Collections.singleton(profile2));
-        assertEquals(expectedUsers, _profileAssignmentStorage.getAllowedProfilesForUsers(test1));
-        assertEquals(expectedUsers, _profileAssignmentStorage.getDeniedProfilesForUsers(test1));
-        
-        expectedGroups.put(group1, Collections.singleton(profile2));
-        assertEquals(expectedGroups, _profileAssignmentStorage.getAllowedProfilesForGroups(test1));
-        assertEquals(expectedGroups, _profileAssignmentStorage.getDeniedProfilesForGroups(test1));
-        
-        assertEquals(Collections.singleton(profile2), _profileAssignmentStorage.getAllowedProfilesForAnyConnectedUser(test1));
-        assertEquals(Collections.singleton(profile2), _profileAssignmentStorage.getDeniedProfilesForAnyConnectedUser(test1));
-        assertEquals(Collections.singleton(profile2), _profileAssignmentStorage.getAllowedProfilesForAnonymous(test1));
-        assertEquals(Collections.singleton(profile2), _profileAssignmentStorage.getDeniedProfilesForAnonymous(test1));
+        if (_profileAssignmentStorage instanceof ModifiableProfileAssignmentStorage)
+        {
+            ModifiableProfileAssignmentStorage mProfileAssignmentStorage = (ModifiableProfileAssignmentStorage) _profileAssignmentStorage;
+          
+            // populate
+            mProfileAssignmentStorage.addAllowedUsers(Collections.singleton(user1), test1, profile1);
+            mProfileAssignmentStorage.addAllowedUsers(Collections.singleton(user1), test1, profile2);
+            
+            mProfileAssignmentStorage.addDeniedUsers(Collections.singleton(user1), test1, profile1);
+            mProfileAssignmentStorage.addDeniedUsers(Collections.singleton(user1), test1, profile2);
+            
+            mProfileAssignmentStorage.addAllowedGroups(Collections.singleton(group1), test1, profile1);
+            mProfileAssignmentStorage.addAllowedGroups(Collections.singleton(group1), test1, profile2);
+            
+            mProfileAssignmentStorage.addDeniedGroups(Collections.singleton(group1), test1, profile1);
+            mProfileAssignmentStorage.addDeniedGroups(Collections.singleton(group1), test1, profile2);
+            
+            mProfileAssignmentStorage.addAllowedProfilesForAnyConnectedUser(test1, bothProfiles);
+            mProfileAssignmentStorage.addDeniedProfilesForAnyConnectedUser(test1, bothProfiles);
+            
+            mProfileAssignmentStorage.addAllowedProfilesForAnonymous(test1, bothProfiles);
+            mProfileAssignmentStorage.addDeniedProfilesForAnonymous(test1, bothProfiles);
+            
+            // test removing
+            mProfileAssignmentStorage.removeProfile(profile1);
+            
+            Map<UserIdentity, Set<String>> expectedUsers = new HashMap<>();
+            Map<GroupIdentity, Set<String>> expectedGroups = new HashMap<>();
+            
+            expectedUsers.put(user1, Collections.singleton(profile2));
+            assertEquals(expectedUsers, mProfileAssignmentStorage.getAllowedProfilesForUsers(test1));
+            assertEquals(expectedUsers, mProfileAssignmentStorage.getDeniedProfilesForUsers(test1));
+            
+            expectedGroups.put(group1, Collections.singleton(profile2));
+            assertEquals(expectedGroups, mProfileAssignmentStorage.getAllowedProfilesForGroups(test1));
+            assertEquals(expectedGroups, mProfileAssignmentStorage.getDeniedProfilesForGroups(test1));
+            
+            assertEquals(Collections.singleton(profile2), mProfileAssignmentStorage.getAllowedProfilesForAnyConnectedUser(test1));
+            assertEquals(Collections.singleton(profile2), mProfileAssignmentStorage.getDeniedProfilesForAnyConnectedUser(test1));
+            assertEquals(Collections.singleton(profile2), mProfileAssignmentStorage.getAllowedProfilesForAnonymous(test1));
+            assertEquals(Collections.singleton(profile2), mProfileAssignmentStorage.getDeniedProfilesForAnonymous(test1));
+        }
     }
     
     /**
@@ -687,25 +739,30 @@ public abstract class AbstractProfileAssignmentStorageTestCase extends AbstractR
         UserIdentity user1 = new UserIdentity("user1", "foo");
         UserIdentity user2 = new UserIdentity("user2", "bar");
         
-        // populate
-        _profileAssignmentStorage.addAllowedUsers(Collections.singleton(user1), test1, profile1);
-        _profileAssignmentStorage.addAllowedUsers(Collections.singleton(user2), test1, profile2);
-        _profileAssignmentStorage.addAllowedUsers(Collections.singleton(user1), test2, profile1);
-        
-        _profileAssignmentStorage.addDeniedUsers(Collections.singleton(user2), test1, profile1);
-        _profileAssignmentStorage.addDeniedUsers(Collections.singleton(user1), test1, profile2);
-        _profileAssignmentStorage.addDeniedUsers(Collections.singleton(user2), test2, profile1);
-        
-        // test removing
-        _profileAssignmentStorage.removeUser(user1);
-        
-        assertEquals(Collections.EMPTY_SET, _profileAssignmentStorage.getAllowedUsers(test1, profile1));
-        assertEquals(Collections.singleton(user2), _profileAssignmentStorage.getAllowedUsers(test1, profile2));
-        assertEquals(Collections.EMPTY_SET, _profileAssignmentStorage.getAllowedUsers(test2, profile1));
-        
-        assertEquals(Collections.singleton(user2), _profileAssignmentStorage.getDeniedUsers(test1, profile1));
-        assertEquals(Collections.EMPTY_SET, _profileAssignmentStorage.getDeniedUsers(test1, profile2));
-        assertEquals(Collections.singleton(user2), _profileAssignmentStorage.getDeniedUsers(test2, profile1));
+        if (_profileAssignmentStorage instanceof ModifiableProfileAssignmentStorage)
+        {
+            ModifiableProfileAssignmentStorage mProfileAssignmentStorage = (ModifiableProfileAssignmentStorage) _profileAssignmentStorage;
+          
+            // populate
+            mProfileAssignmentStorage.addAllowedUsers(Collections.singleton(user1), test1, profile1);
+            mProfileAssignmentStorage.addAllowedUsers(Collections.singleton(user2), test1, profile2);
+            mProfileAssignmentStorage.addAllowedUsers(Collections.singleton(user1), test2, profile1);
+            
+            mProfileAssignmentStorage.addDeniedUsers(Collections.singleton(user2), test1, profile1);
+            mProfileAssignmentStorage.addDeniedUsers(Collections.singleton(user1), test1, profile2);
+            mProfileAssignmentStorage.addDeniedUsers(Collections.singleton(user2), test2, profile1);
+            
+            // test removing
+            mProfileAssignmentStorage.removeUser(user1);
+            
+            assertEquals(Collections.EMPTY_SET, mProfileAssignmentStorage.getAllowedUsers(test1, profile1));
+            assertEquals(Collections.singleton(user2), mProfileAssignmentStorage.getAllowedUsers(test1, profile2));
+            assertEquals(Collections.EMPTY_SET, mProfileAssignmentStorage.getAllowedUsers(test2, profile1));
+            
+            assertEquals(Collections.singleton(user2), mProfileAssignmentStorage.getDeniedUsers(test1, profile1));
+            assertEquals(Collections.EMPTY_SET, mProfileAssignmentStorage.getDeniedUsers(test1, profile2));
+            assertEquals(Collections.singleton(user2), mProfileAssignmentStorage.getDeniedUsers(test2, profile1));
+        }
     }
     
     /**
@@ -721,24 +778,29 @@ public abstract class AbstractProfileAssignmentStorageTestCase extends AbstractR
         GroupIdentity group1 = new GroupIdentity("group1", "foo");
         GroupIdentity group2 = new GroupIdentity("group2", "bar");
         
-        // populate
-        _profileAssignmentStorage.addAllowedGroups(Collections.singleton(group1), test1, profile1);
-        _profileAssignmentStorage.addAllowedGroups(Collections.singleton(group2), test1, profile2);
-        _profileAssignmentStorage.addAllowedGroups(Collections.singleton(group1), test2, profile1);
-        
-        _profileAssignmentStorage.addDeniedGroups(Collections.singleton(group2), test1, profile1);
-        _profileAssignmentStorage.addDeniedGroups(Collections.singleton(group1), test1, profile2);
-        _profileAssignmentStorage.addDeniedGroups(Collections.singleton(group2), test2, profile1);
-        
-        // test removing
-        _profileAssignmentStorage.removeGroup(group1);
-        
-        assertEquals(Collections.EMPTY_SET, _profileAssignmentStorage.getAllowedGroups(test1, profile1));
-        assertEquals(Collections.singleton(group2), _profileAssignmentStorage.getAllowedGroups(test1, profile2));
-        assertEquals(Collections.EMPTY_SET, _profileAssignmentStorage.getAllowedGroups(test2, profile1));
-        
-        assertEquals(Collections.singleton(group2), _profileAssignmentStorage.getDeniedGroups(test1, profile1));
-        assertEquals(Collections.EMPTY_SET, _profileAssignmentStorage.getDeniedGroups(test1, profile2));
-        assertEquals(Collections.singleton(group2), _profileAssignmentStorage.getDeniedGroups(test2, profile1));
+        if (_profileAssignmentStorage instanceof ModifiableProfileAssignmentStorage)
+        {
+            ModifiableProfileAssignmentStorage mProfileAssignmentStorage = (ModifiableProfileAssignmentStorage) _profileAssignmentStorage;
+          
+            // populate
+            mProfileAssignmentStorage.addAllowedGroups(Collections.singleton(group1), test1, profile1);
+            mProfileAssignmentStorage.addAllowedGroups(Collections.singleton(group2), test1, profile2);
+            mProfileAssignmentStorage.addAllowedGroups(Collections.singleton(group1), test2, profile1);
+            
+            mProfileAssignmentStorage.addDeniedGroups(Collections.singleton(group2), test1, profile1);
+            mProfileAssignmentStorage.addDeniedGroups(Collections.singleton(group1), test1, profile2);
+            mProfileAssignmentStorage.addDeniedGroups(Collections.singleton(group2), test2, profile1);
+            
+            // test removing
+            mProfileAssignmentStorage.removeGroup(group1);
+            
+            assertEquals(Collections.EMPTY_SET, mProfileAssignmentStorage.getAllowedGroups(test1, profile1));
+            assertEquals(Collections.singleton(group2), mProfileAssignmentStorage.getAllowedGroups(test1, profile2));
+            assertEquals(Collections.EMPTY_SET, mProfileAssignmentStorage.getAllowedGroups(test2, profile1));
+            
+            assertEquals(Collections.singleton(group2), mProfileAssignmentStorage.getDeniedGroups(test1, profile1));
+            assertEquals(Collections.EMPTY_SET, mProfileAssignmentStorage.getDeniedGroups(test1, profile2));
+            assertEquals(Collections.singleton(group2), mProfileAssignmentStorage.getDeniedGroups(test2, profile1));
+        }
     }
 }
