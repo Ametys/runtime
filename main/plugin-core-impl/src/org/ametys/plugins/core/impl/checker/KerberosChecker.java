@@ -16,14 +16,23 @@
 package org.ametys.plugins.core.impl.checker;
 
 import java.io.IOException;
+import java.security.PrivilegedAction;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 import java.util.List;
 
+import javax.security.auth.Subject;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
+import org.ietf.jgss.GSSContext;
+import org.ietf.jgss.GSSCredential;
+import org.ietf.jgss.GSSException;
+import org.ietf.jgss.GSSManager;
+import org.ietf.jgss.Oid;
 
 import org.ametys.plugins.core.impl.authentication.KerberosCredentialProvider;
 import org.ametys.runtime.parameter.ParameterChecker;
@@ -53,10 +62,45 @@ public class KerberosChecker extends AbstractLogEnabled implements ParameterChec
         try
         {
             LoginContext loginContext = KerberosCredentialProvider.createLoginContext(kdc, realm, login, password, _context);
-            loginContext.getSubject();
-            loginContext.logout();
+
+            final Subject subject = loginContext.getSubject(); 
+            
+            GSSManager manager = GSSManager.getInstance();
+            
+            PrivilegedExceptionAction<GSSCredential> action = new PrivilegedExceptionAction<GSSCredential>() 
+            {
+                public GSSCredential run() throws GSSException 
+                {
+                    return manager.createCredential(null, GSSCredential.INDEFINITE_LIFETIME, new Oid("1.3.6.1.5.5.2"), GSSCredential.INITIATE_ONLY);
+                } 
+            };
+            
+            GSSCredential gssCredential = Subject.doAs(loginContext.getSubject(), action);
+            final GSSContext gssContext = GSSManager.getInstance().createContext(gssCredential);
+
+            // The GSS context initiation has to be performed as a privileged action.
+            byte[] serviceTicket = Subject.doAs(subject, new PrivilegedAction<byte[]>() 
+            {
+                public byte[] run()
+                {
+                    try
+                    {
+                        byte[] token = new byte[0];
+                        // This is a one pass context initialization.
+                        gssContext.requestMutualAuth(false);
+                        gssContext.requestCredDeleg(false);
+                        return gssContext.initSecContext(token, 0, token.length);
+                    }
+                    catch (GSSException e)
+                    {
+                        throw new ParameterCheckerTestFailureException("aaa (" + e.getMessage() + ")", e);
+                    }
+                }
+            });
+
+            System.out.println(serviceTicket);
         }
-        catch (IOException | LoginException | ContextException e)
+        catch (IOException | LoginException | ContextException | GSSException | PrivilegedActionException e)
         {
             throw new ParameterCheckerTestFailureException("Unable to connect to the KDC (" + e.getMessage() + ")", e);
         }
