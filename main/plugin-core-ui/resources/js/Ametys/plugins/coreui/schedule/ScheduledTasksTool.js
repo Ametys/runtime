@@ -88,12 +88,12 @@ Ext.define('Ametys.plugins.coreui.schedule.ScheduledTasksTool', {
                  {stateId: 'grid-schedulable', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_LABEL}}", width: 300, dataIndex: 'schedulableLabel', renderer: this._renderSchedulableLabel},
                  {stateId: 'grid-schedulable-description', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_DESCRIPTION}}", flex: 2, dataIndex: 'schedulableDescription', hidden: true},
                  {stateId: 'grid-schedulable-parameters', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_PARAMETERS}}", flex: 2, dataIndex: 'schedulableParameters', renderer: this._renderSchedulableParameters, hidden: true},
-                 {stateId: 'grid-system-task', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SYSTEM}}", width: 100, dataIndex: 'private', renderer: this._renderBoolean},
-                 {stateId: 'grid-running', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_RUNNING}}", width: 100, dataIndex: 'running', renderer: this._renderBoolean},
+                 {stateId: 'grid-system-task', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SYSTEM}}", width: 100, dataIndex: 'private', renderer: this._renderSystem},
+                 {stateId: 'grid-running', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_RUNNING}}", width: 100, dataIndex: 'running', renderer: this._renderRunning},
                  {stateId: 'grid-next-fire', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_NEXT_FIRE}}", width: 150, dataIndex: 'nextFireTime', renderer: this._renderDate},
                  {stateId: 'grid-previous-fire', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_PREVIOUS_FIRE}}", width: 150, dataIndex: 'previousFireTime', renderer: this._renderDate},
                  {stateId: 'grid-last-duration', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_LAST_DURATION}}", width: 170, dataIndex: 'lastDuration', renderer: this._renderDuration},
-                 {stateId: 'grid-success', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SUCCESS}}", width: 60, dataIndex: 'success', renderer: this._renderBoolean}
+                 {stateId: 'grid-success', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SUCCESS}}", width: 60, dataIndex: 'success', renderer: this._renderSuccess}
             ],
             
             listeners: {'selectionchange': Ext.bind(this.sendCurrentSelection, this)}
@@ -214,13 +214,13 @@ Ext.define('Ametys.plugins.coreui.schedule.ScheduledTasksTool', {
     
     /**
      * @private
-     * Renders a boolean value.
+     * Renders the value of the "system" column.
      * @param {Boolean} value The data value for the current cell.
      * @param {Object} metaData A collection of metadata about the current cell
      * @param {Ext.data.Model} record The record
      * @return {String} The html representation
      */
-    _renderBoolean: function(value, metaData, record)
+    _renderSystem: function(value, metaData, record)
     {
         var isTrue = Ext.isBoolean(value) ? value : value == 'true';
         if (isTrue)
@@ -229,7 +229,53 @@ Ext.define('Ametys.plugins.coreui.schedule.ScheduledTasksTool', {
         }
         else
         {
-            return "";
+            return '<span class="a-grid-glyph ametysicon-delete30"/>';
+        }
+    },
+    
+    /**
+     * @private
+     * Renders the value of the "running" column.
+     * @param {Boolean} value The data value for the current cell.
+     * @param {Object} metaData A collection of metadata about the current cell
+     * @param {Ext.data.Model} record The record
+     * @return {String} The html representation
+     */
+    _renderRunning: function(value, metaData, record)
+    {
+        var isTrue = Ext.isBoolean(value) ? value : value == 'true';
+        if (isTrue)
+        {
+            return '<span class="a-grid-glyph ametysicon-play124"/>';
+        }
+        else
+        {
+            return '';
+        }
+    },
+    
+    /**
+     * @private
+     * Renders the value of the "success" column.
+     * @param {Boolean} value The data value for the current cell.
+     * @param {Object} metaData A collection of metadata about the current cell
+     * @param {Ext.data.Model} record The record
+     * @return {String} The html representation
+     */
+    _renderSuccess: function(value, metaData, record)
+    {
+        if (value == null)
+        {
+            // The task did not run yet or is currently running, display nothing
+            return '';
+        }
+        else if (value)
+        {
+            return '<span class="a-grid-glyph ametysicon-check34"/>';
+        }
+        else
+        {
+            return '<span class="a-grid-glyph ametysicon-delete30"/>';
         }
     },
     
