@@ -1018,20 +1018,20 @@
                         <label i18n="true">PLUGINS_CORE_AUTHENTICATION_KERBEROS_IPLIMITATION_REGEXP_LABEL</label>
                         <description i18n="true">PLUGINS_CORE_AUTHENTICATION_KERBEROS_IPLIMITATION_REGEXP_DESC</description>
                     </param>
-                    <param-checker id="runtime.authentication.kerberos.checker" class="org.ametys.plugins.core.impl.checker.KerberosChecker">
-                        <label i18n="true">PLUGINS_CORE_AUTHENTICATION_KERBEROS_CHECKER_LABEL</label>
-                        <description i18n="true">PLUGINS_CORE_AUTHENTICATION_KERBEROS_CHECKER_DESCRIPTION</description>
+<!--                     <param-checker id="runtime.authentication.kerberos.checker" class="org.ametys.plugins.core.impl.checker.KerberosChecker"> -->
+<!--                         <label i18n="true">PLUGINS_CORE_AUTHENTICATION_KERBEROS_CHECKER_LABEL</label> -->
+<!--                         <description i18n="true">PLUGINS_CORE_AUTHENTICATION_KERBEROS_CHECKER_DESCRIPTION</description> -->
                         
-                        <icon-small>img/config/check/test_kerberos_16.png</icon-small>
-                        <icon-medium>img/config/check/test_kerberos_32.png</icon-medium>
-                        <icon-large >img/config/check/test_kerberos_48.png</icon-large>
-                        <linked-params>
-                            <param-ref id="org.ametys.core.authentication.Kerberos$runtime.authentication.kerberos.kdc"/>
-                            <param-ref id="org.ametys.core.authentication.Kerberos$runtime.authentication.kerberos.realm"/>
-                            <param-ref id="org.ametys.core.authentication.Kerberos$runtime.authentication.kerberos.login"/>
-                            <param-ref id="org.ametys.core.authentication.Kerberos$runtime.authentication.kerberos.password"/>
-                        </linked-params>
-                    </param-checker>
+<!--                         <icon-small>img/config/check/test_kerberos_16.png</icon-small> -->
+<!--                         <icon-medium>img/config/check/test_kerberos_32.png</icon-medium> -->
+<!--                         <icon-large >img/config/check/test_kerberos_48.png</icon-large> -->
+<!--                         <linked-params> -->
+<!--                             <param-ref id="org.ametys.core.authentication.Kerberos$runtime.authentication.kerberos.kdc"/> -->
+<!--                             <param-ref id="org.ametys.core.authentication.Kerberos$runtime.authentication.kerberos.realm"/> -->
+<!--                             <param-ref id="org.ametys.core.authentication.Kerberos$runtime.authentication.kerberos.login"/> -->
+<!--                             <param-ref id="org.ametys.core.authentication.Kerberos$runtime.authentication.kerberos.password"/> -->
+<!--                         </linked-params> -->
+<!--                     </param-checker> -->
                 </parameters>
             </extension>
         </extensions>
