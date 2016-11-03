@@ -28,14 +28,19 @@ import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
+import org.apache.commons.lang3.StringUtils;
 
 import org.ametys.core.cocoon.ActionResultGenerator;
+import org.ametys.core.user.directory.UserDirectory;
 import org.ametys.core.user.directory.UserDirectoryFactory;
 import org.ametys.core.user.directory.UserDirectoryModel;
+import org.ametys.core.user.population.UserPopulation;
+import org.ametys.core.user.population.UserPopulationDAO;
 import org.ametys.core.util.JSONUtils;
 import org.ametys.runtime.parameter.ParameterChecker;
 import org.ametys.runtime.parameter.ParameterCheckerDescriptor;
 import org.ametys.runtime.parameter.ParameterHelper;
+import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
 
 /**
  * This action checks the validity of a user directory
@@ -47,12 +52,15 @@ public class CheckUserDirectoryAction extends ServiceableAction
     
     /** The user directory factory */
     private UserDirectoryFactory _userDirectoryFactory;
+
+    private UserPopulationDAO _userPopulationDAO;
     
     @Override
     public void service(ServiceManager smanager) throws ServiceException
     {
         _jsonUtils = (JSONUtils) smanager.lookup(JSONUtils.ROLE);
         _userDirectoryFactory = (UserDirectoryFactory) smanager.lookup(UserDirectoryFactory.ROLE);
+        _userPopulationDAO = (UserPopulationDAO) smanager.lookup(UserPopulationDAO.ROLE);
         super.service(smanager);
     }
     
@@ -94,19 +102,24 @@ public class CheckUserDirectoryAction extends ServiceableAction
     {
         Map<String, Object> result = new HashMap<> ();
         
+        String populationId = (String) paramCheckersInfo.get("_user_population_id");
+        paramCheckersInfo.remove("_user_population_id");
+        UserPopulation userPopulation = null;
+        
         for (String paramCheckerId : paramCheckersInfo.keySet())
         {
             Map<String, Object> valuesByParamCheckerId = new HashMap<> (); 
             
             // Check the ids of the parameter checkers and build the parameter checkers' list
             ParameterCheckerDescriptor parameterCheckerDescriptor = null;
+            UserDirectoryModel udModel = null;
             for (String userDirectoryModelId : _userDirectoryFactory.getExtensionsIds())
             {
                 if (parameterCheckerDescriptor != null)
                 {
                     break; // param checker was found
                 }
-                UserDirectoryModel udModel = _userDirectoryFactory.getExtension(userDirectoryModelId);
+                udModel = _userDirectoryFactory.getExtension(userDirectoryModelId);
                 for (String localCheckerId : udModel.getParameterCheckers().keySet())
                 {
                     if (localCheckerId.equals(paramCheckerId))
@@ -116,7 +129,7 @@ public class CheckUserDirectoryAction extends ServiceableAction
                     }
                 }
             }
-            if (parameterCheckerDescriptor == null)
+            if (udModel == null || parameterCheckerDescriptor == null)
             {
                 throw new IllegalArgumentException("The parameter checker '" + paramCheckerId + "' was not found.");
             }
@@ -131,9 +144,28 @@ public class CheckUserDirectoryAction extends ServiceableAction
             List<String> values = new ArrayList<> ();
             
             // Compute the proper values for the test
-            for (int i = 0; i < paramNames.size(); i++)
+            String udId = paramRawValues.get(paramRawValues.size() - 1);
+            for (int i = 0; i < paramNames.size() - 1; i++)
             {
-                values.add(ParameterHelper.valueToString(paramRawValues.get(i)));
+                String paramName = StringUtils.substringAfter(paramNames.get(i), "$");
+                String untypedValue = ParameterHelper.valueToString(paramRawValues.get(i));
+                
+                // Handle password field
+                if (untypedValue == null && udModel.getParameters().get(paramName).getType() == ParameterType.PASSWORD)
+                {
+                    // The password is null => it means we use the existing password
+                    
+                    if (userPopulation == null)
+                    {
+                        userPopulation = _userPopulationDAO.getUserPopulation(populationId);
+                    }
+                    UserDirectory ud = userPopulation.getUserDirectory(udId);
+                    values.add((String) ud.getParameterValues().get(paramName));
+                }
+                else
+                {
+                    values.add(untypedValue);
+                }
             }
             
             valuesByParamCheckerId.put("values", values);

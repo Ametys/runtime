@@ -570,7 +570,8 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
             hideDisabledFields: true,
             scrollable: true,
             flex: 1,
-            testURL: Ametys.getPluginDirectPrefix('core') + '/userdirectory/test'
+            testURL: Ametys.getPluginDirectPrefix('core') + '/userdirectory/test',
+            testHandler: this._testHandler
         });
         formPanel.configure(data);
         formPanel.setValues({});
@@ -652,15 +653,7 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
             scrollable: true,
             flex: 1,
             testURL: Ametys.getPluginDirectPrefix('core') + '/credentialprovider/test',
-            testHandler: Ext.bind(function (fieldCheckers, fieldCheckersInfo, editPopulationHelper)
-            {
-                for (var i = 0; i < fieldCheckers.length; i++)
-                {
-                    fieldCheckersInfo[fieldCheckers[i].id].testParamsNames.push(fieldCheckers[0].fieldCheckerPrefix + "id");
-                    fieldCheckersInfo[fieldCheckers[i].id].rawTestValues.push(this.getField(fieldCheckers[0].fieldCheckerPrefix + "id").getValue());
-                }
-                return fieldCheckersInfo;
-            }, null, [this], true)
+            testHandler: this._testHandler
         });
         formPanel.configure(data);
         formPanel.setValues({});
@@ -676,6 +669,30 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
             },
             formPanel]
         });
+    },
+    
+    /**
+     * @private
+     * The test handler for the cp and ud forms
+     * @param {String[]} testParamsNames The array of param names
+     * @param {Object[]} rawTestValues The array of param values
+     * @return {Object} The modified fieldCheckersInfo
+     */
+    _testHandler: function(fieldCheckers, fieldCheckersInfo)
+    {
+        // WARNING execution scope is the ConfigurableFormPanel
+        
+        // The population id
+        fieldCheckersInfo._user_population_id = me._cards[0].form.findField("id").getValue();
+        
+        // For each running test
+        for (var i = 0; i < fieldCheckers.length; i++)
+        {
+            // Let's add the identifier of the credential provider tested
+            fieldCheckersInfo[fieldCheckers[i].id].testParamsNames.push(fieldCheckers[0].fieldCheckerPrefix + "id");
+            fieldCheckersInfo[fieldCheckers[i].id].rawTestValues.push(this.getField(fieldCheckers[0].fieldCheckerPrefix + "id").getValue());
+        }
+        return fieldCheckersInfo;
     },
     
     /**

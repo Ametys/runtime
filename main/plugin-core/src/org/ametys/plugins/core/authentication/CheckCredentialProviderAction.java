@@ -28,14 +28,19 @@ import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
+import org.apache.commons.lang3.StringUtils;
 
+import org.ametys.core.authentication.CredentialProvider;
 import org.ametys.core.authentication.CredentialProviderFactory;
 import org.ametys.core.authentication.CredentialProviderModel;
 import org.ametys.core.cocoon.ActionResultGenerator;
+import org.ametys.core.user.population.UserPopulation;
+import org.ametys.core.user.population.UserPopulationDAO;
 import org.ametys.core.util.JSONUtils;
 import org.ametys.runtime.parameter.ParameterChecker;
 import org.ametys.runtime.parameter.ParameterCheckerDescriptor;
 import org.ametys.runtime.parameter.ParameterHelper;
+import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
 
 /**
  * This action checks the validity of a credential provider
@@ -47,12 +52,15 @@ public class CheckCredentialProviderAction extends ServiceableAction
     
     /** The credential providers factory */
     private CredentialProviderFactory _credentialProviderFactory;
+
+    private UserPopulationDAO _userPopulationDAO;
     
     @Override
     public void service(ServiceManager smanager) throws ServiceException
     {
         _jsonUtils = (JSONUtils) smanager.lookup(JSONUtils.ROLE);
         _credentialProviderFactory = (CredentialProviderFactory) smanager.lookup(CredentialProviderFactory.ROLE);
+        _userPopulationDAO = (UserPopulationDAO) smanager.lookup(UserPopulationDAO.ROLE);
         super.service(smanager);
     }
     
@@ -94,19 +102,24 @@ public class CheckCredentialProviderAction extends ServiceableAction
     {
         Map<String, Object> result = new HashMap<> ();
         
+        String populationId = (String) paramCheckersInfo.get("_user_population_id");
+        paramCheckersInfo.remove("_user_population_id");
+        UserPopulation userPopulation = null;
+        
         for (String paramCheckerId : paramCheckersInfo.keySet())
         {
             Map<String, Object> valuesByParamCheckerId = new HashMap<> (); 
             
             // Check the ids of the parameter checkers and build the parameter checkers' list
             ParameterCheckerDescriptor parameterCheckerDescriptor = null;
+            CredentialProviderModel cpModel = null;
             for (String credentialProviderModelId : _credentialProviderFactory.getExtensionsIds())
             {
                 if (parameterCheckerDescriptor != null)
                 {
                     break; // param checker was found
                 }
-                CredentialProviderModel cpModel = _credentialProviderFactory.getExtension(credentialProviderModelId);
+                cpModel = _credentialProviderFactory.getExtension(credentialProviderModelId);
                 for (String localCheckerId : cpModel.getParameterCheckers().keySet())
                 {
                     if (localCheckerId.equals(paramCheckerId))
@@ -116,7 +129,7 @@ public class CheckCredentialProviderAction extends ServiceableAction
                     }
                 }
             }
-            if (parameterCheckerDescriptor == null)
+            if (cpModel == null || parameterCheckerDescriptor == null)
             {
                 throw new IllegalArgumentException("The parameter checker '" + paramCheckerId + "' was not found.");
             }
@@ -134,27 +147,22 @@ public class CheckCredentialProviderAction extends ServiceableAction
             String cpId = paramRawValues.get(paramRawValues.size() - 1);
             for (int i = 0; i < paramNames.size() - 1; i++)
             {
-                String paramName = paramNames.get(i);
+                String paramName = StringUtils.substringAfter(paramNames.get(i), "$");
                 String untypedValue = ParameterHelper.valueToString(paramRawValues.get(i));
                 
                 // Handle password field
-                /*if (untypedValue == null && configParams.get(paramName).getType() == ParameterType.PASSWORD)
+                if (untypedValue == null && cpModel.getParameters().get(paramName).getType() == ParameterType.PASSWORD)
                 {
-                    Object typedValue = ParameterHelper.castValue(untypedValue, configParams.get(paramName).getType());
-
-                    if (Config.getInstance() != null)
-                    {
-                        // Fetch the value of an empty password field
-                        typedValue = Config.getInstance().getValueAsString(paramName);
-                    }
-                    else if (oldUntypedValues != null)
-                    {
-                        typedValue = oldUntypedValues.get(paramName);
-                    }
+                    // The password is null => it means we use the existing password
                     
-                    values.add((String) typedValue);
+                    if (userPopulation == null)
+                    {
+                        userPopulation = _userPopulationDAO.getUserPopulation(populationId);
+                    }
+                    CredentialProvider cp = userPopulation.getCredentialProvider(cpId);
+                    values.add((String) cp.getParameterValues().get(paramName));
                 }
-                else*/
+                else
                 {
                     values.add(untypedValue);
                 }
