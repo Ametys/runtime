@@ -3987,7 +3987,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
     getChildrenFields: function(repeater)
     {
-        return this.getForm().getFields().filter('name', this.getFieldNamePrefix() + repeater.name + this.defaultPathSeparator + repeater.getItemCount() + this.defaultPathSeparator);
+        return this.getForm().getFields().filter('name', this.getFieldNamePrefix() + repeater.name + this.defaultPathSeparator + repeater._lastInsertItemPosition + this.defaultPathSeparator);
     },
     
     /**

@@ -108,6 +108,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
                       ],
                       
     
+    /**
+     * @property {Number} _lastInsertItemPosition The last inserted item was at this position
+     * @private
+     */                      
+                      
 	/**
      * @property {Boolean} isRepeater
      * Flag denoting that this component is a Repeater. Always true.
@@ -229,6 +234,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
         var opt = options || {};
         
         var pos = Ext.isNumber(opt.position) ? opt.position : this.getItemCount();
+        this._lastInsertItemPosition = pos + 1;
     	
     	var item = Ext.create('Ext.Panel', {
     		title: this.label + ' (' + (pos+1) + ')',
