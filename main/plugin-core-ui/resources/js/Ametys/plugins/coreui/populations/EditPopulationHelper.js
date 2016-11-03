@@ -596,6 +596,7 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
      */
     _createThirdCard: function(credentialProviderModels)
     {
+        var me = this;
         var fieldName = "credentialProviders";
         var chooseModelFieldId = "cpModelId";
         var labelFieldId = "label";
@@ -650,7 +651,16 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
             hideDisabledFields: true,
             scrollable: true,
             flex: 1,
-            testURL: Ametys.getPluginDirectPrefix('core') + '/credentialprovider/test'
+            testURL: Ametys.getPluginDirectPrefix('core') + '/credentialprovider/test',
+            testHandler: Ext.bind(function (fieldCheckers, fieldCheckersInfo, editPopulationHelper)
+            {
+                for (var i = 0; i < fieldCheckers.length; i++)
+                {
+                    fieldCheckersInfo[fieldCheckers[i].id].testParamsNames.push(fieldCheckers[0].fieldCheckerPrefix + "id");
+                    fieldCheckersInfo[fieldCheckers[i].id].rawTestValues.push(this.getField(fieldCheckers[0].fieldCheckerPrefix + "id").getValue());
+                }
+                return fieldCheckersInfo;
+            }, null, [this], true)
         });
         formPanel.configure(data);
         formPanel.setValues({});

@@ -87,6 +87,62 @@ public class KerberosCredentialProvider extends AbstractCredentialProvider imple
         _context = context;
     }
     
+    /**
+     * Create a logged in LoginContext for Kerberos
+     * @param kdc The key distribution center
+     * @param realm The realm
+     * @param login The identifier of a user to the kdc
+     * @param password The associated password
+     * @param context The avalong context
+     * @return A non null LoginContext (to be logged out)
+     * @throws IOException If an error occurred while creating a temporary configuration file on the disk
+     * @throws LoginException If the login process failed
+     * @throws ContextException If an error occurred while getting cocoon environment from context
+     */
+    public static LoginContext createLoginContext(String kdc, String realm, String login, String password, Context context) throws IOException, LoginException, ContextException 
+    {
+        System.setProperty("java.security.krb5.kdc", kdc);
+        System.setProperty("java.security.krb5.realm", realm);
+        
+        org.apache.cocoon.environment.Context cocoonContext = (org.apache.cocoon.environment.Context) context.get(Constants.CONTEXT_ENVIRONMENT_CONTEXT);
+        if (System.getProperty("java.security.auth.login.config") == null)
+        {
+            String jaasConfLocation = cocoonContext.getRealPath("/WEB-INF/param/" + __LOGIN_CONF_FILE);
+            if (!new File(jaasConfLocation).exists())
+            {
+                jaasConfLocation = AmetysHomeHelper.getAmetysHomeTmp() + File.separator + __LOGIN_CONF_FILE;
+                FileUtils.write(new File(jaasConfLocation), "kerberos {\ncom.sun.security.auth.module.Krb5LoginModule required\nstoreKey=true\nisInitiator=false;\n};");
+            }
+            System.setProperty("java.security.auth.login.config", jaasConfLocation);
+        }
+        
+        LoginContext loginContext = new LoginContext("kerberos", new CallbackHandler()
+        {
+            public void handle(final Callback[] callbacks)
+            {
+                for (Callback callback : callbacks)
+                {
+                    if (callback instanceof NameCallback)
+                    {
+                        ((NameCallback) callback).setName(login);
+                    }
+                    else if (callback instanceof PasswordCallback)
+                    {
+                        ((PasswordCallback) callback).setPassword(password.toCharArray());
+                    }
+                    else
+                    {
+                        throw new RuntimeException("Invalid callback received during KerberosCredentialProvider initialization");
+                    }
+                }
+            }
+        });
+        
+        loginContext.login();
+        
+        return loginContext;
+    }
+    
     @Override
     public void init(String id, String cpModelId, Map<String, Object> paramValues, String label)
     {
@@ -109,43 +165,7 @@ public class KerberosCredentialProvider extends AbstractCredentialProvider imple
         
         try
         {
-            System.setProperty("java.security.krb5.kdc", kdc);
-            System.setProperty("java.security.krb5.realm", realm);
-            org.apache.cocoon.environment.Context context = (org.apache.cocoon.environment.Context) _context.get(Constants.CONTEXT_ENVIRONMENT_CONTEXT);
-            if (System.getProperty("java.security.auth.login.config") == null)
-            {
-                String jaasConfLocation = context.getRealPath("/WEB-INF/param/" + __LOGIN_CONF_FILE);
-                if (!new File(jaasConfLocation).exists())
-                {
-                    jaasConfLocation = AmetysHomeHelper.getAmetysHomeTmp() + File.separator + __LOGIN_CONF_FILE;
-                    FileUtils.write(new File(jaasConfLocation), "kerberos {\ncom.sun.security.auth.module.Krb5LoginModule required\nstoreKey=true\nisInitiator=false;\n};");
-                }
-                System.setProperty("java.security.auth.login.config", jaasConfLocation);
-            }
-            
-            LoginContext loginContext = new LoginContext("kerberos", new CallbackHandler()
-            {
-                public void handle(final Callback[] callbacks)
-                {
-                    for (Callback callback : callbacks)
-                    {
-                        if (callback instanceof NameCallback)
-                        {
-                            ((NameCallback) callback).setName(login);
-                        }
-                        else if (callback instanceof PasswordCallback)
-                        {
-                            ((PasswordCallback) callback).setPassword(password.toCharArray());
-                        }
-                        else
-                        {
-                            throw new RuntimeException("Invalid callback received during KerberosCredentialProvider initialization");
-                        }
-                    }
-                }
-            });
-            
-            loginContext.login();
+            LoginContext loginContext = createLoginContext(kdc, realm, login, password, _context);
             
             GSSManager manager = GSSManager.getInstance();
             

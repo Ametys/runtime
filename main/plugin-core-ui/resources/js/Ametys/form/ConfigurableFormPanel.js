@@ -146,10 +146,22 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     /**
      * @cfg {String} testURL The url to use to run the verifications. see {@link Ametys.form.ConfigurableFormPanel.FieldCheckersManager#check}
      */
-    
     /**
      * @private
      * @property {String} _testURL See #cfg-testURL.
+     */
+    
+    /**
+     * @cfg {Function} testHandler An optionnal function called each time a test is done, that's allow to transform sent parameters
+     * @cfg {Ametys.form.ConfigurableFormPanel.FieldChecker[]} testHandler.fieldCheckers The field checkers executed
+     * @cfg {Object} testHandler.fieldCheckersInfo A map which key is the testHandler.fieldCheckers ids
+     * @cfg {String[]} testHandler.fieldCheckersInfo.testParamsNames The array of param names
+     * @cfg {Object[]} testHandler.fieldCheckersInfo.rawTestValues The array of param values
+     * @cfg {Object} testHandler.returnedValue The modified fieldCheckersInfo
+     */
+    /**
+     * @private
+     * @property {Function} _testHandler See #cfg-testHandler.
      */
     
     /**
@@ -365,6 +377,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         this._additionalWidgetsConf = config.additionalWidgetsConf || {};
         this._additionalWidgetsConfFromParams = config.additionalWidgetsConfFromParams || {};
         this._testURL = config.testURL;
+        this._testHandler = config.testHandler;
 
         config.items = this._getFormItems(config);
         
@@ -679,6 +692,17 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     getTestURL: function ()
     {
         return this._testURL;
+    },
+    /**
+     * Execute the function used to change test parameters
+     * @cfg {Object} fieldCheckersInfo A map which key is the testHandler.fieldCheckers ids
+     * @cfg {String[]} fieldCheckersInfo.testParamsNames The array of param names
+     * @cfg {Object[]} fieldCheckersInfo.rawTestValues The array of param values
+     * @return {Object} The modified fieldCheckersInfo
+     */
+    testHandler: function (fieldCheckers, fieldCheckersInfo)
+    {
+        return this._testHandler ? Ext.bind(this._testHandler, this)(fieldCheckers, fieldCheckersInfo) : fieldCheckersInfo;
     },
     
     /**

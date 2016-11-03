@@ -131,9 +131,33 @@ public class CheckCredentialProviderAction extends ServiceableAction
             List<String> values = new ArrayList<> ();
             
             // Compute the proper values for the test
-            for (int i = 0; i < paramNames.size(); i++)
+            String cpId = paramRawValues.get(paramRawValues.size() - 1);
+            for (int i = 0; i < paramNames.size() - 1; i++)
             {
-                values.add(ParameterHelper.valueToString(paramRawValues.get(i)));
+                String paramName = paramNames.get(i);
+                String untypedValue = ParameterHelper.valueToString(paramRawValues.get(i));
+                
+                // Handle password field
+                /*if (untypedValue == null && configParams.get(paramName).getType() == ParameterType.PASSWORD)
+                {
+                    Object typedValue = ParameterHelper.castValue(untypedValue, configParams.get(paramName).getType());
+
+                    if (Config.getInstance() != null)
+                    {
+                        // Fetch the value of an empty password field
+                        typedValue = Config.getInstance().getValueAsString(paramName);
+                    }
+                    else if (oldUntypedValues != null)
+                    {
+                        typedValue = oldUntypedValues.get(paramName);
+                    }
+                    
+                    values.add((String) typedValue);
+                }
+                else*/
+                {
+                    values.add(untypedValue);
+                }
             }
             
             valuesByParamCheckerId.put("values", values);

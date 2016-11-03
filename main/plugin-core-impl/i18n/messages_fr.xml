@@ -179,6 +179,9 @@
     <message key="PLUGINS_CORE_AUTHENTICATION_KERBEROS_IPLIMITATION_REGEXP_LABEL">Restriction d'ip</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_KERBEROS_IPLIMITATION_REGEXP_DESC">Expression régulière listant les adresses IP autorisées à utiliser cette authentification.&lt;br&gt;&lt;br&gt;En effet, si le serveur n'est pas dans la liste des sites web 'trusted' du client, l'authentification HTTP peut afficher une fenêtre de connexion et cela rend ce processus non-transparent.&lt;br/&gt;Il est donc vivement recommandé de restreindre l'utilisation de cette authentification aux addresses IP dont la configuration des navigateurs clients est maîtrisée (en général cela concerne les machines du réseau interne).&lt;br/&gt;Exemples :&lt;ul&gt;&lt;li&gt;&lt;strong&gt;^172\.&lt;/strong&gt; : Accepte toutes les adresses commençant par '172.'.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;(^172\.)|(^168\.)|(^127\.0\.0\.1$)&lt;/strong&gt; : Accepte toutes les adresses commençant par '172.' ou '168.' ainsi que '127.0.0.1'.&lt;/li&gt;&lt;/ul&gt;</message>
     
+    <message key="PLUGINS_CORE_AUTHENTICATION_KERBEROS_CHECKER_LABEL">Vérifier le serveur Kerberos</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_KERBEROS_CHECKER_DESCRIPTION">The test vérifie que les paramètres saisis permettent d'établir une connexion au serveur Kerberos.</message>
+    
     <!-- GROUP DIRECTORY -->
     <message key="PLUGINS_CORE_GROUPS_JDBC_LABEL">Base de données SQL</message>
     <message key="PLUGINS_CORE_GROUPS_JDBC_DESCRIPTION">Base de données SQL</message>

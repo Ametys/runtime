@@ -739,8 +739,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 		    forceTest = forceTest !== false ? true : false;
 		    fieldCheckers = fieldCheckers != null ? fieldCheckers : this._fieldCheckers; 
         
-        var formValues = {};
-        
         // Add information concerning the involved field checkers 
         var fieldCheckersInfo = {};
         Ext.Array.each(fieldCheckers, function(fieldChecker) {
@@ -792,7 +790,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 	        // Server call
 	        Ext.Ajax.request({
 	        	url: this._form.getTestURL(),  
-	            params: "fieldCheckersInfo=" + encodeURIComponent(Ext.JSON.encode(fieldCheckersInfo)) + "&formValues=" + encodeURIComponent(Ext.JSON.encode(formValues)), 
+	            params: "fieldCheckersInfo=" + encodeURIComponent(Ext.JSON.encode(this._form.testHandler(fieldCheckers, fieldCheckersInfo))), 
 	            callback: Ext.bind(this._checkCb, this, [fieldCheckers, callback, displayErrors], true)
 	        });
     	}
