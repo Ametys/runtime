@@ -165,7 +165,35 @@ Ext.define('Ametys.plugins.coreui.groupdirectories.EditGroupDirectoryHelper', {
     {
         var chooseModelFieldId = "modelId";
         
-        var data = {};
+        var data = {
+            label: {
+                label: "{{i18n PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_LABEL_LABEL}}",
+                description: "{{i18n PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_LABEL_DESC}}",
+                type: 'STRING',
+                validation: {
+                    mandatory: true
+                },
+                'widget-params': {
+                    listeners: {
+                        'change': Ext.bind(this._updateIdField, this)
+                    }
+                }
+            },
+            id: {
+                label: "{{i18n PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ID_LABEL}}",
+                description: "{{i18n PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ID_DESC}}",
+                type: 'STRING',
+                validation: {
+                    mandatory: true,
+                    regexp: this._idRegex,
+                    regexText: "{{i18n PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ID_INVALID}}"
+                },
+                'widget-params': {
+                    disabled: this._mode == 'edit',
+                    validator: Ext.bind(this._validateIdField, this)
+                }
+            }
+        };
         data[chooseModelFieldId] = {
             label: "{{i18n PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_MODEL_LABEL}}",
             description: "{{i18n PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_MODEL_DESCRIPTION}}",
@@ -183,47 +211,7 @@ Ext.define('Ametys.plugins.coreui.groupdirectories.EditGroupDirectoryHelper', {
             defaultPathSeparator: this._separator,
             hideDisabledFields: true,
             scrollable: true,
-            flex: 1,
-            
-            items: [{
-                xtype: "textfield",
-                name: "label",
-                itemId: "label",
-                fieldLabel: "* " + "{{i18n PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_LABEL_LABEL}}",
-                ametysDescription: "{{i18n PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_LABEL_DESC}}",
-                allowBlank: false,
-                anchor: "100%",
-                cls:"ametys",
-                labelAlign: "right",
-                labelSeparator: "",
-                labelWidth: 200,
-                minWidth: 350,
-                msgTarget: "side",
-                style: "margin-right: 20px",
-                listeners: {
-                    'change': Ext.bind(this._updateIdField, this)
-                }
-            },
-            {
-                xtype: "textfield",
-                name: "id",
-                itemId: "id",
-                fieldLabel: "* " + "{{i18n PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ID_LABEL}}",
-                ametysDescription: "{{i18n PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ID_DESC}}",
-                allowBlank: false,
-                anchor: "100%",
-                cls:"ametys",
-                labelAlign: "right",
-                labelSeparator: "",
-                labelWidth: 200,
-                minWidth: 350,
-                msgTarget: "side",
-                style: "margin-right: 20px",
-                regex: this._idRegex,
-                regexText: "{{i18n PLUGINS_CORE_UI_GROUP_DIRECTORIES_DIALOG_ID_INVALID}}",
-                disabled: this._mode == 'edit',
-                validator: Ext.bind(this._validateIdField, this)
-            }]
+            flex: 1
         });
         formPanel.configure(data);
         
@@ -245,7 +233,7 @@ Ext.define('Ametys.plugins.coreui.groupdirectories.EditGroupDirectoryHelper', {
     {
         if (this._mode == 'add')
         {
-            var idField = this._box.getComponent('form').down('#id');
+            var idField = this._box.getComponent('form').getField('id');
             var idValue = this._labelToId(labelField.getValue());
             idField.setValue(idValue);
         }
