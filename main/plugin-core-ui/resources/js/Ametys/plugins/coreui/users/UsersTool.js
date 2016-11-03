@@ -111,9 +111,16 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
         this._showDirectoryColumn = Ext.isBoolean(params.showDirectoryColumn) ? params.showDirectoryColumn : params.showDirectoryColumn == "true";
         this._grid.down('[dataIndex=directory]').setVisible(this._showDirectoryColumn);
         this._showDirectoryCombobox = Ext.isBoolean(params.showDirectoryCombobox) ? params.showDirectoryCombobox : params.showDirectoryCombobox == "true";
+        
+        this.showOutOfDate();
+    },
+    
+    refresh: function()
+    {
         this._userDirectoriesField.setVisible(this._showDirectoryCombobox);
         
-        this._loadPopulations();
+        this.showRefreshing();
+        this._loadPopulations(Ext.bind(this.showRefreshed, this));
     },
     
     createPanel: function()
@@ -487,20 +494,24 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
             label: "{{i18n PLUGINS_CORE_UI_TOOL_USERS_USER_DIRECTORY_FIELD_OPTION_ALL}}"
         }];
         var record = combo.getStore().getById(newValue);
-        Ext.Array.forEach(record.get('userDirectories'), function(item, index) {
-            data.push({
-                id: item.id,
-                label: item.label
-            });
-        }, this);
+        if (record != null)
+        {
+            Ext.Array.forEach(record.get('userDirectories'), function(item, index) {
+                data.push({
+                    id: item.id,
+                    label: item.label
+                });
+            }, this);
+        }
         this._userDirectoriesField.getStore().loadData(data, false);
     },
     
     /**
      * @private
      * Load the store of the populations combobox.
+     * @param {Function} [callback] The callback function
      */
-    _loadPopulations: function()
+    _loadPopulations: function(callback)
     {
         this._userPopulationsField.getStore().load({
             scope: this,
@@ -522,6 +533,12 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
                 if (hide && this._userDirectoriesField.getStore().getRange().length == 2)
                 {
                     this._userDirectoriesField.setHidden(true);
+                }
+                
+                // Callback function
+                if (Ext.isFunction(callback))
+                {
+                    callback();
                 }
             }
         });
@@ -656,6 +673,14 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
      */
     _onMessageCreated: function(message)
     {
+        // Case creation of a population
+        var populationTargets = message.getTargets(Ametys.message.MessageTarget.USER_POPULATION);
+        if (populationTargets.length > 0)
+        {
+            this.showOutOfDate();
+        }
+        
+        // Case creation of a user
         var userTarget = message.getTarget(new RegExp('^' + this._userTargetId + '$'), 1);
         if (userTarget)
         {
@@ -676,6 +701,14 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
      */
     _onMessageEdited: function(message)
     {
+        // Case edition of a population
+        var populationTargets = message.getTargets(Ametys.message.MessageTarget.USER_POPULATION);
+        if (populationTargets.length > 0)
+        {
+            this.showOutOfDate();
+        }
+        
+        // Case edition of a user
         if (message != null && message.getParameters().major === true)
         {
             var userTarget = message.getTarget(new RegExp('^' + this._userTargetId + '$'), 1);
@@ -699,6 +732,14 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
      */
     _onMessageDeleted: function(message)
     {
+        // Case deletion of a population
+        var populationTargets = message.getTargets(Ametys.message.MessageTarget.USER_POPULATION);
+        if (populationTargets.length > 0)
+        {
+            this.showOutOfDate();
+        }
+        
+        // Case deletion of a user
         var userTargets = message.getTargets(new RegExp('^' + this._userTargetId + '$'), 1);
         
         var me = this;

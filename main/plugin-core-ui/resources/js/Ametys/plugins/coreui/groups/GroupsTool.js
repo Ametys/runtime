@@ -74,7 +74,14 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsTool', {
         
         this._contexts = Ext.Array.from(params.contexts || Ametys.getAppParameter('populationContexts'));
         this._enableAllDirectoriesOption = Ext.isBoolean(params.enableAllDirectoriesOption) ? params.enableAllDirectoriesOption : params.enableAllDirectoriesOption == "true";
-        this._loadDirectories();
+        
+        this.showOutOfDate();
+    },
+    
+    refresh: function()
+    {
+        this.showRefreshing();
+        this._loadDirectories(Ext.bind(this.showRefreshed, this));
     },
 	
 	constructor: function(config)
@@ -314,8 +321,9 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsTool', {
     /**
      * @private
      * Load the group directories
+     * @param {Function} [callback] The callback function
      */
-    _loadDirectories: function()
+    _loadDirectories: function(callback)
     {
         this._groupDirectoriesField.getStore().load({
             scope: this,
@@ -332,6 +340,12 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsTool', {
                 }
                 // If there is one and only one directory, hide the combobox
                 this._groupDirectoriesField.setHidden(records.length == 1);
+                
+                // Callback function
+                if (Ext.isFunction(callback))
+                {
+                    callback();
+                }
             }
         });
     },
@@ -655,6 +669,14 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsTool', {
 	 */
 	_onMessageCreated: function(message)
 	{
+        // Case creation of a group directory
+        var groupDirectoryTargets = message.getTargets(Ametys.message.MessageTarget.GROUP_DIRECTORY);
+        if (groupDirectoryTargets.length > 0)
+        {
+            this.showOutOfDate();
+        }
+        
+        // Case creation of a group
 		var groupTarget = message.getTarget(new RegExp('^' + this._groupTargetId + '$'), 1);
 		if (groupTarget)
 		{
@@ -674,6 +696,14 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsTool', {
 	 */
 	_onMessageEdited: function(message)
 	{
+        // Case edition of a group directory
+        var groupDirectoryTargets = message.getTargets(Ametys.message.MessageTarget.GROUP_DIRECTORY);
+        if (groupDirectoryTargets.length > 0)
+        {
+            this.showOutOfDate();
+        }
+        
+        // Case edition of a group
 		var groupTarget = message.getTarget(this._groupTargetType);
 		if (groupTarget != null)
 		{
@@ -705,6 +735,14 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsTool', {
 	 */
 	_onMessageDeleted: function(message)
 	{
+        // Case deletion of a group directory
+        var groupDirectoryTargets = message.getTargets(Ametys.message.MessageTarget.GROUP_DIRECTORY);
+        if (groupDirectoryTargets.length > 0)
+        {
+            this.showOutOfDate();
+        }
+        
+        // Case deletion of a group
 		var groupTargets = message.getTargets(this._groupTargetType);
 		
 		var store = this._groupGrid.getStore();
