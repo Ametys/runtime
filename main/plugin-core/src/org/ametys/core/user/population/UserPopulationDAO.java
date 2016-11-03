@@ -499,7 +499,6 @@ public class UserPopulationDAO extends AbstractLogEnabled implements Component, 
         userDirectory1.put("udModelId", "org.ametys.plugins.core.user.directory.Static");
         userDirectory1.put("id", "static");
         userDirectory1.put("org.ametys.plugins.core.user.directory.Static$runtime.users.static.users", SYSTEM_USER_LOGIN + ":System:User:");
-        userDirectory1.put("org.ametys.plugins.core.user.directory.Static$grantAllCredentials", "false");
         
         Map<String, String> userDirectory2 = new HashMap<>();
         userDirectory2.put("udModelId", "org.ametys.plugins.core.user.directory.Jdbc");
