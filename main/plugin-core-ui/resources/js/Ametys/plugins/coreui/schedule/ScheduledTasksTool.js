@@ -79,13 +79,28 @@ Ext.define('Ametys.plugins.coreui.schedule.ScheduledTasksTool', {
                     ]
                 } 
             ],
+            plugins: 'gridfilters',
             
             columns: [
                  {stateId: 'grid-title', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_TITLE}}", flex: 1, sortable: true, dataIndex: 'label'},
                  {stateId: 'grid-description', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_DESCRIPTION}}", flex: 2, dataIndex: 'description', hidden: true},
                  {stateId: 'grid-id', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_ID}}", width: 120, dataIndex: 'id', hidden: true},
                  {stateId: 'grid-cron', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_CRON}}", width: 150, dataIndex: 'cronExpression'},
-                 {stateId: 'grid-schedulable', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_LABEL}}", width: 300, dataIndex: 'schedulableLabel', renderer: this._renderSchedulableLabel},
+                 {
+                    itemId: 'grid-schedulable-id', 
+                    stateId: 'grid-schedulable-id', 
+                    header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_LABEL}}", 
+                    width: 300, 
+                    dataIndex: 'schedulableId',
+                    renderer: this._renderSchedulableId,
+                    filter: {
+                        type: 'list',
+                        store: Ext.create('Ext.data.Store', {
+                            fields: ['id','text'],
+                            data: []
+                        })
+                    }
+                 },
                  {stateId: 'grid-schedulable-description', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_DESCRIPTION}}", flex: 2, dataIndex: 'schedulableDescription', hidden: true},
                  {stateId: 'grid-schedulable-parameters', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_PARAMETERS}}", flex: 2, dataIndex: 'schedulableParameters', renderer: this._renderSchedulableParameters, hidden: true},
                  {stateId: 'grid-system-task', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SYSTEM}}", width: 100, dataIndex: 'private', renderer: this._renderSystem},
@@ -142,7 +157,13 @@ Ext.define('Ametys.plugins.coreui.schedule.ScheduledTasksTool', {
     refresh: function()
     {
         this.showRefreshing();
+
+        // Add the schedulables in the store of the filter
+        Ametys.plugins.core.schedule.Scheduler.getSchedulables([], function(schedulables) {
+            this._grid.down('#grid-schedulable-id').filter.store.loadData(schedulables);
+        }, {scope: this});
         
+        // Load the store of the grid
         this._store.load({callback: this.showRefreshed, scope: this});
     },
     
@@ -175,23 +196,24 @@ Ext.define('Ametys.plugins.coreui.schedule.ScheduledTasksTool', {
     
     /**
      * @private
-     * Schedulable label renderer
+     * Schedulable renderer
      * @param {Object} value The data value
      * @param {Object} metaData A collection of metadata about the current cell
      * @param {Ext.data.Model} record The record
      * @return {String} The html representation
      */
-    _renderSchedulableLabel: function(value, metaData, record)
+    _renderSchedulableId: function(value, metaData, record)
     {
-        var iconGlyph = record.get('iconGlyph'),
+        var label = record.get('schedulableLabel'),
+            iconGlyph = record.get('iconGlyph'),
             iconSmall = record.get('iconSmall');
         if (!Ext.isEmpty(iconGlyph))
         {
-            return '<span class="' + iconGlyph + '"></span> ' + value;
+            return '<span class="' + iconGlyph + '"></span> ' + label;
         }
         else
         {
-            return '<img src="' + Ametys.getPluginResourcesPrefix('core-ui') + '/' + iconSmall + '"></img> ' + value;
+            return '<img src="' + Ametys.getPluginResourcesPrefix('core-ui') + '/' + iconSmall + '"></img> ' + label;
         }
     },
     
@@ -381,6 +403,7 @@ Ext.define("Ametys.plugins.coreui.schedule.ScheduledTasksTool.TaskEntry", {
         {name: 'modifiable'},
         {name: 'removable'},
         {name: 'deactivatable'},
+        {name: 'schedulableId', mapping: function(data) {return data.schedulable.id;}},
         {name: 'schedulableLabel', mapping: function(data) {return data.schedulable.label;}},
         {name: 'schedulableDescription', mapping: function(data) {return data.schedulable.description;}},
         {name: 'schedulableParameters', mapping: function(data) {return data.schedulable.parameters;}},

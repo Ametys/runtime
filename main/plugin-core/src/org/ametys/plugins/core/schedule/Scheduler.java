@@ -959,6 +959,27 @@ public class Scheduler extends AbstractLogEnabled implements Component, Initiali
         }
         return result;
     }
+    
+    /**
+     * Gets all the schedulables (private or not)
+     * @return the schedulables
+     */
+    @Callable
+    public List<Map<String, Object>> getSchedulables()
+    {
+        List<Map<String, Object>> result = new ArrayList<>();
+        
+        for (String schedulableId : _schedulableEP.getExtensionsIds())
+        {
+            Schedulable schedulable = _schedulableEP.getExtension(schedulableId);
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", schedulable.getId());
+            map.put("text", schedulable.getLabel());
+            result.add(map);
+        }
+        
+        return result;
+    }
 
     @Override
     public void dispose()
