@@ -22,7 +22,7 @@ import org.ametys.core.group.GroupIdentity;
 import org.ametys.core.user.UserIdentity;
 
 /**
- * This interface is for storing the profile assignments of users/groups on objects.
+ * This interface is for read-only profile assignments storage
  */
 public interface ProfileAssignmentStorage
 {
@@ -63,20 +63,6 @@ public interface ProfileAssignmentStorage
      */
     public boolean isAnyConnectedUserAllowed(Object object, String profileId);
     
-    /**
-     * Adds allowed profiles any connected user has on the given object
-     * @param object The object
-     * @param profileIds The profiles to add
-     */
-    public void addAllowedProfilesForAnyConnectedUser(Object object, Set<String> profileIds);
-    
-    /**
-     * Removes allowed profiles any connected user has on the given object
-     * @param object The object
-     * @param profileIds The profiles to remove
-     */
-    public void removeAllowedProfilesForAnyConnectedUser(Object object, Set<String> profileIds);
-    
     
     /* --------------------------------------- */
     /* DENIED PROFILES FOR ANY CONNECTED USER */
@@ -96,20 +82,6 @@ public interface ProfileAssignmentStorage
      * @return true if any connected user is denied with the given profile
      */
     public boolean isAnyConnectedUserDenied(Object object, String profileId);
-    
-    /**
-     * Adds denied profiles any connected user has on the given object
-     * @param object The object
-     * @param profileIds The profiles to add
-     */
-    public void addDeniedProfilesForAnyConnectedUser(Object object, Set<String> profileIds);
-    
-    /**
-     * Removes denied profiles any connected user has on the given object
-     * @param object The object
-     * @param profileIds The profiles to remove
-     */
-    public void removeDeniedProfilesForAnyConnectedUser(Object object, Set<String> profileIds);
     
     
     /* ------------------------------ */
@@ -131,21 +103,6 @@ public interface ProfileAssignmentStorage
      */
     public boolean isAnonymousAllowed(Object object, String profileId);
     
-    /**
-     * Adds allowed profiles an anonymous user has on the given object
-     * @param object The object
-     * @param profileIds The profiles to add
-     */
-    public void addAllowedProfilesForAnonymous(Object object, Set<String> profileIds);
-    
-    /**
-     * Removes allowed profiles an anonymous user has on the given object
-     * @param object The object
-     * @param profileIds The profiles to remove
-     */
-    public void removeAllowedProfilesForAnonymous(Object object, Set<String> profileIds);
-    
-    
     /* --------------------------------------- */
     /* DENIED PROFILES FOR ANONYMOUS */
     /* --------------------------------------- */
@@ -164,20 +121,6 @@ public interface ProfileAssignmentStorage
      * @return true if anonymous is denied with the given profile
      */
     public boolean isAnonymousDenied(Object object, String profileId);
-    
-    /**
-     * Adds denied profiles an anonymous user has on the given object
-     * @param object The object
-     * @param profileIds The profiles to add
-     */
-    public void addDeniedProfilesForAnonymous(Object object, Set<String> profileIds);
-    
-    /**
-     * Removes denied profiles an anonymous user has on the given object
-     * @param object The object
-     * @param profileIds The profiles to remove
-     */
-    public void removeDeniedProfilesForAnonymous(Object object, Set<String> profileIds);
     
     
     /* --------------------------- */
@@ -207,30 +150,6 @@ public interface ProfileAssignmentStorage
      */
     public Set<UserIdentity> getAllowedUsers(Object object, String profileId);
     
-    /**
-     * Associates some users with an allowed profile on a given object
-     * @param users The users to add
-     * @param object The object
-     * @param profileId The id of the profile
-     */
-    public void addAllowedUsers(Set<UserIdentity> users, Object object, String profileId);
-    
-    /**
-     * Removes the association between some users and an allowed profile on a given object
-     * @param users The users to remove
-     * @param object The object
-     * @param profileId The id of the profile
-     */
-    public void removeAllowedUsers(Set<UserIdentity> users, Object object, String profileId);
-    
-    /**
-     * Removes the association between some users and all allowed profiles on a given object
-     * @param users The users to remove
-     * @param object The object
-     */
-    public void removeAllowedUsers(Set<UserIdentity> users, Object object);
-    
-    
     /* ---------------------------- */
     /* MANAGEMENT OF ALLOWED GROUPS */
     /* ---------------------------- */
@@ -249,30 +168,6 @@ public interface ProfileAssignmentStorage
      * @return The allowed groups with that profile on that object
      */
     public Set<GroupIdentity> getAllowedGroups(Object object, String profileId);
-    
-    /**
-     * Associates some groups with an allowed profile on a given object
-     * @param groups The groups to add
-     * @param object The object
-     * @param profileId The id of the profile
-     */
-    public void addAllowedGroups(Set<GroupIdentity> groups, Object object, String profileId);
-    
-    /**
-     * Removes the association between some groups and an allowed profile on a given object
-     * @param groups The groups to remove
-     * @param object The object
-     * @param profileId The id of the profile
-     */
-    public void removeAllowedGroups(Set<GroupIdentity> groups, Object object, String profileId);
-    
-    /**
-     * Removes the association between some groups and all allowed profiles on a given object
-     * @param groups The groups to remove
-     * @param object The object
-     */
-    public void removeAllowedGroups(Set<GroupIdentity> groups, Object object);
-    
     
     /* ---------------------------- */
     /* MANAGEMENT OF DENIED USERS */
@@ -301,30 +196,6 @@ public interface ProfileAssignmentStorage
      */
     public Set<UserIdentity> getDeniedUsers(Object object, String profileId);
     
-    /**
-     * Associates some users with a denied profile on a given object
-     * @param users The users to add
-     * @param object The object
-     * @param profileId The id of the profile
-     */
-    public void addDeniedUsers(Set<UserIdentity> users, Object object, String profileId);
-    
-    /**
-     * Removes the association between some users and an denied profile on a given object
-     * @param users The users to remove
-     * @param object The object
-     * @param profileId The id of the profile
-     */
-    public void removeDeniedUsers(Set<UserIdentity> users, Object object, String profileId);
-    
-    /**
-     * Removes the association between some users and all denied profiles on a given object
-     * @param users The users to remove
-     * @param object The object
-     */
-    public void removeDeniedUsers(Set<UserIdentity> users, Object object);
-    
-    
     /* --------------------------- */
     /* MANAGEMENT OF DENIED GROUPS */
     /* --------------------------- */
@@ -343,52 +214,6 @@ public interface ProfileAssignmentStorage
      * @return The denied groups with that profile on that object
      */
     public Set<GroupIdentity> getDeniedGroups(Object object, String profileId);
-    
-    /**
-     * Associates some groups with a denied profile on a given object
-     * @param groups The groups to add
-     * @param object The object
-     * @param profileId The id of the profile
-     */
-    public void addDeniedGroups(Set<GroupIdentity> groups, Object object, String profileId);
-    
-    /**
-     * Removes the association between some groups and a denied profile on a given object
-     * @param groups The groups to remove
-     * @param object The object
-     * @param profileId The id of the profile
-     */
-    public void removeDeniedGroups(Set<GroupIdentity> groups, Object object, String profileId);
-    
-    /**
-     * Removes the association between some groups and all denied profiles on a given object
-     * @param groups The groups to remove
-     * @param object The object
-     */
-    public void removeDeniedGroups(Set<GroupIdentity> groups, Object object);
-    
-    
-    /* ------ */
-    /* REMOVE */
-    /* ------ */
-    
-    /**
-     * Removes all the assignments between this profile and users/groups/anonymous/any connected
-     * @param profileId The profile to remove
-     */
-    public void removeProfile(String profileId);
-    
-    /**
-     * Removes all the assignments involving this user
-     * @param user The user
-     */
-    public void removeUser(UserIdentity user);
-    
-    /**
-     * Removes all the assignments involving this group
-     * @param group The group
-     */
-    public void removeGroup(GroupIdentity group);
     
     
     /* ------------------------------ */

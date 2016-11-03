@@ -29,6 +29,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import org.ametys.core.datasource.AbstractMyBatisDAO;
 import org.ametys.core.group.GroupIdentity;
+import org.ametys.core.right.ModifiableProfileAssignmentStorage;
 import org.ametys.core.right.ProfileAssignmentStorage;
 import org.ametys.core.user.UserIdentity;
 
@@ -36,7 +37,7 @@ import org.ametys.core.user.UserIdentity;
  * Jdbc implementation of {@link ProfileAssignmentStorage} which stores profile assignments in database.
  * This only supports String objects as contexts.
  */
-public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements ProfileAssignmentStorage
+public class JdbcProfileAssignmentStorage extends AbstractMyBatisDAO implements ModifiableProfileAssignmentStorage
 {
     /** The handled context */
     protected String _supportedContext;

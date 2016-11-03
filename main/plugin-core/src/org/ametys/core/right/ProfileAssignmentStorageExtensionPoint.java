@@ -545,7 +545,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      */
     public void allowProfileToAnyConnectedUser(String profileId, Object context)
     {
-        _getFirstProfileAssignmentStorage(context)
+        _getFirstModifiableProfileAssignmentStorage(context)
                 .ifPresent(pas -> pas.addAllowedProfilesForAnyConnectedUser(context, Collections.singleton(profileId)));
     }
     
@@ -556,7 +556,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      */
     public void denyProfileToAnyConnectedUser(String profileId, Object context)
     {
-        _getFirstProfileAssignmentStorage(context)
+        _getFirstModifiableProfileAssignmentStorage(context)
                 .ifPresent(pas -> pas.addDeniedProfilesForAnyConnectedUser(context, Collections.singleton(profileId)));
     }
     
@@ -567,7 +567,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      */
     public void removeAllowedProfileFromAnyConnectedUser(String profileId, Object context)
     {
-        _getFirstProfileAssignmentStorage(context)
+        _getFirstModifiableProfileAssignmentStorage(context)
                 .ifPresent(pas -> pas.removeAllowedProfilesForAnyConnectedUser(context, Collections.singleton(profileId)));
     }
     
@@ -578,7 +578,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      */
     public void removeDeniedProfileFromAnyConnectedUser(String profileId, Object context)
     {
-        _getFirstProfileAssignmentStorage(context)
+        _getFirstModifiableProfileAssignmentStorage(context)
                 .ifPresent(pas -> pas.removeDeniedProfilesForAnyConnectedUser(context, Collections.singleton(profileId)));
     }
     
@@ -620,7 +620,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      */
     public void allowProfileToAnonymous(String profileId, Object context)
     {
-        _getFirstProfileAssignmentStorage(context)
+        _getFirstModifiableProfileAssignmentStorage(context)
                 .ifPresent(pas -> pas.addAllowedProfilesForAnonymous(context, Collections.singleton(profileId)));
     }
     
@@ -631,7 +631,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      */
     public void denyProfileToAnonymous(String profileId, Object context)
     {
-        _getFirstProfileAssignmentStorage(context)
+        _getFirstModifiableProfileAssignmentStorage(context)
                 .ifPresent(pas -> pas.addDeniedProfilesForAnonymous(context, Collections.singleton(profileId)));
     }
     
@@ -642,7 +642,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      */
     public void removeAllowedProfileFromAnonymous(String profileId, Object context)
     {
-        _getFirstProfileAssignmentStorage(context)
+        _getFirstModifiableProfileAssignmentStorage(context)
                 .ifPresent(pas -> pas.removeAllowedProfilesForAnonymous(context, Collections.singleton(profileId)));
     }
     
@@ -653,7 +653,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      */
     public void removeDeniedProfileFromAnonymous(String profileId, Object context)
     {
-        _getFirstProfileAssignmentStorage(context)
+        _getFirstModifiableProfileAssignmentStorage(context)
                 .ifPresent(pas -> pas.removeDeniedProfilesForAnonymous(context, Collections.singleton(profileId)));
     }
     
@@ -745,7 +745,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      */
     public void allowProfileToUser(UserIdentity user, String profileId, Object context)
     {
-        _getFirstProfileAssignmentStorage(context)
+        _getFirstModifiableProfileAssignmentStorage(context)
                 .ifPresent(pas -> pas.addAllowedUsers(Collections.singleton(user), context, profileId));
     }
     
@@ -757,7 +757,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      */
     public void denyProfileToUser(UserIdentity user, String profileId, Object context)
     {
-        _getFirstProfileAssignmentStorage(context)
+        _getFirstModifiableProfileAssignmentStorage(context)
                 .ifPresent(pas -> pas.addDeniedUsers(Collections.singleton(user), context, profileId));
     }
     
@@ -769,7 +769,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      */
     public void removeAllowedProfileFromUser(UserIdentity user, String profileId, Object context)
     {
-        _getFirstProfileAssignmentStorage(context)
+        _getFirstModifiableProfileAssignmentStorage(context)
                 .ifPresent(pas -> pas.removeAllowedUsers(Collections.singleton(user), context, profileId));
     }
     
@@ -781,7 +781,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      */
     public void removeDeniedProfileFromUser(UserIdentity user, String profileId, Object context)
     {
-        _getFirstProfileAssignmentStorage(context)
+        _getFirstModifiableProfileAssignmentStorage(context)
                 .ifPresent(pas -> pas.removeDeniedUsers(Collections.singleton(user), context, profileId));
     }
     
@@ -874,7 +874,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      */
     public void allowProfileToGroup(GroupIdentity group, String profileId, Object context)
     {
-        _getFirstProfileAssignmentStorage(context)
+        _getFirstModifiableProfileAssignmentStorage(context)
                 .ifPresent(pas -> pas.addAllowedGroups(Collections.singleton(group), context, profileId));
     }
     
@@ -886,7 +886,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      */
     public void denyProfileToGroup(GroupIdentity group, String profileId, Object context)
     {
-        _getFirstProfileAssignmentStorage(context)
+        _getFirstModifiableProfileAssignmentStorage(context)
                 .ifPresent(pas -> pas.addDeniedGroups(Collections.singleton(group), context, profileId));
     }
     
@@ -898,7 +898,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      */
     public void removeAllowedProfileFromGroup(GroupIdentity group, String profileId, Object context)
     {
-        _getFirstProfileAssignmentStorage(context)
+        _getFirstModifiableProfileAssignmentStorage(context)
                 .ifPresent(pas -> pas.removeAllowedGroups(Collections.singleton(group), context, profileId));
     }
     
@@ -910,7 +910,7 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
      */
     public void removeDeniedProfileFromGroup(GroupIdentity group, String profileId, Object context)
     {
-        _getFirstProfileAssignmentStorage(context)
+        _getFirstModifiableProfileAssignmentStorage(context)
                 .ifPresent(pas -> pas.removeDeniedGroups(Collections.singleton(group), context, profileId));
     }
     
@@ -923,6 +923,16 @@ public class ProfileAssignmentStorageExtensionPoint extends AbstractThreadSafeCo
         return getExtensionsIds().stream()
                 .map(this::getExtension)
                 .filter(pas -> pas.isSupported(object))
+                .sorted(Comparator.comparing(ProfileAssignmentStorage::getPriority))
+                .findFirst();
+    }
+    
+    private Optional<ModifiableProfileAssignmentStorage> _getFirstModifiableProfileAssignmentStorage(Object object)
+    {
+        return getExtensionsIds().stream()
+                .map(this::getExtension)
+                .filter(pas -> pas.isSupported(object) && pas instanceof ModifiableProfileAssignmentStorage)
+                .map(ModifiableProfileAssignmentStorage.class::cast)
                 .sorted(Comparator.comparing(ProfileAssignmentStorage::getPriority))
                 .findFirst();
     }

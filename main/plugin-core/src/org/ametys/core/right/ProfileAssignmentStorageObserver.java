@@ -81,6 +81,8 @@ public class ProfileAssignmentStorageObserver implements Serviceable, Observer
         Profile profile = (Profile) arguments.get(ObservationConstants.ARGS_PROFILE);
         _profileAssignmentStorageEP.getExtensionsIds().stream()
             .map(_profileAssignmentStorageEP::getExtension)
+            .filter(pas -> pas instanceof ModifiableProfileAssignmentStorage)
+            .map(ModifiableProfileAssignmentStorage.class::cast)
             .forEach(pas -> pas.removeProfile(profile.getId()));
     }
     
@@ -91,6 +93,8 @@ public class ProfileAssignmentStorageObserver implements Serviceable, Observer
         UserIdentity user = (UserIdentity) arguments.get(ObservationConstants.ARGS_USER);
         _profileAssignmentStorageEP.getExtensionsIds().stream()
             .map(_profileAssignmentStorageEP::getExtension)
+            .filter(pas -> pas instanceof ModifiableProfileAssignmentStorage)
+            .map(ModifiableProfileAssignmentStorage.class::cast)
             .forEach(pas -> pas.removeUser(user));
     }
     
@@ -101,6 +105,8 @@ public class ProfileAssignmentStorageObserver implements Serviceable, Observer
         GroupIdentity group = (GroupIdentity) arguments.get(ObservationConstants.ARGS_GROUP);
         _profileAssignmentStorageEP.getExtensionsIds().stream()
             .map(_profileAssignmentStorageEP::getExtension)
+            .filter(pas -> pas instanceof ModifiableProfileAssignmentStorage)
+            .map(ModifiableProfileAssignmentStorage.class::cast)
             .forEach(pas -> pas.removeGroup(group));
     }
 }
