@@ -1262,7 +1262,7 @@
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CLOSE_BOX_MESSAGE">Il y a des modifications locales non sauvegardées. &lt;br/&gt;Souhaitez-vous enregistrer vos modifications avant de fermer l'outil ?</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CHANGE_CONTEXT_BOX_TITLE">Enregister les changements</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CHANGE_CONTEXT_BOX_MESSAGE">Il y a des modifications locales non sauvegardées. &lt;br/&gt;Souhaitez-vous enregistrer vos modifications avant de changer de contexte d'affectation ?</message>
-    
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CONTEXT_READONLY">Ce contexte d'affection est en lecture seule. Vous ne pouvez pas modifier les affections sur le contexte.</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_UNKNOWN">Aucune affectation n'a pu être déterminée sur le contexte de droit courant</message>
     
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_LOCAL_ALLOWED">L'utilisateur est autorisé</message>

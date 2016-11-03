@@ -617,8 +617,9 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
      * Function called when the current object context has changed.
      * @param {Object} object The new object context
      * @param {String} hintTextContext The hint text to update
+     * @param {Boolean} [readOnly] true if no modification is allowed on object context
      */
-    _onObjectContextChange: function(object, hintTextContext)
+    _onObjectContextChange: function(object, hintTextContext, readOnly)
     {
         if (this.isDirty())
         {
@@ -627,23 +628,23 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
                 msg: "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CHANGE_CONTEXT_BOX_MESSAGE}}",
                 buttons: Ext.Msg.YESNO,
                 icon: Ext.MessageBox.QUESTION,
-                fn: Ext.bind(callback, this, [object, hintTextContext], 1)
+                fn: Ext.bind(callback, this, [object, hintTextContext, readOnly], 1)
             });
         }
         else
         {
-            this._internalChangeObjectContext(object, hintTextContext);
+            this._internalChangeObjectContext(object, hintTextContext, readOnly);
         }
         
-        function callback(btn, object, parentObjects, hintTextContext)
+        function callback(btn, object, parentObjects, hintTextContext, readOnly)
         {
             if (btn == 'yes')
             {
-                this._saveChanges(this._contextCombobox.getValue(), Ext.bind(this._internalChangeObjectContext, this, [object, hintTextContext]));
+                this._saveChanges(this._contextCombobox.getValue(), Ext.bind(this._internalChangeObjectContext, this, [object, hintTextContext, readOnly]));
             }
             else
             {
-                this._internalChangeObjectContext(object, hintTextContext);
+                this._internalChangeObjectContext(object, hintTextContext, readOnly);
             }
             
         }
@@ -654,13 +655,17 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
      * Changes the internal representation of the object context, update the hint text of the grid and updates the grid.
      * @param {Object} object The new object context
      * @param {String} hintTextContext The hint text to update
+     * @param {Boolean} [readOnly] true if no modification is allowed on object context
      */
-    _internalChangeObjectContext: function(object, hintTextContext)
+    _internalChangeObjectContext: function(object, hintTextContext, readOnly)
     {
         this._clearFilters(); // avoid bugs in the grid store before loading it
         
         this.getLogger().info("Right assignment context has changed to : " + object);
-        this._objectContext = object;
+        this._objectContext = {
+        	context: object,
+        	modifiable: !readOnly
+        }
         
         if (!object)
         {
@@ -672,9 +677,33 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
             
             this._assignmentsGrid.getDockedItems('#context-helper-text')[0].update(this._rightContextHintPrefix + hintTextContext);
             this._updateGrid();
+            
+            this._switchToReadOnlyMode(readOnly);
         }
         
         this.sendCurrentSelection();
+    },
+    
+    /**
+     * @private
+     * Enter or leave the read-only mode
+     * @param {Boolean} readOnly true to switch to read-only mode
+     */
+    _switchToReadOnlyMode: function (readOnly)
+    {
+    	if (this._assignmentsGrid.rendered)
+        {
+        	if (readOnly)
+            {
+        		this._assignmentsGrid.getDockedItems('#context-readonly-text')[0].show();
+        		this._assignmentsGrid.getView().mask();
+            }
+            else
+            {
+            	this._assignmentsGrid.getDockedItems('#context-readonly-text')[0].hide();
+            	this._assignmentsGrid.getView().unmask();
+            }
+        }
     },
     
     /**
@@ -687,6 +716,12 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         return [{
             xtype: 'component',
             itemId: 'context-helper-text',
+            ui: 'tool-hintmessage'
+        }, {
+            xtype: 'component',
+            itemId: 'context-readonly-text',
+            html: "{{i18n PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CONTEXT_READONLY}}",
+            hidden: true,
             ui: 'tool-hintmessage'
         }, {
             dock: 'top',
@@ -843,7 +878,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     		// When go to 'unknown' value, the value is computed from parent contexts
     		var parameters = [
     		       this.getFactory()._rightAssignmentContexts[this._contextCombobox.getValue()].getServerId(), 
-    		       this._objectContext, 
+    		       this._objectContext.context, 
     		       profileId, 
     		       record.get('targetType'), 
     		       this._getIdentity(record)
@@ -1011,7 +1046,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
 			// Get the inherited assignment for each profile for the added user or group
     		var parameters = [
     		       me.getFactory()._rightAssignmentContexts[me._contextCombobox.getValue()].getServerId(), 
-    		       me._objectContext, 
+    		       me._objectContext.context, 
     		       me._getProfileIds(), 
     		       record.get('targetType'), 
     		       me._getIdentity(record)
@@ -1046,7 +1081,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         Ext.Array.forEach(assignments, function(assignment) {
             var record = this._gridStore.getById(assignment.id);
             if (!record.get('isNew') 
-            	&& assignment.context == this._objectContext 
+            	&& assignment.context == this._objectContext.context 
                 && assignment != null
                 && record.get('targetType') != this.self.TARGET_TYPE_ANONYMOUS
                 && record.get('targetType') != this.self.TARGET_TYPE_ANYCONNECTEDUSER)
@@ -1138,7 +1173,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         
         if (assignmentsInfo.length > 0)
         {
-            var parameters = [this.getFactory()._rightAssignmentContexts[rightAssignmentId].getServerId(), this._objectContext, assignmentsInfo];
+            var parameters = [this.getFactory()._rightAssignmentContexts[rightAssignmentId].getServerId(), this._objectContext.context, assignmentsInfo];
             this.serverCall('saveChanges', parameters, callback);
         }
     },
@@ -1153,7 +1188,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     {
         operation.setParams(Ext.apply(operation.getParams() || {}, {
             rightAssignmentContextId: this.getFactory()._rightAssignmentContexts[this._contextCombobox.getValue()].getServerId(),
-            context: this._objectContext
+            context: this._objectContext.context
         }));
     },
     
@@ -1610,7 +1645,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
                     parameters: {
                         id: record.get('id'),
                         type: type,
-                        context: this._objectContext,
+                        context: this._objectContext.context,
                         removable: removable
                     }
                 };
@@ -1619,7 +1654,8 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         	targets.push({
                 id: Ametys.message.MessageTarget.PROFILE_CONTEXT,
                 parameters: {
-                    context: this._objectContext
+                    context: this._objectContext.context,
+                    modifiable: this._objectContext.modifiable
                 },
                 subtargets: subtargets
             });

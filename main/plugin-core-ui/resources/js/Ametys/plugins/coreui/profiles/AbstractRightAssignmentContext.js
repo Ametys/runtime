@@ -139,9 +139,10 @@ Ext.define('Ametys.plugins.coreui.profiles.AbstractRightAssignmentContext', {
      * This method has to be called at least once.
      * @param {Object} object The object context
      * @param {String} hintTextContext A quick description on the current object context to display in the hint text.
+     * @param {Boolean} [readOnly] true to set the context in read-only mode (no modification allowed)
      */
-    _changeObjectContext: function(object, hintTextContext)
+    _changeObjectContext: function(object, hintTextContext, readOnly)
     {
-        this._contextPanel.fireEvent('objectcontextchange', object, hintTextContext);
+        this._contextPanel.fireEvent('objectcontextchange', object, hintTextContext, readOnly);
     }
 });

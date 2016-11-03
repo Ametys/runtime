@@ -1260,7 +1260,7 @@
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CLOSE_BOX_MESSAGE">There are some unsaved local changes. &lt;br/&gt;Do you want to save your modifications before closing the tool ?</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CHANGE_CONTEXT_BOX_TITLE">Save the modifications</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CHANGE_CONTEXT_BOX_MESSAGE">There are some unsaved local changes. &lt;br/&gt;Do you want to save your modifications before changing the assignment context ?</message>
-    
+    <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_CONTEXT_READONLY">This context is read-only. You can not change the assignments on this context.</message>
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_UNKNOWN">No assignment could be determined</message>
     
     <message key="PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_TOOLTIP_USER_LOCAL_ALLOWED">The user is allowed on current context</message>

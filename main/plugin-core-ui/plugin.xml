@@ -3103,6 +3103,10 @@
             <class name="Ametys.ribbon.element.ui.ButtonController">
                     <action>Ametys.plugins.coreui.profiles.ProfileAssignmentsActions.addUsers</action>
                     <selection-target-id>^profileContext$</selection-target-id>
+                    <selection-target-parameter>
+                        <name>modifiable</name>
+                        <value>true</value>
+                    </selection-target-parameter>
                     <tool-id>^(uitool-profile-assignment.*)$</tool-id>
                     
                     <label i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ADD_USERS_LABEL</label>
@@ -3126,6 +3130,10 @@
             <class name="Ametys.ribbon.element.ui.ButtonController">
                     <action>Ametys.plugins.coreui.profiles.ProfileAssignmentsActions.addGroups</action>
                     <selection-target-id>^profileContext$</selection-target-id>
+                    <selection-target-parameter>
+                        <name>modifiable</name>
+                        <value>true</value>
+                    </selection-target-parameter>
                     <tool-id>^(uitool-profile-assignment.*)$</tool-id>
                     
                     <label i18n="true">PLUGINS_CORE_UI_TOOL_PROFILE_ASSIGNMENTS_ADD_GROUPS_LABEL</label>
