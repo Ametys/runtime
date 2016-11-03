@@ -1388,10 +1388,10 @@
     <message key="PLUGINS_CORE_UI_TASKS_REMOVE_DESCRIPTION">Supprime une tâche existante</message>
     <message key="PLUGINS_CORE_UI_TASKS_REMOVE_NO_REMOVABLE_DESCRIPTION">Cette tâche ne peut pas être supprimée</message>
     <message key="PLUGINS_CORE_UI_TASKS_ENABLE_LABEL">Tâche activée</message>
-    <message key="PLUGINS_CORE_UI_TASKS_ENABLE_DESCRIPTION">La tâche est actuellement désactivée.&lt;br/&gt;Cliquez ici pour activer la tâche sélectionnée.</message>
-    <message key="PLUGINS_CORE_UI_TASKS_DISABLE_DESCRIPTION">La tâche est actuellement activée.&lt;br/&gt;Cliquez ici pour désactiver la tâche sélectionnée.</message>
+    <message key="PLUGINS_CORE_UI_TASKS_ENABLE_DESCRIPTION">La tâche est actuellement inactive.&lt;br/&gt;Cliquez ici pour activer la tâche sélectionnée.</message>
+    <message key="PLUGINS_CORE_UI_TASKS_DISABLE_DESCRIPTION">La tâche est actuellement active.&lt;br/&gt;Cliquez ici pour désactiver la tâche sélectionnée.</message>
     <message key="PLUGINS_CORE_UI_TASKS_ENABLE_DESCRIPTION_ERROR">Une erreur serveur est survenue et ne permet pas de connaître le statut actuel de la tâche.</message>
-    <message key="PLUGINS_CORE_UI_TASKS_ENABLE_NO_DEACTIVATABLE_LABEL">Cette tâche ne peut pas être désactivée, et sera donc toujours activée</message>
+    <message key="PLUGINS_CORE_UI_TASKS_ENABLE_NO_DEACTIVATABLE_LABEL">Cette tâche ne peut pas être désactivée, et sera donc toujours active</message>
     <message key="PLUGINS_CORE_UI_TASKS_REMOVE_COMPLETED_TASKS_LABEL">Effacer les tâches terminées</message>
     <message key="PLUGINS_CORE_UI_TASKS_REMOVE_COMPLETED_TASKS_DESCRIPTION">Effacer toutes les tâches terminées (qui n'ont pas de prochaine exécution)</message>
     <message key="PLUGINS_CORE_UI_TASKS_REFRESH_LABEL">Rafraîchir</message>
