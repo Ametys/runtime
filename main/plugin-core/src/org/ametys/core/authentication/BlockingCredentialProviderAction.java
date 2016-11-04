@@ -49,6 +49,7 @@ public class BlockingCredentialProviderAction extends AuthenticateAction
         }
 
         int credentialProviderIndex = Integer.parseInt(source);
+        request.getSession(true).setAttribute(SESSION_CONNECTING_CREDENTIALPROVIDER_INDEX_LASTBLOCKINGKNOWN, credentialProviderIndex);
         CredentialProvider credentialProvider = credentialProviders.get(credentialProviderIndex);
         
         if (_process(request, true, credentialProvider, credentialProviderIndex, redirector, chosenUserPopulations))

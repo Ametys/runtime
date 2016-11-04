@@ -90,6 +90,8 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
 
     /** The session attribute name for storing the credential provider index of the authentication (during connection process) */
     protected static final String SESSION_CONNECTING_CREDENTIALPROVIDER_INDEX = "Runtime:ConnectingCredentialProviderIndex";
+    /** The session attribute name for storing the last known credential provider index of the authentication (during connection process)*/
+    protected static final String SESSION_CONNECTING_CREDENTIALPROVIDER_INDEX_LASTBLOCKINGKNOWN = "Runtime:ConnectingCredentialProviderIndexLastKnown";
     /** The session attribute name for storing the credential provider mode of the authentication: non-blocking=>false, blocking=>true (during connection process) */
     protected static final String SESSION_CONNECTING_CREDENTIALPROVIDER_MODE = "Runtime:ConnectingCredentialProviderMode";
     /** The session attribute name for storing the id of the user population (during connection process) */
@@ -129,7 +131,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
         Request request = ObjectModelHelper.getRequest(objectModel);
-
+        
         if (_handleLogout(redirector, objectModel, source, parameters)  // Test if user wants to logout
                 || _internalRequest(request)                            // Test if this request was already authenticated or it the request is marked as an internal one
                 || _acceptedUrl(request)                                // Test if the url is used for authentication
@@ -178,7 +180,9 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
             runningCredentialProviderIndex = -1;
         }
         
-        // Let's process the current one blocking or the only existing one
+        _saveLastKnownBlockingCredentialProvider(request, runningCredentialProviderIndex);
+        
+        // Let's process the current blocking one or the only existing one
         if (_shouldRunFirstBlockingCredentialProvider(runningCredentialProviderIndex, credentialProviders, request, chosenUserPopulations))
         {
             CredentialProvider runningCredentialProvider = runningCredentialProviderIndex == -1 ? _getFirstBlockingCredentialProvider(credentialProviders) : credentialProviders.get(runningCredentialProviderIndex);
@@ -191,7 +195,31 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
             throw new AuthorizationRequiredException();
         }
         
-        // Let's display the blocking list (if there is one at least)
+        // At this step we have two kind off requests
+        // 1) A secondary request of a blocking cp (such as captcha image...)        
+        Integer formerRunningCredentialProviderIndex = (Integer) request.getSession(true).getAttribute(SESSION_CONNECTING_CREDENTIALPROVIDER_INDEX_LASTBLOCKINGKNOWN);
+        if (formerRunningCredentialProviderIndex != null && credentialProviders.get(formerRunningCredentialProviderIndex).grantAnonymousRequest(true))
+        {
+            // Anonymous request
+            request.setAttribute(REQUEST_ATTRIBUTE_GRANTED, true);
+            _saveConnectingStateToSession(request, -1, true);
+            return EMPTY_MAP;
+        }
+        
+        // 2) Or a main stream request that should display the list of available blocking cp
+        return _displayBlockingList(redirector, request, credentialProviders);
+    }
+
+    private void _saveLastKnownBlockingCredentialProvider(Request request, int runningCredentialProviderIndex)
+    {
+        if (runningCredentialProviderIndex != -1)
+        {
+            request.getSession(true).setAttribute(SESSION_CONNECTING_CREDENTIALPROVIDER_INDEX_LASTBLOCKINGKNOWN, runningCredentialProviderIndex);
+        }
+    }
+
+    private Map _displayBlockingList(Redirector redirector, Request request, List<CredentialProvider> credentialProviders) throws IOException, ProcessingException, AuthorizationRequiredException
+    {
         if (credentialProviders.stream().filter(cp -> cp instanceof BlockingCredentialProvider).findFirst().isPresent())
         {
             _saveConnectingStateToSession(request, -1, true);
@@ -520,6 +548,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         {
             session.removeAttribute(SESSION_CONNECTING_CREDENTIALPROVIDER_INDEX);
             session.removeAttribute(SESSION_CONNECTING_CREDENTIALPROVIDER_MODE);
+            session.removeAttribute(SESSION_CONNECTING_CREDENTIALPROVIDER_INDEX_LASTBLOCKINGKNOWN);
             session.removeAttribute(SESSION_CONNECTING_USERPOPULATION_ID);
         }
     }
