@@ -693,15 +693,19 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     {
     	if (this._assignmentsGrid.rendered)
         {
+            var lockingGrid = this._assignmentsGrid.items.getRange()[0],
+                normalGrid = this._assignmentsGrid.items.getRange()[1];
         	if (readOnly)
             {
         		this._assignmentsGrid.getDockedItems('#context-readonly-text')[0].show();
-        		this._assignmentsGrid.getView().mask();
+        		lockingGrid.getView().mask();
+        		normalGrid.getView().mask();
             }
             else
             {
             	this._assignmentsGrid.getDockedItems('#context-readonly-text')[0].hide();
-            	this._assignmentsGrid.getView().unmask();
+                lockingGrid.getView().unmask();
+                normalGrid.getView().unmask();
             }
         }
     },
@@ -1344,7 +1348,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
      */
     _getInitialColumns: function()
     {
-        return [{stateId: 'grid-first-column', text: "", dataIndex: "sortableLabel", minWidth: 300, hideable: false, sortable: true, renderer: Ext.bind(this._renderWho, this)}];
+        return [{stateId: 'grid-first-column', text: "", locked: true, dataIndex: "sortableLabel", width: 300, minWidth: 300, hideable: false, sortable: true, renderer: Ext.bind(this._renderWho, this)}];
     },
     
     setParams: function(params)
@@ -1567,6 +1571,8 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         	columns.push({
                 stateId: 'grid-profile-' + profile.id,
                 text: _renderHeaderProfile(profile.label),
+                locked: profile.id == this.self.READER_PROFILE_ID,
+                lockable: profile.id == this.self.READER_PROFILE_ID,
                 tooltip: profile.label,
                 dataIndex: profile.id,
                 hideable: profile.id != this.self.READER_PROFILE_ID,
