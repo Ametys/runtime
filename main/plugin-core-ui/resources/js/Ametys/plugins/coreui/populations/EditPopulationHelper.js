@@ -565,6 +565,7 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
         };
         this._createRepeaterData(data, fieldName, userDirectoryModels, chooseModelFieldId);
         
+        var me = this;
         function testHandler (fieldCheckers, fieldCheckersInfo)
         {
             // WARNING execution scope is the ConfigurableFormPanel
