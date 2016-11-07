@@ -1362,12 +1362,12 @@
          | Format for durations
          + -->
          
-    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_MILLISECONDS">milliseconde(s)</message>
+    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_MILLISECONDS">ms</message>
     <message key="PLUGINS_CORE_UI_DURATION_FORMAT_DECIMAL_SEPARATOR">,</message>
-    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_SECONDS">seconde(s)</message>
-    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_MINUTES">minute(s)</message>
-    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_HOURS">heure(s)</message>
-    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_DAYS">jour(s)</message>
+    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_SECONDS">s</message>
+    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_MINUTES">mn</message>
+    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_HOURS">h</message>
+    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_DAYS">j</message>
     
     <!-- +
          | TASKS SCHEDULER
@@ -1400,17 +1400,20 @@
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_LABEL">Planificateur de tâches</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_DESCRIPTION">Cet outil liste les tâches planifiées ou en cours d'exécution et permet de programmer de nouvelles tâches.</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_TITLE">Nom</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_STATE">Etat</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_TYPE">Type</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_TYPE_SYSTEM">Système</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_TYPE_USER">Utilisateur</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_DESCRIPTION">Description</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_ID">Identifiant</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_CRON">Expression CRON</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_LABEL">Travail</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_DESCRIPTION">Description du travail</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_PARAMETERS">Paramètres du travail</message>
-    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SYSTEM">Tâche système</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_RUNNING">En cours d'éxecution</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_NEXT_FIRE">Prochaine exécution</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_PREVIOUS_FIRE">Dernière exécution</message>
-    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_LAST_DURATION">Durée de dernière exécution...</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_LAST_DURATION">Dernière durée</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SUCCESS">Succès</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_STARTUP_TASK">Au démarrage (une seule fois)</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_NOW_TASK">Lancée dès que possible</message>
@@ -1420,6 +1423,10 @@
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_ENABLED_LABEL">Active(s)</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_DISABLED_LABEL">Inactive(s)</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_COMPLETED_LABEL">Terminée(s)</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_STATE_RUNNING">En cours d\'exécution</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_STATE_AWAITING">En attente de la prochaine exécution</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_STATE_SUCCESS">Succès</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_STATE_FAILURE">En échec</message>
     
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_ADD_TITLE">Nouvelle tâche</message>
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_EDIT_TITLE">Modifier la tâche</message>

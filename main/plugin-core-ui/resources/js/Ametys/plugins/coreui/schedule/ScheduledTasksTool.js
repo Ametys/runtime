@@ -64,8 +64,8 @@ Ext.define('Ametys.plugins.coreui.schedule.ScheduledTasksTool', {
                     groupHeaderTpl: [
                         '{name:this.formatState}', 
                         {
-                            formatState: function(state) {
-                                switch (state) {
+                            formatState: function(group) {
+                                switch (group) {
                                     case "enabled":
                                         return "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_GROUP_ENABLED_LABEL}}";
                                     case "disabled":
@@ -82,15 +82,16 @@ Ext.define('Ametys.plugins.coreui.schedule.ScheduledTasksTool', {
             plugins: 'gridfilters',
             
             columns: [
+                 {stateId: 'grid-state', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_STATE}}", width: 50, dataIndex: 'state', renderer: this._renderState},
                  {stateId: 'grid-title', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_TITLE}}", flex: 1, sortable: true, dataIndex: 'label'},
                  {stateId: 'grid-description', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_DESCRIPTION}}", flex: 2, dataIndex: 'description', hidden: true},
                  {stateId: 'grid-id', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_ID}}", width: 120, dataIndex: 'id', hidden: true},
-                 {stateId: 'grid-cron', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_CRON}}", width: 150, dataIndex: 'cronExpression'},
+                 {stateId: 'grid-cron', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_CRON}}", width: 170, dataIndex: 'cronExpression'},
                  {
                     itemId: 'grid-schedulable-id', 
                     stateId: 'grid-schedulable-id', 
                     header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_LABEL}}", 
-                    width: 300, 
+                    flex: 1, 
                     dataIndex: 'schedulableId',
                     renderer: this._renderSchedulableId,
                     filter: {
@@ -103,12 +104,11 @@ Ext.define('Ametys.plugins.coreui.schedule.ScheduledTasksTool', {
                  },
                  {stateId: 'grid-schedulable-description', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_DESCRIPTION}}", flex: 2, dataIndex: 'schedulableDescription', hidden: true},
                  {stateId: 'grid-schedulable-parameters', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_PARAMETERS}}", flex: 2, dataIndex: 'schedulableParameters', renderer: this._renderSchedulableParameters, hidden: true},
-                 {stateId: 'grid-system-task', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SYSTEM}}", width: 100, dataIndex: 'private', renderer: this._renderSystem},
-                 {stateId: 'grid-running', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_RUNNING}}", width: 100, dataIndex: 'running', renderer: this._renderRunning},
+                 {stateId: 'grid-system-task', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_TYPE}}", width: 100, dataIndex: 'private', renderer: this._renderTaskType},
                  {stateId: 'grid-next-fire', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_NEXT_FIRE}}", width: 150, dataIndex: 'nextFireTime', renderer: this._renderDate},
                  {stateId: 'grid-previous-fire', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_PREVIOUS_FIRE}}", width: 150, dataIndex: 'previousFireTime', renderer: this._renderDate},
-                 {stateId: 'grid-last-duration', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_LAST_DURATION}}", width: 170, dataIndex: 'lastDuration', renderer: this._renderDuration},
-                 {stateId: 'grid-success', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SUCCESS}}", width: 60, dataIndex: 'success', renderer: this._renderSuccess}
+                 {stateId: 'grid-last-duration', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_LAST_DURATION}}", width: 170, dataIndex: 'lastDuration', renderer: this._renderDuration}
+                 
             ],
             
             listeners: {'selectionchange': Ext.bind(this.sendCurrentSelection, this)}
@@ -137,7 +137,7 @@ Ext.define('Ametys.plugins.coreui.schedule.ScheduledTasksTool', {
                 }
              },
              
-             groupField: 'state',
+             groupField: 'group',
              sortOnLoad: true,
              sorters: [{property: 'label', direction:'ASC'}]
         });
@@ -242,16 +242,44 @@ Ext.define('Ametys.plugins.coreui.schedule.ScheduledTasksTool', {
      * @param {Ext.data.Model} record The record
      * @return {String} The html representation
      */
-    _renderSystem: function(value, metaData, record)
+    _renderTaskType: function(value, metaData, record)
     {
         var isTrue = Ext.isBoolean(value) ? value : value == 'true';
         if (isTrue)
         {
-            return '<span class="a-grid-glyph ametysicon-check34"/>';
+            return "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_TYPE_SYSTEM}}"; 
         }
         else
         {
-            return '<span class="a-grid-glyph ametysicon-delete30"/>';
+            return "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_TYPE_USER}}"; 
+        }
+    },
+    
+    /**
+     * @private
+     * Renders the value of the "running" column.
+     * @param {Boolean} value The data value for the current cell.
+     * @param {Object} metaData A collection of metadata about the current cell
+     * @param {Ext.data.Model} record The record
+     * @return {String} The html representation
+     */
+    _renderState: function(value, metaData, record)
+    {
+        if (value == 'running')
+        {
+            return '<span class="a-grid-glyph ametysicon-play124 task-running" title="{{i18n PLUGINS_CORE_UI_TASKS_TOOL_STATE_RUNNING}}"/>';
+        }
+        else if (value == 'success')
+        {
+            return '<span class="a-grid-glyph ametysicon-checked34 task-success" title="{{i18n PLUGINS_CORE_UI_TASKS_TOOL_STATE_SUCCESS}}"/>';
+        }
+        else if (value == 'failure')
+        {
+        	return '<span class="a-grid-glyph ametysicon-cross-1 task-failure" title="{{i18n PLUGINS_CORE_UI_TASKS_TOOL_STATE_FAILURE}}"/>';
+        }
+        else
+        {
+        	return '<span class="a-grid-glyph ametysicon-clock169" title="{{i18n PLUGINS_CORE_UI_TASKS_TOOL_STATE_AWAITING}}"/>';
         }
     },
     
@@ -387,6 +415,7 @@ Ext.define("Ametys.plugins.coreui.schedule.ScheduledTasksTool.TaskEntry", {
         {name: 'id'},
         {name: 'label', sortType: Ext.data.SortTypes.asNonAccentedUCString},
         {name: 'description'},
+        
         {name: 'cronExpression', convert: function(v, rec) {
             switch (rec.get('fireProcess')) {
                 case "STARTUP":
@@ -398,11 +427,20 @@ Ext.define("Ametys.plugins.coreui.schedule.ScheduledTasksTool.TaskEntry", {
                     return v;
             }
         }},
-        {name: 'enabled', convert: function(v) {return v === true;}},
-        {name: 'state', calculate: function(data) {return data.completed ? "completed" : (data.enabled ? "enabled" : "disabled");}},
+        {name: 'enabled', defaultValue: false},
+        {name: 'completed', defaultValue: false},
+        {
+        	depends: ['enabled', 'completed'],
+        	name: 'group', 
+        	calculate: function(data) {
+        		return data.completed ? "completed" : (data.enabled ? "enabled" : "disabled");
+        	}
+        },
+        
         {name: 'modifiable'},
         {name: 'removable'},
         {name: 'deactivatable'},
+        
         {name: 'schedulableId', mapping: function(data) {return data.schedulable.id;}},
         {name: 'schedulableLabel', mapping: function(data) {return data.schedulable.label;}},
         {name: 'schedulableDescription', mapping: function(data) {return data.schedulable.description;}},
@@ -410,6 +448,7 @@ Ext.define("Ametys.plugins.coreui.schedule.ScheduledTasksTool.TaskEntry", {
         {name: 'iconGlyph', mapping: function(data) {return data.schedulable.iconGlyph;}},
         {name: 'iconSmall', mapping: function(data) {return data.schedulable.iconSmall;}},
         {name: 'private', mapping: function(data) {return data.schedulable['private'];}},
+        
         {name: 'nextFireTime', convert: function(v, rec) {
             switch (rec.get('fireProcess')) {
                 case "STARTUP":
@@ -425,6 +464,23 @@ Ext.define("Ametys.plugins.coreui.schedule.ScheduledTasksTool.TaskEntry", {
         {name: 'lastDuration'},
         {name: 'success'},
         {name: 'running'},
-        {name: 'completed'}
+        {
+        	name: 'state', 
+        	depends: ['success', 'running', 'completed'],
+        	calculate: function(data) {
+        		if (data.completed)
+        		{
+        			return data.success ? 'success' : 'failure';
+        		}
+        		else if (data.running)
+        		{
+        			return 'running';
+        		}
+        		else
+        		{
+        			return 'waiting';
+        		}
+        	}
+        }
     ]
 });

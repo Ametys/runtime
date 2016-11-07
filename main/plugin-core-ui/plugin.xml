@@ -2882,6 +2882,9 @@
                 <scripts>
                     <file>js/Ametys/plugins/coreui/schedule/ScheduledTasksTool.js</file>
                 </scripts>
+                <css>
+                    <file>css/Ametys/ui/tool/tasks.css</file>
+                </css>
                 <depends>
                     <org.ametys.core.ui.MessageTargetFactoriesManager>task</org.ametys.core.ui.MessageTargetFactoriesManager>
                 </depends>

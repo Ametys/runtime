@@ -1360,12 +1360,12 @@
          | Format for durations
          + -->
          
-    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_MILLISECONDS">millisecond(s)</message>
+    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_MILLISECONDS">ms</message>
     <message key="PLUGINS_CORE_UI_DURATION_FORMAT_DECIMAL_SEPARATOR">.</message>
-    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_SECONDS">second(s)</message>
-    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_MINUTES">minute(s)</message>
-    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_HOURS">hour(s)</message>
-    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_DAYS">day(s)</message>
+    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_SECONDS">s</message>
+    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_MINUTES">mn</message>
+    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_HOURS">h</message>
+    <message key="PLUGINS_CORE_UI_DURATION_FORMAT_DAYS">d</message>
     
     <!-- +
          | TASKS SCHEDULER
@@ -1398,13 +1398,16 @@
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_LABEL">Task scheduler</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_DESCRIPTION">Display and allow to manage the scheduled tasks</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_TITLE">Name</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_STATE">State</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_TYPE">Type</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_TYPE_SYSTEM">System</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_TYPE_USER">User</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_DESCRIPTION">Description</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_ID">Identifier</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_CRON">CRON expression</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_LABEL">Job</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_DESCRIPTION">Description of the job</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SCHEDULABLE_PARAMETERS">Parameters of the job</message>
-    <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_SYSTEM">System task</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_RUNNING">Currently running</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_NEXT_FIRE">Next fire time</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_PREVIOUS_FIRE">Last fire time</message>
@@ -1418,6 +1421,10 @@
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_ENABLED_LABEL">Enabled</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_DISABLED_LABEL">Disabled</message>
     <message key="PLUGINS_CORE_UI_TASKS_TOOL_GROUP_COMPLETED_LABEL">Completed</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_STATE_RUNNING">Running</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_STATE_AWAITING">Awaiting</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_STATE_SUCCESS">Success</message>
+    <message key="PLUGINS_CORE_UI_TASKS_TOOL_STATE_FAILURE">Failure</message>
     
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_ADD_TITLE">New task</message>
     <message key="PLUGINS_CORE_UI_TASKS_DIALOG_EDIT_TITLE">Edit the task</message>
