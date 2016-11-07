@@ -83,7 +83,7 @@ Ext.define('Ametys.plugins.coreui.schedule.ScheduledTasksTool', {
             
             columns: [
                  {stateId: 'grid-state', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_STATE}}", width: 50, dataIndex: 'state', renderer: this._renderState},
-                 {stateId: 'grid-title', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_TITLE}}", flex: 1, sortable: true, dataIndex: 'label'},
+                 {stateId: 'grid-title', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_TITLE}}", flex: 1, minWidth: 100, sortable: true, dataIndex: 'label'},
                  {stateId: 'grid-description', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_DESCRIPTION}}", flex: 2, dataIndex: 'description', hidden: true},
                  {stateId: 'grid-id', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_ID}}", width: 120, dataIndex: 'id', hidden: true},
                  {stateId: 'grid-cron', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_CRON}}", width: 170, dataIndex: 'cronExpression'},
@@ -107,7 +107,7 @@ Ext.define('Ametys.plugins.coreui.schedule.ScheduledTasksTool', {
                  {stateId: 'grid-system-task', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_TYPE}}", width: 100, dataIndex: 'private', renderer: this._renderTaskType},
                  {stateId: 'grid-next-fire', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_NEXT_FIRE}}", width: 150, dataIndex: 'nextFireTime', renderer: this._renderDate},
                  {stateId: 'grid-previous-fire', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_PREVIOUS_FIRE}}", width: 150, dataIndex: 'previousFireTime', renderer: this._renderDate},
-                 {stateId: 'grid-last-duration', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_LAST_DURATION}}", width: 170, dataIndex: 'lastDuration', renderer: this._renderDuration}
+                 {stateId: 'grid-last-duration', header: "{{i18n PLUGINS_CORE_UI_TASKS_TOOL_COLUMN_LAST_DURATION}}", width: 140, dataIndex: 'lastDuration', renderer: this._renderDuration}
                  
             ],
             
