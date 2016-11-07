@@ -161,7 +161,6 @@
                
                 <xsl:call-template name="ui-extension-load"/>
                     
-                
                 <script type="text/javascript">
                     Ametys.setAppParameter("debug.mode", "<xsl:value-of select="$debug-mode"/>");        
                     Ametys.setAppParameter("populationContexts", <xsl:call-template name="app-contexts"/>);
@@ -173,7 +172,7 @@
                         lastname: "<xsl:value-of select="user/lastname"/>",
                         fullname: "<xsl:value-of select="user/fullname"/>",
                         email:  "<xsl:value-of select="user/email"/>",
-                        populationLabel: "<xsl:value-of select="user/populationLabel"/>",
+                        populationLabel: "<xsl:value-of select='ametys:escapeJS(user/populationLabel)'/>",
                         locale: Ametys.LANGUAGE_CODE
                     });
                 </script>
@@ -436,7 +435,7 @@
                                 <xsl:if test="user">
                                 user: {
                                     fullName: "<xsl:value-of select="user/fullname"/>",
-                                    login: "<xsl:value-of select="user/@login"/> / <xsl:value-of select="user/populationLabel"/>",
+                                    login: "<xsl:value-of select="user/@login"/> / <xsl:value-of select='ametys:escapeJS(user/populationLabel)'/>",
                                     email: "<xsl:value-of select="user/email"/>",
                                     menu: { 
                                         items: userMenuItems
