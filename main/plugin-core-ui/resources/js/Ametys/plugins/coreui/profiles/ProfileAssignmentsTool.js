@@ -768,6 +768,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
      */
     _filterByRight: function(field)
     {
+        Ext.suspendLayouts();
         var rightId = field.getValue();
         if (Ext.isEmpty(rightId))
         {
@@ -792,6 +793,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
                 column.setVisible(visible);
             }, this);
         }
+        Ext.resumeLayouts(true);
     },
     
     /**
