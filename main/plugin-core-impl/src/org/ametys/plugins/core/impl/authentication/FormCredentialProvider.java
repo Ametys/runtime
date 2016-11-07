@@ -366,7 +366,7 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
                 String value = getCookieValue(request, _cookieName);
                 if (StringUtils.isNotEmpty(value))
                 {
-                    String [] values = value.split(",");
+                    String [] values = value.split("/");
                     if (values.length == 3)
                     {
                         if (checkToken(values[0], values[1], values[2]))
@@ -530,7 +530,7 @@ public class FormCredentialProvider extends AbstractCredentialProvider implement
         String hashedTokenAndSalt = DigestUtils.sha512Hex(token + salt);
         
         _insertUserToken(userConnected.getPopulationId(), userConnected.getLogin(), salt, hashedTokenAndSalt);
-        updateCookie(userConnected.getPopulationId() + "," + userConnected.getLogin() + "," + token, _cookieName, (int) _cookieLifetime, _context);
+        updateCookie(userConnected.getPopulationId() + "/" + userConnected.getLogin() + "/" + token, _cookieName, (int) _cookieLifetime, _context);
     }
 
     @Override
