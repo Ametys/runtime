@@ -29,8 +29,12 @@ Ext.define('Ametys.form.widget.Text', {
 
 	constructor: function (config)
 	{
+		var validationConfig = config.validationConfig || {},
+			maxLength = config.maxLength || validationConfig.maxlength,
+		
 		config = Ext.apply(config, {
-			ametysShowMultipleHint: config.multiple
+			ametysShowMultipleHint: config.multiple,
+			maxLength: maxLength ? Number(maxLength) : null
 		});
 		
 		this.callParent(arguments);
@@ -320,8 +324,13 @@ Ext.define('Ametys.cms.form.widget.RichText', {
 	
 	constructor: function (config)
 	{
+		var validationConfig = config.validationConfig || {},
+			maxLength = config.maxLength || validationConfig.maxlength,
+			height = config.height;
+		
 		config = Ext.apply(config, {
-			height: Ext.isNumber(Number(config.height)) ? Number(config.height) : Ametys.cms.form.widget.RichText.FIELD_HEIGHT,
+			height: height ? Number(height) : Ametys.cms.form.widget.RichText.FIELD_HEIGHT,
+			maxLength: maxLength ? Number(maxLength) : null,
 			resizable: true,
 			charCounter: true,
 			checkTitleHierarchy: true,
@@ -371,7 +380,7 @@ Ext.define('Ametys.form.widget.TextArea', {
 	constructor: function (config)
 	{
 		var validationConfig = config.validationConfig || {},
-			maxLength = config.maxlength || validationConfig.maxlength,
+			maxLength = config.maxLength || validationConfig.maxlength,
 			height = config.height;
 		
 		config = Ext.apply(config, {
