@@ -370,8 +370,13 @@ Ext.define('Ametys.form.widget.TextArea', {
 		
 	constructor: function (config)
 	{
+		var validationConfig = config.validationConfig || {},
+			maxLength = config.maxlength || validationConfig.maxlength,
+			height = config.height;
+		
 		config = Ext.apply(config, {
-            height: Ext.isNumber(Number(config.height)) ? Number(config.height) : Ametys.form.widget.TextArea.FIELD_HEIGHT
+            height: height ? Number(height) : Ametys.form.widget.TextArea.FIELD_HEIGHT,
+            maxLength: maxLength ? Number(maxLength) : null
 		});
 		
 		this.callParent(arguments);
