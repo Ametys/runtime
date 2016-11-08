@@ -34,7 +34,7 @@ Ext.define('Ametys.form.widget.Text', {
 		
 		config = Ext.apply(config, {
 			ametysShowMultipleHint: config.multiple,
-			maxLength: maxLength ? Number(maxLength) : null
+			maxLength: maxLength ? Number(maxLength) : undefined
 		});
 		
 		this.callParent(arguments);
@@ -330,7 +330,7 @@ Ext.define('Ametys.cms.form.widget.RichText', {
 		
 		config = Ext.apply(config, {
 			height: height ? Number(height) : Ametys.cms.form.widget.RichText.FIELD_HEIGHT,
-			maxLength: maxLength ? Number(maxLength) : null,
+			maxLength: maxLength ? Number(maxLength) : undefined,
 			resizable: true,
 			charCounter: true,
 			checkTitleHierarchy: true,
