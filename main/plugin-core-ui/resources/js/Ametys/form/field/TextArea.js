@@ -143,7 +143,14 @@
     
     getErrors: function (value) 
     {
-        return this._textareaField.getErrors(value);
+        var errors = this._textareaField.getErrors(value);
+        
+        var count = this._textareaField.getValue().length;
+        if (this._maxLength != Number.MAX_VALUE && count > this._maxLength)
+        {
+        	errors.push("{{i18n PLUGINS_CORE_UI_VALIDATOR_TEXT_MAXLENGTH}}");
+        }
+        return errors;
     },
     
     /**
