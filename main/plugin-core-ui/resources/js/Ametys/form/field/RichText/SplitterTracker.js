@@ -20,16 +20,26 @@
  */
 Ext.define('Ametys.form.field.RichText.SplitterTracker', {
     extend: 'Ext.resizer.SplitterTracker',
+    
+    statics: {
+        /**
+         * @property {Ext.Component} _fakeComponent A fake component to make to parent class ok
+         * @private
+         */
+        _fakeComponent: Ext.create("Ext.Component", {
+            floating: true,
+            autoShow: true,
+            width: 1,
+            height: Number.MAX_VALUE,
+            cls: "x-field-richtext-resizer-fake"
+        })
+    },
 
     /**
      * @cfg {Ext.Component} componentToResize (required) The component to resize.
      */
     /**
      * @property {Ext.Component} _componentToResize See #cfg-componentToResize
-     * @private
-     */
-    /**
-     * @property {Ext.Component} _fakeComponent A fake component to make to parent class ok
      * @private
      */
     /**
@@ -40,13 +50,6 @@ Ext.define('Ametys.form.field.RichText.SplitterTracker', {
     constructor: function(config)
     {
         this._componentToResize = config.componentToResize;
-        this._fakeComponent = Ext.create("Ext.Component", {
-            floating: true,
-            left: -20000,
-            width: 1,
-            height: Number.MAX_VALUE
-        });
-        this._fakeComponent.show();
         
         this._resizeComponent = Ext.create("Ext.Component", {
             floating: true,
@@ -61,7 +64,7 @@ Ext.define('Ametys.form.field.RichText.SplitterTracker', {
     },
 
     getNextCmp: function() {
-        return this._fakeComponent;
+        return Ametys.form.field.RichText.SplitterTracker._fakeComponent;
     },
     
     // calculate the constrain Region in which the splitter el may be moved.

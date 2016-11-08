@@ -82,7 +82,9 @@
 .#{$prefix}field-richtext-resizer {
     border: 5px solid #CFCFCF;
 }
-
+.#{$prefix}field-richtext-resizer-fake {
+    left: -20000px !important;
+}
 
 /**
  * Field colors
