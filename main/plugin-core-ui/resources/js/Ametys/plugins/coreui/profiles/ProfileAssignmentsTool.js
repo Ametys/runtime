@@ -1350,7 +1350,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
      */
     _getInitialColumns: function()
     {
-        return [{stateId: 'grid-first-column', text: "", locked: true, dataIndex: "sortableLabel", width: 300, minWidth: 300, hideable: false, sortable: true, renderer: Ext.bind(this._renderWho, this)}];
+        return [{stateId: 'grid-first-column', text: "", locked: true,  lockable: false, dataIndex: "sortableLabel", width: 300, minWidth: 300, hideable: false, sortable: true, renderer: Ext.bind(this._renderWho, this)}];
     },
     
     setParams: function(params)
@@ -1573,8 +1573,8 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         	columns.push({
                 stateId: 'grid-profile-' + profile.id,
                 text: _renderHeaderProfile(profile.label),
-                locked: profile.id == this.self.READER_PROFILE_ID,
-                lockable: profile.id == this.self.READER_PROFILE_ID,
+                locked: profile.id == this.self.READER_PROFILE_ID ? true : null,
+                lockable: false, //profile.id == this.self.READER_PROFILE_ID,
                 tooltip: profile.label,
                 dataIndex: profile.id,
                 hideable: profile.id != this.self.READER_PROFILE_ID,
