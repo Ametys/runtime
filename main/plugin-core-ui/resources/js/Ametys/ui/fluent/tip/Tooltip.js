@@ -151,62 +151,6 @@ Ext.define(
             }
         },
         
-        constructor: function()
-        {
-            this.callParent(arguments);
-            
-            this.on('mouseover', this._onMouseOver, this, { element: 'el'});
-            this.on('mouseout', this._onMouseOut, this, { element: 'el'});
-        },
-        
-        /**
-         * @private
-         * The mouseover listener to stop autohide process for inribbon tips
-         * @param {Ext.event.Event} e The {@link Ext.event.Event} encapsulating the DOM event.
-         * @param {HTMLElement} t The target of the event.
-         */
-        _onMouseOver: function(e, t)
-        {
-            if (this.lastActiveTarget && this.lastActiveTarget.helpId)
-            {
-                this.clearTimer('hide');
-                this.clearTimer('dismiss');    
-            }
-        },
-        
-        /**
-         * @private
-         * The mouseout listener to restart autohide process for inribbon tips
-         * @param {Ext.event.Event} e The {@link Ext.event.Event} encapsulating the DOM event.
-         * @param {HTMLElement} t The target of the event.
-         */
-        _onMouseOut: function(e, t)
-        {
-            if (this.lastActiveTarget && this.lastActiveTarget.helpId)
-            {
-                this.clearTimer('show');
-                if (this.autoHide !== false) 
-                {
-                    this.delayHide();
-                }
-            }
-        },       
-        
-        onTargetOut: function(e)
-        {
-            if (this.activeTarget)
-            {
-                this.lastActiveTarget = this.activeTarget;
-            }
-            this.callParent(arguments);
-        },
-        
-        hide: function()
-        {
-            delete this.lastActiveTarget;
-            this.callParent(arguments);
-        },
-        
         register: function(config)
         {
             if (config.helpId || config.image || config.inribbon || config.glyphIcon)
