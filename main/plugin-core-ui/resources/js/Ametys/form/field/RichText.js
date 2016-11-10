@@ -1198,11 +1198,11 @@ Ext.define('Ametys.form.field.RichText', {
                 {
                     if (count > this._maxLength)
                     {
-                        counter.parent.addCls(this.charCounterMaxExceededCls);
+                        counter.parent().addCls(this.charCounterMaxExceededCls);
                     }
                     else
                     {
-                        counter.parent.removeCls(this.charCounterMaxExceededCls);
+                        counter.parent().removeCls(this.charCounterMaxExceededCls);
                     }
                 }
             }
