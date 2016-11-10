@@ -845,40 +845,40 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
         var fieldsToRename = [];
     	
         // Switch standard fields.
-        var prefix1 = me.prefix + me.name + this.defaultPathSeparator + index1;
-        var prefix2 = me.prefix + me.name + this.defaultPathSeparator + index2;
+        var prefix1 = me.prefix + me.name + me.defaultPathSeparator + index1;
+        var prefix2 = me.prefix + me.name + me.defaultPathSeparator + index2;
         var fieldNames = me.form.getFieldNames();
     	for (var i = 0; i < fieldNames.length; i++)
     	{
     		var fieldName = fieldNames[i];
-    		if (fieldName.indexOf(prefix1 + this.defaultPathSeparator) == 0)
+    		if (fieldName.indexOf(prefix1 + me.defaultPathSeparator) == 0)
     		{
     			var field = me.form.getField(fieldName);
-    			var newName = me.prefix + me.name + this.defaultPathSeparator + index2 + this.defaultPathSeparator + fieldName.substring(prefix1.length + 1);
+    			var newName = me.prefix + me.name + me.defaultPathSeparator + index2 + me.defaultPathSeparator + fieldName.substring(prefix1.length + 1);
     			
     			fieldsToRename.push({index: i, field: field, newName: newName});
     		}
-    		else if (fieldName.indexOf(prefix2 + this.defaultPathSeparator) == 0)
+    		else if (fieldName.indexOf(prefix2 + me.defaultPathSeparator) == 0)
     		{
     			var field = me.form.getField(fieldName);
-    			var newName = me.prefix + me.name + this.defaultPathSeparator + index1 + this.defaultPathSeparator + fieldName.substring(prefix2.length + 1);
+    			var newName = me.prefix + me.name + me.defaultPathSeparator + index1 + me.defaultPathSeparator + fieldName.substring(prefix2.length + 1);
     			
     			fieldsToRename.push({index: i, field: field, newName: newName});
     		}
     	}
     	
         // Switch hidden fields (which name starts with an underscore).
-        prefix1 = '_' + me.prefix + me.name + this.defaultPathSeparator + index1;
-        prefix2 = '_' + me.prefix + me.name + this.defaultPathSeparator + index2;
+        prefix1 = '_' + me.prefix + me.name + me.defaultPathSeparator + index1;
+        prefix2 = '_' + me.prefix + me.name + me.defaultPathSeparator + index2;
         me.form.getForm().getFields().each(function(formField) {
-            if (formField.name && formField.name.indexOf(prefix1 + this.defaultPathSeparator) == 0)
+            if (formField.name && formField.name.indexOf(prefix1 + me.defaultPathSeparator) == 0)
             {
-                var newName = '_' + me.prefix + me.name + this.defaultPathSeparator + index2 + this.defaultPathSeparator + formField.name.substring(prefix1.length + 1);
+                var newName = '_' + me.prefix + me.name + me.defaultPathSeparator + index2 + me.defaultPathSeparator + formField.name.substring(prefix1.length + 1);
                 me._setFieldName(formField, newName);
             }
-            else if (formField.name && formField.name.indexOf(prefix2 + this.defaultPathSeparator) == 0)
+            else if (formField.name && formField.name.indexOf(prefix2 + me.defaultPathSeparator) == 0)
             {
-                var newName = '_' + me.prefix + me.name + this.defaultPathSeparator + index1 + this.defaultPathSeparator + formField.name.substring(prefix2.length + 1);
+                var newName = '_' + me.prefix + me.name + me.defaultPathSeparator + index1 + me.defaultPathSeparator + formField.name.substring(prefix2.length + 1);
                 me._setFieldName(formField, newName);
             }
         });
