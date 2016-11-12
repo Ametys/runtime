@@ -92,14 +92,14 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     protected static final String SESSION_CONNECTING_CREDENTIALPROVIDER_INDEX = "Runtime:ConnectingCredentialProviderIndex";
     /** The session attribute name for storing the last known credential provider index of the authentication (during connection process)*/
     protected static final String SESSION_CONNECTING_CREDENTIALPROVIDER_INDEX_LASTBLOCKINGKNOWN = "Runtime:ConnectingCredentialProviderIndexLastKnown";
-    /** The session attribute name for storing the credential provider mode of the authentication: non-blocking=>false, blocking=>true (during connection process) */
+    /** The session attribute name for storing the credential provider mode of the authentication: non-blocking=&gt;false, blocking=&gt;true (during connection process) */
     protected static final String SESSION_CONNECTING_CREDENTIALPROVIDER_MODE = "Runtime:ConnectingCredentialProviderMode";
     /** The session attribute name for storing the id of the user population (during connection process) */
     protected static final String SESSION_CONNECTING_USERPOPULATION_ID = "Runtime:ConnectingUserPopulationId";
     
     /** The session attribute name for storing the credential provider of the authentication */
     protected static final String SESSION_CREDENTIALPROVIDER = "Runtime:CredentialProvider";
-    /** The session attribute name for storing the credential provider mode of the authentication: non-blocking=>false, blocking=>true */
+    /** The session attribute name for storing the credential provider mode of the authentication: non-blocking=&gt;false, blocking=&gt;true */
     protected static final String SESSION_CREDENTIALPROVIDER_MODE = "Runtime:CredentialProviderMode";
     /** The session attribute name for storing the identity of the connected user */
     protected static final String SESSION_USERIDENTITY = "Runtime:UserIdentity";
@@ -872,7 +872,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
     
     /**
      * Test if user wants to logout and handle it
-     * * @param redirector The cocoon redirector
+     * @param redirector The cocoon redirector
      * @param objectModel The cocoon object model
      * @param source The sitemap source
      * @param parameters The sitemap parameters

@@ -50,7 +50,10 @@ public class AllowedUsers
      * @param anyConnectedUserAllowed if anonymous is false, true to indicate any connected user is allowed  
      * @param allowedUsers the allowed users, not taking into account the denied users. Must be null if anonymous or anyConnectedUser is true, must not otherwise.
      * @param deniedUsers the denied users. Must be null if anonymous is true, must not otherwise.
+     * @param allowedGroups the allowed groups, not taking into account the denied groups. Must be null if anonymous or anyConnectedUser is true, must not otherwise.
+     * @param deniedGroups the denied groups. Must be null if anonymous is true, must no otherwise.
      * @param userManager The user manager
+     * @param groupManager The group manager
      * @param populationContexts The population contexts for retrieving users from user manager. Can be null if anyConnectedUser is false
      */
     AllowedUsers(boolean anonymousAllowed, boolean anyConnectedUserAllowed, Set<UserIdentity> allowedUsers, Set<UserIdentity> deniedUsers, Set<GroupIdentity> allowedGroups, Set<GroupIdentity> deniedGroups, UserManager userManager, GroupManager groupManager, Set<String> populationContexts)
