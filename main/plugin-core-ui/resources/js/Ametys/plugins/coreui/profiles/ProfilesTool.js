@@ -790,7 +790,15 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfilesTool', {
 		var rights = this._getRights();
 		Ametys.plugins.core.profiles.ProfilesDAO.editProfileRights([this._currentProfileId, rights], this._saveCb, {scope: this, arguments: {callback: callback}});
 	},	
-	
+
+    /**
+     * @private
+     * The method call by #saveCurrentChanges
+     * @param {Object} profile The profile's properties
+     * @param {Object} args The arguments transmitted
+     * @param {Function} args.callback The callback to call if it exits
+     * @param {Object|]} params The params transmitted by client side
+     */
 	_saveCb: function (profile, args, params)
 	{
 		// Reset the dirty state of the tool

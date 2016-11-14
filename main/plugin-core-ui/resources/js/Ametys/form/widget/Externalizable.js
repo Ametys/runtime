@@ -88,7 +88,7 @@ Ext.define('Ametys.form.widget.Externalizable', {
     extStatusBtnTooltip: "{{i18n PLUGINS_CORE_UI_WIDGET_EXTERNALIZABLE_SYNCHRO_ON}}",
     
     /** 
-     * @cfg {String/Object} layout
+     * @cfg {String/Object} layout @inheritdoc
      * @private 
      */
     layout: { 
@@ -104,7 +104,7 @@ Ext.define('Ametys.form.widget.Externalizable', {
     },
 
     /** 
-     * @cfg {Object/Object[]} items
+     * @cfg {Object/Object[]} items @inheritdoc
      * @private 
      */
      

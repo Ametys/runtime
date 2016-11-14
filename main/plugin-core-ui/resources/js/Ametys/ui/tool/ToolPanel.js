@@ -28,6 +28,10 @@ Ext.define("Ametys.ui.tool.ToolPanel", {
     ui: 'ametys-tool-panel',
     
     border: false,
+    
+    /**
+     * @cfg {String} iconAlign @inheritdoc
+     */
     iconAlign: null,
     
     statics:

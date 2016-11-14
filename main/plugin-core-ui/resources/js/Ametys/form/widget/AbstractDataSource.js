@@ -23,6 +23,11 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
     extend: 'Ametys.form.AbstractFieldsWrapper',
 	
     statics: {
+        /**
+         * @property {String} DEFAULT_DATASOURCE_SUFFIX The suffix to add to default datasource
+         * @readonly
+         * @static
+         */
     	DEFAULT_DATASOURCE_SUFFIX: '-default-datasource'
     },
     

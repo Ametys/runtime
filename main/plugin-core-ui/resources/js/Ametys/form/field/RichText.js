@@ -1056,7 +1056,7 @@ Ext.define('Ametys.form.field.RichText', {
     /**
      * @private
      * Function to relay iframe events
-     * @param {Ext.event.Event} event
+     * @param {Ext.event.Event} event The event to relay
      */
     onRelayedEvent: function (event) 
     {

@@ -25,7 +25,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelp
 	 * @param {Ext.data.Model[]} records The records to update.
 	 * @param {String} profileId The id of profile which is the id of column
 	 */
-	computeAndUpdateLocalInducedAssignments: function (records, profileId, callback)
+	computeAndUpdateLocalInducedAssignments: function (records, profileId)
 	{
 		// When iterating, we need to be sure anonymous and anyconnected are the two first records (for then computing the others)
         // and we need to be sure group records come before all user records, as user records can be computed from their groups values
@@ -72,6 +72,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelp
 	
 	/**
 	 * Update the local assignment for anonymous 
+     * @param {Ext.data.Model[]} records The records to update.
 	 * @param {Ext.data.Model} record The anonymous record
 	 * @param {String} currentValue The current assignment value
 	 * @param {String} profileId The id of concerned profile
@@ -99,6 +100,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelp
 	
 	/**
 	 * Update the local assignment for any connected user 
+     * @param {Ext.data.Model[]} records The records to update.
 	 * @param {Ext.data.Model} record The any connected user record
 	 * @param {String} currentValue The current assignment value
 	 * @param {String} profileId The id of concerned profile
@@ -123,6 +125,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelp
 	
 	/**
 	 * Update the local assignment for a group
+     * @param {Ext.data.Model[]} records The records to update.
 	 * @param {Ext.data.Model} record The group record
 	 * @param {String} currentValue The current assignment value
 	 * @param {String} profileId The id of concerned profile
@@ -178,6 +181,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelp
 	
 	/**
 	 * Update the local assignment for a group
+     * @param {Ext.data.Model[]} records The records to update.
 	 * @param {Ext.data.Model} record The user record
 	 * @param {String} currentValue The current assignment value
 	 * @param {String} profileId The id of concerned profile

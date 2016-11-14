@@ -95,6 +95,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
     
     /**
      * @inheritdoc
+     * @param {Object} [params] The params. See inheritance
      * @param {Object[]} [params.selectedUsers] The users to initially select
      * @param {String[]} [params.contexts] The contexts for the populations to display in the combobox. Default to the current contexts.
      * @param {Boolean/String} [params.enableAllPopulationsOption=false] True to add an option in the populations combobox for searching over all the populations.

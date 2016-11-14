@@ -127,7 +127,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         /**
          * Compute the tooltip for a given record and access type
          * @param {Ext.data.Model} record The record
-         * @param {String} The access type
+         * @param {String} accessType The access type
          * @return The tooltip text
          */
         computeTooltip: function (record, accessType)
@@ -156,7 +156,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
          * @private
          * Compute the tooltip for the Anonymous record and access type
          * @param {Ext.data.Model} record The Anonymous record
-         * @param {String} The access type
+         * @param {String} accessType The access type
          * @return The tooltip text
          */
         _computeTooltipForAnonymous: function (record, accessType)
@@ -185,7 +185,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
          * @private
          * Compute the tooltip for the anyconnected user record and access type
          * @param {Ext.data.Model} record The anyconnected user record
-         * @param {String} The access type
+         * @param {String} accessType The access type
          * @return The tooltip text
          */
         _computeTooltipForAnyconnectedUser: function (record, accessType)
@@ -217,7 +217,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
          * @private
          * Compute the tooltip for a user record and access type
          * @param {Ext.data.Model} record The user record
-         * @param {String} The access type
+         * @param {String} accessType The access type
          * @return The tooltip text
          */
         _computeTooltipForUser: function (record, accessType)
@@ -270,7 +270,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
          * @private
          * Compute the tooltip for a group record and access type
          * @param {Ext.data.Model} record The group record
-         * @param {String} The access type
+         * @param {String} accessType The access type
          * @return The tooltip text
          */
         _computeTooltipForGroup: function (record, accessType)
@@ -923,7 +923,6 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
      * @private
      * Reinitialize the local values (client-side) of records with the last stored values (server-side) for the given profile (column) except for the given record
      * @param {String} profileId The id of profile
-     * @param {String} recordId The id of record to ignore
      */
     _reinitComputedLocalValues: function (profileId)
     {
@@ -1026,7 +1025,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
      * @private
      * This function is invoked when adding manually user or group records
      * Update the assignment for each profile with the inherited assignment
-     * @param {Ext.data.Model[]} The added records (users or groups)
+     * @param {Ext.data.Model[]} addedRecords The added records (users or groups)
      */
     _updateAddedRecords: function (addedRecords)
     {
@@ -1135,6 +1134,9 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
         }, this);
     },
     
+    /**
+     * Cancel the changes made in the grid
+     */
     cancelChanges: function ()
     {
     	this._gridStore.rejectChanges();
@@ -1799,7 +1801,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
      * @private
      * Returns a Object representing the identity of the record
      * @param {Ext.data.Model} The target record
-     * @return {Object} The identity
+     * @return {Object} record The identity
      */
     _getIdentity: function (record)
     {

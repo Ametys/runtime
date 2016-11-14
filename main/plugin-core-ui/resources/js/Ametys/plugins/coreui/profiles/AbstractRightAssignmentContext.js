@@ -109,7 +109,7 @@ Ext.define('Ametys.plugins.coreui.profiles.AbstractRightAssignmentContext', {
     /**
      * @protected
      * This methods set the server-side role of the component to call.
-     * @param {String} The component role
+     * @param {String} serverId The component role
      */
     setServerId: function(serverId)
     {

@@ -494,7 +494,7 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
     /**
      * @private
      * Validator function for the population id field.
-     * @param {String} val
+     * @param {String} val The id to check
      * @return {Boolean/String} true if the value is valid, an error message otherwise.
      */
     _validateIdField: function(val)
