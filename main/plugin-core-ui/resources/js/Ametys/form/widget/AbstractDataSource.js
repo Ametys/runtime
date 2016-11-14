@@ -364,7 +364,7 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 	
 	/**
 	 * @private
-	 * Handler function invoked whenever a {@link Ametys.message.Message.CREATED}
+	 * Handler function invoked whenever a {@link Ametys.message.Message#CREATED}
 	 * message is sent out on the message bus. Add the corresponding record to the grid panel's store.
 	 * @param {Ametys.message.Message} message the message
 	 */
@@ -390,7 +390,7 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 	
 	/**
 	 * @private
-	 * Handler function invoked whenever a {@link Ametys.message.Message.MODIFIED}
+	 * Handler function invoked whenever a {@link Ametys.message.Message#MODIFIED}
 	 * message is sent out on the message bus. Add the corresponding record to the grid panel's store.
 	 * @param {Ametys.message.Message} message the message
 	 */
@@ -432,7 +432,7 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 	
 	/**
 	 * @private
-	 * Handler function invoked whenever a {@link Ametys.message.Message.CREATED}
+	 * Handler function invoked whenever a {@link Ametys.message.Message#CREATED}
 	 * message is sent out on the message bus. Add the corresponding record to the grid panel's store.
 	 * @param {Ametys.message.Message} message the message
 	 */

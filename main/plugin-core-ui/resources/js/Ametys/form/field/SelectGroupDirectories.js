@@ -96,7 +96,7 @@ Ext.define('Ametys.form.field.SelectGroupDirectories', {
     
     /**
      * @private
-     * Opens the {@link EditGroupDirectoryHelper} for creating a group directory.
+     * Opens the {@link Ametys.plugins.coreui.groupdirectories.EditGroupDirectoryHelper} for creating a group directory.
      */
     _createGroupDirectory: function()
     {

@@ -95,7 +95,7 @@ Ext.define('Ametys.form.widget.UserPopulation', {
     
     /**
      * @private
-     * Opens the {@link EditPopulationHelper} for creating a user population.
+     * Opens the {@link Ametys.plugins.coreui.populations.EditPopulationHelper} for creating a user population.
      */
     _createUserPopulation: function()
     {

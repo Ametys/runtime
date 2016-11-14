@@ -991,10 +991,10 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     /**
      * Adds group records in the assignment grid.
      * @param {Object[]} groups The groups to add
-     * @param {String groups.id The id of the group
-     * @param {String groups.groupDirectory The id of the group directory of the group
-     * @param {String groups.groupDirectoryName The label of the group directory of the group
-     * @param {String groups.label The label of the group
+     * @param {String} groups.id The id of the group
+     * @param {String} groups.groupDirectory The id of the group directory of the group
+     * @param {String} groups.groupDirectoryName The label of the group directory of the group
+     * @param {String} groups.label The label of the group
      */
     addGroups: function(groups)
     {

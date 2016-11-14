@@ -90,7 +90,6 @@ Ext.define('Ametys.form.widget.GeoCode', {
 	_addressFieldNames: [],
 	
 	/**
-	 * @inheritdoc
 	 * Initializes the longitude/latitude fields, and the showOnMap button
 	 */
 	initComponent : function() 
@@ -400,7 +399,6 @@ Ext.define('Ametys.form.widget.GeoCode', {
 	},
 	
 	/**
-	 * @inheritdoc
      * Sets a data value into the field and updates the display field
      * @param {Object} value The value to set.
      * @param {Number} value.latitude The latitude to set
@@ -412,9 +410,6 @@ Ext.define('Ametys.form.widget.GeoCode', {
 		this._updateUI();
 	},
 	
-	/**
-	 * @inheritdoc
-	 */
 	afterRender: function()
     {
     	this.callParent(arguments);

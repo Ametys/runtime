@@ -23,7 +23,7 @@ Ext.define('Ametys.plugins.coreui.notification.NotificationTool', {
 	
 	/**
 	 * @private
-	 * @property {Ametys.plugins.coreui.timeline.Timeline} _timeline the timeline of activities feed
+	 * @property {Ametys.timeline.Timeline} _timeline the timeline of activities feed
 	 */
 	
 	/**

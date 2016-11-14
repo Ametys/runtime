@@ -308,7 +308,7 @@ Ext.define('Ametys.form.field.ColorSelector', {
 	
 	/**
 	 * Handler for the color pickers. 
-	 * @param {Ext.picker.color} object The color picker that initiated the action.
+	 * @param {Ext.picker.Color} object The color picker that initiated the action.
 	 * @param {String} color The color value
 	 * @private
 	 */

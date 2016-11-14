@@ -471,7 +471,7 @@ Ext.define('Ametys.form.field.RichText', {
     /**
      * @private
      * Get the frame of the editor. Can be null if the editor is not ready.
-     * @return {Element} The iframe element or null.
+     * @return {HTMLElement} The iframe element or null.
      */
     getFrameEl: function()
     {
@@ -666,7 +666,7 @@ Ext.define('Ametys.form.field.RichText', {
      * @private
      * This method is called for IE only to bookmark the cursor position as IE may forgot it and restore the cursor to the 1st character.
      * It used in conjonction with #_restorePostion
-     * @param {Obejct} o A tinymce object for command 
+     * @param {Object} o A tinymce object for command 
      */
     _savePosition: function(o)
     {
@@ -685,7 +685,7 @@ Ext.define('Ametys.form.field.RichText', {
      * @private
      * This method is called for IE only to restore the cursor bookmark as IE may forgot it and restore the cursor to the 1st character.
      * It used in conjonction with #_savePosition 
-     * @param {Obejct} o A tinymce object for command 
+     * @param {Object} o A tinymce object for command 
      */
     _restorePosition: function(o)
     {

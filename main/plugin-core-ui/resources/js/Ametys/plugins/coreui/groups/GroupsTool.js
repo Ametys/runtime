@@ -27,12 +27,12 @@ Ext.define('Ametys.plugins.coreui.groups.GroupsTool', {
 	
 	/**
 	 * @property {Ext.grid.GridPanel} _groupGrid The grid with the group records
-	 * See {@link Ametys.plugins.cms.group.GroupsTool.GroupEntry}
+	 * See {@link Ametys.plugins.coreui.groups.GroupsTool.Group}
 	 * @private
 	 */
 	/**
 	 * @property {Ext.grid.GridPanel} _userGrid The grid with the user records of the current selected group
-	 * See {@link Ametys.plugins.cms.group.GroupsTool.GroupUserEntry}
+	 * See {@link Ametys.plugins.coreui.groups.GroupsTool.UserGroup}
 	 * @private
 	 */
 	/**

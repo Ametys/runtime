@@ -46,7 +46,7 @@ Ext.define('Ametys.plugins.coreui.groupdirectories.EditGroupDirectoryHelper', {
     
     /**
      * @private
-     * @property {String} _separator The separator for the {@link ConfigurableFormPanel}s of the dialog box
+     * @property {String} _separator The separator for the {@link Ametys.form.ConfigurableFormPanel}s of the dialog box
      */
     _separator: '/',
     
@@ -283,7 +283,7 @@ Ext.define('Ametys.plugins.coreui.groupdirectories.EditGroupDirectoryHelper', {
     /**
      * @private
      * Create data for the configurable form panel
-     * @param {Object} data The data object to modify for configuring the {@link ConfigurableFormPanel}
+     * @param {Object} data The data object to modify for configuring the {@link Ametys.form.ConfigurableFormPanel}
      * @param {Object[]} models An array of object containing the information for the fields
      * @param {String} chooseModelFieldId The name of the field for choosing the type (some fields are disabled depending on the value of this field)
      */

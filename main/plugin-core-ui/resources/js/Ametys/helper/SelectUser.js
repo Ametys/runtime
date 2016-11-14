@@ -377,7 +377,7 @@ Ext.define('Ametys.helper.SelectUser', {
     /**
      * @private
      * Function called when the value of the population combobox field changed.
-     * @param {Ext.form.field.ComboBoxView} combo The combobox
+     * @param {Ext.form.field.ComboBox} combo The combobox
      * @param {String} newValue The new value
      * @param {String} oldValue The original value
      */

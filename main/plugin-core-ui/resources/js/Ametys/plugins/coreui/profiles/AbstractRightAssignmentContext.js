@@ -126,7 +126,7 @@ Ext.define('Ametys.plugins.coreui.profiles.AbstractRightAssignmentContext', {
     
     /**
      * Sets the context panel
-     * @param {Ext.panel.panel} contextPanel The context panel to set
+     * @param {Ext.panel.Panel} contextPanel The context panel to set
      */
     setContextPanel: function(contextPanel)
     {

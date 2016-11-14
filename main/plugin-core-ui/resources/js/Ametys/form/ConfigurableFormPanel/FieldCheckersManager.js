@@ -799,7 +799,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
     /**
      * @private
      * Callback function invoked upon reception of the server's response
-     * @param {Object} options the {@link Ext.Ajax.request} call configuration
+     * @param {Object} options the {@link Ext.Ajax#request} call configuration
      * @param {Object} options.params the call parameters
      * @param {boolean} success true if the request succeeded, false otherwise
      * @param {Object} response the server's response

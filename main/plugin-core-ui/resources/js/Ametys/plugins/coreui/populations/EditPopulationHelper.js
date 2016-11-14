@@ -51,7 +51,7 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
     
     /**
      * @private
-     * @property {String} _separator The separator for the {@link ConfigurableFormPanel}s of the dialog box
+     * @property {String} _separator The separator for the {@link Ametys.form.ConfigurableFormPanel}s of the dialog box
      */
     _separator: '/',
     
@@ -709,7 +709,7 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
     /**
      * @private
      * Create data for a repeater
-     * @param {Object} data The object to modify for adding repeater data for configuring the {@link ConfigurableFormPanel}
+     * @param {Object} data The object to modify for adding repeater data for configuring the {@link Ametys.form.ConfigurableFormPanel}
      * @param {String} fieldName The name of the field where to insert the repeater in object data
      * @param {Object[]} models An array of object containing the information for the fields of the composite repeater
      * @param {String} chooseModelFieldId The name of the field for choosing the model (some fields are disabled depending on the value of this field)
@@ -897,7 +897,7 @@ Ext.define('Ametys.plugins.coreui.populations.EditPopulationHelper', {
     
     /**
      * @private
-     * Gets data in good JSON format for filling a {@link ConfigurableFormPanel}
+     * Gets data in good JSON format for filling a {@link Ametys.form.ConfigurableFormPanel}
      * @param {Object[]} inputData An array of objects containing a map of parameters (key of the field/value to fill)
      * @param {String} fieldName The name of the composite field
      * @param {String/String[]} idName The name of the id field

@@ -266,7 +266,7 @@ Ext.define('Ametys.form.field.Password', {
     /**
      * @private
      * Change the mode
-     * @param {Number} mode The mode to set (see {@link #property-mode}). The render is modified.
+     * @param {Number} mode The mode to set (see {@link #property-_mode}). The render is modified.
      */
     _setToMode: function(mode) 
     {
