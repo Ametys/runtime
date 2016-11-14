@@ -127,8 +127,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 	 * @param {String[]} fieldCheckerCfg.linked-fields the ids of the parameters used for the checking
 	 * @param {String} fieldCheckerCfg.label the label of the field checker
 	 * @param {String} fieldCheckerCfg.description the description of the field checker
-	 * @param {String} uiRefLabel the label corresponding to the field checker's location 
-	 * @param {String} prefix the path prefix of the field checker
+	 * @param {String} path the path prefix of the field checker
 	 * @param {Number} offset The offset of the field checker 
      * @param {Number} roffset The right offset of the field checker 
      * @param {Ext.form.Field} [field] when the field checker is graphically attached to a field, the field it is attached to, null otherwise
