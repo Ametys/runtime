@@ -27,7 +27,7 @@
      */
     
     /** 
-     * @cfg {String/Object} layout
+     * @cfg {String/Object} layout The textarea layout
      * @private 
      */
     layout: { 
@@ -35,6 +35,10 @@
         align: 'stretch'
     },
     
+    /**
+     * @private
+     * @property {String} focusedCls The class for textarea when focused
+     */
     focusedCls: 'x-field-focus',
     
     /**

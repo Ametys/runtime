@@ -81,6 +81,11 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
         return Ametys.form.AbstractFieldsWrapper.BASE_FIELD_CLS;
     },
     
+    /**
+     * @inheritdoc
+     * @method getErrors
+     * @template
+     */
     getErrors: function (value)
     {
         var errors = this.callParent(arguments);
@@ -245,12 +250,6 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
      * @method setValue
      */
 
-	/**
-     * @inheritdoc
-     * @method getErrors
-     * @template
-     */
-	
     isFileUpload: function() 
     {
         var isFileUpload = false;

@@ -28,7 +28,6 @@ Ext.define('Ametys.helper.SelectGroup', {
 	/**
 	 * @property {Number} RESULT_LIMIT
 	 * @readonly
-	 * @static
 	 * The maximum number of records to search for
 	 */
 	RESULT_LIMIT: 100,

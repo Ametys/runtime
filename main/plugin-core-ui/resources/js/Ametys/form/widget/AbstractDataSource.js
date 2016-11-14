@@ -82,10 +82,6 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 	 */
 	/**
 	 * @private
-	 * @property {Ext.data.Store} _store The combobox store
-	 */
-	/**
-	 * @private
 	 * @property {String} _dataSourceToSelect The id of the data source to select 
 	 */
     /**

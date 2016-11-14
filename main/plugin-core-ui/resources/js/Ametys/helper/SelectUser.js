@@ -28,7 +28,6 @@ Ext.define('Ametys.helper.SelectUser', {
     /**
      * @property {Number} RESULT_LIMIT
      * @readonly
-     * @static
      * The maximum number of records to search for
      */
     RESULT_LIMIT: 100,
@@ -74,10 +73,6 @@ Ext.define('Ametys.helper.SelectUser', {
     /**
      * @private
      * @property {Function} cancelCallback The current cancel callback function registered by the {@link #act} call
-     */
-    /**
-     * @private
-     * @property {String} pluginName The name of the currently selected plugin to use for requests. Selected by the {@link #act} call.
      */
     /**
      * @private

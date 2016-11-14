@@ -610,7 +610,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     /**
      * @private
      * Listener on general resize
-     * @param {Ametys.form.ConfigurableFormPanel} panel
+     * @param {Ametys.form.ConfigurableFormPanel} panel The configurable form panel
      * @param {Number} width The panel width
      * @param {Number} height The panel height
      */

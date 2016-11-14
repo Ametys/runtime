@@ -59,7 +59,7 @@ Ext.define('Ametys.plugins.coreui.groupdirectories.EditGroupDirectoryHelper', {
     /**
      * Open the helper for creating/editing a group directory
      * @param {Object} [valuesToFill] If in edit mode, an object containing the data to fill the form
-     * @param {String} mode The edition mode for the dialog box. Can only be 'add' (for creation) or 'edit' (for edition).
+     * @param {String} [mode] The edition mode for the dialog box. Can only be 'add' (for creation) or 'edit' (for edition).
      * @param {String} [groupDirectoryId] If in edition mode, the id of the group directory being edited.
      * @param {Function} [callback] A callback function called when the group directory is created/modified.
      */

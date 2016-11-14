@@ -245,7 +245,7 @@ Ext.define('Ametys.form.widget.File', {
     buttonOffset: 5,
     
     /**
-     * @cfg {String} imgCls The CSS to use for file's glyph. Only used if the file filter is not #IMAGE_FILTER
+     * @cfg {String} glyphCls The CSS to use for file's glyph. Only used if the file filter is not #IMAGE_FILTER
      */
     glyphCls: 'a-form-file-widget-glyph',
     
@@ -256,7 +256,7 @@ Ext.define('Ametys.form.widget.File', {
     
     
     /**
-     * @cfg {String} imgCls The CSS to use for image preview. Only used if the file filter is #IMAGE_FILTER
+     * @cfg {String} imgWithBorderCls The CSS to use for image preview. Only used if the file filter is #IMAGE_FILTER
      */
     imgWithBorderCls: 'a-form-file-widget-img-border',
     

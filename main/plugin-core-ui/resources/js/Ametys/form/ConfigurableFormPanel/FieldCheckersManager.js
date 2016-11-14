@@ -124,7 +124,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.FieldCheckersManager', {
 	 * @param {String} fieldCheckerCfg.small-icon-path the path to the small icon representing the field checker
 	 * @param {String} fieldCheckerCfg.medium-icon-path the path to the medium icon representing the field checker
 	 * @param {String} fieldCheckerCfg.large-icon-path the path to the large icon representing the field checker
-	 * @param {String[]} fieldCheckerCfg['linked-fields'] the ids of the parameters used for the checking
+	 * @param {String[]} fieldCheckerCfg.linked-fields the ids of the parameters used for the checking
 	 * @param {String} fieldCheckerCfg.label the label of the field checker
 	 * @param {String} fieldCheckerCfg.description the description of the field checker
 	 * @param {String} uiRefLabel the label corresponding to the field checker's location 

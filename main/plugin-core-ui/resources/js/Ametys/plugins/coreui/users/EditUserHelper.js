@@ -50,7 +50,7 @@ Ext.define('Ametys.plugins.coreui.users.EditUserHelper', {
 	 * Open dialog box to create a new user
 	 * @param {String[]} populationContexts The contexts for the populations to display in the combobox.
 	 * @param {String} [userMessageTargetType=user] the type of user message target
-	 * @param {String} userToolRole The role of users tool
+	 * @param {String} [userToolRole] The role of users tool
 	 * @param {Function} [callback] the callback function. Parameters are:
 	 * @param {Object} callback.user The user's properties
 	 */

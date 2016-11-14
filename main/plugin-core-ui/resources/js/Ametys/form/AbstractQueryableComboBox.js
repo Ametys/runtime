@@ -101,6 +101,10 @@ Ext.define('Ametys.form.AbstractQueryableComboBox', {
     	return [this.combobox];
     },
     
+    /**
+     * @private
+     * Listener after render
+     */
     _onComboboxRender: function()
     {
         if (this.multiple)

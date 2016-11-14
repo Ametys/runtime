@@ -123,7 +123,7 @@ Ext.define('Ametys.form.field.RichText', {
     charCounterMaxExceededCls: 'char-count-maxexceed',
     
     /** 
-     * @cfg {String/Object} layout
+     * @cfg {String/Object} layout The rich text layou
      * @private 
      */
     layout: { 
@@ -139,7 +139,7 @@ Ext.define('Ametys.form.field.RichText', {
     },
 
     /** 
-     * @cfg {Object/Object[]} items
+     * @cfg {Object/Object[]} items The richtext items
      * @private 
      */
      
@@ -357,6 +357,10 @@ Ext.define('Ametys.form.field.RichText', {
         this._sendDelayedSelection = Ext.Function.createBuffered(this._sendDelayedSelection, Ext.isIE ? 80 : 10, this); // We buffer the sendSelection to avoid multiple events, but IE seems to need more time to eat them.
     },
     
+    /**
+     * @private
+     * Listener when the code view is focused
+     */
     _onCodeFocus: function() {
         if (this._currentMode == "source")
         {
@@ -364,6 +368,10 @@ Ext.define('Ametys.form.field.RichText', {
         }
     },
 
+    /**
+     * @private
+     * Listener when the code view is blured
+     */
     _onCodeBlur: function() {
         if (this._currentMode == "source")
         {
@@ -371,13 +379,21 @@ Ext.define('Ametys.form.field.RichText', {
         }
     },
 
+    /**
+     * @private
+     * Listener when the editor view is focused
+     */
     _onEditorFocus: function() {
         if (this._currentMode != "source")
         {
             this.onFocus();
         }
     },
-
+    
+    /**
+     * @private
+     * Listener when the editor view is blured
+     */
     _onEditorBlur: function() {
         if (this._currentMode != "source")
         {
@@ -615,11 +631,6 @@ Ext.define('Ametys.form.field.RichText', {
             }
         }
 
-    },
-    
-    updateReadOnly: function(value)
-    {
-        this._setMode();
     },
     
     getErrors: function(value)
@@ -1042,6 +1053,11 @@ Ext.define('Ametys.form.field.RichText', {
         }
     },
 
+    /**
+     * @private
+     * Function to relay iframe events
+     * @param {Ext.event.Event} event
+     */
     onRelayedEvent: function (event) 
     {
         // relay event from the iframe's document to the document that owns the iframe...
@@ -1077,6 +1093,11 @@ Ext.define('Ametys.form.field.RichText', {
         this.callParent();
     },
     
+    /**
+     * @private
+     * Clean the listeners of the iframe
+     * @param {Boolean} destroying if the richtext is beeing closed, or just the iframe is reloading
+     */
     cleanupListeners: function(destroying)
     {
         var doc, prop;
@@ -1437,6 +1458,10 @@ Ext.define('Ametys.form.field.RichText', {
         }
     },
     
+    /**
+     * @private
+     * Called by #_sendSelection asynchronously if necessary
+     */
     _sendDelayedSelection: function()
     {
         if (this.getEditor())

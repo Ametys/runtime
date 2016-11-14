@@ -173,7 +173,7 @@ Ext.define('Ametys.plugins.coreui.populations.PopulationActions', {
      * Links some user populations to a context
      * @param {String[]} ids The ids of the selected user populations
      * @param {String} context The context
-     * @param {Function} [context] The callback function
+     * @param {Function} [callback] The callback function
      */
     _doLinkPopulations: function(ids, context, callback)
     {

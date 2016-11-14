@@ -1531,7 +1531,7 @@ Ext.define(
 		 * By default it only enable the controller and reset its additional description.
 		 * @param {Boolean} selectionChanged true if this method has been invoked because the selection has changed
 		 * @param {Boolean} toolStatusChanged true if this method has been invoked because the tool status has changed
-		 * @param {Boolean} selectionChanged true if this method has been invoked because the tool dirty state has changed
+		 * @param {Boolean} toolDirtyStateChanged true if this method has been invoked because the tool dirty state has changed
 		 * @template
 		 * @protected
 		 */

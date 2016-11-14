@@ -50,7 +50,7 @@ Ext.define(
          */
         titleTextCls: 'a-fluent-header-title',        
         /**
-         * @property {String} titleTextCls The CSS classname of the application part of the title
+         * @property {String} titleExtensionTextCls The CSS classname of the application part of the title
          * @readonly
          * @private
          */

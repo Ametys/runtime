@@ -88,7 +88,7 @@ Ext.define('Ametys.helper.ChooseLocation', {
 	 * @param {String} [config.helpMessage] The help message to display at the top of the window
 	 * @param {String} [config.icon] The relative path of the window icon
 	 * @param {String} [config.title] The title of the window
-	 * @param {String} The Google Api key
+	 * @param {String} [apiKey] The Google Api key
 	 */
 	_delayedInitialize: function(config, apiKey) 
 	{

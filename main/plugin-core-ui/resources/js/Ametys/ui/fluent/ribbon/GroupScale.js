@@ -29,11 +29,6 @@ Ext.define(
         ui: 'ribbon-tabpanel-groupscale',
         
         /**
-         * @cfg {Object} layout Doesn't apply to ribbon element. The value HAS TO be the default value.
-         * @private
-         */
-        
-        /**
          * @cfg {String} defaults Doesn't apply to ribbon element. The value HAS TO be the default value.
          * @private
          */

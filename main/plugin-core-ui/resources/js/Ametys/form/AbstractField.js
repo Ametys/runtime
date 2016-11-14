@@ -94,6 +94,9 @@ Ext.define('Ametys.form.AbstractField', {
      */
     tabIndex: 0,
     
+    /**
+     * @cfg {Boolean} validateOnBlur=true Should validation be done on blur 
+     */
     validateOnBlur: true,
     
     constructor: function(config)

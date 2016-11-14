@@ -251,7 +251,7 @@ Ext.define('Ametys.helper.FileUpload', {
         return false;
     },
     /**
-     * @property {String} PDF_FILTER_LABEL Label for PDF filter
+     * @property {String} EXTENSION_FILTER_LABEL Label for PDF filter
      * @readonly
      */
     EXTENSION_FILTER_LABEL: "{{i18n PLUGINS_CORE_UI_FILEUPLOAD_EXTENSIONFILTER}}",
