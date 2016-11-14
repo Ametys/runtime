@@ -87,7 +87,7 @@ Ext.define(
             /**
              * @private
              * @property {Object} _scaleGrid The map of the groups organized by size.
-             *  The map is a Map<Number index, Object o> 
+             *  The map is a Map&lt;Number index, Object o&gt; 
              *      index is the index of the tab. 
              *          o is an object with 2 properties: 
              *              current a Number representing the index of the currently selected matrix

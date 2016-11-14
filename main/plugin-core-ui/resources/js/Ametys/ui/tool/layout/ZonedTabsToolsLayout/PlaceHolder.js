@@ -49,7 +49,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanelPlaceHo
          */
         /**
          * @private
-         * @proeprty {Number} _originalFlex The flex value before collapsing 
+         * @property {Number} _originalFlex The flex value before collapsing 
          */
         
         constructor: function(config)
@@ -72,7 +72,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanelPlaceHo
         /**
          * @private
          * Get the corresponding splitter
-         * @return {Ext.resize.Splitter} The splitter
+         * @return {Ext.resizer.Splitter} The splitter
          */
         getSplitter: function()
         {

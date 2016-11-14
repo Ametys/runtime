@@ -282,7 +282,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
          * @private
          * Create the split configuration for the floating panel
          * @param {String} direction The collapse direction between 'left', 'right', 'top' and 'bottom'.
-         * @return {Ext.resize.Splitter} The splitter
+         * @return {Ext.resizer.Splitter} The splitter
          */
         _createFloatingSplit: function(direction)
         {
