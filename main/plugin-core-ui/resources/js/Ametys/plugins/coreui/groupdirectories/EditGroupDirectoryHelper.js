@@ -15,6 +15,7 @@
  */
 /**
  * This class is a singleton class to open a dialog box for adding or edting a group directory
+ * @private
  */
 Ext.define('Ametys.plugins.coreui.groupdirectories.EditGroupDirectoryHelper', {
     singleton: true,

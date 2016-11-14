@@ -15,13 +15,14 @@
  */
 /**
  * This UI helper provides a dialog box for choosing one or more group directory(ies)
- *  * See {@link #open} method.
+ * See {@link #open} method.
  * 
  *          Ametys.plugins.coreui.groupdirectories.ChooseGroupDirectoriesHelper.open({
  *              title: "The title of my dialog box",
  *              hintText: "Please select the group directories you want...",
  *              okAction:  Ext.bind(this._chooseCb, this)
  *          });
+ * @private
  */
 Ext.define('Ametys.plugins.coreui.groupdirectories.ChooseGroupDirectoriesHelper', {
     singleton: true,

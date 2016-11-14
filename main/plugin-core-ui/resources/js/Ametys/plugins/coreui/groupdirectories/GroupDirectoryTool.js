@@ -15,6 +15,7 @@
  */
 /**
  * Tool for displaying group directories of the application in a grid.
+ * @private
  */
 Ext.define('Ametys.plugins.coreui.groupdirectories.GroupDirectoryTool', {
     extend: "Ametys.tool.Tool",

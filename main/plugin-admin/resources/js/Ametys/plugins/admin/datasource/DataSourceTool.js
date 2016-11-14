@@ -23,7 +23,7 @@ Ext.define('Ametys.plugins.admin.datasource.DataSourceTool', {
 	
 	/**
 	 * @private
-	 * @property {Ext.grid.panel} _panel the data sources' grid panel
+	 * @property {Ext.grid.Panel} _panel the data sources' grid panel
 	 */
 	
 	getMBSelectionInteraction: function() 

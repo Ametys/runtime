@@ -16,6 +16,7 @@
 
 /**
  * Actions on the ConsoleTool and ConsoleResultTool
+ * @private
  */
 Ext.define('Ametys.plugins.coreui.script.ScriptActions',
 {

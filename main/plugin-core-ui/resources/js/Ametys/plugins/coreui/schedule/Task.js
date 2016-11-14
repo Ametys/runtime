@@ -15,6 +15,7 @@
  */
  /**
   * This class is the representation of a task
+  * @private
   */
 Ext.define('Ametys.plugins.coreui.schedule.Task', {
     config: {

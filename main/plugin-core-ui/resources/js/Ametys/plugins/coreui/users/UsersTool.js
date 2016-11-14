@@ -33,7 +33,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
 
     /**
      * @property {Ext.data.Store} _store The store with the user records
-     * See {@link Ametys.plugins.cms.user.UsersTool.UserEntry}
+     * See {@link Ametys.plugins.cms.user.UsersTool.User}
      * @private
      */
     /**
@@ -470,7 +470,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
     /**
      * @private
      * Function called when the value of the population combobox field changed.
-     * @param {Ext.form.field.ComboBoxView} combo The combobox
+     * @param {Ext.form.field.ComboBox} combo The combobox
      * @param {String} newValue The new value
      * @param {String} oldValue The original value
      */

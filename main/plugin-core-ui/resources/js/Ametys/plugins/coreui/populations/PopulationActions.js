@@ -15,6 +15,7 @@
  */
 /**
  * This class is a singleton to handle actions on user populations.
+ * @private
  */
 Ext.define('Ametys.plugins.coreui.populations.PopulationActions', {
     singleton: true, 

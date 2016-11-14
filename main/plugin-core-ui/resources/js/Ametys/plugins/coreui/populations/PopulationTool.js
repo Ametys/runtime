@@ -15,6 +15,7 @@
  */
 /**
  * Tool for displaying users populations of the application in a grid.
+ * @private
  */
 Ext.define('Ametys.plugins.coreui.populations.PopulationTool', {
     extend: "Ametys.tool.Tool",

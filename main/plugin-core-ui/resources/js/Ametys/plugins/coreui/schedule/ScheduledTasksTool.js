@@ -15,6 +15,7 @@
  */
 /**
  * Tool for displaying the scheduled tasks (the 'Runnables') of the application.
+ * @private
  */
 Ext.define('Ametys.plugins.coreui.schedule.ScheduledTasksTool', {
     extend: "Ametys.tool.Tool",

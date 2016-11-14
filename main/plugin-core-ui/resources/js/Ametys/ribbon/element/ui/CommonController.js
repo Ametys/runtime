@@ -1097,7 +1097,7 @@ Ext.define(
 		 * Update the matching selection target from the given targets
 		 * If the selection does not match, the controller will be disabled with a configured additional description.
 		 * @private
-         * @param {Ametys.mesage.MessageTarget[]} targets the matching targets
+         * @param {Ametys.message.MessageTarget[]} targets the matching targets
 		 */
 		_updateMatchingSelectionTargets: function (targets)
 		{

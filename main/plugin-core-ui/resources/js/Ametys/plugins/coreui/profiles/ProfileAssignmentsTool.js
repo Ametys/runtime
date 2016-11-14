@@ -16,6 +16,7 @@
 
 /**
  * Tool which displays a grid with the assignments for users and groups on the profiles of the application, depending on a context object.
+ * @private
  */
 Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     extend: "Ametys.tool.Tool",

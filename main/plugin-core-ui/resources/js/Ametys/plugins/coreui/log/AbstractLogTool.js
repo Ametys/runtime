@@ -15,7 +15,8 @@
  */
 
 /**
- * An abstract tool that defines a grid linked to a detail view. It can easily be extended to display logs by providing data to the grid and custom formating rules. 
+ * An abstract tool that defines a grid linked to a detail view. It can easily be extended to display logs by providing data to the grid and custom formating rules.
+ * @private 
  */
 Ext.define('Ametys.plugins.coreui.log.AbstractLogTool', {
     extend: "Ametys.tool.Tool",

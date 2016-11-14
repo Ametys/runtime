@@ -245,7 +245,7 @@ Ext.define('Ametys.form.widget.Externalizable', {
         if (field.isRichText)
         {
             /**
-             * @event editorhtmlnodeselected
+             * @event htmlnodeselected
              * Fires when a HTML node is selected in the editor of a richtext field
              * @param {Ext.form.Field} field The editor field
              * @param {tinymce.Editor} editor The tinyMCE editor

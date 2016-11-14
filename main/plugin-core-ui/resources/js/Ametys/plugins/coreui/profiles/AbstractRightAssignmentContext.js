@@ -17,6 +17,7 @@
 /**
  * Abstract singleton representing a context for profile assignments.
  * For creating a new context of right assignments, extends this class and implements its template methods.
+ * @private
  */
 Ext.define('Ametys.plugins.coreui.profiles.AbstractRightAssignmentContext', {
     /**

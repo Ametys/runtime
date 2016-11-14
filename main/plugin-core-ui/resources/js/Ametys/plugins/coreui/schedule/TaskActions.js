@@ -15,6 +15,7 @@
  */
 /**
  * This class is a singleton to handle actions on scheduled tasks.
+ * @private
  */
 Ext.define('Ametys.plugins.coreui.schedule.TaskActions', {
     singleton: true, 

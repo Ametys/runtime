@@ -64,7 +64,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
         _floating: false,
         
         /**
-         * @cfg {Ext.resize.Splitter} floatingSplit When non-null, the splitter to display on a floating panel
+         * @cfg {Ext.resizer.Splitter} floatingSplit When non-null, the splitter to display on a floating panel
          */
         
         /**

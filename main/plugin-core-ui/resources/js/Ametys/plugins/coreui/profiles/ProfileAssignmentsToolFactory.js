@@ -16,6 +16,7 @@
 
 /**
  * This impl handles the RightAssignmentContext instances
+ * @private
  */
 Ext.define("Ametys.plugins.coreui.profiles.ProfileAssignmentsToolFactory", 
     {

@@ -2670,7 +2670,7 @@
                    <icon-glyph>ametysicon-play124</icon-glyph>
                 </class>
                 <scripts>
-                    <file>js/Ametys/script/ScriptActions.js</file>
+                    <file>js/Ametys/plugins/coreui/script/ScriptActions.js</file>
                 </scripts>
                 <right>CORE_Rights_ExecuteScript</right>
             </extension>
@@ -2689,7 +2689,7 @@
                    <icon-glyph>ametysicon-eraser11</icon-glyph>
                 </class>
                 <scripts>
-                    <file>js/Ametys/script/ScriptActions.js</file>
+                    <file>js/Ametys/plugins/coreui/script/ScriptActions.js</file>
                 </scripts>
                 <right>CORE_Rights_ExecuteScript</right>
             </extension>
@@ -2732,7 +2732,7 @@
                     <default-location></default-location>
                 </class>
                 <scripts>
-                    <file>js/Ametys/script/ScriptTool.js</file>
+                    <file>js/Ametys/plugins/coreui/script/ScriptTool.js</file>
                 </scripts>
                 <css>
                     <file>css/Ametys/script/scripts.css</file>
@@ -2778,7 +2778,7 @@
                     <default-location>r</default-location>
                 </class>
                 <scripts>
-                    <file>js/Ametys/script/ConsoleTool.js</file>
+                    <file>js/Ametys/plugins/coreui/script/ConsoleTool.js</file>
                 </scripts>
                 <css>
                     <file>css/Ametys/script/scripts-result.css</file>

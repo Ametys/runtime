@@ -15,6 +15,7 @@
  */
 /**
  * This helper provides methods to update local assignments (client-side) on records
+ * @private
  */
 Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool.AssignmentHelper', {
 	singleton: true,

@@ -16,6 +16,7 @@
 
 /**
  * Tool showing the script tool results.
+ * @private
  */
 Ext.define('Ametys.plugins.coreui.script.ConsoleTool',
 {

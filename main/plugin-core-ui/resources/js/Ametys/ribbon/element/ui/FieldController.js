@@ -21,7 +21,7 @@
  * - It supports enabling/disabling upon the current selection (see {@link #cfg-selection-target-id}) and associated rights (see {@link #cfg-rights}).
  * - It supports enabling/disabling upon a focused tool (see {@link #cfg-tool-id})
  * 
- * Note that a property "controlId" is available on the created input. This string references this controller id, that can be retrieve with {@link Ametys.ribbon.RibbonManager#getElement}
+ * Note that a property "controlId" is available on the created input. This string references this controller id, that can be retrieve with {@link Ametys.ribbon.RibbonManager#getUI}
  */
 Ext.define(
 	"Ametys.ribbon.element.ui.FieldController",

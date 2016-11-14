@@ -16,6 +16,7 @@
 
 /**
  * Contributor context for profile assignments.
+ * @private
  */
 Ext.define('Ametys.plugins.coreui.profiles.StringRightAssignmentContext', {
     extend: 'Ametys.plugins.coreui.profiles.AbstractRightAssignmentContext',

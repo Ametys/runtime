@@ -15,6 +15,7 @@
  */
 /**
  * This class is a singleton to handle actions on group directories.
+ * @private
  */
 Ext.define('Ametys.plugins.coreui.groupdirectories.GroupDirectoryActions', {
     singleton: true, 

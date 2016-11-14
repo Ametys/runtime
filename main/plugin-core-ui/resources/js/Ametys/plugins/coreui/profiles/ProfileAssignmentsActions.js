@@ -16,6 +16,7 @@
 
 /**
  * Actions for adding/deleting records in the grid of the {@link Ametys.plugins.coreui.profiles.ProfileAssignmentsTool}
+ * @private
  */
 Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsActions', {
     singleton: true,

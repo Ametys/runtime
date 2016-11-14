@@ -16,6 +16,7 @@
 
 /**
  * Tool showing the script text input to type into.
+ * @private
  */
 Ext.define('Ametys.plugins.coreui.script.ScriptTool',
 {

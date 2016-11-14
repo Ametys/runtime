@@ -15,6 +15,7 @@
  */
 /**
  * This class is a singleton class to open a dialog box for adding or edting a task
+ * @private
  */
 Ext.define('Ametys.plugins.coreui.schedule.EditTaskHelper', {
     singleton: true,
@@ -36,7 +37,7 @@ Ext.define('Ametys.plugins.coreui.schedule.EditTaskHelper', {
     
     /**
      * @private
-     * @property {String} _separator The separator for the {@link ConfigurableFormPanel}s of the dialog box
+     * @property {String} _separator The separator for the {@link Ametys.form.ConfigurableFormPanel}s of the dialog box
      */
     _separator: '/',
     
@@ -191,7 +192,7 @@ Ext.define('Ametys.plugins.coreui.schedule.EditTaskHelper', {
     /**
      * @private
      * Create data for the configurable form panel
-     * @param {Object} data The data object to modify for configuring the {@link ConfigurableFormPanel}
+     * @param {Object} data The data object to modify for configuring the {@link Ametys.form.ConfigurableFormPanel}
      * @param {Object[]} schedulables An array of object containing the information for the fields
      * @param {String} chooseSchedulableId The name of the field for choosing the task type (some fields are disabled depending on the value of this field)
      */

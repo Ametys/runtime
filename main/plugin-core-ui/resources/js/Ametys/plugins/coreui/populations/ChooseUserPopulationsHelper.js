@@ -15,13 +15,14 @@
  */
 /**
  * This UI helper provides a dialog box for choosing one or more user population
- *  * See {@link #open} method.
+ * See {@link #open} method.
  * 
  *          Ametys.plugins.coreui.populations.ChooseUsersPopulationsHelper.open({
  *              title: "The title of my dialog box",
  *              hintText: "Please select the user populations you want...",
  *              okAction:  Ext.bind(this._choosePopulationsCb, this)
  *          });
+ * @private
  */
 Ext.define('Ametys.plugins.coreui.populations.ChooseUserPopulationsHelper', {
     singleton: true,

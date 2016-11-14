@@ -15,7 +15,8 @@
  */
 
 /**
- * A log tool displayed logs from the server. It can be configured to show only a specific category of logs.  
+ * A log tool displayed logs from the server. It can be configured to show only a specific category of logs.
+ * @private  
  */
 Ext.define('Ametys.plugins.coreui.log.ServerLogTool', {
     extend: "Ametys.plugins.coreui.log.AbstractLogTool",
