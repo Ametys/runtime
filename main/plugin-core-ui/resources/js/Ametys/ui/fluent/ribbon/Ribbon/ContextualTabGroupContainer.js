@@ -25,7 +25,7 @@ Ext.define(
         alias: 'widget.ametys.ribbon-contextualtabgroups',
 
         /** 
-         * @cfg {String/Object} layout
+         * @cfg {String/Object} layout The layout to use
          * @private
          */
         layout: 'hbox',

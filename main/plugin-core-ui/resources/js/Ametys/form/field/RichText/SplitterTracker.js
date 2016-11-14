@@ -59,10 +59,18 @@ Ext.define('Ametys.form.field.RichText.SplitterTracker', {
         this.callParent(arguments);
     },
      
+    /**
+     * @inheritdoc
+     * @return {Ext.Component} The previous component
+     */
     getPrevCmp: function() {
         return this._componentToResize;
     },
 
+    /**
+     * @inheritdoc
+     * @return {Ext.Component} The next component
+     */
     getNextCmp: function() {
         return Ametys.form.field.RichText.SplitterTracker._fakeComponent;
     },

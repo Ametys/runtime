@@ -211,8 +211,8 @@ Ext.define(
         /**
          * @private
          * Event when a special key is pressed
-         * @param {Ext.form.field.Text} input
-         * @param {Ext.event.Event} event
+         * @param {Ext.form.field.Text} input The search input
+         * @param {Ext.event.Event} event The key event
          */
         _onSpecialKey: function(input, event)
         {

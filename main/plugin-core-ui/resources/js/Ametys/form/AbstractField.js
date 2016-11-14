@@ -347,7 +347,11 @@ Ext.define('Ametys.form.AbstractField', {
     	
     	return focusEl;
     },
-    
+
+    /**
+     * @inheritdoc
+     * @param {Ext.event.Event} e The event
+     */
     onFocus: function(e) 
     {
         var me = this;
@@ -357,6 +361,10 @@ Ext.define('Ametys.form.AbstractField', {
         me.addCls(me.fieldFocusCls);
     },
 
+    /**
+     * @inheritdoc
+     * @param {Ext.event.Event} e The event
+     */
     onBlur: function(e) 
     {
         var me = this;

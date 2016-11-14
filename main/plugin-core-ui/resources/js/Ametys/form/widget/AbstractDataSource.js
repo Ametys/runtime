@@ -243,7 +243,8 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
     /**
      * @private
      * Select the created data source in the combo box
-     * @param {String} id the id of the new data source
+     * @param {Object} datasource the datasource
+     * @param {String} datasource.id the id of the new data source
      */
     _selectDataSource: function (datasource)
     {
@@ -276,7 +277,7 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
      * @protected
      * @template
 	 * Handler when the 'Add data source' button is clicked
-     * @param {Function} the function to call after creating data source
+     * @param {Function} callback the function to call after creating data source
 	 */
 	createDataSource: function(callback)
 	{
@@ -287,7 +288,7 @@ Ext.define('Ametys.form.widget.AbstractDataSource', {
 	 * @private
 	 * Function invoked right before the store is loaded
 	 * @param {Ext.data.Store} store the store
-	 * @param {Ext.data.operation.Operation} The {@link Ext.data.operation.Operation} object that will be passed to the Proxy to load the Store
+	 * @param {Ext.data.operation.Operation} operation The {@link Ext.data.operation.Operation} object that will be passed to the Proxy to load the Store
 	 */
 	_onBeforeLoad: function(store, operation)
 	{

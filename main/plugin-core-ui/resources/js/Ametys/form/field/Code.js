@@ -93,6 +93,10 @@ Ext.define('Ametys.form.field.Code', {
         this.on('initialize', this._init, this);
     },
     
+    /**
+     * Creates a code
+     * @param {Object} config The configuration
+     */
     constructor: function (config)
     {
         this.callParent(arguments);

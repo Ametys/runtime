@@ -24,6 +24,10 @@
 Ext.define('Ametys.ui.misc.Badge', {
     extend : 'Ext.Mixin',
     
+    /**
+     * @private
+     * @property {Object} mixinConfig The mixin configuration
+     */
     mixinConfig : {
         id : 'badge',
         after : {

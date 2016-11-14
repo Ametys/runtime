@@ -78,7 +78,11 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
         hideCollapseTool: true,
 		
 		deferredRender: false,
-		
+
+        /**
+         * @private
+         * @property {Object} The splitter configuration
+         */
 		split: { ui: 'tool-layout' },
         
 		/**

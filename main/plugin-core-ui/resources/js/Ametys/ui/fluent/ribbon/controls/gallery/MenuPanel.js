@@ -41,7 +41,12 @@ Ext.define(
             this.callParent(arguments);
         },
         
-		onClick: function() {
+        /**
+         * On click listener
+         * @private
+         */
+        onClick: function() 
+        {
             for (var menu = this.getRefOwner(); menu && ((menu.isMenu && menu.floating) || menu.isMenuItem); menu = menu.getRefOwner()) {
                 if (menu.isMenu) {
                     menu.hide();

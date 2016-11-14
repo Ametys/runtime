@@ -99,6 +99,7 @@ Ext.define('Ametys.plugins.coreui.schedule.AddTaskButtonController', {
         
         /**
          * @private
+         * Open the tools in callback
          * @param {Object} response The server response
          * @param {Object} arguments The callback arguments
          * @param {String} arguments.category The logging category

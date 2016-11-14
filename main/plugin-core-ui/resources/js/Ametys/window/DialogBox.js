@@ -86,6 +86,10 @@ Ext.define(
 			}
 		},
 		
+        /**
+         * @private
+         * Listener on before show
+         */
 		_onBeforeShow: function ()
 		{
             this.center(); // This is the fix for RUNTIME-1823
@@ -97,6 +101,13 @@ Ext.define(
 			}
 		},
 
+        /**
+         * @private
+         * Listener on resize
+         * @param {Ametys.window.DialogBox} window The window
+         * @param {Number} width The new width
+         * @param {Number} height The new height
+         */
 		_onResize: function (window, width, height)
 		{
 			var oldHeight = this.getHeight();

@@ -1997,10 +1997,7 @@
 	        colorRe: /(?:^|\s)a-color-([0-9]+)(?:\s|$)/,
 	        
 	        /** 
-             * @member Ext.picker.Color
-             * @since Ametys Runtime 4.0
-             * @ametys
-             * @private
+             * @override Ext.picker.Color
              * @property {String[]} colors An array of color code strings. The supported formats are 6-digit color hex code strings (with or without the # symbol),
              * rgb or rgba string values. This array can contain any number of colors, and each code should be unique.
              */

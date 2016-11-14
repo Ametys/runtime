@@ -103,12 +103,20 @@ Ext.define(
                 config.menu.ui = "ribbon-menu";
             }
         },
-         
+
+        /**
+         * Get the button text
+         * @return {String} The set text
+         */
         getText: function()
         {
             return this._rawText;
         },
         
+        /**
+         * Set the button text
+         * @param {String} text The text to set
+         */
         setText: function(text)
         {
             this._rawText = text;

@@ -88,6 +88,11 @@ Ext.define('Ametys.userprefs.UserProfileDialog.ProfileImageField', {
         this._imagesView.getStore().load(loadArgs || {});
     },
     
+    /**
+     * @private
+     * Get the template
+     * @return {Ext.XTemplate} The template
+     */
     _getViewTpl: function()
     {
         return new Ext.XTemplate(

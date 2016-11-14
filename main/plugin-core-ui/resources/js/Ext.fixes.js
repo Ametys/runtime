@@ -211,4 +211,31 @@
         capture: true,
         scope: Ext.dd.DragDropManager
     });
+    
+    /**
+     * @member Ext.app.ViewController
+     * @method afterRender
+     * After render
+     */
+    
+    /**
+     * @member Ext.util.Floating
+     * @event tofront
+     * When bring to front
+     */
+    
+    /**
+     * @member Ext.data.proxy.Server
+     * @event beginprocessresponse
+     * When starting to process answer
+     * @param {Object} response The response
+     * @param {Object} operation The running operation
+     */
+    /**
+     * @member Ext.data.proxy.Server
+     * @event endprocessresponse
+     * When starting to process answer
+     * @param {Object} response The response
+     * @param {Object} operation The running operation
+     */
 })();

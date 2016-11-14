@@ -1800,7 +1800,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfileAssignmentsTool', {
     /**
      * @private
      * Returns a Object representing the identity of the record
-     * @param {Ext.data.Model} The target record
+     * @param {Ext.data.Model} record The target record
      * @return {Object} record The identity
      */
     _getIdentity: function (record)

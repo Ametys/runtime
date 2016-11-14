@@ -94,7 +94,11 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
         
         return errors;
     },
-    
+
+    /**
+     * @inheritdoc
+     * @param {Boolean} hasError If there is an error
+     */
     toggleInvalidCls: function(hasError) 
     {
         // Do not call parent, to not show invalid cls on inner field.

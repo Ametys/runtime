@@ -73,7 +73,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfilesTool', {
 
 		/**
 		 * Switch mode
-		 * @param {String} mode The mode: 'view' or 'edit'
+		 * @param {Ametys.ribbon.element.ui.ButtonController} controller The controller calling this function
 		 */
 		switchMode: function (controller)
 		{
@@ -797,7 +797,7 @@ Ext.define('Ametys.plugins.coreui.profiles.ProfilesTool', {
      * @param {Object} profile The profile's properties
      * @param {Object} args The arguments transmitted
      * @param {Function} args.callback The callback to call if it exits
-     * @param {Object|]} params The params transmitted by client side
+     * @param {Object[]} params The params transmitted by client side
      */
 	_saveCb: function (profile, args, params)
 	{

@@ -74,6 +74,10 @@ Ext.define("Ametys.ui.fluent.ribbon.Ribbon.Notificator.Toast", {
         this.on('close', this._onClose, this);
     },
     
+    /**
+     * @property {String} slideInAnimtation Override the slide in animation
+     * @private
+     */
     slideInAnimtation: 'backIn',
     
     /**
@@ -87,6 +91,9 @@ Ext.define("Ametys.ui.fluent.ribbon.Ribbon.Notificator.Toast", {
         this.notification = null;
     },
     
+    /**
+     * @inheritdoc
+     */
     doAutoClose: function()
     {
         this._autoClose = true;

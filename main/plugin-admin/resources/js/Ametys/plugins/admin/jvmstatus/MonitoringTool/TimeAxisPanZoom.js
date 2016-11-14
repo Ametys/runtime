@@ -41,6 +41,10 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool.TimeAxisPanZoom', {
         this.callParent(arguments);
     },
     
+    /**
+     * @inheritdoc
+     * @param {Ext.event.Event} e The event
+     */
     onDoubleTap: function(e)
     {
         // Let's do some math :)
@@ -82,6 +86,10 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool.TimeAxisPanZoom', {
         chart.redraw();
     },
     
+    /**
+     * @inheritdoc
+     * @param {Ext.event.Event} e The event
+     */
     onPanGestureMove: function(e)
     {
         // We do not override the behavior on multitouch devices

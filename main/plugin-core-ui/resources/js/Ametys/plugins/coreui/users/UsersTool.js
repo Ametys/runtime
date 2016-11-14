@@ -33,7 +33,7 @@ Ext.define('Ametys.plugins.coreui.users.UsersTool', {
 
     /**
      * @property {Ext.data.Store} _store The store with the user records
-     * See {@link Ametys.plugins.cms.user.UsersTool.User}
+     * See {@link Ametys.plugins.coreui.users.UsersTool.User}
      * @private
      */
     /**
