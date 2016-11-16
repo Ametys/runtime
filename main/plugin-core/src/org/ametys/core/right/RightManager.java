@@ -484,11 +484,20 @@ public class RightManager extends AbstractLogEnabled implements Serviceable, Con
                 AccessController accessController = _accessControllerEP.getExtension(controllerId);
                 if (accessController.isSupported(obj))
                 {
-                    // Add all the AccessResult from the AccessResultContexts, ignoring the profile ids they come from
-                    accessResults.addAll(accessController.getPermissions(userIdentity, groups, profileIds, obj)
-                                                            .values().stream()
-                                                            .map(AccessResultContext::getResult)
-                                                            .collect(Collectors.toSet()));
+                    if (userIdentity == null)
+                    {
+                        // Get permission for anonymous user
+                        accessResults.add(accessController.getPermissionForAnonymous(profileIds, obj));
+                    }
+                    else
+                    {
+                        // Add all the AccessResult from the AccessResultContexts, ignoring the profile ids they come from
+                        accessResults.addAll(accessController.getPermissions(userIdentity, groups, profileIds, obj)
+                                                                .values().stream()
+                                                                .map(AccessResultContext::getResult)
+                                                                .collect(Collectors.toSet()));
+                    }
+                    
                 }
                 else
                 {
@@ -642,7 +651,15 @@ public class RightManager extends AbstractLogEnabled implements Serviceable, Con
             return true;
         }
         
-        return _hasRight(userIdentity, Collections.singleton(READER_PROFILE_ID), object) == RightResult.RIGHT_ALLOW;
+        if (userIdentity == null)
+        {
+            // Has anonymous read access ?
+            return hasAnonymousProfile(READER_PROFILE_ID, object) == RightResult.RIGHT_ALLOW;
+        }
+        else
+        {
+            return _hasRight(userIdentity, Collections.singleton(READER_PROFILE_ID), object) == RightResult.RIGHT_ALLOW;
+        }
     }
     
     /**
