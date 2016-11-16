@@ -19,6 +19,7 @@ import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -608,7 +609,16 @@ public final class I18nizableText
             xmlEncoder.writeObject(map);
             xmlEncoder.flush();
         }
-        return bos.toString();
+        
+        try
+        {
+            return bos.toString("UTF-8");
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            // should not happen
+            throw new IllegalStateException(e);
+        }
     }
     
     /**
@@ -621,9 +631,14 @@ public final class I18nizableText
     {
         Map<String, Object> map;
         // Use Java Bean XMLDecoder
-        try (XMLDecoder xmlDecoder = new XMLDecoder(new ByteArrayInputStream(str.getBytes())))
+        try (XMLDecoder xmlDecoder = new XMLDecoder(new ByteArrayInputStream(str.getBytes("UTF-8"))))
         {
             map = (Map<String, Object>) xmlDecoder.readObject();
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            // should not happen
+            throw new IllegalStateException(e);
         }
         
         if (map.get("label") != null)
