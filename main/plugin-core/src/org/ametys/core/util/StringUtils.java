@@ -138,7 +138,14 @@ public final class StringUtils
         byte [] hash = md5.digest();
         
         // Base64-encode the result.
-        return new String(Base64.encodeBase64(hash));
+        try
+        {
+            return new String(Base64.encodeBase64(hash), "UTF-8");
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            throw new IllegalStateException(e);
+        }
     }
     
     /**
