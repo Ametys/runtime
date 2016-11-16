@@ -127,7 +127,14 @@ public final class StringUtils
         
         // MD5-hash the password.
         md5.reset();
-        md5.update(password.getBytes());
+        try
+        {
+            md5.update(password.getBytes("UTF-8"));
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            throw new IllegalStateException(e);
+        }
         byte [] hash = md5.digest();
         
         // Base64-encode the result.

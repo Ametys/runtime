@@ -18,6 +18,7 @@ package org.ametys.plugins.core.ui.resources;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -119,7 +120,7 @@ public class LessResourceHandler extends AbstractCompiledResourceHandler
     /**
      * LessSource definition for Ametys Resources
      */
-    private class AmetysLessSource extends LessSource
+    private static class AmetysLessSource extends LessSource
     {
         private String _lessContent;
         private String _name;
@@ -173,7 +174,14 @@ public class LessResourceHandler extends AbstractCompiledResourceHandler
         @Override
         public byte[] getBytes() throws FileNotFound, CannotReadFile
         {
-            return _lessContent.getBytes();
+            try
+            {
+                return _lessContent.getBytes("UTF-8");
+            }
+            catch (UnsupportedEncodingException e)
+            {
+                throw new CannotReadFile();
+            }
         }
         
         @Override

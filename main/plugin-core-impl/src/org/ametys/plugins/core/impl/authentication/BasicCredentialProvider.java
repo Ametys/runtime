@@ -103,7 +103,7 @@ public class BasicCredentialProvider extends AbstractCredentialProvider implemen
         String userpassEncoded = auth.substring(BASIC_AUTHENTICATION_KEY.length());
 
         // Decode it, using any base 64 decoder
-        String userpassDecoded = new String(Base64.decodeBase64(userpassEncoded.getBytes()));
+        String userpassDecoded = new String(Base64.decodeBase64(userpassEncoded.getBytes("UTF-8")));
 
         // Login and password are separated with a :
         StringTokenizer stk = new StringTokenizer(userpassDecoded, ":");

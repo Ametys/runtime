@@ -18,6 +18,7 @@ package org.ametys.plugins.core.ui.minimize;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -500,9 +501,16 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
             }
         }
         
-        String hash = Base64.getEncoder().encodeToString((String.valueOf(hashCache.hashCode()) + _locale).getBytes());
-        _hashCache.put(hash, hashCache);
-        return hash;
+        try
+        {
+            String hash = Base64.getEncoder().encodeToString((String.valueOf(hashCache.hashCode()) + _locale).getBytes("UTF-8"));
+            _hashCache.put(hash, hashCache);
+            return hash;
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            throw new SAXException(e);
+        }
     }
     
     private Set<String> _filterMediaValue(String mediaValue)

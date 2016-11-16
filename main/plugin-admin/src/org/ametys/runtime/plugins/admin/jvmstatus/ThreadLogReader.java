@@ -66,7 +66,7 @@ public class ThreadLogReader extends AbstractReader
             {
                 getLogger().info("Report is empty");
             }
-            out.write("No thread in deadlock.\n".getBytes());
+            out.write("No thread in deadlock.\n".getBytes("UTF-8"));
         }
         else
         {
@@ -74,7 +74,7 @@ public class ThreadLogReader extends AbstractReader
             {
                 getLogger().info("Report contains " + deadlockedThreadsIds.length + " deadlocked threads");
             }
-            out.write((deadlockedThreadsIds.length + " threads in deadlock.\n").getBytes());
+            out.write((deadlockedThreadsIds.length + " threads in deadlock.\n").getBytes("UTF-8"));
             
             Map<Thread, StackTraceElement[]> threads = Thread.getAllStackTraces();
             Map<Long, StackTraceElement[]> stackTraces = new HashMap<>();
@@ -87,16 +87,16 @@ public class ThreadLogReader extends AbstractReader
             ThreadInfo[] deadlockedThread = ManagementFactory.getThreadMXBean().getThreadInfo(deadlockedThreadsIds);
             for (ThreadInfo info : deadlockedThread)
             {
-                out.write("\n".getBytes());
-                out.write(("THREAD '" + info.getThreadId() + "' - '" + info.getThreadName() + "'\n").getBytes());
-                out.write(("locked on monitor " + info.getLockName() + " by thread '" + info.getLockOwnerId() + "' - '" + info.getLockOwnerName() + "'\n").getBytes());
+                out.write("\n".getBytes("UTF-8"));
+                out.write(("THREAD '" + info.getThreadId() + "' - '" + info.getThreadName() + "'\n").getBytes("UTF-8"));
+                out.write(("locked on monitor " + info.getLockName() + " by thread '" + info.getLockOwnerId() + "' - '" + info.getLockOwnerName() + "'\n").getBytes("UTF-8"));
 
                 
                 StackTraceElement[] stes = stackTraces.get(info.getThreadId()); // car info.getStackTrace(); renvoie vide
                 for (StackTraceElement ste : stes)
                 {
                     String line = "at " + ste.getClassName()  + "." + ste.getMethodName() + " (" + ste.getFileName() + ":" + ste.getLineNumber() + ")\n";
-                    out.write(line.getBytes());
+                    out.write(line.getBytes("UTF-8"));
                 }
             }
         }
