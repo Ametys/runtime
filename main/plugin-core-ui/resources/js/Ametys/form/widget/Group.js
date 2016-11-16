@@ -96,6 +96,49 @@ Ext.define('Ametys.form.widget.Group', {
         }));
     },
     
+    getValue: function ()
+    {
+    	var value = this.callParent(arguments),
+    		convertedValues = [];
+    	
+    	value = Ext.Array.from(value);
+    	
+    	Ext.Array.forEach (value, function (val) {
+    		var parts = val.split('#');
+    		convertedValues.push({
+    			groupId: parts[0],
+    			groupDirectory: parts[1]
+    		});
+    	});
+    	
+    	return this.multiple ? convertedValues : convertedValues[0];
+    },
+    
+    setValue: function (value)
+    {
+    	value = Ext.Array.from(value);
+    	
+    	var convertedValues = [];
+    	Ext.Array.forEach (value, function (item) {
+    		if (Ext.isObject(item))
+    		{
+    			convertedValues.push(item.id + '#' + item.groupDirectory);
+    		}
+    		else
+    		{
+    			convertedValues.push(item);
+    		}
+    	});
+    	
+    	this.callParent([convertedValues]);
+    },
+    
+    getSubmitValue: function ()
+    {
+    	var value = this.getValue();
+    	return value != null ? Ext.encode(this.getValue()) : null;
+    },
+    
     getLabelTpl: function ()
     {
     	var tpl = [];

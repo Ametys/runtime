@@ -34,6 +34,8 @@ import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
 
 import org.ametys.core.cocoon.JSonReader;
+import org.ametys.core.user.User;
+import org.ametys.core.user.UserIdentity;
 import org.ametys.core.user.UserManager;
 
 /**
@@ -115,6 +117,15 @@ public class UserSearchAction extends AbstractAction implements ThreadSafe, Serv
                 users.add(_userHelper.user2json(_userManager.getUserByContext(contexts, login), true));
             }
         }
+        else if (jsParameters.get("value") != null)
+        {
+            String[] values = ((String) jsParameters.get("value")).split(",");
+            for (String value : values)
+            {
+                String[] parts = value.split("#");
+                users.add(_userHelper.user2json(new UserIdentity(parts[0], parts[1]), true));
+            }
+        }
         else
         {
             int count = parameters.getParameterAsInteger("limit", _DEFAULT_COUNT_VALUE);
@@ -124,7 +135,8 @@ public class UserSearchAction extends AbstractAction implements ThreadSafe, Serv
             }
             int offset = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
             
-            users.addAll(_userHelper.users2json(_userManager.getUsersByContext(contexts, count, offset, _getSearchParameters(source)), true));
+            List<User> usersByContext = _userManager.getUsersByContext(contexts, count, offset, _getSearchParameters(source));
+            users.addAll(_userHelper.users2json(usersByContext, true));
         }
     }
     

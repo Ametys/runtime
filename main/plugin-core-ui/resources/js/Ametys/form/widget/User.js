@@ -53,18 +53,14 @@ Ext.define('Ametys.form.widget.User', {
 	    		         {name: 'login', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
 	    		         {name: 'population', type: 'string'},
 	    		         {name: 'populationLabel', type: 'string'},
-	    		         {
-                            name: 'value', 
-                            type: 'string',
-                            calculate: function(data)
-                            {
-                            	var val = {
-                            		login: data.login,
-                            		populationId: data.population
-                            	}
-                                return val;
-                            }
-                         },
+                         {
+                             name: 'value', 
+                             type: 'string',
+                             calculate: function(data)
+                             {
+                            	 return data.login + '#' + data.population;
+                             }
+                          },
 	    		         {name: 'fullname', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
 	    		         {name: 'sortablename', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
 	    		         {
@@ -100,6 +96,43 @@ Ext.define('Ametys.form.widget.User', {
                 beforeload: {fn: this._onStoreBeforeLoad, scope: this}
             }
         });
+    },
+    
+    getValue: function ()
+    {
+    	var value = this.callParent(arguments),
+    		convertedValues = [];
+    	
+    	value = Ext.Array.from(value);
+    	
+    	Ext.Array.forEach (value, function (val) {
+    		var parts = val.split('#');
+    		convertedValues.push({
+    			login: parts[0],
+                populationId: parts[1]
+    		});
+    	});
+    	
+    	return this.multiple ? convertedValues : convertedValues[0];
+    },
+    
+    setValue: function (value)
+    {
+    	value = Ext.Array.from(value);
+    	
+    	var convertedValues = [];
+    	Ext.Array.forEach (value, function (item) {
+    		if (Ext.isObject(item))
+    		{
+    			convertedValues.push(item.login + '#' + item.population);
+    		}
+    		else
+    		{
+    			convertedValues.push(item);
+    		}
+    	});
+    	
+    	this.callParent([convertedValues]);
     },
     
     /**

@@ -527,7 +527,7 @@ Ext.define('Ametys.form.widget.File', {
     
     getSubmitValue: function ()
     {
-        return Ext.encode(this.value);
+        return this.value ? Ext.encode(this.value) : '';
     },
     
     getReadableValue: function ()

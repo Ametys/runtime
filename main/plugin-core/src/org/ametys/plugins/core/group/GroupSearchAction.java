@@ -112,6 +112,16 @@ public class GroupSearchAction extends ServiceableAction
                 }
             }
         }
+        else if (jsParameters.get("value") != null)
+        {
+            String[] values = ((String) jsParameters.get("value")).split(",");
+            for (String value : values)
+            {
+                String[] parts = value.split("#");
+                GroupDirectory groupDirectory = _groupDirectoryDAO.getGroupDirectory(parts[1]);
+                groups.add(groupDirectory.group2JSON(parts[0]));
+            }
+        }
         else
         {
             int count = parameters.getParameterAsInteger("limit", _DEFAULT_COUNT_VALUE);

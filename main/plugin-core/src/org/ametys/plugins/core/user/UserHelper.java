@@ -19,8 +19,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.context.Context;
@@ -83,7 +85,7 @@ public class UserHelper implements Component, Serviceable, Contextualizable
      */
     public String getUserFullName (UserIdentity userIdentity)
     {
-        User user = _getUser(userIdentity);
+        User user = getUser(userIdentity);
         return user != null ? user.getFullName() : null;
     }
     
@@ -94,7 +96,7 @@ public class UserHelper implements Component, Serviceable, Contextualizable
      */
     public String getUserSortableName (UserIdentity userIdentity)
     {
-        User user = _getUser(userIdentity);
+        User user = getUser(userIdentity);
         return user != null ? user.getSortableName() : null;
     }
     
@@ -118,7 +120,8 @@ public class UserHelper implements Component, Serviceable, Contextualizable
     {
         List<Map<String, Object>> userList = new ArrayList<>();
         
-        for (User user : users)
+        Set<User> distinctUsers = new HashSet<>(users);
+        for (User user : distinctUsers)
         {
             userList.add(user2json(user, full));
         }
@@ -144,7 +147,7 @@ public class UserHelper implements Component, Serviceable, Contextualizable
      */
     public Map<String, Object> user2json (UserIdentity userIdentity, boolean full)
     {
-        User user = _getUser(userIdentity);
+        User user = getUser(userIdentity);
         if (user != null)
         {
             return user2json(user, full);
@@ -200,7 +203,12 @@ public class UserHelper implements Component, Serviceable, Contextualizable
         return userInfos;
     }
     
-    private User _getUser (UserIdentity userIdentity)
+    /**
+     * Get the user from its identity
+     * @param userIdentity The user identity
+     * @return The user or null if not found
+     */
+    public User getUser (UserIdentity userIdentity)
     {
         Request request = _getRequest();
         
