@@ -144,34 +144,17 @@ public class GroupDrivenLdapGroupDirectory extends AbstractLdapGroupDirectory
             }
         });
 
-        DirContext context = null;
-        NamingEnumeration results = null;
-        
         try
         {
-            // Connect to ldap server
-            context = new InitialDirContext(_getContextEnv());
-
-            // Run search
-            results = context.search(_groupsRelativeDN, _groupsObjectFilter, _getSearchConstraint());
-            while (results.hasMoreElements())
+            for (SearchResult searchResult : _search(_pageSize, _groupsRelativeDN, _groupsObjectFilter, _getSearchConstraint()))
             {
                 // Add a new group to the set
-                groups.add(_getUserGroup((SearchResult) results.nextElement()));
+                groups.add(_getUserGroup(searchResult));
             }
         }
         catch (IllegalArgumentException e)
         {
             getLogger().error("Error missing at least one attribute or attribute value", e);
-        }
-        catch (NamingException e)
-        {
-            getLogger().error("Error communication with ldap server", e);
-        }
-        finally
-        {
-            // Close connection resources
-            _cleanup(context, results);
         }
 
         // Return the list of users as a collection of UserGroup, possibly empty

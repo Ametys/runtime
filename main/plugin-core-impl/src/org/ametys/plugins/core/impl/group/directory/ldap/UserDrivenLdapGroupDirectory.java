@@ -15,7 +15,6 @@
  */
 package org.ametys.plugins.core.impl.group.directory.ldap;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -25,6 +24,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
@@ -34,11 +34,6 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
-import javax.naming.ldap.Control;
-import javax.naming.ldap.InitialLdapContext;
-import javax.naming.ldap.LdapContext;
-import javax.naming.ldap.PagedResultsControl;
-import javax.naming.ldap.PagedResultsResponseControl;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -65,7 +60,6 @@ public class UserDrivenLdapGroupDirectory extends AbstractLdapGroupDirectory
     protected static final String __PARAM_GROUPS_MEMBER_ATTRIBUTE = "runtime.groups.ldap.memberof";
     
     private static final GroupComparator _GROUP_COMPARATOR = new GroupComparator();
-    private static int _DEFAULT_PAGE_SIZE = 1000;
     
     /** The attribut which contains the groups of a user */
     protected String _usersMemberOfAttribute;
@@ -77,8 +71,6 @@ public class UserDrivenLdapGroupDirectory extends AbstractLdapGroupDirectory
     protected int _usersSearchScope;
     /** Name of the login attribute. */
     protected String _usersLoginAttribute;
-    /** The LDAP search page size. */
-    protected int _pageSize;
     
     private Pattern _groupExtractionPattern;
     
@@ -92,8 +84,6 @@ public class UserDrivenLdapGroupDirectory extends AbstractLdapGroupDirectory
         _usersSearchScope = ScopeEnumerator.parseScope((String) paramValues.get(__PARAM_USERS_SEARCH_SCOPE));
         _usersLoginAttribute = (String) paramValues.get(__PARAM_USERS_LOGIN_ATTRIBUTE);
         _usersMemberOfAttribute = (String) paramValues.get(__PARAM_GROUPS_MEMBER_ATTRIBUTE);
-        
-        _pageSize = _DEFAULT_PAGE_SIZE; //FIXME parameterize ?
         
         _groupExtractionPattern = Pattern.compile("^" + _groupsIdAttribute + "=([^,]+),.*");
     }
@@ -120,104 +110,16 @@ public class UserDrivenLdapGroupDirectory extends AbstractLdapGroupDirectory
         
         Map<String, Group> groupsAssoc = new HashMap<>();
 
-        LdapContext context = null;
-        NamingEnumeration results = null;
+        // Run first search for groups
+        Map<String, String> groupsDesc = _search(_pageSize, _groupsRelativeDN, _groupsObjectFilter, _getGroupsSearchConstraint()).stream()
+                .map(this::_getGroupDescription)
+                .collect(Collectors.toMap(desc -> desc.get("id"), desc -> desc.get("desc")));
         
-        Map<String, String> groupsDesc = new HashMap<>();
-        try
-        {
-            // Connect to ldap server
-            context = new InitialLdapContext(_getContextEnv(), null);
-
-            // Run search
-            results = context.search(_groupsRelativeDN, _groupsObjectFilter, _getGroupsSearchConstraint());
-            while (results.hasMoreElements())
-            {
-                Map<String, String> groupdesc = _getGroupDescription((SearchResult) results.nextElement());
-                groupsDesc.put(groupdesc.get("id"), groupdesc.get("desc"));
-            }
-            
-            // Cleanup the first results.
-            _cleanup(null, results);
-            
-            // Connect to ldap server
-            context = new InitialLdapContext(_getContextEnv(), null);
-            
-            byte[] cookie = null;
-            
-            if (isPagingSupported())
-            {
-                try
-                {
-                    context.setRequestControls(new Control[]{new PagedResultsControl(_pageSize, Control.NONCRITICAL) });
-                }
-                catch (IOException ioe)
-                {
-                    getLogger().error("Error setting the PagedResultsControl in the LDAP context.", ioe);
-                }
-            }
-            
-            do
-            {
-                // Perform the search
-                results = context.search(_usersRelativeDN, _usersObjectFilter, _getUsersSearchConstraint());
-                
-                // Iterate over a batch of search results
-                while (results != null && results.hasMoreElements())
-                {
-                    // Retrieve current entry
-                    try
-                    {
-                        UserInfos userInfos = _getUserInfos((SearchResult) results.nextElement());
-                        _addUserToGroups(userInfos, groupsAssoc, groupsDesc);
-                    }
-                    catch (IllegalArgumentException e)
-                    {
-                        getLogger().warn("Error missing at least one attribute or attribute value", e);
-                    }
-                }
-                
-                // Examine the paged results control response
-                Control[] controls = context.getResponseControls();
-                if (controls != null)
-                {
-                    for (int i = 0; i < controls.length; i++)
-                    {
-                        if (controls[i] instanceof PagedResultsResponseControl)
-                        {
-                            PagedResultsResponseControl prrc = (PagedResultsResponseControl) controls[i];
-                            cookie = prrc.getCookie();
-                        }
-                    }
-                }
-                
-                // Re-activate paged results
-                if (isPagingSupported())
-                {
-                    try
-                    {
-                        context.setRequestControls(new Control[]{new PagedResultsControl(_pageSize, cookie, Control.NONCRITICAL)});
-                    }
-                    catch (IOException ioe)
-                    {
-                        getLogger().error("Error setting the PagedResultsControl in the LDAP context.", ioe);
-                    }
-                }                
-            }
-            while (cookie != null);
-            
-            // Add all the groups with at least one user to the group Set.
-            groups.addAll(groupsAssoc.values());
-        }
-        catch (NamingException e)
-        {
-            getLogger().error("Error communication with ldap server", e);
-        }
-        finally
-        {
-            // Close connection resources
-            _cleanup(context, results);
-        }
+        // Run second search for users
+        _search(_pageSize, _usersRelativeDN, _usersObjectFilter, _getUsersSearchConstraint()).stream()
+                .map(this::_getUserInfos)
+                .forEach(userInfo -> _addUserToGroups(userInfo, groupsAssoc, groupsDesc));
+        groups.addAll(groupsAssoc.values());
 
         // Return the list of users as a collection of UserGroup, possibly empty
         return groups;

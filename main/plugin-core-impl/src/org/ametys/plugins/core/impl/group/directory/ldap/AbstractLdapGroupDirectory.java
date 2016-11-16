@@ -62,6 +62,8 @@ public abstract class AbstractLdapGroupDirectory extends AbstractLDAPConnector i
     protected String _groupsIdAttribute;
     /** The group description attribute */
     protected String _groupsDescriptionAttribute;
+    /** The LDAP search page size. */
+    protected int _pageSize;
     
     /** The id */
     protected String _id;
@@ -131,6 +133,8 @@ public abstract class AbstractLdapGroupDirectory extends AbstractLDAPConnector i
         {
             getLogger().error("An error occured during the initialization of LDAPUserDirectory", e);
         }
+        
+        _pageSize = __DEFAULT_PAGE_SIZE;
     }
     
     @Override

@@ -95,6 +95,8 @@ public class LdapUserDirectory extends AbstractLDAPConnector implements UserDire
     protected boolean _userEmailIsMandatory;
     /** True to sort the results on the server side, false to get the results unsorted. */
     protected boolean _serverSideSorting;
+    /** The LDAP search page size. */
+    protected int _pageSize;
     
     private String _udModelId;
     private Map<String, Object> _paramValues;
@@ -138,6 +140,8 @@ public class LdapUserDirectory extends AbstractLDAPConnector implements UserDire
         
         String dataSourceId = (String) paramValues.get(PARAM_DATASOURCE_ID);
         _delayedInitialize(dataSourceId);
+        
+        _pageSize = __DEFAULT_PAGE_SIZE;
     }
     
     @Override
@@ -169,26 +173,15 @@ public class LdapUserDirectory extends AbstractLDAPConnector implements UserDire
     {
         // Create a users list
         List<User> users = new ArrayList<>();
-        
-        DirContext context = null;
-        NamingEnumeration<SearchResult> results = null;
-
         try
         {
-            // Connection to the LDAP server
-            context = new InitialDirContext(_getContextEnv());
-
-            // Execute ldap search
-            results = context.search(_usersRelativeDN, _usersObjectFilter, _getSearchConstraint(0));
-
-            // Get users from Ldap
-            while (results.hasMoreElements())
+            for (SearchResult result : _search(_pageSize, _usersRelativeDN, _usersObjectFilter, _getSearchConstraint(0)))
             {
-                Map<String, Object> attributes = _getAttributes(results.nextElement());
+                Map<String, Object> attributes = _getAttributes(result);
                 if (attributes != null)
                 {
                     // Create user
-                    User user = _createUser (attributes);
+                    User user = _createUser(attributes);
                     
                     if (isCacheEnabled())
                     {
@@ -203,20 +196,11 @@ public class LdapUserDirectory extends AbstractLDAPConnector implements UserDire
         {
             getLogger().error("Error missing at least one attribute or attribute value", e);
         }
-        catch (NamingException e)
-        {
-            getLogger().error("Error communication with ldap server", e);
-        }
-        finally
-        {
-            // Close connections
-            _cleanup(context, results);
-        }
-
+        
         // Return the users list as a users collection (may be empty)
         return users;
     }
-
+    
     @Override
     public List<User> getUsers(int count, int offset, Map<String, Object> parameters)
     {

@@ -15,7 +15,10 @@
  */
 package org.ametys.core.util.ldap;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -25,9 +28,11 @@ import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
+import javax.naming.ldap.Control;
 import javax.naming.ldap.InitialLdapContext;
 import javax.naming.ldap.LdapContext;
 import javax.naming.ldap.PagedResultsControl;
+import javax.naming.ldap.PagedResultsResponseControl;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -46,6 +51,9 @@ import org.ametys.runtime.config.Config;
  */
 public abstract class AbstractLDAPConnector extends CachingComponent<Object> implements Serviceable
 {
+    /** The default LDAP search page size */
+    protected static final int __DEFAULT_PAGE_SIZE = 1000;
+    
     // Check filter look
     private static final Pattern __FILTER = Pattern.compile("\\s*\\(.*\\)\\s*");
 
@@ -320,5 +328,92 @@ public abstract class AbstractLDAPConnector extends CachingComponent<Object> imp
             }
         }
     }
-    
+
+    /**
+     * Executes a LDAP search
+     * @param pageSize The number of entries in a page
+     * @param name  the name of the context or object to search
+     * @param filter the filter expression to use for the search
+     * @param searchControls the search controls that control the search.
+     * @return The results of the LDAP search
+     */
+    protected List<SearchResult> _search(int pageSize, String name, String filter, SearchControls searchControls)
+    {
+        getLogger().error("Je passe dans ma nouvelle méthode");
+        List<SearchResult> allResults = new ArrayList<>();
+        
+        LdapContext context = null;
+        NamingEnumeration<SearchResult> tmpResults = null;
+        
+        try
+        {
+            // Connect to the LDAP server.
+            context = new InitialLdapContext(_getContextEnv(), null);
+            byte[] cookie = null;
+            
+            if (isPagingSupported())
+            {
+                try
+                {
+                    context.setRequestControls(new Control[]{new PagedResultsControl(pageSize, Control.NONCRITICAL) });
+                }
+                catch (IOException ioe)
+                {
+                    getLogger().error("Error setting the PagedResultsControl in the LDAP context.", ioe);
+                }
+            }
+            do
+            {
+                // Perform the search
+                tmpResults = context.search(name, filter, searchControls);
+                
+                // Iterate over a batch of search results
+                while (tmpResults != null && tmpResults.hasMoreElements())
+                {
+                    // Retrieve current entry
+                    allResults.add(tmpResults.nextElement());
+                }
+                
+                // Examine the paged results control response
+                Control[] controls = context.getResponseControls();
+                if (controls != null)
+                {
+                    for (int i = 0; i < controls.length; i++)
+                    {
+                        if (controls[i] instanceof PagedResultsResponseControl)
+                        {
+                            PagedResultsResponseControl prrc = (PagedResultsResponseControl) controls[i];
+                            cookie = prrc.getCookie();
+                        }
+                    }
+                }
+                
+                // Re-activate paged results
+                if (isPagingSupported())
+                {
+                    try
+                    {
+                        context.setRequestControls(new Control[]{new PagedResultsControl(pageSize, cookie, Control.NONCRITICAL)});
+                    }
+                    catch (IOException ioe)
+                    {
+                        getLogger().error("Error setting the PagedResultsControl in the LDAP context.", ioe);
+                    }
+                }
+                
+            }
+            while (cookie != null);
+        }
+        catch (NamingException e)
+        {
+            getLogger().error("Error communication with ldap server", e);
+        }
+        finally
+        {
+            // Close connection resources
+            _cleanup(context, tmpResults);
+        }
+        
+        return allResults;
+    }
 }
